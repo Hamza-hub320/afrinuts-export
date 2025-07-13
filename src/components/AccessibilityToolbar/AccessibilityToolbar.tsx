@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { FaFont, FaEye, FaUniversalAccess } from 'react-icons/fa';
-import styles from './AccessibilityToolbar.module.css';
 
 const AccessibilityToolbar = () => {
   const [fontSize, setFontSize] = useState<number>(100);
@@ -19,7 +18,7 @@ const AccessibilityToolbar = () => {
 
     if (savedContrast === 'true') {
       setHighContrast(true);
-      document.body.classList.add(styles['high-contrast']);
+      document.body.classList.add('high-contrast');
     }
   }, []);
 
@@ -33,32 +32,54 @@ const AccessibilityToolbar = () => {
   const toggleContrast = () => {
     const newContrast = !highContrast;
     setHighContrast(newContrast);
-    document.body.classList.toggle(styles['high-contrast']);
+    document.body.classList.toggle('high-contrast');
     localStorage.setItem('highContrastMode', newContrast.toString());
   };
 
   return (
-      <div className={`${styles['accessibility-toolbar']} ${isOpen ? styles.open : ''}`}>
+      <div className={`
+      fixed right-0 top-1/2 transform -translate-y-1/2
+      bg-primary text-white shadow-lg rounded-l-lg
+      transition-all duration-300 ease-in-out
+      ${isOpen ? 'translate-x-0' : 'translate-x-[calc(100%-40px)]'}
+      z-50
+    `}>
         <button
-            className={styles['toolbar-toggle']}
+            className={`
+          w-10 h-10 flex items-center justify-center
+          bg-primary hover:bg-dark-orange text-white
+          rounded-l-lg focus:outline-none focus:ring-2 focus:ring-accent
+        `}
             onClick={() => setIsOpen(!isOpen)}
             aria-label={isOpen ? "Close accessibility toolbar" : "Open accessibility toolbar"}
         >
-          <FaUniversalAccess />
+          <FaUniversalAccess className="text-xl" />
         </button>
 
         {isOpen && (
-            <div className={styles['toolbar-options']}>
-              <div className={styles['font-controls']}>
+            <div className="p-4 space-y-4">
+              <div className="flex items-center space-x-2">
                 <button
+                    className={`
+                w-10 h-10 flex items-center justify-center
+                bg-secondary hover:bg-olive text-white
+                rounded focus:outline-none focus:ring-2 focus:ring-accent
+                ${fontSize <= 80 ? 'opacity-50 cursor-not-allowed' : ''}
+              `}
                     onClick={() => updateFontSize(fontSize - 10)}
                     aria-label="Decrease font size"
                     disabled={fontSize <= 80}
                 >
                   <FaFont /> A-
                 </button>
-                <span className={styles['font-size-display']}>{fontSize}%</span>
+                <span className="text-sm font-medium w-12 text-center">{fontSize}%</span>
                 <button
+                    className={`
+                w-10 h-10 flex items-center justify-center
+                bg-secondary hover:bg-olive text-white
+                rounded focus:outline-none focus:ring-2 focus:ring-accent
+                ${fontSize >= 150 ? 'opacity-50 cursor-not-allowed' : ''}
+              `}
                     onClick={() => updateFontSize(fontSize + 10)}
                     aria-label="Increase font size"
                     disabled={fontSize >= 150}
@@ -69,10 +90,15 @@ const AccessibilityToolbar = () => {
 
               <button
                   onClick={toggleContrast}
-                  className={highContrast ? styles.active : ''}
+                  className={`
+              w-full flex items-center justify-center space-x-2
+              px-4 py-2 rounded
+              ${highContrast ? 'bg-accent text-white' : 'bg-secondary text-white hover:bg-olive'}
+              focus:outline-none focus:ring-2 focus:ring-accent
+            `}
                   aria-label={highContrast ? "Disable high contrast mode" : "Enable high contrast mode"}
               >
-                <FaEye /> High Contrast
+                <FaEye /> <span>High Contrast</span>
               </button>
             </div>
         )}
