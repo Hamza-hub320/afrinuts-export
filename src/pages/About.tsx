@@ -55,7 +55,7 @@ const About: React.FC = () => {
             <span className="font-subhead text-accent tracking-widest text-sm uppercase block mb-2">
               Our Leadership
             </span>
-              <h2 className="font-display text-display-lg text-primary">
+              <h2 className="font-display text-display-lg text-text-dark">
                 Guiding AfriNuts Forward
               </h2>
             </div>
@@ -137,7 +137,7 @@ const About: React.FC = () => {
               viewport={{once: true}}
               variants={fadeIn}
           >
-            <h2 className="font-display text-display-lg mb-8">
+            <h2 className="font-display text-display-lg mb-8 text-text-dark">
               {t('brand.title')}
             </h2>
             <p className="font-sans text-xl leading-relaxed">
@@ -159,7 +159,7 @@ const About: React.FC = () => {
               <span className="font-subhead text-accent tracking-widest text-sm uppercase block mb-2">
                 Our Foundation
               </span>
-                <h2 className="font-display text-display-lg text-primary">
+                <h2 className="font-display text-display-lg text-text-dark">
                   Vision, Mission & Values
                 </h2>
               </div>
@@ -222,7 +222,7 @@ const About: React.FC = () => {
                 variants={staggerContainer}
             >
               <div className="text-center mb-16">
-                <h2 className="font-display text-display-lg text-primary">
+                <h2 className="font-display text-display-lg text-text-dark">
                   {t('community.title')}
                 </h2>
               </div>
@@ -297,7 +297,7 @@ const About: React.FC = () => {
                 <span className="font-subhead text-accent tracking-widest text-sm uppercase block mb-2">
                   Our Operations
                 </span>
-                  <h2 className="font-display text-display-lg text-primary">
+                  <h2 className="font-display text-display-lg text-text-dark">
                     {t('farm.title')}
                   </h2>
                 </div>
@@ -409,7 +409,7 @@ const About: React.FC = () => {
                 <div
                     className="absolute -inset-1 bg-gradient-to-r from-accent/20 to-primary/20 rounded-3xl opacity-0 group-hover:opacity-100 blur transition duration-300"></div>
                 <div className="relative bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100">
-                  <div className="bg-gradient-to-r bg-olive to-olive/90 p-6 flex items-center gap-4">
+                  <div className="bg-gradient-to-r bg-accent to-accent/90 p-6 flex items-center gap-4">
                     <div className="bg-white/20 p-3 rounded-full">
                       <FaChartLine className="text-2xl text-white"/>
                     </div>

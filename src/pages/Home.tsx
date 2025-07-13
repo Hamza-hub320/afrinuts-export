@@ -15,6 +15,7 @@ import {
     staggerContainer,
     bounceArrow
 } from '../utils/animations';
+import { Typography } from '../components/Typography/Typography';
 
 import heroImage from '../assets/images/hero.jpg';
 import farmImage from '../assets/images/farm.jpg';
@@ -36,46 +37,70 @@ const Home: React.FC = () => {
     return (
         <div className="min-h-screen overflow-hidden">
             {/* 1. Hero Section */}
-            <section className="relative bg-primary text-white min-h-[90vh] flex items-center justify-center overflow-hidden">
+            <section className="relative bg-primary text-white min-h-screen flex items-center justify-center overflow-hidden">
+                {/* Dark overlay for better text contrast */}
+                <div className="absolute inset-0 bg-black/40 z-0" />
+
                 <img
-                  src={heroImage}
-                  alt="Hero"
-                  className="absolute inset-0 w-full h-full object-cover opacity-90"
+                    src={heroImage}
+                    alt="Cashew farm in Ivory Coast"
+                    className="absolute inset-0 w-full h-full object-cover z-0"
                 />
-                <div className="absolute inset-0 bg-gradient-to-b from-primary/20 text-white opacity-20" />
-                <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
-                  <div className="bg-white/80 backdrop-blur-sm p-8 rounded-xl shadow-lg">
-                    <h1 className="text-4xl md:text-6xl font-display font-semibold mb-6 leading-tight tracking-tight text-primary">
-                        From <span className="italic font-light"> Our Family Farm</span> to Your Table
-                    </h1>
-                    <p className="text-lg md:text-xl font-medium mb-8 text-text-dark">
-                      Sustainably grown, ethically sourced, and packed with flavor — connecting Ivory Coast's harvest to the world.
-                    </p>
-                    <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                      <button
-                        className="bg-accent hover:bg-dark-orange text-white px-8 py-4 rounded-full text-lg transition-all duration-300 shadow-lg hover:shadow-xl"
-                        onClick={() => navigate('/about')}
-                      >
-                        {t('hero.learnMore')}
-                      </button>
-                      <button
-                        className="border-2 border-primary hover:border-accent text-primary hover:text-accent px-8 py-4 rounded-full text-lg transition-all duration-300 hover:bg-white/10"
-                        onClick={() => navigate('/farm')}
-                      >
-                        {t('hero.contact')}
-                      </button>
-                    </div>
-                  </div>
+
+                <div className="relative z-10 container mx-auto px-6">
+                    <motion.div
+                        className="max-w-4xl mx-auto text-center"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8 }}
+                    >
+                        {/* Improved H1 */}
+                        <Typography variant="display-xl" className="mb-6 text-white drop-shadow-md bg-black/20 backdrop-blur-sm px-6 py-4 rounded-lg">
+                            Premium Cashews from the Heart of <span className="text-accent">Ivory Coast</span>
+                        </Typography>
+
+                        {/* Enhanced Paragraph */}
+                        <Typography
+                            variant="subhead"
+                            className="mb-8 text-white/90 max-w-2xl mx-auto text-lg md:text-xl leading-relaxed drop-shadow-md bg-black/20 backdrop-blur-sm px-6 py-4 rounded-lg"
+                        >
+                            Sustainably grown, ethically sourced, and packed with flavor — connecting West Africa's finest harvest to global markets.
+                        </Typography>
+
+                        {/* Improved Buttons */}
+                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                            <motion.button
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                className="bg-accent hover:bg-dark-orange text-white px-8 py-4 rounded-full text-lg font-medium transition-all duration-300 shadow-lg hover:shadow-xl flex items-center gap-2"
+                                onClick={() => navigate('/products')}
+                            >
+                                Explore Products
+                                <FaArrowRight className="transition-transform group-hover:translate-x-1" />
+                            </motion.button>
+                            <motion.button
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                className="border-2 border-accent hover:border-accent text-accent hover:text-accent px-8 py-4 rounded-full text-lg font-medium transition-all duration-300 hover:bg-white/10 flex items-center gap-2"
+                                onClick={() => scrollToSection('about-preview')}
+                            >
+                                Learn More
+                                <FaChevronDown className="transition-transform group-hover:translate-y-1" />
+                            </motion.button>
+                        </div>
+                    </motion.div>
                 </div>
-                <div className="absolute bottom-0 w-full">
-                  <svg viewBox="0 0 1440 320" className="w-full h-[120px]" xmlns="http://www.w3.org/2000/svg">
-                    <path fill="#ffffff" d="M0,160L1440,320L1440,0L0,0Z" />
-                  </svg>
+
+                {/* Decorative wave at bottom */}
+                <div className="absolute bottom-0 left-0 w-full z-10">
+                    <svg viewBox="0 0 1440 120" className="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
+                        <path fill="#F5F5F5" fillOpacity="1" d="M0,64L80,74.7C160,85,320,107,480,101.3C640,96,800,64,960,58.7C1120,53,1280,75,1360,85.3L1440,96L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"></path>
+                    </svg>
                 </div>
             </section>
 
             {/* 2. About Preview Section */}
-            <Section id="about-preview" className="bg-background py-16">
+            <Section id="about-preview" className="bg-background py-24 -mt-1">
                 <motion.div
                     className="container mx-auto px-6"
                     initial="hidden"
@@ -83,10 +108,10 @@ const Home: React.FC = () => {
                     viewport={{ once: true, margin: "-100px" }}
                     variants={scaleUp}
                 >
-                    <div className="bg-white rounded-3xl shadow-xl p-8 md:p-12 -mt-24 relative z-10">
-                        <div className="flex flex-col lg:flex-row items-center gap-10">
+                    <div className="bg-white rounded-3xl shadow-2xl p-8 md:p-12 relative z-10">
+                        <div className="flex flex-col lg:flex-row items-center gap-12">
                             <motion.div
-                                className="text-accent text-6xl p-4 bg-background rounded-2xl shadow-inner"
+                                className="text-accent text-6xl p-6 bg-background rounded-2xl shadow-inner"
                                 variants={fadeIn}
                             >
                                 <FaGlobeAfrica />
@@ -95,82 +120,156 @@ const Home: React.FC = () => {
                                 className="flex-1"
                                 variants={fadeIn}
                             >
-                                <h2 className="font-display text-display-lg md:text-display-xl text-primary mb-6 leading-tight">
-                                    {t('aboutPreview.title')}
-                                </h2>
-                                <p className="font-sans text-lg text-text-dark mb-8 leading-relaxed tracking-normal">
-                                    {t('aboutPreview.description')}
-                                </p>
-                                <button
+                                <Typography variant="h2" className="mb-6">
+                                    Rooted in Tradition, Growing for the Future
+                                </Typography>
+                                <Typography variant="body" className="mb-8">
+                                    AfriNuts Export is a family-owned agribusiness based in Odienné, Ivory Coast. With over 50 hectares of prime cashew farmland, we combine traditional farming knowledge with modern sustainable practices to produce premium quality cashews for global markets.
+                                </Typography>
+                                <motion.button
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
                                     className="group bg-accent hover:bg-dark-orange text-white px-8 py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg inline-flex items-center"
                                     onClick={() => navigate('/about')}
                                 >
-                                    {t('aboutPreview.readMore')}
+                                    Our Story
                                     <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
-                                </button>
+                                </motion.button>
                             </motion.div>
                         </div>
                     </div>
                 </motion.div>
             </Section>
 
-
             {/* 3. Products Showcase */}
-            <Section
-                bgImage={productsImage}
-                overlay
-                overlayColor="bg-primary/20"
-                className="py-16 bg-background"
-            >
-                <motion.div
-                    className="container mx-auto px-6"
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, margin: "-100px" }}
-                    variants={staggerContainer}
-                >
+            <Section className="py-24 bg-background">
+                <div className="container mx-auto px-6">
                     <motion.div
-                        className="max-w-4xl mx-auto bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl overflow-hidden"
-                        variants={scaleUp}
+                        className="text-center mb-16"
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={fadeIn}
                     >
-                        <div className="flex flex-col md:flex-row">
-                            <div className="p-10 flex-1">
-                                <motion.div
-                                    className="text-accent text-5xl mb-6"
-                                    variants={fadeIn}
-                                >
-                                    <FaSeedling />
-                                </motion.div>
-                                <motion.h2
-                                    className="text-3xl font-bold text-primary mb-6"
-                                    variants={fadeIn}
-                                >
-                                    {t('products.title')}
-                                </motion.h2>
-                                <motion.p
-                                    className="text-lg text-text-dark mb-8 leading-relaxed"
-                                    variants={fadeIn}
-                                >
-                                    {t('products.description')}
-                                </motion.p>
-                                <motion.div variants={fadeIn}>
-                                    <button
-                                        className="group border-2 border-accent text-accent px-8 py-3 rounded-full hover:bg-accent/10 transition-all duration-300 hover:text-dark-orange hover:border-dark-orange inline-flex items-center"
-                                        onClick={() => navigate('/products')}
-                                    >
-                                        {t('products.viewProducts')}
-                                        <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
-                                    </button>
-                                </motion.div>
-                            </div>
-                            <div className="hidden md:block flex-1 bg-cover bg-center" style={{ backgroundImage: `url(${productsImage})` }} />
-                        </div>
+                        <Typography variant="h2" className="mb-4">
+                            Our Premium Products
+                        </Typography>
+                        <Typography variant="subhead" className="max-w-3xl mx-auto">
+                            From raw cashews to value-added products, we offer the finest quality from our farm to your table
+                        </Typography>
                     </motion.div>
-                </motion.div>
+
+                    <motion.div
+                        className="grid md:grid-cols-3 gap-8"
+                        variants={staggerContainer}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                    >
+                        {/* Product Card 1 */}
+                        <motion.div
+                            className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300"
+                            variants={slideInFromLeft}
+                            whileHover={{ y: -10 }}
+                        >
+                            <div className="h-64 bg-cover bg-center" style={{ backgroundImage: `url(${productsImage})` }} />
+                            <div className="p-8">
+                                <div className="text-accent text-3xl mb-4">
+                                    <FaSeedling />
+                                </div>
+                                <Typography variant="h4" className="mb-4">
+                                    Raw Cashews
+                                </Typography>
+                                <Typography variant="body" className="mb-6">
+                                    Premium quality raw cashews, carefully selected and packed for export
+                                </Typography>
+                                <button
+                                    className="text-accent font-medium inline-flex items-center group"
+                                    onClick={() => navigate('/products')}
+                                >
+                                    View options
+                                    <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+                                </button>
+                            </div>
+                        </motion.div>
+
+                        {/* Product Card 2 */}
+                        <motion.div
+                            className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300"
+                            variants={scaleUp}
+                            whileHover={{ y: -10 }}
+                        >
+                            <div className="h-64 bg-cover bg-center" style={{ backgroundImage: `url(${sustainabilityImage})` }} />
+                            <div className="p-8">
+                                <div className="text-accent text-3xl mb-4">
+                                    <FaLeaf />
+                                </div>
+                                <Typography variant="h4" className="mb-4">
+                                    Organic Cashews
+                                </Typography>
+                                <Typography variant="body" className="mb-6">
+                                    Certified organic cashews grown without synthetic pesticides or fertilizers
+                                </Typography>
+                                <button
+                                    className="text-accent font-medium inline-flex items-center group"
+                                    onClick={() => navigate('/products')}
+                                >
+                                    Learn more
+                                    <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+                                </button>
+                            </div>
+                        </motion.div>
+
+                        {/* Product Card 3 */}
+                        <motion.div
+                            className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300"
+                            variants={slideInFromRight}
+                            whileHover={{ y: -10 }}
+                        >
+                            <div className="h-64 bg-cover bg-center" style={{ backgroundImage: `url(${farmImage})` }} />
+                            <div className="p-8">
+                                <div className="text-accent text-3xl mb-4">
+                                    <FaGlobeAfrica />
+                                </div>
+                                <Typography variant="h4" className="mb-4">
+                                    Value-Added Products
+                                </Typography>
+                                <Typography variant="body" className="mb-6">
+                                    Roasted cashews, cashew butter, and other premium processed products
+                                </Typography>
+                                <button
+                                    className="text-accent font-medium inline-flex items-center group"
+                                    onClick={() => navigate('/products')}
+                                >
+                                    Discover more
+                                    <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+                                </button>
+                            </div>
+                        </motion.div>
+                    </motion.div>
+
+                    <motion.div
+                        className="text-center mt-16"
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={fadeIn}
+                    >
+                        <motion.button
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            className="group bg-accent hover:bg-dark-orange text-white px-8 py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg inline-flex items-center mx-auto"
+                            onClick={() => navigate('/products')}
+                        >
+                            View All Products
+                            <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+                        </motion.button>
+                    </motion.div>
+                </div>
             </Section>
 
             {/* 4. Farm Story */}
-            <Section className="bg-background border border-white/20 backdrop-blur-lg rounded-2xl p-6 shadow-lg hover:shadow-[0_0_25px_rgba(253,129,4,0.5)] transition duration-300 py-16">
+            <Section className="py-24 bg-background text-text-dark">
                 <div className="container mx-auto px-6">
                     <div className="flex flex-col lg:flex-row items-center gap-16">
                         <motion.div
@@ -180,21 +279,45 @@ const Home: React.FC = () => {
                             viewport={{ once: true }}
                             variants={slideInFromLeft}
                         >
-                            <div className="bg-white p-8 rounded-3xl shadow-lg">
-                                <h2 className="text-3xl md:text-4xl font-bold text-primary mb-6">
-                                    {t('farm.title')}
-                                </h2>
-                                <p className="text-lg text-text-dark mb-8 leading-relaxed">
-                                    {t('farm.description')}
-                                </p>
-                                <button
-                                    className="group bg-accent hover:bg-dark-orange text-white px-8 py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg inline-flex items-center"
-                                    onClick={() => navigate('/farm')}
-                                >
-                                    {t('farm.visitFarm')}
-                                    <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
-                                </button>
+                            <Typography variant="h2" className="mb-6">
+                                Our Sustainable Farm
+                            </Typography>
+                            <Typography variant="body" className="mb-8">
+                                Located in the heart of Ivory Coast's cashew belt, our 50-hectare family farm combines traditional knowledge with modern sustainable practices. We're committed to ethical farming that benefits both people and the planet.
+                            </Typography>
+                            <div className="grid sm:grid-cols-2 gap-6 mb-8">
+                                <div className="bg-white/10 p-4 rounded-xl">
+                                    <div className="text-accent text-2xl mb-2">
+                                        <FaLeaf />
+                                    </div>
+                                    <Typography variant="h4" className="mb-2">
+                                        Sustainable Practices
+                                    </Typography>
+                                    <Typography variant="small">
+                                        Organic farming methods that protect the environment
+                                    </Typography>
+                                </div>
+                                <div className="bg-white/10 p-4 rounded-xl">
+                                    <div className="text-accent text-2xl mb-2">
+                                        <FaGlobeAfrica />
+                                    </div>
+                                    <Typography variant="h4" className="mb-2">
+                                        Community Focus
+                                    </Typography>
+                                    <Typography variant="small">
+                                        Supporting local farmers and creating jobs
+                                    </Typography>
+                                </div>
                             </div>
+                            <motion.button
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                className="group border-2 border-accent text-accent hover:bg-white/10 px-8 py-3 rounded-full transition-all duration-300 inline-flex items-center"
+                                onClick={() => navigate('/farm')}
+                            >
+                                Visit Our Farm
+                                <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+                            </motion.button>
                         </motion.div>
                         <motion.div
                             className="flex-1"
@@ -203,56 +326,95 @@ const Home: React.FC = () => {
                             viewport={{ once: true }}
                             variants={slideInFromRight}
                         >
-                            <img
-                                src={farmImage}
-                                alt="AfriNuts Farm"
-                                className="rounded-3xl shadow-2xl w-full h-auto object-cover aspect-video"
-                            />
+                            <div className="relative rounded-3xl overflow-hidden shadow-2xl aspect-video">
+                                <img
+                                    src={farmImage}
+                                    alt="AfriNuts Farm"
+                                    className="w-full h-full object-cover"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent flex items-end p-8">
+                                    <Typography variant="h4" className="text-white">
+                                        Odienné, Ivory Coast
+                                    </Typography>
+                                </div>
+                            </div>
                         </motion.div>
                     </div>
                 </div>
             </Section>
 
             {/* 5. Sustainability */}
-            <Section className="py-16 bg-background">
+            <Section className="py-24 bg-background">
                 <div className="container mx-auto px-6">
                     <motion.div
-                        className="bg-white rounded-3xl shadow-xl overflow-hidden"
+                        className="bg-white rounded-3xl shadow-2xl overflow-hidden"
                         initial="hidden"
                         whileInView="visible"
                         viewport={{ once: true }}
                         variants={scaleUp}
                     >
                         <div className="flex flex-col md:flex-row">
-                            <div className="md:w-1/2 bg-cover bg-center min-h-[400px]" style={{ backgroundImage: `url(${sustainabilityImage})` }} />
-                            <div className="md:w-1/2 p-10">
-                                <motion.div
-                                    className="text-accent text-5xl mb-6"
-                                    variants={fadeIn}
-                                >
+                            <div className="md:w-1/2 bg-cover bg-center min-h-[500px]" style={{ backgroundImage: `url(${sustainabilityImage})` }} />
+                            <div className="md:w-1/2 p-12">
+                                <div className="text-accent text-5xl mb-6">
                                     <FaLeaf />
-                                </motion.div>
-                                <motion.h2
-                                    className="text-3xl md:text-4xl font-bold text-primary mb-6"
-                                    variants={fadeIn}
+                                </div>
+                                <Typography variant="h2" className="mb-6">
+                                    Our Commitment to Sustainability
+                                </Typography>
+                                <Typography variant="body" className="mb-8">
+                                    At AfriNuts Export, we believe in farming practices that protect the environment and support local communities. From water conservation to fair wages, sustainability is at the core of everything we do.
+                                </Typography>
+                                <div className="space-y-4 mb-8">
+                                    <div className="flex items-start gap-4">
+                                        <div className="text-accent text-xl mt-1">
+                                            <FaSeedling />
+                                        </div>
+                                        <div>
+                                            <Typography variant="h4" className="mb-1">
+                                                Organic Farming
+                                            </Typography>
+                                            <Typography variant="small">
+                                                No synthetic pesticides or fertilizers
+                                            </Typography>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-start gap-4">
+                                        <div className="text-accent text-xl mt-1">
+                                            <FaGlobeAfrica />
+                                        </div>
+                                        <div>
+                                            <Typography variant="h4" className="mb-1">
+                                                Fair Trade Practices
+                                            </Typography>
+                                            <Typography variant="small">
+                                                Ethical treatment and fair wages for workers
+                                            </Typography>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-start gap-4">
+                                        <div className="text-accent text-xl mt-1">
+                                            <FaLeaf />
+                                        </div>
+                                        <div>
+                                            <Typography variant="h4" className="mb-1">
+                                                Zero Waste Processing
+                                            </Typography>
+                                            <Typography variant="small">
+                                                Utilizing byproducts like CNSL for biofuels
+                                            </Typography>
+                                        </div>
+                                    </div>
+                                </div>
+                                <motion.button
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    className="group border-2 border-accent text-accent px-8 py-3 rounded-full hover:bg-accent/10 transition-all duration-300 hover:text-dark-orange hover:border-dark-orange inline-flex items-center"
+                                    onClick={() => navigate('/sustainability')}
                                 >
-                                    {t('sustainability.title')}
-                                </motion.h2>
-                                <motion.p
-                                    className="text-lg text-text-dark mb-8 leading-relaxed"
-                                    variants={fadeIn}
-                                >
-                                    {t('sustainability.description')}
-                                </motion.p>
-                                <motion.div variants={fadeIn}>
-                                    <button
-                                        className="group border-2 border-accent text-accent px-8 py-3 rounded-full hover:bg-accent/10 transition-all duration-300 hover:text-dark-orange hover:border-dark-orange inline-flex items-center"
-                                        onClick={() => navigate('/sustainability')}
-                                    >
-                                        {t('sustainability.learnMore')}
-                                        <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
-                                    </button>
-                                </motion.div>
+                                    Our Sustainability Promise
+                                    <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+                                </motion.button>
                             </div>
                         </div>
                     </motion.div>
@@ -260,7 +422,7 @@ const Home: React.FC = () => {
             </Section>
 
             {/* 6. News & Updates */}
-            <Section className="py-16 bg-background">
+            <Section className="py-24 bg-white">
                 <div className="container mx-auto px-6">
                     <motion.div
                         className="text-center mb-16"
@@ -269,27 +431,34 @@ const Home: React.FC = () => {
                         viewport={{ once: true }}
                         variants={fadeIn}
                     >
-                        <h2 className="text-3xl md:text-4xl font-bold text-primary mb-4">
-                            {t('news.title')}
-                        </h2>
-                        <p className="text-lg text-text-dark max-w-3xl mx-auto">
-                            {t('news.description')}
-                        </p>
+                        <Typography variant="h2" className="mb-4">
+                            Latest News & Updates
+                        </Typography>
+                        <Typography variant="subhead" className="max-w-3xl mx-auto">
+                            Stay informed about our farm, products, and industry developments
+                        </Typography>
                     </motion.div>
 
-                    <div className="grid md:grid-cols-2 gap-8">
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                         <motion.div
-                            className="bg-white/10 border border-white/20 backdrop-blur-lg rounded-2xl p-6 shadow-lg hover:shadow-[0_0_25px_rgba(253,129,4,0.5)] transition duration-300"
+                            className="bg-background rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300"
                             whileHover={{ y: -10 }}
                             initial="hidden"
                             whileInView="visible"
                             viewport={{ once: true }}
                             variants={slideInFromLeft}
                         >
-                            <div className="h-48 md:h-56 bg-cover bg-center" style={{ backgroundImage: `url(${newsImage})` }} />
+                            <div className="h-64 bg-cover bg-center" style={{ backgroundImage: `url(${newsImage})` }} />
                             <div className="p-8">
-                                <h3 className="text-2xl font-bold text-primary mb-4">Latest Harvest Report</h3>
-                                <p className="text-text-dark mb-6">Discover our record-breaking cashew yields this season.</p>
+                                <div className="text-accent text-sm font-medium mb-2">
+                                    Harvest Report • June 2024
+                                </div>
+                                <Typography variant="h4" className="mb-4">
+                                    Record-Breaking Cashew Yields
+                                </Typography>
+                                <Typography variant="body" className="mb-6">
+                                    Our farm achieves highest-ever production with sustainable methods
+                                </Typography>
                                 <button
                                     className="text-accent font-medium inline-flex items-center group"
                                     onClick={() => navigate('/news')}
@@ -301,17 +470,53 @@ const Home: React.FC = () => {
                         </motion.div>
 
                         <motion.div
-                            className="bg-white/10 border border-white/20 backdrop-blur-lg rounded-2xl p-6 shadow-lg hover:shadow-[0_0_25px_rgba(253,129,4,0.5)] transition duration-300"
+                            className="bg-background rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300"
+                            whileHover={{ y: -10 }}
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                            variants={scaleUp}
+                        >
+                            <div className="h-64 bg-cover bg-center" style={{ backgroundImage: `url(${farmImage})` }} />
+                            <div className="p-8">
+                                <div className="text-accent text-sm font-medium mb-2">
+                                    Sustainability • May 2024
+                                </div>
+                                <Typography variant="h4" className="mb-4">
+                                    New Solar-Powered Processing
+                                </Typography>
+                                <Typography variant="body" className="mb-6">
+                                    We've installed solar panels to power our processing facility
+                                </Typography>
+                                <button
+                                    className="text-accent font-medium inline-flex items-center group"
+                                    onClick={() => navigate('/news')}
+                                >
+                                    Read more
+                                    <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+                                </button>
+                            </div>
+                        </motion.div>
+
+                        <motion.div
+                            className="bg-background rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300"
                             whileHover={{ y: -10 }}
                             initial="hidden"
                             whileInView="visible"
                             viewport={{ once: true }}
                             variants={slideInFromRight}
                         >
-                            <div className="h-48 md:h-56 bg-cover bg-center" style={{ backgroundImage: `url(${farmImage})` }} />
+                            <div className="h-64 bg-cover bg-center" style={{ backgroundImage: `url(${productsImage})` }} />
                             <div className="p-8">
-                                <h3 className="text-2xl font-bold text-primary mb-4">Sustainable Practices</h3>
-                                <p className="text-text-dark mb-6">How we're revolutionizing cashew farming in West Africa.</p>
+                                <div className="text-accent text-sm font-medium mb-2">
+                                    Product News • April 2024
+                                </div>
+                                <Typography variant="h4" className="mb-4">
+                                    Introducing Organic Cashew Butter
+                                </Typography>
+                                <Typography variant="body" className="mb-6">
+                                    Our newest product line now available in European markets
+                                </Typography>
                                 <button
                                     className="text-accent font-medium inline-flex items-center group"
                                     onClick={() => navigate('/news')}
@@ -324,26 +529,28 @@ const Home: React.FC = () => {
                     </div>
 
                     <motion.div
-                        className="text-center mt-12"
+                        className="text-center mt-16"
                         initial="hidden"
                         whileInView="visible"
                         viewport={{ once: true }}
                         variants={fadeIn}
                     >
-                        <button
+                        <motion.button
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
                             className="group bg-accent hover:bg-dark-orange text-white px-8 py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg inline-flex items-center mx-auto"
                             onClick={() => navigate('/news')}
                         >
-                            {t('news.readMore')}
+                            View All News
                             <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
-                        </button>
+                        </motion.button>
                     </motion.div>
                 </div>
             </Section>
 
             {/* 7. Contact CTA */}
-            <Section className="py-16 bg-background relative z-10 rounded-b-[5rem] overflow-hidden">
-                <div className="container mx-auto px-6 text-center">
+            <Section className="py-24 bg-white text-text-dark relative overflow-hidden">
+                <div className="relative z-10 container mx-auto px-6 text-center">
                     <motion.div
                         className="max-w-4xl mx-auto"
                         initial="hidden"
@@ -351,26 +558,24 @@ const Home: React.FC = () => {
                         viewport={{ once: true }}
                         variants={scaleUp}
                     >
-                        <h2 className="text-3xl md:text-4xl font-bold mb-6">
-                            {t('contact.title')}
-                        </h2>
-                        <p className="text-xl mb-8 max-w-2xl mx-auto">
-                            {t('contact.description')}
-                        </p>
-                        <button
-                            className="group border-2 border-accent text-accent px-8 py-3 rounded-full hover:bg-accent/10 transition-all duration-300 hover:text-dark-orange hover:border-dark-orange inline-flex items-center"
+                        <Typography variant="h2" className="mb-6">
+                            Ready to Experience Premium Cashews?
+                        </Typography>
+                        <Typography variant="subhead" className="mb-8 max-w-2xl mx-auto">
+                            Whether you're a wholesaler, retailer, or just love quality cashews, we'd love to hear from you.
+                        </Typography>
+                        <motion.button
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            className="group bg-accent hover:bg-dark-orange text-white px-8 py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg inline-flex items-center mx-auto"
                             onClick={() => navigate('/contact')}
                         >
-                            {t('contact.getInTouch')}
-                        </button>
+                            Get In Touch
+                            <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+                        </motion.button>
                     </motion.div>
                 </div>
             </Section>
-            <div className="relative -mt-24 z-0">
-              <svg className="w-full" viewBox="0 0 1440 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path fill="#5A7411" d="M0,0 C480,100 960,0 1440,100 L1440,0 L0,0 Z"></path>
-              </svg>
-            </div>
         </div>
     );
 };

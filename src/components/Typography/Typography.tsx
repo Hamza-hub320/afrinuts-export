@@ -30,23 +30,23 @@ const variantClasses: {
     small: string
 } = {
     // Display styles - using Playfair Display
-    'display-2xl': 'font-display text-display-2xl text-primary',
-    'display-xl': 'font-display text-display-xl text-primary',
-    'display-lg': 'font-display text-display-lg text-primary',
+    'display-2xl': 'font-display text-display-2xl text-dark',
+    'display-xl': 'font-display text-display-xl text-dark',
+    'display-lg': 'font-display text-display-lg text-dark',
 
     // Headings - using Playfair Display
-    h1: 'font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-primary',
-    h2: 'font-display text-3xl md:text-4xl lg:text-5xl font-bold text-primary',
-    h3: 'font-display text-2xl md:text-3xl lg:text-4xl font-bold text-primary',
-    h4: 'font-display text-xl md:text-2xl lg:text-3xl font-semibold text-primary',
+    h1: 'font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-dark',
+    h2: 'font-display text-3xl md:text-4xl lg:text-5xl font-bold text-dark',
+    h3: 'font-display text-2xl md:text-3xl lg:text-4xl font-bold text-dark',
+    h4: 'font-display text-xl md:text-2xl lg:text-3xl font-semibold text-dark',
 
     // Subheadings - using Open Sans
-    subtitle: 'font-subhead text-lg text-primary',
-    subhead: 'font-subhead text-lg md:text-xl font-medium text-primary',
+    subtitle: 'font-subhead text-lg text-dark',
+    subhead: 'font-subhead text-lg md:text-xl font-medium text-dark',
 
     // Body text - using Inter
-    body: 'font-sans text-base',
-    small: 'font-sans text-sm'
+    body: 'font-sans text-base text-dark',
+    small: 'font-sans text-sm  text-dark',
 };
 
 export const Typography: React.FC<TypographyProps> = ({
