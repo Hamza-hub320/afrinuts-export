@@ -8,7 +8,6 @@ import farmImage2 from '../assets/images/farm-2.jpg';
 import farmImage3 from '../assets/images/farm-3.jpg';
 import farmImage4 from '../assets/images/farm-4.jpg';
 import farmHeroImage from '../assets/images/farm-hero.jpg';
-import farmTimelineImage from '../assets/images/farm-timeline.jpg';
 import { motion } from 'framer-motion';
 import { fadeIn, staggerContainer } from '@/utils/animations';
 import Section from "../components/Section/Section";
@@ -191,16 +190,55 @@ const Farm = () => {
                 </div>
             </section>
 
-            {/* Farm Development Timeline */}
-            <section
-                className="py-20 px-6 bg-afri-light bg-cover bg-center"
-                style={{ backgroundImage: `url(${farmTimelineImage})` }}
-            >
+            {/* Farm Development Timeline - Horizontal Version */}
+            <section className="py-20 px-6 bg-afri-light">
                 <div className="max-w-6xl mx-auto">
                     <Typography variant="h2" className="text-primary text-center mb-16">
                         {t('timeline.title')}
                     </Typography>
-                    <FarmTimeline items={timelineData} />
+
+                    <div className="relative">
+                        {/* Timeline line - updated to use accent color */}
+                        <div className="absolute left-0 right-0 top-1/2 h-1 bg-accent transform -translate-y-1/2"></div>
+
+                        <div className="flex justify-between relative">
+                            {timelineData.map((item, index) => (
+                                <motion.div
+                                    key={index}
+                                    className="flex flex-col items-center w-1/3 px-4"
+                                    initial="hidden"
+                                    whileInView="visible"
+                                    variants={fadeIn}
+                                    viewport={{ once: true }}
+                                >
+                                    {/* Year marker - updated with accent colors */}
+                                    <div className={`
+              w-20 h-20 rounded-full flex items-center justify-center 
+              font-display text-xl font-bold border-4 shadow-lg mb-4 z-10
+              bg-white text-accent border-accent
+              transition-all duration-300 hover:scale-110
+            `}>
+                                        {item.year}
+                                    </div>
+
+                                    {/* Content card */}
+                                    <div className="bg-white p-6 rounded-xl shadow-lg w-full mt-8 border border-gray-100">
+                                        <div className="flex items-center gap-3 mb-4">
+                                            <div className="text-accent text-xl">
+                                                {item.icon}
+                                            </div>
+                                            <Typography variant="h4" className="text-primary">
+                                                {item.title}
+                                            </Typography>
+                                        </div>
+                                        <Typography variant="body">
+                                            {item.description}
+                                        </Typography>
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </div>
                 </div>
             </section>
 
