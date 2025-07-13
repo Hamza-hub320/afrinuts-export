@@ -6,7 +6,6 @@ import {
 import {
   FaTemperatureHigh, FaTemperatureLow, FaWind, FaTint
 } from 'react-icons/fa';
-import './WeatherDisplay.css';
 
 interface WeatherDisplayProps {
   location?: string;

@@ -11,11 +11,12 @@ import './index.css';
 import { ReactElement } from 'react';
 import React from 'react'
 
+
 function App(): ReactElement {
     return (
         <I18nextProvider i18n={i18n}>
             <div className="min-h-screen font-sans bg-[var(--background)] text-[var(--text-dark)]">
-                <BrowserRouter basename="/afrinuts-export-website">
+                <BrowserRouter basename='/afrinuts-export'>
                     <Routes>
                         <Route path="/" element={<Layout />}>
                             <Route index element={<Home />} />

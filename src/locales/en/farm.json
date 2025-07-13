@@ -17,43 +17,77 @@
     "practices": "Regenerative Agriculture",
     "practicesLabel": "Farming Methodology"
   },
+  "features": {
+    "title": "Key Plantation Features",
+    "family": {
+      "title": "Family-Owned Land",
+      "description": "50 hectares of family-owned land with full development rights"
+    },
+    "irrigation": {
+      "title": "Smart Irrigation",
+      "description": "Water-efficient systems for optimal growth in all seasons"
+    },
+    "processing": {
+      "title": "Future Processing",
+      "description": "On-site processing facility planned for 2031"
+    },
+    "harvest": {
+      "title": "First Harvest",
+      "description": "Projected first harvest in 2031 from mature trees"
+    }
+  },
   "timeline": {
     "title": "Strategic Development Phases",
-    "items": [
-      {
-        "title": "Land Development",
-        "description": "Comprehensive soil mapping, selective land clearing, and installation of precision irrigation infrastructure"
-      },
-      {
-        "title": "Planting Operations",
-        "description": "Systematic planting of high-yield cashew cultivars across 35 hectares with optimal spacing for growth"
-      },
-      {
-        "title": "First Commercial Harvest",
-        "description": "Projected initial yield of 8-10 tons per hectare from mature cashew trees"
-      }
-    ]
+    "land": {
+      "title": "Land Development",
+      "description": "Comprehensive soil mapping, selective land clearing, and installation of precision irrigation infrastructure"
+    },
+    "planting": {
+      "title": "Planting Operations",
+      "description": "Systematic planting of high-yield cashew cultivars across 35 hectares with optimal spacing for growth"
+    },
+    "harvest": {
+      "title": "First Commercial Harvest",
+      "description": "Projected initial yield of 8-10 tons per hectare from mature cashew trees"
+    }
   },
   "gallery": {
     "title": "Plantation Progress",
     "alt1": "Developing cashew orchard with young trees",
-    "alt2": "Sustainable land preparation techniques"
+    "caption1": "Initial planting phase on our 50-hectare property",
+    "alt2": "Sustainable land preparation techniques",
+    "caption2": "Eco-friendly land clearing methods",
+    "alt3": "Irrigation system installation",
+    "caption3": "Precision water delivery systems",
+    "alt4": "Young cashew trees",
+    "caption4": "High-yield cultivars at 6 months growth"
   },
   "sustainability": {
     "title": "Our Regenerative Agriculture Commitment",
-    "items": [
-      {
-        "title": "Water Stewardship",
-        "description": "Drip irrigation systems reducing water usage by 40% compared to traditional methods"
-      },
-      {
-        "title": "Organic Cultivation",
-        "description": "Integrated pest management and organic fertilizers to maintain ecosystem balance"
-      },
-      {
-        "title": "Soil Regeneration",
-        "description": "Cover cropping and compost applications to enhance long-term soil fertility"
-      }
-    ]
+    "description": "We implement practices that restore ecosystem health while producing premium cashews",
+    "organic": {
+      "title": "Organic Cultivation",
+      "description": "Integrated pest management and organic fertilizers to maintain ecosystem balance"
+    },
+    "water": {
+      "title": "Water Stewardship",
+      "description": "Drip irrigation systems reducing water usage by 40% compared to traditional methods"
+    },
+    "community": {
+      "title": "Community Empowerment",
+      "description": "Training programs for local farmers in sustainable techniques"
+    }
+  },
+  "impact": {
+    "title": "Our Plantation Impact",
+    "hectares": "Hectares Under Cultivation",
+    "jobs": "Jobs Created",
+    "farmers": "Farmer Income Increase",
+    "profits": "Profits to Community"
+  },
+  "cta": {
+    "title": "Join Our Sustainable Journey",
+    "description": "Learn more about our cashew plantation and partnership opportunities",
+    "button": "Contact Our Farm Team"
   }
 }

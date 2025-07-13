@@ -1,174 +1,478 @@
 import React from 'react';
-import './About.css';
 import { useTranslation } from 'react-i18next';
-import farmImage from "../assets/images/cashew-farm.jpg";
-import ceoImage from '../assets/images/ceo.jpg';
+import { motion } from 'framer-motion';
 import {
   FaTree, FaSeedling, FaArrowRight, FaHandshake, FaLeaf,
-  FaIndustry, FaGlobe, FaUsers, FaArrowDown, FaRocket,
+  FaIndustry, FaGlobe, FaUsers, FaRocket,
   FaMapMarkerAlt, FaChartLine, FaHandsHelping, FaMosque, FaWater
 } from 'react-icons/fa';
+import Section from '../components/Section/Section';
+import { fadeIn, staggerContainer } from '../utils/animations';
+
+import ceoImage from '../assets/images/ceo.jpg';
+import cfoImage from '../assets/images/cfo.jpg';
+import farmImage from '../assets/images/cashew-farm.jpg';
+import {Typography} from "../components/Typography/Typography";
 
 const About: React.FC = () => {
-  const { t } = useTranslation('about');
+  const {t} = useTranslation('about');
 
   return (
-      <main className="about-page">
+      <main className="bg-background">
         {/* Hero Section */}
-        <section className="about-hero about-hero-bg">
-          <div className="hero-overlay-box">
-            <h1 className="hero-text">{t('hero.title')}</h1>
-            <p className="hero-text">{t('hero.subtitle')}</p>
-          </div>
-        </section>
+        <Section
+            fullHeight={false}
+            bgImage={farmImage}
+            overlay
+            overlayColor="bg-primary/"
+            className="flex items-end justify-start text-center min-h-[50vh] md:min-h-[60vh] pb-12 px-6"
+        >
+          <motion.div
+              className="max-w-2xl px-6 py-10 bg-white/75 backdrop-blur-xs rounded-xl"
+              initial="hidden"
+              animate="visible"
+              variants={staggerContainer}
+          >
+            <motion.h1
+                className="font-display text-4xl md:text-5xl lg:text-6xl text-primary mb-4 leading-tight"
+                variants={fadeIn}
+                style={{ letterSpacing: '-0.03em' }}
+            >
+              {t('hero.title')}
+            </motion.h1>
+            <motion.div variants={fadeIn}>
+              <Typography variant="subtitle" className="text-primary/90">
+                {t('hero.subtitle')}
+              </Typography>
+            </motion.div>
+          </motion.div>
+        </Section>
 
-        {/* CEO Message Section */}
-        <section className="ceo-section" id="ceo-message">
-          <div className="ceo-container">
-            <div className="ceo-image">
-              <img src={ceoImage} alt={t('ceo.alt')} />
+        {/* Leadership Section */}
+        <Section className="py-24 bg-white">
+          <div className="container mx-auto px-6">
+            <div className="text-center mb-16">
+            <span className="font-subhead text-accent tracking-widest text-sm uppercase block mb-2">
+              Our Leadership
+            </span>
+              <h2 className="font-display text-display-lg text-primary">
+                Guiding AfriNuts Forward
+              </h2>
             </div>
-            <div className="ceo-message">
-              <h2 className="ceo-title">{t('ceo.title')}</h2>
-              <p>{t('ceo.message')}</p>
-              <p className="ceo-signature">{t('ceo.signature')}</p>
+
+            {/* CEO Message */}
+            <div className="flex flex-col lg:flex-row gap-16 mb-24">
+              <motion.div
+                  className="flex-1"
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{once: true}}
+                  variants={fadeIn}
+              >
+                <div className="bg-background rounded-3xl shadow-lg overflow-hidden">
+                  <div className="p-8 md:p-12">
+                    <div className="flex items-center gap-4 mb-6">
+                      <div className="w-20 h-20 rounded-full overflow-hidden border-4 border-accent">
+                        <img src={ceoImage} alt={t('ceo.alt')} className="w-full h-full object-cover"/>
+                      </div>
+                      <div>
+                        <h3 className="font-display text-2xl text-primary">Hamza S. Ralsan Sangare</h3>
+                        <p className="font-subhead text-accent">Founder & CEO</p>
+                      </div>
+                    </div>
+                    <div className="prose max-w-none">
+                      <p className="text-lg text-text-dark mb-4">{t('ceo.message')}</p>
+
+                    </div>
+                    <p className="mt-8 font-display italic text-primary">{t('ceo.signature')}</p>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* CFO Message */}
+              <motion.div
+                  className="flex-1"
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{once: true}}
+                  variants={fadeIn}
+                  transition={{delay: 0.2}}
+              >
+                <div className="bg-background rounded-3xl shadow-lg overflow-hidden">
+                  <div className="p-8 md:p-12">
+                    <div className="flex items-center gap-4 mb-6">
+                      <div className="w-20 h-20 rounded-full overflow-hidden border-4 border-accent">
+                        <img src={cfoImage} alt="CFO" className="w-full h-full object-cover"/>
+                      </div>
+                      <div>
+                        <h3 className="font-display text-2xl text-primary">Sekou Hakim Petter</h3>
+                        <p className="font-subhead text-accent">Co-founder & CFO</p>
+                      </div>
+                    </div>
+                    <div className="prose max-w-none">
+                      <p className="text-lg text-text-dark mb-4">
+                        "Our financial strategy is built on sustainable growth and ethical investments.
+                        We're committed to transparency and creating long-term value for our stakeholders
+                        while maintaining our Islamic financial principles."
+                      </p>
+                      <p className="text-lg text-text-dark">
+                        "By reinvesting 25% of our profits back into the business and community,
+                        we ensure AfriNuts remains financially healthy while fulfilling our social responsibilities."
+                      </p>
+                    </div>
+                    <p className="mt-8 font-display italic text-primary">- Sekou Hakim Petter</p>
+                  </div>
+                </div>
+              </motion.div>
             </div>
           </div>
-        </section>
+        </Section>
 
         {/* Brand Statement */}
-        <section className="brand-statement bg-light">
-          <div className="statement-container">
-            <h2>{t('brand.title')}</h2>
-            <p>{t('brand.text')}</p>
-          </div>
-        </section>
+        <Section className="py-24 bg-background text-text-dark ">
+          <motion.div
+              className="container mx-auto px-6"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{once: true}}
+              variants={fadeIn}
+          >
+            <h2 className="font-display text-display-lg mb-8">
+              {t('brand.title')}
+            </h2>
+            <p className="font-sans text-xl leading-relaxed">
+              {t('brand.text')}
+            </p>
+          </motion.div>
+        </Section>
 
         {/* Vision, Mission, Values */}
-        <section className="core-values-section" id="vmv">
-          <div className="values-container">
-            <div className="vision-mission-values">
-              <div className="vmv-card">
-                <h3>{t('vmv.vision.title')}</h3>
-                <p>{t('vmv.vision.text')}</p>
+        <Section className="py-24 bg-white">
+          <div className="container mx-auto px-6">
+            <motion.div
+                initial="hidden"
+                whileInView="visible"
+                viewport={{once: true}}
+                variants={staggerContainer}
+            >
+              <div className="text-center mb-160">
+              <span className="font-subhead text-accent tracking-widest text-sm uppercase block mb-2">
+                Our Foundation
+              </span>
+                <h2 className="font-display text-display-lg text-primary">
+                  Vision, Mission & Values
+                </h2>
               </div>
-              <div className="vmv-card">
-                <h3>{t('vmv.mission.title')}</h3>
-                <p>{t('vmv.mission.text')}</p>
-              </div>
-              <div className="vmv-card">
-                <h3>{t('vmv.values.title')}</h3>
-                <p>{t('vmv.values.text')}</p>
-              </div>
-            </div>
 
-            {/* Community */}
-            <div className="community-values" id="community">
-              <h2>{t('community.title')}</h2>
-              <div className="community-cards">
-                <div className="community-card bg-green">
-                  <FaHandsHelping className="community-icon" />
-                  <h3>{t('community.cards.pledge.title')}</h3>
-                  <p>{t('community.cards.pledge.text')}</p>
-                </div>
+              <div className="grid md:grid-cols-3 gap-8 mb-24">
+                <motion.div
+                    className="bg-background rounded-3xl shadow-lg p-8 hover:shadow-xl transition-shadow"
+                    variants={fadeIn}
+                >
+                  <div className="text-accent text-4xl mb-4">
+                    <FaGlobe/>
+                  </div>
+                  <h3 className="font-display text-2xl text-primary mb-4">
+                    {t('vmv.vision.title')}
+                  </h3>
+                  <p className="text-text-dark">
+                    {t('vmv.vision.text')}
+                  </p>
+                </motion.div>
 
-                {/* Transition arrow */}
-                <div className="transition-arrow-card">
-                  <FaArrowRight className="arrow-icon" />
-                </div>
+                <motion.div
+                    className="bg-background rounded-3xl shadow-lg p-8"
+                    variants={fadeIn}
+                    transition={{delay: 0.1}}
+                >
+                  <div className="text-accent text-4xl mb-4">
+                    <FaRocket/>
+                  </div>
+                  <h3 className="font-display text-2xl text-primary mb-4">
+                    {t('vmv.mission.title')}
+                  </h3>
+                  <p className="text-text-dark">
+                    {t('vmv.mission.text')}
+                  </p>
+                </motion.div>
 
-                <div className="community-card bg-blue">
-                  <FaWater className="community-icon" />
-                  <h3>{t('community.cards.water.title')}</h3>
-                  <p>{t('community.cards.water.text')}</p>
-                </div>
-                <div className="community-card bg-orange">
-                  <FaMosque className="community-icon" />
-                  <h3>{t('community.cards.religion.title')}</h3>
-                  <p>{t('community.cards.religion.text')}</p>
-                </div>
+                <motion.div
+                    className="bg-background rounded-3xl shadow-lg p-8 hover:shadow-xl transition-shadow"
+                    variants={fadeIn}
+                    transition={{delay: 0.2}}
+                >
+                  <div className="text-accent text-4xl mb-4">
+                    <FaHandshake/>
+                  </div>
+                  <h3 className="font-display text-2xl text-primary mb-4">
+                    {t('vmv.values.title')}
+                  </h3>
+                  <p className="text-text-dark">
+                    {t('vmv.values.text')}
+                  </p>
+                </motion.div>
               </div>
+            </motion.div>
+
+            {/* Community Impact */}
+            <motion.div
+                initial="hidden"
+                whileInView="visible"
+                viewport={{once: true}}
+                variants={staggerContainer}
+            >
+              <div className="text-center mb-16">
+                <h2 className="font-display text-display-lg text-primary">
+                  {t('community.title')}
+                </h2>
+              </div>
+
+              <div className="flex flex-col lg:flex-row gap-8 justify-center items-stretch">
+                <motion.div
+                    className="bg-green-50 rounded-3xl shadow-lg p-8 flex-1 max-w-md"
+                    variants={fadeIn}
+                    whileHover={{y: -5}}
+                >
+                  <div className="text-accent text-4xl mb-4">
+                    <FaHandsHelping/>
+                  </div>
+                  <h3 className="font-display text-2xl text-primary mb-4">
+                    {t('community.cards.pledge.title')}
+                  </h3>
+                  <p className="text-text-dark">
+                    {t('community.cards.pledge.text')}
+                  </p>
+                </motion.div>
+
+                <motion.div
+                    className="bg-blue-50 rounded-3xl shadow-lg p-8 flex-1 max-w-md"
+                    variants={fadeIn}
+                    transition={{delay: 0.1}}
+                    whileHover={{y: -5}}
+                >
+                  <div className="text-accent text-4xl mb-4">
+                    <FaWater/>
+                  </div>
+                  <h3 className="font-display text-2xl text-primary mb-4">
+                    {t('community.cards.water.title')}
+                  </h3>
+                  <p className="text-text-dark">
+                    {t('community.cards.water.text')}
+                  </p>
+                </motion.div>
+
+                <motion.div
+                    className="bg-orange-50 rounded-3xl shadow-lg p-8 flex-1 max-w-md"
+                    variants={fadeIn}
+                    transition={{delay: 0.2}}
+                    whileHover={{y: -5}}
+                >
+                  <div className="text-accent text-4xl mb-4">
+                    <FaMosque/>
+                  </div>
+                  <h3 className="font-display text-2xl text-primary mb-4">
+                    {t('community.cards.religion.title')}
+                  </h3>
+                  <p className="text-text-dark">
+                    {t('community.cards.religion.text')}
+                  </p>
+                </motion.div>
+              </div>
+            </motion.div>
+          </div>
+        </Section>
+
+        {/* Farm Section */}
+        <Section className="py-24 bg-background">
+          <div className="container mx-auto px-6">
+            <div className="flex flex-col lg:flex-row gap-16 items-center">
+              <motion.div
+                  className="flex-1"
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{once: true}}
+                  variants={fadeIn}
+              >
+                <div className="mb-8">
+                <span className="font-subhead text-accent tracking-widest text-sm uppercase block mb-2">
+                  Our Operations
+                </span>
+                  <h2 className="font-display text-display-lg text-primary">
+                    {t('farm.title')}
+                  </h2>
+                </div>
+                <p className="text-lg text-text-dark mb-8 leading-relaxed">
+                  {t('farm.text')}
+                </p>
+                <div className="flex flex-wrap gap-4">
+                  <div className="flex items-center gap-3 bg-white px-4 py-3 rounded-lg shadow">
+                    <FaMapMarkerAlt className="text-accent text-xl"/>
+                    <span>{t('farm.location')}</span>
+                  </div>
+                  <div className="flex items-center gap-3 bg-white px-4 py-3 rounded-lg shadow">
+                    <FaChartLine className="text-accent text-xl"/>
+                    <span>{t('farm.size')}</span>
+                  </div>
+                </div>
+              </motion.div>
+              <motion.div
+                  className="flex-1"
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{once: true}}
+                  variants={fadeIn}
+                  transition={{delay: 0.2}}
+              >
+                <div className="rounded-3xl overflow-hidden shadow-2xl">
+                  <img
+                      src={farmImage}
+                      alt={t('farm.alt')}
+                      className="w-full h-auto object-cover aspect-video"
+                  />
+                </div>
+              </motion.div>
             </div>
           </div>
-        </section>
-
-        {/* Farm */}
-        <section className="farm-section bg-green">
-          <div className="farm-content">
-            <div className="farm-text">
-              <h2>{t('farm.title')}</h2>
-              <p>{t('farm.text')}</p>
-              <div className="farm-stats">
-                <div className="stat-item">
-                  <FaMapMarkerAlt className="stat-icon" />
-                  <span>{t('farm.location')}</span>
-                </div>
-                <div className="stat-item">
-                  <FaChartLine className="stat-icon" />
-                  <span>{t('farm.size')}</span>
-                </div>
-              </div>
-            </div>
-            <div className="farm-image">
-              <img src={farmImage} alt={t('farm.alt')} className="farm-photo" />
-            </div>
-          </div>
-        </section>
+        </Section>
 
         {/* Legacy Timeline */}
-        <section className="legacy-section bg-green" id="roots">
-          <div className="legacy-container">
-            <h2>{t('legacy.title')}</h2>
+        <Section className="py-24 bg-background text-text-dark">
+          <div className="container mx-auto px-6">
+            <motion.div
+                className="text-center mb-16"
+                initial="hidden"
+                whileInView="visible"
+                viewport={{once: true}}
+                variants={fadeIn}
+            >
+              <Typography variant="h2" className="mb-4">
+                {t('legacy.title')}
+              </Typography>
+              <Typography variant="subtitle" className="text-accent">
+                Our Journey Through Time
+              </Typography>
+            </motion.div>
 
-            <div className="legacy-timeline">
+            <div className="max-w-4xl mx-auto space-y-8">
               {/* Family Era */}
-              <div className="era">
-                <div className="era-header bg-orange text-green">
-                  <FaTree className="era-icon" />
-                  <h3>{t('legacy.family.title')}</h3>
+              <motion.div
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{once: true}}
+                  variants={fadeIn}
+                  className="group relative"
+              >
+                <div
+                    className="absolute -inset-1 bg-gradient-to-r from-accent/20 to-primary/20 rounded-3xl opacity-0 group-hover:opacity-100 blur transition duration-300"></div>
+                <div className="relative bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100">
+                  <div className="bg-gradient-to-r from-primary to-primary/90 p-6 flex items-center gap-4">
+                    <div className="bg-white/20 p-3 rounded-full">
+                      <FaTree className="text-2xl text-white"/>
+                    </div>
+                    <h3 className="font-display text-2xl text-white">
+                      {t('legacy.family.title')}
+                    </h3>
+                  </div>
+                  <div className="p-8">
+                    <p className="mb-6 text-gray-700">{t('legacy.family.text')}</p>
+                    <ul className="space-y-4">
+                      {[
+                        {icon: FaSeedling, text: t('legacy.family.feats.0')},
+                        {icon: FaHandshake, text: t('legacy.family.feats.1')},
+                        {icon: FaLeaf, text: t('legacy.family.feats.2')}
+                      ].map((item, index) => (
+                          <motion.li
+                              key={index}
+                              className="flex items-start gap-4 p-3 rounded-lg hover:bg-gray-50 transition-colors"
+                              whileHover={{x: 5}}
+                          >
+                            <div className="bg-accent/10 p-2 rounded-full">
+                              <item.icon className="text-accent text-lg"/>
+                            </div>
+                            <span className="flex-1">{item.text}</span>
+                          </motion.li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
-                <div className="era-content">
-                  <p>{t('legacy.family.text')}</p>
-                  <ul className="legacy-feats">
-                    <li><FaSeedling /> {t('legacy.family.feats.0')}</li>
-                    <li><FaHandshake /> {t('legacy.family.feats.1')}</li>
-                    <li><FaLeaf /> {t('legacy.family.feats.2')}</li>
-                  </ul>
-                </div>
-              </div>
-
-              <div className="transition-arrow">
-                <FaArrowDown />
-              </div>
+              </motion.div>
 
               {/* AfriNuts Era */}
-              <div className="era">
-                <div className="era-header bg-orange text-green">
-                  <FaChartLine className="era-icon" />
-                  <h3>{t('legacy.afrinuts.title')}</h3>
+              <motion.div
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{once: true}}
+                  variants={fadeIn}
+                  transition={{delay: 0.1}}
+                  className="group relative"
+              >
+                <div
+                    className="absolute -inset-1 bg-gradient-to-r from-accent/20 to-primary/20 rounded-3xl opacity-0 group-hover:opacity-100 blur transition duration-300"></div>
+                <div className="relative bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100">
+                  <div className="bg-gradient-to-r bg-olive to-olive/90 p-6 flex items-center gap-4">
+                    <div className="bg-white/20 p-3 rounded-full">
+                      <FaChartLine className="text-2xl text-white"/>
+                    </div>
+                    <h3 className="font-display text-2xl text-white">
+                      {t('legacy.afrinuts.title')}
+                    </h3>
+                  </div>
+                  <div className="p-8">
+                    <p className="mb-6 text-gray-700">{t('legacy.afrinuts.text')}</p>
+                    <ul className="space-y-4">
+                      {[
+                        {icon: FaIndustry, text: t('legacy.afrinuts.feats.0')},
+                        {icon: FaGlobe, text: t('legacy.afrinuts.feats.1')},
+                        {icon: FaUsers, text: t('legacy.afrinuts.feats.2')},
+                        {icon: FaSeedling, text: t('legacy.afrinuts.feats.3')}
+                      ].map((item, index) => (
+                          <motion.li
+                              key={index}
+                              className="flex items-start gap-4 p-3 rounded-lg hover:bg-gray-50 transition-colors"
+                              whileHover={{x: 5}}
+                          >
+                            <div className="bg-accent/10 p-2 rounded-full">
+                              <item.icon className="text-accent text-lg"/>
+                            </div>
+                            <span className="flex-1">{item.text}</span>
+                          </motion.li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
-                <div className="era-content">
-                  <p>{t('legacy.afrinuts.text')}</p>
-                  <ul className="legacy-feats">
-                    <li><FaIndustry /> {t('legacy.afrinuts.feats.0')}</li>
-                    <li><FaGlobe /> {t('legacy.afrinuts.feats.1')}</li>
-                    <li><FaUsers /> {t('legacy.afrinuts.feats.2')}</li>
-                    <li><FaSeedling /> {t('legacy.afrinuts.feats.3')}</li>
-                  </ul>
-                </div>
-              </div>
+              </motion.div>
 
               {/* Vision 2031 */}
-              <div className="future-vision">
-                <div className="vision-header">
-                  <FaRocket />
-                  <h3>{t('legacy.future.title')}</h3>
+              <motion.div
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{once: true}}
+                  variants={fadeIn}
+                  transition={{delay: 0.2}}
+              >
+                <div
+                    className="bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl p-8 text-center border-2 border-primary/20 hover:border-accent/30 transition-all duration-300">
+                  <div className="flex justify-center items-center gap-4 mb-6">
+                    <div className="bg-accent p-3 rounded-full">
+                      <FaRocket className="text-2xl text-white"/>
+                    </div>
+                    <h3 className="font-display text-2xl text-primary">
+                      {t('legacy.future.title')}
+                    </h3>
+                  </div>
+                  <p className="text-gray-700 max-w-2xl mx-auto">
+                    {t('legacy.future.text')}
+                  </p>
+                  <button
+                      className="mt-6 group bg-accent hover:bg-dark-orange text-white px-6 py-2 rounded-full transition-all duration-300 inline-flex items-center mx-auto">
+                    Learn More About Our Vision
+                    <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform"/>
+                  </button>
                 </div>
-                <p>{t('legacy.future.text')}</p>
-              </div>
+              </motion.div>
             </div>
           </div>
-        </section>
+        </Section>
       </main>
   );
 };

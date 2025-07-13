@@ -1,128 +1,70 @@
 /* Tailwind Directives */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-/* Your existing :root variables remain unchanged */
-:root {
-  /* Core Neutral Colors */
-  --white: #ffffff;
-  --light-grey: #F5F5F5;
-  --warm-grey: #DEDAD4;
-  --cool-grey: #7d7d7d;
-  --taupe: #6C5D56;
-  --black-shadow: rgba(0, 0, 0, 0.29);
-
-  /* Core Brand Colors */
-  --navy-blue: #253746;
-  --deep-blue: #3A4A58;
-  --teal: #00869D;
-  --lime-green: #A0C800;
-  --olive-green: #698714;
-  --forest-green: #5A7411;
-  --orange: #FD8104;
-  --dark-orange: #E67401;
-
-  /* Semantic Color Assignments */
-  --primary: var(--forest-green);
-  --accent: var(--orange);
-  --secondary: var(--lime-green);
-  --background: var(--light-grey);
-  --text-dark: var(--taupe);
-  --text-light: var(--white);
-
-  /* Utilities */
-  --border-radius: 8px;
-  --box-shadow: 0 5px 15px var(--black-shadow);
-  --highlight-color: rgba(253, 129, 4, 0.2);
-}
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
 
 /* Base styles */
-body {
-  @apply bg-[var(--background)] text-[var(--text-dark)] font-sans leading-relaxed;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  min-height: 100vh;
+@layer base {
+  body {
+    @apply bg-background text-text-dark font-sans leading-relaxed;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+ h1, h2, h3, h4, h5, h6 {
+    @apply text-primary leading-tight mt-0 mb-4;
+  }
+  h1 { @apply text-4xl; }
+  h2 { @apply text-3xl; }
+  h3 { @apply text-2xl; }
 }
 
 /* Components */
-.card {
-  @apply bg-white rounded-[var(--border-radius)] shadow-[var(--box-shadow)] border border-[var(--warm-grey)] p-6;
-}
-
-.content-box {
-  @apply bg-white/90 backdrop-blur-sm rounded-[var(--border-radius)] border border-opacity-5 p-8;
-}
-
-/* Typography */
-h1, h2, h3, h4, h5, h6 {
-  @apply text-[var(--primary)] leading-tight mt-0 mb-4;
-}
-
-h1 { @apply text-4xl; }
-h2 { @apply text-3xl; }
-h3 { @apply text-2xl; }
-
-/* Links */
-a {
-  @apply text-[var(--accent)] no-underline transition-all duration-300 font-medium;
-}
-a:hover {
-  @apply text-[var(--dark-orange)];
-}
-
-/* Buttons */
-button {
-  @apply bg-[var(--accent)] text-white border-none px-6 py-3 rounded-[var(--border-radius)] cursor-pointer
-  transition-all duration-300 font-semibold inline-flex items-center
-  justify-center gap-2;
-}
-button:hover {
-  @apply bg-[var(--dark-orange)] -translate-y-0.5 shadow;
-}
-button.secondary {
-  @apply bg-transparent text-[var(--accent)] border-2 border-[var(--accent)];
-}
-button.secondary:hover {
-  @apply bg-[var(--highlight-color)] text-[var(--dark-orange)] border-[var(--dark-orange)];
-}
-
-/* Layout */
-.container {
-  @apply max-w-[1200px] mx-auto px-5;
-}
-
-.section {
-  @apply py-16 relative;
-}
-.section--alt {
-  @apply bg-[var(--warm-grey)];
-}
-
-.text-center {
-  @apply text-center;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .section {
-    @apply py-12;
+@layer components {
+  .card {
+    @apply bg-white rounded shadow border border-warm-grey p-6;
   }
-  h1 { @apply text-3xl; }
-  h2 { @apply text-2xl; }
-  h3 { @apply text-xl; }
-}
 
-@media (max-width: 480px) {
-  .section {
-    @apply py-8;
-  }
   .content-box {
-    @apply p-6;
+    @apply bg-white/90 backdrop-blur-sm rounded border border-opacity-5 p-8;
+  }
+
+  .primary-button {
+    @apply bg-accent text-white px-6 py-3 rounded cursor-pointer
+    transition-all duration-300 font-semibold inline-flex items-center
+    justify-center gap-2 hover:bg-dark-orange hover:-translate-y-0.5 hover:shadow;
+  }
+
+  .secondary-button {
+    @apply bg-transparent text-accent border-2 border-accent px-6 py-3 rounded
+    cursor-pointer transition-all duration-300 font-semibold inline-flex
+    items-center justify-center gap-2 hover:bg-highlight
+    hover:text-dark-orange hover:border-dark-orange;
   }
 }
 
-/* Image base styles */
-img {
-  @apply max-w-full h-auto align-middle italic;
+/* Utilities */
+@layer utilities {
+  .text-center {
+    text-align: center;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .section {
+      @apply py-12;
+    }
+    h1 { @apply text-3xl; }
+    h2 { @apply text-2xl; }
+    h3 { @apply text-xl; }
+  }
+
+  @media (max-width: 480px) {
+    .section {
+      @apply py-8;
+    }
+    .content-box {
+      @apply p-6;
+    }
+  }
 }

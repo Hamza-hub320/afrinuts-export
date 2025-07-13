@@ -3,36 +3,111 @@
     "title": "Our Premium Cashew Products",
     "subtitle": "Ethically sourced from Odienné's fertile lands to global markets"
   },
-  "intro": {
-    "title": "Traceable Quality from Farm to Market",
-    "description": "While our processing facility will launch in 2031 to expand our product line, we currently offer premium raw cashews sourced from our 50-hectare family farm and trusted partner growers in Ivory Coast's cashew belt."
+  "filters": {
+    "all": "All Products",
+    "available": "Available Now",
+    "coming-soon": "Coming Soon"
+  },
+  "featured": {
+    "title": "Featured Products",
+    "subtitle": "Discover our signature cashew offerings from Ivory Coast"
+  },
+  "fullRange": {
+    "title": "Our Complete Product Line",
+    "subtitle": "From raw nuts to value-added processed goods"
+  },
+  "process": {
+    "title": "Our Production Process",
+    "subtitle": "Sustainable farming meets precision processing",
+    "steps": [
+      {
+        "title": "Sustainable Farming",
+        "description": "Our cashews are grown using organic methods on our 50-hectare family farm in Odienné, with first harvest expected in 2031."
+      },
+      {
+        "title": "Quality Control",
+        "description": "Every batch undergoes rigorous quality checks to meet international standards for size, color, and taste."
+      },
+      {
+        "title": "Efficient Distribution",
+        "description": "Vacuum-sealed packaging ensures freshness as our products travel from Ivory Coast to global markets."
+      }
+    ]
+  },
+  "quality": {
+    "title": "Quality Assurance",
+    "description": "We implement strict quality control measures at every stage of production to ensure our cashews meet the highest international standards.",
+    "bullets": [
+      "Premium grade cashews with consistent sizing",
+      "Traceable to specific farms in our network",
+      "Regular laboratory testing for aflatoxins and contaminants"
+    ]
+  },
+  "certifications": {
+    "title": "Our Certifications",
+    "subtitle": "Meeting global standards for quality and sustainability",
+    "organic": {
+      "title": "Organic Certified"
+    },
+    "fairtrade": {
+      "title": "Fair Trade"
+    },
+    "iso": {
+      "title": "ISO 22000"
+    },
+    "halal": {
+      "title": "Halal Certified"
+    }
+  },
+  "cta": {
+    "title": "Ready to Experience AfriNuts Quality?",
+    "subtitle": "Contact us for wholesale inquiries, product samples, or to discuss future availability",
+    "contact": "Contact Us",
+    "viewAll": "View All Products"
   },
   "items": [
     {
       "name": "Raw Cashew Nuts",
-      "description": "Sun-dried, hand-sorted cashews",
+      "description": "Sun-dried, hand-sorted cashews from our family farm and trusted partner growers",
       "features": [
-        "Grade A quality",
+        "Grade A quality with 95% whole nuts",
         "Available in 50kg export-grade jute bags",
-        "Traceable to partner farms in Ivory Coast"
+        "Traceable to specific farms in Odienné region"
       ],
       "available": true,
       "backgroundImage": "raw-cashew.jpg",
-      "icon": "FaSeedling"
+      "icon": "FaSeedling",
+      "certifications": ["Organic", "Fair Trade"],
+      "variants": [
+        {
+          "name": "Standard Grade",
+          "priceRange": "$1,200 - $1,500/ton"
+        }
+      ]
     },
     {
       "name": "Cashew Kernels",
-      "description": "Precision-processed kernels",
+      "description": "Precision-processed kernels from our future processing facility",
       "features": [
         "Multiple grades: W320, W240, W180",
         "HACCP-certified processing",
         "Vacuum-packed for freshness"
-
       ],
       "comingSoon": "Production begins Q1 2031",
       "available": false,
       "backgroundImage": "cashew-kernels.jpg",
-      "icon": "FaWeightHanging"
+      "icon": "FaWeightHanging",
+      "certifications": ["Organic", "Halal", "ISO 22000"],
+      "variants": [
+        {
+          "name": "Whole Kernels",
+          "priceRange": "$6,500 - $8,000/ton"
+        },
+        {
+          "name": "Splits & Pieces",
+          "priceRange": "$4,000 - $5,500/ton"
+        }
+      ]
     },
     {
       "name": "Cashew Butter",
@@ -45,10 +120,21 @@
       "comingSoon": "Production begins Q1 2031",
       "available": false,
       "backgroundImage": "cashew-butter.jpg",
-      "icon": "FaIndustry"
+      "icon": "FaIndustry",
+      "certifications": ["Organic", "Halal"],
+      "variants": [
+        {
+          "name": "Smooth",
+          "priceRange": "$8 - $12/kg"
+        },
+        {
+          "name": "Crunchy",
+          "priceRange": "$8 - $12/kg"
+        }
+      ]
     },
     {
-      "name": "Cashew Nut Shell Liquid",
+      "name": "Cashew Nut Shell Liquid (CNSL)",
       "description": "High-value industrial byproduct from our processing operations",
       "features": [
         "Used in paints, varnishes and brake linings",
@@ -58,7 +144,13 @@
       "comingSoon": "Production begins Q1 2031",
       "available": false,
       "backgroundImage": "cashew-nut-shell-liquid.jpg",
-      "icon": "FaLeaf"
+      "icon": "FaLeaf",
+      "variants": [
+        {
+          "name": "Technical Grade",
+          "priceRange": "$300 - $600/ton"
+        }
+      ]
     },
     {
       "name": "Roasted Cashews",
@@ -71,7 +163,18 @@
       "comingSoon": "Production begins Q1 2031",
       "available": false,
       "backgroundImage": "roasted-cashew.jpg",
-      "icon": "FaLeaf"
+      "icon": "FaLeaf",
+      "certifications": ["Organic", "Halal"],
+      "variants": [
+        {
+          "name": "Natural",
+          "priceRange": "$10 - $15/kg"
+        },
+        {
+          "name": "Salted",
+          "priceRange": "$10 - $15/kg"
+        }
+      ]
     },
     {
       "name": "Cashew Milk",
@@ -84,15 +187,18 @@
       "comingSoon": "Production begins Q1 2031",
       "available": false,
       "backgroundImage": "cashew-milk.jpg",
-      "icon": "FaLeaf"
+      "icon": "FaLeaf",
+      "certifications": ["Organic", "Halal"],
+      "variants": [
+        {
+          "name": "Original",
+          "priceRange": "$2 - $3/liter"
+        },
+        {
+          "name": "Unsweetened",
+          "priceRange": "$2 - $3/liter"
+        }
+      ]
     }
-  ],
-  "buttons": {
-    "requestQuote": "Request Quote"
-  },
-  "cta": {
-    "title": "Partner With Us",
-    "subtitle": "For wholesale inquiries, product samples, or future availability",
-    "button": "Contact Our Sales Team"
-  }
+  ]
 }
