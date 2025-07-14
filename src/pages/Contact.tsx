@@ -7,7 +7,7 @@ import Section from '../components/Section/Section';
 import contactHeroImage from '../assets/images/contact-hero.jpg';
 import { motion } from 'framer-motion';
 import { fadeIn, staggerContainer } from '@/utils/animations';
-import {Typography} from "../components/Typography/Typography";
+import { Typography } from "../components/Typography/Typography";
 
 interface FormData {
   name: string;
@@ -92,19 +92,30 @@ const Contact: React.FC = () => {
 
   return (
       <div className="contact-page">
+        {/* Success Modal */}
         {showSuccess && (
-            <div className="success-modal">
-              <div className="modal-content">
-                <FaCheckCircle className="success-icon" />
-                <h3>{t('success.title')}</h3>
-                <p>{t('success.message')}</p>
-                <button onClick={() => setShowSuccess(false)} className="modal-close-btn">
-                  {t('success.close')}
-                </button>
-              </div>
+            <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+              <motion.div
+                  className="bg-white p-8 rounded-xl max-w-md w-full"
+                  initial={{ scale: 0.9, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+              >
+                <div className="text-center">
+                  <FaCheckCircle className="text-accent text-5xl mx-auto mb-4" />
+                  <Typography variant="h3" className="mb-2">{t('success.title')}</Typography>
+                  <Typography variant="body" className="mb-6">{t('success.message')}</Typography>
+                  <button
+                      onClick={() => setShowSuccess(false)}
+                      className="bg-accent hover:bg-dark-orange text-white px-6 py-2 rounded-full transition-colors duration-300"
+                  >
+                    {t('success.close')}
+                  </button>
+                </div>
+              </motion.div>
             </div>
         )}
 
+        {/* Hero Section */}
         <Section
             fullHeight={false}
             bgImage={contactHeroImage}
@@ -126,83 +137,104 @@ const Contact: React.FC = () => {
               {t('hero.title')}
             </motion.h1>
             <motion.div variants={fadeIn}>
-              <Typography variant="subtitle" className="text-primary/90">
+              <Typography variant="subtitle" className="text-dark/90">
                 {t('hero.subtitle')}
               </Typography>
             </motion.div>
           </motion.div>
         </Section>
 
-
+        {/* Main Content */}
         <div className="container mx-auto px-4 py-16 grid grid-cols-1 lg:grid-cols-2 gap-12">
+          {/* Contact Form Section */}
           <section>
-            <h2>{t('form.title')}</h2>
-            {errors.submit && <div className="error-message">{errors.submit}</div>}
+            <Typography variant="h2" className="mb-8">
+              {t('form.title')}
+            </Typography>
 
-            <form ref={formRef} onSubmit={handleSubmit} className="contact-form">
-              <div className="mb-6">
-                <label htmlFor="name" className="block mb-2 font-semibold text-text-dark">{t('form.name')}</label>
+            {errors.submit && (
+                <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded">
+                  <Typography variant="body">{errors.submit}</Typography>
+                </div>
+            )}
+
+            <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
+              {/* Name Field */}
+              <div>
+                <Typography variant="h4" as="label" htmlFor="name" className="block mb-2">
+                  {t('form.name')}
+                </Typography>
                 <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  className={`w-full p-3 rounded border ${errors.name ? 'border-red-500' : 'border-warm-grey'} focus:outline-none focus:ring-2 focus:ring-primary`}
+                    type="text"
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    className={`w-full p-3 rounded-lg border ${errors.name ? 'border-red-500' : 'border-warm-grey'} focus:outline-none focus:ring-2 focus:ring-accent`}
                 />
-                {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
+                {errors.name && <Typography variant="small" className="text-red-500 mt-1">{errors.name}</Typography>}
               </div>
 
-              <div className="mb-6">
-                <label htmlFor="email" className="block mb-2 font-semibold text-text-dark">{t('form.email')}</label>
+              {/* Email Field */}
+              <div>
+                <Typography variant="h4" as="label" htmlFor="email" className="block mb-2">
+                  {t('form.email')}
+                </Typography>
                 <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className={`w-full p-3 rounded border ${errors.email ? 'border-red-500' : 'border-warm-grey'} focus:outline-none focus:ring-2 focus:ring-primary`}
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    className={`w-full p-3 rounded-lg border ${errors.email ? 'border-red-500' : 'border-warm-grey'} focus:outline-none focus:ring-2 focus:ring-accent`}
                 />
-                {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+                {errors.email && <Typography variant="small" className="text-red-500 mt-1">{errors.email}</Typography>}
               </div>
 
-              <div className="mb-6">
-                <label htmlFor="subject" className="block mb-2 font-semibold text-text-dark">{t('form.subject')}</label>
+              {/* Subject Field */}
+              <div>
+                <Typography variant="h4" as="label" htmlFor="subject" className="block mb-2">
+                  {t('form.subject')}
+                </Typography>
                 <input
-                  type="text"
-                  id="subject"
-                  name="subject"
-                  value={formData.subject}
-                  onChange={handleChange}
-                  className={`w-full p-3 rounded border ${errors.subject ? 'border-red-500' : 'border-warm-grey'} focus:outline-none focus:ring-2 focus:ring-primary`}
+                    type="text"
+                    id="subject"
+                    name="subject"
+                    value={formData.subject}
+                    onChange={handleChange}
+                    className={`w-full p-3 rounded-lg border ${errors.subject ? 'border-red-500' : 'border-warm-grey'} focus:outline-none focus:ring-2 focus:ring-accent`}
                 />
-                {errors.subject && <p className="text-red-500 text-sm mt-1">{errors.subject}</p>}
+                {errors.subject && <Typography variant="small" className="text-red-500 mt-1">{errors.subject}</Typography>}
               </div>
 
-              <div className="mb-6">
-                <label htmlFor="message" className="block mb-2 font-semibold text-text-dark">{t('form.message')}</label>
+              {/* Message Field */}
+              <div>
+                <Typography variant="h4" as="label" htmlFor="message" className="block mb-2">
+                  {t('form.message')}
+                </Typography>
                 <textarea
-                  id="message"
-                  name="message"
-                  rows={6}
-                  value={formData.message}
-                  onChange={handleChange}
-                  className={`w-full p-3 rounded border ${errors.message ? 'border-red-500' : 'border-warm-grey'} focus:outline-none focus:ring-2 focus:ring-primary`}
+                    id="message"
+                    name="message"
+                    rows={6}
+                    value={formData.message}
+                    onChange={handleChange}
+                    className={`w-full p-3 rounded-lg border ${errors.message ? 'border-red-500' : 'border-warm-grey'} focus:outline-none focus:ring-2 focus:ring-accent`}
                 ></textarea>
-                {errors.message && <p className="text-red-500 text-sm mt-1">{errors.message}</p>}
+                {errors.message && <Typography variant="small" className="text-red-500 mt-1">{errors.message}</Typography>}
               </div>
 
               <input type="hidden" name="from_name" value={formData.name} />
               <input type="hidden" name="from_email" value={formData.email} />
 
               <button
-                type="submit"
-                className="primary-button mt-4"
-                disabled={isSubmitting}
+                  type="submit"
+                  className="w-full bg-accent hover:bg-dark-orange text-white py-3 px-6 rounded-lg font-medium transition-colors duration-300 flex justify-center items-center gap-2"
+                  disabled={isSubmitting}
               >
                 {isSubmitting ? (
                     <>
-                      <span className="spinner"></span> {t('form.sending')}
+                      <span className="inline-block h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                      {t('form.sending')}
                     </>
                 ) : (
                     t('form.submit')
@@ -211,65 +243,97 @@ const Contact: React.FC = () => {
             </form>
           </section>
 
-          <section className="bg-white shadow rounded-xl p-6 space-y-6">
-            <h2>{t('info.title')}</h2>
+          {/* Contact Info Section */}
+          <section className="bg-white shadow-lg rounded-xl p-8 space-y-8">
+            <Typography variant="h2">
+              {t('info.title')}
+            </Typography>
 
-            <div className="bg-background rounded-xl p-4 shadow">
+            {/* Weather Widget */}
+            <div className="bg-background rounded-xl p-6 shadow">
               <WeatherDisplay location="Odienne" />
             </div>
 
-            <div className="flex gap-4 items-start">
-              <FaMapMarkerAlt className="contact-icon" />
-              <div>
-                <h3 className="text-primary font-semibold">AfriNuts Headquarters</h3>
-                <p>Odienné, Ivory Coast</p>
-                <p>Zip Code: 00225</p>
+            {/* Contact Info Items */}
+            <div className="space-y-6">
+              {/* Address */}
+              <div className="flex gap-4 items-start">
+                <div className="bg-accent/10 p-3 rounded-full text-accent flex-shrink-0">
+                  <FaMapMarkerAlt className="text-xl" />
+                </div>
+                <div>
+                  <Typography variant="h4" className="text-primary mb-1">
+                    AfriNuts Headquarters
+                  </Typography>
+                  <Typography variant="body">Odienné, Ivory Coast</Typography>
+                  <Typography variant="body">Zip Code: 00225</Typography>
+                </div>
               </div>
-            </div>
 
-            <div className="flex gap-4 items-start">
-              <FaPhone className="contact-icon" />
-              <div>
-                <h3>{t('info.phone')}</h3>
-                <p>+225 XX XX XX XX</p>
-                <p>{t('info.hours')}</p>
+              {/* Phone */}
+              <div className="flex gap-4 items-start">
+                <div className="bg-accent/10 p-3 rounded-full text-accent flex-shrink-0">
+                  <FaPhone className="text-xl" />
+                </div>
+                <div>
+                  <Typography variant="h4" className="text-primary mb-1">
+                    {t('info.phone')}
+                  </Typography>
+                  <Typography variant="body">+225 XX XX XX XX</Typography>
+                  <Typography variant="body">{t('info.hours')}</Typography>
+                </div>
               </div>
-            </div>
 
-            <div className="flex gap-4 items-start">
-              <FaEnvelope className="contact-icon" />
-              <div>
-                <h3>{t('info.email')}</h3>
-                <p>AfriNutsExport2023@outlook.com</p>
-                <p>inquiries@afrinutsexport.com</p>
+              {/* Email */}
+              <div className="flex gap-4 items-start">
+                <div className="bg-accent/10 p-3 rounded-full text-accent flex-shrink-0">
+                  <FaEnvelope className="text-xl" />
+                </div>
+                <div>
+                  <Typography variant="h4" className="text-primary mb-1">
+                    {t('info.email')}
+                  </Typography>
+                  <Typography variant="body">AfriNutsExport2023@outlook.com</Typography>
+                  <Typography variant="body">inquiries@afrinutsexport.com</Typography>
+                </div>
               </div>
-            </div>
 
-            <div className="flex gap-4 items-start">
-              <FaClock className="contact-icon" />
-              <div>
-                <h3>{t('info.businessHours')}</h3>
-                <p>Monday - Friday: 8:00 - 17:00</p>
-                <p>Saturday: 9:00 - 13:00</p>
+              {/* Business Hours */}
+              <div className="flex gap-4 items-start">
+                <div className="bg-accent/10 p-3 rounded-full text-accent flex-shrink-0">
+                  <FaClock className="text-xl" />
+                </div>
+                <div>
+                  <Typography variant="h4" className="text-primary mb-1">
+                    {t('info.businessHours')}
+                  </Typography>
+                  <Typography variant="body">Monday - Friday: 8:00 - 17:00</Typography>
+                  <Typography variant="body">Saturday: 9:00 - 13:00</Typography>
+                </div>
               </div>
             </div>
           </section>
         </div>
 
-        <section className="bg-warm-grey/30 py-16 text-center">
-          <h2 className="text-3xl md:text-4xl font-display text-primary mb-4">{t('map.title')}</h2>
-          <div className="container mx-auto max-w-5xl px-4 mt-4 rounded overflow-hidden shadow">
-            <iframe
-                title="AfriNuts Export Location"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3979.802935760472!2d-7.56000008436827!3d9.508000090520535!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zOcKwMzAnMzAuOCJOIDfCsDMzJzM2LjEiVw!5e0!3m2!1sen!2sus!4v1712345678901"
-                width="100%"
-                height="450"
-                style={{ border: 0 }}
-                allowFullScreen
-                loading="lazy"
-            ></iframe>
+        {/* Map Section */}
+        <Section className="bg-warm-grey/30 py-16">
+          <div className="container mx-auto text-center">
+            <Typography variant="h2" className="mb-4">
+              {t('map.title')}
+            </Typography>
+            <div className="mt-8 rounded-xl overflow-hidden shadow-xl">
+              <iframe
+                  title="AfriNuts Export Location"
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3979.802935760472!2d-7.56000008436827!3d9.508000090520535!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zOcKwMzAnMzAuOCJOIDfCsDMzJzM2LjEiVw!5e0!3m2!1sen!2sus!4v1712345678901"
+                  width="100%"
+                  height="450"
+                  className="border-0"
+                  allowFullScreen
+                  loading="lazy"
+              ></iframe>
+            </div>
           </div>
-        </section>
+        </Section>
       </div>
   );
 };

@@ -33,6 +33,7 @@ export default {
                 sans: ['Inter', 'sans-serif'],
                 display: ['"Playfair Display"', 'serif'],
                 subhead: ['"Open Sans"', 'sans-serif'],
+                accent: ['"Raleway"', 'sans-serif']
             },
             fontSize: {
                 'display-2xl': ['4.5rem', { lineHeight: '1.1', fontWeight: '700' }],
