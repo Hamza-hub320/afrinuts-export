@@ -6,11 +6,11 @@ import { fileURLToPath } from 'url'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 export default defineConfig({
-    base: process.env.NODE_ENV === 'production' ? '/afrinuts-export/' : '/',
+    base: '/afrinuts-export/',
     plugins: [react()],
     server: {
         host: true,
-        port: 5173
+
     },
     assetsInclude: ['**/*.jpg', '**/*.JPG', '**/*.png', '**/*.svg'],
     resolve: {
