@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { FaTree, FaMapMarkerAlt, FaCalendarAlt, FaLeaf, FaTint, FaUsers, FaChartLine, FaSeedling } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+import { FaTree, FaArrowRight, FaMapMarkerAlt, FaCalendarAlt, FaLeaf, FaTint, FaUsers, FaChartLine, FaSeedling } from 'react-icons/fa';
 import { GiFarmer, GiPlantWatering, GiFruitTree } from 'react-icons/gi';
 import { MdPrecisionManufacturing } from 'react-icons/md';
 import farmImage1 from '../assets/images/farm-1.jpg';
@@ -12,10 +13,9 @@ import { motion } from 'framer-motion';
 import { fadeIn, staggerContainer } from '@/utils/animations';
 import Section from "../components/Section/Section";
 import { Typography } from "../components/Typography/Typography";
-import FarmTimeline from '../components/FarmTimeline/FarmTimeline';
-import SustainabilityBadge from '../components/SustainabilityBadge/SustainabilityBadge';
 import ImageGallery from '../components/ImageGallery/ImageGallery';
 import StatsCounter from '../components/StatsCounter/StatsCounter';
+import { GlowingCard } from '../components/GlowingCard/GlowingCard';
 
 const Farm = () => {
     const { t } = useTranslation('farm');
@@ -103,6 +103,8 @@ const Farm = () => {
         { value: 10, label: t('impact.profits'), suffix: "%", icon: <FaChartLine /> }
     ];
 
+    const navigate = useNavigate();
+
     return (
         <div className="bg-background text-text-dark font-sans leading-relaxed">
             {/* Hero Section */}
@@ -135,7 +137,7 @@ const Farm = () => {
             </Section>
 
             {/* Farm Overview */}
-            <section className="py-20 px-6 bg-white">
+            <section className="py-16 px-6 bg-white">
                 <div className="max-w-6xl mx-auto">
                     <div className="text-center mb-16">
                         <Typography variant="h2" className="text-primary mb-4">
@@ -148,11 +150,7 @@ const Farm = () => {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
                         {farmStats.map((stat, index) => (
-                            <motion.div
-                                key={index}
-                                className="bg-afri-light rounded-lg shadow-lg p-6 text-center hover:shadow-xl transition-shadow duration-300"
-                                whileHover={{ y: -5 }}
-                            >
+                            <GlowingCard key={index}>
                                 <div className="text-orange-500 mb-4 flex justify-center">{stat.icon}</div>
                                 <Typography variant="h3" className="text-primary text-2xl font-bold mb-2">
                                     {stat.value}
@@ -160,7 +158,7 @@ const Farm = () => {
                                 <Typography variant="body" className="text-primary">
                                     {stat.label}
                                 </Typography>
-                            </motion.div>
+                            </GlowingCard>
                         ))}
                     </div>
 
@@ -171,11 +169,7 @@ const Farm = () => {
                         </Typography>
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                             {keyFeatures.map((feature, index) => (
-                                <motion.div
-                                    key={index}
-                                    className="bg-white border border-afri-light rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow duration-300"
-                                    whileHover={{ scale: 1.03 }}
-                                >
+                                <GlowingCard key={index} hoverEffect="scale">
                                     <div className="mb-4">{feature.icon}</div>
                                     <Typography variant="h4" className="text-primary mb-2">
                                         {feature.title}
@@ -183,55 +177,65 @@ const Farm = () => {
                                     <Typography variant="body" className="text-primary">
                                         {feature.description}
                                     </Typography>
-                                </motion.div>
+                                </GlowingCard>
                             ))}
                         </div>
                     </div>
                 </div>
             </section>
 
-            {/* Farm Development Timeline - Horizontal Version */}
-            <section className="py-20 px-6 bg-afri-light">
+            {/* Farm Development Timeline - Responsive Version */}
+            <section className="py-16 md:py-20 px-4 sm:px-6 bg-afri-light">
                 <div className="max-w-6xl mx-auto">
-                    <Typography variant="h2" className="text-primary text-center mb-16">
+                    <Typography variant="h2" className="text-primary text-center mb-8 md:mb-16">
                         {t('timeline.title')}
                     </Typography>
 
-                    <div className="relative">
-                        {/* Timeline line - updated to use accent color */}
-                        <div className="absolute left-0 right-0 top-1/2 h-1 bg-accent transform -translate-y-1/2"></div>
+                    {/* Mobile scroll indicator */}
+                    <div className="md:hidden text-center text-sm text-primary mb-4">
+                        ↓ Scroll to view timeline ↓
+                    </div>
 
-                        <div className="flex justify-between relative">
+                    <div className="relative">
+                        {/* Timeline line - hidden on mobile, visible on md+ */}
+                        <div className="hidden md:block absolute left-0 right-0 top-1/2 h-1 bg-accent transform -translate-y-1/2"></div>
+
+                        {/* Timeline container - horizontal scroll on mobile, normal row on desktop */}
+                        <div className="flex md:flex-row flex-nowrap overflow-x-auto pb-4 md:pb-0 md:overflow-visible gap-8 md:gap-0 relative">
                             {timelineData.map((item, index) => (
                                 <motion.div
                                     key={index}
-                                    className="flex flex-col items-center w-1/3 px-4"
+                                    className="flex flex-col items-center w-[280px] flex-shrink-0 md:w-1/3 px-0 md:px-4"
                                     initial="hidden"
                                     whileInView="visible"
                                     variants={fadeIn}
                                     viewport={{ once: true }}
                                 >
-                                    {/* Year marker - updated with accent colors */}
+
+
+                                    {/* Year marker with touch target */}
                                     <div className={`
-              w-20 h-20 rounded-full flex items-center justify-center 
-              font-display text-xl font-bold border-4 shadow-lg mb-4 z-10
-              bg-white text-accent border-accent
-              transition-all duration-300 hover:scale-110
-            `}>
+                            w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center 
+                            font-display text-lg md:text-xl font-bold border-4 shadow-lg mb-4 z-10
+                            bg-white text-accent border-accent
+                            transition-all duration-300 md:hover:scale-110
+                            touch-target
+                            relative
+                        `}>
                                         {item.year}
                                     </div>
 
                                     {/* Content card */}
-                                    <div className="bg-white p-6 rounded-xl shadow-lg w-full mt-8 border border-gray-100">
-                                        <div className="flex items-center gap-3 mb-4">
-                                            <div className="text-accent text-xl">
+                                    <div className="bg-white p-4 md:p-6 rounded-xl shadow-lg w-full md:mt-8 border border-gray-100">
+                                        <div className="flex items-center gap-3 mb-3 md:mb-4">
+                                            <div className="text-accent text-lg md:text-xl">
                                                 {item.icon}
                                             </div>
-                                            <Typography variant="h4" className="text-primary">
+                                            <Typography variant="h4" className="text-primary text-lg md:text-xl">
                                                 {item.title}
                                             </Typography>
                                         </div>
-                                        <Typography variant="body">
+                                        <Typography variant="body" className="text-sm md:text-base">
                                             {item.description}
                                         </Typography>
                                     </div>
@@ -243,7 +247,7 @@ const Farm = () => {
             </section>
 
             {/* Impact Section */}
-            <section className="py-20 px-6 bg-afri-primary text-white">
+            <section className="py-16 px-6 bg-afri-primary text-white">
                 <div className="max-w-6xl mx-auto">
                     <Typography variant="h2" className="text-center text-primary mb-16">
                         {t('impact.title')}
@@ -274,7 +278,7 @@ const Farm = () => {
 
 
             {/* Gallery Section */}
-            <section className="py-20 px-6 bg-white">
+            <section className="py-16 px-6 bg-white">
                 <div className="max-w-6xl mx-auto">
                     <Typography variant="h2" className="text-primary text-center mb-16">
                         {t('gallery.title')}
@@ -297,19 +301,24 @@ const Farm = () => {
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         {sustainabilityPractices.map((practice, index) => (
-                            <SustainabilityBadge
-                                key={index}
-                                icon={practice.icon}
-                                title={practice.title}
-                                description={practice.description}
-                            />
+                            <GlowingCard key={index}>
+                                <div className="flex flex-col items-center text-center h-full">
+                                    <div className="text-accent text-3xl mb-4">{practice.icon}</div>
+                                    <Typography variant="h4" className="text-primary mb-2">
+                                        {practice.title}
+                                    </Typography>
+                                    <Typography variant="body" className="text-primary">
+                                        {practice.description}
+                                    </Typography>
+                                </div>
+                            </GlowingCard>
                         ))}
                     </div>
                 </div>
             </section>
 
             {/* Call to Action */}
-            <section className="py-20 px-6 bg-afri-secondary text-white">
+            <section className="py-16 px-6 bg-afri-secondary text-white">
                 <div className="max-w-4xl mx-auto text-center">
                     <Typography variant="h2" className="mb-6">
                         {t('cta.title')}
@@ -318,11 +327,13 @@ const Farm = () => {
                         {t('cta.description')}
                     </Typography>
                     <motion.button
-                        className="mt-6 group bg-accent hover:bg-dark-orange text-white px-6 py-2 rounded-full transition-all duration-300 inline-flex items-center mx-auto"
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
+                        className="group bg-accent hover:bg-dark-orange text-white px-8 py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg inline-flex items-center mx-auto"
+                        onClick={() => navigate('/contact')}  // Fixed this line
                     >
                         {t('cta.button')}
+                        <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
                     </motion.button>
                 </div>
             </section>

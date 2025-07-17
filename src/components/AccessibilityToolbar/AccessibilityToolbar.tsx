@@ -18,7 +18,7 @@ const AccessibilityToolbar = () => {
 
     if (savedContrast === 'true') {
       setHighContrast(true);
-      document.body.classList.add('high-contrast');
+      document.documentElement.classList.add('high-contrast');
     }
   }, []);
 
@@ -32,7 +32,7 @@ const AccessibilityToolbar = () => {
   const toggleContrast = () => {
     const newContrast = !highContrast;
     setHighContrast(newContrast);
-    document.body.classList.toggle('high-contrast');
+    document.documentElement.classList.toggle('high-contrast');
     localStorage.setItem('highContrastMode', newContrast.toString());
   };
 

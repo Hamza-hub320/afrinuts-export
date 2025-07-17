@@ -22,16 +22,60 @@ import farmImage from '../assets/images/farm.jpg';
 import productsImage from '../assets/images/products.jpg';
 import sustainabilityImage from '../assets/images/sustainability.jpg';
 import newsImage from '../assets/images/news.jpg';
+import {ProductCard} from '../components/ProductCard/ProductCard';
+import { NewsCard } from '../components/NewsCard/NewsCard';
+
+
+const newsItems = [
+    {
+        title: "Record-Breaking Cashew Yields",
+        date: "June 2024",
+        category: "Harvest Report",
+        description: "Our farm achieves highest-ever production with sustainable methods",
+        image: newsImage
+    },
+    {
+        title: "New Solar-Powered Processing",
+        date: "May 2024",
+        category: "Sustainability",
+        description: "We've installed solar panels to power our processing facility",
+        image: farmImage
+    },
+    {
+        title: "Introducing Organic Cashew Butter",
+        date: "April 2024",
+        category: "Product News",
+        description: "Our newest product line now available in European markets",
+        image: productsImage
+    }
+];
 
 const Home: React.FC = () => {
     const { t } = useTranslation('home');
     const navigate = useNavigate();
+
+    // Define product data and mappings
+    const productImageMap = {
+        'raw-cashews': productsImage,
+        'organic-cashews': sustainabilityImage,
+        'value-added': farmImage
+    };
+
+    const iconMap = {
+        'raw-cashews': FaSeedling,
+        'organic-cashews': FaLeaf,
+        'value-added': FaGlobeAfrica
+    };
 
     const scrollToSection = (sectionId: string) => {
         const section = document.getElementById(sectionId);
         if (section) {
             section.scrollIntoView({ behavior: 'smooth' });
         }
+    };
+
+    const handleContactClick = () => {
+        navigate('/contact');
     };
 
     return (
@@ -100,7 +144,7 @@ const Home: React.FC = () => {
             </section>
 
             {/* 2. About Preview Section */}
-            <Section id="about-preview" className="bg-background py-24 -mt-1">
+            <Section id="about-preview" className="bg-background py-16 -mt-1">
                 <motion.div
                     className="container mx-auto px-6"
                     initial="hidden"
@@ -142,7 +186,7 @@ const Home: React.FC = () => {
             </Section>
 
             {/* 3. Products Showcase */}
-            <Section className="py-24 bg-background">
+            <Section className="py-16 bg-background">
                 <div className="container mx-auto px-6">
                     <motion.div
                         className="text-center mb-16"
@@ -166,86 +210,63 @@ const Home: React.FC = () => {
                         whileInView="visible"
                         viewport={{ once: true }}
                     >
-                        {/* Product Card 1 */}
-                        <motion.div
-                            className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300"
-                            variants={slideInFromLeft}
-                            whileHover={{ y: -10 }}
-                        >
-                            <div className="h-64 bg-cover bg-center" style={{ backgroundImage: `url(${productsImage})` }} />
-                            <div className="p-8">
-                                <div className="text-accent text-3xl mb-4">
-                                    <FaSeedling />
-                                </div>
-                                <Typography variant="h4" className="mb-4">
-                                    Raw Cashews
-                                </Typography>
-                                <Typography variant="body" className="mb-6">
-                                    Premium quality raw cashews, carefully selected and packed for export
-                                </Typography>
-                                <button
-                                    className="text-accent font-medium inline-flex items-center group"
-                                    onClick={() => navigate('/products')}
-                                >
-                                    View options
-                                    <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
-                                </button>
-                            </div>
-                        </motion.div>
+                        <ProductCard
+                            product={{
+                                name: "Raw Cashews",
+                                description: "Premium quality raw cashews, carefully selected and packed for export",
+                                icon: "raw-cashews",
+                                backgroundImage: "raw-cashews",
+                                features: [
+                                    "Direct from our 50-hectare farm",
+                                    "Premium grade selection",
+                                    "Sustainable farming practices",
+                                    "Ethically sourced"
+                                ],
+                                available: true
+                            }}
+                            handleContactClick={handleContactClick}
+                            productImageMap={productImageMap}
+                            iconMap={iconMap}
+                        />
 
-                        {/* Product Card 2 */}
-                        <motion.div
-                            className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300"
-                            variants={scaleUp}
-                            whileHover={{ y: -10 }}
-                        >
-                            <div className="h-64 bg-cover bg-center" style={{ backgroundImage: `url(${sustainabilityImage})` }} />
-                            <div className="p-8">
-                                <div className="text-accent text-3xl mb-4">
-                                    <FaLeaf />
-                                </div>
-                                <Typography variant="h4" className="mb-4">
-                                    Organic Cashews
-                                </Typography>
-                                <Typography variant="body" className="mb-6">
-                                    Certified organic cashews grown without synthetic pesticides or fertilizers
-                                </Typography>
-                                <button
-                                    className="text-accent font-medium inline-flex items-center group"
-                                    onClick={() => navigate('/products')}
-                                >
-                                    Learn more
-                                    <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
-                                </button>
-                            </div>
-                        </motion.div>
+                        <ProductCard
+                            product={{
+                                name: "Organic Cashews",
+                                description: "Certified organic cashews grown without synthetic pesticides or fertilizers",
+                                icon: "organic-cashews",
+                                backgroundImage: "organic-cashews",
+                                features: [
+                                    "100% organic certified",
+                                    "No synthetic chemicals",
+                                    "Higher nutritional value",
+                                    "Environmentally friendly"
+                                ],
+                                available: true
+                            }}
+                            handleContactClick={handleContactClick}
+                            productImageMap={productImageMap}
+                            iconMap={iconMap}
+                        />
 
-                        {/* Product Card 3 */}
-                        <motion.div
-                            className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300"
-                            variants={slideInFromRight}
-                            whileHover={{ y: -10 }}
-                        >
-                            <div className="h-64 bg-cover bg-center" style={{ backgroundImage: `url(${farmImage})` }} />
-                            <div className="p-8">
-                                <div className="text-accent text-3xl mb-4">
-                                    <FaGlobeAfrica />
-                                </div>
-                                <Typography variant="h4" className="mb-4">
-                                    Value-Added Products
-                                </Typography>
-                                <Typography variant="body" className="mb-6">
-                                    Roasted cashews, cashew butter, and other premium processed products
-                                </Typography>
-                                <button
-                                    className="text-accent font-medium inline-flex items-center group"
-                                    onClick={() => navigate('/products')}
-                                >
-                                    Discover more
-                                    <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
-                                </button>
-                            </div>
-                        </motion.div>
+                        <ProductCard
+                            product={{
+                                name: "Value-Added Products",
+                                description: "Roasted cashews, cashew butter, and other premium processed products",
+                                icon: "value-added",
+                                backgroundImage: "value-added",
+                                features: [
+                                    "Premium roasted cashews",
+                                    "Organic cashew butter",
+                                    "Cashew milk powder",
+                                    "Coming soon: Cashew oil"
+                                ],
+                                available: false,
+                                comingSoon: "Available Q1 2025"
+                            }}
+                            handleContactClick={handleContactClick}
+                            productImageMap={productImageMap}
+                            iconMap={iconMap}
+                        />
                     </motion.div>
 
                     <motion.div
@@ -269,7 +290,7 @@ const Home: React.FC = () => {
             </Section>
 
             {/* 4. Farm Story */}
-            <Section className="py-24 bg-background text-text-dark">
+            <Section className="py-16 bg-background text-text-dark">
                 <div className="container mx-auto px-6">
                     <div className="flex flex-col lg:flex-row items-center gap-16">
                         <motion.div
@@ -344,7 +365,7 @@ const Home: React.FC = () => {
             </Section>
 
             {/* 5. Sustainability */}
-            <Section className="py-24 bg-background">
+            <Section className="py-16 bg-background">
                 <div className="container mx-auto px-6">
                     <motion.div
                         className="bg-white rounded-3xl shadow-2xl overflow-hidden"
@@ -422,7 +443,7 @@ const Home: React.FC = () => {
             </Section>
 
             {/* 6. News & Updates */}
-            <Section className="py-24 bg-white">
+            <Section className="py-16 bg-white">
                 <div className="container mx-auto px-6">
                     <motion.div
                         className="text-center mb-16"
@@ -440,92 +461,44 @@ const Home: React.FC = () => {
                     </motion.div>
 
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        <motion.div
-                            className="bg-background rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300"
-                            whileHover={{ y: -10 }}
-                            initial="hidden"
-                            whileInView="visible"
-                            viewport={{ once: true }}
+                        {/* News Card 1 */}
+                        <NewsCard
+                            newsItem={{
+                                title: "Record-Breaking Cashew Yields",
+                                date: "June 2024",
+                                category: "Harvest Report",
+                                description: "Our farm achieves highest-ever production with sustainable methods",
+                                image: newsImage
+                            }}
+                            onClick={() => navigate('/news')}
                             variants={slideInFromLeft}
-                        >
-                            <div className="h-64 bg-cover bg-center" style={{ backgroundImage: `url(${newsImage})` }} />
-                            <div className="p-8">
-                                <div className="text-accent text-sm font-medium mb-2">
-                                    Harvest Report • June 2024
-                                </div>
-                                <Typography variant="h4" className="mb-4">
-                                    Record-Breaking Cashew Yields
-                                </Typography>
-                                <Typography variant="body" className="mb-6">
-                                    Our farm achieves highest-ever production with sustainable methods
-                                </Typography>
-                                <button
-                                    className="text-accent font-medium inline-flex items-center group"
-                                    onClick={() => navigate('/news')}
-                                >
-                                    Read more
-                                    <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
-                                </button>
-                            </div>
-                        </motion.div>
+                        />
 
-                        <motion.div
-                            className="bg-background rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300"
-                            whileHover={{ y: -10 }}
-                            initial="hidden"
-                            whileInView="visible"
-                            viewport={{ once: true }}
+                        {/* News Card 2 */}
+                        <NewsCard
+                            newsItem={{
+                                title: "New Solar-Powered Processing",
+                                date: "May 2024",
+                                category: "Sustainability",
+                                description: "We've installed solar panels to power our processing facility",
+                                image: farmImage
+                            }}
+                            onClick={() => navigate('/news')}
                             variants={scaleUp}
-                        >
-                            <div className="h-64 bg-cover bg-center" style={{ backgroundImage: `url(${farmImage})` }} />
-                            <div className="p-8">
-                                <div className="text-accent text-sm font-medium mb-2">
-                                    Sustainability • May 2024
-                                </div>
-                                <Typography variant="h4" className="mb-4">
-                                    New Solar-Powered Processing
-                                </Typography>
-                                <Typography variant="body" className="mb-6">
-                                    We've installed solar panels to power our processing facility
-                                </Typography>
-                                <button
-                                    className="text-accent font-medium inline-flex items-center group"
-                                    onClick={() => navigate('/news')}
-                                >
-                                    Read more
-                                    <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
-                                </button>
-                            </div>
-                        </motion.div>
+                        />
 
-                        <motion.div
-                            className="bg-background rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300"
-                            whileHover={{ y: -10 }}
-                            initial="hidden"
-                            whileInView="visible"
-                            viewport={{ once: true }}
+                        {/* News Card 3 */}
+                        <NewsCard
+                            newsItem={{
+                                title: "Introducing Organic Cashew Butter",
+                                date: "April 2024",
+                                category: "Product News",
+                                description: "Our newest product line now available in European markets",
+                                image: productsImage
+                            }}
+                            onClick={() => navigate('/news')}
                             variants={slideInFromRight}
-                        >
-                            <div className="h-64 bg-cover bg-center" style={{ backgroundImage: `url(${productsImage})` }} />
-                            <div className="p-8">
-                                <div className="text-accent text-sm font-medium mb-2">
-                                    Product News • April 2024
-                                </div>
-                                <Typography variant="h4" className="mb-4">
-                                    Introducing Organic Cashew Butter
-                                </Typography>
-                                <Typography variant="body" className="mb-6">
-                                    Our newest product line now available in European markets
-                                </Typography>
-                                <button
-                                    className="text-accent font-medium inline-flex items-center group"
-                                    onClick={() => navigate('/news')}
-                                >
-                                    Read more
-                                    <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
-                                </button>
-                            </div>
-                        </motion.div>
+                        />
                     </div>
 
                     <motion.div
@@ -549,7 +522,7 @@ const Home: React.FC = () => {
             </Section>
 
             {/* 7. Contact CTA */}
-            <Section className="py-24 bg-white text-text-dark relative overflow-hidden">
+            <Section className="py-16 bg-white text-text-dark relative overflow-hidden">
                 <div className="relative z-10 container mx-auto px-6 text-center">
                     <motion.div
                         className="max-w-4xl mx-auto"

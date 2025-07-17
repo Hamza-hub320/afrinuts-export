@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, {useRef, useState, useEffect, useMemo} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
@@ -32,6 +32,11 @@ const productImageMap: Record<string, string> = {
     'raw-cashew.jpg': rawCashewImage,
 };
 
+interface ProductVariant {
+    name: string;
+    priceRange: string;
+}
+
 interface Product {
     name: string;
     description: string;
@@ -42,6 +47,7 @@ interface Product {
     comingSoon?: string;
     certifications?: string[];
     variants?: { name: string; priceRange: string }[];
+    height?: string;
 }
 
 const iconMap = {
@@ -58,12 +64,27 @@ const Products: React.FC = () => {
     const scrollRef = useRef<HTMLDivElement>(null);
     const [activeFilter, setActiveFilter] = useState<'all' | 'available' | 'coming-soon'>('all');
 
-    // Filter products based on category
-    const filteredProducts = activeFilter === 'all'
-        ? products
-        : activeFilter === 'available'
-            ? products.filter(product => product.available)
-            : products.filter(product => !product.available);
+    // Properly typed filter function
+    const filteredProducts = useMemo(() => {
+        if (!Array.isArray(products)) return [];
+
+        const clonedProducts = [...products]; // avoid stale reference
+
+        switch (activeFilter) {
+            case 'available':
+                return clonedProducts.filter((product: Product) => product.available === true);
+            case 'coming-soon':
+                return clonedProducts.filter((product: Product) => product.available === false);
+            case 'all':
+            default:
+                return clonedProducts;
+        }
+    }, [products, activeFilter]);
+
+    const handleContactClick = () => {
+        navigate('/contact');
+    };
+
 
     return (
         <main className="bg-background">
@@ -97,7 +118,7 @@ const Products: React.FC = () => {
             </Section>
 
             {/* Product Categories Filter */}
-            <Section className="py-12 bg-white shadow-sm">
+            <Section className="py-16 bg-white shadow-sm">
                 <div className="container mx-auto px-6">
                     <motion.div
                         className="flex flex-wrap justify-center gap-4"
@@ -117,8 +138,6 @@ const Products: React.FC = () => {
                                 }`}
                                 onClick={() => {
                                     setActiveFilter(filter as 'all' | 'available' | 'coming-soon');
-                                    // Scroll to top when changing filters
-                                    window.scrollTo({ top: 0, behavior: 'smooth' });
                                 }}
                             >
                                 {t(`filters.${filter}`)}
@@ -129,22 +148,8 @@ const Products: React.FC = () => {
             </Section>
 
             {/* Featured Products Grid */}
-            <Section className="py-20 bg-background">
+            <Section className="py-16 bg-background">
                 <div className="container mx-auto px-6">
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true, margin: "-100px" }}
-                        variants={fadeIn}
-                    >
-                        <Typography variant="h2" className="text-center text-primary mb-4">
-                            {t('featured.title')}
-                        </Typography>
-                        <Typography variant="subtitle" className="text-center max-w-2xl mx-auto mb-12">
-                            {t('featured.subtitle')}
-                        </Typography>
-                    </motion.div>
-
                     <motion.div
                         className="grid md:grid-cols-3 gap-8"
                         initial="hidden"
@@ -152,75 +157,32 @@ const Products: React.FC = () => {
                         viewport={{ once: true, margin: "-100px" }}
                         variants={staggerContainer}
                     >
-                        {filteredProducts.slice(0, 3).map((product, index) => {
-                            const IconComponent = iconMap[product.icon];
-                            const imageSrc = productImageMap[product.backgroundImage];
-
-                            return (
-                                <motion.div
-                                    key={`featured-${index}`}
-                                    className="bg-white rounded-2xl shadow-lg overflow-hidden"
-                                    variants={index % 2 === 0 ? slideInFromLeft : slideInFromRight}
-                                    initial="hidden"
-                                    whileInView="visible"
-                                >
-                                    <div className="h-48 bg-gray-100 overflow-hidden">
-                                        <img
-                                            src={imageSrc}
-                                            alt={product.name}
-                                            className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-                                        />
-                                    </div>
-                                    <div className="p-6">
-                                        <div className="flex items-center mb-4">
-                                            <div className="bg-accent/10 p-3 rounded-full mr-4">
-                                                {IconComponent && <IconComponent className="text-accent text-xl" />}
-                                            </div>
-                                            <Typography variant="h4" className="mb-0">
-                                                {product.name}
-                                            </Typography>
-                                        </div>
-                                        <Typography variant="body" className="text-text-dark mb-4">
-                                            {product.description}
-                                        </Typography>
-                                        {product.available ? (
-                                            <button
-                                                className="mt-4 group bg-accent hover:bg-accent-dark text-white px-6 py-2 rounded-lg transition-all duration-300 font-medium flex items-center justify-center"
-                                                onClick={() => navigate('/contact')}
-                                            >
-                                                Request Quote
-                                                <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
-                                            </button>
-                                        ) : (
-                                            <div className="text-center py-2 bg-gray-100 rounded-lg">
-                                                <span className="text-text-dark font-medium">{product.comingSoon}</span>
-                                            </div>
-                                        )}
-                                    </div>
-                                </motion.div>
-                            );
-                        })}
+                        {filteredProducts.slice(0, 3).map((product: Product, index: number) => (
+                            <ProductCard
+                                key={`featured-${index}`}
+                                product={{
+                                    ...product,
+                                    height: 'h-48',
+                                    features: product.features || [
+                                        `Premium quality ${product.name.toLowerCase()}`,
+                                        product.available ? 'Available now' : 'Coming soon',
+                                        ...(product.certifications || []),
+                                    ],
+                                }}
+                                productImageMap={productImageMap}
+                                iconMap={iconMap}
+                                handleContactClick={handleContactClick}
+                                variants={index % 2 === 0 ? slideInFromLeft : slideInFromRight}
+                                compact={false}
+                            />
+                        ))}
                     </motion.div>
                 </div>
             </Section>
 
             {/* Full Product Showcase */}
-            <Section className="py-20 bg-white">
+            <Section className="py-16 bg-white">
                 <div className="container mx-auto px-6">
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={fadeIn}
-                    >
-                        <Typography variant="h2" className="text-center text-text-dark mb-4">
-                            {t('fullRange.title')}
-                        </Typography>
-                        <Typography variant="subtitle" className="text-center max-w-2xl mx-auto mb-12">
-                            {t('fullRange.subtitle')}
-                        </Typography>
-                    </motion.div>
-
                     <div className="relative">
                         <motion.div
                             ref={scrollRef}
@@ -230,61 +192,33 @@ const Products: React.FC = () => {
                             viewport={{ once: true, margin: "-100px" }}
                             variants={staggerContainer}
                         >
-                            {filteredProducts.map((product, index) => {
-                                const IconComponent = iconMap[product.icon];
-                                const imageSrc = productImageMap[product.backgroundImage];
-
-                                return (
-                                    <motion.div
-                                        key={`full-${index}`}
-                                        className="bg-white rounded-2xl shadow-lg overflow-hidden"
-                                        variants={fadeIn}
-                                        initial="hidden"
-                                        whileInView="visible"
-                                    >
-                                        <div className="h-48 bg-gray-100 overflow-hidden">
-                                            <img
-                                                src={imageSrc}
-                                                alt={product.name}
-                                                className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
-                                            />
-                                        </div>
-                                        <div className="p-6">
-                                            <div className="flex items-center mb-4">
-                                                <div className="bg-accent/10 p-3 rounded-full mr-4">
-                                                    {IconComponent && <IconComponent className="text-accent text-xl" />}
-                                                </div>
-                                                <Typography variant="h4" className="mb-0">
-                                                    {product.name}
-                                                </Typography>
-                                            </div>
-                                            <Typography variant="body" className="text-text-dark mb-4">
-                                                {product.description}
-                                            </Typography>
-                                            {product.available ? (
-                                                <button
-                                                    className="mt-4 group bg-accent hover:bg-accent-dark text-white px-6 py-2 rounded-lg transition-all duration-300 font-medium flex items-center justify-center"
-                                                    onClick={() => navigate('/contact')}
-                                                >
-                                                    Request Quote
-                                                    <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
-                                                </button>
-                                            ) : (
-                                                <div className="text-center py-2 bg-gray-100 rounded-lg">
-                                                    <span className="text-text-dark font-medium">{product.comingSoon}</span>
-                                                </div>
-                                            )}
-                                        </div>
-                                    </motion.div>
-                                );
-                            })}
+                            {filteredProducts.map((product: Product, index: number) => (
+                                <ProductCard
+                                    key={`full-${index}`}
+                                    product={{
+                                        ...product,
+                                        height: 'h-48',
+                                        features: product.features || [
+                                            `Premium quality ${product.name.toLowerCase()}`,
+                                            product.available ? 'Available now' : 'Coming soon',
+                                            ...(product.certifications || []),
+                                            ...(product.variants?.map((v: ProductVariant) => v.name) || [])
+                                        ],
+                                    }}
+                                    productImageMap={productImageMap}
+                                    iconMap={iconMap}
+                                    handleContactClick={handleContactClick}
+                                    variants={fadeIn}
+                                    compact={false}
+                                />
+                            ))}
                         </motion.div>
                     </div>
                 </div>
             </Section>
 
             {/* Our Process Section */}
-            <Section className="py-20 bg-gradient-to-br from-background to-primary/10">
+            <Section className="py-16 bg-gradient-to-br from-background to-primary/10">
                 <div className="container mx-auto px-6">
                     <motion.div
                         initial="hidden"
@@ -356,7 +290,7 @@ const Products: React.FC = () => {
             </Section>
 
             {/* Quality Assurance */}
-            <Section className="py-20 bg-white">
+            <Section className="py-16 bg-white">
                 <div className="container mx-auto px-6">
                     <div className="flex flex-col lg:flex-row gap-12 items-center">
                         <motion.div
@@ -407,7 +341,7 @@ const Products: React.FC = () => {
             </Section>
 
             {/* Certifications */}
-            <Section className="py-20 bg-background">
+            <Section className="py-16 bg-background">
                 <div className="container mx-auto px-6">
                     <motion.div
                         initial="hidden"
@@ -449,7 +383,7 @@ const Products: React.FC = () => {
             </Section>
 
             {/* CTA Section */}
-            <Section className="py-20 bg-primary text-white">
+            <Section className="py-16 bg-primary text-white">
                 <motion.div
                     className="container mx-auto px-6 text-center"
                     initial="hidden"

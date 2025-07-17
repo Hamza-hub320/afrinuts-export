@@ -24,7 +24,7 @@ const variantClasses: {
     h2: string;
     h3: string;
     h4: string;
-    subtitle?: string;
+    subtitle: string;
     subhead: string;
     body: string;
     small: string

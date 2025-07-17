@@ -13,6 +13,7 @@ import ceoImage from '../assets/images/ceo.jpg';
 import cfoImage from '../assets/images/cfo.jpg';
 import farmImage from '../assets/images/cashew-farm.jpg';
 import {Typography} from "../components/Typography/Typography";
+import { InfoCard } from '../components/InfoCard/InfoCard';
 
 const About: React.FC = () => {
   const {t} = useTranslation('about');
@@ -24,7 +25,7 @@ const About: React.FC = () => {
             fullHeight={false}
             bgImage={farmImage}
             overlay
-            overlayColor="bg-primary/"
+            overlayColor="bg-primary/20"
             className="flex items-end justify-start text-center min-h-[50vh] md:min-h-[60vh] pb-12 px-6"
         >
           <motion.div
@@ -49,7 +50,7 @@ const About: React.FC = () => {
         </Section>
 
         {/* Leadership Section */}
-        <Section className="py-24 bg-white">
+        <Section className="py-16 bg-white">
           <div className="container mx-auto px-6">
             <div className="text-center mb-16">
             <span className="font-subhead text-accent tracking-widest text-sm uppercase block mb-2">
@@ -96,7 +97,6 @@ const About: React.FC = () => {
                   whileInView="visible"
                   viewport={{once: true}}
                   variants={fadeIn}
-                  transition={{delay: 0.2}}
               >
                 <div className="bg-background rounded-3xl shadow-lg overflow-hidden">
                   <div className="p-8 md:p-12">
@@ -129,7 +129,7 @@ const About: React.FC = () => {
         </Section>
 
         {/* Brand Statement */}
-        <Section className="py-24 bg-background text-text-dark ">
+        <Section className="py-10 bg-white text-center text-text-dark ">
           <motion.div
               className="container mx-auto px-6"
               initial="hidden"
@@ -147,7 +147,7 @@ const About: React.FC = () => {
         </Section>
 
         {/* Vision, Mission, Values */}
-        <Section className="py-24 bg-white">
+        <Section className="py-16 bg-white">
           <div className="container mx-auto px-6">
             <motion.div
                 initial="hidden"
@@ -165,52 +165,24 @@ const About: React.FC = () => {
               </div>
 
               <div className="grid md:grid-cols-3 gap-8 mb-24">
-                <motion.div
-                    className="bg-background rounded-3xl shadow-lg p-8 hover:shadow-xl transition-shadow"
-                    variants={fadeIn}
-                >
-                  <div className="text-accent text-4xl mb-4">
-                    <FaGlobe/>
-                  </div>
-                  <h3 className="font-display text-2xl text-primary mb-4">
-                    {t('vmv.vision.title')}
-                  </h3>
-                  <p className="text-text-dark">
-                    {t('vmv.vision.text')}
-                  </p>
-                </motion.div>
-
-                <motion.div
-                    className="bg-background rounded-3xl shadow-lg p-8"
-                    variants={fadeIn}
-                    transition={{delay: 0.1}}
-                >
-                  <div className="text-accent text-4xl mb-4">
-                    <FaRocket/>
-                  </div>
-                  <h3 className="font-display text-2xl text-primary mb-4">
-                    {t('vmv.mission.title')}
-                  </h3>
-                  <p className="text-text-dark">
-                    {t('vmv.mission.text')}
-                  </p>
-                </motion.div>
-
-                <motion.div
-                    className="bg-background rounded-3xl shadow-lg p-8 hover:shadow-xl transition-shadow"
-                    variants={fadeIn}
-                    transition={{delay: 0.2}}
-                >
-                  <div className="text-accent text-4xl mb-4">
-                    <FaHandshake/>
-                  </div>
-                  <h3 className="font-display text-2xl text-primary mb-4">
-                    {t('vmv.values.title')}
-                  </h3>
-                  <p className="text-text-dark">
-                    {t('vmv.values.text')}
-                  </p>
-                </motion.div>
+                <InfoCard
+                    icon={FaGlobe}
+                    title={t('vmv.vision.title')}
+                    description={t('vmv.vision.text')}
+                    iconColor="text-accent"
+                />
+                <InfoCard
+                    icon={FaRocket}
+                    title={t('vmv.mission.title')}
+                    description={t('vmv.mission.text')}
+                    iconColor="text-accent"
+                />
+                <InfoCard
+                    icon={FaHandshake}
+                    title={t('vmv.values.title')}
+                    description={t('vmv.values.text')}
+                    iconColor="text-accent"
+                />
               </div>
             </motion.div>
 
@@ -228,62 +200,31 @@ const About: React.FC = () => {
               </div>
 
               <div className="flex flex-col lg:flex-row gap-8 justify-center items-stretch">
-                <motion.div
-                    className="bg-green-50 rounded-3xl shadow-lg p-8 flex-1 max-w-md"
-                    variants={fadeIn}
-                    whileHover={{y: -5}}
-                >
-                  <div className="text-accent text-4xl mb-4">
-                    <FaHandsHelping/>
-                  </div>
-                  <h3 className="font-display text-2xl text-primary mb-4">
-                    {t('community.cards.pledge.title')}
-                  </h3>
-                  <p className="text-text-dark">
-                    {t('community.cards.pledge.text')}
-                  </p>
-                </motion.div>
-
-                <motion.div
-                    className="bg-blue-50 rounded-3xl shadow-lg p-8 flex-1 max-w-md"
-                    variants={fadeIn}
-                    transition={{delay: 0.1}}
-                    whileHover={{y: -5}}
-                >
-                  <div className="text-accent text-4xl mb-4">
-                    <FaWater/>
-                  </div>
-                  <h3 className="font-display text-2xl text-primary mb-4">
-                    {t('community.cards.water.title')}
-                  </h3>
-                  <p className="text-text-dark">
-                    {t('community.cards.water.text')}
-                  </p>
-                </motion.div>
-
-                <motion.div
-                    className="bg-orange-50 rounded-3xl shadow-lg p-8 flex-1 max-w-md"
-                    variants={fadeIn}
-                    transition={{delay: 0.2}}
-                    whileHover={{y: -5}}
-                >
-                  <div className="text-accent text-4xl mb-4">
-                    <FaMosque/>
-                  </div>
-                  <h3 className="font-display text-2xl text-primary mb-4">
-                    {t('community.cards.religion.title')}
-                  </h3>
-                  <p className="text-text-dark">
-                    {t('community.cards.religion.text')}
-                  </p>
-                </motion.div>
+                <InfoCard
+                    icon={FaHandsHelping}
+                    title={t('community.cards.pledge.title')}
+                    description={t('community.cards.pledge.text')}
+                    iconColor="text-accent"
+                />
+                <InfoCard
+                    icon={FaWater}
+                    title={t('community.cards.water.title')}
+                    description={t('community.cards.water.text')}
+                    iconColor="text-accent"
+                />
+                <InfoCard
+                    icon={FaMosque}
+                    title={t('community.cards.religion.title')}
+                    description={t('community.cards.religion.text')}
+                    iconColor="text-accent"
+                />
               </div>
             </motion.div>
           </div>
         </Section>
 
         {/* Farm Section */}
-        <Section className="py-24 bg-background">
+        <Section className="py-16 bg-background">
           <div className="container mx-auto px-6">
             <div className="flex flex-col lg:flex-row gap-16 items-center">
               <motion.div
@@ -336,7 +277,7 @@ const About: React.FC = () => {
         </Section>
 
         {/* Legacy Timeline */}
-        <Section className="py-24 bg-background text-text-dark">
+        <Section className="py-16 bg-background text-text-dark">
           <div className="container mx-auto px-6">
             <motion.div
                 className="text-center mb-16"

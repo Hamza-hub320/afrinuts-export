@@ -8,7 +8,16 @@ const Navbar: React.FC = () => {
   const { t, i18n } = useTranslation('common');
   const location = useLocation();
   const [click, setClick] = useState<boolean>(false);
+  const [scrolled, setScrolled] = useState<boolean>(false);
   const [languageLabel, setLanguageLabel] = useState<string>('');
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 10);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const toggleLanguage = () => {
     const newLang = i18n.language === 'en' ? 'fr' : 'en';
@@ -46,18 +55,22 @@ const Navbar: React.FC = () => {
   };
 
   return (
-      <nav className="fixed top-3 left-3 right-3 z-50">
-        <div className="border border-gray-300 rounded-2xl bg-white shadow-lg mx-auto max-w-7xl">
-          <div className="flex justify-between items-center h-16 px-4 sm:px-6 lg:px-8">
+      <nav className={`fixed top-3 left-3 right-3 z-50 transition-all duration-300 ${scrolled ? 'scale-[0.98]' : ''}`}>
+        <div className={`border border-gray-300 rounded-2xl bg-white shadow-lg mx-auto max-w-7xl transition-all duration-300 ${scrolled ? 'shadow-xl' : ''}`}>
+          <div className="flex justify-between items-center h-20 px-4 sm:px-6 lg:px-8">
             {/* Logo Section */}
             <div className="flex-shrink-0 flex items-center">
-              <Link to="/" className="flex items-center" onClick={closeMobileMenu}>
+              <Link
+                  to="/"
+                  className="flex items-center group"
+                  onClick={closeMobileMenu}
+              >
                 <img
                     src={logo}
                     alt="AfriNuts Export Logo"
-                    className="h-8 w-auto"
+                    className="h-16 w-auto transition-transform duration-300 group-hover:scale-105"
                 />
-                <span className="ml-2 text-xl font-bold text-primary">
+                <span className="ml-2 text-2xl font-bold text-primary group-hover:text-dark-orange transition-colors duration-300">
                 AfriNuts Export
               </span>
               </Link>
@@ -67,10 +80,10 @@ const Navbar: React.FC = () => {
             <div className="md:hidden flex items-center">
               <button
                   onClick={handleClick}
-                  className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-primary focus:outline-none"
-                  aria-expanded="false"
+                  className="inline-flex items-center justify-center p-2 rounded-lg text-gray-700 hover:text-primary hover:bg-gray-100 focus:outline-none transition-colors duration-300"
+                  aria-expanded={click}
+                  aria-label={click ? "Close menu" : "Open menu"}
               >
-                <span className="sr-only">Open main menu</span>
                 {click ? (
                     <FaTimes className="block h-6 w-6" />
                 ) : (
@@ -80,16 +93,21 @@ const Navbar: React.FC = () => {
             </div>
 
             {/* Desktop Navigation */}
-            <div className="hidden md:flex md:items-center md:space-x-4">
+            <div className="hidden md:flex md:items-center md:space-x-2">
               {navItems.map((item, index) => (
                   <Link
                       key={index}
                       to={item.path}
-                      className={`px-3 py-2 rounded-lg text-sm font-medium ${
+                      className={`px-4 py-2 rounded-lg text-lg font-medium transition-all duration-300 ${
                           isActive(item.path)
-                              ? 'bg-primary text-white'
-                              : 'text-gray-700 hover:bg-gray-100 hover:text-primary'
+                              ? 'bg-primary text-white shadow-md'
+                              : 'text-gray-700 hover:bg-gray-50 hover:text-primary hover:shadow-sm'
                       }`}
+                      onClick={() => {
+                        if (isActive(item.path)) {
+                          window.scrollTo({ top: 0, behavior: 'smooth' });
+                        }
+                      }}
                   >
                     {item.label}
                   </Link>
@@ -97,41 +115,48 @@ const Navbar: React.FC = () => {
             </div>
 
             {/* Language Toggle */}
-            <div className="hidden md:flex items-center ml-4">
+            <div className="hidden md:flex items-center ml-2">
               <button
                   onClick={toggleLanguage}
-                  className="flex items-center text-gray-700 hover:text-primary p-2 rounded-lg hover:bg-gray-100"
+                  className="flex items-center text-gray-700 hover:text-primary p-2 rounded-lg hover:bg-gray-100 transition-colors duration-300 group"
+                  aria-label={`Change language to ${languageLabel}`}
               >
-                <FaGlobe className="mr-1" />
-                <span>{languageLabel}</span>
+                <FaGlobe className="mr-2 group-hover:rotate-12 transition-transform duration-300" />
+                <span className="font-medium">{languageLabel}</span>
               </button>
             </div>
           </div>
 
           {/* Mobile Menu */}
-          <div className={`${click ? 'block' : 'hidden'} md:hidden pb-3 px-4`}>
+          <div
+              className={`${click ? 'block animate-fadeIn' : 'hidden'} md:hidden pb-3 px-4 transition-all duration-300`}
+              aria-hidden={!click}
+          >
             <div className="space-y-1">
               {navItems.map((item, index) => (
                   <Link
                       key={index}
                       to={item.path}
                       onClick={closeMobileMenu}
-                      className={`block px-3 py-2 rounded-lg text-base font-medium ${
+                      className={`block px-3 py-3 rounded-lg text-base font-medium transition-colors duration-300 ${
                           isActive(item.path)
-                              ? 'bg-primary text-white'
+                              ? 'bg-primary text-white shadow-md'
                               : 'text-gray-700 hover:bg-gray-100 hover:text-primary'
                       }`}
                   >
                     {item.label}
                   </Link>
               ))}
-              <div className="pt-2">
+              <div className="pt-1">
                 <button
-                    onClick={toggleLanguage}
-                    className="flex items-center px-3 py-2 rounded-lg text-gray-700 hover:text-primary hover:bg-gray-100 w-full"
+                    onClick={() => {
+                      toggleLanguage();
+                      closeMobileMenu();
+                    }}
+                    className="flex items-center px-3 py-3 rounded-lg text-gray-700 hover:text-primary hover:bg-gray-100 w-full transition-colors duration-300"
                 >
-                  <FaGlobe className="mr-2" />
-                  <span>{languageLabel}</span>
+                  <FaGlobe className="mr-3" />
+                  <span>{t('navbar.language')}: {languageLabel}</span>
                 </button>
               </div>
             </div>

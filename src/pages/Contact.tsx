@@ -71,6 +71,8 @@ const Contact: React.FC = () => {
     setIsSubmitting(true);
 
     try {
+      emailjs.init("BuIYx9hnXwuMJjbhE");
+      console.log("Form ref:", formRef.current);
       const response = await emailjs.sendForm(
           'service_qftryeh',
           'template_fktuno4',
@@ -78,9 +80,13 @@ const Contact: React.FC = () => {
           'BuIYx9hnXwuMJjbhE'
       );
 
+      console.log("EmailJS response:", response.text);
+
       if (response.status === 200) {
         setShowSuccess(true);
         setFormData({ name: '', email: '', subject: '', message: '' });
+      } else {
+        throw new Error(`Unexpected status ${response.status}`);
       }
     } catch (error) {
       console.error('Failed to send message:', error);

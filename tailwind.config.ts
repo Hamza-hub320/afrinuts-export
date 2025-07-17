@@ -27,7 +27,18 @@ export default {
                 DEFAULT: '8px'
             },
             boxShadow: {
-                DEFAULT: '0 5px 15px rgba(0, 0, 0, 0.29)'
+                // Enhanced glow variations
+                'glow-accent-xs': '0 0 0 1px rgba(253, 129, 4, 0.2), 0 0 10px rgba(253, 129, 4, 0.3)',
+                'glow-accent-sm': '0 0 0 1px rgba(253, 129, 4, 0.2), 0 0 15px rgba(253, 129, 4, 0.4)',
+                'glow-accent': '0 0 0 1px rgba(253, 129, 4, 0.3), 0 0 20px rgba(253, 129, 4, 0.5)',
+                'glow-accent-md': '0 0 0 1px rgba(253, 129, 4, 0.3), 0 0 25px rgba(253, 129, 4, 0.6)',
+                'glow-accent-lg': '0 0 0 1px rgba(253, 129, 4, 0.4), 0 0 30px rgba(253, 129, 4, 0.7)',
+
+
+                // Directional glows (more subtle)
+                'glow-left': '-8px 0 20px -5px rgba(253, 129, 4, 0.4)',
+                'glow-right': '8px 0 20px -5px rgba(253, 129, 4, 0.4)',
+                'glow-bottom': '0 8px 20px -5px rgba(253, 129, 4, 0.4)',
             },
             fontFamily: {
                 sans: ['Inter', 'sans-serif'],
