@@ -36,7 +36,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
     // Determine glow intensity based on card type
     const glowIntensity = compact ? 'glow-accent-sm' : 'glow-accent-md';
-    const directionalGlow = 'glow-left'; // Change to 'glow-right' or 'glow-bottom' as needed
+    const directionalGlow = 'glow-left';
 
     return (
         <motion.div
@@ -150,3 +150,5 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         </motion.div>
     );
 };
+
+export default ProductCard;

@@ -4,6 +4,11 @@
     "subtitle": "Redefining Ivory Coast's cashew industry through vertical integration"
   },
 
+  "leadership": {
+    "subtitle": "Our Leadership",
+    "title": "Guiding AfriNuts Forward"
+  },
+
   "cfo": {
     "title": "Message from Our CFO",
     "alt": "AfriNuts CFO portrait",
@@ -14,7 +19,9 @@
   "ceo": {
     "title": "A Message From Our CEO",
     "message": "\"AfriNuts Export, a business representing three generations of cashew farming in Odienné, aims to transform Ivory Coast’s cashew sector by moving beyond raw exports to value-added processing while maintaining ethical sourcing and community reinvestment. Our integrated model, from our 50-hectare sustainable farm to future processing facilities, creates direct connections between African producers and global markets. We measure success in lasting impact, such as training farmers, implementing sustainable practices, and supporting community development. This shared opportunity benefits all stakeholders, from farmers to consumers worldwide.\"",
-    "signature": "- Hamza S. Ralsan Sangare"
+    "signature": "- Hamza S. Ralsan Sangare",
+    "position": "Founder & CEO",
+    "alt": "Portrait of CEO Hamza S. Ralsan Sangare"
   },
   "brand": {
     "title": "Our Commitment",

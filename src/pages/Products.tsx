@@ -174,6 +174,7 @@ const Products: React.FC = () => {
                                 handleContactClick={handleContactClick}
                                 variants={index % 2 === 0 ? slideInFromLeft : slideInFromRight}
                                 compact={false}
+                                loading="lazy"
                             />
                         ))}
                     </motion.div>
@@ -181,7 +182,7 @@ const Products: React.FC = () => {
             </Section>
 
             {/* Full Product Showcase */}
-            <Section className="py-16 bg-white">
+            <Section className="py-16 from-background">
                 <div className="container mx-auto px-6">
                     <div className="relative">
                         <motion.div
@@ -210,6 +211,7 @@ const Products: React.FC = () => {
                                     handleContactClick={handleContactClick}
                                     variants={fadeIn}
                                     compact={false}
+                                    loading="lazy"
                                 />
                             ))}
                         </motion.div>
@@ -268,6 +270,7 @@ const Products: React.FC = () => {
                                         src={step.image}
                                         alt={step.title}
                                         className="w-full h-full object-cover"
+                                        loading="lazy"
                                     />
                                 </div>
                                 <div className="p-6">
@@ -304,6 +307,7 @@ const Products: React.FC = () => {
                                 src={qualityImage}
                                 alt="Quality Control"
                                 className="rounded-2xl shadow-xl w-full"
+                                loading="lazy"
                             />
                         </motion.div>
                         <motion.div

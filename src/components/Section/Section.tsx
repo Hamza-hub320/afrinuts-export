@@ -1,15 +1,24 @@
 // src/components/Section/Section.tsx
 import React, { CSSProperties } from 'react';
 
+// Type for imported images in Vite
+interface StaticImageData {
+    src: string;
+    height: number;
+    width: number;
+    blurDataURL?: string;
+}
+
 interface SectionProps {
     children: React.ReactNode;
     className?: string;
     id?: string;
-    bgImage?: string;
+    bgImage?: string | StaticImageData; // Accept both string paths and imported images
     overlay?: boolean;
     overlayColor?: string;
     fullHeight?: boolean;
     containerClass?: string;
+    imageStyles?: CSSProperties; // Renamed from bgImageStyles to avoid confusion
 }
 
 const Section: React.FC<SectionProps> = ({
@@ -20,14 +29,18 @@ const Section: React.FC<SectionProps> = ({
                                              overlay = false,
                                              overlayColor = 'bg-black/50',
                                              fullHeight = false,
-                                             containerClass = ''
+                                             containerClass = '',
+                                             imageStyles = {}
                                          }) => {
     const backgroundStyle: CSSProperties = bgImage
         ? {
-            backgroundImage: `url(${bgImage})`,
+            backgroundImage: typeof bgImage === 'string'
+                ? `url(${bgImage})`
+                : `url(${bgImage.src})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
-            backgroundRepeat: 'no-repeat'
+            backgroundRepeat: 'no-repeat',
+            ...imageStyles // Spread additional image styles
         }
         : {};
 
@@ -36,7 +49,7 @@ const Section: React.FC<SectionProps> = ({
             id={id}
             className={`
         relative
-        ${fullHeight ? 'min-h-screen' : 'py-20'}
+        ${fullHeight ? 'min-h-screen' : 'py-16'}
         ${className}
       `}
             style={backgroundStyle}

@@ -27,6 +27,7 @@ const About: React.FC = () => {
             overlay
             overlayColor="bg-primary/20"
             className="flex items-end justify-start text-center min-h-[50vh] md:min-h-[60vh] pb-12 px-6"
+            imageStyles={{ backgroundAttachment: 'fixed' }}
         >
           <motion.div
               className="max-w-2xl px-6 py-10 bg-white/75 backdrop-blur-xs rounded-xl"
@@ -57,7 +58,7 @@ const About: React.FC = () => {
               Our Leadership
             </span>
               <h2 className="font-display text-display-lg text-text-dark">
-                Guiding AfriNuts Forward
+                {t('leadership.title')}
               </h2>
             </div>
 
@@ -74,11 +75,11 @@ const About: React.FC = () => {
                   <div className="p-8 md:p-12">
                     <div className="flex items-center gap-4 mb-6">
                       <div className="w-20 h-20 rounded-full overflow-hidden border-4 border-accent">
-                        <img src={ceoImage} alt={t('ceo.alt')} className="w-full h-full object-cover"/>
+                        <img src={ceoImage} alt={t('ceo.alt')} loading="lazy" className="w-full h-full object-cover"/>
                       </div>
                       <div>
                         <h3 className="font-display text-2xl text-primary">Hamza S. Ralsan Sangare</h3>
-                        <p className="font-subhead text-accent">Founder & CEO</p>
+                        <p className="font-subhead text-accent">{t('ceo.position')}</p>
                       </div>
                     </div>
                     <div className="prose max-w-none">
@@ -102,7 +103,7 @@ const About: React.FC = () => {
                   <div className="p-8 md:p-12">
                     <div className="flex items-center gap-4 mb-6">
                       <div className="w-20 h-20 rounded-full overflow-hidden border-4 border-accent">
-                        <img src={cfoImage} alt="CFO" className="w-full h-full object-cover"/>
+                        <img src={cfoImage} alt="CFO" loading="lazy" className="w-full h-full object-cover"/>
                       </div>
                       <div>
                         <h3 className="font-display text-2xl text-primary">Sekou Hakim Petter</h3>

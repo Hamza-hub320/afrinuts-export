@@ -76,3 +76,5 @@ export const NewsCard: React.FC<NewsCardProps> = ({ newsItem, onClick, variants 
         </motion.div>
     );
 };
+
+export default NewsCard;

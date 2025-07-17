@@ -64,3 +64,5 @@ export const Typography: React.FC<TypographyProps> = ({
         </motion.div>
     );
 };
+
+export default Typography;

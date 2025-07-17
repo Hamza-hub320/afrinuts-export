@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -6,7 +6,7 @@ import {
     FaChevronDown, FaLeaf, FaSeedling,
     FaGlobeAfrica, FaNewspaper, FaEnvelope, FaArrowRight
 } from 'react-icons/fa';
-import Section from '../components/Section/Section';
+const Section = React.lazy(() => import('../components/Section/Section'));
 import {
     fadeIn,
     slideInFromLeft,
@@ -22,8 +22,8 @@ import farmImage from '../assets/images/farm.jpg';
 import productsImage from '../assets/images/products.jpg';
 import sustainabilityImage from '../assets/images/sustainability.jpg';
 import newsImage from '../assets/images/news.jpg';
-import {ProductCard} from '../components/ProductCard/ProductCard';
-import { NewsCard } from '../components/NewsCard/NewsCard';
+const ProductCard = React.lazy(() => import('../components/ProductCard/ProductCard'));
+const NewsCard = React.lazy(() => import('../components/NewsCard/NewsCard'));
 
 
 const newsItems = [
@@ -144,6 +144,7 @@ const Home: React.FC = () => {
             </section>
 
             {/* 2. About Preview Section */}
+            <Suspense fallback={<div>Loading about preview...</div>}>
             <Section id="about-preview" className="bg-background py-16 -mt-1">
                 <motion.div
                     className="container mx-auto px-6"
@@ -184,8 +185,10 @@ const Home: React.FC = () => {
                     </div>
                 </motion.div>
             </Section>
+            </Suspense>
 
             {/* 3. Products Showcase */}
+            <Suspense fallback={<div>Loading products...</div>}>
             <Section className="py-16 bg-background">
                 <div className="container mx-auto px-6">
                     <motion.div
@@ -288,6 +291,7 @@ const Home: React.FC = () => {
                     </motion.div>
                 </div>
             </Section>
+            </Suspense>
 
             {/* 4. Farm Story */}
             <Section className="py-16 bg-background text-text-dark">
@@ -351,6 +355,7 @@ const Home: React.FC = () => {
                                 <img
                                     src={farmImage}
                                     alt="AfriNuts Farm"
+                                    loading="lazy"
                                     className="w-full h-full object-cover"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent flex items-end p-8">
@@ -443,6 +448,7 @@ const Home: React.FC = () => {
             </Section>
 
             {/* 6. News & Updates */}
+            <Suspense fallback={<div>Loading news...</div>}>
             <Section className="py-16 bg-white">
                 <div className="container mx-auto px-6">
                     <motion.div
@@ -520,8 +526,10 @@ const Home: React.FC = () => {
                     </motion.div>
                 </div>
             </Section>
+            </Suspense>
 
             {/* 7. Contact CTA */}
+            <Suspense fallback={<div>Loading contact...</div>}>
             <Section className="py-16 bg-white text-text-dark relative overflow-hidden">
                 <div className="relative z-10 container mx-auto px-6 text-center">
                     <motion.div
@@ -549,6 +557,7 @@ const Home: React.FC = () => {
                     </motion.div>
                 </div>
             </Section>
+            </Suspense>
         </div>
     );
 };

@@ -1,10 +1,26 @@
-
-declare module '*.svg' {
-    const content: string
-    export default content
+declare module '*.jpg' {
+    const value: {
+        src: string;
+        height: number;
+        width: number;
+    };
+    export default value;
 }
-declare module '*.png'
-declare module '*.jpg'
-declare module '*.jpeg'
-declare module '*.gif'
-declare module '*.webp'
+
+declare module '*.png' {
+    const value: {
+        src: string;
+        height: number;
+        width: number;
+    };
+    export default value;
+}
+
+declare module '*.webp' {
+    const value: {
+        src: string;
+        height: number;
+        width: number;
+    };
+    export default value;
+}

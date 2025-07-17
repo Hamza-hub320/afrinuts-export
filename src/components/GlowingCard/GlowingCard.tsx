@@ -49,3 +49,5 @@ export const GlowingCard: React.FC<GlowingCardProps> = ({
         </motion.div>
     );
 };
+
+export default GlowingCard;

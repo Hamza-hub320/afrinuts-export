@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { FaTree, FaArrowRight, FaMapMarkerAlt, FaCalendarAlt, FaLeaf, FaTint, FaUsers, FaChartLine, FaSeedling } from 'react-icons/fa';
@@ -11,11 +11,12 @@ import farmImage4 from '../assets/images/farm-4.jpg';
 import farmHeroImage from '../assets/images/farm-hero.jpg';
 import { motion } from 'framer-motion';
 import { fadeIn, staggerContainer } from '@/utils/animations';
-import Section from "../components/Section/Section";
-import { Typography } from "../components/Typography/Typography";
-import ImageGallery from '../components/ImageGallery/ImageGallery';
-import StatsCounter from '../components/StatsCounter/StatsCounter';
-import { GlowingCard } from '../components/GlowingCard/GlowingCard';
+
+const Section = lazy(() => import("../components/Section/Section"));
+const Typography = lazy(() => import("../components/Typography/Typography"));
+const ImageGallery = lazy(() => import('../components/ImageGallery/ImageGallery'));
+const StatsCounter = lazy(() => import('../components/StatsCounter/StatsCounter'));
+const GlowingCard = lazy(() => import('../components/GlowingCard/GlowingCard'));
 
 const Farm = () => {
     const { t } = useTranslation('farm');
@@ -69,10 +70,10 @@ const Farm = () => {
     ];
 
     const galleryImages = [
-        { src: farmImage1, alt: t('gallery.alt1'), caption: t('gallery.caption1') },
-        { src: farmImage2, alt: t('gallery.alt2'), caption: t('gallery.caption2') },
-        { src: farmImage3, alt: t('gallery.alt3'), caption: t('gallery.caption3') },
-        { src: farmImage4, alt: t('gallery.alt4'), caption: t('gallery.caption4') }
+        { src: farmImage1, alt: t('gallery.alt1'), caption: t('gallery.caption1'), loading: "lazy" },
+        { src: farmImage2, alt: t('gallery.alt2'), caption: t('gallery.caption2'), loading: "lazy" },
+        { src: farmImage3, alt: t('gallery.alt3'), caption: t('gallery.caption3'), loading: "lazy" },
+        { src: farmImage4, alt: t('gallery.alt4'), caption: t('gallery.caption4'), loading: "lazy" }
     ];
 
     const timelineData = [
@@ -106,6 +107,7 @@ const Farm = () => {
     const navigate = useNavigate();
 
     return (
+        <Suspense fallback={<div>Loading...</div>}>
         <div className="bg-background text-text-dark font-sans leading-relaxed">
             {/* Hero Section */}
             <Section
@@ -338,6 +340,7 @@ const Farm = () => {
                 </div>
             </section>
         </div>
+        </Suspense>
     );
 };
 
