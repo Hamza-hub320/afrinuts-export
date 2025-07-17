@@ -61,6 +61,7 @@
     "@types/webpack-env": "^1.18.8",
     "@vitejs/plugin-react": "^4.5.2",
     "autoprefixer": "^10.4.17",
+    "gh-pages": "^6.3.0",
     "postcss": "^8.4.38",
     "postcss-nested": "^7.0.2",
     "postcss-nesting": "^13.0.2",
