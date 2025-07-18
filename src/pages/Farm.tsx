@@ -4,11 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import { FaTree, FaArrowRight, FaMapMarkerAlt, FaCalendarAlt, FaLeaf, FaTint, FaUsers, FaChartLine, FaSeedling } from 'react-icons/fa';
 import { GiFarmer, GiPlantWatering, GiFruitTree } from 'react-icons/gi';
 import { MdPrecisionManufacturing } from 'react-icons/md';
-import farmImage1 from '../assets/images/farm-1.jpg';
-import farmImage2 from '../assets/images/farm-2.jpg';
-import farmImage3 from '../assets/images/farm-3.jpg';
-import farmImage4 from '../assets/images/farm-4.jpg';
-import farmHeroImage from '../assets/images/farm-hero.jpg';
+import farmImage1 from '@/assets/images/farm-1.jpg';
+import farmImage2 from '@/assets/images/farm-2.jpg';
+import farmImage3 from '@/assets/images/farm-3.jpg';
+import farmImage4 from '@/assets/images/farm-4.jpg';
+import farmHeroImage from '@/assets/images/farm-hero.jpg';
 import { motion } from 'framer-motion';
 import { fadeIn, staggerContainer } from '@/utils/animations';
 

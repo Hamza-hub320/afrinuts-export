@@ -8,20 +8,20 @@ import {
 } from 'react-icons/fa';
 import { fadeIn, slideInFromLeft, slideInFromRight, staggerContainer } from '@/utils/animations';
 import Section from '../components/Section/Section';
-import { Typography } from "../components/Typography/Typography";
-import {ProductCard} from '../components/ProductCard/ProductCard';
+import { Typography } from "@/components/Typography/Typography";
+import {ProductCard} from '@/components/ProductCard/ProductCard';
 
 // Import images
-import cashewButterImage from '../assets/images/cashew-butter.jpg';
-import cashewKernelsImage from '../assets/images/cashew-kernels.jpg';
-import cashewMilkImage from '../assets/images/cashew-milk.jpg';
-import cashewShellImage from '../assets/images/cashew-nut-shell-liquid.jpg';
-import roastedCashewImage from '../assets/images/roasted-cashew.jpg';
-import rawCashewImage from '../assets/images/raw-cashew.jpg';
-import ourProductHeroImage from '../assets/images/our-product-hero.jpg';
-import processImage from '../assets/images/production-process.jpg';
-import qualityImage from '../assets/images/quality-control.jpg';
-import packagingImage from '../assets/images/packaging.jpg';
+import cashewButterImage from '@/assets/images/cashew-butter.jpg';
+import cashewKernelsImage from '@/assets/images/cashew-kernels.jpg';
+import cashewMilkImage from '@/assets/images/cashew-milk.jpg';
+import cashewShellImage from '@/assets/images/cashew-nut-shell-liquid.jpg';
+import roastedCashewImage from '@/assets/images/roasted-cashew.jpg';
+import rawCashewImage from '@/assets/images/raw-cashew.jpg';
+import ourProductHeroImage from '@/assets/images/our-product-hero.jpg';
+import processImage from '@/assets/images/production-process.jpg';
+import qualityImage from '@/assets/images/quality-control.jpg';
+import packagingImage from '@/assets/images/packaging.jpg';
 
 const productImageMap: Record<string, string> = {
     'cashew-butter.jpg': cashewButterImage,

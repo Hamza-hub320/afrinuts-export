@@ -2,12 +2,12 @@ import { FaMapMarkerAlt, FaPhone, FaEnvelope, FaClock, FaCheckCircle } from 'rea
 import emailjs from '@emailjs/browser';
 import React, { useState, useRef, FormEvent, ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
-import WeatherDisplay from '../components/WeatherDisplay/WeatherDisplay';
-import Section from '../components/Section/Section';
-import contactHeroImage from '../assets/images/contact-hero.jpg';
+import WeatherDisplay from '@/components/WeatherDisplay/WeatherDisplay';
+import Section from '@/components/Section/Section';
+import contactHeroImage from '@/assets/images/contact-hero.jpg';
 import { motion } from 'framer-motion';
 import { fadeIn, staggerContainer } from '@/utils/animations';
-import { Typography } from "../components/Typography/Typography";
+import { Typography } from "@/components/Typography/Typography";
 
 interface FormData {
   name: string;

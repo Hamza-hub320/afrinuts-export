@@ -14,14 +14,14 @@ import {
     scaleUp,
     staggerContainer,
     bounceArrow
-} from '../utils/animations';
-import { Typography } from '../components/Typography/Typography';
+} from '@/utils/animations';
+import { Typography } from '@/components/Typography/Typography';
 
 import heroImage from '../assets/images/hero.jpg';
-import farmImage from '../assets/images/farm.jpg';
-import productsImage from '../assets/images/products.jpg';
-import sustainabilityImage from '../assets/images/sustainability.jpg';
-import newsImage from '../assets/images/news.jpg';
+import farmImage from '@/assets/images/farm.jpg';
+import productsImage from '@/assets/images/products.jpg';
+import sustainabilityImage from '@/assets/images/sustainability.jpg';
+import newsImage from '@/assets/images/news.jpg';
 const ProductCard = React.lazy(() => import('../components/ProductCard/ProductCard'));
 const NewsCard = React.lazy(() => import('../components/NewsCard/NewsCard'));
 
@@ -125,7 +125,7 @@ const Home: React.FC = () => {
                             <motion.button
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
-                                className="border-2 border-accent hover:border-accent text-accent hover:text-accent px-8 py-4 rounded-full text-lg font-medium transition-all duration-300 hover:bg-white/10 flex items-center gap-2"
+                                className="border-2 border-accent hover:border-accent text-white hover:text-white px-8 py-4 rounded-full text-lg font-medium transition-all duration-300 hover:bg-white/10 flex items-center gap-2"
                                 onClick={() => scrollToSection('about-preview')}
                             >
                                 Learn More

@@ -27,5 +27,18 @@ export default defineConfig({
     },
     css: {
         postcss: './postcss.config.cjs'
+    },
+    build: {
+        rollupOptions: {
+            output: {
+                manualChunks: {
+                    vendor: ['react', 'react-dom', 'react-router-dom'],
+                    leaflet: ['leaflet', 'react-leaflet'],
+                    i18n: ['i18next', 'react-i18next'],
+                }
+            }
+        },
+        chunkSizeWarningLimit: 1000, // Adjust if needed
+        assetsInlineLimit: 4096
     }
 })

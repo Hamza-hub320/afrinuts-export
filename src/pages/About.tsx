@@ -6,14 +6,14 @@ import {
   FaIndustry, FaGlobe, FaUsers, FaRocket,
   FaMapMarkerAlt, FaChartLine, FaHandsHelping, FaMosque, FaWater
 } from 'react-icons/fa';
-import Section from '../components/Section/Section';
-import { fadeIn, staggerContainer } from '../utils/animations';
+import Section from '@/components/Section/Section';
+import { fadeIn, staggerContainer } from '@/utils/animations';
 
-import ceoImage from '../assets/images/ceo.jpg';
-import cfoImage from '../assets/images/cfo.jpg';
-import farmImage from '../assets/images/cashew-farm.jpg';
-import {Typography} from "../components/Typography/Typography";
-import { InfoCard } from '../components/InfoCard/InfoCard';
+import ceoImage from '@/assets/images/ceo.jpg';
+import cfoImage from '@/assets/images/cfo.jpg';
+import farmImage from '@/assets/images/cashew-farm.jpg';
+import {Typography} from "@/components/Typography/Typography";
+import { InfoCard } from '@/components/InfoCard/InfoCard';
 
 const About: React.FC = () => {
   const {t} = useTranslation('about');
