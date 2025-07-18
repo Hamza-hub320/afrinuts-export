@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { FaGlobe, FaBars, FaTimes } from 'react-icons/fa';
-import logo from '@/assets/images/afrinuts-export-official-logo.png';
+import logo from '@/assets/images/afrinuts-export-official-logo.webp';
 import { useTranslation } from 'react-i18next';
 
 const Navbar: React.FC = () => {
@@ -68,7 +68,11 @@ const Navbar: React.FC = () => {
                 <img
                     src={logo}
                     alt="AfriNuts Export Logo"
-                    className="h-16 w-auto transition-transform duration-300 group-hover:scale-105"
+                    width={64}
+                    height={64} // Intrinsic height in pixels
+                    className="h-12 w-auto md:h-16 transition-transform duration-300 group-hover:scale-105"
+                    loading="eager" // Important for above-the-fold logo
+                    decoding="sync" // Important for above-the-fold logo
                 />
                 <span className="ml-2 text-2xl font-bold text-primary group-hover:text-dark-orange transition-colors duration-300">
                 AfriNuts Export

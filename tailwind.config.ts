@@ -11,13 +11,13 @@ export default {
         extend: {
             colors: {
                 'primary': '#5A7411',       // forest-green
-                'accent': '#FD8104',        // orange
+                'accent': '#EA580C',        // orange
                 'secondary': '#A0C800',     // lime-green
                 'background': '#F5F5F5',    // light-grey
                 'text-dark': '#6C5D56',     // taupe
                 'text-light': '#FFFFFF',    // white
                 'warm-grey': '#DEDAD4',
-                'dark-orange': '#E67401',
+                'dark-orange': '#C2410C',
                 'highlight': 'rgba(253, 129, 4, 0.2)',
                 'navy': '#253746',
                 'teal': '#00869D',

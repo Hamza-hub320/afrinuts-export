@@ -9,8 +9,8 @@ const Layout: FC = () => {
     useEffect(() => {
         // Preload critical images
         const images = [
-            {/*/ '/src/assets/images/cashew-farm.jpg',
-            '/src/assets/images/ceo.jpg',*/}
+            {/*/ '/src/assets/images/cashew-farm.webp',
+            '/src/assets/images/ceo.webp',*/}
             // Add other critical images*
         ];
 

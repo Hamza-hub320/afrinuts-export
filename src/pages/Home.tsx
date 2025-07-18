@@ -4,9 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
     FaChevronDown, FaLeaf, FaSeedling,
-    FaGlobeAfrica, FaNewspaper, FaEnvelope, FaArrowRight
+    FaGlobeAfrica, FaArrowRight
 } from 'react-icons/fa';
-const Section = React.lazy(() => import('../components/Section/Section'));
 import {
     fadeIn,
     slideInFromLeft,
@@ -17,44 +16,20 @@ import {
 } from '@/utils/animations';
 import { Typography } from '@/components/Typography/Typography';
 
-import heroImage from '../assets/images/hero.jpg';
-import farmImage from '@/assets/images/farm.jpg';
-import productsImage from '@/assets/images/products.jpg';
-import sustainabilityImage from '@/assets/images/sustainability.jpg';
-import newsImage from '@/assets/images/news.jpg';
-import valueAddedImage from '@/assets/images/value-added.jpg';
-import organicCashewImage from '@/assets/images/organic-cashew.jpg';
-import ourProductHeroImage from '@/assets/images/our-product-hero.jpg';
-import cashewButterDarkImage from '@/assets/images/cashew-butter-dark.jpg';
-import solarPoweredImage from '@/assets/images/solar-powered.jpg';
+import heroImage from '../assets/images/hero.webp';
+import farmImage from '../assets/images/farm.webp';
+import productsImage from '../assets/images/products.webp';
+import sustainabilityImage from '../assets/images/sustainability.webp';
+import newsImage from '../assets/images/news.webp';
+import valueAddedImage from '../assets/images/value-added.webp';
+import organicCashewImage from '../assets/images/organic-cashew.webp';
+import ourProductHeroImage from '../assets/images/our-product-hero.webp';
+import cashewButterDarkImage from '../assets/images/cashew-butter-dark.webp';
+import solarPoweredImage from '../assets/images/solar-powered.webp';
 
-const ProductCard = React.lazy(() => import('../components/ProductCard/ProductCard'));
-const NewsCard = React.lazy(() => import('../components/NewsCard/NewsCard'));
-
-
-const newsItems = [
-    {
-        title: "Record-Breaking Cashew Yields",
-        date: "June 2024",
-        category: "Harvest Report",
-        description: "Our farm achieves highest-ever production with sustainable methods",
-        image: newsImage
-    },
-    {
-        title: "New Solar-Powered Processing",
-        date: "May 2024",
-        category: "Sustainability",
-        description: "We've installed solar panels to power our processing facility",
-        image: farmImage
-    },
-    {
-        title: "Introducing Organic Cashew Butter",
-        date: "April 2024",
-        category: "Product News",
-        description: "Our newest product line now available in European markets",
-        image: productsImage
-    }
-];
+import Section from '../components/Section/Section';
+import ProductCard from '../components/ProductCard/ProductCard';
+import NewsCard from '../components/NewsCard/NewsCard';
 
 const Home: React.FC = () => {
     const { t } = useTranslation('home');
@@ -87,62 +62,63 @@ const Home: React.FC = () => {
     return (
         <div className="min-h-[80vh] md:min-h-screen overflow-hidden text-balance">
             {/* 1. Hero Section */}
-            <section className="relative bg-primary text-white min-h-[80vh] md:min-h-screen flex items-center justify-center overflow-hidden pt-24 sm:pt-20 md:pt-0 pb-8">
+            <section className="relative bg-primary text-white min-h-[75vh] sm:min-h-[85vh] md:min-h-[95vh] flex items-center justify-center overflow-hidden pt-24 sm:pt-20 md:pt-0 pb-8">
                 {/* Dark overlay for better text contrast */}
                 <div className="absolute inset-0 bg-gradient-to-b from-black/30 to-black/50 z-0" />
 
                 <img
                     src={heroImage}
-                    alt="Cashew farm in Ivory Coast"
+                    alt={t('hero.imageAlt')}
                     className="absolute inset-0 w-full h-full object-cover object-center z-0"
                 />
 
                 <div className="relative z-10 container mx-auto px-4 sm:px-6 pb-8">
                     <motion.div
-                        className="max-w-4xl mx-auto text-center px-4"
+                        className="max-w-4xl mx-auto text-center px-6 py-12 bg-black/30 backdrop-blur-sm rounded-xl"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8 }}
                     >
-                        {/* Improved H1 with better mobile sizing */}
+                        {/* Hero Title - Larger size */}
                         <Typography
                             variant="display-xl"
-                            className="mb-4 md:mb-6 text-white drop-shadow-lg bg-black/30 backdrop-blur-sm px-4 py-3 md:px-6 md:py-4 rounded-lg text-2xl sm:text-3xl md:text-4xl"
+                            className="mb-4 md:mb-6 text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight"
                         >
-                            Premium Cashews from the Heart of <span className="text-accent">Ivory Coast</span>
+                            {t('hero.title')}
                         </Typography>
 
-                        {/* Enhanced Paragraph with mobile adjustments */}
+                        {/* Hero Subtitle - Larger size */}
                         <Typography
                             variant="subhead"
-                            className="mb-6 md:mb-8 text-white/90 max-w-2xl mx-auto text-sm sm:text-base md:text-lg leading-relaxed drop-shadow-lg bg-black/30 backdrop-blur-sm px-4 py-3 md:px-6 md:py-4 rounded-lg"
+                            className="mb-8 text-white max-w-2xl mx-auto text-lg sm:text-xl md:text-2xl leading-relaxed"
                         >
-                            Sustainably grown, ethically sourced, and packed with flavor — connecting West Africa's finest harvest to global markets.
+                            {t('hero.subtitle')}
                         </Typography>
 
-                        {/* Improved Buttons with mobile sizing and spacing */}
-                        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mt-8">
+                        {/* CTA Buttons - Larger size */}
+                        <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center mt-10">
                             <motion.button
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
-                                className="bg-accent hover:bg-dark-orange text-white px-4 py-2 sm:px-6 sm:py-3 rounded-full text-base sm:text-lg font-medium transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
+                                className="bg-orange-600 hover:bg-orange-700 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-full text-lg sm:text-xl font-medium transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
                                 onClick={() => navigate('/products')}
                             >
-                                Explore Products
-                                <FaArrowRight className="transition-transform group-hover:translate-x-1" />
+                                {t('hero.ctaButtons.exploreProducts')}
+                                <FaArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
                             </motion.button>
                             <motion.button
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
-                                className="border-2 border-accent hover:border-accent text-white hover:text-white px-4 py-2 sm:px-6 sm:py-3 rounded-full text-base sm:text-lg font-medium transition-all duration-300 hover:bg-white/10 flex items-center justify-center gap-2"
+                                className="border-2 border-white text-white hover:bg-white/10 px-6 py-3 sm:px-8 sm:py-4 rounded-full text-lg sm:text-xl font-medium transition-all duration-300 flex items-center justify-center gap-2"
                                 onClick={() => scrollToSection('about-preview')}
                             >
-                                Learn More
-                                <FaChevronDown className="transition-transform group-hover:translate-y-1" />
+                                {t('hero.ctaButtons.learnMore')}
+                                <FaChevronDown className="w-5 h-5 transition-transform group-hover:translate-y-1" />
                             </motion.button>
                         </div>
                     </motion.div>
                 </div>
+
                 {/* Decorative wave at bottom */}
                 <div className="absolute bottom-0 left-0 w-full z-10">
                     <svg viewBox="0 0 1440 120" className="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
@@ -152,153 +128,110 @@ const Home: React.FC = () => {
             </section>
 
             {/* 2. About Preview Section */}
-            <Suspense fallback={<div>Loading about preview...</div>}>
-            <Section id="about-preview" className="bg-background py-16 -mt-1">
-                <motion.div
-                    className="container mx-auto px-6"
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true, margin: "-100px" }}
-                    variants={scaleUp}
-                >
-                    <div className="bg-white rounded-3xl shadow-2xl p-8 md:p-12 relative z-10">
-                        <div className="flex flex-col lg:flex-row items-center gap-12">
-                            <motion.div
-                                className="text-accent text-6xl p-6 bg-background rounded-2xl shadow-inner"
-                                variants={fadeIn}
-                            >
-                                <FaGlobeAfrica />
-                            </motion.div>
-                            <motion.div
-                                className="flex-1"
-                                variants={fadeIn}
-                            >
-                                <Typography variant="h2" className="mb-6">
-                                    Rooted in Tradition, Growing for the Future
-                                </Typography>
-                                <Typography variant="body" className="mb-8">
-                                    AfriNuts Export is a family-owned agribusiness based in Odienné, Ivory Coast. With over 50 hectares of prime cashew farmland, we combine traditional farming knowledge with modern sustainable practices to produce premium quality cashews for global markets.
-                                </Typography>
-                                <motion.button
-                                    whileHover={{ scale: 1.05 }}
-                                    whileTap={{ scale: 0.95 }}
-                                    className="group bg-accent hover:bg-dark-orange text-white px-8 py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg inline-flex items-center"
-                                    onClick={() => navigate('/about')}
+            <Suspense fallback={<div>{t('loading.about')}</div>}>
+                <Section id="about-preview" className="bg-background py-16 -mt-1">
+                    <motion.div
+                        className="container mx-auto px-6"
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true, margin: "-100px" }}
+                        variants={scaleUp}
+                    >
+                        <div className="bg-white rounded-3xl shadow-2xl p-8 md:p-12 relative z-10">
+                            <div className="flex flex-col lg:flex-row items-center gap-12">
+                                <motion.div
+                                    className="text-orange-600 text-6xl p-6 bg-background rounded-2xl shadow-inner"
+                                    variants={fadeIn}
                                 >
-                                    Our Story
-                                    <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
-                                </motion.button>
-                            </motion.div>
+                                    <FaGlobeAfrica />
+                                </motion.div>
+                                <motion.div
+                                    className="flex-1"
+                                    variants={fadeIn}
+                                >
+                                    <Typography variant="h2" className="mb-6">
+                                        {t('aboutPreview.title')}
+                                    </Typography>
+                                    <Typography variant="body" className="mb-8">
+                                        {t('aboutPreview.description')}
+                                    </Typography>
+                                    <motion.button
+                                        whileHover={{ scale: 1.05 }}
+                                        whileTap={{ scale: 0.95 }}
+                                        className="group bg-orange-600 hover:bg-orange-700 text-white hover:text-white px-8 py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg inline-flex items-center"
+                                        onClick={() => navigate('/about')}
+                                    >
+                                        {t('aboutPreview.ctaButton')}
+                                        <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+                                    </motion.button>
+                                </motion.div>
+                            </div>
                         </div>
-                    </div>
-                </motion.div>
-            </Section>
+                    </motion.div>
+                </Section>
             </Suspense>
 
             {/* 3. Products Showcase */}
-            <Suspense fallback={<div>Loading products...</div>}>
-            <Section className="py-16 bg-background">
-                <div className="container mx-auto px-6">
-                    <motion.div
-                        className="text-center mb-16"
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={fadeIn}
-                    >
-                        <Typography variant="h2" className="mb-4">
-                            Our Premium Products
-                        </Typography>
-                        <Typography variant="subhead" className="max-w-3xl mx-auto">
-                            From raw cashews to value-added products, we offer the finest quality from our farm to your table
-                        </Typography>
-                    </motion.div>
-
-                    <motion.div
-                        className="grid md:grid-cols-3 gap-8"
-                        variants={staggerContainer}
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                    >
-                        <ProductCard
-                            product={{
-                                name: "Raw Cashews",
-                                description: "Premium quality raw cashews, carefully selected and packed for export",
-                                icon: "raw-cashews",
-                                backgroundImage: "raw-cashews",
-                                features: [
-                                    "Direct from our 50-hectare farm",
-                                    "Premium grade selection",
-                                    "Sustainable farming practices",
-                                    "Ethically sourced"
-                                ],
-                                available: true
-                            }}
-                            handleContactClick={handleContactClick}
-                            productImageMap={productImageMap}
-                            iconMap={iconMap}
-                        />
-
-                        <ProductCard
-                            product={{
-                                name: "Organic Cashews",
-                                description: "Certified organic cashews grown without synthetic pesticides or fertilizers",
-                                icon: "organic-cashews",
-                                backgroundImage: "organic-cashews",
-                                features: [
-                                    "100% organic certified",
-                                    "No synthetic chemicals",
-                                    "Higher nutritional value",
-                                    "Environmentally friendly"
-                                ],
-                                available: true
-                            }}
-                            handleContactClick={handleContactClick}
-                            productImageMap={productImageMap}
-                            iconMap={iconMap}
-                        />
-
-                        <ProductCard
-                            product={{
-                                name: "Value-Added Products",
-                                description: "Roasted cashews, cashew butter, and other premium processed products",
-                                icon: "value-added",
-                                backgroundImage: "value-added",
-                                features: [
-                                    "Premium roasted cashews",
-                                    "Organic cashew butter",
-                                    "Cashew milk powder",
-                                    "Coming soon: Cashew oil"
-                                ],
-                                available: false,
-                                comingSoon: "Available Q1 2025"
-                            }}
-                            handleContactClick={handleContactClick}
-                            productImageMap={productImageMap}
-                            iconMap={iconMap}
-                        />
-                    </motion.div>
-
-                    <motion.div
-                        className="text-center mt-16"
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={fadeIn}
-                    >
-                        <motion.button
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            className="group bg-accent hover:bg-dark-orange text-white px-8 py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg inline-flex items-center mx-auto"
-                            onClick={() => navigate('/products')}
+            <Suspense fallback={<div>{t('loading.products')}</div>}>
+                <Section className="py-16 bg-background">
+                    <div className="container mx-auto px-6">
+                        <motion.div
+                            className="text-center mb-16"
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                            variants={fadeIn}
                         >
-                            View All Products
-                            <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
-                        </motion.button>
-                    </motion.div>
-                </div>
-            </Section>
+                            <Typography variant="h2" className="mb-4">
+                                {t('products.title')}
+                            </Typography>
+                            <Typography variant="subhead" className="max-w-3xl mx-auto">
+                                {t('products.subtitle')}
+                            </Typography>
+                        </motion.div>
+
+                        <motion.div
+                            className="grid md:grid-cols-3 gap-8"
+                            variants={staggerContainer}
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                        >
+                            {t('products.items', { returnObjects: true }).map((product: any, index: number) => (
+                                <ProductCard
+                                    key={index}
+                                    product={{
+                                        ...product,
+                                        icon: product.icon.toLowerCase().replace(/\s+/g, '-'),
+                                        backgroundImage: product.icon.toLowerCase().replace(/\s+/g, '-'),
+                                        features: product.features || []
+                                    }}
+                                    handleContactClick={handleContactClick}
+                                    productImageMap={productImageMap}
+                                    iconMap={iconMap}
+                                />
+                            ))}
+                        </motion.div>
+
+                        <motion.div
+                            className="text-center mt-16"
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                            variants={fadeIn}
+                        >
+                            <motion.button
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                className="group bg-accent hover:bg-dark-orange text-white hover:text-white px-8 py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg inline-flex items-center mx-auto"
+                                onClick={() => navigate('/products')}
+                            >
+                                {t('products.ctaButton')}
+                                <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+                            </motion.button>
+                        </motion.div>
+                    </div>
+                </Section>
             </Suspense>
 
             {/* 4. Farm Story */}
@@ -313,42 +246,33 @@ const Home: React.FC = () => {
                             variants={slideInFromLeft}
                         >
                             <Typography variant="h2" className="mb-6">
-                                Our Sustainable Farm
+                                {t('farm.title')}
                             </Typography>
                             <Typography variant="body" className="mb-8">
-                                Located in the heart of Ivory Coast's cashew belt, our 50-hectare family farm combines traditional knowledge with modern sustainable practices. We're committed to ethical farming that benefits both people and the planet.
+                                {t('farm.description')}
                             </Typography>
                             <div className="grid sm:grid-cols-2 gap-6 mb-8">
-                                <div className="bg-white/10 p-4 rounded-xl">
-                                    <div className="text-accent text-2xl mb-2">
-                                        <FaLeaf />
+                                {t('farm.highlights', { returnObjects: true }).map((highlight: any, index: number) => (
+                                    <div key={index} className="bg-white/10 p-4 rounded-xl">
+                                        <div className="text-accent text-2xl mb-2">
+                                            {highlight.icon === 'FaLeaf' ? <FaLeaf /> : <FaGlobeAfrica />}
+                                        </div>
+                                        <Typography variant="h4" className="mb-2">
+                                            {highlight.title}
+                                        </Typography>
+                                        <Typography variant="small">
+                                            {highlight.description}
+                                        </Typography>
                                     </div>
-                                    <Typography variant="h4" className="mb-2">
-                                        Sustainable Practices
-                                    </Typography>
-                                    <Typography variant="small">
-                                        Organic farming methods that protect the environment
-                                    </Typography>
-                                </div>
-                                <div className="bg-white/10 p-4 rounded-xl">
-                                    <div className="text-accent text-2xl mb-2">
-                                        <FaGlobeAfrica />
-                                    </div>
-                                    <Typography variant="h4" className="mb-2">
-                                        Community Focus
-                                    </Typography>
-                                    <Typography variant="small">
-                                        Supporting local farmers and creating jobs
-                                    </Typography>
-                                </div>
+                                ))}
                             </div>
                             <motion.button
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
-                                className="group border-2 border-accent text-accent hover:bg-white/10 px-8 py-3 rounded-full transition-all duration-300 inline-flex items-center"
+                                className="group border-2 border-accent text-text-dark hover:bg-accent hover:text-white hover:border-accent px-8 py-3 rounded-full transition-all duration-300 inline-flex items-center"
                                 onClick={() => navigate('/farm')}
                             >
-                                Visit Our Farm
+                                {t('farm.ctaButton')}
                                 <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
                             </motion.button>
                         </motion.div>
@@ -362,13 +286,13 @@ const Home: React.FC = () => {
                             <div className="relative rounded-3xl overflow-hidden shadow-2xl aspect-video">
                                 <img
                                     src={farmImage}
-                                    alt="AfriNuts Farm"
+                                    alt={t('farm.imageAlt')}
                                     loading="lazy"
                                     className="w-full h-full object-cover"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent flex items-end p-8">
                                     <Typography variant="h4" className="text-white">
-                                        Odienné, Ivory Coast
+                                        {t('farm.location')}
                                     </Typography>
                                 </div>
                             </div>
@@ -392,65 +316,43 @@ const Home: React.FC = () => {
                                 className="w-full md:w-1/2 bg-cover bg-center h-64 sm:h-80 md:h-auto min-h-[200px] md:min-h-[500px]"
                                 style={{ backgroundImage: `url(${sustainabilityImage})` }}
                             />
-                            <div className="w-full md:w-1/2 px-6 py-10 sm:px-10 md:p-12">
+                            <div className="w-full md:w-1/2 px-6 py-10 sm:px-10 md:p-12 text-gray-900">
                                 <div className="text-accent text-4xl sm:text-5xl mb-6">
                                     <FaLeaf />
                                 </div>
-                                <Typography variant="h2" className="mb-6 text-xl sm:text-2xl">
-                                    Our Commitment to Sustainability
+                                <Typography variant="h2" className="mb-6 text-xl sm:text-2xl text-gray-900">
+                                    {t('sustainability.title')}
                                 </Typography>
-                                <Typography variant="body" className="mb-8 text-base sm:text-lg">
-                                    At AfriNuts Export, we believe in farming practices that protect the environment and support local communities. From water conservation to fair wages, sustainability is at the core of everything we do.
+                                <Typography variant="body" className="mb-8 text-sm sm:text-base text-gray-900">
+                                    {t('sustainability.description')}
                                 </Typography>
                                 <div className="space-y-4 mb-8">
-                                    <div className="flex items-start gap-4">
-                                        <div className="text-accent text-xl mt-1">
-                                            <FaSeedling />
+                                    {t('sustainability.features', { returnObjects: true }).map((feature: any, index: number) => (
+                                        <div key={index} className="flex items-start gap-4">
+                                            <div className="text-accent text-xl mt-1">
+                                                {feature.icon === 'FaSeedling' ? <FaSeedling /> :
+                                                    feature.icon === 'FaGlobeAfrica' ? <FaGlobeAfrica /> :
+                                                        <FaLeaf />}
+                                            </div>
+                                            <div>
+                                                <Typography variant="h4" className="mb-1 text-sm sm:text-base text-gray-900">
+                                                    {feature.title}
+                                                </Typography>
+                                                <Typography variant="small" className="text-sm text-gray-900">
+                                                    {feature.description}
+                                                </Typography>
+                                            </div>
                                         </div>
-                                        <div>
-                                            <Typography variant="h4" className="mb-1 text-base sm:text-lg">
-                                                Organic Farming
-                                            </Typography>
-                                            <Typography variant="small">
-                                                No synthetic pesticides or fertilizers
-                                            </Typography>
-                                        </div>
-                                    </div>
-                                    <div className="flex items-start gap-4">
-                                        <div className="text-accent text-xl mt-1">
-                                            <FaGlobeAfrica />
-                                        </div>
-                                        <div>
-                                            <Typography variant="h4" className="mb-1 text-base sm:text-lg">
-                                                Fair Trade Practices
-                                            </Typography>
-                                            <Typography variant="small">
-                                                Ethical treatment and fair wages for workers
-                                            </Typography>
-                                        </div>
-                                    </div>
-                                    <div className="flex items-start gap-4">
-                                        <div className="text-accent text-xl mt-1">
-                                            <FaLeaf />
-                                        </div>
-                                        <div>
-                                            <Typography variant="h4" className="mb-1 text-base sm:text-lg">
-                                                Zero Waste Processing
-                                            </Typography>
-                                            <Typography variant="small">
-                                                Utilizing byproducts like CNSL for biofuels
-                                            </Typography>
-                                        </div>
-                                    </div>
+                                    ))}
                                 </div>
                                 <div className="flex flex-wrap justify-center md:justify-start">
                                     <motion.button
                                         whileHover={{ scale: 1.05 }}
                                         whileTap={{ scale: 0.95 }}
-                                        className="group border-2 border-accent text-accent px-8 py-3 rounded-full hover:bg-accent/10 transition-all duration-300 hover:text-dark-orange hover:border-dark-orange inline-flex items-center"
+                                        className="group bg-white border-2 border-accent text-accent hover:bg-dark-orange hover:text-white px-8 py-3 rounded-full transition-all duration-300 inline-flex items-center"
                                         onClick={() => navigate('/sustainability')}
                                     >
-                                        Our Sustainability Promise
+                                        {t('sustainability.ctaButton')}
                                         <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
                                     </motion.button>
                                 </div>
@@ -461,115 +363,101 @@ const Home: React.FC = () => {
             </Section>
 
             {/* 6. News & Updates */}
-            <Suspense fallback={<div>Loading news...</div>}>
-            <Section className="py-16 bg-white">
-                <div className="container mx-auto px-6">
-                    <motion.div
-                        className="text-center mb-16"
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={fadeIn}
-                    >
-                        <Typography variant="h2" className="mb-4">
-                            Latest News & Updates
-                        </Typography>
-                        <Typography variant="subhead" className="max-w-3xl mx-auto">
-                            Stay informed about our farm, products, and industry developments
-                        </Typography>
-                    </motion.div>
-
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {/* News Card 1 */}
-                        <NewsCard
-                            newsItem={{
-                                title: "Record-Breaking Cashew Yields",
-                                date: "June 2024",
-                                category: "Harvest Report",
-                                description: "Our farm achieves highest-ever production with sustainable methods",
-                                image: newsImage
-                            }}
-                            onClick={() => navigate('/news')}
-                            variants={slideInFromLeft}
-                        />
-
-                        {/* News Card 2 */}
-                        <NewsCard
-                            newsItem={{
-                                title: "New Solar-Powered Processing",
-                                date: "May 2024",
-                                category: "Sustainability",
-                                description: "We've installed solar panels to power our processing facility",
-                                image: solarPoweredImage
-                            }}
-                            onClick={() => navigate('/news')}
-                            variants={scaleUp}
-                        />
-
-                        {/* News Card 3 */}
-                        <NewsCard
-                            newsItem={{
-                                title: "Introducing Organic Cashew Butter",
-                                date: "April 2024",
-                                category: "Product News",
-                                description: "Our newest product line now available in European markets",
-                                image: cashewButterDarkImage
-                            }}
-                            onClick={() => navigate('/news')}
-                            variants={slideInFromRight}
-                        />
-                    </div>
-
-                    <motion.div
-                        className="text-center mt-16"
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={fadeIn}
-                    >
-                        <motion.button
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            className="group bg-accent hover:bg-dark-orange text-white px-8 py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg inline-flex items-center mx-auto"
-                            onClick={() => navigate('/news')}
+            <Suspense fallback={<div>{t('loading.news')}</div>}>
+                <Section className="py-16 bg-white">
+                    <div className="container mx-auto px-6">
+                        <motion.div
+                            className="text-center mb-16"
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                            variants={fadeIn}
                         >
-                            View All News
-                            <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
-                        </motion.button>
-                    </motion.div>
-                </div>
-            </Section>
+                            <Typography variant="h2" className="mb-4">
+                                {t('news.title')}
+                            </Typography>
+                            <Typography variant="subhead" className="max-w-3xl mx-auto">
+                                {t('news.subtitle')}
+                            </Typography>
+                        </motion.div>
+
+                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            {t('news.items', { returnObjects: true }).map((newsItem: any, index: number) => {
+                                const imageMap = {
+                                    "Record-Breaking Cashew Yields": newsImage,
+                                    "New Solar-Powered Processing": solarPoweredImage,
+                                    "Introducing Organic Cashew Butter": cashewButterDarkImage
+                                };
+
+                                return (
+                                    <NewsCard
+                                        key={index}
+                                        newsItem={{
+                                            ...newsItem,
+                                            image: imageMap[newsItem.title as keyof typeof imageMap] || newsImage,
+                                            metaClass: "text-gray-100"
+                                        }}
+                                        onClick={() => navigate('/news')}
+                                        variants={
+                                            index === 0 ? slideInFromLeft :
+                                                index === 1 ? scaleUp :
+                                                    slideInFromRight
+                                        }
+                                    />
+                                );
+                            })}
+                        </div>
+
+                        <motion.div
+                            className="text-center mt-16"
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                            variants={fadeIn}
+                        >
+                            <motion.button
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                className="group bg-accent hover:bg-dark-orange text-white hover:text-white px-8 py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg inline-flex items-center mx-auto"
+                                onClick={() => navigate('/news')}
+                            >
+                                {t('news.ctaButton')}
+                                <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+                            </motion.button>
+                        </motion.div>
+                    </div>
+                </Section>
             </Suspense>
 
             {/* 7. Contact CTA */}
-            <Suspense fallback={<div>Loading contact...</div>}>
-            <Section className="py-16 bg-white text-text-dark relative overflow-hidden">
-                <div className="relative z-10 container mx-auto px-6 text-center">
-                    <motion.div
-                        className="max-w-4xl mx-auto"
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={scaleUp}
-                    >
-                        <Typography variant="h2" className="mb-6">
-                            Ready to Experience Premium Cashews?
-                        </Typography>
-                        <Typography variant="subhead" className="mb-8 max-w-2xl mx-auto">
-                            Whether you're a wholesaler, retailer, or just love quality cashews, we'd love to hear from you.
-                        </Typography>
-                        <motion.button
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            className="group bg-accent hover:bg-dark-orange text-white px-8 py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg inline-flex items-center mx-auto"
-                            onClick={() => navigate('/contact')}
+            <Suspense fallback={<div>{t('loading.contact')}</div>}>
+                <Section className="py-16 bg-white text-text-dark relative overflow-hidden">
+                    <div className="relative z-10 container mx-auto px-6 text-center">
+                        <motion.div
+                            className="max-w-4xl mx-auto"
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                            variants={scaleUp}
                         >
-                            Get In Touch
-                            <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
-                        </motion.button>
-                    </motion.div>
-                </div>
-            </Section>
+                            <Typography variant="h2" className="mb-6">
+                                {t('contact.title')}
+                            </Typography>
+                            <Typography variant="subhead" className="mb-8 max-w-2xl mx-auto">
+                                {t('contact.subtitle')}
+                            </Typography>
+                            <motion.button
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                className="group bg-accent hover:bg-dark-orange text-white hover:text-white px-8 py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg inline-flex items-center mx-auto"
+                                onClick={() => navigate('/contact')}
+                            >
+                                {t('contact.ctaButton')}
+                                <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+                            </motion.button>
+                        </motion.div>
+                    </div>
+                </Section>
             </Suspense>
         </div>
     );

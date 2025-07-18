@@ -206,6 +206,12 @@
   }
 }
 
+@layer utilities {
+  .hero-min-h {
+    @apply min-h-[75vh] sm:min-h-[85vh] md:min-h-[95vh];
+  }
+}
+
 /* High Contrast Mode */
 @layer utilities {
   .high-contrast {

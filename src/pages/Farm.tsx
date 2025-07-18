@@ -4,19 +4,20 @@ import { useNavigate } from 'react-router-dom';
 import { FaTree, FaArrowRight, FaMapMarkerAlt, FaCalendarAlt, FaLeaf, FaTint, FaUsers, FaChartLine, FaSeedling } from 'react-icons/fa';
 import { GiFarmer, GiPlantWatering, GiFruitTree } from 'react-icons/gi';
 import { MdPrecisionManufacturing } from 'react-icons/md';
-import farmImage1 from '@/assets/images/farm-1.jpg';
-import farmImage2 from '@/assets/images/farm-2.jpg';
-import farmImage3 from '@/assets/images/farm-3.jpg';
-import farmImage4 from '@/assets/images/farm-4.jpg';
-import farmHeroImage from '@/assets/images/farm-hero.jpg';
+import farmImage1 from '@/assets/images/farm-1.webp';
+import farmImage2 from '@/assets/images/farm-2.webp';
+import farmImage3 from '@/assets/images/farm-3.webp';
+import farmImage4 from '@/assets/images/farm-4.webp';
+import farmHeroImage from '@/assets/images/farm-hero.webp';
 import { motion } from 'framer-motion';
 import { fadeIn, staggerContainer } from '@/utils/animations';
 
-const Section = lazy(() => import("../components/Section/Section"));
-const Typography = lazy(() => import("../components/Typography/Typography"));
-const ImageGallery = lazy(() => import('../components/ImageGallery/ImageGallery'));
-const StatsCounter = lazy(() => import('../components/StatsCounter/StatsCounter'));
-const GlowingCard = lazy(() => import('../components/GlowingCard/GlowingCard'));
+
+import Section from "../components/Section/Section";
+import Typography from "../components/Typography/Typography";
+import ImageGallery from '../components/ImageGallery/ImageGallery';
+import StatsCounter from '../components/StatsCounter/StatsCounter';
+import GlowingCard from '../components/GlowingCard/GlowingCard';
 
 const Farm = () => {
     const { t } = useTranslation('farm');
@@ -153,7 +154,7 @@ const Farm = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
                         {farmStats.map((stat, index) => (
                             <GlowingCard key={index}>
-                                <div className="text-orange-500 mb-4 flex justify-center">{stat.icon}</div>
+                                <div className="text-ccent mb-4 flex justify-center">{stat.icon}</div>
                                 <Typography variant="h3" className="text-primary text-2xl font-bold mb-2">
                                     {stat.value}
                                 </Typography>
@@ -217,13 +218,13 @@ const Farm = () => {
 
                                     {/* Year marker with touch target */}
                                     <div className={`
-                            w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center 
-                            font-display text-lg md:text-xl font-bold border-4 shadow-lg mb-4 z-10
-                            bg-white text-accent border-accent
-                            transition-all duration-300 md:hover:scale-110
-                            touch-target
-                            relative
-                        `}>
+                                        w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center 
+                                        font-display text-lg md:text-xl font-bold border-4 shadow-lg mb-4 z-10
+                                        bg-white text-accent border-accent
+                                        transition-all duration-300 md:hover:scale-110
+                                        touch-target
+                                        relative
+                                    `}>
                                         {item.year}
                                     </div>
 

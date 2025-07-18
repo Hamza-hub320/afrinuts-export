@@ -2,17 +2,29 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import {
-  FaTree, FaSeedling, FaArrowRight, FaHandshake, FaLeaf,
-  FaIndustry, FaGlobe, FaUsers, FaRocket,
-  FaMapMarkerAlt, FaChartLine, FaHandsHelping, FaMosque, FaWater
-} from 'react-icons/fa';
+  FaTree,
+  FaSeedling,
+  FaArrowRight,
+  FaHandshake,
+  FaLeaf,
+  FaIndustry,
+  FaGlobe,
+  FaUsers,
+  FaRocket,
+  FaMapMarkerAlt,
+  FaChartLine,
+  FaHandsHelping,
+  FaMosque,
+  FaWater
+} from "react-icons/fa";
+
 import Section from '@/components/Section/Section';
 import { fadeIn, staggerContainer } from '@/utils/animations';
 
-import ceoImage from '@/assets/images/ceo.jpg';
-import cfoImage from '@/assets/images/cfo.jpg';
-import farmImage from '@/assets/images/cashew-farm.jpg';
-import aboutUsHeroImage from '@/assets/images/about-us-hero.jpg';
+import ceoImage from '@/assets/images/ceo.webp';
+import cfoImage from '@/assets/images/cfo.webp';
+import farmImage from '@/assets/images/cashew-farm.webp';
+import aboutUsHeroImage from '@/assets/images/about-us-hero.webp';
 import {Typography} from "@/components/Typography/Typography";
 import { InfoCard } from '@/components/InfoCard/InfoCard';
 
@@ -55,7 +67,7 @@ const About: React.FC = () => {
         <Section className="py-16 bg-white">
           <div className="container mx-auto px-6">
             <div className="text-center mb-16">
-            <span className="font-subhead text-accent tracking-widest text-sm uppercase block mb-2">
+            <span className="font-subhead text-text-dark tracking-widest text-sm uppercase block mb-2">
               Our Leadership
             </span>
               <h2 className="font-display text-display-lg text-text-dark">
@@ -76,11 +88,19 @@ const About: React.FC = () => {
                   <div className="p-8 md:p-12">
                     <div className="flex items-center gap-4 mb-6">
                       <div className="w-20 h-20 rounded-full overflow-hidden border-4 border-accent">
-                        <img src={ceoImage} alt={t('ceo.alt')} loading="lazy" className="w-full h-full object-cover"/>
+                        <img
+                            src={ceoImage}
+                            alt={t('ceo.alt')}
+                            width={80}  // Exact width in pixels
+                            height={80} // Exact height in pixels
+                            loading="lazy"
+                            decoding="async"
+                            className="w-full h-full object-cover"
+                        />
                       </div>
                       <div>
                         <h3 className="font-display text-2xl text-primary">Hamza S. Ralsan Sangare</h3>
-                        <p className="font-subhead text-accent">{t('ceo.position')}</p>
+                        <p className="font-subhead text-text-dark">{t('ceo.position')}</p>
                       </div>
                     </div>
                     <div className="prose max-w-none">
@@ -104,11 +124,18 @@ const About: React.FC = () => {
                   <div className="p-8 md:p-12">
                     <div className="flex items-center gap-4 mb-6">
                       <div className="w-20 h-20 rounded-full overflow-hidden border-4 border-accent">
-                        <img src={cfoImage} alt="CFO" loading="lazy" className="w-full h-full object-cover"/>
-                      </div>
+                        <img
+                            src={cfoImage}
+                            alt={t('ceo.alt')}
+                            width={80}  // Exact width in pixels
+                            height={80} // Exact height in pixels
+                            loading="lazy"
+                            decoding="async"
+                            className="w-full h-full object-cover"
+                        /></div>
                       <div>
                         <h3 className="font-display text-2xl text-primary">Sekou Hakim Petter</h3>
-                        <p className="font-subhead text-accent">Co-founder & CFO</p>
+                        <p className="font-subhead text-text-dark">Co-founder & CFO</p>
                       </div>
                     </div>
                     <div className="prose max-w-none">
@@ -158,7 +185,7 @@ const About: React.FC = () => {
                 variants={staggerContainer}
             >
               <div className="text-center mb-160">
-              <span className="font-subhead text-accent tracking-widest text-sm uppercase block mb-2">
+              <span className="font-subhead text-text-dark tracking-widest text-sm uppercase block mb-2">
                 Our Foundation
               </span>
                 <h2 className="font-display text-display-lg text-text-dark">
@@ -237,7 +264,7 @@ const About: React.FC = () => {
                   variants={fadeIn}
               >
                 <div className="mb-8">
-                <span className="font-subhead text-accent tracking-widest text-sm uppercase block mb-2">
+                <span className="font-subhead text-text-dark tracking-widest text-sm uppercase block mb-2">
                   Our Operations
                 </span>
                   <h2 className="font-display text-display-lg text-text-dark">
@@ -267,11 +294,15 @@ const About: React.FC = () => {
                   transition={{delay: 0.2}}
               >
                 <div className="rounded-3xl overflow-hidden shadow-2xl">
-                  <img
-                      src={farmImage}
-                      alt={t('farm.alt')}
-                      className="w-full h-auto object-cover aspect-video"
-                  />
+                    <img
+                        src={farmImage}
+                        alt={t('farm.alt')}
+                        width={1024}
+                        height={683}
+                        loading="lazy"
+                        decoding="async"
+                        className="w-full h-auto object-cover aspect-video"
+                    />
                 </div>
               </motion.div>
             </div>
@@ -291,7 +322,7 @@ const About: React.FC = () => {
               <Typography variant="h2" className="mb-4">
                 {t('legacy.title')}
               </Typography>
-              <Typography variant="subtitle" className="text-accent">
+              <Typography variant="subtitle" className="text-text-dark">
                 Our Journey Through Time
               </Typography>
             </motion.div>

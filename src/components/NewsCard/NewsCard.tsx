@@ -1,4 +1,3 @@
-// src/components/NewsCard/NewsCard.tsx
 import { motion } from 'framer-motion';
 import { FaNewspaper, FaArrowRight } from 'react-icons/fa';
 import { Typography } from '../Typography/Typography';
@@ -18,7 +17,7 @@ interface NewsCardProps {
 export const NewsCard: React.FC<NewsCardProps> = ({ newsItem, onClick, variants }) => {
     return (
         <motion.div
-            className="group relative bg-background rounded-2xl overflow-hidden"
+            className="group relative bg-white rounded-2xl overflow-hidden shadow-lg"
             variants={variants}
             whileHover={{
                 y: -10,
@@ -28,48 +27,36 @@ export const NewsCard: React.FC<NewsCardProps> = ({ newsItem, onClick, variants 
             whileInView="visible"
             viewport={{ once: true }}
         >
-            {/* Glow Effect - Fixed implementation */}
-            <div className="
-        absolute -inset-0.5 rounded-[15px]
-        opacity-0 group-hover:opacity-100
-        transition-opacity duration-300
-        pointer-events-none
-        shadow-glow-accent-md
-        z-0
-      "></div>
-
-            {/* Border Glow */}
-            <div className="
-        absolute -inset-px rounded-[15px]
-        opacity-0 group-hover:opacity-100
-        transition-opacity duration-500
-        pointer-events-none
-        border border-accent/30
-        z-0
-      "></div>
-
             {/* Card Content */}
-            <div className="relative z-10 h-full flex flex-col bg-background rounded-xl overflow-hidden">
-                <div className="h-64 bg-cover bg-center" style={{ backgroundImage: `url(${newsItem.image})` }} />
-                <div className="p-8">
+            <div className="relative z-10 h-full flex flex-col bg-white rounded-xl overflow-hidden">
+                <div className="h-64 bg-cover bg-center relative">
+                    <img
+                        src={newsItem.image}
+                        alt=""
+                        className="w-full h-full object-cover"
+                        aria-hidden="true"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                </div>
+                <div className="p-6">
                     <div className="flex items-center gap-3 mb-3">
-                        <FaNewspaper className="text-accent" />
-                        <span className="text-accent text-sm font-medium">
-              {newsItem.category} • {newsItem.date}
-            </span>
+                        <FaNewspaper className="text-orange-600" />
+                        <span className="text-orange-600 text-sm font-medium">
+                            {newsItem.category} • {newsItem.date}
+                        </span>
                     </div>
-                    <Typography variant="h4" className="mb-4">
+                    <Typography variant="h4" className="mb-4 text-gray-900">
                         {newsItem.title}
                     </Typography>
-                    <Typography variant="body" className="mb-6">
+                    <Typography variant="body" className="mb-6 text-gray-700">
                         {newsItem.description}
                     </Typography>
                     <button
-                        className="text-accent font-medium inline-flex items-center group"
+                        className="text-orange-600 font-medium inline-flex items-center hover:text-orange-700"
                         onClick={onClick}
                     >
                         Read more
-                        <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+                        <FaArrowRight className="ml-2 transition-transform" />
                     </button>
                 </div>
             </div>

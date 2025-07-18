@@ -12,15 +12,15 @@ import { Typography } from "@/components/Typography/Typography";
 import {ProductCard} from '@/components/ProductCard/ProductCard';
 
 // Import images
-import cashewButterDarkImage from '@/assets/images/cashew-butter-dark.jpg';
-import cashewKernelsImage from '@/assets/images/cashew-kernels.jpg';
-import cashewMilkImage from '@/assets/images/cashew-milk.jpg';
-import cashewShellImage from '@/assets/images/cashew-nut-shell-liquid.jpg';
-import roastedCashewImage from '@/assets/images/roasted-cashew.jpg';
-import ourProductHeroImage from '@/assets/images/our-product-hero.jpg';
-import processImage from '@/assets/images/production-process.jpg';
-import qualityImage from '@/assets/images/quality-control.jpg';
-import packagingImage from '@/assets/images/packaging.jpg';
+import cashewButterDarkImage from '../assets/images/cashew-butter-dark.webp';
+import cashewKernelsImage from '../assets/images/cashew-kernels.webp';
+import cashewMilkImage from '../assets/images/cashew-milk.webp';
+import cashewShellImage from '../assets/images/cashew-nut-shell-liquid.webp';
+import roastedCashewImage from '../assets/images/roasted-cashew.webp';
+import ourProductHeroImage from '../assets/images/our-product-hero.webp';
+import processImage from '../assets/images/production-process.webp';
+import qualityImage from '../assets/images/quality-control.webp';
+import packagingImage from '../assets/images/packaging.webp';
 
 const productImageMap: Record<string, string> = {
     'cashew-butter.jpg': cashewButterDarkImage,

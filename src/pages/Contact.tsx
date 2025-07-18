@@ -4,7 +4,7 @@ import React, { useState, useRef, FormEvent, ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import WeatherDisplay from '@/components/WeatherDisplay/WeatherDisplay';
 import Section from '@/components/Section/Section';
-import contactHeroImage from '@/assets/images/contact-hero.jpg';
+import contactHeroImage from '@/assets/images/contact-hero.webp';
 import { motion } from 'framer-motion';
 import { fadeIn, staggerContainer } from '@/utils/animations';
 import { Typography } from "@/components/Typography/Typography";
@@ -167,13 +167,14 @@ const Contact: React.FC = () => {
             <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
               {/* Name Field */}
               <div>
-                <Typography variant="h4" as="label" htmlFor="name" className="block mb-2">
-                  {t('form.name')}
-                </Typography>
+                <label htmlFor="name" className="block mb-2">
+                  <Typography variant="h4">{t('form.name')}</Typography>
+                </label>
                 <input
                     type="text"
                     id="name"
                     name="name"
+                    aria-required="true"
                     value={formData.name}
                     onChange={handleChange}
                     className={`w-full p-3 rounded-lg border ${errors.name ? 'border-red-500' : 'border-warm-grey'} focus:outline-none focus:ring-2 focus:ring-accent`}
@@ -183,13 +184,14 @@ const Contact: React.FC = () => {
 
               {/* Email Field */}
               <div>
-                <Typography variant="h4" as="label" htmlFor="email" className="block mb-2">
-                  {t('form.email')}
-                </Typography>
+                <label htmlFor="email" className="block mb-2">
+                  <Typography variant="h4">{t('form.email')}</Typography>
+                </label>
                 <input
                     type="email"
                     id="email"
                     name="email"
+                    aria-required="true"
                     value={formData.email}
                     onChange={handleChange}
                     className={`w-full p-3 rounded-lg border ${errors.email ? 'border-red-500' : 'border-warm-grey'} focus:outline-none focus:ring-2 focus:ring-accent`}
@@ -199,13 +201,14 @@ const Contact: React.FC = () => {
 
               {/* Subject Field */}
               <div>
-                <Typography variant="h4" as="label" htmlFor="subject" className="block mb-2">
-                  {t('form.subject')}
-                </Typography>
+                <label htmlFor="subject" className="block mb-2">
+                  <Typography variant="h4">{t('form.subject')}</Typography>
+                </label>
                 <input
                     type="text"
                     id="subject"
                     name="subject"
+                    aria-required="true"
                     value={formData.subject}
                     onChange={handleChange}
                     className={`w-full p-3 rounded-lg border ${errors.subject ? 'border-red-500' : 'border-warm-grey'} focus:outline-none focus:ring-2 focus:ring-accent`}
@@ -215,12 +218,13 @@ const Contact: React.FC = () => {
 
               {/* Message Field */}
               <div>
-                <Typography variant="h4" as="label" htmlFor="message" className="block mb-2">
-                  {t('form.message')}
-                </Typography>
+                <label htmlFor="message" className="block mb-2">
+                  <Typography variant="h4">{t('form.message')}</Typography>
+                </label>
                 <textarea
                     id="message"
                     name="message"
+                    aria-required="true"
                     rows={6}
                     value={formData.message}
                     onChange={handleChange}
