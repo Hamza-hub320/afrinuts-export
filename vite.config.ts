@@ -29,16 +29,24 @@ export default defineConfig({
         postcss: './postcss.config.cjs'
     },
     build: {
+        outDir: 'dist',
+        chunkSizeWarningLimit: 1000,
+        assetsInlineLimit: 4096,
         rollupOptions: {
+            input: {
+                main: path.resolve(__dirname, 'index.html'),
+                '404': path.resolve(__dirname, 'public/404.html')
+            },
             output: {
                 manualChunks: {
                     vendor: ['react', 'react-dom', 'react-router-dom'],
                     leaflet: ['leaflet', 'react-leaflet'],
                     i18n: ['i18next', 'react-i18next'],
-                }
+                    framer: ['framer-motion']
+                },
+                assetFileNames: 'assets/[name]-[hash][extname]',
+                entryFileNames: 'assets/[name]-[hash].js'
             }
-        },
-        chunkSizeWarningLimit: 1000, // Adjust if needed
-        assetsInlineLimit: 4096
+        }
     }
 })

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Redirecting...</title>
+    <link rel="icon" href="/afrinuts-export/favicon.ico">
+    <script>
+        // Store the original path and language preference
+        const pathToStore = location.pathname.replace('/afrinuts-export', '');
+        sessionStorage.setItem('redirectPath', pathToStore);
+        sessionStorage.setItem('redirectSearch', location.search);
+
+        // Redirect to the main index.html while preserving language
+        const langParam = new URLSearchParams(location.search).get('lng') || '';
+        const redirectUrl = '/afrinuts-export/' + (langParam ? `?lng=${langParam}` : '');
+        window.location.replace(redirectUrl);
+    </script>
+</head>
+<body>
+<noscript>
+    <h1>Redirecting to home page...</h1>
+    <p>If you're not redirected automatically, <a href="/afrinuts-export/">click here</a>.</p>
+</noscript>
+</body>
+</html>
