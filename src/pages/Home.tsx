@@ -87,7 +87,7 @@ const Home: React.FC = () => {
     return (
         <div className="min-h-[80vh] md:min-h-screen overflow-hidden text-balance">
             {/* 1. Hero Section */}
-            <section className="relative bg-primary text-white min-h-[80vh] md:min-h-screen flex items-center justify-center overflow-hidden pt-20 md:pt-0">
+            <section className="relative bg-primary text-white min-h-[80vh] md:min-h-screen flex items-center justify-center overflow-hidden pt-24 sm:pt-20 md:pt-0 pb-8">
                 {/* Dark overlay for better text contrast */}
                 <div className="absolute inset-0 bg-gradient-to-b from-black/30 to-black/50 z-0" />
 
@@ -97,7 +97,7 @@ const Home: React.FC = () => {
                     className="absolute inset-0 w-full h-full object-cover object-center z-0"
                 />
 
-                <div className="relative z-10 container mx-auto px-4 sm:px-6">
+                <div className="relative z-10 container mx-auto px-4 sm:px-6 pb-8">
                     <motion.div
                         className="max-w-4xl mx-auto text-center px-4"
                         initial={{ opacity: 0, y: 20 }}
@@ -107,7 +107,7 @@ const Home: React.FC = () => {
                         {/* Improved H1 with better mobile sizing */}
                         <Typography
                             variant="display-xl"
-                            className="mb-4 md:mb-6 text-white drop-shadow-lg bg-black/30 backdrop-blur-sm px-4 py-3 md:px-6 md:py-4 rounded-lg text-3xl sm:text-4xl md:text-5xl"
+                            className="mb-4 md:mb-6 text-white drop-shadow-lg bg-black/30 backdrop-blur-sm px-4 py-3 md:px-6 md:py-4 rounded-lg text-2xl sm:text-3xl md:text-4xl"
                         >
                             Premium Cashews from the Heart of <span className="text-accent">Ivory Coast</span>
                         </Typography>
@@ -115,17 +115,17 @@ const Home: React.FC = () => {
                         {/* Enhanced Paragraph with mobile adjustments */}
                         <Typography
                             variant="subhead"
-                            className="mb-6 md:mb-8 text-white/90 max-w-2xl mx-auto text-base sm:text-lg md:text-xl leading-relaxed drop-shadow-lg bg-black/30 backdrop-blur-sm px-4 py-3 md:px-6 md:py-4 rounded-lg"
+                            className="mb-6 md:mb-8 text-white/90 max-w-2xl mx-auto text-sm sm:text-base md:text-lg leading-relaxed drop-shadow-lg bg-black/30 backdrop-blur-sm px-4 py-3 md:px-6 md:py-4 rounded-lg"
                         >
                             Sustainably grown, ethically sourced, and packed with flavor — connecting West Africa's finest harvest to global markets.
                         </Typography>
 
-                        {/* Improved Buttons with mobile sizing */}
-                        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
+                        {/* Improved Buttons with mobile sizing and spacing */}
+                        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center mt-8">
                             <motion.button
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
-                                className="bg-accent hover:bg-dark-orange text-white px-6 py-3 sm:px-8 sm:py-4 rounded-full text-base sm:text-lg font-medium transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
+                                className="bg-accent hover:bg-dark-orange text-white px-4 py-2 sm:px-6 sm:py-3 rounded-full text-base sm:text-lg font-medium transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
                                 onClick={() => navigate('/products')}
                             >
                                 Explore Products
@@ -134,7 +134,7 @@ const Home: React.FC = () => {
                             <motion.button
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
-                                className="border-2 border-accent hover:border-accent text-white hover:text-white px-6 py-3 sm:px-8 sm:py-4 rounded-full text-base sm:text-lg font-medium transition-all duration-300 hover:bg-white/10 flex items-center justify-center gap-2"
+                                className="border-2 border-accent hover:border-accent text-white hover:text-white px-4 py-2 sm:px-6 sm:py-3 rounded-full text-base sm:text-lg font-medium transition-all duration-300 hover:bg-white/10 flex items-center justify-center gap-2"
                                 onClick={() => scrollToSection('about-preview')}
                             >
                                 Learn More
@@ -387,16 +387,19 @@ const Home: React.FC = () => {
                         viewport={{ once: true }}
                         variants={scaleUp}
                     >
-                        <div className="flex flex-col md:flex-row">
-                            <div className="md:w-1/2 bg-cover bg-center min-h-[500px]" style={{ backgroundImage: `url(${sustainabilityImage})` }} />
-                            <div className="md:w-1/2 p-12">
-                                <div className="text-accent text-5xl mb-6">
+                        <div className="flex flex-col md:flex-row gap-6 md:gap-0 flex-wrap md:flex-nowrap">
+                            <div
+                                className="w-full md:w-1/2 bg-cover bg-center h-64 sm:h-80 md:h-auto min-h-[200px] md:min-h-[500px]"
+                                style={{ backgroundImage: `url(${sustainabilityImage})` }}
+                            />
+                            <div className="w-full md:w-1/2 px-6 py-10 sm:px-10 md:p-12">
+                                <div className="text-accent text-4xl sm:text-5xl mb-6">
                                     <FaLeaf />
                                 </div>
-                                <Typography variant="h2" className="mb-6">
+                                <Typography variant="h2" className="mb-6 text-xl sm:text-2xl">
                                     Our Commitment to Sustainability
                                 </Typography>
-                                <Typography variant="body" className="mb-8">
+                                <Typography variant="body" className="mb-8 text-base sm:text-lg">
                                     At AfriNuts Export, we believe in farming practices that protect the environment and support local communities. From water conservation to fair wages, sustainability is at the core of everything we do.
                                 </Typography>
                                 <div className="space-y-4 mb-8">
@@ -405,7 +408,7 @@ const Home: React.FC = () => {
                                             <FaSeedling />
                                         </div>
                                         <div>
-                                            <Typography variant="h4" className="mb-1">
+                                            <Typography variant="h4" className="mb-1 text-base sm:text-lg">
                                                 Organic Farming
                                             </Typography>
                                             <Typography variant="small">
@@ -418,7 +421,7 @@ const Home: React.FC = () => {
                                             <FaGlobeAfrica />
                                         </div>
                                         <div>
-                                            <Typography variant="h4" className="mb-1">
+                                            <Typography variant="h4" className="mb-1 text-base sm:text-lg">
                                                 Fair Trade Practices
                                             </Typography>
                                             <Typography variant="small">
@@ -431,7 +434,7 @@ const Home: React.FC = () => {
                                             <FaLeaf />
                                         </div>
                                         <div>
-                                            <Typography variant="h4" className="mb-1">
+                                            <Typography variant="h4" className="mb-1 text-base sm:text-lg">
                                                 Zero Waste Processing
                                             </Typography>
                                             <Typography variant="small">
@@ -440,15 +443,17 @@ const Home: React.FC = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <motion.button
-                                    whileHover={{ scale: 1.05 }}
-                                    whileTap={{ scale: 0.95 }}
-                                    className="group border-2 border-accent text-accent px-8 py-3 rounded-full hover:bg-accent/10 transition-all duration-300 hover:text-dark-orange hover:border-dark-orange inline-flex items-center"
-                                    onClick={() => navigate('/sustainability')}
-                                >
-                                    Our Sustainability Promise
-                                    <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
-                                </motion.button>
+                                <div className="flex flex-wrap justify-center md:justify-start">
+                                    <motion.button
+                                        whileHover={{ scale: 1.05 }}
+                                        whileTap={{ scale: 0.95 }}
+                                        className="group border-2 border-accent text-accent px-8 py-3 rounded-full hover:bg-accent/10 transition-all duration-300 hover:text-dark-orange hover:border-dark-orange inline-flex items-center"
+                                        onClick={() => navigate('/sustainability')}
+                                    >
+                                        Our Sustainability Promise
+                                        <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+                                    </motion.button>
+                                </div>
                             </div>
                         </div>
                     </motion.div>

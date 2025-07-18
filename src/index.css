@@ -186,6 +186,26 @@
   }
 }
 
+@media (max-width: 375px) {
+  .iphone-se-fix {
+    @apply text-sm px-2 py-1;
+    line-height: 1.4;
+  }
+
+  .iphone-se-heading {
+    @apply text-xl leading-snug;
+  }
+
+  .iphone-se-stack > * + * {
+    margin-top: 0.5rem; /* tighter vertical spacing */
+  }
+
+  .iphone-se-scale {
+    transform: scale(0.95);
+    transform-origin: top left;
+  }
+}
+
 /* High Contrast Mode */
 @layer utilities {
   .high-contrast {
