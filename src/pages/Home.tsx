@@ -22,6 +22,12 @@ import farmImage from '@/assets/images/farm.jpg';
 import productsImage from '@/assets/images/products.jpg';
 import sustainabilityImage from '@/assets/images/sustainability.jpg';
 import newsImage from '@/assets/images/news.jpg';
+import valueAddedImage from '@/assets/images/value-added.jpg';
+import organicCashewImage from '@/assets/images/organic-cashew.jpg';
+import ourProductHeroImage from '@/assets/images/our-product-hero.jpg';
+import cashewButterDarkImage from '@/assets/images/cashew-butter-dark.jpg';
+import solarPoweredImage from '@/assets/images/solar-powered.jpg';
+
 const ProductCard = React.lazy(() => import('../components/ProductCard/ProductCard'));
 const NewsCard = React.lazy(() => import('../components/NewsCard/NewsCard'));
 
@@ -56,9 +62,9 @@ const Home: React.FC = () => {
 
     // Define product data and mappings
     const productImageMap = {
-        'raw-cashews': productsImage,
-        'organic-cashews': sustainabilityImage,
-        'value-added': farmImage
+        'raw-cashews': ourProductHeroImage,
+        'organic-cashews': organicCashewImage,
+        'value-added': valueAddedImage
     };
 
     const iconMap = {
@@ -79,44 +85,47 @@ const Home: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen overflow-hidden">
+        <div className="min-h-[80vh] md:min-h-screen overflow-hidden text-balance">
             {/* 1. Hero Section */}
-            <section className="relative bg-primary text-white min-h-screen flex items-center justify-center overflow-hidden">
+            <section className="relative bg-primary text-white min-h-[80vh] md:min-h-screen flex items-center justify-center overflow-hidden pt-20 md:pt-0">
                 {/* Dark overlay for better text contrast */}
-                <div className="absolute inset-0 bg-black/40 z-0" />
+                <div className="absolute inset-0 bg-gradient-to-b from-black/30 to-black/50 z-0" />
 
                 <img
                     src={heroImage}
                     alt="Cashew farm in Ivory Coast"
-                    className="absolute inset-0 w-full h-full object-cover z-0"
+                    className="absolute inset-0 w-full h-full object-cover object-center z-0"
                 />
 
-                <div className="relative z-10 container mx-auto px-6">
+                <div className="relative z-10 container mx-auto px-4 sm:px-6">
                     <motion.div
-                        className="max-w-4xl mx-auto text-center"
+                        className="max-w-4xl mx-auto text-center px-4"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8 }}
                     >
-                        {/* Improved H1 */}
-                        <Typography variant="display-xl" className="mb-6 text-white drop-shadow-md bg-black/20 backdrop-blur-sm px-6 py-4 rounded-lg">
+                        {/* Improved H1 with better mobile sizing */}
+                        <Typography
+                            variant="display-xl"
+                            className="mb-4 md:mb-6 text-white drop-shadow-lg bg-black/30 backdrop-blur-sm px-4 py-3 md:px-6 md:py-4 rounded-lg text-3xl sm:text-4xl md:text-5xl"
+                        >
                             Premium Cashews from the Heart of <span className="text-accent">Ivory Coast</span>
                         </Typography>
 
-                        {/* Enhanced Paragraph */}
+                        {/* Enhanced Paragraph with mobile adjustments */}
                         <Typography
                             variant="subhead"
-                            className="mb-8 text-white/90 max-w-2xl mx-auto text-lg md:text-xl leading-relaxed drop-shadow-md bg-black/20 backdrop-blur-sm px-6 py-4 rounded-lg"
+                            className="mb-6 md:mb-8 text-white/90 max-w-2xl mx-auto text-base sm:text-lg md:text-xl leading-relaxed drop-shadow-lg bg-black/30 backdrop-blur-sm px-4 py-3 md:px-6 md:py-4 rounded-lg"
                         >
                             Sustainably grown, ethically sourced, and packed with flavor — connecting West Africa's finest harvest to global markets.
                         </Typography>
 
-                        {/* Improved Buttons */}
-                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                        {/* Improved Buttons with mobile sizing */}
+                        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
                             <motion.button
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
-                                className="bg-accent hover:bg-dark-orange text-white px-8 py-4 rounded-full text-lg font-medium transition-all duration-300 shadow-lg hover:shadow-xl flex items-center gap-2"
+                                className="bg-accent hover:bg-dark-orange text-white px-6 py-3 sm:px-8 sm:py-4 rounded-full text-base sm:text-lg font-medium transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
                                 onClick={() => navigate('/products')}
                             >
                                 Explore Products
@@ -125,7 +134,7 @@ const Home: React.FC = () => {
                             <motion.button
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
-                                className="border-2 border-accent hover:border-accent text-white hover:text-white px-8 py-4 rounded-full text-lg font-medium transition-all duration-300 hover:bg-white/10 flex items-center gap-2"
+                                className="border-2 border-accent hover:border-accent text-white hover:text-white px-6 py-3 sm:px-8 sm:py-4 rounded-full text-base sm:text-lg font-medium transition-all duration-300 hover:bg-white/10 flex items-center justify-center gap-2"
                                 onClick={() => scrollToSection('about-preview')}
                             >
                                 Learn More
@@ -134,7 +143,6 @@ const Home: React.FC = () => {
                         </div>
                     </motion.div>
                 </div>
-
                 {/* Decorative wave at bottom */}
                 <div className="absolute bottom-0 left-0 w-full z-10">
                     <svg viewBox="0 0 1440 120" className="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
@@ -371,7 +379,7 @@ const Home: React.FC = () => {
 
             {/* 5. Sustainability */}
             <Section className="py-16 bg-background">
-                <div className="container mx-auto px-6">
+                <div className="container mx-auto px-6 text-balance mobile:text-sm">
                     <motion.div
                         className="bg-white rounded-3xl shadow-2xl overflow-hidden"
                         initial="hidden"
@@ -487,7 +495,7 @@ const Home: React.FC = () => {
                                 date: "May 2024",
                                 category: "Sustainability",
                                 description: "We've installed solar panels to power our processing facility",
-                                image: farmImage
+                                image: solarPoweredImage
                             }}
                             onClick={() => navigate('/news')}
                             variants={scaleUp}
@@ -500,7 +508,7 @@ const Home: React.FC = () => {
                                 date: "April 2024",
                                 category: "Product News",
                                 description: "Our newest product line now available in European markets",
-                                image: productsImage
+                                image: cashewButterDarkImage
                             }}
                             onClick={() => navigate('/news')}
                             variants={slideInFromRight}

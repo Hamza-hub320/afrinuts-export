@@ -12,24 +12,23 @@ import { Typography } from "@/components/Typography/Typography";
 import {ProductCard} from '@/components/ProductCard/ProductCard';
 
 // Import images
-import cashewButterImage from '@/assets/images/cashew-butter.jpg';
+import cashewButterDarkImage from '@/assets/images/cashew-butter-dark.jpg';
 import cashewKernelsImage from '@/assets/images/cashew-kernels.jpg';
 import cashewMilkImage from '@/assets/images/cashew-milk.jpg';
 import cashewShellImage from '@/assets/images/cashew-nut-shell-liquid.jpg';
 import roastedCashewImage from '@/assets/images/roasted-cashew.jpg';
-import rawCashewImage from '@/assets/images/raw-cashew.jpg';
 import ourProductHeroImage from '@/assets/images/our-product-hero.jpg';
 import processImage from '@/assets/images/production-process.jpg';
 import qualityImage from '@/assets/images/quality-control.jpg';
 import packagingImage from '@/assets/images/packaging.jpg';
 
 const productImageMap: Record<string, string> = {
-    'cashew-butter.jpg': cashewButterImage,
+    'cashew-butter.jpg': cashewButterDarkImage,
     'cashew-kernels.jpg': cashewKernelsImage,
     'cashew-milk.jpg': cashewMilkImage,
     'cashew-nut-shell-liquid.jpg': cashewShellImage,
     'roasted-cashew.jpg': roastedCashewImage,
-    'raw-cashew.jpg': rawCashewImage,
+    'raw-cashew.jpg': ourProductHeroImage,
 };
 
 interface ProductVariant {
@@ -94,7 +93,7 @@ const Products: React.FC = () => {
                 bgImage={ourProductHeroImage}
                 overlay
                 overlayColor="bg-primary/"
-                className="flex items-end justify-start text-center min-h-[50vh] md:min-h-[60vh] pb-12 px-6"
+                className="flex items-end justify-start text-center min-h-[50vh] md:min-h-[95vh] pb-12 px-6"
             >
                 <motion.div
                     className="max-w-2xl px-6 py-10 bg-white/75 backdrop-blur-xs rounded-xl"

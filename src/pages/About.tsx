@@ -12,6 +12,7 @@ import { fadeIn, staggerContainer } from '@/utils/animations';
 import ceoImage from '@/assets/images/ceo.jpg';
 import cfoImage from '@/assets/images/cfo.jpg';
 import farmImage from '@/assets/images/cashew-farm.jpg';
+import aboutUsHeroImage from '@/assets/images/about-us-hero.jpg';
 import {Typography} from "@/components/Typography/Typography";
 import { InfoCard } from '@/components/InfoCard/InfoCard';
 
@@ -23,10 +24,10 @@ const About: React.FC = () => {
         {/* Hero Section */}
         <Section
             fullHeight={false}
-            bgImage={farmImage}
+            bgImage={aboutUsHeroImage}
             overlay
-            overlayColor="bg-primary/20"
-            className="flex items-end justify-start text-center min-h-[50vh] md:min-h-[60vh] pb-12 px-6"
+            overlayColor="bg-primary/"
+            className="flex items-end justify-start text-center min-h-[50vh] md:min-h-[95vh] pb-12 px-6"
             imageStyles={{ backgroundAttachment: 'fixed' }}
         >
           <motion.div

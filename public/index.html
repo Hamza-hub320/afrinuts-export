@@ -39,5 +39,21 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <script>
+      // Handle the redirect after SPA loads
+      (function() {
+        const redirectPath = sessionStorage.getItem('redirectPath');
+        const redirectSearch = sessionStorage.getItem('redirectSearch');
+
+        if (redirectPath) {
+          sessionStorage.removeItem('redirectPath');
+          sessionStorage.removeItem('redirectSearch');
+
+          const newUrl = '/afrinuts-export' + redirectPath +
+                  (redirectSearch ? redirectSearch : '');
+          window.history.replaceState(null, null, newUrl);
+        }
+      })();
+    </script>
   </body>
 </html>
