@@ -1,4 +1,4 @@
-import{j as e,m as t}from"./framer-CVwg68Rr.js";import{F as i,T as n,a as o}from"./main-BEMQK1f_.js";import"./vendor-DTAUSwI4.js";import"./i18n-CNyPWq8H.js";const p=({newsItem:a,onClick:s,variants:r})=>e.jsxs(t.div,{className:"group relative bg-background rounded-2xl overflow-hidden",variants:r,whileHover:{y:-10,transition:{duration:.3}},initial:"hidden",whileInView:"visible",viewport:{once:!0},children:[e.jsx("div",{className:`
+import{j as e,m as t}from"./framer-CVwg68Rr.js";import{F as i,T as n,a as o}from"./main-DkMhAXrr.js";import"./vendor-DTAUSwI4.js";import"./i18n-CNyPWq8H.js";const p=({newsItem:a,onClick:s,variants:r})=>e.jsxs(t.div,{className:"group relative bg-background rounded-2xl overflow-hidden",variants:r,whileHover:{y:-10,transition:{duration:.3}},initial:"hidden",whileInView:"visible",viewport:{once:!0},children:[e.jsx("div",{className:`
         absolute -inset-0.5 rounded-[15px]
         opacity-0 group-hover:opacity-100
         transition-opacity duration-300
