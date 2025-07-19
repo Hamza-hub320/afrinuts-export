@@ -29,7 +29,7 @@ import {Typography} from "@/components/Typography/Typography";
 import { InfoCard } from '@/components/InfoCard/InfoCard';
 
 const About: React.FC = () => {
-  const {t} = useTranslation('about');
+  const { t } = useTranslation('about');
 
   return (
       <main className="bg-background">
@@ -67,7 +67,7 @@ const About: React.FC = () => {
           <div className="container mx-auto px-6">
             <div className="text-center mb-16">
             <span className="font-subhead text-text-dark tracking-widest text-sm uppercase block mb-2">
-              Our Leadership
+              {t('leadership.subtitle')}
             </span>
               <h2 className="font-display text-display-lg text-text-dark">
                 {t('leadership.title')}
@@ -90,8 +90,8 @@ const About: React.FC = () => {
                         <img
                             src={ceoImage}
                             alt={t('ceo.alt')}
-                            width={80}  // Exact width in pixels
-                            height={80} // Exact height in pixels
+                            width={80}
+                            height={80}
                             loading="lazy"
                             decoding="async"
                             className="w-full h-full object-cover"
@@ -104,7 +104,6 @@ const About: React.FC = () => {
                     </div>
                     <div className="prose max-w-none">
                       <p className="text-lg text-text-dark mb-4">{t('ceo.message')}</p>
-
                     </div>
                     <p className="mt-8 font-display italic text-primary">{t('ceo.signature')}</p>
                   </div>
@@ -125,30 +124,23 @@ const About: React.FC = () => {
                       <div className="w-20 h-20 rounded-full overflow-hidden border-4 border-accent">
                         <img
                             src={cfoImage}
-                            alt={t('ceo.alt')}
-                            width={80}  // Exact width in pixels
-                            height={80} // Exact height in pixels
+                            alt={t('cfo.alt')}
+                            width={80}
+                            height={80}
                             loading="lazy"
                             decoding="async"
                             className="w-full h-full object-cover"
-                        /></div>
+                        />
+                      </div>
                       <div>
                         <h3 className="font-display text-2xl text-primary">Sekou Hakim Petter</h3>
-                        <p className="font-subhead text-text-dark">Co-founder & CFO</p>
+                        <p className="font-subhead text-text-dark">{t('cfo.position', {defaultValue: "Co-founder & CFO"})}</p>
                       </div>
                     </div>
                     <div className="prose max-w-none">
-                      <p className="text-lg text-text-dark mb-4">
-                        "Our financial strategy is built on sustainable growth and ethical investments.
-                        We're committed to transparency and creating long-term value for our stakeholders
-                        while maintaining our Islamic financial principles."
-                      </p>
-                      <p className="text-lg text-text-dark">
-                        "By reinvesting 25% of our profits back into the business and community,
-                        we ensure AfriNuts remains financially healthy while fulfilling our social responsibilities."
-                      </p>
+                      <p className="text-lg text-text-dark mb-4">{t('cfo.message')}</p>
                     </div>
-                    <p className="mt-8 font-display italic text-primary">- Sekou Hakim Petter</p>
+                    <p className="mt-8 font-display italic text-primary">{t('cfo.signature')}</p>
                   </div>
                 </div>
               </motion.div>
@@ -183,12 +175,12 @@ const About: React.FC = () => {
                 viewport={{once: true}}
                 variants={staggerContainer}
             >
-              <div className="text-center mb-160">
+              <div className="text-center mb-16">
               <span className="font-subhead text-text-dark tracking-widest text-sm uppercase block mb-2">
-                Our Foundation
+                {t('vmv.subtitle', {defaultValue: "Our Foundation"})}
               </span>
                 <h2 className="font-display text-display-lg text-text-dark">
-                  Vision, Mission & Values
+                  {t('vmv.title', {defaultValue: "Vision, Mission & Values"})}
                 </h2>
               </div>
 
@@ -264,7 +256,7 @@ const About: React.FC = () => {
               >
                 <div className="mb-8">
                 <span className="font-subhead text-text-dark tracking-widest text-sm uppercase block mb-2">
-                  Our Operations
+                  {t('farm.subtitle', {defaultValue: "Our Operations"})}
                 </span>
                   <h2 className="font-display text-display-lg text-text-dark">
                     {t('farm.title')}
@@ -293,15 +285,15 @@ const About: React.FC = () => {
                   transition={{delay: 0.2}}
               >
                 <div className="rounded-3xl overflow-hidden shadow-2xl">
-                    <img
-                        src={farmImage}
-                        alt={t('farm.alt')}
-                        width={1024}
-                        height={683}
-                        loading="lazy"
-                        decoding="async"
-                        className="w-full h-auto object-cover aspect-video"
-                    />
+                  <img
+                      src={farmImage}
+                      alt={t('farm.alt')}
+                      width={1024}
+                      height={683}
+                      loading="lazy"
+                      decoding="async"
+                      className="w-full h-auto object-cover aspect-video"
+                  />
                 </div>
               </motion.div>
             </div>
@@ -322,7 +314,7 @@ const About: React.FC = () => {
                 {t('legacy.title')}
               </Typography>
               <Typography variant="subtitle" className="text-text-dark">
-                Our Journey Through Time
+                {t('legacy.subtitle', {defaultValue: "Our Journey Through Time"})}
               </Typography>
             </motion.div>
 
@@ -335,8 +327,7 @@ const About: React.FC = () => {
                   variants={fadeIn}
                   className="group relative"
               >
-                <div
-                    className="absolute -inset-1 bg-gradient-to-r from-accent/20 to-primary/20 rounded-3xl opacity-0 group-hover:opacity-100 blur transition duration-300"></div>
+                <div className="absolute -inset-1 bg-gradient-to-r from-accent/20 to-primary/20 rounded-3xl opacity-0 group-hover:opacity-100 blur transition duration-300"></div>
                 <div className="relative bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100">
                   <div className="bg-gradient-to-r from-primary to-primary/90 p-6 flex items-center gap-4">
                     <div className="bg-white/20 p-3 rounded-full">
@@ -349,20 +340,18 @@ const About: React.FC = () => {
                   <div className="p-8">
                     <p className="mb-6 text-gray-700">{t('legacy.family.text')}</p>
                     <ul className="space-y-4">
-                      {[
-                        {icon: FaSeedling, text: t('legacy.family.feats.0')},
-                        {icon: FaHandshake, text: t('legacy.family.feats.1')},
-                        {icon: FaLeaf, text: t('legacy.family.feats.2')}
-                      ].map((item, index) => (
+                      {t('legacy.family.feats', {returnObjects: true}).map((feat: string, index: number) => (
                           <motion.li
                               key={index}
                               className="flex items-start gap-4 p-3 rounded-lg hover:bg-gray-50 transition-colors"
                               whileHover={{x: 5}}
                           >
                             <div className="bg-accent/10 p-2 rounded-full">
-                              <item.icon className="text-accent text-lg"/>
+                              {index === 0 && <FaSeedling className="text-accent text-lg"/>}
+                              {index === 1 && <FaHandshake className="text-accent text-lg"/>}
+                              {index === 2 && <FaLeaf className="text-accent text-lg"/>}
                             </div>
-                            <span className="flex-1">{item.text}</span>
+                            <span className="flex-1">{feat}</span>
                           </motion.li>
                       ))}
                     </ul>
@@ -379,10 +368,9 @@ const About: React.FC = () => {
                   transition={{delay: 0.1}}
                   className="group relative"
               >
-                <div
-                    className="absolute -inset-1 bg-gradient-to-r from-accent/20 to-primary/20 rounded-3xl opacity-0 group-hover:opacity-100 blur transition duration-300"></div>
+                <div className="absolute -inset-1 bg-gradient-to-r from-accent/20 to-primary/20 rounded-3xl opacity-0 group-hover:opacity-100 blur transition duration-300"></div>
                 <div className="relative bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100">
-                  <div className="bg-gradient-to-r bg-accent to-accent/90 p-6 flex items-center gap-4">
+                  <div className="bg-gradient-to-r from-accent to-accent/90 p-6 flex items-center gap-4">
                     <div className="bg-white/20 p-3 rounded-full">
                       <FaChartLine className="text-2xl text-white"/>
                     </div>
@@ -393,21 +381,19 @@ const About: React.FC = () => {
                   <div className="p-8">
                     <p className="mb-6 text-gray-700">{t('legacy.afrinuts.text')}</p>
                     <ul className="space-y-4">
-                      {[
-                        {icon: FaIndustry, text: t('legacy.afrinuts.feats.0')},
-                        {icon: FaGlobe, text: t('legacy.afrinuts.feats.1')},
-                        {icon: FaUsers, text: t('legacy.afrinuts.feats.2')},
-                        {icon: FaSeedling, text: t('legacy.afrinuts.feats.3')}
-                      ].map((item, index) => (
+                      {t('legacy.afrinuts.feats', {returnObjects: true}).map((feat: string, index: number) => (
                           <motion.li
                               key={index}
                               className="flex items-start gap-4 p-3 rounded-lg hover:bg-gray-50 transition-colors"
                               whileHover={{x: 5}}
                           >
                             <div className="bg-accent/10 p-2 rounded-full">
-                              <item.icon className="text-accent text-lg"/>
+                              {index === 0 && <FaIndustry className="text-accent text-lg"/>}
+                              {index === 1 && <FaGlobe className="text-accent text-lg"/>}
+                              {index === 2 && <FaUsers className="text-accent text-lg"/>}
+                              {index === 3 && <FaSeedling className="text-accent text-lg"/>}
                             </div>
-                            <span className="flex-1">{item.text}</span>
+                            <span className="flex-1">{feat}</span>
                           </motion.li>
                       ))}
                     </ul>
@@ -423,8 +409,7 @@ const About: React.FC = () => {
                   variants={fadeIn}
                   transition={{delay: 0.2}}
               >
-                <div
-                    className="bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl p-8 text-center border-2 border-primary/20 hover:border-accent/30 transition-all duration-300">
+                <div className="bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl p-8 text-center border-2 border-primary/20 hover:border-accent/30 transition-all duration-300">
                   <div className="flex justify-center items-center gap-4 mb-6">
                     <div className="bg-accent p-3 rounded-full">
                       <FaRocket className="text-2xl text-white"/>
@@ -436,9 +421,8 @@ const About: React.FC = () => {
                   <p className="text-gray-700 max-w-2xl mx-auto">
                     {t('legacy.future.text')}
                   </p>
-                  <button
-                      className="mt-6 group bg-accent hover:bg-dark-orange text-white px-6 py-2 rounded-full transition-all duration-300 inline-flex items-center mx-auto">
-                    Learn More About Our Vision
+                  <button className="mt-6 group bg-accent hover:bg-dark-orange text-white px-6 py-2 rounded-full transition-all duration-300 inline-flex items-center mx-auto">
+                    {t('legacy.learnMore')}
                     <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform"/>
                   </button>
                 </div>

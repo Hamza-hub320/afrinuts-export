@@ -3,10 +3,22 @@
     "title": "Notre Héritage",
     "subtitle": "Réinventer l'industrie de la noix de cajou en Côte d'Ivoire grâce à l'intégration verticale"
   },
+  "leadership": {
+    "title": "Guider AfriNuts vers l'Avenir",
+    "subtitle": "Notre Direction"
+  },
   "ceo": {
     "title": "Un message de notre PDG",
-    "message": "\"AfriNuts Export représente bien plus qu'une entreprise - c'est l'aboutissement de trois générations de culture de noix de cajou à Odienné. En tant que fils de cette tradition, j'ai été témoin des défis des producteurs locaux et du potentiel immense de notre région. Notre mission est de transformer le secteur ivoirien de la noix de cajou en dépassant les exportations brutes vers une transformation à valeur ajoutée, tout en maintenant un approvisionnement éthique et un réinvestissement communautaire. Grâce à notre modèle intégré - de notre ferme durable de 50 hectares à nos futures usines de transformation - nous créons des liens directs entre les producteurs africains et les marchés mondiaux. Nous mesurons notre succès non seulement en profits, mais en impact durable : formation des agriculteurs, pratiques durables et développement communautaire. C'est notre opportunité commune de bâtir un héritage agricole bénéfique pour tous - des familles qui cultivent nos noix de cajou aux consommateurs du monde entier.\"",
-    "signature": "- Hamza S. Ralsan Sangare"
+    "message": "AfriNuts Export représente bien plus qu'une entreprise - c'est l'aboutissement de trois générations de culture de noix de cajou à Odienné. En tant que fils de cette tradition, j'ai été témoin des défis des producteurs locaux et du potentiel immense de notre région. Notre mission est de transformer le secteur ivoirien de la noix de cajou en dépassant les exportations brutes vers une transformation à valeur ajoutée, tout en maintenant un approvisionnement éthique et un réinvestissement communautaire. Grâce à notre modèle intégré - de notre ferme durable de 50 hectares à nos futures usines de transformation - nous créons des liens directs entre les producteurs africains et les marchés mondiaux. Nous mesurons notre succès non seulement en profits, mais en impact durable : formation des agriculteurs, pratiques durables et développement communautaire. C'est notre opportunité commune de bâtir un héritage agricole bénéfique pour tous - des familles qui cultivent nos noix de cajou aux consommateurs du monde entier.",
+    "signature": "- Hamza S. Ralsan Sangare",
+    "position": "Fondateur & PDG",
+    "alt": "Portrait du PDG Hamza S. Ralsan Sangare"
+  },
+  "cfo": {
+    "title": "Message de notre Directeur Financier",
+    "alt": "Portrait du Directeur Financier d'AfriNuts",
+    "message": "Notre stratégie financière assure une croissance durable tout en maintenant notre engagement envers des pratiques éthiques...",
+    "signature": "- Sekou Hakim Petter, Directeur Financier"
   },
   "brand": {
     "title": "Notre Engagement",
@@ -52,6 +64,8 @@
   },
   "legacy": {
     "title": "Trois Générations d'Excellence Agricole",
+    "subtitle": "Notre Parcours à Travers le Temps",
+    "learnMore": "En Savoir Plus Sur Notre Vision",
     "family": {
       "title": "Fondations Familiales (1990–2020)",
       "text": "Notre parcours familial de trois décennies dans la culture de noix de cajou a forgé une expertise agricole profonde et des relations communautaires solides.",

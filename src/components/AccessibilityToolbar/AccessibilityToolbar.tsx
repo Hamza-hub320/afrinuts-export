@@ -2,7 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { FaFont, FaEye, FaUniversalAccess } from 'react-icons/fa';
 
 const AccessibilityToolbar = () => {
-  const [fontSize, setFontSize] = useState<number>(100);
+  // Initialize state with a function to check device type
+  const [fontSize, setFontSize] = useState<number>(() => {
+    // Check if window is defined (for SSR compatibility)
+    if (typeof window !== 'undefined') {
+      // Check if the screen is mobile/tablet size (768px is common breakpoint for tablets)
+      return window.innerWidth < 1024 ? 80 : 90;
+    }
+    return 80; // Default fallback
+  });
+
   const [highContrast, setHighContrast] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
@@ -14,6 +23,10 @@ const AccessibilityToolbar = () => {
       const size = Number(savedFontSize);
       setFontSize(size);
       document.documentElement.style.fontSize = `${size}%`;
+    } else {
+      // Apply the default size based on device if no saved value exists
+      const defaultSize = window.innerWidth < 1024 ? 80 : 90;
+      document.documentElement.style.fontSize = `${defaultSize}%`;
     }
 
     if (savedContrast === 'true') {
@@ -23,7 +36,7 @@ const AccessibilityToolbar = () => {
   }, []);
 
   const updateFontSize = (newSize: number) => {
-    const clampedSize = Math.max(80, Math.min(newSize, 150));
+    const clampedSize = Math.max(80, Math.min(newSize, 100));
     setFontSize(clampedSize);
     document.documentElement.style.fontSize = `${clampedSize}%`;
     localStorage.setItem('accessibilityFontSize', clampedSize.toString());
