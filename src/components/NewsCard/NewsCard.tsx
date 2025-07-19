@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { FaNewspaper, FaArrowRight } from 'react-icons/fa';
 import { Typography } from '../Typography/Typography';
+import { NewsItem } from '@/types/translations';
 
 interface NewsCardProps {
     newsItem: {

@@ -99,7 +99,8 @@
     ]
   },
   "news": {
-    "title": "Dernières actualités et mises à jour",
+    "key": "yields",
+    "title": "Rendements record de noix de cajou",
     "subtitle": "Restez informé sur notre ferme, nos produits et les développements de l'industrie",
     "ctaButton": "Voir toutes les actualités",
     "items": [
@@ -110,12 +111,14 @@
         "description": "Notre ferme atteint sa production la plus élevée jamais enregistrée avec des méthodes durables"
       },
       {
+        "key": "solar",
         "title": "Nouvelle transformation à l'énergie solaire",
         "date": "Mai 2024",
         "category": "Durabilité",
         "description": "Nous avons installé des panneaux solaires pour alimenter notre usine de transformation"
       },
       {
+        "key": "butter",
         "title": "Lancement du beurre de cajou bio",
         "date": "Avril 2024",
         "category": "Nouveauté produit",

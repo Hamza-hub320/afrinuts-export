@@ -1,7 +1,7 @@
 {
   "hero": {
     "title": "Premium Cashews from the Heart of vory Coast",
-    "subtitle": "Sustainably grown, ethically sourced, and packed with flavor — connecting West Africa's finest harvest to global markets.",
+    "subtitle": "Sustainably grown, ethically sourced, and packed with flavor connecting West Africa's finest harvest to global markets.",
     "imageAlt": "Cashew farm in Ivory Coast",
     "ctaButtons": {
       "exploreProducts": "Explore Products",
@@ -104,18 +104,21 @@
     "ctaButton": "View All News",
     "items": [
       {
+        "key": "yields",
         "title": "Record-Breaking Cashew Yields",
         "date": "June 2024",
         "category": "Harvest Report",
         "description": "Our farm achieves highest-ever production with sustainable methods"
       },
       {
+        "key": "solar",
         "title": "New Solar-Powered Processing",
         "date": "May 2024",
         "category": "Sustainability",
         "description": "We've installed solar panels to power our processing facility"
       },
       {
+        "key": "butter",
         "title": "Introducing Organic Cashew Butter",
         "date": "April 2024",
         "category": "Product News",

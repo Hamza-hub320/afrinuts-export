@@ -1,0 +1,6 @@
+node_modules
+.vite
+stats.html
+.DS_Store
+dist/assets/*.jpg
+dist/assets/*.png

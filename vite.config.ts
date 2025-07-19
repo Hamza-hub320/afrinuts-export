@@ -30,13 +30,13 @@ export default defineConfig({
         }),
         ViteImageOptimizer({
             jpg: {
-                quality: 70,
+                quality: 80,
             },
             png: {
-                quality: 70,
+                quality: 80,
             },
             webp: {
-                quality: 70,
+                quality: 80,
             },
         })
     ],
@@ -56,7 +56,8 @@ export default defineConfig({
             'autoprefixer',
             'react',
             'react-dom',
-            'react-router-dom'
+            'react-router-dom',
+            'date-fns'
         ],
         exclude: ['js-big-decimal']
     },
@@ -69,7 +70,7 @@ export default defineConfig({
     },
     build: {
         outDir: 'dist',
-        chunkSizeWarningLimit: 1000,
+        chunkSizeWarningLimit: 1500,
         assetsInlineLimit: 4096,
         minify: 'terser',
         terserOptions: {

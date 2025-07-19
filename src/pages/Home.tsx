@@ -15,10 +15,9 @@ import {
     bounceArrow
 } from '@/utils/animations';
 import { Typography } from '@/components/Typography/Typography';
-
+import {NewsItem, Product, FarmHighlight, SustainabilityFeature} from '@/types/translations';
 import heroImage from '../assets/images/hero.webp';
 import farmImage from '../assets/images/farm.webp';
-import productsImage from '../assets/images/products.webp';
 import sustainabilityImage from '../assets/images/sustainability.webp';
 import newsImage from '../assets/images/news.webp';
 import valueAddedImage from '../assets/images/value-added.webp';
@@ -197,9 +196,9 @@ const Home: React.FC = () => {
                             whileInView="visible"
                             viewport={{ once: true }}
                         >
-                            {t('products.items', { returnObjects: true }).map((product: any, index: number) => (
+                            {(t('products.items', { returnObjects: true }) as Product[]).map((product) => (
                                 <ProductCard
-                                    key={index}
+                                    key={product.key}
                                     product={{
                                         ...product,
                                         icon: product.icon.toLowerCase().replace(/\s+/g, '-'),
@@ -252,8 +251,8 @@ const Home: React.FC = () => {
                                 {t('farm.description')}
                             </Typography>
                             <div className="grid sm:grid-cols-2 gap-6 mb-8">
-                                {t('farm.highlights', { returnObjects: true }).map((highlight: any, index: number) => (
-                                    <div key={index} className="bg-white/10 p-4 rounded-xl">
+                                {(t('farm.highlights', { returnObjects: true }) as FarmHighlight[]).map((highlight) => (
+                                    <div key={highlight.key} className="bg-white/10 p-4 rounded-xl">
                                         <div className="text-accent text-2xl mb-2">
                                             {highlight.icon === 'FaLeaf' ? <FaLeaf /> : <FaGlobeAfrica />}
                                         </div>
@@ -327,8 +326,8 @@ const Home: React.FC = () => {
                                     {t('sustainability.description')}
                                 </Typography>
                                 <div className="space-y-4 mb-8">
-                                    {t('sustainability.features', { returnObjects: true }).map((feature: any, index: number) => (
-                                        <div key={index} className="flex items-start gap-4">
+                                    {(t('sustainability.features', { returnObjects: true }) as SustainabilityFeature[]).map((feature) => (
+                                        <div key={feature.key} className="flex items-start gap-4">
                                             <div className="text-accent text-xl mt-1">
                                                 {feature.icon === 'FaSeedling' ? <FaSeedling /> :
                                                     feature.icon === 'FaGlobeAfrica' ? <FaGlobeAfrica /> :
@@ -381,22 +380,26 @@ const Home: React.FC = () => {
                             </Typography>
                         </motion.div>
 
+
                         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                            {t('news.items', { returnObjects: true }).map((newsItem: any, index: number) => {
-                                const imageMap = {
-                                    "Record-Breaking Cashew Yields": newsImage,
-                                    "New Solar-Powered Processing": solarPoweredImage,
-                                    "Introducing Organic Cashew Butter": cashewButterDarkImage
+                            {(t('news.items', { returnObjects: true }) as NewsItem[]).map((newsItem, index) => {
+                                const imageMap: Record<string, string> = {
+                                    yields: newsImage,
+                                    solar: solarPoweredImage,
+                                    butter: cashewButterDarkImage
                                 };
+
+                                const cardItem = {
+                                    ...newsItem,
+                                    image: imageMap[newsItem.key] || newsImage,
+                                    metaClass: "text-gray-100"
+                                } satisfies NewsItem & { image: string; metaClass: string };
+
 
                                 return (
                                     <NewsCard
-                                        key={index}
-                                        newsItem={{
-                                            ...newsItem,
-                                            image: imageMap[newsItem.title as keyof typeof imageMap] || newsImage,
-                                            metaClass: "text-gray-100"
-                                        }}
+                                        key={newsItem.key}
+                                        newsItem={cardItem}
                                         onClick={() => navigate('/news')}
                                         variants={
                                             index === 0 ? slideInFromLeft :
