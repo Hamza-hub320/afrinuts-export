@@ -124,6 +124,18 @@
     text-overflow: ellipsis;
   }
 
+  .prose p {
+    @apply leading-relaxed md:leading-normal;
+  }
+
+  /* For very small screens */
+  @media (max-width: 400px) {
+    .prose p {
+      font-size: 0.9375rem; /* text-sm */
+      line-height: 1.5; /* leading-6 */
+    }
+  }
+
   /* Spacing system */
   .section {
     @apply py-8 sm:py-12 md:py-16 lg:py-20;

@@ -63,30 +63,31 @@ const About: React.FC = () => {
         </Section>
 
         {/* Leadership Section */}
-        <Section className="py-16 bg-white">
-          <div className="container mx-auto px-6">
-            <div className="text-center mb-16">
-            <span className="font-subhead text-text-dark tracking-widest text-sm uppercase block mb-2">
-              {t('leadership.subtitle')}
-            </span>
-              <h2 className="font-display text-display-lg text-text-dark">
+        <Section className="py-8 md:py-16 bg-white">
+          <div className="container mx-auto px-4 sm:px-6">
+            <div className="text-center mb-8 md:mb-16">
+      <span className="font-subhead text-text-dark tracking-widest text-xs md:text-sm uppercase block mb-2">
+        {t('leadership.subtitle')}
+      </span>
+              <h2 className="font-display text-3xl md:text-display-lg text-text-dark">
                 {t('leadership.title')}
               </h2>
             </div>
 
-            {/* CEO Message */}
-            <div className="flex flex-col lg:flex-row gap-16 mb-24">
+            {/* CEO & CFO Messages - Updated for mobile */}
+            <div className="flex flex-col lg:flex-row gap-8 md:gap-16">
+              {/* CEO Message */}
               <motion.div
-                  className="flex-1"
+                  className="w-full"
                   initial="hidden"
                   whileInView="visible"
-                  viewport={{once: true}}
+                  viewport={{ once: true }}
                   variants={fadeIn}
               >
-                <div className="bg-background rounded-3xl shadow-lg overflow-hidden">
-                  <div className="p-8 md:p-12">
-                    <div className="flex items-center gap-4 mb-6">
-                      <div className="w-20 h-20 rounded-full overflow-hidden border-4 border-accent">
+                <div className="bg-background rounded-xl md:rounded-3xl shadow-lg overflow-hidden h-full">
+                  <div className="p-6 md:p-8 lg:p-12">
+                    <div className="flex flex-col sm:flex-row items-center gap-4 mb-4 md:mb-6">
+                      <div className="w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden border-4 border-accent">
                         <img
                             src={ceoImage}
                             alt={t('ceo.alt')}
@@ -97,31 +98,35 @@ const About: React.FC = () => {
                             className="w-full h-full object-cover"
                         />
                       </div>
-                      <div>
-                        <h3 className="font-display text-2xl text-primary">Hamza S. Ralsan Sangare</h3>
-                        <p className="font-subhead text-text-dark">{t('ceo.position')}</p>
+                      <div className="text-center sm:text-left">
+                        <h3 className="font-display text-xl md:text-2xl text-primary">Hamza S. Ralsan Sangare</h3>
+                        <p className="font-subhead text-sm md:text-base text-text-dark">{t('ceo.position')}</p>
                       </div>
                     </div>
                     <div className="prose max-w-none">
-                      <p className="text-lg text-text-dark mb-4">{t('ceo.message')}</p>
+                      <p className="text-base md:text-lg text-text-dark mb-4">
+                        {t('ceo.message')}
+                      </p>
                     </div>
-                    <p className="mt-8 font-display italic text-primary">{t('ceo.signature')}</p>
+                    <p className="mt-6 font-display italic text-primary text-sm md:text-base">
+                      {t('ceo.signature')}
+                    </p>
                   </div>
                 </div>
               </motion.div>
 
-              {/* CFO Message */}
+              {/* CFO Message - Same structure as CEO */}
               <motion.div
-                  className="flex-1"
+                  className="w-full"
                   initial="hidden"
                   whileInView="visible"
-                  viewport={{once: true}}
+                  viewport={{ once: true }}
                   variants={fadeIn}
               >
-                <div className="bg-background rounded-3xl shadow-lg overflow-hidden">
-                  <div className="p-8 md:p-12">
-                    <div className="flex items-center gap-4 mb-6">
-                      <div className="w-20 h-20 rounded-full overflow-hidden border-4 border-accent">
+                <div className="bg-background rounded-xl md:rounded-3xl shadow-lg overflow-hidden h-full">
+                  <div className="p-6 md:p-8 lg:p-12">
+                    <div className="flex flex-col sm:flex-row items-center gap-4 mb-4 md:mb-6">
+                      <div className="w-16 h-16 md:w-20 md:h-20 rounded-full overflow-hidden border-4 border-accent">
                         <img
                             src={cfoImage}
                             alt={t('cfo.alt')}
@@ -132,15 +137,21 @@ const About: React.FC = () => {
                             className="w-full h-full object-cover"
                         />
                       </div>
-                      <div>
-                        <h3 className="font-display text-2xl text-primary">Sekou Hakim Petter</h3>
-                        <p className="font-subhead text-text-dark">{t('cfo.position', {defaultValue: "Co-founder & CFO"})}</p>
+                      <div className="text-center sm:text-left">
+                        <h3 className="font-display text-xl md:text-2xl text-primary">Sekou Hakim Petter</h3>
+                        <p className="font-subhead text-sm md:text-base text-text-dark">
+                          {t('cfo.position', { defaultValue: "Co-founder & CFO" })}
+                        </p>
                       </div>
                     </div>
                     <div className="prose max-w-none">
-                      <p className="text-lg text-text-dark mb-4">{t('cfo.message')}</p>
+                      <p className="text-base md:text-lg text-text-dark mb-4">
+                        {t('cfo.message')}
+                      </p>
                     </div>
-                    <p className="mt-8 font-display italic text-primary">{t('cfo.signature')}</p>
+                    <p className="mt-6 font-display italic text-primary text-sm md:text-base">
+                      {t('cfo.signature')}
+                    </p>
                   </div>
                 </div>
               </motion.div>
