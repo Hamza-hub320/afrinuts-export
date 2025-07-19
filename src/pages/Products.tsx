@@ -237,8 +237,8 @@ const Products: React.FC = () => {
                     </div>
 
                     {/* Product Count */}
-                    <div className="mb-6 text-gray-600">
-                        {filteredProducts.length} {t('filters.results', {count: filteredProducts.length})}
+                    <div className="mb-6 text-text-dark">
+                        {t('filters.results', { count: filteredProducts.length }).replace('{count}', String(filteredProducts.length))}
                     </div>
 
                     {/* Products Grid */}

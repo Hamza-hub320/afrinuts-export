@@ -22,7 +22,8 @@
       "halal": "Certifié Halal",
       "fairtrade": "Certifié Commerce Équitable"
     },
-    "reset": "Réinitialiser tous les filtres"
+    "reset": "Réinitialiser tous les filtres",
+    "results": "{count} produits"
   },
   "products": {
     "noResults": "Aucun produit trouvé",

@@ -23,60 +23,8 @@
       "fairtrade": "Fair Trade Certified"
     },
     "reset": "Reset All Filters",
-  "featured": {
-    "title": "Featured Products",
-    "subtitle": "Discover our signature cashew offerings from Ivory Coast"
+    "results": "{count} products"
   },
-  "fullRange": {
-    "title": "Our Complete Product Line",
-    "subtitle": "From raw nuts to value-added processed goods"
-  },
-  "products": {
-    "noResults": "No products found",
-    "tryDifferentFilters": "Try adjusting your search or filters",
-    "quality": {
-      "title": "Quality Assurance",
-      "description": "Our rigorous quality control process ensures premium products",
-      "bullets": [
-        "100% natural ingredients",
-        "No artificial preservatives",
-        "Regular quality inspections"
-      ]
-    }
-  },
-  "process": {
-    "title": "Our Production Process",
-    "subtitle": "Sustainable farming meets precision processing",
-    "steps": [
-      {
-        "title": "Sustainable Farming",
-        "description": "Our cashews are grown using organic methods on our 50-hectare family farm in Odienné, with first harvest expected in 2031."
-      },
-      {
-        "title": "Quality Control",
-        "description": "Every batch undergoes rigorous quality checks to meet international standards for size, color, and taste."
-      },
-      {
-        "title": "Efficient Distribution",
-        "description": "Vacuum-sealed packaging ensures freshness as our products travel from Ivory Coast to global markets."
-      }
-    ]
-  },
-  "quality": {
-    "title": "Quality Assurance",
-    "description": "We implement strict quality control measures at every stage of production to ensure our cashews meet the highest international standards.",
-    "bullets": [
-      "Premium grade cashews with consistent sizing",
-      "Traceable to specific farms in our network",
-      "Regular laboratory testing for aflatoxins and contaminants"
-    ]
-  },
-    "all": "All Certifications",
-    "organic": "Organic Certified",
-    "halal": "Halal Certified",
-    "fairtrade": "Fair Trade Certified"
-  },
-  "resetAll": "Reset All Filters",
   "featured": {
     "title": "Featured Products",
     "subtitle": "Discover our signature cashew offerings from Ivory Coast"
