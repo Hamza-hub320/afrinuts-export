@@ -21,7 +21,7 @@ import ourProductHeroImage from '../assets/images/our-product-hero.webp';
 import processImage from '../assets/images/production-process.webp';
 import qualityImage from '../assets/images/quality-control.webp';
 import packagingImage from '../assets/images/packaging.webp';
-import {ProductVariant} from "@/types/filters";
+import { ProductFilters, AvailabilityFilter } from '@/types/filters';
 
 type AvailabilityFilter = 'all' | 'available' | 'coming-soon';
 type CertificationFilter = 'organic' | 'halal' | 'fairtrade' | '';

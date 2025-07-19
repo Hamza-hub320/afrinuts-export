@@ -1,11 +1,10 @@
-export type ProductAvailability = 'all' | 'available' | 'coming-soon';
-export type ProductCategory = 'all' | 'raw' | 'processed' | 'byproducts';
+export type AvailabilityFilter = 'all' | 'available' | 'coming-soon';
+export type CertificationFilter = 'organic' | 'halal' | 'fairtrade' | '';
 
 export interface ProductFilters {
-    availability: ProductAvailability;
-    category: ProductCategory;
+    availability: AvailabilityFilter;
     searchQuery: string;
-    certifications: string[]; // e.g., ['organic', 'halal']
+    certifications: CertificationFilter[];
 }
 
 // Optional: You might also want to add your Product and ProductVariant types here
