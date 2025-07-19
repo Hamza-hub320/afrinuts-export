@@ -4,3 +4,5 @@ stats.html
 .DS_Store
 dist/assets/*.jpg
 dist/assets/*.png
+src/pages/react-icons/
+.DS_Store

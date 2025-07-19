@@ -39,7 +39,7 @@ const About: React.FC = () => {
             bgImage={aboutUsHeroImage}
             overlay
             overlayColor="bg-primary/"
-            className="flex items-end justify-start text-center min-h-[50vh] md:min-h-[95vh] pb-12 px-6"
+            className="flex items-end justify-start text-center min-h-[50vh] md:min-h-[80vh] pb-12 px-6"
             imageStyles={{ backgroundAttachment: 'fixed' }}
         >
           <motion.div
