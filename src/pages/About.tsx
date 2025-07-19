@@ -160,39 +160,39 @@ const About: React.FC = () => {
         </Section>
 
         {/* Brand Statement */}
-        <Section className="py-10 bg-white text-center text-text-dark ">
+        <Section className="py-8 md:py-10 bg-white text-center text-text-dark">
           <motion.div
-              className="container mx-auto px-6"
+              className="container mx-auto px-4 sm:px-6"
               initial="hidden"
               whileInView="visible"
               viewport={{once: true}}
               variants={fadeIn}
           >
-            <h2 className="font-display text-display-lg mb-8 text-text-dark">
+            <Typography variant="h2" className="mb-6 md:mb-8">
               {t('brand.title')}
-            </h2>
-            <p className="font-sans text-xl leading-relaxed">
+            </Typography>
+            <Typography variant="body" className="max-w-3xl mx-auto">
               {t('brand.text')}
-            </p>
+            </Typography>
           </motion.div>
         </Section>
 
         {/* Vision, Mission, Values */}
-        <Section className="py-16 bg-white">
-          <div className="container mx-auto px-6">
+        <Section className="py-8 md:py-16 bg-white">
+          <div className="container mx-auto px-4 sm:px-6">
             <motion.div
                 initial="hidden"
                 whileInView="visible"
                 viewport={{once: true}}
                 variants={staggerContainer}
             >
-              <div className="text-center mb-16">
-              <span className="font-subhead text-text-dark tracking-widest text-sm uppercase block mb-2">
-                {t('vmv.subtitle', {defaultValue: "Our Foundation"})}
-              </span>
-                <h2 className="font-display text-display-lg text-text-dark">
+              <div className="text-center mb-8 md:mb-16">
+                <Typography variant="subhead" className="uppercase tracking-widest mb-2">
+                  {t('vmv.subtitle', {defaultValue: "Our Foundation"})}
+                </Typography>
+                <Typography variant="h2">
                   {t('vmv.title', {defaultValue: "Vision, Mission & Values"})}
-                </h2>
+                </Typography>
               </div>
 
               <div className="grid md:grid-cols-3 gap-8 mb-24">
@@ -224,10 +224,10 @@ const About: React.FC = () => {
                 viewport={{once: true}}
                 variants={staggerContainer}
             >
-              <div className="text-center mb-16">
-                <h2 className="font-display text-display-lg text-text-dark">
+              <div className="text-center mb-8 md:mb-16">
+                <Typography variant="h2">
                   {t('community.title')}
-                </h2>
+                </Typography>
               </div>
 
               <div className="flex flex-col lg:flex-row gap-8 justify-center items-stretch">
@@ -255,23 +255,17 @@ const About: React.FC = () => {
         </Section>
 
         {/* Farm Section */}
-        <Section className="py-16 bg-background">
-          <div className="container mx-auto px-6">
-            <div className="flex flex-col lg:flex-row gap-16 items-center">
-              <motion.div
-                  className="flex-1"
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{once: true}}
-                  variants={fadeIn}
-              >
-                <div className="mb-8">
-                <span className="font-subhead text-text-dark tracking-widest text-sm uppercase block mb-2">
-                  {t('farm.subtitle', {defaultValue: "Our Operations"})}
-                </span>
-                  <h2 className="font-display text-display-lg text-text-dark">
+        <Section className="py-8 md:py-16 bg-background">
+          <div className="container mx-auto px-4 sm:px-6">
+            <div className="flex flex-col lg:flex-row gap-8 md:gap-16 items-center">
+              <motion.div className="flex-1">
+                <div className="mb-6 md:mb-8">
+                  <Typography variant="subhead" className="uppercase tracking-widest mb-2">
+                    {t('farm.subtitle', {defaultValue: "Our Operations"})}
+                  </Typography>
+                  <Typography variant="h2">
                     {t('farm.title')}
-                  </h2>
+                  </Typography>
                 </div>
                 <p className="text-lg text-text-dark mb-8 leading-relaxed">
                   {t('farm.text')}

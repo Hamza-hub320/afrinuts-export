@@ -36,7 +36,7 @@ const variantClasses: {
 
     // Headings - using Playfair Display
     h1: 'font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-dark',
-    h2: 'font-display text-3xl md:text-4xl lg:text-5xl font-bold text-dark',
+    h2: 'font-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-dark leading-tight',
     h3: 'font-accent text-2xl md:text-3xl font-bold text-primary tracking-wide',
     h4: 'font-subhead text-xl md:text-2xl font-semibold text-dark tracking-tight',
 

@@ -136,6 +136,18 @@
     }
   }
 
+  .font-display {
+    line-height: 1.2;
+  }
+
+  @media (max-width: 640px) {
+    /* Slightly tighter spacing on very small screens */
+    .text-2xl {
+      font-size: 1.5rem;
+      line-height: 1.25;
+    }
+  }
+
   /* Spacing system */
   .section {
     @apply py-8 sm:py-12 md:py-16 lg:py-20;
