@@ -61,58 +61,68 @@ const Home: React.FC = () => {
     return (
         <div className="min-h-[80vh] md:min-h-screen overflow-hidden text-balance">
             {/* 1. Hero Section */}
-            <section className="relative bg-primary text-white min-h-[75vh] sm:min-h-[85vh] md:min-h-[95vh] flex items-center justify-center overflow-hidden pt-24 sm:pt-20 md:pt-0 pb-8">
+            <section className="relative bg-primary text-white min-h-[60vh] sm:min-h-[70vh] md:min-h-[80vh] lg:min-h-[90vh] flex items-center justify-center overflow-hidden pt-16 sm:pt-20 md:pt-0 pb-8">
                 {/* Dark overlay for better text contrast */}
                 <div className="absolute inset-0 bg-gradient-to-b from-black/30 to-black/50 z-0" />
 
-                <img
-                    src={heroImage}
-                    alt={t('hero.imageAlt')}
-                    className="absolute inset-0 w-full h-full object-cover object-center z-0"
-                />
+                {/* Responsive Image */}
+                <div className="absolute inset-0 w-full h-full overflow-hidden">
+                    <img
+                        src={heroImage}
+                        alt={t('hero.imageAlt')}
+                        className="w-full h-full object-cover object-center"
+                        style={{
+                            // Adjust object-position if needed (e.g., 'object-center' or 'object-top')
+                            objectPosition: 'center',
+                            // Ensure image doesn't get too stretched on mobile
+                            minHeight: '100%',
+                            minWidth: '100%',
+                        }}
+                    />
+                </div>
 
                 <div className="relative z-10 container mx-auto px-4 sm:px-6 pb-8">
                     <motion.div
-                        className="max-w-4xl mx-auto text-center px-6 py-12 bg-black/30 backdrop-blur-sm rounded-xl"
+                        className="max-w-4xl mx-auto text-center px-4 sm:px-6 py-8 sm:py-10 md:py-12 bg-black/30 backdrop-blur-sm rounded-xl"
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8 }}
                     >
-                        {/* Hero Title - Larger size */}
+                        {/* Hero Title - Responsive sizes */}
                         <Typography
                             variant="display-xl"
-                            className="mb-4 md:mb-6 text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight"
+                            className="mb-4 md:mb-6 text-white text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight"
                         >
                             {t('hero.title')}
                         </Typography>
 
-                        {/* Hero Subtitle - Larger size */}
+                        {/* Hero Subtitle - Responsive sizes */}
                         <Typography
                             variant="subhead"
-                            className="mb-8 text-white max-w-2xl mx-auto text-lg sm:text-xl md:text-2xl leading-relaxed"
+                            className="mb-6 sm:mb-8 text-white max-w-2xl mx-auto text-base sm:text-lg md:text-xl leading-relaxed"
                         >
                             {t('hero.subtitle')}
                         </Typography>
 
-                        {/* CTA Buttons - Larger size */}
-                        <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center mt-10">
+                        {/* CTA Buttons - Responsive sizes */}
+                        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 md:gap-6 justify-center mt-8 sm:mt-10">
                             <motion.button
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
-                                className="bg-orange-600 hover:bg-orange-700 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-full text-lg sm:text-xl font-medium transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
+                                className="bg-orange-600 hover:bg-orange-700 text-white px-5 py-2 sm:px-6 sm:py-3 md:px-8 md:py-4 rounded-full text-base sm:text-lg md:text-xl font-medium transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
                                 onClick={() => navigate('/products')}
                             >
                                 {t('hero.ctaButtons.exploreProducts')}
-                                <FaArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+                                <FaArrowRight className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover:translate-x-1" />
                             </motion.button>
                             <motion.button
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
-                                className="border-2 border-white text-white hover:bg-white/10 px-6 py-3 sm:px-8 sm:py-4 rounded-full text-lg sm:text-xl font-medium transition-all duration-300 flex items-center justify-center gap-2"
+                                className="border-2 border-white text-white hover:bg-white/10 px-5 py-2 sm:px-6 sm:py-3 md:px-8 md:py-4 rounded-full text-base sm:text-lg md:text-xl font-medium transition-all duration-300 flex items-center justify-center gap-2"
                                 onClick={() => scrollToSection('about-preview')}
                             >
                                 {t('hero.ctaButtons.learnMore')}
-                                <FaChevronDown className="w-5 h-5 transition-transform group-hover:translate-y-1" />
+                                <FaChevronDown className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover:translate-y-1" />
                             </motion.button>
                         </div>
                     </motion.div>
