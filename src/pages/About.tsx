@@ -40,7 +40,6 @@ const About: React.FC = () => {
             overlay
             overlayColor="bg-primary/"
             className="flex items-end justify-start text-center min-h-[50vh] md:min-h-[80vh] pb-12 px-6"
-            imageStyles={{ backgroundAttachment: 'fixed' }}
         >
           <motion.div
               className="max-w-2xl px-6 py-10 bg-white/75 backdrop-blur-xs rounded-xl"
