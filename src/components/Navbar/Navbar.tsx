@@ -75,7 +75,7 @@ const Navbar: React.FC = () => {
                     decoding="sync" // Important for above-the-fold logo
                 />
                 <span className="ml-2 text-2xl font-bold text-primary group-hover:text-dark-orange transition-colors duration-300">
-                AfriNuts Export
+                AfriNuts
               </span>
               </Link>
             </div>

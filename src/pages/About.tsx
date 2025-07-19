@@ -66,9 +66,9 @@ const About: React.FC = () => {
         <Section className="py-8 md:py-16 bg-white">
           <div className="container mx-auto px-4 sm:px-6">
             <div className="text-center mb-8 md:mb-16">
-      <span className="font-subhead text-text-dark tracking-widest text-xs md:text-sm uppercase block mb-2">
-        {t('leadership.subtitle')}
-      </span>
+              <Typography variant="subhead" className="uppercase tracking-widest mb-2">
+                {t('leadership.subtitle')}
+              </Typography>
               <h2 className="font-display text-3xl md:text-display-lg text-text-dark">
                 {t('leadership.title')}
               </h2>
@@ -315,11 +315,11 @@ const About: React.FC = () => {
                 viewport={{once: true}}
                 variants={fadeIn}
             >
+              <Typography variant="subhead" className="uppercase tracking-widest mb-2">
+                {t('legacy.subtitle', {defaultValue: "Our Journey Through Time"})}
+              </Typography>
               <Typography variant="h2" className="mb-4">
                 {t('legacy.title')}
-              </Typography>
-              <Typography variant="subtitle" className="text-text-dark">
-                {t('legacy.subtitle', {defaultValue: "Our Journey Through Time"})}
               </Typography>
             </motion.div>
 

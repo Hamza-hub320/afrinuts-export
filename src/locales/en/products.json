@@ -4,10 +4,25 @@
     "subtitle": "Ethically sourced from Odienné's fertile lands to global markets"
   },
   "filters": {
-    "all": "All Products",
-    "available": "Available Now",
-    "coming-soon": "Coming Soon"
-  },
+    "searchPlaceholder": "Search products...",
+    "availability": {
+      "all": "All Availability",
+      "available": "Available Now",
+      "coming-soon": "Coming Soon"
+    },
+    "category": {
+      "all": "All Categories",
+      "raw": "Raw Nuts",
+      "processed": "Processed",
+      "byproducts": "Byproducts"
+    },
+    "certifications": {
+      "all": "All Certifications",
+      "organic": "Organic Certified",
+      "halal": "Halal Certified",
+      "fairtrade": "Fair Trade Certified"
+    },
+    "reset": "Reset All Filters",
   "featured": {
     "title": "Featured Products",
     "subtitle": "Discover our signature cashew offerings from Ivory Coast"
@@ -15,6 +30,73 @@
   "fullRange": {
     "title": "Our Complete Product Line",
     "subtitle": "From raw nuts to value-added processed goods"
+  },
+  "products": {
+    "noResults": "No products found",
+    "tryDifferentFilters": "Try adjusting your search or filters",
+    "quality": {
+      "title": "Quality Assurance",
+      "description": "Our rigorous quality control process ensures premium products",
+      "bullets": [
+        "100% natural ingredients",
+        "No artificial preservatives",
+        "Regular quality inspections"
+      ]
+    }
+  },
+  "process": {
+    "title": "Our Production Process",
+    "subtitle": "Sustainable farming meets precision processing",
+    "steps": [
+      {
+        "title": "Sustainable Farming",
+        "description": "Our cashews are grown using organic methods on our 50-hectare family farm in Odienné, with first harvest expected in 2031."
+      },
+      {
+        "title": "Quality Control",
+        "description": "Every batch undergoes rigorous quality checks to meet international standards for size, color, and taste."
+      },
+      {
+        "title": "Efficient Distribution",
+        "description": "Vacuum-sealed packaging ensures freshness as our products travel from Ivory Coast to global markets."
+      }
+    ]
+  },
+  "quality": {
+    "title": "Quality Assurance",
+    "description": "We implement strict quality control measures at every stage of production to ensure our cashews meet the highest international standards.",
+    "bullets": [
+      "Premium grade cashews with consistent sizing",
+      "Traceable to specific farms in our network",
+      "Regular laboratory testing for aflatoxins and contaminants"
+    ]
+  },
+    "all": "All Certifications",
+    "organic": "Organic Certified",
+    "halal": "Halal Certified",
+    "fairtrade": "Fair Trade Certified"
+  },
+  "resetAll": "Reset All Filters",
+  "featured": {
+    "title": "Featured Products",
+    "subtitle": "Discover our signature cashew offerings from Ivory Coast"
+  },
+  "fullRange": {
+    "title": "Our Complete Product Line",
+    "subtitle": "From raw nuts to value-added processed goods"
+  },
+  "products": {
+    "noResults": "No products found",
+    "tryDifferentFilters": "Try adjusting your search or filters",
+    "quality": {
+      "title": "Quality Assurance",
+      "description": "Our rigorous quality control process ensures premium products",
+      "bullets": [
+        "100% natural ingredients",
+        "No artificial preservatives",
+        "Regular quality inspections"
+      ]
+    }
   },
   "process": {
     "title": "Our Production Process",
@@ -68,6 +150,7 @@
   "items": [
     {
       "name": "Raw Cashew Nuts",
+      "type": "raw",
       "description": "Sun-dried, hand-sorted cashews from our family farm and trusted partner growers",
       "features": [
         "Grade A quality with 95% whole nuts",
@@ -77,7 +160,10 @@
       "available": true,
       "backgroundImage": "raw-cashew.jpg",
       "icon": "FaSeedling",
-      "certifications": ["Organic", "Fair Trade"],
+      "certifications": [
+        "Organic",
+        "Fair Trade"
+      ],
       "variants": [
         {
           "name": "Standard Grade",
@@ -87,6 +173,7 @@
     },
     {
       "name": "Cashew Kernels",
+      "type": "processed",
       "description": "Precision-processed kernels from our future processing facility",
       "features": [
         "Multiple grades: W320, W240, W180",
@@ -97,7 +184,11 @@
       "available": false,
       "backgroundImage": "cashew-kernels.jpg",
       "icon": "FaWeightHanging",
-      "certifications": ["Organic", "Halal", "ISO 22000"],
+      "certifications": [
+        "Organic",
+        "Halal",
+        "ISO 22000"
+      ],
       "variants": [
         {
           "name": "Whole Kernels",
@@ -121,7 +212,10 @@
       "available": false,
       "backgroundImage": "cashew-butter.jpg",
       "icon": "FaIndustry",
-      "certifications": ["Organic", "Halal"],
+      "certifications": [
+        "Organic",
+        "Halal"
+      ],
       "variants": [
         {
           "name": "Smooth",
@@ -135,6 +229,7 @@
     },
     {
       "name": "Cashew Nut Shell Liquid (CNSL)",
+      "type": "byproduct",
       "description": "High-value industrial byproduct from our processing operations",
       "features": [
         "Used in paints, varnishes and brake linings",
@@ -164,7 +259,10 @@
       "available": false,
       "backgroundImage": "roasted-cashew.jpg",
       "icon": "FaLeaf",
-      "certifications": ["Organic", "Halal"],
+      "certifications": [
+        "Organic",
+        "Halal"
+      ],
       "variants": [
         {
           "name": "Natural",
@@ -188,7 +286,10 @@
       "available": false,
       "backgroundImage": "cashew-milk.jpg",
       "icon": "FaLeaf",
-      "certifications": ["Organic", "Halal"],
+      "certifications": [
+        "Organic",
+        "Halal"
+      ],
       "variants": [
         {
           "name": "Original",

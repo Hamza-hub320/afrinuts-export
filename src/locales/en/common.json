@@ -10,5 +10,8 @@
   "language": {
     "en": "EN",
     "fr": "FR"
-  }
+  },
+  "premiumQuality": "Premium quality {{product}}",
+  "availableNow": "Available now",
+  "comingSoon": "Coming soon"
 }

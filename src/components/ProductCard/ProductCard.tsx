@@ -13,6 +13,7 @@ interface ProductCardProps {
         features: string[];
         available: boolean;
         comingSoon?: string;
+        loading?: 'lazy' | 'eager';
     };
     variants?: any;
     compact?: boolean;
@@ -21,6 +22,7 @@ interface ProductCardProps {
     iconMap: Record<string, React.ComponentType>;
     height?: string;
     className?: string;
+    loading?: 'lazy' | 'eager';
 }
 
 export const ProductCard: React.FC<ProductCardProps> = ({
