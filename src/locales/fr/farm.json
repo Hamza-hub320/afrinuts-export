@@ -1,59 +1,97 @@
 {
-  "hero": {
-    "title": "La Plantation de Cajou AfriNuts Export",
-    "subtitle": "Cultivation des meilleures noix de cajou d'Afrique de l'Ouest grâce à l'agriculture régénératrice"
-  },
-  "overview": {
-    "heading": "50 Hectares de Production de Cajou Premium",
-    "description": "Située à Odienné, épicentre de la production de noix de cajou en Côte d'Ivoire, notre plantation familiale est développée avec des techniques agricoles climato-intelligentes pour produire des noix brutes de qualité premium avec une traçabilité complète du sol à l'expédition."
-  },
-  "stats": {
-    "area": "35 Hectares en culture",
-    "areaLabel": "Superficie Totale",
-    "location": "Odienné, Côte d'Ivoire",
-    "locationLabel": "Coordonnées Géographiques",
-    "phase": "2026-2031",
-    "phaseLabel": "Feuille de Route",
-    "practices": "Agriculture Régénératrice",
-    "practicesLabel": "Méthodologie Agricole"
-  },
-  "timeline": {
-    "title": "Phases de Développement Stratégique",
-    "items": [
-      {
+    "hero": {
+      "title": "La Plantation de Cajou AfriNuts Export",
+      "subtitle": "Cultivation des meilleures noix de cajou d'Afrique de l'Ouest grâce à l'agriculture régénératrice"
+    },
+    "overview": {
+      "heading": "50 Hectares de Production de Cajou Premium",
+      "description": "Située à Odienné, épicentre de la production de noix de cajou en Côte d'Ivoire, notre plantation familiale est développée avec des techniques agricoles climato-intelligentes pour produire des noix brutes de qualité premium avec une traçabilité complète du sol à l'expédition."
+    },
+    "stats": {
+      "area": "50 hectares",
+      "areaLabel": "Superficie Totale",
+      "location": "Odienné",
+      "locationLabel": "Localisation",
+      "phase": "Phase 1",
+      "phaseLabel": "Phase de Développement",
+      "practices": "Biologique",
+      "practicesLabel": "Pratiques Agricoles"
+    },
+    "features": {
+      "title": "Caractéristiques Clés de la Plantation",
+      "family": {
+        "title": "Terre Familiale",
+        "description": "50 hectares de terre familiale avec droits de développement complets"
+      },
+      "irrigation": {
+        "title": "Irrigation Intelligente",
+        "description": "Systèmes écoénergétiques pour une croissance optimale en toutes saisons"
+      },
+      "processing": {
+        "title": "Transformation Future",
+        "description": "Installation de transformation sur site prévue pour 2031"
+      },
+      "harvest": {
+        "title": "Première Récolte",
+        "description": "Première récolte prévue en 2031 à partir d'arbres matures"
+      }
+    },
+    "timeline": {
+      "title": "Phases de Développement Stratégique",
+      "scrollIndicator": "Faites défiler pour voir la chronologie",
+      "land": {
+        "year": "2026",
         "title": "Aménagement du Terrain",
         "description": "Cartographie complète des sols, défrichement sélectif et installation d'infrastructures d'irrigation de précision"
       },
-      {
-        "title": "Plantation",
-        "description": "Mise en place systématique de cultivars de cajou à haut rendement sur 35 hectares avec espacement optimal"
+      "planting": {
+        "year": "2027",
+        "title": "Opérations de Plantation",
+        "description": "Plantation systématique de cultivars de cajou à haut rendement sur 35 hectares avec espacement optimal"
       },
-      {
+      "harvest": {
+        "year": "2031",
         "title": "Première Récolte Commerciale",
-        "description": "Rendement initial projeté de 8 à 10 tonnes par hectare des arbres matures"
+        "description": "Rendement initial projeté de 8 à 10 tonnes par hectare à partir d'arbres matures"
       }
-    ]
-  },
-  "gallery": {
-    "title": "Progrès de la Plantation",
-    "alt1": "Verger de cajou en développement avec jeunes plants",
-    "alt2": "Techniques durables de préparation des terres"
-  },
-  "sustainability": {
-    "title": "Notre Engagement d'Agriculture Régénératrice",
-    "items": [
-      {
-        "title": "Gestion Hydrique",
-        "description": "Systèmes d'irrigation goutte-à-goutte réduisant la consommation d'eau de 40% par rapport aux méthodes traditionnelles"
-      },
-      {
+    },
+    "gallery": {
+      "title": "Progrès de la Plantation",
+      "alt1": "Verger de cajou en développement avec jeunes arbres",
+      "caption1": "Phase initiale de plantation sur notre propriété de 50 hectares",
+      "alt2": "Techniques durables de préparation des terres",
+      "caption2": "Méthodes écologiques de défrichement",
+      "alt3": "Installation du système d'irrigation",
+      "caption3": "Systèmes de distribution d'eau de précision",
+      "alt4": "Jeunes arbres de cajou",
+      "caption4": "Cultivars à haut rendement à 6 mois de croissance"
+    },
+    "sustainability": {
+      "title": "Notre Engagement en Agriculture Régénératrice",
+      "description": "Nous mettons en œuvre des pratiques qui restaurent la santé des écosystèmes tout en produisant des noix de cajou premium",
+      "organic": {
         "title": "Culture Biologique",
-        "description": "Gestion intégrée des parasites et fertilisants organiques pour préserver l'écosystème"
+        "description": "Gestion intégrée des parasites et fertilisants organiques pour maintenir l'équilibre de l'écosystème"
       },
-      {
-        "title": "Régénération des Sols",
-        "description": "Cultures de couverture et apports de compost pour améliorer la fertilité à long terme"
+      "water": {
+        "title": "Gestion de l'Eau",
+        "description": "Systèmes d'irrigation goutte à goutte réduisant la consommation d'eau de 40% par rapport aux méthodes traditionnelles"
+      },
+      "community": {
+        "title": "Autonomisation Communautaire",
+        "description": "Programmes de formation pour les agriculteurs locaux sur les techniques durables"
       }
-    ]
+    },
+    "impact": {
+      "title": "Impact de Notre Plantation",
+      "hectares": "Hectares en Culture",
+      "jobs": "Emplois Créés",
+      "farmers": "Augmentation des Revenus des Agriculteurs",
+      "profits": "Bénéfices pour la Communauté"
+    },
+    "cta": {
+      "title": "Rejoignez Notre Voyage Durable",
+      "description": "En savoir plus sur notre plantation de cajou et les opportunités de partenariat",
+      "button": "Contactez Notre Équipe Agricole"
+    }
   }
-}

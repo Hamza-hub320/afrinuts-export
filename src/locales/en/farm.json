@@ -1,93 +1,97 @@
 {
-  "hero": {
-    "title": "The AfriNuts Export Cashew Plantation",
-    "subtitle": "Cultivating West Africa's finest cashews through regenerative agriculture"
-  },
-  "overview": {
-    "heading": "50 Hectares of Premium Cashew Production",
-    "description": "Nestled in Odienné, the epicenter of Ivory Coast's cashew production, our family-owned plantation is being developed using climate-smart agricultural techniques to yield premium grade raw cashew nuts with full traceability from soil to shipment."
-  },
-  "stats": {
-    "area": "35 Hectares under cultivation",
-    "areaLabel": "Total Plantation Area",
-    "location": "Odienné, Ivory Coast",
-    "locationLabel": "Geographic Coordinates",
-    "phase": "2026-2031",
-    "phaseLabel": "Development Roadmap",
-    "practices": "Regenerative Agriculture",
-    "practicesLabel": "Farming Methodology"
-  },
-  "features": {
-    "title": "Key Plantation Features",
-    "family": {
-      "title": "Family-Owned Land",
-      "description": "50 hectares of family-owned land with full development rights"
+    "hero": {
+      "title": "The AfriNuts Export Cashew Plantation",
+      "subtitle": "Cultivating West Africa's finest cashews through regenerative agriculture"
     },
-    "irrigation": {
-      "title": "Smart Irrigation",
-      "description": "Water-efficient systems for optimal growth in all seasons"
+    "overview": {
+      "heading": "50 Hectares of Premium Cashew Production",
+      "description": "Nestled in Odienné, the epicenter of Ivory Coast's cashew production, our family-owned plantation is being developed using climate-smart agricultural techniques to yield premium grade raw cashew nuts with full traceability from soil to shipment."
     },
-    "processing": {
-      "title": "Future Processing",
-      "description": "On-site processing facility planned for 2031"
+    "stats": {
+      "area": "50 hectares",
+      "areaLabel": "Total Plantation Area",
+      "location": "Odienné",
+      "locationLabel": "Location",
+      "phase": "Phase 1",
+      "phaseLabel": "Development Phase",
+      "practices": "Organic",
+      "practicesLabel": "Farming Practices"
     },
-    "harvest": {
-      "title": "First Harvest",
-      "description": "Projected first harvest in 2031 from mature trees"
+    "features": {
+      "title": "Key Plantation Features",
+      "family": {
+        "title": "Family-Owned Land",
+        "description": "50 hectares of family-owned land with full development rights"
+      },
+      "irrigation": {
+        "title": "Smart Irrigation",
+        "description": "Water-efficient systems for optimal growth in all seasons"
+      },
+      "processing": {
+        "title": "Future Processing",
+        "description": "On-site processing facility planned for 2031"
+      },
+      "harvest": {
+        "title": "First Harvest",
+        "description": "Projected first harvest in 2031 from mature trees"
+      }
+    },
+    "timeline": {
+      "title": "Strategic Development Phases",
+      "scrollIndicator": "Scroll to view timeline",
+      "land": {
+        "year": "2026",
+        "title": "Land Development",
+        "description": "Comprehensive soil mapping, selective land clearing, and installation of precision irrigation infrastructure"
+      },
+      "planting": {
+        "year": "2027",
+        "title": "Planting Operations",
+        "description": "Systematic planting of high-yield cashew cultivars across 35 hectares with optimal spacing for growth"
+      },
+      "harvest": {
+        "year": "2031",
+        "title": "First Commercial Harvest",
+        "description": "Projected initial yield of 8-10 tons per hectare from mature cashew trees"
+      }
+    },
+    "gallery": {
+      "title": "Plantation Progress",
+      "alt1": "Developing cashew orchard with young trees",
+      "caption1": "Initial planting phase on our 50-hectare property",
+      "alt2": "Sustainable land preparation techniques",
+      "caption2": "Eco-friendly land clearing methods",
+      "alt3": "Irrigation system installation",
+      "caption3": "Precision water delivery systems",
+      "alt4": "Young cashew trees",
+      "caption4": "High-yield cultivars at 6 months growth"
+    },
+    "sustainability": {
+      "title": "Our Regenerative Agriculture Commitment",
+      "description": "We implement practices that restore ecosystem health while producing premium cashews",
+      "organic": {
+        "title": "Organic Cultivation",
+        "description": "Integrated pest management and organic fertilizers to maintain ecosystem balance"
+      },
+      "water": {
+        "title": "Water Stewardship",
+        "description": "Drip irrigation systems reducing water usage by 40% compared to traditional methods"
+      },
+      "community": {
+        "title": "Community Empowerment",
+        "description": "Training programs for local farmers in sustainable techniques"
+      }
+    },
+    "impact": {
+      "title": "Our Plantation Impact",
+      "hectares": "Hectares Under Cultivation",
+      "jobs": "Jobs Created",
+      "farmers": "Farmer Income Increase",
+      "profits": "Profits to Community"
+    },
+    "cta": {
+      "title": "Join Our Sustainable Journey",
+      "description": "Learn more about our cashew plantation and partnership opportunities",
+      "button": "Contact Our Farm Team"
     }
-  },
-  "timeline": {
-    "title": "Strategic Development Phases",
-    "land": {
-      "title": "Land Development",
-      "description": "Comprehensive soil mapping, selective land clearing, and installation of precision irrigation infrastructure"
-    },
-    "planting": {
-      "title": "Planting Operations",
-      "description": "Systematic planting of high-yield cashew cultivars across 35 hectares with optimal spacing for growth"
-    },
-    "harvest": {
-      "title": "First Commercial Harvest",
-      "description": "Projected initial yield of 8-10 tons per hectare from mature cashew trees"
-    }
-  },
-  "gallery": {
-    "title": "Plantation Progress",
-    "alt1": "Developing cashew orchard with young trees",
-    "caption1": "Initial planting phase on our 50-hectare property",
-    "alt2": "Sustainable land preparation techniques",
-    "caption2": "Eco-friendly land clearing methods",
-    "alt3": "Irrigation system installation",
-    "caption3": "Precision water delivery systems",
-    "alt4": "Young cashew trees",
-    "caption4": "High-yield cultivars at 6 months growth"
-  },
-  "sustainability": {
-    "title": "Our Regenerative Agriculture Commitment",
-    "description": "We implement practices that restore ecosystem health while producing premium cashews",
-    "organic": {
-      "title": "Organic Cultivation",
-      "description": "Integrated pest management and organic fertilizers to maintain ecosystem balance"
-    },
-    "water": {
-      "title": "Water Stewardship",
-      "description": "Drip irrigation systems reducing water usage by 40% compared to traditional methods"
-    },
-    "community": {
-      "title": "Community Empowerment",
-      "description": "Training programs for local farmers in sustainable techniques"
-    }
-  },
-  "impact": {
-    "title": "Our Plantation Impact",
-    "hectares": "Hectares Under Cultivation",
-    "jobs": "Jobs Created",
-    "farmers": "Farmer Income Increase",
-    "profits": "Profits to Community"
-  },
-  "cta": {
-    "title": "Join Our Sustainable Journey",
-    "description": "Learn more about our cashew plantation and partnership opportunities",
-    "button": "Contact Our Farm Team"
   }
-}
