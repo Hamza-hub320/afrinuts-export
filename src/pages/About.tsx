@@ -105,11 +105,7 @@ const About: React.FC = () => {
                     </div>
 
                     <div className="prose max-w-none space-y-4">
-                      {(
-                          Array.isArray(t('ceo.message', { returnObjects: true }))
-                              ? t('ceo.message', { returnObjects: true })
-                              : (t('ceo.message') as string).split('\n\n')
-                      ).map((paragraph: string, index: number) => (
+                      {(t('ceo.message', { returnObjects: true }) as string[]).map((paragraph: string, index: number) => (
                           <p key={`ceo-para-${index}`} className="text-base md:text-lg text-text-dark">
                             {paragraph}
                           </p>
@@ -154,11 +150,7 @@ const About: React.FC = () => {
                     </div>
 
                     <div className="prose max-w-none space-y-4">
-                      {(
-                          Array.isArray(t('cfo.message', { returnObjects: true }))
-                              ? t('cfo.message', { returnObjects: true })
-                              : (t('cfo.message') as string).split('\n\n')
-                      ).map((paragraph: string, index: number) => (
+                      {(t('cfo.message', { returnObjects: true }) as string[]).map((paragraph: string, index: number) => (
                           <p key={`cfo-para-${index}`} className="text-base md:text-lg text-text-dark">
                             {paragraph}
                           </p>
@@ -204,10 +196,10 @@ const About: React.FC = () => {
             >
               <div className="text-center mb-8 md:mb-16">
                 <Typography variant="subhead" className="uppercase tracking-widest mb-2">
-                  {t('vmv.subtitle', {defaultValue: "Our Foundation"})}
+                  {t('vmv.vmvHeader.subtitle', {defaultValue: "Our Foundation"})}
                 </Typography>
                 <Typography variant="h2">
-                  {t('vmv.title', {defaultValue: "Vision, Mission & Values"})}
+                  {t('vmv.vmvHeader.title', {defaultValue: "Vision, Mission & Values"})}
                 </Typography>
               </div>
 
@@ -361,7 +353,7 @@ const About: React.FC = () => {
                   <div className="p-8">
                     <p className="mb-6 text-gray-700">{t('legacy.family.text')}</p>
                     <ul className="space-y-4">
-                      {t('legacy.family.feats', {returnObjects: true}).map((feat: string, index: number) => (
+                      {(t('legacy.family.feats', {returnObjects: true}) as string[]).map((feat: string, index: number) => (
                           <motion.li
                               key={index}
                               className="flex items-start gap-4 p-3 rounded-lg hover:bg-gray-50 transition-colors"
@@ -402,7 +394,7 @@ const About: React.FC = () => {
                   <div className="p-8">
                     <p className="mb-6 text-gray-700">{t('legacy.afrinuts.text')}</p>
                     <ul className="space-y-4">
-                      {t('legacy.afrinuts.feats', {returnObjects: true}).map((feat: string, index: number) => (
+                      {(t('legacy.afrinuts.feats', {returnObjects: true}) as string[]).map((feat: string, index: number) => (
                           <motion.li
                               key={index}
                               className="flex items-start gap-4 p-3 rounded-lg hover:bg-gray-50 transition-colors"

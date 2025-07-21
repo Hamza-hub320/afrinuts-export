@@ -1,5 +1,4 @@
-// src/i18n.ts
-import i18n, { InitOptions } from 'i18next';
+import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 
@@ -30,7 +29,9 @@ import farmAR from './locales/ar/farm.json';
 import contactAR from './locales/ar/contact.json';
 import footerAR from './locales/ar/footer.json';
 
-// Type definition for your translation resources
+// Type definitions
+type SupportedLanguages = 'en' | 'fr' | 'ar';
+
 interface TranslationResources {
     home: typeof homeEN;
     common: typeof commonEN;
@@ -41,16 +42,16 @@ interface TranslationResources {
     footer: typeof footerEN;
 }
 
-// Extended type for all supported languages
-type SupportedLanguages = 'en' | 'fr' | 'ar';
-
-// Type definition for your i18n configuration
-interface I18nOptions extends InitOptions {
+interface I18nOptions {
     fallbackLng: SupportedLanguages;
     debug: boolean;
+    supportedLngs: SupportedLanguages[];
     ns: Array<keyof TranslationResources>;
     defaultNS: keyof TranslationResources;
     resources: Record<SupportedLanguages, TranslationResources>;
+    interpolation: {
+        escapeValue: boolean;
+    };
     detection: {
         order: string[];
         caches: string[];
@@ -60,41 +61,43 @@ interface I18nOptions extends InitOptions {
     };
 }
 
+const resources: Record<SupportedLanguages, TranslationResources> = {
+    en: {
+        home: homeEN,
+        common: commonEN,
+        about: aboutEN,
+        products: productsEN,
+        farm: farmEN,
+        contact: contactEN,
+        footer: footerEN
+    },
+    fr: {
+        home: homeFR,
+        common: commonFR,
+        about: aboutFR,
+        products: productsFR,
+        farm: farmFR,
+        contact: contactFR,
+        footer: footerFR
+    },
+    ar: {
+        home: homeAR,
+        common: commonAR,
+        about: aboutAR,
+        products: productsAR,
+        farm: farmAR,
+        contact: contactAR,
+        footer: footerAR
+    }
+};
+
 const options: I18nOptions = {
     fallbackLng: 'en',
     debug: process.env.NODE_ENV === 'development',
     supportedLngs: ['en', 'fr', 'ar'],
     ns: ['home', 'common', 'about', 'products', 'farm', 'contact', 'footer'],
     defaultNS: 'common',
-    resources: {
-        en: {
-            home: homeEN,
-            common: commonEN,
-            about: aboutEN,
-            products: productsEN,
-            farm: farmEN,
-            contact: contactEN,
-            footer: footerEN
-        },
-        fr: {
-            home: homeFR,
-            common: commonFR,
-            about: aboutFR,
-            products: productsFR,
-            farm: farmFR,
-            contact: contactFR,
-            footer: footerFR
-        },
-        ar: {
-            home: homeAR,
-            common: commonAR,
-            about: aboutAR,
-            products: productsAR,
-            farm: farmAR,
-            contact: contactAR,
-            footer: footerAR
-        }
-    },
+    resources,
     interpolation: {
         escapeValue: false
     },
@@ -110,17 +113,21 @@ const options: I18nOptions = {
 i18n
     .use(LanguageDetector)
     .use(initReactI18next)
-    .init(options);
+    .init(options)
+    .then(() => {
+        console.log('i18n initialized successfully');
+        // Set RTL/LTR direction based on language
+        document.documentElement.dir = i18n.language === 'ar' ? 'rtl' : 'ltr';
+        document.documentElement.lang = i18n.language;
+    })
+    .catch((err) => {
+        console.error('i18n initialization failed:', err);
+    });
 
-// Handle RTL direction for Arabic
+// Handle language changes
 i18n.on('languageChanged', (lng) => {
-    if (lng === 'ar') {
-        document.documentElement.dir = 'rtl';
-        document.documentElement.lang = 'ar';
-    } else {
-        document.documentElement.dir = 'ltr';
-        document.documentElement.lang = lng;
-    }
+    document.documentElement.dir = lng === 'ar' ? 'rtl' : 'ltr';
+    document.documentElement.lang = lng;
 });
 
 export default i18n;

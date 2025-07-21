@@ -50,9 +50,13 @@
     "text": "AfriNuts Export delivers premium Ivory Coast cashews through sustainable farming and meticulous processing. We combine West Africa's agricultural heritage with international quality standards to meet growing global demand for traceable, responsibly-sourced products."
   },
   "vmv": {
+    "vmvHeader": {
+      "subtitle": "Our Foundation",
+      "title": "Vision, Mission & Values"
+    },
     "vision": {
       "title": "Our Vision",
-      "text": "To become West Africa's leading cashew exporter by 2040 through quality innovation, sustainable practices, and positive community impact."
+      "text": "To define a sustainable future for Ivorian cashew industry through excellence, transparency and social responsibility."
     },
     "mission": {
       "title": "Our Mission",

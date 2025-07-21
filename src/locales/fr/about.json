@@ -50,9 +50,13 @@
     "text": "AfriNuts Export propose des noix de cajou ivoiriennes premium grâce à une agriculture durable et une transformation méticuleuse. Nous combinons l'héritage agricole ouest-africain avec les standards internationaux pour répondre à la demande croissante de produits traçables et responsables."
   },
   "vmv": {
+    "vmvHeader": {
+      "subtitle": "Notre Fondation",
+      "title": "Vision, Mission et Valeurs"
+    },
     "vision": {
       "title": "Notre Vision",
-      "text": "Devenir le premier exportateur de noix de cajou en Afrique de l'Ouest d'ici 2040 grâce à l'innovation qualitative, des pratiques durables et un impact communautaire positif."
+      "text": "Définir un avenir durable pour l'industrie de la noix de cajou ivoirienne, guidé par l'excellence, la transparence et la responsabilité sociale."
     },
     "mission": {
       "title": "Notre Mission",
