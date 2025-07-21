@@ -74,7 +74,7 @@ const About: React.FC = () => {
               </h2>
             </div>
 
-            {/* CEO & CFO Messages - Updated for mobile */}
+            {/* CEO & CFO Messages */}
             <div className="flex flex-col lg:flex-row gap-8 md:gap-16">
               {/* CEO Message */}
               <motion.div
@@ -103,11 +103,19 @@ const About: React.FC = () => {
                         <p className="font-subhead text-sm md:text-base text-text-dark">{t('ceo.position')}</p>
                       </div>
                     </div>
-                    <div className="prose max-w-none">
-                      <p className="text-base md:text-lg text-text-dark mb-4">
-                        {t('ceo.message')}
-                      </p>
+
+                    <div className="prose max-w-none space-y-4">
+                      {(
+                          Array.isArray(t('ceo.message', { returnObjects: true }))
+                              ? t('ceo.message', { returnObjects: true })
+                              : (t('ceo.message') as string).split('\n\n')
+                      ).map((paragraph: string, index: number) => (
+                          <p key={`ceo-para-${index}`} className="text-base md:text-lg text-text-dark">
+                            {paragraph}
+                          </p>
+                      ))}
                     </div>
+
                     <p className="mt-6 font-display italic text-primary text-sm md:text-base">
                       {t('ceo.signature')}
                     </p>
@@ -115,7 +123,7 @@ const About: React.FC = () => {
                 </div>
               </motion.div>
 
-              {/* CFO Message - Same structure as CEO */}
+              {/* CFO Message */}
               <motion.div
                   className="w-full"
                   initial="hidden"
@@ -144,11 +152,19 @@ const About: React.FC = () => {
                         </p>
                       </div>
                     </div>
-                    <div className="prose max-w-none">
-                      <p className="text-base md:text-lg text-text-dark mb-4">
-                        {t('cfo.message')}
-                      </p>
+
+                    <div className="prose max-w-none space-y-4">
+                      {(
+                          Array.isArray(t('cfo.message', { returnObjects: true }))
+                              ? t('cfo.message', { returnObjects: true })
+                              : (t('cfo.message') as string).split('\n\n')
+                      ).map((paragraph: string, index: number) => (
+                          <p key={`cfo-para-${index}`} className="text-base md:text-lg text-text-dark">
+                            {paragraph}
+                          </p>
+                      ))}
                     </div>
+
                     <p className="mt-6 font-display italic text-primary text-sm md:text-base">
                       {t('cfo.signature')}
                     </p>
@@ -157,7 +173,7 @@ const About: React.FC = () => {
               </motion.div>
             </div>
           </div>
-        </Section>
+          </Section>
 
         {/* Brand Statement */}
         <Section className="py-8 md:py-10 bg-white text-center text-text-dark">
