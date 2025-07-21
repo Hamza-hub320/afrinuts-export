@@ -143,7 +143,7 @@ const Navbar: React.FC = () => {
               ))}
             </div>
 
-            {/* Language Toggle - Desktop */}
+            {/* Language Toggle */}
             <div className="hidden md:flex items-center ml-2">
               <button
                   onClick={toggleLanguage}
@@ -154,45 +154,45 @@ const Navbar: React.FC = () => {
                 <span className="font-medium">{nextLanguage.code.toUpperCase()}</span>
               </button>
             </div>
+          </div>
 
-            {/* Mobile Menu */}
-            <div
-                className={`${click ? 'block animate-fadeIn' : 'hidden'} md:hidden pb-3 px-4 transition-all duration-300`}
-                aria-hidden={!click}
-            >
-              <div className="space-y-1">
-                {navItems.map((item, index) => (
-                    <Link
-                        key={index}
-                        to={item.path}
-                        onClick={closeMobileMenu}
-                        className={`block px-3 py-3 rounded-lg text-base font-medium transition-colors duration-300 ${
-                            isActive(item.path)
-                                ? 'bg-primary text-white shadow-md'
-                                : 'text-gray-700 hover:bg-gray-100 hover:text-primary'
-                        }`}
-                    >
-                      {item.label}
-                    </Link>
-                ))}
-                <div className="pt-1">
-                  <button
-                      onClick={() => {
-                        toggleLanguage();
-                        closeMobileMenu();
-                      }}
-                      className="flex items-center px-3 py-3 rounded-lg text-gray-700 hover:text-primary hover:bg-gray-100 w-full transition-colors duration-300"
+          {/* Mobile Menu */}
+          <div
+              className={`${click ? 'block animate-fadeIn' : 'hidden'} md:hidden pb-3 px-4 transition-all duration-300`}
+              aria-hidden={!click}
+          >
+            <div className="space-y-1">
+              {navItems.map((item, index) => (
+                  <Link
+                      key={index}
+                      to={item.path}
+                      onClick={closeMobileMenu}
+                      className={`block px-3 py-3 rounded-lg text-base font-medium transition-colors duration-300 ${
+                          isActive(item.path)
+                              ? 'bg-primary text-white shadow-md'
+                              : 'text-gray-700 hover:bg-gray-100 hover:text-primary'
+                      }`}
                   >
-                    <FaGlobe className="mr-3" />
-                    <span>{t('navbar.language')}: {nextLanguage.code.toUpperCase()}</span>
-                  </button>
-                </div>
+                    {item.label}
+                  </Link>
+              ))}
+              <div className="pt-1">
+                <button
+                    onClick={() => {
+                      toggleLanguage();
+                      closeMobileMenu();
+                    }}
+                    className="flex items-center px-3 py-3 rounded-lg text-gray-700 hover:text-primary hover:bg-gray-100 w-full transition-colors duration-300"
+                >
+                  <FaGlobe className="mr-3" />
+                  <span>{t('navbar.language')}: {nextLanguage.code.toUpperCase()}</span>
+                </button>
               </div>
             </div>
           </div>
         </div>
       </nav>
-);
+  );
 };
 
 export default Navbar;
