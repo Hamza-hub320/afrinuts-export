@@ -64,8 +64,8 @@ const About: React.FC = () => {
 
         {/* Leadership Section */}
         <Section className="py-8 md:py-16 bg-white">
-          <div className="container mx-auto px-4 sm:px-6">
-            <div className="text-center mb-8 md:mb-16">
+          <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="text-center mb-8 md:mb-16">
               <Typography variant="subhead" className="uppercase tracking-widest mb-2">
                 {t('leadership.subtitle')}
               </Typography>
@@ -307,8 +307,8 @@ const About: React.FC = () => {
 
         {/* Legacy Timeline */}
         <Section className="py-16 bg-background text-text-dark">
-          <div className="container mx-auto px-6">
-            <motion.div
+          <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
+          <motion.div
                 className="text-center mb-16"
                 initial="hidden"
                 whileInView="visible"
