@@ -3,6 +3,9 @@
     "title": "Our Premium Cashew Products",
     "subtitle": "Ethically sourced from Odienné's fertile lands to global markets"
   },
+  "productCard": {
+    "keyFeatures": "KEY FEATURES"
+  },
   "filters": {
     "searchPlaceholder": "Search products...",
     "availability": {

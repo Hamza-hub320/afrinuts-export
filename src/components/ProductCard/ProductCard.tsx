@@ -2,6 +2,8 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Typography } from '../Typography/Typography';
 import { FaArrowRight } from 'react-icons/fa';
+import { useTranslation } from 'react-i18next';
+import {t} from "i18next";
 
 interface ProductCardProps {
     product: {
@@ -94,9 +96,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                     {/* Features list */}
                     {!compact && product.features && (
                         <div className="mb-5">
-                            <Typography variant="h4" className="text-gray-900 text-sm font-semibold mb-3">
-                                KEY FEATURES
-                            </Typography>
                             <ul className="space-y-2">
                                 {product.features.map((feature: string, i: number) => (
                                     <li key={i} className="flex items-start">

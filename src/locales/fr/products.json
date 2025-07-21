@@ -3,6 +3,9 @@
     "title": "Nos Produits Premium de Noix de Cajou",
     "subtitle": "Source éthique des terres fertiles d'Odienné aux marchés mondiaux"
   },
+  "productCard": {
+    "keyFeatures": "CARACTÉRISTIQUES CLÉS"
+  },
   "filters": {
     "searchPlaceholder": "Rechercher des produits...",
     "availability": {
