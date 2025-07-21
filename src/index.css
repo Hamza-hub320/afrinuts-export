@@ -239,12 +239,12 @@
 /* High Contrast Mode */
 @layer utilities {
   .high-contrast {
-    --color-primary: #253746;
+    --color-primary: #3E5500; /* improved forest green */
     --color-secondary: #FFFFFF;
-    --color-accent: #FD8104;
-    --color-text-dark: #FFFFFF;
-    --color-text-light: #253746;
-    --color-background: #253746;
+    --color-accent: #C34706;  /* deeper orange */
+    --color-text-dark: #1F1F1F;
+    --color-text-light: #FFFFFF;
+    --color-background: #FAFAFA;
   }
 
   .high-contrast body {
@@ -258,7 +258,7 @@
   .high-contrast h4,
   .high-contrast h5,
   .high-contrast h6 {
-    color: var(--color-accent) !important;
+    color: var(--color-primary) !important;
   }
 
   .high-contrast a {
@@ -270,12 +270,13 @@
   .high-contrast button {
     border: 2px solid var(--color-accent) !important;
     color: var(--color-text-light) !important;
-    background-color: var(--color-secondary) !important;
+    background-color: var(--color-primary) !important;
   }
 
   .high-contrast .card {
-    background-color: var(--color-primary) !important;
-    border: 2px solid var(--color-accent) !important;
+    background-color: var(--color-secondary) !important;
+    border: 2px solid var(--color-primary) !important;
+    color: var(--color-text-dark) !important;
   }
 
   .high-contrast *:focus {

@@ -4,12 +4,39 @@ import { FaGlobe, FaBars, FaTimes } from 'react-icons/fa';
 import logo from '@/assets/images/afrinuts-export-official-logo.webp';
 import { useTranslation } from 'react-i18next';
 
+// Type for language configuration
+type LanguageConfig = {
+  code: string;
+  label: string;
+  dir?: 'ltr' | 'rtl';
+};
+
 const Navbar: React.FC = () => {
   const { t, i18n } = useTranslation('common');
   const location = useLocation();
   const [click, setClick] = useState<boolean>(false);
   const [scrolled, setScrolled] = useState<boolean>(false);
-  const [languageLabel, setLanguageLabel] = useState<string>('');
+
+  // Language configuration
+  const languages: LanguageConfig[] = [
+    { code: 'en', label: 'English', dir: 'ltr' },
+    { code: 'fr', label: 'Français', dir: 'ltr' },
+    { code: 'ar', label: 'العربية', dir: 'rtl' }
+  ];
+
+  // Get the next language in sequence
+  const getNextLanguage = () => {
+    const currentIndex = languages.findIndex(lang => lang.code === i18n.language);
+    const nextIndex = (currentIndex + 1) % languages.length;
+    return languages[nextIndex];
+  };
+
+  const [nextLanguage, setNextLanguage] = useState<LanguageConfig>(getNextLanguage());
+
+  useEffect(() => {
+    // Update next language whenever i18n language changes
+    setNextLanguage(getNextLanguage());
+  }, [i18n.language]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -20,15 +47,13 @@ const Navbar: React.FC = () => {
   }, []);
 
   const toggleLanguage = () => {
-    const newLang = i18n.language === 'en' ? 'fr' : 'en';
-    i18n.changeLanguage(newLang);
-    localStorage.setItem('i18nextLng', newLang);
-    setLanguageLabel(newLang === 'en' ? 'FR' : 'EN');
+    const newLang = nextLanguage.code;
+    i18n.changeLanguage(newLang).then(() => {
+      document.documentElement.lang = newLang;
+      document.documentElement.dir = nextLanguage.dir || 'ltr';
+      localStorage.setItem('i18nextLng', newLang);
+    });
   };
-
-  useEffect(() => {
-    setLanguageLabel(i18n.language === 'en' ? 'FR' : 'EN');
-  }, [i18n.language]);
 
   const isActive = (path: string): boolean => {
     if (path === '/') {
@@ -69,10 +94,10 @@ const Navbar: React.FC = () => {
                     src={logo}
                     alt="AfriNuts Export Logo"
                     width={64}
-                    height={64} // Intrinsic height in pixels
+                    height={64}
                     className="h-12 w-auto md:h-16 transition-transform duration-300 group-hover:scale-105"
-                    loading="eager" // Important for above-the-fold logo
-                    decoding="sync" // Important for above-the-fold logo
+                    loading="eager"
+                    decoding="sync"
                 />
                 <span className="ml-2 text-2xl font-bold text-primary group-hover:text-dark-orange transition-colors duration-300">
                 AfriNuts
@@ -118,56 +143,56 @@ const Navbar: React.FC = () => {
               ))}
             </div>
 
-            {/* Language Toggle */}
+            {/* Language Toggle - Desktop */}
             <div className="hidden md:flex items-center ml-2">
               <button
                   onClick={toggleLanguage}
                   className="flex items-center text-gray-700 hover:text-primary p-2 rounded-lg hover:bg-gray-100 transition-colors duration-300 group"
-                  aria-label={`Change language to ${languageLabel}`}
+                  aria-label={`Change language to ${nextLanguage.label}`}
               >
                 <FaGlobe className="mr-2 group-hover:rotate-12 transition-transform duration-300" />
-                <span className="font-medium">{languageLabel}</span>
+                <span className="font-medium">{nextLanguage.code.toUpperCase()}</span>
               </button>
             </div>
-          </div>
 
-          {/* Mobile Menu */}
-          <div
-              className={`${click ? 'block animate-fadeIn' : 'hidden'} md:hidden pb-3 px-4 transition-all duration-300`}
-              aria-hidden={!click}
-          >
-            <div className="space-y-1">
-              {navItems.map((item, index) => (
-                  <Link
-                      key={index}
-                      to={item.path}
-                      onClick={closeMobileMenu}
-                      className={`block px-3 py-3 rounded-lg text-base font-medium transition-colors duration-300 ${
-                          isActive(item.path)
-                              ? 'bg-primary text-white shadow-md'
-                              : 'text-gray-700 hover:bg-gray-100 hover:text-primary'
-                      }`}
+            {/* Mobile Menu */}
+            <div
+                className={`${click ? 'block animate-fadeIn' : 'hidden'} md:hidden pb-3 px-4 transition-all duration-300`}
+                aria-hidden={!click}
+            >
+              <div className="space-y-1">
+                {navItems.map((item, index) => (
+                    <Link
+                        key={index}
+                        to={item.path}
+                        onClick={closeMobileMenu}
+                        className={`block px-3 py-3 rounded-lg text-base font-medium transition-colors duration-300 ${
+                            isActive(item.path)
+                                ? 'bg-primary text-white shadow-md'
+                                : 'text-gray-700 hover:bg-gray-100 hover:text-primary'
+                        }`}
+                    >
+                      {item.label}
+                    </Link>
+                ))}
+                <div className="pt-1">
+                  <button
+                      onClick={() => {
+                        toggleLanguage();
+                        closeMobileMenu();
+                      }}
+                      className="flex items-center px-3 py-3 rounded-lg text-gray-700 hover:text-primary hover:bg-gray-100 w-full transition-colors duration-300"
                   >
-                    {item.label}
-                  </Link>
-              ))}
-              <div className="pt-1">
-                <button
-                    onClick={() => {
-                      toggleLanguage();
-                      closeMobileMenu();
-                    }}
-                    className="flex items-center px-3 py-3 rounded-lg text-gray-700 hover:text-primary hover:bg-gray-100 w-full transition-colors duration-300"
-                >
-                  <FaGlobe className="mr-3" />
-                  <span>{t('navbar.language')}: {languageLabel}</span>
-                </button>
+                    <FaGlobe className="mr-3" />
+                    <span>{t('navbar.language')}: {nextLanguage.code.toUpperCase()}</span>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </nav>
-  );
+);
 };
 
 export default Navbar;
