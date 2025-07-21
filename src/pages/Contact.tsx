@@ -168,7 +168,7 @@ const Contact: React.FC = () => {
               {/* Name Field */}
               <div>
                 <label htmlFor="name" className="block mb-2">
-                  <Typography variant="h4">{t('form.name')}</Typography>
+                  <Typography variant="h5">{t('form.name')}</Typography>
                 </label>
                 <input
                     type="text"
@@ -185,7 +185,7 @@ const Contact: React.FC = () => {
               {/* Email Field */}
               <div>
                 <label htmlFor="email" className="block mb-2">
-                  <Typography variant="h4">{t('form.email')}</Typography>
+                  <Typography variant="h5">{t('form.email')}</Typography>
                 </label>
                 <input
                     type="email"
@@ -202,7 +202,7 @@ const Contact: React.FC = () => {
               {/* Subject Field */}
               <div>
                 <label htmlFor="subject" className="block mb-2">
-                  <Typography variant="h4">{t('form.subject')}</Typography>
+                  <Typography variant="h5">{t('form.subject')}</Typography>
                 </label>
                 <input
                     type="text"
@@ -219,7 +219,7 @@ const Contact: React.FC = () => {
               {/* Message Field */}
               <div>
                 <label htmlFor="message" className="block mb-2">
-                  <Typography variant="h4">{t('form.message')}</Typography>
+                  <Typography variant="h5">{t('form.message')}</Typography>
                 </label>
                 <textarea
                     id="message"
