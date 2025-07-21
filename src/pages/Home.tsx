@@ -22,7 +22,7 @@ import sustainabilityImage from '../assets/images/sustainability.webp';
 import newsImage from '../assets/images/news.webp';
 import valueAddedImage from '../assets/images/value-added.webp';
 import organicCashewImage from '../assets/images/organic-cashew.webp';
-import ourProductHeroImage from '../assets/images/our-product-hero.webp';
+import rawCashewImage from '../assets/images/raw-cashew.webp';
 import cashewButterDarkImage from '../assets/images/cashew-butter-dark.webp';
 import solarPoweredImage from '../assets/images/solar-powered.webp';
 
@@ -36,7 +36,7 @@ const Home: React.FC = () => {
 
     // Define product data and mappings
     const productImageMap = {
-        'raw-cashews': ourProductHeroImage,
+        'raw-cashews': rawCashewImage,
         'organic-cashews': organicCashewImage,
         'value-added': valueAddedImage
     };
@@ -138,18 +138,18 @@ const Home: React.FC = () => {
 
             {/* 2. About Preview Section */}
             <Suspense fallback={<div>{t('loading.about')}</div>}>
-                <Section id="about-preview" className="bg-background py-16 -mt-1">
+                <Section id="about-preview" className="bg-background py-12 md:py-16 -mt-1 px-4 sm:px-6">
                     <motion.div
-                        className="container mx-auto px-6"
+                        className="w-full max-w-7xl mx-auto px-4 sm:px-6"
                         initial="hidden"
                         whileInView="visible"
                         viewport={{ once: true, margin: "-100px" }}
                         variants={scaleUp}
                     >
-                        <div className="bg-white rounded-3xl shadow-2xl p-8 md:p-12 relative z-10">
-                            <div className="flex flex-col lg:flex-row items-center gap-12">
+                        <div className="bg-white rounded-2xl md:rounded-3xl shadow-xl md:shadow-2xl p-6 md:p-12 w-full">
+                            <div className="flex flex-col lg:flex-row items-center gap-8 md:gap-12">
                                 <motion.div
-                                    className="text-orange-600 text-6xl p-6 bg-background rounded-2xl shadow-inner"
+                                    className="text-orange-600 text-5xl p-5 bg-background rounded-xl shadow-inner"
                                     variants={fadeIn}
                                 >
                                     <FaGlobeAfrica />
@@ -158,16 +158,16 @@ const Home: React.FC = () => {
                                     className="flex-1"
                                     variants={fadeIn}
                                 >
-                                    <Typography variant="h2" className="mb-6">
+                                    <Typography variant="h2" className="mb-4 md:mb-6">
                                         {t('aboutPreview.title')}
                                     </Typography>
-                                    <Typography variant="body" className="mb-8">
+                                    <Typography variant="body" className="mb-6 md:mb-8">
                                         {t('aboutPreview.description')}
                                     </Typography>
                                     <motion.button
                                         whileHover={{ scale: 1.05 }}
                                         whileTap={{ scale: 0.95 }}
-                                        className="group bg-orange-600 hover:bg-orange-700 text-white hover:text-white px-8 py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg inline-flex items-center"
+                                        className="group bg-orange-600 hover:bg-orange-700 text-white hover:text-white px-6 py-2 md:px-8 md:py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg inline-flex items-center text-sm md:text-base"
                                         onClick={() => navigate('/about')}
                                     >
                                         {t('aboutPreview.ctaButton')}
@@ -183,8 +183,8 @@ const Home: React.FC = () => {
             {/* 3. Products Showcase */}
             <Suspense fallback={<div>{t('loading.products')}</div>}>
                 <Section className="py-16 bg-background">
-                    <div className="container mx-auto px-6">
-                        <motion.div
+                    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
+                    <motion.div
                             className="text-center mb-16"
                             initial="hidden"
                             whileInView="visible"
@@ -244,23 +244,23 @@ const Home: React.FC = () => {
             </Suspense>
 
             {/* 4. Farm Story */}
-            <Section className="py-16 bg-background text-text-dark">
-                <div className="container mx-auto px-6">
-                    <div className="flex flex-col lg:flex-row items-center gap-16">
+            <Section className="py-12 md:py-16 bg-background text-text-dark px-4 sm:px-6">
+                <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
+                <div className="flex flex-col lg:flex-row items-center gap-8 md:gap-16">
                         <motion.div
-                            className="flex-1"
+                            className="flex-1 w-full max-w-md sm:max-w-lg md:max-w-2xl lg:max-w-4xl xl:max-w-6xl mx-auto"
                             initial="hidden"
                             whileInView="visible"
                             viewport={{ once: true }}
                             variants={slideInFromLeft}
                         >
-                            <Typography variant="h2" className="mb-6">
+                            <Typography variant="h2" className="mb-4 md:mb-6">
                                 {t('farm.title')}
                             </Typography>
-                            <Typography variant="body" className="mb-8">
+                            <Typography variant="body" className="mb-6 md:mb-8">
                                 {t('farm.description')}
                             </Typography>
-                            <div className="grid sm:grid-cols-2 gap-6 mb-8">
+                            <div className="grid sm:grid-cols-2 gap-4 md:gap-6 mb-6 md:mb-8">
                                 {(t('farm.highlights', { returnObjects: true }) as FarmHighlight[]).map((highlight) => (
                                     <div key={highlight.key} className="bg-white/10 p-4 rounded-xl">
                                         <div className="text-accent text-2xl mb-2">
@@ -278,7 +278,7 @@ const Home: React.FC = () => {
                             <motion.button
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
-                                className="group border-2 border-accent text-text-dark hover:bg-accent hover:text-white hover:border-accent px-8 py-3 rounded-full transition-all duration-300 inline-flex items-center"
+                                className="group border-2 border-accent text-text-dark hover:bg-accent hover:text-white hover:border-accent px-6 py-2 md:px-8 md:py-3 rounded-full transition-all duration-300 inline-flex items-center text-sm md:text-base"
                                 onClick={() => navigate('/farm')}
                             >
                                 {t('farm.ctaButton')}
@@ -286,20 +286,20 @@ const Home: React.FC = () => {
                             </motion.button>
                         </motion.div>
                         <motion.div
-                            className="flex-1"
+                            className="flex-1 w-full max-w-md sm:max-w-lg md:max-w-2xl lg:max-w-4xl xl:max-w-6xl mx-auto"
                             initial="hidden"
                             whileInView="visible"
                             viewport={{ once: true }}
                             variants={slideInFromRight}
                         >
-                            <div className="relative rounded-3xl overflow-hidden shadow-2xl aspect-video">
+                            <div className="relative rounded-2xl md:rounded-3xl overflow-hidden shadow-xl md:shadow-2xl aspect-video w-full">
                                 <img
                                     src={farmImage}
                                     alt={t('farm.imageAlt')}
                                     loading="lazy"
                                     className="w-full h-full object-cover"
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent flex items-end p-8">
+                                <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent flex items-end p-6 md:p-8">
                                     <Typography variant="h4" className="text-white">
                                         {t('farm.location')}
                                     </Typography>
@@ -311,54 +311,54 @@ const Home: React.FC = () => {
             </Section>
 
             {/* 5. Sustainability */}
-            <Section className="py-16 bg-background">
-                <div className="container mx-auto px-6 text-balance mobile:text-sm">
-                    <motion.div
-                        className="bg-white rounded-3xl shadow-2xl overflow-hidden"
+            <Section className="py-12 md:py-16 bg-background px-4 sm:px-6">
+                <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
+                <motion.div
+                        className="bg-white rounded-2xl md:rounded-3xl shadow-xl md:shadow-2xl overflow-hidden w-full max-w-md sm:max-w-lg md:max-w-2xl lg:max-w-4xl xl:max-w-6xl mx-auto"
                         initial="hidden"
                         whileInView="visible"
                         viewport={{ once: true }}
                         variants={scaleUp}
                     >
-                        <div className="flex flex-col md:flex-row gap-6 md:gap-0 flex-wrap md:flex-nowrap">
+                        <div className="flex flex-col md:flex-row gap-0">
                             <div
-                                className="w-full md:w-1/2 bg-cover bg-center h-64 sm:h-80 md:h-auto min-h-[200px] md:min-h-[500px]"
+                                className="w-full md:w-1/2 bg-cover bg-center h-48 sm:h-64 md:h-auto min-h-[200px] md:min-h-[400px]"
                                 style={{ backgroundImage: `url(${sustainabilityImage})` }}
                             />
-                            <div className="w-full md:w-1/2 px-6 py-10 sm:px-10 md:p-12 text-gray-900">
-                                <div className="text-accent text-4xl sm:text-5xl mb-6">
+                            <div className="w-full md:w-1/2 p-6 md:p-8 lg:p-12 text-gray-900">
+                                <div className="text-accent text-3xl sm:text-4xl mb-4 md:mb-6">
                                     <FaLeaf />
                                 </div>
-                                <Typography variant="h2" className="mb-6 text-xl sm:text-2xl text-gray-900">
+                                <Typography variant="h2" className="mb-4 md:mb-6 text-lg sm:text-xl md:text-2xl text-gray-900">
                                     {t('sustainability.title')}
                                 </Typography>
-                                <Typography variant="body" className="mb-8 text-sm sm:text-base text-gray-900">
+                                <Typography variant="body" className="mb-6 md:mb-8 text-sm sm:text-base text-gray-900">
                                     {t('sustainability.description')}
                                 </Typography>
-                                <div className="space-y-4 mb-8">
+                                <div className="space-y-3 md:space-y-4 mb-6 md:mb-8">
                                     {(t('sustainability.features', { returnObjects: true }) as SustainabilityFeature[]).map((feature) => (
-                                        <div key={feature.key} className="flex items-start gap-4">
-                                            <div className="text-accent text-xl mt-1">
+                                        <div key={feature.key} className="flex items-start gap-3 md:gap-4">
+                                            <div className="text-accent text-lg md:text-xl mt-1">
                                                 {feature.icon === 'FaSeedling' ? <FaSeedling /> :
                                                     feature.icon === 'FaGlobeAfrica' ? <FaGlobeAfrica /> :
                                                         <FaLeaf />}
                                             </div>
                                             <div>
-                                                <Typography variant="h4" className="mb-1 text-sm sm:text-base text-gray-900">
+                                                <Typography variant="h4" className="mb-1 text-sm md:text-base text-gray-900">
                                                     {feature.title}
                                                 </Typography>
-                                                <Typography variant="small" className="text-sm text-gray-900">
+                                                <Typography variant="small" className="text-xs sm:text-sm text-gray-900">
                                                     {feature.description}
                                                 </Typography>
                                             </div>
                                         </div>
                                     ))}
                                 </div>
-                                <div className="flex flex-wrap justify-center md:justify-start">
+                                <div className="flex justify-center md:justify-start">
                                     <motion.button
                                         whileHover={{ scale: 1.05 }}
                                         whileTap={{ scale: 0.95 }}
-                                        className="group bg-white border-2 border-accent text-accent hover:bg-dark-orange hover:text-white px-8 py-3 rounded-full transition-all duration-300 inline-flex items-center"
+                                        className="group bg-white border-2 border-accent text-accent hover:bg-dark-orange hover:text-white px-6 py-2 md:px-8 md:py-3 rounded-full transition-all duration-300 inline-flex items-center text-sm md:text-base"
                                         onClick={() => navigate('/sustainability')}
                                     >
                                         {t('sustainability.ctaButton')}
@@ -373,10 +373,10 @@ const Home: React.FC = () => {
 
             {/* 6. News & Updates */}
             <Suspense fallback={<div>{t('loading.news')}</div>}>
-                <Section className="py-16 bg-white">
-                    <div className="container mx-auto px-6">
-                        <motion.div
-                            className="text-center mb-16"
+                <Section className="py-12 md:py-16 bg-white">
+                    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
+                    <motion.div
+                            className="text-center mb-12 md:mb-16"
                             initial="hidden"
                             whileInView="visible"
                             viewport={{ once: true }}
@@ -390,8 +390,7 @@ const Home: React.FC = () => {
                             </Typography>
                         </motion.div>
 
-
-                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-8">
                             {(t('news.items', { returnObjects: true }) as NewsItem[]).map((newsItem, index) => {
                                 const imageMap: Record<string, string> = {
                                     yields: newsImage,
@@ -405,7 +404,6 @@ const Home: React.FC = () => {
                                     metaClass: "text-gray-100"
                                 } satisfies NewsItem & { image: string; metaClass: string };
 
-
                                 return (
                                     <NewsCard
                                         key={newsItem.key}
@@ -416,13 +414,14 @@ const Home: React.FC = () => {
                                                 index === 1 ? scaleUp :
                                                     slideInFromRight
                                         }
+                                        className="w-full" // Ensure full width
                                     />
                                 );
                             })}
                         </div>
 
                         <motion.div
-                            className="text-center mt-16"
+                            className="text-center mt-12 md:mt-16"
                             initial="hidden"
                             whileInView="visible"
                             viewport={{ once: true }}
@@ -431,7 +430,7 @@ const Home: React.FC = () => {
                             <motion.button
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
-                                className="group bg-accent hover:bg-dark-orange text-white hover:text-white px-8 py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg inline-flex items-center mx-auto"
+                                className="group bg-accent hover:bg-dark-orange text-white hover:text-white px-6 py-2 md:px-8 md:py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg inline-flex items-center mx-auto text-sm md:text-base"
                                 onClick={() => navigate('/news')}
                             >
                                 {t('news.ctaButton')}
@@ -445,30 +444,32 @@ const Home: React.FC = () => {
             {/* 7. Contact CTA */}
             <Suspense fallback={<div>{t('loading.contact')}</div>}>
                 <Section className="py-16 bg-white text-text-dark relative overflow-hidden">
-                    <div className="relative z-10 container mx-auto px-6 text-center">
-                        <motion.div
-                            className="max-w-4xl mx-auto"
-                            initial="hidden"
-                            whileInView="visible"
-                            viewport={{ once: true }}
-                            variants={scaleUp}
-                        >
-                            <Typography variant="h2" className="mb-6">
-                                {t('contact.title')}
-                            </Typography>
-                            <Typography variant="subhead" className="mb-8 max-w-2xl mx-auto">
-                                {t('contact.subtitle')}
-                            </Typography>
-                            <motion.button
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                                className="group bg-accent hover:bg-dark-orange text-white hover:text-white px-8 py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg inline-flex items-center mx-auto"
-                                onClick={() => navigate('/contact')}
+                    <div className="w-full px-4 sm:px-6">
+                        <div className="relative z-10 container mx-auto text-center max-w-md sm:max-w-lg md:max-w-2xl lg:max-w-4xl xl:max-w-6xl">
+                            <motion.div
+                                className="max-w-4xl mx-auto"
+                                initial="hidden"
+                                whileInView="visible"
+                                viewport={{ once: true }}
+                                variants={scaleUp}
                             >
-                                {t('contact.ctaButton')}
-                                <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
-                            </motion.button>
-                        </motion.div>
+                                <Typography variant="h2" className="mb-6">
+                                    {t('contact.title')}
+                                </Typography>
+                                <Typography variant="subhead" className="mb-8 max-w-2xl mx-auto">
+                                    {t('contact.subtitle')}
+                                </Typography>
+                                <motion.button
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    className="group bg-accent hover:bg-dark-orange text-white hover:text-white px-8 py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg inline-flex items-center mx-auto"
+                                    onClick={() => navigate('/contact')}
+                                >
+                                    {t('contact.ctaButton')}
+                                    <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+                                </motion.button>
+                            </motion.div>
+                        </div>
                     </div>
                 </Section>
             </Suspense>
