@@ -21,6 +21,7 @@ import ourProductHeroImage from '../assets/images/our-product-hero.webp';
 import processImage from '../assets/images/production-process.webp';
 import qualityImage from '../assets/images/quality-control.webp';
 import packagingImage from '../assets/images/packaging.webp';
+import rawCashewImage from '../assets/images/raw-cashew.webp';
 import { ProductFilters, AvailabilityFilter } from '@/types/filters';
 
 type AvailabilityFilter = 'all' | 'available' | 'coming-soon';
@@ -38,7 +39,7 @@ const productImageMap: Record<string, string> = {
     'cashew-milk.jpg': cashewMilkImage,
     'cashew-nut-shell-liquid.jpg': cashewShellImage,
     'roasted-cashew.jpg': roastedCashewImage,
-    'raw-cashew.jpg': ourProductHeroImage,
+    'raw-cashew.jpg': rawCashewImage,
 };
 
 const iconMap = {
