@@ -152,9 +152,10 @@ const Products: React.FC = () => {
                 {/* Product Categories Filter */}
                 <Section className="py-8 bg-white shadow-sm top-0 z-10">
                     {/* Filter Section */}
+                    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                     <div className="bg-white p-6 rounded-lg shadow-md mb-8 top-0 z-10">
                         <div className="flex flex-col md:flex-row md:items-center gap-6">
-                            {/* Search Input */}
+                        {/* Search Input */}
                             <div className="flex-1">
                                 <div className="relative">
                                     <input
@@ -273,12 +274,13 @@ const Products: React.FC = () => {
                             </button>
                         </div>
                     )}
+                    </div>
                 </Section>
 
 
                 {/* Our Process Section */}
                 <Section className="py-16 bg-gradient-to-br from-background to-primary/10">
-                    <div className="container mx-auto px-6">
+                    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                         <motion.div
                             initial="hidden"
                             whileInView="visible"
@@ -337,7 +339,7 @@ const Products: React.FC = () => {
 
                 {/* Quality Assurance */}
                 <Section className="py-16 bg-white">
-                    <div className="container mx-auto px-6">
+                    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                         <div className="flex flex-col lg:flex-row gap-12 items-center">
                             <motion.div
                                 className="flex-1"
@@ -387,7 +389,7 @@ const Products: React.FC = () => {
 
                 {/* Certifications */}
                 <Section className="py-16 bg-background">
-                    <div className="container mx-auto px-6">
+                    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                         <motion.div
                             initial="hidden"
                             whileInView="visible"

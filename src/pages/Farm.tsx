@@ -141,7 +141,8 @@ const Farm = () => {
 
             {/* Farm Overview */}
             <section className="py-16 px-6 bg-white">
-                <div className="max-w-6xl mx-auto">
+                <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
+                <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                     <div className="text-center mb-16">
                         <Typography variant="h2" className="text-primary mb-4">
                             {t('overview.heading')}
@@ -150,6 +151,8 @@ const Farm = () => {
                             {t('overview.description')}
                         </Typography>
                     </div>
+
+
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
                         {farmStats.map((stat, index) => (
@@ -164,9 +167,11 @@ const Farm = () => {
                             </GlowingCard>
                         ))}
                     </div>
+                </div>
+
 
                     {/* Key Features */}
-                    <div className="mb-16">
+                    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                         <Typography variant="h3" className="text-primary text-center mb-8">
                             {t('features.title')}
                         </Typography>
@@ -282,7 +287,7 @@ const Farm = () => {
 
             {/* Gallery Section */}
             <section className="py-16 px-6 bg-white">
-                <div className="max-w-6xl mx-auto">
+                <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                     <Typography variant="h2" className="text-primary text-center mb-16">
                         {t('gallery.title')}
                     </Typography>
@@ -292,6 +297,7 @@ const Farm = () => {
 
             {/* Sustainability Section */}
             <section className="py-20 px-6 bg-afri-light">
+                <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                 <div className="max-w-6xl mx-auto">
                     <div className="text-center mb-16">
                         <Typography variant="h2" className="text-primary mb-4">
@@ -317,6 +323,7 @@ const Farm = () => {
                             </GlowingCard>
                         ))}
                     </div>
+                </div>
                 </div>
             </section>
 

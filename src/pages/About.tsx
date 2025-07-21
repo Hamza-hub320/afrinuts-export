@@ -162,7 +162,7 @@ const About: React.FC = () => {
         {/* Brand Statement */}
         <Section className="py-8 md:py-10 bg-white text-center text-text-dark">
           <motion.div
-              className="container mx-auto px-4 sm:px-6"
+              className="w-full max-w-7xl mx-auto px-4 sm:px-6"
               initial="hidden"
               whileInView="visible"
               viewport={{once: true}}
@@ -179,7 +179,7 @@ const About: React.FC = () => {
 
         {/* Vision, Mission, Values */}
         <Section className="py-8 md:py-16 bg-white">
-          <div className="container mx-auto px-4 sm:px-6">
+          <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
             <motion.div
                 initial="hidden"
                 whileInView="visible"
@@ -256,7 +256,7 @@ const About: React.FC = () => {
 
         {/* Farm Section */}
         <Section className="py-8 md:py-16 bg-background">
-          <div className="container mx-auto px-4 sm:px-6">
+          <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
             <div className="flex flex-col lg:flex-row gap-8 md:gap-16 items-center">
               <motion.div className="flex-1">
                 <div className="mb-6 md:mb-8">
