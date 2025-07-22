@@ -42,6 +42,12 @@ const About: React.FC = () => {
   const shouldTruncateCeo = ceoMessage.join(' ').length > 300;
   const shouldTruncateCfo = cfoMessage.join(' ').length > 300;
 
+  // Animation variants
+  const fadeIn = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 }
+  }
+
   return (
       <main className="bg-background">
         {/* Hero Section */}
@@ -76,7 +82,7 @@ const About: React.FC = () => {
         {/* Leadership Section */}
         <Section className="py-8 md:py-16 bg-white">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="text-center mb-8 md:mb-16">
+            <div className="text-center mb-8 md:mb-16">
               <Typography variant="subhead" className="uppercase tracking-widest mb-2">
                 {t('leadership.subtitle')}
               </Typography>
@@ -86,7 +92,7 @@ const About: React.FC = () => {
             </div>
 
             {/* CEO & CFO Messages */}
-            <div className="flex flex-col lg:flex-row gap-8 md:gap-16">
+            <div className="flex flex-col gap-8 md:gap-12">
               {/* CEO Message */}
               <motion.div
                   className="w-full"
@@ -159,7 +165,7 @@ const About: React.FC = () => {
                   className="w-full"
                   initial="hidden"
                   whileInView="visible"
-                  viewport={{ once: true }}
+                  viewport={{ once: true, margin: "100px" }}
                   variants={fadeIn}
               >
                 <div className="bg-background rounded-xl md:rounded-3xl shadow-lg overflow-hidden h-full">
@@ -224,7 +230,7 @@ const About: React.FC = () => {
               </motion.div>
             </div>
           </div>
-          </Section>
+        </Section>
 
         {/* Brand Statement */}
         <Section className="py-8 md:py-10 bg-white text-center text-text-dark">
