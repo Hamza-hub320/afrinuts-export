@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import {
@@ -27,9 +27,20 @@ import farmImage from '@/assets/images/cashew-farm.webp';
 import aboutUsHeroImage from '@/assets/images/about-us-hero.webp';
 import {Typography} from "@/components/Typography/Typography";
 import { InfoCard } from '@/components/InfoCard/InfoCard';
+import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline';
 
 const About: React.FC = () => {
   const { t } = useTranslation('about');
+
+  // Inside your component
+  const [expandedCeo, setExpandedCeo] = useState(false);
+  const [expandedCfo, setExpandedCfo] = useState(false);
+
+// Calculate if message is long enough to need truncation
+  const ceoMessage = t('ceo.message', { returnObjects: true }) as string[];
+  const cfoMessage = t('cfo.message', { returnObjects: true }) as string[];
+  const shouldTruncateCeo = ceoMessage.join(' ').length > 300;
+  const shouldTruncateCfo = cfoMessage.join(' ').length > 300;
 
   return (
       <main className="bg-background">
@@ -105,12 +116,36 @@ const About: React.FC = () => {
                     </div>
 
                     <div className="prose max-w-none space-y-4">
-                      {(t('ceo.message', { returnObjects: true }) as string[]).map((paragraph: string, index: number) => (
-                          <p key={`ceo-para-${index}`} className="text-base md:text-lg text-text-dark">
+                      {ceoMessage.map((paragraph, index) => (
+                          <p
+                              key={`ceo-para-${index}`}
+                              className={`text-base md:text-lg text-text-dark ${
+                                  !expandedCeo && shouldTruncateCeo && index >= 1 ? 'hidden' : ''
+                              }`}
+                          >
                             {paragraph}
                           </p>
                       ))}
                     </div>
+
+                    {shouldTruncateCeo && (
+                        <button
+                            onClick={() => setExpandedCeo(!expandedCeo)}
+                            className="mt-4 text-primary hover:text-primary-dark font-medium flex items-center"
+                        >
+                          {expandedCeo ? (
+                              <>
+                                {t('ceo.readLess')}
+                                <ChevronUpIcon className="ml-1 h-4 w-4" />
+                              </>
+                          ) : (
+                              <>
+                                {t('ceo.readMore')}
+                                <ChevronDownIcon className="ml-1 h-4 w-4" />
+                              </>
+                          )}
+                        </button>
+                    )}
 
                     <p className="mt-6 font-display italic text-primary text-sm md:text-base">
                       {t('ceo.signature')}
@@ -150,12 +185,36 @@ const About: React.FC = () => {
                     </div>
 
                     <div className="prose max-w-none space-y-4">
-                      {(t('cfo.message', { returnObjects: true }) as string[]).map((paragraph: string, index: number) => (
-                          <p key={`cfo-para-${index}`} className="text-base md:text-lg text-text-dark">
+                      {cfoMessage.map((paragraph, index) => (
+                          <p
+                              key={`cfo-para-${index}`}
+                              className={`text-base md:text-lg text-text-dark ${
+                                  !expandedCfo && shouldTruncateCfo && index >= 1 ? 'hidden' : ''
+                              }`}
+                          >
                             {paragraph}
                           </p>
                       ))}
                     </div>
+
+                    {shouldTruncateCfo && (
+                        <button
+                            onClick={() => setExpandedCfo(!expandedCfo)}
+                            className="mt-4 text-primary hover:text-primary-dark font-medium flex items-center"
+                        >
+                          {expandedCfo ? (
+                              <>
+                                {t('cfo.readLess')}
+                                <ChevronUpIcon className="ml-1 h-4 w-4" />
+                              </>
+                          ) : (
+                              <>
+                                {t('cfo.readMore')}
+                                <ChevronDownIcon className="ml-1 h-4 w-4" />
+                              </>
+                          )}
+                        </button>
+                    )}
 
                     <p className="mt-6 font-display italic text-primary text-sm md:text-base">
                       {t('cfo.signature')}

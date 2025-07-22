@@ -26,7 +26,9 @@
     ],
     "signature": "- Hamza S. Ralsan Sangare",
     "position": "Founder & CEO",
-    "alt": "Portrait of CEO Hamza S. Ralsan Sangare"
+    "alt": "Portrait of CEO Hamza S. Ralsan Sangare",
+    "readMore": "Read More",
+    "readLess": "Read Less"
   },
   "cfo": {
     "title": "Message from Our CFO",
@@ -43,7 +45,9 @@
 
       "We are more than a company; we are a movement toward economic sovereignty for African agriculture. And we welcome all partners who want to invest in a future that is as ethical as it is profitable."
     ],
-    "signature": "- Sekou Hakim Petter, CFO"
+    "signature": "- Sekou Hakim Petter, CFO",
+    "readMore": "Read More",
+    "readLess": "Read Less"
   },
   "brand": {
     "title": "Our Commitment",
