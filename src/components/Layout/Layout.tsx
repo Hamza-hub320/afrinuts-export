@@ -28,7 +28,7 @@ const Layout: FC = () => {
             <main>
                 <Outlet />
             </main>
-            <footer className="mt-auto bg-primary text-white">
+            <footer className="mt-auto bg-background text-white">
                 <Footer/>
                 </footer>
         </>

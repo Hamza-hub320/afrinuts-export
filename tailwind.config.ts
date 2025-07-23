@@ -24,7 +24,7 @@ export default {
                 'olive': '#698714'
             },
             borderRadius: {
-                DEFAULT: '8px'
+                'DEFAULT': '8px',
             },
             boxShadow: {
                 // Enhanced glow variations

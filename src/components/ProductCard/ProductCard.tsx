@@ -38,6 +38,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                                                         }) => {
     const IconComponent = iconMap[product.icon];
     const imageSrc = productImageMap[product.backgroundImage];
+    // Determine glow intensity based on card type
+    const glowIntensity = compact ? 'glow-accent-sm' : 'glow-accent-md';
+    const directionalGlow = 'glow-left';
+
 
     return (
         <motion.div
@@ -50,6 +54,16 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                 transition: { duration: 0.3 }
             }}
         >
+            {/* Glow overlay (AWS-style) */}
+            <div className="
+            absolute -inset-[2px] rounded-xl
+              opacity-0 group-hover:opacity-100
+              transition-opacity duration-300
+              pointer-events-none
+              shadow-glow-accent-md
+              z-0
+          "></div>
+
             {/* Main content */}
             <div className="relative z-10 h-full flex flex-col bg-white rounded-xl overflow-hidden">
                 {/* Image with gradient overlay */}

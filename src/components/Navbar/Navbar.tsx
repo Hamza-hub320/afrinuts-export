@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { FaGlobe, FaBars, FaTimes } from 'react-icons/fa';
+import { FaGlobe, FaBars, FaTimes, FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import logo from '@/assets/images/afrinuts-export-official-logo.webp';
 import { useTranslation } from 'react-i18next';
 
@@ -16,6 +16,9 @@ const Navbar: React.FC = () => {
   const location = useLocation();
   const [click, setClick] = useState<boolean>(false);
   const [scrolled, setScrolled] = useState<boolean>(false);
+  const [languageDropdownOpen, setLanguageDropdownOpen] = useState<boolean>(false);
+  const languageDropdownRef = useRef<HTMLDivElement>(null);
+  const desktopLanguageDropdownRef = useRef<HTMLDivElement>(null);
 
   // Language configuration
   const languages: LanguageConfig[] = [
@@ -24,19 +27,24 @@ const Navbar: React.FC = () => {
     { code: 'ar', label: 'العربية', dir: 'rtl' }
   ];
 
-  // Get the next language in sequence
-  const getNextLanguage = () => {
-    const currentIndex = languages.findIndex(lang => lang.code === i18n.language);
-    const nextIndex = (currentIndex + 1) % languages.length;
-    return languages[nextIndex];
-  };
-
-  const [nextLanguage, setNextLanguage] = useState<LanguageConfig>(getNextLanguage());
-
+  // Close dropdown when clicking outside
   useEffect(() => {
-    // Update next language whenever i18n language changes
-    setNextLanguage(getNextLanguage());
-  }, [i18n.language]);
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        languageDropdownRef.current &&
+        !languageDropdownRef.current.contains(event.target as Node) &&
+        desktopLanguageDropdownRef.current &&
+        !desktopLanguageDropdownRef.current.contains(event.target as Node)
+      ) {
+        setLanguageDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -46,13 +54,16 @@ const Navbar: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const toggleLanguage = () => {
-    const newLang = nextLanguage.code;
-    i18n.changeLanguage(newLang).then(() => {
-      document.documentElement.lang = newLang;
-      document.documentElement.dir = nextLanguage.dir || 'ltr';
-      localStorage.setItem('i18nextLng', newLang);
-    });
+  const changeLanguage = (langCode: string) => {
+    const selectedLang = languages.find(lang => lang.code === langCode);
+    if (selectedLang) {
+      i18n.changeLanguage(langCode).then(() => {
+        document.documentElement.lang = langCode;
+        document.documentElement.dir = selectedLang.dir || 'ltr';
+        localStorage.setItem('i18nextLng', langCode);
+      });
+    }
+    setLanguageDropdownOpen(false);
   };
 
   const isActive = (path: string): boolean => {
@@ -78,6 +89,13 @@ const Navbar: React.FC = () => {
     setClick(false);
     document.body.classList.remove('overflow-hidden');
   };
+
+  const toggleLanguageDropdown = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent event bubbling
+    setLanguageDropdownOpen(!languageDropdownOpen);
+  };
+
+  const currentLanguage = languages.find(lang => lang.code === i18n.language) || languages[0];
 
   return (
       <nav className={`fixed top-3 left-3 right-3 z-50 transition-all duration-300 ${scrolled ? 'scale-[0.98]' : ''}`}>
@@ -105,24 +123,9 @@ const Navbar: React.FC = () => {
               </Link>
             </div>
 
-            {/* Mobile Menu Button */}
-            <div className="md:hidden flex items-center">
-              <button
-                  onClick={handleClick}
-                  className="inline-flex items-center justify-center p-2 rounded-lg text-gray-700 hover:text-primary hover:bg-gray-100 focus:outline-none transition-colors duration-300"
-                  aria-expanded={click}
-                  aria-label={click ? "Close menu" : "Open menu"}
-              >
-                {click ? (
-                    <FaTimes className="block h-6 w-6" />
-                ) : (
-                    <FaBars className="block h-6 w-6" />
-                )}
-              </button>
-            </div>
-
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex md:items-center md:space-x-2">
+            {/* Desktop Navigation and Language Toggle */}
+            <div className="hidden md:flex items-center space-x-2">
+              {/* Navigation Links */}
               {navItems.map((item, index) => (
                   <Link
                       key={index}
@@ -141,17 +144,102 @@ const Navbar: React.FC = () => {
                     {item.label}
                   </Link>
               ))}
+
+              {/* Language Dropdown */}
+              <div className="relative ml-2" ref={desktopLanguageDropdownRef}>
+                <button
+                    onClick={toggleLanguageDropdown}
+                    className="flex items-center text-gray-700 hover:text-primary p-2 rounded-lg hover:bg-gray-100 transition-colors duration-300 group"
+                    aria-label="Language selection"
+                    aria-expanded={languageDropdownOpen}
+                >
+                  <FaGlobe className="mr-2 group-hover:rotate-12 transition-transform duration-300" />
+                  <span className="font-medium">{currentLanguage.code.toUpperCase()}</span>
+                  {languageDropdownOpen ? (
+                      <FaChevronUp className="ml-1" />
+                  ) : (
+                      <FaChevronDown className="ml-1" />
+                  )}
+                </button>
+
+                {/* Dropdown Menu */}
+                {languageDropdownOpen && (
+                    <div className={`absolute ${
+                        i18n.language === 'ar' ? 'left-0' : 'right-0'
+                    } mt-2 w-48 bg-white rounded-lg shadow-lg z-50 border border-gray-200`}>
+                      {languages.map((lang) => (
+                          <button
+                              key={lang.code}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                changeLanguage(lang.code);
+                              }}
+                              className={`block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors duration-200 ${
+                                  i18n.language === lang.code ? 'bg-gray-100 font-medium' : ''
+                              }`}
+                          >
+                            {lang.label}
+                          </button>
+                      ))}
+                    </div>
+                )}
+              </div>
             </div>
 
-            {/* Language Toggle */}
-            <div className="hidden md:flex items-center ml-2">
+            {/* Mobile Menu Button */}
+            <div className="md:hidden flex items-center space-x-4">
+              {/* Language Toggle Button (visible on mobile) */}
+              <div className="relative" ref={languageDropdownRef}>
+                <button
+                    onClick={toggleLanguageDropdown}
+                    className="flex items-center text-gray-700 p-2 rounded-lg transition-colors duration-300"
+                    aria-label="Language selection"
+                    aria-expanded={languageDropdownOpen}
+                >
+                  <FaGlobe className="mr-1" />
+                  <span className="font-medium">{currentLanguage.code.toUpperCase()}</span>
+                  {languageDropdownOpen ? (
+                      <FaChevronUp className="ml-1" />
+                  ) : (
+                      <FaChevronDown className="ml-1" />
+                  )}
+                </button>
+
+                {/* Dropdown Menu for Mobile */}
+                {languageDropdownOpen && (
+                    <div className={`absolute ${
+                        i18n.language === 'ar' ? 'left-0' : 'right-0'
+                    } mt-2 w-48 bg-white rounded-lg shadow-lg z-50 border border-gray-200`}>
+                      {languages.map((lang) => (
+                          <button
+                              key={lang.code}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                changeLanguage(lang.code);
+                              }}
+                              className={`block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors duration-200 ${
+                                  i18n.language === lang.code ? 'bg-gray-100 font-medium' : ''
+                              }`}
+                          >
+                            {lang.label}
+                          </button>
+                      ))}
+                    </div>
+                )}
+              </div>
+
+              {/* Mobile Menu Toggle */}
               <button
-                  onClick={toggleLanguage}
-                  className="flex items-center text-gray-700 hover:text-primary p-2 rounded-lg hover:bg-gray-100 transition-colors duration-300 group"
-                  aria-label={`Change language to ${nextLanguage.label}`}
+                  onClick={handleClick}
+                  className="inline-flex items-center justify-center p-2 rounded-lg text-gray-700 hover:text-primary hover:bg-gray-100 focus:outline-none transition-colors duration-300"
+                  aria-expanded={click}
+                  aria-label={click ? "Close menu" : "Open menu"}
               >
-                <FaGlobe className="mr-2 group-hover:rotate-12 transition-transform duration-300" />
-                <span className="font-medium">{nextLanguage.code.toUpperCase()}</span>
+                {click ? (
+                    <FaTimes className="block h-6 w-6" />
+                ) : (
+                    <FaBars className="block h-6 w-6" />
+                )}
               </button>
             </div>
           </div>
@@ -176,18 +264,6 @@ const Navbar: React.FC = () => {
                     {item.label}
                   </Link>
               ))}
-              <div className="pt-1">
-                <button
-                    onClick={() => {
-                      toggleLanguage();
-                      closeMobileMenu();
-                    }}
-                    className="flex items-center px-3 py-3 rounded-lg text-gray-700 hover:text-primary hover:bg-gray-100 w-full transition-colors duration-300"
-                >
-                  <FaGlobe className="mr-3" />
-                  <span>{t('navbar.language')}: {nextLanguage.code.toUpperCase()}</span>
-                </button>
-              </div>
             </div>
           </div>
         </div>
