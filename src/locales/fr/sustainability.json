@@ -1,0 +1,100 @@
+{
+  "hero": {
+    "title": "Culture durable de noix de cajou",
+    "subtitle": "Cultiver la qualité tout en préservant notre planète"
+  },
+  "intro": {
+    "title": "L'importance d'une agrobusiness durable de noix de cajou",
+    "content": [
+      "L'industrie mondiale de la noix de cajou joue un rôle vital dans de nombreuses économies, particulièrement en Afrique de l'Ouest où la Côte d'Ivoire est leader en production.",
+      "Avec la croissance de la demande, augmente aussi le besoin de pratiques durables protégeant les écosystèmes tout en assurant les moyens de subsistance des agriculteurs.",
+      "Chez AfriNuts Export, nous nous engageons à révolutionner la production de noix de cajou grâce à des méthodes écologiquement et socialement responsables."
+    ]
+  },
+  "environment": {
+    "title": "Impacts environnementaux & nos solutions",
+    "challenges": {
+      "title": "Défis majeurs",
+      "items": [
+        {
+          "title": "Déforestation & biodiversité",
+          "content": "L'expansion des cultures de cajou peut entraîner la déforestation, menaçant les écosystèmes.",
+          "icon": "FaTree"
+        },
+        {
+          "title": "Qualité de l'eau & des sols",
+          "content": "L'agriculture intensive risque d'épuiser les ressources en eau et dégrader les sols.",
+          "icon": "FaWater"
+        },
+        {
+          "title": "Utilisation de produits chimiques",
+          "content": "Pesticides et engrais peuvent nuire à l'environnement si mal utilisés.",
+          "icon": "FaLeaf"
+        },
+        {
+          "title": "Gestion des déchets",
+          "content": "La transformation génère des coques et pommes nécessitant une élimination appropriée.",
+          "icon": "FaIndustry"
+        }
+      ]
+    },
+    "solutions": {
+      "title": "Nos pratiques durables",
+      "items": [
+        {
+          "title": "Systèmes agroforestiers",
+          "content": "Nous associons les cajoutiers à des espèces locales pour maintenir la biodiversité.",
+          "icon": "FaSeedling"
+        },
+        {
+          "title": "Conservation de l'eau",
+          "content": "L'irrigation goutte-à-goutte et la récupération d'eau de pluie minimisent l'usage hydrique.",
+          "icon": "FaTint"
+        },
+        {
+          "title": "Méthodes biologiques",
+          "content": "Contrôle naturel des parasites et compost remplacent les intrants synthétiques.",
+          "icon": "FaBug"
+        },
+        {
+          "title": "Valorisation des déchets",
+          "content": "Les coques deviennent biocarburant ; les pommes sont utilisées pour jus et vinaigre.",
+          "icon": "FaRecycle"
+        }
+      ]
+    }
+  },
+  "social": {
+    "title": "Responsabilité sociale",
+    "farmers": {
+      "title": "Autonomisation des petits exploitants",
+      "content": [
+        "Nous offrons des prix équitables, formations et accès au marché aux producteurs locaux.",
+        "Nos relations directes éliminent les intermédiaires, garantissant de meilleurs revenus."
+      ]
+    },
+    "labor": {
+      "title": "Pratiques de travail éthiques",
+      "content": [
+        "Conditions de travail sûres et salaires équitables pour tous les employés.",
+        "Pas de travail des enfants et respect strict des normes internationales."
+      ]
+    },
+    "gender": {
+      "title": "Équité des genres",
+      "content": [
+        "Programmes spéciaux pour soutenir les femmes dans la production de cajou.",
+        "Égalité des salaires et opportunités de leadership à tous les niveaux."
+      ]
+    }
+  },
+  "future": {
+    "title": "Notre vision pour une croissance durable",
+    "content": [
+      "D'ici 2031, nous visons la neutralité carbone sur toute notre chaîne d'approvisionnement.",
+      "Notre centre de transformation appliquera des principes zéro déchet.",
+      "Nous investissons dans les énergies renouvelables et la traçabilité blockchain."
+    ],
+    "cta": "Découvrez notre Feuille de Route Durabilité 2031"
+  }
+}

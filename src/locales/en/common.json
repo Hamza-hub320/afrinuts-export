@@ -5,13 +5,12 @@
     "products": "Products",
     "farm": "Farm",
     "contact": "Contact",
+    "sustainability": "Sustainability",
     "language": "Language"
   },
   "language": {
     "en": "EN",
-    "fr": "FR"
-  },
-  "premiumQuality": "Premium quality {{product}}",
-  "availableNow": "Available now",
-  "comingSoon": "Coming soon"
+    "fr": "FR",
+    "ar": "AR"
+  }
 }

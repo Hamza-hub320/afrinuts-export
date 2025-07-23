@@ -8,17 +8,19 @@ interface InfoCardProps {
     title: string;
     description: string;
     iconColor?: string;
+    className?: string;
 }
 
 export const InfoCard: React.FC<InfoCardProps> = ({
                                                       icon: Icon,
                                                       title,
                                                       description,
-                                                      iconColor = 'text-accent'
+                                                      iconColor = 'text-accent',
+                                                      className = ''
                                                   }) => {
     return (
         <motion.div
-            className="group relative bg-white rounded-xl shadow-lg border border-warm-grey/20 p-6 h-full"
+            className={`group relative bg-white rounded-xl shadow-lg border border-warm-grey/20 p-6 h-full ${className}`}
             whileHover={{
                 y: -8,
                 transition: { duration: 0.3 }

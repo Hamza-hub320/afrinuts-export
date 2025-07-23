@@ -52,7 +52,7 @@ const AccessibilityToolbar = () => {
   return (
       <div className={`
       fixed right-0 top-1/2 transform -translate-y-1/2
-      bg-primary text-white shadow-lg rounded-l-lg
+      bg-navy text-white shadow-lg rounded-l-lg
       transition-all duration-300 ease-in-out
       ${isOpen ? 'translate-x-0' : 'translate-x-[calc(100%-40px)]'}
       z-50
@@ -60,7 +60,7 @@ const AccessibilityToolbar = () => {
         <button
             className={`
           w-10 h-10 flex items-center justify-center
-          bg-primary hover:bg-dark-orange text-white
+          bg-navy hover:bg-dark-orange text-white
           rounded-l-lg focus:outline-none focus:ring-2 focus:ring-accent
         `}
             onClick={() => setIsOpen(!isOpen)}
@@ -75,7 +75,7 @@ const AccessibilityToolbar = () => {
                 <button
                     className={`
                 w-10 h-10 flex items-center justify-center
-                bg-secondary hover:bg-olive text-white
+                bg-olive hover:bg-green-900 text-white
                 rounded focus:outline-none focus:ring-2 focus:ring-accent
                 ${fontSize <= 80 ? 'opacity-50 cursor-not-allowed' : ''}
               `}
@@ -89,7 +89,7 @@ const AccessibilityToolbar = () => {
                 <button
                     className={`
                 w-10 h-10 flex items-center justify-center
-                bg-secondary hover:bg-olive text-white
+                bg-olive hover:bg-green-900 text-white
                 rounded focus:outline-none focus:ring-2 focus:ring-accent
                 ${fontSize >= 150 ? 'opacity-50 cursor-not-allowed' : ''}
               `}
@@ -106,7 +106,7 @@ const AccessibilityToolbar = () => {
                   className={`
               w-full flex items-center justify-center space-x-2
               px-4 py-2 rounded
-              ${highContrast ? 'bg-accent text-white' : 'bg-secondary text-white hover:bg-olive'}
+              ${highContrast ? 'bg-accent text-white' : 'bg-olive text-white hover:bg-green-900'}
               focus:outline-none focus:ring-2 focus:ring-accent
             `}
                   aria-label={highContrast ? "Disable high contrast mode" : "Enable high contrast mode"}

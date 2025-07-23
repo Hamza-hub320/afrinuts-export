@@ -5,6 +5,10 @@ export interface TranslationResources {
         products: string;
         farm: string;
         contact: string;
+        sustainability: string;
+        title: string;
+        content: string;
+        icon: string;
         language: string;
     };
     language: {
@@ -14,7 +18,7 @@ export interface TranslationResources {
     premiumQuality: string;
     availableNow: string;
     comingSoon: string;
-    // Add other shared resource shapes here
+
 }
 
 export type SupportedLanguages = 'en' | 'fr' | 'ar';

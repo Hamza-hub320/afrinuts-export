@@ -5,6 +5,7 @@ import About from './pages/About';
 import Products from './pages/Products';
 import Farm from './pages/Farm';
 import Contact from './pages/Contact';
+import Sustainability from './pages/Sustainability';
 import { I18nextProvider } from 'react-i18next';
 import i18n from './i18n';
 import './index.css';
@@ -35,6 +36,7 @@ function App(): ReactElement {
                             <Route path="products" element={<Products />} />
                             <Route path="farm" element={<Farm />} />
                             <Route path="contact" element={<Contact />} />
+                            <Route path="/sustainability" element={<Sustainability />} />
                             {/* Add a catch-all route for 404s within the SPA */}
                             <Route path="*" element={<Home />} />
                         </Route>

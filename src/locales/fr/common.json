@@ -4,13 +4,13 @@
     "about": "Profil",
     "products": "Produits",
     "farm": "Ferme",
-    "contact": "Contact"
+    "contact": "Contact",
+    "sustainability": "Durabilité",
+    "language": "Langue"
   },
   "language": {
     "en": "EN",
-    "fr": "FR"
-  },
-  "premiumQuality": "Qualité premium {{product}}",
-  "availableNow": "Disponible maintenant",
-  "comingSoon": "Bientôt disponible"
+    "fr": "FR",
+    "ar": "AR"
+  }
 }

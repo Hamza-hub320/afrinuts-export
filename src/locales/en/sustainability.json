@@ -1,0 +1,100 @@
+{
+  "hero": {
+    "title": "Sustainable Cashew Farming",
+    "subtitle": "Cultivating quality while preserving our planet"
+  },
+  "intro": {
+    "title": "The Importance of Sustainable Cashew Agribusiness",
+    "content": [
+      "The global cashew industry plays a vital role in many economies, particularly in West Africa where Ivory Coast leads production.",
+      "As demand grows, so does the need for sustainable practices that protect ecosystems while ensuring farmer livelihoods.",
+      "At AfriNuts Export, we're committed to revolutionizing cashew production through environmentally and socially responsible methods."
+    ]
+  },
+  "environment": {
+    "title": "Environmental Impacts & Our Solutions",
+    "challenges": {
+      "title": "Key Challenges",
+      "items": [
+        {
+          "title": "Deforestation & Biodiversity",
+          "content": "Cashew expansion can lead to forest clearing, threatening ecosystems.",
+          "icon": "FaTree"
+        },
+        {
+          "title": "Water & Soil Quality",
+          "content": "Intensive farming risks water depletion and soil degradation.",
+          "icon": "FaWater"
+        },
+        {
+          "title": "Chemical Use",
+          "content": "Pesticides and fertilizers can harm environments if misused.",
+          "icon": "FaLeaf"
+        },
+        {
+          "title": "Waste Management",
+          "content": "Processing generates shells and apples needing proper disposal.",
+          "icon": "FaIndustry"
+        }
+      ]
+    },
+    "solutions": {
+      "title": "Our Sustainable Practices",
+      "items": [
+        {
+          "title": "Agroforestry Systems",
+          "content": "We intercrop cashews with native species to maintain biodiversity.",
+          "icon": "FaSeedling"
+        },
+        {
+          "title": "Water Conservation",
+          "content": "Drip irrigation and rainwater harvesting minimize water use.",
+          "icon": "FaTint"
+        },
+        {
+          "title": "Organic Methods",
+          "content": "Natural pest control and compost replace synthetic inputs.",
+          "icon": "FaBug"
+        },
+        {
+          "title": "Waste Valorization",
+          "content": "Shells become biofuel; apples are used for juices and vinegar.",
+          "icon": "FaRecycle"
+        }
+      ]
+    }
+  },
+  "social": {
+    "title": "Social Responsibility",
+    "farmers": {
+      "title": "Empowering Smallholder Farmers",
+      "content": [
+        "We provide fair pricing, training, and market access to local growers.",
+        "Our direct relationships eliminate middlemen, ensuring better incomes."
+      ]
+    },
+    "labor": {
+      "title": "Ethical Labor Practices",
+      "content": [
+        "Safe working conditions and fair wages for all employees.",
+        "No child labor and strict adherence to international standards."
+      ]
+    },
+    "gender": {
+      "title": "Gender Equity",
+      "content": [
+        "Special programs to support women in cashew production.",
+        "Equal pay and leadership opportunities across operations."
+      ]
+    }
+  },
+  "future": {
+    "title": "Our Vision for Sustainable Growth",
+    "content": [
+      "By 2031, we aim to be carbon-neutral across our supply chain.",
+      "Our processing center will implement zero-waste principles.",
+      "We're investing in renewable energy and blockchain traceability."
+    ],
+    "cta": "Learn about our 2031 Sustainability Roadmap"
+  }
+}
