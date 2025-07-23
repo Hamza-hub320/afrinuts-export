@@ -42,6 +42,19 @@ const About: React.FC = () => {
   const shouldTruncateCeo = ceoMessage.join(' ').length > 300;
   const shouldTruncateCfo = cfoMessage.join(' ').length > 300;
 
+  const HeroSection = () => {
+    // Animation variants
+    const staggerContainer = {
+      hidden: {opacity: 0},
+      visible: {
+        opacity: 1,
+        transition: {
+          staggerChildren: 0.1,
+        }
+      }
+    }
+  }
+
   // Animation variants
   const fadeIn = {
     hidden: { opacity: 0, y: 20 },
@@ -49,14 +62,14 @@ const About: React.FC = () => {
   }
 
   return (
-      <main className="bg-background">
+      <main>
         {/* Hero Section */}
         <Section
             fullHeight={false}
             bgImage={aboutUsHeroImage}
             overlay
             overlayColor="bg-primary/"
-            className="flex items-end justify-start text-center min-h-[50vh] md:min-h-[80vh] pb-12 px-6"
+            className="flex items-end justify-start text-center min-h-[35vh] md:min-h-[60vh] pb-12 mx-4 sm:mx-8 mt-32 pt-16 rounded-[2rem] shadow-2xl overflow-hidden border border-white/40"
         >
           <motion.div
               className="max-w-2xl px-6 py-10 bg-white/75 backdrop-blur-xs rounded-xl"
@@ -80,7 +93,7 @@ const About: React.FC = () => {
         </Section>
 
         {/* Leadership Section */}
-        <Section className="py-8 md:py-16 bg-white">
+        <Section className="py-8 md:py-16">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
             <div className="text-center mb-8 md:mb-16">
               <Typography variant="subhead" className="uppercase tracking-widest mb-2">
@@ -233,7 +246,7 @@ const About: React.FC = () => {
         </Section>
 
         {/* Brand Statement */}
-        <Section className="py-8 md:py-10 bg-white text-center text-text-dark">
+        <Section className="py-8 md:py-10 text-center text-text-dark">
           <motion.div
               className="w-full max-w-7xl mx-auto px-4 sm:px-6"
               initial="hidden"
@@ -251,7 +264,7 @@ const About: React.FC = () => {
         </Section>
 
         {/* Vision, Mission, Values */}
-        <Section className="py-8 md:py-16 bg-white">
+        <Section className="py-8 md:py-16">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
             <motion.div
                 initial="hidden"
@@ -328,7 +341,7 @@ const About: React.FC = () => {
         </Section>
 
         {/* Farm Section */}
-        <Section className="py-8 md:py-16 bg-background">
+        <Section className="py-8 md:py-16">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
             <div className="flex flex-col lg:flex-row gap-8 md:gap-16 items-center">
               <motion.div className="flex-1">
@@ -344,11 +357,11 @@ const About: React.FC = () => {
                   {t('farm.text')}
                 </p>
                 <div className="flex flex-wrap gap-4">
-                  <div className="flex items-center gap-3 bg-white px-4 py-3 rounded-lg shadow">
+                  <div className="flex items-center gap-3 bg-backgroundpx-4 py-3 rounded-lg shadow">
                     <FaMapMarkerAlt className="text-accent text-xl"/>
                     <span>{t('farm.location')}</span>
                   </div>
-                  <div className="flex items-center gap-3 bg-white px-4 py-3 rounded-lg shadow">
+                  <div className="flex items-center gap-3 bg-backgroundpx-4 py-3 rounded-lg shadow">
                     <FaChartLine className="text-accent text-xl"/>
                     <span>{t('farm.size')}</span>
                   </div>
@@ -379,7 +392,7 @@ const About: React.FC = () => {
         </Section>
 
         {/* Legacy Timeline */}
-        <Section className="py-16 bg-background text-text-dark">
+        <Section className="py-16 text-text-dark">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
           <motion.div
                 className="text-center mb-16"
@@ -406,7 +419,7 @@ const About: React.FC = () => {
                   className="group relative"
               >
                 <div className="absolute -inset-1 bg-gradient-to-r from-accent/20 to-primary/20 rounded-3xl opacity-0 group-hover:opacity-100 blur transition duration-300"></div>
-                <div className="relative bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100">
+                <div className="relative bg-background rounded-3xl shadow-xl overflow-hidden border border-gray-100">
                   <div className="bg-gradient-to-r from-primary to-primary/90 p-6 flex items-center gap-4">
                     <div className="bg-white/20 p-3 rounded-full">
                       <FaTree className="text-2xl text-white"/>
@@ -447,7 +460,7 @@ const About: React.FC = () => {
                   className="group relative"
               >
                 <div className="absolute -inset-1 bg-gradient-to-r from-accent/20 to-primary/20 rounded-3xl opacity-0 group-hover:opacity-100 blur transition duration-300"></div>
-                <div className="relative bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100">
+                <div className="relative bg-background rounded-3xl shadow-xl overflow-hidden border border-gray-100">
                   <div className="bg-gradient-to-r from-accent to-accent/90 p-6 flex items-center gap-4">
                     <div className="bg-white/20 p-3 rounded-full">
                       <FaChartLine className="text-2xl text-white"/>

@@ -127,7 +127,7 @@ const Contact: React.FC = () => {
             bgImage={contactHeroImage}
             overlay
             overlayColor="bg-primary/"
-            className="flex items-end justify-start text-center min-h-[50vh] md:min-h-[80vh] pb-12 px-6"
+            className="flex items-end justify-start text-center min-h-[35vh] md:min-h-[60vh] pb-12 mx-4 sm:mx-8 mt-32 pt-16 rounded-[2rem] shadow-2xl overflow-hidden border border-white/40"
         >
           <motion.div
               className="max-w-2xl px-6 py-10 bg-white/75 backdrop-blur-xs rounded-xl"
@@ -326,7 +326,7 @@ const Contact: React.FC = () => {
         </div>
 
         {/* Map Section */}
-        <Section className="bg-warm-grey/30 py-16">
+        <Section className=" py-16">
           <div className="container mx-auto text-center">
             <Typography variant="h2" className="mb-4">
               {t('map.title')}

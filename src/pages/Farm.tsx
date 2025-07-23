@@ -108,14 +108,14 @@ const Farm = () => {
 
     return (
         <Suspense fallback={<div>Loading...</div>}>
-            <div className="bg-background text-text-dark font-sans leading-relaxed">
+            <div className=" text-text-dark font-sans leading-relaxed">
                 {/* Hero Section */}
                 <Section
                     fullHeight={false}
                     bgImage={farmHeroImage}
                     overlay
                     overlayColor="bg-primary/"
-                    className="flex items-end justify-start text-center min-h-[50vh] md:min-h-[80vh] pb-12 px-6"
+                    className="flex items-end justify-start text-center min-h-[35vh] md:min-h-[60vh] pb-12 mx-4 sm:mx-8 mt-32 pt-16 rounded-[2rem] shadow-2xl overflow-hidden border border-white/40"
                 >
                     <motion.div
                         className="max-w-2xl px-6 py-10 bg-white/75 backdrop-blur-xs rounded-xl"
@@ -139,7 +139,7 @@ const Farm = () => {
                 </Section>
 
                 {/* Farm Overview */}
-                <section className="py-16 px-6 bg-white">
+                <section className="py-16 px-6">
                     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                             <div className="text-center mb-16">
@@ -189,7 +189,7 @@ const Farm = () => {
                 </section>
 
                 {/* Farm Development Timeline */}
-                <section className="py-16 md:py-20 px-4 sm:px-6 bg-afri-light">
+                <section className="py-16 md:py-20 px-4 sm:px-6">
                     <div className="max-w-6xl mx-auto">
                         <Typography variant="h2" className="text-primary text-center mb-8 md:mb-16">
                             {t('timeline.title')}
@@ -245,7 +245,7 @@ const Farm = () => {
                 </section>
 
                 {/* Impact Section */}
-                <section className="py-16 px-6 bg-afri-primary text-white">
+                <section className="py-16 px-6 text-white">
                     <div className="max-w-6xl mx-auto">
                         <Typography variant="h2" className="text-center text-primary mb-16">
                             {t('impact.title')}
@@ -275,7 +275,7 @@ const Farm = () => {
                 </section>
 
                 {/* Gallery Section */}
-                <section className="py-16 px-6 bg-white">
+                <section className="py-16 px-6">
                     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                         <Typography variant="h2" className="text-primary text-center mb-16">
                             {t('gallery.title')}
@@ -285,7 +285,7 @@ const Farm = () => {
                 </section>
 
                 {/* Sustainability Section */}
-                <section className="py-20 px-6 bg-afri-light">
+                <section className="py-20 px-6">
                     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                         <div className="max-w-6xl mx-auto">
                             <div className="text-center mb-16">
@@ -317,7 +317,7 @@ const Farm = () => {
                 </section>
 
                 {/* Call to Action */}
-                <section className="py-16 px-6 bg-afri-secondary text-white">
+                <section className="py-16 px-6 text-white">
                     <div className="max-w-4xl mx-auto text-center">
                         <Typography variant="h2" className="mb-6">
                             {t('cta.title')}

@@ -77,8 +77,8 @@ const Navbar: React.FC = () => {
     { path: '/about', label: t('navbar.about') },
     { path: '/products', label: t('navbar.products') },
     { path: '/farm', label: t('navbar.farm') },
-    { path: '/contact', label: t('navbar.contact') },
     { path: '/sustainability', label: t('navbar.sustainability') },
+    { path: '/contact', label: t('navbar.contact') },
   ];
 
   const handleClick = (): void => {
@@ -99,7 +99,7 @@ const Navbar: React.FC = () => {
   const currentLanguage = languages.find(lang => lang.code === i18n.language) || languages[0];
 
   return (
-      <nav className={`fixed top-3 left-3 right-3 z-50 transition-all duration-300 ${scrolled ? 'scale-[0.98]' : ''}`}>
+      <nav className={`fixed top-2 left-3 right-3 z-50 transition-all duration-300 ${scrolled ? 'scale-[0.98]' : ''}`}>
         <div className={`border border-gray-300 rounded-2xl bg-white shadow-lg mx-auto max-w-7xl transition-all duration-300 ${scrolled ? 'shadow-xl' : ''}`}>
           <div className="flex justify-between items-center h-20 px-4 sm:px-6 lg:px-8">
             {/* Logo Section */}

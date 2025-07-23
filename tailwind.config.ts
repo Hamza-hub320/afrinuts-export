@@ -9,9 +9,12 @@ export default {
     ],
     theme: {
         extend: {
+            backgroundImage: {
+                'main-gradient': 'linear-gradient(to bottom right, rgba(90, 116, 17, 0.1), rgba(234, 88, 12, 0.1))',
+            },
             colors: {
-                'primary': '#5A7411',       // forest-green
-                'accent': '#EA580C',        // orange
+                'primary': '#5A7411',
+                'accent': '#EA580C',       // orange
                 'secondary': '#A0C800',     // lime-green
                 'background': '#F5F5F5',    // light-grey
                 'text-dark': '#6C5D56',     // taupe

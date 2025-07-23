@@ -119,41 +119,41 @@ const Products: React.FC = () => {
     };
 
     return (
-            <main className="bg-background">
+            <main>
                 {/* Hero Section */}
                 <Section
                     fullHeight={false}
                     bgImage={ourProductHeroImage}
                     overlay
                     overlayColor="bg-primary/"
-                    className="flex items-end justify-start text-center min-h-[50vh] md:min-h-[80vh] pb-12 px-6"
+                    className="flex items-end justify-start text-center min-h-[35vh] md:min-h-[60vh] pb-12 mx-4 sm:mx-8 mt-32 pt-16 rounded-[2rem] shadow-2xl overflow-hidden border border-white/40"
                 >
-                    <motion.div
-                        className="max-w-2xl px-6 py-10 bg-white/75 backdrop-blur-xs rounded-xl"
-                        initial="hidden"
-                        animate="visible"
-                        variants={staggerContainer}
+                  <motion.div
+                      className="max-w-2xl px-6 py-10 bg-white/75 backdrop-blur-xs rounded-xl"
+                      initial="hidden"
+                      animate="visible"
+                      variants={staggerContainer}
+                  >
+                    <motion.h1
+                        className="font-display text-4xl md:text-5xl lg:text-6xl text-primary mb-4 leading-tight"
+                        variants={fadeIn}
+                        style={{ letterSpacing: '-0.03em' }}
                     >
-                        <motion.h1
-                            className="font-display text-4xl md:text-5xl lg:text-6xl text-primary mb-4 leading-tight"
-                            variants={fadeIn}
-                            style={{letterSpacing: '-0.03em'}}
-                        >
-                            {t('hero.title')}
-                        </motion.h1>
-                        <motion.div variants={fadeIn}>
-                            <Typography variant="subtitle" className="text-primary/90">
-                                {t('hero.subtitle')}
-                            </Typography>
-                        </motion.div>
+                      {t('hero.title')}
+                    </motion.h1>
+                    <motion.div variants={fadeIn}>
+                      <Typography variant="subtitle" className="text-primary/90">
+                        {t('hero.subtitle')}
+                      </Typography>
                     </motion.div>
+                  </motion.div>
                 </Section>
 
                 {/* Product Categories Filter */}
-                <Section className="py-8 bg-white shadow-sm top-0 z-10">
+                <Section className="py-8 shadow-sm top-0 z-10">
                     {/* Filter Section */}
                     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
-                    <div className="bg-white p-6 rounded-lg shadow-md mb-8 top-0 z-10">
+                    <div className=" p-6 rounded-lg shadow-md mb-8 top-0 z-10">
                         <div className="flex flex-col md:flex-row md:items-center gap-6">
                         {/* Search Input */}
                             <div className="flex-1">
@@ -279,7 +279,7 @@ const Products: React.FC = () => {
 
 
                 {/* Our Process Section */}
-                <Section className="py-16 bg-gradient-to-br from-background to-primary/10">
+                <Section className="py-16">
                     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                         <motion.div
                             initial="hidden"
@@ -338,7 +338,7 @@ const Products: React.FC = () => {
                 </Section>
 
                 {/* Quality Assurance */}
-                <Section className="py-16 bg-white">
+                <Section className="py-16">
                     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                         <div className="flex flex-col lg:flex-row gap-12 items-center">
                             <motion.div
@@ -388,7 +388,7 @@ const Products: React.FC = () => {
                 </Section>
 
                 {/* Certifications */}
-                <Section className="py-16 bg-background">
+                <Section className="py-16 ">
                     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                         <motion.div
                             initial="hidden"
@@ -431,7 +431,7 @@ const Products: React.FC = () => {
                 </Section>
 
                 {/* CTA Section */}
-                <Section className="py-16  bg-background text-text-dark">
+                <Section className="py-16 text-text-dark">
                     <motion.div
                         className="container mx-auto px-6 text-center"
                         initial="hidden"

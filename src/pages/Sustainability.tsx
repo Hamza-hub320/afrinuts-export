@@ -50,14 +50,14 @@ const Sustainability: React.FC = () => {
     };
 
     return (
-        <main className="bg-white">
+        <main>
             {/* Hero Section */}
             <Section
                 fullHeight={false}
                 bgImage={sustainabilityHeroImage}
                 overlay
                 overlayColor="bg-primary/"
-                className="flex items-end justify-start text-center min-h-[50vh] md:min-h-[80vh] pb-12 px-6"
+                className="flex items-end justify-start text-center min-h-[35vh] md:min-h-[60vh] pb-12 mx-4 sm:mx-8 mt-32 pt-16 rounded-[2rem] shadow-2xl overflow-hidden border border-white/40"
             >
                 <motion.div
                     className="max-w-2xl px-6 py-10 bg-white/75 backdrop-blur-xs rounded-xl"
@@ -81,7 +81,7 @@ const Sustainability: React.FC = () => {
             </Section>
 
             {/* Introduction Section */}
-            <Section className="py-12 md:py-20 bg-white">
+            <Section className="py-12 md:py-20">
                 <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                     <motion.div
                         initial="hidden"
@@ -111,7 +111,7 @@ const Sustainability: React.FC = () => {
             </Section>
 
             {/* Environmental Section */}
-            <Section className="py-12 md:py-20 bg-gradient-to-br from-primary/10 to-accent/10">
+            <Section className="py-12 md:py-16">
                 <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                     <motion.div
                         initial="hidden"
@@ -207,7 +207,7 @@ const Sustainability: React.FC = () => {
             </Section>
 
             {/* Social Responsibility Section */}
-            <Section className="py-12 md:py-20 bg-background">
+            <Section className="py-12 md:py-16">
                 <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                     <motion.div
                         initial="hidden"
@@ -276,7 +276,7 @@ const Sustainability: React.FC = () => {
             </Section>
 
             {/* Future Vision Section */}
-            <Section className="py-12 md:py-20 bg-white">
+            <Section className="py-12 md:py-16">
                 <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 text-center">
                     <motion.div
                         initial="hidden"
@@ -291,7 +291,7 @@ const Sustainability: React.FC = () => {
                             {(t('future.content', { returnObjects: true }) as string[]).map((item, index) => (
                                 <motion.div
                                     key={`future-item-${index}`}
-                                    className="flex items-center gap-4 bg-background/80 p-4 rounded-xl shadow-sm"
+                                    className="flex items-center gap-4 bg-white p-4 rounded-xl shadow-sm"
                                     variants={fadeIn}
                                     transition={{ delay: index * 0.1 }}
                                 >

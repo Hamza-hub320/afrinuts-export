@@ -6,3 +6,5 @@ dist/assets/*.jpg
 dist/assets/*.png
 src/pages/react-icons/
 .DS_Store
+.DS_Store
+src/.DS_Store

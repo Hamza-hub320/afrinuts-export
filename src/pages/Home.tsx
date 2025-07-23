@@ -61,7 +61,7 @@ const Home: React.FC = () => {
     return (
         <div className="min-h-[80vh] md:min-h-screen overflow-hidden text-balance">
             {/* 1. Hero Section */}
-            <section className="relative bg-primary text-white min-h-[60vh] sm:min-h-[70vh] md:min-h-[80vh] lg:min-h-[90vh] flex items-center justify-center overflow-hidden pt-16 sm:pt-20 md:pt-0 pb-8">
+            <section className="relative text-white min-h-[60vh] sm:min-h-[70vh] md:min-h-[80vh] lg:min-h-[90vh] flex items-center justify-center overflow-hidden pt-16 sm:pt-20 md:pt-0 pb-8">
                 {/* Dark overlay for better text contrast */}
                 <div className="absolute inset-0 bg-gradient-to-b from-black/30 to-black/50 z-0" />
 
@@ -129,7 +129,7 @@ const Home: React.FC = () => {
                 </div>
 
                 {/* Decorative wave at bottom */}
-                <div className="absolute bottom-0 left-0 w-full z-10">
+                <div className="absolute bg-main-gradient bottom-0 left-0 w-full z-10">
                     <svg viewBox="0 0 1440 120" className="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
                         <path fill="#F5F5F5" fillOpacity="1" d="M0,64L80,74.7C160,85,320,107,480,101.3C640,96,800,64,960,58.7C1120,53,1280,75,1360,85.3L1440,96L1440,320L1360,320C1280,320,1120,320,960,320C800,320,640,320,480,320C320,320,160,320,80,320L0,320Z"></path>
                     </svg>
@@ -138,7 +138,7 @@ const Home: React.FC = () => {
 
             {/* 2. About Preview Section */}
             <Suspense fallback={<div>{t('loading.about')}</div>}>
-                <Section id="about-preview" className="bg-background py-12 md:py-16 -mt-1 px-4 sm:px-6">
+                <Section id="about-preview" className=" py-12 md:py-16 -mt-1 px-4 sm:px-6">
                     <motion.div
                         className="w-full max-w-7xl mx-auto px-4 sm:px-6"
                         initial="hidden"
@@ -146,7 +146,7 @@ const Home: React.FC = () => {
                         viewport={{ once: true, margin: "-100px" }}
                         variants={scaleUp}
                     >
-                        <div className="bg-white rounded-2xl md:rounded-3xl shadow-xl md:shadow-2xl p-6 md:p-12 w-full">
+                        <div className="bg-background rounded-2xl md:rounded-3xl shadow-xl md:shadow-2xl p-6 md:p-12 w-full">
                             <div className="flex flex-col lg:flex-row items-center gap-8 md:gap-12">
                                 <motion.div
                                     className="text-orange-600 text-5xl p-5 bg-background rounded-xl shadow-inner"
@@ -182,7 +182,7 @@ const Home: React.FC = () => {
 
             {/* 3. Products Showcase */}
             <Suspense fallback={<div>{t('loading.products')}</div>}>
-                <Section className="py-16 bg-background">
+                <Section className="py-16">
                     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                     <motion.div
                             className="text-center mb-16"
@@ -244,7 +244,7 @@ const Home: React.FC = () => {
             </Suspense>
 
             {/* 4. Farm Story */}
-            <Section className="py-12 md:py-16 bg-background text-text-dark px-4 sm:px-6">
+            <Section className="py-12 md:py-16 text-text-dark px-4 sm:px-6">
                 <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                 <div className="flex flex-col lg:flex-row items-center gap-8 md:gap-16">
                         <motion.div
@@ -311,7 +311,7 @@ const Home: React.FC = () => {
             </Section>
 
             {/* 5. Sustainability */}
-            <Section className="py-12 md:py-16 bg-background px-4 sm:px-6">
+            <Section className="py-12 md:py-16 px-4 sm:px-6">
                 <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                 <motion.div
                         className="bg-white rounded-2xl md:rounded-3xl shadow-xl md:shadow-2xl overflow-hidden w-full max-w-md sm:max-w-lg md:max-w-2xl lg:max-w-4xl xl:max-w-6xl mx-auto"
@@ -358,7 +358,7 @@ const Home: React.FC = () => {
                                     <motion.button
                                         whileHover={{ scale: 1.05 }}
                                         whileTap={{ scale: 0.95 }}
-                                        className="group bg-white border-2 border-accent text-accent hover:bg-dark-orange hover:text-white px-6 py-2 md:px-8 md:py-3 rounded-full transition-all duration-300 inline-flex items-center text-sm md:text-base"
+                                        className="group bg-backgroundborder-2 border-accent text-accent hover:bg-dark-orange hover:text-white px-6 py-2 md:px-8 md:py-3 rounded-full transition-all duration-300 inline-flex items-center text-sm md:text-base"
                                         onClick={() => navigate('/sustainability')}
                                     >
                                         {t('sustainability.ctaButton')}
@@ -373,7 +373,7 @@ const Home: React.FC = () => {
 
             {/* 6. News & Updates */}
             <Suspense fallback={<div>{t('loading.news')}</div>}>
-                <Section className="py-12 md:py-16 bg-white">
+                <Section className="py-12 md:py-16 ">
                     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                     <motion.div
                             className="text-center mb-12 md:mb-16"
@@ -443,7 +443,7 @@ const Home: React.FC = () => {
 
             {/* 7. Contact CTA */}
             <Suspense fallback={<div>{t('loading.contact')}</div>}>
-                <Section className="py-16 bg-white text-text-dark relative overflow-hidden">
+                <Section className="py-16 text-text-dark relative overflow-hidden">
                     <div className="w-full px-4 sm:px-6">
                         <div className="relative z-10 container mx-auto text-center max-w-md sm:max-w-lg md:max-w-2xl lg:max-w-4xl xl:max-w-6xl">
                             <motion.div
