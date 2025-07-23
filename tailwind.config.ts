@@ -36,9 +36,9 @@ export default {
 
 
                 // Directional glows (more subtle)
-                'glow-left': '-8px 0 20px -5px rgba(253, 129, 4, 0.4)',
-                'glow-right': '8px 0 20px -5px rgba(253, 129, 4, 0.4)',
-                'glow-bottom': '0 8px 20px -5px rgba(253, 129, 4, 0.4)',
+                'brand-glow': '0 0 20px 6px rgba(234, 88, 12, 0.2)',
+                'brand-glow-lg': '0 0 30px 10px rgba(234, 88, 12, 0.25)',
+
             },
             fontFamily: {
                 sans: ['Inter', 'sans-serif'],

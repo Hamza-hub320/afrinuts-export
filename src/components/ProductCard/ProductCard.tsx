@@ -3,7 +3,6 @@ import { motion } from 'framer-motion';
 import { Typography } from '../Typography/Typography';
 import { FaArrowRight } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
-import {t} from "i18next";
 
 interface ProductCardProps {
     product: {
@@ -21,7 +20,7 @@ interface ProductCardProps {
     compact?: boolean;
     handleContactClick: () => void;
     productImageMap: Record<string, string>;
-    iconMap: Record<string, React.ComponentType>;
+    iconMap: Record<string, React.ComponentType<{ className?: string }>>;
     height?: string;
     className?: string;
     loading?: 'lazy' | 'eager';
@@ -34,36 +33,42 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                                                             handleContactClick,
                                                             productImageMap,
                                                             iconMap,
-                                                            height = 'h-72'
+                                                            height = 'h-72',
+                                                            className = '',
+                                                            loading = 'lazy'
                                                         }) => {
+    const { t } = useTranslation('products');
     const IconComponent = iconMap[product.icon];
     const imageSrc = productImageMap[product.backgroundImage];
+
     // Determine glow intensity based on card type
     const glowIntensity = compact ? 'glow-accent-sm' : 'glow-accent-md';
     const directionalGlow = 'glow-left';
-
 
     return (
         <motion.div
             className={`group relative bg-white rounded-xl shadow-lg border border-gray-200 ${
                 compact ? 'h-full' : 'flex flex-col'
-            }`}
+            } ${className}`}
             variants={variants}
             whileHover={{
                 y: -8,
-                transition: { duration: 0.3 }
+                transition: { duration: 0.3 },
+                boxShadow: "0 10px 25px -5px rgba(34, 118, 214, 0.2)"
             }}
         >
             {/* Glow overlay (AWS-style) */}
             <div className="
-            absolute -inset-[2px] rounded-xl
-              opacity-0 group-hover:opacity-100
-              transition-opacity duration-300
-              pointer-events-none
-              shadow-glow-accent-md
-              z-0
-          "></div>
-
+                absolute -inset-[3px] rounded-xl
+                opacity-0 group-hover:opacity-100
+                transition-opacity duration-300
+                pointer-events-none
+                z-0
+                bg-gradient-to-br
+                from-accent/20 via-accent/10 to-transparent
+                shadow-brand-glow
+                group-hover:shadow-brand-glow-lg
+              "></div>
             {/* Main content */}
             <div className="relative z-10 h-full flex flex-col bg-white rounded-xl overflow-hidden">
                 {/* Image with gradient overlay */}
@@ -74,6 +79,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                                 src={imageSrc}
                                 alt={product.name}
                                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                loading={loading}
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-primary/30 to-transparent" />
                         </>
@@ -81,7 +87,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                     {!product.available && (
                         <div className="absolute top-4 right-4 bg-white px-3 py-1 rounded-full shadow-sm border border-gray-200">
                             <Typography variant="small" className="text-gray-800 font-medium">
-                                Coming Soon
+                                {product.comingSoon || t('productCard.comingSoon')}
                             </Typography>
                         </div>
                     )}
@@ -90,11 +96,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                 <div className="p-6 flex flex-col flex-grow">
                     {/* Header with icon */}
                     <div className="flex items-start mb-4">
-                        <div className="bg-orange-100 p-3 rounded-full mr-4 flex-shrink-0">
-                            {IconComponent && React.createElement(IconComponent, {
-                                className: "text-orange-600 text-xl"
-                            })}
-                        </div>
+                        {IconComponent && (
+                            <div className="bg-orange-100 p-3 rounded-full mr-4 flex-shrink-0">
+                                <IconComponent className="text-orange-600 text-xl" />
+                            </div>
+                        )}
                         <div>
                             <Typography variant="h4" className="text-gray-900 font-bold text-lg">
                                 {product.name}
@@ -112,7 +118,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                         <div className="mb-5">
                             <ul className="space-y-2">
                                 {product.features.map((feature: string, i: number) => (
-                                    <li key={i} className="flex items-start">
+                                    <li key={`feature-${i}`} className="flex items-start">
                                         <span className="text-gray-900 group-hover/feature:text-orange-600 mr-2 mt-0.5 transition-colors">•</span>
                                         <Typography variant="body" className="text-gray-700 text-sm">
                                             {feature}
@@ -132,13 +138,13 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                                 whileHover={{ scale: 1.02 }}
                                 whileTap={{ scale: 0.98 }}
                             >
-                                Request Quote
+                                {t('productCard.requestQuote')}
                                 <FaArrowRight className="ml-2 transition-transform" />
                             </motion.button>
                         ) : (
                             <div className="text-center py-3 bg-gray-100 rounded-lg">
                                 <Typography variant="body" className="text-gray-700 font-medium">
-                                    {product.comingSoon}
+                                    {t('productCard.comingSoon')}
                                 </Typography>
                             </div>
                         )}

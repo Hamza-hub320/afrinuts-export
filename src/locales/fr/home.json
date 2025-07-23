@@ -126,6 +126,9 @@
       }
     ]
   },
+  "newsCard": {
+    "readMore": "Lire la suite"
+  },
   "contact": {
     "title": "Prêt à découvrir nos noix de cajou premium ?",
     "subtitle": "Que vous soyez grossiste, détaillant ou simplement amateur de noix de cajou de qualité, nous serions ravis d'avoir de vos nouvelles.",

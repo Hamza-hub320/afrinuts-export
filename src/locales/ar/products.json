@@ -4,7 +4,10 @@
     "subtitle": "مصدرة بأخلاقيات عالية من أراضي أوديانه الخصبة إلى الأسواق العالمية"
   },
   "productCard": {
-    "keyFeatures": "الميزات الرئيسية"
+    "comingSoon": "قريبًا",
+    "requestQuote": "طلب عرض سعر",
+    "productionStarts": "بدء الإنتاج في الربع الأول من عام 2031"
+
   },
   "filters": {
     "searchPlaceholder": "ابحث عن المنتجات...",

@@ -99,7 +99,7 @@
     ]
   },
   "news": {
-    "title": "Latest News & Updates",
+    "title": "Dernières Nouvelles & Mises à Jour”",
     "subtitle": "Stay informed about our farm, products, and industry developments",
     "ctaButton": "View All News",
     "items": [
@@ -125,6 +125,9 @@
         "description": "Our newest product line now available in European markets"
       }
     ]
+  },
+  "newsCard": {
+    "readMore": "Read more"
   },
   "contact": {
     "title": "Ready to Experience Premium Cashews?",

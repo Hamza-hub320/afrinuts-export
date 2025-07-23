@@ -4,7 +4,9 @@
     "subtitle": "Ethically sourced from Odienné's fertile lands to global markets"
   },
   "productCard": {
-    "keyFeatures": "KEY FEATURES"
+    "comingSoon": "Coming Soon",
+    "requestQuote": "Request a Quote",
+    "productionStarts": "Production begins Q1 2031"
   },
   "filters": {
     "searchPlaceholder": "Search products...",
