@@ -94,21 +94,32 @@
     @apply p-4 sm:p-6 md:p-8;
   }
 
-  /* Buttons */
+  /* Updated Buttons in your CSS file */
   .primary-button {
-    @apply bg-accent text-white px-4 py-2 sm:px-5 sm:py-2.5 rounded-lg;
+    @apply bg-accent text-white px-5 py-2.5 sm:px-6 sm:py-3 rounded-lg;
     @apply transition-all duration-300 font-semibold inline-flex items-center;
     @apply justify-center gap-2 hover:bg-dark-orange active:scale-95;
-    @apply text-sm sm:text-base;
+    @apply text-base sm:text-lg shadow-md hover:shadow-lg;
+    @apply border-2 border-transparent focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50;
   }
 
   .secondary-button {
-    @apply bg-transparent text-accent border-2 border-accent;
-    @apply px-4 py-2 sm:px-5 sm:py-2.5 rounded-lg transition-all duration-300;
+    @apply bg-white text-accent border-2 border-accent;
+    @apply px-5 py-2.5 sm:px-6 sm:py-3 rounded-lg transition-all duration-300;
     @apply font-semibold inline-flex items-center justify-center gap-2;
-    @apply hover:bg-highlight active:scale-95 text-sm sm:text-base;
+    @apply hover:bg-orange-50 hover:border-dark-orange hover:text-dark-orange;
+    @apply active:scale-95 text-base sm:text-lg shadow-sm hover:shadow-md;
+    @apply focus:outline-none focus:ring-2 focus:ring-accent focus:ring-opacity-50;
   }
-}
+
+  /* New variants for better contrast */
+  .dark-button {
+    @apply bg-navy text-white hover:bg-teal hover:text-white;
+  }
+
+  .light-button {
+    @apply bg-warm-grey text-text-dark hover:bg-white hover:text-accent;
+  }
 
 /* Utilities */
 @layer utilities {
@@ -198,6 +209,7 @@
     }
 
     /* Scale down oversized elements */
+  }
     .mobile-scale-90 {
       transform: scale(0.9);
       transform-origin: left top;

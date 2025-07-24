@@ -171,7 +171,7 @@ const Sustainability: React.FC = () => {
                                                 icon={getIconComponent(item.icon)}
                                                 title={item.title}
                                                 description={item.content}
-                                                iconColor="text-primary"
+                                                iconColor="text-accent"
                                                 className="h-full"
                                             />
 

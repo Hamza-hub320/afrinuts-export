@@ -14,14 +14,14 @@ export default {
             },
             colors: {
                 'primary': '#5A7411',
-                'accent': '#EA580C',       // orange
+                'accent': '#E04E00',
+                'dark-orange': '#9C3D10',// orange
                 'secondary': '#A0C800',     // lime-green
                 'background': '#F5F5F5',    // light-grey
-                'text-dark': '#6C5D56',     // taupe
+                'text-dark': '#5A4D47',     // taupe
                 'text-light': '#FFFFFF',    // white
                 'warm-grey': '#DEDAD4',
-                'dark-orange': '#C2410C',
-                'highlight': 'rgba(253, 129, 4, 0.2)',
+                'highlight': 'rgba(253, 129, 4, 0.1)',
                 'navy': '#253746',
                 'teal': '#00869D',
                 'olive': '#698714'

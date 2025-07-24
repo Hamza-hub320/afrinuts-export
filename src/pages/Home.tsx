@@ -98,7 +98,7 @@ const Home: React.FC = () => {
                     <motion.button
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        className="border-2 border-white text-white hover:bg-white/10 px-5 py-2 sm:px-6 sm:py-3 md:px-8 md:py-4 rounded-full text-base sm:text-lg md:text-xl font-medium transition-all duration-300 flex items-center justify-center gap-2"
+                        className="border-2 border-accent text-accent hover:bg-white/10 px-5 py-2 sm:px-6 sm:py-3 md:px-8 md:py-4 rounded-full text-base sm:text-lg md:text-xl font-medium transition-all duration-300 flex items-center justify-center gap-2"
                         onClick={() => scrollToSection('about-preview')}
                     >
                         {t('hero.ctaButtons.learnMore')}
@@ -217,7 +217,7 @@ const Home: React.FC = () => {
             </Suspense>
 
             {/* 4. Farm Story */}
-            <Section className="py-10 md:py-16 bg-white text-text-dark px-4 sm:px-6 rounded-[80px] md:rounded-[100px] overflow-hidden pt-20 sm:pt-24 pb-8 relative">
+            <Section className="py-10 md:py-16 bg-white text-text-dark px-4 sm:px-6 rounded-t-[80px] md:rounded-t-[100px] overflow-hidden pt-24 pb-8 relative">
                 <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                 <div className="flex flex-col lg:flex-row items-center gap-8 md:gap-16">
                         <motion.div
@@ -251,7 +251,7 @@ const Home: React.FC = () => {
                             <motion.button
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
-                                className="group border-2 border-accent text-text-dark hover:bg-accent hover:text-white hover:border-accent px-6 py-2 md:px-8 md:py-3 rounded-full transition-all duration-300 inline-flex items-center text-sm md:text-base"
+                                className="group border-2 border-accent text-accent hover:bg-accent hover:text-white hover:border-accent px-6 py-2 md:px-8 md:py-3 rounded-full transition-all duration-300 inline-flex items-center text-sm md:text-base"
                                 onClick={() => navigate('/farm')}
                             >
                                 {t('farm.ctaButton')}
@@ -284,7 +284,7 @@ const Home: React.FC = () => {
             </Section>
 
             {/* 5. Sustainability */}
-            <Section className="py-12 md:py-16 px-4 sm:px-6">
+            <Section className="py-12 md:py-16 bg-white px-4 sm:px-6 rounded-b-[80px] md:rounded-b-[100px] overflow-hidden pt-24 pb-8 relative">
                 <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                 <motion.div
                         className="bg-white rounded-2xl md:rounded-3xl shadow-xl md:shadow-2xl overflow-hidden w-full max-w-md sm:max-w-lg md:max-w-2xl lg:max-w-4xl xl:max-w-6xl mx-auto"

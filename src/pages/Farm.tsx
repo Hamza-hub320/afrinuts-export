@@ -22,30 +22,30 @@ const Farm = () => {
     const { t } = useTranslation('farm');
 
     const farmStats = [
-        { icon: <FaTree className="text-3xl" />, value: t('stats.area'), label: t('stats.areaLabel') },
-        { icon: <FaMapMarkerAlt className="text-3xl" />, value: t('stats.location'), label: t('stats.locationLabel') },
-        { icon: <FaCalendarAlt className="text-3xl" />, value: t('stats.phase'), label: t('stats.phaseLabel') },
-        { icon: <FaLeaf className="text-3xl" />, value: t('stats.practices'), label: t('stats.practicesLabel') }
+        { icon: <FaTree className="text-3xl text-accent" />, value: t('stats.area'), label: t('stats.areaLabel') },
+        { icon: <FaMapMarkerAlt className="text-3xl text-accent" />, value: t('stats.location'), label: t('stats.locationLabel') },
+        { icon: <FaCalendarAlt className="text-3xl text-accent" />, value: t('stats.phase'), label: t('stats.phaseLabel') },
+        { icon: <FaLeaf className="text-3xl text-accent" />, value: t('stats.practices'), label: t('stats.practicesLabel') }
     ];
 
     const keyFeatures = [
         {
-            icon: <GiFarmer className="text-4xl text-afri-secondary text-orange-500" />,
+            icon: <GiFarmer className="text-4xl text-afri-secondary text-accent" />,
             title: t('features.family.title'),
             description: t('features.family.description')
         },
         {
-            icon: <GiPlantWatering className="text-4xl text-afri-secondary text-orange-500" />,
+            icon: <GiPlantWatering className="text-4xl text-afri-secondary text-accent" />,
             title: t('features.irrigation.title'),
             description: t('features.irrigation.description')
         },
         {
-            icon: <MdPrecisionManufacturing className="text-4xl text-afri-secondary text-orange-500" />,
+            icon: <MdPrecisionManufacturing className="text-4xl text-afri-secondary text-accent" />,
             title: t('features.processing.title'),
             description: t('features.processing.description')
         },
         {
-            icon: <GiFruitTree className="text-4xl text-afri-secondary text-orange-500" />,
+            icon: <GiFruitTree className="text-4xl text-afri-secondary text-accent" />,
             title: t('features.harvest.title'),
             description: t('features.harvest.description')
         }
@@ -53,17 +53,17 @@ const Farm = () => {
 
     const sustainabilityPractices = [
         {
-            icon: <FaSeedling className="text-2xl" />,
+            icon: <FaSeedling className="text-2xl text-accent" />,
             title: t('sustainability.organic.title'),
             description: t('sustainability.organic.description')
         },
         {
-            icon: <FaTint className="text-2xl" />,
+            icon: <FaTint className="text-2xl text-accent" />,
             title: t('sustainability.water.title'),
             description: t('sustainability.water.description')
         },
         {
-            icon: <FaUsers className="text-2xl" />,
+            icon: <FaUsers className="text-2xl text-accent" />,
             title: t('sustainability.community.title'),
             description: t('sustainability.community.description')
         }
@@ -252,12 +252,13 @@ const Farm = () => {
                             {impactStats.map((stat, index) => (
                                 <motion.div
                                     key={index}
-                                    className="text-center"
+                                    className="text-center flex flex-col items-center"
                                     initial="hidden"
                                     whileInView="visible"
                                     variants={fadeIn}
                                     viewport={{ once: true }}
                                 >
+                                    <div className="text-5xl text-accent mb-4 flex justify-center">{stat.icon}</div>
                                     <StatsCounter
                                         endValue={stat.value}
                                         suffix={stat.suffix}
