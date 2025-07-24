@@ -18,6 +18,12 @@
   --space-md: calc(1.25 * var(--space-unit));
   --space-lg: calc(2 * var(--space-unit));
   --space-xl: calc(3.25 * var(--space-unit));
+
+  /* Gradient variables */
+  --gradient-main: linear-gradient(to bottom right, rgba(90, 116, 17, 0.1), rgba(234, 88, 12, 0.1));
+  --gradient-cashew: linear-gradient(135deg, rgba(90, 116, 17, 0.08) 0%, rgba(160, 200, 0, 0.08) 50%, rgba(234, 88, 12, 0.08) 100%);
+  --gradient-light: linear-gradient(145deg, rgba(245, 245, 245, 0.95) 0%, rgba(222, 218, 212, 0.9) 100%);
+  --gradient-sunrise: radial-gradient(ellipse at top right, rgba(253, 129, 4, 0.05), transparent 70%), radial-gradient(ellipse at bottom left, rgba(90, 116, 17, 0.05), transparent 70%);
 }
 
 /* Base styles */
@@ -31,11 +37,25 @@
   }
 
   body {
-    @apply bg-main-gradient text-text-dark font-sans leading-relaxed;
+    @apply text-text-dark font-sans leading-relaxed;
     @apply min-w-[var(--fluid-min-width)] overflow-x-hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     min-height: 100vh;
+
+    /* AWS-style multi-step animated gradient */
+    background: linear-gradient(-45deg, #fdf6f0, #f5ebff, #eef7f1, #fff1f1);
+    background-size: 400% 400%;
+    animation: gradientCycle 30s ease infinite;
+  }
+
+  /* For browsers that don't support CSS variables */
+  @supports not (--css: variables) {
+    body {
+      @apply bg-main-gradient;
+      background-size: 200% 200%;
+      animation: gradient-shift 15s ease infinite alternate;
+    }
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -295,5 +315,16 @@
   .high-contrast *:focus {
     outline: 3px solid var(--color-accent) !important;
     outline-offset: 2px;
+  }
+}
+@keyframes gradientCycle {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
   }
 }

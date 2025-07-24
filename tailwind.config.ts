@@ -10,7 +10,11 @@ export default {
     theme: {
         extend: {
             backgroundImage: {
-                'main-gradient': 'linear-gradient(to bottom right, rgba(90, 116, 17, 0.1), rgba(234, 88, 12, 0.1))',
+                'main-gradient': 'linear-gradient(45deg, #5A7411, #EA580C, #A0C800)',
+                'alt-gradient': 'linear-gradient(90deg, #A0C800, #E04E00, #5A7411)',
+                'light-gradient': 'linear-gradient(45deg, #F5F5F5, #DEDAD4, #FFFFFF)',
+                'cashew-gradient': 'linear-gradient(135deg, rgba(90, 116, 17, 0.08) 0%, rgba(160, 200, 0, 0.08) 50%, rgba(234, 88, 12, 0.08) 100%)',
+                'sunrise-gradient': 'radial-gradient(ellipse at top right, rgba(253, 129, 4, 0.05), transparent 70%), radial-gradient(ellipse at bottom left, rgba(90, 116, 17, 0.05), transparent 70%)',
             },
             colors: {
                 'primary': '#5A7411',
@@ -50,17 +54,17 @@ export default {
                 accent: ['"Raleway"', 'sans-serif']
             },
             fontSize: {
-                'display-2xl': ['4.5rem', { lineHeight: '1.1', fontWeight: '700' }],
-                'display-xl': ['3.75rem', { lineHeight: '1.1', fontWeight: '700' }],
-                'display-lg': ['3rem', { lineHeight: '1.15', fontWeight: '700' }],
+                'display-2xl': ['4.5rem', {lineHeight: '1.1', fontWeight: '700'}],
+                'display-xl': ['3.75rem', {lineHeight: '1.1', fontWeight: '700'}],
+                'display-lg': ['3rem', {lineHeight: '1.15', fontWeight: '700'}],
 
-                'h1': ['2.25rem', { lineHeight: '2.5rem', fontWeight: '700' }],
-                'h2': ['1.875rem', { lineHeight: '2.25rem', fontWeight: '700' }],
-                'h3': ['1.5rem', { lineHeight: '2rem', fontWeight: '700' }],
-                'h4': ['1.25rem', { lineHeight: '1.75rem', fontWeight: '600' }],
-                'subhead': ['1.125rem', { lineHeight: '1.75rem', fontWeight: '500' }],
-                'body': ['1rem', { lineHeight: '1.5rem', fontWeight: '400' }],
-                'small': ['0.875rem', { lineHeight: '1.25rem', fontWeight: '400' }]
+                'h1': ['2.25rem', {lineHeight: '2.5rem', fontWeight: '700'}],
+                'h2': ['1.875rem', {lineHeight: '2.25rem', fontWeight: '700'}],
+                'h3': ['1.5rem', {lineHeight: '2rem', fontWeight: '700'}],
+                'h4': ['1.25rem', {lineHeight: '1.75rem', fontWeight: '600'}],
+                'subhead': ['1.125rem', {lineHeight: '1.75rem', fontWeight: '500'}],
+                'body': ['1rem', {lineHeight: '1.5rem', fontWeight: '400'}],
+                'small': ['0.875rem', {lineHeight: '1.25rem', fontWeight: '400'}]
             },
             spacing: {
                 'section': '4rem',
@@ -72,29 +76,56 @@ export default {
                 '50': '50', // For navbar
             },
             animation: {
-                highlight: 'highlight 1.5s ease'
+                highlight: 'highlight 1.5s ease',
+                'gradient-shift': 'gradientShift 15s ease infinite alternate',
+                'gradient-cycle': 'gradientCycle 30s ease infinite',
             },
             keyframes: {
                 highlight: {
-                    '0%': { backgroundColor: 'rgba(253, 129, 4, 0.2)' },
-                    '100%': { backgroundColor: 'transparent' }
+                    '0%': {backgroundColor: 'rgba(253, 129, 4, 0.2)'},
+                    '100%': {backgroundColor: 'transparent'}
+                },
+                gradientShift: {
+                    '0%': {'background-position': '0% 50%'},
+                    '50%': {'background-position': '100% 50%'},
+                    '100%': {'background-position': '0% 50%'},
+                },
+                gradientCycle: {
+                    '0%': {
+                        backgroundPosition: '0% 50%',
+                        backgroundImage: 'linear-gradient(45deg, #5A7411, #EA580C, #A0C800)',
+                    },
+                    '25%': {
+                        backgroundImage: 'linear-gradient(90deg, #A0C800, #E04E00, #5A7411)',
+                    },
+                    '50%': {
+                        backgroundPosition: '100% 50%',
+                        backgroundImage: 'linear-gradient(45deg, #5A7411, #EA580C, #A0C800)',
+                    },
+                    '75%': {
+                        backgroundImage: 'linear-gradient(45deg, #F5F5F5, #DEDAD4, #FFFFFF)',
+                    },
+                    '100%': {
+                        backgroundPosition: '0% 50%',
+                        backgroundImage: 'linear-gradient(45deg, #5A7411, #EA580C, #A0C800)',
+                    },
                 }
-            }
+            },
         },
-    },
-    plugins: [
-        typography,
-        forms,
-        function({ addUtilities }: { addUtilities: any }) {
-            const newUtilities = {
-                '.scroll-smooth': {
-                    scrollBehavior: 'smooth',
-                },
-                '.target-section': {
-                    scrollMarginTop: '100px',
-                },
+        plugins: [
+            typography,
+            forms,
+            function ({addUtilities}: { addUtilities: any }) {
+                const newUtilities = {
+                    '.scroll-smooth': {
+                        scrollBehavior: 'smooth',
+                    },
+                    '.target-section': {
+                        scrollMarginTop: '100px',
+                    },
+                }
+                addUtilities(newUtilities)
             }
-            addUtilities(newUtilities)
-        }
-    ],
+        ],
+    }
 } satisfies Config
