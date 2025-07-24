@@ -72,3 +72,13 @@ export const bounceArrow: Variants = {
         }
     }
 };
+
+// In @/components/Section/Section.tsx
+interface SectionProps {
+    children: React.ReactNode;
+    className?: string;
+    bgImage?: string;
+    fullHeight?: boolean;
+    overlay?: boolean;
+    overlayColor?: string;
+}

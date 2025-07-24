@@ -55,8 +55,6 @@ const Sustainability: React.FC = () => {
             <Section
                 fullHeight={false}
                 bgImage={sustainabilityHeroImage}
-                overlay
-                overlayColor="bg-primary/"
                 className="flex items-end justify-start text-center min-h-[35vh] md:min-h-[60vh] pb-12 mx-4 sm:mx-8 mt-32 pt-16 rounded-[2rem] shadow-2xl overflow-hidden border border-white/40"
             >
                 <motion.div
@@ -80,32 +78,55 @@ const Sustainability: React.FC = () => {
                 </motion.div>
             </Section>
 
-            {/* Introduction Section */}
-            <Section className="py-12 md:py-20">
-                <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
+            {/* Sustainability Introduction Section */}
+            <Section className="py-16 md:py-5">
+                <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                     <motion.div
                         initial="hidden"
                         whileInView="visible"
-                        viewport={{ once: true }}
+                        viewport={{ once: true, margin: "-100px" }}
                         variants={staggerContainer}
+                        className="bg-white rounded-2xl shadow-lg p-8 sm:p-10 md:p-12 lg:p-16"
                     >
-                        <div className="text-center mb-12">
-                            <Typography variant="h2" className="mb-6">
-                                {t('intro.title')}
-                            </Typography>
-                            <div className="max-w-4xl mx-auto space-y-4">
+                        <div className="text-center mb-10">
+                            <motion.div variants={fadeIn}>
+                                <Typography
+                                    variant="h2"
+                                    className="mb-6 text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900"
+                                >
+                                    {t('intro.title')}
+                                </Typography>
+                            </motion.div>
+
+                            <div className="max-w-4xl mx-auto space-y-6 text-lg text-gray-600">
                                 {(t('intro.content', { returnObjects: true }) as string[]).map((paragraph, index) => (
-                                    <motion.p
-                                        key={`intro-para-${index}`}
-                                        className="text-lg text-text-dark"
-                                        variants={fadeIn}
-                                        transition={{ delay: index * 0.1 }}
-                                    >
-                                        {paragraph}
-                                    </motion.p>
+                                <motion.p
+                                    variants={fadeIn}
+                                    transition={{ delay: 0.1 }}
+                                    key={`intro-para-${index}`}
+                                    className="leading-relaxed"
+                                >
+                                    {paragraph}
+                                </motion.p>
                                 ))}
                             </div>
                         </div>
+
+                        {/* Certification Badges */}
+                        <motion.div
+                            variants={fadeIn}
+                            transition={{ delay: 0.4 }}
+                            className="flex flex-wrap justify-center gap-4 mt-12"
+                        >
+                            {(t('intro.badges', { returnObjects: true }) as string[]).map((badge) => (
+                                <span
+                                    key={badge}
+                                    className="inline-flex items-center px-4 py-2 rounded-full bg-primary text-white text-sm font-medium"
+                                >
+            {badge}
+          </span>
+                            ))}
+                        </motion.div>
                     </motion.div>
                 </div>
             </Section>

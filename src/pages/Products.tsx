@@ -124,8 +124,6 @@ const Products: React.FC = () => {
                 <Section
                     fullHeight={false}
                     bgImage={ourProductHeroImage}
-                    overlay
-                    overlayColor="bg-primary/"
                     className="flex items-end justify-start text-center min-h-[35vh] md:min-h-[60vh] pb-12 mx-4 sm:mx-8 mt-32 pt-16 rounded-[2rem] shadow-2xl overflow-hidden border border-white/40"
                 >
                   <motion.div
