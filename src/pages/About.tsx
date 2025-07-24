@@ -28,6 +28,7 @@ import aboutUsHeroImage from '@/assets/images/about-us-hero.webp';
 import {Typography} from "@/components/Typography/Typography";
 import { InfoCard } from '@/components/InfoCard/InfoCard';
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline';
+import farmHeroImage from "@assets/images/farm-hero.webp";
 
 const About: React.FC = () => {
   const { t } = useTranslation('about');
@@ -64,33 +65,36 @@ const About: React.FC = () => {
   return (
       <main>
         {/* Hero Section */}
-        <Section
-            fullHeight={false}
-            bgImage={aboutUsHeroImage}
-            className="flex items-end justify-start text-center min-h-[35vh] md:min-h-[60vh] pb-12 mx-4 sm:mx-8 mt-32 pt-16 rounded-[2rem] shadow-2xl overflow-hidden border border-white/40"
-        >
-          <motion.div
-              className="max-w-2xl px-6 py-10 bg-white/75 backdrop-blur-xs rounded-xl"
-              initial="hidden"
-              animate="visible"
-              variants={staggerContainer}
+        <div className=" text-text-dark font-sans leading-relaxed">
+          {/* Hero Section */}
+          <Section
+              fullHeight={false}
+              bgImage={aboutUsHeroImage}
+              className="flex items-end justify-start text-center min-h-[50vh] md:min-h-[70vh] pb-12 mx-4 sm:mx-8 mt-32 pt-20 rounded-[2rem] shadow-2xl overflow-hidden border border-white/40"
           >
-            <motion.h1
-                className="font-display text-4xl md:text-5xl lg:text-6xl text-primary mb-4 leading-tight"
-                variants={fadeIn}
-                style={{ letterSpacing: '-0.03em' }}
+            <motion.div
+                className="max-w-2xl px-6 py-10 bg-white/75 backdrop-blur-xs rounded-xl"
+                initial="hidden"
+                animate="visible"
+                variants={staggerContainer}
             >
-              {t('hero.title')}
-            </motion.h1>
-            <motion.div variants={fadeIn}>
-              <Typography variant="subtitle" className="text-primary/90">
-                {t('hero.subtitle')}
-              </Typography>
+              <motion.h1
+                  className="font-display text-4xl md:text-5xl lg:text-6xl text-primary mb-4 leading-tight"
+                  variants={fadeIn}
+                  style={{ letterSpacing: '-0.03em' }}
+              >
+                {t('hero.title')}
+              </motion.h1>
+              <motion.div variants={fadeIn}>
+                <Typography variant="subtitle" className="text-primary/90">
+                  {t('hero.subtitle')}
+                </Typography>
+              </motion.div>
             </motion.div>
-          </motion.div>
-        </Section>
+          </Section>
 
-        {/* Leadership Section */}
+
+          {/* Leadership Section */}
         <Section className="py-8 md:py-16">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
             <div className="text-center mb-8 md:mb-16">
@@ -262,8 +266,8 @@ const About: React.FC = () => {
         </Section>
 
         {/* Vision, Mission, Values */}
-        <Section className="py-8 md:py-16">
-          <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
+        <Section className="py-8 md:py-16 bg-orange-400 rounded-t-[80px] md:rounded-t-[100px] overflow-hidden pt-24 pb-8 relative">
+          <div className="w-full max-w-7xl  mx-auto px-4 sm:px-6">
             <motion.div
                 initial="hidden"
                 whileInView="visible"
@@ -271,10 +275,10 @@ const About: React.FC = () => {
                 variants={staggerContainer}
             >
               <div className="text-center mb-8 md:mb-16">
-                <Typography variant="subhead" className="uppercase tracking-widest mb-2">
+                <Typography variant="subhead" className="uppercase text-white tracking-widest mb-2">
                   {t('vmv.vmvHeader.subtitle', {defaultValue: "Our Foundation"})}
                 </Typography>
-                <Typography variant="h2">
+                <Typography variant="h2" className="text-white">
                   {t('vmv.vmvHeader.title', {defaultValue: "Vision, Mission & Values"})}
                 </Typography>
               </div>
@@ -309,7 +313,7 @@ const About: React.FC = () => {
                 variants={staggerContainer}
             >
               <div className="text-center mb-8 md:mb-16">
-                <Typography variant="h2">
+                <Typography variant="h2" className="text-white">
                   {t('community.title')}
                 </Typography>
               </div>
@@ -339,28 +343,28 @@ const About: React.FC = () => {
         </Section>
 
         {/* Farm Section */}
-        <Section className="py-8 md:py-16">
+        <Section className="py-8 md:py-16 bg-orange-400 rounded-b-[80px] md:rounded-b-[100px] overflow-hidden pt-24 pb-8 relative">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
             <div className="flex flex-col lg:flex-row gap-8 md:gap-16 items-center">
               <motion.div className="flex-1">
                 <div className="mb-6 md:mb-8">
-                  <Typography variant="subhead" className="uppercase tracking-widest mb-2">
+                  <Typography variant="subhead" className="uppercase text-white tracking-widest mb-2">
                     {t('farm.subtitle', {defaultValue: "Our Operations"})}
                   </Typography>
-                  <Typography variant="h2">
+                  <Typography variant="h2" className="text-white">
                     {t('farm.title')}
                   </Typography>
                 </div>
-                <p className="text-lg text-text-dark mb-8 leading-relaxed">
+                <p className="text-lg text-white mb-8 leading-relaxed">
                   {t('farm.text')}
                 </p>
                 <div className="flex flex-wrap gap-4">
-                  <div className="flex items-center gap-3 bg-backgroundpx-4 py-3 rounded-lg shadow">
-                    <FaMapMarkerAlt className="text-accent text-xl"/>
+                  <div className="flex items-center text-white gap-3 bg-backgroundpx-4 py-3 rounded-lg shadow">
+                    <FaMapMarkerAlt className="text-primary text-xl"/>
                     <span>{t('farm.location')}</span>
                   </div>
-                  <div className="flex items-center gap-3 bg-backgroundpx-4 py-3 rounded-lg shadow">
-                    <FaChartLine className="text-accent text-xl"/>
+                  <div className="flex items-center text-white gap-3 bg-backgroundpx-4 py-3 rounded-lg shadow">
+                    <FaChartLine className="text-primary text-xl"/>
                     <span>{t('farm.size')}</span>
                   </div>
                 </div>
@@ -519,6 +523,7 @@ const About: React.FC = () => {
             </div>
           </div>
         </Section>
+        </div>
       </main>
   );
 };

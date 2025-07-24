@@ -125,7 +125,7 @@ const Contact: React.FC = () => {
         <Section
             fullHeight={false}
             bgImage={contactHeroImage}
-            className="flex items-end justify-start text-center min-h-[35vh] md:min-h-[60vh] pb-12 mx-4 sm:mx-8 mt-32 pt-16 rounded-[2rem] shadow-2xl overflow-hidden border border-white/40"
+            className="flex items-end justify-start text-center min-h-[50vh] md:min-h-[70vh] pb-12 mx-4 sm:mx-8 mt-32 pt-20 rounded-[2rem] shadow-2xl overflow-hidden border border-white/40"
         >
           <motion.div
               className="max-w-2xl px-6 py-10 bg-white/75 backdrop-blur-xs rounded-xl"

@@ -23,6 +23,7 @@ import qualityImage from '../assets/images/quality-control.webp';
 import packagingImage from '../assets/images/packaging.webp';
 import rawCashewImage from '../assets/images/raw-cashew.webp';
 import { ProductFilters, AvailabilityFilter } from '@/types/filters';
+import farmHeroImage from "@assets/images/farm-hero.webp";
 
 type AvailabilityFilter = 'all' | 'available' | 'coming-soon';
 type CertificationFilter = 'organic' | 'halal' | 'fairtrade' | '';
@@ -119,32 +120,34 @@ const Products: React.FC = () => {
     };
 
     return (
-            <main>
+        <main>
+                {/* Hero Section */}
+            <div className=" text-text-dark font-sans leading-relaxed">
                 {/* Hero Section */}
                 <Section
                     fullHeight={false}
                     bgImage={ourProductHeroImage}
-                    className="flex items-end justify-start text-center min-h-[35vh] md:min-h-[60vh] pb-12 mx-4 sm:mx-8 mt-32 pt-16 rounded-[2rem] shadow-2xl overflow-hidden border border-white/40"
+                    className="flex items-end justify-start text-center min-h-[30vh] sm:min-h-[40vh] md:min-h-[60vh] pb-8 mx-2 sm:mx-6 mt-28 pt-12 rounded-[2rem] shadow-xl overflow-hidden border border-white/40"
                 >
-                  <motion.div
-                      className="max-w-2xl px-6 py-10 bg-white/75 backdrop-blur-xs rounded-xl"
-                      initial="hidden"
-                      animate="visible"
-                      variants={staggerContainer}
-                  >
-                    <motion.h1
-                        className="font-display text-4xl md:text-5xl lg:text-6xl text-primary mb-4 leading-tight"
-                        variants={fadeIn}
-                        style={{ letterSpacing: '-0.03em' }}
+                    <motion.div
+                        className="max-w-xl px-4 py-6 bg-white/60 backdrop-blur-sm rounded-lg"
+                        initial="hidden"
+                        animate="visible"
+                        variants={staggerContainer}
                     >
-                      {t('hero.title')}
-                    </motion.h1>
-                    <motion.div variants={fadeIn}>
-                      <Typography variant="subtitle" className="text-primary/90">
-                        {t('hero.subtitle')}
-                      </Typography>
+                        <motion.h1
+                            className="font-display text-4xl md:text-5xl lg:text-6xl text-primary mb-4 leading-tight"
+                            variants={fadeIn}
+                            style={{ letterSpacing: '-0.03em' }}
+                        >
+                            {t('hero.title')}
+                        </motion.h1>
+                        <motion.div variants={fadeIn}>
+                            <Typography variant="subtitle" className="text-primary/90">
+                                {t('hero.subtitle')}
+                            </Typography>
+                        </motion.div>
                     </motion.div>
-                  </motion.div>
                 </Section>
 
                 {/* Product Categories Filter */}
@@ -453,7 +456,8 @@ const Products: React.FC = () => {
                         </div>
                     </motion.div>
                 </Section>
-            </main>
-    )
+            </div>
+        </main>
+    );
 }
 export default Products;
