@@ -43,7 +43,7 @@
     -moz-osx-font-smoothing: grayscale;
     min-height: 100vh;
 
-    /* AWS-style multi-step animated gradient */
+    /* Multi-step animated gradient */
     background: linear-gradient(-45deg, #fdf6f0, #f5ebff, #eef7f1, #fff1f1);
     background-size: 400% 400%;
     animation: gradientCycle 30s ease infinite;
