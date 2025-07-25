@@ -267,7 +267,7 @@ const About: React.FC = () => {
 
         {/* Vision, Mission, Values */}
         <Section className="py-8 md:py-16 bg-gradient-to-r from-primary/30 via-white/40 to-accent/30
-  bg-[length:300%_300%] bg-gradient-animate-slow rounded-t-[80px] md:rounded-t-[100px] overflow-hidden pt-24 pb-8 relative">
+  bg-[length:300%_300%] animate-gradient-x-slow rounded-t-[80px] md:rounded-t-[100px] overflow-hidden pt-24 pb-8 relative">
           <div className="w-full max-w-7xl  mx-auto px-4 sm:px-6">
             <motion.div
                 initial="hidden"
@@ -346,7 +346,7 @@ const About: React.FC = () => {
 
         {/* Farm Section */}
         <Section className="py-8 md:py-16 bg-gradient-to-r from-primary/30 via-white/40 to-accent/30
-  bg-[length:300%_300%] bg-gradient-animate-slow  rounded-b-[80px] md:rounded-b-[100px] overflow-hidden pt-24 pb-8 relative">
+  bg-[length:300%_300%] animate-gradient-x-slow rounded-b-[80px] md:rounded-b-[100px] overflow-hidden pt-24 pb-8 relative">
           <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
             <div className="flex flex-col lg:flex-row gap-8 md:gap-16 items-center">
               <motion.div className="flex-1">

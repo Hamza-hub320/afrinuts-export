@@ -38,7 +38,7 @@
 
   @layer utilities {
     .bg-gradient-animate-slow {
-      background-size: 300% 300%;
+      background-size: 400% 400%;
       animation: gradient-x-slow 25s ease infinite;
     }
 

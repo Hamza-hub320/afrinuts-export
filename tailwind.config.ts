@@ -79,12 +79,12 @@ export default {
                 highlight: 'highlight 1.5s ease',
                 'gradient-shift': 'gradientShift 15s ease infinite alternate',
                 'gradient-cycle': 'gradientCycle 30s ease infinite',
-                'gradient-x': 'gradient-x-slow 15s ease infinite',
+                'gradient-x-slow': 'gradient-x-slow 25s ease infinite',
             },
             keyframes: {
                 'gradient-x-slow': {
-                    '0%, 100%': {'background-position': '0% 50%'},
-                    '50%': {'background-position': '100% 50%'},
+                    '0%, 100%': { 'background-position': '0% 50%' },
+                    '50%': { 'background-position': '100% 50%' },
                 },
                 highlight: {
                     '0%': {backgroundColor: 'rgba(253, 129, 4, 0.2)'},
