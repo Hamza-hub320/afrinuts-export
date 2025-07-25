@@ -28,10 +28,11 @@ import aboutUsHeroImage from '@/assets/images/about-us-hero.webp';
 import {Typography} from "@/components/Typography/Typography";
 import { InfoCard } from '@/components/InfoCard/InfoCard';
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline';
-import farmHeroImage from "@assets/images/farm-hero.webp";
+import {useNavigate} from "react-router-dom";
 
 const About: React.FC = () => {
   const { t } = useTranslation('about');
+  const navigate = useNavigate();
 
   // Inside your component
   const [expandedCeo, setExpandedCeo] = useState(false);
@@ -517,10 +518,14 @@ const About: React.FC = () => {
                   <p className="text-gray-700 max-w-2xl mx-auto">
                     {t('legacy.future.text')}
                   </p>
-                  <button className="mt-6 group bg-accent hover:bg-dark-orange text-white px-6 py-2 rounded-full transition-all duration-300 inline-flex items-center mx-auto">
+                  <motion.button
+                      className="mt-6 group bg-accent hover:bg-dark-orange text-white px-8 py-3 rounded-full transition-all duration-300 inline-flex items-center mx-auto"
+                      variants={fadeIn}
+                      onClick={() => navigate('/vision')}
+                  >
                     {t('legacy.learnMore')}
-                    <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform"/>
-                  </button>
+                    <FaGlobe className="ml-3 group-hover:rotate-45 transition-transform" />
+                  </motion.button>
                 </div>
               </motion.div>
             </div>

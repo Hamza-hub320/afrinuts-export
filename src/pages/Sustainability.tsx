@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import {
     FaTree,
     FaWater,
@@ -28,6 +29,7 @@ import { IconType } from 'react-icons';
 
 const Sustainability: React.FC = () => {
     const { t } = useTranslation('sustainability');
+    const navigate = useNavigate();
 
     // Helper function with proper typing
     const getIconComponent = (iconName: string): IconType => {
@@ -327,6 +329,7 @@ const Sustainability: React.FC = () => {
                             className="mt-6 group bg-accent hover:bg-dark-orange text-white px-8 py-3 rounded-full transition-all duration-300 inline-flex items-center mx-auto"
                             variants={fadeIn}
                             whileHover={{ scale: 1.05 }}
+                            onClick={() => navigate('/vision')}
                         >
                             {t('future.cta')}
                             <FaGlobe className="ml-3 group-hover:rotate-45 transition-transform" />

@@ -11,6 +11,7 @@ import farmEN from './locales/en/farm.json';
 import contactEN from './locales/en/contact.json';
 import footerEN from './locales/en/footer.json';
 import sustainabilityEN from './locales/en/sustainability.json';
+import visionEN from './locales/en/vision.json';
 
 // French translations
 import homeFR from './locales/fr/home.json';
@@ -21,6 +22,7 @@ import farmFR from './locales/fr/farm.json';
 import contactFR from './locales/fr/contact.json';
 import footerFR from './locales/fr/footer.json';
 import sustainabilityFR from './locales/fr/sustainability.json';
+import visionFR from './locales/fr/vision.json';
 
 // Arabic translations
 import homeAR from './locales/ar/home.json';
@@ -31,6 +33,7 @@ import farmAR from './locales/ar/farm.json';
 import contactAR from './locales/ar/contact.json';
 import footerAR from './locales/ar/footer.json';
 import sustainabilityAR from './locales/ar/sustainability.json';
+import visionAR from './locales/ar/vision.json';
 
 // Type definitions
 type SupportedLanguages = 'en' | 'fr' | 'ar';
@@ -44,6 +47,7 @@ interface TranslationResources {
     contact: typeof contactEN;
     footer: typeof footerEN;
     sustainability: typeof sustainabilityEN;
+    vision: typeof visionEN;
 }
 
 interface I18nOptions {
@@ -74,7 +78,8 @@ const resources: Record<SupportedLanguages, TranslationResources> = {
         farm: farmEN,
         contact: contactEN,
         footer: footerEN,
-        sustainability: sustainabilityEN
+        sustainability: sustainabilityEN,
+        vision: visionEN
     },
     fr: {
         home: homeFR,
@@ -84,7 +89,8 @@ const resources: Record<SupportedLanguages, TranslationResources> = {
         farm: farmFR,
         contact: contactFR,
         footer: footerFR,
-        sustainability: sustainabilityFR
+        sustainability: sustainabilityFR,
+        vision: visionFR
     },
     ar: {
         home: homeAR,
@@ -94,7 +100,8 @@ const resources: Record<SupportedLanguages, TranslationResources> = {
         farm: farmAR,
         contact: contactAR,
         footer: footerAR,
-        sustainability: sustainabilityAR
+        sustainability: sustainabilityAR,
+        vision: visionAR
     }
 };
 
@@ -102,7 +109,7 @@ const options: I18nOptions = {
     fallbackLng: 'en',
     debug: process.env.NODE_ENV === 'development',
     supportedLngs: ['en', 'fr', 'ar'],
-    ns: ['home', 'common', 'about', 'products', 'farm', 'contact', 'footer', 'sustainability'],
+    ns: ['home', 'common', 'about', 'products', 'farm', 'contact', 'footer', 'sustainability', 'vision'],
     defaultNS: 'common',
     resources,
     interpolation: {
