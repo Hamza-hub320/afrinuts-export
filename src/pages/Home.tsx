@@ -218,7 +218,7 @@ const Home: React.FC = () => {
 
             {/* 4. Farm Story */}
             <Section className="py-10 md:py-16 bg-gradient-to-r from-primary/30 via-white/40 to-accent/30
-  bg-[length:300%_300%] animate-gradient-x text-text-dark px-4 sm:px-6 rounded-t-[80px] md:rounded-t-[100px] overflow-hidden pt-24 pb-8 relative">
+  bg-[length:300%_300%] bg-gradient-animate-slow text-text-dark px-4 sm:px-6 rounded-t-[80px] md:rounded-t-[100px] overflow-hidden pt-24 pb-8 relative">
                 <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                 <div className="flex flex-col lg:flex-row items-center gap-8 md:gap-16">
                         <motion.div
@@ -286,7 +286,7 @@ const Home: React.FC = () => {
 
             {/* 5. Sustainability */}
             <Section className="py-12 md:py-16 bg-gradient-to-r from-primary/30 via-white/40 to-accent/30
-  bg-[length:300%_300%] animate-gradient-x px-4 sm:px-6 rounded-b-[80px] md:rounded-b-[100px] overflow-hidden pt-24 pb-8 relative">
+  bg-[length:300%_300%] bg-gradient-animate-slow px-4 sm:px-6 rounded-b-[80px] md:rounded-b-[100px] overflow-hidden pt-24 pb-8 relative">
                 <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                 <motion.div
                         className="bg-white rounded-2xl md:rounded-3xl shadow-xl md:shadow-2xl overflow-hidden w-full max-w-md sm:max-w-lg md:max-w-2xl lg:max-w-4xl xl:max-w-6xl mx-auto"

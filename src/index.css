@@ -36,6 +36,19 @@
     );
   }
 
+  @layer utilities {
+    .bg-gradient-animate-slow {
+      background-size: 300% 300%;
+      animation: gradient-x-slow 25s ease infinite;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .bg-gradient-animate-slow {
+        animation: none;
+      }
+    }
+  }
+
   body {
     @apply text-text-dark font-sans leading-relaxed;
     @apply min-w-[var(--fluid-min-width)] overflow-x-hidden;
