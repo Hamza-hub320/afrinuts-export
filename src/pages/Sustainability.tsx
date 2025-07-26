@@ -134,7 +134,7 @@ const Sustainability: React.FC = () => {
             </Section>
 
             {/* Environmental Section */}
-            <Section className="py-12 md:py-16">
+            <Section className="py-10">
                 <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                     <motion.div
                         initial="hidden"
@@ -230,7 +230,7 @@ const Sustainability: React.FC = () => {
             </Section>
 
             {/* Social Responsibility Section */}
-            <Section className="py-12 md:py-16">
+            <Section className="py-10">
                 <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                     <motion.div
                         initial="hidden"
@@ -299,7 +299,7 @@ const Sustainability: React.FC = () => {
             </Section>
 
             {/* Future Vision Section */}
-            <Section className="py-12 md:py-16">
+            <Section className="py-10">
                 <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 text-center">
                     <motion.div
                         initial="hidden"

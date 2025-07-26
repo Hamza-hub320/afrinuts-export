@@ -75,7 +75,7 @@ const Vision: React.FC = () => {
             </Section>
 
             {/* Vision Introduction Section */}
-            <Section className="py-12 md:py-16">
+            <Section className="py-10">
                 <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                     <motion.div
                         initial="hidden"
@@ -103,7 +103,7 @@ const Vision: React.FC = () => {
             </Section>
 
             {/* Sustainability & Stewardship Section */}
-            <Section className="py-12 md:py-16">
+            <Section className="py-10">
                 <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                     <motion.div
                         initial="hidden"
@@ -166,7 +166,7 @@ const Vision: React.FC = () => {
             </Section>
 
             {/* Community Empowerment Section */}
-            <Section className="py-12 md:py-16">
+            <Section className="py-10">
                 <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                     <motion.div
                         initial="hidden"
@@ -206,7 +206,7 @@ const Vision: React.FC = () => {
             </Section>
 
             {/* Value Addition & Trade Section */}
-            <Section className="py-12 md:py-16">
+            <Section className="py-10">
                 <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                     <motion.div
                         initial="hidden"
@@ -256,7 +256,7 @@ const Vision: React.FC = () => {
             </Section>
 
             {/* Ethical Finance Section */}
-            <Section className="py-12 md:py-16">
+            <Section className="py-10">
                 <div className="w-full max-w-4xl mx-auto px-4 sm:px-6">
                     <motion.div
                         initial="hidden"
@@ -294,7 +294,7 @@ const Vision: React.FC = () => {
             </Section>
 
             {/* Innovation & Transformation Section */}
-            <Section className="py-12 md:py-16">
+            <Section className="py-10">
                 <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                     <motion.div
                         initial="hidden"
@@ -334,7 +334,7 @@ const Vision: React.FC = () => {
             </Section>
 
             {/* Final Call to Action */}
-            <Section className="py-12 md:py-16">
+            <Section className="py-10">
                 <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 text-center">
                     <motion.div
                         initial="hidden"

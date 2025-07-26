@@ -110,7 +110,7 @@ const Home: React.FC = () => {
 
             {/* 2. About Preview Section */}
             <Suspense fallback={<div>{t('loading.about')}</div>}>
-                <Section id="about-preview" className="py-10 md:py-16 -mt-1 px-4 sm:px-6">
+                <Section id="about-preview" className="py-10 -mt-1 px-4 sm:px-6">
                     <motion.div
                         className="w-full max-w-7xl mx-auto px-4 sm:px-6"
                         initial="hidden"
@@ -155,7 +155,7 @@ const Home: React.FC = () => {
 
             {/* 3. Products Showcase */}
             <Suspense fallback={<div>{t('loading.products')}</div>}>
-                <Section className="py-16">
+                <Section className="py-10">
                     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                     <motion.div
                             className="text-center mb-16"
@@ -217,7 +217,7 @@ const Home: React.FC = () => {
             </Suspense>
 
             {/* 4. Farm Story */}
-            <Section className="py-10 md:py-16 bg-gradient-to-r from-primary/30 via-white/30
+            <Section className="py-10 bg-gradient-to-r from-primary/30 via-white/30
   bg-[length:300%_300%] bg-gradient-animate-slow text-text-dark px-4 sm:px-6 rounded-t-[80px] md:rounded-t-[100px] overflow-hidden pt-24 pb-8 relative">
                 <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                 <div className="flex flex-col lg:flex-row items-center gap-8 md:gap-16">
@@ -285,7 +285,7 @@ const Home: React.FC = () => {
             </Section>
 
             {/* 5. Sustainability */}
-            <Section className="py-12 md:py-16 bg-gradient-to-r from-primary/30 via-white/30
+            <Section className="py-10 bg-gradient-to-r from-primary/30 via-white/30
   bg-[length:400%_400%] bg-gradient-animate-slow px-4 sm:px-6 rounded-b-[80px] md:rounded-b-[100px] overflow-hidden pt-24 pb-8 relative">
                 <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                 <motion.div
@@ -348,7 +348,7 @@ const Home: React.FC = () => {
 
             {/* 6. News & Updates */}
             <Suspense fallback={<div>{t('loading.news')}</div>}>
-                <Section className="py-12 md:py-20">
+                <Section className="py-10">
                     <div className="w-full max-w-7xl  mx-auto px-4 sm:px-6">
                     <motion.div
                             className="text-center mb-12 md:mb-16"
@@ -418,7 +418,7 @@ const Home: React.FC = () => {
 
             {/* 7. Contact CTA */}
             <Suspense fallback={<div>{t('loading.contact')}</div>}>
-                <Section className="py-16 text-text-dark relative overflow-hidden">
+                <Section className="py-10 text-text-dark relative overflow-hidden">
                     <div className="w-full px-4 sm:px-6">
                         <div className="relative z-10 container mx-auto text-center max-w-md sm:max-w-lg md:max-w-2xl lg:max-w-4xl xl:max-w-6xl">
                             <motion.div

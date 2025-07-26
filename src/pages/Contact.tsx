@@ -324,7 +324,7 @@ const Contact: React.FC = () => {
         </div>
 
         {/* Map Section */}
-        <Section className=" py-16">
+        <Section className=" py-10">
           <div className="container mx-auto text-center">
             <Typography variant="h2" className="mb-4">
               {t('map.title')}

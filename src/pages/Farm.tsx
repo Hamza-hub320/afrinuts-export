@@ -137,7 +137,7 @@ const Farm = () => {
                 </Section>
 
                 {/* Farm Overview */}
-                <section className="py-16 px-6">
+                <section className="py-10 px-6">
                     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                             <div className="text-center mb-16">
@@ -187,7 +187,7 @@ const Farm = () => {
                 </section>
 
                 {/* Farm Development Timeline */}
-                <section className="py-16 md:py-20 px-4 sm:px-6">
+                <section className="py-10 md:py-10 px-4 sm:px-6">
                     <div className="max-w-6xl mx-auto">
                         <Typography variant="h2" className="text-primary text-center mb-8 md:mb-16">
                             {t('timeline.title')}
@@ -243,7 +243,7 @@ const Farm = () => {
                 </section>
 
                 {/* Impact Section */}
-                <section className="py-16 px-6 text-white">
+                <section className="py-10 px-6 text-white">
                     <div className="max-w-6xl mx-auto">
                         <Typography variant="h2" className="text-center text-primary mb-16">
                             {t('impact.title')}
@@ -274,7 +274,7 @@ const Farm = () => {
                 </section>
 
                 {/* Gallery Section */}
-                <section className="py-16 px-6">
+                <section className="py-10 px-6">
                     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                         <Typography variant="h2" className="text-primary text-center mb-16">
                             {t('gallery.title')}
@@ -284,7 +284,7 @@ const Farm = () => {
                 </section>
 
                 {/* Sustainability Section */}
-                <section className="py-20 px-6">
+                <section className="py-10 px-6">
                     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                         <div className="max-w-6xl mx-auto">
                             <div className="text-center mb-16">
@@ -316,7 +316,7 @@ const Farm = () => {
                 </section>
 
                 {/* Call to Action */}
-                <section className="py-16 px-6 text-white">
+                <section className="py-10 px-6 text-white">
                     <div className="max-w-4xl mx-auto text-center">
                         <Typography variant="h2" className="mb-6">
                             {t('cta.title')}

@@ -284,7 +284,7 @@ const Products: React.FC = () => {
 
 
                 {/* Our Process Section */}
-                <Section className="py-16">
+                <Section className="py-10">
                     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                         <motion.div
                             initial="hidden"
@@ -343,7 +343,7 @@ const Products: React.FC = () => {
                 </Section>
 
                 {/* Quality Assurance */}
-                <Section className="py-16">
+                <Section className="py-10">
                     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                         <div className="flex flex-col lg:flex-row gap-12 items-center">
                             <motion.div
@@ -393,7 +393,7 @@ const Products: React.FC = () => {
                 </Section>
 
                 {/* Certifications */}
-                <Section className="py-16 ">
+                <Section className="py-10 ">
                     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                         <motion.div
                             initial="hidden"
@@ -436,7 +436,7 @@ const Products: React.FC = () => {
                 </Section>
 
                 {/* CTA Section */}
-                <Section className="py-16 text-text-dark">
+                <Section className="py-10 text-text-dark">
                     <motion.div
                         className="container mx-auto px-6 text-center"
                         initial="hidden"
