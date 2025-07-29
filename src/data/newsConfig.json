@@ -1,0 +1,28 @@
+{
+  "page": {
+    "title": "AfriNuts News & Industry Updates",
+    "subtitle": "Stay informed about our progress and the latest in African cashew agriculture",
+    "sections": {
+      "hero": {
+        "image": "/assets/images/news-hero.webp",
+        "altText": "Cashew farming in Ivory Coast"
+      },
+      "tabs": [
+        {"id": "all", "label": "All News", "icon": "FaNewspaper", "translationKey": "tabs.all"},
+        {"id": "afrinuts", "label": "Our Updates", "icon": "FaBullhorn", "translationKey": "tabs.afrinuts"},
+        {"id": "industry", "label": "Industry News", "icon": "FaGlobe", "translationKey": "tabs.industry"}
+      ],
+      "filters": [
+        {"id": "cashew", "label": "Cashew", "icon": "FaSeedling", "translationKey": "filters.cashew"},
+        {"id": "ivory-coast", "label": "Ivory Coast", "icon": "FaMapMarkerAlt", "translationKey": "filters.ivoryCoast"},
+        {"id": "sustainability", "label": "Sustainability", "icon": "FaLeaf", "translationKey": "filters.sustainability"},
+        {"id": "trade", "label": "Trade", "icon": "FaChartLine", "translationKey": "filters.trade"}
+      ],
+      "newsletter": {
+        "title": "Subscribe to Our Agri-News Digest",
+        "description": "Monthly updates on cashew markets, farming innovations, and AfriNuts progress",
+        "placeholder": "Your email address"
+      }
+    }
+  }
+}

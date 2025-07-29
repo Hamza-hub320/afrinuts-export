@@ -1,0 +1,143 @@
+{
+  "hero": {
+    "title": "Premium Cashews from the Heart of vory Coast",
+    "subtitle": "Sustainably grown, ethically sourced, and packed with flavor connecting West Africa's finest harvest to global markets.",
+    "imageAlt": "Cashew farm in Ivory Coast",
+    "ctaButtons": {
+      "exploreProducts": "Explore Products",
+      "learnMore": "Learn More"
+    }
+  },
+  "aboutPreview": {
+    "title": "Rooted in Tradition, Growing for the Future",
+    "description": "AfriNuts Export is a family-owned agribusiness based in Odienné, Ivory Coast. With over 50 hectares of prime cashew farmland, we combine traditional farming knowledge with modern sustainable practices to produce premium quality cashews for global markets.",
+    "ctaButton": "Our Story"
+  },
+  "products": {
+    "title": "Our Premium Products",
+    "subtitle": "From raw cashews to value-added products, we offer the finest quality from our farm to your table",
+    "ctaButton": "View All Products",
+    "items": [
+      {
+        "name": "Raw Cashews",
+        "description": "Premium quality raw cashews, carefully selected and packed for export",
+        "icon": "raw-cashews",
+        "features": [
+          "Direct from our 50-hectare farm",
+          "Premium grade selection",
+          "Sustainable farming practices",
+          "Ethically sourced"
+        ],
+        "available": true
+      },
+      {
+        "name": "Organic Cashews",
+        "description": "Certified organic cashews grown without synthetic pesticides or fertilizers",
+        "icon": "organic-cashews",
+        "features": [
+          "100% organic certified",
+          "No synthetic chemicals",
+          "Higher nutritional value",
+          "Environmentally friendly"
+        ],
+        "available": true
+      },
+      {
+        "name": "Value-Added Products",
+        "description": "Roasted cashews, cashew butter, and other premium processed products",
+        "icon": "value-added",
+        "features": [
+          "Premium roasted cashews",
+          "Organic cashew butter",
+          "Cashew milk powder",
+          "Coming soon: Cashew oil"
+        ],
+        "available": false,
+        "comingSoon": "Available Q1 2025"
+      }
+    ]
+  },
+  "farm": {
+    "title": "Our Sustainable Farm",
+    "description": "Located in the heart of Ivory Coast's cashew belt, our 50-hectare family farm combines traditional knowledge with modern sustainable practices. We're committed to ethical farming that benefits both people and the planet.",
+    "imageAlt": "AfriNuts Farm",
+    "location": "Odienné, Ivory Coast",
+    "ctaButton": "Visit Our Farm",
+    "highlights": [
+      {
+        "title": "Sustainable Practices",
+        "description": "Organic farming methods that protect the environment",
+        "icon": "FaLeaf"
+      },
+      {
+        "title": "Community Focus",
+        "description": "Supporting local farmers and creating jobs",
+        "icon": "FaGlobeAfrica"
+      }
+    ]
+  },
+  "sustainability": {
+    "title": "Our Commitment to Sustainability",
+    "description": "At AfriNuts Export, we believe in farming practices that protect the environment and support local communities. From water conservation to fair wages, sustainability is at the core of everything we do.",
+    "ctaButton": "Our Sustainability Promise",
+    "features": [
+      {
+        "title": "Organic Farming",
+        "description": "No synthetic pesticides or fertilizers",
+        "icon": "FaSeedling"
+      },
+      {
+        "title": "Fair Trade Practices",
+        "description": "Ethical treatment and fair wages for workers",
+        "icon": "FaGlobeAfrica"
+      },
+      {
+        "title": "Zero Waste Processing",
+        "description": "Utilizing byproducts like CNSL for biofuels",
+        "icon": "FaLeaf"
+      }
+    ]
+  },
+  "news": {
+    "title": "Dernières Nouvelles & Mises à Jour”",
+    "subtitle": "Stay informed about our farm, products, and industry developments",
+    "ctaButton": "View All News",
+    "items": [
+      {
+        "key": "yields",
+        "title": "Record-Breaking Cashew Yields",
+        "date": "June 2024",
+        "category": "Harvest Report",
+        "description": "Our farm achieves highest-ever production with sustainable methods"
+      },
+      {
+        "key": "solar",
+        "title": "New Solar-Powered Processing",
+        "date": "May 2024",
+        "category": "Sustainability",
+        "description": "We've installed solar panels to power our processing facility"
+      },
+      {
+        "key": "butter",
+        "title": "Introducing Organic Cashew Butter",
+        "date": "April 2024",
+        "category": "Product News",
+        "description": "Our newest product line now available in European markets"
+      }
+    ]
+  },
+  "newsCard": {
+    "readMore": "Read more"
+  },
+  "contact": {
+    "title": "Ready to Experience Premium Cashews?",
+    "subtitle": "Whether you're a wholesaler, retailer, or just love quality cashews, we'd love to hear from you.",
+    "ctaButton": "Get In Touch"
+  },
+  "loading": {
+    "about": "Loading about preview...",
+    "products": "Loading products...",
+    "news": "Loading news...",
+    "contact": "Loading contact..."
+  }
+}

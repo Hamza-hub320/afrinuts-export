@@ -1,0 +1,82 @@
+{
+  "title": "Cookie Policy for AfriNuts Export",
+  "lastUpdated": "Last Updated: July 26, 2025",
+  "introduction": "At AfriNuts Export, we are committed to transparency and integrity — in both our agricultural practices and digital presence. This Cookie Policy explains how we use cookies and similar technologies when you visit our website.",
+
+  "whatAreCookies": {
+    "title": "1. What Are Cookies?",
+    "description": "Cookies are small data files placed on your device (computer, smartphone, tablet) when you visit a website. They help websites remember your preferences, improve user experience, and deliver relevant content. We use both first-party cookies (set by AfriNuts Export) and third-party cookies (set by analytics, marketing, or service providers)."
+  },
+
+  "whyWeUseCookies": {
+    "title": "2. Why We Use Cookies",
+    "essential": {
+      "title": "a. Essential Cookies",
+      "description": "These cookies are necessary for the basic functioning of our site. They enable core services such as security, network management, and accessibility.",
+      "examples": [
+        "Examples: Session ID, login authentication",
+        "Mandatory: Cannot be disabled"
+      ]
+    },
+    "performance": {
+      "title": "b. Performance Cookies",
+      "description": "These cookies collect anonymous data about how visitors interact with our site. This helps us improve website functionality and understand visitor behavior.",
+      "examples": [
+        "Tools used: Google Analytics or similar",
+        "Data: Page views, click patterns, bounce rates"
+      ]
+    },
+    "functional": {
+      "title": "c. Functional Cookies",
+      "description": "Functional cookies remember your choices (like language or region) and help provide enhanced features.",
+      "examples": [
+        "Examples: Language selection, saved preferences",
+        "Disabling may affect parts of the website experience"
+      ]
+    },
+    "advertising": {
+      "title": "d. Advertising Cookies",
+      "description": "These cookies may be set by us or our marketing partners to build a profile of your interests and show you relevant ads.",
+      "examples": [
+        "We currently do not run third-party ads, but reserve the right to in the future",
+        "These cookies do not store direct personal information"
+      ]
+    }
+  },
+
+  "managingPreferences": {
+    "title": "3. Managing Cookie Preferences",
+    "description": "You can manage or change your cookie settings at any time through our Cookie Preferences Center or via your browser settings.",
+    "steps": [
+      "Visit \"Customize Cookie Preferences\"",
+      "Adjust settings for each cookie type: Essential (locked), Performance, Functional, Advertising",
+      "Click \"Save Preferences\""
+    ]
+  },
+
+  "thirdPartyCookies": {
+    "title": "4. Third-Party Cookies",
+    "description": "Some cookies may be placed by third-party services we use to analyze traffic or enhance features. These third parties may collect information about your device and online activity. We ensure that any third-party partners comply with data protection regulations such as GDPR and CCPA, where applicable."
+  },
+
+  "dataRetention": {
+    "title": "5. Data Retention",
+    "description": "Cookies have different lifespans: Session cookies expire when you close your browser, while persistent cookies remain on your device for a set period or until deleted."
+  },
+
+  "yourRights": {
+    "title": "6. Your Rights",
+    "description": "You have the right to: Access and correct personal data, withdraw consent for non-essential cookies, and lodge a complaint with a data protection authority if needed."
+  },
+
+  "changesToPolicy": {
+    "title": "7. Changes to This Policy",
+    "description": "We may update this Cookie Policy to reflect changes in our practices, technology, or legal obligations. Updates will be posted on this page with a revised \"Last Updated\" date."
+  },
+
+  "contactUs": {
+    "title": "8. Contact Us",
+    "address": "AfriNuts Export, Odienné, Côte d'Ivoire",
+    "email": "info@afrinuts-export.com"
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "navbar": {
+    "home": "Home",
+    "about": "About",
+    "products": "Products",
+    "farm": "Farm",
+    "contact": "Contact",
+    "sustainability": "Sustainability",
+    "vision": "Our Vision",
+    "language": "Language"
+  },
+  "language": {
+    "en": "EN",
+    "fr": "FR",
+    "ar": "AR"
+  }
+}

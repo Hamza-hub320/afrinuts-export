@@ -1,0 +1,120 @@
+{
+  "hero": {
+    "title": "Our Vision for 2031",
+    "subtitle": "Empowering Africa's cashew future with sustainability, faith, and innovation"
+  },
+  "intro": {
+    "title": "Transforming West Africa's Cashew Industry",
+    "content": "At AfriNuts Export, we're not just building a business - we're creating a movement that combines ethical agribusiness, Islamic values, and sustainable development to revolutionize the cashew sector in Ivory Coast and beyond."
+  },
+  "sustainability": {
+    "title": "Sustainability & Stewardship",
+    "subtitle": "Building a carbon-neutral, zero-waste cashew value chain by 2031",
+    "items": [
+      {
+        "text": "Our upcoming processing center will follow zero-waste principles",
+        "icon": "FaRecycle"
+      },
+      {
+        "text": "We'll harness solar power and renewable energy to run our operations",
+        "icon": "FaSolarPanel"
+      },
+      {
+        "text": "We aim to reduce environmental impact at every step — from planting to packaging",
+        "icon": "FaLeaf"
+      },
+      {
+        "text": "Traceability matters — we're implementing blockchain technology for full transparency",
+        "icon": "FaGlobe"
+      }
+    ],
+    "quote": "The land is a trust (amanah) — and we must preserve it for generations to come."
+  },
+  "community": {
+    "title": "Community Empowerment",
+    "subtitle": "Our farm is more than a business — it's a community uplift project",
+    "items": [
+      {
+        "title": "Farmer Training",
+        "content": "Training and supporting smallholder farmers with fair contracts and best practices",
+        "icon": "FaUsers"
+      },
+      {
+        "title": "Community Reinvestment",
+        "content": "Reinvesting profits in local development, water access, and spiritual infrastructure",
+        "icon": "FaWater"
+      },
+      {
+        "title": "Employment Creation",
+        "content": "Creating jobs for youth and women in Odienné through agro-industry",
+        "icon": "FaHandshake"
+      }
+    ]
+  },
+  "value": {
+    "title": "Value Addition & Trade",
+    "subtitle": "We believe Africa must export finished products, not just raw materials",
+    "items": [
+      "By 2030, AfriNuts will process cashews into organic roasted kernels",
+      "Cashew butter & milk for health-conscious consumers",
+      "Cashew oil and flour for diverse culinary uses",
+      "We aim to become a top exporter of certified organic, value-added products across Europe and the Middle East"
+    ]
+  },
+  "finance": {
+    "title": "Ethical Finance",
+    "subtitle": "We uphold Islamic financial ethics in all our operations",
+    "principles": [
+      {
+        "title": "Riba-Free",
+        "content": "We avoid debt and interest (riba) in all financial transactions",
+        "icon": "FaHandshake"
+      },
+      {
+        "title": "Transparent Partnerships",
+        "content": "We share risk and reward transparently with investors and partners",
+        "icon": "FaChartLine"
+      },
+      {
+        "title": "Profit with Purpose",
+        "content": "We prioritize long-term benefit over short-term gain, reinvesting for community impact",
+        "icon": "FaTree"
+      }
+    ]
+  },
+  "innovation": {
+    "title": "Innovation & Transformation",
+    "subtitle": "Building the first locally owned, export-grade cashew brand from northwestern Côte d'Ivoire",
+    "items": [
+      {
+        "title": "Digital Traceability",
+        "content": "Blockchain systems for full supply chain transparency",
+        "icon": "FaGlobe"
+      },
+      {
+        "title": "Smart Farming",
+        "content": "Remote farm monitoring and smart irrigation (future phase)",
+        "icon": "FaSeedling"
+      },
+      {
+        "title": "Quality Standards",
+        "content": "Commitment to organic certification and international standards",
+        "icon": "FaLeaf"
+      },
+      {
+        "title": "Regional Leadership",
+        "content": "Transforming our region into a hub of ethical agribusiness",
+        "icon": "FaChartLine"
+      }
+    ]
+  },
+  "cta": {
+    "title": "A Movement Rooted in Vision",
+    "content": "Our goal is not just profitability — but to transform our region into a hub of ethical agribusiness. We're planting 3,500 cashew trees today to nourish the next generation — with faith, purpose, and excellence.",
+    "button": "Join Our Vision"
+  },
+  "esg": {
+    "title": "Our Commitment to ESG",
+    "content": "At AfriNuts, our vision is deeply aligned with Environmental, Social, and Governance (ESG) principles. We are building a carbon-neutral, zero-waste cashew supply chain powered by renewable energy, organic farming, and blockchain traceability. Our social mission prioritizes fair trade, local job creation, clean water access, and Islamic financial ethics, reinvesting in the community and empowering future generations. With full transparency, ethical investor terms, and a commitment to sustainability at every step, AfriNuts is proud to be Africa's ESG-first cashew initiative."
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "title": "Politique relative aux cookies - AfriNuts Export",
+  "lastUpdated": "Dernière mise à jour : 26 juillet 2025",
+  "introduction": "Chez AfriNuts Export, nous nous engageons à la transparence et à l'intégrité - tant dans nos pratiques agricoles que dans notre présence numérique. Cette Politique relative aux cookies explique comment nous utilisons les cookies et technologies similaires lorsque vous visitez notre site web.",
+
+  "whatAreCookies": {
+    "title": "1. Que sont les cookies ?",
+    "description": "Les cookies sont de petits fichiers de données placés sur votre appareil (ordinateur, smartphone, tablette) lorsque vous visitez un site web. Ils aident les sites à mémoriser vos préférences, améliorer l'expérience utilisateur et fournir un contenu pertinent. Nous utilisons à la fois des cookies internes (définis par AfriNuts Export) et des cookies tiers (définis par des outils d'analyse, de marketing ou des fournisseurs de services)."
+  },
+
+  "whyWeUseCookies": {
+    "title": "2. Pourquoi nous utilisons des cookies",
+    "essential": {
+      "title": "a. Cookies essentiels",
+      "description": "Ces cookies sont nécessaires au fonctionnement de base de notre site. Ils activent des services essentiels comme la sécurité, la gestion du réseau et l'accessibilité.",
+      "examples": [
+        "Exemples : ID de session, authentification de connexion",
+        "Obligatoires : Ne peuvent pas être désactivés"
+      ]
+    },
+    "performance": {
+      "title": "b. Cookies de performance",
+      "description": "Ces cookies collectent des données anonymes sur l'interaction des visiteurs avec notre site. Cela nous aide à améliorer les fonctionnalités du site et à comprendre le comportement des visiteurs.",
+      "examples": [
+        "Outils utilisés : Google Analytics ou similaires",
+        "Données : Pages vues, schémas de clics, taux de rebond"
+      ]
+    },
+    "functional": {
+      "title": "c. Cookies fonctionnels",
+      "description": "Les cookies fonctionnels mémorisent vos choix (comme la langue ou la région) et aident à fournir des fonctionnalités améliorées.",
+      "examples": [
+        "Exemples : Sélection de langue, préférences enregistrées",
+        "La désactivation peut affecter certaines parties de l'expérience du site"
+      ]
+    },
+    "advertising": {
+      "title": "d. Cookies publicitaires",
+      "description": "Ces cookies peuvent être définis par nous ou nos partenaires marketing pour établir un profil de vos centres d'intérêt et vous montrer des publicités pertinentes.",
+      "examples": [
+        "Nous ne diffusons actuellement pas de publicités tierces, mais nous nous réservons le droit de le faire à l'avenir",
+        "Ces cookies ne stockent pas d'informations personnelles directes"
+      ]
+    }
+  },
+
+  "managingPreferences": {
+    "title": "3. Gestion des préférences de cookies",
+    "description": "Vous pouvez gérer ou modifier vos paramètres de cookies à tout moment via notre Centre de préférences de cookies ou via les paramètres de votre navigateur.",
+    "steps": [
+      "Visitez \"Personnaliser les préférences de cookies\"",
+      "Ajustez les paramètres pour chaque type de cookie : Essentiels (verrouillés), Performance, Fonctionnels, Publicitaires",
+      "Cliquez sur \"Enregistrer les préférences\""
+    ]
+  },
+
+  "thirdPartyCookies": {
+    "title": "4. Cookies tiers",
+    "description": "Certains cookies peuvent être placés par des services tiers que nous utilisons pour analyser le trafic ou améliorer les fonctionnalités. Ces tiers peuvent collecter des informations sur votre appareil et votre activité en ligne. Nous veillons à ce que tous les partenaires tiers respectent les réglementations sur la protection des données telles que le RGPD et le CCPA, le cas échéant."
+  },
+
+  "dataRetention": {
+    "title": "5. Conservation des données",
+    "description": "Les cookies ont des durées de vie différentes : Les cookies de session expirent lorsque vous fermez votre navigateur, tandis que les cookies persistants restent sur votre appareil pendant une période déterminée ou jusqu'à leur suppression."
+  },
+
+  "yourRights": {
+    "title": "6. Vos droits",
+    "description": "Vous avez le droit de : Accéder et corriger vos données personnelles, retirer votre consentement pour les cookies non essentiels, et déposer une plainte auprès d'une autorité de protection des données si nécessaire."
+  },
+
+  "changesToPolicy": {
+    "title": "7. Modifications de cette politique",
+    "description": "Nous pouvons mettre à jour cette Politique relative aux cookies pour refléter les changements dans nos pratiques, la technologie ou les obligations légales. Les mises à jour seront publiées sur cette page avec une nouvelle date de \"Dernière mise à jour\"."
+  },
+
+  "contactUs": {
+    "title": "8. Nous contacter",
+    "address": "AfriNuts Export, Odienné, Côte d'Ivoire",
+    "email": "info@afrinuts-export.com"
+  }
+}

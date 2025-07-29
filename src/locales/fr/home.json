@@ -1,0 +1,143 @@
+{
+  "hero": {
+    "title": "Noix de cajou premium du cœur de la Côte d'Ivoire",
+    "subtitle": "Cultivées durablement, sourcées éthiquement et pleines de saveur - connectant la meilleure récolte d'Afrique de l'Ouest aux marchés mondiaux.",
+    "imageAlt": "Ferme de noix de cajou en Côte d'Ivoire",
+    "ctaButtons": {
+      "exploreProducts": "Découvrir nos produits",
+      "learnMore": "En savoir plus"
+    }
+  },
+  "aboutPreview": {
+    "title": "Enracinés dans la tradition, cultivant l'avenir",
+    "description": "AfriNuts Export est une entreprise agricole familiale basée à Odienné, en Côte d'Ivoire. Avec plus de 50 hectares de terres agricoles de première qualité, nous combinons le savoir-faire agricole traditionnel avec des pratiques durables modernes pour produire des noix de cajou de qualité premium pour les marchés mondiaux.",
+    "ctaButton": "Notre histoire"
+  },
+  "products": {
+    "title": "Nos produits premium",
+    "subtitle": "Des noix de cajou brutes aux produits à valeur ajoutée, nous offrons la meilleure qualité de notre ferme à votre table",
+    "ctaButton": "Voir tous les produits",
+    "items": [
+      {
+        "name": "Noix de cajou brutes",
+        "description": "Noix de cajou brutes de qualité premium, soigneusement sélectionnées et emballées pour l'exportation",
+        "icon": "raw-cashews",
+        "features": [
+          "Directement de notre ferme de 50 hectares",
+          "Sélection de qualité premium",
+          "Pratiques agricoles durables",
+          "Sourcées éthiquement"
+        ],
+        "available": true
+      },
+      {
+        "name": "Noix de cajou bio",
+        "description": "Noix de cajou certifiées biologiques cultivées sans pesticides ni engrais synthétiques",
+        "icon": "organic-cashews",
+        "features": [
+          "100% certifié biologique",
+          "Aucun produit chimique synthétique",
+          "Valeur nutritionnelle supérieure",
+          "Respectueux de l'environnement"
+        ],
+        "available": true
+      },
+      {
+        "name": "Produits à valeur ajoutée",
+        "description": "Noix de cajou grillées, beurre de cajou et autres produits transformés premium",
+        "icon": "value-added",
+        "features": [
+          "Noix de cajou grillées premium",
+          "Beurre de cajou biologique",
+          "Lait de cajou en poudre",
+          "Bientôt disponible : Huile de cajou"
+        ],
+        "available": false,
+        "comingSoon": "Disponible Q1 2025"
+      }
+    ]
+  },
+  "farm": {
+    "title": "Notre ferme durable",
+    "description": "Située au cœur de la ceinture de noix de cajou de la Côte d'Ivoire, notre ferme familiale de 50 hectares combine les connaissances traditionnelles avec des pratiques durables modernes. Nous nous engageons dans une agriculture éthique qui profite à la fois aux gens et à la planète.",
+    "imageAlt": "Ferme AfriNuts",
+    "location": "Odienné, Côte d'Ivoire",
+    "ctaButton": "Visiter notre ferme",
+    "highlights": [
+      {
+        "title": "Pratiques durables",
+        "description": "Méthodes d'agriculture biologique qui protègent l'environnement",
+        "icon": "FaLeaf"
+      },
+      {
+        "title": "Engagement communautaire",
+        "description": "Soutenir les agriculteurs locaux et créer des emplois",
+        "icon": "FaGlobeAfrica"
+      }
+    ]
+  },
+  "sustainability": {
+    "title": "Notre engagement envers la durabilité",
+    "description": "Chez AfriNuts Export, nous croyons en des pratiques agricoles qui protègent l'environnement et soutiennent les communautés locales. De la conservation de l'eau aux salaires équitables, la durabilité est au cœur de tout ce que nous faisons.",
+    "ctaButton": "Notre promesse de durabilité",
+    "features": [
+      {
+        "title": "Agriculture biologique",
+        "description": "Pas de pesticides ni d'engrais synthétiques",
+        "icon": "FaSeedling"
+      },
+      {
+        "title": "Pratiques de commerce équitable",
+        "description": "Traitement éthique et salaires équitables pour les travailleurs",
+        "icon": "FaGlobeAfrica"
+      },
+      {
+        "title": "Transformation zéro déchet",
+        "description": "Utilisation des sous-produits comme le CNSL pour les biocarburants",
+        "icon": "FaLeaf"
+      }
+    ]
+  },
+  "news": {
+    "key": "yields",
+    "title": "Rendements record de noix de cajou",
+    "subtitle": "Restez informé sur notre ferme, nos produits et les développements de l'industrie",
+    "ctaButton": "Voir toutes les actualités",
+    "items": [
+      {
+        "title": "Rendements record de noix de cajou",
+        "date": "Juin 2024",
+        "category": "Rapport de récolte",
+        "description": "Notre ferme atteint sa production la plus élevée jamais enregistrée avec des méthodes durables"
+      },
+      {
+        "key": "solar",
+        "title": "Nouvelle transformation à l'énergie solaire",
+        "date": "Mai 2024",
+        "category": "Durabilité",
+        "description": "Nous avons installé des panneaux solaires pour alimenter notre usine de transformation"
+      },
+      {
+        "key": "butter",
+        "title": "Lancement du beurre de cajou bio",
+        "date": "Avril 2024",
+        "category": "Nouveauté produit",
+        "description": "Notre nouvelle gamme de produits maintenant disponible sur les marchés européens"
+      }
+    ]
+  },
+  "newsCard": {
+    "readMore": "Lire la suite"
+  },
+  "contact": {
+    "title": "Prêt à découvrir nos noix de cajou premium ?",
+    "subtitle": "Que vous soyez grossiste, détaillant ou simplement amateur de noix de cajou de qualité, nous serions ravis d'avoir de vos nouvelles.",
+    "ctaButton": "Contactez-nous"
+  },
+  "loading": {
+    "about": "Chargement de l'aperçu...",
+    "products": "Chargement des produits...",
+    "news": "Chargement des actualités...",
+    "contact": "Chargement des contacts..."
+  }
+}

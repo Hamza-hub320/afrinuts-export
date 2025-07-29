@@ -1,0 +1,40 @@
+{
+  "hero": {
+    "title": "مركز أخبار أفري ناتس",
+    "subtitle": "تحديثات زراعة الكاجو من ساحل العاج وخارجها"
+  },
+  "tabs": {
+    "all": "كل الأخبار",
+    "afrinuts": "تحديثاتنا",
+    "industry": "أخبار الصناعة"
+  },
+  "filters": {
+    "title": "تصفية حسب:",
+    "cashew": "الكاجو",
+    "agriculture": "الزراعة",
+    "ivoryCoast": "ساحل العاج",
+    "sustainability": "الاستدامة"
+  },
+  "sections": {
+    "afrinutsUpdates": "أخبار أفري ناتس",
+    "industryNews": "تحديثات صناعة الكاجو",
+    "newsletter": {
+      "title": "ابق على اطلاع",
+      "description": "احصل على رؤى شهرية عن أسواق الكاجو الأفريقية",
+      "emailPlaceholder": "عنوان بريدك الإلكتروني",
+      "subscribe": "اشتراك"
+    }
+  },
+  "updateTemplates": {
+    "readMore": "قراءة المزيد →",
+    "postedBy": "نشر بواسطة {{author}} في {{date}}",
+    "tags": "الكلمات الدالة:"
+  },
+  "search": {
+    "placeholder": "ابحث في الأخبار..."
+  },
+  "emptyState": {
+    "noResults": "لم يتم العثور على مقالات مطابقة",
+    "loading": "جاري تحميل الأخبار..."
+  }
+}

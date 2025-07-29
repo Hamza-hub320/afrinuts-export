@@ -1,0 +1,25 @@
+{
+  "title": "Préférences en matière de cookies",
+  "description": "Nous utilisons des cookies pour améliorer votre expérience sur notre site web.",
+  "essential": {
+    "title": "Cookies essentiels",
+    "description": "Ces cookies sont nécessaires au fonctionnement du site et ne peuvent pas être désactivés."
+  },
+  "performance": {
+    "title": "Cookies de performance",
+    "description": "Ces cookies nous aident à comprendre comment les visiteurs interagissent avec notre site."
+  },
+  "functional": {
+    "title": "Cookies fonctionnels",
+    "description": "Ces cookies activent des fonctionnalités supplémentaires comme la mémorisation des préférences."
+  },
+  "advertising": {
+    "title": "Cookies publicitaires",
+    "description": "Ces cookies nous aident à diffuser du contenu marketing pertinent."
+  },
+  "allow": "Autoriser",
+  "block": "Bloquer",
+  "save": "Enregistrer les préférences",
+  "cancel": "Annuler",
+  "viewFullPolicy": "Voir la politique complète des cookies"
+}

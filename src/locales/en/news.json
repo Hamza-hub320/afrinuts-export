@@ -1,0 +1,40 @@
+{
+  "hero": {
+    "title": "AfriNuts News Hub",
+    "subtitle": "Cashew agriculture updates from Ivory Coast and beyond"
+  },
+  "tabs": {
+    "all": "All News",
+    "afrinuts": "Our Updates",
+    "industry": "Industry News"
+  },
+  "filters": {
+    "title": "Filter by:",
+    "cashew": "Cashew",
+    "agriculture": "Agriculture",
+    "ivoryCoast": "Ivory Coast",
+    "sustainability": "Sustainability"
+  },
+  "sections": {
+    "afrinutsUpdates": "AfriNuts News",
+    "industryNews": "Cashew Industry Updates",
+    "newsletter": {
+      "title": "Stay Updated",
+      "description": "Get monthly insights on African cashew markets",
+      "emailPlaceholder": "Your email address",
+      "subscribe": "Subscribe"
+    }
+  },
+  "updateTemplates": {
+    "readMore": "Read full update →",
+    "postedBy": "Posted by {{author}} on {{date}}",
+    "tags": "Tags:"
+  },
+  "search": {
+    "placeholder": "Search news..."
+  },
+  "emptyState": {
+    "noResults": "No matching articles found",
+    "loading": "Loading news..."
+  }
+}

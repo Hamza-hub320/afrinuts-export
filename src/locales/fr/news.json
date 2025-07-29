@@ -1,0 +1,40 @@
+{
+  "hero": {
+    "title": "Centre d'Actualités AfriNuts",
+    "subtitle": "Nouvelles de l'agriculture du cajou en Côte d'Ivoire et au-delà"
+  },
+  "tabs": {
+    "all": "Toutes les actualités",
+    "afrinuts": "Nos mises à jour",
+    "industry": "Actualités du secteur"
+  },
+  "filters": {
+    "title": "Filtrer par :",
+    "cashew": "Noix de cajou",
+    "agriculture": "Agriculture",
+    "ivoryCoast": "Côte d'Ivoire",
+    "sustainability": "Durabilité"
+  },
+  "sections": {
+    "afrinutsUpdates": "Actualités AfriNuts",
+    "industryNews": "Nouvelles du secteur du cajou",
+    "newsletter": {
+      "title": "Restez informé",
+      "description": "Recevez chaque mois des insights sur les marchés africains du cajou",
+      "emailPlaceholder": "Votre adresse email",
+      "subscribe": "S'abonner"
+    }
+  },
+  "updateTemplates": {
+    "readMore": "Lire la suite →",
+    "postedBy": "Publié par {{author}} le {{date}}",
+    "tags": "Mots-clés :"
+  },
+  "search": {
+    "placeholder": "Rechercher des actualités..."
+  },
+  "emptyState": {
+    "noResults": "Aucun article correspondant trouvé",
+    "loading": "Chargement des actualités..."
+  }
+}

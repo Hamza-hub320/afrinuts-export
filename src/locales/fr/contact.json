@@ -1,0 +1,59 @@
+{
+  "hero": {
+    "title": "Contactez AfriNuts Export",
+    "subtitle": "Contactez-nous pour des opportunités de partenariat, des demandes de produits ou des informations d'investissement"
+  },
+  "form": {
+    "title": "Contactez notre équipe",
+    "name": "Nom complet*",
+    "email": "Email professionnel*",
+    "subject": "Sujet*",
+    "message": "Votre message*",
+    "submit": "Envoyer la demande",
+    "sending": "Traitement de votre demande..."
+  },
+  "info": {
+    "title": "Siège social",
+    "headquarters": "Siège d'AfriNuts",
+    "address": "Odienné, Côte d'Ivoire",
+    "zipCode": "Code postal : 00225",
+    "phone": "Téléphone",
+    "phoneNumber": "+225 XX XX XX XX",
+    "email": "Email",
+    "emailPrimary": "AfriNutsExport2023@outlook.com",
+    "emailSecondary": "inquiries@afrinutsexport.com",
+    "hours": "Lundi-Vendredi : 8h00 - 17h00 GMT",
+    "businessHours": "Heures d'ouverture",
+    "weekdays": "Lundi - Vendredi : 8h00 - 17h00",
+    "saturday": "Samedi : 9h00 - 13h00"
+  },
+  "map": {
+    "title": "Notre siège opérationnel",
+    "iframeTitle": "Localisation d'AfriNuts Export"
+  },
+  "success": {
+    "title": "Merci d'avoir contacté AfriNuts Export",
+    "message": "Votre demande a bien été reçue. Notre équipe vous répondra dans un délai de 2 jours ouvrés.",
+    "close": "Retour au site"
+  },
+  "errors": {
+    "name": "Veuillez entrer votre nom complet",
+    "emailRequired": "Une adresse email valide est requise",
+    "emailInvalid": "Veuillez entrer une adresse email valide",
+    "subject": "Veuillez spécifier l'objet de votre demande",
+    "message": "Veuillez inclure un message détaillé",
+    "fileSize": "Taille maximale du fichier dépassée (limite de 5MB)",
+    "submit": "Une erreur est survenue. Veuillez nous contacter directement à contact@afrinutsexport.com"
+  },
+  "weather": {
+    "currentWeather": "Météo actuelle à {{location}}",
+    "feelsLike": "Ressenti : {{temp}}°C",
+    "highTemp": "Max : {{temp}}°C",
+    "lowTemp": "Min : {{temp}}°C",
+    "wind": "Vent : {{speed}} km/h",
+    "humidity": "Humidité : {{percent}}%",
+    "loading": "Chargement des données météo...",
+    "error": "Informations météo indisponibles",
+    "notAvailable": "Non disponible"
+  }
+}

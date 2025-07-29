@@ -1,0 +1,29 @@
+{
+  "company": {
+    "title": "AfriNuts Export",
+    "description": "Transforming the cashew value chain through sustainable farming and premium processing."
+  },
+  "links": {
+    "title": "Quick Links",
+    "about": "About Us",
+    "products": "Our Products",
+    "farm": "Our Farm",
+    "sustainability": "Sustainability",
+    "contact": "Contact Us"
+  },
+  "contact": {
+    "title": "Contact Us"
+  },
+  "newsletter": {
+    "title": "Newsletter",
+    "description": "Subscribe to our newsletter for updates and offers.",
+    "placeholder": "Your email address",
+    "button": "Subscribe"
+  },
+  "copyright": "All rights reserved.",
+  "legal": {
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "cookie": "Cookie Preferences"
+  }
+}

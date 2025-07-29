@@ -1,0 +1,29 @@
+{
+  "company": {
+    "title": "AfriNuts Export",
+    "description": "Transformer la chaîne de valeur de la noix de cajou grâce à une agriculture durable et à une transformation de qualité."
+  },
+  "links": {
+    "title": "Liens rapides",
+    "about": "À propos de nous",
+    "products": "Nos produits",
+    "farm": "Notre ferme",
+    "sustainability": "Durabilité",
+    "contact": "Nous contacter"
+  },
+  "contact": {
+    "title": "Nous contacter"
+  },
+  "newsletter": {
+    "title": "Newsletter",
+    "description": "Abonnez-vous à notre newsletter pour recevoir des mises à jour et des offres.",
+    "placeholder": "Votre adresse e-mail",
+    "button": "S’abonner"
+  },
+  "copyright": "Tous droits réservés.",
+  "legal": {
+    "privacy": "Politique de confidentialité",
+    "terms": "Conditions d’utilisation",
+    "cookie": "Préférences des cookies"
+  }
+}

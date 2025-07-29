@@ -1,0 +1,120 @@
+{
+  "hero": {
+    "title": "Notre vision pour 2031",
+    "subtitle": "Autonomiser l'avenir du cajou en Afrique avec durabilité, foi et innovation"
+  },
+  "intro": {
+    "title": "Transformer l'industrie du cajou en Afrique de l'Ouest",
+    "content": "Chez AfriNuts Export, nous ne construisons pas seulement une entreprise - nous créons un mouvement qui combine agrobusiness éthique, valeurs islamiques et développement durable pour révolutionner le secteur du cajou en Côte d'Ivoire et au-delà."
+  },
+  "sustainability": {
+    "title": "Durabilité & Gestion responsable",
+    "subtitle": "Construire une chaîne de valeur du cajou neutre en carbone et zéro déchet d'ici 2031",
+    "items": [
+      {
+        "text": "Notre futur centre de transformation suivra les principes zéro déchet",
+        "icon": "FaRecycle"
+      },
+      {
+        "text": "Nous utiliserons l'énergie solaire et renouvelable pour nos opérations",
+        "icon": "FaSolarPanel"
+      },
+      {
+        "text": "Nous visons à réduire l'impact environnemental à chaque étape - de la plantation à l'emballage",
+        "icon": "FaLeaf"
+      },
+      {
+        "text": "La traçabilité compte - nous implémentons la technologie blockchain pour une transparence totale",
+        "icon": "FaGlobe"
+      }
+    ],
+    "quote": "La terre est une confiance (amanah) - et nous devons la préserver pour les générations futures."
+  },
+  "community": {
+    "title": "Autonomisation communautaire",
+    "subtitle": "Notre ferme est plus qu'une entreprise - c'est un projet d'élévation communautaire",
+    "items": [
+      {
+        "title": "Formation des agriculteurs",
+        "content": "Former et soutenir les petits exploitants avec des contrats équitables et les meilleures pratiques",
+        "icon": "FaUsers"
+      },
+      {
+        "title": "Réinvestissement communautaire",
+        "content": "Réinvestir les profits dans le développement local, l'accès à l'eau et les infrastructures spirituelles",
+        "icon": "FaWater"
+      },
+      {
+        "title": "Création d'emplois",
+        "content": "Créer des emplois pour les jeunes et les femmes à Odienné grâce à l'agro-industrie",
+        "icon": "FaHandshake"
+      }
+    ]
+  },
+  "value": {
+    "title": "Valeur ajoutée & Commerce",
+    "subtitle": "Nous croyons que l'Afrique doit exporter des produits finis, pas seulement des matières premières",
+    "items": [
+      "D'ici 2030, AfriNuts transformera les noix de cajou en amandes grillées biologiques",
+      "Beurre et lait de cajou pour les consommateurs soucieux de leur santé",
+      "Huile et farine de cajou pour divers usages culinaires",
+      "Nous visons à devenir un exportateur majeur de produits biologiques certifiés à valeur ajoutée en Europe et au Moyen-Orient"
+    ]
+  },
+  "finance": {
+    "title": "Finance éthique",
+    "subtitle": "Nous respectons l'éthique financière islamique dans toutes nos opérations",
+    "principles": [
+      {
+        "title": "Sans riba",
+        "content": "Nous évitons la dette et l'intérêt (riba) dans toutes les transactions financières",
+        "icon": "FaHandshake"
+      },
+      {
+        "title": "Partenariats transparents",
+        "content": "Nous partageons les risques et bénéfices de manière transparente avec les investisseurs et partenaires",
+        "icon": "FaChartLine"
+      },
+      {
+        "title": "Profit avec un but",
+        "content": "Nous privilégions le bénéfice à long terme plutôt que le gain à court terme, en réinvestissant pour l'impact communautaire",
+        "icon": "FaTree"
+      }
+    ]
+  },
+  "innovation": {
+    "title": "Innovation & Transformation",
+    "subtitle": "Construire la première marque locale de cajou de qualité exportation du nord-ouest de la Côte d'Ivoire",
+    "items": [
+      {
+        "title": "Traçabilité numérique",
+        "content": "Systèmes blockchain pour une transparence totale de la chaîne d'approvisionnement",
+        "icon": "FaGlobe"
+      },
+      {
+        "title": "Agriculture intelligente",
+        "content": "Surveillance à distance des fermes et irrigation intelligente (phase future)",
+        "icon": "FaSeedling"
+      },
+      {
+        "title": "Normes de qualité",
+        "content": "Engagement envers la certification biologique et les normes internationales",
+        "icon": "FaLeaf"
+      },
+      {
+        "title": "Leadership régional",
+        "content": "Transformer notre région en un centre d'agrobusiness éthique",
+        "icon": "FaChartLine"
+      }
+    ]
+  },
+  "cta": {
+    "title": "Un mouvement enraciné dans la vision",
+    "content": "Notre objectif n'est pas seulement la rentabilité - mais de transformer notre région en un centre d'agrobusiness éthique. Nous plantons aujourd'hui 3 500 cajoutiers pour nourrir la prochaine génération - avec foi, objectif et excellence.",
+    "button": "Rejoignez notre vision"
+  },
+  "esg": {
+    "title": "Notre engagement envers l'ESG",
+    "content": "Chez AfriNuts, notre vision s'aligne profondément avec les principes Environnementaux, Sociaux et de Gouvernance (ESG). Nous construisons une chaîne d'approvisionnement en cajou neutre en carbone et zéro déchet, alimentée par des énergies renouvelables, une agriculture biologique et une traçabilité blockchain. Notre mission sociale priorise le commerce équitable, la création d'emplois locaux, l'accès à l'eau potable et l'éthique financière islamique, en réinvestissant dans la communauté et en autonomisant les générations futures. Avec une transparence totale, des conditions éthiques pour les investisseurs et un engagement envers la durabilité à chaque étape, AfriNuts est fier d'être la première initiative cajou en Afrique axée sur l'ESG."
+  }
+}

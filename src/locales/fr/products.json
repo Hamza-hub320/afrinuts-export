@@ -1,0 +1,239 @@
+{
+  "hero": {
+    "title": "Nos Produits Premium de Noix de Cajou",
+    "subtitle": "Source éthique des terres fertiles d'Odienné aux marchés mondiaux"
+  },
+  "productCard": {
+    "comingSoon": "Bientôt disponible",
+    "requestQuote": "Demander un devis",
+    "productionStarts": "Production prévue au 1er trimestre 2031"
+  },
+  "filters": {
+    "searchPlaceholder": "Rechercher des produits...",
+    "availability": {
+      "all": "Toute disponibilité",
+      "available": "Disponible maintenant",
+      "coming-soon": "Bientôt disponible"
+    },
+    "category": {
+      "all": "Toutes catégories",
+      "raw": "Noix brutes",
+      "processed": "Transformés",
+      "byproducts": "Sous-produits"
+    },
+    "certifications": {
+      "all": "Toutes les certifications",
+      "organic": "Certifié Biologique",
+      "halal": "Certifié Halal",
+      "fairtrade": "Certifié Commerce Équitable"
+    },
+    "reset": "Réinitialiser tous les filtres",
+    "results": "{count} produits"
+  },
+  "products": {
+    "noResults": "Aucun produit trouvé",
+    "tryDifferentFilters": "Essayez de modifier votre recherche ou vos filtres",
+    "quality": {
+      "title": "Contrôle Qualité",
+      "description": "Notre processus rigoureux garantit des produits de qualité supérieure",
+      "bullets": [
+        "100% d'ingrédients naturels",
+        "Sans conservateurs artificiels",
+        "Inspections de qualité régulières"
+      ]
+    }
+  },
+  "featured": {
+    "title": "Produits Vedettes",
+    "subtitle": "Découvrez nos offres spéciales de noix de cajou de Côte d'Ivoire"
+  },
+  "fullRange": {
+    "title": "Notre Gamme Complète",
+    "subtitle": "Des noix brutes aux produits transformés à valeur ajoutée"
+  },
+  "process": {
+    "title": "Notre Processus de Production",
+    "subtitle": "Agriculture durable et transformation de précision",
+    "steps": [
+      {
+        "title": "Agriculture Durable",
+        "description": "Nos noix de cajou sont cultivées selon des méthodes biologiques sur notre ferme familiale de 50 hectares à Odienné, avec une première récolte prévue en 2031."
+      },
+      {
+        "title": "Contrôle Qualité",
+        "description": "Chaque lot subit des contrôles de qualité rigoureux pour répondre aux normes internationales de taille, de couleur et de goût."
+      },
+      {
+        "title": "Distribution Efficace",
+        "description": "Un emballage sous vide garantit la fraîcheur de nos produits lors de leur transport de la Côte d'Ivoire vers les marchés mondiaux."
+      }
+    ]
+  },
+  "quality": {
+    "title": "Assurance Qualité",
+    "description": "Nous mettons en œuvre des mesures de contrôle qualité strictes à chaque étape de la production pour garantir que nos noix de cajou répondent aux normes internationales les plus élevées.",
+    "bullets": [
+      "Noix de cajou de qualité premium avec un calibrage uniforme",
+      "Traçabilité garantie depuis les fermes de notre réseau",
+      "Tests de laboratoire réguliers pour les aflatoxines et contaminants"
+    ]
+  },
+  "certifications": {
+    "title": "Nos Certifications",
+    "subtitle": "Répondre aux normes mondiales de qualité et de durabilité",
+    "organic": {
+      "title": "Certifié Biologique"
+    },
+    "fairtrade": {
+      "title": "Commerce Équitable"
+    },
+    "iso": {
+      "title": "ISO 22000"
+    },
+    "halal": {
+      "title": "Certifié Halal"
+    }
+  },
+  "cta": {
+    "title": "Prêt à Découvrir la Qualité AfriNuts?",
+    "subtitle": "Contactez-nous pour des demandes en gros, des échantillons de produits ou pour discuter des disponibilités futures",
+    "contact": "Contactez-nous",
+    "viewAll": "Voir Tous les Produits"
+  },
+  "items": [
+    {
+      "name": "Noix de Cajou Brutes",
+      "description": "Noix de cajou séchées au soleil et triées à la main provenant de notre ferme familiale et de nos producteurs partenaires de confiance",
+      "features": [
+        "Qualité Grade A avec 95% de noix entières",
+        "Disponible en sacs de jute de qualité export de 50 kg",
+        "Traçable à des fermes spécifiques de la région d'Odienné"
+      ],
+      "available": true,
+      "backgroundImage": "raw-cashew.jpg",
+      "icon": "FaSeedling",
+      "certifications": ["Biologique", "Commerce Équitable"],
+      "variants": [
+        {
+          "name": "Grade Standard",
+          "priceRange": "$1,200 - $1,500/tonne"
+        }
+      ]
+    },
+    {
+      "name": "Amandes de Cajou",
+      "description": "Amandes transformées avec précision dans notre future usine de transformation",
+      "features": [
+        "Plusieurs grades : W320, W240, W180",
+        "Transformation certifiée HACCP",
+        "Emballées sous vide pour la fraîcheur"
+      ],
+      "comingSoon": "Production commence Q1 2031",
+      "available": false,
+      "backgroundImage": "cashew-kernels.jpg",
+      "icon": "FaWeightHanging",
+      "certifications": ["Biologique", "Halal", "ISO 22000"],
+      "variants": [
+        {
+          "name": "Amandes Entières",
+          "priceRange": "$6,500 - $8,000/tonne"
+        },
+        {
+          "name": "Morceaux et Brisures",
+          "priceRange": "$4,000 - $5,500/tonne"
+        }
+      ]
+    },
+    {
+      "name": "Beurre de Cajou",
+      "description": "Beurre de cajou 100% pur, mono-origine sans additifs",
+      "features": [
+        "Texture onctueuse à partir de noix de cajou premium de Côte d'Ivoire",
+        "Riche en graisses saines (18g par portion)",
+        "Adapté aux régimes végétaliens et paléo"
+      ],
+      "comingSoon": "Production commence Q1 2031",
+      "available": false,
+      "backgroundImage": "cashew-butter.jpg",
+      "icon": "FaIndustry",
+      "certifications": ["Biologique", "Halal"],
+      "variants": [
+        {
+          "name": "Lisse",
+          "priceRange": "$8 - $12/kg"
+        },
+        {
+          "name": "Croustillant",
+          "priceRange": "$8 - $12/kg"
+        }
+      ]
+    },
+    {
+      "name": "Liquide de Coque de Noix de Cajou (CNSL)",
+      "description": "Sous-produit industriel à haute valeur ajoutée de nos opérations de transformation",
+      "features": [
+        "Utilisé dans les peintures, vernis et garnitures de frein",
+        "Qualité industrielle",
+        "Disponible en grandes quantités"
+      ],
+      "comingSoon": "Production commence Q1 2031",
+      "available": false,
+      "backgroundImage": "cashew-nut-shell-liquid.jpg",
+      "icon": "FaLeaf",
+      "variants": [
+        {
+          "name": "Grade Technique",
+          "priceRange": "$300 - $600/tonne"
+        }
+      ]
+    },
+    {
+      "name": "Noix de Cajou Grillées",
+      "description": "Noix de cajou premium grillées à sec avec un croquant optimal",
+      "features": [
+        "Trois variétés : Naturel, Légèrement Salé, Épicé",
+        "Grillées lentement pour préserver les nutriments",
+        "Riches en cuivre, magnésium et antioxydants"
+      ],
+      "comingSoon": "Production commence Q1 2031",
+      "available": false,
+      "backgroundImage": "roasted-cashew.jpg",
+      "icon": "FaLeaf",
+      "certifications": ["Biologique", "Halal"],
+      "variants": [
+        {
+          "name": "Naturel",
+          "priceRange": "$10 - $15/kg"
+        },
+        {
+          "name": "Salé",
+          "priceRange": "$10 - $15/kg"
+        }
+      ]
+    },
+    {
+      "name": "Lait de Cajou",
+      "description": "Alternative végétale crémeuse au lait",
+      "features": [
+        "Enrichi en calcium et vitamine D",
+        "Faible en sucre (2g pour 100ml)",
+        "Emballage UHT longue conservation"
+      ],
+      "comingSoon": "Production commence Q1 2031",
+      "available": false,
+      "backgroundImage": "cashew-milk.jpg",
+      "icon": "FaLeaf",
+      "certifications": ["Biologique", "Halal"],
+      "variants": [
+        {
+          "name": "Original",
+          "priceRange": "$2 - $3/litre"
+        },
+        {
+          "name": "Non Sucré",
+          "priceRange": "$2 - $3/litre"
+        }
+      ]
+    }
+  ]
+}

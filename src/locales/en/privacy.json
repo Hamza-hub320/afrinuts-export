@@ -1,0 +1,37 @@
+{
+  "title": "Privacy Policy",
+  "effectiveDate": "Effective Date: [Insert Date]",
+  "introduction": "At AfriNuts Export, we are committed to protecting your personal information and your right to privacy.",
+  "collection": {
+    "title": "1. What Information We Collect",
+    "description": "We may collect:",
+    "items": [
+      "Your name and email address when you contact us",
+      "Technical data from your browser, including IP address and cookies"
+    ]
+  },
+  "use": {
+    "title": "2. How We Use Your Information",
+    "description": "Your data is used only to:",
+    "items": [
+      "Respond to inquiries",
+      "Improve website performance",
+      "Send updates or newsletters (with your consent)"
+    ],
+    "note": "We do not sell, rent, or trade your personal information."
+  },
+  "cookies": {
+    "title": "3. Cookies & Tracking",
+    "description": "We use cookies to analyze site traffic and improve user experience. You can manage your cookie preferences at any time."
+  },
+  "security": {
+    "title": "4. Data Security",
+    "description": "We implement technical and organizational measures to protect your data against unauthorized access."
+  },
+  "rights": {
+    "title": "5. Your Rights",
+    "description": "You have the right to access, correct, or delete your personal information. Contact us at:",
+    "contactEmail": "info@afrinuts-export.com"
+  },
+  "lastUpdated": "Last updated: July 26, 2025"
+}

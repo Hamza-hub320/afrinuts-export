@@ -1,0 +1,28 @@
+// For image imports
+declare module '*.jpg' {
+  const path: string;
+  export default path;
+}
+declare module '*.jpeg' {
+  const path: string;
+  export default path;
+}
+declare module '*.png' {
+  const path: string;
+  export default path;
+}
+declare module '*.svg' {
+  const path: string;
+  export default path;
+}
+declare module '*.webp' {
+  const path: string;
+  export default path;
+}
+
+// For require() support
+interface Require {
+  (path: string): any;
+  context: (directory: string, useSubdirectories: boolean, regExp: RegExp) => any;
+}
+declare const require: Require;

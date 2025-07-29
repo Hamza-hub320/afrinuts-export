@@ -1,0 +1,98 @@
+{
+  "feeds": [
+    {
+      "url": "https://allafrica.com/tools/headlines/rdf/agriculture/headlines.rdf",
+      "name": "AllAfrica Agriculture",
+      "icon": "FaLeaf",
+      "category": "agriculture",
+      "defaultEnabled": true,
+      "refreshInterval": 3600000,
+      "searchTerms": ["cashew", "ivory coast", "côte d'ivoire"]
+    },
+    {
+      "url": "https://www.commodafrica.com/rss.xml",
+      "name": "CommodAfrica",
+      "icon": "FaChartLine",
+      "category": "cashew",
+      "defaultEnabled": true,
+      "searchTerms": ["cashew", "noix de cajou", "côte d'ivoire"]
+    },
+    {
+      "url": "https://www.albayan.ae/rss/economy.xml",
+      "name": "Al Bayan Economy",
+      "icon": "FaGlobe",
+      "category": "arabic",
+      "defaultEnabled": true,
+      "searchTerms": [
+        "كاجو",
+        "ساحل العاج",
+        "تصدير",
+        "cashew",
+        "ivory coast"
+      ]
+    },
+    {
+      "url": "https://www.connectionivoirienne.net/feed/",
+      "name": "Connection Ivoirienne",
+      "icon": "FaNewspaper",
+      "category": "ivory-coast",
+      "defaultEnabled": true,
+      "searchTerms": ["noix de cajou", "anacarde", "agriculture"]
+    },
+    {
+      "url": "https://news.abidjan.net/feed/",
+      "name": "Abidjan.net Actualités",
+      "icon": "FaCity",
+      "category": "ivory-coast",
+      "defaultEnabled": true,
+      "searchTerms": ["anacarde", "cajou"]
+    },
+    {
+      "url": "https://www.africanews.com/rss",
+      "name": "Africa News",
+      "icon": "FaGlobeAfrica",
+      "category": "ivory-coast",
+      "defaultEnabled": true,
+      "searchTerms": ["cashew", "agriculture"]
+    },
+    {
+      "url": "https://www.foodnavigator-africa.com/feeds/news.rss",
+      "name": "Food Navigator Africa",
+      "icon": "FaUtensils",
+      "category": "agriculture",
+      "defaultEnabled": true,
+      "searchTerms": ["cashew"]
+    },
+    {
+      "url": "https://www.agenceecofin.com/feed/",
+      "name": "Agence Ecofin",
+      "icon": "FaLeaf",
+      "category": "agriculture",
+      "searchTerms": ["cajou", "Côte d'Ivoire"]
+    },
+    {
+      "url": "https://www.aljazeera.net/aljazeeramobile/rss/eco",
+      "name": "Al Jazeera Economy",
+      "icon": "FaGlobe",
+      "category": "arabic",
+      "searchTerms": ["كاجو", "ساحل العاج"]
+    }
+  ],
+  "prioritizedSources": [
+    "Al Bayan Economy",
+    "CommodAfrica",
+    "Connection Ivoirienne",
+    "Abidjan.net Actualités"
+  ],
+  "defaultLimit": 20,
+  "fallbackKeywords": [
+    "cashew",
+    "noix de cajou",
+    "anacarde",
+    "ivory coast",
+    "côte d'ivoire",
+    "كاجو",
+    "ساحل العاج"
+  ],
+  "fallbackMessage": "No recent articles found. Check back later for updates on African cashew industry."
+}
