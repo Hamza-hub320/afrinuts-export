@@ -21,7 +21,7 @@
     "newsletter": {
       "title": "Restez informé",
       "description": "Recevez chaque mois des insights sur les marchés africains du cajou",
-      "emailPlaceholder": "Votre adresse email",
+      "placeholder": "Votre adresse email",
       "subscribe": "S'abonner"
     }
   },

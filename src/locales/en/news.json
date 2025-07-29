@@ -19,9 +19,9 @@
     "afrinutsUpdates": "AfriNuts News",
     "industryNews": "Cashew Industry Updates",
     "newsletter": {
-      "title": "Stay Updated",
-      "description": "Get monthly insights on African cashew markets",
-      "emailPlaceholder": "Your email address",
+      "title": "Subscribe to Our Agri-News Digest",
+      "description": "Monthly updates...",
+      "placeholder": "Your email address",
       "subscribe": "Subscribe"
     }
   },
