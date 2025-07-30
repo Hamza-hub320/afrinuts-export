@@ -316,7 +316,7 @@ const News: React.FC = () => {
         >
             <Typography variant="h3" className="flex items-center gap-2 mb-6">
                 <FaBullhorn className="text-accent" />
-                {t('afrinutsUpdates')}
+                {t('sections.afrinutsUpdates')}
             </Typography>
 
             {filteredUpdates.length === 0 ? (
@@ -368,7 +368,7 @@ const News: React.FC = () => {
         >
             <Typography variant="h3" className="flex items-center gap-2 mb-6">
                 <FaGlobe className="text-accent" />
-                {t('industryNews')}
+                {t('sections.industryNews')}
             </Typography>
 
             {filteredArticles.length === 0 ? (
@@ -452,11 +452,11 @@ const News: React.FC = () => {
                         variants={fadeIn}
                         style={{ letterSpacing: '-0.03em' }}
                     >
-                        {t('title')}
+                        {t('hero.title')}
                     </motion.h1>
                     <motion.div variants={fadeIn}>
                         <Typography variant="subtitle" className="text-primary/90">
-                            {t('subtitle')}
+                            {t('hero.subtitle')}
                         </Typography>
                     </motion.div>
                 </motion.div>
@@ -506,7 +506,7 @@ const News: React.FC = () => {
                         {activeTab !== 'afrinuts' && (
                             <div className="flex flex-wrap gap-2 items-center">
                             <span className="text-sm font-medium text-gray-700">
-                              {t('filterBy')}:
+                            {t('filters.title')}
                             </span>
                                 {filters.map(filter => (
                                     <button
@@ -598,15 +598,15 @@ const News: React.FC = () => {
                         variants={staggerContainer}
                     >
                         <Typography variant="h2" className="mb-6">
-                            {t('newsletter.title')}
+                            {t('sections.newsletter.title')}
                         </Typography>
                         <Typography variant="body" className="mb-6 max-w-3xl mx-auto">
-                            {t('newsletter.description')}
+                            {t('sections.newsletter.description')}
                         </Typography>
                         <motion.div variants={fadeIn} className="flex flex-col sm:flex-row gap-2 max-w-md mx-auto">
                             <input
                                 type="email"
-                                placeholder={t('newsletter.placeholder')}
+                                placeholder={t('sections.newsletter.placeholder')}
                                 className="flex-grow px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-accent"
                             />
                             <button className="bg-primary hover:bg-dark-orange text-white px-6 py-2 rounded-full transition-colors">

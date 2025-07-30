@@ -362,7 +362,7 @@ const Home: React.FC = () => {
 
             {/* 6. News & Updates */}
             <Suspense fallback={<div>{t('loading.news')}</div>}>
-                <Section className="py-16 bg-gradient-to-b from-white to-primary/5">
+                <Section className="py-16 bg-gradient-to-b">
                     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                         <motion.div
                             className="text-center mb-12"
@@ -393,7 +393,7 @@ const Home: React.FC = () => {
                                     <motion.div
                                         key={update.id}
                                         variants={index % 2 === 0 ? slideInFromLeft : slideInFromRight}
-                                        className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 border border-gray-100"
+                                        className="bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl p-8 text-center border-2 border-primary/20 hover:border-accent/30 shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
                                     >
                                         <div className="h-48 overflow-hidden">
                                             {update.id === 'update-2024-001' ? (
