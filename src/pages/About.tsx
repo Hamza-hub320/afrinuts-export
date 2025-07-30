@@ -138,7 +138,7 @@ const About: React.FC = () => {
                 >
                   <ProfileCard
                       image={cfoImage}
-                      name="Sekou Hakim Petter"
+                      name="Sekou Hakim Peters"
                       position={t('cfo.position', { defaultValue: "Co-founder & CFO" })}
                       message={cfoMessage}
                       signature={t('cfo.signature')}

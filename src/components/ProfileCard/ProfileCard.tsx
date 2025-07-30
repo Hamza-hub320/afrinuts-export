@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline';
+import {t} from "i18next";
+import {useTranslation} from "react-i18next";
 
 interface ProfileCardProps {
     image: string;
@@ -28,6 +30,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                                                         }) => {
     const [expanded, setExpanded] = useState(false);
     const shouldTruncate = expandable && message.length > 1;
+    const { t } = useTranslation('about');
 
     // Variant colors
     const variantColors = {
@@ -102,12 +105,12 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                 >
                     {expanded ? (
                         <>
-                            Read Less
+                        {t('cfo.readLess')}
                             <ChevronUpIcon className="ml-1 h-4 w-4" />
                         </>
                     ) : (
                         <>
-                            Read More
+                        {t('cfo.readMore')}
                             <ChevronDownIcon className="ml-1 h-4 w-4" />
                         </>
                     )}
