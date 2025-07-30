@@ -347,7 +347,7 @@ const Home: React.FC = () => {
                                     <motion.button
                                         whileHover={{ scale: 1.05 }}
                                         whileTap={{ scale: 0.95 }}
-                                        className="group bg-backgroundborder-2 border-accent text-primary hover:bg-dark-orange hover:text-white px-6 py-2 md:px-8 md:py-3 rounded-full transition-all duration-300 inline-flex items-center text-sm md:text-base"
+                                        className="group border-2 border-primary text-primary hover:bg-accent hover:text-white hover:border-accent px-6 py-2 md:px-8 md:py-3 rounded-full transition-all duration-300 inline-flex items-center text-sm md:text-base"
                                         onClick={() => navigate('/sustainability')}
                                     >
                                         {t('sustainability.ctaButton')}
