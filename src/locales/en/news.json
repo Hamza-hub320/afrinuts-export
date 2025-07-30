@@ -13,7 +13,9 @@
     "cashew": "Cashew",
     "agriculture": "Agriculture",
     "ivoryCoast": "Ivory Coast",
-    "sustainability": "Sustainability"
+    "sustainability": "Sustainability",
+    "trade": "Trade",
+    "searchPlaceholder": "Search news..."
   },
   "sections": {
     "afrinutsUpdates": "Our Updates",
@@ -29,9 +31,6 @@
     "readMore": "Read full update →",
     "postedBy": "Posted by {{author}} on {{date}}",
     "tags": "Tags:"
-  },
-  "search": {
-    "placeholder": "Search news..."
   },
   "emptyState": {
     "noResults": "No matching articles found",

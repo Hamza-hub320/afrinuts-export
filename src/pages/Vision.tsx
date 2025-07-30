@@ -51,7 +51,7 @@ const Vision: React.FC = () => {
             <Section
                 fullHeight={false}
                 bgImage={visionHeroImage}
-                className="flex items-end justify-start text-center min-h-[50vh] md:min-h-[90vh] pb-12 mx-6 sm:mx-12 lg:mx-24 mt-32 pt-20 rounded-[2rem] shadow-2xl overflow-hidden border border-white/40"
+                className="flex items-end justify-start text-center min-h-[50vh] md:min-h-[50vh] pb-12 mx-6 sm:mx-12 lg:mx-24 mt-32 pt-20 rounded-[2rem] shadow-2xl overflow-hidden border border-white/40"
             >
                 <motion.div
                     className="max-w-2xl px-8 sm:px-12 py-10 bg-white/75 backdrop-blur-xs rounded-xl"

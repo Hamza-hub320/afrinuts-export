@@ -58,6 +58,16 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             }}
         >
 
+            {/* Outer glow */}
+            <div className="
+        absolute -inset-[2px] rounded-xl
+        opacity-0 group-hover:opacity-100
+        transition-opacity duration-300
+        pointer-events-none
+        shadow-glow-accent-md
+        z-0
+      "></div>
+
 
             {/* Main content */}
             <div className="relative z-10 h-full flex flex-col bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 transition-all duration-300 rounded-xl overflow-hidden">

@@ -13,6 +13,7 @@ import signingImage from '@/assets/images/partnership-signing.webp';
 import afrinutsUpdatesData from '@/data/afrinutsUpdates.json';
 import newsConfig from '@/data/newsConfig.json';
 import newsFeeds from '@/data/newsFeeds.json';
+import newsImage from "@/assets/images/news.webp";
 
 interface RSSItem {
     title: string;
@@ -306,6 +307,9 @@ const News: React.FC = () => {
         }
     };
 
+    // State to track which update is expanded
+    const [expandedUpdateId, setExpandedUpdateId] = useState<string | null>(null);
+
     const renderAfriNutsUpdates = () => (
         <motion.div
             initial="hidden"
@@ -331,25 +335,59 @@ const News: React.FC = () => {
                             variants={fadeIn}
                             transition={{ delay: index * 0.1 }}
                         >
-                            <div
-                                onClick={() => setSelectedUpdate(update)}
-                                className="cursor-pointer block bg-white rounded-xl shadow-md hover:shadow-lg transition-all border-l-4 border-accent p-6 h-full"
-                            >
-                                <Typography variant="h4" className="mb-2 text-primary">
-                                    {update.translationKeys?.title ? t(update.translationKeys.title) : update.title}
-                                </Typography>
-                                <Typography variant="body" className="text-gray-600 mb-3">
-                                    {update.translationKeys?.excerpt ? t(update.translationKeys.excerpt) : update.excerpt}
-                                </Typography>
-                                <div className="flex justify-between items-center mt-4">
-                                    <Typography variant="caption" className="text-gray-400">
-                                        {update.author || "AfriNuts"}
-                                    </Typography>
-                                    <Typography variant="caption" className="text-gray-400">
-                                        {new Date(update.date).toLocaleDateString()}
-                                    </Typography>
-                                </div>
+                          <div className="bg-white rounded-xl shadow-md hover:shadow-lg transition-all border-l-4 border-accent p-6 h-full flex flex-col">
+                              <div className="h-48 overflow-hidden mb-4">
+                                {update.id === 'update-2024-001' ? (
+                                  <img
+                                    src={landClearingImage}
+                                    alt="Land Clearing"
+                                    className="w-full h-full object-cover"
+                                    loading="lazy"
+                                  />
+                                ) : update.id === 'update-2024-002' ? (
+                                  <img
+                                    src={signingImage}
+                                    alt="Partnership Signing"
+                                    className="w-full h-full object-cover"
+                                    loading="lazy"
+                                  />
+                                ) : (
+                                  <img
+                                    src={update.image || newsImage}
+                                    alt={update.title}
+                                    className="w-full h-full object-cover"
+                                    loading="lazy"
+                                  />
+                                )}
+                              </div>
+                            <Typography variant="h4" className="mb-2 text-primary">
+                              {update.translationKeys?.title ? t(update.translationKeys.title) : update.title}
+                            </Typography>
+                            <Typography variant="body" className="text-gray-600 mb-3">
+                              {update.translationKeys?.excerpt ? t(update.translationKeys.excerpt) : update.excerpt}
+                            </Typography>
+                            {expandedUpdateId === update.id && (
+                              <Typography variant="body" className="text-gray-700 mb-3">
+                                {update.content}
+                              </Typography>
+                            )}
+                            <div className="flex justify-between items-center mt-auto">
+                              <Typography variant="caption" className="text-gray-400">
+                                {update.author || "AfriNuts"}
+                              </Typography>
+                              <Typography variant="caption" className="text-gray-400">
+                                {new Date(update.date).toLocaleDateString()}
+                              </Typography>
                             </div>
+                            <button
+                              onClick={() =>
+                                setExpandedUpdateId(expandedUpdateId === update.id ? null : update.id)
+                              }
+                              className="mt-4 text-accent hover:underline text-sm self-start"
+                            >
+                              {expandedUpdateId === update.id ? 'Show less' : 'Read more'}
+                            </button>
+                          </div>
                         </motion.div>
                     ))}
                 </div>
@@ -397,11 +435,9 @@ const News: React.FC = () => {
                             variants={fadeIn}
                             transition={{ delay: index * 0.1 }}
                         >
-                            <a
-                                href={article.link}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="block bg-white rounded-xl shadow-md hover:shadow-lg transition-all border-l-4 border-accent p-6 h-full"
+                            <div
+                                onClick={() => setSelectedArticle(article)}
+                                className="cursor-pointer block bg-white rounded-xl shadow-md hover:shadow-lg transition-all border-l-4 border-accent p-6 h-full"
                             >
                                 <Typography variant="h4" className="mb-2 text-primary">
                                     {article.title}
@@ -417,7 +453,7 @@ const News: React.FC = () => {
                                         {article.pubDate && new Date(article.pubDate).toLocaleDateString()}
                                     </Typography>
                                 </div>
-                            </a>
+                            </div>
                         </motion.div>
                     ))}
                 </div>
@@ -439,7 +475,7 @@ const News: React.FC = () => {
             <Section
                 fullHeight={false}
                 bgImage={newsHeroImage}
-                className="flex items-end justify-start text-center min-h-[50vh] md:min-h-[60vh] pb-12 mx-6 sm:mx-12 lg:mx-24 mt-32 pt-20 rounded-[2rem] shadow-2xl overflow-hidden border border-white/40"
+                className="flex items-end justify-start text-center min-h-[50vh] md:min-h-[50vh] pb-12 mx-6 sm:mx-12 lg:mx-24 mt-32 pt-20 rounded-[2rem] shadow-2xl overflow-hidden border border-white/40"
             >
                 <motion.div
                     className="max-w-2xl px-8 sm:px-12 py-10 bg-white/75 backdrop-blur-xs rounded-xl border-2 border-primary/20 hover:border-accent/30 transition-all duration-300"
@@ -494,7 +530,7 @@ const News: React.FC = () => {
                             <div className="relative w-full md:w-64">
                                 <input
                                     type="text"
-                                    placeholder={t('searchPlaceholder')}
+                                    placeholder={t('filters.searchPlaceholder')}
                                     className="w-full pl-10 pr-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
