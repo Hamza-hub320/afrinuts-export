@@ -19,6 +19,8 @@
   "sections": {
     "afrinutsUpdates": "Actualités AfriNuts",
     "industryNews": "Nouvelles du secteur du cajou",
+    "readMore": "Lire plus",
+    "readLess": "Lire moins",
     "newsletter": {
       "title": "Restez informé",
       "description": "Recevez chaque mois des insights sur les marchés africains du cajou",

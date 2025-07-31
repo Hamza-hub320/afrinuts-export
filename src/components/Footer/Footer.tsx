@@ -157,7 +157,7 @@ const Footer = () => {
               <p className="text-sm mb-4">
                 {t('newsletter.description')}
               </p>
-              <form className="space-y-3">
+              <form className="space-y-2">
                   <label htmlFor="newsletter-email-mobile" className="sr-only">
                     {t('newsletter.label')}
                   </label>
@@ -170,7 +170,7 @@ const Footer = () => {
                   />
                 <motion.button
                     type="submit"
-                    className="w-full px-4 py-2 bg-primary hover:bg-dark-orange text-white rounded font-medium"
+                    className="w-full px-4 py-2 bg-primary hover:bg-dark-orange text-white rounded-full font-medium"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                 >

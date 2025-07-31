@@ -328,66 +328,78 @@ const News: React.FC = () => {
                     {t('noUpdatesFound')}
                 </Typography>
             ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="flex flex-col items-center gap-8">
                     {filteredUpdates.map((update, index) => (
                         <motion.div
                             key={update.id}
                             variants={fadeIn}
                             transition={{ delay: index * 0.1 }}
+                            className="w-full max-w-2xl"
                         >
-                          <div className="bg-white rounded-xl shadow-md hover:shadow-lg transition-all border-l-4 border-accent p-6 h-full flex flex-col">
-                              <div className="h-48 overflow-hidden mb-4">
-                                {update.id === 'update-2024-001' ? (
-                                  <img
-                                    src={landClearingImage}
-                                    alt="Land Clearing"
-                                    className="w-full h-full object-cover"
-                                    loading="lazy"
-                                  />
-                                ) : update.id === 'update-2024-002' ? (
-                                  <img
-                                    src={signingImage}
-                                    alt="Partnership Signing"
-                                    className="w-full h-full object-cover"
-                                    loading="lazy"
-                                  />
-                                ) : (
-                                  <img
-                                    src={update.image || newsImage}
-                                    alt={update.title}
-                                    className="w-full h-full object-cover"
-                                    loading="lazy"
-                                  />
+                            <div className="bg-white rounded-xl shadow-md hover:shadow-lg transition-all border-l-4 border-accent p-6">
+                                <div className="h-64 overflow-hidden mb-4 rounded-lg"> {/* Increased height for better image display */}
+                                    {update.id === 'update-2024-001' ? (
+                                        <img
+                                            src={landClearingImage}
+                                            alt="Land Clearing"
+                                            className="w-full h-full object-cover"
+                                            loading="lazy"
+                                        />
+                                    ) : update.id === 'update-2024-002' ? (
+                                        <img
+                                            src={signingImage}
+                                            alt="Partnership Signing"
+                                            className="w-full h-full object-cover"
+                                            loading="lazy"
+                                        />
+                                    ) : (
+                                        <img
+                                            src={update.image || newsImage}
+                                            alt={update.title}
+                                            className="w-full h-full object-cover"
+                                            loading="lazy"
+                                        />
+                                    )}
+                                </div>
+
+                                <div className="prose max-w-none">
+                                <Typography variant="h4" className="mb-3 text-primary">
+                                    {update.translationKeys?.title ? t(update.translationKeys.title) : update.title}
+                                </Typography>
+
+                                {/* Paragraph-formatted excerpt */}
+                                <Typography variant="body" className="text-gray-600 mb-4 whitespace-pre-line">
+                                    {update.translationKeys?.excerpt ? t(update.translationKeys.excerpt) : update.excerpt}
+                                </Typography>
+
+                                {/* Expanded content with proper paragraph formatting */}
+                                {expandedUpdateId === update.id && (
+                                    <div className="space-y-4 mb-4">
+                                        {update.content.split('\n').map((paragraph, i) => (
+                                            <Typography key={i} variant="body" className="text-gray-700">
+                                                {paragraph}
+                                            </Typography>
+                                        ))}
+                                    </div>
                                 )}
-                              </div>
-                            <Typography variant="h4" className="mb-2 text-primary">
-                              {update.translationKeys?.title ? t(update.translationKeys.title) : update.title}
-                            </Typography>
-                            <Typography variant="body" className="text-gray-600 mb-3">
-                              {update.translationKeys?.excerpt ? t(update.translationKeys.excerpt) : update.excerpt}
-                            </Typography>
-                            {expandedUpdateId === update.id && (
-                              <Typography variant="body" className="text-gray-700 mb-3">
-                                {update.content}
-                              </Typography>
-                            )}
-                            <div className="flex justify-between items-center mt-auto">
-                              <Typography variant="caption" className="text-gray-400">
-                                {update.author || "AfriNuts"}
-                              </Typography>
-                              <Typography variant="caption" className="text-gray-400">
-                                {new Date(update.date).toLocaleDateString()}
-                              </Typography>
+                                </div>
+
+                                <div className="flex justify-between items-center mt-4">
+                                    <Typography variant="caption" className="text-gray-400">
+                                        {update.author || "AfriNuts"}
+                                    </Typography>
+                                    <Typography variant="caption" className="text-gray-400">
+                                        {new Date(update.date).toLocaleDateString()}
+                                    </Typography>
+                                </div>
+
+                                <button
+                                    onClick={() => setExpandedUpdateId(expandedUpdateId === update.id ? null : update.id)}
+                                    className="mt-4 text-accent hover:underline text-sm"
+                                >
+                                    {expandedUpdateId === update.id ? t('sections.showLess') : t('sections.readMore')}
+                                </button>
                             </div>
-                            <button
-                              onClick={() =>
-                                setExpandedUpdateId(expandedUpdateId === update.id ? null : update.id)
-                              }
-                              className="mt-4 text-accent hover:underline text-sm self-start"
-                            >
-                              {expandedUpdateId === update.id ? 'Show less' : 'Read more'}
-                            </button>
-                          </div>
                         </motion.div>
                     ))}
                 </div>
@@ -412,10 +424,10 @@ const News: React.FC = () => {
             {filteredArticles.length === 0 ? (
                 <div className="text-center py-10">
                     <Typography variant="h4" className="text-gray-500 mb-4">
-                        {t('noArticles.title')}
+                        {t('emptyState.noArticles.title')}
                     </Typography>
                     <Typography variant="body" className="mb-6">
-                        {t('noArticles.description')}
+                        {t('emptyState.noArticles.description')}
                     </Typography>
                     <button
                         onClick={() => {
@@ -424,7 +436,7 @@ const News: React.FC = () => {
                         }}
                         className="text-accent hover:underline"
                     >
-                        {t('noArticles.resetFilters')}
+                        {t('emptyState.noArticles.resetFilters')}
                     </button>
                 </div>
             ) : (
@@ -646,7 +658,7 @@ const News: React.FC = () => {
                                 className="flex-grow px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-accent"
                             />
                             <button className="bg-primary hover:bg-dark-orange text-white px-6 py-2 rounded-full transition-colors">
-                                {t('subscribe')}
+                                {t('sections.newsletter.subscribe')}
                             </button>
                         </motion.div>
                     </motion.div>

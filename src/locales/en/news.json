@@ -20,6 +20,8 @@
   "sections": {
     "afrinutsUpdates": "Our Updates",
     "industryNews": "Industry News",
+    "readMore": "Read More",
+    "readLess": "Read Less",
     "newsletter": {
       "title": "Subscribe to Our Agri-News Digest",
       "description": "Monthly updates...",
@@ -34,6 +36,11 @@
   },
   "emptyState": {
     "noResults": "No matching articles found",
-    "loading": "Loading news..."
+    "loading": "Loading news...",
+    "noArticles": {
+      "title": "No Articles Found",
+      "description": "We couldn't find any news articles matching your current filters.",
+      "resetFilters": "Reset Filters"
+    }
   }
 }
