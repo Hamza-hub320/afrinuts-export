@@ -10,7 +10,29 @@
     "subject": "الموضوع*",
     "message": "رسالتك*",
     "submit": "إرسال الاستفسار",
-    "sending": "جاري معالجة طلبك..."
+    "sending": "جاري معالجة طلبك...",
+    "requestType": "نوع الطلب",
+    "productInterest": "المنتج المطلوب",
+    "productInterestPlaceholder": "اختر منتجًا",
+    "productInterestOptions": {
+      "rawCashew": "كاجو خام",
+      "organicCashew": "كاجو عضوي",
+      "roasted": "كاجو محمص",
+      "customOrder": "طلب مخصص"
+    },
+    "quantity": "الكمية (كجم أو أطنان)",
+    "shipping": "تفضيل الشحن",
+    "shippingPlaceholder": "اختر طريقة الشحن",
+    "shippingOptions": {
+      "cif": "CIF (التكلفة والتأمين وأجرة الشحن)",
+      "fob": "FOB (التسليم على ظهر السفينة)",
+      "exw": "EXW (التسليم في المصنع)"
+    },
+    "requestTypes": {
+      "information": "طلب معلومات",
+      "quote": "طلب عرض سعر",
+      "proposal": "طلب عرض تقديمي"
+    }
   },
   "info": {
     "title": "المقر الرئيسي للشركة",
@@ -43,7 +65,8 @@
     "subject": "الرجاء تحديد موضوع الاستفسار",
     "message": "الرجاء إدراج رسالة مفصلة",
     "fileSize": "تم تجاوز الحد الأقصى لحجم الملف (5 ميغابايت كحد أقصى)",
-    "submit": "حدث خطأ. الرجاء مراسلتنا مباشرة على contact@afrinutsexport.com"
+    "submit": "حدث خطأ. الرجاء مراسلتنا مباشرة على contact@afrinutsexport.com",
+    "requestType": "الرجاء اختيار نوع الطلب"
   },
   "weather": {
     "currentWeather": "حالة الطقس الحالية في {{location}}",

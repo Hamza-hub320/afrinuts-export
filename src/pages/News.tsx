@@ -325,7 +325,7 @@ const News: React.FC = () => {
 
             {filteredUpdates.length === 0 ? (
                 <Typography variant="body" className="text-center py-10 text-gray-500">
-                    {t('noUpdatesFound')}
+                    {t('sections.noUpdatesFound')}
                 </Typography>
             ) : (
                 <div className="flex flex-col items-center gap-8">
@@ -363,25 +363,25 @@ const News: React.FC = () => {
                                 </div>
 
                                 <div className="prose max-w-none">
-                                <Typography variant="h4" className="mb-3 text-primary">
-                                    {update.translationKeys?.title ? t(update.translationKeys.title) : update.title}
-                                </Typography>
+                                    <Typography variant="h4" className="mb-3 text-primary">
+                                        {update.translationKeys?.title ? t(update.translationKeys.title) : update.title}
+                                    </Typography>
 
-                                {/* Paragraph-formatted excerpt */}
-                                <Typography variant="body" className="text-gray-600 mb-4 whitespace-pre-line">
-                                    {update.translationKeys?.excerpt ? t(update.translationKeys.excerpt) : update.excerpt}
-                                </Typography>
+                                    {/* Paragraph-formatted excerpt */}
+                                    <Typography variant="body" className="text-gray-600 mb-4 whitespace-pre-line">
+                                        {update.translationKeys?.excerpt ? t(update.translationKeys.excerpt) : update.excerpt}
+                                    </Typography>
 
-                                {/* Expanded content with proper paragraph formatting */}
-                                {expandedUpdateId === update.id && (
-                                    <div className="space-y-4 mb-4">
-                                        {update.content.split('\n').map((paragraph, i) => (
-                                            <Typography key={i} variant="body" className="text-gray-700">
-                                                {paragraph}
-                                            </Typography>
-                                        ))}
-                                    </div>
-                                )}
+                                    {/* Expanded content with proper paragraph formatting */}
+                                    {expandedUpdateId === update.id && (
+                                        <div className="space-y-4 mb-4">
+                                            {update.content.split('\n').map((paragraph, i) => (
+                                                <Typography key={i} variant="body" className="text-gray-700">
+                                                    {paragraph}
+                                                </Typography>
+                                            ))}
+                                        </div>
+                                    )}
                                 </div>
 
                                 <div className="flex justify-between items-center mt-4">

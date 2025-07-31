@@ -10,8 +10,30 @@
     "subject": "Subject*",
     "message": "Your Message*",
     "submit": "Submit Inquiry",
-    "sending": "Processing Your Request..."
-  },
+    "sending": "Processing Your Request...",
+    "requestType": "Request Type",
+    "productInterest": "Product Interest",
+    "productInterestPlaceholder": "Select a product",
+    "productInterestOptions": {
+      "rawCashew": "Raw Cashew Nuts",
+      "organicCashew": "Organic Cashew Nuts",
+      "roasted": "Roasted Cashew",
+      "customOrder": "Custom Order"
+    },
+    "quantity": "Quantity (kg or tons)",
+    "shipping": "Shipping Preference",
+    "shippingPlaceholder": "Select preference",
+    "shippingOptions": {
+      "cif": "CIF (Cost, Insurance, and Freight)",
+      "fob": "FOB (Free on Board)",
+      "exw": "EXW (Ex Works)"
+    },
+    "requestTypes": {
+      "information": "Request for Information",
+      "quote": "Request for Quote",
+      "proposal": "Request for Proposal"
+    }
+},
   "info": {
     "title": "Corporate Headquarters",
     "headquarters": "AfriNuts Headquarters",
@@ -43,7 +65,8 @@
     "subject": "Please specify the subject of your inquiry",
     "message": "Please include a detailed message",
     "fileSize": "Maximum file size exceeded (5MB limit)",
-    "submit": "We encountered an error. Please email us directly at contact@afrinutsexport.com"
+    "submit": "We encountered an error. Please email us directly at contact@afrinutsexport.com",
+    "requestType": "Please select a request type"
   },
   "weather": {
     "currentWeather": "Current weather in {{location}}",

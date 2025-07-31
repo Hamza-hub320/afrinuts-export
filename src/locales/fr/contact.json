@@ -10,7 +10,29 @@
     "subject": "Sujet*",
     "message": "Votre message*",
     "submit": "Envoyer la demande",
-    "sending": "Traitement de votre demande..."
+    "sending": "Traitement de votre demande...",
+    "requestType": "Type de demande",
+    "productInterest": "Produit concerné",
+    "productInterestPlaceholder": "Sélectionnez un produit",
+    "productInterestOptions": {
+      "rawCashew": "Noix de cajou brutes",
+      "organicCashew": "Noix de cajou biologiques",
+      "roasted": "Noix de cajou grillées",
+      "customOrder": "Commande personnalisée"
+    },
+    "quantity": "Quantité (kg ou tonnes)",
+    "shipping": "Préférence d'expédition",
+    "shippingPlaceholder": "Sélectionnez une option",
+    "shippingOptions": {
+      "cif": "CIF (Coût, Assurance et Fret)",
+      "fob": "FOB (Franco à bord)",
+      "exw": "EXW (Sortie d'usine)"
+    },
+    "requestTypes": {
+      "information": "Demande d'information",
+      "quote": "Demande de devis",
+      "proposal": "Demande de proposition"
+    }
   },
   "info": {
     "title": "Siège social",
@@ -43,7 +65,8 @@
     "subject": "Veuillez spécifier l'objet de votre demande",
     "message": "Veuillez inclure un message détaillé",
     "fileSize": "Taille maximale du fichier dépassée (limite de 5MB)",
-    "submit": "Une erreur est survenue. Veuillez nous contacter directement à contact@afrinutsexport.com"
+    "submit": "Une erreur est survenue. Veuillez nous contacter directement à contact@afrinutsexport.com",
+    "requestType": "Veuillez sélectionner un type de demande"
   },
   "weather": {
     "currentWeather": "Météo actuelle à {{location}}",

@@ -12,13 +12,18 @@ import { Typography } from "@/components/Typography/Typography";
 interface FormData {
   name: string;
   email: string;
+  requestType: string;
   subject: string;
   message: string;
+  productInterest?: string;
+  quantity?: string;
+  shipping?: string;
 }
 
 interface FormErrors {
   name?: string;
   email?: string;
+  requestType?: string;
   subject?: string;
   message?: string;
   submit?: string;
@@ -31,8 +36,12 @@ const Contact: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
+    requestType: 'information',
     subject: '',
-    message: ''
+    message: '',
+    productInterest: '',
+    quantity: '',
+    shipping: ''
   });
 
   const [errors, setErrors] = useState<FormErrors>({});
@@ -47,12 +56,13 @@ const Contact: React.FC = () => {
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       newErrors.email = t('errors.emailInvalid');
     }
+    if (!formData.requestType.trim()) newErrors.requestType = t('errors.requestType');
     if (!formData.subject.trim()) newErrors.subject = t('errors.subject');
     if (!formData.message.trim()) newErrors.message = t('errors.message');
     return newErrors;
   };
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     if (errors[name as keyof FormErrors]) {
@@ -72,7 +82,6 @@ const Contact: React.FC = () => {
 
     try {
       emailjs.init("BuIYx9hnXwuMJjbhE");
-      console.log("Form ref:", formRef.current);
       const response = await emailjs.sendForm(
           'service_qftryeh',
           'template_fktuno4',
@@ -80,11 +89,18 @@ const Contact: React.FC = () => {
           'BuIYx9hnXwuMJjbhE'
       );
 
-      console.log("EmailJS response:", response.text);
-
       if (response.status === 200) {
         setShowSuccess(true);
-        setFormData({ name: '', email: '', subject: '', message: '' });
+        setFormData({
+          name: '',
+          email: '',
+          requestType: 'information',
+          subject: '',
+          message: '',
+          productInterest: '',
+          quantity: '',
+          shipping: ''
+        });
       } else {
         throw new Error(`Unexpected status ${response.status}`);
       }
@@ -197,6 +213,79 @@ const Contact: React.FC = () => {
                 {errors.email && <Typography variant="small" className="text-red-500 mt-1">{errors.email}</Typography>}
               </div>
 
+              {/* Request Type Field */}
+              <div>
+                <label htmlFor="requestType" className="block mb-2">
+                  <Typography variant="h5">{t('form.requestType')}</Typography>
+                </label>
+                <select
+                    id="requestType"
+                    name="requestType"
+                    value={formData.requestType}
+                    onChange={handleChange}
+                    className={`w-full p-3 rounded-lg border ${errors.requestType ? 'border-red-500' : 'border-warm-grey'} focus:outline-none focus:ring-2 focus:ring-accent bg-white`}
+                >
+                  <option value="information">{t('form.requestTypes.information')}</option>
+                  <option value="quote">{t('form.requestTypes.quote')}</option>
+                  <option value="proposal">{t('form.requestTypes.proposal')}</option>
+                </select>
+                {errors.requestType && <Typography variant="small" className="text-red-500 mt-1">{errors.requestType}</Typography>}
+              </div>
+
+              {/* Product Interest Field */}
+              <div>
+                <label htmlFor="productInterest" className="block mb-2">
+                  <Typography variant="h5">{t('form.productInterest')}</Typography>
+                </label>
+                <select
+                    id="productInterest"
+                    name="productInterest"
+                    value={formData.productInterest}
+                    onChange={handleChange}
+                    className="w-full p-3 rounded-lg border border-warm-grey focus:outline-none focus:ring-2 focus:ring-accent bg-white"
+                >
+                  <option value="">{t('form.productInterestPlaceholder')}</option>
+                  <option value="raw-cashew">{t('form.productInterestOptions.rawCashew')}</option>
+                  <option value="organic-cashew">{t('form.productInterestOptions.organicCashew')}</option>
+                  <option value="roasted">{t('form.productInterestOptions.roasted')}</option>
+                  <option value="custom-order">{t('form.productInterestOptions.customOrder')}</option>
+                </select>
+              </div>
+
+              {/* Quantity Field */}
+              <div>
+                <label htmlFor="quantity" className="block mb-2">
+                  <Typography variant="h5">{t('form.quantity')}</Typography>
+                </label>
+                <input
+                    type="text"
+                    id="quantity"
+                    name="quantity"
+                    value={formData.quantity}
+                    onChange={handleChange}
+                    className="w-full p-3 rounded-lg border border-warm-grey focus:outline-none focus:ring-2 focus:ring-accent"
+                />
+              </div>
+
+              {/* Shipping Preference */}
+              <div>
+                <label htmlFor="shipping" className="block mb-2">
+                  <Typography variant="h5">{t('form.shipping')}</Typography>
+                </label>
+                <select
+                    id="shipping"
+                    name="shipping"
+                    value={formData.shipping}
+                    onChange={handleChange}
+                    className="w-full p-3 rounded-lg border border-warm-grey focus:outline-none focus:ring-2 focus:ring-accent bg-white"
+                >
+                  <option value="">{t('form.shippingPlaceholder')}</option>
+                  <option value="cif">{t('form.shippingOptions.cif')}</option>
+                  <option value="fob">{t('form.shippingOptions.fob')}</option>
+                  <option value="exw">{t('form.shippingOptions.exw')}</option>
+                </select>
+              </div>
+
               {/* Subject Field */}
               <div>
                 <label htmlFor="subject" className="block mb-2">
@@ -233,6 +322,33 @@ const Contact: React.FC = () => {
 
               <input type="hidden" name="from_name" value={formData.name} />
               <input type="hidden" name="from_email" value={formData.email} />
+              <input type="hidden" name="product_interest" value={formData.productInterest || ''} />
+              {/* New hidden input for date_created */}
+              <input type="hidden" name="date_created" value={new Date().toLocaleString()} />
+              {/* New hidden input for email_color */}
+              <input
+                type="hidden"
+                name="email_color"
+                value={
+                  formData.requestType === 'information'
+                    ? '#00869D'
+                    : formData.requestType === 'quote'
+                    ? '#A0C800'
+                    : '#E04E00'
+                }
+              />
+              {/* New hidden input for badge_class */}
+              <input
+                type="hidden"
+                name="badge_class"
+                value={
+                  formData.requestType === 'information'
+                    ? 'request-information'
+                    : formData.requestType === 'quote'
+                    ? 'request-quote'
+                    : 'request-proposal'
+                }
+              />
 
               <button
                   type="submit"
