@@ -451,7 +451,7 @@ const News: React.FC = () => {
                                 onClick={() => setSelectedArticle(article)}
                                 className="cursor-pointer block bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl border-2 border-primary/20 hover:border-accent/30 shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 border-l-4 border-accent p-6 h-full"
                             >
-                                <Typography variant="h4" className="mb-2 text-primary">
+                                <Typography variant="h4" className="mb-2 text-primary ">
                                     {article.title}
                                 </Typography>
                                 <Typography variant="body" className="text-gray-600 mb-3">
@@ -530,7 +530,7 @@ const News: React.FC = () => {
                                         className={`px-4 py-2 rounded-full flex items-center gap-2 ${
                                             activeTab === tab.id
                                                 ? 'bg-primary text-white'
-                                                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                                : 'bg-background text-gray-700 hover:bg-gray-200'
                                         } transition-colors`}
                                     >
                                         {React.createElement(FaNewspaper, { className: "text-lg" })}
@@ -601,7 +601,7 @@ const News: React.FC = () => {
                                         leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                                         leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                                     >
-                                        <Dialog.Panel className="relative w-full max-w-2xl transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all">
+                                        <Dialog.Panel className="relative w-full max-w-2xl transform overflow-hidden bg-background  rounded-3xl border-2 border-primary/20 hover:border-accent/30 hover:shadow-xl transition-shadow duration-300  text-left shadow-xl">
                                             <div className="p-6">
                                                 <Dialog.Title as="h3" className="text-lg font-semibold text-primary">
                                                     {selectedArticle?.title}

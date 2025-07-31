@@ -128,7 +128,7 @@ const Contact: React.FC = () => {
             className="flex items-end justify-start text-center min-h-[50vh] md:min-h-[50vh] pb-24 pr-16 mx-6 sm:mx-12 lg:mx-32 xl:mx-48 mt-32 pt-24 rounded-[2rem] shadow-2xl overflow-hidden border border-white/40"
         >
           <motion.div
-              className="max-w-2xl px-8 sm:px-12 py-10 bg-white/75 backdrop-blur-xs rounded-xl"
+              className="max-w-2xl px-8 sm:px-12 py-10 bg-white/75 backdrop-blur-xs rounded-xl border-2 border-primary/20 hover:border-accent/30 transition-all duration-300"
               initial="hidden"
               animate="visible"
               variants={staggerContainer}
@@ -236,7 +236,7 @@ const Contact: React.FC = () => {
 
               <button
                   type="submit"
-                  className="w-full bg-accent hover:bg-dark-orange text-white py-3 px-6 rounded-lg font-medium transition-colors duration-300 flex justify-center items-center gap-2"
+                  className="w-full bg-primary hover:bg-dark-orange text-white py-3 px-6 rounded-lg font-medium transition-colors duration-300 flex justify-center items-center gap-2"
                   disabled={isSubmitting}
               >
                 {isSubmitting ? (
@@ -327,7 +327,7 @@ const Contact: React.FC = () => {
             <Typography variant="h2" className="mb-4">
               {t('map.title')}
             </Typography>
-            <div className="mt-8 rounded-xl overflow-hidden shadow-xl">
+            <div className="mt-8 rounded-xl overflow-hidden shadow-xl border-2 border-primary/20 hover:border-accent/30 transition-all duration-300">
               <iframe
                   title={t('map.iframeTitle')}
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3979.802935760472!2d-7.56000008436827!3d9.508000090520535!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zOcKwMzAnMzAuOCJOIDfCsDMzJzM2LjEiVw!5e0!3m2!1sen!2sus!4v1712345678901"

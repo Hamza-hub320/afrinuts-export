@@ -81,7 +81,7 @@ const Home: React.FC = () => {
                 className="flex items-end justify-center text-center min-h-[60vh] sm:min-h-[80vh] pb-8 sm:pb-12 px-4 sm:px-8 mt-24 sm:mt-32 pt-12 sm:pt-16 rounded-[2rem] shadow-2xl overflow-hidden border border-white/40"
             >
               <motion.div
-                  className="max-w-2xl px-6 py-4 sm:py-6 bg-white/75 backdrop-blur-xs rounded-xl"
+                  className="max-w-2xl px-6 py-4 sm:py-6 bg-white/75 backdrop-blur-xs rounded-xl border-2 border-primary/20 hover:border-accent/30 transition-all duration-300"
                   initial="hidden"
                   animate="visible"
                   variants={staggerContainer}
