@@ -195,7 +195,7 @@ const Footer = () => {
                 </Link>
                 <button
                     onClick={() => setShowCookiePrefs(true)}
-                    className="bg-primary hover:bg-dark-orange text-white px-6 py-2 rounded-full transition-colors"
+                    className="text-sm hover:text-accent transition-colors"
                 >
                   {t('legal.cookie')}
                 </button>
