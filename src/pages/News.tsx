@@ -336,7 +336,7 @@ const News: React.FC = () => {
                             transition={{ delay: index * 0.1 }}
                             className="w-full max-w-2xl"
                         >
-                            <div className="bg-white rounded-xl shadow-md hover:shadow-lg transition-all border-l-4 border-accent p-6">
+                            <div className=" bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl border-2 border-primary/20 hover:border-accent/30 shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 border-l-4 border-accent p-6">
                                 <div className="h-64 overflow-hidden mb-4 rounded-lg"> {/* Increased height for better image display */}
                                     {update.id === 'update-2024-001' ? (
                                         <img
@@ -449,7 +449,7 @@ const News: React.FC = () => {
                         >
                             <div
                                 onClick={() => setSelectedArticle(article)}
-                                className="cursor-pointer block bg-white rounded-xl shadow-md hover:shadow-lg transition-all border-l-4 border-accent p-6 h-full"
+                                className="cursor-pointer block bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl border-2 border-primary/20 hover:border-accent/30 shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 border-l-4 border-accent p-6 h-full"
                             >
                                 <Typography variant="h4" className="mb-2 text-primary">
                                     {article.title}

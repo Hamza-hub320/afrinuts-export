@@ -61,11 +61,11 @@ const Footer = () => {
                     aria-label="Your email address"
                     placeholder={t('newsletter.placeholder')}
                     required
-                    className="w-full px-4 py-3 rounded-lg bg-white/10 placeholder-white/50 border border-white/20 focus:border-accent focus:ring-2 focus:ring-accent/30 outline-none transition"
+                    className="w-full px-4 py-3 rounded-full bg-white/10 placeholder-white/50 border border-white/20 focus:border-accent focus:ring-2 focus:ring-accent/30 outline-none transition"
                 />
                 <motion.button
                     type="submit"
-                    className="w-full px-6 py-3 bg-primary hover:bg-orange-800 text-white rounded-lg font-medium transition-colors duration-300 flex items-center justify-center"
+                    className="w-full px-6 py-3 bg-primary hover:bg-orange-800 text-white rounded-full font-medium transition-colors duration-300 flex items-center justify-center"
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     aria-label={t('newsletter.submitAriaLabel')}

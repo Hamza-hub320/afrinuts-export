@@ -393,9 +393,9 @@ const Home: React.FC = () => {
                                     <motion.div
                                         key={update.id}
                                         variants={index % 2 === 0 ? slideInFromLeft : slideInFromRight}
-                                        className="bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl p-8 text-center border-2 border-primary/20 hover:border-accent/30 shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
+                                        className="bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl p-8 border-2 border-primary/20 hover:border-accent/30 shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
                                     >
-                                        <div className="h-48 overflow-hidden">
+                                        <div className="h-48 overflow-hidden rounded-lg">
                                             {update.id === 'update-2024-001' ? (
                                                 <img
                                                     src={landClearingImage}
@@ -419,7 +419,7 @@ const Home: React.FC = () => {
                                                 />
                                             )}
                                         </div>
-                                        <div className="p-6">
+                                        <div className="p-6 text-left">
                                             <div className="flex items-center gap-2 mb-3">
                                                 <FaBullhorn className="text-accent" />
                                                 <span className="text-sm font-medium text-gray-500">
