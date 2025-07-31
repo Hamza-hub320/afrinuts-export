@@ -397,7 +397,7 @@ const News: React.FC = () => {
                                     onClick={() => setExpandedUpdateId(expandedUpdateId === update.id ? null : update.id)}
                                     className="mt-4 text-accent hover:underline text-sm"
                                 >
-                                    {expandedUpdateId === update.id ? t('sections.showLess') : t('sections.readMore')}
+                                    {expandedUpdateId === update.id ? t('sections.readLess') : t('sections.readMore')}
                                 </button>
                             </div>
                         </motion.div>
