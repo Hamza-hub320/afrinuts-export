@@ -7,7 +7,7 @@ interface InfoCardProps {
     hideIconContainer?: boolean;
     icon?: IconType;
     title: string;
-    description: string;
+    children: React.ReactNode;
     iconColor?: string;
     className?: string;
     cta?: string;
@@ -17,7 +17,7 @@ export const InfoCard: React.FC<InfoCardProps> = ({
                                                       icon: Icon,
                                                       hideIconContainer = false,
                                                       title,
-                                                      description,
+                                                      children,
                                                       iconColor = 'text-accent',
                                                       className = '',
                                                       cta
@@ -54,7 +54,7 @@ export const InfoCard: React.FC<InfoCardProps> = ({
                     <Icon className={`${iconColor} text-2xl`} />
                 </motion.div>
                 <h3 className="text-xl font-bold text-primary mb-3">{title}</h3>
-                <p className="text-text-dark flex-grow">{description}</p>
+                <div className="text-text-dark flex-grow">{children}</div>
                 {cta && (
                     <button className="mt-4 text-accent hover:underline font-medium self-start">
                         {cta}

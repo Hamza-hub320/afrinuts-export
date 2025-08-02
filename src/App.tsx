@@ -16,6 +16,7 @@ import i18n from './i18n';
 import './index.css';
 import { ReactElement, useEffect } from 'react';
 import React from 'react';
+import FAQ from "./pages/FAQ";
 
 // Add this component to handle scroll restoration
 function ScrollToTop() {
@@ -47,6 +48,7 @@ function App(): ReactElement {
                             <Route path="/cookie-policy" element={<CookiePolicy />} />
                             <Route path="/terms" element={<TermsOfService />} />
                             <Route path="/news" element={<News />} />
+                            <Route path="/faq" element={<FAQ />} />
                             {/* Add a catch-all route for 404s within the SPA */}
                             <Route path="*" element={<Home />} />
                         </Route>

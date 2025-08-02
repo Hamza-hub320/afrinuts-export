@@ -114,6 +114,7 @@ const Footer = () => {
                   { path: "/products", text: t('links.products') },
                   { path: "/farm", text: t('links.farm') },
                   { path: "/sustainability", text: t('links.sustainability') },
+                  { path: "/faq", text: t('links.faq') }, // Add this line
                   { path: "/contact", text: t('links.contact') }
                 ].map((link, index) => (
                     <motion.li

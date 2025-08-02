@@ -12,7 +12,7 @@ const PrivacyPolicy: React.FC = () => {
         <main>
             {/* Header Section */}
             <Section className="pt-24 pb-12 border-b border-gray-200">
-                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="container mx-auto px-4 pt-40 pb-16 max-w-6xl">
                     <Typography variant="h1" className="text-center mb-6 flex items-center justify-center">
                         <FontAwesomeIcon icon={faLock} className="mr-3 h-8 w-8" />
                         {t('title')}

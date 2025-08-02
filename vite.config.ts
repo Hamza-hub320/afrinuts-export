@@ -43,11 +43,15 @@ export default defineConfig({
     server: {
         host: true,
     },
+    define: {
+        'process.env': {}
+    },
     assetsInclude: ['**/*.jpg', '**/*.JPG', '**/*.png', '**/*.svg', '**/*.webp'],
     resolve: {
         alias: {
             '@': path.resolve(__dirname, './src'),
-            '~': path.resolve(__dirname, './public')
+            '~': path.resolve(__dirname, './public'),
+            '@pages': path.resolve(__dirname, './src/pages')
         }
     },
     optimizeDeps: {

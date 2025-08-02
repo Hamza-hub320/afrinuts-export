@@ -16,6 +16,7 @@ import privacyEN from './locales/en/privacy.json';
 import termsEN from './locales/en/terms.json';
 import cookiesEN from './locales/en/cookies.json';
 import newsEN from './locales/en/news.json';
+import faqEN from './locales/en/faq.json';
 import cookiePolicyEN from './locales/en/cookiePolicy.json';
 
 // French translations
@@ -32,6 +33,7 @@ import privacyFR from './locales/fr/privacy.json';
 import termsFR from './locales/fr/terms.json';
 import cookiesFR from './locales/fr/cookies.json';
 import newsFR from './locales/fr/news.json'
+import faqFR from './locales/fr/faq.json'
 import cookiePolicyFR from './locales/fr/cookiePolicy.json';
 
 // Arabic translations
@@ -48,6 +50,7 @@ import privacyAR from './locales/ar/privacy.json';
 import termsAR from './locales/ar/terms.json';
 import cookiesAR from './locales/ar/cookies.json';
 import newsAR from './locales/ar/news.json'
+import faqAR from './locales/ar/faq.json'
 import cookiePolicyAR from './locales/ar/cookiePolicy.json';
 
 // Type definitions
@@ -67,6 +70,7 @@ interface TranslationResources {
     terms:  typeof termsEN;
     cookies: typeof cookiesEN;
     news: typeof newsEN;
+    faq: typeof faqEN;
     cookiePolicy: typeof cookiePolicyEN;
 }
 
@@ -104,6 +108,7 @@ const resources: Record<SupportedLanguages, TranslationResources> = {
         terms: termsEN,
         cookies: cookiesEN,
         news: newsEN,
+        faq: faqEN,
         cookiePolicy: cookiePolicyEN
     },
     fr: {
@@ -120,6 +125,7 @@ const resources: Record<SupportedLanguages, TranslationResources> = {
         terms: termsFR,
         cookies: cookiesFR,
         news: newsFR,
+        faq: faqFR,
         cookiePolicy: cookiePolicyFR
     },
     ar: {
@@ -136,6 +142,7 @@ const resources: Record<SupportedLanguages, TranslationResources> = {
         terms: termsAR,
         cookies: cookiesAR,
         news: newsAR,
+        faq: faqAR,
         cookiePolicy: cookiePolicyAR
     }
 };
@@ -144,7 +151,7 @@ const options: I18nOptions = {
     fallbackLng: 'en',
     debug: process.env.NODE_ENV === 'development',
     supportedLngs: ['en', 'fr', 'ar'],
-    ns: ['home', 'common', 'about', 'products', 'farm', 'contact', 'footer', 'sustainability', 'vision', 'privacy', 'terms', 'cookies', 'cookiePolicy', 'news'],
+    ns: ['home', 'common', 'about', 'products', 'farm', 'contact', 'footer', 'sustainability', 'vision', 'privacy', 'terms', 'cookies', 'cookiePolicy', 'news', 'faq'],
     defaultNS: 'common',
     resources,
     interpolation: {

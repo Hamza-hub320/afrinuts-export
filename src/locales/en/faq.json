@@ -1,0 +1,15 @@
+{
+  "loading": "Loading FAQs...",
+  "errorTitle": "Error Loading FAQs",
+  "tryAgain": "Try Again",
+  "noFaqsTitle": "No FAQs Found",
+  "noFaqsDescription": "We couldn't find any frequently asked questions. Please check back later.",
+  "pageTitle": "Frequently Asked Questions",
+  "pageSubtitle": "Find answers to common questions about AfriNuts Export",
+  "searchPlaceholder": "Search FAQs...",
+  "noResultsTitle": "No FAQs match your search",
+  "clearSearch": "Clear search",
+  "contactTitle": "Still have questions?",
+  "contactSubtitle": "If you didn't find what you're looking for, our team is happy to help.",
+  "contactButton": "Contact Us"
+}
