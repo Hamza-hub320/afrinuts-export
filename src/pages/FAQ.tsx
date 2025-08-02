@@ -41,35 +41,36 @@ const FAQ: React.FC = () => {
 
     useEffect(() => {
         const fetchFAQs = async () => {
-          try {
-            const apiUrl = `${import.meta.env.VITE_STRAPI_URL}/api/faqs?populate=*`;
-            console.log('Fetching FAQs from:', apiUrl);
+            try {
+                const apiUrl = `${import.meta.env.VITE_STRAPI_URL}/api/faqs?populate=*`;
+                console.log('Fetching FAQs from:', apiUrl);
 
-            const response = await fetch(apiUrl);
+                const response = await fetch(apiUrl);
 
-            const result = await response.json();
-            const rawFAQs = result.data;
+                const result = await response.json();
+                const rawFAQs = result.data;
 
-            console.log('API response data:', rawFAQs);
+                console.log('API response data:', rawFAQs);
 
-            const grouped = rawFAQs.reduce((acc: Record<string, FAQItem[]>, item: any) => {
-              const category = item.category || 'Uncategorized';
-              if (!acc[category]) acc[category] = [];
-              acc[category].push(item);
-              return acc;
-            }, {});
+                const grouped = rawFAQs.reduce((acc: Record<string, FAQItem[]>, item: any) => {
+                    const category = item.category || 'Uncategorized';
+                    if (!acc[category]) acc[category] = [];
+                    acc[category].push(item);
+                    return acc;
+                }, {});
 
-            setFaqData(grouped);
-          } catch (err) {
-            console.error('Full fetch error:', err);
-            setError(`Failed to load FAQs. ${err instanceof Error ? err.message : 'Unknown error'}`);
-          } finally {
-            setLoading(false);
-          }
+                setFaqData(grouped);
+            } catch (err) {
+                console.error('Full fetch error:', err);
+                setError(`Failed to load FAQs. ${err instanceof Error ? err.message : 'Unknown error'}`);
+            } finally {
+                setLoading(false);
+            }
         };
 
         fetchFAQs();
     }, []);
+
 
     const toggleItem = (category: string, id: number) => {
         setOpenItems(prev => ({
