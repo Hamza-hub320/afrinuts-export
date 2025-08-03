@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 import {
     FaChevronDown,
     FaChevronUp,
@@ -8,7 +9,7 @@ import {
     FaLeaf,
     FaMosque,
     FaIndustry,
-    FaQuestion
+    FaQuestion, FaArrowRight
 } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import Section from '@/components/Section/Section';
@@ -31,6 +32,7 @@ const Faq: React.FC = () => {
     const { t } = useTranslation('faq');
     const [openSections, setOpenSections] = useState<Record<string, boolean>>({});
     const [activeTopic, setActiveTopic] = useState<string>('general');
+    const navigate = useNavigate();
 
     // Get all topics data from translations
     const getTopics = (): FAQTopic[] => [
@@ -113,12 +115,12 @@ const Faq: React.FC = () => {
                             {topics.map((topic) => (
                                 <div
                                     key={topic.id}
-                                    className="border border-gray-200 rounded-xl bg-white shadow-sm"
+                                    className="rounded-xl bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-300 shadow-sm"
                                 >
                                     <button
                                         onClick={() => setActiveTopic(prev => (prev === topic.id ? '' : topic.id))}
                                         className={`w-full flex justify-between items-center px-6 py-4 text-left rounded-t-xl ${
-                                            activeTopic === topic.id ? 'bg-primary text-white' : 'bg-gray-100'
+                                            activeTopic === topic.id ? 'bg-primary text-white': ''
                                         }`}
                                     >
                                         <div className="flex items-center text-lg font-semibold">
@@ -140,14 +142,14 @@ const Faq: React.FC = () => {
                                                     >
                                                         <Typography
                                                             variant="h5"
-                                                            className="text-gray-900 text-base font-medium group-hover:text-primary transition-colors"
+                                                            className="text-text-dark text-base font-medium group-hover:text-primary transition-colors"
                                                         >
                                                             {item.question}
                                                         </Typography>
                                                         {openSections[`${topic.id}-${index}`] ? (
                                                             <FaChevronUp className="text-primary ml-4 flex-shrink-0" />
                                                         ) : (
-                                                            <FaChevronDown className="text-gray-400 ml-4 flex-shrink-0 group-hover:text-primary transition-colors" />
+                                                            <FaChevronDown className="text-primary ml-4 flex-shrink-0 group-hover:text-primary transition-colors" />
                                                         )}
                                                     </button>
 
@@ -161,7 +163,7 @@ const Faq: React.FC = () => {
                                                         className="overflow-hidden"
                                                     >
                                                         <div className="pb-2 pl-1">
-                                                            <Typography variant="body" className="text-gray-600 leading-relaxed">
+                                                            <Typography variant="body" className="text-text-dark leading-relaxed">
                                                                 {item.answer}
                                                             </Typography>
                                                         </div>
@@ -176,17 +178,23 @@ const Faq: React.FC = () => {
                             {/* Still have questions? */}
                             <div className="mt-12 bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 rounded-xl p-6">
                                 <div className="flex items-center mb-4">
-                                    <Typography variant="h3" className="text-gray-900 font-medium flex items-center">
-                                        <FaQuestion className="text-primary text-lg mr-3" />
+                                    <Typography variant="h3" className="text-text-dark font-medium flex items-center">
                                         {t('stillQuestions.title')}
+                                        <FaQuestion className="text-primary text-lg mr-3" />
                                     </Typography>
                                 </div>
-                                <Typography variant="body" className="text-gray-600 mb-5 pl-8">
+                                <Typography variant="body" className="text-text-dark mb-5 pl-8">
                                     {t('stillQuestions.content')}
                                 </Typography>
-                                <button className="ml-8 bg-primary hover:bg-primary-dark text-white px-5 py-2.5 rounded-lg text-sm font-medium transition-all hover:shadow-md">
+                                <motion.button
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    className="group bg-primary hover:bg-dark-orange text-white hover:text-white px-8 py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg inline-flex items-center mx-auto"
+                                    onClick={() => navigate('/contact')}
+                                >
                                     {t('stillQuestions.button')}
-                                </button>
+                                    <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+                                </motion.button>
                             </div>
                         </div>
                     </div>

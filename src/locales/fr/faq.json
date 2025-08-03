@@ -3,6 +3,11 @@
     "title": "Questions Fréquemment Posées",
     "subtitle": "Trouvez des réponses aux questions courantes sur AfriNuts Export"
   },
+  "stillQuestions": {
+    "title": "Vous avez encore des questions",
+    "content": "Si vous ne trouvez pas ce que vous cherchez, notre équipe se fera un plaisir de vous aider.",
+    "button": "Contactez-nous"
+  },
   "general": {
     "title": "Général",
     "questions": [

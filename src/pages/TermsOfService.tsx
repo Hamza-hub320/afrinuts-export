@@ -2,8 +2,6 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Typography } from "@/components/Typography/Typography";
 import Section from '@/components/Section/Section';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faScaleBalanced } from '@fortawesome/free-solid-svg-icons';
 import {fadeIn, staggerContainer} from "@/utils/animations";
 import { motion } from 'framer-motion';
 

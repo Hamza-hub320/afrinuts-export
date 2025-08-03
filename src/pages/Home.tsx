@@ -1,6 +1,4 @@
 import React, {Suspense, useState} from 'react';
-import { Dialog, Transition } from '@headlessui/react';
-import { Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
@@ -16,7 +14,6 @@ import {
     slideInFromRight,
     scaleUp,
     staggerContainer,
-    bounceArrow
 } from '@/utils/animations';
 import { Typography } from '@/components/Typography/Typography';
 import {NewsItem, Product, FarmHighlight, SustainabilityFeature} from '@/types/translations';
