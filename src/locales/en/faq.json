@@ -1,15 +1,99 @@
 {
-  "loading": "Loading FAQs...",
-  "errorTitle": "Error Loading FAQs",
-  "tryAgain": "Try Again",
-  "noFaqsTitle": "No FAQs Found",
-  "noFaqsDescription": "We couldn't find any frequently asked questions. Please check back later.",
-  "pageTitle": "Frequently Asked Questions",
-  "pageSubtitle": "Find answers to common questions about AfriNuts Export",
-  "searchPlaceholder": "Search FAQs...",
-  "noResultsTitle": "No FAQs match your search",
-  "clearSearch": "Clear search",
-  "contactTitle": "Still have questions?",
-  "contactSubtitle": "If you didn't find what you're looking for, our team is happy to help.",
-  "contactButton": "Contact Us"
+  "hero": {
+    "title": "Frequently Asked Questions",
+    "subtitle": "Find answers to common questions about AfriNuts Export"
+  },
+  "topics": {
+    "title": "Browse by Topic"
+  },
+  "stillQuestions": {
+    "title": "Still have questions?",
+    "content": "If you can't find what you're looking for, our team is happy to help.",
+    "button": "Contact Us"
+  },
+  "general": {
+    "title": "General",
+    "questions": [
+      {
+        "question": "What is AfriNuts Export?",
+        "answer": "AfriNuts Export is an agricultural company based in Odienné, Ivory Coast, focused on sustainable cashew farming and future processing. Our mission is to produce high-quality, ethically farmed cashews for both domestic and international markets, while contributing to rural development and community upliftment."
+      },
+      {
+        "question": "Where is your farm located?",
+        "answer": "Our cashew farm is located on a 50-hectare plot in Odienné, a region in northwestern Ivory Coast. 35 hectares are dedicated to cashew trees, and we plan to build a processing center on-site in the future."
+      },
+      {
+        "question": "What products do you offer?",
+        "answer": "We currently grow raw cashew nuts, which will be harvested and sold as unprocessed nuts during the early phases. As the farm matures, we will expand into value-added products through our upcoming processing facility."
+      }
+    ]
+  },
+  "farming": {
+    "title": "Cashew Farming",
+    "questions": [
+      {
+        "question": "How do you grow your cashews?",
+        "answer": "We plant directly into the ground using high-quality seeds, which is the local standard and cost-effective method. Our planting density is 100 trees per hectare. We also maintain a reserve of 500 seedlings in a nursery to replace any that fail during early growth."
+      },
+      {
+        "question": "When is your harvest season?",
+        "answer": "Harvest typically begins three years after planting, with the first major harvest expected in 2029, as our first planting is planned for May–June 2026."
+      },
+      {
+        "question": "Are your cashews organic?",
+        "answer": "While not yet certified organic, we use sustainable and chemical-minimal farming methods that align with agroecological practices. We plan to pursue organic certification as part of our ESG goals."
+      }
+    ]
+  },
+  "sustainability": {
+    "title": "Sustainability & ESG",
+    "questions": [
+      {
+        "question": "What sustainability practices do you follow?",
+        "answer": "We use rainfed agriculture to conserve water and avoid the need for irrigation in Phase 1. We also employ firebreaks to prevent wildfires, practice agroforestry where possible, and maintain natural buffers to preserve biodiversity."
+      },
+      {
+        "question": "How do you manage water and waste?",
+        "answer": "Our farm relies on natural rainfall, and we avoid chemical runoff. As we expand, we will develop water-efficient systems and composting solutions to maintain soil health and reduce waste."
+      },
+      {
+        "question": "What is your approach to ESG?",
+        "answer": "AfriNuts is committed to Environmental, Social, and Governance (ESG) principles. This includes reinvesting in local infrastructure, promoting inclusive hiring, and ensuring transparent governance aligned with ethical values."
+      }
+    ]
+  },
+  "islamic": {
+    "title": "Islamic Ethical Investment",
+    "questions": [
+      {
+        "question": "How is the farm aligned with Islamic investment principles?",
+        "answer": "We operate under a no-riba (no interest) policy and prioritize partnerships that reflect shared risk and profit. Our investor model is based on ethical financing, community benefit, and long-term sustainability."
+      },
+      {
+        "question": "Is there interest (riba) involved in your funding model?",
+        "answer": "No. We do not charge or pay interest. Our investors receive a share of the net profit (e.g., 25%) based on performance, not fixed returns. This aligns with Islamic financial ethics."
+      },
+      {
+        "question": "How do you reinvest profits into the community?",
+        "answer": "We reinvest 25% of our net profits into local initiatives such as water access, education, and places of worship. This is part of our commitment to shared prosperity and faith-based impact."
+      }
+    ]
+  },
+  "processing": {
+    "title": "Processing Center",
+    "questions": [
+      {
+        "question": "When will the processing center be operational?",
+        "answer": "The cashew processing center is part of our long-term development plan, scheduled to be built between 2027 and 2030. It will allow us to add value locally and create new jobs in the region."
+      },
+      {
+        "question": "What makes your center eco-friendly?",
+        "answer": "Our center will integrate solar power, water-efficient systems, and ethical labor practices. We aim to build a model agro-industrial site that minimizes carbon emissions and supports the circular economy."
+      },
+      {
+        "question": "Will it serve the local community?",
+        "answer": "Yes. Beyond cashew processing, the center will provide employment, skill training, and community development. It is part of our broader vision to establish Odienné as a hub for ethical agriculture."
+      }
+    ]
+  }
 }

@@ -33,7 +33,7 @@ import privacyFR from './locales/fr/privacy.json';
 import termsFR from './locales/fr/terms.json';
 import cookiesFR from './locales/fr/cookies.json';
 import newsFR from './locales/fr/news.json'
-import faqFR from './locales/fr/faq.json'
+import faqFR from './locales/fr/faq.json';
 import cookiePolicyFR from './locales/fr/cookiePolicy.json';
 
 // Arabic translations
@@ -50,7 +50,7 @@ import privacyAR from './locales/ar/privacy.json';
 import termsAR from './locales/ar/terms.json';
 import cookiesAR from './locales/ar/cookies.json';
 import newsAR from './locales/ar/news.json'
-import faqAR from './locales/ar/faq.json'
+import faqAR from './locales/ar/faq.json';
 import cookiePolicyAR from './locales/ar/cookiePolicy.json';
 
 // Type definitions
@@ -163,7 +163,8 @@ const options: I18nOptions = {
         lookupQuerystring: 'lng',
         lookupCookie: 'i18next',
         lookupLocalStorage: 'i18nextLng'
-    }
+    },
+    returnObjects: true
 };
 
 i18n

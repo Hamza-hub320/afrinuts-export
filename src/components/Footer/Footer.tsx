@@ -10,7 +10,7 @@ import {
   FaInstagram,
   FaMapMarkerAlt,
   FaPhone,
-  FaEnvelope
+  FaEnvelope, FaArrowRight
 } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 
@@ -105,6 +105,8 @@ const Footer = () => {
               </div>
             </div>
 
+
+
             {/* Quick Links */}
             <div>
               <h3 className="text-xl font-bold mb-4">{t('links.title')}</h3>
@@ -114,7 +116,7 @@ const Footer = () => {
                   { path: "/products", text: t('links.products') },
                   { path: "/farm", text: t('links.farm') },
                   { path: "/sustainability", text: t('links.sustainability') },
-                  { path: "/faq", text: t('links.faq') }, // Add this line
+                  { path: "/faq", text: t('links.faq') },
                   { path: "/contact", text: t('links.contact') }
                 ].map((link, index) => (
                     <motion.li
@@ -179,6 +181,21 @@ const Footer = () => {
                 </motion.button>
               </form>
             </div>
+          </div>
+
+         {/* FAQ Section for Mobile */}
+          <div className="md:hidden space-y-6">
+            <h3 className="text-xl font-bold mb-4">{t('links.faq')}</h3>
+            <p className="text-sm">
+              {t('faq.description')}
+            </p>
+            <Link
+                to="/faq"
+                className="inline-flex items-center text-sm text-primary hover:text-accent transition-colors"
+            >
+              {t('faq.linkText')}
+              <FaArrowRight className="ml-2 text-xs" />
+            </Link>
           </div>
 
           {/* Bottom legal section (shared between mobile and desktop) */}

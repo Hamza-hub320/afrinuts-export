@@ -4,6 +4,8 @@ import { Typography } from "@/components/Typography/Typography";
 import Section from '@/components/Section/Section';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faScaleBalanced } from '@fortawesome/free-solid-svg-icons';
+import {fadeIn, staggerContainer} from "@/utils/animations";
+import { motion } from 'framer-motion';
 
 const TermsOfService: React.FC = () => {
     const { t } = useTranslation('terms');
@@ -11,16 +13,28 @@ const TermsOfService: React.FC = () => {
     return (
         <main>
             {/* Header Section */}
-            <Section className="pt-24 pb-12 border-b">
-                <div className="container mx-auto px-4 pt-40 pb-16 max-w-6xl">
-                    <Typography variant="h1" className="text-center mb-6 flex items-center justify-center">
-                        <FontAwesomeIcon icon={faScaleBalanced} className="mr-3 h-8 w-8" />
+            <Section
+                fullHeight={false}
+                className="bg-cashew-gradient flex items-center justify-center py-20 text-center min-h-[50vh] md:min-h-[15vh] pb-24 pr-16 mx-6 sm:mx-12 lg:mx-32 xl:mx-48 mt-32 pt-24 rounded-[2rem] shadow-2xl overflow-hidden border border-white/40"
+            >
+                <motion.div
+                    className="max-w-4xl w-full px-6"
+                    initial="hidden"
+                    animate="visible"
+                    variants={staggerContainer}
+                >
+                    <motion.h1
+                        className="font-display text-4xl md:text-5xl lg:text-6xl text-primary mb-6 text-center"
+                        variants={fadeIn}
+                    >
                         {t('title')}
-                    </Typography>
-                    <Typography variant="subtitle" className="text-center">
-                        {t('effectiveDate')}
-                    </Typography>
-                </div>
+                    </motion.h1>
+                    <motion.div variants={fadeIn} className="text-center">
+                        <Typography variant="subtitle" className="text-primary-dark max-w-2xl mx-auto">
+                            {t('effectiveDate')}
+                        </Typography>
+                    </motion.div>
+                </motion.div>
             </Section>
 
             {/* Introduction */}

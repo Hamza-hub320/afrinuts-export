@@ -7,6 +7,7 @@ interface StaticImageData {
     height: number;
     width: number;
     blurDataURL?: string;
+    bgGradient?: string;
 }
 
 interface SectionProps {
