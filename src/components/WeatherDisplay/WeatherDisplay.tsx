@@ -126,7 +126,8 @@ const WeatherDisplay: React.FC<WeatherDisplayProps> = ({ location = "Odienne" })
             {t('weather.currentWeather', { location })}
           </h3>
           <div className="text-sm font-medium text-gray-600">
-            {new Date(currentTime.getTime() + 60 * 60 * 1000).toLocaleTimeString('en-US', {
+            {currentTime.toLocaleTimeString('en-US', {
+              timeZone: 'Africa/Abidjan',
               hour: '2-digit',
               minute: '2-digit',
               second: '2-digit',
