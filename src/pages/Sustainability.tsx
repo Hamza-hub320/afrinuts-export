@@ -81,6 +81,7 @@ const Sustainability: React.FC = () => {
             </Section>
 
             {/* Sustainability Introduction Section */}
+            {/* Sustainability Introduction Section */}
             <Section className="py-0 md:py-6">
                 <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                     <InfoCard
@@ -90,38 +91,37 @@ const Sustainability: React.FC = () => {
                         title={
                             <motion.div variants={fadeIn}>
                                 <Typography
-                                    variant="h2"
+                                    variant="h3"
                                     className="mb-6 text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900"
                                 >
                                     {t('intro.title')}
                                 </Typography>
                             </motion.div>
                         }
-                        description={
-                            <>
-                                <div className="max-w-4xl mx-auto space-y-6 text-lg text-gray-600">
-                                    {(t('intro.content', { returnObjects: true }) as string[]).map((paragraph, index) => (
-                                        <motion.p
-                                            variants={fadeIn}
-                                            transition={{ delay: 0.1 }}
-                                            key={`intro-para-${index}`}
-                                            className="leading-relaxed"
-                                        >
-                                            {paragraph}
-                                        </motion.p>
-                                    ))}
-                                </div>
-                            </>
-                        }
                         iconColor="text-primary"
-                        hideIconContainer={true} // Add this prop to your InfoCard component if needed
+                        hideIconContainer={true}
                         initial="hidden"
                         whileInView="visible"
                         viewport={{ once: true, margin: "-100px" }}
                         variants={staggerContainer}
-                    />
+                    >
+                        <div className="max-w-4xl mx-auto space-y-6 text-lg text-gray-600">
+                            {(t('intro.content', { returnObjects: true }) as string[]).map((paragraph, index) => (
+                                <motion.p
+                                    variants={fadeIn}
+                                    transition={{ delay: 0.1 }}
+                                    key={`intro-para-${index}`}
+                                    className="leading-relaxed"
+                                >
+                                    {paragraph}
+                                </motion.p>
+                            ))}
+                        </div>
+                    </InfoCard>
                 </div>
             </Section>
+
+
 
             {/* Environmental Section */}
             <Section className="py-10">
@@ -162,11 +162,11 @@ const Sustainability: React.FC = () => {
                                             <InfoCard
                                                 icon={getIconComponent(item.icon)}
                                                 title={item.title}
-                                                description={item.content}
                                                 iconColor="text-accent"
                                                 className="h-full"
-                                            />
-
+                                            >
+                                                {item.content}
+                                            </InfoCard>
                                         </motion.div>
                                     );
                                 })}
@@ -205,10 +205,11 @@ const Sustainability: React.FC = () => {
                                                 <InfoCard
                                                     icon={IconComponent}
                                                     title={item.title}
-                                                    description={item.content}
                                                     iconColor="text-accent"
                                                     className="h-full"
-                                                />
+                                                >
+                                                    {item.content}
+                                                </InfoCard>
                                             </motion.div>
                                         );
                                     })}
@@ -269,19 +270,21 @@ const Sustainability: React.FC = () => {
                                 <InfoCard
                                     icon={FaHandshake}
                                     title={t('social.labor.title')}
-                                    description={(t('social.labor.content', { returnObjects: true }) as string[]).join(' ')}
                                     iconColor="text-accent"
                                     className="h-full"
-                                />
+                                >
+                                    {(t('social.labor.content', { returnObjects: true }) as string[]).join(' ')}
+                                </InfoCard>
                             </motion.div>
                             <motion.div variants={fadeIn} transition={{ delay: 0.2 }}>
                                 <InfoCard
                                     icon={FaVenus}
                                     title={t('social.gender.title')}
-                                    description={(t('social.gender.content', { returnObjects: true }) as string[]).join(' ')}
                                     iconColor="text-primary"
                                     className="h-full"
-                                />
+                                >
+                                    {(t('social.gender.content', { returnObjects: true }) as string[]).join(' ')}
+                                </InfoCard>
                             </motion.div>
                         </div>
                     </motion.div>

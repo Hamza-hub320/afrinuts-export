@@ -80,6 +80,7 @@ const Navbar: React.FC = () => {
     { path: '/sustainability', label: t('navbar.sustainability') },
     { path: '/vision', label: t('navbar.vision') },
     { path: '/news', label: t('navbar.news') },
+    { path: '/faq', label: t('navbar.faq') },
     { path: '/contact', label: t('navbar.contact') },
   ];
 
@@ -104,6 +105,7 @@ const Navbar: React.FC = () => {
       <nav className={`fixed top-2 left-3 right-3 z-50 transition-all duration-300 ${scrolled ? 'scale-[0.98]' : ''}`}>
         <div className={`border border-gray-300 rounded-2xl bg-background shadow-lg mx-auto max-w-7xl transition-all duration-300 ${scrolled ? 'shadow-xl' : ''}`}>
           <div className="flex justify-between items-center h-20 px-4 sm:px-6 lg:px-8">
+
             {/* Logo Section */}
             <div className="flex-shrink-0 flex items-center">
               <Link

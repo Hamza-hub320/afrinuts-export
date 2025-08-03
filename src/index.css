@@ -127,6 +127,12 @@
     @apply p-4 sm:p-6 md:p-8;
   }
 
+  .info-card-contents {
+    opacity: 1 !important;
+    height: auto !important;
+    visibility: visible !important;
+  }
+
   /* Updated Buttons in your CSS file */
   .primary-button {
     @apply bg-accent text-white px-5 py-2.5 sm:px-6 sm:py-3 rounded-lg;
