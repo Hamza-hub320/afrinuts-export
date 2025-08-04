@@ -82,7 +82,7 @@ const Faq: React.FC = () => {
             {/* Hero Section */}
             <Section
                 fullHeight={false}
-                className="bg-cashew-gradient flex items-center justify-center py-20 text-center min-h-[50vh] md:min-h-[15vh] pb-24 pr-16 mx-6 sm:mx-12 lg:mx-32 xl:mx-48 mt-32 pt-24 rounded-[2rem] shadow-2xl overflow-hidden border border-white/40"
+                className="bg-cashew-gradient flex items-end justify-start py-20 text-center min-h-[50vh] md:min-h-[15vh] pb-24 pr-16 mx-6 sm:mx-12 lg:mx-32 xl:mx-48 mt-32 pt-24 rounded-[2rem] shadow-2xl overflow-hidden border border-white/40"
             >
                 <motion.div
                     className="max-w-4xl w-full px-6"
