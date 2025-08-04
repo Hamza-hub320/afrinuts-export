@@ -52,6 +52,7 @@ interface InteractiveMapProps {
     className?: string;
     farmBoundary?: [number, number][];
     features?: FarmFeature[];
+    zoomControl?: boolean;
 }
 
 const MapViewSetter = ({ center, zoom }: { center: [number, number]; zoom: number }) => {
@@ -150,7 +151,7 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
     };
 
     return (
-        <div className={`${className} bg-gradient-to-br from-primary/5 to-accent/5  border-2 border-primary/20 hover:border-accent/30 transition-all duration-300  rounded-3xl shadow-xl overflow-hidden`}>
+        <div className={`${className} bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-300 rounded-3xl shadow-xl overflow-hidden w-full max-w-none mx-auto`}>
             <div className="flex flex-col lg:flex-row h-full">
                 {/* Map Section */}
                 <div className="w-full lg:w-2/3 h-full relative">
@@ -221,7 +222,7 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
                 </div>
 
                 {/* Info Panel */}
-                <div className="w-full lg:w-1/3 bg-gradient-to-br from-primary/5 to-accent/5 p-6 flex flex-col overflow-y-auto max-h-[500px]">
+                <div className="hidden lg:flex lg:w-1/3 flex-col bg-gradient-to-br from-primary/5 to-accent/5 p-6 overflow-y-auto">
                     <div className="flex items-center mb-4">
                         <FaMapMarkerAlt className="text-2xl text-accent mr-3" /> {/* Using accent color */}
                         <Typography variant="h3" className="text-primary"> {/* Using primary color */}
@@ -308,3 +309,4 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
 };
 
 export default InteractiveMap;
+

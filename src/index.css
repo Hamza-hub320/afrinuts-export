@@ -133,6 +133,12 @@
     visibility: visible !important;
   }
 
+  @media (max-width: 360px) {
+    .map-container {
+      height: 70vh !important;
+    }
+  }
+
   /* Updated Buttons in your CSS file */
   .primary-button {
     @apply bg-accent text-white px-5 py-2.5 sm:px-6 sm:py-3 rounded-lg;

@@ -18,6 +18,7 @@ import ImageGallery from '../components/ImageGallery/ImageGallery';
 import StatsCounter from '../components/StatsCounter/StatsCounter';
 import InteractiveMap from '../components/InteractiveMap/InteractiveMap';
 import { InfoCard } from "../components/InfoCard/InfoCard";
+import {MinusIcon, PlusIcon} from "@heroicons/react/16/solid";
 
 const Farm = () => {
     const { t } = useTranslation('farm');
@@ -173,20 +174,25 @@ const Farm = () => {
                             ))}
                         </div>
                     </div>
-                    {/*Map Section*/}
-                    <Section className="py-10 px-6">
-                        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
-                            <Typography variant="h2" className="text-primary text-center mb-8">
-                                {t('farm.map.title')}
-                            </Typography>
-                            <Typography variant="body" className="text-center max-w-3xl mx-auto mb-8">
-                                {t('farm.map.description')}
-                            </Typography>
 
-                            <InteractiveMap
-                                location={t('farm.map.location')}
-                                description={t('farm.map.locationDescription')}
-                            />
+                    <Section className="py-6 md:py-12 lg:py-16">
+                        <div className="w-full max-w-7xl mx-auto">
+                            <div className="text-center mb-8 md:mb-12">
+                                <Typography variant="h2" className="text-primary mb-4">
+                                    {t('farm.map.title')}
+                                </Typography>
+                                <Typography variant="body" className="max-w-3xl mx-auto text-text-dark">
+                                    {t('farm.map.description')}
+                                </Typography>
+                            </div>
+
+                            <div className="h-[400px] md:h-[500px] lg:h-[600px] rounded-xl overflow-hidden w-full px-2 sm:px-4 md:px-6 lg:px-8">
+                                <InteractiveMap
+                                    location={t('farm.map.location')}
+                                    description={t('farm.map.locationDescription')}
+                                    className="h-full w-full"
+                                />
+                            </div>
                         </div>
                     </Section>
 
