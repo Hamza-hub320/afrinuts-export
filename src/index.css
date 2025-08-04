@@ -133,11 +133,7 @@
     visibility: visible !important;
   }
 
-  @media (max-width: 360px) {
-    .map-container {
-      height: 70vh !important;
-    }
-  }
+
 
   /* Updated Buttons in your CSS file */
   .primary-button {

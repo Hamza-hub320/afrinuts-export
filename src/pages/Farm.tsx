@@ -175,6 +175,7 @@ const Farm = () => {
                         </div>
                     </div>
 
+                    {/*Map section*/}
                     <Section className="py-6 md:py-12 lg:py-16">
                         <div className="w-full max-w-7xl mx-auto">
                             <div className="text-center mb-8 md:mb-12">
@@ -186,7 +187,7 @@ const Farm = () => {
                                 </Typography>
                             </div>
 
-                            <div className="h-[400px] md:h-[500px] lg:h-[600px] rounded-xl overflow-hidden w-full px-2 sm:px-4 md:px-6 lg:px-8">
+                            <div className="h-[400px] md:h-[500px] lg:h-[600px] rounded-xl overflow-hidden w-full">
                                 <InteractiveMap
                                     location={t('farm.map.location')}
                                     description={t('farm.map.locationDescription')}
@@ -250,7 +251,7 @@ const Farm = () => {
                                         <div className={`
                                         w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center 
                                         font-display text-lg md:text-xl font-bold border-4 shadow-lg mb-4 z-10
-                                        bg-white text-primary border-accent
+                                        bg-gradient-to-br from-primary/5 to-accent/5 text-primary border-accent
                                         transition-all duration-300 md:hover:scale-110
                                         touch-target
                                         relative

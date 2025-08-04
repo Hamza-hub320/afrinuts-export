@@ -110,8 +110,8 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
     const mapRef = useRef<L.Map>(null);
     const { t } = useTranslation('farm');
 
-    // Coordinates for Odienné, Ivory Coast
-    const position: [number, number] = [9.75090, -7.04220];
+    // Coordinates for Odienné, Ivory Coast (official OpenStreetMap coordinates)
+    const position: [number, number] = [9.5044310, -7.5619420];
 
     const getIcon = (type: FarmFeature['type']) => {
         switch (type) {
@@ -151,7 +151,7 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
     };
 
     return (
-        <div className={`${className} bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-300 rounded-3xl shadow-xl overflow-hidden w-full max-w-none mx-auto`}>
+        <div className={`${className} bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-300 rounded-3xl shadow-xl overflow-hidden max-w-full lg:max-w-[1400px] max-auto`}>
             <div className="flex flex-col lg:flex-row h-full">
                 {/* Map Section */}
                 <div className="w-full lg:w-2/3 h-full relative">
@@ -236,7 +236,7 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
 
                     <div className="mb-6">
                         <Typography variant="small" className="text-text-dark">
-                            <strong>{t('map.coordinates')}:</strong> 9.7509° N, 7.0422° W
+                            <strong>{t('map.coordinates')}:</strong> 9.5044° N, 7.5619° W
                         </Typography>
                         <Typography variant="small" className="text-text-dark">
                             <strong>{t('map.region')}:</strong> Denguélé District, Ivory Coast
