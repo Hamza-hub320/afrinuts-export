@@ -194,10 +194,11 @@ const Vision: React.FC = () => {
                                     <InfoCard
                                         icon={getIconComponent(item.icon)}
                                         title={item.title}
-                                        description={item.content}
                                         iconColor="text-accent"
                                         className="h-full"
-                                    />
+                                    >
+                                        {item.content}
+                                    </InfoCard>
                                 </motion.div>
                             ))}
                         </div>
@@ -282,10 +283,11 @@ const Vision: React.FC = () => {
                                     <InfoCard
                                         icon={getIconComponent(item.icon)}
                                         title={item.title}
-                                        description={item.content}
                                         iconColor="text-accent"
                                         className="h-full"
-                                    />
+                                    >
+                                        {item.content}
+                                    </InfoCard>
                                 </motion.div>
                             ))}
                         </div>
@@ -322,10 +324,11 @@ const Vision: React.FC = () => {
                                     <InfoCard
                                         icon={getIconComponent(item.icon)}
                                         title={item.title}
-                                        description={item.content}
                                         iconColor="text-accent"
                                         className="h-full"
-                                    />
+                                    >
+                                        {item.content}
+                                    </InfoCard>
                                 </motion.div>
                             ))}
                         </div>

@@ -192,21 +192,24 @@ const About: React.FC = () => {
                 <InfoCard
                     icon={FaGlobe}
                     title={t('vmv.vision.title')}
-                    description={t('vmv.vision.text')}
                     iconColor="text-accent"
-                />
+                >
+                    {t('vmv.vision.text')}
+                </InfoCard>
                 <InfoCard
                     icon={FaRocket}
                     title={t('vmv.mission.title')}
-                    description={t('vmv.mission.text')}
                     iconColor="text-accent"
-                />
+                >
+                    {t('vmv.mission.text')}
+                </InfoCard>
                 <InfoCard
                     icon={FaHandshake}
                     title={t('vmv.values.title')}
-                    description={t('vmv.values.text')}
                     iconColor="text-accent"
-                />
+                >
+                    {t('vmv.values.text')}
+                </InfoCard>
               </div>
             </motion.div>
           </div>
@@ -229,21 +232,24 @@ const About: React.FC = () => {
                 <InfoCard
                     icon={FaHandsHelping}
                     title={t('community.cards.pledge.title')}
-                    description={t('community.cards.pledge.text')}
                     iconColor="text-accent"
-                />
+                >
+                    {t('community.cards.pledge.text')}
+                </InfoCard>
                 <InfoCard
                     icon={FaWater}
                     title={t('community.cards.water.title')}
-                    description={t('community.cards.water.text')}
                     iconColor="text-accent"
-                />
+                >
+                    {t('community.cards.water.text')}
+                </InfoCard>
                 <InfoCard
                     icon={FaMosque}
                     title={t('community.cards.religion.title')}
-                    description={t('community.cards.religion.text')}
                     iconColor="text-accent"
-                />
+                >
+                    {t('community.cards.religion.text')}
+                </InfoCard>
               </div>
             </motion.div>
         </Section>

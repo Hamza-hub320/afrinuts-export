@@ -157,10 +157,11 @@ const Farm = () => {
                                     <InfoCard
                                         icon={stat.icon}
                                         title={stat.value}
-                                        description={stat.label}
                                         iconColor="text-accent"
                                         className="h-full"
-                                    />
+                                    >
+                                        {stat.label}
+                                    </InfoCard>
                                 </motion.div>
                             ))}
                         </div>
@@ -181,10 +182,11 @@ const Farm = () => {
                                     <InfoCard
                                         icon={feature.icon}
                                         title={feature.title}
-                                        description={feature.description}
                                         iconColor="text-accent"
                                         className="h-full"
-                                    />
+                                    >
+                                        {feature.description}
+                                    </InfoCard>
                                 </motion.div>
                             ))}
                         </div>
@@ -263,10 +265,11 @@ const Farm = () => {
                                     <InfoCard
                                         icon={stat.icon}
                                         title={`${stat.value}${stat.suffix || ''}`}
-                                        description={stat.label}
                                         iconColor="text-accent"
                                         className="h-full text-center"
-                                    />
+                                    >
+                                        {stat.label}
+                                    </InfoCard>
                                 </motion.div>
                             ))}
                         </div>
@@ -297,10 +300,11 @@ const Farm = () => {
                                         <InfoCard
                                             icon={practice.icon}
                                             title={practice.title}
-                                            description={practice.description}
                                             iconColor="text-accent"
                                             className="h-full"
-                                        />
+                                        >
+                                            {practice.description}
+                                        </InfoCard>
                                     </motion.div>
                                 ))}
                             </div>
