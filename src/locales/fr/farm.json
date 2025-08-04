@@ -93,5 +93,29 @@
       "title": "Rejoignez Notre Voyage Durable",
       "description": "En savoir plus sur notre plantation de cajou et les opportunités de partenariat",
       "button": "Contactez Notre Équipe Agricole"
+    },
+  "farm": {
+    "map": {
+      "title": "Localisation de notre ferme",
+      "description": "Découvrez notre plantation familiale de noix de cajou de 50 hectares au cœur de la ceinture de production de cajou en Côte d'Ivoire.",
+      "location": "Odienné, Côte d'Ivoire",
+      "locationDescription": "Notre ferme familiale de 50 hectares est située au cœur de la zone de production d'anacarde en Côte d'Ivoire, offrant des conditions de croissance optimales pour des noix de cajou de qualité supérieure."
     }
+  },
+  "map": {
+    "showBoundary": "Afficher les limites",
+    "hideBoundary": "Masquer les limites",
+    "showFeatures": "Afficher les éléments",
+    "hideFeatures": "Masquer les éléments",
+    "farmLayout": "Disposition de la ferme",
+    "coordinates": "Coordonnées",
+    "region": "Région",
+    "area": "Superficie",
+    "farmFeatures": "Éléments de la ferme",
+    "legend": "Légende",
+    "legendCashew": "Plantation de cajou",
+    "legendWater": "Source d'eau",
+    "legendRoads": "Voies d'accès",
+    "legendFacilities": "Installations de stockage"
+  }
   }

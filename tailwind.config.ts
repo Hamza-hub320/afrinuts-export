@@ -73,7 +73,7 @@ export default {
                 '128': '32rem'
             },
             zIndex: {
-                '50': '50', // For navbar
+                '50': '50',
             },
             animation: {
                 highlight: 'highlight 1.5s ease',

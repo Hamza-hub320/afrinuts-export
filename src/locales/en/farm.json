@@ -93,5 +93,29 @@
       "title": "Join Our Sustainable Journey",
       "description": "Learn more about our cashew plantation and partnership opportunities",
       "button": "Contact Our Farm Team"
+    },
+  "farm": {
+    "map": {
+      "title": "Our Farm Location",
+      "description": "Explore our 50-hectare family-owned cashew farm in the heart of Ivory Coast's cashew belt.",
+      "location": "Odienné, Ivory Coast",
+      "locationDescription": "Our 50-hectare family-owned farm is located in the heart of Ivory Coast's cashew belt, with optimal growing conditions for premium quality cashews."
     }
+    },
+  "map": {
+    "showBoundary": "Show Boundary",
+    "hideBoundary": "Hide Boundary",
+    "showFeatures": "Show Features",
+    "hideFeatures": "Hide Features",
+    "farmLayout": "Farm Layout",
+    "coordinates": "Coordinates",
+    "region": "Region",
+    "area": "Area",
+    "farmFeatures": "Farm Features",
+    "legend": "Legend",
+    "legendCashew": "Cashew Plantation",
+    "legendWater": "Water Source",
+    "legendRoads": "Access Roads",
+    "legendFacilities": "Storage Facilities"
+  }
   }

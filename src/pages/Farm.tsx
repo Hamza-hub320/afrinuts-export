@@ -16,6 +16,7 @@ import Section from "../components/Section/Section";
 import Typography from "../components/Typography/Typography";
 import ImageGallery from '../components/ImageGallery/ImageGallery';
 import StatsCounter from '../components/StatsCounter/StatsCounter';
+import InteractiveMap from '../components/InteractiveMap/InteractiveMap';
 import { InfoCard } from "../components/InfoCard/InfoCard";
 
 const Farm = () => {
@@ -156,7 +157,13 @@ const Farm = () => {
                                 >
                                     <InfoCard
                                         icon={stat.icon}
-                                        title={stat.value}
+                                        title={
+                                            !isNaN(Number(stat.value)) ? (
+                                                <StatsCounter endValue={Number(stat.value)} suffix="+" />
+                                            ) : (
+                                                stat.value
+                                            )
+                                        }
                                         iconColor="text-accent"
                                         className="h-full"
                                     >
@@ -166,6 +173,22 @@ const Farm = () => {
                             ))}
                         </div>
                     </div>
+                    {/*Map Section*/}
+                    <Section className="py-10 px-6">
+                        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
+                            <Typography variant="h2" className="text-primary text-center mb-8">
+                                {t('farm.map.title')}
+                            </Typography>
+                            <Typography variant="body" className="text-center max-w-3xl mx-auto mb-8">
+                                {t('farm.map.description')}
+                            </Typography>
+
+                            <InteractiveMap
+                                location={t('farm.map.location')}
+                                description={t('farm.map.locationDescription')}
+                            />
+                        </div>
+                    </Section>
 
                     {/* Key Features */}
                     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
@@ -264,7 +287,12 @@ const Farm = () => {
                                 >
                                     <InfoCard
                                         icon={stat.icon}
-                                        title={`${stat.value}${stat.suffix || ''}`}
+                                        title={
+                                            <StatsCounter
+                                                endValue={Number(stat.value)}
+                                                suffix={stat.suffix}
+                                            />
+                                        }
                                         iconColor="text-accent"
                                         className="h-full text-center"
                                     >
