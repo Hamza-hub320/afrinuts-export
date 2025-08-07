@@ -32,14 +32,6 @@
       ]
     },
     {
-      "url": "https://www.connectionivoirienne.net/feed/",
-      "name": "Connection Ivoirienne",
-      "icon": "FaNewspaper",
-      "category": "ivory-coast",
-      "defaultEnabled": true,
-      "searchTerms": ["noix de cajou", "anacarde", "agriculture"]
-    },
-    {
       "url": "https://news.abidjan.net/feed/",
       "name": "Abidjan.net Actualités",
       "icon": "FaCity",
