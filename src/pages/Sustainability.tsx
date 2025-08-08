@@ -81,43 +81,29 @@ const Sustainability: React.FC = () => {
             </Section>
 
             {/* Sustainability Introduction Section */}
-            {/* Sustainability Introduction Section */}
             <Section className="py-0 md:py-6">
                 <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <InfoCard
-                        variant="default"
-                        className="p-8 sm:p-10 md:p-12 lg:p-16"
-                        icon={FaLeaf}
-                        title={
-                            <motion.div variants={fadeIn}>
-                                <Typography
-                                    variant="h3"
-                                    className="mb-6 text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900"
-                                >
-                                    {t('intro.title')}
-                                </Typography>
-                            </motion.div>
-                        }
-                        iconColor="text-primary"
-                        hideIconContainer={true}
+                    <motion.div
                         initial="hidden"
                         whileInView="visible"
                         viewport={{ once: true, margin: "-100px" }}
                         variants={staggerContainer}
+                        className="text-center"
                     >
-                        <div className="max-w-4xl mx-auto space-y-6 text-lg text-gray-600">
-                            {(t('intro.content', { returnObjects: true }) as string[]).map((paragraph, index) => (
-                                <motion.p
-                                    variants={fadeIn}
-                                    transition={{ delay: 0.1 }}
-                                    key={`intro-para-${index}`}
-                                    className="leading-relaxed"
-                                >
-                                    {paragraph}
-                                </motion.p>
-                            ))}
-                        </div>
-                    </InfoCard>
+                        <motion.div variants={fadeIn}>
+                            <Typography
+                                variant="h2"
+                                className="mb-6 text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900"
+                            >
+                                {t('intro.title')}
+                            </Typography>
+                        </motion.div>
+                        <motion.div variants={fadeIn}>
+                            <Typography variant="body" className="max-w-4xl mx-auto">
+                                {t('intro.content')}
+                            </Typography>
+                        </motion.div>
+                    </motion.div>
                 </div>
             </Section>
 
