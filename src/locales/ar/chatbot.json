@@ -1,0 +1,42 @@
+{
+  "chatbot": {
+    "initialMessage": "مرحبًا! أنا مساعد أفري ناتس. كيف يمكنني مساعدتك اليوم؟",
+    "header": {
+      "title": "مساعد أفري ناتس",
+      "subtitle": "اسألني عن الكاجو والاستثمارات"
+    },
+    "buttons": {
+      "newChat": "محادثة جديدة",
+      "resetChatTitle": "إعادة تعيين المحادثة",
+      "hideHelp": "إخفاء المساعدة",
+      "showHelp": "عرض المساعدة",
+      "sendMessage": "إرسال الرسالة"
+    },
+    "quickActions": {
+      "title": "كيف يمكنني المساعدة؟",
+      "cashewFarming": "زراعة الكاجو",
+      "investments": "الاستثمارات",
+      "sustainability": "الاستدامة",
+      "contactSales": "الاتصال بالمبيعات"
+    },
+    "input": {
+      "placeholder": "اسأل عن أفري ناتس..."
+    },
+    "status": {
+      "thinking": "جاري التفكير..."
+    },
+    "footer": {
+      "title": "مساعد أفري ناتس الذكي •",
+      "toggleHelpHide": "إخفاء المساعدة",
+      "toggleHelpShow": "الحصول على مساعدة"
+    },
+    "contactForm": {
+      "title": "اتصل بأفري ناتس",
+      "name": "الاسم",
+      "email": "البريد الإلكتروني",
+      "message": "الرسالة",
+      "cancel": "إلغاء",
+      "send": "إرسال الرسالة"
+    }
+  }
+}

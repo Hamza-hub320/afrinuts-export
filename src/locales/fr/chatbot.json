@@ -1,0 +1,42 @@
+{
+  "chatbot": {
+    "initialMessage": "Bonjour ! Je suis l'assistant AfriNuts. Comment puis-je vous aider aujourd'hui ?",
+    "header": {
+      "title": "Assistant AfriNuts",
+      "subtitle": "Posez-moi des questions sur les noix de cajou et les investissements"
+    },
+    "buttons": {
+      "newChat": "Recommencer",
+      "resetChatTitle": "Réinitialiser la discussion",
+      "hideHelp": "Masquer l'aide",
+      "showHelp": "Afficher l'aide",
+      "sendMessage": "Envoyer le message"
+    },
+    "quickActions": {
+      "title": "Comment puis-je vous aider ?",
+      "cashewFarming": "Culture de cajou",
+      "investments": "Investissements",
+      "sustainability": "Durabilité",
+      "contactSales": "Contacter les ventes"
+    },
+    "input": {
+      "placeholder": "Posez des questions sur AfriNuts..."
+    },
+    "status": {
+      "thinking": "Réflexion en cours..."
+    },
+    "footer": {
+      "title": "Assistant IA AfriNuts •",
+      "toggleHelpHide": "Masquer l'aide",
+      "toggleHelpShow": "Afficher l'aide"
+    },
+    "contactForm": {
+      "title": "Contacter AfriNuts",
+      "name": "Nom",
+      "email": "Email",
+      "message": "Message",
+      "cancel": "Annuler",
+      "send": "Envoyer le message"
+    }
+  }
+}

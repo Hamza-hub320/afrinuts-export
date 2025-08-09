@@ -1,0 +1,42 @@
+{
+  "chatbot": {
+    "initialMessage": "Hi! I'm the Afrinuts assistant. How can I help you today?",
+    "header": {
+      "title": "AfriNuts Assistant",
+      "subtitle": "Ask me about cashews and investments"
+    },
+    "buttons": {
+      "newChat": "New Chat",
+      "resetChatTitle": "Reset chat",
+      "hideHelp": "Hide help",
+      "showHelp": "Show help",
+      "sendMessage": "Send message"
+    },
+    "quickActions": {
+      "title": "How can I help?",
+      "cashewFarming": "Cashew Farming",
+      "investments": "Investments",
+      "sustainability": "Sustainability",
+      "contactSales": "Contact Sales"
+    },
+    "input": {
+      "placeholder": "Ask about AfriNuts..."
+    },
+    "status": {
+      "thinking": "Thinking..."
+    },
+    "footer": {
+      "title": "AfriNuts AI Assistant •",
+      "toggleHelpHide": "Hide help",
+      "toggleHelpShow": "Get help"
+    },
+    "contactForm": {
+      "title": "Contact AfriNuts",
+      "name": "Name",
+      "email": "Email",
+      "message": "Message",
+      "cancel": "Cancel",
+      "send": "Send Message"
+    }
+  }
+}

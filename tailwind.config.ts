@@ -19,11 +19,11 @@ export default {
             colors: {
                 'primary': '#5A7411',
                 'accent': '#E04E00',
-                'dark-orange': '#9C3D10',// orange
-                'secondary': '#A0C800',     // lime-green
-                'background': '#F5F5F5',    // light-grey
-                'text-dark': '#5A4D47',     // taupe
-                'text-light': '#FFFFFF',    // white
+                'dark-orange': '#9C3D10',
+                'secondary': '#A0C800',
+                'background': '#F5F5F5',
+                'text-dark': '#5A4D47',
+                'text-light': '#FFFFFF',
                 'warm-grey': '#DEDAD4',
                 'highlight': 'rgba(253, 129, 4, 0.1)',
                 'navy': '#253746',
