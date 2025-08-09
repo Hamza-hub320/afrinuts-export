@@ -52,15 +52,14 @@ const AccessibilityToolbar = () => {
   return (
       <div className={`
       fixed right-0 top-1/2 transform -translate-y-1/2
-      bg-navy text-white shadow-lg rounded-l-lg
-      transition-all duration-300 ease-in-out
+       bg-gradient-to-br from-primary/25 to-accent/25 border-2 border-primary/20 hover:border-accent/30 transition-all duration-300  text-navy shadow-lg rounded-l-lg ease-in-out
       ${isOpen ? 'translate-x-0' : 'translate-x-[calc(100%-40px)]'}
       z-50
     `}>
         <button
             className={`
           w-10 h-10 flex items-center justify-center
-          bg-navy hover:bg-dark-orange text-white
+          bg-primary hover:bg-dark-orange text-background
           rounded-l-lg focus:outline-none focus:ring-2 focus:ring-accent
         `}
             onClick={() => setIsOpen(!isOpen)}

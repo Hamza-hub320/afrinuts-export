@@ -53,7 +53,7 @@ const Layout: FC = () => {
                     flex
                     items-center
                     justify-center
-                    text-white
+                    text-background
                     hover:shadow-xl
                     hover:shadow-primary/40
                     focus:outline-none

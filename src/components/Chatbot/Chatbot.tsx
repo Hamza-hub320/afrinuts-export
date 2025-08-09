@@ -165,15 +165,15 @@ export default function Chatbot({
     return (
         <div className={`fixed bottom-20 right-6 w-full max-w-[460px] sm:w-[460px] sm:right-6 left-3 sm:left-auto h-[600px] bg-gradient-to-br from-primary/5 to-accent/5  border-2 border-primary/20 hover:border-accent/30 transition-all duration-300  rounded-3xl shadow-xl overflow-hidden flex flex-col ${className}`}>
             {/* Header */}
-            <div className="p-4 bg-primary text-white flex items-center justify-between">
+            <div className="p-4 bg-primary text-background flex items-center justify-between">
                 <div className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
                         {/* Agriculture-themed icon */}
-                        <FaSeedling className="text-white text-lg" />
+                        <FaSeedling className="text-background text-lg" />
                     </div>
                     <div>
                         <h2 className="text-lg font-bold">{t('chatbot.header.title')}</h2>
-                        <p className="text-sm text-white/90">{t('chatbot.header.subtitle')}</p>
+                        <p className="text-sm text-background/90">{t('chatbot.header.subtitle')}</p>
                     </div>
                 </div>
                 <div className="flex items-center gap-2">
