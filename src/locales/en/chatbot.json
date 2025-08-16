@@ -1,6 +1,6 @@
 {
   "chatbot": {
-    "initialMessage": "Hi! I'm the Afrinuts assistant. How can I help you today?",
+    "initialMessage": "Hi! I'm the AfriNuts assistant. How can I help you today?",
     "header": {
       "title": "AfriNuts Assistant",
       "subtitle": "Ask me about cashews and investments"

@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useRef } from 'react';
+import jsPDF from 'jspdf';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
@@ -118,6 +119,36 @@ const Products: React.FC = () => {
             searchQuery: '',
             certifications: []
         });
+    };
+
+    // Download Product Catalogue as PDF
+    const handleDownloadCatalogue = () => {
+        const doc = new jsPDF();
+        doc.setFontSize(18);
+        doc.text('AfriNuts Export Product Catalogue', 14, 20);
+        doc.setFontSize(12);
+        let y = 32;
+        const lineSpacing = 8;
+        filteredProducts.forEach((product, idx) => {
+            if (y > 270) { // create new page if at the bottom
+                doc.addPage();
+                y = 20;
+            }
+            doc.setFont('helvetica', 'bold');
+            doc.text(`${idx + 1}. ${product.name}`, 14, y);
+            y += lineSpacing;
+            doc.setFont('helvetica', 'normal');
+            doc.text(`Description: ${product.description}`, 18, y);
+            y += lineSpacing;
+            doc.text(`Availability: ${product.available ? 'Available' : product.comingSoon ? `Coming Soon (${product.comingSoon})` : 'Coming Soon'}`, 18, y);
+            y += lineSpacing;
+            if (product.certifications && product.certifications.length > 0) {
+                doc.text(`Certifications: ${product.certifications.join(', ')}`, 18, y);
+                y += lineSpacing;
+            }
+            y += 4; // Extra space between products
+        });
+        doc.save('afrinuts-product-catalogue.pdf');
     };
 
     return (
@@ -251,6 +282,15 @@ const Products: React.FC = () => {
                     <div className="mb-6 text-text-dark">
                         {t('filters.results', { count: filteredProducts.length }).replace('{count}', String(filteredProducts.length))}
                     </div>
+
+                    {/* Download Catalogue Button */}
+                    <button
+                        onClick={handleDownloadCatalogue}
+                        className="group bg-primary hover:bg-dark-orange text-white px-8 py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg inline-flex items-center mx-auto"
+                        style={{ marginBottom: '2rem' }}
+                    >
+                        Download Product Catalogue
+                    </button>
 
                     {/* Products Grid */}
                     {filteredProducts.length > 0 ? (
