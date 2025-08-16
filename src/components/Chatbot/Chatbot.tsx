@@ -5,12 +5,8 @@ interface ChatbotProps {
   className?: string;
 }
 
-/**
- * Floating WhatsApp button for AfriNuts.
- * Replace <YOUR_NUMBER> with your WhatsApp number, e.g., 1234567890.
- */
-const WHATSAPP_NUMBER = '<YOUR_NUMBER>'; // <-- Replace with your WhatsApp number (no + or spaces)
-const WHATSAPP_URL = `https://wa.me/${+3854577473}?text=Hello%20AfriNuts`;
+const WHATSAPP_NUMBER = '<3854577473>';
+const WHATSAPP_URL = `https://wa.me/${3854577473}?text=Hello%20AfriNuts`;
 
 const Chatbot: React.FC<ChatbotProps> = ({ className = '' }) => {
   return (
