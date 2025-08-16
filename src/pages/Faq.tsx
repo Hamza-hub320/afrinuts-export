@@ -65,6 +65,30 @@ const Faq: React.FC = () => {
             icon: <FaIndustry className="mr-2" />,
             title: t('processing.title'),
             questions: t('processing.questions', { returnObjects: true }) as FAQItem[]
+        },
+        {
+            id: 'quality',
+            icon: <FaLeaf className="mr-2" />,
+            title: t('quality.title'),
+            questions: t('quality.questions', { returnObjects: true }) as FAQItem[]
+        },
+        {
+            id: 'investment',
+            icon: <FaIndustry className="mr-2" />,
+            title: t('investment.title'),
+            questions: t('investment.questions', { returnObjects: true }) as FAQItem[]
+        },
+        {
+            id: 'leadership',
+            icon: <FaGlobe className="mr-2" />,
+            title: t('leadership.title'),
+            questions: t('leadership.questions', { returnObjects: true }) as FAQItem[]
+        },
+        {
+            id: 'finance',
+            icon: <FaQuestion className="mr-2" />,
+            title: t('finance.title'),
+            questions: t('finance.questions', { returnObjects: true }) as FAQItem[]
         }
     ];
 

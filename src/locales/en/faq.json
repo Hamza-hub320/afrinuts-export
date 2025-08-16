@@ -95,5 +95,57 @@
         "answer": "Yes. Beyond cashew processing, the center will provide employment, skill training, and community development. It is part of our broader vision to establish Odienné as a hub for ethical agriculture."
       }
     ]
+  },
+  "quality": {
+    "title": "Quality",
+    "questions": [
+      {
+        "question": "How do you ensure the quality of your cashews?",
+        "answer": "We implement strict on-farm quality controls, from seed selection to harvest timing and post-harvest handling. Our future processing center will be equipped with modern sorting and grading technology to ensure premium quality."
+      },
+      {
+        "question": "Are your products traceable?",
+        "answer": "Yes. We use transparent record-keeping and batch tracking, allowing customers to trace products back to the farm and harvest season."
+      }
+    ]
+  },
+  "investment": {
+    "title": "Investment",
+    "questions": [
+      {
+        "question": "Can I invest in AfriNuts Export?",
+        "answer": "Yes. We welcome ethical investors aligned with our mission and values. Investment opportunities are structured to comply with both international and Islamic ethical standards."
+      },
+      {
+        "question": "What is the expected return on investment?",
+        "answer": "Returns are based on profit-sharing, not fixed interest. Investors receive a share of net profits, with projections available on request. Returns depend on farm performance and market conditions."
+      }
+    ]
+  },
+  "leadership": {
+    "title": "Leadership",
+    "questions": [
+      {
+        "question": "Who leads AfriNuts Export?",
+        "answer": "AfriNuts Export is led by a team with experience in agriculture, business, and community development, committed to ethical leadership and rural empowerment."
+      },
+      {
+        "question": "How is governance handled?",
+        "answer": "Our governance is transparent and participatory, with oversight from both local stakeholders and external advisors to ensure accountability."
+      }
+    ]
+  },
+  "finance": {
+    "title": "Finance",
+    "questions": [
+      {
+        "question": "How is the project financed?",
+        "answer": "The project is financed through a mix of equity investment, ethical financing, and reinvested profits. We avoid debt with interest (riba) to align with our values."
+      },
+      {
+        "question": "Do you offer financial reports?",
+        "answer": "Yes. We provide regular financial updates and transparent reporting to all stakeholders and investors."
+      }
+    ]
   }
 }
