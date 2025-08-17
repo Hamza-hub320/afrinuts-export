@@ -460,7 +460,7 @@ const Products: React.FC = () => {
                             viewport={{once: true}}
                             variants={staggerContainer}
                         >
-                            {['organic', 'fairtrade', 'iso', 'halal'].map((cert) => (
+                            {['organic', 'fairtrade', 'iso', 'halal', 'rainforest'].map((cert) => (
                                 <motion.div
                                     key={cert}
                                     variants={fadeIn}

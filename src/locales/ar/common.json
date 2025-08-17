@@ -1,6 +1,9 @@
 {
   "navbar": {
     "about": "معلومات عنا",
+    "about_overview": "معلومات عنا",
+    "executive_team": "الفريق التنفيذي",
+    "our_story": "قصتنا",
     "products": "منتجاتنا",
     "farm": "مزرعتنا",
     "contact": "اتصل بنا",

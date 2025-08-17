@@ -11,6 +11,8 @@ import PrivacyPolicy from './pages/PrivacyPolicy';
 import TermsOfService from './pages/TermsOfService';
 import CookiePolicy from './pages/CookiePolicy';
 import News from './pages/News';
+import ExecutiveTeam from './pages/ExecutiveTeam';
+import OurStory from './pages/OurStory';
 import { I18nextProvider } from 'react-i18next';
 import i18n from './i18n';
 import './index.css';
@@ -49,6 +51,8 @@ function App(): ReactElement {
                             <Route path="/terms" element={<TermsOfService />} />
                             <Route path="/news" element={<News />} />
                             <Route path="/faq" element={<Faq />} />
+                            <Route path="/executive-team" element={<ExecutiveTeam />} />
+                            <Route path="/about/our-story" element={<OurStory />} />
                             {/* Add a catch-all route for 404s within the SPA */}
                             <Route path="*" element={<Home />} />
                         </Route>

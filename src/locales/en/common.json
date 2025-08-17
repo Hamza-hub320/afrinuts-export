@@ -2,6 +2,9 @@
   "navbar": {
     "home": "Home",
     "about": "About",
+    "about_overview": "About Us",
+    "executive_team": "Executive Team",
+    "our_story": "Our Story",
     "products": "Products",
     "farm": "Farm",
     "contact": "Contact",

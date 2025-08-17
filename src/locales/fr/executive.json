@@ -1,0 +1,55 @@
+{
+  "executives": {
+    "subtitle": "Direction",
+    "title": "Équipe Exécutive",
+    "description": "Guidés par les principes islamiques d'Amanah (confiance) et d'Ihsan (excellence), notre équipe dirigeante gère AfriNuts avec intégrité et vision.",
+    "ceo": {
+      "title": "Directeur Général",
+      "role": "Leadership stratégique & conformité islamique",
+      "alt": "Hamza Sangare, PDG d'AfriNuts",
+      "bio": [
+        "Avec plus de 15 ans d'expérience dans le leadership agro-industriel, Hamza a fondé AfriNuts sur des principes de commerce éthique et de croissance durable. Il supervise la vision stratégique et veille à ce que toutes les opérations soient conformes aux principes fiduciaires islamiques."
+      ]
+    },
+    "cfo": {
+      "title": "Directeur Financier et Opérationnel",
+      "role": "Finances, budgets & coordination opérationnelle",
+      "alt": "Sekou Hakim, CFO d'AfriNuts",
+      "bio": [
+        "Sekou gère la gestion financière avec des pratiques conformes à la Charia, supervisant la distribution des profits (Mudarabah) et garantissant une gestion transparente des ressources."
+      ]
+    },
+    "cco": {
+      "title": "Directeur Commercial",
+      "role": "Ventes internationales & conformité à l'exportation",
+      "alt": "Mohamadue Kouyaté, CCO d'AfriNuts",
+      "bio": [
+        "Mohamadue dirige le développement commercial international en se concentrant sur les contrats sans riba et les pratiques de marketing éthiques conformes à la Sunnah."
+      ]
+    },
+    "ops": {
+      "title": "Responsable des Opérations",
+      "role": "Opérations agricoles & supervision de la transformation",
+      "alt": "Rouillard Cedric, Responsable des Opérations d'AfriNuts",
+      "bio": [
+        "Rouillard assure l'excellence des opérations quotidiennes, mettant en œuvre les calendriers de transformation et les normes de qualité avec ihsan (excellence)."
+      ]
+    },
+    "admin": {
+      "title": "Responsable du Soutien Administratif",
+      "role": "RH, juridique & sécurité informatique",
+      "alt": "Mohammed Beniken, Responsable Admin d'AfriNuts",
+      "bio": [
+        "Mohammed applique la directive prophétique de 'payer le travailleur avant que sa sueur ne sèche' à travers des pratiques RH équitables et la sécurité des données."
+      ]
+    },
+    "farm": {
+      "title": "Responsable Agricole",
+      "role": "Division agricole & liaison communautaire",
+      "alt": "Souleymane Sangare, Responsable Agricole d'AfriNuts",
+      "bio": [
+        "Souleymane met en œuvre des cycles de plantation inspirés de la Sunna et sert de pont entre AfriNuts et les communautés agricoles locales."
+      ]
+    }
+  }
+}

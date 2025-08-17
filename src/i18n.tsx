@@ -18,6 +18,8 @@ import cookiesEN from './locales/en/cookies.json';
 import newsEN from './locales/en/news.json';
 import faqEN from './locales/en/faq.json';
 import chatbotEN from './locales/en/chatbot.json';
+import executiveEN from './locales/en/executive.json';
+import storyEN from './locales/en/story.json';
 import cookiePolicyEN from './locales/en/cookiePolicy.json';
 
 // French translations
@@ -36,6 +38,8 @@ import cookiesFR from './locales/fr/cookies.json';
 import newsFR from './locales/fr/news.json'
 import faqFR from './locales/fr/faq.json';
 import chatbotFR from './locales/fr/chatbot.json';
+import executiveFR from './locales/fr/executive.json';
+import storyFR from './locales/fr/story.json';
 import cookiePolicyFR from './locales/fr/cookiePolicy.json';
 
 // Arabic translations
@@ -54,6 +58,8 @@ import cookiesAR from './locales/ar/cookies.json';
 import newsAR from './locales/ar/news.json'
 import faqAR from './locales/ar/faq.json';
 import chatbotAR from './locales/ar/chatbot.json';
+import executiveAR from './locales/ar/executive.json';
+import storyAR from './locales/ar/story.json';
 import cookiePolicyAR from './locales/ar/cookiePolicy.json';
 
 // Type definitions
@@ -75,6 +81,8 @@ interface TranslationResources {
     news: typeof newsEN;
     faq: typeof faqEN;
     chatbot: typeof chatbotEN;
+    executive: typeof executiveEN;
+    story: typeof storyEN;
     cookiePolicy: typeof cookiePolicyEN;
 }
 
@@ -114,6 +122,8 @@ const resources: Record<SupportedLanguages, TranslationResources> = {
         news: newsEN,
         faq: faqEN,
         chatbot: chatbotEN,
+        executive: executiveEN,
+        story: storyEN,
         cookiePolicy: cookiePolicyEN
     },
     fr: {
@@ -132,6 +142,8 @@ const resources: Record<SupportedLanguages, TranslationResources> = {
         news: newsFR,
         faq: faqFR,
         chatbot: chatbotFR,
+        executive: executiveFR,
+        story: storyFR,
         cookiePolicy: cookiePolicyFR
     },
     ar: {
@@ -150,6 +162,8 @@ const resources: Record<SupportedLanguages, TranslationResources> = {
         news: newsAR,
         faq: faqAR,
         chatbot: chatbotAR,
+        executive: executiveAR,
+        story: storyAR,
         cookiePolicy: cookiePolicyAR
     }
 };
@@ -158,7 +172,7 @@ const options: I18nOptions = {
     fallbackLng: 'en',
     debug: process.env.NODE_ENV === 'development',
     supportedLngs: ['en', 'fr', 'ar'],
-    ns: ['home', 'common', 'about', 'products', 'farm', 'contact', 'footer', 'sustainability', 'vision', 'privacy', 'terms', 'cookies', 'cookiePolicy', 'news', 'faq', 'chatbot'],
+    ns: ['home', 'common', 'about', 'products', 'farm', 'contact', 'footer', 'sustainability', 'vision', 'privacy', 'terms', 'cookies', 'cookiePolicy', 'news', 'faq', 'chatbot', 'executive', 'story'],
     defaultNS: 'common',
     resources,
     interpolation: {

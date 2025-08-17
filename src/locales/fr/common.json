@@ -2,6 +2,9 @@
   "navbar": {
     "home": "Accueil",
     "about": "Profil",
+    "about_overview": "À propos",
+    "executive_team": "Équipe de direction",
+    "our_story": "Notre histoire",
     "products": "Produits",
     "farm": "Ferme",
     "contact": "Contact",

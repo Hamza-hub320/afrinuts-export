@@ -6,7 +6,7 @@ type TypographyVariant =
     | 'display-2xl' | 'display-xl' | 'display-lg'  // Display styles
     | 'h1' | 'h2' | 'h3' | 'h4' | 'h5'| 'caption'
     | 'subtitle'
-    | 'subhead'
+    | 'subhead'| 'body-sm'|'lead'
     | 'body' | 'small';                            // Body text
 
 interface TypographyProps {

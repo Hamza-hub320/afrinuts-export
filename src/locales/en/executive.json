@@ -1,0 +1,55 @@
+{
+  "executives": {
+    "subtitle": "Leadership",
+    "title": "Executive Team",
+    "description": "Guided by Islamic principles of Amanah (trust) and Ihsan (excellence), our leadership team stewards AfriNuts with integrity and vision.",
+    "ceo": {
+      "title": "Chief Executive Officer",
+      "role": "Strategic leadership & Islamic compliance oversight",
+      "alt": "Hamza Sangare, CEO of AfriNuts",
+      "bio": [
+        "With over 15 years in agribusiness leadership, Hamza founded AfriNuts on principles of ethical trade and sustainable growth. He oversees strategic vision and ensures all operations align with Islamic fiduciary principles."
+      ]
+    },
+    "cfo": {
+      "title": "Chief Financial & Operating Officer",
+      "role": "Finance, budgets & operational coordination",
+      "alt": "Sekou Hakim, CFO of AfriNuts",
+      "bio": [
+        "Sekou manages financial stewardship with Sharia-compliant practices, overseeing profit distribution (Mudarabah) and ensuring transparent resource management."
+      ]
+    },
+    "cco": {
+      "title": "Chief Commercial Officer",
+      "role": "Global sales & export compliance",
+      "alt": "Mohamadue Kouyaté, CCO of AfriNuts",
+      "bio": [
+        "Mohamadue leads international business development with a focus on riba-free contracts and ethical marketing practices per Sunnah."
+      ]
+    },
+    "ops": {
+      "title": "Operations Manager",
+      "role": "Farm operations & processing supervision",
+      "alt": "Rouillard Cedric, Operations Manager of AfriNuts",
+      "bio": [
+        "Rouillard ensures excellence in daily operations, implementing processing timelines and quality standards with ihsan (excellence)."
+      ]
+    },
+    "admin": {
+      "title": "Administrative Support Manager",
+      "role": "HR, legal & IT security",
+      "alt": "Mohammed Beniken, Admin Manager of AfriNuts",
+      "bio": [
+        "Mohammed upholds the Prophetic directive to 'pay the worker before his sweat dries' through fair HR practices and data security."
+      ]
+    },
+    "farm": {
+      "title": "Farm Manager",
+      "role": "Agricultural division & community liaison",
+      "alt": "Souleymane Sangare, Farm Manager of AfriNuts",
+      "bio": [
+        "Souleymane implements Sunna-inspired planting cycles and serves as the bridge between AfriNuts and local farming communities."
+      ]
+    }
+  }
+}
