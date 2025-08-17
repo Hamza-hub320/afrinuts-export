@@ -1,7 +1,8 @@
 {
   "hero": {
     "title": "Foire Aux Questions",
-    "subtitle": "Trouvez des réponses aux questions courantes sur AfriNuts Export"
+    "subtitle": "Trouvez des réponses aux questions courantes sur AfriNuts Export",
+    "description": "Trouvez des réponses claires et directes sur AfriNuts - de nos pratiques agricoles et initiatives durables à nos projets de centre de transformation et impact communautaire."
   },
   "topics": {
     "title": "Parcourir par thème"

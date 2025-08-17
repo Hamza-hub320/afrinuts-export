@@ -221,7 +221,7 @@ const ExecutiveTeam: React.FC = () => {
                 {/* Bio Modal */}
                 {isModalOpen && selectedExecutive && (
                     <div className="fixed inset-0 z-50 overflow-y-auto">
-                        <div className="flex items-center justify-center min-h-screen px-4 text-center">
+                        <div className="flex justify-center min-h-screen px-4 text-center items-start sm:items-center pt-16 sm:pt-0">
                             {/* Background overlay */}
                             <div
                                 className="fixed inset-0 bg-black/75 transition-opacity"

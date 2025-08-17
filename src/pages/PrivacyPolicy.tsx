@@ -14,41 +14,49 @@ const PrivacyPolicy: React.FC = () => {
         <main>
             {/* Hero Section */}
             <Section
-                fullHeight={false}
-                className="bg-cashew-gradient flex items-center justify-center py-20 text-center min-h-[50vh] md:min-h-[25vh] pb-24 pr-16 mx-6 sm:mx-12 lg:mx-32 xl:mx-48 mt-32 pt-24 rounded-[2rem] shadow-2xl overflow-hidden border border-white/40"
+                fullHeight={true}
+                className="flex items-center justify-center text-center min-h-[45vh] bg-gradient-to-b from-primary/20 to-background"
             >
                 <motion.div
-                    className="max-w-4xl w-full px-6"
+                    className="max-w-4xl px-6 sm:px-8 py-12"
                     initial="hidden"
                     animate="visible"
                     variants={staggerContainer}
                 >
+                    {/* Subtitle / Effective Date */}
+                    <motion.div variants={fadeIn}>
+                        <Typography
+                            variant="subhead"
+                            className="uppercase tracking-widest text-primary mb-4"
+                        >
+                            {t('effectiveDate')}
+                        </Typography>
+                    </motion.div>
+
+                    {/* Title with Icon */}
                     <motion.h1
-                        className="font-display text-4xl md:text-5xl lg:text-6xl text-primary mb-6 text-center flex items-center justify-center"
+                        className="font-display text-4xl md:text-5xl lg:text-6xl text-text-dark mb-6 leading-tight flex items-center justify-center"
                         variants={fadeIn}
+                        style={{ letterSpacing: '-0.03em' }}
                     >
                         <FontAwesomeIcon icon={faLock} className="mr-3 h-8 w-8" />
                         {t('title')}
                     </motion.h1>
-                    <motion.div variants={fadeIn} className="text-center">
-                        <Typography variant="subtitle" className="text-primary-dark max-w-2xl mx-auto">
-                            {t('effectiveDate')}
+
+                    {/* Description */}
+                    <motion.div variants={fadeIn}>
+                        <Typography
+                            variant="lead"
+                            className="text-text-dark max-w-3xl mx-auto"
+                        >
+                            {t('description')}
                         </Typography>
                     </motion.div>
                 </motion.div>
             </Section>
 
-            {/* Introduction */}
-            <Section className="py-6">
-                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <Typography variant="body" className="mb-8">
-                        {t('introduction')}
-                    </Typography>
-                </div>
-            </Section>
-
             {/* Information Collection */}
-            <Section className="py-6">
+            <Section className="py-6 bg-background">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                     <Typography variant="h3" className="mb-6">
                         {t('collection.title')}
@@ -67,7 +75,7 @@ const PrivacyPolicy: React.FC = () => {
             </Section>
 
             {/* Information Use */}
-            <Section className="py-6">
+            <Section className="py-6 bg-background">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                     <Typography variant="h3" className="mb-6">
                         {t('use.title')}
@@ -89,7 +97,7 @@ const PrivacyPolicy: React.FC = () => {
             </Section>
 
             {/* Cookies */}
-            <Section className="py-6">
+            <Section className="py-6 bg-background">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                     <Typography variant="h3" className="mb-6">
                         {t('cookies.title')}
@@ -101,7 +109,7 @@ const PrivacyPolicy: React.FC = () => {
             </Section>
 
             {/* Data Security */}
-            <Section className="py-6">
+            <Section className="py-6 bg-background">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                     <Typography variant="h3" className="mb-6">
                         {t('security.title')}
@@ -113,7 +121,7 @@ const PrivacyPolicy: React.FC = () => {
             </Section>
 
             {/* Your Rights */}
-            <Section className="py-6">
+            <Section className="py-6 bg-background">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                     <Typography variant="h3" className="mb-6">
                         {t('rights.title')}
@@ -131,7 +139,7 @@ const PrivacyPolicy: React.FC = () => {
             </Section>
 
             {/* Last Updated */}
-            <Section className="py-6">
+            <Section className="py-6 bg-background">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                     <Typography variant="body" className="text-gray-500">
                         {t('lastUpdated')}

@@ -105,31 +105,43 @@ const Faq: React.FC = () => {
         <main className="bg-afri-light">
             {/* Hero Section */}
             <Section
-                fullHeight={false}
-                className="bg-cashew-gradient flex items-end justify-start py-20 text-center min-h-[50vh] md:min-h-[15vh] pb-24 pr-16 mx-6 sm:mx-12 lg:mx-32 xl:mx-48 mt-32 pt-24 rounded-[2rem] shadow-2xl overflow-hidden border border-white/40"
+                fullHeight={true}
+                className="flex items-center justify-center text-center min-h-[45vh] bg-gradient-to-b from-primary/20 to-background"
             >
                 <motion.div
-                    className="max-w-4xl w-full px-6"
+                    className="max-w-4xl px-6 sm:px-8 py-12"
                     initial="hidden"
                     animate="visible"
                     variants={staggerContainer}
                 >
+                    <motion.div variants={fadeIn}>
+                        <Typography
+                            variant="subhead"
+                            className="uppercase tracking-widest text-primary mb-4"
+                        >
+                            {t('hero.subtitle')}
+                        </Typography>
+                    </motion.div>
                     <motion.h1
-                        className="font-display text-4xl md:text-5xl lg:text-6xl text-primary mb-6 text-center"
+                        className="font-display text-4xl md:text-5xl lg:text-6xl text-text-dark mb-6 leading-tight"
                         variants={fadeIn}
+                        style={{ letterSpacing: '-0.03em' }}
                     >
                         {t('hero.title')}
                     </motion.h1>
-                    <motion.div variants={fadeIn} className="text-center">
-                        <Typography variant="subtitle" className="text-primary-dark max-w-2xl mx-auto">
-                            {t('hero.subtitle')}
+                    <motion.div variants={fadeIn}>
+                        <Typography
+                            variant="lead"
+                            className="text-text-dark max-w-3xl mx-auto"
+                        >
+                            {t('hero.description')}
                         </Typography>
                     </motion.div>
                 </motion.div>
             </Section>
 
             {/* FAQ Content */}
-            <Section className="py-16">
+            <Section className="py-16 bg-background">
                 <div className="max-w-7xl mx-auto px-6 lg:px-8">
                     <div className="flex flex-col lg:flex-row gap-12">
                         {/* Removed Sidebar Navigation */}
