@@ -102,11 +102,11 @@ const Faq: React.FC = () => {
     const topics = getTopics();
 
     return (
-        <main className="bg-afri-light">
+        <main>
             {/* Hero Section */}
             <Section
                 fullHeight={true}
-                className="flex items-center justify-center text-center min-h-[45vh] bg-gradient-to-b from-primary/20 to-background"
+                className="flex items-center justify-center text-center min-h-[45vh] bg-transparent"
             >
                 <motion.div
                     className="max-w-4xl px-6 sm:px-8 py-12"
@@ -141,7 +141,7 @@ const Faq: React.FC = () => {
             </Section>
 
             {/* FAQ Content */}
-            <Section className="py-16 bg-background">
+            <Section className="py-16">
                 <div className="max-w-7xl mx-auto px-6 lg:px-8">
                     <div className="flex flex-col lg:flex-row gap-12">
                         {/* Removed Sidebar Navigation */}

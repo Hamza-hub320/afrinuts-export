@@ -15,7 +15,7 @@ const PrivacyPolicy: React.FC = () => {
             {/* Hero Section */}
             <Section
                 fullHeight={true}
-                className="flex items-center justify-center text-center min-h-[45vh] bg-gradient-to-b from-primary/20 to-background"
+                className="flex items-center justify-center text-center min-h-[45vh] bg-transparent"
             >
                 <motion.div
                     className="max-w-4xl px-6 sm:px-8 py-12"
@@ -56,7 +56,7 @@ const PrivacyPolicy: React.FC = () => {
             </Section>
 
             {/* Information Collection */}
-            <Section className="py-6 bg-background">
+            <Section className="py-6">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                     <Typography variant="h3" className="mb-6">
                         {t('collection.title')}
@@ -75,7 +75,7 @@ const PrivacyPolicy: React.FC = () => {
             </Section>
 
             {/* Information Use */}
-            <Section className="py-6 bg-background">
+            <Section className="py-6 ">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                     <Typography variant="h3" className="mb-6">
                         {t('use.title')}
@@ -97,7 +97,7 @@ const PrivacyPolicy: React.FC = () => {
             </Section>
 
             {/* Cookies */}
-            <Section className="py-6 bg-background">
+            <Section className="py-6 ">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                     <Typography variant="h3" className="mb-6">
                         {t('cookies.title')}
@@ -109,7 +109,7 @@ const PrivacyPolicy: React.FC = () => {
             </Section>
 
             {/* Data Security */}
-            <Section className="py-6 bg-background">
+            <Section className="py-6 ">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                     <Typography variant="h3" className="mb-6">
                         {t('security.title')}
@@ -121,7 +121,7 @@ const PrivacyPolicy: React.FC = () => {
             </Section>
 
             {/* Your Rights */}
-            <Section className="py-6 bg-background">
+            <Section className="py-6 ">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                     <Typography variant="h3" className="mb-6">
                         {t('rights.title')}
@@ -139,7 +139,7 @@ const PrivacyPolicy: React.FC = () => {
             </Section>
 
             {/* Last Updated */}
-            <Section className="py-6 bg-background">
+            <Section className="py-6 ">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
                     <Typography variant="body" className="text-gray-500">
                         {t('lastUpdated')}
