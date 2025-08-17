@@ -11,7 +11,7 @@ const WHATSAPP_URL = `https://wa.me/${3854577473}?text=Hello%20AfriNuts`;
 const Chatbot: React.FC<ChatbotProps> = ({ className = '' }) => {
   return (
     <button
-      className={`fixed bottom-6 right-6 z-50 flex items-center px-4 py-2 rounded-full bg-primary hover:bg-primary text-white shadow-lg transition-colors ${className}`}
+      className={`fixed bottom-20 right-6 z-50 flex items-center px-4 py-2 rounded-full bg-primary hover:bg-primary text-white shadow-lg transition-colors ${className}`}
       aria-label="Chat on WhatsApp"
       onClick={() => window.open(WHATSAPP_URL, '_blank', 'noopener,noreferrer')}
       type="button"

@@ -28,6 +28,7 @@ const Layout: FC = () => {
             <main>
                 <Outlet />
             </main>
+
             <Footer className="mt-auto text-white" />
 
             <Chatbot />

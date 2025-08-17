@@ -98,7 +98,7 @@ const ExecutiveTeam: React.FC = () => {
             {/* Hero Section */}
             <Section
                 fullHeight={true}
-                className="flex items-center justify-center text-center min-h-[45vh] bg-gradient-to-b from-primary/20 to-background"
+                className="flex items-center justify-center text-center min-h-[40vh] bg-gradient-to-b bg-transparent"
             >
                 <motion.div
                     className="max-w-4xl px-6 sm:px-8 py-12"
@@ -133,7 +133,7 @@ const ExecutiveTeam: React.FC = () => {
             </Section>
 
             {/* Executive Team Grid */}
-            <Section className="py-16 bg-background">
+            <Section className="py-16 ">
                 <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <motion.div
                         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"

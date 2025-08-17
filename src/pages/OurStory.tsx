@@ -59,7 +59,7 @@ const OurStory: React.FC = () => {
             {/* Hero Section */}
             <Section
                 fullHeight={true}
-                className="flex items-center justify-center text-center min-h-[45vh] bg-gradient-to-b from-primary/20 to-background"
+                className="flex items-center justify-center text-center min-h-[40vh] bg-gradient-to-b bg-transparent"
             >
                 <motion.div
                     className="max-w-4xl px-6 sm:px-8 py-12"
@@ -88,7 +88,7 @@ const OurStory: React.FC = () => {
             </Section>
 
             {/* Story Timeline */}
-            <Section className="py-16 md:py-24 bg-background">
+            <Section className="py-16 md:py-24">
                 <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <motion.div
                         className="text-center mb-16"
@@ -169,7 +169,7 @@ const OurStory: React.FC = () => {
             </Section>
 
             {/* Call to Action */}
-            <Section className="py-16 bg-background text-text-dark">
+            <Section className="py-16 text-text-dark">
                 <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 text-center">
                     <motion.div
                         initial="hidden"

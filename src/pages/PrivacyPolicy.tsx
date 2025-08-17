@@ -15,7 +15,7 @@ const PrivacyPolicy: React.FC = () => {
             {/* Hero Section */}
             <Section
                 fullHeight={true}
-                className="flex items-center justify-center text-center min-h-[45vh] bg-transparent"
+                className="flex items-center justify-center text-center min-h-[40vh] bg-gradient-to-b bg-transparent"
             >
                 <motion.div
                     className="max-w-4xl px-6 sm:px-8 py-12"
