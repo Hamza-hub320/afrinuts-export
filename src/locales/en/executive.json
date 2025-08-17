@@ -1,54 +1,58 @@
 {
   "executives": {
-    "subtitle": "Leadership",
-    "title": "Executive Team",
-    "description": "Guided by Islamic principles of Amanah (trust) and Ihsan (excellence), our leadership team stewards AfriNuts with integrity and vision.",
+    "subtitle": "Executive Leadership",
+    "title": "Our Leadership Team",
+    "description": "Steered by the Islamic values of Amanah (sacred trust) and Ihsan (operational excellence), our executive leadership guides AfriNuts with unwavering integrity and strategic foresight.",
     "ceo": {
       "title": "Chief Executive Officer",
-      "role": "Strategic leadership & Islamic compliance oversight",
-      "alt": "Hamza Sangare, CEO of AfriNuts",
+      "role": "Strategic Vision & Ethical Enterprise Leadership",
+      "alt": "Hamza S. Ralsan Sangare, Founder & CEO of AfriNuts Export",
       "bio": [
-        "With over 15 years in agribusiness leadership, Hamza founded AfriNuts on principles of ethical trade and sustainable growth. He oversees strategic vision and ensures all operations align with Islamic fiduciary principles."
+        "Hamza S. Ralsan Sangare combines technical expertise in cybersecurity and cloud computing with three generations of agricultural heritage to lead AfriNuts Export. As Founder & CEO, he has built a vertically integrated cashew enterprise that honors Islamic values while meeting global business standards.",
+        "With professional certifications in AWS Cloud, and ITIL 4, Hamza applies operational discipline to transform family farming traditions into a modern agribusiness model. His leadership focuses on regenerative agriculture, value-chain localization, and community development through profit-sharing initiatives.",
+        "Under his direction, AfriNuts has become a benchmark for ethical sourcing, implementing traceability systems and sustainable practices across its 50-hectare demonstration farm. Hamza's vision extends beyond commerce - aiming to establish processing infrastructure that keeps African agricultural value on the continent while meeting international market demands."
       ]
     },
     "cfo": {
       "title": "Chief Financial & Operating Officer",
-      "role": "Finance, budgets & operational coordination",
-      "alt": "Sekou Hakim, CFO of AfriNuts",
+      "role": "Ethical Financial Architect & Value Chain Strategist",
+      "alt": "Sekou Hakim, CFO of AfriNuts Export",
       "bio": [
-        "Sekou manages financial stewardship with Sharia-compliant practices, overseeing profit distribution (Mudarabah) and ensuring transparent resource management."
+        "Sekou Hakim architects financial systems where profitability converges with prophetic principles, implementing Sharia-compliant frameworks that transform traditional agribusiness economics. His stewardship replaces extractive models with regenerative finance - where 20% of profits actively rebuild communities through wells, mosques, and farmer education.",
+        "As both financial guardian and operational strategist, Sekou oversees the complete monetization of our cashew value chain, from soil to shelf. He engineered the transition from raw commodity exports to in-country processing, designing capital structures that fund Odienné's first modern processing facility while maintaining rigorous profit-sharing (Mudarabah) standards.",
+        "Under his leadership, AfriNuts achieves the rare balance of fiscal discipline and social impact: deploying blockchain-enabled transparency for investors, fair trade premiums for farmers, and Islamic microfinancing for equipment - proving ethical finance can drive competitive advantage in global markets."
       ]
     },
     "cco": {
       "title": "Chief Commercial Officer",
-      "role": "Global sales & export compliance",
-      "alt": "Mohamadue Kouyaté, CCO of AfriNuts",
+      "role": "Global market expansion & trade compliance",
+      "alt": "Portrait of Mohamadue Kouyaté, Chief Commercial Officer",
       "bio": [
-        "Mohamadue leads international business development with a focus on riba-free contracts and ethical marketing practices per Sunnah."
+        "Mohamadue Kouyaté directs worldwide commercial operations, establishing ethical trade partnerships through interest-free contractual frameworks and marketing strategies aligned with Prophetic traditions."
       ]
     },
     "ops": {
       "title": "Operations Manager",
-      "role": "Farm operations & processing supervision",
-      "alt": "Rouillard Cedric, Operations Manager of AfriNuts",
+      "role": "Production oversight & quality assurance",
+      "alt": "Portrait of Rouillard Cedric, Operations Manager",
       "bio": [
-        "Rouillard ensures excellence in daily operations, implementing processing timelines and quality standards with ihsan (excellence)."
+        "Rouillard Cedric maintains operational excellence through meticulous supervision of cultivation processes, implementing rigorous quality control measures grounded in the Islamic principle of Ihsan (perfection in work)."
       ]
     },
     "admin": {
       "title": "Administrative Support Manager",
-      "role": "HR, legal & IT security",
-      "alt": "Mohammed Beniken, Admin Manager of AfriNuts",
+      "role": "Corporate governance & infrastructure",
+      "alt": "Portrait of Mohammed Beniken, Administrative Manager",
       "bio": [
-        "Mohammed upholds the Prophetic directive to 'pay the worker before his sweat dries' through fair HR practices and data security."
+        "Mohammed Beniken ensures organizational compliance with the Prophetic mandate for equitable labor practices, overseeing human resources, legal affairs, and information security protocols."
       ]
     },
     "farm": {
-      "title": "Farm Manager",
-      "role": "Agricultural division & community liaison",
-      "alt": "Souleymane Sangare, Farm Manager of AfriNuts",
+      "title": "Agricultural Operations Manager",
+      "role": "Agronomic management & community relations",
+      "alt": "Portrait of Souleymane Sangare, Farm Operations Manager",
       "bio": [
-        "Souleymane implements Sunna-inspired planting cycles and serves as the bridge between AfriNuts and local farming communities."
+        "Souleymane Sangare integrates traditional Islamic agricultural wisdom with modern farming techniques, serving as both cultivation specialist and liaison to local farming communities."
       ]
     }
   }

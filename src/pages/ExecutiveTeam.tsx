@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { fadeIn, staggerContainer } from '@/utils/animations';
 import { Typography } from "@/components/Typography/Typography";
 import Section from '@/components/Section/Section';
+import { FaTimes } from 'react-icons/fa';
 
 // Import executive images
 import ceoImage from '@/assets/images/ceo.webp';
@@ -15,6 +16,8 @@ import farmImage from '@/assets/images/farm-manager.webp';
 
 const ExecutiveTeam: React.FC = () => {
     const { t } = useTranslation('executive');
+    const [selectedExecutive, setSelectedExecutive] = useState<any>(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const executives = [
         {
@@ -79,89 +82,226 @@ const ExecutiveTeam: React.FC = () => {
         }
     ];
 
-    return (
-        <Section className="py-16">
-            <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-20">
-                {/* Section Header */}
-                <motion.div
-                    className="text-center mb-12"
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true }}
-                    variants={fadeIn}
-                >
-                    <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-3">
-                        {t('executives.subtitle')}
-                    </Typography>
-                    <Typography variant="h2" className="text-text-dark mb-4">
-                        {t('executives.title')}
-                    </Typography>
-                    <Typography variant="body" className="max-w-2xl mx-auto text-text-dark">
-                        {t('executives.description')}
-                    </Typography>
-                </motion.div>
+    const openModal = (executive: any) => {
+        setSelectedExecutive(executive);
+        setIsModalOpen(true);
+        document.body.style.overflow = 'hidden';
+    };
 
-                {/* Executive Grid */}
+    const closeModal = () => {
+        setIsModalOpen(false);
+        document.body.style.overflow = 'auto';
+    };
+
+    return (
+        <main className="text-text-dark font-sans">
+            {/* Hero Section */}
+            <Section
+                fullHeight={true}
+                className="flex items-center justify-center text-center min-h-[45vh] bg-gradient-to-b from-primary/20 to-background"
+            >
                 <motion.div
-                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+                    className="max-w-4xl px-6 sm:px-8 py-12"
                     initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true }}
+                    animate="visible"
                     variants={staggerContainer}
                 >
-                    {executives.map((executive) => (
-                        <motion.div
-                            key={executive.id}
-                            className="bg-gradient-to-br from-primary/5 to-accent/5  border-2 border-primary/20 hover:border-accent/30 rounded-3xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300"
-                            variants={fadeIn}
-                            whileHover={{ y: -5 }}
+                    <motion.div variants={fadeIn}>
+                        <Typography
+                            variant="subhead"
+                            className="uppercase tracking-widest text-primary mb-4"
                         >
-                            <div className="p-6">
-                                <div className="flex items-start space-x-4">
-                                    <div className="flex-shrink-0">
-                                        <img
-                                            className="h-20 w-20 rounded-full object-cover border-2 border-primary/20"
-                                            src={executive.image}
-                                            alt={executive.alt}
-                                        />
-                                    </div>
-                                    <div className="flex-1 min-w-0">
-                                        <Typography variant="h5" className="text-lg font-bold text-primary truncate">
-                                            {executive.name}
-                                        </Typography>
-                                        <Typography variant="subtitle" className="text-primary">
-                                            {executive.title}
-                                        </Typography>
-                                        <Typography variant="small" className="text-text-dark mt-1">
-                                            {executive.role}
-                                        </Typography>
-                                    </div>
-                                </div>
+                            {t('executives.subtitle')}
+                        </Typography>
+                    </motion.div>
+                    <motion.h1
+                        className="font-display text-4xl md:text-5xl lg:text-6xl text-text-dark mb-6 leading-tight"
+                        variants={fadeIn}
+                        style={{ letterSpacing: '-0.03em' }}
+                    >
+                        {t('executives.title')}
+                    </motion.h1>
+                    <motion.div variants={fadeIn}>
+                        <Typography
+                            variant="lead"
+                            className="text-text-dark max-w-3xl mx-auto"
+                        >
+                            {t('executives.description')}
+                        </Typography>
+                    </motion.div>
+                </motion.div>
+            </Section>
 
-                                <div className="mt-4">
-                                    <Typography variant="body-sm" className="text-text-dark">
-                                        {Array.isArray(executive.bio) ? executive.bio[0] : executive.bio}
-                                    </Typography>
-                                </div>
-
-                                <div className="mt-4 pt-4 border-t border-gray-100">
-                                    <div className="flex flex-wrap gap-2">
-                                        {executive.certifications.map((cert, index) => (
-                                            <span
-                                                key={index}
-                                                className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary"
+            {/* Executive Team Grid */}
+            <Section className="py-16 bg-background">
+                <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <motion.div
+                        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={staggerContainer}
+                    >
+                        {executives.map((executive) => (
+                            <motion.div
+                                key={executive.id}
+                                className="border-gray-100 bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl p-8 border-2 border-primary/20 hover:border-accent/30 shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300"
+                                variants={fadeIn}
+                                whileHover={{ y: -5 }}
+                            >
+                                <div className="p-6">
+                                    <div className="flex items-start space-x-4">
+                                        <div className="flex-shrink-0">
+                                            <img
+                                                className="h-20 w-20 rounded-full object-cover border-2 border-primary/20"
+                                                src={executive.image}
+                                                alt={executive.alt}
+                                            />
+                                        </div>
+                                        <div className="flex-1 min-w-0">
+                                            <Typography
+                                                variant="h5"
+                                                className="text-lg font-bold text-primary"
                                             >
-                        {cert}
-                      </span>
-                                        ))}
+                                                {executive.name}
+                                            </Typography>
+                                            <Typography
+                                                variant="small"
+                                                className="text-primary"
+                                            >
+                                                {executive.title}
+                                            </Typography>
+                                            <Typography
+                                                variant="small"
+                                                className="text-text-dark mt-1"
+                                            >
+                                                {executive.role}
+                                            </Typography>
+                                        </div>
                                     </div>
+
+                                    <div className="mt-4">
+                                        <Typography
+                                            variant="body-sm"
+                                            className="text-text-dark"
+                                        >
+                                            {Array.isArray(executive.bio) ? executive.bio[0] : executive.bio}
+                                        </Typography>
+                                    </div>
+
+                                    {/* Read More Button */}
+                                    <button
+                                        onClick={() => openModal(executive)}
+                                        className="mt-4 text-primary hover:text-accent font-medium text-sm flex items-center transition-colors duration-300"
+                                    >
+                                        Read More
+                                        <svg className="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                                        </svg>
+                                    </button>
+
+                                    <div className="mt-4 pt-4 border-t border-gray-100">
+                                        <div className="flex flex-wrap gap-2">
+                                            {executive.certifications.map((cert, index) => (
+                                                <span
+                                                    key={index}
+                                                    className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary"
+                                                >
+                    {cert}
+                  </span>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </motion.div>
+                </div>
+
+                {/* Bio Modal */}
+                {isModalOpen && selectedExecutive && (
+                    <div className="fixed inset-0 z-50 overflow-y-auto">
+                        <div className="flex items-center justify-center min-h-screen px-4 text-center">
+                            {/* Background overlay */}
+                            <div
+                                className="fixed inset-0 bg-black/75 transition-opacity"
+                                aria-hidden="true"
+                                onClick={closeModal}
+                            ></div>
+
+                            {/* Modal content */}
+                            <div className="relative bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:max-w-2xl w-full mx-auto my-8">
+                                <div className="bg-white px-4 pt-6 pb-4 sm:p-6 sm:pb-4">
+                                    <div className="sm:flex sm:items-start">
+                                        <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+                                            <div className="flex justify-between items-start">
+                                                <div>
+                                                    <Typography variant="h3" className="text-lg leading-6 font-medium text-gray-900">
+                                                        {selectedExecutive.name}
+                                                    </Typography>
+                                                    <Typography variant="small" className="text-primary">
+                                                        {selectedExecutive.title}
+                                                    </Typography>
+                                                </div>
+                                                <button
+                                                    onClick={closeModal}
+                                                    className="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none"
+                                                >
+                                                    <FaTimes className="h-6 w-6" />
+                                                </button>
+                                            </div>
+
+                                            <div className="mt-4">
+                                                <img
+                                                    src={selectedExecutive.image}
+                                                    alt={selectedExecutive.alt}
+                                                    className="h-32 w-32 rounded-full object-cover border-2 border-primary/20 mx-auto sm:mx-0"
+                                                />
+                                            </div>
+
+                                            <div className="mt-4">
+                                                <Typography variant="body" className="text-gray-700">
+                                                    {Array.isArray(selectedExecutive.bio)
+                                                        ? selectedExecutive.bio.map((paragraph, index) => (
+                                                            <p key={index} className="mb-4">{paragraph}</p>
+                                                        ))
+                                                        : selectedExecutive.bio}
+                                                </Typography>
+                                            </div>
+
+                                            <div className="mt-4 pt-4 border-t border-gray-200">
+                                                <Typography variant="small" className="font-medium text-gray-900">
+                                                    Certifications & Expertise:
+                                                </Typography>
+                                                <div className="flex flex-wrap gap-2 mt-2">
+                                                    {selectedExecutive.certifications.map((cert: string, index: number) => (
+                                                        <span
+                                                            key={index}
+                                                            className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary"
+                                                        >
+                      {cert}
+                    </span>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                                    <button
+                                        type="button"
+                                        className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+                                        onClick={closeModal}
+                                    >
+                                        Close
+                                    </button>
                                 </div>
                             </div>
-                        </motion.div>
-                    ))}
-                </motion.div>
-            </div>
-        </Section>
+                        </div>
+                    </div>
+                )}
+            </Section>
+        </main>
     );
 };
 

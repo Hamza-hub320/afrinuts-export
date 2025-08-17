@@ -82,12 +82,12 @@ const Navbar: React.FC = () => {
 
     // Treat About link as active for any of its subpages including Executive Team or History
     if (path === '/about') {
-      const aboutPaths = ['/about', '/executive-team', '/about/our-story'];
-      return aboutPaths.includes(location.pathname);
+      return ['/about', '/executive-team', '/about/our-story']
+          .some(p => location.pathname === p);
     }
 
     // Default: highlight if the current path starts with the link path
-    return location.pathname.startsWith(path);
+    return location.pathname === path;
   };
 
   const navItems: { path: string; label: string; dropdown?: { path: string; label: string }[] }[] = [
@@ -116,6 +116,7 @@ const Navbar: React.FC = () => {
 
   const closeMobileMenu = (): void => {
     setClick(false);
+    setAboutDropdownOpen(false);
     document.body.classList.remove('overflow-hidden');
   };
 
@@ -173,13 +174,13 @@ const Navbar: React.FC = () => {
               {navItems.map((item, index) => (
                   item.dropdown ? (
                       <div key={index} className="relative" ref={item.path === '/about' ? aboutDropdownRef : null}>
-                        <button
-                            onClick={toggleAboutDropdown}
-                            className={`px-4 py-2 rounded-lg text-lg font-medium transition-all duration-300 flex items-center ${
-                                isActive(item.path)
-                                    ? 'bg-primary text-white shadow-md'
-                                    : 'text-gray-700 hover:bg-gray-50 hover:text-primary hover:shadow-sm'
-                            }`}
+                        <button type="button"
+                                onClick={toggleAboutDropdown}
+                                className={`px-4 py-2 rounded-lg text-lg font-medium transition-all duration-300 flex items-center ${
+                                    isActive(item.path)
+                                        ? 'bg-primary text-white shadow-md'
+                                        : 'text-gray-700 hover:bg-gray-50 hover:text-primary hover:shadow-sm'
+                                }`}
                         >
                           {item.label}
                           {aboutDropdownOpen ? (
@@ -302,7 +303,7 @@ const Navbar: React.FC = () => {
                                 e.stopPropagation();
                                 changeLanguage(lang.code);
                               }}
-                              className={`block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors duration-200 ${
+                              className={`block w-full text-left px-4 py-2 text-text-dark hover:bg-gray-100 transition-colors duration-200 ${
                                   i18n.language === lang.code ? 'bg-gray-100 font-medium' : ''
                               }`}
                           >
@@ -329,64 +330,38 @@ const Navbar: React.FC = () => {
             </div>
           </div>
 
-          {/* Mobile Menu */}
-          <div
-              className={`${click ? 'block animate-fadeIn' : 'hidden'} md:hidden pb-3 px-4 transition-all duration-300`}
-              aria-hidden={!click}
-          >
+          {/* Mobile Menu - Flat Layout */}
+          <div className={`${click ? 'block' : 'hidden'} md:hidden pb-3 px-4`}>
             <div className="space-y-1">
-              {navItems.map((item, index) => (
-                  item.dropdown ? (
-                      <div key={index} className="space-y-1">
-                        <button
-                            onClick={() => setAboutDropdownOpen(!aboutDropdownOpen)}
-                            className={`w-full text-left px-3 py-3 rounded-lg text-base font-medium flex items-center justify-between ${
-                                isActive(item.path)
-                                    ? 'bg-primary text-white shadow-md'
-                                    : 'text-gray-700 hover:bg-gray-100 hover:text-primary'
+              {navItems.map((item) => (
+                  <React.Fragment key={item.path}>
+                    {!item.dropdown ? (
+                        <Link
+                            to={item.path}
+                            onClick={closeMobileMenu}
+                            className={`block px-3 py-3 rounded-lg text-base font-medium ${
+                                location.pathname === item.path ? 'bg-primary text-white font-bold' : 'text-gray-700'
                             }`}
                         >
                           {item.label}
-                          {aboutDropdownOpen ? (
-                              <FaChevronUp className="ml-2" />
-                          ) : (
-                              <FaChevronDown className="ml-2" />
-                          )}
-                        </button>
-
-                        {aboutDropdownOpen && (
-                            <div className="ml-4 space-y-1">
-                              {item.dropdown.map((dropdownItem, idx) => (
-                                  <Link
-                                      key={idx}
-                                      to={dropdownItem.path}
-                                      onClick={closeMobileMenu}
-                                      className={`block px-3 py-2 rounded-lg text-base font-medium ${
-                                          isActive(dropdownItem.path)
-                                              ? 'bg-primary/10 text-primary'
-                                              : 'text-gray-700 hover:bg-gray-100 hover:text-primary'
-                                      }`}
-                                  >
-                                    {dropdownItem.label}
-                                  </Link>
-                              ))}
-                            </div>
-                        )}
-                      </div>
-                  ) : (
-                      <Link
-                          key={index}
-                          to={item.path}
-                          onClick={closeMobileMenu}
-                          className={`block px-3 py-3 rounded-lg text-base font-medium transition-colors duration-300 ${
-                              isActive(item.path)
-                                  ? 'bg-primary text-white shadow-md'
-                                  : 'text-gray-700 hover:bg-gray-100 hover:text-primary'
-                          }`}
-                      >
-                        {item.label}
-                      </Link>
-                  )
+                        </Link>
+                    ) : (
+                        <>
+                          {item.dropdown.map((subItem) => (
+                              <Link
+                                  key={subItem.path}
+                                  to={subItem.path}
+                                  onClick={closeMobileMenu}
+                                  className={`block px-5 py-2 rounded-lg text-base font-medium ${
+                                      location.pathname === subItem.path ? 'bg-primary text-white font-bold' : 'text-gray-700'
+                                  }`}
+                              >
+                                {subItem.label}
+                              </Link>
+                          ))}
+                        </>
+                    )}
+                  </React.Fragment>
               ))}
             </div>
           </div>

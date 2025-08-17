@@ -183,21 +183,6 @@ const Footer = () => {
             </div>
           </div>
 
-         {/* FAQ Section for Mobile */}
-          <div className="md:hidden space-y-6">
-            <h3 className="text-xl font-bold mb-4">{t('links.faq')}</h3>
-            <p className="text-sm">
-              {t('faq.description')}
-            </p>
-            <Link
-                to="/faq"
-                className="inline-flex items-center text-sm text-primary hover:text-accent transition-colors"
-            >
-              {t('faq.linkText')}
-              <FaArrowRight className="ml-2 text-xs" />
-            </Link>
-          </div>
-
           {/* Bottom legal section (shared between mobile and desktop) */}
           <div className="border-t border-white/10 pt-8">
             <div className="flex flex-col md:flex-row justify-between items-center">

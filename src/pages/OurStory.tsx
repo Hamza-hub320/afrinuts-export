@@ -59,7 +59,7 @@ const OurStory: React.FC = () => {
             {/* Hero Section */}
             <Section
                 fullHeight={true}
-                className="flex items-center justify-center text-center min-h-[70vh] bg-gradient-to-b from-primary/20 to-background"
+                className="flex items-center justify-center text-center min-h-[45vh] bg-gradient-to-b from-primary/20 to-background"
             >
                 <motion.div
                     className="max-w-4xl px-6 sm:px-8 py-12"
@@ -106,23 +106,23 @@ const OurStory: React.FC = () => {
                     </motion.div>
 
                     <div className="relative">
-                        {/* Vertical line */}
-                        <div className="hidden md:block absolute left-1/2 h-full w-0.5 bg-primary/20 transform -translate-x-1/2"></div>
+                        {/* Vertical line - made slightly thicker for better visibility */}
+                        <div className="hidden md:block absolute left-1/2 h-full w-0.5 bg-primary/30 transform -translate-x-1/2"></div>
 
                         {/* Story Sections */}
                         <div className="space-y-16 md:space-y-24">
                             {storySections.map((section, index) => (
                                 <motion.div
                                     key={index}
-                                    className={`relative ${index % 2 === 0 ? 'md:pr-12 md:pl-0' : 'md:pl-12 md:pr-0'}`}
+                                    className="relative"
                                     initial="hidden"
                                     whileInView="visible"
                                     viewport={{ once: true, margin: "-100px" }}
                                     variants={fadeIn}
                                 >
                                     <div className={`flex flex-col ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} gap-8 md:gap-16 items-center`}>
-                                        {/* Image */}
-                                        <div className="flex-1">
+                                        {/* Image - pushed further from center */}
+                                        <div className={`flex-1 ${index % 2 === 0 ? 'md:pr-16' : 'md:pl-16'}`}>
                                             <div className="rounded-3xl overflow-hidden shadow-xl border-2 border-white/20">
                                                 <img
                                                     src={section.image}
@@ -132,8 +132,8 @@ const OurStory: React.FC = () => {
                                             </div>
                                         </div>
 
-                                        {/* Content */}
-                                        <div className={`flex-1 ${section.color} p-8 rounded-3xl shadow-lg`}>
+                                        {/* Content - pushed further from center with larger margin */}
+                                        <div className={`flex-1 ${section.color} p-8 rounded-3xl shadow-lg ${index % 2 === 0 ? 'md:mr-16' : 'md:ml-16'}`}>
                                             <div className="flex items-center gap-4 mb-6">
                                                 <div className="bg-primary p-3 rounded-full text-white">
                                                     <section.icon className="text-xl" />
@@ -159,8 +159,8 @@ const OurStory: React.FC = () => {
                                         </div>
                                     </div>
 
-                                    {/* Timeline dot */}
-                                    <div className="hidden md:block absolute top-1/2 left-1/2 w-6 h-6 rounded-full bg-primary border-4 border-white transform -translate-x-1/2 -translate-y-1/2"></div>
+                                    {/* Timeline dot - made larger and more prominent */}
+                                    <div className="hidden md:block absolute top-1/2 left-1/2 w-8 h-8 rounded-full bg-primary border-4 border-white transform -translate-x-1/2 -translate-y-1/2 shadow-lg"></div>
                                 </motion.div>
                             ))}
                         </div>
