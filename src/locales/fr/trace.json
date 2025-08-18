@@ -1,0 +1,18 @@
+{
+  "page": {
+    "title": "Traçabilité des Lots AfriNuts",
+    "subtitle": "Suivez chaque lot de la récolte à la transformation",
+    "description": "Visualisez des informations détaillées sur ce lot, de la récolte à la transformation et aux contrôles qualité.",
+    "about": "Notre système de traçabilité unique vous permet de scanner un code QR et de voir instantanément des informations détaillées sur chaque lot : date de récolte, localisation de la ferme, méthode de transformation, certifications et résultats des contrôles qualité. Cela garantit transparence, qualité et confiance pour nos clients et partenaires."
+  },
+  "batch": {
+    "harvestDate": "Date de Récolte",
+    "farmLocation": "Localisation de la Ferme",
+    "processingInfo": "Informations de Transformation",
+    "certifications": "Certifications",
+    "qualityCheckResults": "Résultats des Contrôles Qualité",
+    "previewAllBatches": "Voir Tous les Lots",
+    "backToHome": "Retour à l'Accueil",
+    "previewNotice": "Prévisualisation d'un lot par défaut (aucun ID de lot fourni dans l'URL)"
+  }
+}

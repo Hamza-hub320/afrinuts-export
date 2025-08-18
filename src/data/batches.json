@@ -1,0 +1,18 @@
+[
+  {
+    "BatchID": "AFN-2025-001",
+    "HarvestDate": "2025-05-12",
+    "FarmLocation": "Odienné, Ivory Coast",
+    "ProcessingInfo": "Sun-dried and sorted manually",
+    "Certifications": ["Organic Pending", "Fair Trade"],
+    "QualityCheckResults": "Moisture < 5%, Size Grade A"
+  },
+  {
+    "BatchID": "AFN-2025-002",
+    "HarvestDate": "2025-06-08",
+    "FarmLocation": "Odienné, Ivory Coast",
+    "ProcessingInfo": "Steam-roasted, shell removed",
+    "Certifications": ["ISO 22000", "Rainforest Alliance"],
+    "QualityCheckResults": "Moisture < 4.8%, Size Grade B"
+  }
+]

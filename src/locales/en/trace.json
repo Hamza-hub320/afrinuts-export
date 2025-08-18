@@ -1,0 +1,18 @@
+{
+  "page": {
+    "title": "AfriNuts Batch Traceability",
+    "subtitle": "Track every batch from harvest to processing",
+    "description": "View detailed information about this batch, from harvest to processing and quality checks.",
+    "about": "Our unique traceability system allows you to scan a QR code and instantly see detailed information about each batch: harvest date, farm location, processing method, certifications, and quality checks. This ensures transparency, quality, and trust for our customers and partners."
+  },
+  "batch": {
+    "harvestDate": "Harvest Date",
+    "farmLocation": "Farm Location",
+    "processingInfo": "Processing Info",
+    "certifications": "Certifications",
+    "qualityCheckResults": "Quality Check Results",
+    "previewAllBatches": "Preview All Batches",
+    "backToHome": "Back to Home",
+    "previewNotice": "Previewing default batch (no batchId provided in URL)"
+  }
+}

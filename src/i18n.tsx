@@ -20,6 +20,7 @@ import faqEN from './locales/en/faq.json';
 import chatbotEN from './locales/en/chatbot.json';
 import executiveEN from './locales/en/executive.json';
 import storyEN from './locales/en/story.json';
+import traceEN from './locales/en/trace.json';
 import cookiePolicyEN from './locales/en/cookiePolicy.json';
 
 // French translations
@@ -40,6 +41,7 @@ import faqFR from './locales/fr/faq.json';
 import chatbotFR from './locales/fr/chatbot.json';
 import executiveFR from './locales/fr/executive.json';
 import storyFR from './locales/fr/story.json';
+import traceFR from './locales/fr/trace.json';
 import cookiePolicyFR from './locales/fr/cookiePolicy.json';
 
 // Arabic translations
@@ -60,6 +62,7 @@ import faqAR from './locales/ar/faq.json';
 import chatbotAR from './locales/ar/chatbot.json';
 import executiveAR from './locales/ar/executive.json';
 import storyAR from './locales/ar/story.json';
+import traceAR from './locales/ar/trace.json';
 import cookiePolicyAR from './locales/ar/cookiePolicy.json';
 
 // Type definitions
@@ -83,6 +86,7 @@ interface TranslationResources {
     chatbot: typeof chatbotEN;
     executive: typeof executiveEN;
     story: typeof storyEN;
+    trace: typeof traceEN;
     cookiePolicy: typeof cookiePolicyEN;
 }
 
@@ -124,6 +128,7 @@ const resources: Record<SupportedLanguages, TranslationResources> = {
         chatbot: chatbotEN,
         executive: executiveEN,
         story: storyEN,
+        trace: traceEN,
         cookiePolicy: cookiePolicyEN
     },
     fr: {
@@ -144,6 +149,7 @@ const resources: Record<SupportedLanguages, TranslationResources> = {
         chatbot: chatbotFR,
         executive: executiveFR,
         story: storyFR,
+        trace: traceFR,
         cookiePolicy: cookiePolicyFR
     },
     ar: {
@@ -164,6 +170,7 @@ const resources: Record<SupportedLanguages, TranslationResources> = {
         chatbot: chatbotAR,
         executive: executiveAR,
         story: storyAR,
+        trace: traceAR,
         cookiePolicy: cookiePolicyAR
     }
 };
@@ -172,7 +179,7 @@ const options: I18nOptions = {
     fallbackLng: 'en',
     debug: process.env.NODE_ENV === 'development',
     supportedLngs: ['en', 'fr', 'ar'],
-    ns: ['home', 'common', 'about', 'products', 'farm', 'contact', 'footer', 'sustainability', 'vision', 'privacy', 'terms', 'cookies', 'cookiePolicy', 'news', 'faq', 'chatbot', 'executive', 'story'],
+    ns: ['home', 'common', 'about', 'products', 'farm', 'contact', 'footer', 'sustainability', 'vision', 'privacy', 'terms', 'cookies', 'cookiePolicy', 'news', 'faq', 'chatbot', 'executive', 'story','trace'],
     defaultNS: 'common',
     resources,
     interpolation: {

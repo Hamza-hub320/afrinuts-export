@@ -105,6 +105,7 @@ const Navbar: React.FC = () => {
     { path: '/sustainability', label: t('navbar.sustainability') },
     { path: '/vision', label: t('navbar.vision') },
     { path: '/contact', label: t('navbar.contact') },
+    { path: '/trace', label: t('navbar.trace') },
     { path: '/news', label: t('navbar.news') },
     { path: '/faq', label: t('navbar.faq') },
   ];
@@ -169,7 +170,7 @@ const Navbar: React.FC = () => {
             </div>
 
             {/* Desktop Navigation and Language Toggle */}
-            <div className="hidden md:flex items-center space-x-2">
+            <div className="hidden md:flex items-center space-x-1">
               {/* Navigation Links */}
               {navItems.map((item, index) => (
                   item.dropdown ? (

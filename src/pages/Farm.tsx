@@ -177,7 +177,7 @@ const Farm = () => {
 
                     {/*Map section*/}
                     <Section className="py-6 md:py-12 lg:py-16">
-                        <div className="w-full max-w-7xl mx-auto">
+                        <div className="w-full max-w-7xl mx-auto rounded-full">
                             <div className="text-center mb-8 md:mb-12">
                                 <Typography variant="h2" className="text-primary mb-4">
                                     {t('farm.map.title')}
@@ -187,7 +187,7 @@ const Farm = () => {
                                 </Typography>
                             </div>
 
-                            <div className="h-[400px] md:h-[500px] lg:h-[600px] rounded-xl overflow-hidden w-full">
+                            <div className="h-[500px] md:h-[500px] lg:h-[600px] rounded-xl overflow-hidden w-[95%] mx-auto">
                                 <InteractiveMap
                                     location={t('farm.map.location')}
                                     description={t('farm.map.locationDescription')}
