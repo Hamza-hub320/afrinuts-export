@@ -10,7 +10,13 @@
     "sustainability": "الاستدامة",
     "vision": "رؤيتنا",
     "news": "أخبار",
+    "trace": "التتبع",
     "faq": "الأسئلة الشائعة",
     "language": "اللغة"
+  },
+  "language": {
+    "en": "EN",
+    "fr": "FR",
+    "ar": "AR"
   }
 }

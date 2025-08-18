@@ -5,6 +5,7 @@ import { fadeIn, staggerContainer } from '@/utils/animations';
 import { Typography } from "@/components/Typography/Typography";
 import Section from '@/components/Section/Section';
 import { FaTimes } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 // Import executive images
 import ceoImage from '@/assets/images/ceo.webp';
@@ -98,7 +99,7 @@ const ExecutiveTeam: React.FC = () => {
             {/* Hero Section */}
             <Section
                 fullHeight={true}
-                className="flex items-center justify-center text-center min-h-[40vh] bg-gradient-to-b bg-transparent"
+                className="flex items-center justify-center text-center min-h-[50vh] md:min-h-[50vh] bg-gradient-to-b bg-transparent"
             >
                 <motion.div
                     className="max-w-4xl px-6 sm:px-8 py-12"
@@ -130,6 +131,24 @@ const ExecutiveTeam: React.FC = () => {
                         </Typography>
                     </motion.div>
                 </motion.div>
+            </Section>
+
+            {/* Info/Intro Section */}
+            <Section className="py-6 text-center">
+                <div className="max-w-4xl mx-auto px-6">
+                    <Typography variant="h2" className="text-3xl md:text-4xl font-bold text-primary mb-4">
+                        {t('executives.introHeading')}
+                    </Typography>
+                    <Typography variant="lead" className="text-text-dark mb-8">
+                        {t('executives.introDescription')}
+                    </Typography>
+                    {/* Optionally supporting text */}
+                    {t('executives.introSupporting', { defaultValue: '' }) && t('executives.introSupporting') !== '' && (
+                        <Typography variant="body" className="text-text-dark mb-4">
+                            {t('executives.introSupporting')}
+                        </Typography>
+                    )}
+                </div>
             </Section>
 
             {/* Executive Team Grid */}
@@ -300,6 +319,23 @@ const ExecutiveTeam: React.FC = () => {
                         </div>
                     </div>
                 )}
+            </Section>
+            {/* CTA Section after Executive Team Grid */}
+            <Section className="py-16 text-center">
+                <div className="max-w-4xl mx-auto px-6">
+                    <Typography variant="h2" className="text-3xl md:text-4xl font-bold text-primary mb-4">
+                        {t('executives.ctaTitle')}
+                    </Typography>
+                    <Typography variant="lead" className="text-text-dark mb-8">
+                        {t('executives.ctaDescription')}
+                    </Typography>
+                    <Link
+                        to="/contact"
+                        className="inline-block px-6 py-3 bg-primary text-white rounded-full hover:bg-accent transition-colors font-medium"
+                    >
+                        {t('executives.ctaButton')}
+                    </Link>
+                </div>
             </Section>
         </main>
     );

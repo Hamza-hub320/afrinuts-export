@@ -1,8 +1,13 @@
 {
   "executives": {
+    "introHeading": "Executive Leadership",
+    "introDescription": "Steered by the Islamic values of Amanah (sacred trust) and Ihsan (operational excellence), our executive leadership guides AfriNuts with unwavering integrity and strategic foresight.",
     "subtitle": "Executive Leadership",
     "title": "Our Leadership Team",
     "description": "Steered by the Islamic values of Amanah (sacred trust) and Ihsan (operational excellence), our executive leadership guides AfriNuts with unwavering integrity and strategic foresight.",
+    "ctaTitle": "Join Us in Shaping the Future of Ethical Agribusiness",
+    "ctaDescription": "At AfriNuts, our leadership team is committed to transparency, sustainability, and community development. Discover how you can be part of this journey.",
+    "ctaButton": "Get in Touch",
     "ceo": {
       "title": "Chief Executive Officer",
       "role": "Strategic Vision & Ethical Enterprise Leadership",

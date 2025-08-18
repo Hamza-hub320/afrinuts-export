@@ -1,43 +1,48 @@
 {
   "hero": {
     "title": "Centre d'Actualités AfriNuts",
-    "subtitle": "Nouvelles de l'agriculture du cajou en Côte d'Ivoire et au-delà"
+    "subtitle": "Nouvelles de l'agriculture de noix de cajou en Côte d'Ivoire et au-delà",
+    "description": "Restez informé des dernières actualités, analyses et développements d'AfriNuts sur la culture de noix de cajou, la durabilité et les tendances du secteur."
   },
   "tabs": {
-    "all": "Toutes les actualités",
-    "afrinuts": "Nos mises à jour",
-    "industry": "Actualités du secteur"
+    "all": "Toutes les Actualités",
+    "afrinuts": "Nos Mises à Jour",
+    "industry": "Actualités du Secteur"
   },
   "filters": {
     "title": "Filtrer par :",
-    "cashew": "Noix de cajou",
+    "cashew": "Noix de Cajou",
     "agriculture": "Agriculture",
     "ivoryCoast": "Côte d'Ivoire",
     "sustainability": "Durabilité",
-    "trade": "Commerce"
+    "trade": "Commerce",
+    "searchPlaceholder": "Rechercher des actualités..."
   },
   "sections": {
-    "afrinutsUpdates": "Actualités AfriNuts",
-    "industryNews": "Nouvelles du secteur du cajou",
-    "readMore": "Lire plus",
-    "readLess": "Lire moins",
+    "afrinutsUpdates": "Nos Mises à Jour",
+    "industryNews": "Actualités du Secteur",
+    "noUpdatesFound": "Aucune Mise à Jour Trouvée",
+    "readMore": "Lire Plus",
+    "readLess": "Lire Moins",
     "newsletter": {
-      "title": "Restez informé",
-      "description": "Recevez chaque mois des insights sur les marchés africains du cajou",
+      "title": "Abonnez-vous à Notre Bulletin Agricole",
+      "description": "Mises à jour mensuelles...",
       "placeholder": "Votre adresse email",
       "subscribe": "S'abonner"
     }
   },
   "updateTemplates": {
-    "readMore": "Lire la suite →",
+    "readMore": "Lire la mise à jour complète →",
     "postedBy": "Publié par {{author}} le {{date}}",
-    "tags": "Mots-clés :"
-  },
-  "search": {
-    "placeholder": "Rechercher des actualités..."
+    "tags": "Étiquettes :"
   },
   "emptyState": {
     "noResults": "Aucun article correspondant trouvé",
-    "loading": "Chargement des actualités..."
+    "loading": "Chargement des actualités...",
+    "noArticles": {
+      "title": "Aucun Article Trouvé",
+      "description": "Nous n'avons trouvé aucun article correspondant à vos filtres actuels.",
+      "resetFilters": "Réinitialiser les Filtres"
+    }
   }
 }

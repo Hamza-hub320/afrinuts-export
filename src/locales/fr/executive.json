@@ -1,9 +1,13 @@
 {
   "executives": {
-    "subtitle": "Direction",
-    "title": "Équipe Exécutive",
-    "description": "Guidés par les principes islamiques d'Amanah (confiance) et d'Ihsan (excellence), notre équipe dirigeante gère AfriNuts avec intégrité et vision.",
-
+    "introHeading": "Direction Exécutive",
+    "introDescription": "Guidés par les valeurs islamiques d'Amanah (confiance sacrée) et d'Ihsan (excellence opérationnelle), notre direction exécutive mène AfriNuts avec une intégrité inébranlable et une vision stratégique.",
+    "subtitle": "Direction Exécutive",
+    "title": "Notre Équipe de Direction",
+    "description": "Guidés par les valeurs islamiques d'Amanah (confiance sacrée) et d'Ihsan (excellence opérationnelle), notre direction exécutive mène AfriNuts avec une intégrité inébranlable et une vision stratégique.",
+    "ctaTitle": "Rejoignez-nous pour façonner l'avenir de l'agro-industrie éthique",
+    "ctaDescription": "Chez AfriNuts, notre équipe de direction s'engage en faveur de la transparence, de la durabilité et du développement communautaire. Découvrez comment vous pouvez participer à ce voyage.",
+    "ctaButton": "Contactez-nous",
     "ceo": {
       "title": "Directeur Général",
       "role": "Vision Stratégique & Leadership d'Entreprise Éthique",
@@ -26,34 +30,34 @@
     },
     "cco": {
       "title": "Directeur Commercial",
-      "role": "Ventes internationales & conformité à l'exportation",
-      "alt": "Mohamadue Kouyaté, CCO d'AfriNuts",
+      "role": "Expansion mondiale & conformité commerciale",
+      "alt": "Portrait de Mohamadue Kouyaté, Directeur Commercial",
       "bio": [
-        "Mohamadue dirige le développement commercial international en se concentrant sur les contrats sans riba et les pratiques de marketing éthiques conformes à la Sunnah."
+        "Mohamadue Kouyaté dirige les opérations commerciales mondiales, établissant des partenariats éthiques à travers des contrats sans intérêt et des stratégies marketing alignées sur les traditions prophétiques."
       ]
     },
     "ops": {
       "title": "Responsable des Opérations",
-      "role": "Opérations agricoles & supervision de la transformation",
-      "alt": "Rouillard Cedric, Responsable des Opérations d'AfriNuts",
+      "role": "Supervision production & assurance qualité",
+      "alt": "Portrait de Rouillard Cedric, Responsable des Opérations",
       "bio": [
-        "Rouillard assure l'excellence des opérations quotidiennes, mettant en œuvre les calendriers de transformation et les normes de qualité avec ihsan (excellence)."
+        "Rouillard Cedric maintient l'excellence opérationnelle grâce à une supervision méticuleuse des processus de cultivation, mettant en œuvre des contrôles qualité rigoureux fondés sur le principe islamique d'Ihsan (perfection dans le travail)."
       ]
     },
     "admin": {
-      "title": "Responsable du Soutien Administratif",
-      "role": "RH, juridique & sécurité informatique",
-      "alt": "Mohammed Beniken, Responsable Admin d'AfriNuts",
+      "title": "Responsable Administratif",
+      "role": "Gouvernance d'entreprise & infrastructure",
+      "alt": "Portrait de Mohammed Beniken, Responsable Administratif",
       "bio": [
-        "Mohammed applique la directive prophétique de 'payer le travailleur avant que sa sueur ne sèche' à travers des pratiques RH équitables et la sécurité des données."
+        "Mohammed Beniken veille à la conformité organisationnelle avec le mandat prophétique pour des pratiques équitables, supervisant les ressources humaines, les affaires juridiques et les protocoles de sécurité informatique."
       ]
     },
     "farm": {
-      "title": "Responsable Agricole",
-      "role": "Division agricole & liaison communautaire",
-      "alt": "Souleymane Sangare, Responsable Agricole d'AfriNuts",
+      "title": "Responsable des Opérations Agricoles",
+      "role": "Gestion agronomique & relations communautaires",
+      "alt": "Portrait de Souleymane Sangare, Responsable Agricole",
       "bio": [
-        "Souleymane met en œuvre des cycles de plantation inspirés de la Sunna et sert de pont entre AfriNuts et les communautés agricoles locales."
+        "Souleymane Sangare intègre la sagesse agricole islamique traditionnelle avec des techniques agricoles modernes, servant à la fois de spécialiste en cultivation et d'intermédiaire avec les communautés agricoles locales."
       ]
     }
   }

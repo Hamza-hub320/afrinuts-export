@@ -5,6 +5,7 @@ import { fadeIn, staggerContainer } from '@/utils/animations';
 import { Typography } from "@/components/Typography/Typography";
 import Section from '@/components/Section/Section';
 import { FaTree, FaHandsHelping, FaWater, FaMosque, FaGlobe, FaChartLine, FaSeedling } from "react-icons/fa";
+import { Link } from 'react-router-dom';
 
 // Import images
 import heritageImage from '@/assets/images/heritage.webp';
@@ -59,7 +60,7 @@ const OurStory: React.FC = () => {
             {/* Hero Section */}
             <Section
                 fullHeight={true}
-                className="flex items-center justify-center text-center min-h-[40vh] bg-gradient-to-b bg-transparent"
+                className="flex items-center justify-center text-center min-h-[50vh] md:min-h-[50vh] bg-gradient-to-b bg-transparent"
             >
                 <motion.div
                     className="max-w-4xl px-6 sm:px-8 py-12"
@@ -82,6 +83,28 @@ const OurStory: React.FC = () => {
                     <motion.div variants={fadeIn}>
                         <Typography variant="lead" className="text-text-dark max-w-3xl mx-auto">
                             {t('hero.quote')}
+                        </Typography>
+                    </motion.div>
+                </motion.div>
+            </Section>
+
+            {/* Intro Section */}
+            <Section className="py-16 md:py-24 bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 rounded-3xl shadow-lg mx-6 sm:mx-12 lg:mx-32 xl:mx-48">
+                <motion.div
+                    className="text-center max-w-4xl mx-auto"
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true }}
+                    variants={staggerContainer}
+                >
+                    <motion.div variants={fadeIn}>
+                        <Typography variant="h2" className="mb-6 text-primary">
+                            {t('intro.title')}
+                        </Typography>
+                    </motion.div>
+                    <motion.div variants={fadeIn}>
+                        <Typography variant="lead" className="text-text-dark max-w-3xl mx-auto">
+                            {t('intro.description')}
                         </Typography>
                     </motion.div>
                 </motion.div>
@@ -188,9 +211,12 @@ const OurStory: React.FC = () => {
                             </Typography>
                         </motion.div>
                         <motion.div variants={fadeIn}>
-                            <button className="mt-6 group bg-primary hover:bg-dark-orange text-white px-8 py-3 rounded-full transition-all duration-300 inline-flex items-center mx-auto">
+                            <Link
+                                to="/contact"
+                                className="mt-6 group bg-primary hover:bg-dark-orange text-white px-8 py-3 rounded-full transition-all duration-300 inline-flex items-center mx-auto"
+                            >
                                 {t('cta.button')}
-                            </button>
+                            </Link>
                         </motion.div>
                     </motion.div>
                 </div>

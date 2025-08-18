@@ -328,16 +328,15 @@ const News: React.FC = () => {
                     {t('sections.noUpdatesFound')}
                 </Typography>
             ) : (
-                <div className="flex flex-col items-center gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     {filteredUpdates.map((update, index) => (
                         <motion.div
                             key={update.id}
                             variants={fadeIn}
                             transition={{ delay: index * 0.1 }}
-                            className="w-full max-w-2xl"
                         >
-                            <div className=" bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl border-2 border-primary/20 hover:border-accent/30 shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 border-l-4 border-accent p-6">
-                                <div className="h-64 overflow-hidden mb-4 rounded-lg"> {/* Increased height for better image display */}
+                            <div className="bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl border-2 border-primary/20 hover:border-accent/30 shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 border-l-4 border-accent h-full">
+                                <div className="h-64 overflow-hidden">
                                     {update.id === 'update-2024-001' ? (
                                         <img
                                             src={landClearingImage}
@@ -362,48 +361,127 @@ const News: React.FC = () => {
                                     )}
                                 </div>
 
-                                <div className="prose max-w-none">
+                                <div className="p-6">
                                     <Typography variant="h4" className="mb-3 text-primary">
                                         {update.translationKeys?.title ? t(update.translationKeys.title) : update.title}
                                     </Typography>
 
-                                    {/* Paragraph-formatted excerpt */}
                                     <Typography variant="body" className="text-gray-600 mb-4 whitespace-pre-line">
                                         {update.translationKeys?.excerpt ? t(update.translationKeys.excerpt) : update.excerpt}
                                     </Typography>
 
-                                    {/* Expanded content with proper paragraph formatting */}
-                                    {expandedUpdateId === update.id && (
-                                        <div className="space-y-4 mb-4">
-                                            {update.content.split('\n').map((paragraph, i) => (
-                                                <Typography key={i} variant="body" className="text-gray-700">
-                                                    {paragraph}
-                                                </Typography>
-                                            ))}
-                                        </div>
-                                    )}
-                                </div>
+                                    <div className="flex justify-between items-center mt-4">
+                                        <Typography variant="caption" className="text-gray-400">
+                                            {update.author || "AfriNuts"}
+                                        </Typography>
+                                        <Typography variant="caption" className="text-gray-400">
+                                            {new Date(update.date).toLocaleDateString()}
+                                        </Typography>
+                                    </div>
 
-                                <div className="flex justify-between items-center mt-4">
-                                    <Typography variant="caption" className="text-gray-400">
-                                        {update.author || "AfriNuts"}
-                                    </Typography>
-                                    <Typography variant="caption" className="text-gray-400">
-                                        {new Date(update.date).toLocaleDateString()}
-                                    </Typography>
+                                    <button
+                                        onClick={() => setSelectedUpdate(update)}
+                                        className="mt-4 text-accent hover:underline text-sm"
+                                    >
+                                        {t('sections.readMore')}
+                                    </button>
                                 </div>
-
-                                <button
-                                    onClick={() => setExpandedUpdateId(expandedUpdateId === update.id ? null : update.id)}
-                                    className="mt-4 text-accent hover:underline text-sm"
-                                >
-                                    {expandedUpdateId === update.id ? t('sections.readLess') : t('sections.readMore')}
-                                </button>
                             </div>
                         </motion.div>
                     ))}
                 </div>
             )}
+
+            {/* Update Modal */}
+            <Transition.Root show={!!selectedUpdate} as={Fragment}>
+                <Dialog as="div" className="relative z-50" onClose={() => setSelectedUpdate(null)}>
+                    <Transition.Child
+                        as={Fragment}
+                        enter="ease-out duration-300"
+                        enterFrom="opacity-0"
+                        enterTo="opacity-100"
+                        leave="ease-in duration-200"
+                        leaveFrom="opacity-100"
+                        leaveTo="opacity-0"
+                    >
+                        <div className="fixed inset-0 bg-black bg-opacity-30 transition-opacity" />
+                    </Transition.Child>
+
+                    <div className="fixed inset-0 z-50 overflow-y-auto">
+                        <div className="flex min-h-full items-center justify-center p-4 text-center">
+                            <Transition.Child
+                                as={Fragment}
+                                enter="ease-out duration-300"
+                                enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                                enterTo="opacity-100 translate-y-0 sm:scale-100"
+                                leave="ease-in duration-200"
+                                leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+                                leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                            >
+                                <Dialog.Panel className="relative w-full max-w-2xl transform overflow-hidden bg-background rounded-3xl border-2 border-primary/20 hover:border-accent/30 hover:shadow-xl transition-shadow duration-300 text-left shadow-xl">
+                                    <div className="p-6">
+                                        {selectedUpdate && (
+                                            <>
+                                                <div className="h-64 overflow-hidden mb-4 rounded-lg">
+                                                    {selectedUpdate.id === 'update-2024-001' ? (
+                                                        <img
+                                                            src={landClearingImage}
+                                                            alt="Land Clearing"
+                                                            className="w-full h-full object-cover"
+                                                        />
+                                                    ) : selectedUpdate.id === 'update-2024-002' ? (
+                                                        <img
+                                                            src={signingImage}
+                                                            alt="Partnership Signing"
+                                                            className="w-full h-full object-cover"
+                                                        />
+                                                    ) : (
+                                                        <img
+                                                            src={selectedUpdate.image || newsImage}
+                                                            alt={selectedUpdate.title}
+                                                            className="w-full h-full object-cover"
+                                                        />
+                                                    )}
+                                                </div>
+
+                                                <Dialog.Title as="h3" className="text-lg font-semibold text-primary">
+                                                    {selectedUpdate.translationKeys?.title ? t(selectedUpdate.translationKeys.title) : selectedUpdate.title}
+                                                </Dialog.Title>
+
+                                                <div className="flex justify-between items-center mt-2 mb-4">
+                                                    <Typography variant="caption" className="text-gray-400">
+                                                        {selectedUpdate.author || "AfriNuts"}
+                                                    </Typography>
+                                                    <Typography variant="caption" className="text-gray-400">
+                                                        {new Date(selectedUpdate.date).toLocaleDateString()}
+                                                    </Typography>
+                                                </div>
+
+                                                <div className="prose max-w-none">
+                                                    {selectedUpdate.content.split('\n').map((paragraph, i) => (
+                                                        <Typography key={i} variant="body" className="text-gray-700 mb-4">
+                                                            {paragraph}
+                                                        </Typography>
+                                                    ))}
+                                                </div>
+
+                                                <div className="mt-6 flex justify-end">
+                                                    <button
+                                                        onClick={() => setSelectedUpdate(null)}
+                                                        className="bg-primary hover:bg-dark-orange text-white px-4 py-2 rounded-md text-sm"
+                                                    >
+                                                        Close
+                                                    </button>
+                                                </div>
+                                            </>
+                                        )}
+                                    </div>
+                                </Dialog.Panel>
+                            </Transition.Child>
+                        </div>
+                    </div>
+                </Dialog>
+            </Transition.Root>
         </motion.div>
     );
 
@@ -485,33 +563,45 @@ const News: React.FC = () => {
         <main>
             {/* Hero Section */}
             <Section
-                fullHeight={false}
-                bgImage={newsHeroImage}
-                className="flex items-end justify-start text-center min-h-[50vh] md:min-h-[50vh] pb-24 pr-16 mx-6 sm:mx-12 lg:mx-32 xl:mx-48 mt-32 pt-24 rounded-[2rem] shadow-2xl overflow-hidden border border-white/40"
+                fullHeight={true}
+                className="flex items-center justify-center text-center min-h-[50vh] md:min-h-[50vh] bg-gradient-to-b bg-transparent"
             >
                 <motion.div
-                    className="max-w-2xl px-8 sm:px-12 py-10 bg-white/75 backdrop-blur-xs rounded-xl border-2 border-primary/20 hover:border-accent/30 transition-all duration-300"
+                    className="max-w-4xl px-6 sm:px-8 py-12"
                     initial="hidden"
                     animate="visible"
                     variants={staggerContainer}
                 >
+                    <motion.div variants={fadeIn}>
+                        <Typography
+                            variant="subhead"
+                            className="uppercase tracking-widest text-primary mb-4"
+                        >
+                            {t('hero.subtitle')}
+                        </Typography>
+                    </motion.div>
+
                     <motion.h1
-                        className="font-display text-4xl md:text-5xl lg:text-6xl text-primary mb-4 leading-tight"
+                        className="font-display text-4xl md:text-5xl lg:text-6xl text-text-dark mb-6 leading-tight"
                         variants={fadeIn}
                         style={{ letterSpacing: '-0.03em' }}
                     >
                         {t('hero.title')}
                     </motion.h1>
+
                     <motion.div variants={fadeIn}>
-                        <Typography variant="subtitle" className="text-primary/90">
-                            {t('hero.subtitle')}
+                        <Typography
+                            variant="lead"
+                            className="text-text-dark max-w-3xl mx-auto"
+                        >
+                            {t('hero.description')}
                         </Typography>
                     </motion.div>
                 </motion.div>
             </Section>
 
             {/* News Content Section */}
-            <Section className="py-10">
+            <Section className="py-6">
                 <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                     {/* Filters and Search */}
                     <motion.div

@@ -51,7 +51,7 @@ const TracePage: React.FC = () => {
             {/* Hero Section */}
             <Section
                 fullHeight={true}
-                className="flex items-center justify-center text-center min-h-[40vh] bg-gradient-to-b bg-transparent"
+                className="flex items-center justify-center text-center min-h-[50vh] md:min-h-[50vh] bg-gradient-to-b bg-transparent"
             >
                 <div className="max-w-3xl px-6 sm:px-8 py-12">
                     <Typography
@@ -170,7 +170,7 @@ const TracePage: React.FC = () => {
                         <div className="mt-8 text-center">
                             <Link
                                 to="/"
-                                className="inline-block px-6 py-3 bg-primary text-white rounded-full hover:bg-accent transition-colors font-medium"
+                                className="inline-block bg-primary hover:bg-dark-orange text-white px-8 py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg items-center mx-auto font-medium"
                             >
                                 {t("batch.backToHome")}
                             </Link>

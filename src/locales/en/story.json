@@ -1,58 +1,62 @@
 {
-    "hero": {
-      "subtitle": "Our Journey",
-      "title": "A Story Rooted In Heritage, Sustainability, and Community",
-      "quote": "A single seed holds the promise of generations. Our story begins in Odienné, a land of heritage, cultivation, and resilience."
+  "hero": {
+    "subtitle": "Our Journey",
+    "title": "A Story Rooted In Heritage, Sustainability, and Community",
+    "quote": "A single seed holds the promise of generations. Our story begins in Odienné, a land of heritage, cultivation, and resilience."
+  },
+  "intro": {
+    "title": "Our Vision and Commitment",
+    "description": "AfriNuts Export combines heritage with innovation, empowering communities while ensuring transparency and traceability from seed to harvest. Discover how our story is shaping a sustainable future in West Africa."
+  },
+  "timeline": {
+    "title": "Our Path to Impact",
+    "subtitle": "From humble beginnings to a vision for West Africa's agricultural future"
+  },
+  "sections": {
+    "heritage": {
+      "title": "Rooted in Heritage",
+      "alt": "AfriNuts heritage in Odienné",
+      "content": [
+        "Our story begins in Odienné, a land of heritage, cultivation, and resilience. AfriNuts was not built solely on cashews, but on a commitment: to honor tradition, embrace innovation, and deliver meaningful transformation.",
+        "For decades, our family has worked hand in hand with local farmers, cultivating trust and excellence, and mastering the craft of growing world-class cashews."
+      ]
     },
-    "timeline": {
-      "title": "Our Path to Impact",
-      "subtitle": "From humble beginnings to a vision for West Africa's agricultural future"
+    "tradition": {
+      "title": "Tradition Meets Craft",
+      "alt": "Cashew farming tradition",
+      "content": [
+        "Cashews are more than a crop; they are our foundation. They represent a bond between the land and its people.",
+        "But tradition alone does not secure the future. To meet the demands of global markets, we must innovate while protecting the land that sustains us."
+      ]
     },
-    "sections": {
-      "heritage": {
-        "title": "Rooted in Heritage",
-        "alt": "AfriNuts heritage in Odienné",
-        "content": [
-          "Our story begins in Odienné, a land of heritage, cultivation, and resilience. AfriNuts was not built solely on cashews, but on a commitment: to honor tradition, embrace innovation, and deliver meaningful transformation.",
-          "For decades, our family has worked hand in hand with local farmers, cultivating trust and excellence, and mastering the craft of growing world-class cashews."
-        ]
-      },
-      "tradition": {
-        "title": "Tradition Meets Craft",
-        "alt": "Cashew farming tradition",
-        "content": [
-          "Cashews are more than a crop; they are our foundation. They represent a bond between the land and its people.",
-          "But tradition alone does not secure the future. To meet the demands of global markets, we must innovate while protecting the land that sustains us."
-        ]
-      },
-      "innovation": {
-        "title": "Sustainable Innovation",
-        "alt": "Sustainable farming innovation",
-        "content": [
-          "At AfriNuts Export, sustainability is not a slogan; it's a promise. We're investing in organic practices, water-efficient irrigation, and innovative technologies like drones and soil sensors.",
-          "Every cashew we harvest will symbolize quality, care, and responsibility to the earth. By 2031, our state-of-the-art processing facility will bring value-added transformation to our region."
-        ]
-      },
-      "community": {
-        "title": "Community Commitment",
-        "alt": "Community empowerment",
-        "content": [
-          "AfriNuts Export goes beyond business. It is about empowerment. Our mission is tied to the success of the people we serve.",
-          "Guided by our Islamic values, we reinvest 10% of profits into the local Muslim community—building wells, a masajid, and a madrassa rooted in Qur'an and Sunnah. This is not branding—it's an obligation."
-        ]
-      },
-      "future": {
-        "title": "A Rising Future",
-        "alt": "Future vision for AfriNuts",
-        "content": [
-          "We are planting seeds of change. With every job created and every harvest improved, we are cultivating a stronger, more resilient future for our communities.",
-          "Africa, especially West Africa, is the promised land for those seeking genuine, long-term business opportunities. AfriNuts Export is that trusted door—rooted in the land, respected by the people, and aligned with global standards."
-        ]
-      }
+    "innovation": {
+      "title": "Sustainable Innovation",
+      "alt": "Sustainable farming innovation",
+      "content": [
+        "At AfriNuts Export, sustainability is not a slogan; it's a promise. We're investing in organic practices, water-efficient irrigation, and innovative technologies like drones and soil sensors.",
+        "Every cashew we harvest will symbolize quality, care, and responsibility to the earth. By 2031, our state-of-the-art processing facility will bring value-added transformation to our region."
+      ]
     },
-    "cta": {
-      "title": "Join Our Story",
-      "subtitle": "When you choose AfriNuts Export, you select a purpose. You choose legacy. You decide to invest in a story that redefines agriculture in West Africa.",
-      "button": "Partner With Us"
+    "community": {
+      "title": "Community Commitment",
+      "alt": "Community empowerment",
+      "content": [
+        "AfriNuts Export goes beyond business. It is about empowerment. Our mission is tied to the success of the people we serve.",
+        "Guided by our Islamic values, we reinvest 10% of profits into the local Muslim community—building wells, a masajid, and a madrassa rooted in Qur'an and Sunnah. This is not branding—it's an obligation."
+      ]
+    },
+    "future": {
+      "title": "A Rising Future",
+      "alt": "Future vision for AfriNuts",
+      "content": [
+        "We are planting seeds of change. With every job created and every harvest improved, we are cultivating a stronger, more resilient future for our communities.",
+        "Africa, especially West Africa, is the promised land for those seeking genuine, long-term business opportunities. AfriNuts Export is that trusted door—rooted in the land, respected by the people, and aligned with global standards."
+      ]
     }
+  },
+  "cta": {
+    "title": "Join Our Story",
+    "subtitle": "When you choose AfriNuts Export, you select a purpose. You choose legacy. You decide to invest in a story that redefines agriculture in West Africa.",
+    "button": "Partner With Us"
   }
+}

@@ -1,7 +1,8 @@
 {
   "hero": {
     "title": "AfriNuts News Hub",
-    "subtitle": "Cashew agriculture updates from Ivory Coast and beyond"
+    "subtitle": "Cashew agriculture updates from Ivory Coast and beyond",
+    "description": "Stay updated with AfriNuts' latest news, insights, and developments in cashew farming, sustainability, and industry trends."
   },
   "tabs": {
     "all": "All News",
