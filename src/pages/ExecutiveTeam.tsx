@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {Fragment, useState} from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { fadeIn, staggerContainer } from '@/utils/animations';
@@ -6,6 +6,7 @@ import { Typography } from "@/components/Typography/Typography";
 import Section from '@/components/Section/Section';
 import { FaTimes } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import {Dialog, Transition} from '@headlessui/react';
 
 // Import executive images
 import ceoImage from '@/assets/images/ceo.webp';
@@ -152,7 +153,7 @@ const ExecutiveTeam: React.FC = () => {
             </Section>
 
             {/* Executive Team Grid */}
-            <Section className="py-16 ">
+            <Section className="py-16">
                 <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <motion.div
                         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
@@ -226,8 +227,8 @@ const ExecutiveTeam: React.FC = () => {
                                                     key={index}
                                                     className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary"
                                                 >
-                    {cert}
-                  </span>
+                                                    {cert}
+                                                </span>
                                             ))}
                                         </div>
                                     </div>
@@ -238,88 +239,106 @@ const ExecutiveTeam: React.FC = () => {
                 </div>
 
                 {/* Bio Modal */}
-                {isModalOpen && selectedExecutive && (
-                    <div className="fixed inset-0 z-50 overflow-y-auto">
-                        <div className="flex justify-center min-h-screen px-4 text-center items-start sm:items-center pt-16 sm:pt-0">
-                            {/* Background overlay */}
-                            <div
-                                className="fixed inset-0 bg-black/75 transition-opacity"
-                                aria-hidden="true"
-                                onClick={closeModal}
-                            ></div>
+                <Transition.Root show={isModalOpen && !!selectedExecutive} as={Fragment}>
+                    <Dialog as="div" className="relative z-50" onClose={closeModal}>
+                        <Transition.Child
+                            as={Fragment}
+                            enter="ease-out duration-300"
+                            enterFrom="opacity-0"
+                            enterTo="opacity-100"
+                            leave="ease-in duration-200"
+                            leaveFrom="opacity-100"
+                            leaveTo="opacity-0"
+                        >
+                            <div className="fixed inset-0 bg-black bg-opacity-30 transition-opacity" />
+                        </Transition.Child>
 
-                            {/* Modal content */}
-                            <div className="relative bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:max-w-2xl w-full mx-auto my-8">
-                                <div className="bg-white px-4 pt-6 pb-4 sm:p-6 sm:pb-4">
-                                    <div className="sm:flex sm:items-start">
-                                        <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
-                                            <div className="flex justify-between items-start">
-                                                <div>
-                                                    <Typography variant="h3" className="text-lg leading-6 font-medium text-gray-900">
-                                                        {selectedExecutive.name}
-                                                    </Typography>
-                                                    <Typography variant="small" className="text-primary">
-                                                        {selectedExecutive.title}
-                                                    </Typography>
-                                                </div>
-                                                <button
-                                                    onClick={closeModal}
-                                                    className="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none"
-                                                >
-                                                    <FaTimes className="h-6 w-6" />
-                                                </button>
-                                            </div>
-
-                                            <div className="mt-4">
-                                                <img
-                                                    src={selectedExecutive.image}
-                                                    alt={selectedExecutive.alt}
-                                                    className="h-32 w-32 rounded-full object-cover border-2 border-primary/20 mx-auto sm:mx-0"
-                                                />
-                                            </div>
-
-                                            <div className="mt-4">
-                                                <Typography variant="body" className="text-gray-700">
-                                                    {Array.isArray(selectedExecutive.bio)
-                                                        ? selectedExecutive.bio.map((paragraph, index) => (
-                                                            <p key={index} className="mb-4">{paragraph}</p>
-                                                        ))
-                                                        : selectedExecutive.bio}
-                                                </Typography>
-                                            </div>
-
-                                            <div className="mt-4 pt-4 border-t border-gray-200">
-                                                <Typography variant="small" className="font-medium text-gray-900">
-                                                    Certifications & Expertise:
-                                                </Typography>
-                                                <div className="flex flex-wrap gap-2 mt-2">
-                                                    {selectedExecutive.certifications.map((cert: string, index: number) => (
-                                                        <span
-                                                            key={index}
-                                                            className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary"
+                        <div className="fixed inset-0 z-50 overflow-y-auto">
+                            <div className="flex min-h-full items-center justify-center p-4 text-center">
+                                <Transition.Child
+                                    as={Fragment}
+                                    enter="ease-out duration-300"
+                                    enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                                    enterTo="opacity-100 translate-y-0 sm:scale-100"
+                                    leave="ease-in duration-200"
+                                    leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+                                    leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                                >
+                                    <Dialog.Panel className="relative w-full max-w-2xl transform overflow-hidden bg-background rounded-3xl border-2 border-primary/20 hover:border-accent/30 hover:shadow-xl transition-shadow duration-300 text-left shadow-xl">
+                                        <div className="p-6">
+                                            {selectedExecutive && (
+                                                <>
+                                                    <div className="flex justify-between items-start">
+                                                        <div>
+                                                            <Dialog.Title as="h3" className="text-lg font-semibold text-primary">
+                                                                {selectedExecutive.name}
+                                                            </Dialog.Title>
+                                                            <Typography variant="small" className="text-primary">
+                                                                {selectedExecutive.title}
+                                                            </Typography>
+                                                        </div>
+                                                        <button
+                                                            onClick={closeModal}
+                                                            className="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none"
                                                         >
-                      {cert}
-                    </span>
-                                                    ))}
-                                                </div>
-                                            </div>
+                                                            <FaTimes className="h-6 w-6" />
+                                                        </button>
+                                                    </div>
+
+                                                    <div className="mt-4 flex flex-col sm:flex-row gap-6">
+                                                        <div className="flex-shrink-0">
+                                                            <img
+                                                                src={selectedExecutive.image}
+                                                                alt={selectedExecutive.alt}
+                                                                className="h-32 w-32 rounded-full object-cover border-2 border-primary/20"
+                                                            />
+                                                        </div>
+                                                        <div className="flex-1">
+                                                            <Typography variant="body" className="text-gray-700">
+                                                                {Array.isArray(selectedExecutive.bio)
+                                                                    ? selectedExecutive.bio.map((paragraph, index) => (
+                                                                        <p key={index} className="mb-4">{paragraph}</p>
+                                                                    ))
+                                                                    : selectedExecutive.bio}
+                                                            </Typography>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="mt-4 pt-4 border-t border-gray-200">
+                                                        <Typography variant="small" className="font-medium text-gray-900">
+                                                            Certifications & Expertise:
+                                                        </Typography>
+                                                        <div className="flex flex-wrap gap-2 mt-2">
+                                                            {selectedExecutive.certifications.map((cert, index) => (
+                                                                <span
+                                                                    key={index}
+                                                                    className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary"
+                                                                >
+                                                                    {cert}
+                                                                </span>
+                                                            ))}
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="mt-6 flex justify-end">
+                                                        <button
+                                                            onClick={closeModal}
+                                                            className="bg-primary hover:bg-dark-orange text-white px-4 py-2 rounded-md text-sm"
+                                                        >
+                                                            Close
+                                                        </button>
+                                                    </div>
+                                                </>
+                                            )}
                                         </div>
-                                    </div>
-                                </div>
-                                <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                                    <button
-                                        type="button"
-                                        className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-                                        onClick={closeModal}
-                                    >
-                                        Close
-                                    </button>
-                                </div>
+                                    </Dialog.Panel>
+                                </Transition.Child>
                             </div>
                         </div>
-                    </div>
-                )}
+                    </Dialog>
+                </Transition.Root>
             </Section>
+
             {/* CTA Section after Executive Team Grid */}
             <Section className="py-16 text-center">
                 <div className="max-w-4xl mx-auto px-6">

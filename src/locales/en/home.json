@@ -101,30 +101,7 @@
   "news": {
     "title": "Latest News & Updates",
     "subtitle": "Stay informed about our farm, products, and industry developments",
-    "ctaButton": "View All News",
-    "items": [
-      {
-        "key": "yields",
-        "title": "Record-Breaking Cashew Yields",
-        "date": "June 2024",
-        "category": "Harvest Report",
-        "description": "Our farm achieves highest-ever production with sustainable methods"
-      },
-      {
-        "key": "solar",
-        "title": "New Solar-Powered Processing",
-        "date": "May 2024",
-        "category": "Sustainability",
-        "description": "We've installed solar panels to power our processing facility"
-      },
-      {
-        "key": "butter",
-        "title": "Introducing Organic Cashew Butter",
-        "date": "April 2024",
-        "category": "Product News",
-        "description": "Our newest product line now available in European markets"
-      }
-    ]
+    "ctaButton": "View All News"
   },
   "newsCard": {
     "readMore": "Read more"

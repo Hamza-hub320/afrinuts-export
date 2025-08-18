@@ -357,9 +357,9 @@ const Home: React.FC = () => {
                 </div>
             </Section>
 
-            {/* 6. News & Updates */}
+            {/* 6. News & Updates - Updated to match news.tsx style */}
             <Suspense fallback={<div>{t('loading.news')}</div>}>
-                <Section className="py-16 bg-gradient-to-b">
+                <Section className="py-16">
                     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                         <motion.div
                             className="text-center mb-12"
@@ -390,9 +390,9 @@ const Home: React.FC = () => {
                                     <motion.div
                                         key={update.id}
                                         variants={index % 2 === 0 ? slideInFromLeft : slideInFromRight}
-                                        className="bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl p-8 border-2 border-primary/20 hover:border-accent/30 shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300"
+                                        className="bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl border-2 border-primary/20 hover:border-accent/30 shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 border-l-4 border-accent"
                                     >
-                                        <div className="h-48 overflow-hidden rounded-lg">
+                                        <div className="h-48 overflow-hidden rounded-t-lg">
                                             {update.id === 'update-2024-001' ? (
                                                 <img
                                                     src={landClearingImage}
@@ -416,22 +416,22 @@ const Home: React.FC = () => {
                                                 />
                                             )}
                                         </div>
-                                        <div className="p-6 text-left">
+                                        <div className="p-6">
                                             <div className="flex items-center gap-2 mb-3">
                                                 <FaBullhorn className="text-accent" />
-                                                <span className="text-sm font-medium text-gray-500">
-                                            {new Date(update.date).toLocaleDateString('en-US', {
-                                                year: 'numeric',
-                                                month: 'long',
-                                                day: 'numeric'
-                                            })}
-                                          </span>
+                                                <Typography variant="caption" className="text-gray-500">
+                                                    {new Date(update.date).toLocaleDateString('en-US', {
+                                                        year: 'numeric',
+                                                        month: 'long',
+                                                        day: 'numeric'
+                                                    })}
+                                                </Typography>
                                             </div>
-                                            <Typography variant="h3" className="mb-3">
-                                                {update.title}
+                                            <Typography variant="h3" className="mb-3 text-primary">
+                                                {update.translationKeys?.title ? t(update.translationKeys.title) : update.title}
                                             </Typography>
-                                            <Typography variant="body" className="mb-4 text-gray-600">
-                                                {update.excerpt}
+                                            <Typography variant="body" className="mb-4 text-gray-600 whitespace-pre-line">
+                                                {update.translationKeys?.excerpt ? t(update.translationKeys.excerpt) : update.excerpt}
                                             </Typography>
                                             <div className="flex flex-wrap gap-2 mb-4">
                                                 {update.tags.map((tag: string) => (
@@ -445,9 +445,9 @@ const Home: React.FC = () => {
                                             </div>
                                             <button
                                                 onClick={() => navigate('/news')}
-                                                className="text-primary hover:text-accent font-medium flex items-center gap-1 transition-colors"
+                                                className="text-accent hover:text-primary font-medium flex items-center gap-1 transition-colors"
                                             >
-                                                Read more
+                                                {t('newsCard.readMore')}
                                                 <FaArrowRight className="text-sm" />
                                             </button>
                                         </div>
@@ -468,7 +468,7 @@ const Home: React.FC = () => {
                                 className="group bg-primary hover:bg-dark-orange text-white px-8 py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg inline-flex items-center mx-auto"
                                 onClick={() => navigate('/news')}
                             >
-                                View all updates
+                                {t('news.ctaButton')}
                                 <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
                             </motion.button>
                         </motion.div>

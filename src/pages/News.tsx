@@ -630,8 +630,12 @@ const News: React.FC = () => {
                             </div>
 
                             <div className="relative w-full md:w-64">
+                                <label htmlFor="news-search" className="sr-only">
+                                    {t('filters.searchPlaceholder')}
+                                </label>
                                 <input
                                     type="text"
+                                    id="news-search"
                                     placeholder={t('filters.searchPlaceholder')}
                                     className="w-full pl-10 pr-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
                                     value={searchQuery}
@@ -742,8 +746,13 @@ const News: React.FC = () => {
                             {t('sections.newsletter.description')}
                         </Typography>
                         <motion.div variants={fadeIn} className="flex flex-col sm:flex-row gap-2 max-w-md mx-auto">
+                            <label htmlFor="email" className="sr-only">
+                                {t('sections.newsletter.placeholder')}
+                            </label>
                             <input
                                 type="email"
+                                id="email"
+                                name="email"
                                 placeholder={t('sections.newsletter.placeholder')}
                                 className="flex-grow px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-accent"
                             />

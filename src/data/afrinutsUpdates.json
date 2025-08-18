@@ -1,15 +1,33 @@
 {
   "updates": [
     {
-      "id": "update-2024-001",
-      "title": "Land Clearing Completed on Odienné Farm",
-      "date": "2025-07-15",
-      "excerpt": "AfriNuts begins land clearing on its 50-hectare farm in Odienné, Ivory Coast, marking the first phase of its long-term cashew development project.",
-      "content": "AfriNuts is currently in the process of land clearing on its 50-hectare property in Odienné, with 35 hectares designated for cashew cultivation. This milestone paves the way for further development, including plowing, fencing, and preparation for planting during the 2026 rainy season. The clearing process focused on sustainable practices such as debris management and firebreak planning to protect biodiversity and soil health. The planting will begin once optimal seasonal conditions return, allowing the project to proceed without irrigation infrastructure in Phase 1.",
-      "tags": ["farm", "progress", "sustainability"],
+      "id": "update-2025-001",
+      "title": "Sustainable Land Preparation Begins for AfriNuts Cashew Farm in Odienné",
+      "date": "2025-08-15",
+      "excerpt": "AfriNuts launches Phase 1 of its agroforestry project in Ivory Coast, implementing eco-conscious land preparation for 35 hectares of cashew cultivation.",
+      "content": "AfriNuts has initiated sustainable land preparation on its 50-hectare Odienné property, with 35 hectares designated for cashew agroforestry. The process, led by certified environmental contractors, includes selective vegetation management (Aug 15–Oct 1, 2025) using low-impact techniques to preserve topsoil and biodiversity. All cleared biomass will be repurposed as organic mulch or through controlled biochar production (Oct 2–20), eliminating open burning. Firebreaks will follow permaculture principles to minimize ecosystem disruption. The project avoids deforestation by retaining 30% of native tree cover as windbreaks and wildlife corridors, with planting aligned to regenerative agriculture standards for the 2026 rainy season (May–June).",
+      "tags": [
+        "agroforestry",
+        "sustainable-farming",
+        "Ivory-Coast",
+        "regenerative-agriculture"
+      ],
       "author": "Hamza S. Ralsan Sangare",
       "isFeatured": true,
-      "readMore": true
+      "readMore": true,
+      "metadata": {
+        "phase": "3.1 (Eco-Conscious Land Preparation)",
+        "environmental_measures": [
+          "30% native tree retention",
+          "Biomass repurposing (no burning)",
+          "Permaculture-compliant firebreaks",
+          "Soil health monitoring"
+        ],
+        "certifications": [
+          "Targeting ISO 14001 (EMS)",
+          "Future Rainforest Alliance alignment"
+        ]
+      }
     },
     {
       "id": "update-2024-002",
