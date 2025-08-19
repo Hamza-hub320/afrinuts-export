@@ -73,7 +73,7 @@
     body {
       @apply bg-main-gradient;
       background-size: 200% 200%;
-      animation: gradient-shift 15s ease infinite alternate;
+      animation: gradient-shift 30s ease infinite alternate;
     }
   }
 
