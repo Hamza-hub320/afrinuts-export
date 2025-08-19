@@ -65,7 +65,7 @@
     /* Multi-step animated gradient */
     background: var(--gradient-sunrise);
     background-size: 400% 400%;
-    animation: gradientCycle 10s ease infinite;
+    animation: gradientCycle 30s ease infinite;
   }
 
   /* For browsers that don't support CSS variables */
