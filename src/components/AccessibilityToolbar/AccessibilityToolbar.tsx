@@ -48,6 +48,9 @@ const AccessibilityToolbar = () => {
       const parsedSettings = JSON.parse(savedSettings);
       setSettings(parsedSettings);
       applySettings(parsedSettings);
+    } else {
+      // No saved settings: apply default font size immediately on first load
+      document.documentElement.style.fontSize = `80%`;
     }
   }, []);
 
