@@ -78,5 +78,10 @@
     "loading": "Chargement des données météo...",
     "error": "Informations météo indisponibles",
     "notAvailable": "Non disponible"
+  },
+  "offlinePayment": {
+    "title": "Instructions de paiement hors ligne",
+    "description": "Pour les commandes en gros, tous les paiements sont effectués directement par virement bancaire. Après avoir soumis votre demande, notre équipe commerciale vous fournira une facture et les instructions de paiement.",
+    "button": "Contacter le service commercial"
   }
 }

@@ -308,6 +308,22 @@ const Products: React.FC = () => {
                             {t('catalogue.download')}
                         </button>
 
+                        {/* Offline Payment Instructions Section */}
+                        <Section className="mb-10 py-8 bg-yellow-50 border-l-8 border-yellow-400 rounded-xl shadow-md flex flex-col items-center justify-center">
+                            <Typography variant="h3" className="text-yellow-700 mb-2 text-center">
+                                {t('offlinePayment.title')}
+                            </Typography>
+                            <Typography variant="body" className="text-yellow-800 mb-6 text-center max-w-2xl">
+                                {t('offlinePayment.description')}
+                            </Typography>
+                            <button
+                                className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold px-6 py-3 rounded-full shadow transition-all duration-200"
+                                onClick={() => navigate('/contact')}
+                            >
+                                {t('offlinePayment.button')}
+                            </button>
+                        </Section>
+
                         {/* Products Grid */}
                         {filteredProducts.length > 0 ? (
                             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">

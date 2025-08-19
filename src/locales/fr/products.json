@@ -246,4 +246,10 @@
       ]
     }
   ]
+  ,
+  "offlinePayment": {
+    "title": "Instructions de paiement hors ligne",
+    "description": "Vous préférez payer hors ligne ? Nous prenons en charge les méthodes de paiement sur facture et hors ligne pour les commandes en gros et les clients B2B. Contactez notre équipe commerciale pour les détails du virement bancaire, les factures proforma ou pour discuter de votre méthode de paiement préférée.",
+    "button": "Contacter le service commercial"
+  }
 }

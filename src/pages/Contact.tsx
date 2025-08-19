@@ -1,4 +1,4 @@
-import { FaMapMarkerAlt, FaPhone, FaEnvelope, FaClock, FaCheckCircle } from 'react-icons/fa';
+import {FaMapMarkerAlt, FaPhone, FaEnvelope, FaClock, FaCheckCircle, FaArrowDown} from 'react-icons/fa';
 import emailjs from '@emailjs/browser';
 import React, { useState, useRef, FormEvent, ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -163,6 +163,21 @@ const Contact: React.FC = () => {
             </motion.div>
           </motion.div>
         </Section>
+
+        {/* Offline Payment Instructions Section */}
+        <div className="container mx-auto px-4 py-10 flex flex-col items-center">
+          <div className="w-full max-w-2xl bg-gradient-to-br from-primary/5 to-accent/10 border-2 border-accent/20 shadow-lg rounded-xl p-8 mb-8 text-center">
+            <Typography variant="h2" className="mb-2 text-accent">
+              {t('offlinePayment.title')}
+            </Typography>
+            <Typography variant="body" className="mb-6">
+              {t('offlinePayment.description')}
+            </Typography>
+          </div>
+
+          {/* Downward arrow pointing to form */}
+          <FaArrowDown className="text-accent text-4xl animate-bounce mt-4" />
+        </div>
 
         {/* Main Content */}
         <div className="container mx-auto px-4 py-16 grid grid-cols-1 lg:grid-cols-2 gap-12">

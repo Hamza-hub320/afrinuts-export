@@ -81,7 +81,6 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                 loading={loading}
                             />
-                            <div className="absolute inset-0 bg-gradient-to-t from-primary/30 to-transparent" />
                         </>
                     )}
                     {!product.available && (

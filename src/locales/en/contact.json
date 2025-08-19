@@ -79,4 +79,10 @@
     "error": "Weather information currently unavailable",
     "notAvailable": "N/A"
   }
+  ,
+  "offlinePayment": {
+    "title": "Offline Payment Instructions",
+    "description": "For bulk orders, all payments are handled directly via bank transfer. After submitting your inquiry, our sales team will provide an invoice and payment instructions.",
+    "button": "Contact Sales"
+  }
 }

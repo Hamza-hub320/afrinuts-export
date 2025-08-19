@@ -6,7 +6,8 @@ import landClearingImage from '@/assets/images/land-clearing.webp';
 import signingImage from '@/assets/images/partnership-signing.webp';
 import {
     FaChevronDown, FaLeaf, FaSeedling,
-    FaGlobeAfrica, FaArrowRight, FaBullhorn
+    FaGlobeAfrica, FaArrowRight, FaBullhorn,
+    FaBuilding, FaIndustry, FaStore
 } from 'react-icons/fa';
 import {
     fadeIn,
@@ -168,7 +169,7 @@ const Home: React.FC = () => {
             <Suspense fallback={<div>{t('loading.products')}</div>}>
                 <Section className="py-10">
                     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
-                    <motion.div
+                        <motion.div
                             className="text-center mb-16"
                             initial="hidden"
                             whileInView="visible"
@@ -226,6 +227,55 @@ const Home: React.FC = () => {
                     </div>
                 </Section>
             </Suspense>
+
+            {/* B2B Testimonials Section */}
+            <Section className="py-14">
+                <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
+                    <motion.div
+                        className="text-center mb-12"
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={fadeIn}
+                    >
+                        <Typography variant="h2" className="mb-4">
+                            What Our B2B Clients Say
+                        </Typography>
+                        <Typography variant="subhead" className="max-w-3xl mx-auto">
+                            Trusted by leading businesses across Europe, America, and the Middle East.
+                        </Typography>
+                    </motion.div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+                        {/* Testimonial 1 - Europe */}
+                        <div className="bg-white/80 rounded-2xl shadow-lg p-8 flex flex-col items-center text-center border border-primary/10 hover:border-accent/20 transition-all duration-300">
+                            <FaBuilding className="text-primary text-4xl mb-4" />
+                            <blockquote className="text-lg italic text-gray-800 mb-4">
+                                &ldquo;AfriNuts delivers consistent quality and reliability. Their team is proactive and always meets our sourcing needs on time.&rdquo;
+                            </blockquote>
+                            <div className="font-semibold text-primary">Elena Fischer</div>
+                            <div className="text-sm text-gray-600">Procurement Manager, Metro AG (Germany)</div>
+                        </div>
+                        {/* Testimonial 2 - America */}
+                        <div className="bg-white/80 rounded-2xl shadow-lg p-8 flex flex-col items-center text-center border border-primary/10 hover:border-accent/20 transition-all duration-300">
+                            <FaIndustry className="text-primary text-4xl mb-4" />
+                            <blockquote className="text-lg italic text-gray-800 mb-4">
+                                &ldquo;We value our partnership with AfriNuts for their transparency and high food safety standards. Our customers love their cashews!&rdquo;
+                            </blockquote>
+                            <div className="font-semibold text-primary">James Carter</div>
+                            <div className="text-sm text-gray-600">Head of Sourcing, Costco Wholesale (USA)</div>
+                        </div>
+                        {/* Testimonial 3 - Middle East */}
+                        <div className="bg-white/80 rounded-2xl shadow-lg p-8 flex flex-col items-center text-center border border-primary/10 hover:border-accent/20 transition-all duration-300">
+                            <FaStore className="text-primary text-4xl mb-4" />
+                            <blockquote className="text-lg italic text-gray-800 mb-4">
+                                &ldquo;AfriNuts is a trusted supplier for us in the Middle East. Their responsiveness and product quality set them apart in the market.&rdquo;
+                            </blockquote>
+                            <div className="font-semibold text-primary">Amina Al-Mansoori</div>
+                            <div className="text-sm text-gray-600">Lead Buyer, Carrefour UAE</div>
+                        </div>
+                    </div>
+                </div>
+            </Section>
 
             {/* 4. Farm Story */}
             <Section className="py-10 bg-gradient-to-r from-primary/30 via-white/30

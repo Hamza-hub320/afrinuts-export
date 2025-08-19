@@ -110,6 +110,11 @@
     "contact": "Contact Us",
     "viewAll": "View All Products"
   },
+  "offlinePayment": {
+    "title": "Offline Payment Instructions",
+    "description": "Prefer to pay offline? We support invoice-based and offline payment methods for bulk orders and B2B clients. Contact our sales team for bank transfer details, proforma invoices, or to discuss your preferred payment method.",
+    "button": "Contact Sales"
+  },
   "items": [
     {
       "name": "Raw Cashew Nuts",
