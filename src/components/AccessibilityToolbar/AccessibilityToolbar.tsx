@@ -129,7 +129,7 @@ const AccessibilityToolbar = () => {
         {/* Floating Toggle Button */}
         <motion.button
             className={`
-          fixed right-0 top-[35%] z-[9999]
+          fixed right-0 top-[30%] z-[9999]
           w-12 h-12 flex items-center justify-center
           bg-primary hover:bg-primary-dark text-white
           rounded-l-lg shadow-xl
@@ -139,22 +139,19 @@ const AccessibilityToolbar = () => {
             onClick={() => setIsOpen(!isOpen)}
             aria-expanded={isOpen}
             aria-label={isOpen ? t('accessibility.close') : t('accessibility.open')}
-            initial={{y: '-50%', x: 0}}
+            initial={{ y: '-50%', x: 0, scale: 1 }}
             animate={{
               y: '-50%',
-              x: isOpen ? 0 : 0,
-              scale: hasInteracted ? 1 : [1, 1.1, 1],
+              x: 0,
+              scale: 1,
             }}
             transition={{
-              x: {type: 'spring', stiffness: 300, damping: 30},
-              scale: {
-                repeat: hasInteracted ? 0 : Infinity,
-                repeatDelay: 3,
-                duration: 1.5
-              }
+              type: 'spring',
+              stiffness: 180,
+              damping: 20
             }}
-            whileHover={{scale: 1.1}}
-            whileTap={{scale: 0.95}}
+            whileHover={{ scale: 1.08 }}
+            whileTap={{ scale: 0.96 }}
         >
           {isOpen ? (
               <FaTimes className="text-xl"/>
@@ -177,7 +174,7 @@ const AccessibilityToolbar = () => {
         {isOpen && (
             <motion.div
                 className={`
-            fixed right-0 top-[35%]
+            fixed right-0 top-[30%]
             bg-white dark:bg-gray-800 shadow-xl rounded-l-lg
             transition-all duration-300 ease-in-out z-[9998]
             border border-gray-200 dark:border-gray-700
@@ -186,7 +183,11 @@ const AccessibilityToolbar = () => {
                 initial={{ x: '100%' }}
                 animate={{ x: 0 }}
                 exit={{ x: '100%' }}
-                transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                transition={{
+                  type: 'spring',
+                  stiffness: 110,
+                  damping: 18
+                }}
                 role="region"
                 aria-label={t('accessibility.toolbar')}
             >
