@@ -247,7 +247,7 @@ const Home: React.FC = () => {
                     </motion.div>
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
                         {/* Testimonial 1 - Europe */}
-                        <div className="bg-white/80 rounded-2xl shadow-lg p-8 flex flex-col items-center text-center border border-primary/10 hover:border-accent/20 transition-all duration-300">
+                        <div className="bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl p-8 text-center border-2 border-primary/20 hover:border-accent/30 transition-all duration-300 shadow-lg flex flex-col items-center">
                             <FaBuilding className="text-primary text-4xl mb-4" />
                             <blockquote className="text-lg italic text-gray-800 mb-4">
                                 &ldquo;AfriNuts delivers consistent quality and reliability. Their team is proactive and always meets our sourcing needs on time.&rdquo;
@@ -256,7 +256,7 @@ const Home: React.FC = () => {
                             <div className="text-sm text-gray-600">Procurement Manager, Metro AG (Germany)</div>
                         </div>
                         {/* Testimonial 2 - America */}
-                        <div className="bg-white/80 rounded-2xl shadow-lg p-8 flex flex-col items-center text-center border border-primary/10 hover:border-accent/20 transition-all duration-300">
+                        <div className="bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl p-8 text-center border-2 border-primary/20 hover:border-accent/30 transition-all duration-300 shadow-lg flex flex-col items-center">
                             <FaIndustry className="text-primary text-4xl mb-4" />
                             <blockquote className="text-lg italic text-gray-800 mb-4">
                                 &ldquo;We value our partnership with AfriNuts for their transparency and high food safety standards. Our customers love their cashews!&rdquo;
@@ -265,7 +265,7 @@ const Home: React.FC = () => {
                             <div className="text-sm text-gray-600">Head of Sourcing, Costco Wholesale (USA)</div>
                         </div>
                         {/* Testimonial 3 - Middle East */}
-                        <div className="bg-white/80 rounded-2xl shadow-lg p-8 flex flex-col items-center text-center border border-primary/10 hover:border-accent/20 transition-all duration-300">
+                        <div className="bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl p-8 text-center border-2 border-primary/20 hover:border-accent/30 transition-all duration-300 shadow-lg flex flex-col items-center">
                             <FaStore className="text-primary text-4xl mb-4" />
                             <blockquote className="text-lg italic text-gray-800 mb-4">
                                 &ldquo;AfriNuts is a trusted supplier for us in the Middle East. Their responsiveness and product quality set them apart in the market.&rdquo;
@@ -297,7 +297,7 @@ const Home: React.FC = () => {
                             </Typography>
                             <div className="grid sm:grid-cols-2 gap-4 md:gap-6 mb-6 md:mb-8">
                                 {(t('farm.highlights', { returnObjects: true }) as FarmHighlight[]).map((highlight) => (
-                                    <div key={highlight.key} className="bg-white/10 p-4 rounded-xl">
+                                    <div key={highlight.key} className="bg-white/20 backdrop-blur-md border border-white/30 p-4 rounded-xl">
                                         <div className="text-accent text-2xl mb-2">
                                             {highlight.icon === 'FaLeaf' ? <FaLeaf /> : <FaGlobeAfrica />}
                                         </div>
