@@ -139,5 +139,22 @@
     "products": "Chargement des produits...",
     "news": "Chargement des actualités...",
     "contact": "Chargement des contacts..."
+  },
+  "accessibility": {
+    "title": "Accessibilité",
+    "showMore": "Plus",
+    "showLess": "Moins",
+    "textSize": "Texte",
+    "decreaseFont": "A-",
+    "increaseFont": "A+",
+    "highContrast": "Contraste",
+    "darkMode": "Sombre",
+    "letterSpacing": "Espacement",
+    "lineHeight": "Hauteur",
+    "linkUnderline": "Souligné",
+    "off": "Off",
+    "on": "On",
+    "reset": "Réinitialiser",
+    "statement": "Déclaration"
   }
 }

@@ -116,5 +116,22 @@
     "products": "Loading products...",
     "news": "Loading news...",
     "contact": "Loading contact..."
+  },
+  "accessibility": {
+    "title": "Accessibility",
+    "showMore": "Show More",
+    "showLess": "Show Less",
+    "textSize": "Text Size",
+    "decreaseFont": "A-",
+    "increaseFont": "A+",
+    "highContrast": "High Contrast",
+    "darkMode": "Dark Mode",
+    "letterSpacing": "Letter Spacing",
+    "lineHeight": "Line Height",
+    "linkUnderline": "Link Underlines",
+    "off": "Off",
+    "on": "On",
+    "reset": "Reset All Settings",
+    "statement": "Accessibility Statement"
   }
 }

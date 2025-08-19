@@ -139,5 +139,21 @@
     "products": "جاري تحميل المنتجات...",
     "news": "جاري تحميل الأخبار...",
     "contact": "جاري تحميل الاتصال..."
+  },
+  "accessibility": {
+    "title": "إمكانية الوصول",
+    "showLess": "عرض أقل",
+    "textSize": "حجم النص",
+    "decreaseFont": "تصغير الخط -A",
+    "increaseFont": "تكبير الخط +A",
+    "highContrast": "تباين عالٍ",
+    "darkMode": "الوضع المظلم",
+    "letterSpacing": "تباعد الأحرف",
+    "lineHeight": "ارتفاع السطر",
+    "linkUnderline": "تسطير الروابط",
+    "off": "إيقاف",
+    "on": "تشغيل",
+    "reset": "إعادة تعيين جميع الإعدادات",
+    "statement": "بيان إمكانية الوصول"
   }
 }
