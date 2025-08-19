@@ -100,7 +100,7 @@ const ExecutiveTeam: React.FC = () => {
             {/* Hero Section */}
             <Section
                 fullHeight={true}
-                className="flex items-center justify-center text-center min-h-[50vh] md:min-h-[50vh] bg-gradient-to-b bg-transparent"
+                className="flex items-center justify-center text-center min-h-[50vh] md:min-h-[50vh] bg-gradient-to-b"
             >
                 <motion.div
                     className="max-w-4xl px-6 sm:px-8 py-12"
