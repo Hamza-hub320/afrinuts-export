@@ -177,7 +177,7 @@ const AccessibilityToolbar = () => {
         {isOpen && (
             <motion.div
                 className={`
-            fixed right-0 top-[35%] transform -translate-y-1/2
+            fixed right-0 top-[35%]
             bg-white dark:bg-gray-800 shadow-xl rounded-l-lg
             transition-all duration-300 ease-in-out z-[9998]
             border border-gray-200 dark:border-gray-700
