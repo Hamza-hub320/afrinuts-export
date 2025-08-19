@@ -153,7 +153,7 @@ const Products: React.FC = () => {
 
     return (
         <main>
-                {/* Hero Section */}
+            {/* Hero Section */}
             <div className=" text-text-dark font-sans leading-relaxed">
                 <div className=" text-text-dark font-sans leading-relaxed">
                     <Section
@@ -167,12 +167,12 @@ const Products: React.FC = () => {
                             animate="visible"
                             variants={staggerContainer}
                         >  <motion.h1
-                                className="font-display text-4xl md:text-5xl lg:text-6xl text-primary mb-4 leading-tight"
-                                variants={fadeIn}
-                                style={{ letterSpacing: '-0.03em' }}
-                            >
-                                {t('hero.title')}
-                            </motion.h1>
+                            className="font-display text-4xl md:text-5xl lg:text-6xl text-primary mb-4 leading-tight"
+                            variants={fadeIn}
+                            style={{ letterSpacing: '-0.03em' }}
+                        >
+                            {t('hero.title')}
+                        </motion.h1>
                             <motion.div variants={fadeIn}>
                                 <Typography variant="subtitle" className="text-primary/90">
                                     {t('hero.subtitle')}
@@ -183,146 +183,162 @@ const Products: React.FC = () => {
                 </div>
 
 
-                    {/* Product Categories Filter */}
+                {/* Product Categories Filter */}
                 <Section className="py-8 shadow-sm top-0 z-10">
                     {/* Filter Section */}
                     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
-                    <div className=" p-6 rounded-lg shadow-md mb-8 top-0 z-10">
-                        <div className="flex flex-col md:flex-row md:items-center gap-6">
-                        {/* Search Input */}
-                            <div className="flex-1">
-                                <label htmlFor="search" className="block mb-1 font-medium text-gray-700">Search Products</label>
-                                <div className="relative">
-                                    <input
-                                        id="search"
-                                        type="text"
-                                        placeholder={t('filters.searchPlaceholder')}
-                                        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-green-600 focus:border-transparent"
-                                        value={filters.searchQuery}
-                                        onChange={(e) => setFilters({...filters, searchQuery: e.target.value})}
+                        <div className=" p-6 rounded-lg shadow-md mb-8 top-0 z-10">
+                            <div className="flex flex-col md:flex-row md:items-center gap-6">
+                                {/* Search Input */}
+                                <div className="flex-1">
+                                    <label htmlFor="search" className="block mb-1 font-medium text-text-dark">{t('filters.searchLabel')}</label>
+                                    <div className="relative">
+                                        <input
+                                            id="search"
+                                            type="text"
+                                            placeholder={t('filters.searchPlaceholder')}
+                                            className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                                            value={filters.searchQuery}
+                                            onChange={(e) => setFilters({...filters, searchQuery: e.target.value})}
+                                        />
+                                        <div className="absolute left-3 top-3.5 text-gray-400">
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none"
+                                                 viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                                                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Filter Chips */}
+                                <div className="flex flex-wrap gap-3 items-center">
+                                    <div className="flex flex-col sm:flex-row gap-4 items-end">
+                                    {/* Availability Filter */}
+                                    <div className="relative">
+                                        <label htmlFor="availability" className="block mb-1 font-medium text-text-dark">
+                                            {t('filters.availability.label')}
+                                        </label>
+                                        <select
+                                            id="availability"
+                                            className="w-full appearance-none bg-white border border-gray-300 rounded-lg px-4 py-2.5 pr-10 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200"
+                                            value={filters.availability}
+                                            onChange={(e) => handleAvailabilityChange(e.target.value)}
+                                        >
+                                            <option value="all">{t('filters.availability.all')}</option>
+                                            <option value="available">{t('filters.availability.available')}</option>
+                                            <option value="coming-soon">{t('filters.availability.coming-soon')}</option>
+                                        </select>
+                                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 pt-7 text-gray-400">
+                                            <svg
+                                                className="h-5 w-5"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 20 20"
+                                                fill="currentColor"
+                                            >
+                                                <path
+                                                    fillRule="evenodd"
+                                                    d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                                                    clipRule="evenodd"
+                                                />
+                                            </svg>
+                                        </div>
+                                    </div>
+
+                                    {/* Certification Filter */}
+                                    <div className="relative">
+                                        <label htmlFor="certification" className="block mb-1 font-medium text-text-dark">
+                                            {t('filters.certifications.label')}
+                                        </label>
+                                        <select
+                                            id="certification"
+                                            className="w-full appearance-none bg-white border border-gray-300 rounded-lg px-4 py-2.5 pr-10 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200"
+                                            value={filters.certifications[0] || ''}
+                                            onChange={(e) => setFilters({
+                                                ...filters,
+                                                certifications: e.target.value ? [e.target.value] : []
+                                            })}
+                                        >
+                                            <option value="">{t('filters.certifications.all')}</option>
+                                            <option value="organic">{t('certifications.organic.title')}</option>
+                                            <option value="halal">{t('certifications.halal.title')}</option>
+                                            <option value="fairtrade">{t('certifications.fairtrade.title')}</option>
+                                        </select>
+                                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 pt-7 text-gray-400">
+                                            <svg
+                                                className="h-5 w-5"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 20 20"
+                                                fill="currentColor"
+                                            >
+                                                <path
+                                                    fillRule="evenodd"
+                                                    d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                                                    clipRule="evenodd"
+                                                />
+                                            </svg>
+                                        </div>
+                                    </div>
+
+                                    {/* Reset Button - Now properly aligned */}
+                                    {(filters.availability !== 'all' || filters.searchQuery || filters.certifications.length > 0) && (
+                                        <button
+                                            onClick={resetFilters}
+                                            className="px-4 py-2.5 bg-gray-100 text-text-dark rounded-lg hover:bg-gray-200 transition-colors mt-[1.625rem] sm:mt-0"
+                                        >
+                                            {t('filters.reset')}
+                                        </button>
+                                    )}
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Product Count */}
+                        <div className="mb-6 text-text-dark">
+                            {t('filters.results', { count: filteredProducts.length }).replace('{count}', String(filteredProducts.length))}
+                        </div>
+
+                        {/* Download Catalogue Button */}
+                        <button
+                            onClick={handleDownloadCatalogue}
+                            className="group bg-primary hover:bg-dark-orange text-white px-8 py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg inline-flex items-center mx-auto"
+                            style={{ marginBottom: '2rem' }}
+                        >
+                            {t('catalogue.download')}
+                        </button>
+
+                        {/* Products Grid */}
+                        {filteredProducts.length > 0 ? (
+                            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                                {filteredProducts.map((product) => (
+                                    <ProductCard
+                                        key={product.name}
+                                        product={product}
+                                        handleContactClick={handleContactClick}
+                                        productImageMap={productImageMap}
+                                        iconMap={iconMap}
+                                        variants={fadeIn}
+                                        compact={false}
                                     />
-                                    <div className="absolute left-3 top-3.5 text-gray-400">
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none"
-                                             viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                                                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
-                                        </svg>
-                                    </div>
-                                </div>
+                                ))}
                             </div>
-
-                            {/* Filter Chips */}
-                            <div className="flex flex-wrap gap-3 items-center">
-                                {/* Availability Filter */}
-                                <div className="relative">
-                                    <label htmlFor="availability" className="block mb-1 font-medium text-gray-700">Availability</label>
-                                    <select
-                                        id="availability"
-                                        className="appearance-none bg-white border border-gray-300 rounded-lg px-4 py-2 pr-8 focus:outline-none focus:ring-2 focus:ring-green-600"
-                                        value={filters.availability}
-                                        onChange={(e) => handleAvailabilityChange(e.target.value)}
-                                    >
-                                        <option value="all">{t('filters.availability.all')}</option>
-                                        <option value="available">{t('filters.availability.available')}</option>
-                                        <option value="coming-soon">{t('filters.availability.coming-soon')}</option>
-                                    </select>
-                                    <div
-                                        className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                        <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
-                                             viewBox="0 0 20 20">
-                                            <path
-                                                d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
-                                        </svg>
-                                    </div>
-                                </div>
-
-                                {/* Certification Filter */}
-                                <div className="relative">
-                                    <label htmlFor="certification" className="block mb-1 font-medium text-gray-700">Certifications</label>
-                                    <select
-                                        id="certification"
-                                        className="appearance-none bg-white border border-gray-300 rounded-lg px-4 py-2 pr-8 focus:outline-none focus:ring-2 focus:ring-green-600"
-                                        value={filters.certifications[0] || ''}
-                                        onChange={(e) => setFilters({
-                                            ...filters,
-                                            certifications: e.target.value ? [e.target.value] : []
-                                        })}
-                                    >
-                                        <option value="">{t('filters.certifications.all')}</option>
-                                        <option value="organic">{t('certifications.organic.title')}</option>
-                                        <option value="halal">{t('certifications.halal.title')}</option>
-                                        <option value="fairtrade">{t('certifications.fairtrade.title')}</option>
-                                    </select>
-                                    <div
-                                        className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                                        <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
-                                             viewBox="0 0 20 20">
-                                            <path
-                                                d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
-                                        </svg>
-                                    </div>
-                                </div>
-
-                                {/* Reset Button */}
-                                {(filters.availability !== 'all' ||
-                                    filters.searchQuery ||
-                                    filters.certifications.length > 0) && (
-                                    <button
-                                        onClick={resetFilters}
-                                        className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
-                                    >
-                                        {t('filters.reset')}
-                                    </button>
-                                )}
+                        ) : (
+                            <div className="text-center py-12">
+                                <h3 className="text-xl font-medium text-gray-700 mb-2">
+                                    {t('products.noResults')}
+                                </h3>
+                                <p className="text-gray-500">
+                                    {t('products.tryDifferentFilters')}
+                                </p>
+                                <button
+                                    onClick={resetFilters}
+                                    className="mt-4 px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                                >
+                                    {t('filters.resetAll')}
+                                </button>
                             </div>
-                        </div>
-                    </div>
-
-                    {/* Product Count */}
-                    <div className="mb-6 text-text-dark">
-                        {t('filters.results', { count: filteredProducts.length }).replace('{count}', String(filteredProducts.length))}
-                    </div>
-
-                    {/* Download Catalogue Button */}
-                    <button
-                        onClick={handleDownloadCatalogue}
-                        className="group bg-primary hover:bg-dark-orange text-white px-8 py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg inline-flex items-center mx-auto"
-                        style={{ marginBottom: '2rem' }}
-                    >
-                        Download Product Catalogue
-                    </button>
-
-                    {/* Products Grid */}
-                    {filteredProducts.length > 0 ? (
-                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                            {filteredProducts.map((product) => (
-                                <ProductCard
-                                    key={product.name}
-                                    product={product}
-                                    handleContactClick={handleContactClick}
-                                    productImageMap={productImageMap}
-                                    iconMap={iconMap}
-                                    variants={fadeIn}
-                                    compact={false}
-                                />
-                            ))}
-                        </div>
-                    ) : (
-                        <div className="text-center py-12">
-                            <h3 className="text-xl font-medium text-gray-700 mb-2">
-                                {t('products.noResults')}
-                            </h3>
-                            <p className="text-gray-500">
-                                {t('products.tryDifferentFilters')}
-                            </p>
-                            <button
-                                onClick={resetFilters}
-                                className="mt-4 px-6 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
-                            >
-                                {t('filters.resetAll')}
-                            </button>
-                        </div>
-                    )}
+                        )}
                     </div>
                 </Section>
 

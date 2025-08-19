@@ -427,11 +427,11 @@ const Home: React.FC = () => {
                                                     })}
                                                 </Typography>
                                             </div>
-                                            <Typography variant="h3" className="mb-3 text-primary">
-                                                {update.translationKeys?.title ? t(update.translationKeys.title) : update.title}
+                                            <Typography variant="h3" className="mb-3">
+                                                {update.title}
                                             </Typography>
-                                            <Typography variant="body" className="mb-4 text-gray-600 whitespace-pre-line">
-                                                {update.translationKeys?.excerpt ? t(update.translationKeys.excerpt) : update.excerpt}
+                                            <Typography variant="body" className="mb-4 text-gray-600">
+                                                {update.excerpt}
                                             </Typography>
                                             <div className="flex flex-wrap gap-2 mb-4">
                                                 {update.tags.map((tag: string) => (

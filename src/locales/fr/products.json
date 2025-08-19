@@ -3,26 +3,33 @@
     "title": "Nos Produits Premium de Noix de Cajou",
     "subtitle": "Source éthique des terres fertiles d'Odienné aux marchés mondiaux"
   },
+  "catalogue": {
+    "download": "Télécharger le catalogue des produits"
+  },
   "productCard": {
     "comingSoon": "Bientôt disponible",
     "requestQuote": "Demander un devis",
     "productionStarts": "Production prévue au 1er trimestre 2031"
   },
   "filters": {
+    "searchLabel": "Rechercher des Produits",
+    "resetAll": "Réinitialiser Tous les Filtres",
     "searchPlaceholder": "Rechercher des produits...",
     "availability": {
-      "all": "Toute disponibilité",
-      "available": "Disponible maintenant",
-      "coming-soon": "Bientôt disponible"
+      "label": "Disponibilité",
+      "all": "Toute Disponibilité",
+      "available": "Disponible Maintenant",
+      "coming-soon": "Bientôt Disponible"
     },
     "category": {
-      "all": "Toutes catégories",
-      "raw": "Noix brutes",
+      "all": "Toutes Catégories",
+      "raw": "Noix Brutes",
       "processed": "Transformés",
-      "byproducts": "Sous-produits"
+      "byproducts": "Sous-Produits"
     },
     "certifications": {
-      "all": "Toutes les certifications",
+      "label": "Certifications",
+      "all": "Toutes Certifications",
       "organic": "Certifié Biologique",
       "halal": "Certifié Halal",
       "fairtrade": "Certifié Commerce Équitable"

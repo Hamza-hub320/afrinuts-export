@@ -181,7 +181,7 @@ const ExecutiveTeam: React.FC = () => {
                                         <div className="flex-1 min-w-0">
                                             <Typography
                                                 variant="h5"
-                                                className="text-lg font-bold text-primary"
+                                                className="text-lg font-bold !text-primary"
                                             >
                                                 {executive.name}
                                             </Typography>

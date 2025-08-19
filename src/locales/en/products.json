@@ -1,4 +1,7 @@
 {
+  "catalogue": {
+    "download": "Download Product Catalogue"
+  },
   "hero": {
     "title": "Our Premium Cashew Products",
     "subtitle": "Ethically sourced from Odienné's fertile lands to global markets"
@@ -9,8 +12,11 @@
     "productionStarts": "Production begins Q1 2031"
   },
   "filters": {
+    "searchLabel": "Search Products",
+    "resetAll": "Reset All Filters",
     "searchPlaceholder": "Search products...",
     "availability": {
+      "label": "Availability",
       "all": "All Availability",
       "available": "Available Now",
       "coming-soon": "Coming Soon"
@@ -22,6 +28,7 @@
       "byproducts": "Byproducts"
     },
     "certifications": {
+      "label": "Certifications",
       "all": "All Certifications",
       "organic": "Organic Certified",
       "halal": "Halal Certified",
