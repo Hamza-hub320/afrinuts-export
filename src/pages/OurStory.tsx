@@ -23,35 +23,35 @@ const OurStory: React.FC = () => {
             icon: FaTree,
             image: heritageImage,
             content: t('sections.heritage.content', { returnObjects: true }),
-            color: 'bg-primary/10'
+            color: 'bg-gradient-to-br from-primary/20 to-accent/5 bg-opacity-50 backdrop-blur-md border-2 border-accent/20'
         },
         {
             title: t('sections.tradition.title'),
             icon: FaSeedling,
             image: farmImage,
             content: t('sections.tradition.content', { returnObjects: true }),
-            color: 'bg-accent/10'
+            color: 'bg-gradient-to-br from-primary/5 to-accent/10 bg-opacity-50 backdrop-blur-md border-2 border-accent/20'
         },
         {
             title: t('sections.innovation.title'),
             icon: FaChartLine,
             image: innovationImage,
             content: t('sections.innovation.content', { returnObjects: true }),
-            color: 'bg-primary/10'
+            color: 'bg-gradient-to-br from-primary/20 to-accent/5 bg-opacity-50 backdrop-blur-md border-2 border-accent/20'
         },
         {
             title: t('sections.community.title'),
             icon: FaHandsHelping,
             image: communityImage,
             content: t('sections.community.content', { returnObjects: true }),
-            color: 'bg-accent/10'
+            color: 'bg-gradient-to-br from-primary/5 to-accent/10 bg-opacity-50 backdrop-blur-md border-2 border-accent/20'
         },
         {
             title: t('sections.future.title'),
             icon: FaGlobe,
             image: futureImage,
             content: t('sections.future.content', { returnObjects: true }),
-            color: 'bg-primary/10'
+            color: 'bg-gradient-to-br from-primary/20 to-accent/5 bg-opacity-50 backdrop-blur-md border-2 border-accent/20'
         }
     ];
 

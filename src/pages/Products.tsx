@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import {
     FaLeaf, FaSeedling, FaIndustry, FaWeightHanging,
-    FaStar, FaTrophy, FaChartLine, FaShieldAlt, FaShippingFast
+    FaStar, FaTrophy, FaChartLine, FaShieldAlt, FaShippingFast, FaArrowDown, FaDownload
 } from 'react-icons/fa';
 import {fadeIn, slideInFromLeft, slideInFromRight, staggerContainer} from '@/utils/animations';
 import Section from '../components/Section/Section';
@@ -299,12 +299,22 @@ const Products: React.FC = () => {
                             {t('filters.results', { count: filteredProducts.length }).replace('{count}', String(filteredProducts.length))}
                         </div>
 
+                        {/* Catalogue Description Block */}
+                        <div className="text-center max-w-2xl mx-auto mb-6">
+                            <Typography variant="h3" className="text-primary mb-2">
+                                {t('catalogue.title')}
+                            </Typography>
+                            <Typography variant="body" className="text-text-dark">
+                                {t('catalogue.description')}
+                            </Typography>
+                        </div>
                         {/* Download Catalogue Button */}
                         <button
                             onClick={handleDownloadCatalogue}
-                            className="group bg-primary hover:bg-dark-orange text-white px-8 py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg inline-flex items-center mx-auto"
+                            className="group bg-primary hover:bg-dark-orange text-white px-10 py-4 rounded-full transition-all duration-300 shadow-lg hover:shadow-2xl inline-flex items-center mx-auto text-lg font-semibold transform hover:scale-105"
                             style={{ marginBottom: '2rem' }}
                         >
+                            <FaDownload className="mr-3 text-2xl" />
                             {t('catalogue.download')}
                         </button>
 
@@ -316,12 +326,7 @@ const Products: React.FC = () => {
                             <Typography variant="body" className="text-yellow-800 mb-6 text-center max-w-2xl">
                                 {t('offlinePayment.description')}
                             </Typography>
-                            <button
-                                className="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold px-6 py-3 rounded-full shadow transition-all duration-200"
-                                onClick={() => navigate('/contact')}
-                            >
-                                {t('offlinePayment.button')}
-                            </button>
+                            <FaArrowDown className="text-yellow-600 text-3xl animate-bounce mt-2" />
                         </Section>
 
                         {/* Products Grid */}

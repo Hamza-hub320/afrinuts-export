@@ -51,11 +51,12 @@ const WeatherDisplay: React.FC<WeatherDisplayProps> = ({ location = "Odienne" })
     const fetchWeather = async () => {
       try {
         const response = await fetch(
-            `https://api.weatherapi.com/v1/forecast.json?key=1441099e284b49248f291111250506&q=${location}&days=1&aqi=no`
+            `https://api.weatherapi.com/v1/forecast.json?key=${import.meta.env.VITE_WEATHER_API_KEY}&q=${location}&days=1&aqi=no`
         );
 
         if (!response.ok) {
           const errorData = await response.json();
+          console.error('Weather API Error:', errorData);
           throw new Error(errorData.error?.message || t('error'));
         }
 
