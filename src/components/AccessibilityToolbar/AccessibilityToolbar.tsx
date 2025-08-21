@@ -50,7 +50,13 @@ const AccessibilityToolbar = () => {
       applySettings(parsedSettings);
     } else {
       // No saved settings: apply default font size immediately on first load
-      document.documentElement.style.fontSize = `80%`;
+      if (window.innerWidth >= 1024) {
+        // Laptop or larger screens: default 90%
+        document.documentElement.style.fontSize = `90%`;
+      } else {
+        // Mobile devices: default 80%
+        document.documentElement.style.fontSize = `80%`;
+      }
     }
   }, []);
 
