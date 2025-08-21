@@ -1,4 +1,4 @@
-import {FaMapMarkerAlt, FaPhone, FaEnvelope, FaClock, FaCheckCircle, FaArrowDown, FaInfoCircle} from 'react-icons/fa';
+import {FaMapMarkerAlt, FaPhone, FaEnvelope, FaClock, FaCheckCircle, FaArrowDown, FaInfoCircle, FaRegSmile} from 'react-icons/fa';
 import emailjs from '@emailjs/browser';
 import React, { useState, useRef, FormEvent, ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -8,6 +8,8 @@ import contactHeroImage from '@/assets/images/contact-hero.webp';
 import { motion } from 'framer-motion';
 import { fadeIn, staggerContainer } from '@/utils/animations';
 import { Typography } from "@/components/Typography/Typography";
+import {navigate} from "next/dist/client/components/segment-cache";
+import { useNavigate } from 'react-router-dom';
 
 interface FormData {
   name: string;
@@ -32,6 +34,15 @@ interface FormErrors {
 const Contact: React.FC = () => {
   const { t } = useTranslation('contact');
   const formRef = useRef<HTMLFormElement | null>(null);
+  // Input refs for auto-focus on validation
+  const nameRef = useRef<HTMLInputElement | null>(null);
+  const emailRef = useRef<HTMLInputElement | null>(null);
+  const requestTypeRef = useRef<HTMLSelectElement | null>(null);
+  const subjectRef = useRef<HTMLInputElement | null>(null);
+  const messageRef = useRef<HTMLTextAreaElement | null>(null);
+  const productInterestRef = useRef<HTMLSelectElement | null>(null);
+  const quantityRef = useRef<HTMLInputElement | null>(null);
+  const shippingRef = useRef<HTMLSelectElement | null>(null);
 
   const [formData, setFormData] = useState<FormData>({
     name: '',
@@ -47,6 +58,8 @@ const Contact: React.FC = () => {
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [showSuccess, setShowSuccess] = useState<boolean>(false);
+  const navigate = useNavigate();
+
 
   const validate = (): FormErrors => {
     const newErrors: FormErrors = {};
@@ -75,6 +88,18 @@ const Contact: React.FC = () => {
     const validationErrors = validate();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
+      // Focus the first field with error
+      if (validationErrors.name && nameRef.current) {
+        nameRef.current.focus();
+      } else if (validationErrors.email && emailRef.current) {
+        emailRef.current.focus();
+      } else if (validationErrors.requestType && requestTypeRef.current) {
+        requestTypeRef.current.focus();
+      } else if (validationErrors.subject && subjectRef.current) {
+        subjectRef.current.focus();
+      } else if (validationErrors.message && messageRef.current) {
+        messageRef.current.focus();
+      }
       return;
     }
 
@@ -132,6 +157,7 @@ const Contact: React.FC = () => {
                   >
                     {t('success.close')}
                   </button>
+                  <Typography variant="body" className="mt-4"><FaRegSmile className="inline mr-2 text-accent" /> {t('success.extraCelebration')}</Typography>
                 </div>
               </motion.div>
             </div>
@@ -315,8 +341,8 @@ const Contact: React.FC = () => {
                     <Typography variant="h4" className="text-primary mb-1">
                       {t('info.businessHours')}
                     </Typography>
-                    <Typography variant="body">{t('info.weekdays')}</Typography>
-                    <Typography variant="body">{t('info.saturday')}</Typography>
+                    <Typography variant="body">{t('info.weekdays')} (GMT+0)</Typography>
+                    <Typography variant="body">{t('info.saturday')} (GMT+0)</Typography>
                   </div>
                 </div>
               </div>
@@ -335,12 +361,35 @@ const Contact: React.FC = () => {
 
           {/* Downward arrow pointing to form */}
           <div className="flex justify-center mb-12">
-            <FaArrowDown className="text-accent text-4xl animate-bounce" />
+            <button
+                className="text-accent text-4xl animate-bounce"
+                onClick={() => {
+                  document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                aria-label={t('form.scrollToForm')}
+            >
+              <FaArrowDown />
+            </button>
+          </div>
+          {/* FAQ Link */}
+          <div className="text-center mb-6">
+            <Typography variant="body">
+              {t('form.checkFaq')}{' '}
+              <span
+                className="text-accent underline cursor-pointer"
+                onClick={() => navigate('/faq')}
+              >
+                {t('form.faqLink')}
+              </span>
+            </Typography>
           </div>
 
           {/* Contact Form Section */}
           <div className="max-w-4xl mx-auto">
-            <section className="bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-300 rounded-xl shadow-lg p-8">
+            <section
+                id="contact-form"
+                className="bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-300 rounded-xl shadow-lg p-8"
+            >
               <Typography variant="h2" className="mb-8 text-center">
                 {t('form.title')}
               </Typography>
@@ -352,6 +401,8 @@ const Contact: React.FC = () => {
               )}
 
               <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
+                {/* Honeypot anti-spam field */}
+                <input type="text" name="company" className="hidden" tabIndex={-1} autoComplete="off" />
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {/* Name Field */}
                   <div>
@@ -359,15 +410,18 @@ const Contact: React.FC = () => {
                       <Typography variant="h5">{t('form.name')}</Typography>
                     </label>
                     <input
+                        ref={nameRef}
                         type="text"
                         id="name"
                         name="name"
+                        aria-label={t('form.name')}
                         aria-required="true"
+                        aria-describedby={errors.name ? "error-name" : undefined}
                         value={formData.name}
                         onChange={handleChange}
                         className={`w-full p-3 rounded-lg border ${errors.name ? 'border-red-500' : 'border-warm-grey'} focus:outline-none focus:ring-2 focus:ring-accent`}
                     />
-                    {errors.name && <Typography variant="small" className="text-red-500 mt-1">{errors.name}</Typography>}
+                    {errors.name && <Typography variant="small" id="error-name" className="text-red-500 mt-1">{errors.name}</Typography>}
                   </div>
 
                   {/* Email Field */}
@@ -376,15 +430,18 @@ const Contact: React.FC = () => {
                       <Typography variant="h5">{t('form.email')}</Typography>
                     </label>
                     <input
+                        ref={emailRef}
                         type="email"
                         id="email"
                         name="email"
+                        aria-label={t('form.email')}
                         aria-required="true"
+                        aria-describedby={errors.email ? "error-email" : undefined}
                         value={formData.email}
                         onChange={handleChange}
                         className={`w-full p-3 rounded-lg border ${errors.email ? 'border-red-500' : 'border-warm-grey'} focus:outline-none focus:ring-2 focus:ring-accent`}
                     />
-                    {errors.email && <Typography variant="small" className="text-red-500 mt-1">{errors.email}</Typography>}
+                    {errors.email && <Typography variant="small" id="error-email" className="text-red-500 mt-1">{errors.email}</Typography>}
                   </div>
                 </div>
 
@@ -395,8 +452,12 @@ const Contact: React.FC = () => {
                       <Typography variant="h5">{t('form.requestType')}</Typography>
                     </label>
                     <select
+                        ref={requestTypeRef}
                         id="requestType"
                         name="requestType"
+                        aria-label={t('form.requestType')}
+                        aria-required="true"
+                        aria-describedby={errors.requestType ? "error-requestType" : undefined}
                         value={formData.requestType}
                         onChange={handleChange}
                         className="w-full p-3 rounded-lg border border-warm-grey focus:outline-none focus:ring-2 focus:ring-accent bg-white"
@@ -405,18 +466,24 @@ const Contact: React.FC = () => {
                       <option value="">{t('form.requestTypePlaceholder')}</option>
                       <option value="information">{t('form.requestTypes.information')}</option>
                       <option value="quote">{t('form.requestTypes.quote')}</option>
+                      <option value="partnership">{t('form.requestTypes.partnership')}</option>
+                      <option value="investment">{t('form.requestTypes.investment')}</option>
+                      <option value="other">{t('form.requestTypes.other')}</option>
                     </select>
-                    {errors.requestType && <Typography variant="small" className="text-red-500 mt-1">{errors.requestType}</Typography>}
+                    {errors.requestType && <Typography variant="small" id="error-requestType" className="text-red-500 mt-1">{errors.requestType}</Typography>}
                   </div>
 
-                  {/* Product Interest Field */}
+                  {/* Product Interest Field - only show for quote */}
+                  {formData.requestType === 'quote' ? (
                   <div>
                     <label htmlFor="productInterest" className="block mb-2">
                       <Typography variant="h5">{t('form.productInterest')}</Typography>
                     </label>
                     <select
+                        ref={productInterestRef}
                         id="productInterest"
                         name="productInterest"
+                        aria-label={t('form.productInterest')}
                         value={formData.productInterest}
                         onChange={handleChange}
                         className="w-full p-3 rounded-lg border border-warm-grey focus:outline-none focus:ring-2 focus:ring-accent bg-white"
@@ -429,43 +496,55 @@ const Contact: React.FC = () => {
                       <option value="custom-order">{t('form.productInterestOptions.customOrder')}</option>
                     </select>
                   </div>
+                  ) : (
+                    // Empty div to keep grid structure
+                    <div></div>
+                  )}
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {/* Quantity Field */}
-                  <div>
-                    <label htmlFor="quantity" className="block mb-2">
-                      <Typography variant="h5">{t('form.quantity')}</Typography>
-                    </label>
-                    <input
-                        type="text"
-                        id="quantity"
-                        name="quantity"
-                        value={formData.quantity}
-                        onChange={handleChange}
-                        className="w-full p-3 rounded-lg border border-warm-grey focus:outline-none focus:ring-2 focus:ring-accent"
-                    />
-                  </div>
+                {/* Quantity and Shipping - only show for quote */}
+                {formData.requestType === 'quote' && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {/* Quantity Field */}
+                    <div>
+                      <label htmlFor="quantity" className="block mb-2">
+                        <Typography variant="h5">{t('form.quantity')}</Typography>
+                      </label>
+                      <input
+                          ref={quantityRef}
+                          type="number"
+                          min="1"
+                          id="quantity"
+                          name="quantity"
+                          aria-label={t('form.quantity')}
+                          value={formData.quantity}
+                          onChange={handleChange}
+                          className="w-full p-3 rounded-lg border border-warm-grey focus:outline-none focus:ring-2 focus:ring-accent"
+                      />
+                    </div>
 
-                  {/* Shipping Preference */}
-                  <div>
-                    <label htmlFor="shipping" className="block mb-2">
-                      <Typography variant="h5">{t('form.shipping')}</Typography>
-                    </label>
-                    <select
-                        id="shipping"
-                        name="shipping"
-                        value={formData.shipping}
-                        onChange={handleChange}
-                        className="w-full p-3 rounded-lg border border-warm-grey focus:outline-none focus:ring-2 focus:ring-accent bg-white"
-                    >
-                      <option value="">{t('form.shippingPlaceholder')}</option>
-                      <option value="fob">{t('form.shippingOptions.fob')}</option>
-                      <option value="exw">{t('form.shippingOptions.exw')}</option>
-                      <option value="other">{t('form.shippingOptions.other')}</option>
-                    </select>
+                    {/* Shipping Preference */}
+                    <div>
+                      <label htmlFor="shipping" className="block mb-2">
+                        <Typography variant="h5">{t('form.shipping')}</Typography>
+                      </label>
+                      <select
+                          ref={shippingRef}
+                          id="shipping"
+                          name="shipping"
+                          aria-label={t('form.shipping')}
+                          value={formData.shipping}
+                          onChange={handleChange}
+                          className="w-full p-3 rounded-lg border border-warm-grey focus:outline-none focus:ring-2 focus:ring-accent bg-white"
+                      >
+                        <option value="">{t('form.shippingPlaceholder')}</option>
+                        <option value="fob">{t('form.shippingOptions.fob')}</option>
+                        <option value="exw">{t('form.shippingOptions.exw')}</option>
+                        <option value="other">{t('form.shippingOptions.other')}</option>
+                      </select>
+                    </div>
                   </div>
-                </div>
+                )}
 
                 {/* Subject Field */}
                 <div>
@@ -473,15 +552,18 @@ const Contact: React.FC = () => {
                     <Typography variant="h5">{t('form.subject')}</Typography>
                   </label>
                   <input
+                      ref={subjectRef}
                       type="text"
                       id="subject"
                       name="subject"
+                      aria-label={t('form.subject')}
                       aria-required="true"
+                      aria-describedby={errors.subject ? "error-subject" : undefined}
                       value={formData.subject}
                       onChange={handleChange}
                       className={`w-full p-3 rounded-lg border ${errors.subject ? 'border-red-500' : 'border-warm-grey'} focus:outline-none focus:ring-2 focus:ring-accent`}
                   />
-                  {errors.subject && <Typography variant="small" className="text-red-500 mt-1">{errors.subject}</Typography>}
+                  {errors.subject && <Typography variant="small" id="error-subject" className="text-red-500 mt-1">{errors.subject}</Typography>}
                 </div>
 
                 {/* Message Field */}
@@ -490,15 +572,18 @@ const Contact: React.FC = () => {
                     <Typography variant="h5">{t('form.message')}</Typography>
                   </label>
                   <textarea
+                      ref={messageRef}
                       id="message"
                       name="message"
+                      aria-label={t('form.message')}
                       aria-required="true"
+                      aria-describedby={errors.message ? "error-message" : undefined}
                       rows={6}
                       value={formData.message}
                       onChange={handleChange}
                       className={`w-full p-3 rounded-lg border ${errors.message ? 'border-red-500' : 'border-warm-grey'} focus:outline-none focus:ring-2 focus:ring-accent`}
                   ></textarea>
-                  {errors.message && <Typography variant="small" className="text-red-500 mt-1">{errors.message}</Typography>}
+                  {errors.message && <Typography variant="small" id="error-message" className="text-red-500 mt-1">{errors.message}</Typography>}
                 </div>
 
                 <input type="hidden" name="from_name" value={formData.name} />

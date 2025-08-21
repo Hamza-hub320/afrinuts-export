@@ -334,7 +334,7 @@ const Home: React.FC = () => {
                                     loading="lazy"
                                     className="w-full h-full object-cover"
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent flex items-end p-6 md:p-8">
+                                <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent  flex items-end p-6 md:p-8">
                                     <Typography variant="h4" className="text-white">
                                         {t('farm.location')}
                                     </Typography>

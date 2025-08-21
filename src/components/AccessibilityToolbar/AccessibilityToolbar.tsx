@@ -52,7 +52,7 @@ const AccessibilityToolbar = () => {
       // No saved settings: apply default font size immediately on first load
       if (window.innerWidth >= 1024) {
         // Laptop or larger screens: default 90%
-        document.documentElement.style.fontSize = `90%`;
+        document.documentElement.style.fontSize = `100%`;
       } else {
         // Mobile devices: default 80%
         document.documentElement.style.fontSize = `80%`;
