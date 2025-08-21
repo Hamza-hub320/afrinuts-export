@@ -1,4 +1,4 @@
-import {FaMapMarkerAlt, FaPhone, FaEnvelope, FaClock, FaCheckCircle, FaArrowDown} from 'react-icons/fa';
+import {FaMapMarkerAlt, FaPhone, FaEnvelope, FaClock, FaCheckCircle, FaArrowDown, FaInfoCircle} from 'react-icons/fa';
 import emailjs from '@emailjs/browser';
 import React, { useState, useRef, FormEvent, ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -164,9 +164,167 @@ const Contact: React.FC = () => {
           </motion.div>
         </Section>
 
-        {/* Offline Payment Instructions Section */}
-        <div className="container mx-auto px-4 py-10 flex flex-col items-center">
-          <div className="w-full max-w-2xl bg-gradient-to-br from-primary/5 to-accent/10 border-2 border-accent/20 shadow-lg rounded-xl p-8 mb-8 text-center">
+        {/* Main Content */}
+        <div className="container mx-auto px-4 py-16">
+          {/* Information Sections - Now in a 2-column grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+            {/* Shipping Guidance Section - Updated for AfriNuts */}
+            <div className="bg-gradient-to-br from-primary/5 to-accent/10 border-2 border-accent/20 shadow-lg rounded-xl p-8">
+              <div className="flex items-center mb-6">
+                <div className="bg-accent/10 p-3 rounded-full text-accent flex-shrink-0 mr-4">
+                  <FaInfoCircle className="text-xl" />
+                </div>
+                <Typography variant="h2" className="text-accent">
+                  {t('shippingGuidance.title')}
+                </Typography>
+              </div>
+
+              <div className="mb-6">
+                <Typography variant="body" className="mb-4">
+                  {t('shippingGuidance.intro')}
+                </Typography>
+              </div>
+
+              <div className="space-y-6">
+                {/* Currently Available Options */}
+                <div>
+                  <Typography variant="h4" className="text-primary mb-3 border-b pb-2">
+                    {t('shippingGuidance.currentlyAvailable')}
+                  </Typography>
+
+                  <div className="bg-white p-4 rounded-lg shadow-sm mb-4 border-l-4 border-green-500">
+                    <Typography variant="h5" className="text-green-700 mb-1">
+                      {t('shippingGuidance.fob.title')}
+                    </Typography>
+                    <Typography variant="body" className="text-text-dark">
+                      {t('shippingGuidance.fob.description')}
+                    </Typography>
+                  </div>
+
+                  <div className="bg-white p-4 rounded-lg shadow-sm border-l-4 border-green-500">
+                    <Typography variant="h5" className="text-green-700 mb-1">
+                      {t('shippingGuidance.exw.title')}
+                    </Typography>
+                    <Typography variant="body" className="text-text-dark">
+                      {t('shippingGuidance.exw.description')}
+                    </Typography>
+                  </div>
+                </div>
+
+                {/* Coming Soon Options */}
+                <div>
+                  <Typography variant="h4" className="text-primary mb-3 border-b pb-2">
+                    {t('shippingGuidance.comingSoon')}
+                  </Typography>
+
+                  <div className="bg-gray-50 p-4 rounded-lg shadow-sm mb-4 opacity-80">
+                    <Typography variant="h5" className="text-gray-600 mb-1">
+                      {t('shippingGuidance.cif.title')}
+                    </Typography>
+                    <Typography variant="body" className="text-gray-600">
+                      {t('shippingGuidance.cif.description')}
+                    </Typography>
+                  </div>
+
+                  <div className="bg-gray-50 p-4 rounded-lg shadow-sm mb-4 opacity-80">
+                    <Typography variant="h5" className="text-gray-600 mb-1">
+                      {t('shippingGuidance.ddp.title')}
+                    </Typography>
+                    <Typography variant="body" className="text-gray-600">
+                      {t('shippingGuidance.ddp.description')}
+                    </Typography>
+                  </div>
+
+                  <div className="bg-gray-50 p-4 rounded-lg shadow-sm opacity-80">
+                    <Typography variant="h5" className="text-gray-600 mb-1">
+                      {t('shippingGuidance.other.title')}
+                    </Typography>
+                    <Typography variant="body" className="text-gray-600">
+                      {t('shippingGuidance.other.description')}
+                    </Typography>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-6 p-4 bg-primary/5 rounded-lg border border-primary/20">
+                <Typography variant="body" className="text-primary font-medium">
+                  {t('shippingGuidance.helpText')}
+                </Typography>
+              </div>
+            </div>
+
+            {/* Contact Info Section */}
+            <div className="bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-300 shadow-lg rounded-xl p-8 space-y-8">
+              <Typography variant="h2">
+                {t('info.title')}
+              </Typography>
+
+              {/* Weather Widget */}
+              <WeatherDisplay location="Odienne" />
+
+              {/* Contact Info Items */}
+              <div className="space-y-6">
+                {/* Address */}
+                <div className="flex gap-4 items-start">
+                  <div className="bg-accent/10 p-3 rounded-full text-accent flex-shrink-0">
+                    <FaMapMarkerAlt className="text-xl" />
+                  </div>
+                  <div>
+                    <Typography variant="h4" className="text-primary mb-1">
+                      {t('info.headquarters')}
+                    </Typography>
+                    <Typography variant="body">{t('info.address')}</Typography>
+                    <Typography variant="body">{t('info.zipCode')}</Typography>
+                  </div>
+                </div>
+
+                {/* Phone */}
+                <div className="flex gap-4 items-start">
+                  <div className="bg-accent/10 p-3 rounded-full text-accent flex-shrink-0">
+                    <FaPhone className="text-xl" />
+                  </div>
+                  <div>
+                    <Typography variant="h4" className="text-primary mb-1">
+                      {t('info.phone')}
+                    </Typography>
+                    <Typography variant="body">{t('info.phoneNumber')}</Typography>
+                    <Typography variant="body">{t('info.hours')}</Typography>
+                  </div>
+                </div>
+
+                {/* Email */}
+                <div className="flex gap-4 items-start">
+                  <div className="bg-accent/10 p-3 rounded-full text-accent flex-shrink-0">
+                    <FaEnvelope className="text-xl" />
+                  </div>
+                  <div>
+                    <Typography variant="h4" className="text-primary mb-1">
+                      {t('info.email')}
+                    </Typography>
+                    <Typography variant="body">{t('info.emailPrimary')}</Typography>
+                    <Typography variant="body">{t('info.emailSecondary')}</Typography>
+                  </div>
+                </div>
+
+                {/* Business Hours */}
+                <div className="flex gap-4 items-start">
+                  <div className="bg-accent/10 p-3 rounded-full text-accent flex-shrink-0">
+                    <FaClock className="text-xl" />
+                  </div>
+                  <div>
+                    <Typography variant="h4" className="text-primary mb-1">
+                      {t('info.businessHours')}
+                    </Typography>
+                    <Typography variant="body">{t('info.weekdays')}</Typography>
+                    <Typography variant="body">{t('info.saturday')}</Typography>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Offline Payment Instructions Section */}
+          <div className="w-full max-w-4xl mx-auto bg-gradient-to-br from-primary/5 to-accent/10 border-2 border-accent/20 shadow-lg rounded-xl p-8 mb-12 text-center">
             <Typography variant="h2" className="mb-2 text-accent">
               {t('offlinePayment.title')}
             </Typography>
@@ -176,282 +334,222 @@ const Contact: React.FC = () => {
           </div>
 
           {/* Downward arrow pointing to form */}
-          <FaArrowDown className="text-accent text-4xl animate-bounce mt-4" />
-        </div>
+          <div className="flex justify-center mb-12">
+            <FaArrowDown className="text-accent text-4xl animate-bounce" />
+          </div>
 
-        {/* Main Content */}
-        <div className="container mx-auto px-4 py-16 grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Contact Form Section */}
-          <section>
-            <Typography variant="h2" className="mb-8">
-              {t('form.title')}
-            </Typography>
+          <div className="max-w-4xl mx-auto">
+            <section className="bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-300 rounded-xl shadow-lg p-8">
+              <Typography variant="h2" className="mb-8 text-center">
+                {t('form.title')}
+              </Typography>
 
-            {errors.submit && (
-                <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded">
-                  <Typography variant="body">{errors.submit}</Typography>
+              {errors.submit && (
+                  <div className="bg-background border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded">
+                    <Typography variant="body">{errors.submit}</Typography>
+                  </div>
+              )}
+
+              <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* Name Field */}
+                  <div>
+                    <label htmlFor="name" className="block mb-2">
+                      <Typography variant="h5">{t('form.name')}</Typography>
+                    </label>
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        aria-required="true"
+                        value={formData.name}
+                        onChange={handleChange}
+                        className={`w-full p-3 rounded-lg border ${errors.name ? 'border-red-500' : 'border-warm-grey'} focus:outline-none focus:ring-2 focus:ring-accent`}
+                    />
+                    {errors.name && <Typography variant="small" className="text-red-500 mt-1">{errors.name}</Typography>}
+                  </div>
+
+                  {/* Email Field */}
+                  <div>
+                    <label htmlFor="email" className="block mb-2">
+                      <Typography variant="h5">{t('form.email')}</Typography>
+                    </label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        aria-required="true"
+                        value={formData.email}
+                        onChange={handleChange}
+                        className={`w-full p-3 rounded-lg border ${errors.email ? 'border-red-500' : 'border-warm-grey'} focus:outline-none focus:ring-2 focus:ring-accent`}
+                    />
+                    {errors.email && <Typography variant="small" className="text-red-500 mt-1">{errors.email}</Typography>}
+                  </div>
                 </div>
-            )}
 
-            <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
-              {/* Name Field */}
-              <div>
-                <label htmlFor="name" className="block mb-2">
-                  <Typography variant="h5">{t('form.name')}</Typography>
-                </label>
-                <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    aria-required="true"
-                    value={formData.name}
-                    onChange={handleChange}
-                    className={`w-full p-3 rounded-lg border ${errors.name ? 'border-red-500' : 'border-warm-grey'} focus:outline-none focus:ring-2 focus:ring-accent`}
-                />
-                {errors.name && <Typography variant="small" className="text-red-500 mt-1">{errors.name}</Typography>}
-              </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* Request Type Field */}
+                  <div>
+                    <label htmlFor="requestType" className="block mb-2">
+                      <Typography variant="h5">{t('form.requestType')}</Typography>
+                    </label>
+                    <select
+                        id="requestType"
+                        name="requestType"
+                        value={formData.requestType}
+                        onChange={handleChange}
+                        className="w-full p-3 rounded-lg border border-warm-grey focus:outline-none focus:ring-2 focus:ring-accent bg-white"
+                    >
+                      {/* Placeholder as first option */}
+                      <option value="">{t('form.requestTypePlaceholder')}</option>
+                      <option value="information">{t('form.requestTypes.information')}</option>
+                      <option value="quote">{t('form.requestTypes.quote')}</option>
+                    </select>
+                    {errors.requestType && <Typography variant="small" className="text-red-500 mt-1">{errors.requestType}</Typography>}
+                  </div>
 
-              {/* Email Field */}
-              <div>
-                <label htmlFor="email" className="block mb-2">
-                  <Typography variant="h5">{t('form.email')}</Typography>
-                </label>
-                <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    aria-required="true"
-                    value={formData.email}
-                    onChange={handleChange}
-                    className={`w-full p-3 rounded-lg border ${errors.email ? 'border-red-500' : 'border-warm-grey'} focus:outline-none focus:ring-2 focus:ring-accent`}
-                />
-                {errors.email && <Typography variant="small" className="text-red-500 mt-1">{errors.email}</Typography>}
-              </div>
-
-              {/* Request Type Field */}
-              <div>
-                <label htmlFor="requestType" className="block mb-2">
-                  <Typography variant="h5">{t('form.requestType')}</Typography>
-                </label>
-                <select
-                    id="requestType"
-                    name="requestType"
-                    value={formData.requestType}
-                    onChange={handleChange}
-                    className="w-full p-3 rounded-lg border border-warm-grey focus:outline-none focus:ring-2 focus:ring-accent bg-white"
-                >
-                  {/* Placeholder as first option */}
-                  <option value="">{t('form.requestTypePlaceholder')}</option>
-                  <option value="information">{t('form.requestTypes.information')}</option>
-                  <option value="quote">{t('form.requestTypes.quote')}</option>
-                </select>
-                {errors.requestType && <Typography variant="small" className="text-red-500 mt-1">{errors.requestType}</Typography>}
-              </div>
-
-              {/* Product Interest Field */}
-              <div>
-                <label htmlFor="productInterest" className="block mb-2">
-                  <Typography variant="h5">{t('form.productInterest')}</Typography>
-                </label>
-                <select
-                    id="productInterest"
-                    name="productInterest"
-                    value={formData.productInterest}
-                    onChange={handleChange}
-                    className="w-full p-3 rounded-lg border border-warm-grey focus:outline-none focus:ring-2 focus:ring-accent bg-white"
-                >
-                    {/* Placeholder as first option */}
-                    <option value="">{t('form.productInterestPlaceholder')}</option>
-                    <option value="raw-cashew">{t('form.productInterestOptions.rawCashew')}</option>
-                    <option value="cashew-kernels">{t('form.productInterestOptions.cashewKernels')}</option>
-                    <option value="cnsl">{t('form.productInterestOptions.cnsl')}</option>
-                    <option value="custom-order">{t('form.productInterestOptions.customOrder')}</option>
-                </select>
-              </div>
-
-              {/* Quantity Field */}
-              <div>
-                <label htmlFor="quantity" className="block mb-2">
-                  <Typography variant="h5">{t('form.quantity')}</Typography>
-                </label>
-                <input
-                    type="text"
-                    id="quantity"
-                    name="quantity"
-                    value={formData.quantity}
-                    onChange={handleChange}
-                    className="w-full p-3 rounded-lg border border-warm-grey focus:outline-none focus:ring-2 focus:ring-accent"
-                />
-              </div>
-
-              {/* Shipping Preference */}
-              <div>
-                <label htmlFor="shipping" className="block mb-2">
-                  <Typography variant="h5">{t('form.shipping')}</Typography>
-                </label>
-                <select
-                    id="shipping"
-                    name="shipping"
-                    value={formData.shipping}
-                    onChange={handleChange}
-                    className="w-full p-3 rounded-lg border border-warm-grey focus:outline-none focus:ring-2 focus:ring-accent bg-white"
-                >
-                  <option value="">{t('form.shippingPlaceholder')}</option>
-                  <option value="cif">{t('form.shippingOptions.cif')}</option>
-                  <option value="fob">{t('form.shippingOptions.fob')}</option>
-                  <option value="exw">{t('form.shippingOptions.exw')}</option>
-                </select>
-              </div>
-
-              {/* Subject Field */}
-              <div>
-                <label htmlFor="subject" className="block mb-2">
-                  <Typography variant="h5">{t('form.subject')}</Typography>
-                </label>
-                <input
-                    type="text"
-                    id="subject"
-                    name="subject"
-                    aria-required="true"
-                    value={formData.subject}
-                    onChange={handleChange}
-                    className={`w-full p-3 rounded-lg border ${errors.subject ? 'border-red-500' : 'border-warm-grey'} focus:outline-none focus:ring-2 focus:ring-accent`}
-                />
-                {errors.subject && <Typography variant="small" className="text-red-500 mt-1">{errors.subject}</Typography>}
-              </div>
-
-              {/* Message Field */}
-              <div>
-                <label htmlFor="message" className="block mb-2">
-                  <Typography variant="h5">{t('form.message')}</Typography>
-                </label>
-                <textarea
-                    id="message"
-                    name="message"
-                    aria-required="true"
-                    rows={6}
-                    value={formData.message}
-                    onChange={handleChange}
-                    className={`w-full p-3 rounded-lg border ${errors.message ? 'border-red-500' : 'border-warm-grey'} focus:outline-none focus:ring-2 focus:ring-accent`}
-                ></textarea>
-                {errors.message && <Typography variant="small" className="text-red-500 mt-1">{errors.message}</Typography>}
-              </div>
-
-              <input type="hidden" name="from_name" value={formData.name} />
-              <input type="hidden" name="from_email" value={formData.email} />
-              <input type="hidden" name="product_interest" value={formData.productInterest || ''} />
-              {/* New hidden input for date_created */}
-              <input type="hidden" name="date_created" value={new Date().toLocaleString()} />
-              {/* New hidden input for email_color */}
-              <input
-                type="hidden"
-                name="email_color"
-                value={
-                  formData.requestType === 'information'
-                    ? '#00869D'
-                    : formData.requestType === 'quote'
-                    ? '#A0C800'
-                    : '#E04E00'
-                }
-              />
-              {/* New hidden input for badge_class */}
-              <input
-                type="hidden"
-                name="badge_class"
-                value={
-                  formData.requestType === 'information'
-                    ? 'request-information'
-                    : formData.requestType === 'quote'
-                    ? 'request-quote'
-                    : 'request-proposal'
-                }
-              />
-
-              <button
-                  type="submit"
-                  className="inline-flex bg-primary hover:bg-dark-orange text-white py-3 px-8 rounded-lg font-medium transition-colors duration-300 flex justify-center items-center gap-2"
-                  disabled={isSubmitting}
-              >
-                {isSubmitting ? (
-                    <>
-                      <span className="inline-block h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
-                      {t('form.sending')}
-                    </>
-                ) : (
-                    t('form.submit')
-                )}
-              </button>
-            </form>
-          </section>
-
-          {/* Contact Info Section */}
-          <section className="bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-300 shadow-lg rounded-xl p-8 space-y-8">
-            <Typography variant="h2">
-              {t('info.title')}
-            </Typography>
-
-            {/* Weather Widget */}
-            <WeatherDisplay location="Odienne" />
-
-            {/* Contact Info Items */}
-            <div className="space-y-6">
-              {/* Address */}
-              <div className="flex gap-4 items-start">
-                <div className="bg-accent/10 p-3 rounded-full text-accent flex-shrink-0">
-                  <FaMapMarkerAlt className="text-xl" />
+                  {/* Product Interest Field */}
+                  <div>
+                    <label htmlFor="productInterest" className="block mb-2">
+                      <Typography variant="h5">{t('form.productInterest')}</Typography>
+                    </label>
+                    <select
+                        id="productInterest"
+                        name="productInterest"
+                        value={formData.productInterest}
+                        onChange={handleChange}
+                        className="w-full p-3 rounded-lg border border-warm-grey focus:outline-none focus:ring-2 focus:ring-accent bg-white"
+                    >
+                      {/* Placeholder as first option */}
+                      <option value="">{t('form.productInterestPlaceholder')}</option>
+                      <option value="raw-cashew">{t('form.productInterestOptions.rawCashew')}</option>
+                      <option value="cashew-kernels">{t('form.productInterestOptions.cashewKernels')}</option>
+                      <option value="cnsl">{t('form.productInterestOptions.cnsl')}</option>
+                      <option value="custom-order">{t('form.productInterestOptions.customOrder')}</option>
+                    </select>
+                  </div>
                 </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* Quantity Field */}
+                  <div>
+                    <label htmlFor="quantity" className="block mb-2">
+                      <Typography variant="h5">{t('form.quantity')}</Typography>
+                    </label>
+                    <input
+                        type="text"
+                        id="quantity"
+                        name="quantity"
+                        value={formData.quantity}
+                        onChange={handleChange}
+                        className="w-full p-3 rounded-lg border border-warm-grey focus:outline-none focus:ring-2 focus:ring-accent"
+                    />
+                  </div>
+
+                  {/* Shipping Preference */}
+                  <div>
+                    <label htmlFor="shipping" className="block mb-2">
+                      <Typography variant="h5">{t('form.shipping')}</Typography>
+                    </label>
+                    <select
+                        id="shipping"
+                        name="shipping"
+                        value={formData.shipping}
+                        onChange={handleChange}
+                        className="w-full p-3 rounded-lg border border-warm-grey focus:outline-none focus:ring-2 focus:ring-accent bg-white"
+                    >
+                      <option value="">{t('form.shippingPlaceholder')}</option>
+                      <option value="fob">{t('form.shippingOptions.fob')}</option>
+                      <option value="exw">{t('form.shippingOptions.exw')}</option>
+                      <option value="other">{t('form.shippingOptions.other')}</option>
+                    </select>
+                  </div>
+                </div>
+
+                {/* Subject Field */}
                 <div>
-                  <Typography variant="h4" className="text-primary mb-1">
-                    {t('info.headquarters')}
-                  </Typography>
-                  <Typography variant="body">{t('info.address')}</Typography>
-                  <Typography variant="body">{t('info.zipCode')}</Typography>
+                  <label htmlFor="subject" className="block mb-2">
+                    <Typography variant="h5">{t('form.subject')}</Typography>
+                  </label>
+                  <input
+                      type="text"
+                      id="subject"
+                      name="subject"
+                      aria-required="true"
+                      value={formData.subject}
+                      onChange={handleChange}
+                      className={`w-full p-3 rounded-lg border ${errors.subject ? 'border-red-500' : 'border-warm-grey'} focus:outline-none focus:ring-2 focus:ring-accent`}
+                  />
+                  {errors.subject && <Typography variant="small" className="text-red-500 mt-1">{errors.subject}</Typography>}
                 </div>
-              </div>
 
-              {/* Phone */}
-              <div className="flex gap-4 items-start">
-                <div className="bg-accent/10 p-3 rounded-full text-accent flex-shrink-0">
-                  <FaPhone className="text-xl" />
-                </div>
+                {/* Message Field */}
                 <div>
-                  <Typography variant="h4" className="text-primary mb-1">
-                    {t('info.phone')}
-                  </Typography>
-                  <Typography variant="body">{t('info.phoneNumber')}</Typography>
-                  <Typography variant="body">{t('info.hours')}</Typography>
+                  <label htmlFor="message" className="block mb-2">
+                    <Typography variant="h5">{t('form.message')}</Typography>
+                  </label>
+                  <textarea
+                      id="message"
+                      name="message"
+                      aria-required="true"
+                      rows={6}
+                      value={formData.message}
+                      onChange={handleChange}
+                      className={`w-full p-3 rounded-lg border ${errors.message ? 'border-red-500' : 'border-warm-grey'} focus:outline-none focus:ring-2 focus:ring-accent`}
+                  ></textarea>
+                  {errors.message && <Typography variant="small" className="text-red-500 mt-1">{errors.message}</Typography>}
                 </div>
-              </div>
 
-              {/* Email */}
-              <div className="flex gap-4 items-start">
-                <div className="bg-accent/10 p-3 rounded-full text-accent flex-shrink-0">
-                  <FaEnvelope className="text-xl" />
-                </div>
-                <div>
-                  <Typography variant="h4" className="text-primary mb-1">
-                    {t('info.email')}
-                  </Typography>
-                  <Typography variant="body">{t('info.emailPrimary')}</Typography>
-                  <Typography variant="body">{t('info.emailSecondary')}</Typography>
-                </div>
-              </div>
+                <input type="hidden" name="from_name" value={formData.name} />
+                <input type="hidden" name="from_email" value={formData.email} />
+                <input type="hidden" name="product_interest" value={formData.productInterest || ''} />
+                {/* New hidden input for date_created */}
+                <input type="hidden" name="date_created" value={new Date().toLocaleString()} />
+                {/* New hidden input for email_color */}
+                <input
+                    type="hidden"
+                    name="email_color"
+                    value={
+                      formData.requestType === 'information'
+                          ? '#00869D'
+                          : formData.requestType === 'quote'
+                              ? '#A0C800'
+                              : '#E04E00'
+                    }
+                />
+                {/* New hidden input for badge_class */}
+                <input
+                    type="hidden"
+                    name="badge_class"
+                    value={
+                      formData.requestType === 'information'
+                          ? 'request-information'
+                          : formData.requestType === 'quote'
+                              ? 'request-quote'
+                              : 'request-proposal'
+                    }
+                />
 
-              {/* Business Hours */}
-              <div className="flex gap-4 items-start">
-                <div className="bg-accent/10 p-3 rounded-full text-accent flex-shrink-0">
-                  <FaClock className="text-xl" />
+                <div className="text-center pt-4">
+                  <button
+                      type="submit"
+                      className="inline-flex bg-primary hover:bg-dark-orange text-white py-3 px-8 rounded-lg font-medium transition-colors duration-300 flex justify-center items-center gap-2"
+                      disabled={isSubmitting}
+                  >
+                    {isSubmitting ? (
+                        <>
+                          <span className="inline-block h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                          {t('form.sending')}
+                        </>
+                    ) : (
+                        t('form.submit')
+                    )}
+                  </button>
                 </div>
-                <div>
-                  <Typography variant="h4" className="text-primary mb-1">
-                    {t('info.businessHours')}
-                  </Typography>
-                  <Typography variant="body">{t('info.weekdays')}</Typography>
-                  <Typography variant="body">{t('info.saturday')}</Typography>
-                </div>
-              </div>
-            </div>
-          </section>
+              </form>
+            </section>
+          </div>
         </div>
 
         {/* Map Section */}

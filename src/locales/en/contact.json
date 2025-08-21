@@ -27,14 +27,16 @@
     "shippingOptions": {
       "cif": "CIF (Cost, Insurance, and Freight)",
       "fob": "FOB (Free on Board)",
-      "exw": "EXW (Ex Works)"
+      "exw": "EXW (Ex Works)",
+      "ddp": "DDP – Delivered Duty Paid to your door",
+      "other": "Other – please specify"
     },
     "requestTypes": {
       "information": "Request for Information",
       "quote": "Request for Quote",
       "proposal": "Request for Proposal"
     }
-},
+  },
   "info": {
     "title": "Corporate Headquarters",
     "headquarters": "AfriNuts Headquarters",
@@ -44,7 +46,7 @@
     "phoneNumber": "+225 XX XX XX XX",
     "email": "Email",
     "emailPrimary": "AfriNutsExport2023@outlook.com",
-    "emailSecondary": "inquiries@afrinutsexport.com",
+    "emailSecondary": "afrinutsexp@gmail.com",
     "hours": "Monday-Friday: 8:00 AM - 5:00 PM GMT",
     "businessHours": "Office Hours",
     "weekdays": "Monday - Friday: 8:00 - 17:00",
@@ -79,11 +81,37 @@
     "loading": "Loading weather data...",
     "error": "Weather information currently unavailable",
     "notAvailable": "N/A"
-  }
-  ,
+  },
   "offlinePayment": {
     "title": "Offline Payment Instructions",
     "description": "For bulk orders, all payments are handled directly via bank transfer. After submitting your inquiry, our sales team will provide an invoice and payment instructions.",
     "button": "Contact Sales"
+  },
+  "shippingGuidance": {
+    "title": "Shipping Guidance",
+    "intro": "At AfriNuts, we're committed to providing flexible shipping solutions to meet your needs. Currently, we offer two main shipping options with more coming soon.",
+    "currentlyAvailable": "Currently Available",
+    "fob": {
+      "title": "FOB (Free on Board)",
+      "description": "Buyer takes responsibility for shipping from our port of origin. Ideal for buyers who have preferred shipping partners."
+    },
+    "exw": {
+      "title": "EXW (Ex Works)",
+      "description": "Pick up goods from our warehouse; buyer handles all transport and logistics. Perfect for local buyers or those with established logistics."
+    },
+    "comingSoon": "Coming Soon",
+    "cif": {
+      "title": "CIF (Cost, Insurance, and Freight)",
+      "description": "We handle shipping, insurance, and delivery to your port of destination. We'll handle everything to your destination port."
+    },
+    "ddp": {
+      "title": "DDP (Delivered Duty Paid)",
+      "description": "Seller takes full responsibility including import duties and taxes, delivered to buyer’s location. Full door-to-door service with all costs included."
+    },
+    "other": {
+      "title": "Other / Custom Arrangement",
+      "description": "Some clients may want a specific logistic solution (charter ship, container consolidation, etc.). Tailored solutions for unique requirements."
+    },
+    "helpText": "Need help deciding which option is best for you? Our team is here to guide you through the process."
   }
 }
