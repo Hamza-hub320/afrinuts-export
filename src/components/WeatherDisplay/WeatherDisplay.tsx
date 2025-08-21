@@ -6,6 +6,7 @@ import {
   FaTemperatureHigh, FaTemperatureLow, FaWind, FaTint
 } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
+import.meta.env.VITE_WEATHER_API_KEY
 
 interface WeatherDisplayProps {
   location?: string;

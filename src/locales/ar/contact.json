@@ -12,12 +12,13 @@
     "submit": "إرسال الاستفسار",
     "sending": "جاري معالجة طلبك...",
     "requestType": "نوع الطلب",
+    "requestTypePlaceholder": "اختر نوع الطلب",
     "productInterest": "المنتج المطلوب",
     "productInterestPlaceholder": "اختر منتجًا",
     "productInterestOptions": {
       "rawCashew": "كاجو خام",
-      "organicCashew": "كاجو عضوي",
-      "roasted": "كاجو محمص",
+      "cashewKernels": "أنصاف الكاجو",
+      "cnsl": "سائل قشرة جوز الكاجو (CNSL)",
       "customOrder": "طلب مخصص"
     },
     "quantity": "الكمية (كجم أو أطنان)",

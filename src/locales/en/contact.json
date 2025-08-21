@@ -12,12 +12,13 @@
     "submit": "Submit Inquiry",
     "sending": "Processing Your Request...",
     "requestType": "Request Type",
+    "requestTypePlaceholder": "Select a request",
     "productInterest": "Product Interest",
     "productInterestPlaceholder": "Select a product",
     "productInterestOptions": {
       "rawCashew": "Raw Cashew Nuts",
-      "organicCashew": "Organic Cashew Nuts",
-      "roasted": "Roasted Cashew",
+      "cashewKernels": "Cashew Kernels",
+      "cnsl": "Cashew Nut Shell Liquid (CNSL)",
       "customOrder": "Custom Order"
     },
     "quantity": "Quantity (kg or tons)",

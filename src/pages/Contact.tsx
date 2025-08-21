@@ -36,7 +36,7 @@ const Contact: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
-    requestType: 'information',
+    requestType: '', // changed from 'information' to ''
     subject: '',
     message: '',
     productInterest: '',
@@ -94,7 +94,7 @@ const Contact: React.FC = () => {
         setFormData({
           name: '',
           email: '',
-          requestType: 'information',
+          requestType: '', // changed from 'information' to ''
           subject: '',
           message: '',
           productInterest: '',
@@ -238,11 +238,13 @@ const Contact: React.FC = () => {
                     name="requestType"
                     value={formData.requestType}
                     onChange={handleChange}
-                    className={`w-full p-3 rounded-lg border ${errors.requestType ? 'border-red-500' : 'border-warm-grey'} focus:outline-none focus:ring-2 focus:ring-accent bg-white`}
+                    className="w-full p-3 rounded-lg border border-warm-grey focus:outline-none focus:ring-2 focus:ring-accent bg-white"
                 >
+                  {/* Placeholder as first option */}
+                  <option value="">{t('form.requestTypePlaceholder')}</option>
                   <option value="information">{t('form.requestTypes.information')}</option>
                   <option value="quote">{t('form.requestTypes.quote')}</option>
-                  <option value="proposal">{t('form.requestTypes.proposal')}</option>
+                  <option value="custom-order">{t('form.requestTypes.customOrder')}</option>
                 </select>
                 {errors.requestType && <Typography variant="small" className="text-red-500 mt-1">{errors.requestType}</Typography>}
               </div>
@@ -259,11 +261,12 @@ const Contact: React.FC = () => {
                     onChange={handleChange}
                     className="w-full p-3 rounded-lg border border-warm-grey focus:outline-none focus:ring-2 focus:ring-accent bg-white"
                 >
-                  <option value="">{t('form.productInterestPlaceholder')}</option>
-                  <option value="raw-cashew">{t('form.productInterestOptions.rawCashew')}</option>
-                  <option value="organic-cashew">{t('form.productInterestOptions.organicCashew')}</option>
-                  <option value="roasted">{t('form.productInterestOptions.roasted')}</option>
-                  <option value="custom-order">{t('form.productInterestOptions.customOrder')}</option>
+                    {/* Placeholder as first option */}
+                    <option value="">{t('form.productInterestPlaceholder')}</option>
+                    <option value="raw-cashew">{t('form.productInterestOptions.rawCashew')}</option>
+                    <option value="cashew-kernels">{t('form.productInterestOptions.cashewKernels')}</option>
+                    <option value="cnsl">{t('form.productInterestOptions.cnsl')}</option>
+                    <option value="custom-order">{t('form.productInterestOptions.customOrder')}</option>
                 </select>
               </div>
 

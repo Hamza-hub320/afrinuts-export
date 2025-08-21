@@ -12,12 +12,13 @@
     "submit": "Envoyer la demande",
     "sending": "Traitement de votre demande...",
     "requestType": "Type de demande",
+    "requestTypePlaceholder": "Sélectionnez une demande",
     "productInterest": "Produit concerné",
     "productInterestPlaceholder": "Sélectionnez un produit",
     "productInterestOptions": {
       "rawCashew": "Noix de cajou brutes",
-      "organicCashew": "Noix de cajou biologiques",
-      "roasted": "Noix de cajou grillées",
+      "cashewKernels": "Amandes de cajou",
+      "cnsl": "Liquide de coque de noix de cajou (CNSL)",
       "customOrder": "Commande personnalisée"
     },
     "quantity": "Quantité (kg ou tonnes)",
