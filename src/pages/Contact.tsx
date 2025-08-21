@@ -244,7 +244,6 @@ const Contact: React.FC = () => {
                   <option value="">{t('form.requestTypePlaceholder')}</option>
                   <option value="information">{t('form.requestTypes.information')}</option>
                   <option value="quote">{t('form.requestTypes.quote')}</option>
-                  <option value="custom-order">{t('form.requestTypes.customOrder')}</option>
                 </select>
                 {errors.requestType && <Typography variant="small" className="text-red-500 mt-1">{errors.requestType}</Typography>}
               </div>
