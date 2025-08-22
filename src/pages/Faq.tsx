@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -9,16 +9,45 @@ import {
     FaLeaf,
     FaMosque,
     FaIndustry,
-    FaQuestion, FaArrowRight
+    FaQuestion,
+    FaArrowRight,
+    FaBuilding,
+    FaHandshake,
+    FaChartLine,
+    FaDownload,
+    FaFileAlt,
+    FaInfoCircle,
+    FaSeedling,
+    FaSearch,
+    FaRecycle,
+    FaShieldAlt,
+    FaHandHoldingUsd,
+    FaUsers
 } from 'react-icons/fa';
-import { motion } from 'framer-motion';
+import { motion, LazyMotion, domAnimation } from 'framer-motion';
 import Section from '@/components/Section/Section';
 import { fadeIn, staggerContainer } from '@/utils/animations';
 import { Typography } from "@/components/Typography/Typography";
+// PDF assets
+import investorProspectus from '@/assets/documents/investor-prospectus.pdf';
+import certificationRoadmap from '@/assets/documents/certification-roadmap.pdf';
+import wholesalePriceList from '@/assets/documents/wholesale-price-list.pdf';
 
 interface FAQItem {
     question: string;
     answer: string;
+    audience?: string[];
+    visualAid?: {
+        type: 'image' | 'video';
+        src: string;
+        alt: string;
+        caption?: string;
+    };
+    actions?: {
+        contact?: boolean;
+        download?: string;
+        request?: string;
+    };
 }
 
 interface FAQTopic {
@@ -26,80 +55,287 @@ interface FAQTopic {
     icon: React.ReactNode;
     title: string;
     questions: FAQItem[];
+    audience?: string[];
 }
 
 const Faq: React.FC = () => {
     const { t } = useTranslation('faq');
     const [openSections, setOpenSections] = useState<Record<string, boolean>>({});
-    const [activeTopic, setActiveTopic] = useState<string>('general');
+    const [activeTopic, setActiveTopic] = useState<string>('');
+    const [activeAudience, setActiveAudience] = useState<string>('all');
+    const [searchTerm, setSearchTerm] = useState<string>('');
+    const [visibleTopics, setVisibleTopics] = useState<number>(5);
     const navigate = useNavigate();
+    // Phase 1: On mount, detect URL query param "audience" and set activeAudience
+    useEffect(() => {
+        // Parse query parameter
+        const params = new URLSearchParams(window.location.search);
+        const urlAudience = params.get('audience');
+        if (urlAudience && ['all', 'b2b', 'partners', 'investors', 'customers'].includes(urlAudience)) {
+            setActiveAudience(urlAudience);
+        } else {
+            // Optionally: Detect document.referrer for pre-selecting audience
+            const ref = document.referrer;
+            if (ref) {
+                // Example: If referrer contains "investor", set audience to investors, etc.
+                if (/investor/i.test(ref)) setActiveAudience('investors');
+                else if (/partner/i.test(ref)) setActiveAudience('partners');
+                else if (/b2b|wholesale/i.test(ref)) setActiveAudience('b2b');
+                else if (/customer/i.test(ref)) setActiveAudience('customers');
+                // else keep 'all'
+            }
+        }
+    }, []);
+
+    // Audience filter options
+    const audienceFilters = [
+        { id: 'all', label: t('audience.all', 'All Users'), icon: <FaGlobe className="mr-1" /> },
+        { id: 'b2b', label: t('audience.b2b', 'B2B/Wholesale'), icon: <FaBuilding className="mr-1" /> },
+        { id: 'partners', label: t('audience.partners', 'Partners'), icon: <FaHandshake className="mr-1" /> },
+        { id: 'investors', label: t('audience.investors', 'Investors'), icon: <FaChartLine className="mr-1" /> },
+        { id: 'customers', label: t('audience.customers', 'Customers'), icon: <FaUsers className="mr-1" /> }
+    ];
 
     // Get all topics data from translations
     const getTopics = (): FAQTopic[] => [
         {
             id: 'general',
-            icon: <FaGlobe className="mr-2" />,
+            icon: <FaInfoCircle className="mr-2" />,
             title: t('general.title'),
-            questions: t('general.questions', { returnObjects: true }) as FAQItem[]
+            questions: t('general.questions', { returnObjects: true }) as FAQItem[],
+            audience: ['all', 'customers']
         },
         {
             id: 'farming',
-            icon: <FaTree className="mr-2" />,
+            icon: <FaSeedling className="mr-2" />,
             title: t('farming.title'),
-            questions: t('farming.questions', { returnObjects: true }) as FAQItem[]
+            questions: t('farming.questions', { returnObjects: true }) as FAQItem[],
+            audience: ['all', 'b2b']
         },
         {
             id: 'sustainability',
-            icon: <FaLeaf className="mr-2" />,
+            icon: <FaRecycle className="mr-2" />,
             title: t('sustainability.title'),
-            questions: t('sustainability.questions', { returnObjects: true }) as FAQItem[]
+            questions: t('sustainability.questions', { returnObjects: true }) as FAQItem[],
+            audience: ['all', 'b2b', 'investors']
         },
         {
             id: 'islamic',
             icon: <FaMosque className="mr-2" />,
             title: t('islamic.title'),
-            questions: t('islamic.questions', { returnObjects: true }) as FAQItem[]
+            questions: t('islamic.questions', { returnObjects: true }) as FAQItem[],
+            audience: ['all', 'investors']
         },
         {
             id: 'processing',
             icon: <FaIndustry className="mr-2" />,
             title: t('processing.title'),
-            questions: t('processing.questions', { returnObjects: true }) as FAQItem[]
+            questions: t('processing.questions', { returnObjects: true }) as FAQItem[],
+            audience: ['all', 'b2b', 'partners']
         },
         {
             id: 'quality',
-            icon: <FaLeaf className="mr-2" />,
+            icon: <FaShieldAlt className="mr-2" />,
             title: t('quality.title'),
-            questions: t('quality.questions', { returnObjects: true }) as FAQItem[]
+            questions: t('quality.questions', { returnObjects: true }) as FAQItem[],
+            audience: ['all', 'b2b']
         },
         {
             id: 'investment',
-            icon: <FaIndustry className="mr-2" />,
+            icon: <FaChartLine className="mr-2" />,
             title: t('investment.title'),
-            questions: t('investment.questions', { returnObjects: true }) as FAQItem[]
+            questions: t('investment.questions', { returnObjects: true }) as FAQItem[],
+            audience: ['all', 'investors']
+        },
+        {
+            id: 'b2b',
+            icon: <FaBuilding className="mr-2" />,
+            title: t('b2b.title'),
+            questions: t('b2b.questions', { returnObjects: true }) as FAQItem[],
+            audience: ['b2b', 'partners']
+        },
+        {
+            id: 'partners',
+            icon: <FaHandshake className="mr-2" />,
+            title: t('partners.title'),
+            questions: t('partners.questions', { returnObjects: true }) as FAQItem[],
+            audience: ['partners']
         },
         {
             id: 'leadership',
-            icon: <FaGlobe className="mr-2" />,
+            icon: <FaUsers className="mr-2" />,
             title: t('leadership.title'),
-            questions: t('leadership.questions', { returnObjects: true }) as FAQItem[]
+            questions: t('leadership.questions', { returnObjects: true }) as FAQItem[],
+            audience: ['all', 'investors']
         },
         {
             id: 'finance',
-            icon: <FaQuestion className="mr-2" />,
+            icon: <FaHandHoldingUsd className="mr-2" />,
             title: t('finance.title'),
-            questions: t('finance.questions', { returnObjects: true }) as FAQItem[]
+            questions: t('finance.questions', { returnObjects: true }) as FAQItem[],
+            audience: ['all', 'investors']
         }
     ];
+
+    // Move topics above useEffect for structured data
+    const topics = getTopics();
 
     const toggleSection = (sectionId: string) => {
         setOpenSections(prev => ({
             ...prev,
             [sectionId]: !prev[sectionId]
         }));
+
+        // Track this event in your analytics
+        if (!openSections[sectionId]) {
+            // This is an open event
+            const [topicId, questionIndex] = sectionId.split('-');
+            const topicTitle = topics.find(t => t.id === topicId)?.title;
+            const question = topics.find(t => t.id === topicId)?.questions[parseInt(questionIndex)]?.question;
+
+            // Send to analytics (replace with your actual tracking function)
+            console.log('FAQ opened:', topicTitle, question);
+        }
     };
 
-    const topics = getTopics();
+    const handleKeyDown = (e: React.KeyboardEvent, topicId: string, index: number) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            toggleSection(`${topicId}-${index}`);
+        }
+    };
+
+    // Phase 4: Conversion-oriented enhancements
+    // This handler ensures contextual CTAs pass pre-filled info to contact form or trigger PDF download
+    const handleActionClick = (action: any, item?: FAQItem) => {
+        switch (action.type) {
+            case 'contact':
+                // Example: Pass pre-filled subject based on question
+                navigate('/contact', {
+                    state: {
+                        subject: item?.question || undefined,
+                        audience: activeAudience !== 'all' ? activeAudience : undefined
+                    }
+                });
+                break;
+            case 'download':
+                // Download PDF - map descriptive titles to correct PDF assets
+                let pdfLink = action.link;
+                if (pdfLink === 'Investor Prospectus') {
+                    pdfLink = investorProspectus;
+                } else if (pdfLink === 'Certification Roadmap') {
+                    pdfLink = certificationRoadmap;
+                } else if (pdfLink === 'Wholesale Price List') {
+                    pdfLink = wholesalePriceList;
+                }
+                window.open(pdfLink, '_blank');
+                break;
+            case 'request':
+                // Now navigates to /contact with subject and audience as state
+                navigate('/contact', {
+                    state: {
+                        subject: item?.question || undefined,
+                        audience: activeAudience !== 'all' ? activeAudience : undefined
+                    }
+                });
+                break;
+            default:
+                break;
+        }
+    };
+
+    const showMoreTopics = () => {
+        setVisibleTopics(prev => prev + 3);
+    };
+
+    // Visual Aid Component (Phase 3: Visual Storytelling)
+    const VisualAid = ({ type, src, alt, caption }: {
+        type: 'image' | 'video';
+        src: string;
+        alt: string;
+        caption?: string;
+    }) => {
+        return (
+            <div className="my-4 p-4 bg-white rounded-lg shadow-sm border border-gray-100">
+                {type === 'image' && <img src={src} alt={alt} className="w-full h-auto rounded-md max-h-64 object-contain" />}
+                {type === 'video' && (
+                    <video controls className="w-full rounded-md">
+                        <source src={src} type="video/mp4" />
+                        Your browser does not support the video tag.
+                    </video>
+                )}
+                {caption && <p className="text-sm text-gray-600 mt-2 text-center">{caption}</p>}
+            </div>
+        );
+    };
+
+    // Add FAQ structured data for SEO
+    useEffect(() => {
+        const faqStructuredData = {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": topics.flatMap(topic =>
+                topic.questions.map(question => ({
+                    "@type": "Question",
+                    "name": question.question,
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": question.answer
+                    }
+                }))
+            )
+        };
+
+        const script = document.createElement('script');
+        script.type = 'application/ld+json';
+        script.text = JSON.stringify(faqStructuredData);
+        document.head.appendChild(script);
+
+        return () => {
+            document.head.removeChild(script);
+        };
+    }, [topics]);
+
+    // Filter topics based on selected audience and search term
+    const filteredTopics = (activeAudience === 'all' ? topics : topics.filter(topic =>
+        topic.audience?.includes(activeAudience) ||
+        topic.questions.some(q => !q.audience || q.audience.includes(activeAudience))
+    ))
+        .filter(topic =>
+            topic.questions.some(q =>
+                q.question.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                q.answer.toLowerCase().includes(searchTerm.toLowerCase())
+            )
+        );
+
+    // Get top questions (first 3 from general category)
+    const topQuestions = topics
+        .find(topic => topic.id === 'general')?.questions
+        .slice(0, 3) || [];
+
+    // Helper function for CTA button label translation
+    const getButtonLabel = (item: FAQItem) => {
+        if ((item as any).ctaLabelKey) return t((item as any).ctaLabelKey);
+
+        if (item.actions?.download) {
+            switch (item.actions.download) {
+                case 'Investor Prospectus':
+                    return t('cta.downloadInvestor');
+                case 'Certification Roadmap':
+                    return t('cta.downloadCertification');
+                case 'Wholesale Price List':
+                    return t('cta.downloadWholesale');
+                default:
+                    return t('cta.downloadPdf');
+            }
+        }
+
+        if (item.actions?.contact || item.actions?.request) {
+            return t('cta.requestInfo');
+        }
+
+        return '';
+    };
 
     return (
         <main>
@@ -140,15 +376,125 @@ const Faq: React.FC = () => {
                 </motion.div>
             </Section>
 
+
             {/* FAQ Content */}
             <Section className="py-16">
                 <div className="max-w-7xl mx-auto px-6 lg:px-8">
-                    <div className="flex flex-col lg:flex-row gap-12">
-                        {/* Removed Sidebar Navigation */}
+                    {/* Search Bar */}
+                    <div className="mb-8">
+                        <div className="relative max-w-xl mx-auto">
+                            <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                            <input
+                                type="text"
+                                placeholder={t('searchPlaceholder', 'Search questions...')}
+                                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                            />
+                        </div>
+                    </div>
 
+                    {/* Audience Filter Tabs */}
+                    <div className="mb-8">
+                        <Typography variant="h4" className="mb-4 text-text-dark">
+                            {t('filterBy', 'Filter by:')}
+                        </Typography>
+                        <div className="flex flex-wrap gap-2">
+                            {audienceFilters.map(filter => (
+                                <button
+                                    key={filter.id}
+                                    onClick={() => setActiveAudience(filter.id)}
+                                    className={`px-4 py-2 rounded-full text-sm font-medium transition-colors flex items-center ${
+                                        activeAudience === filter.id
+                                            ? 'bg-primary text-white'
+                                            : 'bg-gray-100 text-text-dark hover:bg-gray-200'
+                                    }`}
+                                >
+                                    {filter.icon}
+                                    {filter.label}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+
+                    {/* Top Questions Section */}
+                    {activeAudience === 'all' && searchTerm === '' && (
+                        <div className="mb-12 bg-gradient-to-br from-primary/10 to-accent/10 border-2 border-primary/20 rounded-xl p-6">
+                            <Typography variant="h3" className="text-text-dark mb-6 flex items-center">
+                                <FaQuestion className="text-primary mr-3" />
+                                {t('topQuestions.title', 'Top Questions')}
+                            </Typography>
+                            <div className="space-y-4">
+                                {topQuestions.map((item, index) => (
+                                    <div key={`top-${index}`} className="bg-white/50 p-4 rounded-lg">
+                                        <button
+                                            className="w-full text-left flex justify-between items-center group"
+                                            onClick={() => toggleSection(`top-${index}`)}
+                                            onKeyDown={(e) => handleKeyDown(e, 'top', index)}
+                                            aria-expanded={openSections[`top-${index}`]}
+                                            aria-controls={`answer-top-${index}`}
+                                        >
+                                            <Typography
+                                                variant="h5"
+                                                className="text-text-dark text-base font-medium group-hover:text-primary transition-colors"
+                                            >
+                                                {item.question}
+                                            </Typography>
+                                            {openSections[`top-${index}`] ? (
+                                                <FaChevronUp className="text-primary ml-4 flex-shrink-0" />
+                                            ) : (
+                                                <FaChevronDown className="text-primary ml-4 flex-shrink-0 group-hover:text-primary transition-colors" />
+                                            )}
+                                        </button>
+
+                                        <LazyMotion features={domAnimation}>
+                                            <motion.div
+                                                id={`answer-top-${index}`}
+                                                role="region"
+                                                aria-labelledby={`question-top-${index}`}
+                                                initial={false}
+                                                animate={{
+                                                    height: openSections[`top-${index}`] ? 'auto' : 0,
+                                                    opacity: openSections[`top-${index}`] ? 1 : 0
+                                                }}
+                                                transition={{ duration: 0.2, ease: "easeInOut" }}
+                                                className="overflow-hidden"
+                                            >
+                                                <div className="pt-2 pb-1">
+                                                    {/* Phase 3: Visual storytelling - allow images/timelines in answers */}
+                                                    <Typography variant="body" className="text-text-dark leading-relaxed mb-2">
+                                                        {item.answer}
+                                                    </Typography>
+                                                    {/* Visual Aid (image or video) */}
+                                                    {item.visualAid && (
+                                                        <VisualAid
+                                                            type={item.visualAid.type}
+                                                            src={item.visualAid.src}
+                                                            alt={item.visualAid.alt}
+                                                            caption={item.visualAid.caption}
+                                                        />
+                                                    )}
+                                                    {/* Placeholder: Step-by-step numbered list */}
+                                                    {Array.isArray((item as any).steps) && (item as any).steps.length > 0 && (
+                                                        <ol className="list-decimal ml-6 my-4">
+                                                            {(item as any).steps.map((step: string, idx: number) => (
+                                                                <li key={idx} className="mb-2">{step}</li>
+                                                            ))}
+                                                        </ol>
+                                                    )}
+                                                </div>
+                                            </motion.div>
+                                        </LazyMotion>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                    <div className="flex flex-col lg:flex-row gap-12">
                         {/* FAQ Content */}
                         <div className="w-full space-y-6">
-                            {topics.map((topic) => (
+                            {filteredTopics.slice(0, visibleTopics).map((topic) => (
                                 <div
                                     key={topic.id}
                                     className="rounded-xl bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-300 shadow-sm"
@@ -156,7 +502,7 @@ const Faq: React.FC = () => {
                                     <button
                                         onClick={() => setActiveTopic(prev => (prev === topic.id ? '' : topic.id))}
                                         className={`w-full flex justify-between items-center px-6 py-4 text-left rounded-t-xl ${
-                                            activeTopic === topic.id ? 'bg-primary text-white': ''
+                                            activeTopic === topic.id ? 'bg-primary text-white' : ''
                                         }`}
                                     >
                                         <div className="flex items-center text-lg font-semibold">
@@ -170,46 +516,124 @@ const Faq: React.FC = () => {
 
                                     {activeTopic === topic.id && (
                                         <div className="px-6 pb-4 space-y-4">
-                                            {topic.questions.map((item, index) => (
-                                                <div key={`${topic.id}-${index}`}>
-                                                    <button
-                                                        className="w-full text-left flex justify-between items-center group py-2"
-                                                        onClick={() => toggleSection(`${topic.id}-${index}`)}
-                                                    >
-                                                        <Typography
-                                                            variant="h5"
-                                                            className="text-text-dark text-base font-medium group-hover:text-primary transition-colors"
+                                            {topic.questions
+                                                .filter(q => !q.audience || q.audience.includes(activeAudience) || activeAudience === 'all')
+                                                .filter(q =>
+                                                    q.question.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                                                    q.answer.toLowerCase().includes(searchTerm.toLowerCase())
+                                                )
+                                                .map((item, index) => (
+                                                    <div key={`${topic.id}-${index}`} className="border-b border-gray-100 last:border-b-0 pb-4 last:pb-0">
+                                                        <button
+                                                            className="w-full text-left flex justify-between items-center group py-2"
+                                                            onClick={() => toggleSection(`${topic.id}-${index}`)}
+                                                            onKeyDown={(e) => handleKeyDown(e, topic.id, index)}
+                                                            aria-expanded={openSections[`${topic.id}-${index}`]}
+                                                            aria-controls={`answer-${topic.id}-${index}`}
                                                         >
-                                                            {item.question}
-                                                        </Typography>
-                                                        {openSections[`${topic.id}-${index}`] ? (
-                                                            <FaChevronUp className="text-primary ml-4 flex-shrink-0" />
-                                                        ) : (
-                                                            <FaChevronDown className="text-primary ml-4 flex-shrink-0 group-hover:text-primary transition-colors" />
-                                                        )}
-                                                    </button>
-
-                                                    <motion.div
-                                                        initial={false}
-                                                        animate={{
-                                                            height: openSections[`${topic.id}-${index}`] ? 'auto' : 0,
-                                                            opacity: openSections[`${topic.id}-${index}`] ? 1 : 0
-                                                        }}
-                                                        transition={{ duration: 0.2, ease: "easeInOut" }}
-                                                        className="overflow-hidden"
-                                                    >
-                                                        <div className="pb-2 pl-1">
-                                                            <Typography variant="body" className="text-text-dark leading-relaxed">
-                                                                {item.answer}
+                                                            <Typography
+                                                                variant="h5"
+                                                                className="text-text-dark text-base font-medium group-hover:text-primary transition-colors"
+                                                            >
+                                                                {item.question}
                                                             </Typography>
-                                                        </div>
-                                                    </motion.div>
-                                                </div>
-                                            ))}
+                                                            {openSections[`${topic.id}-${index}`] ? (
+                                                                <FaChevronUp className="text-primary ml-4 flex-shrink-0" />
+                                                            ) : (
+                                                                <FaChevronDown className="text-primary ml-4 flex-shrink-0 group-hover:text-primary transition-colors" />
+                                                            )}
+                                                        </button>
+
+                                                        <LazyMotion features={domAnimation}>
+                                                            <motion.div
+                                                                id={`answer-${topic.id}-${index}`}
+                                                                role="region"
+                                                                aria-labelledby={`question-${topic.id}-${index}`}
+                                                                initial={false}
+                                                                animate={{
+                                                                    height: openSections[`${topic.id}-${index}`] ? 'auto' : 0,
+                                                                    opacity: openSections[`${topic.id}-${index}`] ? 1 : 0
+                                                                }}
+                                                                transition={{ duration: 0.2, ease: "easeInOut" }}
+                                                                className="overflow-hidden"
+                                                            >
+                                                                <div className="pb-2 pl-1">
+                                                                    <Typography variant="body" className="text-text-dark leading-relaxed mb-3">
+                                                                        {item.answer}
+                                                                    </Typography>
+
+
+                                                                    {(item.actions?.contact || item.actions?.download || item.actions?.request) && (
+                                                                        <div className="mt-4 flex flex-wrap gap-2">
+                                                                            {item.actions?.contact && (
+                                                                                <motion.button
+                                                                                    whileHover={{ scale: 1.05 }}
+                                                                                    whileTap={{ scale: 0.95 }}
+                                                                                    className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700 transition-colors flex items-center"
+                                                                                    onClick={() => handleActionClick({ type: 'request', link: item.actions?.request }, item)}
+                                                                                >
+                                                                                    <FaFileAlt className="mr-2" />
+                                                                                    {getButtonLabel(item)}
+                                                                                </motion.button>
+                                                                            )}
+                                                                            {/* Remove Download PDF button for specific questions */}
+                                                                            {item.actions?.download && (
+                                                                                (() => {
+                                                                                    const removedDownloadQuestions = [
+                                                                                        "What certifications do you have?",
+                                                                                        "Do you provide sustainability audits?",
+                                                                                        "Are your products traceable?",
+                                                                                        "What is your approach to ESG?"
+                                                                                    ];
+                                                                                    if (!removedDownloadQuestions.includes(item.question)) {
+                                                                                        return (
+                                                                                            <motion.button
+                                                                                                whileHover={{ scale: 1.05 }}
+                                                                                                whileTap={{ scale: 0.95 }}
+                                                                                                className="px-4 py-2 bg-green-600 text-white rounded-lg text-sm hover:bg-green-700 transition-colors flex items-center"
+                                                                                                onClick={() => handleActionClick({ type: 'download', link: item.actions?.download }, item)}
+                                                                                            >
+                                                                                                <FaDownload className="mr-2" />
+                                                                                                {getButtonLabel(item)}
+                                                                                            </motion.button>
+                                                                                        );
+                                                                                    }
+                                                                                    return null;
+                                                                                })()
+                                                                            )}
+                                                                            {item.actions?.request && (
+                                                                                <motion.button
+                                                                                    whileHover={{ scale: 1.05 }}
+                                                                                    whileTap={{ scale: 0.95 }}
+                                                                                    className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700 transition-colors flex items-center"
+                                                                                    onClick={() => handleActionClick({ type: 'request', link: item.actions?.request }, item)}
+                                                                                >
+                                                                                    <FaFileAlt className="mr-2" />
+                                                                                    {getButtonLabel(item)}
+                                                                                </motion.button>
+                                                                            )}
+                                                                        </div>
+                                                                    )}
+                                                                </div>
+                                                            </motion.div>
+                                                        </LazyMotion>
+                                                    </div>
+                                                ))}
                                         </div>
                                     )}
                                 </div>
                             ))}
+
+                            {visibleTopics < filteredTopics.length && (
+                                <div className="text-center mt-8">
+                                    <button
+                                        onClick={showMoreTopics}
+                                        className="px-6 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                                    >
+                                        {t('loadMore', 'Load More Topics')}
+                                    </button>
+                                </div>
+                            )}
 
                             {/* Still have questions? */}
                             <div className="mt-12 bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 rounded-xl p-6">
@@ -222,15 +646,27 @@ const Faq: React.FC = () => {
                                 <Typography variant="body" className="text-text-dark mb-5 pl-8">
                                     {t('stillQuestions.content')}
                                 </Typography>
-                                <motion.button
-                                    whileHover={{ scale: 1.05 }}
-                                    whileTap={{ scale: 0.95 }}
-                                    className="group bg-primary hover:bg-dark-orange text-white hover:text-white px-8 py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg inline-flex items-center mx-auto"
-                                    onClick={() => navigate('/contact')}
-                                >
-                                    {t('stillQuestions.button')}
-                                    <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
-                                </motion.button>
+                                <div className="flex flex-wrap gap-4">
+                                    <motion.button
+                                        whileHover={{ scale: 1.05 }}
+                                        whileTap={{ scale: 0.95 }}
+                                        className="group bg-primary hover:bg-dark-orange text-white hover:text-white px-8 py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg inline-flex items-center"
+                                        onClick={() => navigate('/contact')}
+                                    >
+                                        {t('stillQuestions.button')}
+                                        <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+                                    </motion.button>
+
+                                    <motion.button
+                                        whileHover={{ scale: 1.05 }}
+                                        whileTap={{ scale: 0.95 }}
+                                        className="group bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg inline-flex items-center"
+                                        onClick={() => handleActionClick({ type: 'download', link: 'Investor Prospectus' })}
+                                    >
+                                        <FaFileAlt className="mr-2" />
+                                        {t('cta.downloadInvestor')}
+                                    </motion.button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -241,3 +677,5 @@ const Faq: React.FC = () => {
 };
 
 export default Faq;
+    // Phase 5: Offline & Mobile-First
+    // Placeholder: In the future, implement service worker caching for FAQ content for offline access.

@@ -4,9 +4,19 @@
     "subtitle": "Find answers to common questions about AfriNuts Export",
     "description": "Find clear, straightforward answers about AfriNuts — from our farming practices and sustainability initiatives to our processing center plans and community impact."
   },
-  "topics": {
-    "title": "Browse by Topic"
+  "audience": {
+    "all": "All Users",
+    "b2b": "B2B/Wholesale",
+    "partners": "Partners",
+    "investors": "Investors",
+    "customers": "Customers"
   },
+  "filterBy": "Filter by:",
+  "searchPlaceholder": "Search questions...",
+  "topQuestions": {
+    "title": "Top Questions"
+  },
+  "loadMore": "Load More Topics",
   "stillQuestions": {
     "title": "Still have questions",
     "content": "If you can't find what you're looking for, our team is happy to help.",
@@ -17,15 +27,18 @@
     "questions": [
       {
         "question": "What is AfriNuts Export?",
-        "answer": "AfriNuts Export is vertically integrated cashew value chain based in Odienné, Ivory Coast, focused on sustainable cashew farming and future processing. Our mission is to produce high-quality, ethically farmed cashews for both domestic and international markets, while contributing to rural development and community upliftment."
+        "answer": "AfriNuts Export is vertically integrated cashew value chain based in Odienné, Ivory Coast, focused on sustainable cashew farming and future processing. Our mission is to produce high-quality, ethically farmed cashews for both domestic and international markets, while contributing to rural development and community upliftment.",
+        "audience": ["all", "customers"]
       },
       {
         "question": "Where is your farm located?",
-        "answer": "Our cashew farm is located on a 50-hectare plot in Odienné, a region in northwestern Ivory Coast. 35 hectares are dedicated to cashew trees, and we plan to build a processing center on-site in the future."
+        "answer": "Our cashew farm is located on a 50-hectare plot in Odienné, a region in northwestern Ivory Coast. 35 hectares are dedicated to cashew trees, and we plan to build a processing center on-site in the future.",
+        "audience": ["all", "customers", "b2b"]
       },
       {
         "question": "What products do you offer?",
-        "answer": "We currently grow raw cashew nuts, which will be harvested and sold as unprocessed nuts during the early phases. As the farm matures, we will expand into value-added products through our upcoming processing facility."
+        "answer": "We currently grow raw cashew nuts, which will be harvested and sold as unprocessed nuts during the early phases. As the farm matures, we will expand into value-added products through our upcoming processing facility.",
+        "audience": ["all", "customers", "b2b"]
       }
     ]
   },
@@ -34,15 +47,24 @@
     "questions": [
       {
         "question": "How do you grow your cashews?",
-        "answer": "We plant directly into the ground using high-quality seeds, which is the local standard and cost-effective method. Our planting density is 100 trees per hectare. We also maintain a reserve of 500 seedlings in a nursery to replace any that fail during early growth."
+        "answer": "We plant directly into the ground using high-quality seeds, which is the local standard and cost-effective method. Our planting density is 100 trees per hectare. We also maintain a reserve of 500 seedlings in a nursery to replace any that fail during early growth.",
+        "audience": ["all", "b2b"],
+        "visualAid": {
+          "type": "image",
+          "src": "/assets/images/farm-hero.webp",
+          "alt": "Cashew farming process",
+          "caption": "Our sustainable cashew farming practices"
+        }
       },
       {
         "question": "When is your harvest season?",
-        "answer": "Harvest typically begins three years after planting, with the first major harvest expected in 2029, as our first planting is planned for May–June 2026."
+        "answer": "Harvest typically begins three years after planting, with the first major harvest expected in 2029, as our first planting is planned for May–June 2026.",
+        "audience": ["all", "b2b"]
       },
       {
         "question": "Are your cashews organic?",
-        "answer": "While not yet certified organic, we use sustainable and chemical-minimal farming methods that align with agroecological practices. We plan to pursue organic certification as part of our ESG goals."
+        "answer": "While not yet certified organic, we use sustainable and chemical-minimal farming methods that align with agroecological practices. We plan to pursue organic certification as part of our ESG goals.",
+        "audience": ["all", "b2b"]
       }
     ]
   },
@@ -51,15 +73,21 @@
     "questions": [
       {
         "question": "What sustainability practices do you follow?",
-        "answer": "We use rainfed agriculture to conserve water and avoid the need for irrigation in Phase 1. We also employ firebreaks to prevent wildfires, practice agroforestry where possible, and maintain natural buffers to preserve biodiversity."
+        "answer": "We use rainfed agriculture to conserve water and avoid the need for irrigation in Phase 1. We also employ firebreaks to prevent wildfires, practice agroforestry where possible, and maintain natural buffers to preserve biodiversity.",
+        "audience": ["all", "b2b", "investors"]
       },
       {
         "question": "How do you manage water and waste?",
-        "answer": "Our farm relies on natural rainfall, and we avoid chemical runoff. As we expand, we will develop water-efficient systems and composting solutions to maintain soil health and reduce waste."
+        "answer": "Our farm relies on natural rainfall, and we avoid chemical runoff. As we expand, we will develop water-efficient systems and composting solutions to maintain soil health and reduce waste.",
+        "audience": ["all", "b2b", "investors"]
       },
       {
         "question": "What is your approach to ESG?",
-        "answer": "AfriNuts is committed to Environmental, Social, and Governance (ESG) principles. This includes reinvesting in local infrastructure, promoting inclusive hiring, and ensuring transparent governance aligned with ethical values."
+        "answer": "AfriNuts is committed to Environmental, Social, and Governance (ESG) principles. This includes reinvesting in local infrastructure, promoting inclusive hiring, and ensuring transparent governance aligned with ethical values.",
+        "audience": ["all", "b2b", "investors"],
+        "actions": {
+          "download": "/documents/esg-report.pdf"
+        }
       }
     ]
   },
@@ -68,15 +96,18 @@
     "questions": [
       {
         "question": "How is the farm aligned with Islamic investment principles?",
-        "answer": "We operate under a no-riba (no interest) policy and prioritize partnerships that reflect shared risk and profit. Our investor model is based on ethical financing, community benefit, and long-term sustainability."
+        "answer": "We operate under a no-riba (no interest) policy and prioritize partnerships that reflect shared risk and profit. Our investor model is based on ethical financing, community benefit, and long-term sustainability.",
+        "audience": ["all", "investors"]
       },
       {
         "question": "Is there interest (riba) involved in your funding model?",
-        "answer": "No. We do not charge or pay interest. Our investors receive a share of the net profit (e.g., 25%) based on performance, not fixed returns. This aligns with Islamic financial ethics."
+        "answer": "No. We do not charge or pay interest. Our investors receive a share of the net profit (e.g., 25%) based on performance, not fixed returns. This aligns with Islamic financial ethics.",
+        "audience": ["all", "investors"]
       },
       {
         "question": "How do you reinvest profits into the community?",
-        "answer": "We reinvest 10% of our net profits into local initiatives such as water access, education, and places of worship. This is part of our commitment to shared prosperity and faith-based impact."
+        "answer": "We reinvest 10% of our net profits into local initiatives such as water access, education, and places of worship. This is part of our commitment to shared prosperity and faith-based impact.",
+        "audience": ["all", "investors"]
       }
     ]
   },
@@ -85,15 +116,24 @@
     "questions": [
       {
         "question": "When will the processing center be operational?",
-        "answer": "The cashew processing center is part of our long-term development plan, scheduled to be built between 2027 and 2030. It will allow us to add value locally and create new jobs in the region."
+        "answer": "The cashew processing center is part of our long-term development plan, scheduled to be built between 2027 and 2030. It will allow us to add value locally and create new jobs in the region.",
+        "audience": ["all", "b2b", "partners"],
+        "visualAid": {
+          "type": "image",
+          "src": "/images/processing-center.jpg",
+          "alt": "Processing center plans",
+          "caption": "Rendering of our future processing facility"
+        }
       },
       {
         "question": "What makes your center eco-friendly?",
-        "answer": "Our center will integrate solar power, water-efficient systems, and ethical labor practices. We aim to build a model agro-industrial site that minimizes carbon emissions and supports the circular economy."
+        "answer": "Our center will integrate solar power, water-efficient systems, and ethical labor practices. We aim to build a model agro-industrial site that minimizes carbon emissions and supports the circular economy.",
+        "audience": ["all", "b2b", "partners"]
       },
       {
         "question": "Will it serve the local community?",
-        "answer": "Yes. Beyond cashew processing, the center will provide employment, skill training, and community development. It is part of our broader vision to establish Odienné as a hub for ethical agriculture."
+        "answer": "Yes. Beyond cashew processing, the center will provide employment, skill training, and community development. It is part of our broader vision to establish Odienné as a hub for ethical agriculture.",
+        "audience": ["all", "b2b", "partners"]
       }
     ]
   },
@@ -102,11 +142,50 @@
     "questions": [
       {
         "question": "How do you ensure the quality of your cashews?",
-        "answer": "We implement strict on-farm quality controls, from seed selection to harvest timing and post-harvest handling. Our future processing center will be equipped with modern sorting and grading technology to ensure premium quality."
+        "answer": "We implement strict on-farm quality controls, from seed selection to harvest timing and post-harvest handling. Our future processing center will be equipped with modern sorting and grading technology to ensure premium quality.",
+        "audience": ["all", "b2b"]
       },
       {
         "question": "Are your products traceable?",
-        "answer": "Yes. We use transparent record-keeping and batch tracking, allowing customers to trace products back to the farm and harvest season."
+        "answer": "Yes. We use transparent record-keeping and batch tracking, allowing customers to trace products back to the farm and harvest season.",
+        "audience": ["all", "b2b"],
+        "actions": {
+          "download": "/documents/traceability-protocol.pdf"
+        }
+      }
+    ]
+  },
+  "b2b": {
+    "title": "B2B & Wholesale",
+    "questions": [
+      {
+        "question": "What is your Minimum Order Quantity (MOQ)?",
+        "answer": "Our MOQ for wholesale orders is 1 metric ton. For smaller trial orders, we can accommodate requests on a case-by-case basis.",
+        "audience": ["b2b", "partners"],
+        "actions": {
+          "contact": true
+        }
+      },
+      {
+        "question": "Do you offer bulk pricing?",
+        "answer": "Yes, we offer tiered pricing based on order volume. Please contact our sales team for detailed pricing information.",
+        "audience": ["b2b", "partners"],
+        "actions": {
+          "contact": true
+        }
+      },
+      {
+        "question": "What certifications do you have?",
+        "answer": "We are pursuing organic certification, ISO 22000 for food safety, and other relevant certifications for international export. Documentation is available upon request.",
+        "audience": ["b2b", "partners"],
+        "actions": {
+          "download": "/documents/certifications.pdf"
+        }
+      },
+      {
+        "question": "What logistics options do you offer?",
+        "answer": "We work with trusted logistics partners to ensure efficient shipping worldwide. We can arrange FOB, CIF, or other Incoterms based on your requirements.",
+        "audience": ["b2b", "partners"]
       }
     ]
   },
@@ -115,11 +194,52 @@
     "questions": [
       {
         "question": "Can I invest in AfriNuts Export?",
-        "answer": "Yes. We welcome ethical investors aligned with our mission and values. Investment opportunities are structured to comply with both international and Islamic ethical standards."
+        "answer": "Yes. We welcome ethical investors aligned with our mission and values. Investment opportunities are structured to comply with both international and Islamic ethical standards.",
+        "audience": ["all", "investors"],
+        "actions": {
+          "request": "investor-package"
+        }
       },
       {
         "question": "What is the expected return on investment?",
-        "answer": "Returns are based on profit-sharing, not fixed interest. Investors receive a share of net profits, with projections available on request. Returns depend on farm performance and market conditions."
+        "answer": "Returns are based on profit-sharing, not fixed interest. Investors receive a share of net profits, with projections available on request. Returns depend on farm performance and market conditions.",
+        "audience": ["investors"]
+      },
+      {
+        "question": "What are the contract terms?",
+        "answer": "Our investment contracts are structured with 5-year terms, with options for renewal. All contracts include transparent reporting and governance provisions.",
+        "audience": ["investors"]
+      },
+      {
+        "question": "Do you provide sustainability audits?",
+        "answer": "Yes, we conduct annual sustainability audits and make summary reports available to investors and partners.",
+        "audience": ["investors"],
+        "actions": {
+          "download": "/documents/sustainability-report.pdf"
+        }
+      }
+    ]
+  },
+  "partners": {
+    "title": "Partnerships",
+    "questions": [
+      {
+        "question": "How can I become a partner?",
+        "answer": "We welcome partnerships with distributors, retailers, and complementary businesses. Please contact our partnership team to discuss opportunities.",
+        "audience": ["partners"],
+        "actions": {
+          "contact": true
+        }
+      },
+      {
+        "question": "Do you offer white-label options?",
+        "answer": "Yes, we offer white-label packaging and private label options for qualified partners with sufficient order volumes.",
+        "audience": ["partners"]
+      },
+      {
+        "question": "What support do you provide to partners?",
+        "answer": "We provide marketing materials, product training, and joint promotional opportunities to our partners to ensure mutual success.",
+        "audience": ["partners"]
       }
     ]
   },
@@ -128,11 +248,13 @@
     "questions": [
       {
         "question": "Who leads AfriNuts Export?",
-        "answer": "AfriNuts Export is led by a team with experience in agriculture, business, and community development, committed to ethical leadership and rural empowerment."
+        "answer": "AfriNuts Export is led by a team with experience in agriculture, business, and community development, committed to ethical leadership and rural empowerment.",
+        "audience": ["all", "investors"]
       },
       {
         "question": "How is governance handled?",
-        "answer": "Our governance is transparent and participatory, with oversight from both local stakeholders and external advisors to ensure accountability."
+        "answer": "Our governance is transparent and participatory, with oversight from both local stakeholders and external advisors to ensure accountability.",
+        "audience": ["all", "investors"]
       }
     ]
   },
@@ -141,12 +263,24 @@
     "questions": [
       {
         "question": "How is the project financed?",
-        "answer": "The project is financed through a mix of equity investment, ethical financing, and reinvested profits. We avoid debt with interest (riba) to align with our values."
+        "answer": "The project is financed through a mix of equity investment, ethical financing, and reinvested profits. We avoid debt with interest (riba) to align with our values.",
+        "audience": ["all", "investors"]
       },
       {
         "question": "Do you offer financial reports?",
-        "answer": "Yes. We provide regular financial updates and transparent reporting to all stakeholders and investors."
+        "answer": "Yes. We provide regular financial updates and transparent reporting to all stakeholders and investors.",
+        "audience": ["investors"]
       }
     ]
+  },
+  "cta": {
+    "requestInfo": "Request Info",
+    "requestPartnership": "Request Partnership Info",
+    "requestQuote": "Request Quote",
+    "requestPricing": "Request Pricing Info",
+    "downloadInvestor": "Download Investor Prospectus",
+    "downloadCertification": "Download Certification Roadmap",
+    "downloadWholesale": "Download Wholesale Price List",
+    "downloadPdf": "Download PDF"
   }
 }
