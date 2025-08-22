@@ -282,5 +282,15 @@
     "downloadCertification": "تحميل خريطة الشهادات",
     "downloadWholesale": "تحميل قائمة أسعار الجملة",
     "downloadPdf": "تحميل ملف PDF"
+  },
+  "certifications": {
+    "title": "الشهادات التي نسعى للحصول عليها",
+    "list": [
+      "عضوي",
+      "التجارة العادلة",
+      "ISO 22000",
+      "حلال",
+      "Rainforest Alliance"
+    ]
   }
 }

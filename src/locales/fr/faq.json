@@ -290,5 +290,15 @@
     "downloadCertification": "Télécharger le plan de certification",
     "downloadWholesale": "Télécharger la liste de prix en gros",
     "downloadPdf": "Télécharger le PDF"
+  },
+  "certifications": {
+    "title": "Certifications que nous poursuivons",
+    "list": [
+      "Certification Biologique",
+      "Commerce Équitable",
+      "ISO 22000",
+      "Certification Halal",
+      "Rainforest Alliance"
+    ]
   }
 }

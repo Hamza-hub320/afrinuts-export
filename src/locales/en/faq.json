@@ -282,5 +282,15 @@
     "downloadCertification": "Download Certification Roadmap",
     "downloadWholesale": "Download Wholesale Price List",
     "downloadPdf": "Download PDF"
+  },
+  "certifications": {
+    "title": "Certifications We Are Pursuing",
+    "list": [
+      "Organic Certified",
+      "Fair Trade",
+      "ISO 22000",
+      "Halal Certified",
+      "Rainforest Alliance Certified"
+    ]
   }
 }

@@ -30,8 +30,8 @@ import { fadeIn, staggerContainer } from '@/utils/animations';
 import { Typography } from "@/components/Typography/Typography";
 // PDF assets
 import investorProspectus from '@/assets/documents/investor-prospectus.pdf';
-import certificationRoadmap from '@/assets/documents/certification-roadmap.pdf';
 import wholesalePriceList from '@/assets/documents/wholesale-price-list.pdf';
+import certificationRoadmap from '@/assets/documents/certification-roadmap.pdf';
 
 interface FAQItem {
     question: string;
@@ -119,6 +119,7 @@ const Faq: React.FC = () => {
             questions: t('sustainability.questions', { returnObjects: true }) as FAQItem[],
             audience: ['all', 'b2b', 'investors']
         },
+        // Removed 'certifications' topic from the topics array
         {
             id: 'islamic',
             icon: <FaMosque className="mr-2" />,
@@ -331,6 +332,13 @@ const Faq: React.FC = () => {
         }
 
         if (item.actions?.contact || item.actions?.request) {
+            // Use downloadCertification and downloadWholesale if request is for those
+            if (item.actions?.request === 'Certification Roadmap') {
+                return t('cta.downloadCertification');
+            }
+            if (item.actions?.request === 'Wholesale Price List') {
+                return t('cta.downloadWholesale');
+            }
             return t('cta.requestInfo');
         }
 
@@ -380,6 +388,19 @@ const Faq: React.FC = () => {
             {/* FAQ Content */}
             <Section className="py-16">
                 <div className="max-w-7xl mx-auto px-6 lg:px-8">
+                    {/* Certifications Section */}
+                    <div className="mb-8 max-w-3xl mx-auto p-6 bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-xl">
+                        <Typography variant="h3" className="text-text-dark mb-4 flex items-center">
+                            <FaShieldAlt className="mr-2" />
+                            {t('certifications.title')}
+                        </Typography>
+                        <ul className="list-disc list-inside space-y-2 text-text-dark">
+                            {t('certifications.list', { returnObjects: true }).map((item: string, idx: number) => (
+                                <li key={idx}>{item}</li>
+                            ))}
+                        </ul>
+                    </div>
+
                     {/* Search Bar */}
                     <div className="mb-8">
                         <div className="relative max-w-xl mx-auto">
@@ -655,16 +676,6 @@ const Faq: React.FC = () => {
                                     >
                                         {t('stillQuestions.button')}
                                         <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
-                                    </motion.button>
-
-                                    <motion.button
-                                        whileHover={{ scale: 1.05 }}
-                                        whileTap={{ scale: 0.95 }}
-                                        className="group bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg inline-flex items-center"
-                                        onClick={() => handleActionClick({ type: 'download', link: 'Investor Prospectus' })}
-                                    >
-                                        <FaFileAlt className="mr-2" />
-                                        {t('cta.downloadInvestor')}
                                     </motion.button>
                                 </div>
                             </div>
