@@ -1,123 +1,126 @@
 {
   "hero": {
-    "title": "Connect With AfriNuts Export",
-    "subtitle": "Reach out for partnership opportunities, product inquiries, or investment information"
+    "title": "Connectez-vous avec AfriNuts Export",
+    "subtitle": "Contactez-nous pour des opportunités de partenariat, des demandes de produits ou des informations d'investissement"
   },
   "form": {
-    "title": "Contact Our Team",
-    "name": "Full Name*",
-    "email": "Business Email*",
-    "subject": "Subject*",
-    "message": "Your Message*",
-    "submit": "Submit Inquiry",
-    "sending": "Processing Your Request...",
-    "requestType": "Request Type",
-    "requestTypePlaceholder": "Select a request",
-    "productInterest": "Product Interest",
-    "productInterestPlaceholder": "Select a product",
+    "title": "Contactez Notre Équipe",
+    "name": "Nom Complet*",
+    "email": "Email Professionnel*",
+    "phone": "Numéro de Téléphone",
+    "subject": "Sujet*",
+    "message": "Votre Message*",
+    "submit": "Soumettre la Demande",
+    "sending": "Traitement de Votre Demande...",
+    "requestType": "Type de Demande",
+    "requestTypePlaceholder": "Sélectionner une demande",
+    "productInterest": "Produit Intéressant",
+    "productInterestPlaceholder": "Sélectionner un produit",
     "productInterestOptions": {
-      "rawCashew": "Raw Cashew Nuts",
-      "cashewKernels": "Cashew Kernels",
-      "cnsl": "Cashew Nut Shell Liquid (CNSL)",
-      "customOrder": "Custom Order"
+      "rawCashew": "Noix de Cajou Brutes",
+      "cashewKernels": "Amandes de Cajou",
+      "cnsl": "Liquide de Coque de Noix de Cajou (CNSL)",
+      "customOrder": "Commande Sur Mesure"
     },
-    "quantity": "Quantity (kg or tons)",
-    "shipping": "Shipping Preference",
-    "shippingPlaceholder": "Select preference",
+    "quantity": "Quantité (kg ou tonnes)",
+    "unit": "Unité",
+    "unitPlaceholder": "Sélectionner l'unité",
+    "shipping": "Préférence d'Expédition",
+    "shippingPlaceholder": "Sélectionner une préférence",
     "shippingOptions": {
-      "cif": "CIF (Cost, Insurance, and Freight)",
-      "fob": "FOB (Free on Board)",
-      "exw": "EXW (Ex Works)",
-      "ddp": "DDP – Livraison droits acquittés à votre porte",
-      "other": "Autre – veuillez préciser"
+      "cif": "CIF (Coût, Assurance, Fret)",
+      "fob": "FOB (Franco à Bord)",
+      "exw": "EXW (Sortie Usine)",
+      "ddp": "DDP - Livraison Droits Acquittés à Votre Porte",
+      "other": "Autre - Veuillez préciser"
     },
     "requestTypes": {
-      "information": "Request for Information",
-      "quote": "Request for Quote",
-      "proposal": "Request for Proposal",
-      "partnership": "Opportunité de partenariat",
-      "investment": "Demande d'investissement",
-      "other": "Autre demande"
+      "information": "Demande d'Information",
+      "quote": "Demande de Devis",
+      "proposal": "Demande de Proposition",
+      "partnership": "Opportunité de Partenariat",
+      "investment": "Demande d'Investissement",
+      "other": "Autre Demande"
     },
-    "checkFaq": "Vous avez des questions ? Consultez notre FAQ avant de nous contacter.",
+    "checkFaq": "Des questions ? Consultez notre FAQ avant de nous contacter.",
     "faqLink": "Aller à la FAQ"
-},
+  },
   "info": {
-    "title": "Corporate Headquarters",
-    "headquarters": "AfriNuts Headquarters",
-    "address": "Odienné, Ivory Coast",
-    "zipCode": "Zip Code: 00225",
-    "phone": "Phone",
+    "title": "Siège Social",
+    "headquarters": "Siège d'AfriNuts",
+    "address": "Odienné, Côte d'Ivoire",
+    "zipCode": "Code Postal: 00225",
+    "phone": "Téléphone",
     "phoneNumber": "+225 XX XX XX XX",
     "email": "Email",
     "emailPrimary": "AfriNutsExport2023@outlook.com",
-    "emailSecondary": "inquiries@afrinutsexport.com",
-    "hours": "Monday-Friday: 8:00 AM - 5:00 PM GMT",
-    "businessHours": "Office Hours",
-    "weekdays": "Monday - Friday: 8:00 - 17:00",
-    "saturday": "Saturday: 9:00 - 13:00"
+    "emailSecondary": "afrinutsexp@gmail.com",
+    "hours": "Lundi-Vendredi: 8:00 - 17:00 GMT",
+    "businessHours": "Heures de Bureau",
+    "weekdays": "Lundi - Vendredi: 8:00 - 17:00",
+    "saturday": "Samedi: 9:00 - 13:00"
   },
   "map": {
-    "title": "Our Operational Headquarters",
-    "iframeTitle": "AfriNuts Export Location"
+    "title": "Notre Siège Opérationnel",
+    "iframeTitle": "Localisation d'AfriNuts Export"
   },
   "success": {
-    "title": "Thank You for Contacting AfriNuts Export",
-    "message": "Your inquiry has been received. Our team will respond within 2 business days.",
-    "close": "Return to Site",
-    "extraCelebration": "Nous sommes ravis d'entrer en contact avec vous !"
+    "title": "Merci d'avoir Contacté AfriNuts Export",
+    "message": "Votre demande a été reçue. Notre équipe répondra dans les 2 jours ouvrables.",
+    "close": "Retour au Site",
+    "extraCelebration": "Nous sommes ravis de vous connecter !"
   },
   "errors": {
-    "name": "Please enter your full name",
-    "emailRequired": "A valid email address is required",
-    "emailInvalid": "Please enter a properly formatted email address",
-    "subject": "Please specify the subject of your inquiry",
-    "message": "Please include a detailed message",
-    "fileSize": "Maximum file size exceeded (5MB limit)",
-    "submit": "We encountered an error. Please email us directly at contact@afrinutsexport.com",
-    "requestType": "Please select a request type"
+    "name": "Veuillez saisir votre nom complet",
+    "emailRequired": "Une adresse email valide est requise",
+    "emailInvalid": "Veuillez saisir une adresse email valide",
+    "subject": "Veuillez spécifier le sujet de votre demande",
+    "message": "Veuillez inclure un message détaillé",
+    "fileSize": "Taille de fichier maximale dépassée (limite 5MB)",
+    "submit": "Une erreur s'est produite. Veuillez nous envoyer un email directement à contact@afrinutsexport.com",
+    "requestType": "Veuillez sélectionner un type de demande"
   },
   "weather": {
-    "currentWeather": "Current weather in {{location}}",
-    "feelsLike": "Feels like: {{temp}}°C",
-    "highTemp": "High: {{temp}}°C",
-    "lowTemp": "Low: {{temp}}°C",
-    "wind": "Wind: {{speed}} km/h",
-    "humidity": "Humidity: {{percent}}%",
-    "loading": "Loading weather data...",
-    "error": "Weather information currently unavailable",
-    "notAvailable": "N/A"
+    "currentWeather": "Météo actuelle à {{location}}",
+    "feelsLike": "Ressenti: {{temp}}°C",
+    "highTemp": "Max: {{temp}}°C",
+    "lowTemp": "Min: {{temp}}°C",
+    "wind": "Vent: {{speed}} km/h",
+    "humidity": "Humidité: {{percent}}%",
+    "loading": "Chargement des données météo...",
+    "error": "Informations météo actuellement indisponibles",
+    "notAvailable": "N/D"
   },
   "offlinePayment": {
-    "title": "Offline Payment Instructions",
-    "description": "For bulk orders, all payments are handled directly via bank transfer. After submitting your inquiry, our sales team will provide an invoice and payment instructions.",
-    "button": "Contact Sales"
+    "title": "Instructions de Paiement Hors Ligne",
+    "description": "Pour les commandes en gros, tous les paiements sont traités directement par virement bancaire. Après soumission de votre demande, notre équipe commerciale fournira une facture et des instructions de paiement.",
+    "button": "Contacter les Ventes"
   },
   "shippingGuidance": {
-    "title": "Guide d'expédition",
-    "intro": "Chez AfriNuts, nous nous engageons à fournir des solutions d'expédition flexibles pour répondre à vos besoins. Actuellement, nous proposons deux options principales avec d'autres à venir bientôt.",
-    "currentlyAvailable": "Actuellement disponible",
+    "title": "Conseils d'Expédition",
+    "intro": "Chez AfriNuts, nous nous engageons à fournir des solutions d'expédition flexibles pour répondre à vos besoins. Actuellement, nous proposons deux options principales d'expédition, avec plus à venir.",
+    "currentlyAvailable": "Actuellement Disponible",
     "fob": {
-      "title": "FOB (Franco à bord)",
-      "description": "L'acheteur prend en charge l'expédition depuis notre port d'origine. Idéal pour les acheteurs ayant des partenaires logistiques préférés."
+      "title": "FOB (Franco à Bord)",
+      "description": "L'acheteur prend la responsabilité de l'expédition depuis notre port d'origine. Idéal pour les acheteurs ayant des partenaires d'expédition préférés."
     },
     "exw": {
-      "title": "EXW (À l'usine)",
-      "description": "Récupérez les marchandises dans notre entrepôt; l'acheteur gère tout le transport et la logistique. Parfait pour les acheteurs locaux ou ceux disposant d'une logistique établie."
+      "title": "EXW (Sortie Usine)",
+      "description": "Retirer les marchandises de notre entrepôt ; l'acheteur gère tout le transport et la logistique. Parfait pour les acheteurs locaux ou ceux ayant une logistique établie."
     },
-    "comingSoon": "Bientôt disponible",
+    "comingSoon": "Bientôt Disponible",
     "cif": {
-      "title": "CIF (Coût, Assurance et Fret)",
-      "description": "Nous prenons en charge l'expédition, l'assurance et la livraison jusqu'à votre port de destination. Nous nous occupons de tout jusqu'à votre port de destination."
+      "title": "CIF (Coût, Assurance, Fret)",
+      "description": "Nous gérons l'expédition, l'assurance et la livraison jusqu'à votre port de destination. Nous nous occupons de tout jusqu'à votre port de destination."
     },
     "ddp": {
-      "title": "DDP (Livraison droits acquittés)",
-      "description": "Le vendeur prend l'entière responsabilité, y compris les droits et taxes d'importation, livraison à l'emplacement du client. Service complet porte-à-porte avec tous les coûts inclus."
+      "title": "DDP (Livraison Droits Acquittés)",
+      "description": "Le vendeur assume l'entière responsabilité, y compris les droits de douane et taxes, livré à l'emplacement de l'acheteur. Service complet porte-à-porte avec tous frais inclus."
     },
     "other": {
-      "title": "Autre / Arrangement personnalisé",
-      "description": "Certains clients peuvent vouloir une solution logistique spécifique (navire affrété, consolidation de conteneurs, etc.). Solutions sur mesure pour des besoins uniques."
+      "title": "Autre / Arrangement Personnalisé",
+      "description": "Certains clients peuvent vouloir une solution logistique spécifique (navire affrété, consolidation de conteneurs, etc.). Solutions sur mesure pour des exigences uniques."
     },
-    "helpText": "Besoin d'aide pour décider quelle option est la meilleure pour vous ? Notre équipe est là pour vous guider tout au long du processus."
+    "helpText": "Besoin d'aide pour décider quelle option vous convient le mieux ? Notre équipe est là pour vous guider tout au long du processus."
   }
 }

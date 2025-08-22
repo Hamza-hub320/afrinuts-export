@@ -8,18 +8,19 @@ import contactHeroImage from '@/assets/images/contact-hero.webp';
 import { motion } from 'framer-motion';
 import { fadeIn, staggerContainer } from '@/utils/animations';
 import { Typography } from "@/components/Typography/Typography";
-import {navigate} from "next/dist/client/components/segment-cache";
 import { useNavigate } from 'react-router-dom';
 
 interface FormData {
   name: string;
   email: string;
+  phone?: string;
   requestType: string;
   subject: string;
   message: string;
   productInterest?: string;
   quantity?: string;
   shipping?: string;
+  unit?: string;
 }
 
 interface FormErrors {
@@ -47,12 +48,14 @@ const Contact: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
-    requestType: '', // changed from 'information' to ''
+    phone: '',
+    requestType: '',
     subject: '',
     message: '',
     productInterest: '',
     quantity: '',
-    shipping: ''
+    shipping: '',
+    unit: ''
   });
 
   const [errors, setErrors] = useState<FormErrors>({});
@@ -77,9 +80,16 @@ const Contact: React.FC = () => {
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    if (name === 'quantity') {
+      const numericValue = value.replace(/[^\d.]/g, '');
+      setFormData(prev => ({ ...prev, [name]: numericValue }));
+    } else if (name === 'unit') {
+      setFormData(prev => ({ ...prev, [name]: value }));
+    } else {
+      setFormData(prev => ({ ...prev, [name]: value }));
+    }
     if (errors[name as keyof FormErrors]) {
-      setErrors((prev) => ({ ...prev, [name]: undefined }));
+      setErrors(prev => ({ ...prev, [name]: undefined }));
     }
   };
 
@@ -107,11 +117,40 @@ const Contact: React.FC = () => {
 
     try {
       emailjs.init("BuIYx9hnXwuMJjbhE");
-      const response = await emailjs.sendForm(
-          'service_qftryeh',
-          'template_fktuno4',
-          formRef.current as HTMLFormElement,
-          'BuIYx9hnXwuMJjbhE'
+
+      // Compose templateParams manually
+      const now = new Date();
+      const date_created = now.toLocaleString();
+      let email_color = '#E04E00';
+      let badge_class = 'request-proposal';
+      if (formData.requestType === 'information') {
+        email_color = '#00869D';
+        badge_class = 'request-information';
+      } else if (formData.requestType === 'quote') {
+        email_color = '#A0C800';
+        badge_class = 'request-quote';
+      }
+      const templateParams = {
+        from_name: formData.name,
+        from_email: formData.email,
+        phone: formData.phone || '',
+        request_type: formData.requestType,
+        subject: formData.subject,
+        message: formData.message,
+        product_interest: formData.productInterest || '',
+        quantity: formData.quantity || '',
+        unit: formData.unit || '',
+        shipping: formData.shipping || '',
+        date_created,
+        email_color,
+        badge_class,
+      };
+
+      const response = await emailjs.send(
+        'service_qftryeh',
+        'template_fktuno4',
+        templateParams,
+        'BuIYx9hnXwuMJjbhE'
       );
 
       if (response.status === 200) {
@@ -119,12 +158,13 @@ const Contact: React.FC = () => {
         setFormData({
           name: '',
           email: '',
-          requestType: '', // changed from 'information' to ''
+          requestType: '',
           subject: '',
           message: '',
           productInterest: '',
           quantity: '',
-          shipping: ''
+          shipping: '',
+          unit: ''
         });
       } else {
         throw new Error(`Unexpected status ${response.status}`);
@@ -403,47 +443,67 @@ const Contact: React.FC = () => {
               <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
                 {/* Honeypot anti-spam field */}
                 <input type="text" name="company" className="hidden" tabIndex={-1} autoComplete="off" />
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {/* Name Field */}
-                  <div>
-                    <label htmlFor="name" className="block mb-2">
-                      <Typography variant="h5">{t('form.name')}</Typography>
-                    </label>
-                    <input
-                        ref={nameRef}
-                        type="text"
-                        id="name"
-                        name="name"
-                        aria-label={t('form.name')}
-                        aria-required="true"
-                        aria-describedby={errors.name ? "error-name" : undefined}
-                        value={formData.name}
-                        onChange={handleChange}
-                        className={`w-full p-3 rounded-lg border ${errors.name ? 'border-red-500' : 'border-warm-grey'} focus:outline-none focus:ring-2 focus:ring-accent`}
-                    />
-                    {errors.name && <Typography variant="small" id="error-name" className="text-red-500 mt-1">{errors.name}</Typography>}
-                  </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Name Field */}
+          <div>
+            <label htmlFor="name" className="block mb-2">
+              <Typography variant="h5">{t('form.name')}</Typography>
+            </label>
+            <input
+                ref={nameRef}
+                type="text"
+                id="name"
+                name="name"
+                aria-label={t('form.name')}
+                aria-required="true"
+                aria-describedby={errors.name ? "error-name" : undefined}
+                value={formData.name}
+                onChange={handleChange}
+                className={`w-full p-3 rounded-lg border ${errors.name ? 'border-red-500' : 'border-warm-grey'} focus:outline-none focus:ring-2 focus:ring-accent`}
+            />
+            {errors.name && <Typography variant="small" id="error-name" className="text-red-500 mt-1">{errors.name}</Typography>}
+          </div>
 
-                  {/* Email Field */}
-                  <div>
-                    <label htmlFor="email" className="block mb-2">
-                      <Typography variant="h5">{t('form.email')}</Typography>
-                    </label>
-                    <input
-                        ref={emailRef}
-                        type="email"
-                        id="email"
-                        name="email"
-                        aria-label={t('form.email')}
-                        aria-required="true"
-                        aria-describedby={errors.email ? "error-email" : undefined}
-                        value={formData.email}
-                        onChange={handleChange}
-                        className={`w-full p-3 rounded-lg border ${errors.email ? 'border-red-500' : 'border-warm-grey'} focus:outline-none focus:ring-2 focus:ring-accent`}
-                    />
-                    {errors.email && <Typography variant="small" id="error-email" className="text-red-500 mt-1">{errors.email}</Typography>}
-                  </div>
-                </div>
+          {/* Email Field */}
+          <div>
+            <label htmlFor="email" className="block mb-2">
+              <Typography variant="h5">{t('form.email')}</Typography>
+            </label>
+            <input
+                ref={emailRef}
+                type="email"
+                id="email"
+                name="email"
+                aria-label={t('form.email')}
+                aria-required="true"
+                aria-describedby={errors.email ? "error-email" : undefined}
+                value={formData.email}
+                onChange={handleChange}
+                className={`w-full p-3 rounded-lg border ${errors.email ? 'border-red-500' : 'border-warm-grey'} focus:outline-none focus:ring-2 focus:ring-accent`}
+            />
+            {errors.email && <Typography variant="small" id="error-email" className="text-red-500 mt-1">{errors.email}</Typography>}
+          </div>
+        </div>
+
+        {/* Phone Field (optional) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <label htmlFor="phone" className="block mb-2">
+              <Typography variant="h5">{t('form.phone')}</Typography>
+            </label>
+            <input
+                type="tel"
+                id="phone"
+                name="phone"
+                aria-label={t('form.phone')}
+                value={formData.phone || ''}
+                onChange={handleChange}
+                className="w-full p-3 rounded-lg border border-warm-grey focus:outline-none focus:ring-2 focus:ring-accent"
+                placeholder="+000 00 00 00 00 00"
+            />
+          </div>
+          <div></div>
+        </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {/* Request Type Field */}
@@ -504,46 +564,68 @@ const Contact: React.FC = () => {
 
                 {/* Quantity and Shipping - only show for quote */}
                 {formData.requestType === 'quote' && (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {/* Quantity Field */}
-                    <div>
-                      <label htmlFor="quantity" className="block mb-2">
-                        <Typography variant="h5">{t('form.quantity')}</Typography>
-                      </label>
-                      <input
-                          ref={quantityRef}
-                          type="number"
-                          min="1"
-                          id="quantity"
-                          name="quantity"
-                          aria-label={t('form.quantity')}
-                          value={formData.quantity}
-                          onChange={handleChange}
-                          className="w-full p-3 rounded-lg border border-warm-grey focus:outline-none focus:ring-2 focus:ring-accent"
-                      />
-                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      {/* Quantity and Unit Fields */}
+                      <div>
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <label htmlFor="quantity" className="block mb-2">
+                              <Typography variant="h5">{t('form.quantity')}</Typography>
+                            </label>
+                            <input
+                                ref={quantityRef}
+                                type="number"
+                                min="1"
+                                max="100000"
+                                id="quantity"
+                                name="quantity"
+                                aria-label={t('form.quantity')}
+                                value={formData.quantity}
+                                onChange={handleChange}
+                                className="w-full p-3 rounded-lg border border-warm-grey focus:outline-none focus:ring-2 focus:ring-accent"
+                            />
+                          </div>
+                          <div>
+                            <label htmlFor="unit" className="block mb-2">
+                              <Typography variant="h5">{t('form.unit')}</Typography>
+                            </label>
+                            <select
+                                id="unit"
+                                name="unit"
+                                aria-label={t('form.unit')}
+                                value={formData.unit}
+                                onChange={handleChange}
+                                className="w-full p-3 rounded-lg border border-warm-grey focus:outline-none focus:ring-2 focus:ring-accent bg-white"
+                            >
+                              <option value="">{t('form.unitPlaceholder')}</option>
+                              <option value="kg">Kg</option>
+                              <option value="tons">Tons</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
 
-                    {/* Shipping Preference */}
-                    <div>
-                      <label htmlFor="shipping" className="block mb-2">
-                        <Typography variant="h5">{t('form.shipping')}</Typography>
-                      </label>
-                      <select
-                          ref={shippingRef}
-                          id="shipping"
-                          name="shipping"
-                          aria-label={t('form.shipping')}
-                          value={formData.shipping}
-                          onChange={handleChange}
-                          className="w-full p-3 rounded-lg border border-warm-grey focus:outline-none focus:ring-2 focus:ring-accent bg-white"
-                      >
-                        <option value="">{t('form.shippingPlaceholder')}</option>
-                        <option value="fob">{t('form.shippingOptions.fob')}</option>
-                        <option value="exw">{t('form.shippingOptions.exw')}</option>
-                        <option value="other">{t('form.shippingOptions.other')}</option>
-                      </select>
+                      {/* Shipping Preference */}
+                      <div>
+                        <label htmlFor="shipping" className="block mb-2">
+                          <Typography variant="h5">{t('form.shipping')}</Typography>
+                        </label>
+                        <select
+                            ref={shippingRef}
+                            id="shipping"
+                            name="shipping"
+                            aria-label={t('form.shipping')}
+                            value={formData.shipping}
+                            onChange={handleChange}
+                            className="w-full p-3 rounded-lg border border-warm-grey focus:outline-none focus:ring-2 focus:ring-accent bg-white"
+                        >
+                          <option value="">{t('form.shippingPlaceholder')}</option>
+                          <option value="fob">{t('form.shippingOptions.fob')}</option>
+                          <option value="exw">{t('form.shippingOptions.exw')}</option>
+                          <option value="other">{t('form.shippingOptions.other')}</option>
+                        </select>
+                      </div>
                     </div>
-                  </div>
                 )}
 
                 {/* Subject Field */}
@@ -586,35 +668,6 @@ const Contact: React.FC = () => {
                   {errors.message && <Typography variant="small" id="error-message" className="text-red-500 mt-1">{errors.message}</Typography>}
                 </div>
 
-                <input type="hidden" name="from_name" value={formData.name} />
-                <input type="hidden" name="from_email" value={formData.email} />
-                <input type="hidden" name="product_interest" value={formData.productInterest || ''} />
-                {/* New hidden input for date_created */}
-                <input type="hidden" name="date_created" value={new Date().toLocaleString()} />
-                {/* New hidden input for email_color */}
-                <input
-                    type="hidden"
-                    name="email_color"
-                    value={
-                      formData.requestType === 'information'
-                          ? '#00869D'
-                          : formData.requestType === 'quote'
-                              ? '#A0C800'
-                              : '#E04E00'
-                    }
-                />
-                {/* New hidden input for badge_class */}
-                <input
-                    type="hidden"
-                    name="badge_class"
-                    value={
-                      formData.requestType === 'information'
-                          ? 'request-information'
-                          : formData.requestType === 'quote'
-                              ? 'request-quote'
-                              : 'request-proposal'
-                    }
-                />
 
                 <div className="text-center pt-4">
                   <button

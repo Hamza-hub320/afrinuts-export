@@ -7,6 +7,7 @@
     "title": "Contact Our Team",
     "name": "Full Name*",
     "email": "Business Email*",
+    "phone": "Phone Number",
     "subject": "Subject*",
     "message": "Your Message*",
     "submit": "Submit Inquiry",
@@ -22,6 +23,8 @@
       "customOrder": "Custom Order"
     },
     "quantity": "Quantity (kg or tons)",
+    "unit": "Unit",
+    "unitPlaceholder": "Select Unit",
     "shipping": "Shipping Preference",
     "shippingPlaceholder": "Select preference",
     "shippingOptions": {
