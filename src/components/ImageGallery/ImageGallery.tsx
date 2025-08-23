@@ -69,12 +69,24 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, className = '' }) =
 
     return (
         <div className={`${className}`}>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {/* Responsive gallery: grid on sm+, horizontal scroll on mobile */}
+            <div
+                className="
+                  flex overflow-x-auto snap-x snap-mandatory gap-4
+                  sm:grid sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:snap-none
+                  lg:grid-cols-3
+                "
+            >
                 {images.map((image, index) => (
                     <motion.div
                         key={index}
-                        className="relative group cursor-pointer overflow-hidden rounded-lg shadow-md"
+                        className="
+                          relative group cursor-pointer overflow-hidden rounded-lg shadow-md
+                          snap-start
+                          w-72 min-w-[18rem] sm:w-auto sm:min-w-0
+                        "
                         whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.97 }}
                         onClick={() => openImage(index)}
                         initial="hidden"
                         whileInView="visible"

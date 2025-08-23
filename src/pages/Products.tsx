@@ -23,9 +23,7 @@ import processImage from '../assets/images/production-process.webp';
 import qualityImage from '../assets/images/quality-control.webp';
 import packagingImage from '../assets/images/packaging.webp';
 import rawCashewImage from '../assets/images/raw-cashew.webp';
-import { ProductFilters, AvailabilityFilter } from '@/types/filters';
-import farmHeroImage from "@assets/images/farm-hero.webp";
-import aboutUsHeroImage from "@assets/images/about-us-hero.webp";
+import { AvailabilityFilter } from '@/types/filters';
 
 type AvailabilityFilter = 'all' | 'available' | 'coming-soon';
 type CertificationFilter = 'organic' | 'halal' | 'fairtrade' | '';
@@ -312,17 +310,18 @@ const Products: React.FC = () => {
 
                         {/* Products Grid */}
                         {filteredProducts.length > 0 ? (
-                            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                                 {filteredProducts.map((product) => (
-                                    <ProductCard
-                                        key={product.name}
+                                    <div key={product.name}>
+                                      <ProductCard
                                         product={product}
                                         handleContactClick={handleContactClick}
                                         productImageMap={productImageMap}
                                         iconMap={iconMap}
                                         variants={fadeIn}
                                         compact={false}
-                                    />
+                                      />
+                                    </div>
                                 ))}
                             </div>
                         ) : (
@@ -455,7 +454,7 @@ const Products: React.FC = () => {
                                 <img
                                     src={qualityImage}
                                     alt={t('quality.title')}
-                                    className="rounded-2xl shadow-xl w-full"
+                                    className="rounded-2xl shadow-xl w-full transition-transform duration-500 transform-gpu hover:scale-105"
                                     loading="lazy"
                                 />
                             </motion.div>

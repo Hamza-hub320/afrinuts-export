@@ -156,5 +156,24 @@
     "on": "On",
     "reset": "Réinitialiser",
     "statement": "Déclaration"
+  },
+  "testimonials": {
+    "title": "Témoignages de nos partenaires",
+    "subtitle": "Découvrez l'expérience de nos partenaires et clients internationaux avec AfriNuts Export",
+    "europe": {
+      "quote": "AfriNuts Export fournit des noix de cajou de première qualité avec un service exceptionnel. Vraiment fiable et professionnel.",
+      "name": "Sophie Laurent",
+      "position": "Responsable des Achats, France"
+    },
+    "america": {
+      "quote": "Travailler avec AfriNuts a été un changement radical pour notre gamme de produits biologiques. Leur traçabilité et leur qualité sont inégalées.",
+      "name": "John Peterson",
+      "position": "Propriétaire, Peterson Foods, USA"
+    },
+    "me": {
+      "quote": "AfriNuts livre constamment des noix de cajou premium, soutenant nos objectifs commerciaux tout en garantissant un approvisionnement éthique.",
+      "name": "Ahmed Al-Mansour",
+      "position": "PDG, Middle East Trading Co."
+    }
   }
 }
