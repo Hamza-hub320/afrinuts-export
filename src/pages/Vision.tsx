@@ -383,12 +383,36 @@ const Vision: React.FC = () => {
                         <Typography variant="h2" className="mb-8">
                             {t('roadmap.title')}
                         </Typography>
-                        <div className="relative flex flex-col items-center">
+                        {/* Mobile Roadmap - Horizontal Scroll */}
+                        <div className="md:hidden w-full overflow-x-auto pb-4">
+                          <div className="flex gap-4 px-2">
+                            {(t('roadmap.items', { returnObjects: true }) as Array<{date: string; title: string; description: string}>).map((item, idx) => (
+                              <div
+                                key={`roadmap-mobile-${idx}`}
+                                className="flex-shrink-0 w-64 bg-gradient-to-br from-primary/5 to-accent/5 text-center border-2 border-primary/20 hover:border-accent/30 transition-all duration-300 rounded-xl shadow-md p-6 flex flex-col items-center relative"
+                              >
+
+                                <Typography variant="subtitle" className="text-primary text-center font-bold">
+                                  {item.date}
+                                </Typography>
+                                <Typography variant="h4" className="text-lg font-semibold text-center mt-1">
+                                  {item.title}
+                                </Typography>
+                                <Typography variant="body" className="text-gray-600 text-center mt-2">
+                                  {item.description}
+                                </Typography>
+
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                        {/* Desktop vertical timeline (unchanged) */}
+                        <div className="hidden md:flex flex-col items-center relative">
                             <div className="absolute left-1/2 transform -translate-x-1/2 h-full border-l-2 border-primary/40 z-0" style={{ top: 32, bottom: 32 }} />
                             <div className="relative z-10 w-full">
                                 {(t('roadmap.items', { returnObjects: true }) as Array<{ date: string; title: string; description: string }>).map((item, idx) => (
                                     <div key={`roadmap-${idx}`} className="flex items-center mb-10 last:mb-0">
-                                        <div className="w-1/2 pr-4 text-right hidden md:block">
+                                        <div className="w-1/2 pr-4 text-right">
                                             {idx % 2 === 0 && (
                                                 <div>
                                                     <Typography variant="subtitle" className="font-bold text-primary">
@@ -425,18 +449,6 @@ const Vision: React.FC = () => {
                                                     </Typography>
                                                 </div>
                                             )}
-                                            {/* On mobile, always show on right for all */}
-                                            <div className="md:hidden">
-                                                <Typography variant="subtitle" className="font-bold text-primary">
-                                                    {item.date}
-                                                </Typography>
-                                                <Typography variant="h4" className="text-lg">
-                                                    {item.title}
-                                                </Typography>
-                                                <Typography variant="body" className="text-gray-600">
-                                                    {item.description}
-                                                </Typography>
-                                            </div>
                                         </div>
                                     </div>
                                 ))}

@@ -168,7 +168,7 @@ const Sustainability: React.FC = () => {
                                 <img
                                     src={agroforestryImage}
                                     alt="Agroforestry practices"
-                                    className="rounded-2xl shadow-xl w-full"
+                                    className="rounded-2xl shadow-xl w-full transition-transform duration-300 hover:scale-105"
                                 />
                             </div>
                             <div className="lg:w-1/2">
@@ -246,7 +246,7 @@ const Sustainability: React.FC = () => {
                                 <img
                                     src={farmersImage}
                                     alt="Farmers training"
-                                    className="rounded-2xl shadow-xl w-full"
+                                    className="rounded-2xl shadow-xl w-full transition-transform duration-300 hover:scale-105"
                                 />
                             </motion.div>
                         </div>
