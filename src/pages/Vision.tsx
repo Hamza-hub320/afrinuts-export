@@ -51,6 +51,7 @@ const Vision: React.FC = () => {
             <Section
                 fullHeight={false}
                 bgImage={visionHeroImage}
+                loading="lazy"
                 className="flex items-end justify-start text-center min-h-[50vh] md:min-h-[50vh] pb-24 pr-16 mx-6 sm:mx-12 lg:mx-32 xl:mx-48 mt-32 pt-24 rounded-[2rem] shadow-2xl overflow-hidden border border-white/40"
             >
                 <motion.div
@@ -124,8 +125,9 @@ const Vision: React.FC = () => {
                             <div className="lg:w-1/2">
                                 <img
                                     src={farmImage}
-                                    alt="Sustainable farming"
-                                    className="rounded-2xl shadow-xl w-full"
+                                    alt="Cashew farmers practicing sustainable agriculture in Ivory Coast"
+                                    loading="lazy"
+                                    className="rounded-2xl shadow-xl w-full transform transition-transform duration-500 hover:scale-105"
                                 />
                             </div>
                             <div className="lg:w-1/2">
@@ -153,9 +155,9 @@ const Vision: React.FC = () => {
                                 </div>
                                 <motion.div
                                     variants={fadeIn}
-                                    className="mt-8 p-4 bg-primary/10 rounded-xl border border-primary/20"
+                                    className="mt-8 p-4 bg-primary/10 rounded-xl border border-primary/20 border-l-4 border-primary pl-4 italic"
                                 >
-                                    <Typography variant="body" className="italic text-primary-dark">
+                                    <Typography variant="body" className="text-primary-dark">
                                         {t('sustainability.quote')}
                                     </Typography>
                                 </motion.div>
@@ -178,6 +180,9 @@ const Vision: React.FC = () => {
                             <Typography variant="h2">
                                 {t('community.title')}
                             </Typography>
+                            <Typography variant="subtitle" className="mt-2">
+                                {t('community.subtitle')}
+                            </Typography>
                         </div>
 
                         <div className="grid md:grid-cols-3 gap-8">
@@ -196,6 +201,7 @@ const Vision: React.FC = () => {
                                         title={item.title}
                                         iconColor="text-accent"
                                         className="h-full"
+                                        role="article"
                                     >
                                         {item.content}
                                     </InfoCard>
@@ -225,8 +231,9 @@ const Vision: React.FC = () => {
                             <div className="lg:w-1/2">
                                 <img
                                     src={processingImage}
-                                    alt="Value added processing"
-                                    className="rounded-2xl shadow-xl w-full"
+                                    alt="Value-added cashew processing in AfriNuts facility"
+                                    loading="lazy"
+                                    className="rounded-2xl shadow-xl w-full transform transition-transform duration-500 hover:scale-105"
                                 />
                             </div>
                             <div className="lg:w-1/2">
@@ -252,6 +259,31 @@ const Vision: React.FC = () => {
                                 </div>
                             </div>
                         </div>
+                    </motion.div>
+                </div>
+            </Section>
+
+            {/* Mid-page CTA */}
+            <Section className="py-10">
+                <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 text-center">
+                    <motion.div
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={staggerContainer}
+                    >
+                        <Typography variant="h2" className="mb-6">
+                            {t('midCta.title')}
+                        </Typography>
+                        <motion.button
+                            className="mt-4 group bg-primary hover:bg-dark-orange text-white px-8 py-3 rounded-full transition-all duration-300 inline-flex items-center mx-auto"
+                            variants={fadeIn}
+                            onClick={() => navigate('/contact')}
+                            aria-label={t('midCta.button')}
+                        >
+                            {t('midCta.button')}
+                            <FaGlobe className="ml-3 group-hover:rotate-45 transition-transform" />
+                        </motion.button>
                     </motion.div>
                 </div>
             </Section>
@@ -285,6 +317,7 @@ const Vision: React.FC = () => {
                                         title={item.title}
                                         iconColor="text-accent"
                                         className="h-full"
+                                        role="article"
                                     >
                                         {item.content}
                                     </InfoCard>
@@ -326,11 +359,88 @@ const Vision: React.FC = () => {
                                         title={item.title}
                                         iconColor="text-accent"
                                         className="h-full"
+                                        role="article"
                                     >
                                         {item.content}
                                     </InfoCard>
                                 </motion.div>
                             ))}
+                        </div>
+                    </motion.div>
+                </div>
+            </Section>
+
+            {/* Roadmap Section */}
+            <Section className="py-10">
+                <div className="w-full max-w-5xl mx-auto px-4 sm:px-6">
+                    <motion.div
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={staggerContainer}
+                        className="text-center"
+                    >
+                        <Typography variant="h2" className="mb-8">
+                            {t('roadmap.title')}
+                        </Typography>
+                        <div className="relative flex flex-col items-center">
+                            <div className="absolute left-1/2 transform -translate-x-1/2 h-full border-l-2 border-primary/40 z-0" style={{ top: 32, bottom: 32 }} />
+                            <div className="relative z-10 w-full">
+                                {(t('roadmap.items', { returnObjects: true }) as Array<{ date: string; title: string; description: string }>).map((item, idx) => (
+                                    <div key={`roadmap-${idx}`} className="flex items-center mb-10 last:mb-0">
+                                        <div className="w-1/2 pr-4 text-right hidden md:block">
+                                            {idx % 2 === 0 && (
+                                                <div>
+                                                    <Typography variant="subtitle" className="font-bold text-primary">
+                                                        {item.date}
+                                                    </Typography>
+                                                    <Typography variant="h4" className="text-lg">
+                                                        {item.title}
+                                                    </Typography>
+                                                    <Typography variant="body" className="text-gray-600">
+                                                        {item.description}
+                                                    </Typography>
+                                                </div>
+                                            )}
+                                        </div>
+                                        <div className="flex flex-col items-center w-12 shrink-0">
+                                            <div className="h-8 w-8 bg-primary text-white rounded-full flex items-center justify-center font-bold shadow-lg mb-2">
+                                                {idx + 1}
+                                            </div>
+                                            {idx !== (t('roadmap.items', { returnObjects: true }) as Array<any>).length - 1 && (
+                                                <div className="flex-1 w-1 bg-primary/30 mx-auto" style={{ minHeight: 32 }} />
+                                            )}
+                                        </div>
+                                        <div className="w-1/2 pl-4 text-left">
+                                            {idx % 2 !== 0 && (
+                                                <div>
+                                                    <Typography variant="subtitle" className="font-bold text-primary">
+                                                        {item.date}
+                                                    </Typography>
+                                                    <Typography variant="h4" className="text-lg">
+                                                        {item.title}
+                                                    </Typography>
+                                                    <Typography variant="body" className="text-gray-600">
+                                                        {item.description}
+                                                    </Typography>
+                                                </div>
+                                            )}
+                                            {/* On mobile, always show on right for all */}
+                                            <div className="md:hidden">
+                                                <Typography variant="subtitle" className="font-bold text-primary">
+                                                    {item.date}
+                                                </Typography>
+                                                <Typography variant="h4" className="text-lg">
+                                                    {item.title}
+                                                </Typography>
+                                                <Typography variant="body" className="text-gray-600">
+                                                    {item.description}
+                                                </Typography>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </motion.div>
                 </div>
@@ -355,6 +465,7 @@ const Vision: React.FC = () => {
                             className="mt-6 group bg-primary hover:bg-dark-orange text-white px-8 py-3 rounded-full transition-all duration-300 inline-flex items-center mx-auto"
                             variants={fadeIn}
                             onClick={() => navigate('/contact')}
+                            aria-label={t('cta.button')}
                         >
                             {t('cta.button')}
                             <FaGlobe className="ml-3 group-hover:rotate-45 transition-transform" />

@@ -113,8 +113,32 @@
     "content": "Our goal is not just profitability — but to transform our region into a hub of ethical agribusiness. We're planting 3,500 cashew trees today to nourish the next generation — with faith, purpose, and excellence.",
     "button": "Join Our Vision"
   },
+  "midCta": {
+    "title": "Join Our Mission",
+    "button": "Contact Us"
+  },
   "esg": {
     "title": "Our Commitment to ESG",
     "content": "At AfriNuts, our vision is deeply aligned with Environmental, Social, and Governance (ESG) principles. We are building a carbon-neutral, zero-waste cashew supply chain powered by renewable energy, organic farming, and blockchain traceability. Our social mission prioritizes fair trade, local job creation, clean water access, and Islamic financial ethics, reinvesting in the community and empowering future generations. With full transparency, ethical investor terms, and a commitment to sustainability at every step, AfriNuts is proud to be Africa's ESG-first cashew initiative."
+  },
+  "roadmap": {
+    "title": "Our Roadmap",
+    "items": [
+      {
+        "date": "2025",
+        "title": "Farm Expansion",
+        "description": "Expand our cashew plantation across 35 hectares."
+      },
+      {
+        "date": "2027",
+        "title": "Processing Center",
+        "description": "Begin construction of our cashew processing facility."
+      },
+      {
+        "date": "2030",
+        "title": "Global Trade",
+        "description": "Launch exports and sustainable trade partnerships."
+      }
+    ]
   }
 }
