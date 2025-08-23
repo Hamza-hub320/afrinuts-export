@@ -1,8 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import React, { useState, useEffect } from 'react';
 import {
-  FaFont,
-  FaEye,
   FaUniversalAccess,
   FaSun,
   FaMoon,
@@ -12,7 +10,6 @@ import {
   FaUnderline
 } from 'react-icons/fa';
 import { RiContrastFill } from 'react-icons/ri';
-import { IoTextSharp } from 'react-icons/io5';
 import { TbLetterSpacing } from 'react-icons/tb';
 import { motion } from 'framer-motion';
 
@@ -140,7 +137,7 @@ const AccessibilityToolbar = () => {
             className={`
           fixed right-0 top-[30%] z-[9999]
           w-12 h-12 flex items-center justify-center
-          bg-primary hover:bg-primary-dark text-white
+          bg-navy hover:bg-primary-dark text-white
           rounded-l-lg shadow-xl
           focus:outline-none focus:ring-2 focus:ring-accent
           border-2 border-white/20
@@ -167,14 +164,6 @@ const AccessibilityToolbar = () => {
           ) : (
               <>
                 <FaUniversalAccess className="text-xl"/>
-                <motion.span
-                    className="absolute -left-2 bg-accent text-white text-xs font-bold px-2 py-1 rounded-full whitespace-nowrap"
-                    initial={{opacity: 0, x: -10}}
-                    animate={{opacity: 1, x: -40}}
-                    transition={{delay: 0.3}}
-                >
-                  {t('accessibility.title')}
-                </motion.span>
               </>
           )}
         </motion.button>

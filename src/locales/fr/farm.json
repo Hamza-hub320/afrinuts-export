@@ -103,10 +103,10 @@
     }
   },
   "map": {
-    "showBoundary": "Afficher les limites",
-    "hideBoundary": "Masquer les limites",
-    "showFeatures": "Afficher les éléments",
-    "hideFeatures": "Masquer les éléments",
+    "showBoundary": "Afficher",
+    "hideBoundary": "Masquer",
+    "showFeatures": "Afficher",
+    "hideFeatures": "Masquer",
     "farmLayout": "Disposition de la ferme",
     "coordinates": "Coordonnées",
     "region": "Région",

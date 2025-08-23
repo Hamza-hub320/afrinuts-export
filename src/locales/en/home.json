@@ -133,5 +133,24 @@
     "on": "On",
     "reset": "Reset All Settings",
     "statement": "Accessibility Statement"
+  },
+  "testimonials": {
+    "title": "What Our Partners Say",
+    "subtitle": "Hear from our global partners and customers about their experience with AfriNuts Export",
+    "europe": {
+      "quote": "AfriNuts Export provides top-quality cashews with outstanding service. Truly reliable and professional.",
+      "name": "Sophie Laurent",
+      "position": "Procurement Manager, France"
+    },
+    "america": {
+      "quote": "Working with AfriNuts has been a game-changer for our organic product line. Their traceability and quality are unmatched.",
+      "name": "John Peterson",
+      "position": "Owner, Peterson Foods, USA"
+    },
+    "me": {
+      "quote": "AfriNuts consistently delivers premium cashews, supporting our business goals while ensuring ethical sourcing.",
+      "name": "Ahmed Al-Mansour",
+      "position": "CEO, Middle East Trading Co."
+    }
   }
 }

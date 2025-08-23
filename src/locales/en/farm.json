@@ -103,10 +103,10 @@
     }
     },
   "map": {
-    "showBoundary": "Show Boundary",
-    "hideBoundary": "Hide Boundary",
-    "showFeatures": "Show Features",
-    "hideFeatures": "Hide Features",
+    "showBoundary": "Show",
+    "hideBoundary": "Hide",
+    "showFeatures": "Show",
+    "hideFeatures": "Hide",
     "farmLayout": "Farm Layout",
     "coordinates": "Coordinates",
     "region": "Region",

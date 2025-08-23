@@ -176,8 +176,8 @@ const Farm = () => {
                     </div>
 
                     {/*Map section*/}
-                    <Section className="py-6 md:py-12 lg:py-16">
-                        <div className="w-full max-w-7xl mx-auto rounded-full">
+                    <Section className="py-8 sm:py-12 lg:py-16">
+                        <div className="w-full max-w-7xl mx-auto">
                             <div className="text-center mb-8 md:mb-12">
                                 <Typography variant="h2" className="text-primary mb-4">
                                     {t('farm.map.title')}
@@ -187,7 +187,8 @@ const Farm = () => {
                                 </Typography>
                             </div>
 
-                            <div className="h-[500px] md:h-[500px] lg:h-[600px] rounded-xl overflow-hidden w-[95%] mx-auto">
+                            <div className="w-full max-w-7xl mx-auto rounded-xl overflow-hidden"
+                                 style={{ height: '60vh', minHeight: '300px', maxHeight: '600px' }}>
                                 <InteractiveMap
                                     location={t('farm.map.location')}
                                     description={t('farm.map.locationDescription')}
@@ -224,7 +225,7 @@ const Farm = () => {
                 </Section>
 
                 {/* Farm Development Timeline */}
-                <Section className="py-10 md:py-10 px-4 sm:px-6">
+                <Section className="py-10 sm:py-12 px-4 sm:px-6">
                     <div className="max-w-6xl mx-auto">
                         <Typography variant="h2" className="text-primary text-center mb-8 md:mb-16">
                             {t('timeline.title')}
@@ -238,11 +239,12 @@ const Farm = () => {
                         <div className="relative">
                             <div className="hidden md:block absolute left-0 right-0 top-1/2 h-1 bg-accent transform -translate-y-1/2"></div>
 
-                            <div className="flex md:flex-row flex-nowrap overflow-x-auto pb-4 md:pb-0 md:overflow-visible gap-8 md:gap-0 relative">
+                            <div className="flex md:flex-row flex-nowrap overflow-x-auto pb-4 md:pb-0 md:overflow-visible gap-6 md:gap-0 relative
+                                scrollbar-thin scrollbar-thumb-rounded-full scrollbar-thumb-accent/30 scroll-snap-x">
                                 {timelineData.map((item, index) => (
                                     <motion.div
                                         key={index}
-                                        className="flex flex-col items-center w-[280px] flex-shrink-0 md:w-1/3 px-0 md:px-4"
+                                        className="flex flex-col items-center w-[220px] sm:w-[240px] flex-shrink-0 md:w-1/3 px-0 md:px-4 scroll-snap-align-start"
                                         initial="hidden"
                                         whileInView="visible"
                                         variants={fadeIn}
@@ -255,11 +257,12 @@ const Farm = () => {
                                         transition-all duration-300 md:hover:scale-110
                                         touch-target
                                         relative
+                                        mt-0 md:mt-8
                                     `}>
                                             {item.year}
                                         </div>
 
-                                        <div className=" bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-300 p-4 md:p-6 rounded-xl shadow-lg w-full md:mt-8">
+                                        <div className="bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-300 p-4 md:p-6 rounded-xl shadow-lg w-full">
                                             <div className="flex items-center gap-3 mb-3 md:mb-4">
                                                 <div className="text-accent text-lg md:text-xl">
                                                     <item.icon />
@@ -280,31 +283,45 @@ const Farm = () => {
                 </Section>
 
                 {/* Impact Section */}
-                <section className="py-10 px-6 text-white">
-                    <div className="max-w-6xl mx-auto">
+                <section className="py-10 px-6 text-primary">
+                    <div className="max-w-4xl mx-auto">
                         <Typography variant="h2" className="text-center text-primary mb-16">
                             {t('impact.title')}
                         </Typography>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 justify-center">
                             {impactStats.map((stat, index) => (
                                 <motion.div
                                     key={index}
                                     variants={fadeIn}
                                     transition={{ delay: index * 0.1 }}
+                                    className="flex justify-center"
                                 >
-                                    <InfoCard
-                                        icon={stat.icon}
-                                        title={
+                                    <div
+                                        className={`
+                                            flex flex-col items-center
+                                            px-8 py-8
+                                            rounded-2xl
+                                            shadow-xl
+                                           bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30
+                                            transition-transform duration-200
+                                            hover:scale-105
+                                            min-w-[220px] max-w-full
+                                            w-fit
+                                        `}
+                                    >
+                                        <div className="mb-3 text-4xl">
+                                            <stat.icon />
+                                        </div>
+                                        <div className="text-3xl font-bold mb-1">
                                             <StatsCounter
                                                 endValue={Number(stat.value)}
                                                 suffix={stat.suffix}
                                             />
-                                        }
-                                        iconColor="text-accent"
-                                        className="h-full text-center"
-                                    >
-                                        {stat.label}
-                                    </InfoCard>
+                                        </div>
+                                        <div className="text-base font-medium text-text-dark text-center">
+                                            {stat.label}
+                                        </div>
+                                    </div>
                                 </motion.div>
                             ))}
                         </div>
@@ -313,7 +330,7 @@ const Farm = () => {
 
 
                 {/* Sustainability Section */}
-                <Section className="py-10 px-6">
+                <Section className="py-10 sm:py-12 px-6">
                     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                         <div className="max-w-6xl mx-auto">
                             <div className="text-center mb-16">
@@ -331,6 +348,8 @@ const Farm = () => {
                                         key={index}
                                         variants={fadeIn}
                                         transition={{ delay: index * 0.1 }}
+                                        whileInView="visible"
+                                        viewport={{ once: true }}
                                     >
                                         <InfoCard
                                             icon={practice.icon}
@@ -350,7 +369,7 @@ const Farm = () => {
 
 
                 {/* Gallery Section */}
-                <Section className="py-10 px-6">
+                <Section className="py-10 sm:py-12 px-6">
                     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                         <Typography variant="h2" className="text-primary text-center mb-16">
                             {t('gallery.title')}

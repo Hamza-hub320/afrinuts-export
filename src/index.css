@@ -63,7 +63,7 @@
     min-height: 100vh;
 
     /* Multi-step animated gradient */
-    background: var(--gradient-sunrise);
+    background: var(--gradient-light);
     background-size: 400% 400%;
     animation: gradientCycle 30s ease infinite;
   }

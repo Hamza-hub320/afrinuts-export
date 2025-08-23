@@ -23,7 +23,12 @@ const Layout: FC = () => {
 
     return (
         <>
-            <AccessibilityToolbar />
+            {/* Floating Accessibility Toolbar */}
+            <div
+                className="fixed bottom-8 right-8 z-[9999] flex flex-col items-end space-y-3"
+            >
+                <AccessibilityToolbar />
+            </div>
             <Navbar />
             <main>
                 <Outlet />

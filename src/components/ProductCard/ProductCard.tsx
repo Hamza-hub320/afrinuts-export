@@ -56,6 +56,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                 transition: { duration: 0.3 },
                 boxShadow: "0 10px 25px -5px rgba(34, 118, 214, 0.2)"
             }}
+            whileTap={{
+                y: -2,
+                scale: 0.98,
+                transition: { duration: 0.15 }
+            }}
         >
 
             {/* Outer glow */}

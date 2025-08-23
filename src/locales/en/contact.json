@@ -122,5 +122,10 @@
       "description": "Some clients may want a specific logistic solution (charter ship, container consolidation, etc.). Tailored solutions for unique requirements."
     },
     "helpText": "Need help deciding which option is best for you? Our team is here to guide you through the process."
-  }
+  },
+  "title": "Contact Us",
+  "description": "Send us a message and we'll get back to you promptly.",
+  "buttonLabel": "Open Contact Form",
+  "buttonText": "Contact Us",
+  "close": "Close"
 }
