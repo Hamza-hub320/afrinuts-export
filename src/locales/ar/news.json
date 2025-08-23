@@ -18,12 +18,28 @@
     "trade": "التجارة",
     "searchPlaceholder": "ابحث في الأخبار..."
   },
+  "categories": {
+    "agroforestry": "الغابات الزراعية",
+    "sustainable-farming": "الزراعة المستدامة",
+    "Ivory-Coast": "ساحل العاج",
+    "regenerative-agriculture": "الزراعة المتجددة",
+    "partnership": "الشراكة",
+    "community": "المجتمع",
+    "farmers": "المزارعون",
+    "agriculture": "الزراعة"
+  },
   "sections": {
     "afrinutsUpdates": "تحديثاتنا",
     "industryNews": "أخبار الصناعة",
     "noUpdatesFound": "لا توجد تحديثات",
     "readMore": "المزيد",
     "readLess": "عرض أقل",
+    "readFullArticle": "اقرأ المقال الكامل →",
+    "close": "إغلاق",
+    "newsIntro": {
+      "title": "ابقَ على اطلاع مع أفري ناتس",
+      "description": "احصل على آخر التحديثات والرؤى والتطورات في زراعة الكاجو، الاستدامة، واتجاهات الصناعة."
+    },
     "newsletter": {
       "title": "اشترك في نشرتنا الزراعية",
       "description": "تحديثات شهرية...",

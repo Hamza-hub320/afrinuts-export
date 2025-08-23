@@ -24,12 +24,28 @@
     "noUpdatesFound": "Aucune Mise à Jour Trouvée",
     "readMore": "Lire Plus",
     "readLess": "Lire Moins",
+    "close": "Ferme",
+    "readFullArticle": "Lire l'article complet →",
     "newsletter": {
       "title": "Abonnez-vous à Notre Bulletin Agricole",
       "description": "Mises à jour mensuelles...",
       "placeholder": "Votre adresse email",
       "subscribe": "S'abonner"
+    },
+    "newsIntro": {
+      "title": "Restez Informé avec AfriNuts",
+      "description": "Recevez les dernières mises à jour, analyses et développements sur la culture de noix de cajou, la durabilité et les tendances du secteur."
     }
+  },
+  "categories": {
+    "agroforestry": "Agroforesterie",
+    "sustainable-farming": "Agriculture Durable",
+    "Ivory-Coast": "Côte d'Ivoire",
+    "regenerative-agriculture": "Agriculture Régénérative",
+    "partnership": "Partenariat",
+    "community": "Communauté",
+    "farmers": "Agriculteurs",
+    "agriculture": "Agriculture"
   },
   "updateTemplates": {
     "readMore": "Lire la mise à jour complète →",

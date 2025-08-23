@@ -1,64 +1,89 @@
 {
   "executives": {
     "introHeading": "Direction Exécutive",
-    "introDescription": "Guidés par les valeurs islamiques d'Amanah (confiance sacrée) et d'Ihsan (excellence opérationnelle), notre direction exécutive mène AfriNuts avec une intégrité inébranlable et une vision stratégique.",
+    "introDescription": "Guidé par les valeurs islamiques d'Amanah (confiance sacrée) et d'Ihsan (excellence opérationnelle), notre direction exécutive guide AfriNuts avec une intégrité inébranlable et une vision stratégique.",
     "subtitle": "Direction Exécutive",
     "title": "Notre Équipe de Direction",
-    "description": "Guidés par les valeurs islamiques d'Amanah (confiance sacrée) et d'Ihsan (excellence opérationnelle), notre direction exécutive mène AfriNuts avec une intégrité inébranlable et une vision stratégique.",
-    "ctaTitle": "Rejoignez-nous pour façonner l'avenir de l'agro-industrie éthique",
-    "ctaDescription": "Chez AfriNuts, notre équipe de direction s'engage en faveur de la transparence, de la durabilité et du développement communautaire. Découvrez comment vous pouvez participer à ce voyage.",
+    "description": "Guidé par les valeurs islamiques d'Amanah (confiance sacrée) et d'Ihsan (excellence opérationnelle), notre direction exécutive guide AfriNuts avec une intégrité inébranlable et une vision stratégique.",
+    "ctaTitle": "Rejoignez-nous pour façonner l'avenir de l'agroindustrie éthique",
+    "ctaDescription": "Chez AfriNuts, notre équipe de direction s'engage en faveur de la transparence, de la durabilité et du développement communautaire. Découvrez comment vous pouvez faire partie de ce parcours.",
     "ctaButton": "Contactez-nous",
+    "labels": {
+      "readMore": "Lire plus",
+      "close": "Fermer",
+      "experience": "Expérience",
+      "education": "Éducation",
+      "certifications": "Certifications et Expertises"
+    },
     "ceo": {
       "title": "Directeur Général",
-      "role": "Vision Stratégique & Leadership d'Entreprise Éthique",
-      "alt": "Hamza S. Ralsan Sangare, Fondateur & PDG d'AfriNuts Export",
+      "role": "Vision Stratégique et Leadership d'Entreprise Éthique",
+      "alt": "Hamza S. Ralsan Sangare, Fondateur et PDG d'AfriNuts Export",
       "bio": [
-        "Hamza S. Ralsan Sangare allie une expertise technique en cybersécurité et cloud computing à un héritage agricole de trois générations pour diriger AfriNuts Export. En tant que Fondateur et PDG, il a construit une entreprise intégrée verticalement dans l'anacarde qui honore les valeurs islamiques tout en répondant aux standards commerciaux mondiaux.",
-        "Avec des certifications professionnelles en AWS Cloud et ITIL 4, Hamza applique une discipline opérationnelle pour transformer les traditions agricoles familiales en un modèle d'agrobusiness moderne. Son leadership se concentre sur l'agriculture régénérative, la localisation de la chaîne de valeur et le développement communautaire via des initiatives de partage des profits.",
-        "Sous sa direction, AfriNuts est devenu une référence en approvisionnement éthique, implémentant des systèmes de traçabilité et des pratiques durables sur sa ferme démonstrative de 50 hectares. La vision de Hamza va au-delà du commerce - visant à établir une infrastructure de transformation qui conserve la valeur agricole africaine sur le continent tout en répondant aux demandes du marché international."
-      ]
+        "Hamza S. Ralsan Sangare allie une expertise technique en cybersécurité et en cloud computing à un héritage agricole de trois générations pour diriger AfriNuts Export. En tant que Fondateur et PDG, il a construit une entreprise de noix de cajou verticalement intégrée qui honore les valeurs islamiques tout en répondant aux normes commerciales mondiales.",
+        "Fort de certifications professionnelles AWS Cloud et ITIL 4, Hamza applique une discipline opérationnelle pour transformer les traditions agricoles familiales en un modèle d'agroindustrie moderne. Son leadership se concentre sur l'agriculture régénérative, la localisation de la chaîne de valeur et le développement communautaire grâce à des initiatives de partage des bénéfices.",
+        "Sous sa direction, AfriNuts est devenu une référence en approvisionnement éthique, mettant en œuvre des systèmes de traçabilité et des pratiques durables sur sa ferme de démonstration de 50 hectares. La vision d'Hamza va au-delà du commerce - visant à établir une infrastructure de transformation qui maintient la valeur agricole africaine sur le continent tout en répondant aux demandes du marché international."
+      ],
+      "experience": "20+ ans en leadership agricole",
+      "education": "MBA en Administration des Affaires",
+      "certifications": ["Finance Islamique", "Leadership Stratégique"]
     },
     "cfo": {
       "title": "Directeur Financier et Opérationnel",
-      "role": "Architecte Financier Éthique & Stratège de Chaîne de Valeur",
+      "role": "Architecte Financier Éthique et Stratège de la Chaîne de Valeur",
       "alt": "Sekou Hakim, Directeur Financier d'AfriNuts Export",
       "bio": [
-        "Sekou Hakim conçoit des systèmes financiers où rentabilité et principes prophétiques convergent, implémentant des cadres conformes à la charia qui transforment l'économie agro-industrielle traditionnelle. Sa gestion remplace les modèles extractifs par une finance régénérative - où 20% des profits reconstruisent activement les communautés via des puits, mosquées et formations agricoles.",
-        "À la fois gardien financier et stratège opérationnel, Sekou supervise la monétisation complète de notre chaîne de valeur d'anacarde, du sol à l'étagère. Il a conçu la transition des exportations de matières premières vers une transformation locale, créant des structures de capital qui financent la première usine moderne de transformation à Odienné tout en maintenant des standards rigoureux de partage des profits (Moudaraba).",
-        "Sous sa direction, AfriNuts atteint l'équilibre rare entre discipline fiscale et impact social : déployant une transparence blockchain pour les investisseurs, des primes de commerce équitable pour les fermiers, et de la microfinance islamique pour l'équipement - prouvant que la finance éthique peut générer un avantage compétitif sur les marchés globaux."
-      ]
+        "Sekou Hakim conçoit des systèmes financiers où la rentabilité converge avec les principes prophétiques, mettant en œuvre des cadres conformes à la Charia qui transforment l'économie agroindustrielle traditionnelle. Sa gestion remplace les modèles extractifs par une finance régénérative - où 20 % des bénéfices reconstruisent activement les communautés through des puits, des mosquées et l'éducation des agriculteurs.",
+        "En tant que gardien financier et stratège opérationnel, Sekou supervise la monétisation complète de notre chaîne de valeur de la noix de cajou, du sol à l'étagère. Il a orchestré la transition des exportations de matières premières brutes vers la transformation locale, concevant des structures capitalistiques qui financent la première usine de transformation moderne d'Odienné tout en maintenant des normes rigoureuses de partage des bénéfices (Mudarabah).",
+        "Sous sa direction, AfriNuts atteint l'équilibre rare entre discipline fiscale et impact social : déployant une transparence enabled par la blockchain pour les investisseurs, des primes de commerce équitable pour les agriculteurs et de la microfinance islamique pour l'équipement - prouvant que la finance éthique peut driving un avantage concurrentiel sur les marchés mondiaux."
+      ],
+      "experience": "15+ ans en gestion financière",
+      "education": "Master en Finance",
+      "certifications": ["Conformité Charia", "Certification Biologique"]
     },
     "cco": {
       "title": "Directeur Commercial",
-      "role": "Expansion mondiale & conformité commerciale",
+      "role": "Expansion du marché mondial et conformité commerciale",
       "alt": "Portrait de Mohamadue Kouyaté, Directeur Commercial",
       "bio": [
-        "Mohamadue Kouyaté dirige les opérations commerciales mondiales, établissant des partenariats éthiques à travers des contrats sans intérêt et des stratégies marketing alignées sur les traditions prophétiques."
-      ]
+        "Mohamadue Kouyaté dirige les opérations commerciales mondiales, établissant des partenariats commerciaux éthiques through des cadres contractuels sans intérêt et des stratégies marketing alignées sur les traditions prophétiques."
+      ],
+      "experience": "12+ ans en conformité et opérations",
+      "education": "Diplôme en Droit, Certification en Conformité",
+      "certifications": ["Rainforest Alliance", "Conformité à l'Exportation"]
     },
     "ops": {
       "title": "Responsable des Opérations",
-      "role": "Supervision production & assurance qualité",
+      "role": "Supervision de la production et assurance qualité",
       "alt": "Portrait de Rouillard Cedric, Responsable des Opérations",
       "bio": [
-        "Rouillard Cedric maintient l'excellence opérationnelle grâce à une supervision méticuleuse des processus de cultivation, mettant en œuvre des contrôles qualité rigoureux fondés sur le principe islamique d'Ihsan (perfection dans le travail)."
-      ]
+        "Rouillard Cedric maintient l'excellence opérationnelle grâce à une supervision méticuleuse des processus de cultivation, mettant en œuvre des mesures de contrôle qualité rigoureuses fondées sur le principe islamique d'Ihsan (perfection dans le travail)."
+      ],
+      "experience": "18+ ans en gestion des opérations",
+      "education": "Licence en Gestion des Opérations",
+      "certifications": ["ISO 22000", "Sécurité Alimentaire"]
     },
     "admin": {
-      "title": "Responsable Administratif",
-      "role": "Gouvernance d'entreprise & infrastructure",
+      "title": "Responsable du Support Administratif",
+      "role": "Gouvernance d'entreprise et infrastructure",
       "alt": "Portrait de Mohammed Beniken, Responsable Administratif",
       "bio": [
-        "Mohammed Beniken veille à la conformité organisationnelle avec le mandat prophétique pour des pratiques équitables, supervisant les ressources humaines, les affaires juridiques et les protocoles de sécurité informatique."
-      ]
+        "Mohammed Beniken assure la conformité organisationnelle avec le mandat prophétique pour des pratiques de travail équitables, supervisant les ressources humaines, les affaires juridiques et les protocoles de sécurité de l'information."
+      ],
+      "experience": "10+ ans en leadership administratif",
+      "education": "Licence en Administration des Affaires",
+      "certifications": ["Commerce Équitable", "Conformité Légale"]
     },
     "farm": {
       "title": "Responsable des Opérations Agricoles",
-      "role": "Gestion agronomique & relations communautaires",
-      "alt": "Portrait de Souleymane Sangare, Responsable Agricole",
+      "role": "Gestion agronomique et relations communautaires",
+      "alt": "Portrait de Souleymane Sangare, Responsable des Opérations Agricoles",
       "bio": [
-        "Souleymane Sangare intègre la sagesse agricole islamique traditionnelle avec des techniques agricoles modernes, servant à la fois de spécialiste en cultivation et d'intermédiaire avec les communautés agricoles locales."
-      ]
+        "Souleymane Sangare intègre la sagesse agricole islamique traditionnelle aux techniques agricoles modernes, servant à la fois de spécialiste de la cultivation et de liaison avec les communautés agricoles locales."
+      ],
+      "experience": "14+ ans en gestion agricole",
+      "education": "Licence en Sciences Agricoles",
+      "certifications": ["Agriculture Durable", "Développement Communautaire"]
     }
   }
 }

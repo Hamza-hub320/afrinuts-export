@@ -8,6 +8,13 @@
     "ctaTitle": "Join Us in Shaping the Future of Ethical Agribusiness",
     "ctaDescription": "At AfriNuts, our leadership team is committed to transparency, sustainability, and community development. Discover how you can be part of this journey.",
     "ctaButton": "Get in Touch",
+    "labels": {
+      "readMore": "Read More",
+      "close": "Close",
+      "experience": "Experience",
+      "education": "Education",
+      "certifications": "Certifications & Expertise"
+    },
     "ceo": {
       "title": "Chief Executive Officer",
       "role": "Strategic Vision & Ethical Enterprise Leadership",
@@ -16,7 +23,10 @@
         "Hamza S. Ralsan Sangare combines technical expertise in cybersecurity and cloud computing with three generations of agricultural heritage to lead AfriNuts Export. As Founder & CEO, he has built a vertically integrated cashew enterprise that honors Islamic values while meeting global business standards.",
         "With professional certifications in AWS Cloud, and ITIL 4, Hamza applies operational discipline to transform family farming traditions into a modern agribusiness model. His leadership focuses on regenerative agriculture, value-chain localization, and community development through profit-sharing initiatives.",
         "Under his direction, AfriNuts has become a benchmark for ethical sourcing, implementing traceability systems and sustainable practices across its 50-hectare demonstration farm. Hamza's vision extends beyond commerce - aiming to establish processing infrastructure that keeps African agricultural value on the continent while meeting international market demands."
-      ]
+      ],
+      "experience": "20+ years in agricultural leadership",
+      "education": "MBA in Business Administration",
+      "certifications": ["Islamic Finance", "Strategic Leadership"]
     },
     "cfo": {
       "title": "Chief Financial & Operating Officer",
@@ -26,7 +36,10 @@
         "Sekou Hakim architects financial systems where profitability converges with prophetic principles, implementing Sharia-compliant frameworks that transform traditional agribusiness economics. His stewardship replaces extractive models with regenerative finance - where 20% of profits actively rebuild communities through wells, mosques, and farmer education.",
         "As both financial guardian and operational strategist, Sekou oversees the complete monetization of our cashew value chain, from soil to shelf. He engineered the transition from raw commodity exports to in-country processing, designing capital structures that fund Odienné's first modern processing facility while maintaining rigorous profit-sharing (Mudarabah) standards.",
         "Under his leadership, AfriNuts achieves the rare balance of fiscal discipline and social impact: deploying blockchain-enabled transparency for investors, fair trade premiums for farmers, and Islamic microfinancing for equipment - proving ethical finance can drive competitive advantage in global markets."
-      ]
+      ],
+      "experience": "15+ years in financial management",
+      "education": "Master's in Finance",
+      "certifications": ["Sharia Compliance", "Organic Certification"]
     },
     "cco": {
       "title": "Chief Commercial Officer",
@@ -34,7 +47,10 @@
       "alt": "Portrait of Mohamadue Kouyaté, Chief Commercial Officer",
       "bio": [
         "Mohamadue Kouyaté directs worldwide commercial operations, establishing ethical trade partnerships through interest-free contractual frameworks and marketing strategies aligned with Prophetic traditions."
-      ]
+      ],
+      "experience": "12+ years in compliance and operations",
+      "education": "Law Degree, Compliance Certification",
+      "certifications": ["Rainforest Alliance", "Export Compliance"]
     },
     "ops": {
       "title": "Operations Manager",
@@ -42,7 +58,10 @@
       "alt": "Portrait of Rouillard Cedric, Operations Manager",
       "bio": [
         "Rouillard Cedric maintains operational excellence through meticulous supervision of cultivation processes, implementing rigorous quality control measures grounded in the Islamic principle of Ihsan (perfection in work)."
-      ]
+      ],
+      "experience": "18+ years in operations management",
+      "education": "BS in Operations Management",
+      "certifications": ["ISO 22000", "Food Safety"]
     },
     "admin": {
       "title": "Administrative Support Manager",
@@ -50,7 +69,10 @@
       "alt": "Portrait of Mohammed Beniken, Administrative Manager",
       "bio": [
         "Mohammed Beniken ensures organizational compliance with the Prophetic mandate for equitable labor practices, overseeing human resources, legal affairs, and information security protocols."
-      ]
+      ],
+      "experience": "10+ years in administrative leadership",
+      "education": "BA in Business Administration",
+      "certifications": ["Fair Trade", "Legal Compliance"]
     },
     "farm": {
       "title": "Agricultural Operations Manager",
@@ -58,7 +80,10 @@
       "alt": "Portrait of Souleymane Sangare, Farm Operations Manager",
       "bio": [
         "Souleymane Sangare integrates traditional Islamic agricultural wisdom with modern farming techniques, serving as both cultivation specialist and liaison to local farming communities."
-      ]
+      ],
+      "experience": "14+ years in agricultural management",
+      "education": "BS in Agricultural Science",
+      "certifications": ["Sustainable Agriculture", "Community Development"]
     }
   }
 }

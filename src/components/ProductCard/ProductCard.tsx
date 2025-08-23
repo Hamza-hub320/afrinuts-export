@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Typography } from '../Typography/Typography';
-import { FaArrowRight } from 'react-icons/fa';
+import { FaArrowRight, FaShareAlt } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 
 interface ProductCardProps {
@@ -45,6 +45,27 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     const glowIntensity = compact ? 'glow-accent-sm' : 'glow-accent-md';
     const directionalGlow = 'glow-left';
 
+    // List of certifications to badge
+    const CERTIFICATIONS = [
+        'Organic',
+        'Fair Trade',
+        'Rainforest Alliance',
+        'Non-GMO',
+        'Vegan',
+        'Gluten-Free',
+        'Kosher',
+        'Halal',
+        // Add more as needed
+    ];
+
+    // Separate certifications and other features
+    const certFeatures = product.features?.filter(f =>
+        CERTIFICATIONS.some(cert => f.toLowerCase() === cert.toLowerCase())
+    ) || [];
+    const nonCertFeatures = product.features?.filter(f =>
+        !CERTIFICATIONS.some(cert => f.toLowerCase() === cert.toLowerCase())
+    ) || [];
+
     return (
         <motion.div
             className={`group relative  bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 transition-all duration-300  rounded-xl shadow-lg ${
@@ -71,6 +92,16 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
             {/* Main content */}
             <div className="relative z-10 h-full flex flex-col bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 transition-all duration-300 rounded-xl overflow-hidden">
+                {/* Share button in top-right above image */}
+                <button
+                    type="button"
+                    aria-label={t('productCard.share')}
+                    className="absolute top-4 right-4 z-20 bg-primary rounded-full p-2 hover:bg-orange-700 transition-colors shadow-lg"
+                    tabIndex={0}
+                >
+                    <FaShareAlt className="text-white text-lg" />
+                </button>
+
                 {/* Image with gradient overlay */}
                 <div className={`${height} relative overflow-hidden`}>
                     {imageSrc && (
@@ -84,7 +115,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                         </>
                     )}
                     {!product.available && (
-                        <div className="absolute top-4 right-4 bg-white px-3 py-1 rounded-full shadow-sm border border-gray-200">
+                        <div className="absolute top-4 left-4 bg-white px-3 py-1 rounded-full shadow-sm border border-gray-200">
                             <Typography variant="small" className="text-gray-800 font-medium">
                                 {product.comingSoon || t('productCard.comingSoon')}
                             </Typography>
@@ -112,11 +143,26 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                         </div>
                     </div>
 
-                    {/* Features list */}
-                    {!compact && product.features && (
+                    {/* Certification badges below description */}
+                    {!compact && certFeatures.length > 0 && (
+                        <div className="flex flex-wrap gap-2 mb-4">
+                            {certFeatures.map((cert, i) => (
+                                <span
+                                    key={`cert-badge-${i}`}
+                                    className="bg-green-100 text-green-800 px-2 py-0.5 rounded-full text-xs font-semibold border border-green-200 cursor-help transition-colors hover:bg-green-200"
+                                    title={cert}
+                                >
+                                    {cert}
+                                </span>
+                            ))}
+                        </div>
+                    )}
+
+                    {/* Features list (non-certifications) */}
+                    {!compact && nonCertFeatures.length > 0 && (
                         <div className="mb-5">
                             <ul className="space-y-2">
-                                {product.features.map((feature: string, i: number) => (
+                                {nonCertFeatures.map((feature: string, i: number) => (
                                     <li key={`feature-${i}`} className="flex items-start">
                                         <span className="text-gray-900 group-hover/feature:text-orange-600 mr-2 mt-0.5 transition-colors">•</span>
                                         <Typography variant="body" className="text-gray-700 text-sm">

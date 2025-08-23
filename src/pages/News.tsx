@@ -1,8 +1,8 @@
-import React, { useEffect, useState, Fragment } from 'react';
+import React, { useEffect, useState, Fragment, useRef } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
-import { FaNewspaper, FaGlobe, FaBullhorn, FaFilter, FaSearch } from 'react-icons/fa';
+import { FaNewspaper, FaGlobe, FaBullhorn, FaFilter, FaSearch, FaShareAlt } from 'react-icons/fa';
 
 import Section from '@/components/Section/Section';
 import { fadeIn, staggerContainer } from '@/utils/animations';
@@ -76,9 +76,9 @@ const News: React.FC = () => {
     const { t } = useTranslation('news');
     const [articles, setArticles] = useState<RSSItem[]>([]);
     const [loading, setLoading] = useState(true);
-    const [activeTab, setActiveTab] = useState<string>(newsConfig.page.sections.tabs[0].id);
+    const [activeTabs, setActiveTabs] = useState<string[]>([newsConfig.page.sections.tabs[0].id]);
     const [searchQuery, setSearchQuery] = useState('');
-    const [activeFilters, setActiveFilters] = useState<string[]>([]);
+    const [debouncedSearch, setDebouncedSearch] = useState('');
 
     const {
         page: {
@@ -96,6 +96,9 @@ const News: React.FC = () => {
     const afrinutsUpdates: AfriNutsUpdate[] = afrinutsUpdatesData.updates;
     const rssFeeds: NewsFeed[] = newsFeeds.feeds;
     const rssLimit = newsFeeds.defaultLimit || 15;
+    const rssPageSize = 10;
+    const [articlesPage, setArticlesPage] = useState(1);
+    const [updatesPage, setUpdatesPage] = useState(1);
 
 
     const loadFeeds = async () => {
@@ -241,45 +244,67 @@ const News: React.FC = () => {
         return () => clearInterval(interval);
     }, []);
 
+    // Debounce search input
+    useEffect(() => {
+        const handler = setTimeout(() => setDebouncedSearch(searchQuery), 350);
+        return () => clearTimeout(handler);
+    }, [searchQuery]);
+
 
     const safeTranslate = (key?: string, fallback = '') => key ? t(key) : fallback;
 
+    // Tab logic: "all" tab shows both AfriNuts and Industry news
+    const toggleTab = (tabId: string) => {
+        setActiveTabs((prev) => {
+            if (tabId === 'all') {
+                // Selecting "all" deselects others, only "all" is active
+                return ['all'];
+            }
+            if (prev.includes(tabId)) {
+                // If "all" is active, switch to only the clicked tab
+                if (prev.includes('all')) {
+                    return [tabId];
+                }
+                // Prevent deselecting last tab
+                if (prev.length === 1) return prev;
+                return prev.filter(id => id !== tabId);
+            }
+            // If "all" is active, replace with clicked tab
+            if (prev.includes('all')) {
+                return [tabId];
+            }
+            // Add the new tab
+            return [...prev, tabId];
+        });
+        // Reset pagination when tabs change
+        setArticlesPage(1);
+        setUpdatesPage(1);
+    };
+
+    // Filtering
     const filteredUpdates = afrinutsUpdates.filter((update) => {
         const matchesSearch =
-            update.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            update.excerpt.toLowerCase().includes(searchQuery.toLowerCase());
-
-        const matchesCategory =
-            activeFilters.length === 0 ||
-            update.tags?.some(tag => activeFilters.includes(tag));
-
-        return matchesSearch && matchesCategory;
+            debouncedSearch === '' ||
+            update.title.toLowerCase().includes(debouncedSearch.toLowerCase()) ||
+            update.excerpt.toLowerCase().includes(debouncedSearch.toLowerCase());
+        return matchesSearch;
     });
 
     const filteredArticles = articles.filter((article) => {
         const content = `${article.title} ${article.contentSnippet}`.toLowerCase();
-
-        if (activeFilters.includes('cashew') &&
-            !content.includes('cashew') &&
-            !content.includes('anacardium')){
+        if (debouncedSearch && !content.includes(debouncedSearch.toLowerCase())) {
             return false;
         }
-
-        if (activeFilters.includes('ivory-coast') &&
-            !content.includes('ivory coast') &&
-            !content.includes('côte d\'ivoire') &&
-            !content.includes('cote d\'ivoire')) {
-            return false;
-        }
-
-        if (searchQuery && !content.includes(searchQuery.toLowerCase())) {
-            return false;
-        }
-
         return true;
     });
 
     const [selectedUpdate, setSelectedUpdate] = useState<AfriNutsUpdate | null>(null);
+
+    // Pagination
+    const paginatedUpdates = filteredUpdates.slice(0, updatesPage * rssPageSize);
+    const paginatedArticles = filteredArticles.slice(0, articlesPage * rssPageSize);
+    const hasMoreUpdates = paginatedUpdates.length < filteredUpdates.length;
+    const hasMoreArticles = paginatedArticles.length < filteredArticles.length;
 
     const getContent = () => {
         if (loading) {
@@ -291,24 +316,53 @@ const News: React.FC = () => {
                 </div>
             );
         }
-
-        switch (activeTab) {
-            case 'afrinuts':
-                return renderAfriNutsUpdates();
-            case 'industry':
-                return renderExternalNews();
-            default:
-                return (
-                    <>
-                        {renderAfriNutsUpdates()}
-                        {renderExternalNews()}
-                    </>
-                );
+        // If "all" tab is selected, show both sections
+        if (activeTabs.includes('all')) {
+            return (
+                <>
+                    {renderAfriNutsUpdates()}
+                    {renderExternalNews()}
+                </>
+            );
         }
+        // Otherwise, show selected sections
+        const showAfrinuts = activeTabs.includes('afrinuts');
+        const showIndustry = activeTabs.includes('industry');
+        return (
+            <>
+                {showAfrinuts && renderAfriNutsUpdates()}
+                {showIndustry && renderExternalNews()}
+            </>
+        );
     };
 
     // State to track which update is expanded
     const [expandedUpdateId, setExpandedUpdateId] = useState<string | null>(null);
+
+    // Highlighting function for search terms
+    function highlightText(text: string, query: string) {
+        if (!query) return text;
+        const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+        return (
+            <>
+                {text.split(regex).map((part, i) =>
+                    regex.test(part) ? (
+                        <mark key={i} className="bg-yellow-200 text-accent px-1 rounded">{part}</mark>
+                    ) : (
+                        part
+                    )
+                )}
+            </>
+        );
+    }
+
+    // Focus trap for modal
+    const updateDialogRef = useRef<HTMLDivElement>(null);
+    useEffect(() => {
+        if (selectedUpdate && updateDialogRef.current) {
+            updateDialogRef.current.focus();
+        }
+    }, [selectedUpdate]);
 
     const renderAfriNutsUpdates = () => (
         <motion.div
@@ -323,19 +377,22 @@ const News: React.FC = () => {
                 {t('sections.afrinutsUpdates')}
             </Typography>
 
-            {filteredUpdates.length === 0 ? (
+            {paginatedUpdates.length === 0 ? (
                 <Typography variant="body" className="text-center py-10 text-gray-500">
                     {t('sections.noUpdatesFound')}
                 </Typography>
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    {filteredUpdates.map((update, index) => (
+                    {paginatedUpdates.map((update, index) => (
                         <motion.div
                             key={update.id}
                             variants={fadeIn}
                             transition={{ delay: index * 0.1 }}
                         >
-                            <div className="bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl border-2 border-primary/20 hover:border-accent/30 shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 border-l-4 border-accent h-full">
+                            <div
+                                className="bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl border-2 border-primary/20 hover:border-accent/30 shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 border-l-4 border-accent h-full transform hover:scale-[1.025] transition-transform"
+                                tabIndex={0}
+                            >
                                 <div className="h-64 overflow-hidden">
                                     {update.id === 'update-2024-001' ? (
                                         <img
@@ -363,12 +420,26 @@ const News: React.FC = () => {
 
                                 <div className="p-6">
                                     <Typography variant="h4" className="mb-3 text-primary">
-                                        {update.translationKeys?.title ? t(update.translationKeys.title) : update.title}
+                                        {highlightText(
+                                            update.translationKeys?.title ? t(update.translationKeys.title) : update.title,
+                                            debouncedSearch
+                                        )}
                                     </Typography>
 
                                     <Typography variant="body" className="text-gray-600 mb-4 whitespace-pre-line">
-                                        {update.translationKeys?.excerpt ? t(update.translationKeys.excerpt) : update.excerpt}
+                                        {highlightText(
+                                            update.translationKeys?.excerpt ? t(update.translationKeys.excerpt) : update.excerpt,
+                                            debouncedSearch
+                                        )}
                                     </Typography>
+
+                                    <div className="flex flex-wrap gap-2 mb-2">
+                                        {update.tags?.map(tag => (
+                                            <span key={tag} className="inline-block bg-accent/10 text-accent px-3 py-1 text-xs rounded-full font-medium">
+                                                {t(`categories.${tag}`)}
+                                            </span>
+                                        ))}
+                                    </div>
 
                                     <div className="flex justify-between items-center mt-4">
                                         <Typography variant="caption" className="text-gray-400">
@@ -379,12 +450,26 @@ const News: React.FC = () => {
                                         </Typography>
                                     </div>
 
-                                    <button
-                                        onClick={() => setSelectedUpdate(update)}
-                                        className="mt-4 text-accent hover:underline text-sm"
-                                    >
-                                        {t('sections.readMore')}
-                                    </button>
+                                    <div className="flex items-center mt-4">
+                                        <button
+                                            onClick={() => setSelectedUpdate(update)}
+                                            className="text-accent hover:underline text-sm"
+                                        >
+                                            {t('sections.readMore')}
+                                        </button>
+                                        <button
+                                            className="ml-2 px-3 py-1 rounded-full bg-primary text-white hover:bg-accent-dark text-xs flex items-center justify-center"
+                                            onClick={() => {
+                                                if (navigator.share) {
+                                                    navigator.share({ title: update.title, url: window.location.href });
+                                                } else {
+                                                    alert('Share feature not supported');
+                                                }
+                                            }}
+                                        >
+                                            <FaShareAlt />
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </motion.div>
@@ -392,9 +477,26 @@ const News: React.FC = () => {
                 </div>
             )}
 
+            {hasMoreUpdates && (
+                <div className="flex justify-center mt-8">
+                    <button
+                        className="px-6 py-2 rounded-full bg-primary text-white hover:bg-dark-orange transition-colors"
+                        onClick={() => setUpdatesPage(p => p + 1)}
+                    >
+                        {t('sections.loadMore')}
+                    </button>
+                </div>
+            )}
+
             {/* Update Modal */}
             <Transition.Root show={!!selectedUpdate} as={Fragment}>
-                <Dialog as="div" className="relative z-50" onClose={() => setSelectedUpdate(null)}>
+                <Dialog
+                    as="div"
+                    className="relative z-50"
+                    onClose={() => setSelectedUpdate(null)}
+                    initialFocus={updateDialogRef}
+                    aria-label={t('sections.afrinutsUpdateModalAriaLabel')}
+                >
                     <Transition.Child
                         as={Fragment}
                         enter="ease-out duration-300"
@@ -418,7 +520,11 @@ const News: React.FC = () => {
                                 leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                                 leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                             >
-                                <Dialog.Panel className="relative w-full max-w-2xl transform overflow-hidden bg-background rounded-3xl border-2 border-primary/20 hover:border-accent/30 hover:shadow-xl transition-shadow duration-300 text-left shadow-xl">
+                                <Dialog.Panel
+                                    ref={updateDialogRef}
+                                    tabIndex={-1}
+                                    className="relative w-full max-w-2xl transform overflow-hidden bg-background rounded-3xl border-2 border-primary/20 hover:border-accent/30 hover:shadow-xl transition-shadow duration-300 text-left shadow-xl focus:outline-none"
+                                >
                                     <div className="p-6">
                                         {selectedUpdate && (
                                             <>
@@ -428,18 +534,21 @@ const News: React.FC = () => {
                                                             src={landClearingImage}
                                                             alt="Land Clearing"
                                                             className="w-full h-full object-cover"
+                                                            loading="lazy"
                                                         />
                                                     ) : selectedUpdate.id === 'update-2024-002' ? (
                                                         <img
                                                             src={signingImage}
                                                             alt="Partnership Signing"
                                                             className="w-full h-full object-cover"
+                                                            loading="lazy"
                                                         />
                                                     ) : (
                                                         <img
                                                             src={selectedUpdate.image || newsImage}
                                                             alt={selectedUpdate.title}
                                                             className="w-full h-full object-cover"
+                                                            loading="lazy"
                                                         />
                                                     )}
                                                 </div>
@@ -447,6 +556,14 @@ const News: React.FC = () => {
                                                 <Dialog.Title as="h3" className="text-lg font-semibold text-primary">
                                                     {selectedUpdate.translationKeys?.title ? t(selectedUpdate.translationKeys.title) : selectedUpdate.title}
                                                 </Dialog.Title>
+
+                                                <div className="flex flex-wrap gap-2 mb-2 mt-2">
+                                                    {selectedUpdate.tags?.map(tag => (
+                                                        <span key={tag} className="inline-block bg-accent/10 text-accent px-3 py-1 text-xs rounded-full font-medium">
+                                                            {t(`categories.${tag}`)}
+                                                        </span>
+                                                    ))}
+                                                </div>
 
                                                 <div className="flex justify-between items-center mt-2 mb-4">
                                                     <Typography variant="caption" className="text-gray-400">
@@ -470,7 +587,7 @@ const News: React.FC = () => {
                                                         onClick={() => setSelectedUpdate(null)}
                                                         className="bg-primary hover:bg-dark-orange text-white px-4 py-2 rounded-md text-sm"
                                                     >
-                                                        Close
+                                                        {t('sections.close')}
                                                     </button>
                                                 </div>
                                             </>
@@ -487,6 +604,14 @@ const News: React.FC = () => {
 
     const [selectedArticle, setSelectedArticle] = useState<RSSItem | null>(null);
 
+    // Focus trap for article modal
+    const articleDialogRef = useRef<HTMLDivElement>(null);
+    useEffect(() => {
+        if (selectedArticle && articleDialogRef.current) {
+            articleDialogRef.current.focus();
+        }
+    }, [selectedArticle]);
+
     const renderExternalNews = () => (
         <motion.div
             initial="hidden"
@@ -499,7 +624,7 @@ const News: React.FC = () => {
                 {t('sections.industryNews')}
             </Typography>
 
-            {filteredArticles.length === 0 ? (
+            {paginatedArticles.length === 0 ? (
                 <div className="text-center py-10">
                     <Typography variant="h4" className="text-gray-500 mb-4">
                         {t('emptyState.noArticles.title')}
@@ -519,21 +644,30 @@ const News: React.FC = () => {
                 </div>
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {filteredArticles.map((article, index) => (
+                    {paginatedArticles.map((article, index) => (
                         <motion.div
                             key={`${article.link}-${index}`}
                             variants={fadeIn}
                             transition={{ delay: index * 0.1 }}
                         >
                             <div
+                                className="block bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl border-2 border-primary/20 hover:border-accent/30 shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 border-l-4 border-accent p-6 h-full transform hover:scale-[1.025] transition-transform"
+                                tabIndex={0}
+                                role="button"
+                                aria-label={t('sections.openArticleModalAriaLabel', { title: article.title })}
                                 onClick={() => setSelectedArticle(article)}
-                                className="cursor-pointer block bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl border-2 border-primary/20 hover:border-accent/30 shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 border-l-4 border-accent p-6 h-full"
+                                style={{ cursor: "pointer" }}
                             >
+                                <div className="flex flex-wrap gap-2 mb-2">
+                                    <span className="inline-block bg-accent/10 text-accent px-3 py-1 text-xs rounded-full font-medium">
+                                        {t(`categories.${article.category}`)}
+                                    </span>
+                                </div>
                                 <Typography variant="h4" className="mb-2 text-primary ">
-                                    {article.title}
+                                    {highlightText(article.title, debouncedSearch)}
                                 </Typography>
                                 <Typography variant="body" className="text-gray-600 mb-3">
-                                    {article.contentSnippet?.substring(0, 150)}...
+                                    {highlightText(article.contentSnippet?.substring(0, 150) ?? '', debouncedSearch)}...
                                 </Typography>
                                 <div className="flex justify-between items-center mt-4">
                                     <Typography variant="caption" className="text-gray-400">
@@ -543,21 +677,39 @@ const News: React.FC = () => {
                                         {article.pubDate && new Date(article.pubDate).toLocaleDateString()}
                                     </Typography>
                                 </div>
+                                <div className="flex mt-4">
+                                    <button
+                                        className="ml-0 px-3 py-1 rounded-full bg-primary text-white hover:bg-accent-dark text-xs flex items-center justify-center"
+                                        onClick={e => {
+                                            e.stopPropagation();
+                                            if (navigator.share) {
+                                                navigator.share({ title: article.title, url: window.location.href });
+                                            } else {
+                                                alert('Share feature not supported');
+                                            }
+                                        }}
+                                    >
+                                        <FaShareAlt />
+                                    </button>
+                                </div>
                             </div>
                         </motion.div>
                     ))}
                 </div>
             )}
+            {hasMoreArticles && (
+                <div className="flex justify-center mt-8">
+                    <button
+                        className="px-6 py-2 rounded-full bg-primary text-white hover:bg-dark-orange transition-colors"
+                        onClick={() => setArticlesPage(p => p + 1)}
+                    >
+                        {t('sections.loadMore')}
+                    </button>
+                </div>
+            )}
         </motion.div>
     );
 
-    const toggleFilter = (filterId: string) => {
-        setActiveFilters(prev =>
-            prev.includes(filterId)
-                ? prev.filter(id => id !== filterId)
-                : [...prev, filterId]
-        );
-    };
 
     return (
         <main>
@@ -600,6 +752,18 @@ const News: React.FC = () => {
                 </motion.div>
             </Section>
 
+            {/* News Intro Section */}
+            <Section className="py-12 text-center">
+                <div className="w-full max-w-3xl mx-auto px-4 sm:px-6">
+                    <Typography variant="h2" className="mb-4">
+                        {t('sections.newsIntro.title')}
+                    </Typography>
+                    <Typography variant="lead" className="mb-2">
+                        {t('sections.newsIntro.description')}
+                    </Typography>
+                </div>
+            </Section>
+
             {/* News Content Section */}
             <Section className="py-6">
                 <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -616,12 +780,13 @@ const News: React.FC = () => {
                                 {tabs.map(tab => (
                                     <button
                                         key={tab.id}
-                                        onClick={() => setActiveTab(tab.id)}
+                                        onClick={() => toggleTab(tab.id)}
                                         className={`px-4 py-2 rounded-full flex items-center gap-2 ${
-                                            activeTab === tab.id
+                                            activeTabs.includes(tab.id)
                                                 ? 'bg-primary text-white'
                                                 : 'bg-background text-gray-700 hover:bg-gray-200'
                                         } transition-colors`}
+                                        aria-pressed={activeTabs.includes(tab.id)}
                                     >
                                         {React.createElement(FaNewspaper, { className: "text-lg" })}
                                         {t(tab.translationKey as string)}
@@ -640,38 +805,24 @@ const News: React.FC = () => {
                                     className="w-full pl-10 pr-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
+                                    aria-label={t('filters.searchAriaLabel')}
                                 />
                                 <FaSearch className="absolute left-3 top-3 text-gray-400" />
                             </div>
                         </div>
 
-                        {activeTab !== 'afrinuts' && (
-                            <div className="flex flex-wrap gap-2 items-center">
-                            <span className="text-sm font-medium text-gray-700">
-                            {t('filters.title')}
-                            </span>
-                                {filters.map(filter => (
-                                    <button
-                                        key={filter.id}
-                                        onClick={() => toggleFilter(filter.id)}
-                                        className={`px-3 py-1 text-sm rounded-full flex items-center gap-1 ${
-                                            activeFilters.includes(filter.id)
-                                                ? 'bg-primary text-white'
-                                                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                                        } transition-colors`}
-                                    >
-                                        {React.createElement(FaFilter, { size: 12 })}
-                                        {t(filter.translationKey)}
-                                    </button>
-                                ))}
-                            </div>
-                        )}
                     </motion.div>
 
                     {/* News Content */}
                     {getContent()}
                     <Transition.Root show={!!selectedArticle} as={Fragment}>
-                        <Dialog as="div" className="relative z-50" onClose={() => setSelectedArticle(null)}>
+                        <Dialog
+                            as="div"
+                            className="relative z-50"
+                            onClose={() => setSelectedArticle(null)}
+                            initialFocus={articleDialogRef}
+                            aria-label={t('sections.articleModalAriaLabel')}
+                        >
                             <Transition.Child
                                 as={Fragment}
                                 enter="ease-out duration-300"
@@ -695,13 +846,24 @@ const News: React.FC = () => {
                                         leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                                         leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                                     >
-                                        <Dialog.Panel className="relative w-full max-w-2xl transform overflow-hidden bg-background  rounded-3xl border-2 border-primary/20 hover:border-accent/30 hover:shadow-xl transition-shadow duration-300  text-left shadow-xl">
+                                        <Dialog.Panel
+                                            ref={articleDialogRef}
+                                            tabIndex={-1}
+                                            className="relative w-full max-w-2xl transform overflow-hidden bg-background  rounded-3xl border-2 border-primary/20 hover:border-accent/30 hover:shadow-xl transition-shadow duration-300  text-left shadow-xl focus:outline-none"
+                                        >
                                             <div className="p-6">
                                                 <Dialog.Title as="h3" className="text-lg font-semibold text-primary">
                                                     {selectedArticle?.title}
                                                 </Dialog.Title>
+                                                <div className="flex flex-wrap gap-2 mb-2 mt-2">
+                                                    {selectedArticle?.category && (
+                                                        <span className="inline-block bg-accent/10 text-accent px-3 py-1 text-xs rounded-full font-medium">
+                                                            {t(`categories.${selectedArticle.category}`)}
+                                                        </span>
+                                                    )}
+                                                </div>
                                                 <p className="text-sm text-gray-500 mt-1">
-                                                    {selectedArticle?.pubDate && new Date(selectedArticle.pubDate).toLocaleString()}
+                                                    {selectedArticle?.pubDate && new Date(selectedArticle?.pubDate).toLocaleString()}
                                                 </p>
                                                 <p className="text-gray-700 mt-4">{selectedArticle?.contentSnippet}</p>
                                                 <div className="mt-4 flex justify-end gap-2">
@@ -711,13 +873,13 @@ const News: React.FC = () => {
                                                         rel="noopener noreferrer"
                                                         className="bg-accent hover:bg-primary text-white px-4 py-2 rounded-md text-sm"
                                                     >
-                                                        Read full article
+                                                        {t('sections.readFullArticle')}
                                                     </a>
                                                     <button
                                                         onClick={() => setSelectedArticle(null)}
                                                         className="text-sm text-gray-600 hover:underline"
                                                     >
-                                                        Close
+                                                        {t('sections.close')}
                                                     </button>
                                                 </div>
                                             </div>

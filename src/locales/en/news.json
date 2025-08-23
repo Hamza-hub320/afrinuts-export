@@ -21,9 +21,16 @@
   "sections": {
     "afrinutsUpdates": "Our Updates",
     "industryNews": "Industry News",
+    "newsIntro": {
+      "title": "Stay Informed with AfriNuts",
+      "description": "Get the latest updates, insights, and developments in cashew farming, sustainability, and industry trends."
+    },
     "noUpdatesFound": "No Updates Found",
     "readMore": "Read More",
     "readLess": "Read Less",
+    "close": "Close",
+    "shareArticle": "Share Article",
+    "readFullArticle": "Read Full Article →",
     "newsletter": {
       "title": "Subscribe to Our Agri-News Digest",
       "description": "Monthly updates...",
@@ -44,5 +51,15 @@
       "description": "We couldn't find any news articles matching your current filters.",
       "resetFilters": "Reset Filters"
     }
+  },
+  "categories": {
+    "agroforestry": "Agroforestry",
+    "sustainable-farming": "Sustainable Farming",
+    "Ivory-Coast": "Ivory Coast",
+    "regenerative-agriculture": "Regenerative Agriculture",
+    "partnership": "Partnership",
+    "community": "Community",
+    "farmers": "Farmers",
+    "agriculture": "Agriculture"
   }
 }
