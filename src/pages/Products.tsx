@@ -299,25 +299,6 @@ const Products: React.FC = () => {
                             {t('filters.results', { count: filteredProducts.length }).replace('{count}', String(filteredProducts.length))}
                         </div>
 
-                        {/* Catalogue Description Block */}
-                        <div className="text-center max-w-2xl mx-auto mb-6">
-                            <Typography variant="h3" className="text-primary mb-2">
-                                {t('catalogue.title')}
-                            </Typography>
-                            <Typography variant="body" className="text-text-dark">
-                                {t('catalogue.description')}
-                            </Typography>
-                        </div>
-                        {/* Download Catalogue Button */}
-                        <button
-                            onClick={handleDownloadCatalogue}
-                            className="group bg-primary hover:bg-dark-orange text-white px-10 py-4 rounded-full transition-all duration-300 shadow-lg hover:shadow-2xl inline-flex items-center mx-auto text-lg font-semibold transform hover:scale-105"
-                            style={{ marginBottom: '2rem' }}
-                        >
-                            <FaDownload className="mr-3 text-2xl" />
-                            {t('catalogue.download')}
-                        </button>
-
                         {/* Offline Payment Instructions Section */}
                         <Section className="mb-10 py-8 bg-yellow-50 border-l-8 border-yellow-400 rounded-xl shadow-md flex flex-col items-center justify-center">
                             <Typography variant="h3" className="text-yellow-700 mb-2 text-center">
@@ -362,11 +343,48 @@ const Products: React.FC = () => {
                         )}
                     </div>
                 </Section>
+                {/* Catalogue Description and Download Button Highlighted Section */}
+                <div className="flex justify-center my-12">
+                  <motion.div
+                    className="relative flex flex-col items-center justify-center bg-primary/10 p-10 rounded-3xl shadow-2xl border border-primary/20 max-w-lg w-full text-center mx-auto
+                    transform-gpu transition-all duration-300"
+                    style={{
+                      perspective: 1200,
+                      willChange: 'transform',
+                    }}
+                    whileHover={{
+                      scale: 1.07,
+                      rotateX: 8,
+                      rotateY: -8,
+                      boxShadow: '0 12px 32px 0 rgba(64, 72, 135, 0.18), 0 2px 8px 0 rgba(255, 140, 0, 0.09)',
+                      transition: { duration: 0.35, type: "spring", stiffness: 200 },
+                    }}
+                  >
+                    <Typography variant="h3" className="text-primary mb-3">
+                      {t('catalogue.title')}
+                    </Typography>
+                    <Typography variant="body" className="text-text-dark mb-7">
+                      {t('catalogue.description')}
+                    </Typography>
+                    <motion.button
+                      onClick={handleDownloadCatalogue}
+                      className="group bg-primary hover:bg-dark-orange text-white px-4 py-2 rounded-full transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center mx-auto text-base font-semibold min-w-[140px]"
+                      style={{ minHeight: 42 }}
+                      whileHover={{
+                        scale: 1.10,
+                        transition: { duration: 0.18, type: "spring", stiffness: 320 }
+                      }}
+                    >
+                      <FaDownload className="mr-2 text-xl" />
+                      {t('catalogue.download')}
+                    </motion.button>
+                  </motion.div>
+                </div>
 
 
                 {/* Our Process Section */}
                 <Section className="py-10">
-                    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
+                    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 transform-gpu">
                         <motion.div
                             initial="hidden"
                             whileInView="visible"

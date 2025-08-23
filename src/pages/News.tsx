@@ -2,7 +2,8 @@ import React, { useEffect, useState, Fragment, useRef } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
-import { FaNewspaper, FaGlobe, FaBullhorn, FaFilter, FaSearch, FaShareAlt } from 'react-icons/fa';
+import { FaNewspaper, FaGlobe, FaBullhorn, FaFilter, FaSearch } from 'react-icons/fa';
+import { FaShareSquare } from 'react-icons/fa';
 
 import Section from '@/components/Section/Section';
 import { fadeIn, staggerContainer } from '@/utils/animations';
@@ -458,16 +459,16 @@ const News: React.FC = () => {
                                             {t('sections.readMore')}
                                         </button>
                                         <button
-                                            className="ml-2 px-3 py-1 rounded-full bg-primary text-white hover:bg-accent-dark text-xs flex items-center justify-center"
+                                            className="ml-2 px-3 py-1 rounded-full bg-accent text-white hover:bg-accent-dark text-xs flex items-center justify-center"
                                             onClick={() => {
                                                 if (navigator.share) {
-                                                    navigator.share({ title: update.title, url: window.location.href });
+                                                    navigator.share({ title: update.title, url: update.link || window.location.href });
                                                 } else {
                                                     alert('Share feature not supported');
                                                 }
                                             }}
                                         >
-                                            <FaShareAlt />
+                                            <FaShareSquare className="w-4 h-4" />
                                         </button>
                                     </div>
                                 </div>
@@ -679,17 +680,17 @@ const News: React.FC = () => {
                                 </div>
                                 <div className="flex mt-4">
                                     <button
-                                        className="ml-0 px-3 py-1 rounded-full bg-primary text-white hover:bg-accent-dark text-xs flex items-center justify-center"
+                                        className="ml-0 px-3 py-1 rounded-full bg-accent text-white hover:bg-accent-dark text-xs flex items-center justify-center"
                                         onClick={e => {
                                             e.stopPropagation();
                                             if (navigator.share) {
-                                                navigator.share({ title: article.title, url: window.location.href });
+                                                navigator.share({ title: article.title, url: article.link || window.location.href });
                                             } else {
                                                 alert('Share feature not supported');
                                             }
                                         }}
                                     >
-                                        <FaShareAlt />
+                                        <FaShareSquare className="w-4 h-4" />
                                     </button>
                                 </div>
                             </div>
