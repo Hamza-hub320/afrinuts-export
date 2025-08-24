@@ -15,6 +15,7 @@ interface InfoCardProps {
     cta?: string | React.ReactNode;
     onClickCta?: () => void;
     variant?: 'primary' | 'accent' | 'secondary'; // optional theme variants
+    showInfoBadge?: boolean; // New prop to control info badge visibility
 }
 
 export const InfoCard: React.FC<InfoCardProps> = ({
@@ -28,6 +29,7 @@ export const InfoCard: React.FC<InfoCardProps> = ({
                                                       cta,
                                                       onClickCta,
                                                       variant = 'primary',
+                                                      showInfoBadge = true, // Default to true
                                                   }) => {
     // Define gradient and border based on variant
     const variantStyles = {
@@ -50,6 +52,7 @@ export const InfoCard: React.FC<InfoCardProps> = ({
 
     // Generate a safe ID for ARIA referencing
     const safeTitleId = `infocard-title-${typeof title === 'string' ? title.replace(/\s+/g, '-').toLowerCase() : 'no-title'}`;
+
     return (
         <motion.div
             className={`group relative bg-gradient-to-br ${variantStyles[variant].bg} 
@@ -71,10 +74,17 @@ export const InfoCard: React.FC<InfoCardProps> = ({
             role="region"
             aria-labelledby={safeTitleId}
         >
-            {/* Info badge in the top-right corner */}
-            <div className="absolute top-3 right-3 w-6 h-6 flex items-center justify-center rounded-full bg-accent text-white text-xs shadow-md z-20">
-                <FaInfoCircle className="w-3 h-3" />
-            </div>
+            {/* Info badge in the top-right corner - Repositioned like certification checkmark */}
+            {showInfoBadge && (
+                <motion.div
+                    className="absolute -top-2 -right-2 w-6 h-6 bg-accent rounded-full flex items-center justify-center transform-gpu group-hover:scale-125 transition-transform duration-500 z-20"
+                    whileHover={{ scale: 1.3, rotate: 10 }}
+                    transition={{ type: 'spring', stiffness: 400 }}
+                >
+                    <FaInfoCircle className="w-3 h-3 text-white" />
+                </motion.div>
+            )}
+
             {/* 3D edge effect */}
             <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
 

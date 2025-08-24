@@ -5,8 +5,6 @@ import {
     FaChevronDown,
     FaChevronUp,
     FaGlobe,
-    FaTree,
-    FaLeaf,
     FaMosque,
     FaIndustry,
     FaQuestion,
@@ -32,6 +30,7 @@ import { Typography } from "@/components/Typography/Typography";
 import investorProspectus from '@/assets/documents/investor-prospectus.pdf';
 import wholesalePriceList from '@/assets/documents/wholesale-price-list.pdf';
 import certificationRoadmap from '@/assets/documents/certification-roadmap.pdf';
+import { InfoCard } from '@/components/InfoCard/InfoCard';
 
 interface FAQItem {
     question: string;
@@ -66,6 +65,7 @@ const Faq: React.FC = () => {
     const [searchTerm, setSearchTerm] = useState<string>('');
     const [visibleTopics, setVisibleTopics] = useState<number>(5);
     const navigate = useNavigate();
+
     // Phase 1: On mount, detect URL query param "audience" and set activeAudience
     useEffect(() => {
         // Parse query parameter
@@ -257,7 +257,7 @@ const Faq: React.FC = () => {
         caption?: string;
     }) => {
         return (
-            <div className="my-4 p-4 bg-white rounded-lg shadow-sm border border-gray-100">
+            <div className="my-4 p-4 bg-white/80 backdrop-blur-sm rounded-lg shadow-sm border border-white/30">
                 {type === 'image' && <img src={src} alt={alt} className="w-full h-auto rounded-md max-h-64 object-contain" />}
                 {type === 'video' && (
                     <video controls className="w-full rounded-md">
@@ -389,304 +389,385 @@ const Faq: React.FC = () => {
             <Section className="py-16">
                 <div className="max-w-7xl mx-auto px-6 lg:px-8">
                     {/* Certifications Section */}
-                    <div className="mb-8 max-w-3xl mx-auto p-6 bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-xl">
-                        <Typography variant="h3" className="text-text-dark mb-4 flex items-center">
-                            <FaShieldAlt className="mr-2" />
-                            {t('certifications.title')}
-                        </Typography>
-                        <ul className="list-disc list-inside space-y-2 text-text-dark">
+                    <InfoCard
+                        icon={FaShieldAlt}
+                        title={t('certifications.title')}
+                        variant="primary"
+                        className="mb-8 max-w-3xl mx-auto"
+                        hideIconContainer={false}
+                    >
+                        <ul className="list-disc list-inside space-y-2 text-text-dark mt-4">
                             {t('certifications.list', { returnObjects: true }).map((item: string, idx: number) => (
                                 <li key={idx}>{item}</li>
                             ))}
                         </ul>
-                    </div>
+                    </InfoCard>
+                </div>
 
                     {/* Search Bar */}
-                    <div className="mb-8">
+                    <motion.div
+                        className="mb-8"
+                        variants={fadeIn}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                    >
                         <div className="relative max-w-xl mx-auto">
                             <FaSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
                             <input
                                 type="text"
                                 placeholder={t('searchPlaceholder', 'Search questions...')}
-                                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                                className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent backdrop-blur-sm bg-white/80"
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
                             />
                         </div>
-                    </div>
+                    </motion.div>
 
                     {/* Audience Filter Tabs */}
-                    <div className="mb-8">
+                    <motion.div
+                        className="mb-8"
+                        variants={fadeIn}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                    >
                         <Typography variant="h4" className="mb-4 text-text-dark">
                             {t('filterBy', 'Filter by:')}
                         </Typography>
                         <div className="flex flex-wrap gap-2">
                             {audienceFilters.map(filter => (
-                                <button
+                                <motion.button
                                     key={filter.id}
                                     onClick={() => setActiveAudience(filter.id)}
-                                    className={`px-4 py-2 rounded-full text-sm font-medium transition-colors flex items-center ${
+                                    className={`px-4 py-2 rounded-full text-sm font-medium transition-colors flex items-center transform-gpu hover:scale-105 ${
                                         activeAudience === filter.id
-                                            ? 'bg-primary text-white'
-                                            : 'bg-gray-100 text-text-dark hover:bg-gray-200'
+                                            ? 'bg-primary text-white shadow-lg'
+                                            : 'bg-white/80 backdrop-blur-sm text-text-dark hover:bg-gray-100 shadow-md'
                                     }`}
+                                    whileHover={{ y: -2 }}
+                                    whileTap={{ scale: 0.95 }}
                                 >
                                     {filter.icon}
                                     {filter.label}
-                                </button>
+                                </motion.button>
                             ))}
                         </div>
-                    </div>
+                    </motion.div>
 
                     {/* Top Questions Section */}
                     {activeAudience === 'all' && searchTerm === '' && (
-                        <div className="mb-12 bg-gradient-to-br from-primary/10 to-accent/10 border-2 border-primary/20 rounded-xl p-6">
-                            <Typography variant="h3" className="text-text-dark mb-6 flex items-center">
-                                <FaQuestion className="text-primary mr-3" />
-                                {t('topQuestions.title', 'Top Questions')}
-                            </Typography>
-                            <div className="space-y-4">
-                                {topQuestions.map((item, index) => (
-                                    <div key={`top-${index}`} className="bg-white/50 p-4 rounded-lg">
-                                        <button
-                                            className="w-full text-left flex justify-between items-center group"
-                                            onClick={() => toggleSection(`top-${index}`)}
-                                            onKeyDown={(e) => handleKeyDown(e, 'top', index)}
-                                            aria-expanded={openSections[`top-${index}`]}
-                                            aria-controls={`answer-top-${index}`}
-                                        >
-                                            <Typography
-                                                variant="h5"
-                                                className="text-text-dark text-base font-medium group-hover:text-primary transition-colors"
-                                            >
-                                                {item.question}
-                                            </Typography>
-                                            {openSections[`top-${index}`] ? (
-                                                <FaChevronUp className="text-primary ml-4 flex-shrink-0" />
-                                            ) : (
-                                                <FaChevronDown className="text-primary ml-4 flex-shrink-0 group-hover:text-primary transition-colors" />
-                                            )}
-                                        </button>
+                        <motion.div
+                            className="mb-12 bg-gradient-to-br from-primary/10 to-accent/10 border-2 border-primary/20 rounded-2xl p-6 transform-gpu"
+                            style={{
+                                transformStyle: 'preserve-3d',
+                                perspective: '1000px',
+                            }}
+                            whileHover={{
+                                y: -5,
+                                rotateY: 2,
+                                transition: { duration: 0.3 }
+                            }}
+                        >
+                            {/* 3D edge effect */}
+                            <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] hover:translate-z-[-10px] transition-all duration-500" />
 
-                                        <LazyMotion features={domAnimation}>
-                                            <motion.div
-                                                id={`answer-top-${index}`}
-                                                role="region"
-                                                aria-labelledby={`question-top-${index}`}
-                                                initial={false}
-                                                animate={{
-                                                    height: openSections[`top-${index}`] ? 'auto' : 0,
-                                                    opacity: openSections[`top-${index}`] ? 1 : 0
-                                                }}
-                                                transition={{ duration: 0.2, ease: "easeInOut" }}
-                                                className="overflow-hidden"
+                            {/* Glassy overlay */}
+                            <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 hover:opacity-60 transition-opacity duration-500" />
+
+                            <div className="relative z-10">
+                                <Typography variant="h3" className="text-text-dark mb-6 flex items-center">
+                                    <FaQuestion className="text-primary mr-3" />
+                                    {t('topQuestions.title', 'Top Questions')}
+                                </Typography>
+                                <div className="space-y-4">
+                                    {topQuestions.map((item, index) => (
+                                        <motion.div
+                                            key={`top-${index}`}
+                                            className="bg-white/80 backdrop-blur-sm p-4 rounded-lg border border-white/30 shadow-sm"
+                                            whileHover={{ y: -2 }}
+                                            transition={{ duration: 0.2 }}
+                                        >
+                                            <button
+                                                className="w-full text-left flex justify-between items-center group"
+                                                onClick={() => toggleSection(`top-${index}`)}
+                                                onKeyDown={(e) => handleKeyDown(e, 'top', index)}
+                                                aria-expanded={openSections[`top-${index}`]}
+                                                aria-controls={`answer-top-${index}`}
                                             >
-                                                <div className="pt-2 pb-1">
-                                                    {/* Phase 3: Visual storytelling - allow images/timelines in answers */}
-                                                    <Typography variant="body" className="text-text-dark leading-relaxed mb-2">
-                                                        {item.answer}
-                                                    </Typography>
-                                                    {/* Visual Aid (image or video) */}
-                                                    {item.visualAid && (
-                                                        <VisualAid
-                                                            type={item.visualAid.type}
-                                                            src={item.visualAid.src}
-                                                            alt={item.visualAid.alt}
-                                                            caption={item.visualAid.caption}
-                                                        />
-                                                    )}
-                                                    {/* Placeholder: Step-by-step numbered list */}
-                                                    {Array.isArray((item as any).steps) && (item as any).steps.length > 0 && (
-                                                        <ol className="list-decimal ml-6 my-4">
-                                                            {(item as any).steps.map((step: string, idx: number) => (
-                                                                <li key={idx} className="mb-2">{step}</li>
-                                                            ))}
-                                                        </ol>
-                                                    )}
-                                                </div>
-                                            </motion.div>
-                                        </LazyMotion>
-                                    </div>
-                                ))}
+                                                <Typography
+                                                    variant="h5"
+                                                    className="text-text-dark text-base font-medium group-hover:text-primary transition-colors"
+                                                >
+                                                    {item.question}
+                                                </Typography>
+                                                {openSections[`top-${index}`] ? (
+                                                    <FaChevronUp className="text-primary ml-4 flex-shrink-0" />
+                                                ) : (
+                                                    <FaChevronDown className="text-primary ml-4 flex-shrink-0 group-hover:text-primary transition-colors" />
+                                                )}
+                                            </button>
+
+                                            <LazyMotion features={domAnimation}>
+                                                <motion.div
+                                                    id={`answer-top-${index}`}
+                                                    role="region"
+                                                    aria-labelledby={`question-top-${index}`}
+                                                    initial={false}
+                                                    animate={{
+                                                        height: openSections[`top-${index}`] ? 'auto' : 0,
+                                                        opacity: openSections[`top-${index}`] ? 1 : 0
+                                                    }}
+                                                    transition={{ duration: 0.2, ease: "easeInOut" }}
+                                                    className="overflow-hidden"
+                                                >
+                                                    <div className="pt-2 pb-1">
+                                                        {/* Phase 3: Visual storytelling - allow images/timelines in answers */}
+                                                        <Typography variant="body" className="text-text-dark leading-relaxed mb-2">
+                                                            {item.answer}
+                                                        </Typography>
+                                                        {/* Visual Aid (image or video) */}
+                                                        {item.visualAid && (
+                                                            <VisualAid
+                                                                type={item.visualAid.type}
+                                                                src={item.visualAid.src}
+                                                                alt={item.visualAid.alt}
+                                                                caption={item.visualAid.caption}
+                                                            />
+                                                        )}
+                                                        {/* Placeholder: Step-by-step numbered list */}
+                                                        {Array.isArray((item as any).steps) && (item as any).steps.length > 0 && (
+                                                            <ol className="list-decimal ml-6 my-4">
+                                                                {(item as any).steps.map((step: string, idx: number) => (
+                                                                    <li key={idx} className="mb-2">{step}</li>
+                                                                ))}
+                                                            </ol>
+                                                        )}
+                                                    </div>
+                                                </motion.div>
+                                            </LazyMotion>
+                                        </motion.div>
+                                    ))}
+                                </div>
                             </div>
-                        </div>
+                        </motion.div>
                     )}
 
                     <div className="flex flex-col lg:flex-row gap-12">
                         {/* FAQ Content */}
                         <div className="w-full space-y-6">
                             {filteredTopics.slice(0, visibleTopics).map((topic) => (
-                                <div
+                                <motion.div
                                     key={topic.id}
-                                    className="rounded-xl bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-300 shadow-sm"
+                                    className="rounded-2xl bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-300 shadow-lg transform-gpu"
+                                    style={{
+                                        transformStyle: 'preserve-3d',
+                                        perspective: '1000px',
+                                    }}
+                                    whileHover={{
+                                        y: -5,
+                                        rotateY: 2,
+                                        transition: { duration: 0.3 }
+                                    }}
                                 >
-                                    <button
-                                        onClick={() => setActiveTopic(prev => (prev === topic.id ? '' : topic.id))}
-                                        className={`w-full flex justify-between items-center px-6 py-4 text-left rounded-t-xl ${
-                                            activeTopic === topic.id ? 'bg-primary text-white' : ''
-                                        }`}
-                                    >
-                                        <div className="flex items-center text-lg font-semibold">
-                                            {topic.icon}
-                                            <span className="ml-2">{topic.title}</span>
-                                        </div>
-                                        <span className="text-sm bg-primary/10 text-primary-dark px-2 py-1 rounded">
-                                            {topic.questions.length}
-                                        </span>
-                                    </button>
+                                    {/* 3D edge effect */}
+                                    <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] hover:translate-z-[-10px] transition-all duration-500" />
 
-                                    {activeTopic === topic.id && (
-                                        <div className="px-6 pb-4 space-y-4">
-                                            {topic.questions
-                                                .filter(q => !q.audience || q.audience.includes(activeAudience) || activeAudience === 'all')
-                                                .filter(q =>
-                                                    q.question.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                                                    q.answer.toLowerCase().includes(searchTerm.toLowerCase())
-                                                )
-                                                .map((item, index) => (
-                                                    <div key={`${topic.id}-${index}`} className="border-b border-gray-100 last:border-b-0 pb-4 last:pb-0">
-                                                        <button
-                                                            className="w-full text-left flex justify-between items-center group py-2"
-                                                            onClick={() => toggleSection(`${topic.id}-${index}`)}
-                                                            onKeyDown={(e) => handleKeyDown(e, topic.id, index)}
-                                                            aria-expanded={openSections[`${topic.id}-${index}`]}
-                                                            aria-controls={`answer-${topic.id}-${index}`}
+                                    {/* Glassy overlay */}
+                                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 hover:opacity-60 transition-opacity duration-500" />
+
+                                    <div className="relative z-10">
+                                        <button
+                                            onClick={() => setActiveTopic(prev => (prev === topic.id ? '' : topic.id))}
+                                            className={`w-full flex justify-between items-center px-6 py-4 text-left rounded-t-2xl ${
+                                                activeTopic === topic.id ? 'bg-primary text-white' : ''
+                                            }`}
+                                        >
+                                            <div className="flex items-center text-lg font-semibold">
+                                                {topic.icon}
+                                                <span className="ml-2">{topic.title}</span>
+                                            </div>
+                                            <span className="text-sm bg-primary/10 text-primary-dark px-2 py-1 rounded">
+                                                {topic.questions.length}
+                                            </span>
+                                        </button>
+
+                                        {activeTopic === topic.id && (
+                                            <div className="px-6 pb-4 space-y-4">
+                                                {topic.questions
+                                                    .filter(q => !q.audience || q.audience.includes(activeAudience) || activeAudience === 'all')
+                                                    .filter(q =>
+                                                        q.question.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                                                        q.answer.toLowerCase().includes(searchTerm.toLowerCase())
+                                                    )
+                                                    .map((item, index) => (
+                                                        <motion.div
+                                                            key={`${topic.id}-${index}`}
+                                                            className="border-b border-gray-100 last:border-b-0 pb-4 last:pb-0 bg-white/50 backdrop-blur-sm rounded-lg p-4"
+                                                            initial={{ opacity: 0, y: 10 }}
+                                                            animate={{ opacity: 1, y: 0 }}
+                                                            transition={{ delay: index * 0.1 }}
                                                         >
-                                                            <Typography
-                                                                variant="h5"
-                                                                className="text-text-dark text-base font-medium group-hover:text-primary transition-colors"
+                                                            <button
+                                                                className="w-full text-left flex justify-between items-center group py-2"
+                                                                onClick={() => toggleSection(`${topic.id}-${index}`)}
+                                                                onKeyDown={(e) => handleKeyDown(e, topic.id, index)}
+                                                                aria-expanded={openSections[`${topic.id}-${index}`]}
+                                                                aria-controls={`answer-${topic.id}-${index}`}
                                                             >
-                                                                {item.question}
-                                                            </Typography>
-                                                            {openSections[`${topic.id}-${index}`] ? (
-                                                                <FaChevronUp className="text-primary ml-4 flex-shrink-0" />
-                                                            ) : (
-                                                                <FaChevronDown className="text-primary ml-4 flex-shrink-0 group-hover:text-primary transition-colors" />
-                                                            )}
-                                                        </button>
+                                                                <Typography
+                                                                    variant="h5"
+                                                                    className="text-text-dark text-base font-medium group-hover:text-primary transition-colors"
+                                                                >
+                                                                    {item.question}
+                                                                </Typography>
+                                                                {openSections[`${topic.id}-${index}`] ? (
+                                                                    <FaChevronUp className="text-primary ml-4 flex-shrink-0" />
+                                                                ) : (
+                                                                    <FaChevronDown className="text-primary ml-4 flex-shrink-0 group-hover:text-primary transition-colors" />
+                                                                )}
+                                                            </button>
 
-                                                        <LazyMotion features={domAnimation}>
-                                                            <motion.div
-                                                                id={`answer-${topic.id}-${index}`}
-                                                                role="region"
-                                                                aria-labelledby={`question-${topic.id}-${index}`}
-                                                                initial={false}
-                                                                animate={{
-                                                                    height: openSections[`${topic.id}-${index}`] ? 'auto' : 0,
-                                                                    opacity: openSections[`${topic.id}-${index}`] ? 1 : 0
-                                                                }}
-                                                                transition={{ duration: 0.2, ease: "easeInOut" }}
-                                                                className="overflow-hidden"
-                                                            >
-                                                                <div className="pb-2 pl-1">
-                                                                    <Typography variant="body" className="text-text-dark leading-relaxed mb-3">
-                                                                        {item.answer}
-                                                                    </Typography>
+                                                            <LazyMotion features={domAnimation}>
+                                                                <motion.div
+                                                                    id={`answer-${topic.id}-${index}`}
+                                                                    role="region"
+                                                                    aria-labelledby={`question-${topic.id}-${index}`}
+                                                                    initial={false}
+                                                                    animate={{
+                                                                        height: openSections[`${topic.id}-${index}`] ? 'auto' : 0,
+                                                                        opacity: openSections[`${topic.id}-${index}`] ? 1 : 0
+                                                                    }}
+                                                                    transition={{ duration: 0.2, ease: "easeInOut" }}
+                                                                    className="overflow-hidden"
+                                                                >
+                                                                    <div className="pb-2 pl-1">
+                                                                        <Typography variant="body" className="text-text-dark leading-relaxed mb-3">
+                                                                            {item.answer}
+                                                                        </Typography>
 
-
-                                                                    {(item.actions?.contact || item.actions?.download || item.actions?.request) && (
-                                                                        <div className="mt-4 flex flex-wrap gap-2">
-                                                                            {item.actions?.contact && (
-                                                                                <motion.button
-                                                                                    whileHover={{ scale: 1.05 }}
-                                                                                    whileTap={{ scale: 0.95 }}
-                                                                                    className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700 transition-colors flex items-center"
-                                                                                    onClick={() => handleActionClick({ type: 'request', link: item.actions?.request }, item)}
-                                                                                >
-                                                                                    <FaFileAlt className="mr-2" />
-                                                                                    {getButtonLabel(item)}
-                                                                                </motion.button>
-                                                                            )}
-                                                                            {/* Remove Download PDF button for specific questions */}
-                                                                            {item.actions?.download && (
-                                                                                (() => {
-                                                                                    const removedDownloadQuestions = [
-                                                                                        "What certifications do you have?",
-                                                                                        "Do you provide sustainability audits?",
-                                                                                        "Are your products traceable?",
-                                                                                        "What is your approach to ESG?"
-                                                                                    ];
-                                                                                    if (!removedDownloadQuestions.includes(item.question)) {
-                                                                                        return (
-                                                                                            <motion.button
-                                                                                                whileHover={{ scale: 1.05 }}
-                                                                                                whileTap={{ scale: 0.95 }}
-                                                                                                className="px-4 py-2 bg-green-600 text-white rounded-lg text-sm hover:bg-green-700 transition-colors flex items-center"
-                                                                                                onClick={() => handleActionClick({ type: 'download', link: item.actions?.download }, item)}
-                                                                                            >
-                                                                                                <FaDownload className="mr-2" />
-                                                                                                {getButtonLabel(item)}
-                                                                                            </motion.button>
-                                                                                        );
-                                                                                    }
-                                                                                    return null;
-                                                                                })()
-                                                                            )}
-                                                                            {item.actions?.request && (
-                                                                                <motion.button
-                                                                                    whileHover={{ scale: 1.05 }}
-                                                                                    whileTap={{ scale: 0.95 }}
-                                                                                    className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700 transition-colors flex items-center"
-                                                                                    onClick={() => handleActionClick({ type: 'request', link: item.actions?.request }, item)}
-                                                                                >
-                                                                                    <FaFileAlt className="mr-2" />
-                                                                                    {getButtonLabel(item)}
-                                                                                </motion.button>
-                                                                            )}
-                                                                        </div>
-                                                                    )}
-                                                                </div>
-                                                            </motion.div>
-                                                        </LazyMotion>
-                                                    </div>
-                                                ))}
-                                        </div>
-                                    )}
-                                </div>
+                                                                        {(item.actions?.contact || item.actions?.download || item.actions?.request) && (
+                                                                            <div className="mt-4 flex flex-wrap gap-2">
+                                                                                {item.actions?.contact && (
+                                                                                    <motion.button
+                                                                                        whileHover={{ scale: 1.05 }}
+                                                                                        whileTap={{ scale: 0.95 }}
+                                                                                        className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700 transition-colors flex items-center shadow-md"
+                                                                                        onClick={() => handleActionClick({ type: 'request', link: item.actions?.request }, item)}
+                                                                                    >
+                                                                                        <FaFileAlt className="mr-2" />
+                                                                                        {getButtonLabel(item)}
+                                                                                    </motion.button>
+                                                                                )}
+                                                                                {/* Remove Download PDF button for specific questions */}
+                                                                                {item.actions?.download && (
+                                                                                    (() => {
+                                                                                        const removedDownloadQuestions = [
+                                                                                            "What certifications do you have?",
+                                                                                            "Do you provide sustainability audits?",
+                                                                                            "Are your products traceable?",
+                                                                                            "What is your approach to ESG?"
+                                                                                        ];
+                                                                                        if (!removedDownloadQuestions.includes(item.question)) {
+                                                                                            return (
+                                                                                                <motion.button
+                                                                                                    whileHover={{ scale: 1.05 }}
+                                                                                                    whileTap={{ scale: 0.95 }}
+                                                                                                    className="px-4 py-2 bg-green-600 text-white rounded-lg text-sm hover:bg-green-700 transition-colors flex items-center shadow-md"
+                                                                                                    onClick={() => handleActionClick({ type: 'download', link: item.actions?.download }, item)}
+                                                                                                >
+                                                                                                    <FaDownload className="mr-2" />
+                                                                                                    {getButtonLabel(item)}
+                                                                                                </motion.button>
+                                                                                            );
+                                                                                        }
+                                                                                        return null;
+                                                                                    })()
+                                                                                )}
+                                                                                {item.actions?.request && (
+                                                                                    <motion.button
+                                                                                        whileHover={{ scale: 1.05 }}
+                                                                                        whileTap={{ scale: 0.95 }}
+                                                                                        className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700 transition-colors flex items-center shadow-md"
+                                                                                        onClick={() => handleActionClick({ type: 'request', link: item.actions?.request }, item)}
+                                                                                    >
+                                                                                        <FaFileAlt className="mr-2" />
+                                                                                        {getButtonLabel(item)}
+                                                                                    </motion.button>
+                                                                                )}
+                                                                            </div>
+                                                                        )}
+                                                                    </div>
+                                                                </motion.div>
+                                                            </LazyMotion>
+                                                        </motion.div>
+                                                    ))}
+                                            </div>
+                                        )}
+                                    </div>
+                                </motion.div>
                             ))}
 
                             {visibleTopics < filteredTopics.length && (
                                 <div className="text-center mt-8">
-                                    <button
+                                    <motion.button
                                         onClick={showMoreTopics}
-                                        className="px-6 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                                        className="px-6 py-3 bg-background backdrop-blur-sm text-gray-700 rounded-lg hover:bg-gray-100 transition-colors shadow-md transform-gpu hover:scale-105"
+                                        whileHover={{ y: -2 }}
+                                        whileTap={{ scale: 0.95 }}
                                     >
                                         {t('loadMore', 'Load More Topics')}
-                                    </button>
+                                    </motion.button>
                                 </div>
                             )}
 
                             {/* Still have questions? */}
-                            <div className="mt-12 bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 rounded-xl p-6">
-                                <div className="flex items-center mb-4">
-                                    <Typography variant="h3" className="text-text-dark font-medium flex items-center">
-                                        {t('stillQuestions.title')}
-                                        <FaQuestion className="text-primary text-lg mr-3" />
+                            <motion.div
+                                className="mt-12 bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 rounded-2xl p-6 transform-gpu"
+                                style={{
+                                    transformStyle: 'preserve-3d',
+                                    perspective: '1000px',
+                                }}
+                                whileHover={{
+                                    y: -5,
+                                    rotateY: 2,
+                                    transition: { duration: 0.3 }
+                                }}
+                            >
+                                {/* 3D edge effect */}
+                                <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] hover:translate-z-[-10px] transition-all duration-500" />
+
+                                {/* Glassy overlay */}
+                                <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 hover:opacity-60 transition-opacity duration-500" />
+
+                                <div className="relative z-10">
+                                    <div className="flex items-center mb-4">
+                                        <Typography variant="h3" className="text-text-dark font-medium flex items-center">
+                                            {t('stillQuestions.title')}
+                                            <FaQuestion className="text-primary text-lg mr-3" />
+                                        </Typography>
+                                    </div>
+                                    <Typography variant="body" className="text-text-dark mb-5 pl-8">
+                                        {t('stillQuestions.content')}
                                     </Typography>
+                                    <div className="flex flex-wrap gap-4">
+                                        <motion.button
+                                            whileHover={{ scale: 1.05 }}
+                                            whileTap={{ scale: 0.95 }}
+                                            className="group bg-primary hover:bg-dark-orange text-white hover:text-white px-8 py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg inline-flex items-center"
+                                            onClick={() => navigate('/contact')}
+                                        >
+                                            {t('stillQuestions.button')}
+                                            <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+                                        </motion.button>
+                                    </div>
                                 </div>
-                                <Typography variant="body" className="text-text-dark mb-5 pl-8">
-                                    {t('stillQuestions.content')}
-                                </Typography>
-                                <div className="flex flex-wrap gap-4">
-                                    <motion.button
-                                        whileHover={{ scale: 1.05 }}
-                                        whileTap={{ scale: 0.95 }}
-                                        className="group bg-primary hover:bg-dark-orange text-white hover:text-white px-8 py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg inline-flex items-center"
-                                        onClick={() => navigate('/contact')}
-                                    >
-                                        {t('stillQuestions.button')}
-                                        <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
-                                    </motion.button>
-                                </div>
-                            </div>
+                            </motion.div>
                         </div>
                     </div>
-                </div>
             </Section>
         </main>
     );
 };
 
 export default Faq;
-    // Phase 5: Offline & Mobile-First
-    // Placeholder: In the future, implement service worker caching for FAQ content for offline access.

@@ -93,8 +93,10 @@
   },
   "offlinePayment": {
     "title": "Instructions de Paiement Hors Ligne",
-    "description": "Pour les commandes en gros, tous les paiements sont traités directement par virement bancaire. Après soumission de votre demande, notre équipe commerciale fournira une facture et des instructions de paiement.",
-    "button": "Contacter les Ventes"
+    "description": "Pour les commandes en gros, tous les paiements sont traités directement par virement bancaire. Après avoir soumis votre demande, notre équipe commerciale vous fournira une facture et des instructions de paiement.",
+    "additionalInfo": "Contactez notre équipe commerciale si vous avez besoin d'instructions spécifiques pour votre mode de paiement.",
+    "button": "Contacter les Ventes",
+    "methods": ["Virement Bancaire", "Virement", "Chèque"]
   },
   "shippingGuidance": {
     "title": "Conseils d'Expédition",

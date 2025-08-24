@@ -9,6 +9,9 @@ import { motion } from 'framer-motion';
 import { fadeIn, staggerContainer } from '@/utils/animations';
 import { Typography } from "@/components/Typography/Typography";
 import { useNavigate } from 'react-router-dom';
+import { ShippingInfoCard } from '../components/ShippingInfoCard/ShippingInfoCard';
+import { ContactInfoCard } from '../components/ContactInfoCard/ContactInfoCard';
+import { InfoCard } from '@/components/InfoCard/InfoCard';
 
 interface FormData {
   name: string;
@@ -33,7 +36,7 @@ interface FormErrors {
 }
 
 const Contact: React.FC = () => {
-  const { t } = useTranslation('contact');
+  const {t} = useTranslation('contact');
   const formRef = useRef<HTMLFormElement | null>(null);
   // Input refs for auto-focus on validation
   const nameRef = useRef<HTMLInputElement | null>(null);
@@ -79,17 +82,17 @@ const Contact: React.FC = () => {
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
+    const {name, value} = e.target;
     if (name === 'quantity') {
       const numericValue = value.replace(/[^\d.]/g, '');
-      setFormData(prev => ({ ...prev, [name]: numericValue }));
+      setFormData(prev => ({...prev, [name]: numericValue}));
     } else if (name === 'unit') {
-      setFormData(prev => ({ ...prev, [name]: value }));
+      setFormData(prev => ({...prev, [name]: value}));
     } else {
-      setFormData(prev => ({ ...prev, [name]: value }));
+      setFormData(prev => ({...prev, [name]: value}));
     }
     if (errors[name as keyof FormErrors]) {
-      setErrors(prev => ({ ...prev, [name]: undefined }));
+      setErrors(prev => ({...prev, [name]: undefined}));
     }
   };
 
@@ -147,10 +150,10 @@ const Contact: React.FC = () => {
       };
 
       const response = await emailjs.send(
-        'service_qftryeh',
-        'template_fktuno4',
-        templateParams,
-        'BuIYx9hnXwuMJjbhE'
+          'service_qftryeh',
+          'template_fktuno4',
+          templateParams,
+          'BuIYx9hnXwuMJjbhE'
       );
 
       if (response.status === 200) {
@@ -171,7 +174,7 @@ const Contact: React.FC = () => {
       }
     } catch (error) {
       console.error('Failed to send message:', error);
-      setErrors({ submit: t('errors.submit') });
+      setErrors({submit: t('errors.submit')});
     } finally {
       setIsSubmitting(false);
     }
@@ -183,21 +186,38 @@ const Contact: React.FC = () => {
         {showSuccess && (
             <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
               <motion.div
-                  className="bg-white p-8 rounded-xl max-w-md w-full"
-                  initial={{ scale: 0.9, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
+                  className="bg-white p-8 rounded-xl max-w-md w-full transform-gpu"
+                  style={{
+                    transformStyle: 'preserve-3d',
+                    perspective: '1000px',
+                  }}
+                  initial={{scale: 0.9, opacity: 0, rotateY: -10}}
+                  animate={{scale: 1, opacity: 1, rotateY: 0}}
+                  transition={{duration: 0.4, type: 'spring'}}
               >
-                <div className="text-center">
-                  <FaCheckCircle className="text-accent text-5xl mx-auto mb-4" />
+                {/* 3D effect for modal */}
+                <div className="absolute inset-0 rounded-xl border-2 border-white/30 transform-gpu translate-z-[-6px]"/>
+
+                <div className="relative z-10 text-center">
+                  <motion.div
+                      initial={{scale: 0}}
+                      animate={{scale: 1}}
+                      transition={{delay: 0.2, type: 'spring'}}
+                  >
+                    <FaCheckCircle className="text-accent text-5xl mx-auto mb-4"/>
+                  </motion.div>
                   <Typography variant="h3" className="mb-2">{t('success.title')}</Typography>
                   <Typography variant="body" className="mb-6">{t('success.message')}</Typography>
-                  <button
+                  <motion.button
                       onClick={() => setShowSuccess(false)}
-                      className="bg-accent hover:bg-dark-orange text-white px-6 py-2 rounded-full transition-colors duration-300"
+                      className="bg-primary hover:bg-dark-orange text-white px-6 py-2 rounded-full transition-colors transform-gpu hover:scale-105"
+                      whileHover={{y: -2}}
+                      whileTap={{scale: 0.95}}
                   >
                     {t('success.close')}
-                  </button>
-                  <Typography variant="body" className="mt-4"><FaRegSmile className="inline mr-2 text-accent" /> {t('success.extraCelebration')}</Typography>
+                  </motion.button>
+                  <Typography variant="body" className="mt-4"><FaRegSmile
+                      className="inline mr-2 text-accent"/> {t('success.extraCelebration')}</Typography>
                 </div>
               </motion.div>
             </div>
@@ -218,7 +238,7 @@ const Contact: React.FC = () => {
             <motion.h1
                 className="font-display text-4xl md:text-5xl lg:text-6xl text-primary mb-4 leading-tight"
                 variants={fadeIn}
-                style={{ letterSpacing: '-0.03em' }}
+                style={{letterSpacing: '-0.03em'}}
             >
               {t('hero.title')}
             </motion.h1>
@@ -232,309 +252,232 @@ const Contact: React.FC = () => {
 
         {/* Main Content */}
         <div className="container mx-auto px-4 py-16">
-          {/* Information Sections - Now in a 2-column grid */}
+          {/* Information Sections - Now using InfoCard components */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
-            {/* Shipping Guidance Section - Updated for AfriNuts */}
-            <div className="bg-gradient-to-br from-primary/5 to-accent/10 border-2 border-accent/20 shadow-lg rounded-xl p-8">
-              <div className="flex items-center mb-6">
-                <div className="bg-accent/10 p-3 rounded-full text-accent flex-shrink-0 mr-4">
-                  <FaInfoCircle className="text-xl" />
-                </div>
-                <Typography variant="h2" className="text-accent">
-                  {t('shippingGuidance.title')}
-                </Typography>
-              </div>
-
-              <div className="mb-6">
-                <Typography variant="body" className="mb-4">
-                  {t('shippingGuidance.intro')}
-                </Typography>
-              </div>
-
-              <div className="space-y-6">
-                {/* Currently Available Options */}
-                <div>
-                  <Typography variant="h4" className="text-primary mb-3 border-b pb-2">
-                    {t('shippingGuidance.currentlyAvailable')}
-                  </Typography>
-
-                  <div className="bg-white p-4 rounded-lg shadow-sm mb-4 border-l-4 border-green-500">
-                    <Typography variant="h5" className="text-green-700 mb-1">
-                      {t('shippingGuidance.fob.title')}
-                    </Typography>
-                    <Typography variant="body" className="text-text-dark">
-                      {t('shippingGuidance.fob.description')}
-                    </Typography>
-                  </div>
-
-                  <div className="bg-white p-4 rounded-lg shadow-sm border-l-4 border-green-500">
-                    <Typography variant="h5" className="text-green-700 mb-1">
-                      {t('shippingGuidance.exw.title')}
-                    </Typography>
-                    <Typography variant="body" className="text-text-dark">
-                      {t('shippingGuidance.exw.description')}
-                    </Typography>
-                  </div>
-                </div>
-
-                {/* Coming Soon Options */}
-                <div>
-                  <Typography variant="h4" className="text-primary mb-3 border-b pb-2">
-                    {t('shippingGuidance.comingSoon')}
-                  </Typography>
-
-                  <div className="bg-gray-50 p-4 rounded-lg shadow-sm mb-4 opacity-80">
-                    <Typography variant="h5" className="text-gray-600 mb-1">
-                      {t('shippingGuidance.cif.title')}
-                    </Typography>
-                    <Typography variant="body" className="text-gray-600">
-                      {t('shippingGuidance.cif.description')}
-                    </Typography>
-                  </div>
-
-                  <div className="bg-gray-50 p-4 rounded-lg shadow-sm mb-4 opacity-80">
-                    <Typography variant="h5" className="text-gray-600 mb-1">
-                      {t('shippingGuidance.ddp.title')}
-                    </Typography>
-                    <Typography variant="body" className="text-gray-600">
-                      {t('shippingGuidance.ddp.description')}
-                    </Typography>
-                  </div>
-
-                  <div className="bg-gray-50 p-4 rounded-lg shadow-sm opacity-80">
-                    <Typography variant="h5" className="text-gray-600 mb-1">
-                      {t('shippingGuidance.other.title')}
-                    </Typography>
-                    <Typography variant="body" className="text-gray-600">
-                      {t('shippingGuidance.other.description')}
-                    </Typography>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-6 p-4 bg-primary/5 rounded-lg border border-primary/20">
-                <Typography variant="body" className="text-primary font-medium">
-                  {t('shippingGuidance.helpText')}
-                </Typography>
-              </div>
-            </div>
+            {/* Shipping Guidance Section */}
+            <ShippingInfoCard
+                title={t('shippingGuidance.title')}
+                intro={t('shippingGuidance.intro')}
+                currentlyAvailable={[
+                  {
+                    title: t('shippingGuidance.fob.title'),
+                    description: t('shippingGuidance.fob.description'),
+                    available: true
+                  },
+                  {
+                    title: t('shippingGuidance.exw.title'),
+                    description: t('shippingGuidance.exw.description'),
+                    available: true
+                  }
+                ]}
+                comingSoon={[
+                  {
+                    title: t('shippingGuidance.cif.title'),
+                    description: t('shippingGuidance.cif.description'),
+                    available: false
+                  },
+                  {
+                    title: t('shippingGuidance.ddp.title'),
+                    description: t('shippingGuidance.ddp.description'),
+                    available: false
+                  },
+                  {
+                    title: t('shippingGuidance.other.title'),
+                    description: t('shippingGuidance.other.description'),
+                    available: false
+                  }
+                ]}
+                helpText={t('shippingGuidance.helpText')}
+            />
 
             {/* Contact Info Section */}
-            <div className="bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-300 shadow-lg rounded-xl p-8 space-y-8">
-              <Typography variant="h2">
-                {t('info.title')}
-              </Typography>
-
-              {/* Weather Widget */}
-              <WeatherDisplay location="Odienne" />
-
-              {/* Contact Info Items */}
-              <div className="space-y-6">
-                {/* Address */}
-                <div className="flex gap-4 items-start">
-                  <div className="bg-accent/10 p-3 rounded-full text-accent flex-shrink-0">
-                    <FaMapMarkerAlt className="text-xl" />
-                  </div>
-                  <div>
-                    <Typography variant="h4" className="text-primary mb-1">
-                      {t('info.headquarters')}
-                    </Typography>
-                    <Typography variant="body">{t('info.address')}</Typography>
-                    <Typography variant="body">{t('info.zipCode')}</Typography>
-                  </div>
-                </div>
-
-                {/* Phone */}
-                <div className="flex gap-4 items-start">
-                  <div className="bg-accent/10 p-3 rounded-full text-accent flex-shrink-0">
-                    <FaPhone className="text-xl" />
-                  </div>
-                  <div>
-                    <Typography variant="h4" className="text-primary mb-1">
-                      {t('info.phone')}
-                    </Typography>
-                    <Typography variant="body">{t('info.phoneNumber')}</Typography>
-                    <Typography variant="body">{t('info.hours')}</Typography>
-                  </div>
-                </div>
-
-                {/* Email */}
-                <div className="flex gap-4 items-start">
-                  <div className="bg-accent/10 p-3 rounded-full text-accent flex-shrink-0">
-                    <FaEnvelope className="text-xl" />
-                  </div>
-                  <div>
-                    <Typography variant="h4" className="text-primary mb-1">
-                      {t('info.email')}
-                    </Typography>
-                    <Typography variant="body">{t('info.emailPrimary')}</Typography>
-                    <Typography variant="body">{t('info.emailSecondary')}</Typography>
-                  </div>
-                </div>
-
-                {/* Business Hours */}
-                <div className="flex gap-4 items-start">
-                  <div className="bg-accent/10 p-3 rounded-full text-accent flex-shrink-0">
-                    <FaClock className="text-xl" />
-                  </div>
-                  <div>
-                    <Typography variant="h4" className="text-primary mb-1">
-                      {t('info.businessHours')}
-                    </Typography>
-                    <Typography variant="body">{t('info.weekdays')} (GMT+0)</Typography>
-                    <Typography variant="body">{t('info.saturday')} (GMT+0)</Typography>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Offline Payment Instructions Section */}
-          <div className="w-full max-w-4xl mx-auto bg-gradient-to-br from-primary/5 to-accent/10 border-2 border-accent/20 shadow-lg rounded-xl p-8 mb-12 text-center">
-            <Typography variant="h2" className="mb-2 text-accent">
-              {t('offlinePayment.title')}
-            </Typography>
-            <Typography variant="body" className="mb-6">
-              {t('offlinePayment.description')}
-            </Typography>
-          </div>
-
-          {/* Downward arrow pointing to form */}
-          <div className="flex justify-center mb-12">
-            <button
-                className="text-accent text-4xl animate-bounce"
-                onClick={() => {
-                  document.getElementById('contact-form')?.scrollIntoView({ behavior: 'smooth' });
+            <ContactInfoCard
+                title={t('info.title')}
+                weatherLocation="Odienne"
+                contactItems={{
+                  address: {
+                    title: t('info.headquarters'),
+                    content: [t('info.address'), t('info.zipCode')]
+                  },
+                  phone: {
+                    title: t('info.phone'),
+                    content: [t('info.phoneNumber'), t('info.hours')]
+                  },
+                  email: {
+                    title: t('info.email'),
+                    content: [t('info.emailPrimary'), t('info.emailSecondary')]
+                  },
+                  hours: {
+                    title: t('info.businessHours'),
+                    content: [t('info.weekdays') + ' (GMT+0)', t('info.saturday') + ' (GMT+0)']
+                  }
                 }}
-                aria-label={t('form.scrollToForm')}
-            >
-              <FaArrowDown />
-            </button>
+            />
           </div>
-          {/* FAQ Link */}
-          <div className="text-center mb-6">
-            <Typography variant="body">
-              {t('form.checkFaq')}{' '}
-              <span
-                className="text-accent underline cursor-pointer"
+        </div>
+
+
+        {/* Offline Payment Instructions Section */}
+        <InfoCard
+            title={t('offlinePayment.title')}
+            subtitle={t('offlinePayment.description')}
+            variant="accent"
+            className="w-full max-w-4xl mx-auto mb-12 text-center"
+            hideIconContainer={true}
+        >
+          <div className="mt-4">
+            <Typography variant="body" className="text-text-dark">
+              {t('offlinePayment.additionalInfo')}
+            </Typography>
+          </div>
+          <div className="mt-6 flex justify-center gap-4">
+            {t('offlinePayment.methods', { returnObjects: true }).map((method: string, idx: number) => (
+              <div key={idx} className="bg-white/30 p-3 rounded-lg">{method}</div>
+            ))}
+          </div>
+        </InfoCard>
+
+
+        {/* Downward arrow pointing to form */}
+        <div className="flex justify-center mb-12">
+          <motion.button
+              className="text-primary hover:text-accent px-6 py-2 rounded-full transition-colors transform-gpu hover:scale-105 text-4xl"
+              onClick={() => {
+                document.getElementById('contact-form')?.scrollIntoView({behavior: 'smooth'});
+              }}
+              aria-label={t('form.scrollToForm')}
+              animate={{y: [0, 10, 0]}}
+              transition={{repeat: Infinity, duration: 1.5}}
+          >
+            <FaArrowDown/>
+          </motion.button>
+        </div>
+
+        {/* FAQ Link */}
+        <div className="text-center mb-6">
+          <Typography variant="body">
+            {t('form.checkFaq')}{' '}
+            <span
+                className="text-accent underline cursor-pointer transform-gpu hover:scale-105 transition-transform duration-300"
                 onClick={() => navigate('/faq')}
-              >
+            >
                 {t('form.faqLink')}
               </span>
-            </Typography>
-          </div>
-
-          {/* Contact Form Section */}
-          <div className="max-w-4xl mx-auto">
-            <section
-                id="contact-form"
-                className="bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-300 rounded-xl shadow-lg p-8"
-            >
-              <Typography variant="h2" className="mb-8 text-center">
-                {t('form.title')}
-              </Typography>
-
-              {errors.submit && (
-                  <div className="bg-background border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded">
-                    <Typography variant="body">{errors.submit}</Typography>
-                  </div>
-              )}
-
-              <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
-                {/* Honeypot anti-spam field */}
-                <input type="text" name="company" className="hidden" tabIndex={-1} autoComplete="off" />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Name Field */}
-          <div>
-            <label htmlFor="name" className="block mb-2">
-              <Typography variant="h5">{t('form.name')}</Typography>
-            </label>
-            <input
-                ref={nameRef}
-                type="text"
-                id="name"
-                name="name"
-                aria-label={t('form.name')}
-                aria-required="true"
-                aria-describedby={errors.name ? "error-name" : undefined}
-                value={formData.name}
-                onChange={handleChange}
-                className={`w-full p-3 rounded-lg border ${errors.name ? 'border-red-500' : 'border-warm-grey'} focus:outline-none focus:ring-2 focus:ring-accent`}
-            />
-            {errors.name && <Typography variant="small" id="error-name" className="text-red-500 mt-1">{errors.name}</Typography>}
-          </div>
-
-          {/* Email Field */}
-          <div>
-            <label htmlFor="email" className="block mb-2">
-              <Typography variant="h5">{t('form.email')}</Typography>
-            </label>
-            <input
-                ref={emailRef}
-                type="email"
-                id="email"
-                name="email"
-                aria-label={t('form.email')}
-                aria-required="true"
-                aria-describedby={errors.email ? "error-email" : undefined}
-                value={formData.email}
-                onChange={handleChange}
-                className={`w-full p-3 rounded-lg border ${errors.email ? 'border-red-500' : 'border-warm-grey'} focus:outline-none focus:ring-2 focus:ring-accent`}
-            />
-            {errors.email && <Typography variant="small" id="error-email" className="text-red-500 mt-1">{errors.email}</Typography>}
-          </div>
+          </Typography>
         </div>
 
-        {/* Phone Field (optional) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <label htmlFor="phone" className="block mb-2">
-              <Typography variant="h5">{t('form.phone')}</Typography>
-            </label>
-            <input
-                type="tel"
-                id="phone"
-                name="phone"
-                aria-label={t('form.phone')}
-                value={formData.phone || ''}
-                onChange={handleChange}
-                className="w-full p-3 rounded-lg border border-warm-grey focus:outline-none focus:ring-2 focus:ring-accent"
-                placeholder="+000 00 00 00 00 00"
-            />
-          </div>
-          <div></div>
-        </div>
+        {/* Contact Form Section */}
+        <InfoCard
+            title={t('form.title')}
+            variant="primary"
+            className="max-w-4xl mx-auto"
+            hideIconContainer={true}
+        >
+          {errors.submit && (
+              <div className="bg-background border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded transform-gpu hover:scale-[1.02] transition-transform duration-300">
+                <Typography variant="body">{errors.submit}</Typography>
+              </div>
+          )}
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {/* Request Type Field */}
-                  <div>
-                    <label htmlFor="requestType" className="block mb-2">
-                      <Typography variant="h5">{t('form.requestType')}</Typography>
-                    </label>
-                    <select
-                        ref={requestTypeRef}
-                        id="requestType"
-                        name="requestType"
-                        aria-label={t('form.requestType')}
-                        aria-required="true"
-                        aria-describedby={errors.requestType ? "error-requestType" : undefined}
-                        value={formData.requestType}
-                        onChange={handleChange}
-                        className="w-full p-3 rounded-lg border border-warm-grey focus:outline-none focus:ring-2 focus:ring-accent bg-white"
-                    >
-                      {/* Placeholder as first option */}
-                      <option value="">{t('form.requestTypePlaceholder')}</option>
-                      <option value="information">{t('form.requestTypes.information')}</option>
-                      <option value="quote">{t('form.requestTypes.quote')}</option>
-                      <option value="partnership">{t('form.requestTypes.partnership')}</option>
-                      <option value="investment">{t('form.requestTypes.investment')}</option>
-                      <option value="other">{t('form.requestTypes.other')}</option>
-                    </select>
-                    {errors.requestType && <Typography variant="small" id="error-requestType" className="text-red-500 mt-1">{errors.requestType}</Typography>}
-                  </div>
+          <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
+            {/* Honeypot anti-spam field */}
+            <input type="text" name="company" className="hidden" tabIndex={-1} autoComplete="off"/>
 
-                  {/* Product Interest Field - only show for quote */}
-                  {formData.requestType === 'quote' ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Name Field */}
+              <div>
+                <label htmlFor="name" className="block mb-2">
+                  <Typography variant="h5">{t('form.name')}</Typography>
+                </label>
+                <input
+                    ref={nameRef}
+                    type="text"
+                    id="name"
+                    name="name"
+                    aria-label={t('form.name')}
+                    aria-required="true"
+                    aria-describedby={errors.name ? "error-name" : undefined}
+                    value={formData.name}
+                    onChange={handleChange}
+                    className={`w-full p-3 rounded-lg border ${errors.name ? 'border-red-500' : 'border-warm-grey'} focus:outline-none focus:ring-2 focus:ring-accent backdrop-blur-sm bg-white/80`}
+                />
+                {errors.name && <Typography variant="small" id="error-name"
+                                            className="text-red-500 mt-1">{errors.name}</Typography>}
+              </div>
+
+              {/* Email Field */}
+              <div>
+                <label htmlFor="email" className="block mb-2">
+                  <Typography variant="h5">{t('form.email')}</Typography>
+                </label>
+                <input
+                    ref={emailRef}
+                    type="email"
+                    id="email"
+                    name="email"
+                    aria-label={t('form.email')}
+                    aria-required="true"
+                    aria-describedby={errors.email ? "error-email" : undefined}
+                    value={formData.email}
+                    onChange={handleChange}
+                    className={`w-full p-3 rounded-lg border ${errors.email ? 'border-red-500' : 'border-warm-grey'} focus:outline-none focus:ring-2 focus:ring-accent backdrop-blur-sm bg-white/80`}
+                />
+                {errors.email && <Typography variant="small" id="error-email"
+                                             className="text-red-500 mt-1">{errors.email}</Typography>}
+              </div>
+            </div>
+
+            {/* Phone Field (optional) */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label htmlFor="phone" className="block mb-2">
+                  <Typography variant="h5">{t('form.phone')}</Typography>
+                </label>
+                <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    aria-label={t('form.phone')}
+                    value={formData.phone || ''}
+                    onChange={handleChange}
+                    className="w-full p-3 rounded-lg border border-warm-grey focus:outline-none focus:ring-2 focus:ring-accent backdrop-blur-sm bg-white/80"
+                    placeholder="+000 00 00 00 00 00"
+                />
+              </div>
+              <div></div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Request Type Field */}
+              <div>
+                <label htmlFor="requestType" className="block mb-2">
+                  <Typography variant="h5">{t('form.requestType')}</Typography>
+                </label>
+                <select
+                    ref={requestTypeRef}
+                    id="requestType"
+                    name="requestType"
+                    aria-label={t('form.requestType')}
+                    aria-required="true"
+                    aria-describedby={errors.requestType ? "error-requestType" : undefined}
+                    value={formData.requestType}
+                    onChange={handleChange}
+                    className="w-full p-3 rounded-lg border border-warm-grey focus:outline-none focus:ring-2 focus:ring-accent backdrop-blur-sm bg-white/80"
+                >
+                  {/* Placeholder as first option */}
+                  <option value="">{t('form.requestTypePlaceholder')}</option>
+                  <option value="information">{t('form.requestTypes.information')}</option>
+                  <option value="quote">{t('form.requestTypes.quote')}</option>
+                  <option value="partnership">{t('form.requestTypes.partnership')}</option>
+                  <option value="investment">{t('form.requestTypes.investment')}</option>
+                  <option value="other">{t('form.requestTypes.other')}</option>
+                </select>
+                {errors.requestType && <Typography variant="small" id="error-requestType"
+                                                   className="text-red-500 mt-1">{errors.requestType}</Typography>}
+              </div>
+
+              {/* Product Interest Field - only show for quote */}
+              {formData.requestType === 'quote' ? (
                   <div>
                     <label htmlFor="productInterest" className="block mb-2">
                       <Typography variant="h5">{t('form.productInterest')}</Typography>
@@ -546,7 +489,7 @@ const Contact: React.FC = () => {
                         aria-label={t('form.productInterest')}
                         value={formData.productInterest}
                         onChange={handleChange}
-                        className="w-full p-3 rounded-lg border border-warm-grey focus:outline-none focus:ring-2 focus:ring-accent bg-white"
+                        className="w-full p-3 rounded-lg border border-warm-grey focus:outline-none focus:ring-2 focus:ring-accent backdrop-blur-sm bg-white/80"
                     >
                       {/* Placeholder as first option */}
                       <option value="">{t('form.productInterestPlaceholder')}</option>
@@ -556,159 +499,175 @@ const Contact: React.FC = () => {
                       <option value="custom-order">{t('form.productInterestOptions.customOrder')}</option>
                     </select>
                   </div>
-                  ) : (
-                    // Empty div to keep grid structure
-                    <div></div>
-                  )}
-                </div>
+              ) : (
+                  // Empty div to keep grid structure
+                  <div></div>
+              )}
+            </div>
 
-                {/* Quantity and Shipping - only show for quote */}
-                {formData.requestType === 'quote' && (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      {/* Quantity and Unit Fields */}
+            {/* Quantity and Shipping - only show for quote */}
+            {formData.requestType === 'quote' && (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* Quantity and Unit Fields */}
+                  <div>
+                    <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <div className="grid grid-cols-2 gap-4">
-                          <div>
-                            <label htmlFor="quantity" className="block mb-2">
-                              <Typography variant="h5">{t('form.quantity')}</Typography>
-                            </label>
-                            <input
-                                ref={quantityRef}
-                                type="number"
-                                min="1"
-                                max="100000"
-                                id="quantity"
-                                name="quantity"
-                                aria-label={t('form.quantity')}
-                                value={formData.quantity}
-                                onChange={handleChange}
-                                className="w-full p-3 rounded-lg border border-warm-grey focus:outline-none focus:ring-2 focus:ring-accent"
-                            />
-                          </div>
-                          <div>
-                            <label htmlFor="unit" className="block mb-2">
-                              <Typography variant="h5">{t('form.unit')}</Typography>
-                            </label>
-                            <select
-                                id="unit"
-                                name="unit"
-                                aria-label={t('form.unit')}
-                                value={formData.unit}
-                                onChange={handleChange}
-                                className="w-full p-3 rounded-lg border border-warm-grey focus:outline-none focus:ring-2 focus:ring-accent bg-white"
-                            >
-                              <option value="">{t('form.unitPlaceholder')}</option>
-                              <option value="kg">Kg</option>
-                              <option value="tons">Tons</option>
-                            </select>
-                          </div>
-                        </div>
+                        <label htmlFor="quantity" className="block mb-2">
+                          <Typography variant="h5">{t('form.quantity')}</Typography>
+                        </label>
+                        <input
+                            ref={quantityRef}
+                            type="number"
+                            min="1"
+                            max="100000"
+                            id="quantity"
+                            name="quantity"
+                            aria-label={t('form.quantity')}
+                            value={formData.quantity}
+                            onChange={handleChange}
+                            className="w-full p-3 rounded-lg border border-warm-grey focus:outline-none focus:ring-2 focus:ring-accent backdrop-blur-sm bg-white/80"
+                        />
                       </div>
-
-                      {/* Shipping Preference */}
                       <div>
-                        <label htmlFor="shipping" className="block mb-2">
-                          <Typography variant="h5">{t('form.shipping')}</Typography>
+                        <label htmlFor="unit" className="block mb-2">
+                          <Typography variant="h5">{t('form.unit')}</Typography>
                         </label>
                         <select
-                            ref={shippingRef}
-                            id="shipping"
-                            name="shipping"
-                            aria-label={t('form.shipping')}
-                            value={formData.shipping}
+                            id="unit"
+                            name="unit"
+                            aria-label={t('form.unit')}
+                            value={formData.unit}
                             onChange={handleChange}
-                            className="w-full p-3 rounded-lg border border-warm-grey focus:outline-none focus:ring-2 focus:ring-accent bg-white"
+                            className="w-full p-3 rounded-lg border border-warm-grey focus:outline-none focus:ring-2 focus:ring-accent backdrop-blur-sm bg-white/80"
                         >
-                          <option value="">{t('form.shippingPlaceholder')}</option>
-                          <option value="fob">{t('form.shippingOptions.fob')}</option>
-                          <option value="exw">{t('form.shippingOptions.exw')}</option>
-                          <option value="other">{t('form.shippingOptions.other')}</option>
+                          <option value="">{t('form.unitPlaceholder')}</option>
+                          <option value="kg">Kg</option>
+                          <option value="tons">Tons</option>
                         </select>
                       </div>
                     </div>
-                )}
+                  </div>
 
-                {/* Subject Field */}
-                <div>
-                  <label htmlFor="subject" className="block mb-2">
-                    <Typography variant="h5">{t('form.subject')}</Typography>
-                  </label>
-                  <input
-                      ref={subjectRef}
-                      type="text"
-                      id="subject"
-                      name="subject"
-                      aria-label={t('form.subject')}
-                      aria-required="true"
-                      aria-describedby={errors.subject ? "error-subject" : undefined}
-                      value={formData.subject}
-                      onChange={handleChange}
-                      className={`w-full p-3 rounded-lg border ${errors.subject ? 'border-red-500' : 'border-warm-grey'} focus:outline-none focus:ring-2 focus:ring-accent`}
-                  />
-                  {errors.subject && <Typography variant="small" id="error-subject" className="text-red-500 mt-1">{errors.subject}</Typography>}
+                  {/* Shipping Preference */}
+                  <div>
+                    <label htmlFor="shipping" className="block mb-2">
+                      <Typography variant="h5">{t('form.shipping')}</Typography>
+                    </label>
+                    <select
+                        ref={shippingRef}
+                        id="shipping"
+                        name="shipping"
+                        aria-label={t('form.shipping')}
+                        value={formData.shipping}
+                        onChange={handleChange}
+                        className="w-full p-3 rounded-lg border border-warm-grey focus:outline-none focus:ring-2 focus:ring-accent backdrop-blur-sm bg-white/80"
+                    >
+                      <option value="">{t('form.shippingPlaceholder')}</option>
+                      <option value="fob">{t('form.shippingOptions.fob')}</option>
+                      <option value="exw">{t('form.shippingOptions.exw')}</option>
+                      <option value="other">{t('form.shippingOptions.other')}</option>
+                    </select>
+                  </div>
                 </div>
+            )}
 
-                {/* Message Field */}
-                <div>
-                  <label htmlFor="message" className="block mb-2">
-                    <Typography variant="h5">{t('form.message')}</Typography>
-                  </label>
-                  <textarea
-                      ref={messageRef}
-                      id="message"
-                      name="message"
-                      aria-label={t('form.message')}
-                      aria-required="true"
-                      aria-describedby={errors.message ? "error-message" : undefined}
-                      rows={6}
-                      value={formData.message}
-                      onChange={handleChange}
-                      className={`w-full p-3 rounded-lg border ${errors.message ? 'border-red-500' : 'border-warm-grey'} focus:outline-none focus:ring-2 focus:ring-accent`}
-                  ></textarea>
-                  {errors.message && <Typography variant="small" id="error-message" className="text-red-500 mt-1">{errors.message}</Typography>}
-                </div>
-
-
-                <div className="text-center pt-4">
-                  <button
-                      type="submit"
-                      className="inline-flex bg-primary hover:bg-dark-orange text-white py-3 px-8 rounded-lg font-medium transition-colors duration-300 flex justify-center items-center gap-2"
-                      disabled={isSubmitting}
-                  >
-                    {isSubmitting ? (
-                        <>
-                          <span className="inline-block h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
-                          {t('form.sending')}
-                        </>
-                    ) : (
-                        t('form.submit')
-                    )}
-                  </button>
-                </div>
-              </form>
-            </section>
-          </div>
-        </div>
-
-        {/* Map Section */}
-        <Section className="py-10">
-          <div className="container mx-auto text-center">
-            <Typography variant="h2" className="mb-4">
-              {t('map.title')}
-            </Typography>
-            <div className="mt-8 rounded-xl overflow-hidden shadow-xl border-2 border-primary/20 hover:border-accent/30 transition-all duration-300">
-              <iframe
-                  title={t('map.iframeTitle')}
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3979.802935760472!2d-7.56000008436827!3d9.508000090520535!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zOcKwMzAnMzAuOCJOIDfCsDMzJzM2LjEiVw!5e0!3m2!1sen!2sus!4v1712345678901"
-                  width="100%"
-                  height="450"
-                  className="border-0"
-                  allowFullScreen
-                  loading="lazy"
-              ></iframe>
+            {/* Subject Field */}
+            <div>
+              <label htmlFor="subject" className="block mb-2">
+                <Typography variant="h5">{t('form.subject')}</Typography>
+              </label>
+              <input
+                  ref={subjectRef}
+                  type="text"
+                  id="subject"
+                  name="subject"
+                  aria-label={t('form.subject')}
+                  aria-required="true"
+                  aria-describedby={errors.subject ? "error-subject" : undefined}
+                  value={formData.subject}
+                  onChange={handleChange}
+                  className={`w-full p-3 rounded-lg border ${errors.subject ? 'border-red-500' : 'border-warm-grey'} focus:outline-none focus:ring-2 focus:ring-accent backdrop-blur-sm bg-white/80`}
+              />
+              {errors.subject && <Typography variant="small" id="error-subject"
+                                             className="text-red-500 mt-1">{errors.subject}</Typography>}
             </div>
-          </div>
-        </Section>
+
+            {/* Message Field */}
+            <div>
+              <label htmlFor="message" className="block mb-2">
+                <Typography variant="h5">{t('form.message')}</Typography>
+              </label>
+              <textarea
+                  ref={messageRef}
+                  id="message"
+                  name="message"
+                  aria-label={t('form.message')}
+                  aria-required="true"
+                  aria-describedby={errors.message ? "error-message" : undefined}
+                  rows={6}
+                  value={formData.message}
+                  onChange={handleChange}
+                  className={`w-full p-3 rounded-lg border ${errors.message ? 'border-red-500' : 'border-warm-grey'} focus:outline-none focus:ring-2 focus:ring-accent backdrop-blur-sm bg-white/80`}
+              ></textarea>
+              {errors.message && <Typography variant="small" id="error-message"
+                                             className="text-red-500 mt-1">{errors.message}</Typography>}
+            </div>
+
+            <div className="text-center pt-4">
+              <motion.button
+                  type="submit"
+                  className="bg-primary hover:bg-dark-orange text-white px-6 py-2 rounded-full transition-colors transform-gpu hover:scale-105 inline-flex justify-center items-center gap-2"
+                  disabled={isSubmitting}
+                  whileHover={{y: -2}}
+                  whileTap={{scale: 0.95}}
+              >
+                {isSubmitting ? (
+                    <>
+            <span
+                className="inline-block h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                      {t('form.sending')}
+                    </>
+                ) : (
+                    t('form.submit')
+                )}
+              </motion.button>
+            </div>
+          </form>
+        </InfoCard>
+      {/* Map Section */}
+      <Section className="py-10">
+        <div className="container mx-auto text-center">
+          <Typography variant="h2" className="mb-4">
+            {t('map.title')}
+          </Typography>
+          <motion.div
+              className="mt-8 rounded-xl overflow-hidden shadow-xl border-2 border-primary/20 hover:border-accent/30 transition-all duration-500 transform-gpu"
+              style={{
+                transformStyle: 'preserve-3d',
+                perspective: '1000px',
+              }}
+              whileHover={{
+                y: -5,
+                rotateY: 2,
+                transition: {duration: 0.3}
+              }}
+          >
+            {/* 3D effect for map container */}
+            <div
+                className="absolute inset-0 rounded-xl border-2 border-white/20 transform-gpu translate-z-[-6px] hover:translate-z-[-10px] transition-all duration-500"/>
+
+            <iframe
+                title={t('map.iframeTitle')}
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3979.802935760472!2d-7.56000008436827!3d9.508000090520535!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zOcKwMzAnMzAuOCJOIDfCsDMzJzM2LjEiVw!5e0!3m2!1sen!2sus!4v1712345678901"
+                width="100%"
+                height="450"
+                className="border-0 relative z-10"
+                allowFullScreen
+                loading="lazy"
+            ></iframe>
+          </motion.div>
+        </div>
+      </Section>
       </div>
   );
 };

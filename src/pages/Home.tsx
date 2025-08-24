@@ -29,6 +29,7 @@ import afrinutsUpdatesData from '@/data/afrinutsUpdates.json';
 
 import Section from '../components/Section/Section';
 import ProductCard from '../components/ProductCard/ProductCard';
+import {TestimonialCard} from "../components/TestimonialCard/TestimonialCard";
 
 interface AfriNutsUpdate {
     id: string;
@@ -40,6 +41,7 @@ interface AfriNutsUpdate {
     tags: string[];
     author?: string;
     isFeatured?: boolean;
+
 }
 
 const Home: React.FC = () => {
@@ -93,47 +95,48 @@ const Home: React.FC = () => {
                 bgImage={heroImage}
                 className="flex items-end justify-center text-center min-h-[60vh] sm:min-h-[80vh] pb-24 pr-16 mx-6 sm:mx-12 lg:mx-32 xl:mx-48 mt-32 pt-24 rounded-[2rem] shadow-2xl overflow-hidden border border-white/40"
             >
-              <motion.div
-                  className="max-w-2xl px-6 py-4 sm:py-6 bg-white/75 backdrop-blur-xs rounded-xl border-2 border-primary/20 hover:border-accent/30 transition-all duration-300"
-                  initial="hidden"
-                  animate="visible"
-                  variants={staggerContainer}
-              >
-                <motion.h1
-                    className="font-display text-3xl md:text-5xl lg:text-6xl text-primary mb-2 leading-snug"
-                    variants={fadeIn}
-                    style={{ letterSpacing: '-0.03em' }}
+                <motion.div
+                    className="max-w-2xl px-6 py-4 sm:py-6 bg-white/75 backdrop-blur-xs rounded-xl border-2 border-primary/20 hover:border-accent/30 transition-all duration-300"
+                    initial="hidden"
+                    animate="visible"
+                    variants={staggerContainer}
                 >
-                  {t('hero.title')}
-                </motion.h1>
-                <motion.div variants={fadeIn}>
-                  <Typography variant="subtitle" className="text-primary/90">
-                    {t('hero.subtitle')}
-                  </Typography>
+                    <motion.h1
+                        className="font-display text-3xl md:text-5xl lg:text-6xl text-primary mb-2 leading-snug"
+                        variants={fadeIn}
+                        style={{ letterSpacing: '-0.03em' }}
+                    >
+                        {t('hero.title')}
+                    </motion.h1>
+                    <motion.div variants={fadeIn}>
+                        <Typography variant="subtitle" className="text-primary/90">
+                            {t('hero.subtitle')}
+                        </Typography>
+                    </motion.div>
+                    {/* CTA Buttons - Responsive sizes */}
+                    <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 md:gap-6 justify-center mt-8 sm:mt-10">
+                        <motion.button
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            className="bg-primary hover:bg-orange-700 text-white px-5 py-2 sm:px-6 sm:py-3 md:px-8 md:py-4 rounded-full text-base sm:text-lg md:text-xl font-medium transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
+                            onClick={() => navigate('/products')}
+                        >
+                            {t('hero.ctaButtons.exploreProducts')}
+                            <FaArrowRight className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover:translate-x-1" />
+                        </motion.button>
+                        <motion.button
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            className="border-2 border-primary text-primary hover:bg-white/10 px-5 py-2 sm:px-6 sm:py-3 md:px-8 md:py-4 rounded-full text-base sm:text-lg md:text-xl font-medium transition-all duration-300 flex items-center justify-center gap-2"
+                            onClick={() => scrollToSection('about-preview')}
+                        >
+                            {t('hero.ctaButtons.learnMore')}
+                            <FaChevronDown className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover:translate-y-1" />
+                        </motion.button>
+                    </div>
                 </motion.div>
-                {/* CTA Buttons - Responsive sizes */}
-                <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 md:gap-6 justify-center mt-8 sm:mt-10">
-                    <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        className="bg-primary hover:bg-orange-700 text-white px-5 py-2 sm:px-6 sm:py-3 md:px-8 md:py-4 rounded-full text-base sm:text-lg md:text-xl font-medium transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
-                        onClick={() => navigate('/products')}
-                    >
-                        {t('hero.ctaButtons.exploreProducts')}
-                        <FaArrowRight className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover:translate-x-1" />
-                    </motion.button>
-                    <motion.button
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        className="border-2 border-primary text-primary hover:bg-white/10 px-5 py-2 sm:px-6 sm:py-3 md:px-8 md:py-4 rounded-full text-base sm:text-lg md:text-xl font-medium transition-all duration-300 flex items-center justify-center gap-2"
-                        onClick={() => scrollToSection('about-preview')}
-                    >
-                        {t('hero.ctaButtons.learnMore')}
-                        <FaChevronDown className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover:translate-y-1" />
-                    </motion.button>
-                </div>
-              </motion.div>
             </Section>
+
 
             {/* 2. About Preview Section */}
             <Suspense fallback={<div>{t('loading.about')}</div>}>
@@ -202,7 +205,7 @@ const Home: React.FC = () => {
                         </motion.div>
 
                         <motion.div
-                            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8"
+                            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 overflow-visible"
                             variants={staggerContainer}
                             initial="hidden"
                             whileInView="visible"
@@ -211,9 +214,9 @@ const Home: React.FC = () => {
                             {(t('products.items', { returnObjects: true }) as Product[]).map((product) => (
                                 <motion.div
                                   key={product.key}
-                                  whileHover={{ scale: 1.04 }}
+                                  whileHover={{ scale: 1.02 }}
                                   whileTap={{ scale: 0.97 }}
-                                  className="w-full"
+                                  className="w-full relative z-0 overflow-visible"
                                 >
                                   <ProductCard
                                     product={{
@@ -285,8 +288,8 @@ const Home: React.FC = () => {
             </Suspense>
 
             {/* B2B Testimonials Section */}
-            <Section className="py-14">
-                <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
+            <Section className="py-14 px-4 sm:px-6">
+                <div className="w-full max-w-9xl mx-auto px-4 sm:px-6">
                     <motion.div
                         className="text-center mb-12"
                         initial="hidden"
@@ -301,43 +304,94 @@ const Home: React.FC = () => {
                             {t('testimonials.subtitle')}
                         </Typography>
                     </motion.div>
-                    <div className="flex overflow-x-auto gap-4 pb-4 -mx-4 px-4 md:grid md:grid-cols-3 md:gap-8">
-                      {/* Testimonial 1 - Europe */}
-                      <div className="flex-shrink-0 w-80 bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl p-8 text-center border-2 border-primary/20 hover:border-accent/30 transition-all duration-300 shadow-lg flex flex-col items-center">
-                          <FaBuilding className="text-primary text-4xl mb-4" aria-label={t('testimonials.europe.iconAria')} />
-                          <blockquote className="text-lg italic text-gray-800 mb-4">
-                              &ldquo;{t('testimonials.europe.quote')}&rdquo;
-                          </blockquote>
-                          <div className="font-semibold text-primary">{t('testimonials.europe.name')}</div>
-                          <div className="text-sm text-gray-600">{t('testimonials.europe.position')}</div>
-                      </div>
-                      {/* Testimonial 2 - America */}
-                      <div className="flex-shrink-0 w-80 bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl p-8 text-center border-2 border-primary/20 hover:border-accent/30 transition-all duration-300 shadow-lg flex flex-col items-center">
-                          <FaIndustry className="text-primary text-4xl mb-4" aria-label={t('testimonials.america.iconAria')} />
-                          <blockquote className="text-lg italic text-gray-800 mb-4">
-                              &ldquo;{t('testimonials.america.quote')}&rdquo;
-                          </blockquote>
-                          <div className="font-semibold text-primary">{t('testimonials.america.name')}</div>
-                          <div className="text-sm text-gray-600">{t('testimonials.america.position')}</div>
-                      </div>
-                      {/* Testimonial 3 - Middle East */}
-                      <div className="flex-shrink-0 w-80 bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl p-8 text-center border-2 border-primary/20 hover:border-accent/30 transition-all duration-300 shadow-lg flex flex-col items-center">
-                          <FaStore className="text-primary text-4xl mb-4" aria-label={t('testimonials.me.iconAria')} />
-                          <blockquote className="text-lg italic text-gray-800 mb-4">
-                              &ldquo;{t('testimonials.me.quote')}&rdquo;
-                          </blockquote>
-                          <div className="font-semibold text-primary">{t('testimonials.me.name')}</div>
-                          <div className="text-sm text-gray-600">{t('testimonials.me.position')}</div>
-                      </div>
+
+                    {/* Container with proper overflow handling */}
+                    <div className="relative">
+                        {/* Scrollable container for mobile */}
+                        <div className="flex overflow-x-auto gap-4 pb-6 px-4 md:hidden scrollbar-hide">
+                            {/* Testimonial 1 - Europe */}
+                            <div className="flex-shrink-0 w-80 pb-2"> {/* Added padding-bottom */}
+                                <TestimonialCard
+                                    quote={t('testimonials.europe.quote')}
+                                    name={t('testimonials.europe.name')}
+                                    position={t('testimonials.europe.position')}
+                                    icon={FaBuilding}
+                                    iconAria={t('testimonials.europe.iconAria')}
+                                    variant="primary"
+                                />
+                            </div>
+
+                            {/* Testimonial 2 - America */}
+                            <div className="flex-shrink-0 w-80 pb-2"> {/* Added padding-bottom */}
+                                <TestimonialCard
+                                    quote={t('testimonials.america.quote')}
+                                    name={t('testimonials.america.name')}
+                                    position={t('testimonials.america.position')}
+                                    icon={FaIndustry}
+                                    iconAria={t('testimonials.america.iconAria')}
+                                    variant="primary"
+                                />
+                            </div>
+
+                            {/* Testimonial 3 - Middle East */}
+                            <div className="flex-shrink-0 w-80 pb-2"> {/* Added padding-bottom */}
+                                <TestimonialCard
+                                    quote={t('testimonials.me.quote')}
+                                    name={t('testimonials.me.name')}
+                                    position={t('testimonials.me.position')}
+                                    icon={FaStore}
+                                    iconAria={t('testimonials.me.iconAria')}
+                                    variant="primary"
+                                />
+                            </div>
+                        </div>
+
+                        {/* Grid layout for desktop */}
+                        <div className="hidden md:grid md:grid-cols-3 gap-8 px-4">
+                            {/* Testimonial 1 - Europe */}
+                            <div className="transform-gpu hover:scale-105 transition-transform duration-300">
+                                <TestimonialCard
+                                    quote={t('testimonials.europe.quote')}
+                                    name={t('testimonials.europe.name')}
+                                    position={t('testimonials.europe.position')}
+                                    icon={FaBuilding}
+                                    iconAria={t('testimonials.europe.iconAria')}
+                                    variant="primary"
+                                />
+                            </div>
+
+                            {/* Testimonial 2 - America */}
+                            <div className="transform-gpu hover:scale-105 transition-transform duration-300">
+                                <TestimonialCard
+                                    quote={t('testimonials.america.quote')}
+                                    name={t('testimonials.america.name')}
+                                    position={t('testimonials.america.position')}
+                                    icon={FaIndustry}
+                                    iconAria={t('testimonials.america.iconAria')}
+                                    variant="primary"
+                                />
+                            </div>
+
+                            {/* Testimonial 3 - Middle East */}
+                            <div className="transform-gpu hover:scale-105 transition-transform duration-300">
+                                <TestimonialCard
+                                    quote={t('testimonials.me.quote')}
+                                    name={t('testimonials.me.name')}
+                                    position={t('testimonials.me.position')}
+                                    icon={FaStore}
+                                    iconAria={t('testimonials.me.iconAria')}
+                                    variant="primary"
+                                />
+                            </div>
+                        </div>
                     </div>
                 </div>
             </Section>
-
             {/* 4. Farm Story */}
             <Section className="py-10 bg-gradient-to-r from-primary/30 via-white/30
   bg-[length:300%_300%] bg-gradient-animate-slow text-text-dark px-4 sm:px-6 rounded-t-[80px] md:rounded-t-[100px] overflow-hidden pt-24 pb-8 relative">
                 <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
-                <div className="flex flex-col lg:flex-row items-center gap-8 md:gap-16">
+                    <div className="flex flex-col lg:flex-row items-center gap-8 md:gap-16">
                         <motion.div
                             className="flex-1 w-full max-w-md sm:max-w-lg md:max-w-2xl lg:max-w-4xl xl:max-w-6xl mx-auto"
                             initial="hidden"
@@ -353,17 +407,39 @@ const Home: React.FC = () => {
                             </Typography>
                             <div className="grid sm:grid-cols-2 gap-4 md:gap-6 mb-6 md:mb-8">
                                 {(t('farm.highlights', { returnObjects: true }) as FarmHighlight[]).map((highlight) => (
-                                    <div key={highlight.key} className="bg-white/20 backdrop-blur-md border border-white/30 p-4 rounded-xl">
-                                        <div className="text-accent text-2xl mb-2" aria-label={t(`farm.highlightsAria.${highlight.key}`)}>
-                                            {highlight.icon === 'FaLeaf' ? <FaLeaf /> : <FaGlobeAfrica />}
+                                    <motion.div
+                                        key={highlight.key}
+                                        className="relative bg-white/20 backdrop-blur-md border border-white/30 p-4 rounded-xl transform-gpu"
+                                        style={{
+                                            transformStyle: 'preserve-3d',
+                                            perspective: '1000px',
+                                        }}
+                                        whileHover={{
+                                            y: -5,
+                                            scale: 1.02,
+                                            rotateY: 2,
+                                            boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)',
+                                            transition: { duration: 0.3 }
+                                        }}
+                                    >
+                                        {/* 3D edge effect */}
+                                        <div className="absolute inset-0 rounded-xl border-2 border-white/20 transform-gpu translate-z-[-4px] hover:translate-z-[-8px] transition-all duration-500" />
+
+                                        {/* Glassy overlay */}
+                                        <div className="absolute inset-0 rounded-xl bg-gradient-to-b from-white/15 to-transparent opacity-30 hover:opacity-50 transition-opacity duration-500" />
+
+                                        <div className="relative z-10">
+                                            <div className="text-accent text-2xl mb-2" aria-label={t(`farm.highlightsAria.${highlight.key}`)}>
+                                                {highlight.icon === 'FaLeaf' ? <FaLeaf /> : <FaGlobeAfrica />}
+                                            </div>
+                                            <Typography variant="h4" className="mb-2">
+                                                {highlight.title}
+                                            </Typography>
+                                            <Typography variant="small">
+                                                {highlight.description}
+                                            </Typography>
                                         </div>
-                                        <Typography variant="h4" className="mb-2">
-                                            {highlight.title}
-                                        </Typography>
-                                        <Typography variant="small">
-                                            {highlight.description}
-                                        </Typography>
-                                    </div>
+                                    </motion.div>
                                 ))}
                             </div>
                             <motion.button
@@ -383,23 +459,40 @@ const Home: React.FC = () => {
                             whileInView="visible"
                             viewport={{ once: true }}
                             variants={slideInFromRight}
-                            whileHover={{ scale: 1.04 }}
-                            whileTap={{ scale: 0.97 }}
                         >
-                            <div className="relative rounded-2xl md:rounded-3xl overflow-hidden shadow-xl md:shadow-2xl aspect-video w-full">
+                            <motion.div
+                                className="relative rounded-2xl md:rounded-3xl overflow-hidden shadow-xl md:shadow-2xl aspect-video w-full transform-gpu"
+                                style={{
+                                    transformStyle: 'preserve-3d',
+                                    perspective: '1000px',
+                                }}
+                                whileHover={{
+                                    scale: 1.04,
+                                    rotateY: 3,
+                                    boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+                                    transition: { duration: 0.3 }
+                                }}
+                                whileTap={{ scale: 0.97 }}
+                            >
+                                {/* 3D edge effect */}
+                                <div className="absolute inset-0 rounded-2xl md:rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px] hover:translate-z-[-10px] transition-all duration-500 z-10" />
+
+                                {/* Glassy overlay */}
+                                <div className="absolute inset-0 rounded-2xl md:rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40 hover:opacity-60 transition-opacity duration-500 z-10" />
+
                                 <img
                                     src={farmImage}
                                     alt={t('farm.imageAlt')}
                                     loading="lazy"
-                                    className="w-full h-full object-cover"
+                                    className="w-full h-full object-cover relative z-0"
                                     aria-label={t('farm.imageAlt')}
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent  flex items-end p-6 md:p-8">
+                                <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent flex items-end p-6 md:p-8 z-10">
                                     <Typography variant="h4" className="text-white">
                                         {t('farm.location')}
                                     </Typography>
                                 </div>
-                            </div>
+                            </motion.div>
                         </motion.div>
                     </div>
                 </div>
@@ -409,34 +502,62 @@ const Home: React.FC = () => {
             <Section className="py-10 bg-gradient-to-r from-primary/30 via-white/30
   bg-[length:400%_400%] bg-gradient-animate-slow px-4 sm:px-6 rounded-b-[80px] md:rounded-b-[100px] overflow-hidden pt-24 pb-8 relative">
                 <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
-                <motion.div
-                        className=" bg-gradient-to-br from-primary/5 to-accent/5 rounded-2xl md:rounded-3xl shadow-xl md:shadow-2xl overflow-hidden w-full max-w-md sm:max-w-lg md:max-w-2xl lg:max-w-4xl xl:max-w-6xl mx-auto border-2 border-primary/20 hover:border-accent/30 transition-all duration-300"
+                    <motion.div
+                        className="relative bg-gradient-to-br from-primary/5 to-accent/5 rounded-2xl md:rounded-3xl shadow-xl md:shadow-2xl overflow-hidden w-full max-w-md sm:max-w-lg md:max-w-2xl lg:max-w-4xl xl:max-w-6xl mx-auto border-2 border-primary/20 hover:border-accent/30 transition-all duration-300 transform-gpu"
+                        style={{
+                            transformStyle: 'preserve-3d',
+                            perspective: '1000px',
+                        }}
                         initial="hidden"
                         whileInView="visible"
                         viewport={{ once: true }}
                         variants={scaleUp}
+                        whileHover={{
+                            y: -5,
+                            scale: 1.01,
+                            rotateY: 2,
+                            boxShadow: '0 20px 35px -10px rgba(0, 0, 0, 0.2)',
+                            transition: { duration: 0.3 }
+                        }}
                     >
-                        <div className="flex flex-col md:flex-row gap-0">
+                        {/* 3D edge effect */}
+                        <div className="absolute inset-0 rounded-2xl md:rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px] hover:translate-z-[-10px] transition-all duration-500" />
+
+                        {/* Glassy overlay */}
+                        <div className="absolute inset-0 rounded-2xl md:rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40 hover:opacity-60 transition-opacity duration-500" />
+
+                        {/* Subtle background pattern */}
+                        <div className="absolute inset-0 rounded-2xl md:rounded-3xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
+
+                        <div className="flex flex-col md:flex-row gap-0 relative z-10">
                             <motion.div
-                                className="w-full md:w-1/2 bg-cover bg-center h-48 sm:h-64 md:h-auto min-h-[200px] md:min-h-[400px]"
+                                className="w-full md:w-1/2 bg-cover bg-center h-48 sm:h-64 md:h-auto min-h-[200px] md:min-h-[400px] relative overflow-hidden"
                                 style={{ backgroundImage: `url(${sustainabilityImage})` }}
                                 whileHover={{ scale: 1.04 }}
                                 whileTap={{ scale: 0.97 }}
                                 aria-label={t('sustainability.imageAlt')}
                             >
+                                {/* Image 3D effect */}
+                                <div className="absolute inset-0 rounded-l-2xl md:rounded-l-3xl border-r-2 border-white/20 transform-gpu translate-z-[-4px] hover:translate-z-[-8px] transition-all duration-500" />
+
                                 <img
-                                  src={sustainabilityImage}
-                                  alt={t('sustainability.imageAlt')}
-                                  className="w-full h-full object-cover rounded-none"
-                                  loading="lazy"
-                                  aria-label={t('sustainability.imageAlt')}
-                                  style={{ display: 'none' }}
+                                    src={sustainabilityImage}
+                                    alt={t('sustainability.imageAlt')}
+                                    className="w-full h-full object-cover rounded-none"
+                                    loading="lazy"
+                                    aria-label={t('sustainability.imageAlt')}
+                                    style={{ display: 'none' }}
                                 />
                             </motion.div>
-                            <div className="w-full md:w-1/2 p-6 md:p-8 lg:p-12 text-gray-900">
-                                <div className="text-accent text-3xl sm:text-4xl mb-4 md:mb-6" aria-label={t('sustainability.iconAria')}>
+                            <div className="w-full md:w-1/2 p-6 md:p-8 lg:p-12 text-gray-900 relative z-10">
+                                <motion.div
+                                    className="text-accent text-3xl sm:text-4xl mb-4 md:mb-6 inline-block bg-accent/10 p-3 rounded-full backdrop-blur-sm"
+                                    aria-label={t('sustainability.iconAria')}
+                                    whileHover={{ scale: 1.1, rotate: 5 }}
+                                    transition={{ type: 'spring', stiffness: 300 }}
+                                >
                                     <FaLeaf />
-                                </div>
+                                </motion.div>
                                 <Typography variant="h2" className="mb-4 md:mb-6 text-lg sm:text-xl md:text-2xl text-gray-900">
                                     {t('sustainability.title')}
                                 </Typography>
@@ -444,9 +565,17 @@ const Home: React.FC = () => {
                                     {t('sustainability.description')}
                                 </Typography>
                                 <div className="space-y-3 md:space-y-4 mb-6 md:mb-8">
-                                    {(t('sustainability.features', { returnObjects: true }) as SustainabilityFeature[]).map((feature) => (
-                                        <div key={feature.key} className="flex items-start gap-3 md:gap-4">
-                                            <div className="text-accent text-lg md:text-xl mt-1" aria-label={t(`sustainability.featuresAria.${feature.key}`)}>
+                                    {(t('sustainability.features', { returnObjects: true }) as SustainabilityFeature[]).map((feature, index) => (
+                                        <motion.div
+                                            key={feature.key}
+                                            className="flex items-start gap-3 md:gap-4 bg-white/30 backdrop-blur-sm p-3 rounded-lg transform-gpu hover:scale-[1.02] transition-transform duration-300"
+                                            initial={{ opacity: 0, x: -10 }}
+                                            whileInView={{ opacity: 1, x: 0 }}
+                                            transition={{ delay: index * 0.1 }}
+                                            viewport={{ once: true }}
+                                            whileHover={{ x: 3 }}
+                                        >
+                                            <div className="text-accent text-lg md:text-xl mt-1 bg-accent/10 p-2 rounded-full" aria-label={t(`sustainability.featuresAria.${feature.key}`)}>
                                                 {feature.icon === 'FaSeedling' ? <FaSeedling /> :
                                                     feature.icon === 'FaGlobeAfrica' ? <FaGlobeAfrica /> :
                                                         <FaLeaf />}
@@ -459,7 +588,7 @@ const Home: React.FC = () => {
                                                     {feature.description}
                                                 </Typography>
                                             </div>
-                                        </div>
+                                        </motion.div>
                                     ))}
                                 </div>
                                 <div className="flex justify-center md:justify-start">
@@ -510,70 +639,119 @@ const Home: React.FC = () => {
                                 <motion.div
                                     key={update.id}
                                     variants={index % 2 === 0 ? slideInFromLeft : slideInFromRight}
-                                    className="bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl border-2 border-primary/20 hover:border-accent/30 shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 border-l-4 border-accent"
+                                    className="group relative bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl border-2 border-primary/20 hover:border-accent/30 shadow-xl overflow-hidden transform-gpu"
+                                    style={{
+                                        transformStyle: 'preserve-3d',
+                                        perspective: '1000px',
+                                    }}
+                                    whileHover={{
+                                        y: -8,
+                                        scale: 1.02,
+                                        rotateY: 3,
+                                        boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+                                        transition: { duration: 0.3 }
+                                    }}
                                 >
-                                    <div className="h-48 overflow-hidden rounded-t-lg">
-                                        {update.id === 'update-2024-001' ? (
-                                            <img
-                                                src={landClearingImage}
-                                                alt={t('news.images.landClearingAlt')}
-                                                className="w-full h-full object-cover"
-                                                loading="lazy"
-                                                aria-label={t('news.images.landClearingAlt')}
-                                            />
-                                        ) : update.id === 'update-2024-002' ? (
-                                            <img
-                                                src={signingImage}
-                                                alt={t('news.images.partnershipSigningAlt')}
-                                                className="w-full h-full object-cover"
-                                                loading="lazy"
-                                                aria-label={t('news.images.partnershipSigningAlt')}
-                                            />
-                                        ) : (
-                                            <img
-                                                src={update.image || newsImage}
-                                                alt={update.title}
-                                                className="w-full h-full object-cover"
-                                                loading="lazy"
-                                                aria-label={update.title}
-                                            />
-                                        )}
-                                    </div>
-                                    <div className="p-6">
-                                        <div className="flex items-center gap-2 mb-3">
-                                            <FaBullhorn className="text-accent" aria-label={t('newsCard.announcementAria')} />
-                                            <Typography variant="caption" className="text-gray-500">
-                                                {new Date(update.date).toLocaleDateString('en-US', {
-                                                    year: 'numeric',
-                                                    month: 'long',
-                                                    day: 'numeric'
-                                                })}
-                                            </Typography>
+                                    {/* 3D edge effect */}
+                                    <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
+
+                                    {/* Glassy overlay */}
+                                    <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+
+                                    {/* Inner shadow effect */}
+                                    <div className="absolute inset-0 rounded-3xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] group-hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
+
+                                    {/* Subtle background pattern */}
+                                    <div className="absolute inset-0 rounded-3xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
+
+                                    <div className="relative z-10">
+                                        <div className="h-48 overflow-hidden rounded-t-lg relative">
+                                            {update.id === 'update-2024-001' ? (
+                                                <motion.img
+                                                    src={landClearingImage}
+                                                    alt={t('news.images.landClearingAlt')}
+                                                    className="w-full h-full object-cover"
+                                                    loading="lazy"
+                                                    aria-label={t('news.images.landClearingAlt')}
+                                                    whileHover={{ scale: 1.1 }}
+                                                    transition={{ duration: 0.5 }}
+                                                />
+                                            ) : update.id === 'update-2024-002' ? (
+                                                <motion.img
+                                                    src={signingImage}
+                                                    alt={t('news.images.partnershipSigningAlt')}
+                                                    className="w-full h-full object-cover"
+                                                    loading="lazy"
+                                                    aria-label={t('news.images.partnershipSigningAlt')}
+                                                    whileHover={{ scale: 1.1 }}
+                                                    transition={{ duration: 0.5 }}
+                                                />
+                                            ) : (
+                                                <motion.img
+                                                    src={update.image || newsImage}
+                                                    alt={update.title}
+                                                    className="w-full h-full object-cover"
+                                                    loading="lazy"
+                                                    aria-label={update.title}
+                                                    whileHover={{ scale: 1.1 }}
+                                                    transition={{ duration: 0.5 }}
+                                                />
+                                            )}
+                                            {/* Image overlay gradient */}
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
                                         </div>
-                                        <Typography variant="h3" className="mb-3">
-                                            {update.title}
-                                        </Typography>
-                                        <Typography variant="body" className="mb-4 text-gray-600">
-                                            {update.excerpt}
-                                        </Typography>
-                                        <div className="flex flex-wrap gap-2 mb-4">
-                                            {update.tags.map((tag: string) => (
-                                                <span
-                                                    key={tag}
-                                                    className="px-3 py-1 text-xs font-medium bg-primary/10 text-primary rounded-full"
+                                        <div className="p-6">
+                                            <div className="flex items-center gap-2 mb-3 relative z-10">
+                                                <motion.div
+                                                    className="bg-accent/20 p-2 rounded-full"
+                                                    whileHover={{ scale: 1.1, rotate: 5 }}
+                                                    transition={{ type: 'spring', stiffness: 300 }}
                                                 >
-                                                    {tag}
-                                                </span>
-                                            ))}
+                                                    <FaBullhorn className="text-accent" aria-label={t('newsCard.announcementAria')} />
+                                                </motion.div>
+                                                <Typography variant="caption" className="text-gray-500">
+                                                    {new Date(update.date).toLocaleDateString('en-US', {
+                                                        year: 'numeric',
+                                                        month: 'long',
+                                                        day: 'numeric'
+                                                    })}
+                                                </Typography>
+                                            </div>
+                                            <Typography variant="h3" className="mb-3 relative z-10">
+                                                {update.title}
+                                            </Typography>
+                                            <Typography variant="body" className="mb-4 text-gray-600 relative z-10">
+                                                {update.excerpt}
+                                            </Typography>
+                                            <div className="flex flex-wrap gap-2 mb-4 relative z-10">
+                                                {update.tags.map((tag: string) => (
+                                                    <motion.span
+                                                        key={tag}
+                                                        className="px-3 py-1 text-xs font-medium bg-primary/10 text-primary rounded-full backdrop-blur-sm"
+                                                        whileHover={{ scale: 1.05 }}
+                                                        transition={{ duration: 0.2 }}
+                                                    >
+                                                        {tag}
+                                                    </motion.span>
+                                                ))}
+                                            </div>
+                                            <motion.button
+                                                onClick={() => navigate('/news')}
+                                                className="text-accent hover:text-primary font-medium flex items-center gap-1 transition-colors relative z-10 transform-gpu hover:scale-105"
+                                                aria-label={t('newsCard.readMore')}
+                                                whileHover={{ x: 3 }}
+                                                whileTap={{ scale: 0.95 }}
+                                            >
+                                                {t('newsCard.readMore')}
+                                                <motion.span
+                                                    animate={{ x: 0 }}
+                                                    whileHover={{ x: 3 }}
+                                                    transition={{ type: 'spring', stiffness: 400 }}
+                                                >
+                                                    <FaArrowRight className="text-sm" aria-hidden="true"/>
+                                                </motion.span>
+                                            </motion.button>
                                         </div>
-                                        <button
-                                            onClick={() => navigate('/news')}
-                                            className="text-accent hover:text-primary font-medium flex items-center gap-1 transition-colors"
-                                            aria-label={t('newsCard.readMore')}
-                                        >
-                                            {t('newsCard.readMore')}
-                                            <FaArrowRight className="text-sm" aria-hidden="true"/>
-                                        </button>
                                     </div>
                                 </motion.div>
                             ))}
@@ -589,7 +767,7 @@ const Home: React.FC = () => {
                                 <motion.button
                                     whileHover={{ scale: 1.08 }}
                                     whileTap={{ scale: 0.96 }}
-                                    className="group border-2 border-primary text-primary hover:bg-accent hover:text-white hover:border-accent px-8 py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg inline-flex items-center mx-auto mb-4"
+                                    className="group border-2 border-primary text-primary hover:bg-accent hover:text-white hover:border-accent px-8 py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg inline-flex items-center mx-auto mb-4 transform-gpu backdrop-blur-sm bg-white/80"
                                     onClick={() => setNewsToShow((prev) => Math.min(prev + 2, allUpdates.length))}
                                     aria-label={t('news.loadMore')}
                                 >
@@ -599,18 +777,23 @@ const Home: React.FC = () => {
                             <motion.button
                                 whileHover={{ scale: 1.08 }}
                                 whileTap={{ scale: 0.96 }}
-                                className="group bg-primary hover:bg-dark-orange text-white px-8 py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg inline-flex items-center mx-auto"
+                                className="group bg-primary hover:bg-dark-orange text-white hover:text-white px-8 py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg inline-flex items-center mx-auto"
                                 onClick={() => navigate('/news')}
                                 aria-label={t('news.ctaButton')}
                             >
                                 {t('news.ctaButton')}
-                                <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" aria-hidden="true"/>
+                                <motion.span
+                                    animate={{ x: 0 }}
+                                    whileHover={{ x: 3 }}
+                                    transition={{ type: 'spring', stiffness: 400 }}
+                                >
+                                    <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" aria-hidden="true"/>
+                                </motion.span>
                             </motion.button>
                         </motion.div>
                     </div>
                 </Section>
             </Suspense>
-
             {/* 7. Contact CTA */}
             <Suspense fallback={<div>{t('loading.contact')}</div>}>
                 <Section className="py-10 text-text-dark relative overflow-hidden">
@@ -644,7 +827,7 @@ const Home: React.FC = () => {
                     </div>
                 </Section>
             </Suspense>
-        </div>
+    </div>
     );
 };
 

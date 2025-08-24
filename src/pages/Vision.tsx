@@ -640,7 +640,7 @@ const Vision: React.FC = () => {
                             {t('cta.content')}
                         </Typography>
                         <motion.button
-                            className="mt-4 group bg-primary hover:bg-dark-orange text-white px-8 py-3 rounded-full transition-all duration-300 inline-flex items-center mx-auto"
+                            className="bg-primary hover:bg-dark-orange text-white px-6 py-2 rounded-full transition-colors transform-gpu hover:scale-105"
                             variants={fadeIn}
                             onClick={() => navigate('/contact')}
                             aria-label={t('cta.button')}

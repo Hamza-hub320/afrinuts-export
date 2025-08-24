@@ -94,7 +94,9 @@
   "offlinePayment": {
     "title": "Offline Payment Instructions",
     "description": "For bulk orders, all payments are handled directly via bank transfer. After submitting your inquiry, our sales team will provide an invoice and payment instructions.",
-    "button": "Contact Sales"
+    "additionalInfo": "Contact our sales team if you require specific instructions for your payment method.",
+    "button": "Contact Sales",
+    "methods": ["Bank Transfer", "Wire Payment", "Check"]
   },
   "shippingGuidance": {
     "title": "Shipping Guidance",

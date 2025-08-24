@@ -61,6 +61,7 @@ interface AfriNutsUpdate {
         title?: string;
         excerpt?: string;
     };
+    link?: string; // added
 }
 
 interface NewsFeed {
@@ -390,36 +391,65 @@ const News: React.FC = () => {
                             variants={fadeIn}
                             transition={{ delay: index * 0.1 }}
                         >
-                            <div
-                                className="bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl border-2 border-primary/20 hover:border-accent/30 shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 border-l-4 border-accent h-full transform hover:scale-[1.025] transition-transform"
-                                tabIndex={0}
-                            >
-                                <div className="h-64 overflow-hidden">
+                                    <motion.div
+                                        className="relative bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl border-2 border-primary/20 hover:border-accent/30 shadow-lg overflow-hidden hover:shadow-xl transition-all duration-500 border-l-4 border-accent h-full transform-gpu"
+                                        style={{
+                                            transformStyle: 'preserve-3d',
+                                            perspective: '1000px',
+                                        }}
+                                        whileHover={{
+                                            y: -8,
+                                            scale: 1.03,
+                                            rotateY: 2,
+                                            boxShadow: '0 20px 35px -10px rgba(0, 0, 0, 0.25)',
+                                            transition: { duration: 0.3 }
+                                        }}
+                                        tabIndex={0}
+                                    >
+                                {/* 3D edge effect */}
+                                <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
+
+                                {/* Glassy overlay */}
+                                <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+
+                                {/* Inner shadow effect */}
+                                <div className="absolute inset-0 rounded-3xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] group-hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
+
+                                {/* Subtle background pattern */}
+                                <div className="absolute inset-0 rounded-3xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
+
+                                <div className="h-64 overflow-hidden relative z-10">
                                     {update.id === 'update-2024-001' ? (
-                                        <img
+                                        <motion.img
                                             src={landClearingImage}
                                             alt="Land Clearing"
                                             className="w-full h-full object-cover"
                                             loading="lazy"
+                                            whileHover={{ scale: 1.1 }}
+                                            transition={{ duration: 0.5 }}
                                         />
                                     ) : update.id === 'update-2024-002' ? (
-                                        <img
+                                        <motion.img
                                             src={signingImage}
                                             alt="Partnership Signing"
                                             className="w-full h-full object-cover"
                                             loading="lazy"
+                                            whileHover={{ scale: 1.1 }}
+                                            transition={{ duration: 0.5 }}
                                         />
                                     ) : (
-                                        <img
+                                        <motion.img
                                             src={update.image || newsImage}
                                             alt={update.title}
                                             className="w-full h-full object-cover"
                                             loading="lazy"
+                                            whileHover={{ scale: 1.1 }}
+                                            transition={{ duration: 0.5 }}
                                         />
                                     )}
                                 </div>
 
-                                <div className="p-6">
+                                <div className="p-6 relative z-10">
                                     <Typography variant="h4" className="mb-3 text-primary">
                                         {highlightText(
                                             update.translationKeys?.title ? t(update.translationKeys.title) : update.title,
@@ -459,7 +489,7 @@ const News: React.FC = () => {
                                             {t('sections.readMore')}
                                         </button>
                                         <button
-                                            className="ml-2 px-3 py-1 rounded-full bg-accent text-white hover:bg-accent-dark text-xs flex items-center justify-center"
+                                            className="ml-2 px-3 py-1 rounded-full bg-accent text-white hover:bg-accent-dark text-xs flex items-center justify-center transform-gpu hover:scale-105 transition-transform"
                                             onClick={() => {
                                                 if (navigator.share) {
                                                     navigator.share({ title: update.title, url: update.link || window.location.href });
@@ -472,7 +502,7 @@ const News: React.FC = () => {
                                         </button>
                                     </div>
                                 </div>
-                            </div>
+                            </motion.div>
                         </motion.div>
                     ))}
                 </div>
@@ -480,12 +510,14 @@ const News: React.FC = () => {
 
             {hasMoreUpdates && (
                 <div className="flex justify-center mt-8">
-                    <button
-                        className="px-6 py-2 rounded-full bg-primary text-white hover:bg-dark-orange transition-colors"
+                    <motion.button
+                        className="px-6 py-2 rounded-full bg-primary text-white hover:bg-dark-orange transition-colors transform-gpu hover:scale-105"
                         onClick={() => setUpdatesPage(p => p + 1)}
+                        whileHover={{ y: -2 }}
+                        whileTap={{ scale: 0.95 }}
                     >
                         {t('sections.loadMore')}
-                    </button>
+                    </motion.button>
                 </div>
             )}
 
@@ -524,9 +556,19 @@ const News: React.FC = () => {
                                 <Dialog.Panel
                                     ref={updateDialogRef}
                                     tabIndex={-1}
-                                    className="relative w-full max-w-2xl transform overflow-hidden bg-background rounded-3xl border-2 border-primary/20 hover:border-accent/30 hover:shadow-xl transition-shadow duration-300 text-left shadow-xl focus:outline-none"
+                                    className="relative w-full max-w-2xl transform overflow-hidden bg-background rounded-3xl border-2 border-primary/20 hover:border-accent/30 hover:shadow-xl transition-shadow duration-300 text-left shadow-xl focus:outline-none transform-gpu"
+                                    style={{
+                                        transformStyle: 'preserve-3d',
+                                        perspective: '1000px',
+                                    }}
                                 >
-                                    <div className="p-6">
+                                    {/* 3D edge effect for modal */}
+                                    <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px]" />
+
+                                    {/* Glassy overlay for modal */}
+                                    <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40" />
+
+                                    <div className="p-6 relative z-10">
                                         {selectedUpdate && (
                                             <>
                                                 <div className="h-64 overflow-hidden mb-4 rounded-lg">
@@ -584,12 +626,14 @@ const News: React.FC = () => {
                                                 </div>
 
                                                 <div className="mt-6 flex justify-end">
-                                                    <button
+                                                    <motion.button
                                                         onClick={() => setSelectedUpdate(null)}
-                                                        className="bg-primary hover:bg-dark-orange text-white px-4 py-2 rounded-md text-sm"
+                                                        className="bg-primary hover:bg-dark-orange text-white px-4 py-2 rounded-md text-sm transform-gpu hover:scale-105"
+                                                        whileHover={{ y: -2 }}
+                                                        whileTap={{ scale: 0.95 }}
                                                     >
                                                         {t('sections.close')}
-                                                    </button>
+                                                    </motion.button>
                                                 </div>
                                             </>
                                         )}
@@ -635,7 +679,6 @@ const News: React.FC = () => {
                     </Typography>
                     <button
                         onClick={() => {
-                            setActiveFilters([]);
                             setSearchQuery('');
                         }}
                         className="text-accent hover:underline"
@@ -651,26 +694,46 @@ const News: React.FC = () => {
                             variants={fadeIn}
                             transition={{ delay: index * 0.1 }}
                         >
-                            <div
-                                className="block bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl border-2 border-primary/20 hover:border-accent/30 shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 border-l-4 border-accent p-6 h-full transform hover:scale-[1.025] transition-transform"
+                            <motion.div
+                                className="block relative bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl border-2 border-primary/20 hover:border-accent/30 shadow-lg overflow-hidden hover:shadow-xl transition-all duration-500 border-l-4 border-accent p-6 h-full transform-gpu"
+                                style={{
+                                    transformStyle: 'preserve-3d',
+                                    perspective: '1000px',
+                                    cursor: "pointer",
+                                }}
+                                whileHover={{
+                                    y: -8,
+                                    scale: 1.03,
+                                    rotateY: 2,
+                                    boxShadow: '0 20px 35px -10px rgba(0, 0, 0, 0.25)',
+                                    transition: { duration: 0.3 }
+                                }}
                                 tabIndex={0}
                                 role="button"
                                 aria-label={t('sections.openArticleModalAriaLabel', { title: article.title })}
                                 onClick={() => setSelectedArticle(article)}
-                                style={{ cursor: "pointer" }}
                             >
-                                <div className="flex flex-wrap gap-2 mb-2">
+                                {/* 3D edge effect */}
+                                <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
+
+                                {/* Glassy overlay */}
+                                <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+
+                                {/* Inner shadow effect */}
+                                <div className="absolute inset-0 rounded-3xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] group-hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
+
+                                <div className="flex flex-wrap gap-2 mb-2 relative z-10">
                                     <span className="inline-block bg-accent/10 text-accent px-3 py-1 text-xs rounded-full font-medium">
                                         {t(`categories.${article.category}`)}
                                     </span>
                                 </div>
-                                <Typography variant="h4" className="mb-2 text-primary ">
+                                <Typography variant="h4" className="mb-2 text-primary relative z-10">
                                     {highlightText(article.title, debouncedSearch)}
                                 </Typography>
-                                <Typography variant="body" className="text-gray-600 mb-3">
+                                <Typography variant="body" className="text-gray-600 mb-3 relative z-10">
                                     {highlightText(article.contentSnippet?.substring(0, 150) ?? '', debouncedSearch)}...
                                 </Typography>
-                                <div className="flex justify-between items-center mt-4">
+                                <div className="flex justify-between items-center mt-4 relative z-10">
                                     <Typography variant="caption" className="text-gray-400">
                                         {article.source}
                                     </Typography>
@@ -678,9 +741,9 @@ const News: React.FC = () => {
                                         {article.pubDate && new Date(article.pubDate).toLocaleDateString()}
                                     </Typography>
                                 </div>
-                                <div className="flex mt-4">
+                                <div className="flex mt-4 relative z-10">
                                     <button
-                                        className="ml-0 px-3 py-1 rounded-full bg-accent text-white hover:bg-accent-dark text-xs flex items-center justify-center"
+                                        className="ml-0 px-3 py-1 rounded-full bg-accent text-white hover:bg-accent-dark text-xs flex items-center justify-center transform-gpu hover:scale-105 transition-transform"
                                         onClick={e => {
                                             e.stopPropagation();
                                             if (navigator.share) {
@@ -693,19 +756,21 @@ const News: React.FC = () => {
                                         <FaShareSquare className="w-4 h-4" />
                                     </button>
                                 </div>
-                            </div>
+                            </motion.div>
                         </motion.div>
                     ))}
                 </div>
             )}
             {hasMoreArticles && (
                 <div className="flex justify-center mt-8">
-                    <button
-                        className="px-6 py-2 rounded-full bg-primary text-white hover:bg-dark-orange transition-colors"
+                    <motion.button
+                        className="px-6 py-2 rounded-full bg-primary text-white hover:bg-dark-orange transition-colors transform-gpu hover:scale-105"
                         onClick={() => setArticlesPage(p => p + 1)}
+                        whileHover={{ y: -2 }}
+                        whileTap={{ scale: 0.95 }}
                     >
                         {t('sections.loadMore')}
-                    </button>
+                    </motion.button>
                 </div>
             )}
         </motion.div>
@@ -756,12 +821,33 @@ const News: React.FC = () => {
             {/* News Intro Section */}
             <Section className="py-12 text-center">
                 <div className="w-full max-w-3xl mx-auto px-4 sm:px-6">
-                    <Typography variant="h2" className="mb-4">
-                        {t('sections.newsIntro.title')}
-                    </Typography>
-                    <Typography variant="lead" className="mb-2">
-                        {t('sections.newsIntro.description')}
-                    </Typography>
+                    <motion.div
+                        className="relative bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl border-2 border-primary/20 p-8 transform-gpu"
+                        style={{
+                            transformStyle: 'preserve-3d',
+                            perspective: '1000px',
+                        }}
+                        whileHover={{
+                            y: -4,
+                            scale: 1.02,
+                            rotateY: 1,
+                            boxShadow: '0 15px 30px -5px rgba(0, 0, 0, 0.15)',
+                            transition: { duration: 0.3 }
+                        }}
+                    >
+                        {/* 3D edge effect */}
+                        <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-4px] group-hover:translate-z-[-8px] transition-all duration-500" />
+
+                        {/* Glassy overlay */}
+                        <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-30 group-hover:opacity-50 transition-opacity duration-500" />
+
+                        <Typography variant="h2" className="mb-4 relative z-10">
+                            {t('sections.newsIntro.title')}
+                        </Typography>
+                        <Typography variant="lead" className="mb-2 relative z-10">
+                            {t('sections.newsIntro.description')}
+                        </Typography>
+                    </motion.div>
                 </div>
             </Section>
 
@@ -779,19 +865,21 @@ const News: React.FC = () => {
                         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
                             <div className="flex flex-wrap gap-2">
                                 {tabs.map(tab => (
-                                    <button
+                                    <motion.button
                                         key={tab.id}
                                         onClick={() => toggleTab(tab.id)}
-                                        className={`px-4 py-2 rounded-full flex items-center gap-2 ${
+                                        className={`px-4 py-2 rounded-full flex items-center gap-2 transform-gpu ${
                                             activeTabs.includes(tab.id)
                                                 ? 'bg-primary text-white'
                                                 : 'bg-background text-gray-700 hover:bg-gray-200'
                                         } transition-colors`}
                                         aria-pressed={activeTabs.includes(tab.id)}
+                                        whileHover={{ y: -2, scale: 1.05 }}
+                                        whileTap={{ scale: 0.95 }}
                                     >
                                         {React.createElement(FaNewspaper, { className: "text-lg" })}
                                         {t(tab.translationKey as string)}
-                                    </button>
+                                    </motion.button>
                                 ))}
                             </div>
 
@@ -799,16 +887,22 @@ const News: React.FC = () => {
                                 <label htmlFor="news-search" className="sr-only">
                                     {t('filters.searchPlaceholder')}
                                 </label>
-                                <input
-                                    type="text"
-                                    id="news-search"
-                                    placeholder={t('filters.searchPlaceholder')}
-                                    className="w-full pl-10 pr-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent"
-                                    value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                    aria-label={t('filters.searchAriaLabel')}
-                                />
-                                <FaSearch className="absolute left-3 top-3 text-gray-400" />
+                                <motion.div
+                                    className="relative"
+                                    whileHover={{ y: -2 }}
+                                    transition={{ duration: 0.2 }}
+                                >
+                                    <input
+                                        type="text"
+                                        id="news-search"
+                                        placeholder={t('filters.searchPlaceholder')}
+                                        className="w-full pl-10 pr-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transform-gpu"
+                                        value={searchQuery}
+                                        onChange={(e) => setSearchQuery(e.target.value)}
+                                        aria-label={t('filters.searchAriaLabel')}
+                                    />
+                                    <FaSearch className="absolute left-3 top-3 text-gray-400" />
+                                </motion.div>
                             </div>
                         </div>
 
@@ -850,9 +944,19 @@ const News: React.FC = () => {
                                         <Dialog.Panel
                                             ref={articleDialogRef}
                                             tabIndex={-1}
-                                            className="relative w-full max-w-2xl transform overflow-hidden bg-background  rounded-3xl border-2 border-primary/20 hover:border-accent/30 hover:shadow-xl transition-shadow duration-300  text-left shadow-xl focus:outline-none"
+                                            className="relative w-full max-w-2xl transform overflow-hidden bg-background rounded-3xl border-2 border-primary/20 hover:border-accent/30 hover:shadow-xl transition-shadow duration-300 text-left shadow-xl focus:outline-none transform-gpu"
+                                            style={{
+                                                transformStyle: 'preserve-3d',
+                                                perspective: '1000px',
+                                            }}
                                         >
-                                            <div className="p-6">
+                                            {/* 3D edge effect for modal */}
+                                            <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px]" />
+
+                                            {/* Glassy overlay for modal */}
+                                            <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40" />
+
+                                            <div className="p-6 relative z-10">
                                                 <Dialog.Title as="h3" className="text-lg font-semibold text-primary">
                                                     {selectedArticle?.title}
                                                 </Dialog.Title>
@@ -868,20 +972,24 @@ const News: React.FC = () => {
                                                 </p>
                                                 <p className="text-gray-700 mt-4">{selectedArticle?.contentSnippet}</p>
                                                 <div className="mt-4 flex justify-end gap-2">
-                                                    <a
+                                                    <motion.a
                                                         href={selectedArticle?.link}
                                                         target="_blank"
                                                         rel="noopener noreferrer"
-                                                        className="bg-accent hover:bg-primary text-white px-4 py-2 rounded-md text-sm"
+                                                        className="bg-accent hover:bg-primary text-white px-4 py-2 rounded-md text-sm transform-gpu hover:scale-105"
+                                                        whileHover={{ y: -2 }}
+                                                        whileTap={{ scale: 0.95 }}
                                                     >
                                                         {t('sections.readFullArticle')}
-                                                    </a>
-                                                    <button
+                                                    </motion.a>
+                                                    <motion.button
                                                         onClick={() => setSelectedArticle(null)}
-                                                        className="text-sm text-gray-600 hover:underline"
+                                                        className="text-sm text-gray-600 hover:underline transform-gpu hover:scale-105"
+                                                        whileHover={{ y: -2 }}
+                                                        whileTap={{ scale: 0.95 }}
                                                     >
                                                         {t('sections.close')}
-                                                    </button>
+                                                    </motion.button>
                                                 </div>
                                             </div>
                                         </Dialog.Panel>
@@ -902,26 +1010,51 @@ const News: React.FC = () => {
                         viewport={{ once: true }}
                         variants={staggerContainer}
                     >
-                        <Typography variant="h2" className="mb-6">
-                            {t('sections.newsletter.title')}
-                        </Typography>
-                        <Typography variant="body" className="mb-6 max-w-3xl mx-auto">
-                            {t('sections.newsletter.description')}
-                        </Typography>
-                        <motion.div variants={fadeIn} className="flex flex-col sm:flex-row gap-2 max-w-md mx-auto">
-                            <label htmlFor="email" className="sr-only">
-                                {t('sections.newsletter.placeholder')}
-                            </label>
-                            <input
-                                type="email"
-                                id="email"
-                                name="email"
-                                placeholder={t('sections.newsletter.placeholder')}
-                                className="flex-grow px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-accent"
-                            />
-                            <button className="bg-primary hover:bg-dark-orange text-white px-6 py-2 rounded-full transition-colors">
-                                {t('sections.newsletter.subscribe')}
-                            </button>
+                        <motion.div
+                            className="relative bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl border-2 border-primary/20 p-8 transform-gpu"
+                            style={{
+                                transformStyle: 'preserve-3d',
+                                perspective: '1000px',
+                            }}
+                            whileHover={{
+                                y: -4,
+                                scale: 1.02,
+                                rotateY: 1,
+                                boxShadow: '0 15px 30px -5px rgba(0, 0, 0, 0.15)',
+                                transition: { duration: 0.3 }
+                            }}
+                        >
+                            {/* 3D edge effect */}
+                            <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-4px] group-hover:translate-z-[-8px] transition-all duration-500" />
+
+                            {/* Glassy overlay */}
+                            <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-30 group-hover:opacity-50 transition-opacity duration-500" />
+
+                            <Typography variant="h2" className="mb-6 relative z-10">
+                                {t('sections.newsletter.title')}
+                            </Typography>
+                            <Typography variant="body" className="mb-6 max-w-3xl mx-auto relative z-10">
+                                {t('sections.newsletter.description')}
+                            </Typography>
+                            <motion.div variants={fadeIn} className="flex flex-col sm:flex-row gap-2 max-w-md mx-auto relative z-10">
+                                <label htmlFor="email" className="sr-only">
+                                    {t('sections.newsletter.placeholder')}
+                                </label>
+                                <input
+                                    type="email"
+                                    id="email"
+                                    name="email"
+                                    placeholder={t('sections.newsletter.placeholder')}
+                                    className="flex-grow px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-accent transform-gpu"
+                                />
+                                <motion.button
+                                    className="bg-primary hover:bg-dark-orange text-white px-6 py-2 rounded-full transition-colors transform-gpu hover:scale-105"
+                                    whileHover={{ y: -2 }}
+                                    whileTap={{ scale: 0.95 }}
+                                >
+                                    {t('sections.newsletter.subscribe')}
+                                </motion.button>
+                            </motion.div>
                         </motion.div>
                     </motion.div>
                 </div>

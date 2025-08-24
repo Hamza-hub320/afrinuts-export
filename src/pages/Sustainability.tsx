@@ -147,7 +147,7 @@ const Sustainability: React.FC = () => {
                                         >
                                             <InfoCard
                                                 icon={getIconComponent(item.icon)}
-                                                title={<h3 id={`challenge-title-${index}`}>{item.title}</h3>}
+                                                title={item.title}
                                                 iconColor="text-accent"
                                                 className="h-full"
                                             >
@@ -167,7 +167,7 @@ const Sustainability: React.FC = () => {
                             <div className="lg:w-1/2">
                                 <img
                                     src={agroforestryImage}
-                                    alt={t('environment.solutions.title')}
+                                    alt="Agroforestry practices"
                                     className="rounded-2xl shadow-xl w-full transition-transform duration-300 hover:scale-105"
                                 />
                             </div>
@@ -190,7 +190,7 @@ const Sustainability: React.FC = () => {
                                             >
                                                 <InfoCard
                                                     icon={IconComponent}
-                                                    title={<h3 id={`solution-title-${index}`}>{item.title}</h3>}
+                                                    title={item.title}
                                                     iconColor="text-accent"
                                                     className="h-full"
                                                 >
