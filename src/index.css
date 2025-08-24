@@ -374,3 +374,22 @@ button:hover .accessible-tooltip {
   opacity: 1;
   transform: translateY(-50%) translateX(-0.5rem);
 }
+
+.certificate-3d {
+  transform-style: preserve-3d;
+  perspective: 1000px;
+}
+
+.certificate-3d::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 1rem;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  transform: translateZ(-8px);
+  transition: transform 0.5s ease;
+}
+
+.certificate-3d:hover::before {
+  transform: translateZ(-12px);
+}

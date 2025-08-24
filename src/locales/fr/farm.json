@@ -7,16 +7,16 @@
       "heading": "50 Hectares de Production de Cajou Premium",
       "description": "Située à Odienné, épicentre de la production de noix de cajou en Côte d'Ivoire, notre plantation familiale est développée avec des techniques agricoles climato-intelligentes pour produire des noix brutes de qualité premium avec une traçabilité complète du sol à l'expédition."
     },
-    "stats": {
-      "area": "50 hectares",
-      "areaLabel": "Superficie Totale",
-      "location": "Odienné",
-      "locationLabel": "Localisation",
-      "phase": "Phase 1",
-      "phaseLabel": "Phase de Développement",
-      "practices": "Biologique",
-      "practicesLabel": "Pratiques Agricoles"
-    },
+  "stats": {
+    "area": "50 hectares",
+    "areaLabel": "Superficie totale de la plantation – Notre terrain familial dédié à la culture de la noix de cajou",
+    "location": "Odienné",
+    "locationLabel": "Emplacement – Au cœur de la ceinture de cajou de Côte d’Ivoire pour une croissance optimale",
+    "phase": "Phase 1",
+    "phaseLabel": "Phase de développement – Défrichage du terrain, cartographie des sols et opérations de plantation en cours",
+    "practices": "Biologique",
+    "practicesLabel": "Pratiques agricoles – Méthodes intelligentes face au climat et biologiques pour une production durable"
+  },
     "features": {
       "title": "Caractéristiques Clés de la Plantation",
       "family": {
@@ -82,13 +82,25 @@
         "description": "Programmes de formation pour les agriculteurs locaux sur les techniques durables"
       }
     },
-    "impact": {
-      "title": "Impact de Notre Plantation",
-      "hectares": "Hectares en Culture",
-      "jobs": "Emplois Créés",
-      "farmers": "Augmentation des Revenus des Agriculteurs",
-      "profits": "Bénéfices pour la Communauté"
+  "impact": {
+    "title": "L'Impact de Notre Plantation",
+    "hectares": {
+      "label": "Hectares en Culture",
+      "description": "50 hectares dédiés à la production durable de noix de cajou, soutenant l'équilibre écologique à long terme."
     },
+    "jobs": {
+      "label": "Emplois Créés",
+      "description": "Opportunités d'emploi local générées par les activités agricoles, de transformation et de soutien communautaire."
+    },
+    "farmers": {
+      "label": "Augmentation du Revenu des Agriculteurs",
+      "description": "Programmes de partenariat conçus pour améliorer les moyens de subsistance des agriculteurs locaux grâce à des prix équitables et à la formation."
+    },
+    "profits": {
+      "label": "Bénéfices pour la Communauté",
+      "description": "Une part des bénéfices est réinvestie dans des projets d'éducation, de santé et d'infrastructure pour les communautés environnantes."
+    }
+  },
     "cta": {
       "title": "Rejoignez Notre Voyage Durable",
       "description": "En savoir plus sur notre plantation de cajou et les opportunités de partenariat",

@@ -298,21 +298,73 @@ const Products: React.FC = () => {
                         </div>
 
                         {/* Offline Payment Instructions Section */}
-                        <Section className="mb-10 py-8 bg-yellow-50 border-l-8 border-yellow-400 rounded-xl shadow-md flex flex-col items-center justify-center">
-                            <Typography variant="h3" className="text-yellow-700 mb-2 text-center">
-                                {t('offlinePayment.title')}
-                            </Typography>
-                            <Typography variant="body" className="text-yellow-800 mb-6 text-center max-w-2xl">
-                                {t('offlinePayment.description')}
-                            </Typography>
-                            <FaArrowDown className="text-yellow-600 text-3xl animate-bounce mt-2" />
+                        <Section className="mb-10 py-8 flex flex-col items-center justify-center transform-gpu">
+                            <motion.div
+                                className="relative bg-gradient-to-br from-yellow-50/80 to-amber-50/80 border-2 border-yellow-400/30 rounded-2xl shadow-xl p-8 max-w-2xl w-full text-center transform-gpu group"
+                                style={{
+                                    transformStyle: 'preserve-3d',
+                                    perspective: '1000px',
+                                }}
+                                whileHover={{
+                                    y: -6,
+                                    scale: 1.02,
+                                    rotateY: 2,
+                                    boxShadow: '0 20px 35px -10px rgba(180, 83, 9, 0.15)',
+                                    transition: { duration: 0.3 }
+                                }}
+                            >
+                                {/* 3D edge effect */}
+                                <div className="absolute inset-0 rounded-2xl border-2 border-yellow-300/40 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
+
+                                {/* Glassy overlay */}
+                                <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/20 to-transparent opacity-50 group-hover:opacity-70 transition-opacity duration-500" />
+
+                                {/* Inner shadow effect */}
+                                <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(180,83,9,0.08)] group-hover:shadow-[inset_0_4px_16px_rgba(180,83,9,0.12)] transition-shadow duration-500" />
+
+                                {/* Subtle background pattern */}
+                                <div className="absolute inset-0 rounded-2xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMTgwLCA4MywgOSwgMC4wNSkiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-30" />
+
+                                {/* Outer glow */}
+                                <div className="absolute -inset-2 rounded-2xl bg-yellow-400/10 blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+
+                                <div className="relative z-10">
+                                    <Typography variant="h3" className="text-yellow-700 mb-2 text-center font-bold">
+                                        {t('offlinePayment.title')}
+                                    </Typography>
+                                    <Typography variant="body" className="text-yellow-800 mb-6 text-center">
+                                        {t('offlinePayment.description')}
+                                    </Typography>
+
+                                    <motion.div
+                                        className="inline-flex items-center justify-center bg-yellow-400/20 p-3 rounded-full backdrop-blur-sm"
+                                        animate={{ y: [0, -4, 0] }}
+                                        transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                                    >
+                                        <FaArrowDown className="text-yellow-600 text-3xl" />
+                                    </motion.div>
+                                </div>
+                            </motion.div>
                         </Section>
 
                         {/* Products Grid */}
                         {filteredProducts.length > 0 ? (
                             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                                 {filteredProducts.map((product) => (
-                                    <div key={product.name}>
+                                    <motion.div
+                                        key={product.name}
+                                        whileHover={{
+                                            y: -6,
+                                            scale: 1.025,
+                                            rotateY: 2,
+                                            boxShadow: '0 16px 32px -8px rgba(255, 140, 0, 0.10)',
+                                            transition: { duration: 0.25 }
+                                        }}
+                                        style={{
+                                            transformStyle: 'preserve-3d',
+                                            perspective: '1000px',
+                                        }}
+                                    >
                                       <ProductCard
                                         product={product}
                                         handleContactClick={handleContactClick}
@@ -321,63 +373,88 @@ const Products: React.FC = () => {
                                         variants={fadeIn}
                                         compact={false}
                                       />
-                                    </div>
+                                    </motion.div>
                                 ))}
                             </div>
                         ) : (
-                            <div className="text-center py-12">
+                            <motion.div
+                                className="text-center py-12"
+                                whileHover={{
+                                    scale: 1.025,
+                                    boxShadow: '0 8px 24px -6px rgba(255, 140, 0, 0.10)',
+                                    transition: { duration: 0.2 }
+                                }}
+                            >
                                 <h3 className="text-xl font-medium text-gray-700 mb-2">
                                     {t('products.noResults')}
                                 </h3>
                                 <p className="text-gray-500">
                                     {t('products.tryDifferentFilters')}
                                 </p>
-                                <button
+                                <motion.button
                                     onClick={resetFilters}
                                     className="mt-4 px-6 py-2 bg-primary text-white rounded-lg hover:bg-dark-orange transition-colors"
+                                    whileHover={{
+                                        scale: 1.10,
+                                        transition: { duration: 0.16 }
+                                    }}
                                 >
                                     {t('filters.resetAll')}
-                                </button>
-                            </div>
+                                </motion.button>
+                            </motion.div>
                         )}
                     </div>
                 </Section>
                 {/* Catalogue Description and Download Button Highlighted Section */}
                 <div className="flex justify-center my-12">
-                  <motion.div
-                    className="relative flex flex-col items-center justify-center bg-primary/10 p-10 rounded-3xl shadow-2xl border border-primary/20 max-w-lg w-full text-center mx-auto
-                    transform-gpu transition-all duration-300"
-                    style={{
-                      perspective: 1200,
-                      willChange: 'transform',
-                    }}
-                    whileHover={{
-                      scale: 1.07,
-                      rotateX: 8,
-                      rotateY: -8,
-                      boxShadow: '0 12px 32px 0 rgba(64, 72, 135, 0.18), 0 2px 8px 0 rgba(255, 140, 0, 0.09)',
-                      transition: { duration: 0.35, type: "spring", stiffness: 200 },
-                    }}
-                  >
-                    <Typography variant="h3" className="text-primary mb-3">
-                      {t('catalogue.title')}
-                    </Typography>
-                    <Typography variant="body" className="text-text-dark mb-7">
-                      {t('catalogue.description')}
-                    </Typography>
-                    <motion.button
-                      onClick={handleDownloadCatalogue}
-                      className="group bg-primary hover:bg-dark-orange text-white px-4 py-2 rounded-full transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center mx-auto text-base font-semibold min-w-[140px]"
-                      style={{ minHeight: 42 }}
-                      whileHover={{
-                        scale: 1.10,
-                        transition: { duration: 0.18, type: "spring", stiffness: 320 }
-                      }}
+                    <motion.div
+                        className="relative flex flex-col items-center justify-center bg-gradient-to-br from-primary/5 to-accent/5 p-10 rounded-3xl shadow-2xl border-2 border-primary/20 max-w-lg w-full text-center mx-auto transform-gpu transition-all duration-500"
+                        style={{
+                            perspective: 1200,
+                            willChange: 'transform',
+                            transformStyle: 'preserve-3d',
+                        }}
+                        whileHover={{
+                            scale: 1.07,
+                            rotateX: 8,
+                            rotateY: -8,
+                            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+                            transition: { duration: 0.35, type: "spring", stiffness: 200 },
+                        }}
                     >
-                      <FaDownload className="mr-2 text-xl" />
-                      {t('catalogue.download')}
-                    </motion.button>
-                  </motion.div>
+                        {/* 3D edge effect */}
+                        <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-8px] group-hover:translate-z-[-12px] transition-all duration-500" />
+
+                        {/* Glassy overlay */}
+                        <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+
+                        {/* Inner shadow effect */}
+                        <div className="absolute inset-0 rounded-3xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] group-hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
+
+                        {/* Subtle background pattern */}
+                        <div className="absolute inset-0 rounded-3xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
+
+                        <div className="relative z-10">
+                            <Typography variant="h3" className="text-primary mb-3">
+                                {t('catalogue.title')}
+                            </Typography>
+                            <Typography variant="body" className="text-text-dark mb-7">
+                                {t('catalogue.description')}
+                            </Typography>
+                            <motion.button
+                                onClick={handleDownloadCatalogue}
+                                className="group bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-4 py-2 rounded-full transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center mx-auto text-base font-semibold min-w-[140px] transform-gpu hover:scale-105"
+                                style={{ minHeight: 42 }}
+                                whileHover={{
+                                    scale: 1.10,
+                                    transition: { duration: 0.18, type: "spring", stiffness: 320 }
+                                }}
+                            >
+                                <FaDownload className="mr-2 text-xl" />
+                                {t('catalogue.download')}
+                            </motion.button>
+                        </div>
+                    </motion.div>
                 </div>
 
 
@@ -405,27 +482,58 @@ const Products: React.FC = () => {
                             }>).map((step, index) => (
                                 <motion.div
                                     key={index}
-                                    className=" bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-300 rounded-2xl shadow-lg overflow-hidden"
+                                    className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-500 rounded-2xl shadow-lg overflow-hidden transform-gpu group"
+                                    style={{
+                                        transformStyle: 'preserve-3d',
+                                        perspective: '1000px',
+                                    }}
                                     variants={index % 2 === 0 ? slideInFromLeft : slideInFromRight}
                                     initial="hidden"
                                     whileInView="visible"
                                     viewport={{once: true}}
+                                    whileHover={{
+                                        y: -8,
+                                        scale: 1.03,
+                                        rotateY: 3,
+                                        boxShadow: '0 20px 35px -10px rgba(0, 0, 0, 0.2)',
+                                        transition: { duration: 0.3 }
+                                    }}
                                 >
-                                    <div className="h-48 bg-gray-100 overflow-hidden">
-                                        <img
+                                    {/* 3D edge effect */}
+                                    <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
+
+                                    {/* Glassy overlay */}
+                                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+
+                                    {/* Inner shadow effect */}
+                                    <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] group-hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
+
+                                    {/* Subtle background pattern */}
+                                    <div className="absolute inset-0 rounded-2xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
+
+                                    <div className="h-48 bg-gray-100 overflow-hidden relative z-10 rounded-t-2xl">
+                                        <motion.img
                                             src={index === 0 ? processImage : index === 1 ? qualityImage : packagingImage}
                                             alt={step.title}
                                             className="w-full h-full object-cover"
                                             loading="lazy"
+                                            whileHover={{ scale: 1.1 }}
+                                            transition={{ duration: 0.5 }}
                                         />
+                                        {/* Image overlay gradient */}
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent" />
                                     </div>
-                                    <div className="p-6">
+                                    <div className="p-6 relative z-10">
                                         <div className="flex items-center mb-4">
-                                            <div className="bg-accent/10 p-3 rounded-full mr-4">
+                                            <motion.div
+                                                className="bg-white/40 backdrop-blur-md p-3 rounded-full mr-4 shadow-md transform-gpu group-hover:scale-110 transition-transform duration-500"
+                                                whileHover={{ scale: 1.15, rotate: 5 }}
+                                                transition={{ type: 'spring', stiffness: 300 }}
+                                            >
                                                 {index === 0 ? <FaSeedling className="text-accent text-xl"/> :
                                                     index === 1 ? <FaShieldAlt className="text-accent text-xl"/> :
                                                         <FaShippingFast className="text-accent text-xl"/>}
-                                            </div>
+                                            </motion.div>
                                             <Typography variant="h4" className="mb-0">
                                                 {step.title}
                                             </Typography>
@@ -445,53 +553,118 @@ const Products: React.FC = () => {
                     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                         <div className="flex flex-col lg:flex-row gap-12 items-center">
                             <motion.div
-                                className="flex-1"
+                                className="flex-1 relative transform-gpu group"
                                 variants={slideInFromLeft}
                                 initial="hidden"
                                 whileInView="visible"
                                 viewport={{once: true}}
+                                style={{
+                                    transformStyle: 'preserve-3d',
+                                    perspective: '1000px',
+                                }}
                             >
-                                <img
-                                    src={qualityImage}
-                                    alt={t('quality.title')}
-                                    className="rounded-2xl shadow-xl w-full transition-transform duration-500 transform-gpu hover:scale-105"
-                                    loading="lazy"
-                                />
+                                <motion.div
+                                    className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl shadow-lg overflow-hidden transform-gpu"
+                                    whileHover={{
+                                        y: -8,
+                                        scale: 1.03,
+                                        rotateY: 3,
+                                        boxShadow: '0 20px 35px -10px rgba(0, 0, 0, 0.2)',
+                                        transition: { duration: 0.3 }
+                                    }}
+                                >
+                                    {/* 3D edge effect */}
+                                    <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
+
+                                    {/* Glassy overlay */}
+                                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+
+                                    {/* Inner shadow effect */}
+                                    <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] group-hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
+
+                                    <img
+                                        src={qualityImage}
+                                        alt={t('quality.title')}
+                                        className="rounded-2xl w-full transition-transform duration-500 transform-gpu group-hover:scale-105 relative z-10"
+                                        loading="lazy"
+                                    />
+                                </motion.div>
                             </motion.div>
                             <motion.div
-                                className="flex-1"
+                                className="flex-1 relative transform-gpu"
                                 variants={slideInFromRight}
                                 initial="hidden"
                                 whileInView="visible"
                                 viewport={{once: true}}
                             >
-                                <Typography variant="h2" className="text-primary mb-6">
-                                    {t('quality.title')}
-                                </Typography>
-                                <Typography variant="body" className="mb-8">
-                                    {t('quality.description')}
-                                </Typography>
-                                <div className="space-y-4">
-                                    {(t('quality.bullets', {returnObjects: true}) as string[]).map((bullet, index) => (
-                                        <div key={index} className="flex items-start gap-4">
-                                            <div className="text-accent mt-1">
-                                                {index === 0 ? <FaStar/> :
-                                                    index === 1 ? <FaTrophy/> :
-                                                        <FaChartLine/>}
-                                            </div>
-                                            <Typography variant="body" className="text-text-dark">
-                                                {bullet}
-                                            </Typography>
+                                <motion.div
+                                    className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl shadow-lg p-8 transform-gpu group"
+                                    style={{
+                                        transformStyle: 'preserve-3d',
+                                        perspective: '1000px',
+                                    }}
+                                    whileHover={{
+                                        y: -8,
+                                        scale: 1.02,
+                                        rotateY: 2,
+                                        boxShadow: '0 20px 35px -10px rgba(0, 0, 0, 0.2)',
+                                        transition: { duration: 0.3 }
+                                    }}
+                                >
+                                    {/* 3D edge effect */}
+                                    <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
+
+                                    {/* Glassy overlay */}
+                                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+
+                                    {/* Inner shadow effect */}
+                                    <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] group-hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
+
+                                    {/* Subtle background pattern */}
+                                    <div className="absolute inset-0 rounded-2xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
+
+                                    <div className="relative z-10">
+                                        <Typography variant="h2" className="text-primary mb-6">
+                                            {t('quality.title')}
+                                        </Typography>
+                                        <Typography variant="body" className="mb-8">
+                                            {t('quality.description')}
+                                        </Typography>
+                                        <div className="space-y-4">
+                                            {(t('quality.bullets', {returnObjects: true}) as string[]).map((bullet, index) => (
+                                                <motion.div
+                                                    key={index}
+                                                    className="flex items-start gap-4 bg-white/30 backdrop-blur-sm rounded-lg p-3"
+                                                    initial={{ opacity: 0, x: 20 }}
+                                                    whileInView={{ opacity: 1, x: 0 }}
+                                                    transition={{ delay: index * 0.1 }}
+                                                    viewport={{ once: true }}
+                                                    whileHover={{
+                                                        scale: 1.04,
+                                                        backgroundColor: 'rgba(255, 200, 100, 0.18)',
+                                                        transition: { duration: 0.18 }
+                                                    }}
+                                                >
+                                                    <div className="text-accent mt-1 bg-accent/20 p-1 rounded-full">
+                                                        {index === 0 ? <FaStar className="text-lg"/> :
+                                                            index === 1 ? <FaTrophy className="text-lg"/> :
+                                                                <FaChartLine className="text-lg"/>}
+                                                    </div>
+                                                    <Typography variant="body" className="text-text-dark">
+                                                        {bullet}
+                                                    </Typography>
+                                                </motion.div>
+                                            ))}
                                         </div>
-                                    ))}
-                                </div>
+                                    </div>
+                                </motion.div>
                             </motion.div>
                         </div>
                     </div>
                 </Section>
 
                 {/* Certifications */}
-                <Section className="py-10 ">
+                <Section className="py-10">
                     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                         <motion.div
                             initial="hidden"
@@ -508,7 +681,7 @@ const Products: React.FC = () => {
                         </motion.div>
 
                         <motion.div
-                            className="grid grid-cols-2 md:grid-cols-4 gap-8"
+                            className="grid grid-cols-2 md:grid-cols-5 gap-6 md:gap-8"
                             initial="hidden"
                             whileInView="visible"
                             viewport={{once: true}}
@@ -518,15 +691,44 @@ const Products: React.FC = () => {
                                 <motion.div
                                     key={cert}
                                     variants={fadeIn}
-                                    className=" bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-300 p-6 rounded-2xl shadow-md flex flex-col items-center"
+                                    className="group relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-500 p-6 rounded-2xl shadow-lg flex flex-col items-center transform-gpu"
+                                    whileHover={{
+                                        y: -10,
+                                        scale: 1.05,
+                                        rotateY: 5,
+                                        transition: { duration: 0.3 }
+                                    }}
+                                    style={{
+                                        transformStyle: 'preserve-3d',
+                                        perspective: '1000px',
+                                    }}
                                 >
-                                    <div
-                                        className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mb-4">
-                                        <FaShieldAlt className="text-accent text-2xl"/>
+                                    {/* 3D edge effect */}
+                                    <div className="absolute inset-0 rounded-2xl border-2 border-white/30 transform-gpu translate-z-[-8px] group-hover:translate-z-[-12px] transition-all duration-500" />
+
+                                    {/* Certificate background pattern */}
+                                    <div className="absolute inset-2 rounded-xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMTY1LCAxMDUsIDY2LCAwLjA1KSIgc3Ryb2tlLXdpZHRoPSIxIj48cGF0aCBkPSJNIDAgMCBMIDYwIDYwIE0gNjAgMCBMIDAgNjAiLz48L2c+PC9zdmc+')] opacity-30" />
+
+                                    {/* Glossy overlay */}
+                                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/10 to-transparent opacity-30 group-hover:opacity-50 transition-opacity duration-500" />
+
+                                    {/* Inner shadow effect */}
+                                    <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_8px_rgba(0,0,0,0.1)] group-hover:shadow-[inset_0_4px_12px_rgba(0,0,0,0.15)] transition-shadow duration-500" />
+
+                                    <div className="relative z-10 w-16 h-16 bg-gradient-to-br from-accent/20 to-accent/40 rounded-full flex items-center justify-center mb-4 transform-gpu group-hover:scale-110 transition-transform duration-500 shadow-md">
+                                        <FaShieldAlt className="text-accent text-2xl transform-gpu group-hover:scale-110 transition-transform duration-500" />
                                     </div>
-                                    <Typography variant="h4" className="text-center">
+
+                                    <Typography variant="h4" className="text-center relative z-10 font-semibold text-text-dark">
                                         {t(`certifications.${cert}.title`)}
                                     </Typography>
+
+                                    {/* Subtle certification badge */}
+                                    <div className="absolute -top-2 -right-2 w-6 h-6 bg-accent rounded-full flex items-center justify-center transform-gpu group-hover:scale-125 transition-transform duration-500">
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 text-white" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                        </svg>
+                                    </div>
                                 </motion.div>
                             ))}
                         </motion.div>
@@ -548,7 +750,7 @@ const Products: React.FC = () => {
                         <Typography variant="subtitle" className="text-text-dark/90 mb-8 max-w-2xl mx-auto">
                             {t('cta.subtitle')}
                         </Typography>
-                        <div className="flex flex-wrap justify-center gap-4">
+                        <div className="flex justify-center">
                             <button
                                 className="bg-primary hover:bg-orange-700 text-white px-6 py-3 sm:px-8 sm:py-4 rounded-full text-lg sm:text-xl font-medium transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
                                 onClick={() => navigate('/contact')}

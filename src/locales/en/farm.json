@@ -7,16 +7,16 @@
       "heading": "50 Hectares of Premium Cashew Production",
       "description": "Nestled in Odienné, the epicenter of Ivory Coast's cashew production, our family-owned plantation is being developed using climate-smart agricultural techniques to yield premium grade raw cashew nuts with full traceability from soil to shipment."
     },
-    "stats": {
-      "area": "50 hectares",
-      "areaLabel": "Total Plantation Area",
-      "location": "Odienné",
-      "locationLabel": "Location",
-      "phase": "Phase 1",
-      "phaseLabel": "Development Phase",
-      "practices": "Organic",
-      "practicesLabel": "Farming Practices"
-    },
+  "stats": {
+    "area": "50 hectares",
+    "areaLabel": "Total Plantation Area – Our family-owned land dedicated to cashew cultivation",
+    "location": "Odienné",
+    "locationLabel": "Location – In the heart of Ivory Coast’s cashew belt for optimal growth",
+    "phase": "Phase 1",
+    "phaseLabel": "Development Phase – Land clearing, soil mapping, and planting operations underway",
+    "practices": "Organic",
+    "practicesLabel": "Farming Practices – Climate-smart and organic methods for sustainable production"
+  },
     "features": {
       "title": "Key Plantation Features",
       "family": {
@@ -84,10 +84,22 @@
     },
     "impact": {
       "title": "Our Plantation Impact",
-      "hectares": "Hectares Under Cultivation",
-      "jobs": "Jobs Created",
-      "farmers": "Farmer Income Increase",
-      "profits": "Profits to Community"
+      "hectares": {
+        "label": "Hectares Under Cultivation",
+        "description": "50 hectares dedicated to sustainable cashew production, supporting long-term ecological balance."
+      },
+      "jobs": {
+        "label": "Jobs Created",
+        "description": "Local employment opportunities generated through farming, processing, and community support activities."
+      },
+      "farmers": {
+        "label": "Farmer Income Increase",
+        "description": "Partnership programs designed to improve livelihoods of local farmers through fair pricing and training."
+      },
+      "profits": {
+        "label": "Profits to Community",
+        "description": "A share of profits reinvested into education, healthcare, and infrastructure projects for surrounding communities."
+      }
     },
     "cta": {
       "title": "Join Our Sustainable Journey",

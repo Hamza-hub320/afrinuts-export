@@ -1,12 +1,13 @@
 import React, {Fragment, useState, useEffect, KeyboardEvent} from 'react';
 import { useTranslation } from 'react-i18next';
-import { motion, Variants } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { fadeIn, staggerContainer } from '@/utils/animations';
 import { Typography } from "@/components/Typography/Typography";
 import Section from '@/components/Section/Section';
-import { FaTimes, FaEnvelope, FaLinkedin, FaArrowRight } from 'react-icons/fa';
+import { FaTimes, FaEnvelope, FaLinkedin } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import {Dialog, Transition} from '@headlessui/react';
+import { ProfileCard } from '@/components/ProfileCard/ProfileCard'; // Import ProfileCard
 
 // Import executive images
 import ceoImage from '@/assets/images/ceo.webp';
@@ -28,7 +29,6 @@ interface Executive {
     department: string;
     email: string;
     linkedin: string;
-    // Remove experience and education, add idLabel for lookup
     idLabel: string;
 }
 
@@ -36,8 +36,6 @@ const ExecutiveTeam: React.FC = () => {
     const { t } = useTranslation('executive');
     const [selectedExecutive, setSelectedExecutive] = useState<Executive | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    // Removed filter and searchTerm state
-    const [imageLoaded, setImageLoaded] = useState<Record<number, boolean>>({});
 
     const executives: Executive[] = [
         {
@@ -126,8 +124,6 @@ const ExecutiveTeam: React.FC = () => {
         }
     ];
 
-    // Removed filteredExecutives logic
-
     const openModal = (executive: Executive) => {
         setSelectedExecutive(executive);
         setIsModalOpen(true);
@@ -156,27 +152,9 @@ const ExecutiveTeam: React.FC = () => {
         return () => document.removeEventListener('keydown', handleKeyDown as unknown as EventListener);
     }, [isModalOpen]);
 
-    const handleImageLoad = (id: number) => {
-        setImageLoaded(prev => ({...prev, [id]: true}));
-    };
-
-    // Card animation variants
-    const cardVariants: Variants = {
-        hidden: { opacity: 0, y: 20 },
-        visible: {
-            opacity: 1,
-            y: 0,
-            transition: {
-                type: "spring",
-                stiffness: 100,
-                damping: 15
-            }
-        }
-    };
-
     return (
         <main className="text-text-dark font-sans">
-            {/* Hero Section - Kept exactly the same */}
+            {/* Hero Section */}
             <Section
                 fullHeight={true}
                 className="flex items-center justify-center text-center min-h-[50vh] md:min-h-[50vh] bg-gradient-to-b"
@@ -222,7 +200,6 @@ const ExecutiveTeam: React.FC = () => {
                     <Typography variant="lead" className="text-text-dark mb-8">
                         {t('executives.introDescription')}
                     </Typography>
-                    {/* Optionally supporting text */}
                     {t('executives.introSupporting', { defaultValue: '' }) && t('executives.introSupporting') !== '' && (
                         <Typography variant="body" className="text-text-dark mb-4">
                             {t('executives.introSupporting')}
@@ -231,9 +208,7 @@ const ExecutiveTeam: React.FC = () => {
                 </div>
             </Section>
 
-            {/* Executive Filter and Search - removed */}
-
-            {/* Executive Team Grid */}
+            {/* Executive Team Grid using ProfileCard */}
             <Section className="py-16">
                 <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <motion.div
@@ -244,83 +219,19 @@ const ExecutiveTeam: React.FC = () => {
                         variants={staggerContainer}
                     >
                         {executives.map((executive) => (
-                            <motion.div
+                            <ProfileCard
                                 key={executive.id}
-                                className="border-gray-100 bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl p-8 border-2 border-primary/20 hover:border-accent/30 shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 executive-card"
-                                variants={cardVariants}
-                                whileHover={{
-                                    y: -8,
-                                    transition: { duration: 0.2 }
-                                }}
-                            >
-                                <div className="p-6">
-                                    <div className="flex items-start space-x-4">
-                                        <div className="flex-shrink-0 relative">
-                                            {!imageLoaded[executive.id] && (
-                                                <div className="h-20 w-20 rounded-full bg-gray-200 animate-pulse"></div>
-                                            )}
-                                            <img
-                                                className={`h-20 w-20 rounded-full object-cover border-2 border-primary/20 ${imageLoaded[executive.id] ? 'opacity-100' : 'opacity-0'}`}
-                                                src={executive.image}
-                                                alt={executive.alt}
-                                                onLoad={() => handleImageLoad(executive.id)}
-                                            />
-                                        </div>
-                                        <div className="flex-1 min-w-0">
-                                            <Typography
-                                                variant="h5"
-                                                className="text-lg font-bold !text-primary"
-                                            >
-                                                {executive.name}
-                                            </Typography>
-                                            <Typography
-                                                variant="small"
-                                                className="text-primary"
-                                            >
-                                                {executive.title}
-                                            </Typography>
-                                            <Typography
-                                                variant="small"
-                                                className="text-text-dark mt-1"
-                                            >
-                                                {executive.role}
-                                            </Typography>
-                                        </div>
-                                    </div>
-
-                                    <div className="mt-4">
-                                        <Typography
-                                            variant="body-sm"
-                                            className="text-text-dark"
-                                        >
-                                            {Array.isArray(executive.bio) ? executive.bio[0] : executive.bio}
-                                        </Typography>
-                                    </div>
-
-                                    {/* Read More Button */}
-                                    <button
-                                        onClick={() => openModal(executive)}
-                                        aria-label={`Learn more about ${executive.name}, ${executive.title}`}
-                                        className="mt-4 text-primary hover:text-accent font-medium text-sm flex items-center transition-colors duration-300"
-                                    >
-                                        {t('executives.labels.readMore')}
-                                        <FaArrowRight className="ml-1 w-4 h-4" />
-                                    </button>
-
-                                    <div className="mt-4 pt-4 border-t border-gray-100">
-                                        <div className="flex flex-wrap gap-2">
-                                            {executive.certifications.map((cert: string, index: number) => (
-                                                <span
-                                                    key={index}
-                                                    className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary"
-                                                >
-                                                    {cert}
-                                                </span>
-                                            ))}
-                                        </div>
-                                    </div>
-                                </div>
-                            </motion.div>
+                                image={executive.image}
+                                name={executive.name}
+                                position={executive.title}
+                                message={Array.isArray(executive.bio) ? executive.bio : [executive.bio]}
+                                signature={executive.role}
+                                altText={executive.alt}
+                                expandable={true}
+                                variant={executive.department === "leadership" ? "primary" : "accent"}
+                                className="cursor-pointer"
+                                onClick={() => openModal(executive)}
+                            />
                         ))}
                     </motion.div>
                 </div>
@@ -455,7 +366,7 @@ const ExecutiveTeam: React.FC = () => {
                 </Transition.Root>
             </Section>
 
-            {/* CTA Section after Executive Team Grid */}
+            {/* CTA Section */}
             <Section className="py-16 text-center">
                 <div className="max-w-4xl mx-auto px-6">
                     <Typography variant="h2" className="text-3xl md:text-4xl font-bold text-primary mb-4">
@@ -475,10 +386,6 @@ const ExecutiveTeam: React.FC = () => {
 
             <style>{`
                 @media (max-width: 640px) {
-                    .executive-card {
-                        padding: 1.5rem;
-                    }
-                    
                     .modal-content {
                         margin: 0.5rem;
                         width: calc(100% - 1rem);

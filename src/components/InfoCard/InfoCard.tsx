@@ -2,6 +2,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { IconType } from 'react-icons';
+import { FaInfoCircle } from 'react-icons/fa';
 
 interface InfoCardProps {
     hideIconContainer?: boolean;
@@ -30,67 +31,99 @@ export const InfoCard: React.FC<InfoCardProps> = ({
                                                   }) => {
     // Define gradient and border based on variant
     const variantStyles = {
-        primary: 'from-primary/5 to-accent/5 border-primary/20',
-        accent: 'from-accent/5 to-primary/5 border-accent/20',
-        secondary: 'from-secondary/5 to-primary/5 border-secondary/20',
+        primary: {
+            bg: 'from-primary/5 to-accent/5',
+            border: 'border-primary/20 hover:border-accent/30',
+            glow: 'shadow-glow-primary-md'
+        },
+        accent: {
+            bg: 'from-accent/5 to-primary/5',
+            border: 'border-accent/20 hover:border-primary/30',
+            glow: 'shadow-glow-accent-md'
+        },
+        secondary: {
+            bg: 'from-secondary/5 to-primary/5',
+            border: 'border-secondary/20 hover:border-primary/30',
+            glow: 'shadow-glow-secondary-md'
+        },
     };
 
+    // Generate a safe ID for ARIA referencing
+    const safeTitleId = `infocard-title-${typeof title === 'string' ? title.replace(/\s+/g, '-').toLowerCase() : 'no-title'}`;
     return (
         <motion.div
-            className={`group relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 
-                        hover:border-accent/30 transition-all duration-300 
-                        rounded-2xl shadow-xl ring-1 ring-white/10 p-5 sm:p-6 min-h-[180px] ${className}`}
+            className={`group relative bg-gradient-to-br ${variantStyles[variant].bg} 
+                        border-2 ${variantStyles[variant].border} transition-all duration-500
+                        rounded-2xl shadow-xl ring-1 ring-white/10 p-5 sm:p-6 min-h-[180px] 
+                        transform-gpu ${className}`}
+            style={{
+                transformStyle: 'preserve-3d',
+                perspective: '1000px',
+            }}
             whileHover={{
-                y: -4,
+                y: -8,
+                scale: 1.02,
+                rotateY: 3,
                 transition: { duration: 0.3 },
-                boxShadow: '0 12px 25px -5px rgba(0, 0, 0, 0.15)',
+                boxShadow: '0 20px 35px -10px rgba(0, 0, 0, 0.2)',
             }}
             whileTap={{ scale: 0.97 }}
             role="region"
-            aria-labelledby={`infocard-title-${title}`}
+            aria-labelledby={safeTitleId}
         >
-            {/* Outer glow */}
-            <div
-                className="
-                    absolute -inset-[2px] rounded-xl
-                    opacity-0 group-hover:opacity-100
-                    transition-opacity duration-300
-                    pointer-events-none
-                    shadow-glow-accent-md
-                    z-0
-                "
-            ></div>
+            {/* Info badge in the top-right corner */}
+            <div className="absolute top-3 right-3 w-6 h-6 flex items-center justify-center rounded-full bg-accent text-white text-xs shadow-md z-20">
+                <FaInfoCircle className="w-3 h-3" />
+            </div>
+            {/* 3D edge effect */}
+            <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
+
+            {/* Glassy overlay */}
+            <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+
+            {/* Inner shadow effect */}
+            <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] group-hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
+
+            {/* Subtle background pattern */}
+            <div className="absolute inset-0 rounded-2xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
 
             <div className="relative z-10 flex flex-col h-full">
                 {!hideIconContainer && Icon && (
                     <motion.div
-                        className="bg-white/30 dark:bg-white/10 p-3 rounded-full backdrop-blur-sm mb-4 w-fit"
+                        className="bg-white/40 dark:bg-white/15 p-3 rounded-full backdrop-blur-md mb-4 w-fit transform-gpu group-hover:scale-110 transition-transform duration-500 shadow-md"
                         whileHover={{ scale: 1.15, rotate: 5 }}
                         transition={{ type: 'spring', stiffness: 300 }}
+                        style={{
+                            transformStyle: 'preserve-3d',
+                        }}
                     >
-                        <Icon className={`${iconColor} text-2xl`} />
+                        <Icon className={`${iconColor} text-2xl transform-gpu group-hover:scale-110 transition-transform duration-300`} />
                     </motion.div>
                 )}
 
-                <h3 id={`infocard-title-${title}`} className="text-xl font-bold text-primary mb-1">
+                <h3 id={safeTitleId} className="text-xl font-bold text-primary mb-1 relative z-10">
                     {title}
                 </h3>
 
-                {subtitle && <p className="text-sm text-text-dark mb-2">{subtitle}</p>}
+                {subtitle && <p className="text-sm text-text-dark mb-2 relative z-10">{subtitle}</p>}
 
-                <div className="text-text-dark flex-grow">{children}</div>
+                <div className="text-text-dark flex-grow relative z-10">{children}</div>
 
                 {cta && (
-                    <div className="mt-4">
+                    <div className="mt-4 relative z-10">
                         {typeof cta === 'string' ? (
-                            <button
+                            <motion.button
                                 onClick={onClickCta}
-                                className="px-4 py-2 bg-primary text-white rounded-md hover:bg-accent transition-colors font-medium"
+                                className="px-4 py-2 bg-gradient-to-r from-primary to-accent text-white rounded-md hover:from-accent hover:to-primary transition-all duration-300 font-medium shadow-md transform-gpu hover:scale-105"
+                                whileHover={{ y: -2 }}
+                                whileTap={{ scale: 0.95 }}
                             >
                                 {cta}
-                            </button>
+                            </motion.button>
                         ) : (
-                            cta
+                            <motion.div whileHover={{ y: -2 }} whileTap={{ scale: 0.95 }}>
+                                {cta}
+                            </motion.div>
                         )}
                     </div>
                 )}

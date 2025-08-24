@@ -4,7 +4,6 @@ import { motion } from 'framer-motion';
 import {
   FaTree,
   FaSeedling,
-  FaArrowRight,
   FaHandshake,
   FaLeaf,
   FaIndustry,
@@ -15,8 +14,12 @@ import {
   FaChartLine,
   FaHandsHelping,
   FaMosque,
-  FaWater
+  FaWater,
+  FaTimes,
+  FaEnvelope,
+  FaLinkedin
 } from "react-icons/fa";
+import { Dialog, Transition } from '@headlessui/react';
 
 import Section from '@/components/Section/Section';
 import { fadeIn, staggerContainer } from '@/utils/animations';
@@ -30,40 +33,76 @@ import { InfoCard } from '@/components/InfoCard/InfoCard';
 import {useNavigate} from "react-router-dom";
 import {ProfileCard} from "../components/ProfileCard/ProfileCard";
 
+interface Executive {
+  name: string;
+  position: string;
+  image: string;
+  alt: string;
+  message: string[];
+  signature: string;
+  email: string;
+  linkedin: string;
+  certifications?: string[];
+  experience?: string;
+  education?: string;
+}
+
 const About: React.FC = () => {
   const { t } = useTranslation('about');
   const navigate = useNavigate();
 
-  // CEO/CFO expanded state for accessibility
-  const [expandedCeo, setExpandedCeo] = useState(false);
-  const [expandedCfo, setExpandedCfo] = useState(false);
-  const ceoCardRef = useRef<HTMLDivElement>(null);
-  const cfoCardRef = useRef<HTMLDivElement>(null);
+  // Modal state
+  const [selectedExecutive, setSelectedExecutive] = useState<Executive | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Calculate if message is long enough to need truncation
+  // CEO/CFO data
   const ceoMessage = t('ceo.message', { returnObjects: true }) as string[];
   const cfoMessage = t('cfo.message', { returnObjects: true }) as string[];
-  const shouldTruncateCeo = ceoMessage.join(' ').length > 300;
-  const shouldTruncateCfo = cfoMessage.join(' ').length > 300;
 
-  const HeroSection = () => {
-    // Animation variants
-    const staggerContainer = {
-      hidden: {opacity: 0},
-      visible: {
-        opacity: 1,
-        transition: {
-          staggerChildren: 0.1,
-        }
-      }
+  const executives = {
+    ceo: {
+      name: "Hamza S. Ralsan Sangare",
+      position: t('ceo.position'),
+      image: ceoImage,
+      alt: t('ceo.alt'),
+      message: ceoMessage,
+      signature: t('ceo.signature'),
+      email: "ceo@afrinuts.com",
+      linkedin: "https://linkedin.com/in/example",
+      certifications: ["Islamic Finance", "Strategic Leadership"],
+      experience: t('ceo.experience', { defaultValue: "20+ years in agricultural leadership" }),
+      education: t('ceo.education', { defaultValue: "MBA in Business Administration" })
+    },
+    cfo: {
+      name: "Sekou Hakim Peters",
+      position: t('cfo.position', { defaultValue: "Co-founder & CFO" }),
+      image: cfoImage,
+      alt: t('cfo.alt'),
+      message: cfoMessage,
+      signature: t('cfo.signature'),
+      email: "cfo@afrinuts.com",
+      linkedin: "https://linkedin.com/in/example",
+      certifications: ["Sharia Compliance", "Organic Certification"],
+      experience: t('cfo.experience', { defaultValue: "15+ years in financial management" }),
+      education: t('cfo.education', { defaultValue: "Master's in Finance" })
     }
-  }
+  };
 
-  // Animation variants
-  const fadeIn = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 }
-  }
+  const openModal = (executive: Executive) => {
+    setSelectedExecutive(executive);
+    setIsModalOpen(true);
+    document.body.style.overflow = 'hidden';
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    document.body.style.overflow = 'auto';
+  };
+
+  // Handle keyboard events
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Escape') closeModal();
+  };
 
   return (
       <main>
@@ -95,7 +134,6 @@ const About: React.FC = () => {
             </motion.div>
           </Section>
 
-
           {/* Leadership Section */}
           <Section className="py-10 md:py-10">
             <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
@@ -108,93 +146,179 @@ const About: React.FC = () => {
                 </h2>
               </div>
 
-              <div className="space-y-10">
-
-                {/* CEO Message */}
-                {/* CEO Card with expandable section and a11y */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {/* CEO Card */}
                 <motion.div
-                  className="w-full"
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true }}
-                  variants={fadeIn}
-                  ref={ceoCardRef}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true }}
+                    variants={fadeIn}
                 >
-                  <div
-                    tabIndex={0}
-                    aria-expanded={expandedCeo}
-                    aria-controls="ceo-message"
-                    className="focus:outline-accent"
-                    onKeyDown={e => {
-                      if (e.key === "Enter" || e.key === " ") {
-                        setExpandedCeo(v => !v);
-                        e.preventDefault();
-                      }
-                    }}
-                  >
-                    <ProfileCard
-                      image={ceoImage}
-                      name="Hamza S. Ralsan Sangare"
-                      position={t('ceo.position')}
-                      message={ceoMessage}
-                      signature={t('ceo.signature')}
-                      altText={t('ceo.alt')}
-                      expandable={shouldTruncateCeo}
-                      expanded={expandedCeo}
-                      onExpand={() => setExpandedCeo(v => !v)}
+                  <ProfileCard
+                      image={executives.ceo.image}
+                      name={executives.ceo.name}
+                      position={executives.ceo.position}
+                      message={executives.ceo.message.slice(0, 1)} // show only first paragraph
+                      signature={executives.ceo.signature}
+                      altText={executives.ceo.alt}
+                      expandable={false}
                       variant="primary"
-                      imageProps={{
-                        loading: "lazy",
-                        decoding: "async"
-                      }}
-                      messageId="ceo-message"
-                    />
-                  </div>
+                      imageProps={{ loading: "lazy", decoding: "async" }}
+                      onClick={() => openModal(executives.ceo)}
+                      className="cursor-pointer"
+                  />
                 </motion.div>
 
-                {/* CFO Card with expandable section and a11y */}
+                {/* CFO Card */}
                 <motion.div
-                  className="w-full"
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true, margin: "100px" }}
-                  variants={fadeIn}
-                  ref={cfoCardRef}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: "100px" }}
+                    variants={fadeIn}
                 >
-                  <div
-                    tabIndex={0}
-                    aria-expanded={expandedCfo}
-                    aria-controls="cfo-message"
-                    className="focus:outline-accent"
-                    onKeyDown={e => {
-                      if (e.key === "Enter" || e.key === " ") {
-                        setExpandedCfo(v => !v);
-                        e.preventDefault();
-                      }
-                    }}
-                  >
-                    <ProfileCard
-                      image={cfoImage}
-                      name="Sekou Hakim Peters"
-                      position={t('cfo.position', { defaultValue: "Co-founder & CFO" })}
-                      message={cfoMessage}
-                      signature={t('cfo.signature')}
-                      altText={t('cfo.alt')}
-                      expandable={shouldTruncateCfo}
-                      expanded={expandedCfo}
-                      onExpand={() => setExpandedCfo(v => !v)}
+                  <ProfileCard
+                      image={executives.cfo.image}
+                      name={executives.cfo.name}
+                      position={executives.cfo.position}
+                      message={executives.cfo.message.slice(0, 1)} // show only first paragraph
+                      signature={executives.cfo.signature}
+                      altText={executives.cfo.alt}
+                      expandable={false}
                       variant="primary"
-                      imageProps={{
-                        loading: "lazy",
-                        decoding: "async"
-                      }}
-                      messageId="cfo-message"
-                    />
-                  </div>
+                      imageProps={{ loading: "lazy", decoding: "async" }}
+                      onClick={() => openModal(executives.cfo)}
+                      className="cursor-pointer"
+                  />
                 </motion.div>
               </div>
             </div>
           </Section>
+
+          {/* Bio Modal */}
+          <Transition.Root show={isModalOpen && !!selectedExecutive} as={React.Fragment}>
+            <Dialog as="div" className="relative z-50" onClose={closeModal} role="dialog" aria-modal="true">
+              <Transition.Child
+                  as={React.Fragment}
+                  enter="ease-out duration-300"
+                  enterFrom="opacity-0"
+                  enterTo="opacity-100"
+                  leave="ease-in duration-200"
+                  leaveFrom="opacity-100"
+                  leaveTo="opacity-0"
+              >
+                <div className="fixed inset-0 bg-black bg-opacity-30 transition-opacity" />
+              </Transition.Child>
+
+              <div className="fixed inset-0 z-50 overflow-y-auto">
+                <div className="flex min-h-full items-center justify-center p-4 text-center">
+                  <Transition.Child
+                      as={React.Fragment}
+                      enter="ease-out duration-300"
+                      enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                      enterTo="opacity-100 translate-y-0 sm:scale-100"
+                      leave="ease-in duration-200"
+                      leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+                      leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                  >
+                    <Dialog.Panel className="relative w-full max-w-4xl transform overflow-hidden bg-background rounded-3xl border-2 border-primary/20 hover:border-accent/30 hover:shadow-xl transition-shadow duration-300 text-left shadow-xl modal-content">
+                      <div className="p-6">
+                        {selectedExecutive && (
+                            <>
+                              <div className="flex justify-between items-start">
+                                <div>
+                                  <Dialog.Title as="h3" className="text-lg font-semibold text-primary">
+                                    {selectedExecutive.name}
+                                  </Dialog.Title>
+                                  <Typography variant="small" className="text-primary">
+                                    {selectedExecutive.position}
+                                  </Typography>
+                                </div>
+                                <button
+                                    onClick={closeModal}
+                                    className="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none"
+                                    aria-label="Close modal"
+                                >
+                                  <FaTimes className="h-6 w-6" />
+                                </button>
+                              </div>
+                              <div className="mt-4">
+                                <img
+                                  src={selectedExecutive.image}
+                                  alt={selectedExecutive.alt}
+                                  className="float-left h-32 w-32 rounded-full object-cover border-2 border-primary/20 mr-4 mb-2"
+                                />
+                                <Typography variant="body" className="text-gray-700">
+                                  {selectedExecutive.message.map((paragraph: string, index: number) => (
+                                    <p key={index} className="mb-4">{paragraph}</p>
+                                  ))}
+                                </Typography>
+                              </div>
+
+                              {selectedExecutive.experience && selectedExecutive.education && (
+                                  <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                      <Typography variant="small" className="font-medium text-gray-900">
+                                        Experience:
+                                      </Typography>
+                                      <Typography variant="body-sm" className="text-gray-700">
+                                        {selectedExecutive.experience}
+                                      </Typography>
+                                    </div>
+                                    <div>
+                                      <Typography variant="small" className="font-medium text-gray-900">
+                                        Education:
+                                      </Typography>
+                                      <Typography variant="body-sm" className="text-gray-700">
+                                        {selectedExecutive.education}
+                                      </Typography>
+                                    </div>
+                                  </div>
+                              )}
+
+                              {selectedExecutive.certifications && (
+                                  <div className="mt-4 pt-4 border-t border-gray-200">
+                                    <Typography variant="small" className="font-medium text-gray-900">
+                                      Certifications & Expertise:
+                                    </Typography>
+                                    <div className="flex flex-wrap gap-2 mt-2">
+                                      {selectedExecutive.certifications.map((cert: string, index: number) => (
+                                          <span
+                                              key={index}
+                                              className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary"
+                                          >
+                                      {cert}
+                                    </span>
+                                      ))}
+                                    </div>
+                                  </div>
+                              )}
+
+                              <div className="mt-6 flex space-x-4">
+                                <a href={`mailto:${selectedExecutive.email}`} className="text-primary hover:text-accent">
+                                  <FaEnvelope className="h-5 w-5" />
+                                </a>
+                                <a href={selectedExecutive.linkedin} className="text-primary hover:text-accent">
+                                  <FaLinkedin className="h-5 w-5" />
+                                </a>
+                              </div>
+
+                              <div className="mt-6 flex justify-end">
+                                <button
+                                    onClick={closeModal}
+                                    className="bg-primary hover:bg-dark-orange text-white px-4 py-2 rounded-md text-sm"
+                                >
+                                  Close
+                                </button>
+                              </div>
+                            </>
+                        )}
+                      </div>
+                    </Dialog.Panel>
+                  </Transition.Child>
+                </div>
+              </div>
+            </Dialog>
+          </Transition.Root>
 
         {/* Brand Statement */}
         <Section className="py-10 md:py-10 text-center text-text-dark">
@@ -360,147 +484,270 @@ const About: React.FC = () => {
           </div>
         </Section>
 
-        {/* Legacy Timeline with staggered animation, ARIA, icon scale */}
-        <Section className="py-10 md:py-10 text-text-dark">
-          <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
-            <motion.div
-              className="text-center mb-16"
-              initial="hidden"
-              whileInView="visible"
-              viewport={{once: true}}
-              variants={fadeIn}
-            >
-              <Typography variant="subhead" className="uppercase tracking-widest mb-2">
-                {t('legacy.subtitle', {defaultValue: "Our Journey Through Time"})}
-              </Typography>
-              <Typography variant="h2" className="mb-4">
-                {t('legacy.title')}
-              </Typography>
-            </motion.div>
-
-            <div className="max-w-4xl mx-auto space-y-8">
-              {/* Family Era */}
+          {/* Legacy Timeline with staggered animation, ARIA, icon scale */}
+          <Section className="py-10 md:py-10 text-text-dark">
+            <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
               <motion.div
-                initial="hidden"
-                whileInView="visible"
-                viewport={{once: true}}
-                variants={fadeIn}
-                transition={{delay: 0}}
-                className="group relative"
-                aria-label={t('legacy.family.aria', {defaultValue: "Family Era"})}
+                  className="text-center mb-16"
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{once: true}}
+                  variants={fadeIn}
               >
-                <div className="absolute -inset-1 rounded-3xl opacity-0 group-hover:opacity-100 blur transition duration-300"></div>
-                <div className="relative bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl shadow-xl overflow-hidden border-2 border-primary/20 hover:border-accent/30 transition-all duration-300">
-                  <div className="bg-gradient-to-r from-primary to-primary/90 p-6 flex items-center gap-4">
-                    <div className="bg-white/20 p-3 rounded-full">
-                      <FaTree className="text-2xl md:text-2xl sm:text-xl text-white transition-transform duration-300 group-hover:scale-110" />
-                    </div>
-                    <h3 className="font-display text-2xl text-white">
-                      {t('legacy.family.title')}
-                    </h3>
-                  </div>
-                  <div className="p-8">
-                    <p className="mb-6 text-gray-700">{t('legacy.family.text')}</p>
-                    <ul className="space-y-4">
-                      {(t('legacy.family.feats', {returnObjects: true}) as string[]).map((feat: string, index: number) => (
-                        <motion.li
-                          key={index}
-                          className="flex items-start gap-4 p-3 rounded-lg transition-colors"
-                          whileHover={{x: 5}}
-                          aria-label={t(`legacy.family.featsAria.${index}`, {defaultValue: feat})}
-                        >
-                          <div className="bg-accent/10 p-2 rounded-full">
-                            {index === 0 && <FaSeedling className="text-accent text-lg md:text-lg sm:text-base transition-transform duration-300 group-hover:scale-110" />}
-                            {index === 1 && <FaHandshake className="text-accent text-lg md:text-lg sm:text-base transition-transform duration-300 group-hover:scale-110" />}
-                            {index === 2 && <FaLeaf className="text-accent text-lg md:text-lg sm:text-base transition-transform duration-300 group-hover:scale-110" />}
-                          </div>
-                          <span className="flex-1">{feat}</span>
-                        </motion.li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
+                <Typography variant="subhead" className="uppercase tracking-widest mb-2">
+                  {t('legacy.subtitle', {defaultValue: "Our Journey Through Time"})}
+                </Typography>
+                <Typography variant="h2" className="mb-4">
+                  {t('legacy.title')}
+                </Typography>
               </motion.div>
 
-              {/* AfriNuts Era */}
-              <motion.div
-                initial="hidden"
-                whileInView="visible"
-                viewport={{once: true}}
-                variants={fadeIn}
-                transition={{delay: 0.15}}
-                className="group relative"
-                aria-label={t('legacy.afrinuts.aria', {defaultValue: "AfriNuts Era"})}
-              >
-                <div className="absolute -inset-1 rounded-3xl opacity-0 group-hover:opacity-100 blur transition duration-300"></div>
-                <div className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-300 rounded-3xl shadow-xl overflow-hidden">
-                  <div className="bg-gradient-to-r from-accent to-accent/90 p-6 flex items-center gap-4">
-                    <div className="bg-white/20 p-3 rounded-full">
-                      <FaChartLine className="text-2xl md:text-2xl sm:text-xl text-white transition-transform duration-300 group-hover:scale-110" />
-                    </div>
-                    <h3 className="font-display text-2xl text-white">
-                      {t('legacy.afrinuts.title')}
-                    </h3>
-                  </div>
-                  <div className="p-8">
-                    <p className="mb-6 text-gray-700">{t('legacy.afrinuts.text')}</p>
-                    <ul className="space-y-4">
-                      {(t('legacy.afrinuts.feats', {returnObjects: true}) as string[]).map((feat: string, index: number) => (
-                        <motion.li
-                          key={index}
-                          className="flex items-start gap-4 p-3 rounded-lg transition-colors"
-                          whileHover={{x: 5}}
-                          aria-label={t(`legacy.afrinuts.featsAria.${index}`, {defaultValue: feat})}
-                        >
-                          <div className="bg-accent/10 p-2 rounded-full">
-                            {index === 0 && <FaIndustry className="text-accent text-lg md:text-lg sm:text-base transition-transform duration-300 group-hover:scale-110" />}
-                            {index === 1 && <FaGlobe className="text-accent text-lg md:text-lg sm:text-base transition-transform duration-300 group-hover:scale-110" />}
-                            {index === 2 && <FaUsers className="text-accent text-lg md:text-lg sm:text-base transition-transform duration-300 group-hover:scale-110" />}
-                            {index === 3 && <FaSeedling className="text-accent text-lg md:text-lg sm:text-base transition-transform duration-300 group-hover:scale-110" />}
-                          </div>
-                          <span className="flex-1">{feat}</span>
-                        </motion.li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-              </motion.div>
-
-              {/* Vision 2031 */}
-              <motion.div
-                initial="hidden"
-                whileInView="visible"
-                viewport={{once: true}}
-                variants={fadeIn}
-                transition={{delay: 0.3}}
-                aria-label={t('legacy.future.aria', {defaultValue: "Future Vision 2031"})}
-              >
-                <div className="bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl p-8 text-center border-2 border-primary/20 hover:border-accent/30 transition-all duration-300">
-                  <div className="flex justify-center items-center gap-4 mb-6">
-                    <div className="bg-accent p-3 rounded-full">
-                      <FaRocket className="text-2xl md:text-2xl sm:text-xl text-white transition-transform duration-300 hover:scale-110" />
-                    </div>
-                    <h3 className="font-display text-2xl text-primary">
-                      {t('legacy.future.title')}
-                    </h3>
-                  </div>
-                  <p className="text-gray-700 max-w-2xl mx-auto">
-                    {t('legacy.future.text')}
-                  </p>
-                  <motion.button
-                    className="mt-6 group bg-primary hover:bg-dark-orange text-white px-8 py-3 rounded-full transition-all duration-300 inline-flex items-center mx-auto"
+              <div className="max-w-4xl mx-auto space-y-8">
+                {/* Family Era */}
+                <motion.div
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{once: true}}
                     variants={fadeIn}
-                    onClick={() => navigate('/vision')}
-                    aria-label={t('legacy.learnMoreAria', {defaultValue: "Learn more about Vision 2031"})}
+                    transition={{delay: 0}}
+                    className="group relative transform-gpu"
+                    style={{
+                      transformStyle: 'preserve-3d',
+                      perspective: '1000px',
+                    }}
+                    aria-label={t('legacy.family.aria', {defaultValue: "Family Era"})}
+                >
+                  <div className="absolute -inset-1 rounded-3xl opacity-0 group-hover:opacity-100 blur transition duration-300"></div>
+                  <motion.div
+                      className="relative bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl shadow-xl overflow-hidden border-2 border-primary/20 hover:border-accent/30 transition-all duration-500 transform-gpu"
+                      style={{
+                        transformStyle: 'preserve-3d',
+                      }}
+                      whileHover={{
+                        y: -8,
+                        scale: 1.02,
+                        rotateY: 2,
+                        boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+                        transition: { duration: 0.3 }
+                      }}
                   >
-                    {t('legacy.learnMore')}
-                    <FaGlobe className="ml-3 group-hover:rotate-45 transition-transform" aria-hidden="true" />
-                  </motion.button>
-                </div>
-              </motion.div>
+                    {/* 3D edge effect */}
+                    <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
+
+                    {/* Glassy overlay */}
+                    <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+
+                    {/* Inner shadow effect */}
+                    <div className="absolute inset-0 rounded-3xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] group-hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
+
+                    {/* Subtle background pattern */}
+                    <div className="absolute inset-0 rounded-3xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
+
+                    <div className="relative z-10">
+                      <div className="bg-gradient-to-r from-primary to-primary/90 p-6 flex items-center gap-4">
+                        <motion.div
+                            className="bg-white/20 p-3 rounded-full backdrop-blur-sm transform-gpu group-hover:scale-110 transition-transform duration-500"
+                            whileHover={{ scale: 1.2, rotate: 5 }}
+                            transition={{ type: 'spring', stiffness: 300 }}
+                        >
+                          <FaTree className="text-2xl md:text-2xl sm:text-xl text-white" />
+                        </motion.div>
+                        <h3 className="font-display text-2xl text-white">
+                          {t('legacy.family.title')}
+                        </h3>
+                      </div>
+                      <div className="p-8">
+                        <p className="mb-6 text-gray-700 relative z-10">{t('legacy.family.text')}</p>
+                        <ul className="space-y-4 relative z-10">
+                          {(t('legacy.family.feats', {returnObjects: true}) as string[]).map((feat: string, index: number) => (
+                              <motion.li
+                                  key={index}
+                                  className="flex items-start gap-4 p-3 rounded-lg transition-colors bg-white/30 backdrop-blur-sm"
+                                  whileHover={{x: 5, scale: 1.02}}
+                                  initial={{ opacity: 0, y: 10 }}
+                                  animate={{ opacity: 1, y: 0 }}
+                                  transition={{ delay: index * 0.1 }}
+                                  aria-label={t(`legacy.family.featsAria.${index}`, {defaultValue: feat})}
+                              >
+                                <motion.div
+                                    className="bg-accent/10 p-2 rounded-full transform-gpu group-hover:scale-110 transition-transform duration-300"
+                                    whileHover={{ scale: 1.2, rotate: 5 }}
+                                >
+                                  {index === 0 && <FaSeedling className="text-accent text-lg md:text-lg sm:text-base" />}
+                                  {index === 1 && <FaHandshake className="text-accent text-lg md:text-lg sm:text-base" />}
+                                  {index === 2 && <FaLeaf className="text-accent text-lg md:text-lg sm:text-base" />}
+                                </motion.div>
+                                <span className="flex-1">{feat}</span>
+                              </motion.li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  </motion.div>
+                </motion.div>
+
+                {/* AfriNuts Era */}
+                <motion.div
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{once: true}}
+                    variants={fadeIn}
+                    transition={{delay: 0.15}}
+                    className="group relative transform-gpu"
+                    style={{
+                      transformStyle: 'preserve-3d',
+                      perspective: '1000px',
+                    }}
+                    aria-label={t('legacy.afrinuts.aria', {defaultValue: "AfriNuts Era"})}
+                >
+                  <div className="absolute -inset-1 rounded-3xl opacity-0 group-hover:opacity-100 blur transition duration-300"></div>
+                  <motion.div
+                      className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-500 rounded-3xl shadow-xl overflow-hidden transform-gpu"
+                      style={{
+                        transformStyle: 'preserve-3d',
+                      }}
+                      whileHover={{
+                        y: -8,
+                        scale: 1.02,
+                        rotateY: 2,
+                        boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+                        transition: { duration: 0.3 }
+                      }}
+                  >
+                    {/* 3D edge effect */}
+                    <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
+
+                    {/* Glassy overlay */}
+                    <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+
+                    {/* Inner shadow effect */}
+                    <div className="absolute inset-0 rounded-3xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] group-hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
+
+                    {/* Subtle background pattern */}
+                    <div className="absolute inset-0 rounded-3xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
+
+                    <div className="relative z-10">
+                      <div className="bg-gradient-to-r from-accent to-accent/90 p-6 flex items-center gap-4">
+                        <motion.div
+                            className="bg-white/20 p-3 rounded-full backdrop-blur-sm transform-gpu group-hover:scale-110 transition-transform duration-500"
+                            whileHover={{ scale: 1.2, rotate: 5 }}
+                            transition={{ type: 'spring', stiffness: 300 }}
+                        >
+                          <FaChartLine className="text-2xl md:text-2xl sm:text-xl text-white" />
+                        </motion.div>
+                        <h3 className="font-display text-2xl text-white">
+                          {t('legacy.afrinuts.title')}
+                        </h3>
+                      </div>
+                      <div className="p-8">
+                        <p className="mb-6 text-gray-700 relative z-10">{t('legacy.afrinuts.text')}</p>
+                        <ul className="space-y-4 relative z-10">
+                          {(t('legacy.afrinuts.feats', {returnObjects: true}) as string[]).map((feat: string, index: number) => (
+                              <motion.li
+                                  key={index}
+                                  className="flex items-start gap-4 p-3 rounded-lg transition-colors bg-white/30 backdrop-blur-sm"
+                                  whileHover={{x: 5, scale: 1.02}}
+                                  initial={{ opacity: 0, y: 10 }}
+                                  animate={{ opacity: 1, y: 0 }}
+                                  transition={{ delay: index * 0.1 }}
+                                  aria-label={t(`legacy.afrinuts.featsAria.${index}`, {defaultValue: feat})}
+                              >
+                                <motion.div
+                                    className="bg-accent/10 p-2 rounded-full transform-gpu group-hover:scale-110 transition-transform duration-300"
+                                    whileHover={{ scale: 1.2, rotate: 5 }}
+                                >
+                                  {index === 0 && <FaIndustry className="text-accent text-lg md:text-lg sm:text-base" />}
+                                  {index === 1 && <FaGlobe className="text-accent text-lg md:text-lg sm:text-base" />}
+                                  {index === 2 && <FaUsers className="text-accent text-lg md:text-lg sm:text-base" />}
+                                  {index === 3 && <FaSeedling className="text-accent text-lg md:text-lg sm:text-base" />}
+                                </motion.div>
+                                <span className="flex-1">{feat}</span>
+                              </motion.li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  </motion.div>
+                </motion.div>
+
+                {/* Vision 2031 */}
+                <motion.div
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{once: true}}
+                    variants={fadeIn}
+                    transition={{delay: 0.3}}
+                    className="group relative transform-gpu"
+                    style={{
+                      transformStyle: 'preserve-3d',
+                      perspective: '1000px',
+                    }}
+                    aria-label={t('legacy.future.aria', {defaultValue: "Future Vision 2031"})}
+                >
+                  <motion.div
+                      className="bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl p-8 text-center border-2 border-primary/20 hover:border-accent/30 transition-all duration-500 transform-gpu relative overflow-hidden"
+                      style={{
+                        transformStyle: 'preserve-3d',
+                      }}
+                      whileHover={{
+                        y: -8,
+                        scale: 1.02,
+                        rotateY: 2,
+                        boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+                        transition: { duration: 0.3 }
+                      }}
+                  >
+                    {/* 3D edge effect */}
+                    <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
+
+                    {/* Glassy overlay */}
+                    <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+
+                    {/* Inner shadow effect */}
+                    <div className="absolute inset-0 rounded-3xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] group-hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
+
+                    {/* Subtle background pattern */}
+                    <div className="absolute inset-0 rounded-3xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
+
+                    <div className="relative z-10">
+                      <div className="flex justify-center items-center gap-4 mb-6">
+                        <motion.div
+                            className="bg-accent p-3 rounded-full transform-gpu group-hover:scale-110 transition-transform duration-500"
+                            whileHover={{ scale: 1.2, rotate: 5 }}
+                            transition={{ type: 'spring', stiffness: 300 }}
+                        >
+                          <FaRocket className="text-2xl md:text-2xl sm:text-xl text-white" />
+                        </motion.div>
+                        <h3 className="font-display text-2xl text-primary">
+                          {t('legacy.future.title')}
+                        </h3>
+                      </div>
+                      <p className="text-gray-700 max-w-2xl mx-auto relative z-10">
+                        {t('legacy.future.text')}
+                      </p>
+                      <motion.button
+                          className="mt-6 group bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-3 rounded-full transition-all duration-300 inline-flex items-center mx-auto transform-gpu hover:scale-105 relative z-10"
+                          variants={fadeIn}
+                          onClick={() => navigate('/vision')}
+                          whileHover={{ y: -2 }}
+                          whileTap={{ scale: 0.95 }}
+                          aria-label={t('legacy.learnMoreAria', {defaultValue: "Learn more about Vision 2031"})}
+                      >
+                        {t('legacy.learnMore')}
+                        <motion.span
+                            className="ml-3"
+                            whileHover={{ rotate: 45 }}
+                            transition={{ type: 'spring', stiffness: 400 }}
+                        >
+                          <FaGlobe aria-hidden="true" />
+                        </motion.span>
+                      </motion.button>
+                    </div>
+                  </motion.div>
+                </motion.div>
+              </div>
             </div>
-          </div>
-        </Section>
+          </Section>
         </div>
       </main>
   );

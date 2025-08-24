@@ -227,9 +227,16 @@ const Farm = () => {
                 {/* Farm Development Timeline */}
                 <Section className="py-10 sm:py-12 px-4 sm:px-6">
                     <div className="max-w-6xl mx-auto">
-                        <Typography variant="h2" className="text-primary text-center mb-8 md:mb-16">
-                            {t('timeline.title')}
-                        </Typography>
+                        <motion.div
+                            initial="hidden"
+                            whileInView="visible"
+                            variants={fadeIn}
+                            viewport={{ once: true }}
+                        >
+                            <Typography variant="h2" className="text-primary text-center mb-8 md:mb-16">
+                                {t('timeline.title')}
+                            </Typography>
+                        </motion.div>
 
                         {/* Mobile scroll indicator */}
                         <div className="md:hidden text-center text-sm text-primary mb-4">
@@ -237,44 +244,93 @@ const Farm = () => {
                         </div>
 
                         <div className="relative">
-                            <div className="hidden md:block absolute left-0 right-0 top-1/2 h-1 bg-accent transform -translate-y-1/2"></div>
+                            <div className="hidden md:block absolute left-0 right-0 top-1/2 h-1 bg-accent/30 transform -translate-y-1/2 z-0"></div>
 
                             <div className="flex md:flex-row flex-nowrap overflow-x-auto pb-4 md:pb-0 md:overflow-visible gap-6 md:gap-0 relative
-                                scrollbar-thin scrollbar-thumb-rounded-full scrollbar-thumb-accent/30 scroll-snap-x">
+                scrollbar-thin scrollbar-thumb-rounded-full scrollbar-thumb-accent/30 scroll-snap-x">
                                 {timelineData.map((item, index) => (
                                     <motion.div
                                         key={index}
-                                        className="flex flex-col items-center w-[220px] sm:w-[240px] flex-shrink-0 md:w-1/3 px-0 md:px-4 scroll-snap-align-start"
+                                        className="flex flex-col items-center w-[220px] sm:w-[240px] flex-shrink-0 md:w-1/3 px-0 md:px-4 scroll-snap-align-start transform-gpu group"
                                         initial="hidden"
                                         whileInView="visible"
                                         variants={fadeIn}
                                         viewport={{ once: true }}
+                                        style={{
+                                            transformStyle: 'preserve-3d',
+                                            perspective: '1000px',
+                                        }}
                                     >
-                                        <div className={`
-                                        w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center 
-                                        font-display text-lg md:text-xl font-bold border-4 shadow-lg mb-4 z-10
-                                        bg-gradient-to-br from-primary/5 to-accent/5 text-primary border-accent
-                                        transition-all duration-300 md:hover:scale-110
-                                        touch-target
-                                        relative
-                                        mt-0 md:mt-8
-                                    `}>
-                                            {item.year}
-                                        </div>
+                                        <motion.div
+                                            className={`
+                                w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center 
+                                font-display text-lg md:text-xl font-bold border-4 shadow-lg mb-4 z-10
+                                bg-gradient-to-br from-primary/5 to-accent/5 text-primary border-accent
+                                transition-all duration-500 transform-gpu
+                                relative
+                                mt-0 md:mt-8
+                            `}
+                                            whileHover={{
+                                                scale: 1.15,
+                                                rotateY: 5,
+                                                boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.2)',
+                                            }}
+                                            style={{
+                                                transformStyle: 'preserve-3d',
+                                            }}
+                                        >
+                                            {/* 3D edge effect for year circle */}
+                                            <div className="absolute inset-0 rounded-full border-2 border-white/20 transform-gpu translate-z-[-4px] group-hover:translate-z-[-6px] transition-all duration-500" />
 
-                                        <div className="bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-300 p-4 md:p-6 rounded-xl shadow-lg w-full">
-                                            <div className="flex items-center gap-3 mb-3 md:mb-4">
-                                                <div className="text-accent text-lg md:text-xl">
-                                                    <item.icon />
+                                            {/* Glassy overlay for year circle */}
+                                            <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+
+                                            <span className="relative z-10">{item.year}</span>
+                                        </motion.div>
+
+                                        <motion.div
+                                            className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-500 p-4 md:p-6 rounded-2xl shadow-lg w-full transform-gpu group/card"
+                                            style={{
+                                                transformStyle: 'preserve-3d',
+                                            }}
+                                            whileHover={{
+                                                y: -8,
+                                                scale: 1.03,
+                                                rotateY: 3,
+                                                boxShadow: '0 20px 35px -10px rgba(0, 0, 0, 0.2)',
+                                                transition: { duration: 0.3 }
+                                            }}
+                                        >
+                                            {/* 3D edge effect */}
+                                            <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover/card:translate-z-[-10px] transition-all duration-500" />
+
+                                            {/* Glassy overlay */}
+                                            <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover/card:opacity-60 transition-opacity duration-500" />
+
+                                            {/* Inner shadow effect */}
+                                            <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] group-hover/card:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
+
+                                            {/* Subtle background pattern */}
+                                            <div className="absolute inset-0 rounded-2xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
+
+                                            <div className="relative z-10">
+                                                <div className="flex items-center gap-3 mb-3 md:mb-4">
+                                                    <motion.div
+                                                        className="text-accent text-lg md:text-xl bg-accent/20 p-2 rounded-full transform-gpu group-hover/card:scale-110 transition-transform duration-300"
+                                                        whileHover={{ scale: 1.2, rotate: 5 }}
+                                                        transition={{ type: 'spring', stiffness: 300 }}
+                                                    >
+                                                        <item.icon />
+                                                    </motion.div>
+                                                    <Typography variant="h4" className="text-primary text-lg md:text-xl">
+                                                        {item.title}
+                                                    </Typography>
                                                 </div>
-                                                <Typography variant="h4" className="text-primary text-lg md:text-xl">
-                                                    {item.title}
+                                                <Typography variant="body" className="text-sm md:text-base">
+                                                    {item.description}
                                                 </Typography>
                                             </div>
-                                            <Typography variant="body" className="text-sm md:text-base">
-                                                {item.description}
-                                            </Typography>
-                                        </div>
+                                        </motion.div>
                                     </motion.div>
                                 ))}
                             </div>
@@ -285,43 +341,97 @@ const Farm = () => {
                 {/* Impact Section */}
                 <section className="py-10 px-6 text-primary">
                     <div className="max-w-4xl mx-auto">
-                        <Typography variant="h2" className="text-center text-primary mb-16">
-                            {t('impact.title')}
-                        </Typography>
+                        <motion.div
+                            initial="hidden"
+                            whileInView="visible"
+                            variants={fadeIn}
+                            viewport={{ once: true }}
+                        >
+                            <Typography variant="h2" className="text-center text-primary mb-16">
+                                {t('impact.title')}
+                            </Typography>
+                        </motion.div>
+
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 justify-center">
                             {impactStats.map((stat, index) => (
                                 <motion.div
                                     key={index}
                                     variants={fadeIn}
                                     transition={{ delay: index * 0.1 }}
-                                    className="flex justify-center"
+                                    className="flex justify-center transform-gpu group"
+                                    initial="hidden"
+                                    whileInView="visible"
+                                    viewport={{ once: true }}
+                                    style={{
+                                        transformStyle: 'preserve-3d',
+                                        perspective: '1000px',
+                                    }}
                                 >
-                                    <div
+                                    <motion.div
                                         className={`
-                                            flex flex-col items-center
-                                            px-8 py-8
-                                            rounded-2xl
-                                            shadow-xl
-                                           bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30
-                                            transition-transform duration-200
-                                            hover:scale-105
-                                            min-w-[220px] max-w-full
-                                            w-fit
-                                        `}
+                            relative flex flex-col items-center
+                            px-8 py-8
+                            rounded-2xl
+                            shadow-xl
+                            bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30
+                            transition-all duration-500
+                            min-w-[220px] max-w-full
+                            w-fit
+                            transform-gpu
+                        `}
+                                        style={{
+                                            transformStyle: 'preserve-3d',
+                                        }}
+                                        whileHover={{
+                                            y: -8,
+                                            scale: 1.05,
+                                            rotateY: 3,
+                                            boxShadow: '0 20px 35px -10px rgba(0, 0, 0, 0.2)',
+                                            transition: { duration: 0.3 }
+                                        }}
                                     >
-                                        <div className="mb-3 text-4xl">
-                                            <stat.icon />
+                                        {/* 3D edge effect */}
+                                        <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
+
+                                        {/* Glassy overlay */}
+                                        <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+
+                                        {/* Inner shadow effect */}
+                                        <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] group-hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
+
+                                        {/* Subtle background pattern */}
+                                        <div className="absolute inset-0 rounded-2xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUs IDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
+
+                                        <div className="relative z-10">
+                                            <motion.div
+                                                className="mb-3 text-4xl text-accent transform-gpu group-hover:scale-110 transition-transform duration-500"
+                                                whileHover={{ scale: 1.2, rotate: 5 }}
+                                                transition={{ type: 'spring', stiffness: 300 }}
+                                            >
+                                                <stat.icon />
+                                            </motion.div>
+
+                                            <motion.div
+                                                className="text-3xl font-bold mb-1 transform-gpu group-hover:scale-105 transition-transform duration-300"
+                                                whileHover={{ y: -2 }}
+                                            >
+                                                <StatsCounter
+                                                    endValue={Number(stat.value)}
+                                                    suffix={stat.suffix}
+                                                />
+                                            </motion.div>
+
+                                            <motion.div
+                                                className="text-base font-medium text-text-dark text-center transform-gpu group-hover:scale-105 transition-transform duration-300"
+                                                whileHover={{ y: -1 }}
+                                            >
+                                                <div>
+                                                  <div className="font-semibold">{stat.label.label}</div>
+                                                  <div className="text-sm text-gray-600">{stat.label.description}</div>
+                                                </div>
+                                            </motion.div>
                                         </div>
-                                        <div className="text-3xl font-bold mb-1">
-                                            <StatsCounter
-                                                endValue={Number(stat.value)}
-                                                suffix={stat.suffix}
-                                            />
-                                        </div>
-                                        <div className="text-base font-medium text-text-dark text-center">
-                                            {stat.label}
-                                        </div>
-                                    </div>
+                                    </motion.div>
                                 </motion.div>
                             ))}
                         </div>

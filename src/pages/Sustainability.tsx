@@ -147,7 +147,7 @@ const Sustainability: React.FC = () => {
                                         >
                                             <InfoCard
                                                 icon={getIconComponent(item.icon)}
-                                                title={item.title}
+                                                title={<h3 id={`challenge-title-${index}`}>{item.title}</h3>}
                                                 iconColor="text-accent"
                                                 className="h-full"
                                             >
@@ -167,7 +167,7 @@ const Sustainability: React.FC = () => {
                             <div className="lg:w-1/2">
                                 <img
                                     src={agroforestryImage}
-                                    alt="Agroforestry practices"
+                                    alt={t('environment.solutions.title')}
                                     className="rounded-2xl shadow-xl w-full transition-transform duration-300 hover:scale-105"
                                 />
                             </div>
@@ -190,7 +190,7 @@ const Sustainability: React.FC = () => {
                                             >
                                                 <InfoCard
                                                     icon={IconComponent}
-                                                    title={item.title}
+                                                    title={<h3 id={`solution-title-${index}`}>{item.title}</h3>}
                                                     iconColor="text-accent"
                                                     className="h-full"
                                                 >
@@ -245,7 +245,7 @@ const Sustainability: React.FC = () => {
                             >
                                 <img
                                     src={farmersImage}
-                                    alt="Farmers training"
+                                    alt={t('social.farmers.title')}
                                     className="rounded-2xl shadow-xl w-full transition-transform duration-300 hover:scale-105"
                                 />
                             </motion.div>
@@ -293,26 +293,69 @@ const Sustainability: React.FC = () => {
                             {(t('future.content', { returnObjects: true }) as string[]).map((item, index) => (
                                 <motion.div
                                     key={`future-item-${index}`}
-                                    className="flex items-center gap-4  bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-300  backdrop-blur-md p-4 rounded-xl shadow-sm ring-1 ring-white/10"
+                                    className="group relative flex items-center gap-4 bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-500 backdrop-blur-md p-4 rounded-xl shadow-lg transform-gpu"
+                                    style={{
+                                        transformStyle: 'preserve-3d',
+                                        perspective: '1000px',
+                                    }}
                                     variants={fadeIn}
                                     transition={{ delay: index * 0.1 }}
-                                    whileHover={{ y: -2 }}
+                                    whileHover={{
+                                        y: -6,
+                                        scale: 1.02,
+                                        rotateY: 2,
+                                        boxShadow: '0 15px 30px -5px rgba(0, 0, 0, 0.15)',
+                                    }}
                                 >
-                                    <div className="bg-accent p-3 rounded-full text-white">
+                                    {/* 3D edge effect */}
+                                    <div className="absolute inset-0 rounded-xl border-2 border-white/20 transform-gpu translate-z-[-4px] group-hover:translate-z-[-8px] transition-all duration-500" />
+
+                                    {/* Glassy overlay */}
+                                    <div className="absolute inset-0 rounded-xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+
+                                    {/* Inner shadow effect */}
+                                    <div className="absolute inset-0 rounded-xl shadow-[inset_0_2px_8px_rgba(0,0,0,0.06)] group-hover:shadow-[inset_0_4px_12px_rgba(0,0,0,0.1)] transition-shadow duration-500" />
+
+                                    {/* Subtle background pattern */}
+                                    <div className="absolute inset-0 rounded-xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjAiLz48L2c+PC9zdmc+')] opacity-15" />
+
+                                    <motion.div
+                                        className="bg-accent p-3 rounded-full text-white shadow-md transform-gpu group-hover:scale-110 transition-transform duration-500 z-10"
+                                        whileHover={{ scale: 1.15, rotate: 5 }}
+                                        transition={{ type: 'spring', stiffness: 300 }}
+                                    >
                                         <FaChartLine className="text-xl" />
-                                    </div>
-                                    <p className="text-lg text-text-dark text-left flex-1">{item}</p>
+                                    </motion.div>
+                                    <p className="text-lg text-text-dark text-left flex-1 relative z-10">{item}</p>
                                 </motion.div>
                             ))}
                         </div>
                         <motion.button
-                            className="mt-6 group bg-primary hover:bg-dark-orange text-white px-8 py-3 rounded-full transition-all duration-300 inline-flex items-center mx-auto"
+                            className="group bg-primary hover:bg-dark-orange text-white hover:text-white px-8 py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg inline-flex items-center mx-auto"
+                            aria-label={t('future.cta')}
                             variants={fadeIn}
-                            whileHover={{ scale: 1.05 }}
+                            whileHover={{
+                                scale: 1.05,
+                                y: -2,
+                                boxShadow: '0 10px 25px -5px rgba(165, 105, 66, 0.4)'
+                            }}
+                            whileTap={{ scale: 0.98 }}
                             onClick={() => navigate('/vision')}
                         >
-                            {t('future.cta')}
-                            <FaGlobe className="ml-3 group-hover:rotate-45 transition-transform" />
+                            {/* Button 3D effect */}
+                            <div className="absolute inset-0 rounded-full border-2 border-white/20 transform-gpu translate-z-[-4px] group-hover:translate-z-[-6px] transition-all duration-500" />
+
+                            {/* Button glassy overlay */}
+                            <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50 group-hover:opacity-70 transition-opacity duration-500" />
+
+                            <span className="relative z-10">{t('future.cta')}</span>
+                            <motion.span
+                                className="ml-3 relative z-10"
+                                whileHover={{ rotate: 45 }}
+                                transition={{ duration: 0.3 }}
+                            >
+                                <FaGlobe className="transition-transform" />
+                            </motion.span>
                         </motion.button>
                     </motion.div>
                 </div>

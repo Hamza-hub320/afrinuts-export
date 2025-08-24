@@ -3,8 +3,9 @@ import { useTranslation } from 'react-i18next';
 import { motion, Variants } from 'framer-motion';
 import { fadeIn, staggerContainer } from '@/utils/animations';
 import { Typography } from "@/components/Typography/Typography";
+import { InfoCard } from '@/components/InfoCard/InfoCard';
 import Section from '@/components/Section/Section';
-import { FaTree, FaHandsHelping, FaWater, FaMosque, FaGlobe, FaChartLine, FaSeedling } from "react-icons/fa";
+import { FaTree, FaHandsHelping, FaGlobe, FaChartLine, FaSeedling } from "react-icons/fa";
 import { Link } from 'react-router-dom';
 import heritageImage from '@/assets/images/heritage.webp';
 import farmImage from '@/assets/images/farm.webp';
@@ -40,96 +41,48 @@ const OurStory: React.FC = () => {
     // Refs for each section to scroll to
     const sectionRefs: RefObject<HTMLDivElement>[] = [];
 
-    const storySections: StorySection[] = [
+    const storySections = [
         {
             title: t('sections.heritage.title'),
             icon: FaTree,
             image: heritageImage,
-            content: t('sections.heritage.content', { returnObjects: true }),
+            description: t('sections.heritage.content', { returnObjects: true }),
             color: 'bg-gradient-to-br from-primary/20 to-accent/5 bg-opacity-50 backdrop-blur-md border-2 border-accent/20',
-            altKey: 'sections.heritage.alt',
-            cta: {
-                text: t('sections.heritage.cta', 'Learn More About Our Heritage'),
-                link: '/heritage'
-            },
-            milestone: {
-                label: t('sections.heritage.milestone.label', '100+ Years'),
-                description: t('sections.heritage.milestone.description', 'A century of preserving our culture')
-            },
-            communityImpact: t('sections.heritage.communityImpact'),
+            altKey: 'sections.heritage.alt'
         },
         {
             title: t('sections.tradition.title'),
             icon: FaSeedling,
             image: farmImage,
-            content: t('sections.tradition.content', { returnObjects: true }),
+            description: t('sections.tradition.content', { returnObjects: true }),
             color: 'bg-gradient-to-br from-primary/5 to-accent/10 bg-opacity-50 backdrop-blur-md border-2 border-accent/20',
-            altKey: 'sections.tradition.alt',
-            cta: {
-                text: t('sections.tradition.cta', 'Learn More About Our Farms'),
-                link: '/farms'
-            },
-            milestone: {
-                label: t('sections.tradition.milestone.label', '500+ Acres'),
-                description: t('sections.tradition.milestone.description', 'Sustainably farmed land')
-            },
-            communityImpact: t('sections.tradition.communityImpact'),
+            altKey: 'sections.tradition.alt'
         },
         {
             title: t('sections.innovation.title'),
             icon: FaChartLine,
             image: innovationImage,
-            content: t('sections.innovation.content', { returnObjects: true }),
+            description: t('sections.innovation.content', { returnObjects: true }),
             color: 'bg-gradient-to-br from-primary/20 to-accent/5 bg-opacity-50 backdrop-blur-md border-2 border-accent/20',
-            altKey: 'sections.innovation.alt',
-            cta: {
-                text: t('sections.innovation.cta', 'Discover Our Innovations'),
-                link: '/innovation'
-            },
-            milestone: {
-                label: t('sections.innovation.milestone.label', '50+ Patents'),
-                description: t('sections.innovation.milestone.description', 'Cutting-edge technology in agriculture')
-            },
-            communityImpact: t('sections.innovation.communityImpact'),
+            altKey: 'sections.innovation.alt'
         },
         {
             title: t('sections.community.title'),
             icon: FaHandsHelping,
             image: communityImage,
-            content: t('sections.community.content', { returnObjects: true }),
+            description: t('sections.community.content', { returnObjects: true }),
             color: 'bg-gradient-to-br from-primary/5 to-accent/10 bg-opacity-50 backdrop-blur-md border-2 border-accent/20',
-            altKey: 'sections.community.alt',
-            cta: {
-                text: t('sections.community.cta', 'Join Our Community'),
-                link: '/community'
-            },
-            milestone: {
-                label: t('sections.community.milestone.label', '10,000+ Members'),
-                description: t('sections.community.milestone.description', 'A thriving and supportive network')
-            },
-            communityImpact: t('sections.community.communityImpact'),
+            altKey: 'sections.community.alt'
         },
         {
             title: t('sections.future.title'),
             icon: FaGlobe,
             image: futureImage,
-            content: t('sections.future.content', { returnObjects: true }),
+            description: t('sections.future.content', { returnObjects: true }),
             color: 'bg-gradient-to-br from-primary/20 to-accent/5 bg-opacity-50 backdrop-blur-md border-2 border-accent/20',
-            altKey: 'sections.future.alt',
-            cta: {
-                text: t('sections.future.cta', 'Explore Our Vision'),
-                link: '/future'
-            },
-            milestone: {
-                label: t('sections.future.milestone.label', '2030+ Goals'),
-                description: t('sections.future.milestone.description', 'Sustainable growth and impact')
-            },
-            communityImpact: t('sections.future.communityImpact'),
+            altKey: 'sections.future.alt'
         }
     ];
-
-    // Create refs for each section
-    storySections.forEach(() => sectionRefs.push(React.createRef<HTMLDivElement>()));
 
     // State for expanded paragraphs (for collapsible content)
     const [expandedSections, setExpandedSections] = useState<Record<number, boolean>>({});
@@ -150,12 +103,19 @@ const OurStory: React.FC = () => {
         }));
     };
 
-    // Framer motion variants for hover effect on content box
+    // Enhanced Framer motion variants for glassy 3D effect
     const contentBoxVariants: Variants = {
-        rest: { scale: 1, boxShadow: '0 0 0 rgba(0,0,0,0)' },
+        rest: {
+            scale: 1,
+            y: 0,
+            rotateY: 0,
+            boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)'
+        },
         hover: {
             scale: 1.03,
-            boxShadow: '0 10px 20px rgba(0,0,0,0.12)',
+            y: -8,
+            rotateY: 3,
+            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
             transition: { duration: 0.3 }
         }
     };
@@ -217,29 +177,41 @@ const OurStory: React.FC = () => {
                 </motion.div>
             </Section>
 
-            {/* Intro Section */}
-            <Section className="py-16 md:py-24 bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 rounded-3xl shadow-lg mx-6 sm:mx-12 lg:mx-32 xl:mx-48">
-                <motion.div
-                    className="text-center max-w-4xl mx-auto"
-                    initial="hidden"
-                    whileInView="visible"
-                    viewport={{ once: true }}
-                    variants={staggerContainer}
-                >
-                    <motion.div variants={fadeIn}>
+            {/* Intro Section - Enhanced with Glassy 3D */}
+            <motion.div
+                className="py-16 md:py-24 mx-6 sm:mx-12 lg:mx-32 xl:mx-48 transform-gpu"
+                style={{
+                    transformStyle: 'preserve-3d',
+                    perspective: '1000px',
+                }}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={fadeIn}
+            >
+                <div className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-3xl shadow-xl p-8 md:p-12 transform-gpu">
+                    {/* 3D edge effect */}
+                    <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px] transition-all duration-500" />
+
+                    {/* Glassy overlay */}
+                    <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40 transition-opacity duration-500" />
+
+                    {/* Inner shadow effect */}
+                    <div className="absolute inset-0 rounded-3xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] transition-shadow duration-500" />
+
+                    {/* Subtle background pattern */}
+                    <div className="absolute inset-0 rounded-3xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
+
+                    <div className="relative z-10 text-center max-w-4xl mx-auto">
                         <Typography variant="h2" className="mb-6 text-primary">
                             {t('intro.title')}
                         </Typography>
-                    </motion.div>
-                    <motion.div variants={fadeIn}>
                         <Typography variant="lead" className="text-text-dark max-w-3xl mx-auto">
                             {t('intro.description')}
                         </Typography>
-                    </motion.div>
-                </motion.div>
-            </Section>
-
-            {/* Community Impact Section removed */}
+                    </div>
+                </div>
+            </motion.div>
 
             {/* Story Timeline */}
             <Section className="py-16 md:py-24">
@@ -263,18 +235,14 @@ const OurStory: React.FC = () => {
                         {/* Vertical line - thicker for better visibility */}
                         <div className={`hidden md:block absolute left-1/2 h-full w-1 bg-primary/30 transform -translate-x-1/2`}></div>
 
-                        {/* Interactive timeline dots removed */}
-
                         {/* Story Sections */}
                         <div className="space-y-16 md:space-y-24">
                             {storySections.map((section, index) => {
                                 const isExpanded = expandedSections[index] ?? false;
-                                const contentArray = Array.isArray(section.content) ? section.content : [section.content];
-
-                                // Determine if content needs collapsing
-                                const combinedContent = contentArray.join(' ');
-                                const needsCollapse = combinedContent.length > COLLAPSE_LIMIT;
-
+                                const descriptionArray = Array.isArray(section.description) ? section.description : [section.description];
+                                // Determine if content needs collapsing (not used here, but left for possible future use)
+                                const combinedDescription = descriptionArray.join(' ');
+                                // Keep layout and timeline dot, but replace content card with InfoCard
                                 return (
                                     <motion.div
                                         key={index}
@@ -303,42 +271,28 @@ const OurStory: React.FC = () => {
                                                     />
                                                 </motion.div>
                                             </div>
-
-                                            {/* Content box with hover animation */}
-                                            <motion.div
-                                                className={`flex-1 ${section.color} p-8 rounded-3xl shadow-lg cursor-default ${getContentMargin(index)}`}
-                                                variants={contentBoxVariants}
-                                                initial="rest"
-                                                whileHover="hover"
-                                                animate="rest"
-                                            >
-                                                <div className="flex items-center gap-4 mb-6">
-                                                    <div className="bg-primary p-3 rounded-full text-white flex items-center justify-center">
-                                                        <section.icon className="text-xl" aria-hidden="true" />
-                                                    </div>
-                                                    <Typography variant="h3" className="text-text-dark">
-                                                        {section.title}
-                                                    </Typography>
-                                                </div>
-
-                                                <div className="space-y-4">
-                                                    {contentArray.map((paragraph, pIndex) => (
-                                                        <Typography key={pIndex} variant="body">
-                                                            {paragraph}
-                                                        </Typography>
-                                                    ))}
-                                                </div>
-
-                                                {/* Community impact highlight */}
-                                                {/* Removed: Community impact rendering from inside timeline cards */}
-                                            </motion.div>
+                                            {/* InfoCard content */}
+                                            <div className={`flex-1 ${getContentMargin(index)}`}>
+                                                <InfoCard
+                                                    title={section.title}
+                                                    image={section.image}
+                                                    icon={section.icon}
+                                                    alt={t(section.altKey)}
+                                                    color={section.color}
+                                                >
+                                                    {Array.isArray(section.description)
+                                                        ? section.description.map((paragraph, idx) => <p key={idx}>{paragraph}</p>)
+                                                        : section.description}
+                                                </InfoCard>
+                                            </div>
                                         </div>
-
-                                        {/* Timeline dot - large and prominent on md+ */}
+                                        {/* Static Timeline dot */}
                                         <div
-                                            className="hidden md:block absolute top-1/2 left-1/2 w-10 h-10 rounded-full bg-primary border-4 border-white transform -translate-x-1/2 -translate-y-1/2 shadow-lg z-10"
+                                            className="hidden md:block absolute top-1/2 left-1/2 w-12 h-12 rounded-full bg-primary border-4 border-white transform -translate-x-1/2 -translate-y-1/2 shadow-lg z-10 transform-gpu"
                                             aria-hidden="true"
-                                        ></div>
+                                        >
+                                            <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/30 to-transparent" />
+                                        </div>
                                     </motion.div>
                                 );
                             })}
@@ -347,33 +301,55 @@ const OurStory: React.FC = () => {
                 </div>
             </Section>
 
-            {/* Call to Action */}
+            {/* Call to Action - Enhanced with Glassy 3D */}
             <Section className="py-16 text-text-dark">
                 <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 text-center">
                     <motion.div
+                        className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-3xl shadow-xl p-8 md:p-12 transform-gpu"
+                        style={{
+                            transformStyle: 'preserve-3d',
+                        }}
                         initial="hidden"
                         whileInView="visible"
                         viewport={{ once: true }}
-                        variants={staggerContainer}
+                        variants={fadeIn}
+                        whileHover={{
+                            y: -5,
+                            rotateY: 2,
+                            transition: { duration: 0.3 }
+                        }}
                     >
-                        <motion.div variants={fadeIn}>
+                        {/* 3D edge effect */}
+                        <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px] transition-all duration-500" />
+
+                        {/* Glassy overlay */}
+                        <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40 transition-opacity duration-500" />
+
+                        {/* Inner shadow effect */}
+                        <div className="absolute inset-0 rounded-3xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] transition-shadow duration-500" />
+
+                        {/* Subtle background pattern */}
+                        <div className="absolute inset-0 rounded-3xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
+
+                        <div className="relative z-10">
                             <Typography variant="h2" className="mb-6">
                                 {t('cta.title')}
                             </Typography>
-                        </motion.div>
-                        <motion.div variants={fadeIn}>
                             <Typography variant="lead" className="mb-8 max-w-3xl mx-auto">
                                 {t('cta.subtitle')}
                             </Typography>
-                        </motion.div>
-                        <motion.div variants={fadeIn}>
-                            <Link
-                                to="/contact"
-                                className="mt-6 group bg-primary hover:bg-dark-orange text-white px-8 py-3 rounded-full transition-all duration-300 inline-flex items-center mx-auto focus:outline-none focus:ring-4 focus:ring-primary"
+                            <motion.div
+                                whileHover={{ scale: 1.05 }}
+                                transition={{ duration: 0.2 }}
                             >
-                                {t('cta.button')}
-                            </Link>
-                        </motion.div>
+                                <Link
+                                    to="/contact"
+                                    className="mt-6 group bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-3 rounded-full transition-all duration-300 inline-flex items-center mx-auto focus:outline-none focus:ring-4 focus:ring-primary/30 shadow-md transform-gpu hover:scale-105"
+                                >
+                                    {t('cta.button')}
+                                </Link>
+                            </motion.div>
+                        </div>
                     </motion.div>
                 </div>
             </Section>

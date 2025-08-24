@@ -7,6 +7,7 @@ import { FaMapMarkerAlt, FaTree, FaWater, FaRoad, FaWarehouse } from 'react-icon
 import { Icon } from 'leaflet';
 import Button from '../Button/Button';
 import { useTranslation } from 'react-i18next';
+import { motion } from 'framer-motion';
 
 // Custom icons
 const farmIcon = new Icon({
@@ -65,7 +66,7 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
                                                            location,
                                                            description,
                                                            zoom = 14,
-                                                           className = 'h-[500px] rounded-xl shadow-lg border border-warm-grey',
+                                                           className = 'h-[500px] rounded-3xl shadow-xl border-2 border-primary/20',
                                                            farmBoundary = [
                                                                [9.505, -7.565],
                                                                [9.505, -7.555],
@@ -151,15 +152,33 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
     };
 
     return (
-        <div className={`${className} bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-300 rounded-3xl shadow-xl overflow-hidden max-w-full lg:max-w-[1400px] max-auto`}>
-            <div className="flex flex-col lg:flex-row h-full">
+        <motion.div
+            className={`${className} bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-500 rounded-3xl shadow-xl overflow-hidden max-w-full lg:max-w-[1400px] mx-auto transform-gpu`}
+            style={{
+                transformStyle: 'preserve-3d',
+                perspective: '1000px',
+            }}
+        >
+            {/* 3D edge effect */}
+            <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-8px] hover:translate-z-[-12px] transition-all duration-500" />
+
+            {/* Glassy overlay */}
+            <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40 hover:opacity-60 transition-opacity duration-500" />
+
+            {/* Inner shadow effect */}
+            <div className="absolute inset-0 rounded-3xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
+
+            {/* Subtle background pattern */}
+            <div className="absolute inset-0 rounded-3xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
+
+            <div className="relative z-10 flex flex-col lg:flex-row h-full">
                 {/* Map Section */}
                 <div className="w-full lg:w-2/3 h-full relative">
                     <MapContainer
                         center={position}
                         zoom={zoom}
                         scrollWheelZoom={true}
-                        className="h-full w-full"
+                        className="h-full w-full rounded-l-3xl"
                         ref={mapRef}
                     >
                         <MapViewSetter center={position} zoom={zoom} />
@@ -172,10 +191,15 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
                         {showBoundary && (
                             <Polygon
                                 positions={farmBoundary}
-                                pathOptions={{ color: '#5A7411', fillColor: '#5A7411', fillOpacity: 0.2 }} // Using your primary color
+                                pathOptions={{
+                                    color: '#5A7411',
+                                    fillColor: '#5A7411',
+                                    fillOpacity: 0.2,
+                                    weight: 3
+                                }}
                             >
-                                <Popup>
-                                    <div className="text-text-dark">
+                                <Popup className="rounded-xl shadow-lg">
+                                    <div className="text-text-dark p-2">
                                         <strong>AfriNuts Export Farm Boundary</strong>
                                         <div className="text-sm mt-1">50 hectares of sustainable cashew farming</div>
                                     </div>
@@ -187,8 +211,8 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
                         {showFeatures &&
                             features.map((feature) => (
                                 <Marker key={feature.id} position={feature.position} icon={getIcon(feature.type)}>
-                                    <Popup>
-                                        <div className="text-text-dark">
+                                    <Popup className="rounded-xl shadow-lg">
+                                        <div className="text-text-dark p-2">
                                             <div className="flex items-center">
                                                 {getFeatureIcon(feature.type)}
                                                 <strong className="ml-2">{feature.label}</strong>
@@ -201,12 +225,15 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
                     </MapContainer>
 
                     {/* Map Controls */}
-                    <div className="absolute top-4 right-4 z-[1000] bg-background p-2 rounded-md shadow-md flex flex-col gap-2 backdrop-blur-sm">
+                    <motion.div
+                        className="absolute top-4 right-4 z-[1000] bg-white/80 backdrop-blur-md p-3 rounded-xl shadow-lg flex flex-col gap-2 border border-white/30"
+                        transition={{ duration: 0.2 }}
+                    >
                         <Button
                             size="sm"
                             variant={showBoundary ? 'primary' : 'outline'}
                             onClick={() => setShowBoundary(!showBoundary)}
-                            className="whitespace-nowrap"
+                            className="whitespace-nowrap transform-gpu hover:scale-105 transition-transform"
                         >
                             {showBoundary ? t('map.hideBoundary') : t('map.showBoundary')}
                         </Button>
@@ -214,99 +241,110 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
                             size="sm"
                             variant={showFeatures ? 'primary' : 'outline'}
                             onClick={() => setShowFeatures(!showFeatures)}
-                            className="whitespace-nowrap"
+                            className="whitespace-nowrap transform-gpu hover:scale-105 transition-transform"
                         >
                             {showFeatures ? t('map.hideFeatures') : t('map.showFeatures')}
                         </Button>
-                    </div>
+                    </motion.div>
                 </div>
 
                 {/* Info Panel */}
-                <div className="hidden lg:flex lg:w-1/3 flex-col bg-gradient-to-br from-primary/5 to-accent/5 p-6 overflow-y-auto">
-                    <div className="flex items-center mb-4">
-                        <FaMapMarkerAlt className="text-2xl text-accent mr-3" /> {/* Using accent color */}
-                        <Typography variant="h3" className="text-primary"> {/* Using primary color */}
-                            {t('map.farmLayout')}
-                        </Typography>
-                    </div>
+                <div className="hidden lg:flex lg:w-1/3 flex-col bg-gradient-to-br from-primary/5 to-accent/5 p-6 overflow-y-auto relative z-10">
+                    {/* Glassy overlay for info panel */}
+                    <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent opacity-30 rounded-r-3xl" />
 
-                    <Typography variant="body" className="text-text-dark mb-4">
-                        {description}
-                    </Typography>
-
-                    <div className="mb-6">
-                        <Typography variant="small" className="text-text-dark">
-                            <strong>{t('map.coordinates')}:</strong> 9.5044° N, 7.5619° W
-                        </Typography>
-                        <Typography variant="small" className="text-text-dark">
-                            <strong>{t('map.region')}:</strong> Denguélé District, Ivory Coast
-                        </Typography>
-                        <Typography variant="small" className="text-text-dark">
-                            <strong>{t('map.area')}:</strong> 50 hectares
-                        </Typography>
-                    </div>
-
-                    {/* Farm Features List */}
-                    <div className="mb-4">
-                        <Typography variant="h4" className="text-primary mb-2">
-                            {t('map.farmFeatures')}
-                        </Typography>
-                        <div className="space-y-2">
-                            {features.map((feature) => (
-                                <div
-                                    key={feature.id}
-                                    className={`p-3 rounded-md cursor-pointer transition-colors ${
-                                        activeFeature?.id === feature.id
-                                            ? 'bg-primary/10 border border-primary'
-                                            : 'bg-gradient-to-br from-primary/5 to-accent/5 hover:bg-warm-grey/20'
-                                    }`}
-                                    onClick={() => handleFeatureClick(feature)}
-                                >
-                                    <div className="flex items-center">
-                                        <div className="mr-3">{getFeatureIcon(feature.type)}</div>
-                                        <div>
-                                            <Typography variant="body" className="font-medium text-text-dark">
-                                                {feature.label}
-                                            </Typography>
-                                            <Typography variant="small" className="text-text-dark/80">
-                                                {feature.description}
-                                            </Typography>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
+                    <div className="relative z-10">
+                        <div className="flex items-center mb-4">
+                            <motion.div
+                                className="bg-white/40 backdrop-blur-md p-3 rounded-full mr-3 shadow-md"
+                                transition={{ type: 'spring', stiffness: 300 }}
+                            >
+                                <FaMapMarkerAlt className="text-2xl text-accent" />
+                            </motion.div>
+                            <Typography variant="h3" className="text-primary">
+                                {t('map.farmLayout')}
+                            </Typography>
                         </div>
-                    </div>
 
-                    {/* Legend */}
-                    <div className="mt-auto pt-4 border-t border-warm-grey/50">
-                        <Typography variant="h4" className="text-primary mb-2">
-                            {t('map.legend')}
+                        <Typography variant="body" className="text-text-dark mb-4">
+                            {description}
                         </Typography>
-                        <div className="grid grid-cols-2 gap-2">
-                            <div className="flex items-center">
-                                <FaTree className="text-primary mr-2" />
-                                <Typography variant="small">{t('map.legendCashew')}</Typography>
+
+                        <div className="mb-6 bg-white/30 backdrop-blur-sm p-4 rounded-xl">
+                            <Typography variant="small" className="text-text-dark">
+                                <strong>{t('map.coordinates')}:</strong> 9.5044° N, 7.5619° W
+                            </Typography>
+                            <Typography variant="small" className="text-text-dark">
+                                <strong>{t('map.region')}:</strong> Denguélé District, Ivory Coast
+                            </Typography>
+                            <Typography variant="small" className="text-text-dark">
+                                <strong>{t('map.area')}:</strong> 50 hectares
+                            </Typography>
+                        </div>
+
+                        {/* Farm Features List */}
+                        <div className="mb-4">
+                            <Typography variant="h4" className="text-primary mb-2">
+                                {t('map.farmFeatures')}
+                            </Typography>
+                            <div className="space-y-2">
+                                {features.map((feature) => (
+                                    <motion.div
+                                        key={feature.id}
+                                        className={`p-3 rounded-xl cursor-pointer transition-all duration-300 transform-gpu hover:scale-102 ${
+                                            activeFeature?.id === feature.id
+                                                ? 'bg-primary/20 border-2 border-primary backdrop-blur-sm'
+                                                : 'bg-white/30 backdrop-blur-sm hover:bg-white/40 border border-white/20'
+                                        }`}
+                                        onClick={() => handleFeatureClick(feature)}
+                                        whileTap={{ scale: 0.98 }}
+                                    >
+                                        <div className="flex items-center">
+                                            <div className="mr-3 bg-white/50 p-2 rounded-full">
+                                                {getFeatureIcon(feature.type)}
+                                            </div>
+                                            <div>
+                                                <Typography variant="body" className="font-medium text-text-dark">
+                                                    {feature.label}
+                                                </Typography>
+                                                <Typography variant="small" className="text-text-dark/80">
+                                                    {feature.description}
+                                                </Typography>
+                                            </div>
+                                        </div>
+                                    </motion.div>
+                                ))}
                             </div>
-                            <div className="flex items-center">
-                                <FaWater className="text-teal mr-2" />
-                                <Typography variant="small">{t('map.legendWater')}</Typography>
-                            </div>
-                            <div className="flex items-center">
-                                <FaRoad className="text-text-dark mr-2" />
-                                <Typography variant="small">{t('map.legendRoads')}</Typography>
-                            </div>
-                            <div className="flex items-center">
-                                <FaWarehouse className="text-accent mr-2" />
-                                <Typography variant="small">{t('map.legendFacilities')}</Typography>
+                        </div>
+
+                        {/* Legend */}
+                        <div className="mt-auto pt-4 border-t border-warm-grey/50">
+                            <Typography variant="h4" className="text-primary mb-2">
+                                {t('map.legend')}
+                            </Typography>
+                            <div className="grid grid-cols-2 gap-2">
+                                {[
+                                    { icon: <FaTree className="text-primary mr-2" />, text: t('map.legendCashew') },
+                                    { icon: <FaWater className="text-teal mr-2" />, text: t('map.legendWater') },
+                                    { icon: <FaRoad className="text-text-dark mr-2" />, text: t('map.legendRoads') },
+                                    { icon: <FaWarehouse className="text-accent mr-2" />, text: t('map.legendFacilities') }
+                                ].map((item, index) => (
+                                    <motion.div
+                                        key={index}
+                                        className="flex items-center bg-white/30 backdrop-blur-sm p-2 rounded-lg"
+                                        transition={{ duration: 0.2 }}
+                                    >
+                                        {item.icon}
+                                        <Typography variant="small">{item.text}</Typography>
+                                    </motion.div>
+                                ))}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </motion.div>
     );
 };
 
 export default InteractiveMap;
-

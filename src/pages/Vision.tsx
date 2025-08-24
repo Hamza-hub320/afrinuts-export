@@ -16,7 +16,7 @@ import {
 } from "react-icons/fa";
 
 import Section from '@/components/Section/Section';
-import { fadeIn, staggerContainer } from '@/utils/animations';
+import { fadeIn, staggerContainer, slideInFromLeft, slideInFromRight } from '@/utils/animations';
 import { Typography } from "@/components/Typography/Typography";
 import { InfoCard } from '@/components/InfoCard/InfoCard';
 import visionHeroImage from '@/assets/images/vision-hero.webp';
@@ -51,7 +51,6 @@ const Vision: React.FC = () => {
             <Section
                 fullHeight={false}
                 bgImage={visionHeroImage}
-                loading="lazy"
                 className="flex items-end justify-start text-center min-h-[50vh] md:min-h-[50vh] pb-24 pr-16 mx-6 sm:mx-12 lg:mx-32 xl:mx-48 mt-32 pt-24 rounded-[2rem] shadow-2xl overflow-hidden border border-white/40"
             >
                 <motion.div
@@ -122,14 +121,38 @@ const Vision: React.FC = () => {
                         </div>
 
                         <div className="flex flex-col lg:flex-row gap-12 items-center">
-                            <div className="lg:w-1/2">
-                                <img
-                                    src={farmImage}
-                                    alt="Cashew farmers practicing sustainable agriculture in Ivory Coast"
-                                    loading="lazy"
-                                    className="rounded-2xl shadow-xl w-full transform transition-transform duration-500 hover:scale-105"
-                                />
-                            </div>
+                            <motion.div
+                                className="lg:w-1/2 relative transform-gpu group"
+                                variants={fadeIn}
+                                style={{
+                                    transformStyle: 'preserve-3d',
+                                    perspective: '1000px',
+                                }}
+                            >
+                                <motion.div
+                                    className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl shadow-lg overflow-hidden transform-gpu"
+                                    whileHover={{
+                                        y: -8,
+                                        scale: 1.03,
+                                        rotateY: 3,
+                                        boxShadow: '0 20px 35px -10px rgba(0, 0, 0, 0.2)',
+                                        transition: { duration: 0.3 }
+                                    }}
+                                >
+                                    {/* 3D edge effect */}
+                                    <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
+
+                                    {/* Glassy overlay */}
+                                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+
+                                    <img
+                                        src={farmImage}
+                                        alt="Cashew farmers practicing sustainable agriculture in Ivory Coast"
+                                        loading="lazy"
+                                        className="w-full transform transition-transform duration-500 group-hover:scale-105 relative z-10"
+                                    />
+                                </motion.div>
+                            </motion.div>
                             <div className="lg:w-1/2">
                                 <div className="space-y-6">
                                     {(t('sustainability.items', { returnObjects: true }) as Array<{
@@ -138,14 +161,22 @@ const Vision: React.FC = () => {
                                     }>).map((item, index) => (
                                         <motion.div
                                             key={`sustainability-${index}`}
-                                            className="flex items-start gap-4"
+                                            className="flex items-start gap-4 bg-white/30 backdrop-blur-sm rounded-xl p-4 border border-white/20"
                                             variants={fadeIn}
                                             transition={{ delay: index * 0.1 }}
+                                            whileHover={{
+                                                y: -2,
+                                                transition: { duration: 0.2 }
+                                            }}
                                         >
                                             {item.icon && (
-                                                <div className="bg-primary p-2 rounded-full text-white mt-1">
+                                                <motion.div
+                                                    className="bg-primary p-2 rounded-full text-white mt-1 shadow-md transform-gpu group-hover:scale-110 transition-transform duration-500"
+                                                    whileHover={{ scale: 1.15, rotate: 5 }}
+                                                    transition={{ type: 'spring', stiffness: 300 }}
+                                                >
                                                     {React.createElement(getIconComponent(item.icon), { className: "text-xl" })}
-                                                </div>
+                                                </motion.div>
                                             )}
                                             <Typography variant="body" className="flex-1 text-left">
                                                 {item.text}
@@ -155,9 +186,28 @@ const Vision: React.FC = () => {
                                 </div>
                                 <motion.div
                                     variants={fadeIn}
-                                    className="mt-8 p-4 bg-primary/10 rounded-xl border border-primary/20 border-l-4 border-primary pl-4 italic"
+                                    className="mt-8 relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl shadow-lg p-6 transform-gpu group"
+                                    style={{
+                                        transformStyle: 'preserve-3d',
+                                        perspective: '1000px',
+                                    }}
+                                    whileHover={{
+                                        y: -4,
+                                        scale: 1.02,
+                                        boxShadow: '0 15px 30px -8px rgba(0, 0, 0, 0.2)',
+                                        transition: { duration: 0.3 }
+                                    }}
                                 >
-                                    <Typography variant="body" className="text-primary-dark">
+                                    {/* 3D edge effect */}
+                                    <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-4px] group-hover:translate-z-[-8px] transition-all duration-500" />
+
+                                    {/* Glassy overlay */}
+                                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+
+                                    {/* Border accent */}
+                                    <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary rounded-l-2xl" />
+
+                                    <Typography variant="body" className="text-primary-dark italic relative z-10">
                                         {t('sustainability.quote')}
                                     </Typography>
                                 </motion.div>
@@ -201,7 +251,6 @@ const Vision: React.FC = () => {
                                         title={item.title}
                                         iconColor="text-accent"
                                         className="h-full"
-                                        role="article"
                                     >
                                         {item.content}
                                     </InfoCard>
@@ -228,29 +277,82 @@ const Vision: React.FC = () => {
                         </div>
 
                         <div className="flex flex-col lg:flex-row-reverse gap-12 items-center">
+                            <motion.div
+                                className="lg:w-1/2 relative transform-gpu group"
+                                variants={fadeIn}
+                                style={{
+                                    transformStyle: 'preserve-3d',
+                                    perspective: '1000px',
+                                }}
+                            >
+                                <motion.div
+                                    className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl shadow-lg overflow-hidden transform-gpu"
+                                    whileHover={{
+                                        y: -8,
+                                        scale: 1.03,
+                                        rotateY: 3,
+                                        boxShadow: '0 20px 35px -10px rgba(0, 0, 0, 0.2)',
+                                        transition: { duration: 0.3 }
+                                    }}
+                                >
+                                    {/* 3D edge effect */}
+                                    <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
+
+                                    {/* Glassy overlay */}
+                                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+
+                                    <img
+                                        src={processingImage}
+                                        alt="Value-added cashew processing in AfriNuts facility"
+                                        loading="lazy"
+                                        className="w-full transform transition-transform duration-500 group-hover:scale-105 relative z-10"
+                                    />
+                                </motion.div>
+                            </motion.div>
                             <div className="lg:w-1/2">
-                                <img
-                                    src={processingImage}
-                                    alt="Value-added cashew processing in AfriNuts facility"
-                                    loading="lazy"
-                                    className="rounded-2xl shadow-xl w-full transform transition-transform duration-500 hover:scale-105"
-                                />
-                            </div>
-                            <div className="lg:w-1/2">
-                                <Typography variant="h3" className="mb-6">
-                                    {t('value.subtitle')}
-                                </Typography>
+                                <motion.div
+                                    variants={fadeIn}
+                                    className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl shadow-lg p-8 transform-gpu group mb-6"
+                                    style={{
+                                        transformStyle: 'preserve-3d',
+                                        perspective: '1000px',
+                                    }}
+                                    whileHover={{
+                                        y: -4,
+                                        scale: 1.02,
+                                        boxShadow: '0 15px 30px -8px rgba(0, 0, 0, 0.2)',
+                                        transition: { duration: 0.3 }
+                                    }}
+                                >
+                                    {/* 3D edge effect */}
+                                    <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-4px] group-hover:translate-z-[-8px] transition-all duration-500" />
+
+                                    {/* Glassy overlay */}
+                                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+
+                                    <Typography variant="body" className="mb-0 relative z-10">
+                                        {t('value.subtitle')}
+                                    </Typography>
+                                </motion.div>
                                 <div className="space-y-4">
                                     {(t('value.items', { returnObjects: true }) as string[]).map((item, index) => (
                                         <motion.div
                                             key={`value-${index}`}
-                                            className="flex items-start gap-4"
+                                            className="flex items-start gap-4 bg-white/30 backdrop-blur-sm rounded-xl p-4 border border-white/20"
                                             variants={fadeIn}
                                             transition={{ delay: index * 0.1 }}
+                                            whileHover={{
+                                                y: -2,
+                                                transition: { duration: 0.2 }
+                                            }}
                                         >
-                                            <div className="bg-accent p-2 rounded-full text-white mt-1">
+                                            <motion.div
+                                                className="bg-accent p-2 rounded-full text-white mt-1 shadow-md transform-gpu group-hover:scale-110 transition-transform duration-500"
+                                                whileHover={{ scale: 1.15, rotate: 5 }}
+                                                transition={{ type: 'spring', stiffness: 300 }}
+                                            >
                                                 <FaIndustry className="text-xl" />
-                                            </div>
+                                            </motion.div>
                                             <Typography variant="body" className="flex-1 text-left">
                                                 {item}
                                             </Typography>
@@ -317,7 +419,6 @@ const Vision: React.FC = () => {
                                         title={item.title}
                                         iconColor="text-accent"
                                         className="h-full"
-                                        role="article"
                                     >
                                         {item.content}
                                     </InfoCard>
@@ -359,7 +460,6 @@ const Vision: React.FC = () => {
                                         title={item.title}
                                         iconColor="text-accent"
                                         className="h-full"
-                                        role="article"
                                     >
                                         {item.content}
                                     </InfoCard>
@@ -384,29 +484,52 @@ const Vision: React.FC = () => {
                             {t('roadmap.title')}
                         </Typography>
                         {/* Mobile Roadmap - Horizontal Scroll */}
-                        <div className="md:hidden w-full overflow-x-auto pb-4">
-                          <div className="flex gap-4 px-2">
-                            {(t('roadmap.items', { returnObjects: true }) as Array<{date: string; title: string; description: string}>).map((item, idx) => (
-                              <div
-                                key={`roadmap-mobile-${idx}`}
-                                className="flex-shrink-0 w-64 bg-gradient-to-br from-primary/5 to-accent/5 text-center border-2 border-primary/20 hover:border-accent/30 transition-all duration-300 rounded-xl shadow-md p-6 flex flex-col items-center relative"
-                              >
+                        <div className="md:hidden w-full overflow-x-auto py-4">
+                            <div className="flex gap-4 px-2">
+                                {(t('roadmap.items', { returnObjects: true }) as Array<{date: string; title: string; description: string}>).map((item, idx) => (
+                                    <motion.div
+                                        key={`roadmap-mobile-${idx}`}
+                                        className="flex-shrink-0 w-64 relative bg-gradient-to-br from-primary/5 to-accent/5 text-center border-2 border-primary/20 hover:border-accent/30 transition-all duration-500 rounded-2xl shadow-lg p-6 flex flex-col items-center transform-gpu group"
+                                        style={{
+                                            transformStyle: 'preserve-3d',
+                                            perspective: '1000px',
+                                        }}
+                                        whileHover={{
+                                            y: -8,
+                                            scale: 1.05,
+                                            rotateY: 5,
+                                            boxShadow: '0 20px 35px -10px rgba(0, 0, 0, 0.2)',
+                                            transition: { duration: 0.3 }
+                                        }}
+                                    >
+                                        {/* 3D edge effect */}
+                                        <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
 
-                                <Typography variant="subtitle" className="text-primary text-center font-bold">
-                                  {item.date}
-                                </Typography>
-                                <Typography variant="h4" className="text-lg font-semibold text-center mt-1">
-                                  {item.title}
-                                </Typography>
-                                <Typography variant="body" className="text-gray-600 text-center mt-2">
-                                  {item.description}
-                                </Typography>
+                                        {/* Glassy overlay */}
+                                        <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
 
-                              </div>
-                            ))}
-                          </div>
+                                        {/* Inner shadow effect */}
+                                        <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] group-hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
+
+                                        <Typography variant="subtitle" className="text-primary text-center font-bold relative z-10">
+                                            {item.date}
+                                        </Typography>
+                                        <Typography variant="h4" className="text-lg font-semibold text-center mt-1 relative z-10">
+                                            {item.title}
+                                        </Typography>
+                                        <Typography variant="body" className="text-gray-600 text-center mt-2 relative z-10">
+                                            {item.description}
+                                        </Typography>
+
+                                        {/* Step number */}
+                                        <div className="absolute -top-1 -left-3 h-8 w-8 bg-primary text-white rounded-full flex items-center justify-center font-bold shadow-lg z-20">
+                                            {idx + 1}
+                                        </div>
+                                    </motion.div>
+                                ))}
+                            </div>
                         </div>
-                        {/* Desktop vertical timeline (unchanged) */}
+                        {/* Desktop vertical timeline */}
                         <div className="hidden md:flex flex-col items-center relative">
                             <div className="absolute left-1/2 transform -translate-x-1/2 h-full border-l-2 border-primary/40 z-0" style={{ top: 32, bottom: 32 }} />
                             <div className="relative z-10 w-full">
@@ -414,40 +537,84 @@ const Vision: React.FC = () => {
                                     <div key={`roadmap-${idx}`} className="flex items-center mb-10 last:mb-0">
                                         <div className="w-1/2 pr-4 text-right">
                                             {idx % 2 === 0 && (
-                                                <div>
-                                                    <Typography variant="subtitle" className="font-bold text-primary">
+                                                <motion.div
+                                                    className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl shadow-lg p-6 transform-gpu group"
+                                                    style={{
+                                                        transformStyle: 'preserve-3d',
+                                                        perspective: '1000px',
+                                                    }}
+                                                    whileHover={{
+                                                        y: -8,
+                                                        scale: 1.03,
+                                                        rotateY: 3,
+                                                        boxShadow: '0 20px 35px -10px rgba(0, 0, 0, 0.2)',
+                                                        transition: { duration: 0.3 }
+                                                    }}
+                                                    variants={slideInFromLeft}
+                                                >
+                                                    {/* 3D edge effect */}
+                                                    <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
+
+                                                    {/* Glassy overlay */}
+                                                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+
+                                                    <Typography variant="subtitle" className="font-bold text-primary relative z-10">
                                                         {item.date}
                                                     </Typography>
-                                                    <Typography variant="h4" className="text-lg">
+                                                    <Typography variant="h4" className="text-lg relative z-10">
                                                         {item.title}
                                                     </Typography>
-                                                    <Typography variant="body" className="text-gray-600">
+                                                    <Typography variant="body" className="text-gray-600 relative z-10">
                                                         {item.description}
                                                     </Typography>
-                                                </div>
+                                                </motion.div>
                                             )}
                                         </div>
                                         <div className="flex flex-col items-center w-12 shrink-0">
-                                            <div className="h-8 w-8 bg-primary text-white rounded-full flex items-center justify-center font-bold shadow-lg mb-2">
+                                            <motion.div
+                                                className="h-8 w-8 bg-primary text-white rounded-full flex items-center justify-center font-bold shadow-lg mb-2 transform-gpu group-hover:scale-110 transition-transform duration-500 relative z-20"
+                                                whileHover={{ scale: 1.2, rotate: 360 }}
+                                                transition={{ type: 'spring', stiffness: 300 }}
+                                            >
                                                 {idx + 1}
-                                            </div>
+                                            </motion.div>
                                             {idx !== (t('roadmap.items', { returnObjects: true }) as Array<any>).length - 1 && (
                                                 <div className="flex-1 w-1 bg-primary/30 mx-auto" style={{ minHeight: 32 }} />
                                             )}
                                         </div>
                                         <div className="w-1/2 pl-4 text-left">
                                             {idx % 2 !== 0 && (
-                                                <div>
-                                                    <Typography variant="subtitle" className="font-bold text-primary">
+                                                <motion.div
+                                                    className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl shadow-lg p-6 transform-gpu group"
+                                                    style={{
+                                                        transformStyle: 'preserve-3d',
+                                                        perspective: '1000px',
+                                                    }}
+                                                    whileHover={{
+                                                        y: -8,
+                                                        scale: 1.03,
+                                                        rotateY: -3,
+                                                        boxShadow: '0 20px 35px -10px rgba(0, 0, 0, 0.2)',
+                                                        transition: { duration: 0.3 }
+                                                    }}
+                                                    variants={slideInFromRight}
+                                                >
+                                                    {/* 3D edge effect */}
+                                                    <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
+
+                                                    {/* Glassy overlay */}
+                                                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+
+                                                    <Typography variant="subtitle" className="font-bold text-primary relative z-10">
                                                         {item.date}
                                                     </Typography>
-                                                    <Typography variant="h4" className="text-lg">
+                                                    <Typography variant="h4" className="text-lg relative z-10">
                                                         {item.title}
                                                     </Typography>
-                                                    <Typography variant="body" className="text-gray-600">
+                                                    <Typography variant="body" className="text-gray-600 relative z-10">
                                                         {item.description}
                                                     </Typography>
-                                                </div>
+                                                </motion.div>
                                             )}
                                         </div>
                                     </div>
@@ -457,9 +624,8 @@ const Vision: React.FC = () => {
                     </motion.div>
                 </div>
             </Section>
-
-            {/* Final Call to Action */}
-            <Section className="py-10">
+            {/* End-of-page CTA */}
+            <Section className="py-12">
                 <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 text-center">
                     <motion.div
                         initial="hidden"
@@ -467,14 +633,14 @@ const Vision: React.FC = () => {
                         viewport={{ once: true }}
                         variants={staggerContainer}
                     >
-                        <Typography variant="h2" className="mb-8">
+                        <Typography variant="h2" className="mb-4">
                             {t('cta.title')}
                         </Typography>
-                        <Typography variant="body" className="mb-8 max-w-3xl mx-auto">
+                        <Typography variant="body" className="mb-6 text-gray-700">
                             {t('cta.content')}
                         </Typography>
                         <motion.button
-                            className="mt-6 group bg-primary hover:bg-dark-orange text-white px-8 py-3 rounded-full transition-all duration-300 inline-flex items-center mx-auto"
+                            className="mt-4 group bg-primary hover:bg-dark-orange text-white px-8 py-3 rounded-full transition-all duration-300 inline-flex items-center mx-auto"
                             variants={fadeIn}
                             onClick={() => navigate('/contact')}
                             aria-label={t('cta.button')}
