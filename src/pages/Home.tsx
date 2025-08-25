@@ -28,7 +28,7 @@ import afrinutsUpdatesData from '@/data/afrinutsUpdates.json';
 
 import Section from '../components/Section/Section';
 import ProductCard from '../components/ProductCard/ProductCard';
-import {TestimonialCard} from "../components/TestimonialCard/TestimonialCard";
+
 
 interface AfriNutsUpdate {
     id: string;

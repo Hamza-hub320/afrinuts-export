@@ -8,7 +8,6 @@ import { FaShareSquare } from 'react-icons/fa';
 import Section from '@/components/Section/Section';
 import { fadeIn, staggerContainer } from '@/utils/animations';
 import { Typography } from "@/components/Typography/Typography";
-import newsHeroImage from '../assets/images/news-hero.webp';
 import landClearingImage from '@/assets/images/land-clearing.webp';
 import signingImage from '@/assets/images/partnership-signing.webp';
 import afrinutsUpdatesData from '@/data/afrinutsUpdates.json';

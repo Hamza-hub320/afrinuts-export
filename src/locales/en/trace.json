@@ -11,17 +11,61 @@
     "processingInfo": "Processing Info",
     "certifications": "Certifications",
     "qualityCheckResults": "Quality Check Results",
+    "destinationLocation": "Destination Location",
+    "receivingCompany": "Receiving Company",
     "previewAllBatches": "Preview All Batches",
     "backToHome": "Back to Home",
     "previewNotice": "Previewing default batch (no batchId provided in URL)"
   },
   "testimonials": {
     "title": "B2B Testimonials",
-    "subtitle": "See what our international and local partners say about working with us."
+    "subtitle": "See what our international and local partners say about working with us.",
+    "europe": {
+      "quote": "Afrinuts’ traceability system gives us full confidence in the supply chain. We can track each batch from the farm to our warehouse, ensuring unmatched quality and transparency for our European clients.",
+      "name": "Anna Müller",
+      "position": "Procurement Manager, EuroNut GmbH",
+      "region": "Germany",
+      "iconAria": "Europe Client"
+    },
+    "americas": {
+      "quote": "The batch-level data and certifications provided by Afrinuts make compliance with US regulations seamless. Our customers value the transparency, and so do we.",
+      "name": "James Smith",
+      "position": "Lead Buyer, NutriTrade Inc.",
+      "region": "USA",
+      "iconAria": "US Client"
+    },
+    "asia": {
+      "quote": "We appreciate Afrinuts’ commitment to quality and traceability. The detailed batch info helps us maintain our premium product standards.",
+      "name": "Mei Lin",
+      "position": "Quality Assurance, AsiaFoods Co.",
+      "region": "Singapore",
+      "iconAria": "Asia Client"
+    },
+    "france": {
+      "quote": "Being able to access real-time data on each cashew batch streamlines our chocolate production and guarantees consistency in taste and safety.",
+      "name": "Luc Moreau",
+      "position": "Production Director, ChocoMakers",
+      "region": "France",
+      "iconAria": "France Client"
+    },
+    "italy": {
+      "quote": "Afrinuts’ transparent supply chain and certifications are a game-changer for our responsible sourcing policy.",
+      "name": "Elena Rossi",
+      "position": "Head of Sourcing, SnackWorks",
+      "region": "Italy",
+      "iconAria": "Italy Client"
+    },
+    "me": {
+      "quote": "Afrinuts’ traceability system allows us to verify each batch with confidence, ensuring consistency and quality for our clients in the Middle East.",
+      "name": "Omar Al-Farsi",
+      "position": "Procurement Manager, NutriCo Middle East",
+      "region": "United Arab Emirates",
+      "iconAria": "Middle East Client"
+    }
   },
   "cta": {
-    "title": "Get in Touch with AfriNuts",
-    "subtitle": "Have questions or want to collaborate? Reach out to us today.",
+    "title": "Connect with AfriNuts",
+    "subtitle": "Have questions about batch traceability or want to partner with us? Reach out today and experience full transparency from farm to final product.",
     "button": "Contact Us"
   }
 }

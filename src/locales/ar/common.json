@@ -1,17 +1,17 @@
 {
   "navbar": {
-    "about": "معلومات عنا",
-    "about_overview": "معلومات عنا",
+    "about": "عن الشركة",
+    "about_overview": "عنّا",
     "executive_team": "الفريق التنفيذي",
     "our_story": "قصتنا",
-    "products": "منتجاتنا",
-    "farm": "مزرعتنا",
+    "products": "المنتجات",
+    "farm": "المزرعة",
     "contact": "اتصل بنا",
     "sustainability": "الاستدامة",
     "vision": "رؤيتنا",
+    "trace": "تتبع",
     "news": "أخبار",
-    "trace": "التتبع",
-    "faq": "الأسئلة الشائعة",
+    "faq": "FAQ",
     "language": "اللغة"
   },
   "language": {

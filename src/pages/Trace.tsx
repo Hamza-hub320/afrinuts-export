@@ -20,6 +20,8 @@ const simulatedBatches = [
         BatchID: "AFN-SIM-001",
         HarvestDate: "2025-01-01",
         FarmLocation: "Odienné, Ivory Coast",
+        DestinationLocation: "Rotterdam, Netherlands",
+        ReceivingCompany: "NutriGlobal BV",
         ProcessingInfo: "Sun-dried, sorted manually",
         Certifications: ["Organic Pending", "Fair Trade"],
         QualityCheckResults: "Moisture < 5%, Size Grade A",
@@ -28,6 +30,8 @@ const simulatedBatches = [
         BatchID: "AFN-SIM-002",
         HarvestDate: "2025-02-01",
         FarmLocation: "Odienné, Ivory Coast",
+        DestinationLocation: "Hamburg, Germany",
+        ReceivingCompany: "Cashew Importers GmbH",
         ProcessingInfo: "Steam-roasted, shell removed",
         Certifications: ["ISO 22000", "Rainforest Alliance"],
         QualityCheckResults: "Moisture < 4.8%, Size Grade B",
@@ -36,6 +40,8 @@ const simulatedBatches = [
         BatchID: "AFN-SIM-003",
         HarvestDate: "2025-03-15",
         FarmLocation: "Odienné, Ivory Coast",
+        DestinationLocation: "Marseille, France",
+        ReceivingCompany: "ProNuts SARL",
         ProcessingInfo: "Manual sorting and grading",
         Certifications: ["Fair Trade", "Rainforest Alliance"],
         QualityCheckResults: "Moisture < 4.9%, Size Grade A",
@@ -61,7 +67,7 @@ const TracePage: React.FC = () => {
             {/* Hero Section */}
             <Section
                 fullHeight={true}
-                className="flex items-center justify-center text-center min-h-[40vh] bg-gradient-to-b from-primary/5 to-transparent"
+                className="flex items-center justify-center text-center min-h-[50vh] md:min-h-[50vh] bg-gradient-to-b bg-transparent"
             >
                 <div className="max-w-3xl px-6 sm:px-8 py-12">
                     <motion.div
@@ -182,6 +188,32 @@ const TracePage: React.FC = () => {
                                     </Typography>
                                     <Typography variant="body" className="bg-white/30 backdrop-blur-sm p-3 rounded-xl border border-white/20">
                                         {batch.FarmLocation}
+                                    </Typography>
+                                </motion.div>
+                                <motion.div
+                                    initial={{ opacity: 0, x: -20 }}
+                                    whileInView={{ opacity: 1, x: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ duration: 0.4, delay: 0.25 }}
+                                >
+                                    <Typography variant="h5" className="font-bold text-primary mb-2">
+                                        {t("batch.destinationLocation")}
+                                    </Typography>
+                                    <Typography variant="body" className="bg-white/30 backdrop-blur-sm p-3 rounded-xl border border-white/20">
+                                        {batch.DestinationLocation}
+                                    </Typography>
+                                </motion.div>
+                                <motion.div
+                                    initial={{ opacity: 0, x: 20 }}
+                                    whileInView={{ opacity: 1, x: 0 }}
+                                    viewport={{ once: true }}
+                                    transition={{ duration: 0.4, delay: 0.3 }}
+                                >
+                                    <Typography variant="h5" className="font-bold text-primary mb-2">
+                                        {t("batch.receivingCompany")}
+                                    </Typography>
+                                    <Typography variant="body" className="bg-white/30 backdrop-blur-sm p-3 rounded-xl border border-white/20">
+                                        {batch.ReceivingCompany}
                                     </Typography>
                                 </motion.div>
                                 <motion.div
@@ -322,51 +354,51 @@ const TracePage: React.FC = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         <TestimonialCard
                             icon={FaGlobeEurope}
-                            company="EuroNut GmbH"
-                            person="Anna Müller"
-                            role="Procurement Manager"
-                            testimonial="Afrinuts’ traceability system gives us full confidence in the supply chain. We can track each batch from the farm to our warehouse, ensuring unmatched quality and transparency for our European clients."
-                            country="Germany"
+                            quote={t('testimonials.europe.quote')}
+                            name={t('testimonials.europe.name')}
+                            position={t('testimonials.europe.position')}
+                            region={t('testimonials.europe.region')}
+                            iconAria={t('testimonials.europe.iconAria')}
                         />
                         <TestimonialCard
                             icon={FaGlobeAmericas}
-                            company="NutriTrade Inc."
-                            person="James Smith"
-                            role="Lead Buyer"
-                            testimonial="The batch-level data and certifications provided by Afrinuts make compliance with US regulations seamless. Our customers value the transparency, and so do we."
-                            country="USA"
+                            quote={t('testimonials.americas.quote')}
+                            name={t('testimonials.americas.name')}
+                            position={t('testimonials.americas.position')}
+                            region={t('testimonials.americas.region')}
+                            iconAria={t('testimonials.americas.iconAria')}
                         />
                         <TestimonialCard
                             icon={FaGlobeAsia}
-                            company="AsiaFoods Co."
-                            person="Mei Lin"
-                            role="Quality Assurance"
-                            testimonial="We appreciate Afrinuts’ commitment to quality and traceability. The detailed batch info helps us maintain our premium product standards."
-                            country="Singapore"
+                            quote={t('testimonials.asia.quote')}
+                            name={t('testimonials.asia.name')}
+                            position={t('testimonials.asia.position')}
+                            region={t('testimonials.asia.region')}
+                            iconAria={t('testimonials.asia.iconAria')}
                         />
                         <TestimonialCard
                             icon={FaBuilding}
-                            company="ChocoMakers"
-                            person="Luc Moreau"
-                            role="Production Director"
-                            testimonial="Being able to access real-time data on each cashew batch streamlines our chocolate production and guarantees consistency in taste and safety."
-                            country="France"
+                            quote={t('testimonials.france.quote')}
+                            name={t('testimonials.france.name')}
+                            position={t('testimonials.france.position')}
+                            region={t('testimonials.france.region')}
+                            iconAria={t('testimonials.france.iconAria')}
                         />
                         <TestimonialCard
                             icon={FaIndustry}
-                            company="SnackWorks"
-                            person="Elena Rossi"
-                            role="Head of Sourcing"
-                            testimonial="Afrinuts’ transparent supply chain and certifications are a game-changer for our responsible sourcing policy."
-                            country="Italy"
+                            quote={t('testimonials.italy.quote')}
+                            name={t('testimonials.italy.name')}
+                            position={t('testimonials.italy.position')}
+                            region={t('testimonials.italy.region')}
+                            iconAria={t('testimonials.italy.iconAria')}
                         />
                         <TestimonialCard
                             icon={FaStore}
-                            company="SuperMart"
-                            person="Kwame Mensah"
-                            role="Retail Partner"
-                            testimonial="Our customers love knowing exactly where their cashews come from. Afrinuts’ traceability gives us a unique selling point in the market."
-                            country="Ghana"
+                            quote={t('testimonials.me.quote')}
+                            name={t('testimonials.me.name')}
+                            position={t('testimonials.me.position')}
+                            region={t('testimonials.me.region')}
+                            iconAria={t('testimonials.me.iconAria')}
                         />
                     </div>
                 </div>
