@@ -185,167 +185,171 @@ const Products: React.FC = () => {
                 <Section className="py-8 shadow-sm top-0 z-10">
                     {/* Filter Section */}
                     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
-                        <div className=" p-6 rounded-lg shadow-md mb-8 top-0 z-10">
-                            <div className="flex flex-col md:flex-row md:items-center gap-6">
+                        <motion.div
+                            className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 rounded-2xl shadow-xl p-6 mb-8 top-0 z-10 transform-gpu"
+                            style={{
+                                transformStyle: 'preserve-3d',
+                                perspective: '1000px',
+                            }}
+                            whileHover={{
+                                y: -2,
+                                boxShadow: '0 20px 35px -10px rgba(0, 0, 0, 0.15)',
+                                transition: { duration: 0.3 }
+                            }}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5 }}
+                        >
+                            {/* 3D edge effect */}
+                            <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] hover:translate-z-[-8px] transition-all duration-500" />
+
+                            {/* Glassy overlay */}
+                            <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 hover:opacity-60 transition-opacity duration-500" />
+
+                            {/* Inner shadow effect */}
+                            <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
+
+                            {/* Subtle background pattern */}
+                            <div className="absolute inset-0 rounded-2xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
+
+                            <div className="relative z-10 flex flex-col md:flex-row md:items-center gap-6">
                                 {/* Search Input */}
                                 <div className="flex-1">
-                                    <label htmlFor="search" className="block mb-1 font-medium text-text-dark">{t('filters.searchLabel')}</label>
+                                    <label htmlFor="search" className="block mb-2 font-medium text-text-dark">
+                                        {t('filters.searchLabel')}
+                                    </label>
                                     <div className="relative">
-                                        <input
+                                        <motion.input
                                             id="search"
                                             type="text"
                                             placeholder={t('filters.searchPlaceholder')}
-                                            className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                                            className="w-full pl-12 pr-4 py-3.5 bg-white/80 backdrop-blur-sm border-2 border-white/30 rounded-2xl focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/30 transition-all duration-300 shadow-md"
                                             value={filters.searchQuery}
                                             onChange={(e) => setFilters({...filters, searchQuery: e.target.value})}
+                                            whileFocus={{
+                                                scale: 1.02,
+                                                boxShadow: '0 0 0 3px rgba(165, 105, 66, 0.1)',
+                                                borderColor: 'rgba(165, 105, 66, 0.3)'
+                                            }}
                                         />
-                                        <div className="absolute left-3 top-3.5 text-gray-400">
-                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none"
-                                                 viewBox="0 0 24 24" stroke="currentColor">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                                                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                                        <div className="absolute left-4 top-1/2 transform -translate-y-1/2 text-primary/60">
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                                             </svg>
                                         </div>
                                     </div>
                                 </div>
 
                                 {/* Filter Chips */}
-                                <div className="flex flex-wrap gap-3 items-center">
-                                    <div className="flex flex-col sm:flex-row gap-4 items-end">
+                                <div className="flex flex-wrap gap-4 items-end">
                                     {/* Availability Filter */}
                                     <div className="relative">
-                                        <label htmlFor="availability" className="block mb-1 font-medium text-text-dark">
+                                        <label htmlFor="availability" className="block mb-2 font-medium text-text-dark">
                                             {t('filters.availability.label')}
                                         </label>
-                                        <select
-                                            id="availability"
-                                            className="w-full appearance-none bg-white border border-gray-300 rounded-lg px-4 py-2.5 pr-10 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200"
-                                            value={filters.availability}
-                                            onChange={(e) => handleAvailabilityChange(e.target.value)}
-                                        >
-                                            <option value="all">{t('filters.availability.all')}</option>
-                                            <option value="available">{t('filters.availability.available')}</option>
-                                            <option value="coming-soon">{t('filters.availability.coming-soon')}</option>
-                                        </select>
-                                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 pt-7 text-gray-400">
-                                            <svg
-                                                className="h-5 w-5"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 20 20"
-                                                fill="currentColor"
+                                        <div className="relative">
+                                            <motion.select
+                                                id="availability"
+                                                className="w-full appearance-none bg-white/80 backdrop-blur-sm border-2 border-white/30 rounded-2xl px-5 py-3 pr-12 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/30 transition-all duration-300 shadow-md cursor-pointer"
+                                                value={filters.availability}
+                                                onChange={(e) => handleAvailabilityChange(e.target.value)}
+                                                whileFocus={{
+                                                    scale: 1.02,
+                                                    boxShadow: '0 0 0 3px rgba(165, 105, 66, 0.1)',
+                                                    borderColor: 'rgba(165, 105, 66, 0.3)'
+                                                }}
                                             >
-                                                <path
-                                                    fillRule="evenodd"
-                                                    d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-                                                    clipRule="evenodd"
-                                                />
-                                            </svg>
+                                                <option value="all">{t('filters.availability.all')}</option>
+                                                <option value="available">{t('filters.availability.available')}</option>
+                                                <option value="coming-soon">{t('filters.availability.coming-soon')}</option>
+                                            </motion.select>
+                                            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4 text-primary/60">
+                                                <svg
+                                                    className="h-5 w-5"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 20 20"
+                                                    fill="currentColor"
+                                                >
+                                                    <path
+                                                        fillRule="evenodd"
+                                                        d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                                                        clipRule="evenodd"
+                                                    />
+                                                </svg>
+                                            </div>
                                         </div>
                                     </div>
 
                                     {/* Certification Filter */}
                                     <div className="relative">
-                                        <label htmlFor="certification" className="block mb-1 font-medium text-text-dark">
+                                        <label htmlFor="certification" className="block mb-2 font-medium text-text-dark">
                                             {t('filters.certifications.label')}
                                         </label>
-                                        <select
-                                            id="certification"
-                                            className="w-full appearance-none bg-white border border-gray-300 rounded-lg px-4 py-2.5 pr-10 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200"
-                                            value={filters.certifications[0] || ''}
-                                            onChange={(e) => setFilters({
-                                                ...filters,
-                                                certifications: e.target.value ? [e.target.value] : []
-                                            })}
-                                        >
-                                            <option value="">{t('filters.certifications.all')}</option>
-                                            <option value="organic">{t('certifications.organic.title')}</option>
-                                            <option value="halal">{t('certifications.halal.title')}</option>
-                                            <option value="fairtrade">{t('certifications.fairtrade.title')}</option>
-                                        </select>
-                                        <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 pt-7 text-gray-400">
-                                            <svg
-                                                className="h-5 w-5"
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 20 20"
-                                                fill="currentColor"
+                                        <div className="relative">
+                                            <motion.select
+                                                id="certification"
+                                                className="w-full appearance-none bg-white/80 backdrop-blur-sm border-2 border-white/30 rounded-2xl px-5 py-3 pr-12 focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/30 transition-all duration-300 shadow-md cursor-pointer"
+                                                value={filters.certifications[0] || ''}
+                                                onChange={(e) => setFilters({
+                                                    ...filters,
+                                                    certifications: e.target.value ? [e.target.value] : []
+                                                })}
+                                                whileFocus={{
+                                                    scale: 1.02,
+                                                    boxShadow: '0 0 0 3px rgba(165, 105, 66, 0.1)',
+                                                    borderColor: 'rgba(165, 105, 66, 0.3)'
+                                                }}
                                             >
-                                                <path
-                                                    fillRule="evenodd"
-                                                    d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-                                                    clipRule="evenodd"
-                                                />
-                                            </svg>
+                                                <option value="">{t('filters.certifications.all')}</option>
+                                                <option value="organic">{t('certifications.organic.title')}</option>
+                                                <option value="halal">{t('certifications.halal.title')}</option>
+                                                <option value="fairtrade">{t('certifications.fairtrade.title')}</option>
+                                            </motion.select>
+                                            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4 text-primary/60">
+                                                <svg
+                                                    className="h-5 w-5"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 20 20"
+                                                    fill="currentColor"
+                                                >
+                                                    <path
+                                                        fillRule="evenodd"
+                                                        d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                                                        clipRule="evenodd"
+                                                    />
+                                                </svg>
+                                            </div>
                                         </div>
                                     </div>
 
-                                    {/* Reset Button - Now properly aligned */}
+                                    {/* Reset Button */}
                                     {(filters.availability !== 'all' || filters.searchQuery || filters.certifications.length > 0) && (
-                                        <button
+                                        <motion.button
                                             onClick={resetFilters}
-                                            className="px-4 py-2.5 bg-gray-100 text-text-dark rounded-lg hover:bg-gray-200 transition-colors mt-[1.625rem] sm:mt-0"
+                                            className="px-5 py-3 bg-white/80 backdrop-blur-sm border-2 border-white/30 text-text-dark rounded-2xl hover:bg-white transition-all duration-300 shadow-md transform-gpu hover:scale-105"
+                                            whileHover={{
+                                                y: -2,
+                                                boxShadow: '0 6px 20px rgba(0, 0, 0, 0.1)'
+                                            }}
+                                            whileTap={{ scale: 0.98 }}
                                         >
                                             {t('filters.reset')}
-                                        </button>
+                                        </motion.button>
                                     )}
                                 </div>
-                                </div>
                             </div>
-                        </div>
+                        </motion.div>
 
                         {/* Product Count */}
-                        <div className="mb-6 text-text-dark">
+                        <motion.div
+                            className="mb-6 text-text-dark bg-white/80 backdrop-blur-sm border-2 border-white/30 rounded-2xl px-5 py-3 inline-block shadow-md"
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.2 }}
+                        >
                             {t('filters.results', { count: filteredProducts.length }).replace('{count}', String(filteredProducts.length))}
-                        </div>
-
-                        {/* Offline Payment Instructions Section */}
-                        <Section className="mb-10 py-8 flex flex-col items-center justify-center transform-gpu">
-                            <motion.div
-                                className="relative bg-gradient-to-br from-yellow-50/80 to-amber-50/80 border-2 border-yellow-400/30 rounded-2xl shadow-xl p-8 max-w-2xl w-full text-center transform-gpu group"
-                                style={{
-                                    transformStyle: 'preserve-3d',
-                                    perspective: '1000px',
-                                }}
-                                whileHover={{
-                                    y: -6,
-                                    scale: 1.02,
-                                    rotateY: 2,
-                                    boxShadow: '0 20px 35px -10px rgba(180, 83, 9, 0.15)',
-                                    transition: { duration: 0.3 }
-                                }}
-                            >
-                                {/* 3D edge effect */}
-                                <div className="absolute inset-0 rounded-2xl border-2 border-yellow-300/40 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
-
-                                {/* Glassy overlay */}
-                                <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/20 to-transparent opacity-50 group-hover:opacity-70 transition-opacity duration-500" />
-
-                                {/* Inner shadow effect */}
-                                <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(180,83,9,0.08)] group-hover:shadow-[inset_0_4px_16px_rgba(180,83,9,0.12)] transition-shadow duration-500" />
-
-                                {/* Subtle background pattern */}
-                                <div className="absolute inset-0 rounded-2xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMTgwLCA4MywgOSwgMC4wNSkiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-30" />
-
-                                {/* Outer glow */}
-                                <div className="absolute -inset-2 rounded-2xl bg-yellow-400/10 blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-
-                                <div className="relative z-10">
-                                    <Typography variant="h3" className="text-yellow-700 mb-2 text-center font-bold">
-                                        {t('offlinePayment.title')}
-                                    </Typography>
-                                    <Typography variant="body" className="text-yellow-800 mb-6 text-center">
-                                        {t('offlinePayment.description')}
-                                    </Typography>
-
-                                    <motion.div
-                                        className="inline-flex items-center justify-center bg-yellow-400/20 p-3 rounded-full backdrop-blur-sm"
-                                        animate={{ y: [0, -4, 0] }}
-                                        transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-                                    >
-                                        <FaArrowDown className="text-yellow-600 text-3xl" />
-                                    </motion.div>
-                                </div>
-                            </motion.div>
-                        </Section>
+                        </motion.div>
+                    </div>
 
                         {/* Products Grid */}
                         {filteredProducts.length > 0 ? (
@@ -403,60 +407,122 @@ const Products: React.FC = () => {
                                 </motion.button>
                             </motion.div>
                         )}
+
+                </Section>
+                {/* Unified Offline Payment & Catalogue Section */}
+                <Section className="mb-12 py-12">
+                    <div className="flex flex-col lg:flex-row items-stretch justify-center gap-8 lg:gap-12">
+                        {/* Offline Payment motion div */}
+                        <motion.div
+                            className="relative bg-gradient-to-br from-yellow-50/80 to-amber-50/80 border-2 border-yellow-400/30 rounded-2xl shadow-xl p-6 lg:p-8 flex-1 transform-gpu group min-h-[300px] flex flex-col justify-center"
+                            style={{
+                                transformStyle: 'preserve-3d',
+                                perspective: '1000px',
+                            }}
+                            whileHover={{
+                                y: -6,
+                                scale: 1.02,
+                                rotateY: 2,
+                                boxShadow: '0 20px 35px -10px rgba(180, 83, 9, 0.15)',
+                                transition: { duration: 0.3 }
+                            }}
+                            initial={{ opacity: 0, x: -20 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.5 }}
+                        >
+                            {/* 3D edge effect */}
+                            <div className="absolute inset-0 rounded-2xl border-2 border-yellow-300/40 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
+
+                            {/* Glassy overlay */}
+                            <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/20 to-transparent opacity-50 group-hover:opacity-70 transition-opacity duration-500" />
+
+                            {/* Inner shadow effect */}
+                            <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(180,83,9,0.08)] group-hover:shadow-[inset_0_4px_16px_rgba(180,83,9,0.12)] transition-shadow duration-500" />
+
+                            {/* Subtle background pattern */}
+                            <div className="absolute inset-0 rounded-2xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMTgwLCA4MywgOSwgMC4wNSkiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-30" />
+
+                            {/* Outer glow */}
+                            <div className="absolute -inset-2 rounded-2xl bg-yellow-400/10 blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+
+                            <div className="relative z-10 flex flex-col justify-center h-full">
+                                <Typography variant="h3" className="text-yellow-700 mb-3 text-center font-bold">
+                                    {t('offlinePayment.title')}
+                                </Typography>
+                                <Typography variant="body" className="text-yellow-800 mb-6 text-center">
+                                    {t('offlinePayment.description')}
+                                </Typography>
+
+                                <motion.button
+                                    onClick={handleContactClick}
+                                    className="text-white bg-yellow-700  px-4 py-2 rounded-full transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center mx-auto text-base font-semibold min-w-[140px] transform-gpu hover:scale-105"
+                                    style={{ minHeight: 42 }}
+                                    whileHover={{
+                                        scale: 1.10,
+                                        transition: { duration: 0.18, type: "spring", stiffness: 320 }
+                                    }}
+                                >
+                                    {t('offlinePayment.button')}
+                                </motion.button>
+                            </div>
+                        </motion.div>
+
+                        {/* Catalogue Description and Download Button motion div */}
+                        <motion.div
+                            className="relative flex flex-col items-center justify-center bg-gradient-to-br from-primary/5 to-accent/5 p-6 lg:p-10 rounded-3xl shadow-2xl border-2 border-primary/20 flex-1 transform-gpu transition-all duration-500 min-h-[300px]"
+                            style={{
+                                perspective: 1200,
+                                willChange: 'transform',
+                                transformStyle: 'preserve-3d',
+                            }}
+                            whileHover={{
+                                scale: 1.03,
+                                rotateX: 5,
+                                rotateY: -5,
+                                boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+                                transition: { duration: 0.35, type: "spring", stiffness: 200 },
+                            }}
+                            initial={{ opacity: 0, x: 20 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.5, delay: 0.1 }}
+                        >
+                            {/* 3D edge effect */}
+                            <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-8px] group-hover:translate-z-[-12px] transition-all duration-500" />
+
+                            {/* Glassy overlay */}
+                            <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+
+                            {/* Inner shadow effect */}
+                            <div className="absolute inset-0 rounded-3xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] group-hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
+
+                            {/* Subtle background pattern */}
+                            <div className="absolute inset-0 rounded-3xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
+
+                            <div className="relative z-10 flex flex-col justify-center h-full">
+                                <Typography variant="h3" className="text-primary mb-4 text-center">
+                                    {t('catalogue.title')}
+                                </Typography>
+                                <Typography variant="body" className="text-text-dark mb-8 text-center">
+                                    {t('catalogue.description')}
+                                </Typography>
+                                <motion.button
+                                    onClick={handleDownloadCatalogue}
+                                    className="group bg-primary hover:bg-orange-700 text-white px-6 py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center mx-auto text-base font-semibold transform-gpu hover:scale-105"
+                                    whileHover={{
+                                        scale: 1.08,
+                                        transition: { duration: 0.18, type: "spring", stiffness: 320 }
+                                    }}
+                                    whileTap={{ scale: 0.95 }}
+                                >
+                                    <FaDownload className="mr-2 text-xl" />
+                                    {t('catalogue.download')}
+                                </motion.button>
+                            </div>
+                        </motion.div>
                     </div>
                 </Section>
-                {/* Catalogue Description and Download Button Highlighted Section */}
-                <div className="flex justify-center my-12">
-                    <motion.div
-                        className="relative flex flex-col items-center justify-center bg-gradient-to-br from-primary/5 to-accent/5 p-10 rounded-3xl shadow-2xl border-2 border-primary/20 max-w-lg w-full text-center mx-auto transform-gpu transition-all duration-500"
-                        style={{
-                            perspective: 1200,
-                            willChange: 'transform',
-                            transformStyle: 'preserve-3d',
-                        }}
-                        whileHover={{
-                            scale: 1.07,
-                            rotateX: 8,
-                            rotateY: -8,
-                            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
-                            transition: { duration: 0.35, type: "spring", stiffness: 200 },
-                        }}
-                    >
-                        {/* 3D edge effect */}
-                        <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-8px] group-hover:translate-z-[-12px] transition-all duration-500" />
-
-                        {/* Glassy overlay */}
-                        <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
-
-                        {/* Inner shadow effect */}
-                        <div className="absolute inset-0 rounded-3xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] group-hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
-
-                        {/* Subtle background pattern */}
-                        <div className="absolute inset-0 rounded-3xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
-
-                        <div className="relative z-10">
-                            <Typography variant="h3" className="text-primary mb-3">
-                                {t('catalogue.title')}
-                            </Typography>
-                            <Typography variant="body" className="text-text-dark mb-7">
-                                {t('catalogue.description')}
-                            </Typography>
-                            <motion.button
-                                onClick={handleDownloadCatalogue}
-                                className="group bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-4 py-2 rounded-full transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center mx-auto text-base font-semibold min-w-[140px] transform-gpu hover:scale-105"
-                                style={{ minHeight: 42 }}
-                                whileHover={{
-                                    scale: 1.10,
-                                    transition: { duration: 0.18, type: "spring", stiffness: 320 }
-                                }}
-                            >
-                                <FaDownload className="mr-2 text-xl" />
-                                {t('catalogue.download')}
-                            </motion.button>
-                        </div>
-                    </motion.div>
-                </div>
-
 
                 {/* Our Process Section */}
                 <Section className="py-10">
