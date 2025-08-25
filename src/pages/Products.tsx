@@ -525,7 +525,8 @@ const Products: React.FC = () => {
                 </Section>
 
                 {/* Our Process Section */}
-                <Section className="py-10">
+                <Section className="py-10 bg-gradient-to-r from-primary/30 via-white/30
+  bg-[length:400%_400%] animate-gradient-x-slow rounded-t-[80px] md:rounded-t-[100px] overflow-hidden pt-24 pb-8 relative">
                     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 transform-gpu">
                         <motion.div
                             initial="hidden"
@@ -615,7 +616,8 @@ const Products: React.FC = () => {
                 </Section>
 
                 {/* Quality Assurance */}
-                <Section className="py-10">
+                <Section className="py-10 bg-gradient-to-r from-primary/30 via-white/30
+  bg-[length:400%_400%] animate-gradient-x-slow rounded-b-[80px] md:rounded-b-[100px] overflow-hidden pt-24 pb-8 relative">
                     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                         <div className="flex flex-col lg:flex-row gap-12 items-center">
                             <motion.div
@@ -826,7 +828,7 @@ const Products: React.FC = () => {
                         </div>
                     </motion.div>
                 </Section>
-            </div>
+                </div>
         </main>
     );
 }

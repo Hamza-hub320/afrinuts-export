@@ -20,17 +20,17 @@ interface ProfileCardProps {
 }
 
 export const ProfileCard: React.FC<ProfileCardProps> = ({
-    image,
-    name,
-    position,
-    message,
-    signature,
-    altText,
-    expandable = false,
-    className = '',
-    variant = 'primary',
-    onClick,
-}) => {
+                                                            image,
+                                                            name,
+                                                            position,
+                                                            message,
+                                                            signature,
+                                                            altText,
+                                                            expandable = false,
+                                                            className = '',
+                                                            variant = 'primary',
+                                                            onClick,
+                                                        }) => {
     const [expanded, setExpanded] = useState(false);
     const shouldTruncate = expandable && message.length > 1;
     const { t } = useTranslation('about');
@@ -85,10 +85,24 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
             {/* Inner shadow effect */}
             <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] group-hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
 
+            {/* Subtle background pattern */}
+            <div className="absolute inset-0 rounded-2xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
+
+            {/* ChevronDoubleUpIcon - Positioned like certification checkmark */}
             {onClick && (
-              <div className="absolute top-2 right-2 z-20 flex items-center space-x-1 text-xs px-2 py-1 rounded-full shadow-md pointer-events-none">
-                <ChevronDoubleUpIcon className="w-3 h-3" />
-              </div>
+                <motion.div
+                    className="absolute -top-2 -right-2 w-6 h-6 bg-accent rounded-full flex items-center justify-center transform-gpu group-hover:scale-125 transition-transform duration-500 z-20"
+                    initial={{ scale: 0.8, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    transition={{ duration: 0.3, delay: 0.1 }}
+                    whileHover={{
+                        scale: 1.3,
+                        rotate: 5,
+                        transition: { duration: 0.2 }
+                    }}
+                >
+                    <ChevronDoubleUpIcon className="w-3 h-3 text-white" />
+                </motion.div>
             )}
 
             <div className="relative z-10 flex flex-col h-full">
@@ -139,6 +153,41 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                         </motion.p>
                     ))}
                 </div>
+
+                {shouldTruncate && (
+                    <motion.button
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            setExpanded(!expanded);
+                        }}
+                        className={`mt-4 ${currentVariant.text} hover:${currentVariant.text}/80 font-medium flex items-center relative z-10 transform-gpu hover:scale-105 transition-transform duration-300`}
+                        whileHover={{ y: -2 }}
+                        whileTap={{ scale: 0.95 }}
+                    >
+                        {expanded ? (
+                            <>
+                                {t('cfo.readLess')}
+                                <motion.span
+                                    animate={{ rotate: 180 }}
+                                    transition={{ duration: 0.3 }}
+                                >
+                                    <ChevronDownIcon className="ml-1 h-4 w-4" />
+                                </motion.span>
+                            </>
+                        ) : (
+                            <>
+                                {t('cfo.readMore')}
+                                <motion.span
+                                    animate={{ rotate: 0 }}
+                                    transition={{ duration: 0.3 }}
+                                >
+                                    <ChevronDownIcon className="ml-1 h-4 w-4" />
+                                </motion.span>
+                            </>
+                        )}
+                    </motion.button>
+                )}
+
                 <motion.p
                     className={`mt-6 font-display italic ${currentVariant.text} text-sm md:text-base relative z-10`}
                     whileHover={{ x: 2 }}
