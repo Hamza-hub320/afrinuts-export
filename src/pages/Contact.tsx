@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import { ShippingInfoCard } from '../components/ShippingInfoCard/ShippingInfoCard';
 import { ContactInfoCard } from '../components/ContactInfoCard/ContactInfoCard';
 import { InfoCard } from '@/components/InfoCard/InfoCard';
+import { FormCard } from '@/components/FormCard/FormCard';
 
 interface FormData {
   name: string;
@@ -181,12 +182,12 @@ const Contact: React.FC = () => {
   };
 
   return (
-      <div className="contact-page">
+      <div className="contact-page overflow-x-hidden"> {/* Added overflow-x-hidden to prevent horizontal scrolling */}
         {/* Success Modal */}
         {showSuccess && (
             <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
               <motion.div
-                  className="bg-white p-8 rounded-xl max-w-md w-full transform-gpu"
+                  className="bg-white p-6 sm:p-8 rounded-xl max-w-md w-full mx-4 transform-gpu" // Added mx-4 for mobile margins
                   style={{
                     transformStyle: 'preserve-3d',
                     perspective: '1000px',
@@ -223,7 +224,6 @@ const Contact: React.FC = () => {
             </div>
         )}
 
-        {/* Hero Section */}
         <Section
             fullHeight={false}
             bgImage={contactHeroImage}
@@ -250,10 +250,10 @@ const Contact: React.FC = () => {
           </motion.div>
         </Section>
 
-        {/* Main Content */}
-        <div className="container mx-auto px-4 py-16">
+        {/* Main Content - FIXED: Added proper container constraints */}
+        <div className="container mx-auto px-4 py-12 md:py-16 max-w-7xl"> {/* Added max-w-7xl to constrain width */}
           {/* Information Sections - Now using InfoCard components */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 mb-12 md:mb-16"> {/* Reduced gap on mobile */}
             {/* Shipping Guidance Section */}
             <ShippingInfoCard
                 title={t('shippingGuidance.title')}
@@ -317,118 +317,108 @@ const Contact: React.FC = () => {
         </div>
 
 
-        {/* Offline Payment Instructions Section */}
-        <InfoCard
-            title={t('offlinePayment.title')}
-            subtitle={t('offlinePayment.description')}
-            variant="accent"
-            className="w-full max-w-4xl mx-auto mb-12 text-center"
-            hideIconContainer={true}
-        >
-          <div className="mt-4">
-            <Typography variant="body" className="text-text-dark">
-              {t('offlinePayment.additionalInfo')}
-            </Typography>
-          </div>
-          <div className="mt-6 flex justify-center gap-4">
-            {t('offlinePayment.methods', { returnObjects: true }).map((method: string, idx: number) => (
-              <div key={idx} className="bg-white/30 p-3 rounded-lg">{method}</div>
-            ))}
-          </div>
-        </InfoCard>
-
-
-        {/* Downward arrow pointing to form */}
-        <div className="flex justify-center mb-12">
-          <motion.button
-              className="text-primary hover:text-accent px-6 py-2 rounded-full transition-colors transform-gpu hover:scale-105 text-4xl"
-              onClick={() => {
-                document.getElementById('contact-form')?.scrollIntoView({behavior: 'smooth'});
-              }}
-              aria-label={t('form.scrollToForm')}
-              animate={{y: [0, 10, 0]}}
-              transition={{repeat: Infinity, duration: 1.5}}
+        {/* Offline Payment Instructions Section - FIXED: Added proper width constraints */}
+        <div className="container mx-auto px-4 max-w-4xl"> {/* Wrapped in container with max-width */}
+          <InfoCard
+              title={t('offlinePayment.title')}
+              subtitle={t('offlinePayment.description')}
+              variant="accent"
+              className="w-full mb-8 md:mb-12 text-center mx-auto" // Removed fixed max-w-4xl, let container handle it
+              hideIconContainer={true}
           >
-            <FaArrowDown/>
-          </motion.button>
+            <div className="mt-4">
+              <Typography variant="body" className="text-text-dark">
+                {t('offlinePayment.additionalInfo')}
+              </Typography>
+            </div>
+            {/* Responsive padding and text */}
+            <div className="mt-6 flex flex-wrap justify-center gap-2 md:gap-4">
+              {t('offlinePayment.methods', { returnObjects: true }).map((method: string, idx: number) => (
+                // Responsive padding and text
+                <div key={idx} className="bg-white/30 p-2 md:p-3 rounded-lg text-sm md:text-base">
+                  {method}
+                </div>
+              ))}
+            </div>
+          </InfoCard>
         </div>
 
-        {/* FAQ Link */}
-        <div className="text-center mb-6">
+
+        {/* FAQ Link - FIXED: Added container for proper centering */}
+        <div className="container mx-auto px-4 max-w-4xl text-center mb-6">
           <Typography variant="body">
             {t('form.checkFaq')}{' '}
             <span
                 className="text-accent underline cursor-pointer transform-gpu hover:scale-105 transition-transform duration-300"
                 onClick={() => navigate('/faq')}
             >
-                {t('form.faqLink')}
-              </span>
+            {t('form.faqLink')}
+          </span>
           </Typography>
         </div>
 
-        {/* Contact Form Section */}
-        <InfoCard
-            title={t('form.title')}
-            variant="primary"
-            className="max-w-4xl mx-auto"
-            hideIconContainer={true}
-        >
-          {errors.submit && (
-              <div className="bg-background border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded transform-gpu hover:scale-[1.02] transition-transform duration-300">
-                <Typography variant="body">{errors.submit}</Typography>
+        {/* Contact Form Section - FIXED: Added proper container and responsive margins */}
+        <div className="container mx-auto px-4 max-w-4xl"> {/* Container with max-width */}
+          <FormCard
+              title={t('form.title')}
+              variant="primary"
+              className="my-6 w-full mx-auto" // Removed horizontal margins, let container handle spacing
+          >
+            {/* Error message */}
+            {errors.submit && (
+                <div className="bg-background border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded transform-gpu hover:scale-[1.02] transition-transform duration-300">
+                  <Typography variant="body">{errors.submit}</Typography>
+                </div>
+            )}
+
+            <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
+              {/* Honeypot anti-spam field */}
+              <input type="text" name="company" className="hidden" tabIndex={-1} autoComplete="off"/>
+
+              {/* Name & Email */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+                <div>
+                  <label htmlFor="name" className="block mb-2">
+                    <Typography variant="h5">{t('form.name')}</Typography>
+                  </label>
+                  <input
+                      ref={nameRef}
+                      type="text"
+                      id="name"
+                      name="name"
+                      aria-label={t('form.name')}
+                      aria-required="true"
+                      aria-describedby={errors.name ? "error-name" : undefined}
+                      value={formData.name}
+                      onChange={handleChange}
+                      className={`w-full p-3 rounded-lg border ${errors.name ? 'border-red-500' : 'border-warm-grey'} focus:outline-none focus:ring-2 focus:ring-accent backdrop-blur-sm bg-white/80`}
+                  />
+                  {errors.name && <Typography variant="small" id="error-name"
+                                              className="text-red-500 mt-1">{errors.name}</Typography>}
+                </div>
+
+                <div>
+                  <label htmlFor="email" className="block mb-2">
+                    <Typography variant="h5">{t('form.email')}</Typography>
+                  </label>
+                  <input
+                      ref={emailRef}
+                      type="email"
+                      id="email"
+                      name="email"
+                      aria-label={t('form.email')}
+                      aria-required="true"
+                      aria-describedby={errors.email ? "error-email" : undefined}
+                      value={formData.email}
+                      onChange={handleChange}
+                      className={`w-full p-3 rounded-lg border ${errors.email ? 'border-red-500' : 'border-warm-grey'} focus:outline-none focus:ring-2 focus:ring-accent backdrop-blur-sm bg-white/80`}
+                  />
+                  {errors.email && <Typography variant="small" id="error-email"
+                                               className="text-red-500 mt-1">{errors.email}</Typography>}
+                </div>
               </div>
-          )}
 
-          <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
-            {/* Honeypot anti-spam field */}
-            <input type="text" name="company" className="hidden" tabIndex={-1} autoComplete="off"/>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Name Field */}
-              <div>
-                <label htmlFor="name" className="block mb-2">
-                  <Typography variant="h5">{t('form.name')}</Typography>
-                </label>
-                <input
-                    ref={nameRef}
-                    type="text"
-                    id="name"
-                    name="name"
-                    aria-label={t('form.name')}
-                    aria-required="true"
-                    aria-describedby={errors.name ? "error-name" : undefined}
-                    value={formData.name}
-                    onChange={handleChange}
-                    className={`w-full p-3 rounded-lg border ${errors.name ? 'border-red-500' : 'border-warm-grey'} focus:outline-none focus:ring-2 focus:ring-accent backdrop-blur-sm bg-white/80`}
-                />
-                {errors.name && <Typography variant="small" id="error-name"
-                                            className="text-red-500 mt-1">{errors.name}</Typography>}
-              </div>
-
-              {/* Email Field */}
-              <div>
-                <label htmlFor="email" className="block mb-2">
-                  <Typography variant="h5">{t('form.email')}</Typography>
-                </label>
-                <input
-                    ref={emailRef}
-                    type="email"
-                    id="email"
-                    name="email"
-                    aria-label={t('form.email')}
-                    aria-required="true"
-                    aria-describedby={errors.email ? "error-email" : undefined}
-                    value={formData.email}
-                    onChange={handleChange}
-                    className={`w-full p-3 rounded-lg border ${errors.email ? 'border-red-500' : 'border-warm-grey'} focus:outline-none focus:ring-2 focus:ring-accent backdrop-blur-sm bg-white/80`}
-                />
-                {errors.email && <Typography variant="small" id="error-email"
-                                             className="text-red-500 mt-1">{errors.email}</Typography>}
-              </div>
-            </div>
-
-            {/* Phone Field (optional) */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {/* Phone */}
               <div>
                 <label htmlFor="phone" className="block mb-2">
                   <Typography variant="h5">{t('form.phone')}</Typography>
@@ -444,11 +434,8 @@ const Contact: React.FC = () => {
                     placeholder="+000 00 00 00 00 00"
                 />
               </div>
-              <div></div>
-            </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Request Type Field */}
+              {/* Request Type */}
               <div>
                 <label htmlFor="requestType" className="block mb-2">
                   <Typography variant="h5">{t('form.requestType')}</Typography>
@@ -464,7 +451,6 @@ const Contact: React.FC = () => {
                     onChange={handleChange}
                     className="w-full p-3 rounded-lg border border-warm-grey focus:outline-none focus:ring-2 focus:ring-accent backdrop-blur-sm bg-white/80"
                 >
-                  {/* Placeholder as first option */}
                   <option value="">{t('form.requestTypePlaceholder')}</option>
                   <option value="information">{t('form.requestTypes.information')}</option>
                   <option value="quote">{t('form.requestTypes.quote')}</option>
@@ -476,40 +462,32 @@ const Contact: React.FC = () => {
                                                    className="text-red-500 mt-1">{errors.requestType}</Typography>}
               </div>
 
-              {/* Product Interest Field - only show for quote */}
-              {formData.requestType === 'quote' ? (
-                  <div>
-                    <label htmlFor="productInterest" className="block mb-2">
-                      <Typography variant="h5">{t('form.productInterest')}</Typography>
-                    </label>
-                    <select
-                        ref={productInterestRef}
-                        id="productInterest"
-                        name="productInterest"
-                        aria-label={t('form.productInterest')}
-                        value={formData.productInterest}
-                        onChange={handleChange}
-                        className="w-full p-3 rounded-lg border border-warm-grey focus:outline-none focus:ring-2 focus:ring-accent backdrop-blur-sm bg-white/80"
-                    >
-                      {/* Placeholder as first option */}
-                      <option value="">{t('form.productInterestPlaceholder')}</option>
-                      <option value="raw-cashew">{t('form.productInterestOptions.rawCashew')}</option>
-                      <option value="cashew-kernels">{t('form.productInterestOptions.cashewKernels')}</option>
-                      <option value="cnsl">{t('form.productInterestOptions.cnsl')}</option>
-                      <option value="custom-order">{t('form.productInterestOptions.customOrder')}</option>
-                    </select>
-                  </div>
-              ) : (
-                  // Empty div to keep grid structure
-                  <div></div>
-              )}
-            </div>
+              {/* Conditional Quote Fields */}
+              {formData.requestType === 'quote' && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+                    {/* Product Interest */}
+                    <div>
+                      <label htmlFor="productInterest" className="block mb-2">
+                        <Typography variant="h5">{t('form.productInterest')}</Typography>
+                      </label>
+                      <select
+                          ref={productInterestRef}
+                          id="productInterest"
+                          name="productInterest"
+                          aria-label={t('form.productInterest')}
+                          value={formData.productInterest}
+                          onChange={handleChange}
+                          className="w-full p-3 rounded-lg border border-warm-grey focus:outline-none focus:ring-2 focus:ring-accent backdrop-blur-sm bg-white/80"
+                      >
+                        <option value="">{t('form.productInterestPlaceholder')}</option>
+                        <option value="raw-cashew">{t('form.productInterestOptions.rawCashew')}</option>
+                        <option value="cashew-kernels">{t('form.productInterestOptions.cashewKernels')}</option>
+                        <option value="cnsl">{t('form.productInterestOptions.cnsl')}</option>
+                        <option value="custom-order">{t('form.productInterestOptions.customOrder')}</option>
+                      </select>
+                    </div>
 
-            {/* Quantity and Shipping - only show for quote */}
-            {formData.requestType === 'quote' && (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {/* Quantity and Unit Fields */}
-                  <div>
+                    {/* Quantity & Unit */}
                     <div className="grid grid-cols-2 gap-4">
                       <div>
                         <label htmlFor="quantity" className="block mb-2">
@@ -546,128 +524,114 @@ const Contact: React.FC = () => {
                         </select>
                       </div>
                     </div>
+
+                    {/* Shipping */}
+                    <div className="md:col-span-2">
+                      <label htmlFor="shipping" className="block mb-2">
+                        <Typography variant="h5">{t('form.shipping')}</Typography>
+                      </label>
+                      <select
+                          ref={shippingRef}
+                          id="shipping"
+                          name="shipping"
+                          aria-label={t('form.shipping')}
+                          value={formData.shipping}
+                          onChange={handleChange}
+                          className="w-full p-3 rounded-lg border border-warm-grey focus:outline-none focus:ring-2 focus:ring-accent backdrop-blur-sm bg-white/80"
+                      >
+                        <option value="">{t('form.shippingPlaceholder')}</option>
+                        <option value="fob">{t('form.shippingOptions.fob')}</option>
+                        <option value="exw">{t('form.shippingOptions.exw')}</option>
+                        <option value="other">{t('form.shippingOptions.other')}</option>
+                      </select>
+                    </div>
                   </div>
+              )}
 
-                  {/* Shipping Preference */}
-                  <div>
-                    <label htmlFor="shipping" className="block mb-2">
-                      <Typography variant="h5">{t('form.shipping')}</Typography>
-                    </label>
-                    <select
-                        ref={shippingRef}
-                        id="shipping"
-                        name="shipping"
-                        aria-label={t('form.shipping')}
-                        value={formData.shipping}
-                        onChange={handleChange}
-                        className="w-full p-3 rounded-lg border border-warm-grey focus:outline-none focus:ring-2 focus:ring-accent backdrop-blur-sm bg-white/80"
-                    >
-                      <option value="">{t('form.shippingPlaceholder')}</option>
-                      <option value="fob">{t('form.shippingOptions.fob')}</option>
-                      <option value="exw">{t('form.shippingOptions.exw')}</option>
-                      <option value="other">{t('form.shippingOptions.other')}</option>
-                    </select>
-                  </div>
-                </div>
-            )}
+              {/* Subject & Message */}
+              <div>
+                <label htmlFor="subject" className="block mb-2">
+                  <Typography variant="h5">{t('form.subject')}</Typography>
+                </label>
+                <input
+                    ref={subjectRef}
+                    type="text"
+                    id="subject"
+                    name="subject"
+                    aria-label={t('form.subject')}
+                    aria-required="true"
+                    aria-describedby={errors.subject ? "error-subject" : undefined}
+                    value={formData.subject}
+                    onChange={handleChange}
+                    className={`w-full p-3 rounded-lg border ${errors.subject ? 'border-red-500' : 'border-warm-grey'} focus:outline-none focus:ring-2 focus:ring-accent backdrop-blur-sm bg-white/80`}
+                />
+                {errors.subject && <Typography variant="small" id="error-subject"
+                                               className="text-red-500 mt-1">{errors.subject}</Typography>}
+              </div>
 
-            {/* Subject Field */}
-            <div>
-              <label htmlFor="subject" className="block mb-2">
-                <Typography variant="h5">{t('form.subject')}</Typography>
-              </label>
-              <input
-                  ref={subjectRef}
-                  type="text"
-                  id="subject"
-                  name="subject"
-                  aria-label={t('form.subject')}
-                  aria-required="true"
-                  aria-describedby={errors.subject ? "error-subject" : undefined}
-                  value={formData.subject}
-                  onChange={handleChange}
-                  className={`w-full p-3 rounded-lg border ${errors.subject ? 'border-red-500' : 'border-warm-grey'} focus:outline-none focus:ring-2 focus:ring-accent backdrop-blur-sm bg-white/80`}
-              />
-              {errors.subject && <Typography variant="small" id="error-subject"
-                                             className="text-red-500 mt-1">{errors.subject}</Typography>}
-            </div>
+              <div>
+                <label htmlFor="message" className="block mb-2">
+                  <Typography variant="h5">{t('form.message')}</Typography>
+                </label>
+                <textarea
+                    ref={messageRef}
+                    id="message"
+                    name="message"
+                    aria-label={t('form.message')}
+                    aria-required="true"
+                    aria-describedby={errors.message ? "error-message" : undefined}
+                    rows={6}
+                    value={formData.message}
+                    onChange={handleChange}
+                    className={`w-full p-3 rounded-lg border ${errors.message ? 'border-red-500' : 'border-warm-grey'} focus:outline-none focus:ring-2 focus:ring-accent backdrop-blur-sm bg-white/80`}
+                ></textarea>
+                {errors.message && <Typography variant="small" id="error-message"
+                                               className="text-red-500 mt-1">{errors.message}</Typography>}
+              </div>
 
-            {/* Message Field */}
-            <div>
-              <label htmlFor="message" className="block mb-2">
-                <Typography variant="h5">{t('form.message')}</Typography>
-              </label>
-              <textarea
-                  ref={messageRef}
-                  id="message"
-                  name="message"
-                  aria-label={t('form.message')}
-                  aria-required="true"
-                  aria-describedby={errors.message ? "error-message" : undefined}
-                  rows={6}
-                  value={formData.message}
-                  onChange={handleChange}
-                  className={`w-full p-3 rounded-lg border ${errors.message ? 'border-red-500' : 'border-warm-grey'} focus:outline-none focus:ring-2 focus:ring-accent backdrop-blur-sm bg-white/80`}
-              ></textarea>
-              {errors.message && <Typography variant="small" id="error-message"
-                                             className="text-red-500 mt-1">{errors.message}</Typography>}
-            </div>
-
-            <div className="text-center pt-4">
-              <motion.button
-                  type="submit"
-                  className="bg-primary hover:bg-dark-orange text-white px-6 py-2 rounded-full transition-colors transform-gpu hover:scale-105 inline-flex justify-center items-center gap-2"
-                  disabled={isSubmitting}
-                  whileHover={{y: -2}}
-                  whileTap={{scale: 0.95}}
-              >
-                {isSubmitting ? (
-                    <>
-            <span
-                className="inline-block h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
-                      {t('form.sending')}
-                    </>
-                ) : (
-                    t('form.submit')
-                )}
-              </motion.button>
-            </div>
-          </form>
-        </InfoCard>
-      {/* Map Section */}
-      <Section className="py-10">
-        <div className="container mx-auto text-center">
-          <Typography variant="h2" className="mb-4">
-            {t('map.title')}
-          </Typography>
-          <motion.div
-              className="mt-8 rounded-xl overflow-hidden shadow-xl border-2 border-primary/20 hover:border-accent/30 transition-all duration-500 transform-gpu"
-              style={{
-                transformStyle: 'preserve-3d',
-                perspective: '1000px',
-              }}
-              whileHover={{
-                y: -5,
-                rotateY: 2,
-                transition: {duration: 0.3}
-              }}
-          >
-            {/* 3D effect for map container */}
-            <div
-                className="absolute inset-0 rounded-xl border-2 border-white/20 transform-gpu translate-z-[-6px] hover:translate-z-[-10px] transition-all duration-500"/>
-
-            <iframe
-                title={t('map.iframeTitle')}
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3979.802935760472!2d-7.56000008436827!3d9.508000090520535!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zOcKwMzAnMzAuOCJOIDfCsDMzJzM2LjEiVw!5e0!3m2!1sen!2sus!4v1712345678901"
-                width="100%"
-                height="450"
-                className="border-0 relative z-10"
-                allowFullScreen
-                loading="lazy"
-            ></iframe>
-          </motion.div>
+              {/* Submit Button */}
+              <div className="text-center pt-4">
+                <motion.button
+                    type="submit"
+                    className="bg-primary hover:bg-dark-orange text-white px-6 py-2 rounded-full transition-colors transform-gpu hover:scale-105 inline-flex justify-center items-center gap-2"
+                    disabled={isSubmitting}
+                    whileHover={{y: -2}}
+                    whileTap={{scale: 0.95}}
+                >
+                  {isSubmitting ? (
+                      <>
+                        <span className="inline-block h-5 w-5 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
+                        {t('form.sending')}
+                      </>
+                  ) : (
+                      t('form.submit')
+                  )}
+                </motion.button>
+              </div>
+            </form>
+          </FormCard>
         </div>
-      </Section>
+
+        {/* Map Section - FIXED: Added container for proper width constraint */}
+        {/* Map Section */}
+        <Section className="py-10">
+          <div className="container mx-auto text-center">
+            <Typography variant="h2" className="mb-4">
+              {t('map.title')}
+            </Typography>
+            <div className="mt-8 rounded-xl overflow-hidden shadow-xl border-2 border-primary/20 hover:border-accent/30 transition-all duration-300">
+              <iframe
+                  title={t('map.iframeTitle')}
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3979.802935760472!2d-7.56000008436827!3d9.508000090520535!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zOcKwMzAnMzAuOCJOIDfCsDMzJzM2LjEiVw!5e0!3m2!1sen!2sus!4v1712345678901"
+                  width="100%"
+                  height="450"
+                  className="border-0"
+                  allowFullScreen
+                  loading="lazy"
+              ></iframe>
+            </div>
+          </div>
+        </Section>
       </div>
   );
 };

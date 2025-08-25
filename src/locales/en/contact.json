@@ -22,7 +22,7 @@
       "cnsl": "Cashew Nut Shell Liquid (CNSL)",
       "customOrder": "Custom Order"
     },
-    "quantity": "Quantity (kg or tons)",
+    "quantity": "Quantity",
     "unit": "Unit",
     "unitPlaceholder": "Select Unit",
     "shipping": "Shipping Preference",

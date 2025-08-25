@@ -22,7 +22,7 @@
       "cnsl": "Liquide de Coque de Noix de Cajou (CNSL)",
       "customOrder": "Commande Sur Mesure"
     },
-    "quantity": "Quantité (kg ou tonnes)",
+    "quantity": "Quantité",
     "unit": "Unité",
     "unitPlaceholder": "Sélectionner l'unité",
     "shipping": "Préférence d'Expédition",

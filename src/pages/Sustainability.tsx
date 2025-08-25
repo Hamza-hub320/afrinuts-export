@@ -319,13 +319,6 @@ const Sustainability: React.FC = () => {
                                     {/* Subtle background pattern */}
                                     <div className="absolute inset-0 rounded-xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjAiLz48L2c+PC9zdmc+')] opacity-15" />
 
-                                    <motion.div
-                                        className="bg-accent p-3 rounded-full text-white shadow-md transform-gpu group-hover:scale-110 transition-transform duration-500 z-10"
-                                        whileHover={{ scale: 1.15, rotate: 5 }}
-                                        transition={{ type: 'spring', stiffness: 300 }}
-                                    >
-                                        <FaChartLine className="text-xl" />
-                                    </motion.div>
                                     <p className="text-lg text-text-dark text-left flex-1 relative z-10">{item}</p>
                                 </motion.div>
                             ))}
@@ -342,15 +335,9 @@ const Sustainability: React.FC = () => {
                             whileTap={{ scale: 0.98 }}
                             onClick={() => navigate('/vision')}
                         >
-                            {/* Button 3D effect */}
-                            <div className="absolute inset-0 rounded-full border-2 border-white/20 transform-gpu translate-z-[-4px] group-hover:translate-z-[-6px] transition-all duration-500" />
-
-                            {/* Button glassy overlay */}
-                            <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50 group-hover:opacity-70 transition-opacity duration-500" />
-
                             <span className="relative z-10">{t('future.cta')}</span>
                             <motion.span
-                                className="ml-3 relative z-10"
+                                className="hidden sm:inline-flex ml-3 relative z-10"
                                 whileHover={{ rotate: 45 }}
                                 transition={{ duration: 0.3 }}
                             >

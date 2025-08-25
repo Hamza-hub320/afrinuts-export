@@ -22,7 +22,7 @@
       "cnsl": "سائل قشرة الكاجو (CNSL)",
       "customOrder": "طلب مخصص"
     },
-    "quantity": "الكمية (كجم أو طن)",
+    "quantity": "الكمية ",
     "unit": "الوحدة",
     "unitPlaceholder": "اختر الوحدة",
     "shipping": "تفضيل الشحن",

@@ -7,7 +7,7 @@ import signingImage from '@/assets/images/partnership-signing.webp';
 import {
     FaChevronDown, FaLeaf, FaSeedling,
     FaGlobeAfrica, FaArrowRight, FaBullhorn,
-    FaBuilding, FaIndustry, FaStore
+    FaBuilding, FaIndustry, FaStore, FaGlobeAsia, FaGlobeEurope, FaGlobeAmericas,
 } from 'react-icons/fa';
 import {
     fadeIn,
@@ -148,12 +148,39 @@ const Home: React.FC = () => {
                         viewport={{ once: true, margin: "-100px" }}
                         variants={scaleUp}
                     >
-                        <div className=" bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-300  rounded-2xl md:rounded-3xl shadow-xl md:shadow-2xl p-6 md:p-12 w-full">
-                            <div className="flex flex-col lg:flex-row items-center gap-8 md:gap-12 lg:gap-12">
+                        <motion.div
+                            className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-500 rounded-2xl md:rounded-3xl shadow-xl md:shadow-2xl p-6 md:p-12 w-full transform-gpu"
+                            style={{
+                                transformStyle: 'preserve-3d',
+                                perspective: '1000px',
+                            }}
+                            whileHover={{
+                                y: -5,
+                                scale: 1.01,
+                                rotateY: 2,
+                                boxShadow: '0 20px 35px -10px rgba(0, 0, 0, 0.2)',
+                                transition: { duration: 0.3 }
+                            }}
+                        >
+                            {/* 3D edge effect */}
+                            <div className="absolute inset-0 rounded-2xl md:rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px] hover:translate-z-[-10px] transition-all duration-500" />
+
+                            {/* Glassy overlay */}
+                            <div className="absolute inset-0 rounded-2xl md:rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40 hover:opacity-60 transition-opacity duration-500" />
+
+                            {/* Inner shadow effect */}
+                            <div className="absolute inset-0 rounded-2xl md:rounded-3xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] group-hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
+
+                            {/* Subtle background pattern */}
+                            <div className="absolute inset-0 rounded-2xl md:rounded-3xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
+
+                            <div className="flex flex-col lg:flex-row items-center gap-8 md:gap-12 lg:gap-12 relative z-10">
                                 <motion.div
-                                    className="text-orange-600 text-5xl p-5 bg-background rounded-xl shadow-inner"
+                                    className="text-orange-600 text-5xl p-5 bg-white/80 backdrop-blur-md rounded-xl shadow-inner transform-gpu group-hover:scale-110 transition-transform duration-500"
                                     variants={fadeIn}
                                     aria-label={t('aboutPreview.iconAria')}
+                                    whileHover={{ scale: 1.1, rotate: 5 }}
+                                    transition={{ type: 'spring', stiffness: 300 }}
                                 >
                                     <FaGlobeAfrica />
                                 </motion.div>
@@ -168,18 +195,28 @@ const Home: React.FC = () => {
                                         {t('aboutPreview.description')}
                                     </Typography>
                                     <motion.button
-                                        whileHover={{ scale: 1.08 }}
+                                        whileHover={{
+                                            scale: 1.08,
+                                            y: -2,
+                                            boxShadow: '0 10px 25px -5px rgba(165, 105, 66, 0.4)'
+                                        }}
                                         whileTap={{ scale: 0.96 }}
-                                        className="group bg-primary hover:bg-dark-orange text-white px-6 py-2 md:px-8 md:py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg inline-flex items-center text-sm md:text-base"
+                                        className="group bg-primary hover:bg-dark-orange text-white hover:text-white px-8 py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg inline-flex items-center mx-auto"
                                         onClick={() => navigate('/about')}
                                         aria-label={t('aboutPreview.ctaButton')}
                                     >
                                         {t('aboutPreview.ctaButton')}
-                                        <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" aria-hidden="true"/>
+                                        <motion.span
+                                            animate={{ x: 0 }}
+                                            whileHover={{ x: 3 }}
+                                            transition={{ type: 'spring', stiffness: 400 }}
+                                        >
+                                            <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" aria-hidden="true"/>
+                                        </motion.span>
                                     </motion.button>
                                 </motion.div>
                             </div>
-                        </div>
+                        </motion.div>
                     </motion.div>
                 </Section>
             </Suspense>
@@ -288,8 +325,8 @@ const Home: React.FC = () => {
             </Suspense>
 
             {/* B2B Testimonials Section */}
-            <Section className="py-14 px-4 sm:px-6">
-                <div className="w-full max-w-9xl mx-auto px-4 sm:px-6">
+            <Section className="py-16 px-4 sm:px-6 bg-gradient-to-b">
+                <div className="w-full max-w-7xl mx-auto">
                     <motion.div
                         className="text-center mb-12"
                         initial="hidden"
@@ -305,12 +342,94 @@ const Home: React.FC = () => {
                         </Typography>
                     </motion.div>
 
-                    {/* Container with proper overflow handling */}
+                    {/* Enhanced Container */}
                     <div className="relative">
-                        {/* Scrollable container for mobile */}
-                        <div className="flex overflow-x-auto gap-4 pb-6 px-4 md:hidden scrollbar-hide">
+                        {/* Global Region Indicators */}
+                        <div className="hidden lg:flex justify-center mb-8">
+                            <div className="flex items-center bg-white/80 backdrop-blur-sm rounded-full p-2 shadow-lg border border-gray-200">
+                                <div className="flex items-center px-4 py-2 rounded-full bg-primary/10 text-primary mx-1">
+                                    <FaGlobeEurope className="mr-2" />
+                                    <span className="text-sm font-medium">Europe</span>
+                                </div>
+                                <div className="flex items-center px-4 py-2 rounded-full bg-accent/10 text-accent mx-1">
+                                    <FaGlobeAmericas className="mr-2" />
+                                    <span className="text-sm font-medium">Americas</span>
+                                </div>
+                                <div className="flex items-center px-4 py-2 rounded-full bg-green-500/10 text-green-600 mx-1">
+                                    <FaGlobeAsia className="mr-2" />
+                                    <span className="text-sm font-medium">Middle East</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Mobile Carousel */}
+                        <div className="lg:hidden relative">
+                            <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 px-4 scrollbar-hide">
+                                {/* Testimonial 1 - Europe */}
+                                <div className="flex-shrink-0 w-[85vw] snap-center" key="testimonial-europe-mobile">
+                                    <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-1">
+                                        <TestimonialCard
+                                            quote={t('testimonials.europe.quote')}
+                                            name={t('testimonials.europe.name')}
+                                            position={t('testimonials.europe.position')}
+                                            icon={FaBuilding}
+                                            iconAria={t('testimonials.europe.iconAria')}
+                                            variant="primary"
+                                            region="Europe"
+                                        />
+                                    </div>
+                                </div>
+
+                                {/* Testimonial 2 - America */}
+                                <div className="flex-shrink-0 w-[85vw] snap-center" key="testimonial-americas-mobile">
+                                    <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-1">
+                                        <TestimonialCard
+                                            quote={t('testimonials.america.quote')}
+                                            name={t('testimonials.america.name')}
+                                            position={t('testimonials.america.position')}
+                                            icon={FaIndustry}
+                                            iconAria={t('testimonials.america.iconAria')}
+                                            variant="accent"
+                                            region="Americas"
+                                        />
+                                    </div>
+                                </div>
+
+                                {/* Testimonial 3 - Middle East */}
+                                <div className="flex-shrink-0 w-[85vw] snap-center" key="testimonial-me-mobile">
+                                    <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-1">
+                                        <TestimonialCard
+                                            quote={t('testimonials.me.quote')}
+                                            name={t('testimonials.me.name')}
+                                            position={t('testimonials.me.position')}
+                                            icon={FaStore}
+                                            iconAria={t('testimonials.me.iconAria')}
+                                            variant="secondary"
+                                            region="Middle East"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Mobile Navigation Dots */}
+                            <div className="flex justify-center mt-4 space-x-2">
+                                {[1, 2, 3].map((dot) => (
+                                    <div
+                                        key={`carousel-dot-${dot}`}
+                                        className="w-2 h-2 rounded-full bg-gray-300"
+                                    />
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Enhanced Desktop Layout */}
+                        <div className="hidden lg:grid lg:grid-cols-3 gap-8">
                             {/* Testimonial 1 - Europe */}
-                            <div className="flex-shrink-0 w-80 pb-2"> {/* Added padding-bottom */}
+                            <motion.div
+                                key="testimonial-europe"
+                                className="transform-gpu hover:scale-105 transition-transform duration-300"
+                                whileHover={{ y: -8 }}
+                            >
                                 <TestimonialCard
                                     quote={t('testimonials.europe.quote')}
                                     name={t('testimonials.europe.name')}
@@ -318,72 +437,75 @@ const Home: React.FC = () => {
                                     icon={FaBuilding}
                                     iconAria={t('testimonials.europe.iconAria')}
                                     variant="primary"
+                                    region="Europe"
                                 />
-                            </div>
+                            </motion.div>
 
-                            {/* Testimonial 2 - America */}
-                            <div className="flex-shrink-0 w-80 pb-2"> {/* Added padding-bottom */}
+                            {/* Testimonial 2 - America - Elevated */}
+                            <motion.div
+                                key="testimonial-americas"
+                                className="transform-gpu hover:scale-105 transition-transform duration-300"
+                                whileHover={{ y: -8 }}
+                                initial={{ y: 0 }}
+                                animate={{ y: -10 }}
+                                transition={{
+                                    duration: 2,
+                                    repeat: Infinity,
+                                    repeatType: "reverse"
+                                }}
+                            >
                                 <TestimonialCard
                                     quote={t('testimonials.america.quote')}
                                     name={t('testimonials.america.name')}
                                     position={t('testimonials.america.position')}
                                     icon={FaIndustry}
                                     iconAria={t('testimonials.america.iconAria')}
-                                    variant="primary"
+                                    variant="accent"
+                                    region="Americas"
                                 />
-                            </div>
+                            </motion.div>
 
                             {/* Testimonial 3 - Middle East */}
-                            <div className="flex-shrink-0 w-80 pb-2"> {/* Added padding-bottom */}
+                            <motion.div
+                                key="testimonial-me"
+                                className="transform-gpu hover:scale-105 transition-transform duration-300"
+                                whileHover={{ y: -8 }}
+                            >
                                 <TestimonialCard
                                     quote={t('testimonials.me.quote')}
                                     name={t('testimonials.me.name')}
                                     position={t('testimonials.me.position')}
                                     icon={FaStore}
                                     iconAria={t('testimonials.me.iconAria')}
-                                    variant="primary"
+                                    variant="secondary"
+                                    region="Middle East"
                                 />
-                            </div>
+                            </motion.div>
                         </div>
 
-                        {/* Grid layout for desktop */}
-                        <div className="hidden md:grid md:grid-cols-3 gap-8 px-4">
-                            {/* Testimonial 1 - Europe */}
-                            <div className="transform-gpu hover:scale-105 transition-transform duration-300">
-                                <TestimonialCard
-                                    quote={t('testimonials.europe.quote')}
-                                    name={t('testimonials.europe.name')}
-                                    position={t('testimonials.europe.position')}
-                                    icon={FaBuilding}
-                                    iconAria={t('testimonials.europe.iconAria')}
-                                    variant="primary"
-                                />
+                        {/* Stats Bar */}
+                        <motion.div
+                            className="hidden lg:flex justify-center mt-12 bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-gray-200"
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                            variants={fadeIn}
+                        >
+                            <div className="grid grid-cols-3 gap-8 text-center">
+                                <div>
+                                    <div className="text-3xl font-bold text-primary">50+</div>
+                                    <div className="text-sm text-gray-600">Global Clients</div>
+                                </div>
+                                <div>
+                                    <div className="text-3xl font-bold text-accent">25+</div>
+                                    <div className="text-sm text-gray-600">Countries Served</div>
+                                </div>
+                                <div>
+                                    <div className="text-3xl font-bold text-green-600">99%</div>
+                                    <div className="text-sm text-gray-600">Satisfaction Rate</div>
+                                </div>
                             </div>
-
-                            {/* Testimonial 2 - America */}
-                            <div className="transform-gpu hover:scale-105 transition-transform duration-300">
-                                <TestimonialCard
-                                    quote={t('testimonials.america.quote')}
-                                    name={t('testimonials.america.name')}
-                                    position={t('testimonials.america.position')}
-                                    icon={FaIndustry}
-                                    iconAria={t('testimonials.america.iconAria')}
-                                    variant="primary"
-                                />
-                            </div>
-
-                            {/* Testimonial 3 - Middle East */}
-                            <div className="transform-gpu hover:scale-105 transition-transform duration-300">
-                                <TestimonialCard
-                                    quote={t('testimonials.me.quote')}
-                                    name={t('testimonials.me.name')}
-                                    position={t('testimonials.me.position')}
-                                    icon={FaStore}
-                                    iconAria={t('testimonials.me.iconAria')}
-                                    variant="primary"
-                                />
-                            </div>
-                        </div>
+                        </motion.div>
                     </div>
                 </div>
             </Section>
