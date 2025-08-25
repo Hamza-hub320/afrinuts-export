@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
@@ -10,7 +9,8 @@ import {
   FaInstagram,
   FaMapMarkerAlt,
   FaPhone,
-  FaEnvelope, FaArrowRight
+  FaEnvelope,
+  FaArrowRight
 } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 
@@ -20,11 +20,23 @@ const Footer = () => {
 
   return (
       <footer className="bg-navy text-gray-100 rounded-t-[80px] md:rounded-t-[100px] overflow-hidden pt-24 pb-8 relative">
+        {/* Background gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-primary/10 to-transparent opacity-30"></div>
+
+        {/* Glassy effect container */}
+        <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent backdrop-blur-sm"></div>
+
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           {/* Mobile layout (hidden on desktop) */}
           <div className="md:hidden space-y-12 mb-12">
             {/* Company Info for mobile */}
-            <div className="space-y-6">
+            <motion.div
+                className="space-y-6 bg-white/5 backdrop-blur-md p-6 rounded-2xl border border-white/10"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+            >
               <h3 className="text-xl font-bold mb-4">{t('company.title')}</h3>
               <p className="text-sm leading-relaxed">
                 {t('company.description')}
@@ -40,52 +52,73 @@ const Footer = () => {
                         key={index}
                         href={social.url}
                         aria-label={social.ariaLabel}
-                        className="hover:text-accent transition-colors duration-300"
-                        whileHover={{ y: -3 }}
+                        className="hover:text-accent transition-colors duration-300 bg-white/10 p-2 rounded-full backdrop-blur-sm"
+                        whileHover={{ y: -3, scale: 1.1 }}
+                        whileTap={{ scale: 0.95 }}
                     >
                       {social.icon}
                     </motion.a>
                 ))}
               </div>
-            </div>
+            </motion.div>
 
             {/* Newsletter for mobile */}
-            <div className="space-y-6">
+            <motion.div
+                className="space-y-6 bg-white/5 backdrop-blur-md p-6 rounded-2xl border border-white/10"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+            >
               <h3 className="text-xl font-bold mb-4">{t('newsletter.title')}</h3>
               <p className="text-sm">
                 {t('newsletter.description')}
               </p>
               <form className="space-y-4">
-                <input
+                <motion.input
                     type="email"
                     aria-label="Your email address"
                     placeholder={t('newsletter.placeholder')}
                     required
-                    className="w-full px-4 py-3 rounded-full bg-white/10 placeholder-white/50 border border-white/20 focus:border-accent focus:ring-2 focus:ring-accent/30 outline-none transition"
+                    className="w-full px-4 py-3 rounded-full bg-white/10 backdrop-blur-sm placeholder-white/50 border border-white/20 focus:border-accent focus:ring-2 focus:ring-accent/30 outline-none transition"
+                    whileFocus={{ scale: 1.02 }}
                 />
                 <motion.button
                     type="submit"
-                    className="w-full px-6 py-3 bg-primary hover:bg-orange-800 text-white rounded-full font-medium transition-colors duration-300 flex items-center justify-center"
-                    whileHover={{ scale: 1.02 }}
+                    className="w-full px-6 py-3 bg-gradient-to-r  bg-primary hover:bg-dark-orange text-white hover:text-white rounded-full font-medium transition-all duration-300 flex items-center justify-center transform-gpu"
+                    whileHover={{ scale: 1.02, y: -2 }}
                     whileTap={{ scale: 0.98 }}
                     aria-label={t('newsletter.submitAriaLabel')}
                 >
                   {t('newsletter.button')}
-                  <span className="ml-2" aria-hidden="true">→</span>
+                  <motion.span
+                      className="ml-2"
+                      aria-hidden="true"
+                      whileHover={{ x: 3 }}
+                      transition={{ type: 'spring', stiffness: 400 }}
+                  >
+                    <FaArrowRight />
+                  </motion.span>
                 </motion.button>
               </form>
-            </div>
+            </motion.div>
           </div>
 
           {/* Desktop layout (hidden on mobile) */}
           <div className="hidden md:grid grid-cols-4 gap-8 mb-12 mt-8">
             {/* Company Info */}
-            <div>
+            <motion.div
+                className="bg-white/5 backdrop-blur-md p-6 rounded-2xl border border-white/10"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5 }}
+            >
               <h3 className="text-xl font-bold mb-4">{t('company.title')}</h3>
               <p className="text-sm mb-4">
                 {t('company.description')}
               </p>
-              <div className="flex space-x-4">
+              <div className="flex space-x-3">
                 {[
                   { icon: <FaFacebook />, url: "https://facebook.com", ariaLabel: "Facebook" },
                   { icon: <FaTwitter />, url: "https://twitter.com", ariaLabel: "Twitter" },
@@ -96,19 +129,24 @@ const Footer = () => {
                         key={index}
                         href={social.url}
                         aria-label={social.ariaLabel}
-                        className="hover:text-accent transition-colors duration-300 text-lg"
-                        whileHover={{ y: -3 }}
+                        className="hover:text-accent transition-colors duration-300 text-lg bg-white/10 p-2 rounded-full backdrop-blur-sm"
+                        whileHover={{ y: -3, scale: 1.1 }}
+                        whileTap={{ scale: 0.95 }}
                     >
                       {social.icon}
                     </motion.a>
                 ))}
               </div>
-            </div>
-
-
+            </motion.div>
 
             {/* Quick Links */}
-            <div>
+            <motion.div
+                className="bg-white/5 backdrop-blur-md p-6 rounded-2xl border border-white/10"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+            >
               <h3 className="text-xl font-bold mb-4">{t('links.title')}</h3>
               <ul className="space-y-2">
                 {[
@@ -126,86 +164,131 @@ const Footer = () => {
                     >
                       <Link
                           to={link.path}
-                          className="text-sm hover:text-accent transition-colors duration-300"
+                          className="text-sm hover:text-accent transition-colors duration-300 flex items-center group"
                       >
+                        <span className="w-2 h-2 bg-accent rounded-full mr-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
                         {link.text}
                       </Link>
                     </motion.li>
                 ))}
               </ul>
-            </div>
+            </motion.div>
 
             {/* Contact Info */}
-            <div>
+            <motion.div
+                className="bg-white/5 backdrop-blur-md p-6 rounded-2xl border border-white/10"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+            >
               <h3 className="text-xl font-bold mb-4">{t('contact.title')}</h3>
               <ul className="space-y-3">
-                <li className="flex items-start space-x-3">
+                <motion.li
+                    className="flex items-start space-x-3 bg-white/5 p-3 rounded-xl backdrop-blur-sm"
+                    whileHover={{ x: 3 }}
+                >
                   <span className="text-accent mt-0.5"><FaMapMarkerAlt /></span>
                   <span className="text-sm">Odienné, Côte D'Ivoire</span>
-                </li>
-                <li className="flex items-start space-x-3">
+                </motion.li>
+                <motion.li
+                    className="flex items-start space-x-3 bg-white/5 p-3 rounded-xl backdrop-blur-sm"
+                    whileHover={{ x: 3 }}
+                >
                   <span className="text-accent mt-0.5"><FaPhone /></span>
                   <span className="text-sm">+225 01 23 45 67 89</span>
-                </li>
-                <li className="flex items-start space-x-3">
+                </motion.li>
+                <motion.li
+                    className="flex items-start space-x-3 bg-white/5 p-3 rounded-xl backdrop-blur-sm"
+                    whileHover={{ x: 3 }}
+                >
                   <span className="text-accent mt-0.5"><FaEnvelope /></span>
                   <span className="text-sm">info@afrinuts-export.com</span>
-                </li>
+                </motion.li>
               </ul>
-            </div>
+            </motion.div>
 
             {/* Newsletter */}
-            <div>
+            <motion.div
+                className="bg-white/5 backdrop-blur-md p-6 rounded-2xl border border-white/10"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+            >
               <h3 className="text-xl font-bold mb-4">{t('newsletter.title')}</h3>
               <p className="text-sm mb-4">
                 {t('newsletter.description')}
               </p>
-              <form className="space-y-2">
-                  <label htmlFor="newsletter-email-mobile" className="sr-only">
-                    {t('newsletter.label')}
-                  </label>
-                  <input
-                      id="newsletter-email-mobile"
-                      type="email"
-                      placeholder={t('newsletter.placeholder')}
-                      required
-                      className="w-full px-4 py-3 rounded-full ..."
-                  />
+              <form className="space-y-3">
+                <motion.input
+                    id="newsletter-email-mobile"
+                    type="email"
+                    placeholder={t('newsletter.placeholder')}
+                    required
+                    className="w-full px-4 py-3 rounded-full bg-white/10 backdrop-blur-sm placeholder-white/50 border border-white/20 focus:border-accent focus:ring-2 focus:ring-accent/30 outline-none transition"
+                    whileFocus={{ scale: 1.02 }}
+                />
                 <motion.button
                     type="submit"
-                    className="w-full px-4 py-2 bg-primary hover:bg-dark-orange text-white rounded-full font-medium"
-                    whileHover={{ scale: 1.02 }}
+                    className="w-full px-4 py-3  bg-primary hover:bg-dark-orange text-white hover:text-white rounded-full font-medium transform-gpu hover:scale-105 transition-all duration-300 flex items-center justify-center"
+                    whileHover={{ y: -2 }}
                     whileTap={{ scale: 0.98 }}
                 >
                   {t('newsletter.button')}
+                  <FaArrowRight className="ml-2 transition-transform group-hover:translate-x-1" />
                 </motion.button>
               </form>
-            </div>
+            </motion.div>
           </div>
 
           {/* Bottom legal section (shared between mobile and desktop) */}
-          <div className="border-t border-white/10 pt-8">
+          <motion.div
+              className="border-t border-white/10 pt-8 backdrop-blur-sm bg-white/5 rounded-2xl p-6"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+          >
             <div className="flex flex-col md:flex-row justify-between items-center">
               <p className="text-sm mb-4 md:mb-0">
                 © {new Date().getFullYear()} AfriNuts Export. {t('copyright')}
               </p>
               <div className="flex space-x-6">
-                <Link to="/privacy-policy" className="text-sm hover:text-accent transition-colors">
-                  {t('legal.privacy')}
-                </Link>
-                <Link to="/terms" className="text-sm hover:text-accent transition-colors">
-                  {t('legal.terms')}
-                </Link>
-                <button
-                    onClick={() => setShowCookiePrefs(true)}
-                    className="text-sm hover:text-accent transition-colors"
-                >
-                  {t('legal.cookie')}
-                </button>
+                {[
+                  { path: "/privacy-policy", text: t('legal.privacy') },
+                  { path: "/terms", text: t('legal.terms') },
+                  { text: t('legal.cookie'), onClick: () => setShowCookiePrefs(true) }
+                ].map((item, index) => (
+                    <motion.div
+                        key={index}
+                        whileHover={{ y: -2 }}
+                        transition={{ duration: 0.2 }}
+                    >
+                      {item.path ? (
+                          <Link
+                              to={item.path}
+                              className="text-sm hover:text-accent transition-colors duration-300 flex items-center group"
+                          >
+                            <span className="w-1.5 h-1.5 bg-accent rounded-full mr-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                            {item.text}
+                          </Link>
+                      ) : (
+                          <button
+                              onClick={item.onClick}
+                              className="text-sm hover:text-accent transition-colors duration-300 flex items-center group"
+                          >
+                            <span className="w-1.5 h-1.5 bg-accent rounded-full mr-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                            {item.text}
+                          </button>
+                      )}
+                    </motion.div>
+                ))}
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
+
         {/* Cookie Preferences Modal */}
         <CookiePreferences
             show={showCookiePrefs}
