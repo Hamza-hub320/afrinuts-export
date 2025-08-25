@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { InfoCard } from '../InfoCard/InfoCard';
 import { FaInfoCircle } from 'react-icons/fa';
 import { Typography } from '../Typography/Typography';
+import { useTranslation } from 'react-i18next';
 
 interface ShippingOption {
     title: string;
@@ -28,6 +29,7 @@ export const ShippingInfoCard: React.FC<ShippingInfoCardProps> = ({
                                                                       helpText,
                                                                       icon: Icon = FaInfoCircle
                                                                   }) => {
+    const { t } = useTranslation('contact');
     return (
         <InfoCard
             icon={Icon}
@@ -45,7 +47,7 @@ export const ShippingInfoCard: React.FC<ShippingInfoCardProps> = ({
                 {/* Currently Available Options */}
                 <div>
                     <Typography variant="h4" className="text-primary mb-3 border-b pb-2">
-                        Currently Available
+                        {t('shippingGuidance.currentlyAvailable')}
                     </Typography>
 
                     {currentlyAvailable.map((option, index) => (
@@ -67,7 +69,7 @@ export const ShippingInfoCard: React.FC<ShippingInfoCardProps> = ({
                 {/* Coming Soon Options */}
                 <div>
                     <Typography variant="h4" className="text-primary mb-3 border-b pb-2">
-                        Coming Soon
+                        {t('shippingGuidance.comingSoon')}
                     </Typography>
 
                     {comingSoon.map((option, index) => (
