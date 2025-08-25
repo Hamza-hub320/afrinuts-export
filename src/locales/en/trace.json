@@ -14,5 +14,14 @@
     "previewAllBatches": "Preview All Batches",
     "backToHome": "Back to Home",
     "previewNotice": "Previewing default batch (no batchId provided in URL)"
+  },
+  "testimonials": {
+    "title": "B2B Testimonials",
+    "subtitle": "See what our international and local partners say about working with us."
+  },
+  "cta": {
+    "title": "Get in Touch with AfriNuts",
+    "subtitle": "Have questions or want to collaborate? Reach out to us today.",
+    "button": "Contact Us"
   }
 }

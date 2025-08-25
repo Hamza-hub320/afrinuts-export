@@ -726,7 +726,7 @@ const About: React.FC = () => {
                         {t('legacy.future.text')}
                       </p>
                       <motion.button
-                          className="mt-6 group bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-3 rounded-full transition-all duration-300 inline-flex items-center mx-auto transform-gpu hover:scale-105 relative z-10"
+                          className="group bg-primary hover:bg-dark-orange text-white hover:text-white px-8 py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg inline-flex items-center mx-auto"
                           variants={fadeIn}
                           onClick={() => navigate('/vision')}
                           whileHover={{ y: -2 }}

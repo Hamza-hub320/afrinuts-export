@@ -625,7 +625,7 @@ const Vision: React.FC = () => {
                 </div>
             </Section>
             {/* End-of-page CTA */}
-            <Section className="py-12">
+            <Section className="py-8">
                 <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 text-center">
                     <motion.div
                         initial="hidden"
@@ -646,7 +646,7 @@ const Vision: React.FC = () => {
                             aria-label={t('cta.button')}
                         >
                             {t('cta.button')}
-                            <FaGlobe className="ml-3 group-hover:rotate-45 transition-transform" />
+
                         </motion.button>
                     </motion.div>
                 </div>

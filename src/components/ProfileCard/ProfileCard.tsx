@@ -1,7 +1,8 @@
 // components/ProfileCard/ProfileCard.tsx
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline';
+import { ChevronDownIcon, ChevronDoubleUpIcon } from '@heroicons/react/24/outline';
+import { FaExternalLinkAlt } from 'react-icons/fa';
 import {t} from "i18next";
 import {useTranslation} from "react-i18next";
 
@@ -84,8 +85,11 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
             {/* Inner shadow effect */}
             <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] group-hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
 
-            {/* Subtle background pattern */}
-            <div className="absolute inset-0 rounded-2xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
+            {onClick && (
+              <div className="absolute top-2 right-2 z-20 flex items-center space-x-1 text-xs px-2 py-1 rounded-full shadow-md pointer-events-none">
+                <ChevronDoubleUpIcon className="w-3 h-3" />
+              </div>
+            )}
 
             <div className="relative z-10 flex flex-col h-full">
                 <div className="flex flex-col sm:flex-row items-center gap-4 mb-4 md:mb-6">

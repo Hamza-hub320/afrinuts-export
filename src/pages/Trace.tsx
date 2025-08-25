@@ -5,6 +5,15 @@ import { motion } from "framer-motion";
 import Section from "@/components/Section/Section";
 import { Typography } from "@/components/Typography/Typography";
 
+import { FaGlobeEurope, FaGlobeAmericas, FaGlobeAsia, FaBuilding, FaIndustry, FaStore } from "react-icons/fa";
+import {TestimonialCard} from "../components/TestimonialCard/TestimonialCard";
+
+const fadeIn = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
+};
+
+
 // Simulated batch data for development/testing
 const simulatedBatches = [
     {
@@ -283,7 +292,7 @@ const TracePage: React.FC = () => {
                             >
                                 <Link
                                     to="/"
-                                    className="inline-block bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg items-center mx-auto font-medium transform-gpu hover:scale-105"
+                                    className="bg-primary hover:bg-dark-orange text-white px-6 py-2 rounded-full transition-colors transform-gpu hover:scale-105"
                                 >
                                     {t("batch.backToHome")}
                                 </Link>
@@ -291,6 +300,92 @@ const TracePage: React.FC = () => {
                         </div>
                     </motion.div>
                 </div>
+            </Section>
+            {/* B2B Testimonials Section */}
+            <Section className="py-20">
+                <div className="max-w-6xl mx-auto px-4">
+                    <motion.div
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={fadeIn}
+                        transition={{ duration: 0.7 }}
+                        className="text-center mb-12"
+                    >
+                        <Typography variant="h2" className="text-4xl font-bold text-primary mb-2">
+                            {t("testimonials.title")}
+                        </Typography>
+                        <Typography variant="lead" className="text-text-dark max-w-2xl mx-auto">
+                            {t("testimonials.subtitle")}
+                        </Typography>
+                    </motion.div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <TestimonialCard
+                            icon={FaGlobeEurope}
+                            company="EuroNut GmbH"
+                            person="Anna Müller"
+                            role="Procurement Manager"
+                            testimonial="Afrinuts’ traceability system gives us full confidence in the supply chain. We can track each batch from the farm to our warehouse, ensuring unmatched quality and transparency for our European clients."
+                            country="Germany"
+                        />
+                        <TestimonialCard
+                            icon={FaGlobeAmericas}
+                            company="NutriTrade Inc."
+                            person="James Smith"
+                            role="Lead Buyer"
+                            testimonial="The batch-level data and certifications provided by Afrinuts make compliance with US regulations seamless. Our customers value the transparency, and so do we."
+                            country="USA"
+                        />
+                        <TestimonialCard
+                            icon={FaGlobeAsia}
+                            company="AsiaFoods Co."
+                            person="Mei Lin"
+                            role="Quality Assurance"
+                            testimonial="We appreciate Afrinuts’ commitment to quality and traceability. The detailed batch info helps us maintain our premium product standards."
+                            country="Singapore"
+                        />
+                        <TestimonialCard
+                            icon={FaBuilding}
+                            company="ChocoMakers"
+                            person="Luc Moreau"
+                            role="Production Director"
+                            testimonial="Being able to access real-time data on each cashew batch streamlines our chocolate production and guarantees consistency in taste and safety."
+                            country="France"
+                        />
+                        <TestimonialCard
+                            icon={FaIndustry}
+                            company="SnackWorks"
+                            person="Elena Rossi"
+                            role="Head of Sourcing"
+                            testimonial="Afrinuts’ transparent supply chain and certifications are a game-changer for our responsible sourcing policy."
+                            country="Italy"
+                        />
+                        <TestimonialCard
+                            icon={FaStore}
+                            company="SuperMart"
+                            person="Kwame Mensah"
+                            role="Retail Partner"
+                            testimonial="Our customers love knowing exactly where their cashews come from. Afrinuts’ traceability gives us a unique selling point in the market."
+                            country="Ghana"
+                        />
+                    </div>
+                </div>
+            </Section>
+
+            {/* CTA Section */}
+            <Section className="py-16 text-center">
+                <Typography variant="h2" className="text-3xl font-bold text-primary mb-4">
+                    {t("cta.title")}
+                </Typography>
+                <Typography variant="lead" className="text-text-dark max-w-2xl mx-auto mb-6">
+                    {t("cta.subtitle")}
+                </Typography>
+                <Link
+                    to="/contact"
+                    className="bg-primary hover:bg-dark-orange text-white px-6 py-3 rounded-full transition-colors transform-gpu hover:scale-105"
+                >
+                    {t("cta.button")}
+                </Link>
             </Section>
         </main>
     );
