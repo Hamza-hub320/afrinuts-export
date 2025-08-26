@@ -344,7 +344,7 @@ const OurStory: React.FC = () => {
                             >
                                 <Link
                                     to="/contact"
-                                    className="bg-primary hover:bg-dark-orange text-white px-6 py-2 rounded-full transition-colors transform-gpu hover:scale-105"
+                                    className="group bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-4 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl inline-flex items-center mx-auto transform-gpu relative overflow-hidden"
                                 >
                                     {t('cta.button')}
                                 </Link>

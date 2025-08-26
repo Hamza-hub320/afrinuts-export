@@ -443,7 +443,7 @@ const Faq: React.FC = () => {
                                     className={`px-4 py-2 rounded-full text-sm font-medium transition-colors flex items-center transform-gpu hover:scale-105 ${
                                         activeAudience === filter.id
                                             ? 'bg-primary text-white shadow-lg'
-                                            : 'bg-white/80 backdrop-blur-sm text-text-dark hover:bg-gray-100 shadow-md'
+                                            : 'bg-background backdrop-blur-sm text-text-dark hover:bg-gray-100 shadow-md'
                                     }`}
                                     whileHover={{ y: -2 }}
                                     whileTap={{ scale: 0.95 }}
@@ -484,7 +484,7 @@ const Faq: React.FC = () => {
                                     {topQuestions.map((item, index) => (
                                         <motion.div
                                             key={`top-${index}`}
-                                            className="bg-white/80 backdrop-blur-sm p-4 rounded-lg border border-white/30 shadow-sm"
+                                            className="bg-background backdrop-blur-sm p-4 rounded-lg border border-white/30 shadow-sm"
                                             whileHover={{ y: -2 }}
                                             transition={{ duration: 0.2 }}
                                         >
@@ -723,7 +723,7 @@ const Faq: React.FC = () => {
 
                             {/* Still have questions? */}
                             <motion.div
-                                className="mt-12 relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl shadow-xl p-6 transform-gpu"
+                                className="mt-12 relative max-w-md mx-auto bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl shadow-xl p-6 text-center transform-gpu"
                                 style={{
                                     transformStyle: 'preserve-3d',
                                     perspective: '1000px',
@@ -752,17 +752,17 @@ const Faq: React.FC = () => {
                                 {/* Subtle background pattern */}
                                 <div className="absolute inset-0 rounded-2xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
 
-                                <div className="relative z-10">
-                                    <div className="flex items-center mb-4">
-                                        <Typography variant="h3" className="text-text-dark font-medium flex items-center">
+                                <div className="relative z-10 flex flex-col items-center">
+                                    <div className="flex items-center justify-center mb-3">
+                                        <Typography variant="h3" className="text-text-dark font-medium flex items-center justify-center">
                                             <FaQuestion className="text-primary text-lg mr-3" />
                                             {t('stillQuestions.title')}
                                         </Typography>
                                     </div>
-                                    <Typography variant="body" className="text-text-dark mb-5 pl-8">
+                                    <Typography variant="body" className="text-text-dark mb-5">
                                         {t('stillQuestions.content')}
                                     </Typography>
-                                    <div className="flex flex-wrap gap-4">
+                                    <div className="flex justify-center">
                                         <motion.button
                                             className="group relative bg-gradient-to-r from-primary to-accent text-white px-8 py-3 rounded-full transition-all duration-300 shadow-md transform-gpu hover:scale-105"
                                             style={{
@@ -781,7 +781,7 @@ const Faq: React.FC = () => {
                                             {/* Button glassy overlay */}
                                             <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50 group-hover:opacity-70 transition-opacity duration-300" />
 
-                                            <div className="relative z-10 flex items-center">
+                                            <div className="relative z-10 flex items-center justify-center">
                                                 {t('stillQuestions.button')}
                                                 <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
                                             </div>

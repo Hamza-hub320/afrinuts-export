@@ -200,7 +200,7 @@ const Home: React.FC = () => {
                                             boxShadow: '0 10px 25px -5px rgba(165, 105, 66, 0.4)'
                                         }}
                                         whileTap={{ scale: 0.96 }}
-                                        className="group bg-primary hover:bg-dark-orange text-white hover:text-white px-8 py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg inline-flex items-center mx-auto"
+                                        className="group border-2 border-primary text-primary hover:bg-accent hover:text-white hover:border-accent px-6 py-2 md:px-8 md:py-3 rounded-full transition-all duration-300 inline-flex items-center text-sm md:text-base"
                                         onClick={() => navigate('/about')}
                                         aria-label={t('aboutPreview.ctaButton')}
                                     >
@@ -311,7 +311,7 @@ const Home: React.FC = () => {
                             <motion.button
                                 whileHover={{ scale: 1.08 }}
                                 whileTap={{ scale: 0.96 }}
-                                className="group bg-primary hover:bg-dark-orange text-white hover:text-white px-8 py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg inline-flex items-center mx-auto"
+                                className="group border-2 border-primary text-primary hover:bg-accent hover:text-white hover:border-accent px-6 py-2 md:px-8 md:py-3 rounded-full transition-all duration-300 inline-flex items-center text-sm md:text-base"
                                 onClick={() => navigate('/products')}
                                 aria-label={t('products.ctaButton')}
                             >
@@ -713,7 +713,7 @@ const Home: React.FC = () => {
                             <motion.button
                                 whileHover={{ scale: 1.08 }}
                                 whileTap={{ scale: 0.96 }}
-                                className="group bg-primary hover:bg-dark-orange text-white hover:text-white px-8 py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg inline-flex items-center mx-auto"
+                                className="group border-2 border-primary text-primary hover:bg-accent hover:text-white hover:border-accent px-6 py-2 md:px-8 md:py-3 rounded-full transition-all duration-300 inline-flex items-center text-sm md:text-base"
                                 onClick={() => navigate('/news')}
                                 aria-label={t('news.ctaButton')}
                             >
@@ -731,7 +731,6 @@ const Home: React.FC = () => {
                 </Section>
             </Suspense>
 
-            {/* 7. Contact CTA */}
             {/* 7. Contact CTA */}
             <Suspense fallback={<div>{t('loading.contact')}</div>}>
                 <Section className="py-16 text-text-dark relative overflow-hidden">

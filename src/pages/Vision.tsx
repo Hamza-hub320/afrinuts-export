@@ -378,7 +378,7 @@ const Vision: React.FC = () => {
                             {t('midCta.title')}
                         </Typography>
                         <motion.button
-                            className="mt-4 group bg-primary hover:bg-dark-orange text-white px-8 py-3 rounded-full transition-all duration-300 inline-flex items-center mx-auto"
+                            className="group border-2 border-primary text-primary hover:bg-accent hover:text-white hover:border-accent px-6 py-2 md:px-8 md:py-3 rounded-full transition-all duration-300 inline-flex items-center text-sm md:text-base"
                             variants={fadeIn}
                             onClick={() => navigate('/contact')}
                             aria-label={t('midCta.button')}
@@ -533,40 +533,39 @@ const Vision: React.FC = () => {
                         <div className="hidden md:flex flex-col items-center relative">
                             <div className="absolute left-1/2 transform -translate-x-1/2 h-full border-l-2 border-primary/40 z-0" style={{ top: 32, bottom: 32 }} />
                             <div className="relative z-10 w-full">
-                                {(t('roadmap.items', { returnObjects: true }) as Array<{ date: string; title: string; description: string }>).map((item, idx) => (
+                                {(t('roadmap.items', { returnObjects: true }) as Array<{ date: string; title: string; description: string }>).map((item, idx, arr) => (
                                     <div key={`roadmap-${idx}`} className="flex items-center mb-10 last:mb-0">
                                         <div className="w-1/2 pr-4 text-right">
                                             {idx % 2 === 0 && (
                                                 <motion.div
-                                                    className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl shadow-lg p-6 transform-gpu group"
-                                                    style={{
-                                                        transformStyle: 'preserve-3d',
-                                                        perspective: '1000px',
-                                                    }}
-                                                    whileHover={{
-                                                        y: -8,
-                                                        scale: 1.03,
-                                                        rotateY: 3,
-                                                        boxShadow: '0 20px 35px -10px rgba(0, 0, 0, 0.2)',
-                                                        transition: { duration: 0.3 }
-                                                    }}
                                                     variants={slideInFromLeft}
                                                 >
-                                                    {/* 3D edge effect */}
-                                                    <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
-
-                                                    {/* Glassy overlay */}
-                                                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
-
-                                                    <Typography variant="subtitle" className="font-bold text-primary relative z-10">
-                                                        {item.date}
-                                                    </Typography>
-                                                    <Typography variant="h4" className="text-lg relative z-10">
-                                                        {item.title}
-                                                    </Typography>
-                                                    <Typography variant="body" className="text-gray-600 relative z-10">
+                                                    <InfoCard
+                                                        title={item.title}
+                                                        subtitle={item.date}
+                                                        className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl shadow-lg p-6 transform-gpu group"
+                                                        cardClassName="!bg-transparent !shadow-none !border-none !p-0"
+                                                        titleClassName="text-lg"
+                                                        subtitleClassName="font-bold text-primary"
+                                                        bodyClassName="text-gray-600"
+                                                        style={{
+                                                            transformStyle: 'preserve-3d',
+                                                            perspective: '1000px',
+                                                        }}
+                                                        whileHover={{
+                                                            y: -8,
+                                                            scale: 1.03,
+                                                            rotateY: 3,
+                                                            boxShadow: '0 20px 35px -10px rgba(0, 0, 0, 0.2)',
+                                                            transition: { duration: 0.3 }
+                                                        }}
+                                                    >
                                                         {item.description}
-                                                    </Typography>
+                                                        {/* 3D edge effect */}
+                                                        <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500 pointer-events-none" />
+                                                        {/* Glassy overlay */}
+                                                        <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500 pointer-events-none" />
+                                                    </InfoCard>
                                                 </motion.div>
                                             )}
                                         </div>
@@ -578,42 +577,41 @@ const Vision: React.FC = () => {
                                             >
                                                 {idx + 1}
                                             </motion.div>
-                                            {idx !== (t('roadmap.items', { returnObjects: true }) as Array<any>).length - 1 && (
+                                            {idx !== arr.length - 1 && (
                                                 <div className="flex-1 w-1 bg-primary/30 mx-auto" style={{ minHeight: 32 }} />
                                             )}
                                         </div>
                                         <div className="w-1/2 pl-4 text-left">
                                             {idx % 2 !== 0 && (
                                                 <motion.div
-                                                    className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl shadow-lg p-6 transform-gpu group"
-                                                    style={{
-                                                        transformStyle: 'preserve-3d',
-                                                        perspective: '1000px',
-                                                    }}
-                                                    whileHover={{
-                                                        y: -8,
-                                                        scale: 1.03,
-                                                        rotateY: -3,
-                                                        boxShadow: '0 20px 35px -10px rgba(0, 0, 0, 0.2)',
-                                                        transition: { duration: 0.3 }
-                                                    }}
                                                     variants={slideInFromRight}
                                                 >
-                                                    {/* 3D edge effect */}
-                                                    <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
-
-                                                    {/* Glassy overlay */}
-                                                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
-
-                                                    <Typography variant="subtitle" className="font-bold text-primary relative z-10">
-                                                        {item.date}
-                                                    </Typography>
-                                                    <Typography variant="h4" className="text-lg relative z-10">
-                                                        {item.title}
-                                                    </Typography>
-                                                    <Typography variant="body" className="text-gray-600 relative z-10">
+                                                    <InfoCard
+                                                        title={item.title}
+                                                        subtitle={item.date}
+                                                        className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl shadow-lg p-6 transform-gpu group"
+                                                        cardClassName="!bg-transparent !shadow-none !border-none !p-0"
+                                                        titleClassName="text-lg"
+                                                        subtitleClassName="font-bold text-primary"
+                                                        bodyClassName="text-gray-600"
+                                                        style={{
+                                                            transformStyle: 'preserve-3d',
+                                                            perspective: '1000px',
+                                                        }}
+                                                        whileHover={{
+                                                            y: -8,
+                                                            scale: 1.03,
+                                                            rotateY: -3,
+                                                            boxShadow: '0 20px 35px -10px rgba(0, 0, 0, 0.2)',
+                                                            transition: { duration: 0.3 }
+                                                        }}
+                                                    >
                                                         {item.description}
-                                                    </Typography>
+                                                        {/* 3D edge effect */}
+                                                        <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500 pointer-events-none" />
+                                                        {/* Glassy overlay */}
+                                                        <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500 pointer-events-none" />
+                                                    </InfoCard>
                                                 </motion.div>
                                             )}
                                         </div>

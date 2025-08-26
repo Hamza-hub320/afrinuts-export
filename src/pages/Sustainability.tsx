@@ -207,7 +207,7 @@ const Sustainability: React.FC = () => {
             </Section>
 
             {/* Social Responsibility Section */}
-            <Section className="py-10">
+            <Section className="py-16">
                 <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                     <motion.div
                         initial="hidden"
@@ -215,43 +215,99 @@ const Sustainability: React.FC = () => {
                         viewport={{ once: true }}
                         variants={staggerContainer}
                     >
-                        <div className="text-center mb-16">
+                        <motion.div
+                            className="text-center mb-16"
+                            variants={fadeIn}
+                        >
                             <Typography variant="h2">
                                 {t('social.title')}
                             </Typography>
-                        </div>
+                        </motion.div>
 
-                        <div className="flex flex-col lg:flex-row gap-12 items-center mb-16">
-                            <div className="lg:w-1/2 order-2 lg:order-1">
-                                <Typography variant="h3" className="mb-6">
-                                    {t('social.farmers.title')}
-                                </Typography>
-                                <div className="space-y-4">
-                                    {(t('social.farmers.content', { returnObjects: true }) as string[]).map((paragraph, index) => (
-                                        <motion.p
-                                            key={`farmers-para-${index}`}
-                                            className="text-text-dark"
-                                            variants={fadeIn}
-                                            transition={{ delay: index * 0.1 }}
-                                        >
-                                            {paragraph}
-                                        </motion.p>
-                                    ))}
-                                </div>
-                            </div>
+                        <motion.div
+                            className="flex flex-col lg:flex-row gap-12 items-center mb-16 transform-gpu"
+                            variants={fadeIn}
+                            style={{
+                                transformStyle: 'preserve-3d',
+                            }}
+                        >
+                            {/* Content Section */}
                             <motion.div
-                                className="lg:w-1/2 order-1 lg:order-2"
+                                className="lg:w-1/2 order-2 lg:order-1 relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-3xl shadow-xl p-8 transform-gpu"
+                                style={{
+                                    transformStyle: 'preserve-3d',
+                                }}
+                                whileHover={{
+                                    y: -5,
+                                    scale: 1.01,
+                                    rotateY: 1,
+                                    boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.2)',
+                                    transition: { duration: 0.3 }
+                                }}
                                 variants={fadeIn}
                             >
-                                <img
-                                    src={farmersImage}
-                                    alt={t('social.farmers.title')}
-                                    className="rounded-2xl shadow-xl w-full transition-transform duration-300 hover:scale-105"
-                                />
+                                {/* 3D edge effect */}
+                                <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px] hover:translate-z-[-10px] transition-all duration-500" />
+                                {/* Glassy overlay */}
+                                <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40 hover:opacity-60 transition-opacity duration-500" />
+                                {/* Inner shadow effect */}
+                                <div className="absolute inset-0 rounded-3xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
+                                {/* Subtle background pattern */}
+                                <div className="absolute inset-0 rounded-3xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
+                                <div className="relative z-10">
+                                    <Typography variant="h3" className="mb-6 text-primary">
+                                        {t('social.farmers.title')}
+                                    </Typography>
+                                    <div className="space-y-4">
+                                        {(t('social.farmers.content', { returnObjects: true }) as string[]).map((paragraph, index) => (
+                                            <motion.p
+                                                key={`farmers-para-${index}`}
+                                                className="text-text-dark bg-white/30 backdrop-blur-sm p-4 rounded-xl border border-white/20"
+                                                variants={fadeIn}
+                                                transition={{ delay: index * 0.1 }}
+                                                whileHover={{
+                                                    y: -2,
+                                                    transition: { duration: 0.2 }
+                                                }}
+                                            >
+                                                {paragraph}
+                                            </motion.p>
+                                        ))}
+                                    </div>
+                                </div>
                             </motion.div>
-                        </div>
 
-                        <div className="grid md:grid-cols-2 gap-8">
+                            {/* Image Section */}
+                            <motion.div
+                                className="lg:w-1/2 order-1 lg:order-2 relative transform-gpu"
+                                variants={fadeIn}
+                                style={{
+                                    transformStyle: 'preserve-3d',
+                                }}
+                                whileHover={{
+                                    y: -5,
+                                    rotateY: 2,
+                                    transition: { duration: 0.3 }
+                                }}
+                            >
+                                <div className="relative rounded-3xl overflow-hidden transform-gpu group">
+                                    {/* 3D edge effect for image container */}
+                                    <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
+                                    {/* Glassy overlay for image container */}
+                                    <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/10 to-transparent opacity-30 group-hover:opacity-50 transition-opacity duration-500 z-10" />
+                                    <img
+                                        src={farmersImage}
+                                        alt={t('social.farmers.title')}
+                                        className="rounded-3xl shadow-xl w-full transform-gpu transition-transform duration-500 group-hover:scale-105"
+                                    />
+                                    {/* Image gradient overlay */}
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent rounded-3xl" />
+                                </div>
+                            </motion.div>
+                        </motion.div>
+
+                        {/* Labor & Gender InfoCards */}
+                        <div className="grid md:grid-cols-2 gap-8 mt-12">
                             <motion.div variants={fadeIn}>
                                 <InfoCard
                                     icon={FaHandshake}
@@ -324,7 +380,7 @@ const Sustainability: React.FC = () => {
                             ))}
                         </div>
                         <motion.button
-                            className="group bg-primary hover:bg-dark-orange text-white hover:text-white px-8 py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg inline-flex items-center mx-auto"
+                            className="group bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-4 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl inline-flex items-center mx-auto transform-gpu relative overflow-hidden"
                             aria-label={t('future.cta')}
                             variants={fadeIn}
                             whileHover={{
