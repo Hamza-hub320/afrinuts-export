@@ -366,32 +366,78 @@ const ExecutiveTeam: React.FC = () => {
                 </Transition.Root>
             </Section>
 
-            {/* CTA Section */}
+            {/* CTA Section - Enhanced with Glassy 3D */}
             <Section className="py-16 text-center">
                 <div className="max-w-4xl mx-auto px-6">
-                    <Typography variant="h2" className="text-3xl md:text-4xl font-bold text-primary mb-4">
-                        {t('executives.ctaTitle')}
-                    </Typography>
-                    <Typography variant="lead" className="text-text-dark mb-8">
-                        {t('executives.ctaDescription')}
-                    </Typography>
-                    <Link
-                        to="/contact"
-                        className="inline-block px-6 py-3 bg-primary text-white rounded-full hover:bg-accent transition-colors font-medium"
+                    <motion.div
+                        className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-3xl shadow-xl p-8 md:p-12 transform-gpu"
+                        style={{
+                            transformStyle: 'preserve-3d',
+                        }}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={fadeIn}
+                        whileHover={{
+                            y: -5,
+                            rotateY: 2,
+                            transition: { duration: 0.3 }
+                        }}
                     >
-                        {t('executives.ctaButton')}
-                    </Link>
+                        {/* 3D edge effect */}
+                        <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px] hover:translate-z-[-10px] transition-all duration-500" />
+
+                        {/* Glassy overlay */}
+                        <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40 hover:opacity-60 transition-opacity duration-500" />
+
+                        {/* Inner shadow effect */}
+                        <div className="absolute inset-0 rounded-3xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
+
+                        {/* Subtle background pattern */}
+                        <div className="absolute inset-0 rounded-3xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
+
+                        <div className="relative z-10">
+                            <Typography variant="h2" className="text-3xl md:text-4xl font-bold text-primary mb-4">
+                                {t('executives.ctaTitle')}
+                            </Typography>
+                            <Typography variant="lead" className="text-text-dark mb-8 max-w-3xl mx-auto">
+                                {t('executives.ctaDescription')}
+                            </Typography>
+                            <motion.div
+                                whileHover={{ scale: 1.05 }}
+                                transition={{ duration: 0.2 }}
+                            >
+                                <Link
+                                    to="/contact"
+                                    className="inline-block bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-4 rounded-full transition-all duration-300 font-medium shadow-lg transform-gpu hover:scale-105 relative group"
+                                >
+                                    {/* Button 3D effect */}
+                                    <div className="absolute inset-0 rounded-full border-2 border-white/30 transform-gpu translate-z-[-4px] group-hover:translate-z-[-6px] transition-all duration-300" />
+
+                                    {/* Button glassy overlay */}
+                                    <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50 group-hover:opacity-70 transition-opacity duration-300" />
+
+                                    {/* Button inner glow */}
+                                    <div className="absolute inset-0 rounded-full shadow-[inset_0_2px_8px_rgba(255,255,255,0.3)]" />
+
+                                    <span className="relative z-10">
+                            {t('executives.ctaButton')}
+                        </span>
+                                </Link>
+                            </motion.div>
+                        </div>
+                    </motion.div>
                 </div>
             </Section>
 
             <style>{`
-                @media (max-width: 640px) {
-                    .modal-content {
-                        margin: 0.5rem;
-                        width: calc(100% - 1rem);
-                    }
-                }
-            `}</style>
+    @media (max-width: 640px) {
+        .modal-content {
+            margin: 0.5rem;
+            width: calc(100% - 1rem);
+        }
+    }
+`}</style>
         </main>
     );
 };

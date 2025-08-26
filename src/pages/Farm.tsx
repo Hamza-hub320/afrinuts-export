@@ -490,23 +490,78 @@ const Farm = () => {
 
 
                 {/* Call to Action */}
-                <section className="py-10 px-6 text-white">
-                    <div className="max-w-4xl mx-auto text-center">
-                        <Typography variant="h2" className="mb-6">
-                            {t('cta.title')}
-                        </Typography>
-                        <Typography variant="body" className="mb-8">
-                            {t('cta.description')}
-                        </Typography>
-                        <motion.button
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            className="group bg-primary hover:bg-dark-orange text-white px-8 py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg inline-flex items-center mx-auto"
-                            onClick={() => navigate('/contact')}
+                {/* Call to Action - Enhanced with Glassy 3D */}
+                <section className="py-16 px-6 text-text-dark">
+                    <div className="w-full max-w-4xl mx-auto text-center">
+                        <motion.div
+                            className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-3xl shadow-xl p-8 md:p-12 transform-gpu"
+                            style={{
+                                transformStyle: 'preserve-3d',
+                                perspective: '1000px',
+                            }}
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                            variants={fadeIn}
+                            whileHover={{
+                                y: -8,
+                                scale: 1.02,
+                                rotateY: 3,
+                                boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+                                transition: { duration: 0.3 }
+                            }}
                         >
-                            {t('cta.button')}
-                            <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
-                        </motion.button>
+                            {/* 3D edge effect */}
+                            <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px] hover:translate-z-[-10px] transition-all duration-500" />
+
+                            {/* Glassy overlay */}
+                            <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40 hover:opacity-60 transition-opacity duration-500" />
+
+                            {/* Inner shadow effect */}
+                            <div className="absolute inset-0 rounded-3xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
+
+                            {/* Subtle background pattern */}
+                            <div className="absolute inset-0 rounded-3xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
+
+                            <div className="relative z-10">
+                                <Typography variant="h2" className="mb-6 text-primary">
+                                    {t('cta.title')}
+                                </Typography>
+                                <Typography variant="lead" className="mb-8 max-w-3xl mx-auto text-text-dark">
+                                    {t('cta.description')}
+                                </Typography>
+                                <motion.button
+                                    className="group bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-4 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl inline-flex items-center mx-auto transform-gpu relative overflow-hidden"
+                                    onClick={() => navigate('/contact')}
+                                    whileHover={{
+                                        scale: 1.05,
+                                        y: -2,
+                                        transition: { duration: 0.2 }
+                                    }}
+                                    whileTap={{ scale: 0.95 }}
+                                >
+                                    {/* Button 3D effect */}
+                                    <div className="absolute inset-0 rounded-full border-2 border-white/30 transform-gpu translate-z-[-4px] group-hover:translate-z-[-6px] transition-all duration-300" />
+
+                                    {/* Button glassy overlay */}
+                                    <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50 group-hover:opacity-70 transition-opacity duration-300" />
+
+                                    {/* Button inner glow */}
+                                    <div className="absolute inset-0 rounded-full shadow-[inset_0_2px_8px_rgba(255,255,255,0.3)]" />
+
+                                    <span className="relative z-10 font-medium">
+                        {t('cta.button')}
+                    </span>
+                                    <motion.span
+                                        className="ml-2 relative z-10"
+                                        whileHover={{ x: 3 }}
+                                        transition={{ type: 'spring', stiffness: 400 }}
+                                    >
+                                        <FaArrowRight className="transition-transform group-hover:translate-x-1" />
+                                    </motion.span>
+                                </motion.button>
+                            </div>
+                        </motion.div>
                     </div>
                 </section>
             </div>
