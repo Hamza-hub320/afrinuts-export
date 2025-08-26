@@ -153,41 +153,6 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                         </motion.p>
                     ))}
                 </div>
-
-                {shouldTruncate && (
-                    <motion.button
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            setExpanded(!expanded);
-                        }}
-                        className={`mt-4 ${currentVariant.text} hover:${currentVariant.text}/80 font-medium flex items-center relative z-10 transform-gpu hover:scale-105 transition-transform duration-300`}
-                        whileHover={{ y: -2 }}
-                        whileTap={{ scale: 0.95 }}
-                    >
-                        {expanded ? (
-                            <>
-                                {t('cfo.readLess')}
-                                <motion.span
-                                    animate={{ rotate: 180 }}
-                                    transition={{ duration: 0.3 }}
-                                >
-                                    <ChevronDownIcon className="ml-1 h-4 w-4" />
-                                </motion.span>
-                            </>
-                        ) : (
-                            <>
-                                {t('cfo.readMore')}
-                                <motion.span
-                                    animate={{ rotate: 0 }}
-                                    transition={{ duration: 0.3 }}
-                                >
-                                    <ChevronDownIcon className="ml-1 h-4 w-4" />
-                                </motion.span>
-                            </>
-                        )}
-                    </motion.button>
-                )}
-
                 <motion.p
                     className={`mt-6 font-display italic ${currentVariant.text} text-sm md:text-base relative z-10`}
                     whileHover={{ x: 2 }}
