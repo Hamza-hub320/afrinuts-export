@@ -6,8 +6,7 @@ AfriNuts Export is a **proprietary project** dedicated to cashew farming, proces
 
 ## Important Notes
 
-- **Do NOT** copy, distribute, or modify this code without **written permission** from AfriNuts Export.  
-- **API keys, credentials, and sensitive information** are stored in `.env` files and are **not included** in this repository for security reasons.  
+- **Do NOT** copy, distribute, or modify this code without **written permission** from AfriNuts Export.   
 - Making this repository public **does not grant permission** to use the code.  
 
 For questions regarding licensing or potential collaborations, please contact AfriNuts Export directly.
