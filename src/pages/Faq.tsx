@@ -723,14 +723,20 @@ const Faq: React.FC = () => {
 
                             {/* Still have questions? */}
                             <motion.div
-                                className="mt-12 bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 rounded-2xl p-6 transform-gpu"
+                                className="mt-12 relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl shadow-xl p-6 transform-gpu"
                                 style={{
                                     transformStyle: 'preserve-3d',
                                     perspective: '1000px',
                                 }}
+                                initial="hidden"
+                                whileInView="visible"
+                                viewport={{ once: true }}
+                                variants={fadeIn}
                                 whileHover={{
                                     y: -5,
+                                    scale: 1.02,
                                     rotateY: 2,
+                                    boxShadow: '0 20px 35px -10px rgba(0, 0, 0, 0.2)',
                                     transition: { duration: 0.3 }
                                 }}
                             >
@@ -740,11 +746,17 @@ const Faq: React.FC = () => {
                                 {/* Glassy overlay */}
                                 <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 hover:opacity-60 transition-opacity duration-500" />
 
+                                {/* Inner shadow effect */}
+                                <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
+
+                                {/* Subtle background pattern */}
+                                <div className="absolute inset-0 rounded-2xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
+
                                 <div className="relative z-10">
                                     <div className="flex items-center mb-4">
                                         <Typography variant="h3" className="text-text-dark font-medium flex items-center">
-                                            {t('stillQuestions.title')}
                                             <FaQuestion className="text-primary text-lg mr-3" />
+                                            {t('stillQuestions.title')}
                                         </Typography>
                                     </div>
                                     <Typography variant="body" className="text-text-dark mb-5 pl-8">
@@ -752,13 +764,27 @@ const Faq: React.FC = () => {
                                     </Typography>
                                     <div className="flex flex-wrap gap-4">
                                         <motion.button
-                                            whileHover={{ scale: 1.05 }}
+                                            className="group relative bg-gradient-to-r from-primary to-accent text-white px-8 py-3 rounded-full transition-all duration-300 shadow-md transform-gpu hover:scale-105"
+                                            style={{
+                                                transformStyle: 'preserve-3d',
+                                            }}
+                                            whileHover={{
+                                                y: -2,
+                                                boxShadow: '0 10px 25px -5px rgba(165, 105, 66, 0.4)',
+                                            }}
                                             whileTap={{ scale: 0.95 }}
-                                            className="group bg-primary hover:bg-dark-orange text-white hover:text-white px-8 py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg inline-flex items-center"
                                             onClick={() => navigate('/contact')}
                                         >
-                                            {t('stillQuestions.button')}
-                                            <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+                                            {/* Button 3D edge effect */}
+                                            <div className="absolute inset-0 rounded-full border-2 border-white/30 transform-gpu translate-z-[-4px] group-hover:translate-z-[-6px] transition-all duration-300" />
+
+                                            {/* Button glassy overlay */}
+                                            <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50 group-hover:opacity-70 transition-opacity duration-300" />
+
+                                            <div className="relative z-10 flex items-center">
+                                                {t('stillQuestions.button')}
+                                                <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+                                            </div>
                                         </motion.button>
                                     </div>
                                 </div>

@@ -404,20 +404,71 @@ const TracePage: React.FC = () => {
                 </div>
             </Section>
 
-            {/* CTA Section */}
-            <Section className="py-16 text-center">
-                <Typography variant="h2" className="text-3xl font-bold text-primary mb-4">
-                    {t("cta.title")}
-                </Typography>
-                <Typography variant="lead" className="text-text-dark max-w-2xl mx-auto mb-6">
-                    {t("cta.subtitle")}
-                </Typography>
-                <Link
-                    to="/contact"
-                    className="bg-primary hover:bg-dark-orange text-white px-6 py-3 rounded-full transition-colors transform-gpu hover:scale-105"
-                >
-                    {t("cta.button")}
-                </Link>
+            {/* CTA Section - Enhanced with Glassy 3D */}
+            <Section className="py-16 text-text-dark">
+                <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 text-center">
+                    <motion.div
+                        className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-3xl shadow-xl p-8 md:p-12 transform-gpu group"
+                        style={{
+                            transformStyle: 'preserve-3d',
+                            perspective: '1000px',
+                        }}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={fadeIn}
+                        whileHover={{
+                            y: -8,
+                            scale: 1.02,
+                            rotateY: 3,
+                            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+                            transition: { duration: 0.3 }
+                        }}
+                    >
+                        {/* 3D edge effect */}
+                        <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
+
+                        {/* Glassy overlay */}
+                        <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+
+                        {/* Inner shadow effect */}
+                        <div className="absolute inset-0 rounded-3xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] group-hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
+
+                        {/* Subtle background pattern */}
+                        <div className="absolute inset-0 rounded-3xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
+
+                        <div className="relative z-10">
+                            <Typography variant="h2" className="text-3xl md:text-4xl font-bold text-primary mb-6">
+                                {t("cta.title")}
+                            </Typography>
+                            <Typography variant="lead" className="text-text-dark max-w-3xl mx-auto mb-8">
+                                {t("cta.subtitle")}
+                            </Typography>
+                            <motion.div
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                transition={{ type: 'spring', stiffness: 400 }}
+                            >
+                                <Link
+                                    to="/contact"
+                                    className="inline-flex items-center bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-4 rounded-full transition-all duration-300 shadow-lg transform-gpu hover:scale-105 group/btn"
+                                >
+                        <span className="font-medium text-lg">
+                            {t("cta.button")}
+                        </span>
+                                    <svg
+                                        className="ml-2 w-5 h-5 transform group-hover/btn:translate-x-1 transition-transform duration-300"
+                                        fill="none"
+                                        stroke="currentColor"
+                                        viewBox="0 0 24 24"
+                                    >
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                    </svg>
+                                </Link>
+                            </motion.div>
+                        </div>
+                    </motion.div>
+                </div>
             </Section>
         </main>
     );
