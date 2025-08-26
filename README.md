@@ -1,14 +1,23 @@
-AfriNuts Export
+# AfriNuts Export
 
-AfriNuts Export is a proprietary project focused on cashew farming, processing, and export.
+AfriNuts Export is a **proprietary project** dedicated to cashew farming, processing, and export. This repository contains sensitive and proprietary code intended for internal use only.
 
-License
+---
 
-This repository is private and proprietary. All rights are reserved by AfriNuts Export.
+## Important Notes
 
-Important:
-	•	Do NOT copy, distribute, or modify this code without written permission from AfriNuts Export.
-	•	API keys, credentials, and sensitive information are stored in .env files and are not included in the repository for security reasons.
-	•	Making this repository public does not grant permission to use the code.
+- **Do NOT** copy, distribute, or modify this code without **written permission** from AfriNuts Export.  
+- **API keys, credentials, and sensitive information** are stored in `.env` files and are **not included** in this repository for security reasons.  
+- Making this repository public **does not grant permission** to use the code.  
 
-For questions regarding licensing or collaboration, please contact AfriNuts Export directly.
+For questions regarding licensing or potential collaborations, please contact AfriNuts Export directly.
+
+---
+
+## License
+
+All rights reserved. This repository contains **proprietary code** for AfriNuts Export.  
+
+No part of this code may be copied, distributed, or modified without **prior written permission** from AfriNuts Export.
+
+![License](https://img.shields.io/badge/license-Proprietary-red)
