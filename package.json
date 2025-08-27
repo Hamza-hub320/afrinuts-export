@@ -49,15 +49,15 @@
     "web-vitals": "^5.0.3"
   },
   "scripts": {
-    "start": "vite",
     "dev": "vite",
-    "build:prod": "vite build && npx javascript-obfuscator dist/assets --output dist/assets --compact true --self-defending true --string-array true --string-array-encoding rc4 --disable-console-output true",
-    "obfuscate": "npx javascript-obfuscator dist/assets --output dist/assets --compact true --self-defending true --string-array true --string-array-encoding rc4 --disable-console-output true",
+    "start": "vite",
+    "build": "vite build",
+    "build:prod": "vite build && npx javascript-obfuscator dist/assets --output dist/assets --compact true --disable-console-output true --simplify true --control-flow-flattening-threshold 0.5 --dead-code-injection-threshold 0.2",
     "preview": "vite preview",
-    "deploy": "gh-pages -d dist --branch=gh-pages",
+    "obfuscate": "npx javascript-obfuscator dist/assets --output dist/assets --compact true --disable-console-output true --simplify true --control-flow-flattening-threshold 0.5 --dead-code-injection-threshold 0.2",
     "predeploy": "npm run build:prod && touch dist/.nojekyll",
-    "test": "vitest",
-    "build": "vite build"
+    "deploy": "gh-pages -d dist --branch=gh-pages",
+    "test": "vitest"
   },
   "eslintConfig": {
     "extends": [
