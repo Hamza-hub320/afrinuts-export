@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import {
     FaIndustry,
     FaCogs,
@@ -25,6 +26,7 @@ import { InfoCard } from '@/components/InfoCard/InfoCard';
 import Mermaid from '@/components/Mermaid/Mermaid';
 
 const Processing: React.FC = () => {
+    const navigate = useNavigate();
     const { t } = useTranslation('processing');
     const [activePhase, setActivePhase] = useState<'phase1' | 'phase2'>('phase1');
     const [activeStep, setActiveStep] = useState(0);
@@ -285,7 +287,7 @@ const Processing: React.FC = () => {
                         </Typography>
 
 
-                        <div className="flex justify-center space-x-2 space-y-2 flex-wrap">
+                        <div className="flex justify-center space-x-2 flex-wrap">
                             <motion.button
                                 className={`px-4 sm:px-6 py-2 sm:py-3 rounded-full text-sm sm:text-lg font-medium transition-all duration-300 transform-gpu ${
                                     activePhase === 'phase1'
@@ -312,7 +314,6 @@ const Processing: React.FC = () => {
                             </motion.button>
                         </div>
                         </motion.div>
-
 
                     {/* Phase Description */}
                     <motion.div
@@ -780,6 +781,7 @@ const Processing: React.FC = () => {
                                 className="group relative bg-gradient-to-r from-primary to-accent text-white px-8 py-4 rounded-full font-medium shadow-lg transform-gpu hover:scale-105 overflow-hidden"
                                 whileHover={{ y: -4 }}
                                 whileTap={{ scale: 0.95 }}
+                                onClick={() => navigate('/contact')}
                             >
                                 {/* Button glossy overlay */}
                                 <div className="absolute inset-0 bg-gradient-to-b from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />

@@ -7,8 +7,8 @@
   "phases": {
     "title": "Nos phases de transformation",
     "description": "Nous avons conçu une approche évolutive de la transformation de la noix de cajou, commençant par une installation pilote et passant à une capacité industrielle.",
-    "phase1": "Phase 1 : Installation pilote",
-    "phase2": "Phase 2 : Échelle industrielle"
+    "phase1": "Installation pilote",
+    "phase2": "Échelle industrielle"
   },
   "phase1": {
     "title": "Transformation pilote (2026-2030)",
