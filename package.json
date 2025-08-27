@@ -52,11 +52,10 @@
     "dev": "vite",
     "start": "vite",
     "build": "vite build",
-    "build:prod": "vite build && npx javascript-obfuscator dist/assets --output dist/assets --compact true --disable-console-output true --simplify true --control-flow-flattening-threshold 0.5 --dead-code-injection-threshold 0.2",
+    "build:prod": "vite build",
     "preview": "vite preview",
-    "obfuscate": "npx javascript-obfuscator dist/assets --output dist/assets --compact true --disable-console-output true --simplify true --control-flow-flattening-threshold 0.5 --dead-code-injection-threshold 0.2",
-    "predeploy": "npm run build:prod && touch dist/.nojekyll",
-    "deploy": "gh-pages -d dist --branch=gh-pages",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist",
     "test": "vitest"
   },
   "eslintConfig": {

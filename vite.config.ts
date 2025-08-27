@@ -9,10 +9,8 @@ import {ViteImageOptimizer } from 'vite-plugin-image-optimizer';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
-const isGitHub = process.env.GITHUB_ACTIONS === 'true';
-
 export default defineConfig({
-    base: isGitHub ? '/afrinuts-export/' : '/',
+    base: '/afrinuts-export/',
     plugins: [
         react(),
         viteCompression({
@@ -76,7 +74,6 @@ export default defineConfig({
     },
     build: {
         outDir: 'dist',
-        sourcemap: false,
         chunkSizeWarningLimit: 1500,
         assetsInlineLimit: 4096,
         minify: 'terser',
