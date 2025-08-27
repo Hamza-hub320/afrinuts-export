@@ -56,7 +56,8 @@
     "preview": "vite preview",
     "deploy": "gh-pages -d dist --branch=gh-pages",
     "predeploy": "npm run build:prod && touch dist/.nojekyll",
-    "test": "vitest"
+    "test": "vitest",
+    "build": "vite build"
   },
   "eslintConfig": {
     "extends": [
