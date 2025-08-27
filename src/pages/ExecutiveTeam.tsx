@@ -7,7 +7,7 @@ import Section from '@/components/Section/Section';
 import { FaTimes, FaEnvelope, FaLinkedin } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import {Dialog, Transition} from '@headlessui/react';
-import { ProfileCard } from '@/components/ProfileCard/ProfileCard'; // Import ProfileCard
+import { ProfileCard } from '@/components/ProfileCard/ProfileCard';
 
 // Import executive images
 import ceoImage from '@/assets/images/ceo.webp';
