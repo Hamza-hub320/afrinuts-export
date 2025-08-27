@@ -1,0 +1,151 @@
+{
+  "hero": {
+    "subtitle": "Our Premium Processing Journey",
+    "title": "From Farm to Table Excellence",
+    "description": "Discover how we transform raw cashews into premium, certified products through our meticulous two-phase processing approach."
+  },
+  "phases": {
+    "title": "Our Processing Phases",
+    "description": "We've designed a scalable approach to cashew processing, starting with a pilot facility and expanding to industrial capacity.",
+    "phase1": "Pilot Phase",
+    "phase2": "Industrial Phase"
+  },
+  "phase1": {
+    "title": "Pilot Processing (2026-2030)",
+    "description": "Our initial small-scale facility focuses on quality control, operational learning, and establishing market linkages with manual to semi-automated technology.",
+    "automation": "Semi-Automated",
+    "steps": {
+      "reception": {
+        "title": "Reception & Storage",
+        "description": "Raw cashew nuts are received, weighed, and stored in ventilated warehouses with proper moisture control and sampling for quality assessment."
+      },
+      "steaming": {
+        "title": "Steaming & Roasting",
+        "description": "Small-batch steam roasting softens shells without chemicals, preserving organic integrity and ensuring food safety standards."
+      },
+      "shelling": {
+        "title": "Shelling",
+        "description": "Manual and semi-automatic shelling with protective gear to handle cashew nut shell liquid safely while creating local employment opportunities."
+      },
+      "drying": {
+        "title": "Drying & Peeling",
+        "description": "Kernels are carefully dried to optimal moisture levels and manually peeled to maintain quality and texture."
+      },
+      "grading": {
+        "title": "Grading",
+        "description": "Visual inspection and manual sorting by size, color, and quality to meet international standards."
+      },
+      "packaging": {
+        "title": "Packaging",
+        "description": "Vacuum sealing with nitrogen flushing in export-ready packaging to preserve freshness and extend shelf life."
+      }
+    }
+  },
+  "phase2": {
+    "title": "Industrial Processing (2030+)",
+    "description": "Our expanded facility features semi-automated processing lines with advanced quality control systems for higher volume production.",
+    "automation": "Semi-Automated Industrial",
+    "steps": {
+      "reception": {
+        "title": "Automated Reception",
+        "description": "Advanced intake systems with automated weighing, sampling, and silo storage with climate control for optimal raw nut preservation."
+      },
+      "steaming": {
+        "title": "Industrial Roasting",
+        "description": "Continuous steam roasters with precise temperature control and biomass energy utilization for efficient, chemical-free processing."
+      },
+      "shelling": {
+        "title": "Mechanical Shelling",
+        "description": "Semi-automated shelling lines with dust extraction systems for improved efficiency and worker safety."
+      },
+      "drying": {
+        "title": "Automated Drying",
+        "description": "Industrial dryers with digital moisture sensors and mechanical peeling aids for consistent quality and higher throughput."
+      },
+      "grading": {
+        "title": "Electronic Grading",
+        "description": "Optical sorters, vibration graders, and metal detection systems for precise quality control and certification compliance."
+      },
+      "packaging": {
+        "title": "Automated Packaging",
+        "description": "High-speed vacuum packaging with nitrogen flushing, checkweighers, and automated labeling for export markets."
+      }
+    }
+  },
+  "workflow": {
+    "title": "Processing Workflow",
+    "subtitle": "Visualizing our end-to-end cashew processing journey",
+    "qaManual": "Manual QA Checks",
+    "qaAutomated": "Automated QA Systems",
+    "processStep": "Process Step"
+  },
+  "stepByStep": {
+    "title": "Step-by-Step Process",
+    "subtitle": "Follow each stage of our premium cashew processing"
+  },
+  "viewMode": {
+    "diagram": "Diagram View",
+    "steps": "Step-by-Step"
+  },
+  "controls": {
+    "play": "Play",
+    "pause": "Pause"
+  },
+  "differentiators": {
+    "title": "What Sets Us Apart",
+    "description": "Our processing approach combines traditional expertise with modern technology for exceptional quality.",
+    "quality": {
+      "title": "Premium Quality",
+      "description": "Rigorous quality control at every stage ensures consistently superior cashew kernels that meet international standards."
+    },
+    "sustainability": {
+      "title": "Sustainable Practices",
+      "description": "Zero-waste processing, water conservation, and renewable energy integration minimize our environmental footprint."
+    },
+    "certifications": {
+      "title": "Certification Ready",
+      "description": "Our processes are designed to meet Organic, Halal, Fair Trade, and ISO 22000 certification requirements from day one."
+    }
+  },
+  "certifications": {
+    "title": "Our Certifications",
+    "description": "We adhere to the highest international standards for quality, safety, and sustainability.",
+    "organic": {
+      "title": "Organic Certified",
+      "description": "Chemical-free processing that meets ECOCERT organic standards"
+    },
+    "fairtrade": {
+      "title": "Fair Trade",
+      "description": "Ethical labor practices and community reinvestment"
+    },
+    "halal": {
+      "title": "Halal Certified",
+      "description": "Shariah-compliant processing for global Muslim markets"
+    },
+    "iso": {
+      "title": "ISO 22000",
+      "description": "Food safety management system certification"
+    }
+  },
+  "sustainability": {
+    "title": "Sustainable Processing",
+    "description": "We're committed to environmentally responsible practices throughout our operations.",
+    "water": {
+      "title": "Water Conservation",
+      "description": "Closed-loop water systems and rainwater harvesting minimize water usage in our processing operations."
+    },
+    "waste": {
+      "title": "Zero Waste",
+      "description": "Cashew shells become biofuel, testa becomes animal feed, and all byproducts are utilized sustainably."
+    },
+    "energy": {
+      "title": "Renewable Energy",
+      "description": "Solar power and biomass energy from cashew shells reduce our carbon footprint and energy costs."
+    }
+  },
+  "cta": {
+    "title": "Experience Our Quality",
+    "description": "Join us in revolutionizing African cashew processing with premium, certified products.",
+    "button": "Request Product Samples"
+  }
+}

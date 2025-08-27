@@ -22,6 +22,7 @@ import executiveEN from './locales/en/executive.json';
 import storyEN from './locales/en/story.json';
 import traceEN from './locales/en/trace.json';
 import cookiePolicyEN from './locales/en/cookiePolicy.json';
+import processingEN from './locales/en/processing.json';
 
 // French translations
 import homeFR from './locales/fr/home.json';
@@ -43,6 +44,7 @@ import executiveFR from './locales/fr/executive.json';
 import storyFR from './locales/fr/story.json';
 import traceFR from './locales/fr/trace.json';
 import cookiePolicyFR from './locales/fr/cookiePolicy.json';
+import processingFR from './locales/fr/processing.json';
 
 // Arabic translations
 import homeAR from './locales/ar/home.json';
@@ -64,6 +66,7 @@ import executiveAR from './locales/ar/executive.json';
 import storyAR from './locales/ar/story.json';
 import traceAR from './locales/ar/trace.json';
 import cookiePolicyAR from './locales/ar/cookiePolicy.json';
+import processingAR from './locales/ar/processing.json';
 
 // Type definitions
 type SupportedLanguages = 'en' | 'fr' | 'ar';
@@ -88,6 +91,7 @@ interface TranslationResources {
     story: typeof storyEN;
     trace: typeof traceEN;
     cookiePolicy: typeof cookiePolicyEN;
+    processing: typeof processingEN;
 }
 
 interface I18nOptions {
@@ -129,7 +133,8 @@ const resources: Record<SupportedLanguages, TranslationResources> = {
         executive: executiveEN,
         story: storyEN,
         trace: traceEN,
-        cookiePolicy: cookiePolicyEN
+        cookiePolicy: cookiePolicyEN,
+        processing: processingEN
     },
     fr: {
         home: homeFR,
@@ -150,7 +155,8 @@ const resources: Record<SupportedLanguages, TranslationResources> = {
         executive: executiveFR,
         story: storyFR,
         trace: traceFR,
-        cookiePolicy: cookiePolicyFR
+        cookiePolicy: cookiePolicyFR,
+        processing: processingFR
     },
     ar: {
         home: homeAR,
@@ -171,7 +177,8 @@ const resources: Record<SupportedLanguages, TranslationResources> = {
         executive: executiveAR,
         story: storyAR,
         trace: traceAR,
-        cookiePolicy: cookiePolicyAR
+        cookiePolicy: cookiePolicyAR,
+        processing: processingAR
     }
 };
 
@@ -179,7 +186,7 @@ const options: I18nOptions = {
     fallbackLng: 'en',
     debug: process.env.NODE_ENV === 'development',
     supportedLngs: ['en', 'fr', 'ar'],
-    ns: ['home', 'common', 'about', 'products', 'farm', 'contact', 'footer', 'sustainability', 'vision', 'privacy', 'terms', 'cookies', 'cookiePolicy', 'news', 'faq', 'chatbot', 'executive', 'story','trace'],
+    ns: ['home', 'common', 'about', 'products', 'farm', 'contact', 'footer', 'sustainability', 'vision', 'privacy', 'terms', 'cookies', 'cookiePolicy', 'news', 'faq', 'chatbot', 'executive', 'story','trace', 'processing'],
     defaultNS: 'common',
     resources,
     interpolation: {

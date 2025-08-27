@@ -1,0 +1,151 @@
+{
+  "hero": {
+    "subtitle": "Notre parcours de transformation premium",
+    "title": "L'excellence de la ferme à la table",
+    "description": "Découvrez comment nous transformons les noix de cajou brutes en produits premium et certifiés grâce à notre approche de transformation méticuleuse en deux phases."
+  },
+  "phases": {
+    "title": "Nos phases de transformation",
+    "description": "Nous avons conçu une approche évolutive de la transformation de la noix de cajou, commençant par une installation pilote et passant à une capacité industrielle.",
+    "phase1": "Phase 1 : Installation pilote",
+    "phase2": "Phase 2 : Échelle industrielle"
+  },
+  "phase1": {
+    "title": "Transformation pilote (2026-2030)",
+    "description": "Notre installation initiale à petite échelle se concentre sur le contrôle qualité, l'apprentissage opérationnel et l'établissement de liens commerciaux avec une technologie manuelle à semi-automatisée.",
+    "automation": "Semi-automatisé",
+    "steps": {
+      "reception": {
+        "title": "Réception et stockage",
+        "description": "Les noix de cajou brutes sont réceptionnées, pesées et stockées dans des entrepôts ventilés avec un contrôle approprié de l'humidité et un échantillonnage pour l'évaluation de la qualité."
+      },
+      "steaming": {
+        "title": "Cuisson à la vapeur et torréfaction",
+        "description": "La torréfaction à la vapeur en petits lots adoucit les coques sans produits chimiques, préservant l'intégrité biologique et garantissant les normes de sécurité alimentaire."
+      },
+      "shelling": {
+        "title": "Décorticage",
+        "description": "Décorticage manuel et semi-automatique avec équipement de protection pour manipuler en toute sécurité le liquide de la coque de cajou tout en créant des opportunités d'emploi local."
+      },
+      "drying": {
+        "title": "Séchage et épluchage",
+        "description": "Les amandes sont soigneusement séchées à des niveaux d'humidité optimaux et épluchées manuellement pour maintenir la qualité et la texture."
+      },
+      "grading": {
+        "title": "Classement",
+        "description": "Inspection visuelle et tri manuel par taille, couleur et qualité pour répondre aux normes internationales."
+      },
+      "packaging": {
+        "title": "Emballage",
+        "description": "Scellage sous vide avec injection d'azote dans un emballage prêt à l'exportation pour préserver la fraîcheur et prolonger la durée de conservation."
+      }
+    }
+  },
+  "phase2": {
+    "title": "Transformation industrielle (2030+)",
+    "description": "Notre installation élargie dispose de lignes de transformation semi-automatisées avec des systèmes de contrôle qualité avancés pour une production à plus grand volume.",
+    "automation": "Industriel semi-automatisé",
+    "steps": {
+      "reception": {
+        "title": "Réception automatisée",
+        "description": "Systèmes de réception avancés avec pesage, échantillonnage et stockage en silos automatisés avec contrôle climatique pour une préservation optimale de la noix brute."
+      },
+      "steaming": {
+        "title": "Torréfaction industrielle",
+        "description": "Torréfacteurs à vapeur continus avec contrôle précis de la température et utilisation de la biomasse énergétique pour une transformation efficace et sans produits chimiques."
+      },
+      "shelling": {
+        "title": "Décorticage mécanique",
+        "description": "Lignes de décorticage semi-automatisées avec systèmes d'extraction de poussière pour une efficacité et une sécurité des travailleurs améliorées."
+      },
+      "drying": {
+        "title": "Séchage automatisé",
+        "description": "Séchoirs industriels avec capteurs d'humidité numériques et aides mécaniques à l'épluchage pour une qualité constante et un débit plus élevé."
+      },
+      "grading": {
+        "title": "Classement électronique",
+        "description": "Trieurs optiques, calibreurs à vibration et systèmes de détection des métaux pour un contrôle qualité précis et la conformité à la certification."
+      },
+      "packaging": {
+        "title": "Emballage automatisé",
+        "description": "Emballage sous vide haute vitesse avec injection d'azote, peseuses-contrôleuses et étiquetage automatisé pour les marchés d'exportation."
+      }
+    }
+  },
+  "workflow": {
+    "title": "Flux de transformation",
+    "subtitle": "Visualisation de notre parcours de transformation de la noix de cajou de bout en bout",
+    "qaManual": "Contrôles QA manuels",
+    "qaAutomated": "Systèmes QA automatisés",
+    "processStep": "Étape du processus"
+  },
+  "stepByStep": {
+    "title": "Processus étape par étape",
+    "subtitle": "Suivez chaque étape de notre transformation premium de la noix de cajou"
+  },
+  "viewMode": {
+    "diagram": "Vue diagramme",
+    "steps": "Étape par étape"
+  },
+  "controls": {
+    "play": "Lecture",
+    "pause": "Pause"
+  },
+  "differentiators": {
+    "title": "Ce qui nous distingue",
+    "description": "Notre approche de transformation combine l'expertise traditionnelle et la technologie moderne pour une qualité exceptionnelle.",
+    "quality": {
+      "title": "Qualité premium",
+      "description": "Un contrôle qualité rigoureux à chaque étape garantit des amandes de cajou constamment supérieures répondant aux normes internationales."
+    },
+    "sustainability": {
+      "title": "Pratiques durables",
+      "description": "Une transformation zéro déchet, la conservation de l'eau et l'intégration d'énergies renouvelables minimisent notre empreinte environnementale."
+    },
+    "certifications": {
+      "title": "Prêt pour la certification",
+      "description": "Nos processus sont conçus pour répondre aux exigences de certification Biologique, Halal, Commerce Équitable et ISO 22000 dès le premier jour."
+    }
+  },
+  "certifications": {
+    "title": "Nos certifications",
+    "description": "Nous adhérons aux normes internationales les plus élevées en matière de qualité, de sécurité et de durabilité.",
+    "organic": {
+      "title": "Certifié biologique",
+      "description": "Transformation sans produits chimiques répondant aux normes biologiques ECOCERT"
+    },
+    "fairtrade": {
+      "title": "Commerce équitable",
+      "description": "Pratiques de travail éthiques et réinvestissement communautaire"
+    },
+    "halal": {
+      "title": "Certifié Halal",
+      "description": "Transformation conforme à la Charia pour les marchés musulmans mondiaux"
+    },
+    "iso": {
+      "title": "ISO 22000",
+      "description": "Certification du système de management de la sécurité des denrées alimentaires"
+    }
+  },
+  "sustainability": {
+    "title": "Transformation durable",
+    "description": "Nous nous engageons à adopter des pratiques respectueuses de l'environnement dans toutes nos opérations.",
+    "water": {
+      "title": "Conservation de l'eau",
+      "description": "Des systèmes d'eau en circuit fermé et la collecte des eaux de pluie minimisent l'utilisation de l'eau dans nos opérations de transformation."
+    },
+    "waste": {
+      "title": "Zéro déchet",
+      "description": "Les coques de cajou deviennent du biocarburant, le tégument de l'alimentation animale, et tous les sous-produits sont utilisés durablement."
+    },
+    "energy": {
+      "title": "Énergie renouvelable",
+      "description": "L'énergie solaire et la biomasse provenant des coques de cajou réduisent notre empreinte carbone et nos coûts énergétiques."
+    }
+  },
+  "cta": {
+    "title": "Découvrez notre qualité",
+    "description": "Rejoignez-nous pour révolutionner la transformation africaine de la noix de cajou avec des produits premium et certifiés.",
+    "button": "Demander des échantillons de produits"
+  }
+}

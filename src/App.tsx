@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import About from './pages/About';
 import Products from './pages/Products';
 import Farm from './pages/Farm';
+import Processing from './pages/Processing';
 import Contact from './pages/Contact';
 import Sustainability from './pages/Sustainability';
 import Vision from './pages/Vision';
@@ -55,6 +56,7 @@ function App(): ReactElement {
                             <Route path="/executive-team" element={<ExecutiveTeam />} />
                             <Route path="/about/our-story" element={<OurStory />} />
                             <Route path="/trace" element={<TracePage />} />
+                            <Route path="/processing" element={<Processing />} />
                                 {/* Add a catch-all route for 404s within the SPA */}
                             <Route path="*" element={<Home />} />
                         </Route>
