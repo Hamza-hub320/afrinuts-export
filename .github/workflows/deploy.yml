@@ -31,7 +31,7 @@ jobs:
           npm install sharp date-fns terser --no-audit
 
       - name: Build project
-        run: npm run build
+        run: npm run build:prod
 
       - name: Create .nojekyll
         run: touch dist/.nojekyll
