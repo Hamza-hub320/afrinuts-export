@@ -663,7 +663,7 @@ const Home: React.FC = () => {
                                                 {update.tags.map((tag: string) => (
                                                     <motion.span
                                                         key={tag}
-                                                        className="px-3 py-1 text-xs font-medium bg-primary/10 text-primary rounded-full backdrop-blur-sm"
+                                                        className="px-3 py-1 text-sm  font-medium bg-primary/10 text-primary rounded-full backdrop-blur-sm"
                                                         whileHover={{ scale: 1.05 }}
                                                         transition={{ duration: 0.2 }}
                                                     >

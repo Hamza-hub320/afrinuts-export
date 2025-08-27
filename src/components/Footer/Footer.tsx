@@ -75,9 +75,10 @@ const Footer = () => {
                 {t('newsletter.description')}
               </p>
               <form className="space-y-4">
+                <label htmlFor="newsletter-email-mobile" className="sr-only">{t('newsletter.label')}</label>
                 <motion.input
+                    id="newsletter-email-mobile"
                     type="email"
-                    aria-label="Your email address"
                     placeholder={t('newsletter.placeholder')}
                     required
                     className="w-full px-4 py-3 rounded-full bg-white/10 backdrop-blur-sm placeholder-white/50 border border-white/20 focus:border-accent focus:ring-2 focus:ring-accent/30 outline-none transition"
@@ -221,8 +222,9 @@ const Footer = () => {
                 {t('newsletter.description')}
               </p>
               <form className="space-y-3">
+                <label htmlFor="newsletter-email-desktop" className="sr-only">{t('newsletter.label')}</label>
                 <motion.input
-                    id="newsletter-email-mobile"
+                    id="newsletter-email-desktop"
                     type="email"
                     placeholder={t('newsletter.placeholder')}
                     required

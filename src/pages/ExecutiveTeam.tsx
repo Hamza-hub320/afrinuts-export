@@ -268,7 +268,7 @@ const ExecutiveTeam: React.FC = () => {
                                                 <>
                                                     <div className="flex justify-between items-start">
                                                         <div>
-                                                            <Dialog.Title as="h3" className="text-lg font-semibold text-primary">
+                                                            <Dialog.Title as="h2" className="text-lg font-semibold text-primary">
                                                                 {selectedExecutive.name}
                                                             </Dialog.Title>
                                                             <Typography variant="small" className="text-primary">

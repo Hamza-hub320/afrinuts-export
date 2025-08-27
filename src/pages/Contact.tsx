@@ -361,7 +361,8 @@ const Contact: React.FC = () => {
           <FormCard
               title={t('form.title')}
               variant="primary"
-              className="my-6 w-full mx-auto" // Removed horizontal margins, let container handle spacing
+              className="my-6 w-full mx-auto"
+              aria-labelledby="contact-form-title"
           >
             {/* Error message */}
             {errors.submit && (
@@ -372,7 +373,17 @@ const Contact: React.FC = () => {
 
             <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
               {/* Honeypot anti-spam field */}
-              <input type="text" name="company" className="hidden" tabIndex={-1} autoComplete="off"/>
+              <input
+                type="text"
+                name="company"
+                className="hidden"
+                tabIndex={-1}
+                autoComplete="off"
+                aria-label="Company (Do not fill out if you are human)"
+              />
+
+              {/* Visually hidden title for ARIA */}
+              <h2 id="contact-form-title" className="sr-only">{t('form.title')}</h2>
 
               {/* Name & Email */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
