@@ -74,7 +74,7 @@ export const InfoCard: React.FC<InfoCardProps> = ({
             role="region"
             aria-labelledby={safeTitleId}
         >
-            {/* Info badge in the top-right corner - Repositioned like certification checkmark */}
+
             {showInfoBadge && (
                 <motion.div
                     className="absolute -top-2 -right-2 w-6 h-6 bg-accent rounded-full flex items-center justify-center transform-gpu group-hover:scale-125 transition-transform duration-500 z-20"

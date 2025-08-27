@@ -50,10 +50,12 @@
   },
   "scripts": {
     "start": "vite",
-    "build": "vite build",
+    "dev": "vite",
+    "build:prod": "vite build && npx javascript-obfuscator dist/assets --output dist/assets --compact true --self-defending true --string-array true --string-array-encoding rc4 --disable-console-output true",
+    "obfuscate": "npx javascript-obfuscator dist/assets --output dist/assets --compact true --self-defending true --string-array true --string-array-encoding rc4 --disable-console-output true",
     "preview": "vite preview",
     "deploy": "gh-pages -d dist --branch=gh-pages",
-    "predeploy": "npm run build && touch dist/.nojekyll",
+    "predeploy": "npm run build:prod && touch dist/.nojekyll",
     "test": "vitest"
   },
   "eslintConfig": {
@@ -89,6 +91,7 @@
     "@vitejs/plugin-react": "^4.5.2",
     "autoprefixer": "^10.4.17",
     "gh-pages": "^6.3.0",
+    "javascript-obfuscator": "^4.1.1",
     "postcss": "^8.4.38",
     "postcss-nested": "^7.0.2",
     "postcss-nesting": "^13.0.2",

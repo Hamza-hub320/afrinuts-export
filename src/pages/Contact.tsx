@@ -182,12 +182,12 @@ const Contact: React.FC = () => {
   };
 
   return (
-      <div className="contact-page overflow-x-hidden"> {/* Added overflow-x-hidden to prevent horizontal scrolling */}
+      <div className="contact-page overflow-x-hidden">
         {/* Success Modal */}
         {showSuccess && (
             <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
               <motion.div
-                  className="bg-white p-6 sm:p-8 rounded-xl max-w-md w-full mx-4 transform-gpu" // Added mx-4 for mobile margins
+                  className="bg-white p-6 sm:p-8 rounded-xl max-w-md w-full mx-4 transform-gpu"
                   style={{
                     transformStyle: 'preserve-3d',
                     perspective: '1000px',
@@ -250,10 +250,9 @@ const Contact: React.FC = () => {
           </motion.div>
         </Section>
 
-        {/* Main Content - FIXED: Added proper container constraints */}
-        <div className="container mx-auto px-4 py-12 md:py-16 max-w-7xl"> {/* Added max-w-7xl to constrain width */}
-          {/* Information Sections - Now using InfoCard components */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 mb-12 md:mb-16"> {/* Reduced gap on mobile */}
+        {/* Main Content */}
+        <div className="container mx-auto px-4 py-12 md:py-16 max-w-7xl">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8 mb-12 md:mb-16">
             {/* Shipping Guidance Section */}
             <ShippingInfoCard
                 title={t('shippingGuidance.title')}
@@ -317,13 +316,13 @@ const Contact: React.FC = () => {
         </div>
 
 
-        {/* Offline Payment Instructions Section - FIXED: Added proper width constraints */}
-        <div className="container mx-auto px-4 max-w-4xl"> {/* Wrapped in container with max-width */}
+        {/* Offline Payment Instructions Section */}
+        <div className="container mx-auto px-4 max-w-4xl">
           <InfoCard
               title={t('offlinePayment.title')}
-              subtitle={t('offlinePayment.description')}
+              subtitle={<span className="text-lg md:text-xl">{t('offlinePayment.description')}</span>}
               variant="accent"
-              className="w-full mb-8 md:mb-12 text-center mx-auto" // Removed fixed max-w-4xl, let container handle it
+              className="w-full mb-8 md:mb-12 text-center mx-auto"
               hideIconContainer={true}
           >
             <div className="mt-4">
@@ -612,7 +611,6 @@ const Contact: React.FC = () => {
           </FormCard>
         </div>
 
-        {/* Map Section - FIXED: Added container for proper width constraint */}
         {/* Map Section */}
         <Section className="py-10">
           <div className="container mx-auto text-center">
