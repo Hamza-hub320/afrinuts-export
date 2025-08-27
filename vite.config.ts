@@ -9,11 +9,10 @@ import {ViteImageOptimizer } from 'vite-plugin-image-optimizer';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
-const isNetlify = process.env.NETLIFY === 'true';
 const isGitHub = process.env.GITHUB_ACTIONS === 'true';
 
 export default defineConfig({
-    base: isNetlify ? '/' : isGitHub ? '/afrinuts-export/' : '/',
+    base: isGitHub ? '/afrinuts-export/' : '/',
     plugins: [
         react(),
         viteCompression({
