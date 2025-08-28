@@ -115,7 +115,8 @@ const Navbar: React.FC = () => {
       label: t('navbar.farm'),
       dropdown: [
         { path: '/farm', label: t('navbar.farm') },
-        { path: '/processing', label: t('navbar.processing') }
+        { path: '/processing', label: t('navbar.processing') },
+        { path: '/processing/facility-flowchart', label: t('navbar.facility_flowchart') }
       ]
     },
     { path: '/sustainability', label: t('navbar.sustainability') },

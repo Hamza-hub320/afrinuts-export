@@ -1,0 +1,196 @@
+{
+    "hero": {
+      "subtitle": "Conception & Aménagement de l'Usine",
+      "title": "Notre Usine de Transformation à la Pointe de la Technologie",
+      "description": "Découvrez notre centre de transformation méticuleusement conçu pour l'efficacité, l'hygiène et l'évolutivité"
+    },
+    "backToProcessing": "Retour à la Transformation",
+    "introduction": {
+      "title": "Aménagement d'Usine Optimisé",
+      "description": "Notre usine est conçue stratégiquement pour garantir un flux de travail fluide, une hygiène maximale et la conformité aux normes internationales tout en soutenant nos ambitions de croissance."
+    },
+    "features": {
+      "hygiene": {
+        "title": "Zones d'Hygiène",
+        "description": "Des zones sales et propres séparées préviennent la contamination croisée"
+      },
+      "efficiency": {
+        "title": "Flux de Travail Efficace",
+        "description": "Le flux de production linéaire minimise la manutention et maximise l'efficacité"
+      },
+      "sustainability": {
+        "title": "Conception Durable",
+        "description": "Systèmes écoénergétiques et intégration de la gestion des déchets"
+      }
+    },
+    "flowchart": {
+      "title": "Diagramme de l'Usine",
+      "description": "Aperçu interactif de l'aménagement et du flux de travail de notre usine de transformation",
+      "instructions": "Cliquez sur n'importe quelle zone pour en savoir plus sur sa fonction et ses caractéristiques"
+    },
+    "legend": {
+      "process": "Zones de Processus",
+      "staff": "Installations du Personnel",
+      "utilities": "Utilities & Expansion"
+    },
+    "zones": {
+      "reception": {
+        "description": "Zone de réception initiale pour les noix de cajou brutes avec évaluation de la qualité et pesée",
+        "features": [
+          "Pont-bascule numérique pour une mesure précise",
+          "Station d'échantillonnage qualité et test d'humidité",
+          "Zone de stockage temporaire avant transfert vers l'entrepôt",
+          "Traitement de la documentation des fournisseurs"
+        ]
+      },
+      "storage": {
+        "description": "Stockage climatisé pour les noix de cajou brutes avant transformation",
+        "features": [
+          "Entrepôts ventilés avec contrôle de l'humidité",
+          "Palettes en bois surélevées pour éviter la contamination par l'humidité",
+          "Capacité pour 500+ tonnes métriques de noix brutes",
+          "Systèmes de lutte antiparasitaire et surveillance régulière"
+        ]
+      },
+      "dirtyZone": {
+        "description": "Zone de transformation initiale où les noix brutes sont nettoyées et préparées",
+        "features": [
+          "Zone dédiée au nettoyage et tri initiaux",
+          "Systèmes d'extraction de poussière et de ventilation",
+          "Stations d'équipement de protection pour les travailleurs",
+          "Entrée/sortie séparée pour maintenir l'intégrité de la zone"
+        ]
+      },
+      "cleanZone": {
+        "description": "Zone de transformation principale où se déroulent le décorticage, l'épluchage et le classement",
+        "features": [
+          "Pression d'air positive pour éviter la contamination",
+          "Stations d'hygiène à tous les points d'entrée",
+          "Équipement en acier inoxydable de qualité alimentaire",
+          "Contrôle de la température et de l'humidité"
+        ]
+      },
+      "grading": {
+        "description": "Zone de contrôle qualité où les amandes sont triées et classées",
+        "features": [
+          "Trieurs de couleurs électroniques et calibreurs par taille",
+          "Stations de détection des métaux et assurance qualité",
+          "Éclairage naturel pour une évaluation précise des couleurs",
+          "Zone de documentation du contrôle qualité"
+        ]
+      },
+      "finished": {
+        "description": "Stockage pour les amandes de cajou transformées et conditionnées",
+        "features": [
+          "Environnement climatisé (15-18°C, 50-60% HR)",
+          "Système d'inventaire FIFO (First In, First Out)",
+          "Accès sécurisé avec contrôle des stocks",
+          "Conditionnement et stockage résistants aux parasites"
+        ]
+      },
+      "dispatch": {
+        "description": "Zone de préparation des expéditions et des exportations",
+        "features": [
+          "Quais de chargement pour les camions conteneurs",
+          "Station de traitement de la documentation d'exportation",
+          "Point de contrôle final qualité",
+          "Zone sécurisée pour les expéditions de valeur"
+        ]
+      },
+      "locker": {
+        "description": "Installations d'hygiène et vestiaires du personnel",
+        "features": [
+          "Vestiaires séparés hommes/femmes",
+          "Stockage casier personnel",
+          "Installations de douches pour le personnel",
+          "Distribution d'uniformes et service de blanchisserie"
+        ]
+      },
+      "prayer": {
+        "description": "Espace dédié à la prière et à la réflexion tranquille",
+        "features": [
+          "Salles de prière séparées pour hommes et femmes",
+          "Installations pour ablutions avec eau courante",
+          "Direction de la Qibla clairement indiquée",
+          "Environnement calme et propre pour la contemplation"
+        ]
+      },
+      "training": {
+        "description": "Salle polyvalente pour la formation du personnel et les réunions",
+        "features": [
+          "Équipement audiovisuel pour présentations",
+          "Capacité pour 30+ personnes",
+          "Matériel de formation et bibliothèque",
+          "Disposition flexible des sièges"
+        ]
+      },
+      "canteen": {
+        "description": "Salle à manger et espace de pause du personnel",
+        "features": [
+          "Zone de préparation des aliments hygiénique",
+          "Sièges pour 50+ membres du personnel",
+          "Installations de rafraîchissements",
+          "Espace de sièges extérieur"
+        ]
+      },
+      "water": {
+        "description": "Systèmes de traitement et de gestion de l'eau",
+        "features": [
+          "Purification de l'eau par osmose inverse",
+          "Systèmes de recyclage et de réutilisation de l'eau",
+          "Puits forage avec alimentation de secours",
+          "Station de surveillance de la qualité de l'eau"
+        ]
+      },
+      "energy": {
+        "description": "Production et gestion d'énergie durable",
+        "features": [
+          "Chaudière à biomasse utilisant les coques de cajou comme combustible",
+          "Système photovoltaïque solaire pour alimentation auxiliaire",
+          "Groupe électrogène de secours pour un fonctionnement ininterrompu",
+          "Surveillance de la consommation d'énergie"
+        ]
+      },
+      "expansion": {
+        "description": "Zone réservée pour l'expansion future de l'usine",
+        "features": [
+          "Connexions d'infrastructure pré-planifiées",
+          "Espace pour des lignes de transformation supplémentaires",
+          "Zone de développement future pour stockage frigorifique",
+          "Connexions d'utilités évolutives"
+        ]
+      }
+    },
+    "compliance": {
+      "title": "Conformité & Normes",
+      "description": "Notre usine répond aux normes internationales les plus strictes en matière de sécurité et de qualité alimentaires",
+      "hygiene": {
+        "title": "Protocoles d'Hygiène",
+        "features": [
+          "Zones sales/propres séparées avec sas",
+          "Stations d'hygiène obligatoires à toutes les entrées de zone",
+          "Programmes et documentation d'assainissement réguliers",
+          "Système de gestion de la lutte antiparasitaire"
+        ]
+      },
+      "certifications": {
+        "title": "Prêt pour la Certification",
+        "standards": [
+          "Système de Management de la Sécurité des Denrées Alimentaires ISO 22000",
+          "Conformité et Certification Halal",
+          "Normes de Transformation Biologique (ECOCERT)",
+          "Commerce Équitable et Rainforest Alliance"
+        ]
+      }
+    },
+    "cta": {
+      "title": "Vous voulez en savoir plus ?",
+      "description": "Contactez-nous pour une visite détaillée de l'usine ou les spécifications techniques",
+      "button": "Planifier une Visite d'Usine"
+    },
+    "controls": {
+      "expand": "Agrandir en plein écran",
+      "compress": "Quitter le plein écran"
+    },
+    "featuresTitle": "Caractéristiques Clés"
+  }

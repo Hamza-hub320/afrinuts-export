@@ -1,0 +1,196 @@
+{
+  "hero": {
+      "subtitle": "Facility Design & Layout",
+      "title": "Our State-of-the-Art Processing Facility",
+      "description": "Discover our meticulously designed processing center built for efficiency, hygiene, and scalability"
+    },
+    "backToProcessing": "Back to Processing",
+    "introduction": {
+      "title": "Optimized Facility Layout",
+      "description": "Our facility is strategically designed to ensure seamless workflow, maximum hygiene, and compliance with international standards while supporting our growth ambitions."
+    },
+    "features": {
+      "hygiene": {
+        "title": "Hygiene Zones",
+        "description": "Separate dirty and clean zones prevent cross-contamination"
+      },
+      "efficiency": {
+        "title": "Efficient Workflow",
+        "description": "Linear production flow minimizes handling and maximizes efficiency"
+      },
+      "sustainability": {
+        "title": "Sustainable Design",
+        "description": "Energy-efficient systems and waste management integration"
+      }
+    },
+    "flowchart": {
+      "title": "Facility Flowchart",
+      "description": "Interactive overview of our processing facility layout and workflow",
+      "instructions": "Click on any area to learn more about its function and features"
+    },
+    "legend": {
+      "process": "Process Areas",
+      "staff": "Staff Facilities",
+      "utilities": "Utilities & Expansion"
+    },
+    "zones": {
+      "reception": {
+        "description": "Initial receiving area for raw cashew nuts with quality assessment and weighing",
+        "features": [
+          "Digital weighbridge for accurate measurement",
+          "Quality sampling and moisture testing station",
+          "Temporary holding area before transfer to storage",
+          "Supplier documentation processing"
+        ]
+      },
+      "storage": {
+        "description": "Climate-controlled storage for raw cashew nuts before processing",
+        "features": [
+          "Ventilated warehouses with humidity control",
+          "Raised wooden pallets to prevent moisture contamination",
+          "Capacity for 500+ metric tons of raw nuts",
+          "Pest control systems and regular monitoring"
+        ]
+      },
+      "dirtyZone": {
+        "description": "Initial processing area where raw nuts are cleaned and prepared",
+        "features": [
+          "Dedicated area for initial cleaning and sorting",
+          "Dust extraction and ventilation systems",
+          "Protective equipment stations for workers",
+          "Separate entry/exit to maintain zone integrity"
+        ]
+      },
+      "cleanZone": {
+        "description": "Main processing area where shelling, peeling, and grading occurs",
+        "features": [
+          "Positive air pressure to prevent contamination",
+          "Hygiene stations at all entry points",
+          "Food-grade stainless steel equipment",
+          "Temperature and humidity control"
+        ]
+      },
+      "grading": {
+        "description": "Quality control area where kernels are sorted and graded",
+        "features": [
+          "Electronic color sorters and size graders",
+          "Metal detection and quality assurance stations",
+          "Natural lighting for accurate color assessment",
+          "Quality control documentation area"
+        ]
+      },
+      "finished": {
+        "description": "Storage for processed and packaged cashew kernels",
+        "features": [
+          "Climate-controlled environment (15-18°C, 50-60% RH)",
+          "FIFO (First In, First Out) inventory system",
+          "Secure access with inventory control",
+          "Pest-proof packaging and storage"
+        ]
+      },
+      "dispatch": {
+        "description": "Shipping and export preparation area",
+        "features": [
+          "Loading bays for container trucks",
+          "Export documentation processing station",
+          "Quality control final check point",
+          "Secure area for valuable shipments"
+        ]
+      },
+      "locker": {
+        "description": "Staff hygiene and changing facilities",
+        "features": [
+          "Separate male/female changing rooms",
+          "Personal locker storage",
+          "Shower facilities for staff",
+          "Uniform distribution and laundry service"
+        ]
+      },
+      "prayer": {
+        "description": "Dedicated space for prayer and quiet reflection",
+        "features": [
+          "Separate prayer rooms for men and women",
+          "Ablution facilities with running water",
+          "Qibla direction clearly marked",
+          "Quiet, clean environment for contemplation"
+        ]
+      },
+      "training": {
+        "description": "Multi-purpose room for staff training and meetings",
+        "features": [
+          "Audio-visual equipment for presentations",
+          "Capacity for 30+ people",
+          "Training materials and library",
+          "Flexible seating arrangements"
+        ]
+      },
+      "canteen": {
+        "description": "Staff dining and break area",
+        "features": [
+          "Hygienic food preparation area",
+          "Seating for 50+ staff members",
+          "Refreshment facilities",
+          "Outdoor seating area"
+        ]
+      },
+      "water": {
+        "description": "Water treatment and management systems",
+        "features": [
+          "Reverse osmosis water purification",
+          "Water recycling and reuse systems",
+          "Borehole with backup supply",
+          "Water quality monitoring station"
+        ]
+      },
+      "energy": {
+        "description": "Sustainable energy generation and management",
+        "features": [
+          "Biomass boiler using cashew shells as fuel",
+          "Solar PV system for auxiliary power",
+          "Backup generator for uninterrupted operation",
+          "Energy consumption monitoring"
+        ]
+      },
+      "expansion": {
+        "description": "Reserved area for future facility expansion",
+        "features": [
+          "Pre-planned infrastructure connections",
+          "Space for additional processing lines",
+          "Future cold storage development area",
+          "Scalable utility connections"
+        ]
+      }
+    },
+    "compliance": {
+      "title": "Compliance & Standards",
+      "description": "Our facility meets the highest international standards for food safety and quality",
+      "hygiene": {
+        "title": "Hygiene Protocols",
+        "features": [
+          "Separate dirty/clean zones with airlocks",
+          "Mandatory hygiene stations at all zone entries",
+          "Regular sanitation schedules and documentation",
+          "Pest control management system"
+        ]
+      },
+      "certifications": {
+        "title": "Certification Ready",
+        "standards": [
+          "ISO 22000 Food Safety Management",
+          "Halal Compliance and Certification",
+          "Organic Processing Standards (ECOCERT)",
+          "Fair Trade and Rainforest Alliance"
+        ]
+      }
+    },
+    "cta": {
+      "title": "Want to Learn More?",
+      "description": "Contact us for a detailed facility tour or technical specifications",
+      "button": "Schedule a Facility Tour"
+    },
+    "controls": {
+      "expand": "Expand to fullscreen",
+      "compress": "Exit fullscreen"
+    },
+    "featuresTitle": "Key Features"
+}
