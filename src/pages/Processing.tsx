@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import {
     FaIndustry,
     FaCogs,
@@ -164,6 +165,7 @@ import Mermaid from '@/components/Mermaid/Mermaid';
 
 const Processing: React.FC = () => {
     const { t } = useTranslation('processing');
+    const navigate = useNavigate();
     const [activePhase, setActivePhase] = useState<'phase1' | 'phase2'>('phase1');
     const [activeStep, setActiveStep] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
@@ -941,6 +943,7 @@ const Processing: React.FC = () => {
                                 className="group relative bg-gradient-to-r from-primary to-accent text-white px-8 py-4 rounded-full font-medium shadow-lg transform-gpu hover:scale-105 overflow-hidden"
                                 whileHover={{ y: -4 }}
                                 whileTap={{ scale: 0.95 }}
+                                onClick={() => navigate('/contact')}
                             >
                                 {/* Button glossy overlay */}
                                 <div className="absolute inset-0 bg-gradient-to-b from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
