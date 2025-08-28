@@ -405,8 +405,8 @@ const Processing: React.FC = () => {
             </Section>
 
             {/* Phase Selection */}
-            {/* Processing Roadmap Section */}
-            <Section className="py-16">
+           {/* Processing Roadmap Section */}
+           <Section className="py-16">
                 <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                     <motion.div
                         className="text-center mb-12"
@@ -425,15 +425,13 @@ const Processing: React.FC = () => {
                             {t('roadmap.description')}
                         </Typography>
                     </motion.div>
-
                     <div className="flex flex-col md:flex-row gap-8 justify-center items-stretch">
-                        <div className="flex-1 bg-gradient-to-br from-primary/10 to-primary/5 rounded-2xl p-6 border border-primary/20 shadow-lg flex flex-col">
-                            <div className="flex items-center mb-4">
-                                <FaIndustry className="text-primary text-3xl mr-3" />
-                                <Typography variant="h4" className="text-primary">
-                                    {t('roadmap.phase1.title')}
-                                </Typography>
-                            </div>
+                        <InfoCard
+                            icon={FaIndustry}
+                            title={t('roadmap.phase1.title')}
+                            iconColor="text-primary"
+                            className="flex-1 bg-gradient-to-br from-primary/10 to-primary/5 rounded-2xl p-6 border border-primary/20 shadow-lg flex flex-col"
+                        >
                             <Typography variant="body" className="mb-4">
                                 {t('roadmap.phase1.description')}
                             </Typography>
@@ -442,14 +440,13 @@ const Processing: React.FC = () => {
                                 <li>{t('roadmap.phase1.point2')}</li>
                                 <li>{t('roadmap.phase1.point3')}</li>
                             </ul>
-                        </div>
-                        <div className="flex-1 bg-gradient-to-br from-accent/10 to-accent/5 rounded-2xl p-6 border border-accent/20 shadow-lg flex flex-col">
-                            <div className="flex items-center mb-4">
-                                <FaCogs className="text-accent text-3xl mr-3" />
-                                <Typography variant="h4" className="text-accent">
-                                    {t('roadmap.phase2.title')}
-                                </Typography>
-                            </div>
+                        </InfoCard>
+                        <InfoCard
+                            icon={FaCogs}
+                            title={t('roadmap.phase2.title')}
+                            iconColor="text-accent"
+                            className="flex-1 bg-gradient-to-br from-accent/10 to-accent/5 rounded-2xl p-6 border border-accent/20 shadow-lg flex flex-col"
+                        >
                             <Typography variant="body" className="mb-4">
                                 {t('roadmap.phase2.description')}
                             </Typography>
@@ -458,7 +455,7 @@ const Processing: React.FC = () => {
                                 <li>{t('roadmap.phase2.point2')}</li>
                                 <li>{t('roadmap.phase2.point3')}</li>
                             </ul>
-                        </div>
+                        </InfoCard>
                     </div>
                 </div>
             </Section>
