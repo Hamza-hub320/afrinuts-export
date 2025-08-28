@@ -1,8 +1,28 @@
 {
   "hero": {
-    "subtitle": "Our Premium Processing Journey",
-    "title": "From Farm to Table Excellence",
-    "description": "Discover how we transform raw cashews into premium, certified products through our meticulous two-phase processing approach."
+    "subtitle": "Cashew Processing",
+    "title": "From Raw Nuts to Premium Kernels",
+    "description": "Our processing facility is designed in two phases, evolving from small-batch, semi-automatic systems to a modern, large-scale operation ensuring efficiency, quality, and sustainability. Unlike traditional processors who rely on chemicals or outdated methods, AfriNuts uses clean, modern, and sustainable techniques to guarantee premium quality kernels for global markets."
+  },
+  "roadmap": {
+    "title": "Processing Roadmap",
+    "description": "Our journey is structured in clear milestones, ensuring sustainable growth and efficiency.",
+    "phase1": {
+      "title": "Phase 1: Pilot / Semi-Automated",
+      "dates": "2025–2027",
+      "description": "Focused on artisanal and semi-automatic methods with 1,000–2,000 MT/year.",
+      "point1": "Establish artisanal and semi-automatic operations",
+      "point2": "Train staff and build initial export capacity",
+      "point3": "Target 1,000–2,000 MT/year by 2027"
+    },
+    "phase2": {
+      "title": "Phase 2: Industrial / Automated",
+      "dates": "2028–2030",
+      "description": "Scaling to 5,000 MT/year with advanced automation and global certifications.",
+      "point1": "Expand facility with advanced automation",
+      "point2": "Achieve international certifications",
+      "point3": "Scale to 5,000 MT/year by 2030"
+    }
   },
   "phases": {
     "title": "Our Processing Phases",
@@ -128,19 +148,27 @@
     }
   },
   "sustainability": {
-    "title": "Sustainable Processing",
-    "description": "We're committed to environmentally responsible practices throughout our operations.",
+    "title": "Sustainability Practices",
+    "description": "We design every stage of our processing to reduce waste, conserve resources, and use renewable energy.",
     "water": {
-      "title": "Water Conservation",
-      "description": "Closed-loop water systems and rainwater harvesting minimize water usage in our processing operations."
+      "title": "Water Efficiency",
+      "description": "Closed-loop recycling to minimize water usage.",
+      "kpi": "Target: 30% recycling by 2030"
     },
     "waste": {
-      "title": "Zero Waste",
-      "description": "Cashew shells become biofuel, testa becomes animal feed, and all byproducts are utilized sustainably."
+      "title": "Waste Management",
+      "description": "Shell byproducts repurposed as fuel and biomaterials.",
+      "kpi": "Target: 40% reuse by 2028"
     },
     "energy": {
-      "title": "Renewable Energy",
-      "description": "Solar power and biomass energy from cashew shells reduce our carbon footprint and energy costs."
+      "title": "Green Energy",
+      "description": "Solar and energy-efficient equipment.",
+      "kpi": "Target: 20% solar by 2030"
+    },
+    "kpis": {
+      "water": "Target: 30% recycling by 2030",
+      "waste": "Target: 40% reuse by 2028",
+      "energy": "Target: 20% solar by 2030"
     }
   },
   "cta": {

@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
 import {
     FaIndustry,
     FaCogs,
@@ -19,6 +18,144 @@ import {
     FaExpand,
     FaCompress
 } from "react-icons/fa";
+// AnimatedProgressBar: KPI glassy 3D progress bar with animation
+interface AnimatedProgressBarProps {
+    label: string;
+    value: number;
+    color: 'primary' | 'accent' | 'green';
+    duration?: number;
+    isVisible: boolean;
+}
+
+const AnimatedProgressBar: React.FC<AnimatedProgressBarProps> = ({
+                                                                     label,
+                                                                     value,
+                                                                     color,
+                                                                     duration = 1500,
+                                                                     isVisible
+                                                                 }) => {
+    const [progress, setProgress] = useState(0);
+    const percentage = Math.abs(value);
+    const isNegative = value < 0;
+
+    const colorClasses = {
+        primary: {
+            bg: 'bg-primary/20',
+            bar: 'bg-primary',
+            text: 'text-primary'
+        },
+        accent: {
+            bg: 'bg-accent/20',
+            bar: 'bg-accent',
+            text: 'text-accent'
+        },
+        green: {
+            bg: 'bg-green-200',
+            bar: 'bg-green-600',
+            text: 'text-green-600'
+        }
+    };
+
+    useEffect(() => {
+        if (isVisible) {
+            const timer = setTimeout(() => {
+                setProgress(percentage);
+            }, 100);
+            return () => clearTimeout(timer);
+        } else {
+            setProgress(0);
+        }
+    }, [isVisible, percentage]);
+
+    return (
+        <div className="mb-8 transform-gpu">
+            <div className="flex justify-between mb-3">
+                <span className={`text-base font-medium ${colorClasses[color].text}`}>{label}</span>
+                <span className={`text-base font-medium ${colorClasses[color].text}`}>
+          {isNegative ? '-' : ''}{progress}%
+        </span>
+            </div>
+
+            {/* Progress bar container with glassy effect */}
+            <div className={`relative w-full h-5 rounded-2xl ${colorClasses[color].bg} shadow-inner overflow-hidden transform-gpu`}
+                 style={{ transformStyle: 'preserve-3d' }}>
+
+                {/* 3D edge effect */}
+                <div className="absolute inset-0 rounded-2xl border border-white/30 transform-gpu translate-z-[-2px] transition-all duration-300" />
+
+                {/* Glassy overlay */}
+                <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/20 to-transparent opacity-40 transition-opacity duration-300" />
+
+                {/* Inner shadow */}
+                <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_4px_rgba(0,0,0,0.1)]" />
+
+                {/* Subtle pattern */}
+                <div className="absolute inset-0 rounded-2xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMCwgMCwgMCwgMC4wNSkiIHN0cm9rZS13aWR0aD0iMSI+PGxpbmUgeDE9IjAiIHkxPSIwIiB4Mj0iNjAiIHkyPSI2MCIvPjxsaW5lIHgxPSI2MCIgeTE9IjAiIHgyPSIwIiB5Mj0iNjAiLz48L2c+PC9zdmc+')] opacity-10" />
+
+                {/* Animated progress bar */}
+                <motion.div
+                    className={`relative h-5 rounded-2xl ${colorClasses[color].bar} shadow-lg transform-gpu`}
+                    initial={{ width: "0%" }}
+                    animate={{ width: isVisible ? `${100 - percentage}%` : "0%" }}
+                    transition={{ duration: duration / 1000, ease: "easeOut" }}
+                    style={{
+                        transformStyle: 'preserve-3d',
+                        originX: 0
+                    }}
+                >
+                    {/* Progress bar glossy effect */}
+                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/30 to-transparent" />
+
+                    {/* Progress bar inner highlight */}
+                    <div className="absolute top-0 left-0 w-full h-1/2 rounded-t-2xl bg-white/10" />
+
+                    {/* Animated particles (optional) */}
+                    {isVisible && (
+                        <div className="absolute inset-0 overflow-hidden">
+                            <motion.div
+                                className="absolute top-0 right-0 w-2 h-full bg-white/30"
+                                initial={{ x: -20 }}
+                                animate={{ x: '100%' }}
+                                transition={{
+                                    duration: 1.5,
+                                    repeat: Infinity,
+                                    repeatType: "loop",
+                                    ease: "linear"
+                                }}
+                            />
+                        </div>
+                    )}
+                </motion.div>
+            </div>
+
+            {/* Improvement indicator */}
+            <div className="flex justify-end mt-2">
+                <motion.span
+                    className={`text-xs font-medium ${colorClasses[color].text} flex items-center`}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 10 }}
+                    transition={{ delay: duration / 1000, duration: 0.3 }}
+                >
+                    {isNegative ? (
+                        <>
+                            <svg className="w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
+                            </svg>
+                            Reduction
+                        </>
+                    ) : (
+                        <>
+                            <svg className="w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
+                            </svg>
+                            Improvement
+                        </>
+                    )}
+                </motion.span>
+            </div>
+        </div>
+    );
+};
 import Section from '@/components/Section/Section';
 import { fadeIn, staggerContainer } from '@/utils/animations';
 import { Typography } from "@/components/Typography/Typography";
@@ -26,7 +163,6 @@ import { InfoCard } from '@/components/InfoCard/InfoCard';
 import Mermaid from '@/components/Mermaid/Mermaid';
 
 const Processing: React.FC = () => {
-    const navigate = useNavigate();
     const { t } = useTranslation('processing');
     const [activePhase, setActivePhase] = useState<'phase1' | 'phase2'>('phase1');
     const [activeStep, setActiveStep] = useState(0);
@@ -737,6 +873,30 @@ const Processing: React.FC = () => {
                 </div>
             </Section>
 
+            {/* KPI Section */}
+            <Section className="py-16">
+                <div className="max-w-2xl mx-auto">
+                    <AnimatedProgressBar
+                        label={t('sustainability.kpis.water')}
+                        value={-38}
+                        color="primary"
+                        isVisible={true}
+                    />
+                    <AnimatedProgressBar
+                        label={t('sustainability.kpis.waste')}
+                        value={-45}
+                        color="accent"
+                        isVisible={true}
+                    />
+                    <AnimatedProgressBar
+                        label={t('sustainability.kpis.energy')}
+                        value={-29}
+                        color="green"
+                        isVisible={true}
+                    />
+                </div>
+            </Section>
+
             {/* Call to Action - Enhanced with Glassy 3D */}
             <Section className="py-16 text-center">
                 <div className="max-w-4xl mx-auto px-6">
@@ -781,7 +941,6 @@ const Processing: React.FC = () => {
                                 className="group relative bg-gradient-to-r from-primary to-accent text-white px-8 py-4 rounded-full font-medium shadow-lg transform-gpu hover:scale-105 overflow-hidden"
                                 whileHover={{ y: -4 }}
                                 whileTap={{ scale: 0.95 }}
-                                onClick={() => navigate('/contact')}
                             >
                                 {/* Button glossy overlay */}
                                 <div className="absolute inset-0 bg-gradient-to-b from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
