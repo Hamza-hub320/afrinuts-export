@@ -4,8 +4,8 @@ import { motion } from 'framer-motion';
 import { fadeIn, staggerContainer } from '@/utils/animations';
 import { Typography } from "@/components/Typography/Typography";
 import Section from '@/components/Section/Section';
-import { FaTimes, FaEnvelope, FaLinkedin } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import {FaTimes, FaEnvelope, FaLinkedin, FaArrowLeft} from 'react-icons/fa';
+import {Link, useNavigate} from 'react-router-dom';
 import {Dialog, Transition} from '@headlessui/react';
 import { ProfileCard } from '@/components/ProfileCard/ProfileCard';
 
@@ -16,6 +16,7 @@ import ccoImage from '@/assets/images/cco.webp';
 import opsImage from '@/assets/images/ops-manager.webp';
 import adminImage from '@/assets/images/admin-manager.webp';
 import farmImage from '@/assets/images/farm-manager.webp';
+import {navigate} from "next/dist/client/components/segment-cache";
 
 interface Executive {
     id: number;
@@ -36,6 +37,7 @@ const ExecutiveTeam: React.FC = () => {
     const { t } = useTranslation('executive');
     const [selectedExecutive, setSelectedExecutive] = useState<Executive | null>(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const navigate = useNavigate();
 
     const executives: Executive[] = [
         {
@@ -189,6 +191,23 @@ const ExecutiveTeam: React.FC = () => {
                         </Typography>
                     </motion.div>
                 </motion.div>
+            </Section>
+
+            {/* Back Button */}
+            <Section className="py-6">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6">
+                    <motion.button
+                        onClick={() => navigate('/about')}
+                        className="flex items-center text-primary hover:text-accent transition-colors"
+                        whileHover={{ x: -5 }}
+                        initial="hidden"
+                        animate="visible"
+                        variants={fadeIn}
+                    >
+                        <FaArrowLeft className="mr-2" />
+                        {t('executives.backToAbout')}
+                    </motion.button>
+                </div>
             </Section>
 
             {/* Info/Intro Section */}

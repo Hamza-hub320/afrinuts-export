@@ -15,34 +15,23 @@ import {
     FaExpand,
     FaCompress,
     FaInfoCircle,
-    FaArrowLeft, FaCertificate
+    FaArrowLeft,
+    FaCertificate
 } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 import Section from '@/components/Section/Section';
 import { fadeIn, staggerContainer } from '@/utils/animations';
 import { Typography } from "@/components/Typography/Typography";
-import Mermaid from '@/components/Mermaid/Mermaid';
-import {InfoCard} from "../components/InfoCard/InfoCard";
-
-// Extend MermaidProps to include onClick
-type MermaidProps = {
-    chart: string;
-    key?: React.Key;
-    onClick?: (zoneName: string) => void;
-};
+import { InfoCard } from "@/components/InfoCard/InfoCard";
+import ClickableSVG from '@/components/ClickableSVG/ClickableSVG';
+import mermaid from 'mermaid';
 
 const FacilityFlowchart: React.FC = () => {
     const { t } = useTranslation('facility');
-
-    // Helper to get features array for a given key, safely typed
-    const getFeatures = (key: string): (string | object)[] => {
-        const result = t(key, { returnObjects: true });
-        return Array.isArray(result) ? result : [];
-    };
     const navigate = useNavigate();
     const [activeZone, setActiveZone] = useState<string | null>(null);
     const [isFullscreen, setIsFullscreen] = useState(false);
-    const [mermaidKey, setMermaidKey] = useState(0);
+    const [svgContent, setSvgContent] = useState<string>('');
     const diagramRef = useRef<HTMLDivElement>(null);
 
     // Mermaid flowchart definition
@@ -85,6 +74,36 @@ flowchart LR
     class H,I,J,K staff;
     class U1,U2,U3 utilities;
   `;
+
+    // Initialize mermaid
+    useEffect(() => {
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            fontFamily: 'inherit',
+        });
+    }, []);
+
+    // Generate SVG from mermaid
+    useEffect(() => {
+        const generateSVG = async () => {
+            try {
+                const { svg } = await mermaid.render('facility-flowchart', facilityChart);
+                setSvgContent(svg);
+            } catch (error) {
+                console.error('Error generating mermaid SVG:', error);
+            }
+        };
+
+        generateSVG();
+    }, [facilityChart]);
+
+    // Helper to get features array for a given key, safely typed
+    const getFeatures = (key: string): (string | object)[] => {
+        const result = t(key, { returnObjects: true });
+        return Array.isArray(result) ? result : [];
+    };
 
     // Zone information data
     const zoneInfo = {
@@ -178,14 +197,79 @@ flowchart LR
         setIsFullscreen(!isFullscreen);
     };
 
-    const handleZoneClick = (zoneName: string) => {
-        setActiveZone(zoneName === activeZone ? null : zoneName);
-    };
+    // Add this near your state declarations
+    const [debugInfo, setDebugInfo] = useState<{id: string, text: string, type: string} | null>(null);
 
-    // Reinitialize Mermaid when fullscreen changes
-    useEffect(() => {
-        setMermaidKey(prev => prev + 1);
-    }, [isFullscreen]);
+
+    const handleSVGClick = (id: string, text: string, elementType: string) => {
+        console.log('Clicked element:', { id, text, elementType });
+
+        // More comprehensive zone mapping
+        const zoneMap: Record<string, string> = {
+            // Node IDs (may vary based on mermaid version)
+            'flowchart-A-62': 'Raw Nut Reception & Weighbridge',
+            'flowchart-B-63': 'Raw Nut Storage Warehouse',
+            'flowchart-C-64': 'Processing Hall - Dirty Zone',
+            'flowchart-D-65': 'Processing Hall - Clean Zone',
+            'flowchart-E-66': 'Grading & Packing Section',
+            'flowchart-F-67': 'Finished Goods Warehouse',
+            'flowchart-G-68': 'Dispatch & Export Bay',
+            'flowchart-H-69': 'Locker Rooms & Hygiene Stations',
+            'flowchart-I-70': 'Prayer Space & Rest Area',
+            'flowchart-J-71': 'Training / Meeting Room',
+            'flowchart-K-72': 'Canteen',
+            'flowchart-U1-73': 'Water Treatment Plant',
+            'flowchart-U2-74': 'Biomass Boiler / Solar PV',
+            'flowchart-U3-75': 'Future Expansion Area',
+
+            // Text-based mapping as fallback
+            'Raw Nut Reception & Weighbridge': 'Raw Nut Reception & Weighbridge',
+            'Raw Nut Storage Warehouse': 'Raw Nut Storage Warehouse',
+            'Processing Hall - Dirty Zone': 'Processing Hall - Dirty Zone',
+            'Processing Hall - Clean Zone': 'Processing Hall - Clean Zone',
+            'Grading & Packing Section': 'Grading & Packing Section',
+            'Finished Goods Warehouse': 'Finished Goods Warehouse',
+            'Dispatch & Export Bay': 'Dispatch & Export Bay',
+            'Locker Rooms & Hygiene Stations': 'Locker Rooms & Hygiene Stations',
+            'Prayer Space & Rest Area': 'Prayer Space & Rest Area',
+            'Training / Meeting Room': 'Training / Meeting Room',
+            'Canteen': 'Canteen',
+            'Water Treatment Plant': 'Water Treatment Plant',
+            'Biomass Boiler / Solar PV': 'Biomass Boiler / Solar PV',
+            'Future Expansion Area': 'Future Expansion Area',
+
+            // Shorthand / label-only mappings
+            'Expansion': 'Future Expansion Area',
+            'Utilities': 'Utilities & Expansion',
+            'Dirty Zone': 'Processing Hall - Dirty Zone',
+            'Clean Zone': 'Processing Hall - Clean Zone',
+            'Grading': 'Grading & Packing Section',
+        };
+
+        // Try to find the zone by ID first, then by text
+        let zoneName = zoneMap[id] || zoneMap[text] || text;
+
+        // If we still can't find it, try partial matching (case-insensitive)
+        if (!zoneInfo[zoneName as keyof typeof zoneInfo]) {
+            for (const key in zoneInfo) {
+                if (
+                    key.toLowerCase().includes(text.toLowerCase()) ||
+                    text.toLowerCase().includes(key.toLowerCase())
+                ) {
+                    zoneName = key;
+                    break;
+                }
+            }
+        }
+
+        console.log('Resolved zone:', zoneName);
+
+        if (zoneInfo[zoneName as keyof typeof zoneInfo]) {
+            setActiveZone(zoneName === activeZone ? null : zoneName);
+        } else {
+            console.warn('Unknown zone clicked:', { id, text, elementType });
+        }
+    };
 
     return (
         <main className="text-text-dark font-sans">
@@ -307,6 +391,7 @@ flowchart LR
                     </motion.div>
                 </div>
             </Section>
+
             {/* Interactive Flowchart Section */}
             <Section className="py-16">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6">
@@ -388,13 +473,21 @@ flowchart LR
                                 </div>
                             </div>
 
-                            {/* Mermaid Diagram */}
+                            {/* Clickable SVG Diagram */}
                             <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 border border-primary/20 overflow-auto">
-                                <Mermaid
-                                    chart={facilityChart}
-                                    key={mermaidKey}
-                                    onClick={handleZoneClick}
-                                />
+                                {svgContent ? (
+                                    <ClickableSVG
+                                        svgContent={svgContent}
+                                        onElementClick={handleSVGClick}
+                                        className="w-full h-auto"
+                                    />
+                                ) : (
+                                    <div className="flex justify-center items-center h-64">
+                                        <div className="animate-pulse text-text-dark/50">
+                                            Loading flowchart...
+                                        </div>
+                                    </div>
+                                )}
                             </div>
 
                             {/* Legend */}
@@ -494,9 +587,7 @@ flowchart LR
                             variant="primary"
                         >
                             <ul className="space-y-3">
-                                {(Array.isArray(t('compliance.hygiene.features', { returnObjects: true }))
-                                    ? t('compliance.hygiene.features', { returnObjects: true }) as (string | object)[]
-                                    : []).map((feature, index) => (
+                                {getFeatures('compliance.hygiene.features').map((feature, index) => (
                                     <li key={index} className="flex items-start">
                                         <FaInfoCircle className="text-primary mt-1 mr-3 flex-shrink-0" />
                                         <Typography variant="body">
@@ -513,9 +604,7 @@ flowchart LR
                             variant="accent"
                         >
                             <ul className="space-y-3">
-                                {(Array.isArray(t('compliance.certifications.standards', { returnObjects: true }))
-                                    ? t('compliance.certifications.standards', { returnObjects: true }) as (string | object)[]
-                                    : []).map((standard, index) => (
+                                {getFeatures('compliance.certifications.standards').map((standard, index) => (
                                     <li key={index} className="flex items-start">
                                         <FaInfoCircle className="text-accent mt-1 mr-3 flex-shrink-0" />
                                         <Typography variant="body">
@@ -574,16 +663,16 @@ flowchart LR
 
                                 {/* Button text */}
                                 <span className="relative z-10 flex items-center justify-center">
-                  {t('cta.button')}
+                                    {t('cta.button')}
                                     <svg
                                         className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1"
                                         fill="none"
                                         viewBox="0 0 24 24"
                                         stroke="currentColor"
                                     >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                  </svg>
-                </span>
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                                    </svg>
+                                </span>
                             </motion.button>
                         </div>
                     </motion.div>

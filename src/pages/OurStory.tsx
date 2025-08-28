@@ -5,8 +5,8 @@ import { fadeIn, staggerContainer } from '@/utils/animations';
 import { Typography } from "@/components/Typography/Typography";
 import { InfoCard } from '@/components/InfoCard/InfoCard';
 import Section from '@/components/Section/Section';
-import { FaTree, FaHandsHelping, FaGlobe, FaChartLine, FaSeedling } from "react-icons/fa";
-import { Link } from 'react-router-dom';
+import {FaTree, FaHandsHelping, FaGlobe, FaChartLine, FaSeedling, FaArrowLeft} from "react-icons/fa";
+import {Link, useNavigate} from 'react-router-dom';
 import heritageImage from '@/assets/images/heritage.webp';
 import farmImage from '@/assets/images/farm.webp';
 import innovationImage from '@/assets/images/innovation.webp';
@@ -37,6 +37,7 @@ const COLLAPSE_LIMIT = 200;
 const OurStory: React.FC = () => {
     const { t, i18n } = useTranslation('story');
     const isRTL = i18n.dir() === 'rtl';
+    const navigate = useNavigate();
 
     // Refs for each section to scroll to
     const sectionRefs: RefObject<HTMLDivElement>[] = [];
@@ -175,6 +176,23 @@ const OurStory: React.FC = () => {
                         </Typography>
                     </motion.div>
                 </motion.div>
+            </Section>
+
+            {/* Back Button */}
+            <Section className="py-6">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6">
+                    <motion.button
+                        onClick={() => navigate('/executive-team')}
+                        className="flex items-center text-primary hover:text-accent transition-colors"
+                        whileHover={{ x: -5 }}
+                        initial="hidden"
+                        animate="visible"
+                        variants={fadeIn}
+                    >
+                        <FaArrowLeft className="mr-2" />
+                        {t('hero.backToExecutive')}
+                    </motion.button>
+                </div>
             </Section>
 
             {/* Intro Section - Enhanced with Glassy 3D */}

@@ -404,6 +404,23 @@ const Processing: React.FC = () => {
                 </motion.div>
             </Section>
 
+            {/* Back Button */}
+            <Section className="py-6">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6">
+                    <motion.button
+                        onClick={() => navigate('/farm')}
+                        className="flex items-center text-primary hover:text-accent transition-colors"
+                        whileHover={{ x: -5 }}
+                        initial="hidden"
+                        animate="visible"
+                        variants={fadeIn}
+                    >
+                        <FaArrowLeft className="mr-2" />
+                        {t('backToFarm')}
+                    </motion.button>
+                </div>
+            </Section>
+
             {/* Phase Selection */}
            {/* Processing Roadmap Section */}
            <Section className="py-16">
