@@ -370,7 +370,7 @@ const Processing: React.FC = () => {
             {/* Hero Section */}
             <Section
                 fullHeight={true}
-                className="flex items-center justify-center text-center min-h-[50vh] md:min-h-[50vh] bg-gradient-to-b bg-transparent"
+                className="flex items-center justify-center text-center min-h-[60vh] bg-gradient-to-b from-primary/10 to-transparent"
             >
                 <motion.div
                     className="max-w-4xl px-6 sm:px-8 py-12"
@@ -422,8 +422,8 @@ const Processing: React.FC = () => {
             </Section>
 
             {/* Phase Selection */}
-           {/* Processing Roadmap Section */}
-           <Section className="py-16">
+            {/* Processing Roadmap Section */}
+            <Section className="py-16">
                 <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                     <motion.div
                         className="text-center mb-12"
@@ -522,7 +522,7 @@ const Processing: React.FC = () => {
                                 {t('phases.phase2')}
                             </motion.button>
                         </div>
-                        </motion.div>
+                    </motion.div>
 
                     {/* Phase Description */}
                     <motion.div

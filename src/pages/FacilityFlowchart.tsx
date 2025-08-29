@@ -16,259 +16,157 @@ import {
     FaCompress,
     FaInfoCircle,
     FaArrowLeft,
-    FaCertificate
+    FaCertificate,
+    FaArrowRight,
+    FaArrowLeft as FaPrev,
+    FaArrowRight as FaNext,
+    FaPlay,
+    FaPause
 } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 import Section from '@/components/Section/Section';
 import { fadeIn, staggerContainer } from '@/utils/animations';
 import { Typography } from "@/components/Typography/Typography";
 import { InfoCard } from "@/components/InfoCard/InfoCard";
-import ClickableSVG from '@/components/ClickableSVG/ClickableSVG';
-import mermaid from 'mermaid';
 
 const FacilityFlowchart: React.FC = () => {
     const { t } = useTranslation('facility');
     const navigate = useNavigate();
-    const [activeZone, setActiveZone] = useState<string | null>(null);
-    const [isFullscreen, setIsFullscreen] = useState(false);
-    const [svgContent, setSvgContent] = useState<string>('');
-    const diagramRef = useRef<HTMLDivElement>(null);
+    const [activeCategory, setActiveCategory] = useState<'process' | 'staff' | 'utilities'>('process');
+    const [activeStep, setActiveStep] = useState(0);
+    const [isPlaying, setIsPlaying] = useState(false);
+    const animationRef = useRef<NodeJS.Timeout | null>(null);
 
-    // Mermaid flowchart definition
-    const facilityChart = `
-flowchart LR
-    A[Raw Nut Reception & Weighbridge] --> B[Raw Nut Storage Warehouse]
-    B --> C[Processing Hall - Dirty Zone]
-    C --> D[Processing Hall - Clean Zone]
-    D --> E[Grading & Packing Section]
-    E --> F[Finished Goods Warehouse]
-    F --> G[Dispatch & Export Bay]
+    // Facility zones by category
+    const facilityZones = {
+        process: [
+            {
+                title: 'Raw Nut Reception & Weighbridge',
+                icon: FaTruck,
+                description: t('zones.reception.description'),
+                features: t('zones.reception.features', { returnObjects: true }),
+            },
+            {
+                title: 'Raw Nut Storage Warehouse',
+                icon: FaWarehouse,
+                description: t('zones.storage.description'),
+                features: t('zones.storage.features', { returnObjects: true }),
+            },
+            {
+                title: 'Processing Hall - Dirty Zone',
+                icon: FaIndustry,
+                description: t('zones.dirtyZone.description'),
+                features: t('zones.dirtyZone.features', { returnObjects: true }),
+            },
+            {
+                title: 'Processing Hall - Clean Zone',
+                icon: FaIndustry,
+                description: t('zones.cleanZone.description'),
+                features: t('zones.cleanZone.features', { returnObjects: true }),
+            },
+            {
+                title: 'Grading & Packing Section',
+                icon: FaBox,
+                description: t('zones.grading.description'),
+                features: t('zones.grading.features', { returnObjects: true }),
+            },
+            {
+                title: 'Finished Goods Warehouse',
+                icon: FaWarehouse,
+                description: t('zones.finished.description'),
+                features: t('zones.finished.features', { returnObjects: true }),
+            },
+            {
+                title: 'Dispatch & Export Bay',
+                icon: FaTruck,
+                description: t('zones.dispatch.description'),
+                features: t('zones.dispatch.features', { returnObjects: true }),
+            }
+        ],
+        staff: [
+            {
+                title: 'Locker Rooms & Hygiene Stations',
+                icon: FaShower,
+                description: t('zones.locker.description'),
+                features: t('zones.locker.features', { returnObjects: true }),
+            },
+            {
+                title: 'Prayer Space & Rest Area',
+                icon: FaPray,
+                description: t('zones.prayer.description'),
+                features: t('zones.prayer.features', { returnObjects: true }),
+            },
+            {
+                title: 'Training / Meeting Room',
+                icon: FaChalkboardTeacher,
+                description: t('zones.training.description'),
+                features: t('zones.training.features', { returnObjects: true }),
+            },
+            {
+                title: 'Canteen',
+                icon: FaUtensils,
+                description: t('zones.canteen.description'),
+                features: t('zones.canteen.features', { returnObjects: true }),
+            }
+        ],
+        utilities: [
+            {
+                title: 'Water Treatment Plant',
+                icon: FaWater,
+                description: t('zones.water.description'),
+                features: t('zones.water.features', { returnObjects: true }),
+            },
+            {
+                title: 'Biomass Boiler / Solar PV',
+                icon: FaSolarPanel,
+                description: t('zones.energy.description'),
+                features: t('zones.energy.features', { returnObjects: true }),
+            },
+            {
+                title: 'Future Expansion Area',
+                icon: FaExpand,
+                description: t('zones.expansion.description'),
+                features: t('zones.expansion.features', { returnObjects: true }),
+            }
+        ]
+    };
 
-    subgraph Staff Facilities
-      H[Locker Rooms & Hygiene Stations]
-      I[Prayer Space & Rest Area]
-      J[Training / Meeting Room]
-      K[Canteen]
-    end
+    const currentZones = facilityZones[activeCategory];
+    const currentZone = currentZones[activeStep];
 
-    %% Hygiene checkpoints
-    H --> C
-    H --> D
-
-    %% Utilities & Expansion
-    subgraph Utilities & Expansion
-      U1[Water Treatment Plant]
-      U2[Biomass Boiler / Solar PV]
-      U3[Future Expansion Area]
-    end
-
-    Utilities & Expansion -. support .-> C
-    Utilities & Expansion -. support .-> D
-    Utilities & Expansion -. support .-> E
-
-    classDef process fill:#3b82f6,stroke:#1d4ed8,color:white;
-    classDef staff fill:#10b981,stroke:#047857,color:white;
-    classDef utilities fill:#f59e0b,stroke:#d97706,color:white;
-    
-    class A,B,C,D,E,F,G process;
-    class H,I,J,K staff;
-    class U1,U2,U3 utilities;
-  `;
-
-    // Initialize mermaid
+    // Auto-play animation
     useEffect(() => {
-        mermaid.initialize({
-            startOnLoad: true,
-            theme: 'default',
-            securityLevel: 'loose',
-            fontFamily: 'inherit',
-        });
-    }, []);
+        if (isPlaying) {
+            animationRef.current = setInterval(() => {
+                setActiveStep(prev => (prev + 1) % currentZones.length);
+            }, 4000);
+        } else if (animationRef.current) {
+            clearInterval(animationRef.current);
+        }
 
-    // Generate SVG from mermaid
-    useEffect(() => {
-        const generateSVG = async () => {
-            try {
-                const { svg } = await mermaid.render('facility-flowchart', facilityChart);
-                setSvgContent(svg);
-            } catch (error) {
-                console.error('Error generating mermaid SVG:', error);
+        return () => {
+            if (animationRef.current) {
+                clearInterval(animationRef.current);
             }
         };
+    }, [isPlaying, activeStep, currentZones.length]);
 
-        generateSVG();
-    }, [facilityChart]);
+    const nextStep = () => {
+        setActiveStep(prev => (prev + 1) % currentZones.length);
+    };
 
-    // Helper to get features array for a given key, safely typed
-    const getFeatures = (key: string): (string | object)[] => {
+    const prevStep = () => {
+        setActiveStep(prev => (prev - 1 + currentZones.length) % currentZones.length);
+    };
+
+    const togglePlay = () => {
+        setIsPlaying(!isPlaying);
+    };
+
+    // Helper to get features array safely
+    const getFeatures = (key: string): string[] => {
         const result = t(key, { returnObjects: true });
         return Array.isArray(result) ? result : [];
-    };
-
-    // Zone information data
-    const zoneInfo = {
-        'Raw Nut Reception & Weighbridge': {
-            icon: FaTruck,
-            description: t('zones.reception.description'),
-            features: getFeatures('zones.reception.features'),
-            color: 'primary'
-        },
-        'Raw Nut Storage Warehouse': {
-            icon: FaWarehouse,
-            description: t('zones.storage.description'),
-            features: getFeatures('zones.storage.features'),
-            color: 'primary'
-        },
-        'Processing Hall - Dirty Zone': {
-            icon: FaIndustry,
-            description: t('zones.dirtyZone.description'),
-            features: getFeatures('zones.dirtyZone.features'),
-            color: 'primary'
-        },
-        'Processing Hall - Clean Zone': {
-            icon: FaIndustry,
-            description: t('zones.cleanZone.description'),
-            features: getFeatures('zones.cleanZone.features'),
-            color: 'primary'
-        },
-        'Grading & Packing Section': {
-            icon: FaBox,
-            description: t('zones.grading.description'),
-            features: getFeatures('zones.grading.features'),
-            color: 'primary'
-        },
-        'Finished Goods Warehouse': {
-            icon: FaWarehouse,
-            description: t('zones.finished.description'),
-            features: getFeatures('zones.finished.features'),
-            color: 'primary'
-        },
-        'Dispatch & Export Bay': {
-            icon: FaTruck,
-            description: t('zones.dispatch.description'),
-            features: getFeatures('zones.dispatch.features'),
-            color: 'primary'
-        },
-        'Locker Rooms & Hygiene Stations': {
-            icon: FaShower,
-            description: t('zones.locker.description'),
-            features: getFeatures('zones.locker.features'),
-            color: 'accent'
-        },
-        'Prayer Space & Rest Area': {
-            icon: FaPray,
-            description: t('zones.prayer.description'),
-            features: getFeatures('zones.prayer.features'),
-            color: 'accent'
-        },
-        'Training / Meeting Room': {
-            icon: FaChalkboardTeacher,
-            description: t('zones.training.description'),
-            features: getFeatures('zones.training.features'),
-            color: 'accent'
-        },
-        'Canteen': {
-            icon: FaUtensils,
-            description: t('zones.canteen.description'),
-            features: getFeatures('zones.canteen.features'),
-            color: 'accent'
-        },
-        'Water Treatment Plant': {
-            icon: FaWater,
-            description: t('zones.water.description'),
-            features: getFeatures('zones.water.features'),
-            color: 'secondary'
-        },
-        'Biomass Boiler / Solar PV': {
-            icon: FaSolarPanel,
-            description: t('zones.energy.description'),
-            features: getFeatures('zones.energy.features'),
-            color: 'secondary'
-        },
-        'Future Expansion Area': {
-            icon: FaExpand,
-            description: t('zones.expansion.description'),
-            features: getFeatures('zones.expansion.features'),
-            color: 'secondary'
-        }
-    } as const;
-
-    const toggleFullscreen = () => {
-        setIsFullscreen(!isFullscreen);
-    };
-
-    // Add this near your state declarations
-    const [debugInfo, setDebugInfo] = useState<{id: string, text: string, type: string} | null>(null);
-
-
-    const handleSVGClick = (id: string, text: string, elementType: string) => {
-        console.log('Clicked element:', { id, text, elementType });
-
-        // More comprehensive zone mapping
-        const zoneMap: Record<string, string> = {
-            // Node IDs (may vary based on mermaid version)
-            'flowchart-A-62': 'Raw Nut Reception & Weighbridge',
-            'flowchart-B-63': 'Raw Nut Storage Warehouse',
-            'flowchart-C-64': 'Processing Hall - Dirty Zone',
-            'flowchart-D-65': 'Processing Hall - Clean Zone',
-            'flowchart-E-66': 'Grading & Packing Section',
-            'flowchart-F-67': 'Finished Goods Warehouse',
-            'flowchart-G-68': 'Dispatch & Export Bay',
-            'flowchart-H-69': 'Locker Rooms & Hygiene Stations',
-            'flowchart-I-70': 'Prayer Space & Rest Area',
-            'flowchart-J-71': 'Training / Meeting Room',
-            'flowchart-K-72': 'Canteen',
-            'flowchart-U1-73': 'Water Treatment Plant',
-            'flowchart-U2-74': 'Biomass Boiler / Solar PV',
-            'flowchart-U3-75': 'Future Expansion Area',
-
-            // Text-based mapping as fallback
-            'Raw Nut Reception & Weighbridge': 'Raw Nut Reception & Weighbridge',
-            'Raw Nut Storage Warehouse': 'Raw Nut Storage Warehouse',
-            'Processing Hall - Dirty Zone': 'Processing Hall - Dirty Zone',
-            'Processing Hall - Clean Zone': 'Processing Hall - Clean Zone',
-            'Grading & Packing Section': 'Grading & Packing Section',
-            'Finished Goods Warehouse': 'Finished Goods Warehouse',
-            'Dispatch & Export Bay': 'Dispatch & Export Bay',
-            'Locker Rooms & Hygiene Stations': 'Locker Rooms & Hygiene Stations',
-            'Prayer Space & Rest Area': 'Prayer Space & Rest Area',
-            'Training / Meeting Room': 'Training / Meeting Room',
-            'Canteen': 'Canteen',
-            'Water Treatment Plant': 'Water Treatment Plant',
-            'Biomass Boiler / Solar PV': 'Biomass Boiler / Solar PV',
-            'Future Expansion Area': 'Future Expansion Area',
-
-            // Shorthand / label-only mappings
-            'Expansion': 'Future Expansion Area',
-            'Utilities': 'Utilities & Expansion',
-            'Dirty Zone': 'Processing Hall - Dirty Zone',
-            'Clean Zone': 'Processing Hall - Clean Zone',
-            'Grading': 'Grading & Packing Section',
-        };
-
-        // Try to find the zone by ID first, then by text
-        let zoneName = zoneMap[id] || zoneMap[text] || text;
-
-        // If we still can't find it, try partial matching (case-insensitive)
-        if (!zoneInfo[zoneName as keyof typeof zoneInfo]) {
-            for (const key in zoneInfo) {
-                if (
-                    key.toLowerCase().includes(text.toLowerCase()) ||
-                    text.toLowerCase().includes(key.toLowerCase())
-                ) {
-                    zoneName = key;
-                    break;
-                }
-            }
-        }
-
-        console.log('Resolved zone:', zoneName);
-
-        if (zoneInfo[zoneName as keyof typeof zoneInfo]) {
-            setActiveZone(zoneName === activeZone ? null : zoneName);
-        } else {
-            console.warn('Unknown zone clicked:', { id, text, elementType });
-        }
     };
 
     return (
@@ -276,7 +174,7 @@ flowchart LR
             {/* Hero Section */}
             <Section
                 fullHeight={true}
-                className="flex items-center justify-center text-center min-h-[50vh] md:min-h-[50vh] bg-gradient-to-b bg-transparent"
+                className="flex items-center justify-center text-center min-h-[60vh] bg-gradient-to-b from-primary/10 to-transparent"
             >
                 <motion.div
                     className="max-w-4xl px-6 sm:px-8 py-12"
@@ -392,7 +290,7 @@ flowchart LR
                 </div>
             </Section>
 
-            {/* Interactive Flowchart Section */}
+            {/* Facility Zones Navigation */}
             <Section className="py-16">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6">
                     <motion.div
@@ -402,23 +300,48 @@ flowchart LR
                         viewport={{ once: true }}
                         variants={fadeIn}
                     >
-                        <Typography variant="h2" className="mb-4">
-                            {t('flowchart.title')}
+                        <Typography variant="h2" className="mb-6">
+                            {t('facilityLayout.title')}
                         </Typography>
                         <Typography
                             variant="body"
-                            className="max-w-3xl mx-auto text-base md:text-lg leading-relaxed"
+                            className="max-w-3xl mx-auto mb-8 text-base md:text-lg leading-relaxed"
                         >
-                            {t('flowchart.description')}
+                            {t('facilityLayout.description')}
                         </Typography>
+
+                        {/* Category Selection */}
+                        <div className="flex justify-center space-x-4 mb-12">
+                            {[
+                                { key: 'process', label: t('categories.process'), icon: FaIndustry },
+                                { key: 'staff', label: t('categories.staff'), icon: FaShower },
+                                { key: 'utilities', label: t('categories.utilities'), icon: FaSolarPanel }
+                            ].map((category) => (
+                                <motion.button
+                                    key={category.key}
+                                    onClick={() => {
+                                        setActiveCategory(category.key as 'process' | 'staff' | 'utilities');
+                                        setActiveStep(0);
+                                        setIsPlaying(false);
+                                    }}
+                                    className={`px-2 py-1 text-xs sm:px-6 sm:py-3 sm:text-base rounded-full font-medium transition-all duration-300 flex items-center space-x-2 ${
+                                        activeCategory === category.key
+                                            ? 'bg-primary text-white shadow-lg'
+                                            : 'bg-white text-primary border-2 border-primary/30 hover:border-primary/50'
+                                    }`}
+                                    whileHover={{ y: -2, scale: 1.02 }}
+                                    whileTap={{ scale: 0.98 }}
+                                >
+                                    <category.icon />
+                                    <span>{category.label}</span>
+                                </motion.button>
+                            ))}
+                        </div>
                     </motion.div>
 
-                    {/* Flowchart Container */}
+                    {/* Zone Carousel */}
                     <motion.div
-                        ref={diagramRef}
-                        className={`relative bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl p-8 border-2 border-primary/20 hover:border-accent/30 transition-all duration-500 shadow-xl overflow-hidden transform-gpu ${
-                            isFullscreen ? 'fixed inset-0 z-50 m-4' : ''
-                        }`}
+                        className="relative bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl p-8 border-2 border-primary/20 hover:border-accent/30 transition-all duration-500 shadow-xl overflow-hidden transform-gpu"
                         style={{
                             transformStyle: 'preserve-3d',
                             perspective: '1000px',
@@ -436,126 +359,105 @@ flowchart LR
                         }}
                     >
                         {/* 3D edge effect */}
-                        <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
-
-                        {/* Glassy overlay */}
-                        <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
-
-                        {/* Inner shadow effect */}
-                        <div className="absolute inset-0 rounded-3xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] group-hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
-
-                        {/* Subtle background pattern */}
-                        <div className="absolute inset-0 rounded-3xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
+                        <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px] transition-all duration-500" />
+                        <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40 transition-opacity duration-500" />
+                        <div className="absolute inset-0 rounded-3xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] transition-shadow duration-500" />
 
                         <div className="relative z-10">
-                            <div className="flex justify-between items-center mb-6">
-                                <div>
-                                    <Typography variant="h3" className="mb-2">
-                                        {t('flowchart.title')}
-                                    </Typography>
-                                    <Typography
-                                        variant="body-sm"
-                                        className="text-text-dark/70 text-sm md:text-base leading-relaxed"
-                                    >
-                                        {t('flowchart.instructions')}
-                                    </Typography>
-                                </div>
-                                <div className="flex space-x-2">
-                                    <motion.button
-                                        onClick={toggleFullscreen}
-                                        className="p-2 bg-primary/10 rounded-full text-primary hover:bg-primary/20 transition-colors"
-                                        whileHover={{ scale: 1.1 }}
-                                        whileTap={{ scale: 0.9 }}
-                                        aria-label={isFullscreen ? t('controls.compress') : t('controls.expand')}
-                                    >
-                                        {isFullscreen ? <FaCompress /> : <FaExpand />}
-                                    </motion.button>
-                                </div>
+                            <div className="text-center mb-8">
+                                <Typography variant="h3" className="mb-2">
+                                    {currentZone.title}
+                                </Typography>
+                                <Typography
+                                    variant="body-sm"
+                                    className="text-text-dark/70"
+                                >
+                                    {t('facilityLayout.zone')} {activeStep + 1} of {currentZones.length}
+                                </Typography>
                             </div>
 
-                            {/* Clickable SVG Diagram */}
-                            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 border border-primary/20 overflow-auto">
-                                {svgContent ? (
-                                    <ClickableSVG
-                                        svgContent={svgContent}
-                                        onElementClick={handleSVGClick}
-                                        className="w-full h-auto"
-                                    />
-                                ) : (
-                                    <div className="flex justify-center items-center h-64">
-                                        <div className="animate-pulse text-text-dark/50">
-                                            Loading flowchart...
+                            <div className="flex flex-col lg:flex-row items-center justify-between gap-8 mb-8">
+                                {/* Zone Icon/Visual */}
+                                <div className="flex-1">
+                                    <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 border border-primary/20 flex justify-center items-center h-48">
+                                        <div className="text-6xl text-primary">
+                                            <currentZone.icon />
                                         </div>
                                     </div>
-                                )}
+                                </div>
+
+                                {/* Zone Description */}
+                                <div className="flex-1 bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-primary/20">
+                                    <Typography variant="body" className="mb-4">
+                                        {currentZone.description}
+                                    </Typography>
+
+                                    <Typography variant="h5" className="mb-3">
+                                        {t('featuresTitle')}
+                                    </Typography>
+                                    <ul className="space-y-2">
+                                        {(Array.isArray(currentZone.features) ? currentZone.features : []).map((feature, index) => (
+                                            <li key={index} className="flex items-start">
+                                                <div className="w-2 h-2 rounded-full bg-primary mt-2 mr-3 flex-shrink-0"></div>
+                                                <Typography variant="body-sm">
+                                                    {typeof feature === 'string' ? feature : JSON.stringify(feature)}
+                                                </Typography>
+                                            </li>
+                                        ))}
+                                    </ul>
+                                </div>
                             </div>
 
-                            {/* Legend */}
-                            <div className="mt-6 flex flex-wrap justify-center gap-4">
-                                <div className="flex items-center">
-                                    <div className="w-4 h-4 rounded-sm bg-[#3b82f6] border border-[#1d4ed8] mr-2"></div>
-                                    <span className="text-sm text-text-dark">{t('legend.process')}</span>
-                                </div>
-                                <div className="flex items-center">
-                                    <div className="w-4 h-4 rounded-sm bg-[#10b981] border border-[#047857] mr-2"></div>
-                                    <span className="text-sm text-text-dark">{t('legend.staff')}</span>
-                                </div>
-                                <div className="flex items-center">
-                                    <div className="w-4 h-4 rounded-sm bg-[#f59e0b] border border-[#d97706] mr-2"></div>
-                                    <span className="text-sm text-text-dark">{t('legend.utilities')}</span>
-                                </div>
+                            {/* Controls */}
+                            <div className="flex justify-center items-center space-x-4">
+                                <motion.button
+                                    onClick={prevStep}
+                                    className="p-3 bg-primary/10 rounded-full text-primary hover:bg-primary/20 transition-colors"
+                                    whileHover={{ scale: 1.1 }}
+                                    whileTap={{ scale: 0.9 }}
+                                    aria-label="Previous zone"
+                                >
+                                    <FaPrev />
+                                </motion.button>
+
+                                <motion.button
+                                    onClick={togglePlay}
+                                    className="px-6 py-3 bg-primary text-white rounded-full flex items-center space-x-2"
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
+                                >
+                                    <span>{isPlaying ? t('controls.pause') : t('controls.play')}</span>
+                                    {isPlaying ? <FaPause /> : <FaPlay />}
+                                </motion.button>
+
+                                <motion.button
+                                    onClick={nextStep}
+                                    className="p-3 bg-primary/10 rounded-full text-primary hover:bg-primary/20 transition-colors"
+                                    whileHover={{ scale: 1.1 }}
+                                    whileTap={{ scale: 0.9 }}
+                                    aria-label="Next zone"
+                                >
+                                    <FaNext />
+                                </motion.button>
+                            </div>
+
+                            {/* Progress indicators */}
+                            <div className="mt-6 flex justify-center space-x-2">
+                                {currentZones.map((_, index) => (
+                                    <button
+                                        key={index}
+                                        onClick={() => setActiveStep(index)}
+                                        className={`w-3 h-3 rounded-full transition-all ${
+                                            index === activeStep
+                                                ? 'bg-primary scale-125'
+                                                : 'bg-primary/30 hover:bg-primary/50'
+                                        }`}
+                                        aria-label={`Go to zone ${index + 1}`}
+                                    />
+                                ))}
                             </div>
                         </div>
                     </motion.div>
-
-                    {/* Zone Information Panel */}
-                    {activeZone && (
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: 20 }}
-                            className="mt-8"
-                        >
-                            {(() => {
-                                const zone = zoneInfo[activeZone as keyof typeof zoneInfo];
-                                return (
-                                    <InfoCard
-                                        icon={zone.icon}
-                                        title={activeZone}
-                                        variant={zone.color as 'primary' | 'accent' | 'secondary'}
-                                        className="relative"
-                                    >
-                                        {/* Close button */}
-                                        <button
-                                            onClick={() => setActiveZone(null)}
-                                            className="absolute top-4 right-4 p-1 bg-white/80 rounded-full text-text-dark/70 hover:text-text-dark transition-colors z-20"
-                                            aria-label="Close panel"
-                                        >
-                                            ×
-                                        </button>
-
-                                        <Typography variant="body" className="mb-4">
-                                            {zone.description}
-                                        </Typography>
-
-                                        <Typography variant="h5" className="mb-3">
-                                            {t('featuresTitle')}
-                                        </Typography>
-                                        <ul className="space-y-2">
-                                            {(Array.isArray(zone.features) ? zone.features : []).map((feature, index) => (
-                                                <li key={index} className="flex items-start">
-                                                    <div className={`w-2 h-2 rounded-full bg-${zone.color} mt-2 mr-3 flex-shrink-0`}></div>
-                                                    <Typography variant="body-sm">
-                                                        {typeof feature === 'string' ? feature : JSON.stringify(feature)}
-                                                    </Typography>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </InfoCard>
-                                );
-                            })()}
-                        </motion.div>
-                    )}
                 </div>
             </Section>
 
@@ -591,7 +493,7 @@ flowchart LR
                                     <li key={index} className="flex items-start">
                                         <FaInfoCircle className="text-primary mt-1 mr-3 flex-shrink-0" />
                                         <Typography variant="body">
-                                            {typeof feature === 'string' ? feature : JSON.stringify(feature)}
+                                            {feature}
                                         </Typography>
                                     </li>
                                 ))}
@@ -608,7 +510,7 @@ flowchart LR
                                     <li key={index} className="flex items-start">
                                         <FaInfoCircle className="text-accent mt-1 mr-3 flex-shrink-0" />
                                         <Typography variant="body">
-                                            {typeof standard === 'string' ? standard : JSON.stringify(standard)}
+                                            {standard}
                                         </Typography>
                                     </li>
                                 ))}
@@ -621,61 +523,27 @@ flowchart LR
             {/* Call to Action */}
             <Section className="py-16 text-center">
                 <div className="max-w-4xl mx-auto px-6">
-                    <motion.div
-                        className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-3xl shadow-xl p-8 md:p-12 transform-gpu"
-                        style={{
-                            transformStyle: 'preserve-3d',
-                            perspective: '1000px',
-                        }}
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={fadeIn}
-                        whileHover={{
-                            y: -8,
-                            scale: 1.02,
-                            rotateY: 3,
-                            transition: { duration: 0.3 }
-                        }}
+                    <InfoCard
+                        icon={FaIndustry}
+                        title={t('cta.title')}
+                        variant="primary"
+                        className="text-center"
                     >
-                        {/* 3D edge effect */}
-                        <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px] hover:translate-z-[-10px] transition-all duration-500" />
-
-                        {/* Glassy overlay */}
-                        <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40 hover:opacity-60 transition-opacity duration-500" />
-
-                        <div className="relative z-10">
-                            <Typography variant="h2" className="text-3xl md:text-4xl font-bold text-primary mb-4">
-                                {t('cta.title')}
-                            </Typography>
-                            <Typography variant="lead" className="text-text-dark mb-8 max-w-3xl mx-auto">
-                                {t('cta.description')}
-                            </Typography>
-
-                            <motion.button
-                                className="group relative bg-gradient-to-r from-primary to-accent text-white px-8 py-4 rounded-full font-medium shadow-lg transform-gpu hover:scale-105 overflow-hidden"
-                                whileHover={{ y: -4 }}
-                                whileTap={{ scale: 0.95 }}
-                                onClick={() => navigate('/contact')}
-                            >
-                                {/* Button glossy overlay */}
-                                <div className="absolute inset-0 bg-gradient-to-b from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-
-                                {/* Button text */}
-                                <span className="relative z-10 flex items-center justify-center">
-                                    {t('cta.button')}
-                                    <svg
-                                        className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                    >
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                                    </svg>
-                                </span>
-                            </motion.button>
-                        </div>
-                    </motion.div>
+                        <Typography variant="lead" className="text-text-dark mb-8">
+                            {t('cta.description')}
+                        </Typography>
+                        <motion.button
+                            className="group relative bg-gradient-to-r from-primary to-accent text-white px-8 py-4 rounded-full font-medium shadow-lg transform-gpu hover:scale-105"
+                            whileHover={{ y: -4 }}
+                            whileTap={{ scale: 0.95 }}
+                            onClick={() => navigate('/contact')}
+                        >
+                            <span className="relative z-10 flex items-center justify-center">
+                                {t('cta.button')}
+                                <FaArrowRight className="ml-2 transition-transform group-hover:translate-x-1" />
+                            </span>
+                        </motion.button>
+                    </InfoCard>
                 </div>
             </Section>
         </main>

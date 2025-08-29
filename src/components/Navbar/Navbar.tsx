@@ -20,10 +20,12 @@ const Navbar: React.FC = () => {
   const [languageDropdownOpen, setLanguageDropdownOpen] = useState<boolean>(false);
   const [aboutDropdownOpen, setAboutDropdownOpen] = useState<boolean>(false);
   const [farmDropdownOpen, setFarmDropdownOpen] = useState<boolean>(false);
+  const [productsDropdownOpen, setProductsDropdownOpen] = useState<boolean>(false);
   const languageDropdownRef = useRef<HTMLDivElement>(null);
   const desktopLanguageDropdownRef = useRef<HTMLDivElement>(null);
   const aboutDropdownRef = useRef<HTMLDivElement>(null);
   const farmDropdownRef = useRef<HTMLDivElement>(null);
+  const productsDropdownRef = useRef<HTMLDivElement>(null);
 
   // Language configuration
   const languages: LanguageConfig[] = [
@@ -56,6 +58,13 @@ const Navbar: React.FC = () => {
           !farmDropdownRef.current.contains(event.target as Node)
       ) {
         setFarmDropdownOpen(false);
+      }
+
+      if (
+          productsDropdownRef.current &&
+          !productsDropdownRef.current.contains(event.target as Node)
+      ) {
+        setProductsDropdownOpen(false);
       }
     };
 
@@ -95,6 +104,12 @@ const Navbar: React.FC = () => {
           .some(p => location.pathname === p);
     }
 
+    // Treat Products link as active for any of its subpages including Certifications
+    if (path === '/products') {
+      return ['/products', '/certifications']
+          .some(p => location.pathname === p);
+    }
+
     // Default: highlight if the current path starts with the link path
     return location.pathname === path;
   };
@@ -109,7 +124,14 @@ const Navbar: React.FC = () => {
         { path: '/about/our-story', label: t('navbar.our_story') }
       ]
     },
-    { path: '/products', label: t('navbar.products') },
+    {
+      path: '/products',
+      label: t('navbar.products'),
+      dropdown: [
+        { path: '/products', label: t('navbar.products_overview') },
+        { path: '/certifications', label: t('navbar.certifications') }
+      ]
+    },
     {
       path: '/farm',
       label: t('navbar.farm'),
@@ -136,33 +158,52 @@ const Navbar: React.FC = () => {
     setClick(false);
     setAboutDropdownOpen(false);
     setFarmDropdownOpen(false);
+    setProductsDropdownOpen(false);
     document.body.classList.remove('overflow-hidden');
   };
 
   const toggleLanguageDropdown = (e: React.MouseEvent) => {
     e.stopPropagation();
     setLanguageDropdownOpen(!languageDropdownOpen);
-    setAboutDropdownOpen(false); // Close about dropdown if open
-    setFarmDropdownOpen(false); // Close farm dropdown if open
+    setAboutDropdownOpen(false);
+    setFarmDropdownOpen(false);
+    setProductsDropdownOpen(false);
   };
 
   const toggleAboutDropdown = (e: React.MouseEvent) => {
     e.stopPropagation();
     setAboutDropdownOpen(!aboutDropdownOpen);
-    setLanguageDropdownOpen(false); // Close language dropdown if open
-    setFarmDropdownOpen(false); // Close farm dropdown if open
+    setLanguageDropdownOpen(false);
+    setFarmDropdownOpen(false);
+    setProductsDropdownOpen(false);
+  };
+
+  const toggleProductsDropdown = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setProductsDropdownOpen(!productsDropdownOpen);
+    setLanguageDropdownOpen(false);
+    setAboutDropdownOpen(false);
+    setFarmDropdownOpen(false);
   };
 
   const toggleFarmDropdown = (e: React.MouseEvent) => {
     e.stopPropagation();
     setFarmDropdownOpen(!farmDropdownOpen);
-    setAboutDropdownOpen(false); // Close about dropdown if open
-    setLanguageDropdownOpen(false); // Close language dropdown if open
+    setLanguageDropdownOpen(false);
+    setAboutDropdownOpen(false);
+    setProductsDropdownOpen(false);
   };
 
   const handleAboutClick = (e: React.MouseEvent, path: string) => {
     e.preventDefault();
     setAboutDropdownOpen(false);
+    navigate(path);
+    closeMobileMenu();
+  };
+
+  const handleProductsClick = (e: React.MouseEvent, path: string) => {
+    e.preventDefault();
+    setProductsDropdownOpen(false);
     navigate(path);
     closeMobileMenu();
   };
@@ -210,82 +251,122 @@ const Navbar: React.FC = () => {
                 if (item.dropdown) {
                   if (item.path === '/about') {
                     return (
-                      <div key={index} className="relative" ref={aboutDropdownRef}>
-                        <button type="button"
-                                onClick={toggleAboutDropdown}
-                                className={`px-4 py-2 rounded-lg text-lg font-medium transition-all duration-300 flex items-center ${
-                                    isActive(item.path)
-                                        ? 'bg-primary text-white shadow-md'
-                                        : 'text-gray-700 hover:bg-gray-50 hover:text-primary hover:shadow-sm'
-                                }`}
-                        >
-                          {item.label}
-                          {aboutDropdownOpen ? (
-                              <FaChevronUp className="ml-1" />
-                          ) : (
-                              <FaChevronDown className="ml-1" />
+                        <div key={index} className="relative" ref={aboutDropdownRef}>
+                          <button type="button"
+                                  onClick={toggleAboutDropdown}
+                                  className={`px-4 py-2 rounded-lg text-lg font-medium transition-all duration-300 flex items-center ${
+                                      isActive(item.path)
+                                          ? 'bg-primary text-white shadow-md'
+                                          : 'text-gray-700 hover:bg-gray-50 hover:text-primary hover:shadow-sm'
+                                  }`}
+                          >
+                            {item.label}
+                            {aboutDropdownOpen ? (
+                                <FaChevronUp className="ml-1" />
+                            ) : (
+                                <FaChevronDown className="ml-1" />
+                            )}
+                          </button>
+                          {aboutDropdownOpen && (
+                              <div className="absolute left-0 mt-2 w-48 bg-white rounded-lg shadow-lg z-50 border border-gray-200">
+                                {item.dropdown.map((dropdownItem, idx) => (
+                                    <Link
+                                        key={idx}
+                                        to={dropdownItem.path}
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          setAboutDropdownOpen(false);
+                                        }}
+                                        className={`block px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors duration-200 ${
+                                            isActive(dropdownItem.path) ? 'bg-gray-100 font-medium' : ''
+                                        }`}
+                                    >
+                                      {dropdownItem.label}
+                                    </Link>
+                                ))}
+                              </div>
                           )}
-                        </button>
-                        {aboutDropdownOpen && (
-                            <div className="absolute left-0 mt-2 w-48 bg-white rounded-lg shadow-lg z-50 border border-gray-200">
-                              {item.dropdown.map((dropdownItem, idx) => (
-                                  <Link
-                                      key={idx}
-                                      to={dropdownItem.path}
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        setAboutDropdownOpen(false);
-                                      }}
-                                      className={`block px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors duration-200 ${
-                                          isActive(dropdownItem.path) ? 'bg-gray-100 font-medium' : ''
-                                      }`}
-                                  >
-                                    {dropdownItem.label}
-                                  </Link>
-                              ))}
-                            </div>
-                        )}
-                      </div>
+                        </div>
+                    );
+                  }
+                  if (item.path === '/products') {
+                    return (
+                        <div key={index} className="relative" ref={productsDropdownRef}>
+                          <button type="button"
+                                  onClick={toggleProductsDropdown}
+                                  className={`px-4 py-2 rounded-lg text-lg font-medium transition-all duration-300 flex items-center ${
+                                      isActive(item.path)
+                                          ? 'bg-primary text-white shadow-md'
+                                          : 'text-gray-700 hover:bg-gray-50 hover:text-primary hover:shadow-sm'
+                                  }`}
+                          >
+                            {item.label}
+                            {productsDropdownOpen ? (
+                                <FaChevronUp className="ml-1" />
+                            ) : (
+                                <FaChevronDown className="ml-1" />
+                            )}
+                          </button>
+                          {productsDropdownOpen && (
+                              <div className="absolute left-0 mt-2 w-48 bg-white rounded-lg shadow-lg z-50 border border-gray-200">
+                                {item.dropdown.map((dropdownItem, idx) => (
+                                    <Link
+                                        key={idx}
+                                        to={dropdownItem.path}
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          setProductsDropdownOpen(false);
+                                        }}
+                                        className={`block px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors duration-200 ${
+                                            isActive(dropdownItem.path) ? 'bg-gray-100 font-medium' : ''
+                                        }`}
+                                    >
+                                      {dropdownItem.label}
+                                    </Link>
+                                ))}
+                              </div>
+                          )}
+                        </div>
                     );
                   }
                   if (item.path === '/farm') {
                     return (
-                      <div key={index} className="relative" ref={farmDropdownRef}>
-                        <button type="button"
-                                onClick={toggleFarmDropdown}
-                                className={`px-4 py-2 rounded-lg text-lg font-medium transition-all duration-300 flex items-center ${
-                                    isActive(item.path)
-                                        ? 'bg-primary text-white shadow-md'
-                                        : 'text-gray-700 hover:bg-gray-50 hover:text-primary hover:shadow-sm'
-                                }`}
-                        >
-                          {item.label}
-                          {farmDropdownOpen ? (
-                              <FaChevronUp className="ml-1" />
-                          ) : (
-                              <FaChevronDown className="ml-1" />
+                        <div key={index} className="relative" ref={farmDropdownRef}>
+                          <button type="button"
+                                  onClick={toggleFarmDropdown}
+                                  className={`px-4 py-2 rounded-lg text-lg font-medium transition-all duration-300 flex items-center ${
+                                      isActive(item.path)
+                                          ? 'bg-primary text-white shadow-md'
+                                          : 'text-gray-700 hover:bg-gray-50 hover:text-primary hover:shadow-sm'
+                                  }`}
+                          >
+                            {item.label}
+                            {farmDropdownOpen ? (
+                                <FaChevronUp className="ml-1" />
+                            ) : (
+                                <FaChevronDown className="ml-1" />
+                            )}
+                          </button>
+                          {farmDropdownOpen && (
+                              <div className="absolute left-0 mt-2 w-48 bg-white rounded-lg shadow-lg z-50 border border-gray-200">
+                                {item.dropdown.map((dropdownItem, idx) => (
+                                    <Link
+                                        key={idx}
+                                        to={dropdownItem.path}
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          setFarmDropdownOpen(false);
+                                        }}
+                                        className={`block px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors duration-200 ${
+                                            isActive(dropdownItem.path) ? 'bg-gray-100 font-medium' : ''
+                                        }`}
+                                    >
+                                      {dropdownItem.label}
+                                    </Link>
+                                ))}
+                              </div>
                           )}
-                        </button>
-                        {farmDropdownOpen && (
-                            <div className="absolute left-0 mt-2 w-48 bg-white rounded-lg shadow-lg z-50 border border-gray-200">
-                              {item.dropdown.map((dropdownItem, idx) => (
-                                  <Link
-                                      key={idx}
-                                      to={dropdownItem.path}
-                                      onClick={(e) => {
-                                        e.stopPropagation();
-                                        setFarmDropdownOpen(false);
-                                      }}
-                                      className={`block px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors duration-200 ${
-                                          isActive(dropdownItem.path) ? 'bg-gray-100 font-medium' : ''
-                                      }`}
-                                  >
-                                    {dropdownItem.label}
-                                  </Link>
-                              ))}
-                            </div>
-                        )}
-                      </div>
+                        </div>
                     );
                   }
                   // fallback for other dropdowns if any
@@ -293,22 +374,22 @@ const Navbar: React.FC = () => {
                 }
                 // Not a dropdown
                 return (
-                  <Link
-                      key={index}
-                      to={item.path}
-                      className={`px-4 py-2 rounded-lg text-lg font-medium transition-all duration-300 ${
-                          isActive(item.path)
-                              ? 'bg-primary text-white shadow-md'
-                              : 'text-gray-700 hover:bg-gray-50 hover:text-primary hover:shadow-sm'
-                      }`}
-                      onClick={() => {
-                        if (isActive(item.path)) {
-                          window.scrollTo({ top: 0, behavior: 'smooth' });
-                        }
-                      }}
-                  >
-                    {item.label}
-                  </Link>
+                    <Link
+                        key={index}
+                        to={item.path}
+                        className={`px-4 py-2 rounded-lg text-lg font-medium transition-all duration-300 ${
+                            isActive(item.path)
+                                ? 'bg-primary text-white shadow-md'
+                                : 'text-gray-700 hover:bg-gray-50 hover:text-primary hover:shadow-sm'
+                        }`}
+                        onClick={() => {
+                          if (isActive(item.path)) {
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                          }
+                        }}
+                    >
+                      {item.label}
+                    </Link>
                 );
               })}
 
@@ -415,34 +496,34 @@ const Navbar: React.FC = () => {
           <div className={`${click ? 'block' : 'hidden'} md:hidden pb-3 px-4`}>
             <div className="space-y-1">
               {navItems.map((item) => (
-                <React.Fragment key={item.path}>
-                  {!item.dropdown ? (
-                    <Link
-                        to={item.path}
-                        onClick={closeMobileMenu}
-                        className={`block px-3 py-3 rounded-lg text-base font-medium ${
-                            location.pathname === item.path ? 'bg-primary text-white font-bold' : 'text-gray-700'
-                        }`}
-                    >
-                      {item.label}
-                    </Link>
-                  ) : (
-                    <>
-                      {item.dropdown.map((subItem) => (
+                  <React.Fragment key={item.path}>
+                    {!item.dropdown ? (
                         <Link
-                            key={subItem.path}
-                            to={subItem.path}
+                            to={item.path}
                             onClick={closeMobileMenu}
-                            className={`block px-5 py-2 rounded-lg text-base font-medium ${
-                                location.pathname === subItem.path ? 'bg-primary text-white font-bold' : 'text-gray-700'
+                            className={`block px-3 py-3 rounded-lg text-base font-medium ${
+                                location.pathname === item.path ? 'bg-primary text-white font-bold' : 'text-gray-700'
                             }`}
                         >
-                          {subItem.label}
+                          {item.label}
                         </Link>
-                      ))}
-                    </>
-                  )}
-                </React.Fragment>
+                    ) : (
+                        <>
+                          {item.dropdown.map((subItem) => (
+                              <Link
+                                  key={subItem.path}
+                                  to={subItem.path}
+                                  onClick={closeMobileMenu}
+                                  className={`block px-5 py-2 rounded-lg text-base font-medium ${
+                                      location.pathname === subItem.path ? 'bg-primary text-white font-bold' : 'text-gray-700'
+                                  }`}
+                              >
+                                {subItem.label}
+                              </Link>
+                          ))}
+                        </>
+                    )}
+                  </React.Fragment>
               ))}
             </div>
           </div>

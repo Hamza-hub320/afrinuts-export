@@ -3,6 +3,7 @@ import Layout from './components/Layout/Layout';
 import Home from './pages/Home';
 import About from './pages/About';
 import Products from './pages/Products';
+import Certifications from './pages/Certifications';
 import Farm from './pages/Farm';
 import Processing from './pages/Processing';
 import FacilityFlowchart from './pages/FacilityFlowchart';
@@ -45,6 +46,7 @@ function App(): ReactElement {
                             <Route index element={<Home />} />
                             <Route path="about" element={<About />} />
                             <Route path="products" element={<Products />} />
+                            <Route path="certifications" element={<Certifications />} />
                             <Route path="farm" element={<Farm />} />
                             <Route path="/sustainability" element={<Sustainability />} />
                             <Route path="/vision" element={<Vision />} />

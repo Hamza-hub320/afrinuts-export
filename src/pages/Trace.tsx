@@ -67,7 +67,7 @@ const TracePage: React.FC = () => {
             {/* Hero Section */}
             <Section
                 fullHeight={true}
-                className="flex items-center justify-center text-center min-h-[50vh] md:min-h-[50vh] bg-gradient-to-b bg-transparent"
+                className="flex items-center justify-center text-center min-h-[60vh] bg-gradient-to-b from-primary/10 to-transparent"
             >
                 <div className="max-w-3xl px-6 sm:px-8 py-12">
                     <motion.div

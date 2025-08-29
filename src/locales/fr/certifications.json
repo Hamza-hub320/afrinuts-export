@@ -1,0 +1,124 @@
+{
+  "hero": {
+    "subtitle": "Assurance Qualité et Conformité",
+    "title": "Nos Certifications",
+    "description": "Découvrez les normes internationales et les certifications qui garantissent la plus haute qualité, sécurité et pratiques éthiques dans notre transformation de noix de cajou."
+  },
+  "title": "Nos Certifications",
+  "description": "Découvrez les normes internationales et les certifications qui garantissent la plus haute qualité, sécurité et pratiques éthiques dans notre transformation de noix de cajou.",
+  "filters": {
+    "all": "Toutes les Certifications",
+    "achieved": "Obtenues",
+    "upcoming": "À Venir"
+  },
+  "status": {
+    "achieved": "Certifié",
+    "upcoming": "En Cours"
+  },
+  "certifications": {
+    "organic": {
+      "title": "Certification Biologique",
+      "issuer": "ECOCERT",
+      "description": "Transformation de noix de cajou biologique certifiée.",
+      "benefits": [
+        "Garantit un produit 100% biologique",
+        "Certifié par ECOCERT",
+        "Répond aux normes biologiques internationales"
+      ],
+      "validity": "Valide jusqu'en 2030"
+    },
+    "fairtrade": {
+      "title": "Commerce Équitable",
+      "issuer": "Fair Trade International",
+      "description": "Soutient des pratiques d'approvisionnement éthiques.",
+      "benefits": [
+        "Rémunération équitable pour les agriculteurs",
+        "Normes d'approvisionnement éthiques",
+        "Vérifié par tierce partie"
+      ],
+      "validity": "Valide jusqu'en 2030"
+    },
+    "iso22000": {
+      "title": "ISO 22000",
+      "issuer": "Organisation Internationale de Normalisation",
+      "description": "Norme de système de management de la sécurité des denrées alimentaires.",
+      "benefits": [
+        "Management structuré de la sécurité alimentaire",
+        "Prévient les dangers dans la transformation alimentaire",
+        "Garantit la conformité mondiale"
+      ],
+      "validity": "Valide jusqu'en 2026"
+    },
+    "halal": {
+      "title": "Certification Halal",
+      "issuer": "Halal Certification Authority",
+      "description": "Conformité aux normes halal.",
+      "benefits": [
+        "Garantit la conformité aux directives halal",
+        "Vérifié par des organismes de certification autorisés"
+      ],
+      "validity": "Valide jusqu'en 2025"
+    },
+    "rainforest": {
+      "title": "Rainforest Alliance",
+      "issuer": "Rainforest Alliance",
+      "description": "Approvisionnement durable et éthique.",
+      "benefits": [
+        "Pratiques écologiquement responsables",
+        "Soutient les normes de travail équitables"
+      ],
+      "validity": "Valide jusqu'en 2026"
+    }
+  },
+  "actions": {
+    "learnMore": "En savoir plus",
+    "downloadCertificate": "Télécharger le Certificat PDF"
+  },
+  "backToProducts": "Retour aux Produits",
+  "introduction": {
+    "title": "Engagement envers l'Excellence",
+    "description": "Nos certifications démontrent notre engagement indéfectible envers la qualité, la durabilité et les pratiques commerciales éthiques. Chaque certification représente notre dévouement à répondre aux normes internationales les plus strictes."
+  },
+  "values": {
+    "quality": {
+      "title": "Qualité Premium",
+      "description": "Des processus de contrôle qualité rigoureux garantissent que chaque noix de cajou répond à des normes exceptionnelles."
+    },
+    "trust": {
+      "title": "Confiance et Transparence",
+      "description": "Les certifications vérifiées par des tierces parties bâtissent la confiance avec les acheteurs et les consommateurs."
+    },
+    "global": {
+      "title": "Normes Mondiales",
+      "description": "Conformité aux exigences internationales pour les marchés d'exportation mondiaux."
+    }
+  },
+  "framework": {
+    "title": "Cadre de Conformité Intégré",
+    "description": "Notre approche globale garantit que toutes les certifications fonctionnent ensemble de manière transparente.",
+    "quality": {
+      "title": "Management de la Qualité",
+      "features": [
+        "Audits et inspections internes réguliers",
+        "Processus d'amélioration continue",
+        "Programmes d'assurance qualité des fournisseurs",
+        "Procédures opératoires standardisées documentées"
+      ]
+    },
+    "compliance": {
+      "title": "Systèmes de Conformité",
+      "features": [
+        "Responsable conformité dédié",
+        "Audits tiers réguliers",
+        "Formation et renforcement des capacités",
+        "Tenue de registres transparente"
+      ]
+    }
+  },
+  "cta": {
+    "title": "Prêt à en savoir plus ?",
+    "description": "Contactez-nous pour des informations détaillées sur les certifications ou téléchargez notre documentation de conformité.",
+    "contactButton": "Contacter Notre Équipe",
+    "downloadButton": "Télécharger le Pack de Conformité"
+  }
+}

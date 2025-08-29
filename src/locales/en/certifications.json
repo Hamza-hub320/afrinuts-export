@@ -1,0 +1,124 @@
+{
+  "hero": {
+    "subtitle": "Quality Assurance & Compliance",
+    "title": "Our Certifications",
+    "description": "Discover the international standards and certifications that ensure the highest quality, safety, and ethical practices in our cashew processing."
+  },
+  "title": "Our Certifications",
+  "description": "Discover the international standards and certifications that ensure the highest quality, safety, and ethical practices in our cashew processing.",
+  "filters": {
+    "all": "All Certifications",
+    "achieved": "Achieved",
+    "upcoming": "Upcoming"
+  },
+  "status": {
+    "achieved": "Certified",
+    "upcoming": "In Progress"
+  },
+  "certifications": {
+    "organic": {
+      "title": "Organic Certification",
+      "issuer": "ECOCERT",
+      "description": "Certified organic cashew processing.",
+      "benefits": [
+        "Ensures product is 100% organic",
+        "Certified by ECOCERT",
+        "Meets international organic standards"
+      ],
+      "validity": "Valid until 2030"
+    },
+    "fairtrade": {
+      "title": "Fair Trade",
+      "issuer": "Fair Trade International",
+      "description": "Supports ethical sourcing practices.",
+      "benefits": [
+        "Fair compensation for farmers",
+        "Ethical sourcing standards",
+        "Third-party verified"
+      ],
+      "validity": "Valid until 2030"
+    },
+    "iso22000": {
+      "title": "ISO 22000",
+      "issuer": "International Organization for Standardization",
+      "description": "Food safety management system standard.",
+      "benefits": [
+        "Structured food safety management",
+        "Prevents hazards in food processing",
+        "Ensures global compliance"
+      ],
+      "validity": "Valid until 2026"
+    },
+    "halal": {
+      "title": "Halal Certification",
+      "issuer": "Halal Certification Authority",
+      "description": "Compliance with halal standards.",
+      "benefits": [
+        "Ensures compliance with halal guidelines",
+        "Verified by authorized certification bodies"
+      ],
+      "validity": "Valid until 2025"
+    },
+    "rainforest": {
+      "title": "Rainforest Alliance",
+      "issuer": "Rainforest Alliance",
+      "description": "Sustainable and ethical sourcing.",
+      "benefits": [
+        "Environmentally responsible practices",
+        "Supports fair labor standards"
+      ],
+      "validity": "Valid until 2026"
+    }
+  },
+  "actions": {
+    "learnMore": "Learn more",
+    "downloadCertificate": "Download Certificate PDF"
+  },
+  "backToProducts": "Back to Products",
+  "introduction": {
+    "title": "Commitment to Excellence",
+    "description": "Our certifications demonstrate our unwavering commitment to quality, sustainability, and ethical business practices. Each certification represents our dedication to meeting the highest international standards."
+  },
+  "values": {
+    "quality": {
+      "title": "Premium Quality",
+      "description": "Rigorous quality control processes ensure every cashew meets exceptional standards."
+    },
+    "trust": {
+      "title": "Trust & Transparency",
+      "description": "Third-party verified certifications build confidence with buyers and consumers."
+    },
+    "global": {
+      "title": "Global Standards",
+      "description": "Compliance with international requirements for export markets worldwide."
+    }
+  },
+  "framework": {
+    "title": "Integrated Compliance Framework",
+    "description": "Our comprehensive approach ensures all certifications work together seamlessly.",
+    "quality": {
+      "title": "Quality Management",
+      "features": [
+        "Regular internal audits and inspections",
+        "Continuous improvement processes",
+        "Supplier quality assurance programs",
+        "Documented standard operating procedures"
+      ]
+    },
+    "compliance": {
+      "title": "Compliance Systems",
+      "features": [
+        "Dedicated compliance officer",
+        "Regular third-party audits",
+        "Training and capacity building",
+        "Transparent record-keeping"
+      ]
+    }
+  },
+  "cta": {
+    "title": "Ready to Learn More?",
+    "description": "Contact us for detailed certification information or download our compliance documentation.",
+    "contactButton": "Contact Our Team",
+    "downloadButton": "Download Compliance Pack"
+  }
+}

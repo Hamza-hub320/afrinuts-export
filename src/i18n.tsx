@@ -24,6 +24,7 @@ import traceEN from './locales/en/trace.json';
 import cookiePolicyEN from './locales/en/cookiePolicy.json';
 import processingEN from './locales/en/processing.json';
 import facilityEN from './locales/en/facility.json';
+import certificationsEN from './locales/en/certifications.json';
 
 // French translations
 import homeFR from './locales/fr/home.json';
@@ -47,6 +48,7 @@ import traceFR from './locales/fr/trace.json';
 import cookiePolicyFR from './locales/fr/cookiePolicy.json';
 import processingFR from './locales/fr/processing.json';
 import facilityFR from './locales/fr/facility.json';
+import certificationsFR from './locales/fr/certifications.json';
 
 // Arabic translations
 import homeAR from './locales/ar/home.json';
@@ -70,7 +72,8 @@ import traceAR from './locales/ar/trace.json';
 import cookiePolicyAR from './locales/ar/cookiePolicy.json';
 import processingAR from './locales/ar/processing.json';
 import facilityAR from './locales/ar/facility.json';
-import facilityFlowchart from "@pages/FacilityFlowchart";
+import certificationsAR from './locales/ar/certifications.json';
+
 
 // Type definitions
 type SupportedLanguages = 'en' | 'fr' | 'ar';
@@ -97,6 +100,7 @@ interface TranslationResources {
     cookiePolicy: typeof cookiePolicyEN;
     processing: typeof processingEN;
     facility: typeof facilityEN;
+    certifications: typeof certificationsEN;
 }
 
 interface I18nOptions {
@@ -140,7 +144,8 @@ const resources: Record<SupportedLanguages, TranslationResources> = {
         trace: traceEN,
         cookiePolicy: cookiePolicyEN,
         processing: processingEN,
-        facility: facilityEN
+        facility: facilityEN,
+        certifications: certificationsEN
     },
     fr: {
         home: homeFR,
@@ -163,7 +168,8 @@ const resources: Record<SupportedLanguages, TranslationResources> = {
         trace: traceFR,
         cookiePolicy: cookiePolicyFR,
         processing: processingFR,
-        facility: facilityFR
+        facility: facilityFR,
+        certifications: certificationsFR
     },
     ar: {
         home: homeAR,
@@ -186,7 +192,8 @@ const resources: Record<SupportedLanguages, TranslationResources> = {
         trace: traceAR,
         cookiePolicy: cookiePolicyAR,
         processing: processingAR,
-        facility: facilityAR
+        facility: facilityAR,
+        certifications: certificationsAR
     }
 };
 
@@ -194,7 +201,7 @@ const options: I18nOptions = {
     fallbackLng: 'en',
     debug: process.env.NODE_ENV === 'development',
     supportedLngs: ['en', 'fr', 'ar'],
-    ns: ['home', 'common', 'about', 'products', 'farm', 'contact', 'footer', 'sustainability', 'vision', 'privacy', 'terms', 'cookies', 'cookiePolicy', 'news', 'faq', 'chatbot', 'executive', 'story','trace', 'processing', 'facility'],
+    ns: ['home', 'common', 'about', 'products', 'farm', 'contact', 'footer', 'sustainability', 'vision', 'privacy', 'terms', 'cookies', 'cookiePolicy', 'news', 'faq', 'chatbot', 'executive', 'story','trace', 'processing', 'facility', 'certifications'],
     defaultNS: 'common',
     resources,
     interpolation: {

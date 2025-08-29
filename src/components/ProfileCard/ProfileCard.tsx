@@ -1,8 +1,8 @@
 // components/ProfileCard/ProfileCard.tsx
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ChevronDownIcon, ChevronDoubleUpIcon } from '@heroicons/react/24/outline';
-import { FaExternalLinkAlt } from 'react-icons/fa';
+import { ChevronDownIcon } from '@heroicons/react/24/outline';
+import { FaExternalLinkAlt, FaExpandAlt } from 'react-icons/fa';
 import {t} from "i18next";
 import {useTranslation} from "react-i18next";
 
@@ -101,7 +101,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                         transition: { duration: 0.2 }
                     }}
                 >
-                    <ChevronDoubleUpIcon className="w-3 h-3 text-white" />
+                    <FaExpandAlt className="w-3 h-3 text-white" />
                 </motion.div>
             )}
 

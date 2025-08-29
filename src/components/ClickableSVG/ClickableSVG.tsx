@@ -1,9 +1,9 @@
 // components/ClickableSVG/ClickableSVG.tsx
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 interface ClickableSVGProps {
     svgContent: string;
-    onElementClick?: (id: string, text: string, elementType: string) => void;
+    onElementClick: (id: string, text: string, elementType: string) => void;
     className?: string;
 }
 
@@ -12,57 +12,91 @@ const ClickableSVG: React.FC<ClickableSVGProps> = ({
                                                        onElementClick,
                                                        className = ''
                                                    }) => {
-    const [processedSvg, setProcessedSvg] = useState<string>('');
+    const containerRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
-        if (!svgContent) return;
+        if (!containerRef.current || !svgContent) return;
 
-        // Parse the SVG and add click handlers
-        const parser = new DOMParser();
-        const svgDoc = parser.parseFromString(svgContent, 'image/svg+xml');
-        const svgElement = svgDoc.documentElement;
+        const handleClick = (event: MouseEvent) => {
+            const target = event.target as HTMLElement;
 
-        // Make all nodes and clusters clickable
-        const clickableElements = svgElement.querySelectorAll('.node, .cluster, .edgeLabel, .label');
+            // Check if click is on any SVG element that might be part of a node
+            const isShape = target.closest('[class*="node"]') ||
+                target.closest('rect') ||
+                target.closest('path') ||
+                target.closest('polygon');
+            const isText = target.tagName === 'text' || target.closest('text');
 
+            if (isShape || isText) {
+                // Find the closest node container
+                let nodeElement = target.closest('.node');
+                if (!nodeElement) {
+                    // If we clicked on a shape or text directly, find the parent node
+                    nodeElement = target.closest('g');
+                }
+
+                if (nodeElement) {
+                    // Try to extract text content from the node
+                    let textContent = '';
+                    const textElements = nodeElement.querySelectorAll('text');
+                    if (textElements.length > 0) {
+                        // Combine all text elements within the node
+                        textContent = Array.from(textElements)
+                            .map(el => el.textContent || '')
+                            .filter(text => text.trim().length > 0)
+                            .join(' ');
+                    }
+
+                    // Try to get ID from the node or generate one from text
+                    let id = nodeElement.id || '';
+                    if (!id && textContent) {
+                        // Create a simple ID from the text content
+                        id = textContent.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase();
+                    }
+
+                    console.log('SVG Click detected:', { id, textContent, elementType: isText ? 'text' : 'shape' });
+                    onElementClick(id, textContent, isText ? 'text' : 'shape');
+                }
+            }
+        };
+
+        const container = containerRef.current;
+        container.addEventListener('click', handleClick);
+
+        // Add pointer cursor to all potentially clickable elements
+        const clickableElements = container.querySelectorAll('g, rect, path, polygon, text');
         clickableElements.forEach(element => {
-            const id = element.id;
-            const textElement = element.querySelector('text');
-            const text = textElement?.textContent || element.textContent || '';
-            const elementType = element.classList.contains('node') ? 'node' :
-                element.classList.contains('cluster') ? 'cluster' : 'label';
-
-            // Add click event with more data
-            element.setAttribute('style', 'cursor: pointer;');
-            element.setAttribute('onclick', `window.handleSVGClick('${id}', '${text.replace(/'/g, "\\'")}', '${elementType}')`);
-
-            // Add hover effects
-            element.setAttribute('onmouseover', 'this.style.opacity = "0.8"');
-            element.setAttribute('onmouseout', 'this.style.opacity = "1"');
+            (element as HTMLElement).style.cursor = 'pointer';
         });
 
-        // Update the SVG content
-        setProcessedSvg(new XMLSerializer().serializeToString(svgElement));
-    }, [svgContent]);
-
-    // Add global click handler
-    useEffect(() => {
-        if (onElementClick) {
-            (window as any).handleSVGClick = (id: string, text: string, elementType: string) => {
-                console.log('SVG element clicked:', { id, text, elementType });
-                onElementClick(id, text, elementType);
-            };
-        }
+        // Add visual feedback for clickable elements
+        const style = document.createElement('style');
+        style.textContent = `
+      .clickable-svg g:hover > rect,
+      .clickable-svg g:hover > path,
+      .clickable-svg g:hover > polygon {
+        filter: brightness(1.2);
+        stroke-width: 2px;
+      }
+      .clickable-svg text:hover {
+        font-weight: bold;
+      }
+    `;
+        container.appendChild(style);
 
         return () => {
-            delete (window as any).handleSVGClick;
+            container.removeEventListener('click', handleClick);
+            if (style.parentNode) {
+                style.parentNode.removeChild(style);
+            }
         };
-    }, [onElementClick]);
+    }, [svgContent, onElementClick]);
 
     return (
         <div
-            className={className}
-            dangerouslySetInnerHTML={{ __html: processedSvg }}
+            ref={containerRef}
+            className={`clickable-svg ${className}`}
+            dangerouslySetInnerHTML={{ __html: svgContent }}
         />
     );
 };
