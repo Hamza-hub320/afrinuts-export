@@ -3,24 +3,40 @@
   "effectiveDate": "Effective Date: July 26, 2025",
   "description": "Our Terms of Service outline your rights and responsibilities when using AfriNuts services, ensuring transparency, safety, and a clear understanding of how we operate.",
   "websiteUse": {
-    "title": "1. Website Use",
-    "description": "This website is provided for general informational purposes about our products, farm operations, and sustainability initiatives."
+    "title": "Website Use",
+    "description": "This website is provided for informational purposes about our products, farm operations, and sustainability initiatives. Users agree to use the website responsibly and not engage in prohibited activities such as spamming, unauthorized access, or misuse of content."
   },
   "intellectualProperty": {
-    "title": "2. Intellectual Property",
-    "description": "All content, including images, logos, and text, is the property of AfriNuts Export and may not be reproduced without permission."
+    "title": "Intellectual Property",
+    "description": "All content, including images, logos, text, and designs, is the property of AfriNuts Export and may not be reproduced, distributed, or modified without prior written consent."
   },
   "contact": {
-    "title": "3. Contact & Quote Requests",
-    "description": "We may respond to quote or contact inquiries using the information you provide. By submitting a form, you consent to this use."
+    "title": "Contact & Quote Requests",
+    "description": "By submitting a contact or quote request, you consent to the use of your information for responding to your inquiries. Please refer to our Privacy Policy for details on data collection and usage."
   },
   "thirdPartyLinks": {
-    "title": "4. Third-Party Links",
-    "description": "We may link to trusted third-party sites. We are not responsible for their content or privacy practices."
+    "title": "Third-Party Links",
+    "description": "The website may contain links to third-party websites. AfriNuts Export is not responsible for their content, services, or privacy practices. Users access these links at their own risk."
+  },
+  "limitations": {
+    "title": "Limitation of Liability",
+    "description": "AfriNuts Export shall not be liable for any direct, indirect, incidental, or consequential damages arising from the use of the website or services."
   },
   "disclaimers": {
-    "title": "5. Disclaimers",
-    "description": "We do not guarantee the accuracy or completeness of content. Website use is at your own risk."
+    "title": "Disclaimers",
+    "description": "All information is provided as is without warranties of any kind. We do not guarantee the accuracy, completeness, or reliability of website content."
+  },
+  "governingLaw": {
+    "title": "Governing Law",
+    "description": "These Terms are governed by and construed in accordance with the laws of the Republic of Côte d'Ivoire. Any disputes arising will be subject to the exclusive jurisdiction of its courts."
+  },
+  "modifications": {
+    "title": "Modifications",
+    "description": "AfriNuts Export reserves the right to modify these Terms at any time. Users are encouraged to review the Terms periodically. Continued use of the website constitutes acceptance of any changes."
+  },
+  "paymentAndShipping": {
+    "title": "Payment and Shipping",
+    "description": "All payments, shipping, and order terms are subject to our product-specific policies and are outlined on the relevant pages. AfriNuts Export is not liable for delays or errors caused by shipping partners."
   },
   "lastUpdated": "Last updated: July 26, 2025"
 }

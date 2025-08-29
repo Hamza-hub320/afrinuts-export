@@ -4,9 +4,7 @@
     "title": "Nos Certifications",
     "description": "Découvrez les normes internationales et les certifications qui garantissent la plus haute qualité, sécurité et pratiques éthiques dans notre transformation de noix de cajou."
   },
-  "title": "Nos Certifications",
-  "description": "Découvrez les normes internationales et les certifications qui garantissent la plus haute qualité, sécurité et pratiques éthiques dans notre transformation de noix de cajou.",
-  "filters": {
+   "filters": {
     "all": "Toutes les Certifications",
     "achieved": "Obtenues",
     "upcoming": "À Venir"
@@ -16,6 +14,8 @@
     "upcoming": "En Cours"
   },
   "certifications": {
+    "title": "Explorez Nos Certifications",
+    "description": "Parcourez nos certifications obtenues et à venir pour voir comment AfriNuts s'aligne sur les normes mondiales les plus élevées en matière de qualité, de durabilité et de responsabilité.",
     "organic": {
       "title": "Certification Biologique",
       "issuer": "ECOCERT",

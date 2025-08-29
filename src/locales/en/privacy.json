@@ -4,34 +4,72 @@
   "description": "Learn how AfriNuts collects, uses, and protects your personal information. We are committed to transparency, privacy, and safeguarding your data when you interact with our services.",
   "collection": {
     "title": "1. What Information We Collect",
-    "description": "We may collect:",
+    "description": "We may collect the following information when you interact with our services:",
     "items": [
-      "Your name and email address when you contact us",
-      "Technical data from your browser, including IP address and cookies"
-    ]
+      "Personal details such as your name, email address, phone number, and company information when you contact us or request a quote",
+      "Technical information from your browser or device, including IP address, browser type, operating system, and cookies",
+      "Usage data such as pages visited, time spent on our website, and interactions with content",
+      "Information you provide voluntarily through surveys, newsletters, or feedback forms"
+    ],
+    "note": "We only collect information that is necessary for providing our services and improving your experience."
   },
   "use": {
     "title": "2. How We Use Your Information",
-    "description": "Your data is used only to:",
+    "description": "Your data is used for legitimate business purposes only, including:",
     "items": [
-      "Respond to inquiries",
-      "Improve website performance",
-      "Send updates or newsletters (with your consent)"
+      "Responding to inquiries and providing requested services or quotes",
+      "Improving website performance, functionality, and user experience",
+      "Sending newsletters, promotional updates, or service notifications if you have opted in",
+      "Analyzing trends and usage to optimize our offerings and communications",
+      "Compliance with legal obligations and protecting AfriNuts against fraud or misuse"
     ],
-    "note": "We do not sell, rent, or trade your personal information."
+    "note": "We do not sell, rent, or trade your personal information to third parties."
   },
   "cookies": {
     "title": "3. Cookies & Tracking",
-    "description": "We use cookies to analyze site traffic and improve user experience. You can manage your cookie preferences at any time."
+    "description": "We use cookies and similar tracking technologies to enhance your experience, analyze website traffic, and understand user behavior.",
+    "items": [
+      "Necessary cookies for basic website functionality",
+      "Performance and analytics cookies to measure and improve site performance",
+      "Preference cookies to remember your choices and settings",
+      "Optional marketing cookies for personalized content (only if you consent)"
+    ],
+    "note": "You can manage or disable cookies in your browser settings, but some features may be affected."
   },
   "security": {
     "title": "4. Data Security",
-    "description": "We implement technical and organizational measures to protect your data against unauthorized access."
+    "description": "We implement robust technical, administrative, and organizational measures to protect your personal information against unauthorized access, loss, or misuse, including:",
+    "items": [
+      "Encryption of sensitive data in transit and at rest",
+      "Regular system and network security updates",
+      "Access controls and staff training on data protection",
+      "Monitoring and response procedures for potential security breaches"
+    ]
   },
   "rights": {
     "title": "5. Your Rights",
-    "description": "You have the right to access, correct, or delete your personal information. Contact us at:",
-    "contactEmail": "info@afrinuts-export.com"
+    "description": "You have the following rights regarding your personal data:",
+    "items": [
+      "Access your personal information",
+      "Request corrections to inaccurate data",
+      "Request deletion of your personal information where permitted by law",
+      "Withdraw consent for marketing communications at any time",
+      "Object to or restrict processing of your personal data"
+    ],
+    "contactEmail": "info@afrinuts-export.com",
+    "note": "We respond to requests in accordance with applicable data protection laws, including the right to lodge a complaint with the relevant supervisory authority."
+  },
+  "thirdPartyServices": {
+    "title": "6. Third-Party Services",
+    "description": "We may use trusted third-party services for analytics, marketing, and hosting. These services are bound by privacy agreements and cannot use your data for unrelated purposes."
+  },
+  "childrenPrivacy": {
+    "title": "7. Children's Privacy",
+    "description": "Our website and services are not directed to individuals under 18 years of age. We do not knowingly collect personal information from children."
+  },
+  "changes": {
+    "title": "8. Changes to this Policy",
+    "description": "AfriNuts may update this Privacy Policy periodically. Changes will be posted on this page with an updated 'Last Updated' date. Continued use of our services constitutes acceptance of the updated policy."
   },
   "lastUpdated": "Last updated: July 26, 2025"
 }

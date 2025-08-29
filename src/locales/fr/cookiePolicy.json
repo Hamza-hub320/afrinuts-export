@@ -1,81 +1,96 @@
 {
-  "title": "Politique relative aux cookies - AfriNuts Export",
+  "title": "Politique relative aux Cookies d'AfriNuts Export",
   "lastUpdated": "Dernière mise à jour : 26 juillet 2025",
-  "description": "Notre politique de cookies explique comment AfriNuts utilise les cookies et technologies similaires pour améliorer votre navigation, optimiser nos services et analyser le trafic du site.",
+  "description": "Notre Politique relative aux Cookies explique comment AfriNuts utilise les cookies et technologies similaires pour améliorer votre expérience de navigation, optimiser nos services et analyser le trafic du site tout en protégeant votre vie privée.",
 
   "whatAreCookies": {
-    "title": "1. Que sont les cookies ?",
-    "description": "Les cookies sont de petits fichiers de données placés sur votre appareil (ordinateur, smartphone, tablette) lorsque vous visitez un site web. Ils aident les sites à mémoriser vos préférences, améliorer l'expérience utilisateur et fournir un contenu pertinent. Nous utilisons à la fois des cookies internes (définis par AfriNuts Export) et des cookies tiers (définis par des outils d'analyse, de marketing ou des fournisseurs de services)."
+    "title": "1. Que sont les Cookies ?",
+    "description": "Les cookies sont de petits fichiers texte placés sur votre appareil (ordinateur, smartphone, tablette) lorsque vous visitez un site web. Ils aident les sites web à mémoriser vos préférences, améliorer l'expérience utilisateur et fournir un contenu pertinent. Nous utilisons à la fois des cookies first-party (définis par AfriNuts Export) et des cookies third-party (définis par des fournisseurs d'analyses, de marketing ou de services)."
   },
 
   "whyWeUseCookies": {
-    "title": "2. Pourquoi nous utilisons des cookies",
+    "title": "2. Pourquoi Nous Utilisons des Cookies",
     "essential": {
-      "title": "a. Cookies essentiels",
-      "description": "Ces cookies sont nécessaires au fonctionnement de base de notre site. Ils activent des services essentiels comme la sécurité, la gestion du réseau et l'accessibilité.",
+      "title": "a. Cookies Essentiels",
+      "description": "Ces cookies sont strictement nécessaires au fonctionnement de base de notre site web. Ils permettent des services essentiels tels que l'authentification, la sécurité, la gestion du réseau et l'accessibilité.",
       "examples": [
         "Exemples : ID de session, authentification de connexion",
         "Obligatoires : Ne peuvent pas être désactivés"
       ]
     },
     "performance": {
-      "title": "b. Cookies de performance",
-      "description": "Ces cookies collectent des données anonymes sur l'interaction des visiteurs avec notre site. Cela nous aide à améliorer les fonctionnalités du site et à comprendre le comportement des visiteurs.",
+      "title": "b. Cookies de Performance",
+      "description": "Ces cookies collectent des données anonymes sur la façon dont les visiteurs interagissent avec notre site pour aider à améliorer les fonctionnalités du site et comprendre le comportement des utilisateurs.",
       "examples": [
         "Outils utilisés : Google Analytics ou similaires",
-        "Données : Pages vues, schémas de clics, taux de rebond"
+        "Données : Pages vues, modèles de clics, taux de rebond",
+        "Utilisées uniquement sous forme agrégée et anonymisée"
       ]
     },
     "functional": {
-      "title": "c. Cookies fonctionnels",
-      "description": "Les cookies fonctionnels mémorisent vos choix (comme la langue ou la région) et aident à fournir des fonctionnalités améliorées.",
+      "title": "c. Cookies Fonctionnels",
+      "description": "Les cookies fonctionnels mémorisent vos choix (tels que la langue ou la région) et améliorent votre expérience.",
       "examples": [
-        "Exemples : Sélection de langue, préférences enregistrées",
-        "La désactivation peut affecter certaines parties de l'expérience du site"
+        "Exemples : Sélection de la langue, préférences enregistrées",
+        "La désactivation peut limiter certaines fonctionnalités du site"
       ]
     },
     "advertising": {
-      "title": "d. Cookies publicitaires",
-      "description": "Ces cookies peuvent être définis par nous ou nos partenaires marketing pour établir un profil de vos centres d'intérêt et vous montrer des publicités pertinentes.",
+      "title": "d. Cookies Publicitaires",
+      "description": "Les cookies publicitaires peuvent être utilisés par nous ou nos partenaires marketing pour personnaliser le contenu ou afficher des publicités pertinentes.",
       "examples": [
-        "Nous ne diffusons actuellement pas de publicités tierces, mais nous nous réservons le droit de le faire à l'avenir",
-        "Ces cookies ne stockent pas d'informations personnelles directes"
+        "Actuellement, nous ne diffusons pas de publicités tierces mais pourrions les utiliser à l'avenir",
+        "Ces cookies ne collectent pas d'informations personnellement identifiables sans consentement"
       ]
     }
   },
 
   "managingPreferences": {
-    "title": "3. Gestion des préférences de cookies",
-    "description": "Vous pouvez gérer ou modifier vos paramètres de cookies à tout moment via notre Centre de préférences de cookies ou via les paramètres de votre navigateur.",
+    "title": "3. Gestion des Préférences de Cookies",
+    "description": "Vous pouvez gérer ou modifier vos paramètres de cookies à tout moment en utilisant notre Centre de Préférences de Cookies ou via les paramètres de votre navigateur.",
     "steps": [
-      "Visitez \"Personnaliser les préférences de cookies\"",
+      "Ouvrez le panneau 'Personnaliser les Préférences de Cookies'",
       "Ajustez les paramètres pour chaque type de cookie : Essentiels (verrouillés), Performance, Fonctionnels, Publicitaires",
-      "Cliquez sur \"Enregistrer les préférences\""
-    ]
+      "Cliquez sur 'Enregistrer les Préférences' pour appliquer les modifications",
+      "Revoyez vos préférences périodiquement"
+    ],
+    "note": "La désactivation des cookies non essentiels peut réduire la fonctionnalité ou l'expérience utilisateur sur notre site web."
   },
 
   "thirdPartyCookies": {
-    "title": "4. Cookies tiers",
-    "description": "Certains cookies peuvent être placés par des services tiers que nous utilisons pour analyser le trafic ou améliorer les fonctionnalités. Ces tiers peuvent collecter des informations sur votre appareil et votre activité en ligne. Nous veillons à ce que tous les partenaires tiers respectent les réglementations sur la protection des données telles que le RGPD et le CCPA, le cas échéant."
+    "title": "4. Cookies Tiers",
+    "description": "Certains cookies peuvent être définis par des services tiers de confiance que nous utilisons pour analyser le trafic ou améliorer les fonctionnalités. Ces tiers peuvent collecter des informations sur votre appareil et votre activité en ligne. Nous veillons à ce que tous les partenaires tiers respectent les réglementations pertinentes en matière de protection des données telles que le RGPD et la CCPA."
   },
 
   "dataRetention": {
-    "title": "5. Conservation des données",
-    "description": "Les cookies ont des durées de vie différentes : Les cookies de session expirent lorsque vous fermez votre navigateur, tandis que les cookies persistants restent sur votre appareil pendant une période déterminée ou jusqu'à leur suppression."
+    "title": "5. Conservation des Données",
+    "description": "Les cookies ont des durées de vie variables : Les cookies de session expirent lorsque vous fermez votre navigateur, tandis que les cookies persistants restent sur votre appareil pendant une période définie ou jusqu'à suppression manuelle. Nous examinons régulièrement nos cookies pour nous assurer de leur pertinence et de leur conformité aux lois sur la vie privée."
   },
 
   "yourRights": {
-    "title": "6. Vos droits",
-    "description": "Vous avez le droit de : Accéder et corriger vos données personnelles, retirer votre consentement pour les cookies non essentiels, et déposer une plainte auprès d'une autorité de protection des données si nécessaire."
+    "title": "6. Vos Droits",
+    "description": "Vous disposez des droits suivants concernant vos données personnelles et l'utilisation des cookies :",
+    "items": [
+      "Accéder et corriger les informations personnelles collectées via les cookies",
+      "Retirer votre consentement pour les cookies non essentiels à tout moment",
+      "Vous opposer ou restreindre le traitement de vos données lorsque cela est permis",
+      "Déposer une plainte auprès d'une autorité de protection des données si nécessaire"
+    ],
+    "contactEmail": "info@afrinuts-export.com"
+  },
+
+  "childrenPrivacy": {
+    "title": "7. Confidentialité des Enfants",
+    "description": "Notre site web et nos services ne s'adressent pas aux enfants de moins de 18 ans. Nous ne collectons pas sciemment de données auprès d'enfants et encourageons les parents ou tuteurs à surveiller l'activité en ligne de leurs enfants."
   },
 
   "changesToPolicy": {
-    "title": "7. Modifications de cette politique",
-    "description": "Nous pouvons mettre à jour cette Politique relative aux cookies pour refléter les changements dans nos pratiques, la technologie ou les obligations légales. Les mises à jour seront publiées sur cette page avec une nouvelle date de \"Dernière mise à jour\"."
+    "title": "8. Modifications de cette Politique",
+    "description": "AfriNuts Export peut mettre à jour cette Politique relative aux Cookies périodiquement pour refléter les changements dans nos pratiques, la technologie ou les obligations légales. Les mises à jour seront publiées avec la date de 'Dernière mise à jour' révisée. L'utilisation continue du site web vaut acceptation de toute modification."
   },
 
   "contactUs": {
-    "title": "8. Nous contacter",
+    "title": "9. Contactez-Nous",
     "address": "AfriNuts Export, Odienné, Côte d'Ivoire",
     "email": "info@afrinuts-export.com"
   }

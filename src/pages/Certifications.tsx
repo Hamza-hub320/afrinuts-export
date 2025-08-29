@@ -157,6 +157,17 @@ const Certifications: React.FC = () => {
                 </motion.div>
             </Section>
 
+            {/* Scroll indicator */}
+            <motion.div
+                className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+                animate={{ y: [0, 10, 0] }}
+                transition={{ duration: 2, repeat: Infinity }}
+            >
+                <div className="w-6 h-10 border-2 border-primary rounded-full flex justify-center">
+                    <div className="w-1 h-3 bg-primary rounded-full mt-2"></div>
+                </div>
+            </motion.div>
+
             {/* Back Button */}
             <Section className="py-6">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6">
@@ -448,7 +459,7 @@ const Certifications: React.FC = () => {
                         </Typography>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
                             <motion.button
-                                className="px-8 py-3 bg-primary text-white rounded-full font-medium hover:bg-accent transition-colors"
+                                className="group relative bg-gradient-to-r from-primary to-accent text-white px-8 py-3 rounded-full transition-all duration-300 shadow-md transform-gpu hover:scale-105"
                                 whileHover={{ y: -2 }}
                                 whileTap={{ scale: 0.95 }}
                                 onClick={() => navigate('/contact')}

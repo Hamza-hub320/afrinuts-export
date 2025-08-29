@@ -1,26 +1,42 @@
 {
   "title": "Conditions d'Utilisation",
   "effectiveDate": "Date d'effet : 26 juillet 2025",
-  "description": "Nos conditions d'utilisation décrivent vos droits et responsabilités lors de l'utilisation des services AfriNuts, garantissant transparence, sécurité et compréhension claire de notre fonctionnement.",
+  "description": "Nos Conditions d'Utilisation décrivent vos droits et responsabilités lors de l'utilisation des services d'AfriNuts, garantissant la transparence, la sécurité et une compréhension claire de notre fonctionnement.",
   "websiteUse": {
-    "title": "1. Utilisation du Site",
-    "description": "Ce site web est fourni à titre informatif général concernant nos produits, opérations agricoles et initiatives de durabilité."
+    "title": "Utilisation du Site Web",
+    "description": "Ce site web est fourni à des fins informatives sur nos produits, opérations agricoles et initiatives de durabilité. Les utilisateurs acceptent d'utiliser le site de manière responsable et de ne pas s'engager dans des activités interdites telles que le spam, l'accès non autorisé ou l'utilisation abusive du contenu."
   },
   "intellectualProperty": {
-    "title": "2. Propriété Intellectuelle",
-    "description": "Tout le contenu, y compris les images, logos et textes, est la propriété d'AfriNuts Export et ne peut être reproduit sans autorisation."
+    "title": "Propriété Intellectuelle",
+    "description": "Tout le contenu, y compris les images, logos, textes et designs, est la propriété d'AfriNuts Export et ne peut être reproduit, distribué ou modifié sans consentement écrit préalable."
   },
   "contact": {
-    "title": "3. Contacts & Demandes de Devis",
-    "description": "Nous pouvons répondre aux demandes de devis ou contacts en utilisant les informations que vous fournissez. En soumettant un formulaire, vous consentez à cet usage."
+    "title": "Contact et Demandes de Devis",
+    "description": "En soumettant une demande de contact ou de devis, vous consentez à l'utilisation de vos informations pour répondre à vos demandes. Veuillez consulter notre Politique de Confidentialité pour plus de détails sur la collecte et l'utilisation des données."
   },
   "thirdPartyLinks": {
-    "title": "4. Liens Tierces Parties",
-    "description": "Nous pouvons inclure des liens vers des sites tiers de confiance. Nous ne sommes pas responsables de leur contenu ou pratiques de confidentialité."
+    "title": "Liens Tierce Partie",
+    "description": "Le site web peut contenir des liens vers des sites web tiers. AfriNuts Export n'est pas responsable de leur contenu, services ou pratiques de confidentialité. Les utilisateurs accèdent à ces liens à leurs propres risques."
+  },
+  "limitations": {
+    "title": "Limitation de Responsabilité",
+    "description": "AfriNuts Export ne sera pas responsable de tout dommage direct, indirect, accessoire ou consécutif résultant de l'utilisation du site web ou des services."
   },
   "disclaimers": {
-    "title": "5. Clause de Non-Responsabilité",
-    "description": "Nous ne garantissons pas l'exactitude ou l'exhaustivité du contenu. L'utilisation du site se fait à vos propres risques."
+    "title": "Avertissements",
+    "description": "Toutes les informations sont fournies telles quelles sans garantie d'aucune sorte. Nous ne garantissons pas l'exactitude, l'exhaustivité ou la fiabilité du contenu du site web."
+  },
+  "governingLaw": {
+    "title": "Droit Applicable",
+    "description": "Ces Conditions sont régies et interprétées conformément aux lois de la République de Côte d'Ivoire. Tout litige sera soumis à la compétence exclusive de ses tribunaux."
+  },
+  "modifications": {
+    "title": "Modifications",
+    "description": "AfriNuts Export se réserve le droit de modifier ces Conditions à tout moment. Les utilisateurs sont encouragés à consulter périodiquement les Conditions. L'utilisation continue du site web vaut acceptation de toute modification."
+  },
+  "paymentAndShipping": {
+    "title": "Paiement et Livraison",
+    "description": "Tous les paiements, livraisons et conditions de commande sont soumis à nos politiques spécifiques aux produits et sont détaillés sur les pages concernées. AfriNuts Export n'est pas responsable des retards ou erreurs causés par les partenaires de livraison."
   },
   "lastUpdated": "Dernière mise à jour : 26 juillet 2025"
 }

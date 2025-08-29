@@ -817,6 +817,17 @@ const News: React.FC = () => {
                 </motion.div>
             </Section>
 
+            {/* Scroll indicator */}
+            <motion.div
+                className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+                animate={{ y: [0, 10, 0] }}
+                transition={{ duration: 2, repeat: Infinity }}
+            >
+                <div className="w-6 h-10 border-2 border-primary rounded-full flex justify-center">
+                    <div className="w-1 h-3 bg-primary rounded-full mt-2"></div>
+                </div>
+            </motion.div>
+
             {/* News Intro Section */}
             <Section className="py-12 text-center">
                 <div className="w-full max-w-3xl mx-auto px-4 sm:px-6">

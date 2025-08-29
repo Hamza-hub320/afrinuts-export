@@ -1,37 +1,75 @@
 {
   "title": "Politique de Confidentialité",
   "effectiveDate": "Date d'effet : 26 juillet 2025",
-  "description": "Découvrez comment AfriNuts collecte, utilise et protège vos informations personnelles. Nous nous engageons à la transparence, à la confidentialité et à la protection de vos données lors de l'utilisation de nos services.",
+  "description": "Découvrez comment AfriNuts collecte, utilise et protège vos informations personnelles. Nous nous engageons à la transparence, à la confidentialité et à la protection de vos données lorsque vous interagissez avec nos services.",
   "collection": {
-    "title": "1. Informations que nous collectons",
-    "description": "Nous pouvons collecter :",
+    "title": "1. Quelles Informations Nous Collectons",
+    "description": "Nous pouvons collecter les informations suivantes lorsque vous interagissez avec nos services :",
     "items": [
-      "Votre nom et adresse e-mail lorsque vous nous contactez",
-      "Données techniques de votre navigateur, y compris l'adresse IP et les cookies"
-    ]
+      "Détails personnels tels que votre nom, adresse e-mail, numéro de téléphone et informations sur l'entreprise lorsque vous nous contactez ou demandez un devis",
+      "Informations techniques de votre navigateur ou appareil, y compris l'adresse IP, le type de navigateur, le système d'exploitation et les cookies",
+      "Données d'utilisation telles que les pages visitées, le temps passé sur notre site web et les interactions avec le contenu",
+      "Informations que vous fournissez volontairement via des enquêtes, newsletters ou formulaires de feedback"
+    ],
+    "note": "Nous collectons uniquement les informations nécessaires pour fournir nos services et améliorer votre expérience."
   },
   "use": {
-    "title": "2. Utilisation de vos informations",
-    "description": "Vos données sont utilisées uniquement pour :",
+    "title": "2. Comment Nous Utilisons Vos Informations",
+    "description": "Vos données sont utilisées uniquement à des fins commerciales légitimes, y compris :",
     "items": [
-      "Répondre aux demandes",
-      "Améliorer les performances du site",
-      "Envoyer des mises à jour ou newsletters (avec votre consentement)"
+      "Répondre aux demandes et fournir les services ou devis demandés",
+      "Améliorer les performances, la fonctionnalité et l'expérience utilisateur du site web",
+      "Envoyer des newsletters, des mises à jour promotionnelles ou des notifications de service si vous avez opté",
+      "Analyser les tendances et l'utilisation pour optimiser nos offres et communications",
+      "Conformité aux obligations légales et protection d'AfriNuts contre la fraude ou l'utilisation abusive"
     ],
-    "note": "Nous ne vendons, ne louons ni n'échangons vos informations personnelles."
+    "note": "Nous ne vendons, ne louons ni n'échangeons vos informations personnelles avec des tiers."
   },
   "cookies": {
-    "title": "3. Cookies & Suivi",
-    "description": "Nous utilisons des cookies pour analyser le trafic du site et améliorer l'expérience utilisateur. Vous pouvez gérer vos préférences de cookies à tout moment."
+    "title": "3. Cookies et Suivi",
+    "description": "Nous utilisons des cookies et des technologies de suivi similaires pour améliorer votre expérience, analyser le trafic du site web et comprendre le comportement des utilisateurs.",
+    "items": [
+      "Cookies nécessaires pour les fonctionnalités de base du site web",
+      "Cookies de performance et d'analyse pour mesurer et améliorer les performances du site",
+      "Cookies de préférence pour mémoriser vos choix et paramètres",
+      "Cookies marketing optionnels pour un contenu personnalisé (uniquement si vous consentez)"
+    ],
+    "note": "Vous pouvez gérer ou désactiver les cookies dans les paramètres de votre navigateur, mais certaines fonctionnalités peuvent être affectées."
   },
   "security": {
-    "title": "4. Sécurité des données",
-    "description": "Nous mettons en œuvre des mesures techniques et organisationnelles pour protéger vos données contre tout accès non autorisé."
+    "title": "4. Sécurité des Données",
+    "description": "Nous mettons en œuvre des mesures techniques, administratives et organisationnelles robustes pour protéger vos informations personnelles contre tout accès non autorisé, perte ou utilisation abusive, y compris :",
+    "items": [
+      "Chiffrement des données sensibles en transit et au repos",
+      "Mises à jour régulières de la sécurité du système et du réseau",
+      "Contrôles d'accès et formation du personnel sur la protection des données",
+      "Procédures de surveillance et de réponse aux violations de sécurité potentielles"
+    ]
   },
   "rights": {
-    "title": "5. Vos droits",
-    "description": "Vous avez le droit d'accéder, de corriger ou de supprimer vos informations personnelles. Contactez-nous à :",
-    "contactEmail": "info@afrinuts-export.com"
+    "title": "5. Vos Droits",
+    "description": "Vous disposez des droits suivants concernant vos données personnelles :",
+    "items": [
+      "Accéder à vos informations personnelles",
+      "Demander la correction des données inexactes",
+      "Demander la suppression de vos informations personnelles lorsque la loi le permet",
+      "Retirer votre consentement pour les communications marketing à tout moment",
+      "Vous opposer ou restreindre le traitement de vos données personnelles"
+    ],
+    "contactEmail": "info@afrinuts-export.com",
+    "note": "Nous répondons aux demandes conformément aux lois applicables sur la protection des données, y compris le droit de déposer une plainte auprès de l'autorité de surveillance compétente."
+  },
+  "thirdPartyServices": {
+    "title": "6. Services Tiers",
+    "description": "Nous pouvons utiliser des services tiers de confiance pour l'analyse, le marketing et l'hébergement. Ces services sont liés par des accords de confidentialité et ne peuvent pas utiliser vos données à des fins non liées."
+  },
+  "childrenPrivacy": {
+    "title": "7. Confidentialité des Enfants",
+    "description": "Notre site web et nos services ne s'adressent pas aux personnes de moins de 18 ans. Nous ne collectons pas sciemment d'informations personnelles auprès d'enfants."
+  },
+  "changes": {
+    "title": "8. Modifications de cette Politique",
+    "description": "AfriNuts peut mettre à jour cette Politique de Confidentialité périodiquement. Les modifications seront publiées sur cette page avec une date de 'Dernière mise à jour'. L'utilisation continue de nos services vaut acceptation de la politique mise à jour."
   },
   "lastUpdated": "Dernière mise à jour : 26 juillet 2025"
 }

@@ -3,16 +3,39 @@ import { useTranslation } from 'react-i18next';
 import { Typography } from "@/components/Typography/Typography";
 import Section from '@/components/Section/Section';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLock } from '@fortawesome/free-solid-svg-icons';
+import {
+    faLock,
+    faShieldAlt,
+    faUserLock,
+    faCookie,
+    faKey,
+    faExchangeAlt,
+    faChild,
+    faSyncAlt,
+    faBuilding
+} from '@fortawesome/free-solid-svg-icons';
 import {fadeIn, staggerContainer} from "@/utils/animations";
 import { motion } from 'framer-motion';
 
 const PrivacyPolicy: React.FC = () => {
     const { t } = useTranslation('privacy');
 
+    // Content sections with icons - updated with new sections
+    const sections = [
+        { key: 'collection', icon: faUserLock },
+        { key: 'use', icon: faShieldAlt },
+        { key: 'cookies', icon: faCookie },
+        { key: 'security', icon: faKey },
+        { key: 'rights', icon: faUserLock },
+        { key: 'thirdPartyServices', icon: faExchangeAlt },
+        { key: 'childrenPrivacy', icon: faChild },
+        { key: 'changes', icon: faSyncAlt }
+    ];
+
     return (
         <main>
             {/* Hero Section */}
+            {/* Hero Section - Kept exactly the same */}
             <Section
                 fullHeight={true}
                 className="flex items-center justify-center text-center min-h-[60vh] bg-gradient-to-b from-primary/10 to-transparent"
@@ -55,97 +78,149 @@ const PrivacyPolicy: React.FC = () => {
                 </motion.div>
             </Section>
 
-            {/* Information Collection */}
-            <Section className="py-6">
+            {/* Scroll indicator - Kept exactly the same */}
+            <motion.div
+                className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+                animate={{ y: [0, 10, 0] }}
+                transition={{ duration: 2, repeat: Infinity }}
+            >
+                <div className="w-6 h-10 border-2 border-primary rounded-full flex justify-center">
+                    <div className="w-1 h-3 bg-primary rounded-full mt-2"></div>
+                </div>
+            </motion.div>
+
+            {/* Content Sections */}
+            <Section className="py-16">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <Typography variant="h3" className="mb-6">
-                        {t('collection.title')}
-                    </Typography>
-                    <Typography variant="body" className="mb-4">
-                        {t('collection.description')}
-                    </Typography>
-                    <ul className="list-disc pl-6 space-y-2">
-                        {(t('collection.items', { returnObjects: true }) as string[]).map((item, index) => (
-                            <li key={`collection-${index}`}>
-                                <Typography variant="body">{item}</Typography>
-                            </li>
+                    <motion.div
+                        className="space-y-8"
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true, margin: "-100px" }}
+                        variants={staggerContainer}
+                    >
+                        {sections.map(({ key, icon }, index) => (
+                            <motion.div
+                                key={key}
+                                variants={fadeIn}
+                                className="group relative bg-gradient-to-br from-white to-gray-50 border-2 border-gray-100 transition-all duration-500 rounded-2xl shadow-xl p-6 sm:p-8 transform-gpu"
+                                style={{
+                                    transformStyle: 'preserve-3d',
+                                    perspective: '1000px',
+                                }}
+                                whileHover={{
+                                    y: -5,
+                                    scale: 1.01,
+                                    boxShadow: '0 20px 35px -10px rgba(0, 0, 0, 0.15)',
+                                    transition: { duration: 0.3 }
+                                }}
+                            >
+                                {/* 3D edge effect */}
+                                <div className="absolute inset-0 rounded-2xl border-2 border-white/30 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
+
+                                {/* Glassy overlay */}
+                                <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/20 to-transparent opacity-30 group-hover:opacity-50 transition-opacity duration-500" />
+
+                                {/* Inner shadow effect */}
+                                <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.05)] group-hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.08)] transition-shadow duration-500" />
+
+                                {/* Section icon */}
+                                <div className="absolute -top-3 -left-3 w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center shadow-md z-20">
+                                    <FontAwesomeIcon icon={icon} className="h-5 w-5" />
+                                </div>
+
+                                <div className="relative z-10">
+                                    <Typography variant="h3" className="mb-4 text-primary">
+                                        {t(`${key}.title`)}
+                                    </Typography>
+                                    <Typography variant="body" className="text-gray-700 leading-relaxed mb-4">
+                                        {t(`${key}.description`)}
+                                    </Typography>
+
+                                    {/* List items for sections that have them */}
+                                    {(key === 'collection' || key === 'use' || key === 'cookies' || key === 'security' || key === 'rights') && (
+                                        <ul className="list-disc pl-6 space-y-2 mb-4">
+                                            {(t(`${key}.items`, { returnObjects: true }) as string[]).map((item, itemIndex) => (
+                                                <motion.li
+                                                    key={`${key}-${itemIndex}`}
+                                                    className="bg-white/50 p-2 rounded-lg"
+                                                    initial={{ opacity: 0, x: -10 }}
+                                                    whileInView={{ opacity: 1, x: 0 }}
+                                                    viewport={{ once: true }}
+                                                    transition={{ delay: itemIndex * 0.1 }}
+                                                >
+                                                    <Typography variant="body">{item}</Typography>
+                                                </motion.li>
+                                            ))}
+                                        </ul>
+                                    )}
+
+                                    {/* Additional note for collection, use, cookies, and rights sections */}
+                                    {(key === 'collection' || key === 'use' || key === 'cookies' || key === 'rights') && t(`${key}.note`) && (
+                                        <Typography variant="body" className="mt-4 p-4 bg-primary/5 rounded-lg border-l-4 border-primary">
+                                            {t(`${key}.note`)}
+                                        </Typography>
+                                    )}
+
+                                    {/* Contact email for rights section */}
+                                    {key === 'rights' && t('rights.contactEmail') && (
+                                        <motion.div
+                                            className="mt-4 p-4 bg-primary/5 rounded-lg border-l-4 border-primary flex items-center"
+                                            whileHover={{ x: 5 }}
+                                            transition={{ duration: 0.2 }}
+                                        >
+                                            <span className="mr-3 text-xl">📧</span>
+                                            <a
+                                                href={`mailto:${t('rights.contactEmail')}`}
+                                                className="text-primary hover:underline font-medium"
+                                            >
+                                                {t('rights.contactEmail')}
+                                            </a>
+                                        </motion.div>
+                                    )}
+                                </div>
+                            </motion.div>
                         ))}
-                    </ul>
-                </div>
-            </Section>
-
-            {/* Information Use */}
-            <Section className="py-6 ">
-                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <Typography variant="h3" className="mb-6">
-                        {t('use.title')}
-                    </Typography>
-                    <Typography variant="body" className="mb-4">
-                        {t('use.description')}
-                    </Typography>
-                    <ul className="list-disc pl-6 space-y-2">
-                        {(t('use.items', { returnObjects: true }) as string[]).map((item, index) => (
-                            <li key={`use-${index}`}>
-                                <Typography variant="body">{item}</Typography>
-                            </li>
-                        ))}
-                    </ul>
-                    <Typography variant="body" className="mt-6">
-                        {t('use.note')}
-                    </Typography>
-                </div>
-            </Section>
-
-            {/* Cookies */}
-            <Section className="py-6 ">
-                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <Typography variant="h3" className="mb-6">
-                        {t('cookies.title')}
-                    </Typography>
-                    <Typography variant="body">
-                        {t('cookies.description')}
-                    </Typography>
-                </div>
-            </Section>
-
-            {/* Data Security */}
-            <Section className="py-6 ">
-                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <Typography variant="h3" className="mb-6">
-                        {t('security.title')}
-                    </Typography>
-                    <Typography variant="body">
-                        {t('security.description')}
-                    </Typography>
-                </div>
-            </Section>
-
-            {/* Your Rights */}
-            <Section className="py-6 ">
-                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <Typography variant="h3" className="mb-6">
-                        {t('rights.title')}
-                    </Typography>
-                    <Typography variant="body" className="mb-4">
-                        {t('rights.description')}
-                    </Typography>
-                    <Typography variant="body" className="flex items-center">
-                        <span className="mr-2">📧</span>
-                        <a href={`mailto:${t('rights.contactEmail')}`} className="text-primary hover:underline">
-                            {t('rights.contactEmail')}
-                        </a>
-                    </Typography>
+                    </motion.div>
                 </div>
             </Section>
 
             {/* Last Updated */}
-            <Section className="py-6 ">
-                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                    <Typography variant="body" className="text-gray-500">
-                        {t('lastUpdated')}
-                    </Typography>
-                </div>
+            <Section className="py-16">
+                <motion.div
+                    className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5 }}
+                >
+                    <div className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl p-6 transform-gpu">
+                        {/* 3D edge effect */}
+                        <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-4px] transition-all duration-500" />
+
+                        <div className="relative z-10">
+                            <Typography variant="body" className="text-gray-500">
+                                {t('lastUpdated')}
+                            </Typography>
+                        </div>
+                    </div>
+                </motion.div>
             </Section>
+
+            {/* Back to top button */}
+            <motion.button
+                className="fixed bottom-8 right-8 bg-primary text-white p-3 rounded-full shadow-lg hover:bg-accent transition-colors duration-300 z-50"
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                initial={{ opacity: 0, scale: 0 }}
+                animate={{ opacity: 1, scale: 1 }}
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.9 }}
+                aria-label="Back to top"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
+                </svg>
+            </motion.button>
         </main>
     );
 };

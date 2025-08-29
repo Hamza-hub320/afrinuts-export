@@ -1,18 +1,18 @@
 {
   "title": "Cookie Policy for AfriNuts Export",
   "lastUpdated": "Last Updated: July 26, 2025",
-  "description": "Our Cookies Policy explains how AfriNuts uses cookies and similar technologies to enhance your browsing experience, improve our services, and analyze website traffic.",
+  "description": "Our Cookies Policy explains how AfriNuts uses cookies and similar technologies to enhance your browsing experience, improve our services, and analyze website traffic while protecting your privacy.",
 
   "whatAreCookies": {
     "title": "1. What Are Cookies?",
-    "description": "Cookies are small data files placed on your device (computer, smartphone, tablet) when you visit a website. They help websites remember your preferences, improve user experience, and deliver relevant content. We use both first-party cookies (set by AfriNuts Export) and third-party cookies (set by analytics, marketing, or service providers)."
+    "description": "Cookies are small text files placed on your device (computer, smartphone, tablet) when you visit a website. They help websites remember your preferences, improve user experience, and deliver relevant content. We use both first-party cookies (set by AfriNuts Export) and third-party cookies (set by analytics, marketing, or service providers)."
   },
 
   "whyWeUseCookies": {
     "title": "2. Why We Use Cookies",
     "essential": {
       "title": "a. Essential Cookies",
-      "description": "These cookies are necessary for the basic functioning of our site. They enable core services such as security, network management, and accessibility.",
+      "description": "These cookies are strictly necessary for the basic operation of our website. They enable core services such as authentication, security, network management, and accessibility.",
       "examples": [
         "Examples: Session ID, login authentication",
         "Mandatory: Cannot be disabled"
@@ -20,62 +20,77 @@
     },
     "performance": {
       "title": "b. Performance Cookies",
-      "description": "These cookies collect anonymous data about how visitors interact with our site. This helps us improve website functionality and understand visitor behavior.",
+      "description": "These cookies collect anonymous data about how visitors interact with our site to help improve website functionality and understand user behavior.",
       "examples": [
         "Tools used: Google Analytics or similar",
-        "Data: Page views, click patterns, bounce rates"
+        "Data: Page views, click patterns, bounce rates",
+        "Used only in aggregated and anonymized form"
       ]
     },
     "functional": {
       "title": "c. Functional Cookies",
-      "description": "Functional cookies remember your choices (like language or region) and help provide enhanced features.",
+      "description": "Functional cookies remember your choices (such as language or region) and enhance your experience.",
       "examples": [
         "Examples: Language selection, saved preferences",
-        "Disabling may affect parts of the website experience"
+        "Disabling may limit some site functionality"
       ]
     },
     "advertising": {
       "title": "d. Advertising Cookies",
-      "description": "These cookies may be set by us or our marketing partners to build a profile of your interests and show you relevant ads.",
+      "description": "Advertising cookies may be used by us or our marketing partners to personalize content or show relevant ads.",
       "examples": [
-        "We currently do not run third-party ads, but reserve the right to in the future",
-        "These cookies do not store direct personal information"
+        "Currently, we do not run third-party ads but may use them in the future",
+        "These cookies do not collect personally identifiable information without consent"
       ]
     }
   },
 
   "managingPreferences": {
     "title": "3. Managing Cookie Preferences",
-    "description": "You can manage or change your cookie settings at any time through our Cookie Preferences Center or via your browser settings.",
+    "description": "You can manage or change your cookie settings at any time using our Cookie Preferences Center or via your browser settings.",
     "steps": [
-      "Visit \"Customize Cookie Preferences\"",
-      "Adjust settings for each cookie type: Essential (locked), Performance, Functional, Advertising",
-      "Click \"Save Preferences\""
-    ]
+      "Open the 'Customize Cookie Preferences' panel",
+      "Adjust settings for each type of cookie: Essential (locked), Performance, Functional, Advertising",
+      "Click 'Save Preferences' to apply changes",
+      "Review your preferences periodically"
+    ],
+    "note": "Disabling non-essential cookies may reduce functionality or user experience on our website."
   },
 
   "thirdPartyCookies": {
     "title": "4. Third-Party Cookies",
-    "description": "Some cookies may be placed by third-party services we use to analyze traffic or enhance features. These third parties may collect information about your device and online activity. We ensure that any third-party partners comply with data protection regulations such as GDPR and CCPA, where applicable."
+    "description": "Some cookies may be set by trusted third-party services we use to analyze traffic or enhance functionality. These third parties may collect information about your device and online activity. We ensure that all third-party partners comply with relevant data protection regulations such as GDPR and CCPA."
   },
 
   "dataRetention": {
     "title": "5. Data Retention",
-    "description": "Cookies have different lifespans: Session cookies expire when you close your browser, while persistent cookies remain on your device for a set period or until deleted."
+    "description": "Cookies have varying lifespans: Session cookies expire when you close your browser, whereas persistent cookies remain on your device for a defined period or until manually deleted. We regularly review our cookies to ensure they are relevant and comply with privacy laws."
   },
 
   "yourRights": {
     "title": "6. Your Rights",
-    "description": "You have the right to: Access and correct personal data, withdraw consent for non-essential cookies, and lodge a complaint with a data protection authority if needed."
+    "description": "You have the following rights regarding your personal data and cookie usage:",
+    "items": [
+      "Access and correct personal information collected via cookies",
+      "Withdraw consent for non-essential cookies at any time",
+      "Object to or restrict processing of your data where permitted",
+      "Lodge a complaint with a data protection authority if needed"
+    ],
+    "contactEmail": "info@afrinuts-export.com"
+  },
+
+  "childrenPrivacy": {
+    "title": "7. Children's Privacy",
+    "description": "Our website and services are not directed to children under 18 years of age. We do not knowingly collect data from children and encourage parents or guardians to monitor their children's online activity."
   },
 
   "changesToPolicy": {
-    "title": "7. Changes to This Policy",
-    "description": "We may update this Cookie Policy to reflect changes in our practices, technology, or legal obligations. Updates will be posted on this page with a revised \"Last Updated\" date."
+    "title": "8. Changes to This Policy",
+    "description": "AfriNuts Export may update this Cookie Policy periodically to reflect changes in our practices, technology, or legal obligations. Updates will be posted with the revised 'Last Updated' date. Continued use of the website constitutes acceptance of any changes."
   },
 
   "contactUs": {
-    "title": "8. Contact Us",
+    "title": "9. Contact Us",
     "address": "AfriNuts Export, Odienné, Côte d'Ivoire",
     "email": "info@afrinuts-export.com"
   }
