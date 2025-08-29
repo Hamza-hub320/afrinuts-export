@@ -12,7 +12,7 @@ const WHATSAPP_URL = `https://wa.me/${WHATSAPP_NUMBER}?text=Hello%20AfriNuts`;
 
 const FloatingButtons: React.FC<FloatingButtonsProps> = ({ className = '' }) => {
     return (
-        <div className={`fixed bottom-36 left-4 z-50 flex flex-col items-end space-y-2 ${className}`}>
+        <div className={`fixed bottom-36 left-4 z-30 flex flex-col items-end space-y-2 ${className}`}>
             {/* WhatsApp Button */}
             <motion.button
                 className="flex items-center px-3 py-2 rounded-full bg-gradient-to-br from-green-500 to-green-600 text-white shadow-xl transform-gpu group relative"

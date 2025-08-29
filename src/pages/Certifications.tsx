@@ -14,7 +14,8 @@ import {
     FaArrowLeft,
     FaCheckCircle,
     FaClock,
-    FaAward
+    FaAward,
+    FaKaaba
 } from "react-icons/fa";
 import Section from '@/components/Section/Section';
 import { fadeIn, staggerContainer } from '@/utils/animations';
@@ -86,7 +87,7 @@ const Certifications: React.FC = () => {
         {
             id: "halal",
             title: t('certifications.halal.title'),
-            icon: FaStar,
+            icon: FaKaaba,
             status: "upcoming",
             description: t('certifications.halal.description'),
             benefits: t('certifications.halal.benefits', { returnObjects: true }) as string[],
@@ -237,6 +238,30 @@ const Certifications: React.FC = () => {
                         viewport={{ once: true }}
                         variants={fadeIn}
                     >
+                        {/* Progress / Roadmap Section */}
+                        {(() => {
+                            const achievedCount = certifications.filter(c => c.status === 'achieved').length;
+                            const upcomingCount = certifications.filter(c => c.status === 'upcoming').length;
+                            const totalCount = certifications.length;
+                            const percent = totalCount > 0 ? (achievedCount / totalCount) * 100 : 0;
+                            return (
+                                <div className="mb-8 flex flex-col items-center">
+                                    <div className="w-full max-w-xs sm:max-w-sm md:max-w-md">
+                                        <div className="flex items-center justify-between mb-1 text-xs font-medium text-gray-700">
+                                            <span className="text-primary">{achievedCount}/{totalCount} achieved</span>
+                                            <span className="text-gray-500">{upcomingCount} upcoming</span>
+                                        </div>
+                                        <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+                                            <div
+                                                className="bg-gradient-to-r from-primary to-accent h-3 rounded-full transition-all"
+                                                style={{ width: `${percent}%` }}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        })()}
+                        {/* Filter Title and Description */}
                         <Typography variant="h2" className="mb-4">
                             {t('certifications.title')}
                         </Typography>
@@ -246,9 +271,8 @@ const Certifications: React.FC = () => {
                         >
                             {t('certifications.description')}
                         </Typography>
-
                         {/* Filter Buttons */}
-                        <div className="flex justify-center space-x-4">
+                        <div className="flex flex-wrap justify-center gap-2 sm:gap-4 text-sm sm:text-base">
                             {[
                                 { key: 'all', label: t('filters.all'), icon: FaCertificate },
                                 { key: 'achieved', label: t('filters.achieved'), icon: FaCheckCircle },
