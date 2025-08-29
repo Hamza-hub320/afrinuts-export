@@ -120,5 +120,52 @@
       "description": "Contact us for detailed certification information or download our compliance documentation.",
       "contactButton": "Contact Our Team",
       "downloadButton": "Download Compliance Pack"
+    },
+  "competitiveLandscape": {
+    "title": "Our Competitive Advantage",
+    "description": "In a crowded global market, AfriNuts stands apart through our unique combination of origin story, quality certifications, and vertical integration.",
+
+    "origin": {
+      "title": "Single-Origin",
+      "description": "Direct from Ivory Coast, the world's largest producer"
+    },
+    "quality": {
+      "title": "Premium Quality",
+      "description": "Certified organic and fair trade practices"
+    },
+    "vertical": {
+      "title": "Vertical Integration",
+      "description": "Full control from farm to export"
+    },
+    "premium": {
+      "title": "Premium Positioning",
+      "description": "Competing on quality, not just price"
+    },
+
+    "tableTitle": "Market Positioning Analysis",
+    "competitorType": "Competitor Type",
+    "theirAdvantage": "Their Advantage",
+    "theirDisadvantage": "Their Disadvantage",
+    "ourStrategy": "AfriNuts' Counter-Strategy",
+
+    "asianProcessors": "Large Asian Processors",
+    "asianAdvantage": "Scale, established infrastructure, low-cost labor",
+    "asianDisadvantage": "Geographic disconnect from source, rising labor costs",
+    "asianStrategy": "Origin Story & Traceability: Single-Origin Ivory Coast traceability",
+
+    "localProcessors": "Local Ivorian Processors",
+    "localAdvantage": "Local presence, access to raw nuts",
+    "localDisadvantage": "Lack scale, international certifications, market access",
+    "localStrategy": "Certification & Quality: Meet highest international standards",
+
+    "westernBrands": "Western Brands",
+    "westernAdvantage": "Strong consumer brands, market access",
+    "westernDisadvantage": "Reliant on imported kernels, disconnected from source",
+    "westernStrategy": "Vertical Integration: Control entire chain, ensure quality",
+
+    "uniqueValue": {
+      "title": "AfriNuts' Unique Competitive Edge",
+      "description": "Our vertical integration combined with local expertise and certification strategy allows us to offer what no other player can: premium, certified, traceable cashews from a transparent, socially responsible source in the heart of the world's largest producing region."
     }
+  }
 }

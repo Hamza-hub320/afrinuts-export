@@ -7,15 +7,13 @@ import {
     FaLeaf,
     FaHandshake,
     FaShieldAlt,
-    FaStar,
     FaGlobe,
-    FaDownload,
-    FaArrowRight,
     FaArrowLeft,
     FaCheckCircle,
     FaClock,
     FaAward,
-    FaKaaba
+    FaKaaba,
+    FaCrown, FaIndustry, FaMapMarkerAlt, FaMedal
 } from "react-icons/fa";
 import Section from '@/components/Section/Section';
 import { fadeIn, staggerContainer } from '@/utils/animations';
@@ -441,6 +439,262 @@ const Certifications: React.FC = () => {
                                 </InfoCard>
                             );
                         })()}
+                    </div>
+                </div>
+            </Section>
+
+            {/* Competitive Advantage Section */}
+            <Section className="py-16">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6">
+                    <motion.div
+                        className="text-center mb-12"
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={fadeIn}
+                    >
+                        <Typography variant="h2" className="mb-4">
+                            {t('competitiveLandscape.title', "Our Competitive Advantage")}
+                        </Typography>
+                        <Typography
+                            variant="body"
+                            className="max-w-3xl mx-auto text-base md:text-lg leading-relaxed"
+                        >
+                            {t('competitiveLandscape.description', "In a crowded global market, AfriNuts stands apart through our unique combination of origin story, quality certifications, and vertical integration.")}
+                        </Typography>
+                    </motion.div>
+
+                    {/* Competitive Advantage Summary */}
+                    <motion.div
+                        className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12"
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={staggerContainer}
+                    >
+                        <InfoCard
+                            icon={FaMapMarkerAlt}
+                            title={t('competitiveLandscape.origin.title', "Single-Origin")}
+                            variant="primary"
+                            className="text-center"
+                        >
+                            {t('competitiveLandscape.origin.description', "Direct from Ivory Coast, the world's largest producer")}
+                        </InfoCard>
+
+                        <InfoCard
+                            icon={FaMedal}
+                            title={t('competitiveLandscape.quality.title', "Premium Quality")}
+                            variant="accent"
+                            className="text-center"
+                        >
+                            {t('competitiveLandscape.quality.description', "Certified organic and fair trade practices")}
+                        </InfoCard>
+
+                        <InfoCard
+                            icon={FaIndustry}
+                            title={t('competitiveLandscape.vertical.title', "Vertical Integration")}
+                            variant="secondary"
+                            className="text-center"
+                        >
+                            {t('competitiveLandscape.vertical.description', "Full control from farm to export")}
+                        </InfoCard>
+
+                        <InfoCard
+                            icon={FaCrown}
+                            title={t('competitiveLandscape.premium.title', "Premium Positioning")}
+                            variant="primary"
+                            className="text-center"
+                        >
+                            {t('competitiveLandscape.premium.description', "Competing on quality, not just price")}
+                        </InfoCard>
+                    </motion.div>
+
+                    {/* Competitive Analysis Table */}
+                    <motion.div
+                        className="group relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 transition-all duration-500 rounded-2xl shadow-xl overflow-hidden transform-gpu"
+                        style={{
+                            transformStyle: 'preserve-3d',
+                            perspective: '1000px',
+                        }}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={fadeIn}
+                        whileHover={{
+                            y: -5,
+                            scale: 1.01,
+                            rotateY: 1,
+                            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+                            transition: { duration: 0.3 }
+                        }}
+                    >
+                        {/* 3D edge effect */}
+                        <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
+
+                        {/* Glassy overlay */}
+                        <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+
+                        {/* Inner shadow effect */}
+                        <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] group-hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
+
+                        {/* Subtle background pattern */}
+                        <div className="absolute inset-0 rounded-2xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
+
+                        <div className="relative z-10">
+                            <div className="px-6 py-4 bg-gradient-to-r from-primary to-accent text-white">
+                                <Typography variant="h3" className="!text-white">
+                                    {t('competitiveLandscape.tableTitle', "Market Positioning Analysis")}
+                                </Typography>
+                            </div>
+
+                            <div className="overflow-x-auto">
+                                <table className="w-full">
+                                    <thead>
+                                    <tr className="bg-white/30 backdrop-blur-sm">
+                                        <th className="px-6 py-4 text-left font-semibold text-text-dark">
+                                            {t('competitiveLandscape.competitorType', "Competitor Type")}
+                                        </th>
+                                        <th className="px-6 py-4 text-left font-semibold text-text-dark">
+                                            {t('competitiveLandscape.theirAdvantage', "Their Advantage")}
+                                        </th>
+                                        <th className="px-6 py-4 text-left font-semibold text-text-dark">
+                                            {t('competitiveLandscape.theirDisadvantage', "Their Disadvantage")}
+                                        </th>
+                                        <th className="px-6 py-4 text-left font-semibold text-text-dark">
+                                            {t('competitiveLandscape.ourStrategy', "AfriNuts' Counter-Strategy")}
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody className="divide-y divide-gray-200/50">
+                                    <tr className="group/row hover:bg-white/20 transition-colors duration-300">
+                                        <td className="px-6 py-4 font-medium text-text-dark">
+                                            {t('competitiveLandscape.asianProcessors', "Large Asian Processors")}
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            {t('competitiveLandscape.asianAdvantage', "Scale, established infrastructure, low-cost labor")}
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            {t('competitiveLandscape.asianDisadvantage', "Geographic disconnect from source, rising labor costs")}
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            <div className="flex items-start">
+                                                <motion.div
+                                                    whileHover={{ scale: 1.2 }}
+                                                    transition={{ duration: 0.2 }}
+                                                >
+                                                    <FaCheckCircle className="text-primary mt-1 mr-2 flex-shrink-0" />
+                                                </motion.div>
+                                                <span>{t('competitiveLandscape.asianStrategy', "Origin Story & Traceability: Single-Origin Ivory Coast traceability")}</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr className="bg-white/10 group/row hover:bg-white/20 transition-colors duration-300">
+                                        <td className="px-6 py-4 font-medium text-text-dark">
+                                            {t('competitiveLandscape.localProcessors', "Local Ivorian Processors")}
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            {t('competitiveLandscape.localAdvantage', "Local presence, access to raw nuts")}
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            {t('competitiveLandscape.localDisadvantage', "Lack scale, international certifications, market access")}
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            <div className="flex items-start">
+                                                <motion.div
+                                                    whileHover={{ scale: 1.2 }}
+                                                    transition={{ duration: 0.2 }}
+                                                >
+                                                    <FaCheckCircle className="text-primary mt-1 mr-2 flex-shrink-0" />
+                                                </motion.div>
+                                                <span>{t('competitiveLandscape.localStrategy', "Certification & Quality: Meet highest international standards")}</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tr className="group/row hover:bg-white/20 transition-colors duration-300">
+                                        <td className="px-6 py-4 font-medium text-text-dark">
+                                            {t('competitiveLandscape.westernBrands', "Western Brands")}
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            {t('competitiveLandscape.westernAdvantage', "Strong consumer brands, market access")}
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            {t('competitiveLandscape.westernDisadvantage', "Reliant on imported kernels, disconnected from source")}
+                                        </td>
+                                        <td className="px-6 py-4">
+                                            <div className="flex items-start">
+                                                <motion.div
+                                                    whileHover={{ scale: 1.2 }}
+                                                    transition={{ duration: 0.2 }}
+                                                >
+                                                    <FaCheckCircle className="text-primary mt-1 mr-2 flex-shrink-0" />
+                                                </motion.div>
+                                                <span>{t('competitiveLandscape.westernStrategy', "Vertical Integration: Control entire chain, ensure quality")}</span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </motion.div>
+
+
+                    {/* Unique Value Proposition */}
+                    <div className="mt-12">
+                        <motion.div
+                            className="group relative bg-gradient-to-r from-primary to-accent border-2 border-primary/30 transition-all duration-500 rounded-2xl p-8 text-white text-center transform-gpu overflow-hidden"
+                            style={{
+                                transformStyle: 'preserve-3d',
+                                perspective: '1000px',
+                            }}
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                            variants={fadeIn}
+                            whileHover={{
+                                y: -5,
+                                scale: 1.02,
+                                boxShadow: '0 25px 50px -12px rgba(165, 105, 66, 0.4)',
+                                transition: { duration: 0.3 }
+                            }}
+                        >
+                            {/* 3D edge effect */}
+                            <div className="absolute inset-0 rounded-2xl border-2 border-white/30 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
+
+                            {/* Glassy overlay */}
+                            <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/20 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+
+                            {/* Inner shine effect */}
+                            <div className="absolute inset-0 rounded-2xl bg-[radial-gradient(ellipse_at_center,_rgba(255,255,255,0.2)_0%,_rgba(255,255,255,0)_70%)] opacity-30 group-hover:opacity-50 transition-opacity duration-500" />
+
+                            {/* Subtle background pattern */}
+                            <div className="absolute inset-0 rounded-2xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wNSkiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-10" />
+
+                            <div className="relative z-10">
+                                <motion.div
+                                    whileHover={{ scale: 1.1, rotate: 5 }}
+                                    transition={{ type: 'spring', stiffness: 300 }}
+                                    className="inline-block mb-4"
+                                >
+                                    <FaCrown className="text-4xl mx-auto text-white/90" />
+                                </motion.div>
+
+                                <Typography variant="h3" className="!text-white mb-4">
+                                    {t('competitiveLandscape.uniqueValue.title', "AfriNuts' Unique Competitive Edge")}
+                                </Typography>
+
+                                <motion.div
+                                    whileHover={{ y: -2 }}
+                                    transition={{ duration: 0.2 }}
+                                >
+                                    <Typography variant="lead" className="!text-white/90 max-w-4xl mx-auto">
+                                        {t('competitiveLandscape.uniqueValue.description', "Our vertical integration combined with local expertise and certification strategy allows us to offer what no other player can: premium, certified, traceable cashews from a transparent, socially responsible source in the heart of the world's largest producing region.")}
+                                    </Typography>
+                                </motion.div>
+                            </div>
+                        </motion.div>
                     </div>
                 </div>
             </Section>

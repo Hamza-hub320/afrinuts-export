@@ -120,5 +120,52 @@
     "description": "Contactez-nous pour des informations détaillées sur les certifications ou téléchargez notre documentation de conformité.",
     "contactButton": "Contacter Notre Équipe",
     "downloadButton": "Télécharger le Pack de Conformité"
+  },
+  "competitiveLandscape": {
+    "title": "Notre Avantage Concurrentiel",
+    "description": "Dans un marché mondial encombré, AfriNuts se distingue par notre combinaison unique d'histoire d'origine, de certifications de qualité et d'intégration verticale.",
+
+    "origin": {
+      "title": "Origine Unique",
+      "description": "Directement de la Côte d'Ivoire, le plus grand producteur mondial"
+    },
+    "quality": {
+      "title": "Qualité Premium",
+      "description": "Pratiques biologiques et de commerce équitable certifiées"
+    },
+    "vertical": {
+      "title": "Intégration Verticale",
+      "description": "Contrôle total de la ferme à l'exportation"
+    },
+    "premium": {
+      "title": "Positionnement Premium",
+      "description": "Concurrence sur la qualité, pas seulement sur le prix"
+    },
+
+    "tableTitle": "Analyse de Positionnement sur le Marché",
+    "competitorType": "Type de Concurrent",
+    "theirAdvantage": "Leur Avantage",
+    "theirDisadvantage": "Leur Désavantage",
+    "ourStrategy": "Contre-Strategie d'AfriNuts",
+
+    "asianProcessors": "Grands Transformateurs Asiatiques",
+    "asianAdvantage": "Échelle, infrastructure établie, main-d'œuvre à faible coût",
+    "asianDisadvantage": "Déconnexion géographique de la source, coûts de main-d'œuvre croissants",
+    "asianStrategy": "Histoire d'Origine et Traçabilité : Traçabilité origine unique Côte d'Ivoire",
+
+    "localProcessors": "Transformateurs Ivoiriens Locaux",
+    "localAdvantage": "Présence locale, accès aux noix brutes",
+    "localDisadvantage": "Manque d'échelle, certifications internationales, accès au marché",
+    "localStrategy": "Certification et Qualité : Respecter les normes internationales les plus strictes",
+
+    "westernBrands": "Marques Occidentales",
+    "westernAdvantage": "Marques consommateurs fortes, accès au marché",
+    "westernDisadvantage": "Dépendance des amandes importées, déconnectées de la source",
+    "westernStrategy": "Intégration Verticale : Contrôler toute la chaîne, assurer la qualité",
+
+    "uniqueValue": {
+      "title": "Avantage Concurrentiel Unique d'AfriNuts",
+      "description": "Notre intégration verticale combinée à une expertise locale et une stratégie de certification nous permet d'offrir ce qu'aucun autre acteur ne peut : des noix de cajou premium, certifiées, traçables, provenant d'une source transparente et socialement responsable au cœur de la plus grande région productrice mondiale."
+    }
   }
 }
