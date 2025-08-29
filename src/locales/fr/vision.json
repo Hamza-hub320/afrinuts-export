@@ -1,144 +1,154 @@
 {
   "hero": {
-    "title": "Notre vision pour 2031",
-    "subtitle": "Autonomiser l'avenir du cajou en Afrique avec durabilité, foi et innovation"
+    "title": "Construire la Marque de Noix de Cajou Éthique Première d'Afrique",
+    "subtitle": "De notre ferme à Odienné au monde : des noix de cajou durables, traçables et alignées sur les valeurs de la foi"
   },
   "intro": {
-    "title": "Transformer l'industrie du cajou en Afrique de l'Ouest",
-    "content": "Chez AfriNuts Export, nous ne construisons pas seulement une entreprise - nous créons un mouvement qui combine agrobusiness éthique, valeurs islamiques et développement durable pour révolutionner le secteur du cajou en Côte d'Ivoire et au-delà."
+    "title": "Transformer l'Industrie de la Noix de Cajou en Afrique de l'Ouest",
+    "content": "Chez AfriNuts Export, nous ne construisons pas seulement une entreprise - nous créons un mouvement qui combine l'agroindustrie éthique, les valeurs islamiques et le développement durable pour révolutionner le secteur de la noix de cajou en Côte d'Ivoire et au-delà."
   },
   "sustainability": {
-    "title": "Durabilité & Gestion responsable",
-    "subtitle": "Construire une chaîne de valeur du cajou neutre en carbone et zéro déchet d'ici 2031",
+    "title": "Durabilité et Gestion Responsable",
+    "subtitle": "Construire une chaîne de valeur de noix de cajou à faibles déchets et alimentée par des énergies renouvelables",
     "items": [
       {
-        "text": "Notre futur centre de transformation suivra les principes zéro déchet",
+        "text": "Notre centre de transformation convertira les coques de déchets en biocarburant pour l'énergie",
         "icon": "FaRecycle"
       },
       {
-        "text": "Nous utiliserons l'énergie solaire et renouvelable pour nos opérations",
+        "text": "Alimenté par un système d'énergie hybride solaire",
         "icon": "FaSolarPanel"
       },
       {
-        "text": "Nous visons à réduire l'impact environnemental à chaque étape - de la plantation à l'emballage",
+        "text": "Pratiques agricoles biologiques qui améliorent la santé des sols et la biodiversité",
         "icon": "FaLeaf"
       },
       {
-        "text": "La traçabilité compte - nous implémentons la technologie blockchain pour une transparence totale",
+        "text": "Mise en œuvre de la technologie de traçabilité pour une transparence totale de la chaîne d'approvisionnement",
         "icon": "FaGlobe"
       }
     ],
-    "quote": "La terre est une confiance (amanah) - et nous devons la préserver pour les générations futures."
+    "quote": "La terre est une confiance (amanah) — et nous devons la préserver pour les générations à venir."
   },
   "community": {
-    "title": "Autonomisation communautaire",
-    "subtitle": "Notre ferme est plus qu'une entreprise - c'est un projet d'élévation communautaire",
+    "title": "Autonomisation Communautaire",
+    "subtitle": "Notre ferme est plus qu'une entreprise — c'est un projet d'élévation communautaire",
     "items": [
       {
-        "title": "Formation des agriculteurs",
-        "content": "Former et soutenir les petits exploitants avec des contrats équitables et les meilleures pratiques",
+        "title": "Formation des Agriculteurs",
+        "content": "Former et soutenir les petits exploitants agricoles avec des contrats équitables et les meilleures pratiques",
         "icon": "FaUsers"
       },
       {
-        "title": "Réinvestissement communautaire",
-        "content": "Réinvestir les profits dans le développement local, l'accès à l'eau et les infrastructures spirituelles",
+        "title": "Réinvestissement Communautaire",
+        "content": "Réinvestir les bénéfices dans le développement local, l'accès à l'eau et les infrastructures spirituelles",
         "icon": "FaWater"
       },
       {
-        "title": "Création d'emplois",
+        "title": "Création d'Emplois",
         "content": "Créer des emplois pour les jeunes et les femmes à Odienné grâce à l'agro-industrie",
         "icon": "FaHandshake"
       }
     ]
   },
   "value": {
-    "title": "Valeur ajoutée & Commerce",
+    "title": "Valeur Ajoutée et Commerce",
     "subtitle": "Nous croyons que l'Afrique doit exporter des produits finis, pas seulement des matières premières",
     "items": [
-      "D'ici 2030, AfriNuts transformera les noix de cajou en amandes grillées biologiques",
-      "Beurre et lait de cajou pour les consommateurs soucieux de leur santé",
-      "Huile et farine de cajou pour divers usages culinaires",
-      "Nous visons à devenir un exportateur majeur de produits biologiques certifiés à valeur ajoutée en Europe et au Moyen-Orient"
+      "Notre centre de transformation de Phase 1 produira des amandes biologiques de qualité exportation",
+      "L'expansion future (Phase 2) ajoutera des produits à valeur ajoutée comme le beurre et le lait de cajou",
+      "Explorer la valorisation des sous-produits, telle que l'huile de cajou pour usages industriels",
+      "Notre objectif est d'être un premier exportateur de produits certifiés vers l'Europe et le Moyen-Orient"
     ]
   },
   "finance": {
-    "title": "Finance éthique",
+    "title": "Finance Éthique",
     "subtitle": "Nous respectons l'éthique financière islamique dans toutes nos opérations",
     "principles": [
       {
-        "title": "Sans riba",
+        "title": "Sans Riba",
         "content": "Nous évitons la dette et l'intérêt (riba) dans toutes les transactions financières",
         "icon": "FaHandshake"
       },
       {
-        "title": "Partenariats transparents",
-        "content": "Nous partageons les risques et bénéfices de manière transparente avec les investisseurs et partenaires",
+        "title": "Partenariats Transparents",
+        "content": "Nous partageons les risques et les récompenses de manière transparente avec les investisseurs et les partenaires",
         "icon": "FaChartLine"
       },
       {
-        "title": "Profit avec un but",
-        "content": "Nous privilégions le bénéfice à long terme plutôt que le gain à court terme, en réinvestissant pour l'impact communautaire",
+        "title": "Profit avec un Objectif",
+        "content": "Nous privilégions les bénéfices à long terme plutôt que les gains à court terme, en réinvestissant pour l'impact communautaire",
         "icon": "FaTree"
       }
     ]
   },
   "innovation": {
-    "title": "Innovation & Transformation",
-    "subtitle": "Construire la première marque locale de cajou de qualité exportation du nord-ouest de la Côte d'Ivoire",
+    "title": "Innovation et Transformation",
+    "subtitle": "Construire la première marque de noix de cajou de qualité exportation, localement détenue, du nord-ouest de la Côte d'Ivoire",
     "items": [
       {
-        "title": "Traçabilité numérique",
-        "content": "Systèmes blockchain pour une transparence totale de la chaîne d'approvisionnement",
+        "title": "Traçabilité Numérique",
+        "content": "Suivi au niveau du lot de notre ferme au conteneur d'exportation",
         "icon": "FaGlobe"
       },
       {
-        "title": "Agriculture intelligente",
-        "content": "Surveillance à distance des fermes et irrigation intelligente (phase future)",
+        "title": "Agriculture Intelligente (Phase Future)",
+        "content": "Plans pour la surveillance par drone et les capteurs de sol pour optimiser le rendement",
         "icon": "FaSeedling"
       },
       {
-        "title": "Normes de qualité",
-        "content": "Engagement envers la certification biologique et les normes internationales",
+        "title": "Certification Internationale",
+        "content": "Poursuite des certifications Biologique, Halal et ISO 22000 pour l'accès au marché mondial",
         "icon": "FaLeaf"
       },
       {
-        "title": "Leadership régional",
-        "content": "Transformer notre région en un centre d'agrobusiness éthique",
+        "title": "Leadership Régional",
+        "content": "Créer un nouveau modèle pour l'agro-industrie éthique et rentable à Odienné",
         "icon": "FaChartLine"
       }
     ]
   },
   "cta": {
-    "title": "Un mouvement enraciné dans la vision",
-    "content": "Notre objectif n'est pas seulement la rentabilité - mais de transformer notre région en un centre d'agrobusiness éthique. Nous plantons aujourd'hui 3 500 cajoutiers pour nourrir la prochaine génération - avec foi, objectif et excellence.",
-    "button": "Rejoignez notre vision"
-  },
-  "esg": {
-    "title": "Notre engagement envers l'ESG",
-    "content": "Chez AfriNuts, notre vision s'aligne profondément avec les principes Environnementaux, Sociaux et de Gouvernance (ESG). Nous construisons une chaîne d'approvisionnement en cajou neutre en carbone et zéro déchet, alimentée par des énergies renouvelables, une agriculture biologique et une traçabilité blockchain. Notre mission sociale priorise le commerce équitable, la création d'emplois locaux, l'accès à l'eau potable et l'éthique financière islamique, en réinvestissant dans la communauté et en autonomisant les générations futures. Avec une transparence totale, des conditions éthiques pour les investisseurs et un engagement envers la durabilité à chaque étape, AfriNuts est fier d'être la première initiative cajou en Afrique axée sur l'ESG."
-  },
-  "roadmap": {
-    "title": "Notre feuille de route",
-    "items": [
-      {
-        "date": "2025",
-        "title": "Expansion de la ferme",
-        "description": "Étendre notre plantation de cajou sur 35 hectares."
-      },
-      {
-        "date": "2027",
-        "title": "Centre de transformation",
-        "description": "Commencer la construction de notre centre de transformation de cajou."
-      },
-      {
-        "date": "2030",
-        "title": "Commerce mondial",
-        "description": "Lancer les exportations et les partenariats commerciaux durables."
-      }
-    ]
+    "title": "Un Mouvement Enraciné dans la Vision",
+    "content": "Notre objectif n'est pas seulement la rentabilité — mais de transformer notre région en un centre d'agro-industrie éthique. Nous plantons aujourd'hui 3 500 arbres de cajou pour nourrir la prochaine génération — avec foi, objectif et excellence.",
+    "button": "Rejoignez Notre Vision"
   },
   "midCta": {
-    "title": "Rejoignez notre mission",
-    "button": "Contactez-nous"
+    "title": "Rejoignez Notre Mission",
+    "button": "Contactez-Nous"
+  },
+  "esg": {
+    "title": "Notre Engagement envers l'ESG",
+    "content": "Chez AfriNuts, notre vision est profondément alignée avec les principes Environnementaux, Sociaux et de Gouvernance (ESG). Nous construisons une chaîne d'approvisionnement de noix de cajou neutre en carbone, zéro déchet, alimentée par des énergies renouvelables, l'agriculture biologique et la traçabilité blockchain. Notre mission sociale priorise le commerce équitable, la création d'emplois locaux, l'accès à l'eau potable et l'éthique financière islamique, en réinvestissant dans la communauté et en autonomisant les générations futures. Avec une transparence totale, des conditions d'investissement éthiques et un engagement envers la durabilité à chaque étape, AfriNuts est fier d'être la première initiative de noix de cajou d'Afrique axée sur l'ESG."
+  },
+  "roadmap": {
+    "title": "Notre Feuille de Route Stratégique : De la Ferme à la Marque Mondiale",
+    "items": [
+      {
+        "date": "2024",
+        "title": "Phase de Fondation : Ferme Établie",
+        "description": "Plantation et sécurisation réussies de notre ferme de noix de cajou de 35 hectares à Odienné. Cet actif fondateur est maintenant opérationnel et en croissance."
+      },
+      {
+        "date": "2025-2026",
+        "title": "Certification et Planification",
+        "description": "Lancer le processus de certification Biologique pour la ferme. Finaliser les conceptions techniques et obtenir les permis pour le centre de transformation."
+      },
+      {
+        "date": "2027-2028",
+        "title": "Construction : Construction du Centre de Transformation",
+        "description": "Début des travaux et construction de notre usine de transformation semi-automatisée de Phase 1. Obtenir les certifications Halal et ISO 22000."
+      },
+      {
+        "date": "2029-2030",
+        "title": "Mise en Service et Première Récolte",
+        "description": "Installer l'équipement, former le personnel et mettre en service l'usine. Transformer la première récolte commerciale de notre ferme en échantillons pour les acheteurs mondiaux."
+      },
+      {
+        "date": "2031+",
+        "title": "Mise à l'Échelle et Exportation Mondiale",
+        "description": "Commencer les opérations commerciales complètes et les premières exportations de produits certifiés AfriNuts vers l'Europe et le Moyen-Orient. Réinvestir les bénéfices pour planifier l'expansion industrielle de Phase 2."
+      }
+    ]
   }
 }

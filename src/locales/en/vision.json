@@ -1,7 +1,7 @@
 {
   "hero": {
-    "title": "Our Vision for 2031",
-    "subtitle": "Empowering Africa's cashew future with sustainability, faith, and innovation"
+    "title": "Building Africa's Premier Ethical Cashew Brand",
+    "subtitle": "From our farm in Odienné to the world: sustainable, traceable, and faith-aligned cashews"
   },
   "intro": {
     "title": "Transforming West Africa's Cashew Industry",
@@ -9,22 +9,22 @@
   },
   "sustainability": {
     "title": "Sustainability & Stewardship",
-    "subtitle": "Building a carbon-neutral, zero-waste cashew value chain by 2031",
+    "subtitle": "Building a low-waste, renewable-powered cashew value chain",
     "items": [
       {
-        "text": "Our upcoming processing center will follow zero-waste principles",
+        "text": "Our processing center will transform waste shells into biofuel for energy",
         "icon": "FaRecycle"
       },
       {
-        "text": "We'll harness solar power and renewable energy to run our operations",
+        "text":"Powered by a solar-hybrid energy system",
         "icon": "FaSolarPanel"
       },
       {
-        "text": "We aim to reduce environmental impact at every step — from planting to packaging",
+        "text": "Organic farming practices that enhance soil health and biodiversity",
         "icon": "FaLeaf"
       },
       {
-        "text": "Traceability matters — we're implementing blockchain technology for full transparency",
+        "text": "Implementing traceability technology for full supply chain transparency",
         "icon": "FaGlobe"
       }
     ],
@@ -55,10 +55,10 @@
     "title": "Value Addition & Trade",
     "subtitle": "We believe Africa must export finished products, not just raw materials",
     "items": [
-      "By 2030, AfriNuts will process cashews into organic roasted kernels",
-      "Cashew butter & milk for health-conscious consumers",
-      "Cashew oil and flour for diverse culinary uses",
-      "We aim to become a top exporter of certified organic, value-added products across Europe and the Middle East"
+      "Our Phase 1 processing center will produce export-grade organic kernels",
+      "Future expansion (Phase 2) will add value-added products like cashew butter & milk",
+      "Exploring by-product valorization, such as cashew oil for industrial uses",
+      "Our goal is to be a top exporter of certified products to Europe and the Middle East"
     ]
   },
   "finance": {
@@ -88,22 +88,22 @@
     "items": [
       {
         "title": "Digital Traceability",
-        "content": "Blockchain systems for full supply chain transparency",
+        "content": "Batch-level tracking from our farm to the export container",
         "icon": "FaGlobe"
       },
       {
-        "title": "Smart Farming",
-        "content": "Remote farm monitoring and smart irrigation (future phase)",
+        "title": "Smart Farming (Future Phase)",
+        "content": "Plans for drone monitoring and soil sensors to optimize yield",
         "icon": "FaSeedling"
       },
       {
-        "title": "Quality Standards",
-        "content": "Commitment to organic certification and international standards",
+        "title":  "International Certification",
+        "content": "Pursuing Organic, Halal, and ISO 22000 certifications for global market access",
         "icon": "FaLeaf"
       },
       {
         "title": "Regional Leadership",
-        "content": "Transforming our region into a hub of ethical agribusiness",
+        "content": "Creating a new model for ethical and profitable agribusiness in Odienné",
         "icon": "FaChartLine"
       }
     ]
@@ -122,22 +122,32 @@
     "content": "At AfriNuts, our vision is deeply aligned with Environmental, Social, and Governance (ESG) principles. We are building a carbon-neutral, zero-waste cashew supply chain powered by renewable energy, organic farming, and blockchain traceability. Our social mission prioritizes fair trade, local job creation, clean water access, and Islamic financial ethics, reinvesting in the community and empowering future generations. With full transparency, ethical investor terms, and a commitment to sustainability at every step, AfriNuts is proud to be Africa's ESG-first cashew initiative."
   },
   "roadmap": {
-    "title": "Our Roadmap",
+    "title": "Our Strategic Roadmap: From Farm to Global Brand",
     "items": [
       {
-        "date": "2025",
-        "title": "Farm Expansion",
-        "description": "Expand our cashew plantation across 35 hectares."
+        "date": "2024",
+        "title": "Foundation Phase: Farm Established",
+        "description": "Successfully planted and secured our 35-hectare cashew farm in Odienné. This foundational asset is now operational and growing."
       },
       {
-        "date": "2027",
-        "title": "Processing Center",
-        "description": "Begin construction of our cashew processing facility."
+        "date": "2025-2026",
+        "title": "Certification & Planning",
+        "description": "Initiate Organic certification process for the farm. Finalize engineering designs and secure permits for the processing center."
       },
       {
-        "date": "2030",
-        "title": "Global Trade",
-        "description": "Launch exports and sustainable trade partnerships."
+        "date": "2027-2028",
+        "title": "Build-Out: Processing Center Construction",
+        "description": "Break ground and construct our Phase 1 semi-automated processing facility. Secure Halal and ISO 22000 certification."
+      },
+      {
+        "date": "2029-2030",
+        "title": "Commissioning & First Harvest",
+        "description": "Install equipment, train staff, and commission the plant. Process our farm's first commercial harvest into samples for global buyers."
+      },
+      {
+        "date": "2031+",
+        "title": "Scale & Global Export",
+        "description": "Begin full commercial operations and first exports of certified AfriNuts products to Europe and the Middle East. Reinvest profits to plan for Phase 2 industrial expansion."
       }
     ]
   }

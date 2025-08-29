@@ -17,7 +17,8 @@ import {
     FaPlay,
     FaPause,
     FaExpand,
-    FaCompress
+    FaCompress, FaAward,
+    FaRibbon
 } from "react-icons/fa";
 // AnimatedProgressBar: KPI glassy 3D progress bar with animation
 interface AnimatedProgressBarProps {
@@ -162,6 +163,7 @@ import { fadeIn, staggerContainer } from '@/utils/animations';
 import { Typography } from "@/components/Typography/Typography";
 import { InfoCard } from '@/components/InfoCard/InfoCard';
 import Mermaid from '@/components/Mermaid/Mermaid';
+import {CertificationsCard} from "@/components/CertificationsCard/CertificationsCard";
 
 const Processing: React.FC = () => {
     const { t } = useTranslation('processing');
@@ -877,36 +879,38 @@ const Processing: React.FC = () => {
                         </Typography>
                     </motion.div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-                        <InfoCard
-                            icon={FaCertificate}
-                            title={t('certifications.organic.title')}
-                            iconColor="text-[#22c55e]"
-                        >
-                            {t('certifications.organic.description')}
-                        </InfoCard>
-                        <InfoCard
-                            icon={FaCertificate}
-                            title={t('certifications.fairtrade.title')}
-                            iconColor="text-[#fbbf24]"
-                        >
-                            {t('certifications.fairtrade.description')}
-                        </InfoCard>
-                        <InfoCard
-                            icon={FaCertificate}
-                            title={t('certifications.halal.title')}
-                            iconColor="text-[#0ea5e9]"
-                        >
-                            {t('certifications.halal.description')}
-                        </InfoCard>
-                        <InfoCard
-                            icon={FaCertificate}
-                            title={t('certifications.iso.title')}
-                            iconColor="text-[#818cf8]"
-                        >
-                            {t('certifications.iso.description')}
-                        </InfoCard>
-                    </div>
+                    <CertificationsCard
+                        certifications={[
+                            {
+                                id: 'organic',
+                                title: t('certifications.organic.title'),
+                                description: t('certifications.organic.description'),
+                                icon: FaLeaf,
+                            },
+                            {
+                                id: 'fairtrade',
+                                title: t('certifications.fairtrade.title'),
+                                description: t('certifications.fairtrade.description'),
+                                icon: FaRibbon,
+                            },
+                            {
+                                id: 'halal',
+                                title: t('certifications.halal.title'),
+                                description: t('certifications.halal.description'),
+                                icon: FaAward,
+                            },
+                            {
+                                id: 'iso',
+                                title: t('certifications.iso.title'),
+                                description: t('certifications.iso.description'),
+                                icon: FaShieldAlt,
+                            }
+                        ]}
+                        title={t('certifications.title')}
+                        subtitle={t('certifications.description')}
+                        variant="primary"
+                        columns={4}
+                    />
                 </div>
             </Section>
 

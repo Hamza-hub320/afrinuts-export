@@ -10,19 +10,19 @@
     "description": "Our journey is structured in clear milestones, ensuring sustainable growth and efficiency.",
     "phase1": {
       "title": "Phase 1: Pilot / Semi-Automated",
-      "dates": "2025–2027",
+      "dates": "2028–2030",
       "description": "Focused on artisanal and semi-automatic methods with 1,000–2,000 MT/year.",
       "point1": "Establish artisanal and semi-automatic operations",
       "point2": "Train staff and build initial export capacity",
-      "point3": "Target 1,000–2,000 MT/year by 2027"
+      "point3": "Reach 1,000–2,000 MT/year capacity by 2030"
     },
     "phase2": {
       "title": "Phase 2: Industrial / Automated",
-      "dates": "2028–2030",
+      "dates":  "2033+",
       "description": "Scaling to 5,000 MT/year with advanced automation and global certifications.",
       "point1": "Expand facility with advanced automation",
       "point2": "Achieve international certifications",
-      "point3": "Scale to 5,000 MT/year by 2030"
+      "point3": "Scale to 5,000 MT/year capacity by 2033+"
     }
   },
   "phases": {
@@ -32,7 +32,7 @@
     "phase2": "Industrial Phase"
   },
   "phase1": {
-    "title": "Pilot Processing (2026-2030)",
+    "title": "Pilot Processing (2028-2030)",
     "description": "Our initial small-scale facility focuses on quality control, operational learning, and establishing market linkages with manual to semi-automated technology.",
     "automation": "Semi-Automated",
     "steps": {
@@ -63,8 +63,8 @@
     }
   },
   "phase2": {
-    "title": "Industrial Processing (2030+)",
-    "description": "Our expanded facility features semi-automated processing lines with advanced quality control systems for higher volume production.",
+    "title": "Industrial Scaling (2033+)",
+    "description": "Our expanded facility will feature semi-automated processing lines with advanced quality control systems for higher volume production and full certification compliance.",
     "automation": "Semi-Automated Industrial",
     "steps": {
       "reception": {

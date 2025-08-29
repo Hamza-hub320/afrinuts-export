@@ -10,19 +10,19 @@
     "description": "Notre parcours est structuré selon des étapes claires, assurant une croissance durable et l'efficacité.",
     "phase1": {
       "title": "Phase 1 : Pilote / Semi-Automatisée",
-      "dates": "2025–2027",
+      "dates": "2028–2030",
       "description": "Axée sur des méthodes artisanales et semi-automatisées avec 1 000 à 2 000 MT/an.",
       "point1": "Établir des opérations artisanales et semi-automatisées",
       "point2": "Former le personnel et construire une capacité d'exportation initiale",
-      "point3": "Objectif : 1 000 à 2 000 MT/an d'ici 2027"
+      "point3": "Atteindre une capacité de 1 000 à 2 000 MT/an d'ici 2030"
     },
     "phase2": {
       "title": "Phase 2 : Industrielle / Automatisée",
-      "dates": "2028–2030",
+      "dates": "2033+",
       "description": "Passage à l'échelle de 5 000 MT/an avec automatisation avancée et certifications internationales.",
       "point1": "Agrandir l'usine avec une automatisation avancée",
       "point2": "Obtenir des certifications internationales",
-      "point3": "Atteindre 5 000 MT/an d'ici 2030"
+      "point3": "Passer à une capacité de 5 000 MT/an d'ici 2033+"
     }
   },
   "phases": {
@@ -32,7 +32,7 @@
     "phase2": "Phase Industrielle"
   },
   "phase1": {
-    "title": "Transformation Pilote (2026-2030)",
+    "title": "Transformation Pilote (2028-2030)",
     "description": "Notre installation initiale à petite échelle se concentre sur le contrôle qualité, l'apprentissage opérationnel et l'établissement de liens commerciaux avec une technologie manuelle à semi-automatisée.",
     "automation": "Semi-Automatisée",
     "steps": {
@@ -63,8 +63,8 @@
     }
   },
   "phase2": {
-    "title": "Transformation Industrielle (2030+)",
-    "description": "Notre usine élargie dispose de lignes de transformation semi-automatisées avec des systèmes de contrôle qualité avancés pour une production à plus grand volume.",
+    "title": "Mise à l'Échelle Industrielle (2033+)",
+    "description": "Notre usine élargie disposera de lignes de transformation semi-automatisées avec des systèmes de contrôle qualité avancés pour une production à plus grand volume et une conformité totale aux certifications.",
     "automation": "Industrielle Semi-Automatisée",
     "steps": {
       "reception": {
@@ -154,17 +154,17 @@
     "water": {
       "title": "Efficacité Hydrique",
       "description": "Recyclage en circuit fermé pour minimiser l'utilisation d'eau.",
-      "kpi": "Objectif : 30% de recyclage d'ici 2030"
+      "kpi": "Objectif : 30% de recyclage pour zéro rejet d'eaux usées"
     },
     "waste": {
       "title": "Gestion des Déchets",
       "description": "Sous-produits des coques réutilisés comme combustible et biomatériaux.",
-      "kpi": "Objectif : 40% de réutilisation d'ici 2028"
+      "kpi": "Objectif : 100% de valorisation des coques (biocarburant/LCC)"
     },
     "energy": {
       "title": "Énergie Verte",
       "description": "Équipement solaire et écoénergétique.",
-      "kpi": "Objectif : 20% d'énergie solaire d'ici 2030"
+      "kpi": "Objectif : 40% d'énergie solaire d'ici 2030"
     },
     "kpis": {
       "water": "Objectif : 30% de recyclage d'ici 2030",
