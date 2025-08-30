@@ -126,28 +126,38 @@
     "items": [
       {
         "date": "2024",
-        "title": "Foundation Phase: Farm Established",
-        "description": "Successfully planted and secured our 35-hectare cashew farm in Odienné. This foundational asset is now operational and growing."
+        "title": "Foundation Phase: Farm & Supply Chain Secured",
+        "description": "35-hectare cashew farm fully operational in Odienné. Exclusive sourcing agreement signed with Coopérative Agricole AfriNuts, uniting 200+ local farmers."
       },
       {
         "date": "2025-2026",
-        "title": "Certification & Planning",
-        "description": "Initiate Organic certification process for the farm. Finalize engineering designs and secure permits for the processing center."
+        "title":"Certification Initiation & Detailed Planning",
+        "description": "Begin the 3-year transition for Organic certification. Finalize processing plant engineering designs, secure permits, and prepare for investment round."
       },
       {
-        "date": "2027-2028",
-        "title": "Build-Out: Processing Center Construction",
-        "description": "Break ground and construct our Phase 1 semi-automated processing facility. Secure Halal and ISO 22000 certification."
+        "date": "2027",
+        "title": "Investment & Construction",
+        "description": "Secure $1.25M investment. Break ground and construct the Phase 1 Pilot Processing Center. Begin applications for Halal and ISO 22000 certifications."
+      },
+      {
+        "date": "2028",
+        "title": "Commissioning & Market Entry",
+        "description": "Install equipment, commission the plant, and train staff. Produce first sample batches for international buyers. Secure first Letters of Intent (LOIs)."
       },
       {
         "date": "2029-2030",
-        "title": "Commissioning & First Harvest",
-        "description": "Install equipment, train staff, and commission the plant. Process our farm's first commercial harvest into samples for global buyers."
+        "title": "Pilot Operations & Certification Achievement",
+        "description": "Begin pilot-scale processing using farm and cooperative supply. Achieve full Organic, Halal, and ISO 22000 certifications. Ramp up production and refine operations."
       },
       {
-        "date": "2031+",
-        "title": "Scale & Global Export",
-        "description": "Begin full commercial operations and first exports of certified AfriNuts products to Europe and the Middle East. Reinvest profits to plan for Phase 2 industrial expansion."
+        "date": "2031-2032",
+        "title": "Ramp-Up to Profitability",
+        "description": "Reach full capacity of the Phase 1 plant (1,000-2,000 MT/year). Execute on export contracts. Target achieving operational break-even and first net profits."
+      },
+      {
+        "date": "2033+",
+        "title": "Sustainable Growth & Expansion Planning",
+        "description": "Begin dividend distributions to shareholders. Reinvest profits to fund planning and development of the Phase 2 industrial-scale facility (5,000+ MT/year)."
       }
     ]
   }

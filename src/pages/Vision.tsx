@@ -45,6 +45,21 @@ const Vision: React.FC = () => {
         return icons[iconName] || FaGlobe;
     };
 
+    // Helper for roadmap section: returns an icon based on roadmap item title
+    const getRoadmapIcon = (title: string): IconType => {
+        // Normalize for case-insensitive matching
+        const normalized = title.toLowerCase();
+        if (normalized.includes("foundation")) return FaLeaf;
+        if (normalized.includes("certification")) return FaHandshake;
+        if (normalized.includes("investment")) return FaChartLine;
+        if (normalized.includes("construction")) return FaIndustry;
+        if (normalized.includes("market entry")) return FaGlobe;
+        if (normalized.includes("operations")) return FaIndustry;
+        if (normalized.includes("expansion")) return FaGlobe;
+        // fallback
+        return FaGlobe;
+    };
+
     return (
         <main>
             {/* Hero Section */}
@@ -538,6 +553,11 @@ const Vision: React.FC = () => {
                                                     {/* Inner shadow effect */}
                                                     <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] group-hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
 
+                                                    {/* Roadmap icon */}
+                                                    <div className="bg-accent p-2 rounded-full text-white shadow-md mb-3">
+                                                        {React.createElement(getRoadmapIcon(item.title), { className: "text-xl" })}
+                                                    </div>
+
                                                     <Typography variant="subtitle" className="text-primary text-center font-bold relative z-10">
                                                         {item.date}
                                                     </Typography>
@@ -585,6 +605,11 @@ const Vision: React.FC = () => {
                                                                     <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500 pointer-events-none" />
                                                                     {/* Glassy overlay */}
                                                                     <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500 pointer-events-none" />
+
+                                                                    {/* Roadmap icon */}
+                                                                    <div className="bg-accent p-2 rounded-full text-white shadow-md mb-3">
+                                                                        {React.createElement(getRoadmapIcon(item.title), { className: "text-xl" })}
+                                                                    </div>
 
                                                                     <Typography variant="h4" className="text-lg font-semibold text-primary">
                                                                         {item.title}
@@ -634,6 +659,11 @@ const Vision: React.FC = () => {
                                                                     <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500 pointer-events-none" />
                                                                     {/* Glassy overlay */}
                                                                     <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500 pointer-events-none" />
+
+                                                                    {/* Roadmap icon */}
+                                                                    <div className="bg-accent p-2 rounded-full text-white shadow-md mb-3">
+                                                                        {React.createElement(getRoadmapIcon(item.title), { className: "text-xl" })}
+                                                                    </div>
 
                                                                     <Typography variant="h4" className="text-lg font-semibold text-primary">
                                                                         {item.title}
