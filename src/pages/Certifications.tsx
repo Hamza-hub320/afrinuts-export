@@ -509,7 +509,7 @@ const Certifications: React.FC = () => {
                         </InfoCard>
                     </motion.div>
 
-                    {/* Competitive Analysis Table */}
+                    {/* Competitive Analysis Table - Responsive */}
                     <motion.div
                         className="group relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 transition-all duration-500 rounded-2xl shadow-xl overflow-hidden transform-gpu"
                         style={{
@@ -547,7 +547,8 @@ const Certifications: React.FC = () => {
                                 </Typography>
                             </div>
 
-                            <div className="overflow-x-auto">
+                            {/* Desktop Table */}
+                            <div className="hidden md:block overflow-x-auto">
                                 <table className="w-full">
                                     <thead>
                                     <tr className="bg-white/30 backdrop-blur-sm">
@@ -636,6 +637,93 @@ const Certifications: React.FC = () => {
                                     </tr>
                                     </tbody>
                                 </table>
+                            </div>
+
+                            {/* Mobile Cards */}
+                            <div className="md:hidden p-4 space-y-4">
+                                {/* Asian Processors Card */}
+                                <motion.div
+                                    className="bg-white/20 backdrop-blur-sm rounded-xl p-4 border border-white/30"
+                                    whileHover={{ y: -2 }}
+                                    transition={{ duration: 0.2 }}
+                                >
+                                    <h4 className="font-semibold text-primary mb-2">
+                                        {t('competitiveLandscape.asianProcessors', "Large Asian Processors")}
+                                    </h4>
+                                    <div className="space-y-2 text-sm">
+                                        <div>
+                                            <span className="font-medium">✓ {t('competitiveLandscape.theirAdvantage', "Their Advantage")}:</span>
+                                            <p>{t('competitiveLandscape.asianAdvantage', "Scale, established infrastructure, low-cost labor")}</p>
+                                        </div>
+                                        <div>
+                                            <span className="font-medium">✗ {t('competitiveLandscape.theirDisadvantage', "Their Disadvantage")}:</span>
+                                            <p>{t('competitiveLandscape.asianDisadvantage', "Geographic disconnect from source, rising labor costs")}</p>
+                                        </div>
+                                        <div className="bg-primary/10 p-3 rounded-lg mt-2">
+                                            <span className="font-medium flex items-center gap-2">
+                                                <FaCrown className="text-primary" />
+                                                {t('competitiveLandscape.ourStrategy', "AfriNuts' Counter-Strategy")}:
+                                            </span>
+                                            <p>{t('competitiveLandscape.asianStrategy', "Origin Story & Traceability: Single-Origin Ivory Coast traceability")}</p>
+                                        </div>
+                                    </div>
+                                </motion.div>
+
+                                {/* Local Processors Card */}
+                                <motion.div
+                                    className="bg-white/20 backdrop-blur-sm rounded-xl p-4 border border-white/30"
+                                    whileHover={{ y: -2 }}
+                                    transition={{ duration: 0.2 }}
+                                >
+                                    <h4 className="font-semibold text-primary mb-2">
+                                        {t('competitiveLandscape.localProcessors', "Local Ivorian Processors")}
+                                    </h4>
+                                    <div className="space-y-2 text-sm">
+                                        <div>
+                                            <span className="font-medium">✓ {t('competitiveLandscape.theirAdvantage', "Their Advantage")}:</span>
+                                            <p>{t('competitiveLandscape.localAdvantage', "Local presence, access to raw nuts")}</p>
+                                        </div>
+                                        <div>
+                                            <span className="font-medium">✗ {t('competitiveLandscape.theirDisadvantage', "Their Disadvantage")}:</span>
+                                            <p>{t('competitiveLandscape.localDisadvantage', "Lack scale, international certifications, market access")}</p>
+                                        </div>
+                                        <div className="bg-primary/10 p-3 rounded-lg mt-2">
+                                            <span className="font-medium flex items-center gap-2">
+                                                <FaCrown className="text-primary" />
+                                                {t('competitiveLandscape.ourStrategy', "AfriNuts' Counter-Strategy")}:
+                                            </span>
+                                            <p>{t('competitiveLandscape.localStrategy', "Certification & Quality: Meet highest international standards")}</p>
+                                        </div>
+                                    </div>
+                                </motion.div>
+
+                                {/* Western Brands Card */}
+                                <motion.div
+                                    className="bg-white/20 backdrop-blur-sm rounded-xl p-4 border border-white/30"
+                                    whileHover={{ y: -2 }}
+                                    transition={{ duration: 0.2 }}
+                                >
+                                    <h4 className="font-semibold text-primary mb-2">
+                                        {t('competitiveLandscape.westernBrands', "Western Brands")}
+                                    </h4>
+                                    <div className="space-y-2 text-sm">
+                                        <div>
+                                            <span className="font-medium">✓ {t('competitiveLandscape.theirAdvantage', "Their Advantage")}:</span>
+                                            <p>{t('competitiveLandscape.westernAdvantage', "Strong consumer brands, market access")}</p>
+                                        </div>
+                                        <div>
+                                            <span className="font-medium">✗ {t('competitiveLandscape.theirDisadvantage', "Their Disadvantage")}:</span>
+                                            <p>{t('competitiveLandscape.westernDisadvantage', "Reliant on imported kernels, disconnected from source")}</p>
+                                        </div>
+                                        <div className="bg-primary/10 p-3 rounded-lg mt-2">
+                                            <span className="font-medium flex items-center gap-2">
+                                                <FaCrown className="text-primary" />
+                                                {t('competitiveLandscape.ourStrategy', "AfriNuts' Counter-Strategy")}:
+                                            </span>
+                                            <p>{t('competitiveLandscape.westernStrategy', "Vertical Integration: Control entire chain, ensure quality")}</p>
+                                        </div>
+                                    </div>
+                                </motion.div>
                             </div>
                         </div>
                     </motion.div>
