@@ -123,41 +123,42 @@
   },
   "roadmap": {
     "title": "Notre Feuille de Route Stratégique : De la Ferme à la Marque Mondiale",
+    "subtitle": "Construire un avenir durable grâce à une croissance stratégique et l'excellence en certification",
     "items": [
       {
         "date": "2024",
-        "title": "Phase de Fondation : Ferme et Chaine d'Approvisionnement Sécurisées",
-        "description": "Ferme de noix de cajou de 35 hectares pleinement opérationnelle à Odienné. Accord d'approvisionnement exclusif signé avec la Coopérative Agricole AfriNuts, unissant plus de 200 agriculteurs locaux."
+        "title": "Phase de Fondation : Ferme et Chaîne d'Approvisionnement Sécurisées",
+        "description": "Ferme de noix de cajou de 35 hectares pleinement opérationnelle à Odienné. Accord d'approvisionnement exclusif signé avec la Coopérative Agricole AfriNuts, unissant 200+ agriculteurs locaux."
       },
       {
         "date": "2025-2026",
         "title": "Initiation de la Certification et Planification Détaillée",
-        "description": "Commencer la transition de 3 ans pour la certification Biologique. Finaliser les conceptions techniques de l'usine de transformation, obtenir les permis et préparer le tour de table d'investissement."
+        "description": "Début de la transition de 3 ans pour la certification biologique. Finalisation des conceptions techniques de l'usine de transformation, obtention des permis et préparation du tour de financement."
       },
       {
         "date": "2027",
         "title": "Investissement et Construction",
-        "description": "Sécuriser un investissement de 1,25 million de dollars. Démarrer les travaux et construire le Centre de Transformation Pilote de Phase 1. Commencer les demandes pour les certifications Halal et ISO 22000."
+        "description": "Sécurisation de 1,25 million de dollars d'investissement. Début des travaux et construction du Centre de Transformation Pilote Phase 1. Début des demandes de certification Halal et ISO 22000."
       },
       {
         "date": "2028",
         "title": "Mise en Service et Entrée sur le Marché",
-        "description": "Installer l'équipement, mettre en service l'usine et former le personnel. Produire les premiers lots d'échantillons pour les acheteurs internationaux. Sécuriser les premières Lettres d'Intention (LOI)."
+        "description": "Installation des équipements, mise en service de l'usine et formation du personnel. Production des premiers lots d'échantillons pour les acheteurs internationaux. Obtention des premières Lettres d'Intention (LOI)."
       },
       {
         "date": "2029-2030",
         "title": "Opérations Pilotes et Obtention des Certifications",
-        "description": "Commencer la transformation à l'échelle pilote en utilisant l'approvisionnement de la ferme et de la coopérative. Obtenir les certifications complètes Biologique, Halal et ISO 22000. Augmenter la production et affiner les opérations."
+        "description": "Début de la transformation à l'échelle pilote utilisant l'approvisionnement de la ferme et de la coopérative. Obtention des certifications biologique, Halal et ISO 22000 complètes. Augmentation de la production et affinement des opérations."
       },
       {
         "date": "2031-2032",
-        "title": "Montée en Puissance vers la Rentabilité",
-        "description": "Atteindre la pleine capacité de l'usine de Phase 1 (1 000 à 2 000 MT/an). Exécuter les contrats d'exportation. Viser l'atteinte du seuil de rentabilité opérationnel et des premiers bénéfices nets."
+        "title": "Augmentation vers la Rentabilité",
+        "description": "Atteinte de la capacité maximale de l'usine Phase 1 (1 000 à 2 000 tonnes/an). Exécution des contrats d'exportation. Objectif d'atteindre le seuil de rentabilité opérationnel et les premiers bénéfices nets."
       },
       {
         "date": "2033+",
         "title": "Croissance Durable et Planification de l'Expansion",
-        "description": "Commencer les distributions de dividendes aux actionnaires. Réinvestir les bénéfices pour financer la planification et le développement de l'usine de Phase 2 à l'échelle industrielle (5 000+ MT/an)."
+        "description": "Début des distributions de dividendes aux actionnaires. Réinvestissement des bénéfices pour financer la planification et le développement de l'installation industrielle Phase 2 (5 000+ tonnes/an)."
       }
     ]
   }

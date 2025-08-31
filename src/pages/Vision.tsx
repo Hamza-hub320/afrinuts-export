@@ -23,6 +23,7 @@ import visionHeroImage from '@/assets/images/vision-hero.webp';
 import farmImage from '@/assets/images/farm-vision.webp';
 import processingImage from '@/assets/images/processing-vision.webp';
 import { IconType } from 'react-icons';
+import {TimelineCard} from "@/components/TimelineCard/TimelineCard";
 
 const Vision: React.FC = () => {
     const { t } = useTranslation('vision');
@@ -512,180 +513,24 @@ const Vision: React.FC = () => {
                         whileInView="visible"
                         viewport={{ once: true }}
                         variants={staggerContainer}
-                        className="text-center"
+                        className="text-center mb-8"
                     >
-                        <Typography variant="h2" className="mb-8">
+                        <Typography variant="h2" className="mb-4">
                             {t('roadmap.title') || "Our Strategic Roadmap: From Farm to Global Brand"}
                         </Typography>
-                        {(() => {
-                            const roadmap = t('roadmap', { returnObjects: true }) as {
-                                title?: string;
-                                items: Array<{ date: string; title: string; description: string }>;
-                            };
-                            const items = roadmap?.items || [];
-                            return (
-                                <>
-                                    {/* Mobile Roadmap - Horizontal Scroll */}
-                                    <div className="md:hidden w-full overflow-x-auto py-4">
-                                        <div className="flex gap-4 px-2">
-                                            {items.map((item, idx) => (
-                                                <motion.div
-                                                    key={`roadmap-mobile-${idx}`}
-                                                    className="flex-shrink-0 w-64 relative bg-gradient-to-br from-primary/5 to-accent/5 text-center border-2 border-primary/20 hover:border-accent/30 transition-all duration-500 rounded-2xl shadow-lg p-6 flex flex-col items-center transform-gpu group"
-                                                    style={{
-                                                        transformStyle: 'preserve-3d',
-                                                        perspective: '1000px',
-                                                    }}
-                                                    whileHover={{
-                                                        y: -8,
-                                                        scale: 1.05,
-                                                        rotateY: 5,
-                                                        boxShadow: '0 20px 35px -10px rgba(0, 0, 0, 0.2)',
-                                                        transition: { duration: 0.3 }
-                                                    }}
-                                                >
-                                                    {/* 3D edge effect */}
-                                                    <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
-
-                                                    {/* Glassy overlay */}
-                                                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
-
-                                                    {/* Inner shadow effect */}
-                                                    <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] group-hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
-
-                                                    {/* Roadmap icon */}
-                                                    <div className="bg-accent p-2 rounded-full text-white shadow-md mb-3">
-                                                        {React.createElement(getRoadmapIcon(item.title), { className: "text-xl" })}
-                                                    </div>
-
-                                                    <Typography variant="subtitle" className="text-primary text-center font-bold relative z-10">
-                                                        {item.date}
-                                                    </Typography>
-                                                    <Typography variant="h4" className="text-lg font-semibold text-center mt-1 relative z-10">
-                                                        {item.title}
-                                                    </Typography>
-                                                    <Typography variant="body" className="text-gray-600 text-center mt-2 relative z-10">
-                                                        {item.description}
-                                                    </Typography>
-
-                                                    {/* Step number */}
-                                                    <div className="absolute -top-1 -left-3 h-8 w-8 bg-primary text-white rounded-full flex items-center justify-center font-bold shadow-lg z-20">
-                                                        {idx + 1}
-                                                    </div>
-                                                </motion.div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                    {/* Desktop vertical timeline */}
-                                    <div className="hidden md:flex flex-col items-center relative">
-                                        <div className="absolute left-1/2 transform -translate-x-1/2 h-full border-l-2 border-primary/40 z-0" style={{ top: 32, bottom: 32 }} />
-                                        <div className="relative z-10 w-full">
-                                            {items.map((item, idx, arr) => (
-                                                <div key={`roadmap-${idx}`} className="flex items-center mb-10 last:mb-0">
-                                                    <div className="w-1/2 pr-4 text-right">
-                                                        {idx % 2 === 0 && (
-                                                            <motion.div
-                                                                variants={slideInFromLeft}
-                                                            >
-                                                                <motion.div
-                                                                    className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-500 rounded-2xl shadow-lg p-6 transform-gpu group"
-                                                                    style={{
-                                                                        transformStyle: 'preserve-3d',
-                                                                        perspective: '1000px',
-                                                                    }}
-                                                                    whileHover={{
-                                                                        y: -8,
-                                                                        scale: 1.03,
-                                                                        rotateY: 3,
-                                                                        boxShadow: '0 20px 35px -10px rgba(0, 0, 0, 0.2)',
-                                                                        transition: { duration: 0.3 }
-                                                                    }}
-                                                                >
-                                                                    {/* 3D edge effect */}
-                                                                    <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500 pointer-events-none" />
-                                                                    {/* Glassy overlay */}
-                                                                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500 pointer-events-none" />
-
-                                                                    {/* Roadmap icon */}
-                                                                    <div className="bg-accent p-2 rounded-full text-white shadow-md mb-3">
-                                                                        {React.createElement(getRoadmapIcon(item.title), { className: "text-xl" })}
-                                                                    </div>
-
-                                                                    <Typography variant="h4" className="text-lg font-semibold text-primary">
-                                                                        {item.title}
-                                                                    </Typography>
-                                                                    <Typography variant="subtitle" className="font-bold text-primary mb-2">
-                                                                        {item.date}
-                                                                    </Typography>
-                                                                    <Typography variant="body" className="text-gray-600">
-                                                                        {item.description}
-                                                                    </Typography>
-                                                                </motion.div>
-                                                            </motion.div>
-                                                        )}
-                                                    </div>
-                                                    <div className="flex flex-col items-center w-12 shrink-0">
-                                                        <motion.div
-                                                            className="h-8 w-8 bg-primary text-white rounded-full flex items-center justify-center font-bold shadow-lg mb-2 transform-gpu group-hover:scale-110 transition-transform duration-500 relative z-20"
-                                                            whileHover={{ scale: 1.2, rotate: 360 }}
-                                                            transition={{ type: 'spring', stiffness: 300 }}
-                                                        >
-                                                            {idx + 1}
-                                                        </motion.div>
-                                                        {idx !== arr.length - 1 && (
-                                                            <div className="flex-1 w-1 bg-primary/30 mx-auto" style={{ minHeight: 32 }} />
-                                                        )}
-                                                    </div>
-                                                    <div className="w-1/2 pl-4 text-left">
-                                                        {idx % 2 !== 0 && (
-                                                            <motion.div
-                                                                variants={slideInFromRight}
-                                                            >
-                                                                <motion.div
-                                                                    className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-500 rounded-2xl shadow-lg p-6 transform-gpu group"
-                                                                    style={{
-                                                                        transformStyle: 'preserve-3d',
-                                                                        perspective: '1000px',
-                                                                    }}
-                                                                    whileHover={{
-                                                                        y: -8,
-                                                                        scale: 1.03,
-                                                                        rotateY: -3,
-                                                                        boxShadow: '0 20px 35px -10px rgba(0, 0, 0, 0.2)',
-                                                                        transition: { duration: 0.3 }
-                                                                    }}
-                                                                >
-                                                                    {/* 3D edge effect */}
-                                                                    <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500 pointer-events-none" />
-                                                                    {/* Glassy overlay */}
-                                                                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500 pointer-events-none" />
-
-                                                                    {/* Roadmap icon */}
-                                                                    <div className="bg-accent p-2 rounded-full text-white shadow-md mb-3">
-                                                                        {React.createElement(getRoadmapIcon(item.title), { className: "text-xl" })}
-                                                                    </div>
-
-                                                                    <Typography variant="h4" className="text-lg font-semibold text-primary">
-                                                                        {item.title}
-                                                                    </Typography>
-                                                                    <Typography variant="subtitle" className="font-bold text-primary mb-2">
-                                                                        {item.date}
-                                                                    </Typography>
-                                                                    <Typography variant="body" className="text-gray-600">
-                                                                        {item.description}
-                                                                    </Typography>
-                                                                </motion.div>
-                                                            </motion.div>
-                                                        )}
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                </>
-                            );
-                        })()}
+                        <Typography variant="lead" className="text-text-dark max-w-3xl mx-auto">
+                            {t('roadmap.subtitle') || "Our journey towards excellence and global recognition"}
+                        </Typography>
                     </motion.div>
+
+                    {/* Use the roadmap data directly */}
+                    <TimelineCard
+                        title={t('roadmap.title') || "Strategic Roadmap"}
+                        subtitle={t('roadmap.subtitle') || "From farm to global brand"}
+                        items={t('roadmap', { returnObjects: true })}
+                        showProgress={true}
+                        expandable={true}
+                    />
                 </div>
             </Section>
             {/* End-of-page CTA - Enhanced with Glassy 3D */}
