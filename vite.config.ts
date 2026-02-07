@@ -10,7 +10,7 @@ import {ViteImageOptimizer } from 'vite-plugin-image-optimizer';
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
 export default defineConfig({
-    base: '/',
+    base: "/afrinuts-export/",
     plugins: [
         react(),
         viteCompression({
