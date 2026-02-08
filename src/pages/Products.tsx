@@ -1,5 +1,4 @@
 import React, { useState, useMemo, useRef } from 'react';
-import jsPDF from 'jspdf';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
@@ -23,6 +22,7 @@ import processImage from '../assets/images/production-process.webp';
 import qualityImage from '../assets/images/quality-control.webp';
 import packagingImage from '../assets/images/packaging.webp';
 import rawCashewImage from '../assets/images/raw-cashew.webp';
+import productCataloguePdf from '../assets/documents/afrinuts-products-catalogue.pdf';
 import { AvailabilityFilter } from '@/types/filters';
 
 type AvailabilityFilter = 'all' | 'available' | 'coming-soon';
@@ -119,35 +119,6 @@ const Products: React.FC = () => {
         });
     };
 
-    // Download Product Catalogue as PDF
-    const handleDownloadCatalogue = () => {
-        const doc = new jsPDF();
-        doc.setFontSize(18);
-        doc.text('AfriNuts Export Product Catalogue', 14, 20);
-        doc.setFontSize(12);
-        let y = 32;
-        const lineSpacing = 8;
-        filteredProducts.forEach((product, idx) => {
-            if (y > 270) { // create new page if at the bottom
-                doc.addPage();
-                y = 20;
-            }
-            doc.setFont('helvetica', 'bold');
-            doc.text(`${idx + 1}. ${product.name}`, 14, y);
-            y += lineSpacing;
-            doc.setFont('helvetica', 'normal');
-            doc.text(`Description: ${product.description}`, 18, y);
-            y += lineSpacing;
-            doc.text(`Availability: ${product.available ? 'Available' : product.comingSoon ? `Coming Soon (${product.comingSoon})` : 'Coming Soon'}`, 18, y);
-            y += lineSpacing;
-            if (product.certifications && product.certifications.length > 0) {
-                doc.text(`Certifications: ${product.certifications.join(', ')}`, 18, y);
-                y += lineSpacing;
-            }
-            y += 4; // Extra space between products
-        });
-        doc.save('afrinuts-product-catalogue.pdf');
-    };
 
     return (
         <main>
@@ -507,18 +478,21 @@ const Products: React.FC = () => {
                                 <Typography variant="body" className="text-text-dark mb-8 text-center">
                                     {t('catalogue.description')}
                                 </Typography>
-                                <motion.button
-                                    onClick={handleDownloadCatalogue}
-                                    className="group bg-primary hover:bg-orange-700 text-white px-6 py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center mx-auto text-base font-semibold transform-gpu hover:scale-105"
-                                    whileHover={{
-                                        scale: 1.08,
-                                        transition: { duration: 0.18, type: "spring", stiffness: 320 }
-                                    }}
-                                    whileTap={{ scale: 0.95 }}
+                                <motion.a
+                                  href={productCataloguePdf}
+                                  download
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="group bg-primary hover:bg-orange-700 text-white px-6 py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center mx-auto text-base font-semibold transform-gpu hover:scale-105"
+                                  whileHover={{
+                                    scale: 1.08,
+                                    transition: { duration: 0.18, type: "spring", stiffness: 320 }
+                                  }}
+                                  whileTap={{ scale: 0.95 }}
                                 >
-                                    <FaDownload className="mr-2 text-xl" />
-                                    {t('catalogue.download')}
-                                </motion.button>
+                                  <FaDownload className="mr-2 text-xl" />
+                                  {t('catalogue.download')}
+                                </motion.a>
                             </div>
                         </motion.div>
                     </div>

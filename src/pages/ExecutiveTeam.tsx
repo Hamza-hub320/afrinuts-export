@@ -76,7 +76,7 @@ const ExecutiveTeam: React.FC = () => {
             image: ccoImage,
             alt: t('executives.cco.alt'),
             bio: t('executives.cco.bio', { returnObjects: true }),
-            certifications: ["Rainforest Alliance", "Export Compliance"],
+            certifications: ["Export & Trade Compliance", "Supply Chain and Logistics Management", "Process Improvement & Lean Practices"],
             department: "operations",
             email: "cco@company.com",
             linkedin: "https://linkedin.com/in/example",
@@ -84,14 +84,14 @@ const ExecutiveTeam: React.FC = () => {
         },
         {
             id: 4,
-            name: "Rouillard Cedric",
-            title: t('executives.ops.title'),
-            role: t('executives.ops.role'),
+            name: "Alassana Bah",
+            title: t('executives.cto.title'),
+            role: t('executives.cto.role'),
             image: opsImage,
-            alt: t('executives.ops.alt'),
-            bio: t('executives.ops.bio', { returnObjects: true }),
+            alt: t('executives.cto.alt'),
+            bio: t('executives.cto.bio', { returnObjects: true }),
             certifications: ["ISO 22000", "Food Safety"],
-            department: "operations",
+            department: "Technology",
             email: "ops@company.com",
             linkedin: "https://linkedin.com/in/example",
             idLabel: "ops"
@@ -346,9 +346,20 @@ const ExecutiveTeam: React.FC = () => {
                                                             <Typography variant="small" className="font-medium text-gray-900">
                                                                 {t('executives.labels.education')}
                                                             </Typography>
-                                                            <Typography variant="body-sm" className="text-gray-700">
-                                                                {t(`executives.${selectedExecutive.idLabel}.education`)}
-                                                            </Typography>
+
+                                                            {Array.isArray(t(`executives.${selectedExecutive.idLabel}.education`, { returnObjects: true })) ? (
+                                                                <ul className="list-disc list-inside space-y-1 text-gray-700 text-sm">
+                                                                    {(t(`executives.${selectedExecutive.idLabel}.education`, { returnObjects: true }) as string[]).map(
+                                                                        (item, index) => (
+                                                                            <li key={index}>{item}</li>
+                                                                        )
+                                                                    )}
+                                                                </ul>
+                                                            ) : (
+                                                                <Typography variant="body-sm" className="text-gray-700">
+                                                                    {t(`executives.${selectedExecutive.idLabel}.education`)}
+                                                                </Typography>
+                                                            )}
                                                         </div>
                                                     </div>
 

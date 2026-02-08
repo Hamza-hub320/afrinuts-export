@@ -47,18 +47,22 @@
       "role": "Global market expansion & trade compliance",
       "alt": "Portrait of Mohamadue Kouyaté, Chief Commercial Officer",
       "bio": [
-        "Mohamadue Kouyaté directs worldwide commercial operations, establishing ethical trade partnerships through interest-free contractual frameworks and marketing strategies aligned with Prophetic traditions."
+        "Muhamadue Kouyaté leads global commercial operations with a focus on ethical, interest-free business practices and strategic market expansion. Drawing on over a decade of experience in compliance, logistics, and operations, he builds sustainable trade partnerships and scalable processes rooted in transparency and integrity.\n"
       ],
-      "experience": "12+ years in compliance and operations",
-      "education": "Law Degree, Compliance Certification",
-      "certifications": ["Rainforest Alliance", "Export Compliance"]
+      "experience": "12+ years in operations management, supply chain logistics, and regulatory compliance.",
+      "education": [
+        "Bachelor’s in Political Science",
+        "MBA (in progress)",
+        "Associate of Applied Science in Aviation Operations"
+      ],
+      "certifications": ["Export & Trade Compliance", "Supply Chain and Logistics Management", "Process Improvement & Lean Practices"]
     },
-    "ops": {
-      "title": "Operations Manager",
+    "cto": {
+      "title": "Chief Technology Officer",
       "role": "Production oversight & quality assurance",
-      "alt": "Portrait of Rouillard Cedric, Operations Manager",
+      "alt": "Portrait of Alassana Bah, Operations Manager",
       "bio": [
-        "Rouillard Cedric maintains operational excellence through meticulous supervision of cultivation processes, implementing rigorous quality control measures grounded in the Islamic principle of Ihsan (perfection in work)."
+        "Alassana Bah maintains operational excellence through meticulous supervision of cultivation processes, implementing rigorous quality control measures grounded in the Islamic principle of Ihsan (perfection in work)."
       ],
       "experience": "18+ years in operations management",
       "education": "BS in Operations Management",
