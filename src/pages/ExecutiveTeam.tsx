@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { fadeIn, staggerContainer } from '@/utils/animations';
 import { Typography } from "@/components/Typography/Typography";
 import Section from '@/components/Section/Section';
-import {FaTimes, FaEnvelope, FaLinkedin, FaArrowLeft} from 'react-icons/fa';
+import { FaTimes, FaArrowLeft } from 'react-icons/fa';
 import {Link, useNavigate} from 'react-router-dom';
 import {Dialog, Transition} from '@headlessui/react';
 import { ProfileCard } from '@/components/ProfileCard/ProfileCard';
@@ -48,7 +48,12 @@ const ExecutiveTeam: React.FC = () => {
             image: ceoImage,
             alt: t('executives.ceo.alt'),
             bio: t('executives.ceo.bio', { returnObjects: true }),
-            certifications: ["Islamic Finance", "Strategic Leadership"],
+            certifications: [
+                "ITIL® 4 Foundation",
+                "CompTIA Project+",
+                "AWS Certified Cloud Practitioner",
+                "Islamic Finance & Governance (Applied)"
+            ],
             department: "leadership",
             email: "ceo@company.com",
             linkedin: "https://linkedin.com/in/example",
@@ -379,14 +384,6 @@ const ExecutiveTeam: React.FC = () => {
                                                         </div>
                                                     </div>
 
-                                                    <div className="mt-6 flex space-x-4">
-                                                        <a href={`mailto:${selectedExecutive.email}`} className="text-primary hover:text-accent">
-                                                            <FaEnvelope className="h-5 w-5" />
-                                                        </a>
-                                                        <a href={selectedExecutive.linkedin} className="text-primary hover:text-accent">
-                                                            <FaLinkedin className="h-5 w-5" />
-                                                        </a>
-                                                    </div>
 
                                                     <div className="mt-6 flex justify-end">
                                                         <button

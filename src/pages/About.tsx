@@ -44,7 +44,7 @@ interface Executive {
   linkedin: string;
   certifications?: string[];
   experience?: string;
-  education?: string;
+  education?: string | string[];
 }
 
 const About: React.FC = () => {
@@ -67,11 +67,17 @@ const About: React.FC = () => {
       alt: t('ceo.alt'),
       message: ceoMessage,
       signature: t('ceo.signature'),
-      email: "ceo@afrinuts.com",
-      linkedin: "https://linkedin.com/in/example",
-      certifications: ["Islamic Finance", "Strategic Leadership"],
-      experience: t('ceo.experience', { defaultValue: "20+ years in agricultural leadership" }),
-      education: t('ceo.education', { defaultValue: "MBA in Business Administration" })
+      certifications: [
+        "ITIL® 4 Foundation",
+        "CompTIA Project+",
+        "AWS Certified Cloud Practitioner",
+        "Islamic Finance & Governance (Applied)"
+      ],
+      experience: t('ceo.experience', { defaultValue: "5+ years of leadership across agribusiness development, project execution, and technology-enabled operations." }),
+      education: [
+        "B.S. in Software Engineering",
+        "M.S. in AI Engineering (in progress)"
+      ]
     },
     cfo: {
       name: "Sekou Hakim Peters",
@@ -80,8 +86,6 @@ const About: React.FC = () => {
       alt: t('cfo.alt'),
       message: cfoMessage,
       signature: t('cfo.signature'),
-      email: "cfo@afrinuts.com",
-      linkedin: "https://linkedin.com/in/example",
       certifications: ["Sharia Compliance", "Organic Certification"],
       experience: t('cfo.experience', { defaultValue: "15+ years in financial management" }),
       education: t('cfo.education', { defaultValue: "Master's in Finance" })
@@ -268,9 +272,17 @@ const About: React.FC = () => {
                                       <Typography variant="small" className="font-medium text-gray-900">
                                         Education:
                                       </Typography>
-                                      <Typography variant="body-sm" className="text-gray-700">
-                                        {selectedExecutive.education}
-                                      </Typography>
+                                      {Array.isArray(selectedExecutive.education) ? (
+                                        <ul className="list-disc list-inside text-gray-700">
+                                          {selectedExecutive.education.map((edu, idx) => (
+                                            <li key={idx}>{edu}</li>
+                                          ))}
+                                        </ul>
+                                      ) : (
+                                        <Typography variant="body-sm" className="text-gray-700">
+                                          {selectedExecutive.education}
+                                        </Typography>
+                                      )}
                                     </div>
                                   </div>
                               )}
@@ -293,14 +305,6 @@ const About: React.FC = () => {
                                   </div>
                               )}
 
-                              <div className="mt-6 flex space-x-4">
-                                <a href={`mailto:${selectedExecutive.email}`} className="text-primary hover:text-accent">
-                                  <FaEnvelope className="h-5 w-5" />
-                                </a>
-                                <a href={selectedExecutive.linkedin} className="text-primary hover:text-accent">
-                                  <FaLinkedin className="h-5 w-5" />
-                                </a>
-                              </div>
 
                               <div className="mt-6 flex justify-end">
                                 <button
