@@ -48,7 +48,7 @@ const WeatherDisplay: React.FC<WeatherDisplayProps> = ({ location = "Odienne" })
     const fetchWeather = async () => {
       try {
         const response = await fetch(
-            `https://api.weatherapi.com/v1/forecast.json?key=${import.meta.env.VITE_WEATHER_API_KEY}&q=${location}&days=1&aqi=no`
+            `/.netlify/functions/weather?location=${encodeURIComponent(location)}`
         );
 
         if (!response.ok) {

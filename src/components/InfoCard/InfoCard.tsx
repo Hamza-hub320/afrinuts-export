@@ -14,8 +14,8 @@ interface InfoCardProps {
     className?: string;
     cta?: string | React.ReactNode;
     onClickCta?: () => void;
-    variant?: 'primary' | 'accent' | 'secondary'; // optional theme variants
-    showInfoBadge?: boolean; // New prop to control info badge visibility
+    variant?: 'primary' | 'accent' | 'secondary';
+    showInfoBadge?: boolean;
 }
 
 export const InfoCard: React.FC<InfoCardProps> = ({
@@ -29,7 +29,7 @@ export const InfoCard: React.FC<InfoCardProps> = ({
                                                       cta,
                                                       onClickCta,
                                                       variant = 'primary',
-                                                      showInfoBadge = true, // Default to true
+                                                      showInfoBadge = true,
                                                   }) => {
     // Define gradient and border based on variant
     const variantStyles = {
