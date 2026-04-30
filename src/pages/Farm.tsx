@@ -117,23 +117,44 @@ const Farm = () => {
                     className="flex items-end justify-start text-center min-h-[50vh] md:min-h-[50vh] pb-24 pr-16 mx-6 sm:mx-12 lg:mx-32 xl:mx-48 mt-32 pt-24 rounded-[2rem] shadow-2xl overflow-hidden border border-white/40"
                 >
                     <motion.div
-                        className="max-w-2xl px-8 sm:px-12 py-10 bg-white/75 backdrop-blur-xs rounded-xl border-2 border-primary/20 hover:border-accent/30 transition-all duration-300"
+                        className="max-w-2xl px-8 sm:px-12 py-10 relative overflow-hidden rounded-2xl backdrop-blur-md transition-all duration-500 group"
+                        style={{
+                            background: 'linear-gradient(135deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0.6) 100%)',
+                            border: '1px solid rgba(255,255,255,0.5)',
+                            boxShadow: '0 8px 32px rgba(165, 105, 66, 0.12), inset 0 1px 0 rgba(255,255,255,0.6), inset 0 -1px 0 rgba(0,0,0,0.05)'
+                        }}
                         initial="hidden"
                         animate="visible"
                         variants={staggerContainer}
                     >
-                        <motion.h1
-                            className="font-display text-4xl md:text-5xl lg:text-6xl text-primary mb-4 leading-tight"
-                            variants={fadeIn}
-                            style={{ letterSpacing: '-0.03em' }}
-                        >
-                            {t('hero.title')}
-                        </motion.h1>
-                        <motion.div variants={fadeIn}>
-                            <Typography variant="subtitle" className="text-primary/90">
-                                {t('hero.subtitle')}
-                            </Typography>
-                        </motion.div>
+                        {/* Subtle animated gradient blob behind the glass */}
+                        <div
+                            className="absolute -top-20 -right-20 w-40 h-40 rounded-full opacity-20 blur-3xl animate-pulse"
+                            style={{ background: 'radial-gradient(circle, rgba(165,105,66,0.3) 0%, transparent 70%)' }}
+                        />
+                        <div
+                            className="absolute -bottom-16 -left-16 w-36 h-36 rounded-full opacity-15 blur-3xl"
+                            style={{
+                                background: 'radial-gradient(circle, rgba(210,125,45,0.3) 0%, transparent 70%)',
+                                animation: 'float 6s ease-in-out infinite'
+                            }}
+                        />
+
+                        {/* Content wrapper with relative z-index */}
+                        <div className="relative z-10">
+                            <motion.h1
+                                className="font-display text-4xl md:text-5xl lg:text-6xl text-primary mb-4 leading-tight"
+                                variants={fadeIn}
+                                style={{ letterSpacing: '-0.03em' }}
+                            >
+                                {t('hero.title')}
+                            </motion.h1>
+                            <motion.div variants={fadeIn}>
+                                <Typography variant="subtitle" className="text-primary/90">
+                                    {t('hero.subtitle')}
+                                </Typography>
+                            </motion.div>
+                        </div>
                     </motion.div>
                 </Section>
 

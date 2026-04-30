@@ -95,43 +95,75 @@ const Home: React.FC = () => {
                 className="flex items-end justify-center text-center min-h-[60vh] sm:min-h-[80vh] pb-24 pr-16 mx-6 sm:mx-12 lg:mx-32 xl:mx-48 mt-32 pt-24 rounded-[2rem] shadow-2xl overflow-hidden border border-white/40"
             >
                 <motion.div
-                    className="max-w-2xl px-6 py-4 sm:py-6 bg-white/75 backdrop-blur-xs rounded-xl border-2 border-primary/20 hover:border-accent/30 transition-all duration-300"
+                    className="max-w-2xl px-6 py-4 sm:py-6 relative overflow-hidden rounded-2xl backdrop-blur-md transition-all duration-500 group"
+                    style={{
+                        background: 'linear-gradient(135deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0.6) 100%)',
+                        border: '1px solid rgba(255,255,255,0.5)',
+                        boxShadow: '0 8px 32px rgba(165, 105, 66, 0.12), inset 0 1px 0 rgba(255,255,255,0.6), inset 0 -1px 0 rgba(0,0,0,0.05)'
+                    }}
                     initial="hidden"
                     animate="visible"
                     variants={staggerContainer}
                 >
-                    <motion.h1
-                        className="font-display text-3xl md:text-5xl lg:text-6xl text-primary mb-2 leading-snug"
-                        variants={fadeIn}
-                        style={{ letterSpacing: '-0.03em' }}
-                    >
-                        {t('hero.title')}
-                    </motion.h1>
-                    <motion.div variants={fadeIn}>
-                        <Typography variant="subtitle" className="text-primary/90">
-                            {t('hero.subtitle')}
-                        </Typography>
-                    </motion.div>
-                    {/* CTA Buttons - Responsive sizes */}
-                    <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 md:gap-6 justify-center mt-8 sm:mt-10">
-                        <motion.button
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            className="bg-primary hover:bg-orange-700 text-white px-5 py-2 sm:px-6 sm:py-3 md:px-8 md:py-4 rounded-full text-base sm:text-lg md:text-xl font-medium transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
-                            onClick={() => navigate('/products')}
+                    {/* Animated gradient blobs */}
+                    <div
+                        className="absolute -top-16 -right-16 w-36 h-36 rounded-full opacity-20 blur-3xl animate-pulse"
+                        style={{ background: 'radial-gradient(circle, rgba(165,105,66,0.3) 0%, transparent 70%)' }}
+                    />
+                    <div
+                        className="absolute -bottom-12 -left-12 w-32 h-32 rounded-full opacity-15 blur-3xl"
+                        style={{
+                            background: 'radial-gradient(circle, rgba(210,125,45,0.3) 0%, transparent 70%)',
+                            animation: 'float 6s ease-in-out infinite'
+                        }}
+                    />
+
+                    {/* Content */}
+                    <div className="relative z-10">
+                        <motion.h1
+                            className="font-display text-3xl md:text-5xl lg:text-6xl text-primary mb-2 leading-snug"
+                            variants={fadeIn}
+                            style={{ letterSpacing: '-0.03em' }}
                         >
-                            {t('hero.ctaButtons.exploreProducts')}
-                            <FaArrowRight className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover:translate-x-1" />
-                        </motion.button>
-                        <motion.button
-                            whileHover={{ scale: 1.05 }}
-                            whileTap={{ scale: 0.95 }}
-                            className="border-2 border-primary text-primary hover:bg-white/10 px-5 py-2 sm:px-6 sm:py-3 md:px-8 md:py-4 rounded-full text-base sm:text-lg md:text-xl font-medium transition-all duration-300 flex items-center justify-center gap-2"
-                            onClick={() => scrollToSection('about-preview')}
-                        >
-                            {t('hero.ctaButtons.learnMore')}
-                            <FaChevronDown className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover:translate-y-1" />
-                        </motion.button>
+                            {t('hero.title')}
+                        </motion.h1>
+                        <motion.div variants={fadeIn}>
+                            <Typography variant="subtitle" className="text-primary/90">
+                                {t('hero.subtitle')}
+                            </Typography>
+                        </motion.div>
+
+                        {/* CTA Buttons */}
+                        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 md:gap-6 justify-center mt-8 sm:mt-10">
+                            <motion.button
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                className="relative overflow-hidden bg-primary hover:bg-orange-700 text-white px-5 py-2 sm:px-6 sm:py-3 md:px-8 md:py-4 rounded-full text-base sm:text-lg md:text-xl font-medium transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2 group/btn"
+                                onClick={() => navigate('/products')}
+                            >
+                                {/* Button glass highlight */}
+                                <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50" />
+                                <span className="relative z-10 flex items-center gap-2">
+                {t('hero.ctaButtons.exploreProducts')}
+                                    <FaArrowRight className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover/btn:translate-x-1" />
+            </span>
+                            </motion.button>
+                            <motion.button
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                                className="relative overflow-hidden border-2 border-primary/50 text-primary px-5 py-2 sm:px-6 sm:py-3 md:px-8 md:py-4 rounded-full text-base sm:text-lg md:text-xl font-medium transition-all duration-300 flex items-center justify-center gap-2 group/btn"
+                                style={{
+                                    background: 'rgba(255,255,255,0.3)',
+                                    backdropFilter: 'blur(4px)'
+                                }}
+                                onClick={() => scrollToSection('about-preview')}
+                            >
+            <span className="relative z-10 flex items-center gap-2">
+                {t('hero.ctaButtons.learnMore')}
+                <FaChevronDown className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover/btn:translate-y-1" />
+            </span>
+                            </motion.button>
+                        </div>
                     </div>
                 </motion.div>
             </Section>

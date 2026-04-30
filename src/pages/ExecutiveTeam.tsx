@@ -297,7 +297,7 @@ const ExecutiveTeam: React.FC = () => {
                                     leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                                     leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                                 >
-                                    <Dialog.Panel className="relative w-full max-w-2xl transform overflow-hidden bg-background rounded-3xl border-2 border-primary/20 hover:border-accent/30 hover:shadow-xl transition-shadow duration-300 text-left shadow-xl modal-content">
+                                    <Dialog.Panel className="relative w-full max-w-2xl transform overflow-hidden bg-white/80 backdrop-blur-lg rounded-3xl border-2 border-white/40 shadow-xl text-left modal-content transition-all duration-300 hover:shadow-2xl">
                                         <div className="p-6">
                                             {selectedExecutive && (
                                                 <>
