@@ -39,7 +39,7 @@ function App(): ReactElement {
     return (
         <I18nextProvider i18n={i18n}>
             <div className="min-h-screen font-sans bg-[var(--background)] text-[var(--text-dark)]">
-                <BrowserRouter basename='/afrinuts-export'>
+                <BrowserRouter basename='/'>
                     <ScrollToTop />
                     <Routes>
                         <Route path="/" element={<Layout />}>
