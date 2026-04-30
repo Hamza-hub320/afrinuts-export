@@ -5,6 +5,7 @@ import { fileURLToPath } from 'url'
 import viteCompression from 'vite-plugin-compression'
 import { visualizer } from 'rollup-plugin-visualizer'
 import {ViteImageOptimizer } from 'vite-plugin-image-optimizer';
+import * as fs from "node:fs";
 
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -13,16 +14,6 @@ export default defineConfig({
     base: '/',
     plugins: [
         react(),
-        viteCompression({
-            algorithm: 'gzip',
-            ext: '.gz',
-            threshold: 10240,
-        }),
-        viteCompression({
-            algorithm: 'brotliCompress',
-            ext: '.br',
-            threshold: 10240,
-        }),
         visualizer({
             open: true,
             gzipSize: true,
@@ -38,7 +29,17 @@ export default defineConfig({
             webp: {
                 quality: 80,
             },
-        })
+        }),
+        {
+            name: 'remove-redirects',
+            closeBundle() {
+                const redirectsPath = path.resolve(__dirname, 'dist/_redirects')
+                if (fs.existsSync(redirectsPath)) {
+                    fs.unlinkSync(redirectsPath)
+                    console.log('Removed dist/_redirects to prevent asset conflicts')
+                }
+            }
+        }
     ],
     server: {
         host: true,
