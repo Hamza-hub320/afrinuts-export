@@ -75,7 +75,7 @@ const WeatherDisplay: React.FC<WeatherDisplayProps> = ({ location = "Odienne" })
     };
   }, [location, t]);
 
-  const getWeatherIcon = (conditionCode: number): JSX.Element => {
+  const getWeatherIcon = (conditionCode: number): React.ReactElement => {
     switch (conditionCode) {
       case 1000:
         return <FaSun className="text-5xl text-yellow-400 transform-gpu group-hover:scale-110 transition-transform duration-300" />;
