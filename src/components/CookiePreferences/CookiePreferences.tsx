@@ -62,7 +62,14 @@ const CookiePreferences: React.FC<CookiePreferencesProps> = ({
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 20 }}
                         transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-                        className="bg-background rounded-xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto border border-warm-grey"
+                        className="relative overflow-hidden rounded-2xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto backdrop-blur-lg transition-all duration-500"
+                        style={{
+                            background: 'linear-gradient(135deg, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.7) 50%, rgba(255,255,255,0.8) 100%)',
+                            border: '1px solid rgba(255,255,255,0.5)',
+                            boxShadow: '0 8px 32px rgba(165, 105, 66, 0.15), inset 0 1px 0 rgba(255,255,255,0.6), inset 0 -1px 0 rgba(0,0,0,0.05)',
+                            transformStyle: 'preserve-3d',
+                            perspective: '1000px',
+                        }}
                     >
                         <div className="p-6">
                             {!showOnlySettings && (
@@ -91,7 +98,13 @@ const CookiePreferences: React.FC<CookiePreferencesProps> = ({
                             {/* Cookie Type Sections */}
                             <div className="space-y-4">
                                 {/* Essential Cookies */}
-                                <div className="p-4 rounded-lg bg-white border border-warm-grey">
+                                <div className="p-4 rounded-lg backdrop-blur-sm transition-all duration-300"
+                                     style={{
+                                         background: 'rgba(255,255,255,0.6)',
+                                         border: '1px solid rgba(255,255,255,0.4)',
+                                         boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.5)'
+                                     }}
+                                >
                                     <div className="flex justify-between items-center mb-2">
                                         <h4 className="font-semibold text-text-dark">{t('essential.title')}</h4>
                                         <span className="text-sm font-medium text-primary px-2 py-1 bg-highlight rounded-full">
@@ -102,7 +115,13 @@ const CookiePreferences: React.FC<CookiePreferencesProps> = ({
                                 </div>
 
                                 {/* Performance Cookies */}
-                                <div className="p-4 rounded-lg bg-white border border-warm-grey">
+                                <div className="p-4 rounded-lg backdrop-blur-sm transition-all duration-300"
+                                    style={{
+                                    background: 'rgba(255,255,255,0.6)',
+                                    border: '1px solid rgba(255,255,255,0.4)',
+                                    boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.5)'
+                                }}
+                                    >
                                     <div className="flex justify-between items-center mb-2">
                                         <h4 className="font-semibold text-text-dark">{t('performance.title')}</h4>
                                         <div className="flex space-x-4">
@@ -132,7 +151,13 @@ const CookiePreferences: React.FC<CookiePreferencesProps> = ({
                                 </div>
 
                                 {/* Functional Cookies */}
-                                <div className="p-4 rounded-lg bg-white border border-warm-grey">
+                            <div className="p-4 rounded-lg backdrop-blur-sm transition-all duration-300"
+                                 style={{
+                                     background: 'rgba(255,255,255,0.6)',
+                                     border: '1px solid rgba(255,255,255,0.4)',
+                                     boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.5)'
+                                 }}
+                            >
                                     <div className="flex justify-between items-center mb-2">
                                         <h4 className="font-semibold text-text-dark">{t('functional.title')}</h4>
                                         <div className="flex space-x-4">
@@ -162,7 +187,13 @@ const CookiePreferences: React.FC<CookiePreferencesProps> = ({
                                 </div>
 
                                 {/* Advertising Cookies */}
-                                <div className="p-4 rounded-lg bg-white border border-warm-grey">
+                            <div className="p-4 rounded-lg backdrop-blur-sm transition-all duration-300"
+                                 style={{
+                                     background: 'rgba(255,255,255,0.6)',
+                                     border: '1px solid rgba(255,255,255,0.4)',
+                                     boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.5)'
+                                 }}
+                            >
                                     <div className="flex justify-between items-center mb-2">
                                         <h4 className="font-semibold text-text-dark">{t('advertising.title')}</h4>
                                         <div className="flex space-x-4">

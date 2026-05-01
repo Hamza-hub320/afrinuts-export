@@ -198,7 +198,6 @@ const WeatherDisplay: React.FC<WeatherDisplayProps> = ({ location = "Odienne" })
                 timeZone: 'Africa/Abidjan',
                 hour: '2-digit',
                 minute: '2-digit',
-                second: '2-digit',
                 hour12: true,
               })}
             </div>
