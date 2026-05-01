@@ -35,7 +35,12 @@
       "title": "Subscribe to Our Agri-News Digest",
       "description": "Monthly updates...",
       "placeholder": "Your email address",
-      "subscribe": "Subscribe"
+      "subscribe": "Subscribe",
+      "loading": "Subscribing...",
+      "success": "Successfully subscribed!",
+      "alreadySubscribed": "You are already subscribed.",
+      "invalidEmail": "Please enter a valid email address.",
+      "error": "Something went wrong. Please try again."
     }
   },
   "updateTemplates": {

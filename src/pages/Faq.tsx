@@ -207,7 +207,6 @@ const Faq: React.FC = () => {
     };
 
     // Phase 4: Conversion-oriented enhancements
-    // This handler ensures contextual CTAs pass pre-filled info to contact form or trigger PDF download
     const handleActionClick = (action: any, item?: FAQItem) => {
         switch (action.type) {
             case 'contact':

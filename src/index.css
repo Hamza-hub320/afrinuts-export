@@ -65,6 +65,11 @@
     50% { transform: translateY(-15px) scale(1.05); }
   }
 
+  @keyframes float {
+    0%, 100% { transform: translateY(0px) scale(1); }
+    50% { transform: translateY(-20px) scale(1.05); }
+  }
+
   body {
     @apply text-text-dark font-sans leading-relaxed;
     @apply min-w-[var(--fluid-min-width)] overflow-x-hidden;

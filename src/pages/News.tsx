@@ -14,6 +14,7 @@ import afrinutsUpdatesData from '@/data/afrinutsUpdates.json';
 import newsConfig from '@/data/newsConfig.json';
 import newsFeeds from '@/data/newsFeeds.json';
 import newsImage from "@/assets/images/news.webp";
+import {t} from "i18next";
 
 interface RSSItem {
     title: string;
@@ -553,19 +554,29 @@ const News: React.FC = () => {
                                 leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                             >
                                 <Dialog.Panel
-                                    ref={updateDialogRef}
+                                    ref={articleDialogRef}
                                     tabIndex={-1}
-                                    className="relative w-full max-w-2xl transform overflow-hidden bg-background rounded-3xl border-2 border-primary/20 hover:border-accent/30 hover:shadow-xl transition-shadow duration-300 text-left shadow-xl focus:outline-none transform-gpu"
+                                    className="relative w-full max-w-2xl transform overflow-hidden rounded-3xl text-left shadow-xl focus:outline-none transform-gpu backdrop-blur-lg transition-all duration-500"
                                     style={{
+                                        background: 'linear-gradient(135deg, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.7) 50%, rgba(255,255,255,0.8) 100%)',
+                                        border: '1px solid rgba(255,255,255,0.5)',
+                                        boxShadow: '0 8px 32px rgba(165, 105, 66, 0.15), inset 0 1px 0 rgba(255,255,255,0.6), inset 0 -1px 0 rgba(0,0,0,0.05)',
                                         transformStyle: 'preserve-3d',
                                         perspective: '1000px',
                                     }}
                                 >
-                                    {/* 3D edge effect for modal */}
-                                    <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px]" />
-
-                                    {/* Glassy overlay for modal */}
-                                    <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40" />
+                                    {/* Animated blobs */}
+                                    <div
+                                        className="absolute -top-20 -right-20 w-40 h-40 rounded-full opacity-15 blur-3xl animate-pulse"
+                                        style={{ background: 'radial-gradient(circle, rgba(165,105,66,0.4) 0%, transparent 70%)' }}
+                                    />
+                                    <div
+                                        className="absolute -bottom-16 -left-16 w-36 h-36 rounded-full opacity-10 blur-3xl"
+                                        style={{
+                                            background: 'radial-gradient(circle, rgba(210,125,45,0.4) 0%, transparent 70%)',
+                                            animation: 'float 6s ease-in-out infinite'
+                                        }}
+                                    />
 
                                     <div className="p-6 relative z-10">
                                         {selectedUpdate && (
@@ -775,6 +786,47 @@ const News: React.FC = () => {
         </motion.div>
     );
 
+    const [newsSubscribeStatus, setNewsSubscribeStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+    const [newsSubscribeMessage, setNewsSubscribeMessage] = useState('');
+
+    const handleNewsSubscribe = async (email: string, form: HTMLFormElement) => {
+        setNewsSubscribeStatus('loading');
+        setNewsSubscribeMessage('');
+
+        try {
+            const response = await fetch('/.netlify/functions/newsletter', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                const errorMap: Record<string, string> = {
+                    'INVALID_EMAIL': t('sections.newsletter.invalidEmail', 'Please enter a valid email address.'),
+                    'ALREADY_SUBSCRIBED': t('sections.newsletter.alreadySubscribed', 'You are already subscribed.'),
+                    'SUBSCRIBE_FAILED': t('sections.newsletter.error', 'Something went wrong. Please try again.'),
+                    'SERVER_ERROR': t('sections.newsletter.error', 'Something went wrong. Please try again.'),
+                    'INVALID_REQUEST': t('sections.newsletter.error', 'Something went wrong. Please try again.'),
+                };
+                throw new Error(errorMap[data.error] || t('sections.newsletter.error', 'Something went wrong.'));
+            }
+
+            setNewsSubscribeStatus('success');
+            setNewsSubscribeMessage(t('sections.newsletter.success', 'Successfully subscribed!'));
+            form.reset();
+
+            setTimeout(() => {
+                setNewsSubscribeStatus('idle');
+                setNewsSubscribeMessage('');
+            }, 5000);
+        } catch (error: any) {
+            setNewsSubscribeStatus('error');
+            setNewsSubscribeMessage(error.message);
+        }
+    };
+
 
     return (
         <main>
@@ -952,19 +1004,29 @@ const News: React.FC = () => {
                                         leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                                     >
                                         <Dialog.Panel
-                                            ref={articleDialogRef}
+                                            ref={updateDialogRef}
                                             tabIndex={-1}
-                                            className="relative w-full max-w-2xl transform overflow-hidden bg-background rounded-3xl border-2 border-primary/20 hover:border-accent/30 hover:shadow-xl transition-shadow duration-300 text-left shadow-xl focus:outline-none transform-gpu"
+                                            className="relative w-full max-w-2xl transform overflow-hidden rounded-3xl text-left shadow-xl focus:outline-none transform-gpu backdrop-blur-lg transition-all duration-500"
                                             style={{
+                                                background: 'linear-gradient(135deg, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.7) 50%, rgba(255,255,255,0.8) 100%)',
+                                                border: '1px solid rgba(255,255,255,0.5)',
+                                                boxShadow: '0 8px 32px rgba(165, 105, 66, 0.15), inset 0 1px 0 rgba(255,255,255,0.6), inset 0 -1px 0 rgba(0,0,0,0.05)',
                                                 transformStyle: 'preserve-3d',
                                                 perspective: '1000px',
                                             }}
                                         >
-                                            {/* 3D edge effect for modal */}
-                                            <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px]" />
-
-                                            {/* Glassy overlay for modal */}
-                                            <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40" />
+                                            {/* Animated blobs */}
+                                            <div
+                                                className="absolute -top-20 -right-20 w-40 h-40 rounded-full opacity-15 blur-3xl animate-pulse"
+                                                style={{ background: 'radial-gradient(circle, rgba(165,105,66,0.4) 0%, transparent 70%)' }}
+                                            />
+                                            <div
+                                                className="absolute -bottom-16 -left-16 w-36 h-36 rounded-full opacity-10 blur-3xl"
+                                                style={{
+                                                    background: 'radial-gradient(circle, rgba(210,125,45,0.4) 0%, transparent 70%)',
+                                                    animation: 'float 6s ease-in-out infinite'
+                                                }}
+                                            />
 
                                             <div className="p-6 relative z-10">
                                                 <Dialog.Title as="h3" className="text-lg font-semibold text-primary">
@@ -1046,25 +1108,46 @@ const News: React.FC = () => {
                             <Typography variant="body" className="mb-6 max-w-3xl mx-auto relative z-10">
                                 {t('sections.newsletter.description')}
                             </Typography>
-                            <motion.div variants={fadeIn} className="flex flex-col sm:flex-row gap-2 max-w-md mx-auto relative z-10">
-                                <label htmlFor="email" className="sr-only">
-                                    {t('sections.newsletter.placeholder')}
-                                </label>
-                                <input
-                                    type="email"
-                                    id="email"
-                                    name="email"
-                                    placeholder={t('sections.newsletter.placeholder')}
-                                    className="flex-grow px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-accent transform-gpu"
-                                />
-                                <motion.button
-                                    className="group bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-4 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl inline-flex items-center mx-auto transform-gpu relative overflow-hidden"
-                                    whileHover={{ y: -2 }}
-                                    whileTap={{ scale: 0.95 }}
-                                >
-                                    {t('sections.newsletter.subscribe')}
-                                </motion.button>
-                            </motion.div>
+                            <form
+                                className="flex flex-col items-center gap-2 max-w-md mx-auto relative z-10"
+                                onSubmit={async (e) => {
+                                    e.preventDefault();
+                                    const form = e.target as HTMLFormElement;
+                                    const emailInput = form.querySelector('#news-email') as HTMLInputElement;
+                                    await handleNewsSubscribe(emailInput.value, form);
+                                }}
+                            >
+                                <div className="flex flex-col sm:flex-row gap-2 w-full">
+                                    <label htmlFor="news-email" className="sr-only">
+                                        {t('sections.newsletter.placeholder')}
+                                    </label>
+                                    <input
+                                        type="email"
+                                        id="news-email"
+                                        name="email"
+                                        placeholder={t('sections.newsletter.placeholder')}
+                                        required
+                                        className="flex-grow px-4 py-2 rounded-full border border-gray-300 focus:outline-none focus:ring-2 focus:ring-accent transform-gpu"
+                                    />
+                                    <motion.button
+                                        type="submit"
+                                        disabled={newsSubscribeStatus === 'loading'}
+                                        className="group bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-4 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl inline-flex items-center mx-auto transform-gpu relative overflow-hidden disabled:opacity-50"
+                                        whileHover={{ y: -2 }}
+                                        whileTap={{ scale: 0.95 }}
+                                    >
+                                        {newsSubscribeStatus === 'loading'
+                                            ? t('sections.newsletter.loading', 'Subscribing...')
+                                            : t('sections.newsletter.subscribe')
+                                        }
+                                    </motion.button>
+                                </div>
+                                {newsSubscribeStatus !== 'idle' && (
+                                    <p className={`text-sm mt-2 ${newsSubscribeStatus === 'success' ? 'text-green-600' : 'text-red-600'}`}>
+                                        {newsSubscribeMessage}
+                                    </p>
+                                )}
+                            </form>
                         </motion.div>
                     </motion.div>
                 </div>

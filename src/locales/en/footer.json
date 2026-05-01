@@ -19,7 +19,11 @@
     "title": "Newsletter",
     "description": "Subscribe to our newsletter for updates and offers.",
     "placeholder": "Your email address",
-    "button": "Subscribe"
+    "button": "Subscribe",
+    "success": "Successfully subscribed!",
+    "alreadySubscribed": "You are already subscribed.",
+    "invalidEmail": "Please enter a valid email address.",
+    "error": "Something went wrong. Please try again."
   },
   "copyright": "All rights reserved.",
   "legal": {
