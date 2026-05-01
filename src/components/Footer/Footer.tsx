@@ -264,8 +264,8 @@ const Footer = () => {
                 <ul className="space-y-3">
                   {[
                     { icon: <FaMapMarkerAlt />, text: "Odienné, Côte D'Ivoire" },
-                    { icon: <FaPhone />, text: "+225 01 23 45 67 89" },
-                    { icon: <FaEnvelope />, text: "info@afrinuts-export.com" }
+                    { icon: <FaPhone />, text: "+225 (077) 919 - 1460" },
+                    { icon: <FaEnvelope />, text: "info@afrinutsexport.com" }
                   ].map((item, index) => (
                       <motion.li
                           key={index}

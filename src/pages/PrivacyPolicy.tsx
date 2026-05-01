@@ -169,7 +169,6 @@ const PrivacyPolicy: React.FC = () => {
                                             whileHover={{ x: 5 }}
                                             transition={{ duration: 0.2 }}
                                         >
-                                            <span className="mr-3 text-xl">📧</span>
                                             <a
                                                 href={`mailto:${t('rights.contactEmail')}`}
                                                 className="text-primary hover:underline font-medium"

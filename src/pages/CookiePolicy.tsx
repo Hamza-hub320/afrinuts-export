@@ -251,13 +251,11 @@ const CookiePolicy: React.FC = () => {
                                             transition={{ duration: 0.2 }}
                                         >
                                             <div className="flex items-center">
-                                                <span className="mr-3 text-lg">🏢</span>
                                                 <Typography variant="body">
                                                     {t('contactUs.address')}
                                                 </Typography>
                                             </div>
                                             <div className="flex items-center">
-                                                <span className="mr-3 text-lg">📧</span>
                                                 <a
                                                     href={`mailto:${t('contactUs.email')}`}
                                                     className="text-primary hover:underline font-medium"
