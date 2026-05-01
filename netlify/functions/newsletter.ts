@@ -56,14 +56,14 @@ export const handler: Handler = async (event: HandlerEvent) => {
                 'Authorization': `Token ${BUTTONDOWN_API_KEY}`,
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ email }),
+            body: JSON.stringify({ email_address: email }),
         });
 
         const data = await response.json();
 
         if (!response.ok) {
             // Check if already subscribed
-            if (response.status === 400 && data?.detail?.includes('already')) {
+            if (response.status === 400 && JSON.stringify(data).includes('already')) {
                 return {
                     statusCode: 409,
                     headers,
