@@ -1,0 +1,44 @@
+{
+  "lastUpdated": "Last updated: April 30, 2026",
+  "title": "Accessibility Statement",
+  "description": "AfriNuts Export is committed to ensuring digital accessibility for people of all abilities. We are continually improving the user experience and applying the relevant accessibility standards.",
+  "commitment": {
+    "title": "Our Commitment",
+    "description": "We believe everyone should be able to access and enjoy our website. We strive to meet WCAG 2.1 Level AA standards and continuously work to improve accessibility across all pages."
+  },
+  "standards": {
+    "title": "Standards We Follow",
+    "description": "This website is designed to comply with the Web Content Accessibility Guidelines (WCAG) 2.1 at Level AA. These guidelines explain how to make web content more accessible for people with disabilities and user-friendly for everyone."
+  },
+  "features": {
+    "title": "Accessibility Features",
+    "description": "We have implemented the following features to make our website more accessible:",
+    "items": [
+      "Keyboard navigation support for all interactive elements",
+      "Adjustable text size (80% to 150%) via the accessibility toolbar",
+      "High contrast mode for improved readability",
+      "Dark mode option to reduce eye strain",
+      "Adjustable letter spacing and line height",
+      "Text underline toggle for better link visibility",
+      "Semantic HTML structure for screen reader compatibility",
+      "Descriptive alt text for all images",
+      "ARIA labels on interactive elements",
+      "Skip-to-content and focus management support"
+    ]
+  },
+  "limitations": {
+    "title": "Known Limitations",
+    "description": "While we strive for full accessibility, we acknowledge the following current limitations:",
+    "items": [
+      "Some older PDF documents may not be fully accessible to screen readers",
+      "Third-party embedded content (such as maps) may not meet all accessibility standards",
+      "We are actively working to address these limitations"
+    ]
+  },
+  "feedback": {
+    "title": "Feedback & Contact",
+    "description": "We welcome your feedback on the accessibility of our website. If you encounter any barriers or have suggestions for improvement, please contact us.",
+    "contactText": "Please let us know if you experience any accessibility issues:",
+    "email": "info@afrinutsexport.com"
+  }
+}

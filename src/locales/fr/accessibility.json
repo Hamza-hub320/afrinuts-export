@@ -1,0 +1,44 @@
+{
+  "lastUpdated": "Dernière mise à jour : 30 avril 2026",
+  "title": "Déclaration d'accessibilité",
+  "description": "AfriNuts Export s'engage à garantir l'accessibilité numérique pour les personnes de toutes capacités. Nous améliorons continuellement l'expérience utilisateur et appliquons les normes d'accessibilité pertinentes.",
+  "commitment": {
+    "title": "Notre engagement",
+    "description": "Nous croyons que tout le monde devrait pouvoir accéder à notre site web et en profiter. Nous nous efforçons de respecter les normes WCAG 2.1 niveau AA et travaillons continuellement à améliorer l'accessibilité sur toutes les pages."
+  },
+  "standards": {
+    "title": "Normes que nous suivons",
+    "description": "Ce site web est conçu pour se conformer aux directives d'accessibilité des contenus web (WCAG) 2.1 au niveau AA. Ces directives expliquent comment rendre le contenu web plus accessible aux personnes handicapées et plus convivial pour tous."
+  },
+  "features": {
+    "title": "Fonctionnalités d'accessibilité",
+    "description": "Nous avons mis en place les fonctionnalités suivantes pour rendre notre site plus accessible :",
+    "items": [
+      "Navigation au clavier pour tous les éléments interactifs",
+      "Taille de texte ajustable (80 % à 150 %) via la barre d'outils d'accessibilité",
+      "Mode contraste élevé pour une meilleure lisibilité",
+      "Option mode sombre pour réduire la fatigue oculaire",
+      "Espacement des lettres et hauteur de ligne ajustables",
+      "Bouton de soulignement du texte pour une meilleure visibilité des liens",
+      "Structure HTML sémantique pour la compatibilité avec les lecteurs d'écran",
+      "Texte alternatif descriptif pour toutes les images",
+      "Étiquettes ARIA sur les éléments interactifs",
+      "Support « Aller au contenu » et gestion du focus"
+    ]
+  },
+  "limitations": {
+    "title": "Limitations connues",
+    "description": "Bien que nous nous efforcions d’atteindre une accessibilité totale, nous reconnaissons les limitations actuelles suivantes :",
+    "items": [
+      "Certains anciens documents PDF peuvent ne pas être entièrement accessibles aux lecteurs d'écran",
+      "Le contenu intégré par des tiers (comme les cartes) peut ne pas respecter toutes les normes d'accessibilité",
+      "Nous travaillons activement à résoudre ces limitations"
+    ]
+  },
+  "feedback": {
+    "title": "Retour d'information et contact",
+    "description": "Nous apprécions vos retours sur l’accessibilité de notre site web. Si vous rencontrez des obstacles ou avez des suggestions d’amélioration, veuillez nous contacter.",
+    "contactText": "Veuillez nous informer si vous rencontrez des problèmes d’accessibilité :",
+    "email": "info@afrinutsexport.com"
+  }
+}

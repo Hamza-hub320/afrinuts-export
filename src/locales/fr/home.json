@@ -10,7 +10,7 @@
   },
   "aboutPreview": {
     "title": "Enracinés dans la tradition, cultivant l'avenir",
-    "description": "AfriNuts Export est une entreprise agricole familiale basée à Odienné, en Côte d'Ivoire. Avec plus de 50 hectares de terres agricoles de première qualité, nous combinons le savoir-faire agricole traditionnel avec des pratiques durables modernes pour produire des noix de cajou de qualité premium pour les marchés mondiaux.",
+    "description": "AfriNuts Export est une entreprise agricole familiale basée à Odienné, en Côte d'Ivoire. Avec plus de 35 hectares de terres agricoles de première qualité, nous combinons le savoir-faire agricole traditionnel avec des pratiques durables modernes pour produire des noix de cajou de qualité premium pour les marchés mondiaux.",
     "ctaButton": "Notre histoire"
   },
   "products": {
@@ -23,7 +23,7 @@
         "description": "Noix de cajou brutes de qualité premium, soigneusement sélectionnées et emballées pour l'exportation",
         "icon": "raw-cashews",
         "features": [
-          "Directement de notre ferme de 50 hectares",
+          "Directement de notre ferme de 35 hectares",
           "Sélection de qualité premium",
           "Pratiques agricoles durables",
           "Sourcées éthiquement"
@@ -59,7 +59,7 @@
   },
   "farm": {
     "title": "Notre ferme durable",
-    "description": "Située au cœur de la ceinture de noix de cajou de la Côte d'Ivoire, notre ferme familiale de 50 hectares combine les connaissances traditionnelles avec des pratiques durables modernes. Nous nous engageons dans une agriculture éthique qui profite à la fois aux gens et à la planète.",
+    "description": "Située au cœur de la ceinture de noix de cajou de la Côte d'Ivoire, notre ferme familiale de 35 hectares combine les connaissances traditionnelles avec des pratiques durables modernes. Nous nous engageons dans une agriculture éthique qui profite à la fois aux gens et à la planète.",
     "imageAlt": "Ferme AfriNuts",
     "location": "Odienné, Côte d'Ivoire",
     "ctaButton": "Visiter notre ferme",

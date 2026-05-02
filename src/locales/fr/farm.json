@@ -4,11 +4,11 @@
       "subtitle": "Cultivation des meilleures noix de cajou d'Afrique de l'Ouest grâce à l'agriculture régénératrice"
     },
     "overview": {
-      "heading": "50 Hectares de Production de Cajou Premium",
+      "heading": "35 Hectares de Production de Cajou Premium",
       "description": "Située à Odienné, épicentre de la production de noix de cajou en Côte d'Ivoire, notre plantation familiale est développée avec des techniques agricoles climato-intelligentes pour produire des noix brutes de qualité premium avec une traçabilité complète du sol à l'expédition."
     },
   "stats": {
-    "area": "50 hectares",
+    "area": "35 hectares",
     "areaLabel": "Superficie totale de la plantation – Notre terrain familial dédié à la culture de la noix de cajou",
     "location": "Odienné",
     "locationLabel": "Emplacement – Au cœur de la ceinture de cajou de Côte d’Ivoire pour une croissance optimale",
@@ -21,7 +21,7 @@
       "title": "Caractéristiques Clés de la Plantation",
       "family": {
         "title": "Terre Familiale",
-        "description": "50 hectares de terre familiale avec droits de développement complets"
+        "description": "70 hectares de terre familiale avec droits de développement complets"
       },
       "irrigation": {
         "title": "Irrigation Intelligente",
@@ -58,7 +58,7 @@
     "gallery": {
       "title": "Progrès de la Plantation",
       "alt1": "Verger de cajou en développement avec jeunes arbres",
-      "caption1": "Phase initiale de plantation sur notre propriété de 50 hectares",
+      "caption1": "Phase initiale de plantation sur notre propriété de 35 hectares",
       "alt2": "Techniques durables de préparation des terres",
       "caption2": "Méthodes écologiques de défrichement",
       "alt3": "Installation du système d'irrigation",
@@ -86,7 +86,7 @@
     "title": "L'Impact de Notre Plantation",
     "hectares": {
       "label": "Hectares en Culture",
-      "description": "50 hectares dédiés à la production durable de noix de cajou, soutenant l'équilibre écologique à long terme."
+      "description": "35 hectares dédiés à la production durable de noix de cajou, soutenant l'équilibre écologique à long terme."
     },
     "jobs": {
       "label": "Emplois Créés",
@@ -109,9 +109,9 @@
   "farm": {
     "map": {
       "title": "Localisation de notre ferme",
-      "description": "Découvrez notre plantation familiale de noix de cajou de 50 hectares au cœur de la ceinture de production de cajou en Côte d'Ivoire.",
+      "description": "Découvrez notre plantation familiale de noix de cajou de 35 hectares au cœur de la ceinture de production de cajou en Côte d'Ivoire.",
       "location": "Odienné, Côte d'Ivoire",
-      "locationDescription": "Notre ferme familiale de 50 hectares est située au cœur de la zone de production d'anacarde en Côte d'Ivoire, offrant des conditions de croissance optimales pour des noix de cajou de qualité supérieure."
+      "locationDescription": "Notre ferme familiale de 70 hectares est située au cœur de la zone de production d'anacarde en Côte d'Ivoire, offrant des conditions de croissance optimales pour des noix de cajou de qualité supérieure."
     }
   },
   "map": {

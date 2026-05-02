@@ -35,7 +35,6 @@ const PrivacyPolicy: React.FC = () => {
     return (
         <main>
             {/* Hero Section */}
-            {/* Hero Section - Kept exactly the same */}
             <Section
                 fullHeight={true}
                 className="flex items-center justify-center text-center min-h-[60vh] bg-gradient-to-b from-primary/10 to-transparent"

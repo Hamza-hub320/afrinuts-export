@@ -10,7 +10,7 @@
   },
   "aboutPreview": {
     "title": "Rooted in Tradition, Growing for the Future",
-    "description": "AfriNuts Export is a family-owned agribusiness based in Odienné, Ivory Coast. With over 50 hectares of prime cashew farmland, we combine traditional farming knowledge with modern sustainable practices to produce premium quality cashews for global markets.",
+    "description": "AfriNuts Export is a family-owned agribusiness based in Odienné, Ivory Coast. With over 35 hectares of prime cashew farmland, we combine traditional farming knowledge with modern sustainable practices to produce premium quality cashews for global markets.",
     "ctaButton": "Our Story"
   },
   "products": {
@@ -23,7 +23,7 @@
         "description": "Premium quality raw cashews, carefully selected and packed for export",
         "icon": "raw-cashews",
         "features": [
-          "Direct from our 50-hectare farm",
+          "Direct from our 35-hectare farm",
           "Premium grade selection",
           "Sustainable farming practices",
           "Ethically sourced"
@@ -59,7 +59,7 @@
   },
   "farm": {
     "title": "Our Sustainable Farm",
-    "description": "Located in the heart of Ivory Coast's cashew belt, our 50-hectare family farm combines traditional knowledge with modern sustainable practices. We're committed to ethical farming that benefits both people and the planet.",
+    "description": "Located in the heart of Ivory Coast's cashew belt, our 35-hectare family farm combines traditional knowledge with modern sustainable practices. We're committed to ethical farming that benefits both people and the planet.",
     "imageAlt": "AfriNuts Farm",
     "location": "Odienné, Ivory Coast",
     "ctaButton": "Visit Our Farm",

@@ -18,6 +18,7 @@ import ExecutiveTeam from './pages/ExecutiveTeam';
 import OurStory from './pages/OurStory';
 import { I18nextProvider } from 'react-i18next';
 import TracePage from "./pages/Trace";
+import Accessibility from '@/pages/Accessibility';
 import i18n from './i18n';
 import './index.css';
 import { ReactElement, useEffect } from 'react';
@@ -61,6 +62,7 @@ function App(): ReactElement {
                             <Route path="/trace" element={<TracePage />} />
                             <Route path="/processing" element={<Processing />} />
                             <Route path="/processing/facility-flowchart" element={<FacilityFlowchart />} />
+                            <Route path="/accessibility" element={<Accessibility />} />
                                 {/* Add a catch-all route for 404s within the SPA */}
                             <Route path="*" element={<Home />} />
                         </Route>

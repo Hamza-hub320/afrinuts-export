@@ -4,11 +4,11 @@
       "subtitle": "Cultivating West Africa's finest cashews through regenerative agriculture"
     },
     "overview": {
-      "heading": "50 Hectares of Premium Cashew Production",
+      "heading": "35 Hectares of Premium Cashew Production",
       "description": "Nestled in Odienné, the epicenter of Ivory Coast's cashew production, our family-owned plantation is being developed using climate-smart agricultural techniques to yield premium grade raw cashew nuts with full traceability from soil to shipment."
     },
   "stats": {
-    "area": "50 hectares",
+    "area": "35 hectares",
     "areaLabel": "Total Plantation Area – Our family-owned land dedicated to cashew cultivation",
     "location": "Odienné",
     "locationLabel": "Location – In the heart of Ivory Coast’s cashew belt for optimal growth",
@@ -21,7 +21,7 @@
       "title": "Key Plantation Features",
       "family": {
         "title": "Family-Owned Land",
-        "description": "50 hectares of family-owned land with full development rights"
+        "description": "70 hectares of family-owned land with full development rights"
       },
       "irrigation": {
         "title": "Smart Irrigation",
@@ -58,7 +58,7 @@
     "gallery": {
       "title": "Plantation Progress",
       "alt1": "Developing cashew orchard with young trees",
-      "caption1": "Initial planting phase on our 50-hectare property",
+      "caption1": "Initial planting phase on our 35-hectare property",
       "alt2": "Sustainable land preparation techniques",
       "caption2": "Eco-friendly land clearing methods",
       "alt3": "Irrigation system installation",
@@ -86,7 +86,7 @@
       "title": "Our Plantation Impact",
       "hectares": {
         "label": "Hectares Under Cultivation",
-        "description": "50 hectares dedicated to sustainable cashew production, supporting long-term ecological balance."
+        "description": "35 hectares dedicated to sustainable cashew production, supporting long-term ecological balance."
       },
       "jobs": {
         "label": "Jobs Created",
@@ -109,9 +109,9 @@
   "farm": {
     "map": {
       "title": "Our Farm Location",
-      "description": "Explore our 50-hectare family-owned cashew farm in the heart of Ivory Coast's cashew belt.",
+      "description": "Explore our 35-hectare family-owned cashew farm in the heart of Ivory Coast's cashew belt.",
       "location": "Odienné, Ivory Coast",
-      "locationDescription": "Our 50-hectare family-owned farm is located in the heart of Ivory Coast's cashew belt, with optimal growing conditions for premium quality cashews."
+      "locationDescription": "Our 70-hectare family-owned farm is located in the heart of Ivory Coast's cashew belt, with optimal growing conditions for premium quality cashews."
     }
     },
   "map": {
