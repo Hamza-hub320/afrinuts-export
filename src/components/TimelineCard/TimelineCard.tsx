@@ -9,13 +9,14 @@ import {
     FaChevronUp
 } from 'react-icons/fa';
 
+
 interface TimelineItem {
     date: string;
     title: string;
     description: string;
     status?: 'completed' | 'current' | 'upcoming';
     milestone?: boolean;
-    actualDate?: Date; // For precise date comparison
+    actualDate?: Date;
 }
 
 interface TimelineCardProps {
@@ -25,9 +26,16 @@ interface TimelineCardProps {
     className?: string;
     showProgress?: boolean;
     expandable?: boolean;
-    dynamicStatus?: boolean; // Enable/disable dynamic status
+    dynamicStatus?: boolean;
+    // Translation strings
+    emptyText?: string;
+    progressText?: string;
+    completeText?: string;
+    milestoneText?: string;
+    showLessText?: string;
+    showMoreText?: string;
+    trackProgressText?: string;
 }
-
 export const TimelineCard: React.FC<TimelineCardProps> = ({
                                                               title,
                                                               subtitle,
@@ -35,7 +43,14 @@ export const TimelineCard: React.FC<TimelineCardProps> = ({
                                                               className = '',
                                                               showProgress = true,
                                                               expandable = true,
-                                                              dynamicStatus = true // Default to dynamic status
+                                                              dynamicStatus = true,
+                                                              emptyText = 'No roadmap items available',
+                                                              progressText = 'Progress',
+                                                              completeText = 'Complete',
+                                                              milestoneText = 'Key Milestone',
+                                                              showLessText = 'Show Less',
+                                                              showMoreText = 'Show More Items',
+                                                              trackProgressText = 'Track Our Progress'
                                                           }) => {
     const [expanded, setExpanded] = useState(false);
     const [currentDate, setCurrentDate] = useState(new Date());
@@ -196,7 +211,7 @@ export const TimelineCard: React.FC<TimelineCardProps> = ({
                 {processedItems.length === 0 && (
                     <div className="text-center py-8 text-text-dark/60">
                         <FaClock className="text-3xl mx-auto mb-2" />
-                        <p>No roadmap items available</p>
+                        <p>{emptyText}</p>
                     </div>
                 )}
 
@@ -204,8 +219,8 @@ export const TimelineCard: React.FC<TimelineCardProps> = ({
                 {showProgress && processedItems.length > 0 && (
                     <div className="mb-6">
                         <div className="flex items-center justify-between mb-2 text-sm font-medium text-text-dark">
-                            <span>Progress: {completedItems}/{processedItems.length}</span>
-                            <span>{Math.round(progressPercentage)}% Complete</span>
+                            <span>{progressText}: {completedItems}/{processedItems.length}</span>
+                            <span>{Math.round(progressPercentage)}% {completeText}</span>
                         </div>
                         <div className="w-full bg-white/30 backdrop-blur-sm rounded-full h-3 overflow-hidden">
                             <motion.div
@@ -276,7 +291,9 @@ export const TimelineCard: React.FC<TimelineCardProps> = ({
 
                                     {item.milestone && (
                                         <div className="mt-2 inline-flex items-center px-2 py-1 bg-accent/20 text-accent-dark text-xs rounded-full">
-                                            🎯 Key Milestone
+                                            <div className="mt-2 inline-flex items-center px-2 py-1 bg-accent/20 text-accent-dark text-xs rounded-full">
+                                                🎯 {milestoneText}
+                                            </div>
                                         </div>
                                     )}
                                 </div>
@@ -296,12 +313,12 @@ export const TimelineCard: React.FC<TimelineCardProps> = ({
                         {expanded ? (
                             <>
                                 <FaChevronUp className="mr-2" />
-                                Show Less
+                                {showLessText}
                             </>
                         ) : (
                             <>
                                 <FaChevronDown className="mr-2" />
-                                Show {processedItems.length - 3} More Items
+                                {showMoreText.replace('{{count}}', String(processedItems.length - 3))}
                             </>
                         )}
                     </motion.button>
@@ -314,7 +331,8 @@ export const TimelineCard: React.FC<TimelineCardProps> = ({
                         whileHover={{ y: -2 }}
                         whileTap={{ scale: 0.95 }}
                     >
-                        Track Our Progress
+                        {trackProgressText}
+
                         <FaArrowRight className="ml-2 transition-transform group-hover:translate-x-1" />
                     </motion.button>
                 )}

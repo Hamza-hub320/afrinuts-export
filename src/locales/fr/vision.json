@@ -121,6 +121,15 @@
     "title": "Notre Engagement envers l'ESG",
     "content": "Chez AfriNuts, notre vision est profondément alignée avec les principes Environnementaux, Sociaux et de Gouvernance (ESG). Nous construisons une chaîne d'approvisionnement de noix de cajou neutre en carbone, zéro déchet, alimentée par des énergies renouvelables, l'agriculture biologique et la traçabilité blockchain. Notre mission sociale priorise le commerce équitable, la création d'emplois locaux, l'accès à l'eau potable et l'éthique financière islamique, en réinvestissant dans la communauté et en autonomisant les générations futures. Avec une transparence totale, des conditions d'investissement éthiques et un engagement envers la durabilité à chaque étape, AfriNuts est fier d'être la première initiative de noix de cajou d'Afrique axée sur l'ESG."
   },
+  "timeline": {
+    "empty": "Aucun élément de feuille de route disponible",
+    "progress": "Progression",
+    "complete": "Terminé",
+    "milestone": "Étape clé",
+    "showLess": "Afficher moins",
+    "showMore": "Afficher {{count}} élément supplémentaire",
+    "trackProgress": "Suivre notre progression"
+  },
   "roadmap": {
     "title": "Notre Feuille de Route Stratégique : De la Ferme à la Marque Mondiale",
     "subtitle": "Construire un avenir durable grâce à une croissance stratégique et l'excellence en certification",

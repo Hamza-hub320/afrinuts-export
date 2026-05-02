@@ -121,6 +121,15 @@
     "title": "Our Commitment to ESG",
     "content": "At AfriNuts, our vision is deeply aligned with Environmental, Social, and Governance (ESG) principles. We are building a carbon-neutral, zero-waste cashew supply chain powered by renewable energy, organic farming, and blockchain traceability. Our social mission prioritizes fair trade, local job creation, clean water access, and Islamic financial ethics, reinvesting in the community and empowering future generations. With full transparency, ethical investor terms, and a commitment to sustainability at every step, AfriNuts is proud to be Africa's ESG-first cashew initiative."
   },
+  "timeline": {
+    "empty": "No roadmap items available",
+    "progress": "Progress",
+    "complete": "Complete",
+    "milestone": "Key Milestone",
+    "showLess": "Show Less",
+    "showMore": "Show {{count}} More Items",
+    "trackProgress": "Track Our Progress"
+  },
   "roadmap": {
     "title": "Our Strategic Roadmap: From Farm to Global Brand",
     "subtitle": "Building a sustainable future through strategic growth and certification excellence",

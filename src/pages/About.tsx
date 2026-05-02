@@ -61,34 +61,30 @@ const About: React.FC = () => {
 
   const executives = {
     ceo: {
-      name: "Hamza S. Ralsan Sangare",
+      name: t('ceo.name', { defaultValue: "Hamza S. Ralsan Sangare" }),
       position: t('ceo.position'),
       image: ceoImage,
       alt: t('ceo.alt'),
       message: ceoMessage,
       signature: t('ceo.signature'),
-      certifications: [
-        "ITIL® 4 Foundation",
-        "CompTIA Project+",
-        "AWS Certified Cloud Practitioner",
-        "Islamic Finance & Governance (Applied)"
-      ],
-      experience: t('ceo.experience', { defaultValue: "5+ years of leadership across agribusiness development, project execution, and technology-enabled operations." }),
-      education: [
-        "B.S. in Software Engineering",
-        "M.S. in AI Engineering (in progress)"
-      ]
+      certifications: t('ceo.certifications', { returnObjects: true, defaultValue: [] }) as string[],
+      experience: t('ceo.experience'),
+      education: t('ceo.education', { returnObjects: true, defaultValue: [] }) as string[],
+      email: t('ceo.email', { defaultValue: "hamza@afrinutsexport.com" }),
+      linkedin: t('ceo.linkedin', { defaultValue: "" })
     },
     cfo: {
-      name: "Sekou Hakim Peters",
-      position: t('cfo.position', { defaultValue: "Co-founder & CFO" }),
+      name: t('cfo.name', { defaultValue: "Sekou Hakim Peters" }),
+      position: t('cfo.position'),
       image: cfoImage,
       alt: t('cfo.alt'),
       message: cfoMessage,
       signature: t('cfo.signature'),
-      certifications: ["Sharia Compliance", "Organic Certification"],
-      experience: t('cfo.experience', { defaultValue: "15+ years in financial management" }),
-      education: t('cfo.education', { defaultValue: "Master's in Finance" })
+      certifications: t('cfo.certifications', { returnObjects: true, defaultValue: [] }) as string[],
+      experience: t('cfo.experience'),
+      education: t('cfo.education', { returnObjects: true, defaultValue: [] }) as string[],
+      email: t('cfo.email', { defaultValue: "sekou@afrinutsexport.com" }),
+      linkedin: t('cfo.linkedin', { defaultValue: "" })
     }
   };
 
@@ -183,7 +179,7 @@ const About: React.FC = () => {
                       image={executives.ceo.image}
                       name={executives.ceo.name}
                       position={executives.ceo.position}
-                      message={executives.ceo.message.slice(0, 1)} // show only first paragraph
+                      message={executives.ceo.message.slice(0, 1)}
                       signature={executives.ceo.signature}
                       altText={executives.ceo.alt}
                       expandable={false}
@@ -205,7 +201,7 @@ const About: React.FC = () => {
                       image={executives.cfo.image}
                       name={executives.cfo.name}
                       position={executives.cfo.position}
-                      message={executives.cfo.message.slice(0, 1)} // show only first paragraph
+                      message={executives.cfo.message.slice(0, 1)}
                       signature={executives.cfo.signature}
                       altText={executives.cfo.alt}
                       expandable={false}
@@ -283,7 +279,9 @@ const About: React.FC = () => {
                                   <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div>
                                       <Typography variant="small" className="font-medium text-gray-900">
-                                        Experience:
+
+                                        {t('labels.experience')}:
+
                                       </Typography>
                                       <Typography variant="body-sm" className="text-gray-700">
                                         {selectedExecutive.experience}
@@ -291,7 +289,7 @@ const About: React.FC = () => {
                                     </div>
                                     <div>
                                       <Typography variant="small" className="font-medium text-gray-900">
-                                        Education:
+                                        {t('labels.education')}:
                                       </Typography>
                                       {Array.isArray(selectedExecutive.education) ? (
                                         <ul className="list-disc list-inside text-gray-700">
@@ -311,7 +309,7 @@ const About: React.FC = () => {
                               {selectedExecutive.certifications && (
                                   <div className="mt-4 pt-4 border-t border-gray-200">
                                     <Typography variant="small" className="font-medium text-gray-900">
-                                      Certifications & Expertise:
+                                      {t('labels.certifications')}:
                                     </Typography>
                                     <div className="flex flex-wrap gap-2 mt-2">
                                       {selectedExecutive.certifications.map((cert: string, index: number) => (
@@ -319,20 +317,19 @@ const About: React.FC = () => {
                                               key={index}
                                               className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary/10 text-primary"
                                           >
-                                      {cert}
-                                    </span>
+                                          {cert}
+                                        </span>
                                       ))}
                                     </div>
                                   </div>
                               )}
-
 
                               <div className="mt-6 flex justify-end">
                                 <button
                                     onClick={closeModal}
                                     className="bg-primary hover:bg-dark-orange text-white px-4 py-2 rounded-md text-sm"
                                 >
-                                  Close
+                                  {t('labels.close')}
                                 </button>
                               </div>
                             </>

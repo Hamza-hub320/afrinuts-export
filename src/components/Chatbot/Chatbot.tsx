@@ -19,7 +19,7 @@ const FloatingButtons: React.FC<FloatingButtonsProps> = ({ className = '' }) => 
                 style={{
                     transformStyle: 'preserve-3d',
                 }}
-                aria-label="Chat on WhatsApp"
+                aria-label="Contact AfriNuts Export via WhatsApp"
                 onClick={() => window.open(WHATSAPP_URL, '_blank', 'noopener,noreferrer')}
                 type="button"
                 initial={{ scale: 0, opacity: 0 }}

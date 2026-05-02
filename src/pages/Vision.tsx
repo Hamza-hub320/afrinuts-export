@@ -551,6 +551,13 @@ const Vision: React.FC = () => {
                         items={t('roadmap', { returnObjects: true })}
                         showProgress={true}
                         expandable={true}
+                        emptyText={t('timeline.empty', { defaultValue: 'No roadmap items available' })}
+                        progressText={t('timeline.progress', { defaultValue: 'Progress' })}
+                        completeText={t('timeline.complete', { defaultValue: 'Complete' })}
+                        milestoneText={t('timeline.milestone', { defaultValue: 'Key Milestone' })}
+                        showLessText={t('timeline.showLess', { defaultValue: 'Show Less' })}
+                        showMoreText={t('timeline.showMore', { defaultValue: 'Show {{count}} More Items' })}
+                        trackProgressText={t('timeline.trackProgress', { defaultValue: 'Track Our Progress' })}
                     />
                 </div>
             </Section>

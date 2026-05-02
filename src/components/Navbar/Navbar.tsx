@@ -110,6 +110,12 @@ const Navbar: React.FC = () => {
           .some(p => location.pathname === p);
     }
 
+    // Farm and its subpages — ADD THIS BLOCK
+    if (path === '/farm') {
+      return ['/farm', '/processing', '/processing/facility-flowchart']
+          .some(p => location.pathname === p);
+    }
+
     // Default: highlight if the current path starts with the link path
     return location.pathname === path;
   };
