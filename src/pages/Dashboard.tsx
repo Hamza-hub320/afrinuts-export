@@ -125,16 +125,6 @@ const Dashboard: React.FC = () => {
 
     return (
         <div className="min-h-screen relative overflow-hidden">
-            {/* Animated background blobs */}
-            <div className="absolute -top-40 -right-40 w-96 h-96 rounded-full opacity-10 blur-3xl animate-pulse"
-                 style={{ background: 'radial-gradient(circle, rgba(165,105,66,0.4) 0%, transparent 70%)' }}
-            />
-            <div className="absolute -bottom-20 -left-20 w-80 h-80 rounded-full opacity-8 blur-3xl"
-                 style={{
-                     background: 'radial-gradient(circle, rgba(210,125,45,0.3) 0%, transparent 70%)',
-                     animation: 'float 8s ease-in-out infinite'
-                 }}
-            />
 
             {/* Hero Header - Matching Investor Portal */}
             <div className="flex items-center justify-center text-center min-h-[40vh] bg-gradient-to-b from-primary/10 to-transparent relative">
