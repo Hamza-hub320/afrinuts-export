@@ -408,47 +408,32 @@ const Dashboard: React.FC = () => {
                 </motion.div>
 
                 {/* Financial Summary */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.4 }}
-                    >
-                        <InfoCard
-                            icon={FaDollarSign}
-                            title={new Intl.NumberFormat('fr-FR').format(totalRevenue) + ' FCFA'}
-                            subtitle="Total Revenue"
-                            iconColor="text-green-600"
-                            showInfoBadge={false}
-                        />
-                    </motion.div>
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.45 }}
-                    >
-                        <InfoCard
-                            icon={FaChartLine}
-                            title={new Intl.NumberFormat('fr-FR').format(totalExpenses) + ' FCFA'}
-                            subtitle="Total Expenses"
-                            iconColor="text-red-600"
-                            showInfoBadge={false}
-                        />
-                    </motion.div>
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.5 }}
-                    >
-                        <InfoCard
-                            icon={FaChartLine}
-                            title={new Intl.NumberFormat('fr-FR').format(netProfit) + ' FCFA'}
-                            subtitle="Net Profit"
-                            iconColor={netProfit >= 0 ? 'text-green-600' : 'text-red-600'}
-                            showInfoBadge={false}
-                        />
-                    </motion.div>
-                </div>
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.4 }}
+                    className={glassCard}
+                    style={{
+                        boxShadow: '0 8px 32px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.6)'
+                    }}
+                    whileHover={glassCardHover}
+                >
+                    <Typography variant="h4" className="mb-4 text-primary">Financial Summary</Typography>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        {[
+                            { label: 'Total Revenue', value: totalRevenue, color: 'text-green-600' },
+                            { label: 'Total Expenses', value: totalExpenses, color: 'text-red-600' },
+                            { label: 'Net Profit', value: netProfit, color: netProfit >= 0 ? 'text-green-600' : 'text-red-600' },
+                        ].map((item, i) => (
+                            <div key={i} className="text-center p-4 rounded-xl bg-white/40 backdrop-blur-sm border border-white/30">
+                                <p className="text-sm text-gray-500">{item.label}</p>
+                                <p className={`text-2xl font-bold ${item.color}`}>
+                                    {new Intl.NumberFormat('fr-FR').format(item.value)} FCFA
+                                </p>
+                            </div>
+                        ))}
+                    </div>
+                </motion.div>
             </div>
         </div>
     );
