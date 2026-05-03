@@ -29,6 +29,7 @@ import {
 } from 'recharts';
 import { getMockData } from '../services/mockData';
 import { callApi } from '../services/api';
+import {InfoCard} from "@/components/InfoCard/InfoCard";
 
 const isDevelopment = import.meta.env.DEV;
 
@@ -123,7 +124,7 @@ const Dashboard: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #F5F5F5 0%, #DEDAD4 50%, #F5F5F5 100%)' }}>
+        <div className="min-h-screen relative overflow-hidden">
             {/* Animated background blobs */}
             <div className="absolute -top-40 -right-40 w-96 h-96 rounded-full opacity-10 blur-3xl animate-pulse"
                  style={{ background: 'radial-gradient(circle, rgba(165,105,66,0.4) 0%, transparent 70%)' }}
@@ -174,39 +175,75 @@ const Dashboard: React.FC = () => {
             <div className="container mx-auto px-4 py-8 relative z-10">
                 {/* KPI Cards Row */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
-                    {[
-                        { icon: FaTree, value: farmData?.stats?.aliveTrees || 0, label: 'Total Trees Alive', delay: 0, color: 'text-primary' },
-                        { icon: FaTractor, value: `${farmData?.stats?.plantedBlocks || 0}/${farmData?.stats?.totalBlocks || 35}`, label: 'Planted Blocks', delay: 0.1, color: 'text-accent' },
-                        { icon: FaDollarSign, value: `${new Intl.NumberFormat('fr-FR').format(totalRevenue)} FCFA`, label: 'Total Revenue', delay: 0.2, color: 'text-green-600' },
-                        { icon: FaTasks, value: pendingTasks.length + inProgressTasks.length, label: 'Active Tasks', delay: 0.3, color: 'text-primary', sub: overdueTasks.length > 0 ? `${overdueTasks.length} overdue` : null },
-                        { icon: FaChartLine, value: `${profitMargin.toFixed(1)}%`, label: 'Profit Margin', delay: 0.4, color: 'text-accent' },
-                    ].map((item, i) => (
-                        <motion.div
-                            key={i}
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: item.delay }}
-                            className={glassCard}
-                            style={{
-                                boxShadow: '0 8px 32px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.6), inset 0 -1px 0 rgba(0,0,0,0.04)'
-                            }}
-                            whileHover={glassCardHover}
-                        >
-                            <div className="absolute -top-2 -right-2 w-8 h-8 bg-white/60 rounded-full blur-md" />
-                            <item.icon className={`text-3xl ${item.color} mb-4 relative z-10`} />
-                            <h3 className="text-2xl font-bold text-gray-900 relative z-10">{item.value}</h3>
-                            <p className="text-gray-500 relative z-10">{item.label}</p>
-                            {item.sub && <p className="text-xs text-red-500 mt-1 relative z-10">{item.sub}</p>}
-                        </motion.div>
-                    ))}
+                    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0 }}>
+                        <InfoCard
+                            icon={FaTree}
+                            title={String(farmData?.stats?.aliveTrees || 0)}
+                            subtitle="Total Trees Alive"
+                            iconColor="text-primary"
+                            showInfoBadge={false}
+                        />
+                    </motion.div>
+                    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
+                        <InfoCard
+                            icon={FaTractor}
+                            title={`${farmData?.stats?.plantedBlocks || 0}/${farmData?.stats?.totalBlocks || 35}`}
+                            subtitle="Planted Blocks"
+                            iconColor="text-accent"
+                            showInfoBadge={false}
+                        />
+                    </motion.div>
+                    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
+                        <InfoCard
+                            icon={FaDollarSign}
+                            title={`${new Intl.NumberFormat('fr-FR').format(totalRevenue)} FCFA`}
+                            subtitle="Total Revenue"
+                            iconColor="text-green-600"
+                            showInfoBadge={false}
+                        />
+                    </motion.div>
+                    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
+                        <InfoCard
+                            icon={FaTasks}
+                            title={String(pendingTasks.length + inProgressTasks.length)}
+                            subtitle={`Active Tasks${overdueTasks.length > 0 ? ` • ${overdueTasks.length} overdue` : ''}`}
+                            iconColor="text-primary"
+                            showInfoBadge={false}
+                        />
+                    </motion.div>
+                    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
+                        <InfoCard
+                            icon={FaChartLine}
+                            title={`${profitMargin.toFixed(1)}%`}
+                            subtitle="Profit Margin"
+                            iconColor="text-accent"
+                            showInfoBadge={false}
+                        />
+                    </motion.div>
                 </div>
 
                 {/* Dashboard Navigation Bar */}
-                <div className="backdrop-blur-lg bg-white/70 border border-white/40 rounded-2xl shadow-lg p-2 mb-8"
+                <div className="relative overflow-hidden rounded-2xl p-2 mb-8 backdrop-blur-lg transition-all duration-500"
                      style={{
-                         boxShadow: '0 8px 32px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.6)'
+                         background: 'linear-gradient(135deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0.6) 100%)',
+                         border: '1px solid rgba(255,255,255,0.5)',
+                         boxShadow: '0 8px 32px rgba(165, 105, 66, 0.12), inset 0 1px 0 rgba(255,255,255,0.6), inset 0 -1px 0 rgba(0,0,0,0.05)'
                      }}
                 >
+                    {/* Animated blobs */}
+                    <div
+                        className="absolute -top-10 -right-10 w-24 h-24 rounded-full opacity-10 blur-2xl animate-pulse"
+                        style={{ background: 'radial-gradient(circle, rgba(165,105,66,0.4) 0%, transparent 70%)' }}
+                    />
+                    <div
+                        className="absolute -bottom-8 -left-8 w-20 h-20 rounded-full opacity-8 blur-2xl"
+                        style={{
+                            background: 'radial-gradient(circle, rgba(210,125,45,0.4) 0%, transparent 70%)',
+                            animation: 'float 6s ease-in-out infinite'
+                        }}
+                    />
+
+                    <div className="relative z-10 flex flex-wrap items-center gap-1">
                     <div className="flex flex-wrap items-center gap-1">
                         {/* Block Map */}
                         <motion.button
@@ -407,6 +444,7 @@ const Dashboard: React.FC = () => {
                         ))}
                     </div>
                 </motion.div>
+            </div>
             </div>
         </div>
     );
