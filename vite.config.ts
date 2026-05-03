@@ -4,9 +4,8 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 import viteCompression from 'vite-plugin-compression'
 import { visualizer } from 'rollup-plugin-visualizer'
-import {ViteImageOptimizer } from 'vite-plugin-image-optimizer';
+import { ViteImageOptimizer } from 'vite-plugin-image-optimizer';
 import * as fs from "node:fs";
-
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -43,6 +42,20 @@ export default defineConfig({
     ],
     server: {
         host: true,
+        // Add proxy configuration for API
+        proxy: {
+            '/api': {
+                target: 'http://localhost:8888',
+                changeOrigin: true,
+                rewrite: (path) => path.replace(/^\/api/, '/.netlify/functions'),
+                // Don't fail if the target is not available
+                configure: (proxy, options) => {
+                    proxy.on('error', (err, req, res) => {
+                        console.log('Proxy error - using mock data instead');
+                    });
+                },
+            },
+        },
     },
     define: {
         'process.env': {}
@@ -62,7 +75,8 @@ export default defineConfig({
             'react',
             'react-dom',
             'react-router-dom',
-            'date-fns'
+            'date-fns',
+            'recharts', // Add recharts for charts
         ],
         exclude: ['js-big-decimal']
     },
@@ -95,7 +109,8 @@ export default defineConfig({
                     maps: ['leaflet', 'react-leaflet'],
                     i18n: ['i18next', 'react-i18next'],
                     icons: ['react-icons/fa', 'react-icons/gi'],
-                    vendor: ['lodash', 'date-fns']
+                    vendor: ['lodash', 'date-fns'],
+                    charts: ['recharts'], // Add charts chunk
                 },
                 assetFileNames: 'assets/[name]-[hash][extname]',
                 entryFileNames: 'assets/[name]-[hash].js',

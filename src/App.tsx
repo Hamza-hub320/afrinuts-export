@@ -19,13 +19,21 @@ import OurStory from './pages/OurStory';
 import { I18nextProvider } from 'react-i18next';
 import TracePage from "./pages/Trace";
 import Accessibility from '@/pages/Accessibility';
+import Login from './pages/Login';
+import Dashboard from './pages/Dashboard';
+import BlockMap from './pages/BlockMap';
+import Tasks from './pages/Tasks';
+import Financials from './pages/Financials';
+import InvestorPortal from './pages/InvestorPortal';
 import i18n from './i18n';
+import { ProtectedRoute } from './components/ProtectedRoute';
+import { AuthProvider } from './contexts/AuthContext';
 import './index.css';
 import { ReactElement, useEffect } from 'react';
 import React from 'react';
 import Faq from "@pages/Faq";
 
-// Add this component to handle scroll restoration
+// Scroll restoration component
 function ScrollToTop() {
     const { pathname } = useLocation();
 
@@ -39,36 +47,85 @@ function ScrollToTop() {
 function App(): ReactElement {
     return (
         <I18nextProvider i18n={i18n}>
-            <div className="min-h-screen font-sans bg-[var(--background)] text-[var(--text-dark)]">
-                <BrowserRouter basename='/'>
-                    <ScrollToTop />
-                    <Routes>
-                        <Route path="/" element={<Layout />}>
-                            <Route index element={<Home />} />
-                            <Route path="about" element={<About />} />
-                            <Route path="products" element={<Products />} />
-                            <Route path="certifications" element={<Certifications />} />
-                            <Route path="farm" element={<Farm />} />
-                            <Route path="/sustainability" element={<Sustainability />} />
-                            <Route path="/vision" element={<Vision />} />
-                            <Route path="contact" element={<Contact />} />
-                            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-                            <Route path="/cookie-policy" element={<CookiePolicy />} />
-                            <Route path="/terms" element={<TermsOfService />} />
-                            <Route path="/news" element={<News />} />
-                            <Route path="/faq" element={<Faq />} />
-                            <Route path="/executive-team" element={<ExecutiveTeam />} />
-                            <Route path="/about/our-story" element={<OurStory />} />
-                            <Route path="/trace" element={<TracePage />} />
-                            <Route path="/processing" element={<Processing />} />
-                            <Route path="/processing/facility-flowchart" element={<FacilityFlowchart />} />
-                            <Route path="/accessibility" element={<Accessibility />} />
-                                {/* Add a catch-all route for 404s within the SPA */}
+            <AuthProvider>
+                <div className="min-h-screen font-sans bg-[var(--background)] text-[var(--text-dark)]">
+                    <BrowserRouter basename='/'>
+                        <ScrollToTop />
+                        <Routes>
+                            <Route path="/" element={<Layout />}>
+                                {/* Public Routes */}
+                                <Route index element={<Home />} />
+                                <Route path="about" element={<About />} />
+                                <Route path="products" element={<Products />} />
+                                <Route path="certifications" element={<Certifications />} />
+                                <Route path="farm" element={<Farm />} />
+                                <Route path="sustainability" element={<Sustainability />} />
+                                <Route path="vision" element={<Vision />} />
+                                <Route path="contact" element={<Contact />} />
+                                <Route path="privacy-policy" element={<PrivacyPolicy />} />
+                                <Route path="cookie-policy" element={<CookiePolicy />} />
+                                <Route path="terms" element={<TermsOfService />} />
+                                <Route path="news" element={<News />} />
+                                <Route path="faq" element={<Faq />} />
+                                <Route path="executive-team" element={<ExecutiveTeam />} />
+                                <Route path="about/our-story" element={<OurStory />} />
+                                <Route path="trace" element={<TracePage />} />
+                                <Route path="processing" element={<Processing />} />
+                                <Route path="processing/facility-flowchart" element={<FacilityFlowchart />} />
+                                <Route path="accessibility" element={<Accessibility />} />
+
+                                {/* Auth Routes */}
+                                <Route path="login" element={<Login />} />
+
+                                {/* Protected Routes */}
+                                <Route
+                                    path="dashboard"
+                                    element={
+                                        <ProtectedRoute allowedRoles={['OWNER', 'MANAGER', 'INVESTOR']}>
+                                            <Dashboard />
+                                        </ProtectedRoute>
+                                    }
+                                />
+                                <Route
+                                    path="dashboard/blocks"
+                                    element={
+                                        <ProtectedRoute allowedRoles={['OWNER', 'MANAGER']}>
+                                            <BlockMap />
+                                        </ProtectedRoute>
+                                    }
+                                />
+                                <Route
+                                    path="dashboard/tasks"
+                                    element={
+                                        <ProtectedRoute allowedRoles={['OWNER', 'MANAGER']}>
+                                            <Tasks />
+                                        </ProtectedRoute>
+                                    }
+                                />
+                                <Route
+                                    path="dashboard/financials"
+                                    element={
+                                        <ProtectedRoute allowedRoles={['OWNER', 'MANAGER', 'INVESTOR']}>
+                                            <Financials />
+                                        </ProtectedRoute>
+                                    }
+                                />
+                            </Route>
+                            <Route
+                                path="investor"
+                                element={
+                                    <ProtectedRoute allowedRoles={['INVESTOR', 'OWNER', 'MANAGER']}>
+                                        <InvestorPortal />
+                                    </ProtectedRoute>
+                                }
+                            />
+
+                            {/* 404 Catch-all */}
                             <Route path="*" element={<Home />} />
-                        </Route>
-                    </Routes>
-                </BrowserRouter>
-            </div>
+                        </Routes>
+                    </BrowserRouter>
+                </div>
+            </AuthProvider>
         </I18nextProvider>
     );
 }

@@ -1,5 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
+import { AuthProvider } from './contexts/AuthContext';
 import './index.css'
 import App from './App'
 
@@ -9,7 +10,9 @@ console.log('App starting...')
 try {
     ReactDOM.createRoot(document.getElementById('root')!).render(
         <React.StrictMode>
+            <AuthProvider>
             <App />
+            </AuthProvider>
         </React.StrictMode>
     )
     console.log('App rendered successfully')

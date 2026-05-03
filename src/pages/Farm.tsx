@@ -9,6 +9,8 @@ import farmImage2 from '@/assets/images/farm-2.webp';
 import farmImage3 from '@/assets/images/farm-3.webp';
 import farmImage4 from '@/assets/images/farm-4.webp';
 import farmHeroImage from '@/assets/images/farm-hero.webp';
+import { useAuth } from '../contexts/AuthContext';
+import LiveFarmStats from '@/components/LiveFarmStats';
 import { motion } from 'framer-motion';
 import { fadeIn, staggerContainer } from '@/utils/animations';
 
@@ -23,6 +25,7 @@ import {MinusIcon, PlusIcon} from "@heroicons/react/16/solid";
 const Farm = () => {
     const { t } = useTranslation('farm');
     const navigate = useNavigate();
+    const { user } = useAuth();
 
     const farmStats = [
         { icon: FaTree, value: t('stats.area'), label: t('stats.areaLabel') },
@@ -244,6 +247,50 @@ const Farm = () => {
                         </div>
                     </div>
                 </Section>
+
+                {/* Live Farm Stats Section */}
+                <section className="py-10">
+                    <div className="container mx-auto px-4">
+                        <LiveFarmStats />
+                        {!user && (
+                            <motion.div
+                                className="text-center mt-8"
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.6 }}
+                            >
+                                <p className="text-gray-600 mb-4">
+                                    Want to access the full farm management dashboard?
+                                </p>
+                                <button
+                                    onClick={() => navigate('/login')}
+                                    className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-primary to-accent text-white rounded-xl hover:shadow-lg transition-all group"
+                                >
+                                    <span>Login to Farm Operations Center</span>
+                                    <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
+                                </button>
+                            </motion.div>
+                        )}
+
+                        {/* If user IS logged in, show a link to dashboard */}
+                        {user && (
+                            <motion.div
+                                className="text-center mt-8"
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.6 }}
+                            >
+                                <button
+                                    onClick={() => navigate('/dashboard')}
+                                    className="relative w-full bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white py-3 rounded-xl font-semibold transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed overflow-hidden group"
+                                >
+                                    <span>Go to Farm Operations Center</span>
+                                    <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
+                                </button>
+                            </motion.div>
+                        )}
+                    </div>
+                </section>
 
                 {/* Farm Development Timeline */}
                 <Section className="py-10 sm:py-12 px-4 sm:px-6">
