@@ -1,6 +1,6 @@
 const admin = require('firebase-admin');
 
-// Initialize Firebase Admin
+// Initialize Firebase Admin only once
 if (!admin.apps.length) {
     admin.initializeApp({
         credential: admin.credential.cert({
@@ -13,44 +13,34 @@ if (!admin.apps.length) {
 
 const db = admin.firestore();
 
-exports.handler = async (event, context) => {
-    const headers = {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-    };
+// CORS headers for all responses
+const headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+    'Content-Type': 'application/json',
+};
 
+exports.handler = async (event, context) => {
+    // Handle preflight OPTIONS request
     if (event.httpMethod === 'OPTIONS') {
         return { statusCode: 204, headers, body: '' };
     }
 
-    // Verify authentication token from Authorization header
-    const authHeader = event.headers.authorization;
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-        return {
-            statusCode: 401,
-            headers,
-            body: JSON.stringify({ success: false, error: 'Unauthorized' }),
-        };
-    }
+    // Public data that doesn't require authentication (for LiveFarmStats)
+    const { action, farmId } = JSON.parse(event.body || '{}');
 
-    const idToken = authHeader.split(' ')[1];
-
-    try {
-        const decodedToken = await admin.auth().verifyIdToken(idToken);
-        const { action, farmId, entity, entityId } = JSON.parse(event.body);
-
-        // Get user role
-        const userDoc = await db.collection('users').doc(decodedToken.uid).get();
-        const userRole = userDoc.data()?.role || 'INVESTOR';
-
-        // Role-based access control
-        if (action === 'getFarmSummary') {
+    // For public stats (no auth required)
+    if (action === 'getPublicFarmStats') {
+        try {
             const farmDoc = await db.collection('farms').doc(farmId || '1').get();
             const blocksSnapshot = await db.collection('farms').doc(farmId || '1').collection('blocks').get();
 
             const blocks = [];
             blocksSnapshot.forEach(doc => blocks.push({ id: doc.id, ...doc.data() }));
+
+            const plantedBlocks = blocks.filter(b => b.status === 'PLANTED').length;
+            const aliveTrees = blocks.reduce((sum, b) => sum + (b.survivalRate || 0), 0);
 
             return {
                 statusCode: 200,
@@ -60,15 +50,94 @@ exports.handler = async (event, context) => {
                     farm: farmDoc.data(),
                     stats: {
                         totalBlocks: blocks.length,
-                        plantedBlocks: blocks.filter(b => b.status === 'PLANTED').length,
+                        plantedBlocks: plantedBlocks,
                         totalTrees: blocks.length * 100,
-                        aliveTrees: blocks.reduce((sum, b) => sum + (b.survivalRate || 0), 0),
+                        aliveTrees: aliveTrees,
+                        survivalRate: (aliveTrees / (blocks.length * 100)) * 100,
+                    },
+                }),
+            };
+        } catch (error) {
+            console.error('Public farm stats error:', error);
+            return {
+                statusCode: 500,
+                headers,
+                body: JSON.stringify({ success: false, error: error.message }),
+            };
+        }
+    }
+
+    // For authenticated requests - verify token
+    const authHeader = event.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+        return {
+            statusCode: 401,
+            headers,
+            body: JSON.stringify({ success: false, error: 'Unauthorized - No token provided' }),
+        };
+    }
+
+    const idToken = authHeader.split(' ')[1];
+
+    try {
+        const decodedToken = await admin.auth().verifyIdToken(idToken);
+        const userDoc = await db.collection('users').doc(decodedToken.uid).get();
+        const userRole = userDoc.data()?.role || 'INVESTOR';
+
+        // Public data accessible by all authenticated users
+        if (action === 'getFarmSummary') {
+            const farmDoc = await db.collection('farms').doc(farmId || '1').get();
+            const blocksSnapshot = await db.collection('farms').doc(farmId || '1').collection('blocks').get();
+
+            const blocks = [];
+            blocksSnapshot.forEach(doc => blocks.push({ id: doc.id, ...doc.data() }));
+
+            const plantedBlocks = blocks.filter(b => b.status === 'PLANTED').length;
+            const aliveTrees = blocks.reduce((sum, b) => sum + (b.survivalRate || 0), 0);
+
+            return {
+                statusCode: 200,
+                headers,
+                body: JSON.stringify({
+                    success: true,
+                    farm: farmDoc.data(),
+                    stats: {
+                        totalBlocks: blocks.length,
+                        plantedBlocks: plantedBlocks,
+                        totalTrees: blocks.length * 100,
+                        aliveTrees: aliveTrees,
+                        survivalRate: (aliveTrees / (blocks.length * 100)) * 100,
                     },
                 }),
             };
         }
 
         // Owner/Manager only endpoints
+        if (action === 'getBlocks' && (userRole === 'OWNER' || userRole === 'MANAGER')) {
+            const blocksSnapshot = await db.collection('farms').doc(farmId || '1').collection('blocks').get();
+            const blocks = [];
+            blocksSnapshot.forEach(doc => blocks.push({ id: doc.id, ...doc.data() }));
+
+            return {
+                statusCode: 200,
+                headers,
+                body: JSON.stringify({ success: true, blocks }),
+            };
+        }
+
+        if (action === 'getTasks' && (userRole === 'OWNER' || userRole === 'MANAGER')) {
+            const tasksSnapshot = await db.collection('farms').doc(farmId || '1').collection('tasks').get();
+            const tasks = [];
+            tasksSnapshot.forEach(doc => tasks.push({ id: doc.id, ...doc.data() }));
+
+            return {
+                statusCode: 200,
+                headers,
+                body: JSON.stringify({ success: true, tasks }),
+            };
+        }
+
+        // Investor accessible endpoints
         if (action === 'getRevenueSummary' && (userRole === 'OWNER' || userRole === 'MANAGER' || userRole === 'INVESTOR')) {
             const revenuesSnapshot = await db.collection('farms').doc(farmId || '1').collection('revenues').get();
             const revenues = [];
@@ -79,30 +148,21 @@ exports.handler = async (event, context) => {
             return {
                 statusCode: 200,
                 headers,
-                body: JSON.stringify({
-                    success: true,
-                    revenues,
-                    totalRevenue,
-                }),
+                body: JSON.stringify({ success: true, revenues, totalRevenue }),
             };
         }
 
-        // Owner/Manager only endpoints
         if (action === 'getExpenseSummary' && (userRole === 'OWNER' || userRole === 'MANAGER')) {
             const expensesSnapshot = await db.collection('farms').doc(farmId || '1').collection('expenses').get();
             const expenses = [];
             expensesSnapshot.forEach(doc => expenses.push({ id: doc.id, ...doc.data() }));
 
-            const totalExpenses = expenses.reduce((sum, e) => sum + e.amount, 0);
+            const totalExpenses = expenses.reduce((sum, e) => sum + (e.amount || 0), 0);
 
             return {
                 statusCode: 200,
                 headers,
-                body: JSON.stringify({
-                    success: true,
-                    expenses,
-                    totalExpenses,
-                }),
+                body: JSON.stringify({ success: true, expenses, totalExpenses }),
             };
         }
 

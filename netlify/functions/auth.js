@@ -11,14 +11,16 @@ if (!admin.apps.length) {
     });
 }
 
-exports.handler = async (event, context) => {
-    const headers = {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'Content-Type',
-        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-    };
+// CORS headers for all responses
+const headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+    'Content-Type': 'application/json',
+};
 
-    // Handle preflight
+exports.handler = async (event, context) => {
+    // Handle preflight OPTIONS request
     if (event.httpMethod === 'OPTIONS') {
         return { statusCode: 204, headers, body: '' };
     }
@@ -28,6 +30,10 @@ exports.handler = async (event, context) => {
 
         // Verify user session
         if (action === 'verify') {
+            if (!idToken) {
+                return { statusCode: 401, headers, body: JSON.stringify({ success: false, error: 'No token provided' }) };
+            }
+
             const decodedToken = await admin.auth().verifyIdToken(idToken);
             const userRecord = await admin.auth().getUser(decodedToken.uid);
 
@@ -53,7 +59,11 @@ exports.handler = async (event, context) => {
 
         // Sign in
         if (action === 'signin') {
-            // Use Firebase Auth REST API (since Admin SDK can't sign in)
+            if (!email || !password) {
+                return { statusCode: 400, headers, body: JSON.stringify({ success: false, error: 'Email and password required' }) };
+            }
+
+            // Use Firebase Auth REST API
             const response = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.VITE_FIREBASE_API_KEY}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },

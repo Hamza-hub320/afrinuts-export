@@ -37,7 +37,7 @@ const Login: React.FC = () => {
     };
 
     return (
-        <main className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/10 via-background to-accent/10 relative overflow-hidden px-4 py-12">
+        <main className="min-h-screen flex items-center justify-center relative overflow-hidden px-4 py-12">
             {/* Animated blobs */}
             <div
                 className="absolute -top-40 -left-40 w-80 h-80 rounded-full opacity-15 blur-3xl animate-pulse"
