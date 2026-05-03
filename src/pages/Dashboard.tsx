@@ -135,32 +135,29 @@ const Dashboard: React.FC = () => {
                  }}
             />
 
-            {/* Header - Frosted Glass */}
-            <div className="sticky top-0 z-10">
-                <div className="backdrop-blur-lg bg-white/70 border-b border-white/40 shadow-sm">
-                    <div className="container mx-auto px-4 py-6">
-                        <div className="flex justify-between items-center flex-wrap gap-4">
-                            <div>
-                                <Typography variant="h2" className="text-primary mb-2">
-                                    Farm Operations Center
-                                </Typography>
-                                <Typography variant="body" className="text-text-dark/70">
-                                    Welcome back, {user?.name || user?.email}
-                                </Typography>
-                            </div>
-                            <div className="flex items-center gap-3">
-                                <div className="px-3 py-1 bg-primary/10 backdrop-blur-sm rounded-full text-sm text-primary border border-primary/20">
-                                    Role: {user?.role}
-                                </div>
-                                <button
-                                    onClick={handleLogout}
-                                    className="flex items-center gap-2 px-4 py-2 bg-white/60 backdrop-blur-sm rounded-xl border border-white/40 hover:bg-white/80 transition-all text-text-dark shadow-sm"
-                                >
-                                    <FaSignOutAlt />
-                                    <span>Logout</span>
-                                </button>
-                            </div>
+            {/* Hero Header - Matching Investor Portal */}
+            <div className="flex items-center justify-center text-center min-h-[40vh] bg-gradient-to-b from-primary/10 to-transparent relative">
+                <div className="max-w-4xl px-6 sm:px-8 py-12">
+                    <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-4">
+                        Farm Operations Center
+                    </Typography>
+                    <h1 className="font-display text-4xl md:text-5xl lg:text-6xl text-text-dark mb-6 leading-tight" style={{ letterSpacing: '-0.03em' }}>
+                        Welcome back, {user?.name || user?.email}
+                    </h1>
+                    <Typography variant="lead" className="text-text-dark max-w-3xl mx-auto">
+                        Data-driven insights from our 35-hectare cashew farm in Odienné, Ivory Coast.
+                    </Typography>
+                    <div className="flex items-center justify-center gap-4 mt-6">
+                        <div className="px-4 py-2 bg-primary/10 backdrop-blur-sm rounded-full text-sm text-primary border border-primary/20">
+                            Role: {user?.role}
                         </div>
+                        <button
+                            onClick={handleLogout}
+                            className="flex items-center gap-2 px-4 py-2 bg-white/60 backdrop-blur-sm rounded-xl border border-white/40 hover:bg-white/80 transition-all text-text-dark shadow-sm"
+                        >
+                            <FaSignOutAlt />
+                            <span>Logout</span>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -204,155 +201,87 @@ const Dashboard: React.FC = () => {
                     ))}
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                    {/* Block Map Card */}
-                    <motion.button
-                        whileHover={{ y: -8, scale: 1.02, rotateY: 2 }}
-                        whileTap={{ scale: 0.98 }}
-                        onClick={() => navigate('/dashboard/blocks')}
-                        className="group relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-500 rounded-2xl shadow-xl p-6 text-left overflow-hidden transform-gpu"
-                        style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
-                    >
-                        {/* 3D edge effect */}
-                        <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
-                        {/* Glassy overlay */}
-                        <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
-                        {/* Inner shadow effect */}
-                        <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] group-hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
-                        {/* Subtle background pattern */}
-                        <div className="absolute inset-0 rounded-2xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
-                        {/* Decorative blob */}
-                        <div className="absolute -top-16 -right-16 w-32 h-32 rounded-full opacity-15 blur-3xl group-hover:scale-150 transition-transform duration-500 animate-pulse"
-                             style={{ background: 'radial-gradient(circle, rgba(90,116,17,0.4) 0%, transparent 70%)' }}
-                        />
-
-                        <div className="relative z-10">
-                            <motion.div
-                                className="w-12 h-12 bg-primary/10 backdrop-blur-sm rounded-xl flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors shadow-md"
-                                whileHover={{ scale: 1.1, rotate: 5 }}
-                                transition={{ type: 'spring', stiffness: 300 }}
-                            >
-                                <FaMap className="text-2xl text-primary" />
-                            </motion.div>
-                            <h3 className="text-lg font-semibold text-gray-900 mb-1">Block Map</h3>
-                            <p className="text-sm text-gray-500">View 5x7 grid layout of your farm blocks</p>
-                            <div className="mt-3 flex items-center text-primary text-sm font-medium">
-                                Explore <FaMap className="ml-1 text-xs group-hover:translate-x-1 transition-transform" />
-                            </div>
-                        </div>
-                    </motion.button>
-
-                    {/* Tasks Card */}
-                    <motion.button
-                        whileHover={{ y: -8, scale: 1.02, rotateY: 2 }}
-                        whileTap={{ scale: 0.98 }}
-                        onClick={() => navigate('/dashboard/tasks')}
-                        className="group relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-500 rounded-2xl shadow-xl p-6 text-left overflow-hidden transform-gpu"
-                        style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
-                    >
-                        {/* 3D edge effect */}
-                        <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
-                        {/* Glassy overlay */}
-                        <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
-                        {/* Inner shadow effect */}
-                        <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] group-hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
-                        {/* Subtle background pattern */}
-                        <div className="absolute inset-0 rounded-2xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
-                        {/* Decorative blob */}
-                        <div className="absolute -top-16 -right-16 w-32 h-32 rounded-full opacity-15 blur-3xl group-hover:scale-150 transition-transform duration-500 animate-pulse"
-                             style={{ background: 'radial-gradient(circle, rgba(224,78,0,0.4) 0%, transparent 70%)' }}
-                        />
-
-                        <div className="relative z-10">
-                            <motion.div
-                                className="w-12 h-12 bg-accent/10 backdrop-blur-sm rounded-xl flex items-center justify-center mb-4 group-hover:bg-accent/20 transition-colors shadow-md"
-                                whileHover={{ scale: 1.1, rotate: 5 }}
-                                transition={{ type: 'spring', stiffness: 300 }}
-                            >
-                                <FaTasks className="text-2xl text-accent" />
-                            </motion.div>
-                            <h3 className="text-lg font-semibold text-gray-900 mb-1">Tasks</h3>
-                            <p className="text-sm text-gray-500">Manage and track farm operations</p>
-                            <div className="mt-3 flex items-center text-accent text-sm font-medium">
-                                View Tasks <FaTasks className="ml-1 text-xs group-hover:translate-x-1 transition-transform" />
-                            </div>
-                        </div>
-                    </motion.button>
-
-                    {/* Financials Card */}
-                    <motion.button
-                        whileHover={{ y: -8, scale: 1.02, rotateY: 2 }}
-                        whileTap={{ scale: 0.98 }}
-                        onClick={() => navigate('/dashboard/financials')}
-                        className="group relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-500 rounded-2xl shadow-xl p-6 text-left overflow-hidden transform-gpu"
-                        style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
-                    >
-                        {/* 3D edge effect */}
-                        <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
-                        {/* Glassy overlay */}
-                        <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
-                        {/* Inner shadow effect */}
-                        <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] group-hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
-                        {/* Subtle background pattern */}
-                        <div className="absolute inset-0 rounded-2xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
-                        {/* Decorative blob */}
-                        <div className="absolute -top-16 -right-16 w-32 h-32 rounded-full opacity-15 blur-3xl group-hover:scale-150 transition-transform duration-500 animate-pulse"
-                             style={{ background: 'radial-gradient(circle, rgba(160,200,0,0.4) 0%, transparent 70%)' }}
-                        />
-
-                        <div className="relative z-10">
-                            <motion.div
-                                className="w-12 h-12 bg-secondary/10 backdrop-blur-sm rounded-xl flex items-center justify-center mb-4 group-hover:bg-secondary/20 transition-colors shadow-md"
-                                whileHover={{ scale: 1.1, rotate: 5 }}
-                                transition={{ type: 'spring', stiffness: 300 }}
-                            >
-                                <FaChartLine className="text-2xl text-secondary" />
-                            </motion.div>
-                            <h3 className="text-lg font-semibold text-gray-900 mb-1">Financials</h3>
-                            <p className="text-sm text-gray-500">Track revenue, expenses, and profits</p>
-                            <div className="mt-3 flex items-center text-secondary text-sm font-medium">
-                                View Reports <FaChartLine className="ml-1 text-xs group-hover:translate-x-1 transition-transform" />
-                            </div>
-                        </div>
-                    </motion.button>
-                </div>
-
-                {/* Investor Portal Card */}
-                <motion.button
-                    whileHover={{ y: -8, scale: 1.02, rotateY: 2 }}
-                    whileTap={{ scale: 0.98 }}
-                    onClick={() => navigate('/investor')}
-                    className="group relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-500 rounded-2xl shadow-xl p-6 text-left overflow-hidden transform-gpu"
-                    style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
+                {/* Dashboard Navigation Bar */}
+                <div className="backdrop-blur-lg bg-white/70 border border-white/40 rounded-2xl shadow-lg p-2 mb-8"
+                     style={{
+                         boxShadow: '0 8px 32px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.6)'
+                     }}
                 >
-                    {/* 3D edge effect */}
-                    <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
-                    {/* Glassy overlay */}
-                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
-                    {/* Inner shadow effect */}
-                    <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] group-hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
-                    {/* Subtle background pattern */}
-                    <div className="absolute inset-0 rounded-2xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
-                    {/* Decorative blob */}
-                    <div className="absolute -top-16 -right-16 w-32 h-32 rounded-full opacity-15 blur-3xl group-hover:scale-150 transition-transform duration-500 animate-pulse"
-                         style={{ background: 'radial-gradient(circle, rgba(90,116,17,0.4) 0%, transparent 70%)' }}
-                    />
-
-                    <div className="relative z-10">
-                        <motion.div
-                            className="w-12 h-12 bg-primary/10 backdrop-blur-sm rounded-xl flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors shadow-md"
-                            whileHover={{ scale: 1.1, rotate: 5 }}
-                            transition={{ type: 'spring', stiffness: 300 }}
+                    <div className="flex flex-wrap items-center gap-1">
+                        {/* Block Map */}
+                        <motion.button
+                            whileHover={{ y: -2, scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                            onClick={() => navigate('/dashboard/blocks')}
+                            className="flex items-center gap-3 px-5 py-3 rounded-xl text-sm font-medium transition-all duration-300 hover:bg-primary/10 text-gray-700 hover:text-primary"
                         >
-                            <FaChartLine className="text-2xl text-primary" />
-                        </motion.div>
-                        <h3 className="text-lg font-semibold text-gray-900 mb-1">Investor Portal</h3>
-                        <p className="text-sm text-gray-500">View-only investor summary & projections</p>
-                        <div className="mt-3 flex items-center text-primary text-sm font-medium">
-                            Explore <FaChartLine className="ml-1 text-xs group-hover:translate-x-1 transition-transform" />
-                        </div>
+                            <div className="w-9 h-9 bg-primary/10 rounded-lg flex items-center justify-center">
+                                <FaMap className="text-primary" />
+                            </div>
+                            <div className="text-left">
+                                <span className="block font-semibold">Block Map</span>
+                                <span className="text-xs text-gray-400">Farm grid</span>
+                            </div>
+                        </motion.button>
+
+                        {/* Separator */}
+                        <div className="w-px h-8 bg-gray-200 mx-1 hidden sm:block" />
+
+                        {/* Tasks */}
+                        <motion.button
+                            whileHover={{ y: -2, scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                            onClick={() => navigate('/dashboard/tasks')}
+                            className="flex items-center gap-3 px-5 py-3 rounded-xl text-sm font-medium transition-all duration-300 hover:bg-accent/10 text-gray-700 hover:text-accent"
+                        >
+                            <div className="w-9 h-9 bg-accent/10 rounded-lg flex items-center justify-center">
+                                <FaTasks className="text-accent" />
+                            </div>
+                            <div className="text-left">
+                                <span className="block font-semibold">Tasks</span>
+                                <span className="text-xs text-gray-400">Operations</span>
+                            </div>
+                        </motion.button>
+
+                        {/* Separator */}
+                        <div className="w-px h-8 bg-gray-200 mx-1 hidden sm:block" />
+
+                        {/* Financials */}
+                        <motion.button
+                            whileHover={{ y: -2, scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                            onClick={() => navigate('/dashboard/financials')}
+                            className="flex items-center gap-3 px-5 py-3 rounded-xl text-sm font-medium transition-all duration-300 hover:bg-secondary/10 text-gray-700 hover:text-secondary"
+                        >
+                            <div className="w-9 h-9 bg-secondary/10 rounded-lg flex items-center justify-center">
+                                <FaChartLine className="text-secondary" />
+                            </div>
+                            <div className="text-left">
+                                <span className="block font-semibold">Financials</span>
+                                <span className="text-xs text-gray-400">Reports</span>
+                            </div>
+                        </motion.button>
+
+                        {/* Separator */}
+                        <div className="w-px h-8 bg-gray-200 mx-1 hidden sm:block" />
+
+                        {/* Investor Portal */}
+                        <motion.button
+                            whileHover={{ y: -2, scale: 1.02 }}
+                            whileTap={{ scale: 0.98 }}
+                            onClick={() => navigate('/investor')}
+                            className="flex items-center gap-3 px-5 py-3 rounded-xl text-sm font-medium transition-all duration-300 hover:bg-primary/10 text-gray-700 hover:text-primary ml-auto"
+                        >
+                            <div className="w-9 h-9 bg-primary/10 rounded-lg flex items-center justify-center">
+                                <FaDollarSign className="text-primary" />
+                            </div>
+                            <div className="text-left">
+                                <span className="block font-semibold">Investor Portal</span>
+                                <span className="text-xs text-gray-400">View-only</span>
+                            </div>
+                        </motion.button>
                     </div>
-                </motion.button>
+                </div>
 
                 {/* Charts Row */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">

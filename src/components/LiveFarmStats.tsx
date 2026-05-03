@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
 import { FaTree, FaChartLine, FaSeedling, FaTractor } from 'react-icons/fa';
 import { Typography } from '@/components/Typography/Typography';
+import { InfoCard } from '@/components/InfoCard/InfoCard';
 import { getMockData } from '../services/mockData';
 import { callApi } from '../services/api';
 
@@ -122,65 +122,28 @@ const LiveFarmStats: React.FC = () => {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {statsCards.map((card, index) => {
-                    const Icon = card.icon;
-                    return (
-                        <motion.div
-                            key={index}
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: index * 0.1 }}
-                            className="group relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 transition-all duration-500 rounded-2xl shadow-xl transform-gpu overflow-hidden"
-                            style={{
-                                transformStyle: 'preserve-3d',
-                                perspective: '1000px',
-                            }}
-                            whileHover={{
-                                y: -8,
-                                scale: 1.02,
-                                rotateY: 3,
-                                boxShadow: '0 20px 35px -10px rgba(0, 0, 0, 0.2)',
-                                transition: { duration: 0.3 }
-                            }}
-                        >
-                            {/* 3D edge effect */}
-                            <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
-                            {/* Glassy overlay */}
-                            <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
-                            {/* Inner shadow */}
-                            <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] group-hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
-                            {/* Background pattern */}
-                            <div className="absolute inset-0 rounded-2xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
-
-                            <div className="relative z-10 p-6">
-                                <div className="bg-white/40 backdrop-blur-md p-3 rounded-full mb-4 w-fit transform-gpu group-hover:scale-110 transition-transform duration-500 shadow-md">
-                                    <Icon className={`w-6 h-6 ${card.iconColor}`} />
-                                </div>
-                                <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-2">
-                                    {card.title}
-                                </h3>
-                                <div className="text-3xl font-bold text-primary mb-2">
-                                    {card.value}
-                                </div>
-                                <p className="text-sm text-gray-500">
-                                    {card.subtitle}
-                                </p>
-                            </div>
-                        </motion.div>
-                    );
-                })}
+                {statsCards.map((card, index) => (
+                    <InfoCard
+                        key={index}
+                        icon={card.icon}
+                        title={card.title}
+                        subtitle={card.subtitle}
+                        iconColor={card.iconColor}
+                        className="text-center"
+                        showInfoBadge={false}
+                    >
+                        <div className="text-3xl font-bold text-primary">
+                            {card.value}
+                        </div>
+                    </InfoCard>
+                ))}
             </div>
 
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.5 }}
-                className="mt-8 text-center"
-            >
+            <div className="mt-8 text-center">
                 <p className="text-xs text-gray-400">
                     Data updates in real-time • Last sync: {new Date().toLocaleString()}
                 </p>
-            </motion.div>
+            </div>
         </div>
     );
 };

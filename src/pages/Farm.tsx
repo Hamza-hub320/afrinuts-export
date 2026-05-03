@@ -271,24 +271,6 @@ const Farm = () => {
                                 </button>
                             </motion.div>
                         )}
-
-                        {/* If user IS logged in, show a link to dashboard */}
-                        {user && (
-                            <motion.div
-                                className="text-center mt-8"
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.6 }}
-                            >
-                                <button
-                                    onClick={() => navigate('/dashboard')}
-                                    className="relative w-full bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white py-3 rounded-xl font-semibold transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed overflow-hidden group"
-                                >
-                                    <span>Go to Farm Operations Center</span>
-                                    <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
-                                </button>
-                            </motion.div>
-                        )}
                     </div>
                 </section>
 
