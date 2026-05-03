@@ -252,25 +252,23 @@ const Farm = () => {
                 <section className="py-10">
                     <div className="container mx-auto px-4">
                         <LiveFarmStats />
-                        {!user && (
-                            <motion.div
-                                className="text-center mt-8"
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.6 }}
+                        <motion.div
+                            className="text-center mt-8"
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.6 }}
+                        >
+                            <p className="text-gray-600 mb-4">
+                                Want to access the full farm management dashboard?
+                            </p>
+                            <button
+                                onClick={() => navigate('/login')}
+                                className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-primary to-accent text-white rounded-xl hover:shadow-lg transition-all group"
                             >
-                                <p className="text-gray-600 mb-4">
-                                    Want to access the full farm management dashboard?
-                                </p>
-                                <button
-                                    onClick={() => navigate('/login')}
-                                    className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-primary to-accent text-white rounded-xl hover:shadow-lg transition-all group"
-                                >
-                                    <span>Login to Farm Operations Center</span>
-                                    <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
-                                </button>
-                            </motion.div>
-                        )}
+                                <span>Login to Farm Operations Center</span>
+                                <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
+                            </button>
+                        </motion.div>
                     </div>
                 </section>
 
