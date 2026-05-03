@@ -319,6 +319,7 @@ const Dashboard: React.FC = () => {
                         </motion.button>
                     </div>
                 </div>
+                </div>
 
                 {/* Charts Row */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
@@ -444,7 +445,6 @@ const Dashboard: React.FC = () => {
                         ))}
                     </div>
                 </motion.div>
-            </div>
             </div>
         </div>
     );
