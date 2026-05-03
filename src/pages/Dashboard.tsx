@@ -424,7 +424,6 @@ const Dashboard: React.FC = () => {
                     transition={{ delay: 0.4 }}
                     className={glassCard}
                     style={{
-                        background: 'linear-gradient(135deg, rgba(90,116,17,0.06) 0%, rgba(224,78,0,0.04) 100%)',
                         boxShadow: '0 8px 32px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.6)'
                     }}
                     whileHover={glassCardHover}
