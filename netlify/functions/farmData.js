@@ -112,7 +112,38 @@ exports.handler = async (event, context) => {
             };
         }
 
-        // Owner/Manager only endpoints
+        // Get Tasks - accessible by Owner, Manager, and Investor (read-only)
+        if (action === 'getTasks' && (userRole === 'OWNER' || userRole === 'MANAGER' || userRole === 'INVESTOR')) {
+            const tasksSnapshot = await db.collection('farms').doc(farmId || '1').collection('tasks').get();
+            const tasks = [];
+            tasksSnapshot.forEach(doc => tasks.push({ id: doc.id, ...doc.data() }));
+
+            return {
+                statusCode: 200,
+                headers,
+                body: JSON.stringify({ success: true, tasks }),
+            };
+        }
+
+        // Get Assignments - accessible by Owner, Manager, and Investor (read-only)
+        // ADD THIS SECTION
+        if (action === 'getAssignments' && (userRole === 'OWNER' || userRole === 'MANAGER' || userRole === 'INVESTOR')) {
+            const assignmentsSnapshot = await db.collection('task_assignments')
+                .where('farmId', '==', farmId || '1')
+                .orderBy('assignedAt', 'desc')
+                .get();
+
+            const assignments = [];
+            assignmentsSnapshot.forEach(doc => assignments.push({ id: doc.id, ...doc.data() }));
+
+            return {
+                statusCode: 200,
+                headers,
+                body: JSON.stringify({ success: true, assignments }),
+            };
+        }
+
+        // Get Blocks - accessible by Owner and Manager only
         if (action === 'getBlocks' && (userRole === 'OWNER' || userRole === 'MANAGER')) {
             const blocksSnapshot = await db.collection('farms').doc(farmId || '1').collection('blocks').get();
             const blocks = [];
@@ -125,19 +156,7 @@ exports.handler = async (event, context) => {
             };
         }
 
-        if (action === 'getTasks' && (userRole === 'OWNER' || userRole === 'MANAGER')) {
-            const tasksSnapshot = await db.collection('farms').doc(farmId || '1').collection('tasks').get();
-            const tasks = [];
-            tasksSnapshot.forEach(doc => tasks.push({ id: doc.id, ...doc.data() }));
-
-            return {
-                statusCode: 200,
-                headers,
-                body: JSON.stringify({ success: true, tasks }),
-            };
-        }
-
-        // Investor accessible endpoints
+        // Revenue Summary - accessible by all authenticated users (read-only)
         if (action === 'getRevenueSummary' && (userRole === 'OWNER' || userRole === 'MANAGER' || userRole === 'INVESTOR')) {
             const revenuesSnapshot = await db.collection('farms').doc(farmId || '1').collection('revenues').get();
             const revenues = [];
@@ -152,6 +171,7 @@ exports.handler = async (event, context) => {
             };
         }
 
+        // Expense Summary - accessible by Owner and Manager only
         if (action === 'getExpenseSummary' && (userRole === 'OWNER' || userRole === 'MANAGER')) {
             const expensesSnapshot = await db.collection('farms').doc(farmId || '1').collection('expenses').get();
             const expenses = [];
@@ -169,7 +189,7 @@ exports.handler = async (event, context) => {
         return {
             statusCode: 403,
             headers,
-            body: JSON.stringify({ success: false, error: 'Insufficient permissions' }),
+            body: JSON.stringify({ success: false, error: 'Insufficient permissions for action: ' + action }),
         };
     } catch (error) {
         console.error('FarmData function error:', error);
