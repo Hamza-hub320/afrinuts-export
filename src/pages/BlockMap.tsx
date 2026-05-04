@@ -160,6 +160,9 @@ const BlockMap: React.FC = () => {
                         variants={staggerContainer}
                     >
                         <motion.div variants={fadeIn}>
+                            <Typography variant="h2" className="mb-4 text-primary">
+                                Farm Block Overview
+                            </Typography>
                             <Typography variant="body" className="text-gray-600 max-w-2xl mx-auto">
                                 Each colored tile below represents a farm block. Click any block to see
                                 its current status, tree survival rate, and operational details. The legend

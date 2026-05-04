@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { FaFilePdf, FaDownload, FaDollarSign, FaChartLine, FaChartBar, FaChartPie, FaTable } from 'react-icons/fa';
+import { FaFilePdf, FaDollarSign, FaChartLine, FaChartBar, FaChartPie, FaTable } from 'react-icons/fa';
 import { Typography } from '@/components/Typography/Typography';
+import DashboardNavbar from '@/components/DashboardNavbar/DashboardNavbar';
 import { getMockData } from '../services/mockData';
 import { callApi } from '../services/api';
 import {
     LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid,
     Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell
 } from 'recharts';
-import { InfoCard } from '@/components/InfoCard/InfoCard';
 import { fadeIn, staggerContainer } from '@/utils/animations';
+import Section from '@/components/Section/Section';
 
 const isDevelopment = import.meta.env.DEV;
 const COLORS = ['#5A7411', '#E04E00', '#A0C800', '#253746', '#698714'];
@@ -59,12 +60,12 @@ const Financials: React.FC = () => {
         fetchFinancials();
     }, []);
 
-    const totalRevenue = revenues.reduce((sum, r) => sum + (r.totalAmount || 0), 0);
-    const totalExpenses = expenses.reduce((sum, e) => sum + (e.amount || 0), 0);
+    const totalRevenue = revenues.reduce((sum: number, r: any) => sum + (r.totalAmount || 0), 0);
+    const totalExpenses = expenses.reduce((sum: number, e: any) => sum + (e.amount || 0), 0);
     const netProfit = totalRevenue - totalExpenses;
     const profitMargin = totalRevenue > 0 ? (netProfit / totalRevenue) * 100 : 0;
 
-    const expensesByCategory = expenses.reduce((acc: any, e) => {
+    const expensesByCategory = expenses.reduce((acc: any, e: any) => {
         acc[e.category] = (acc[e.category] || 0) + e.amount;
         return acc;
     }, {});
@@ -76,234 +77,366 @@ const Financials: React.FC = () => {
 
     if (loading) {
         return (
-            <div className="flex justify-center items-center h-64">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+            <div className="min-h-screen pt-[72px]">
+                <DashboardNavbar />
+                <div className="flex justify-center items-center h-64">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+                </div>
             </div>
         );
     }
 
     return (
-        <div className="p-6 max-w-7xl mx-auto">
-            {/* Header */}
-            <motion.div
-                className="flex justify-between items-center mb-8 flex-wrap gap-4"
-                initial={{ opacity: 0, y: -20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
+        <div className="min-h-screen relative overflow-hidden pt-[72px]">
+            <DashboardNavbar />
+
+            {/* Hero Header - matching Dashboard style */}
+            <Section
+                fullHeight={false}
+                className="flex items-center justify-center text-center min-h-[40vh] relative"
             >
-                <Typography variant="h2" className="text-primary">Financial Dashboard</Typography>
-                <motion.button
-                    onClick={handleExportPDF}
-                    className="flex items-center gap-2 px-5 py-3 bg-red-600 text-white rounded-full hover:bg-red-700 transition shadow-md"
-                    whileHover={{ scale: 1.05, y: -2 }}
-                    whileTap={{ scale: 0.95 }}
+                <motion.div
+                    className="max-w-4xl px-6 sm:px-8 py-12"
+                    initial="hidden"
+                    animate="visible"
+                    variants={staggerContainer}
                 >
-                    <FaFilePdf /> Export PDF Report
-                </motion.button>
-            </motion.div>
-
-            {/* KPI Cards */}
-            <motion.div
-                className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"
-                initial="hidden"
-                animate="visible"
-                variants={staggerContainer}
-            >
-                {/* Revenue Card */}
-                <GlassCard>
-                    <motion.div variants={fadeIn} className="text-center">
-                        <motion.div
-                            className="bg-green-100 p-4 rounded-full w-fit mx-auto mb-4"
-                            whileHover={{ scale: 1.1, rotate: 5 }}
-                        >
-                            <FaDollarSign className="text-3xl text-green-600" />
-                        </motion.div>
-                        <div className="text-2xl font-bold text-green-600">
-                            {new Intl.NumberFormat('fr-FR').format(totalRevenue)} FCFA
-                        </div>
-                        <div className="text-sm text-gray-600 mt-1">Total Revenue</div>
-                    </motion.div>
-                </GlassCard>
-
-                {/* Expenses Card */}
-                <GlassCard>
-                    <motion.div variants={fadeIn} className="text-center">
-                        <motion.div
-                            className="bg-red-100 p-4 rounded-full w-fit mx-auto mb-4"
-                            whileHover={{ scale: 1.1, rotate: 5 }}
-                        >
-                            <FaDollarSign className="text-3xl text-red-600" />
-                        </motion.div>
-                        <div className="text-2xl font-bold text-red-600">
-                            {new Intl.NumberFormat('fr-FR').format(totalExpenses)} FCFA
-                        </div>
-                        <div className="text-sm text-gray-600 mt-1">Total Expenses</div>
-                    </motion.div>
-                </GlassCard>
-
-                {/* Net Profit Card */}
-                <GlassCard>
-                    <motion.div variants={fadeIn} className="text-center">
-                        <motion.div
-                            className="bg-primary/10 p-4 rounded-full w-fit mx-auto mb-4"
-                            whileHover={{ scale: 1.1, rotate: 5 }}
-                        >
-                            <FaChartLine className="text-3xl text-primary" />
-                        </motion.div>
-                        <div className="text-2xl font-bold text-primary">
-                            {new Intl.NumberFormat('fr-FR').format(netProfit)} FCFA
-                        </div>
-                        <div className="text-sm text-gray-600 mt-1">
-                            Net Profit ({profitMargin.toFixed(1)}% margin)
-                        </div>
-                    </motion.div>
-                </GlassCard>
-            </motion.div>
-
-            {/* Charts */}
-            <motion.div
-                className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8"
-                initial="hidden"
-                animate="visible"
-                variants={staggerContainer}
-            >
-                <GlassCard>
                     <motion.div variants={fadeIn}>
-                        <div className="flex items-center gap-2 mb-4">
-                            <FaChartBar className="text-primary text-xl" />
-                            <Typography variant="h4" className="text-primary">Revenue by Quality</Typography>
-                        </div>
-                        <ResponsiveContainer width="100%" height={300}>
-                            <BarChart data={revenues}>
-                                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                                <XAxis dataKey="quality" stroke="#6b7280" />
-                                <YAxis stroke="#6b7280" />
-                                <Tooltip formatter={(value) => `${new Intl.NumberFormat('fr-FR').format(Number(value))} FCFA`} />
-                                <Bar dataKey="totalAmount" fill="#5A7411" radius={[6, 6, 0, 0]} />
-                            </BarChart>
-                        </ResponsiveContainer>
+                        <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-4">
+                            Financial Reports
+                        </Typography>
                     </motion.div>
-                </GlassCard>
-
-                <GlassCard>
+                    <motion.h1
+                        className="font-display text-4xl md:text-5xl lg:text-6xl text-text-dark mb-6 leading-tight"
+                        variants={fadeIn}
+                        style={{ letterSpacing: '-0.03em' }}
+                    >
+                        Financial Dashboard
+                    </motion.h1>
                     <motion.div variants={fadeIn}>
-                        <div className="flex items-center gap-2 mb-4">
-                            <FaChartPie className="text-primary text-xl" />
-                            <Typography variant="h4" className="text-primary">Expenses by Category</Typography>
-                        </div>
-                        <ResponsiveContainer width="100%" height={300}>
-                            <PieChart>
-                                <Pie
-                                    data={pieData}
-                                    cx="50%"
-                                    cy="50%"
-                                    labelLine={false}
-                                    label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
-                                    outerRadius={80}
-                                    dataKey="value"
-                                >
-                                    {pieData.map((entry, index) => (
-                                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                                    ))}
-                                </Pie>
-                                <Tooltip />
-                            </PieChart>
-                        </ResponsiveContainer>
+                        <Typography variant="lead" className="text-text-dark max-w-3xl mx-auto">
+                            Revenue, expenses, and profit insights from our 35-hectare cashew farm.
+                        </Typography>
                     </motion.div>
-                </GlassCard>
-            </motion.div>
+                </motion.div>
+            </Section>
 
-            {/* Revenue Table */}
-            <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-            >
-                <GlassCard className="mb-8">
-                    <div className="flex items-center gap-2 mb-4">
-                        <FaTable className="text-primary text-xl" />
-                        <Typography variant="h4" className="text-primary">Revenue History</Typography>
+            {/* Summary Overview Section */}
+            <Section className="py-8">
+                <div className="w-full max-w-5xl mx-auto px-4 sm:px-6">
+                    <motion.div
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={staggerContainer}
+                        className="text-center"
+                    >
+                        <motion.div variants={fadeIn}>
+                            <Typography
+                                variant="h2"
+                                className="mb-4 text-primary"
+                            >
+                                Financial Performance at a Glance
+                            </Typography>
+                            <Typography
+                                variant="lead"
+                                className="text-text-dark max-w-3xl mx-auto mb-8"
+                            >
+                                Below you'll find a complete breakdown of revenue streams, expense categories, and net profitability across our 35-hectare Odienné farm. Use the charts to identify trends and the tables to drill into individual transactions.
+                            </Typography>
+                        </motion.div>
+                    </motion.div>
+                </div>
+            </Section>
+
+            {/* Development Mode Indicator */}
+            {isDevelopment && (
+                <div className="bg-yellow-100/80 backdrop-blur-sm border-b border-yellow-200">
+                    <div className="container mx-auto px-4 py-2 text-center">
+                        <span className="text-sm text-yellow-700">Development Mode - Using Mock Data</span>
                     </div>
-                    <div className="overflow-x-auto">
-                        <table className="w-full text-sm">
-                            <thead>
-                            <tr className="border-b border-gray-200 text-left">
-                                <th className="pb-3 font-medium text-gray-600">Date</th>
-                                <th className="pb-3 font-medium text-gray-600">Quality</th>
-                                <th className="pb-3 font-medium text-gray-600 text-right">Amount (FCFA)</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {revenues.map((revenue, i) => (
-                                <motion.tr
-                                    key={revenue.id}
-                                    className="border-b border-gray-100 last:border-0 hover:bg-white/30 transition-colors"
-                                    initial={{ opacity: 0, x: -10 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: i * 0.05 }}
-                                >
-                                    <td className="py-3">{new Date(revenue.harvestDate).toLocaleDateString()}</td>
-                                    <td className="py-3">
+                </div>
+            )}
+
+            <div className="container mx-auto px-4 py-8 relative z-10">
+                {/* Export Button */}
+                <div className="flex justify-end mb-8">
+                    <motion.button
+                        onClick={handleExportPDF}
+                        className="flex items-center gap-2 px-5 py-3 bg-red-600 text-white rounded-full hover:bg-red-700 transition shadow-md"
+                        whileHover={{ scale: 1.05, y: -2 }}
+                        whileTap={{ scale: 0.95 }}
+                    >
+                        <FaFilePdf /> Export PDF Report
+                    </motion.button>
+                </div>
+
+                {/* KPI Cards */}
+                <motion.div
+                    className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8"
+                    initial="hidden"
+                    animate="visible"
+                    variants={staggerContainer}
+                >
+                    <GlassCard>
+                        <motion.div variants={fadeIn} className="text-center">
+                            <motion.div
+                                className="bg-green-100 p-4 rounded-full w-fit mx-auto mb-4"
+                                whileHover={{ scale: 1.1, rotate: 5 }}
+                            >
+                                <FaDollarSign className="text-3xl text-green-600" />
+                            </motion.div>
+                            <div className="text-2xl font-bold text-green-600">
+                                {new Intl.NumberFormat('fr-FR').format(totalRevenue)} FCFA
+                            </div>
+                            <div className="text-sm text-gray-600 mt-1">Total Revenue</div>
+                        </motion.div>
+                    </GlassCard>
+
+                    <GlassCard>
+                        <motion.div variants={fadeIn} className="text-center">
+                            <motion.div
+                                className="bg-red-100 p-4 rounded-full w-fit mx-auto mb-4"
+                                whileHover={{ scale: 1.1, rotate: 5 }}
+                            >
+                                <FaDollarSign className="text-3xl text-red-600" />
+                            </motion.div>
+                            <div className="text-2xl font-bold text-red-600">
+                                {new Intl.NumberFormat('fr-FR').format(totalExpenses)} FCFA
+                            </div>
+                            <div className="text-sm text-gray-600 mt-1">Total Expenses</div>
+                        </motion.div>
+                    </GlassCard>
+
+                    <GlassCard>
+                        <motion.div variants={fadeIn} className="text-center">
+                            <motion.div
+                                className="bg-primary/10 p-4 rounded-full w-fit mx-auto mb-4"
+                                whileHover={{ scale: 1.1, rotate: 5 }}
+                            >
+                                <FaChartLine className="text-3xl text-primary" />
+                            </motion.div>
+                            <div className="text-2xl font-bold text-primary">
+                                {new Intl.NumberFormat('fr-FR').format(netProfit)} FCFA
+                            </div>
+                            <div className="text-sm text-gray-600 mt-1">
+                                Net Profit ({profitMargin.toFixed(1)}% margin)
+                            </div>
+                        </motion.div>
+                    </GlassCard>
+                </motion.div>
+
+                {/* Charts */}
+                <motion.div
+                    className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8"
+                    initial="hidden"
+                    animate="visible"
+                    variants={staggerContainer}
+                >
+                    <GlassCard>
+                        <motion.div variants={fadeIn}>
+                            <div className="flex items-center gap-2 mb-4">
+                                <FaChartBar className="text-primary text-xl" />
+                                <Typography variant="h4" className="text-primary">Revenue by Quality</Typography>
+                            </div>
+                            <ResponsiveContainer width="100%" height={300}>
+                                <BarChart data={revenues}>
+                                    <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                                    <XAxis dataKey="quality" stroke="#6b7280" />
+                                    <YAxis stroke="#6b7280" />
+                                    <Tooltip formatter={(value) => `${new Intl.NumberFormat('fr-FR').format(Number(value))} FCFA`} />
+                                    <Bar dataKey="totalAmount" fill="#5A7411" radius={[6, 6, 0, 0]} />
+                                </BarChart>
+                            </ResponsiveContainer>
+                        </motion.div>
+                    </GlassCard>
+
+                    <GlassCard>
+                        <motion.div variants={fadeIn}>
+                            <div className="flex items-center gap-2 mb-4">
+                                <FaChartPie className="text-primary text-xl" />
+                                <Typography variant="h4" className="text-primary">Expenses by Category</Typography>
+                            </div>
+                            <ResponsiveContainer width="100%" height={300}>
+                                <PieChart>
+                                    <Pie
+                                        data={pieData}
+                                        cx="50%"
+                                        cy="50%"
+                                        labelLine={false}
+                                        label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                                        outerRadius={80}
+                                        dataKey="value"
+                                    >
+                                        {pieData.map((entry, index) => (
+                                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                        ))}
+                                    </Pie>
+                                    <Tooltip />
+                                </PieChart>
+                            </ResponsiveContainer>
+                        </motion.div>
+                    </GlassCard>
+                </motion.div>
+
+                {/* Revenue Table */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3 }}
+                >
+                    <GlassCard className="mb-8">
+                        <div className="flex items-center gap-2 mb-4">
+                            <FaTable className="text-primary text-xl" />
+                            <Typography variant="h4" className="text-primary">Revenue History</Typography>
+                        </div>
+                        <div className="overflow-x-auto">
+                            <table className="w-full text-sm">
+                                <thead>
+                                <tr className="border-b border-gray-200 text-left">
+                                    <th className="pb-3 font-medium text-gray-600">Date</th>
+                                    <th className="pb-3 font-medium text-gray-600">Quality</th>
+                                    <th className="pb-3 font-medium text-gray-600 text-right">Amount (FCFA)</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {revenues.map((revenue: any, i: number) => (
+                                    <motion.tr
+                                        key={revenue.id}
+                                        className="border-b border-gray-100 last:border-0 hover:bg-white/30 transition-colors"
+                                        initial={{ opacity: 0, x: -10 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        transition={{ delay: i * 0.05 }}
+                                    >
+                                        <td className="py-3">{new Date(revenue.harvestDate).toLocaleDateString()}</td>
+                                        <td className="py-3">
                                             <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-full">
                                                 {revenue.quality}
                                             </span>
-                                    </td>
-                                    <td className="py-3 text-right font-medium">
-                                        {new Intl.NumberFormat('fr-FR').format(revenue.totalAmount)}
-                                    </td>
-                                </motion.tr>
-                            ))}
-                            </tbody>
-                        </table>
-                    </div>
-                </GlassCard>
-            </motion.div>
+                                        </td>
+                                        <td className="py-3 text-right font-medium">
+                                            {new Intl.NumberFormat('fr-FR').format(revenue.totalAmount)}
+                                        </td>
+                                    </motion.tr>
+                                ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </GlassCard>
+                </motion.div>
 
-            {/* Expenses Table */}
-            <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
-            >
-                <GlassCard>
-                    <div className="flex items-center gap-2 mb-4">
-                        <FaTable className="text-primary text-xl" />
-                        <Typography variant="h4" className="text-primary">Expense History</Typography>
-                    </div>
-                    <div className="overflow-x-auto">
-                        <table className="w-full text-sm">
-                            <thead>
-                            <tr className="border-b border-gray-200 text-left">
-                                <th className="pb-3 font-medium text-gray-600">Date</th>
-                                <th className="pb-3 font-medium text-gray-600">Category</th>
-                                <th className="pb-3 font-medium text-gray-600 text-right">Amount (FCFA)</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            {expenses.map((expense, i) => (
-                                <motion.tr
-                                    key={expense.id}
-                                    className="border-b border-gray-100 last:border-0 hover:bg-white/30 transition-colors"
-                                    initial={{ opacity: 0, x: -10 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: i * 0.05 }}
-                                >
-                                    <td className="py-3">{new Date(expense.date).toLocaleDateString()}</td>
-                                    <td className="py-3">
+                {/* Expenses Table */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.4 }}
+                >
+                    <GlassCard>
+                        <div className="flex items-center gap-2 mb-4">
+                            <FaTable className="text-primary text-xl" />
+                            <Typography variant="h4" className="text-primary">Expense History</Typography>
+                        </div>
+                        <div className="overflow-x-auto">
+                            <table className="w-full text-sm">
+                                <thead>
+                                <tr className="border-b border-gray-200 text-left">
+                                    <th className="pb-3 font-medium text-gray-600">Date</th>
+                                    <th className="pb-3 font-medium text-gray-600">Category</th>
+                                    <th className="pb-3 font-medium text-gray-600 text-right">Amount (FCFA)</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {expenses.map((expense: any, i: number) => (
+                                    <motion.tr
+                                        key={expense.id}
+                                        className="border-b border-gray-100 last:border-0 hover:bg-white/30 transition-colors"
+                                        initial={{ opacity: 0, x: -10 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        transition={{ delay: i * 0.05 }}
+                                    >
+                                        <td className="py-3">{new Date(expense.date).toLocaleDateString()}</td>
+                                        <td className="py-3">
                                             <span className="px-2 py-1 bg-red-50 text-red-600 text-xs rounded-full">
                                                 {expense.category}
                                             </span>
-                                    </td>
-                                    <td className="py-3 text-right font-medium">
-                                        {new Intl.NumberFormat('fr-FR').format(expense.amount)}
-                                    </td>
-                                </motion.tr>
-                            ))}
-                            </tbody>
-                        </table>
+                                        </td>
+                                        <td className="py-3 text-right font-medium">
+                                            {new Intl.NumberFormat('fr-FR').format(expense.amount)}
+                                        </td>
+                                    </motion.tr>
+                                ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </GlassCard>
+                </motion.div>
+
+                {/* End-of-page CTA */}
+                <Section className="py-10">
+                    <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 text-center">
+                        <motion.div
+                            className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-3xl shadow-xl p-8 md:p-12 transform-gpu"
+                            style={{ transformStyle: 'preserve-3d' }}
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                            variants={staggerContainer}
+                            whileHover={{
+                                y: -8,
+                                scale: 1.02,
+                                rotateY: 3,
+                                boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+                                transition: { duration: 0.3 }
+                            }}
+                        >
+                            <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px] hover:translate-z-[-10px] transition-all duration-500" />
+                            <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40 hover:opacity-60 transition-opacity duration-500" />
+                            <div className="absolute inset-0 rounded-3xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
+                            <div className="absolute inset-0 rounded-3xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
+
+                            <div className="relative z-10">
+                                <motion.div variants={fadeIn}>
+                                    <Typography variant="h2" className="mb-6 text-primary">
+                                        Turn Insights Into Action
+                                    </Typography>
+                                    <Typography variant="body" className="mb-8 text-gray-700 max-w-3xl mx-auto">
+                                        Numbers tell the story — now write the next chapter. Dive back into
+                                        operations, assign tasks, or generate a shareable PDF report for stakeholders.
+                                    </Typography>
+                                    <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                                        <motion.button
+                                            className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-4 rounded-full transform-gpu group/btn overflow-hidden"
+                                            variants={fadeIn}
+                                            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                                            whileHover={{ scale: 1.05, y: -2, boxShadow: '0 10px 25px -5px rgba(165, 105, 66, 0.4)' }}
+                                            whileTap={{ scale: 0.95 }}
+                                        >
+                                            <div className="absolute inset-0 rounded-full border-2 border-white/30 transform-gpu translate-z-[-4px] group-hover/btn:translate-z-[-6px] transition-all duration-300" />
+                                            <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50 group-hover/btn:opacity-70 transition-opacity duration-300" />
+                                            <span className="relative z-10 font-medium text-lg flex items-center gap-2">
+                                            <FaChartLine className="text-lg" />
+                                            Back to Dashboard
+                                        </span>
+                                        </motion.button>
+                                        <motion.button
+                                            className="relative border-2 border-primary/50 text-primary hover:bg-white/20 px-8 py-4 rounded-full transform-gpu group/btn overflow-hidden backdrop-blur-sm"
+                                            variants={fadeIn}
+                                            onClick={handleExportPDF}
+                                            whileHover={{ scale: 1.05, y: -2, boxShadow: '0 10px 25px -5px rgba(165, 105, 66, 0.2)' }}
+                                            whileTap={{ scale: 0.95 }}
+                                        >
+                                        <span className="relative z-10 font-medium text-lg flex items-center gap-2">
+                                            <FaFilePdf className="text-lg" />
+                                            Export PDF Report
+                                        </span>
+                                        </motion.button>
+                                    </div>
+                                </motion.div>
+                            </div>
+                        </motion.div>
                     </div>
-                </GlassCard>
-            </motion.div>
+                </Section>
+            </div>
         </div>
     );
 };
