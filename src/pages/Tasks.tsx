@@ -88,10 +88,16 @@ const Tasks: React.FC = () => {
                 const tasksWithAssignments = tasksList.map((task: Task) => {
                     const taskAssignments = assignmentsList.filter((a: TaskAssignment) => a.taskId === task.id);
                     const activeAssignment = taskAssignments.find(a => !a.unassignedAt);
+                    const lastAssignment = taskAssignments.length > 0
+                        ? taskAssignments.reduce((latest, a) =>
+                            (a.assignedAt > latest.assignedAt) ? a : latest
+                        )
+                        : null;
+
                     return {
                         ...task,
                         assignments: taskAssignments,
-                        currentWorker: activeAssignment?.assignedTo,
+                        currentWorker: activeAssignment?.assignedTo || lastAssignment?.assignedTo || undefined,
                     };
                 });
 
@@ -339,9 +345,11 @@ const Tasks: React.FC = () => {
                                         </div>
                                         <p className="text-sm text-gray-500 mb-3">{task.description}</p>
                                         <div className="flex flex-wrap gap-3 text-xs">
-                                            <span className="inline-flex items-center gap-1.5 bg-gray-100/60 backdrop-blur-sm px-2.5 py-1 rounded-full">
-                                                <FaUser className="text-primary" /> Block {task.blockId}
-                                            </span>
+                                            {task.blockId != null && (
+                                                <span className="inline-flex items-center gap-1.5 bg-gray-100/60 backdrop-blur-sm px-2.5 py-1 rounded-full">
+                                                    <FaUser className="text-primary" /> Block {task.blockId}
+                                                </span>
+                                            )}
                                             <span className="inline-flex items-center gap-1.5 bg-gray-100/60 backdrop-blur-sm px-2.5 py-1 rounded-full">
                                                 <FaCalendarAlt className="text-primary" /> Due: {new Date(task.dueDate).toLocaleDateString()}
                                             </span>
