@@ -1,21 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import { useNavigate } from 'react-router-dom';
 import {
     FaChartLine, FaDollarSign, FaTree, FaSeedling, FaTractor,
-    FaCalendarAlt, FaArrowUp, FaArrowDown,
-    FaDownload, FaFileAlt, FaInfoCircle
+    FaCalendarAlt, FaArrowUp, FaArrowDown, FaTasks
 } from 'react-icons/fa';
 import { Typography } from '@/components/Typography/Typography';
 import { InfoCard } from '@/components/InfoCard/InfoCard';
 import { getMockData } from '../services/mockData';
 import { callApi } from '../services/api';
 import {
-    LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid,
+    XAxis, YAxis, CartesianGrid,
     Tooltip, Legend, ResponsiveContainer, AreaChart, Area,
     PieChart, Pie, Cell
 } from 'recharts';
 import Section from '@/components/Section/Section';
 import { fadeIn, staggerContainer } from '@/utils/animations';
+import DashboardNavbar from '@/components/DashboardNavbar/DashboardNavbar';
 
 const isDevelopment = import.meta.env.DEV;
 const COLORS = ['#5A7411', '#E04E00', '#A0C800', '#253746'];
@@ -28,6 +29,7 @@ const InvestorPortal: React.FC = () => {
     const [monthlyData, setMonthlyData] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchInvestorData = async () => {
@@ -88,6 +90,9 @@ const InvestorPortal: React.FC = () => {
     }
 
     return (
+        <div className="min-h-screen relative overflow-hidden pt-[72px]">
+
+            <DashboardNavbar />
         <main>
             {/* Hero Section */}
             <Section
@@ -121,6 +126,34 @@ const InvestorPortal: React.FC = () => {
                         Last updated: {lastUpdated.toLocaleString()}
                     </motion.div>
                 </motion.div>
+            </Section>
+
+            {/* Insert this after the closing </Section> of the hero, before the KPI Grid */}
+            <Section className="py-8">
+                <div className="w-full max-w-5xl mx-auto px-4 sm:px-6">
+                    <motion.div
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={staggerContainer}
+                        className="text-center"
+                    >
+                        <motion.div variants={fadeIn}>
+                            <Typography
+                                variant="h2"
+                                className="mb-4 text-primary"
+                            >
+                                Investment Performance at a Glance
+                            </Typography>
+                            <Typography
+                                variant="lead"
+                                className="text-text-dark max-w-3xl mx-auto mb-8"
+                            >
+                                Track the financial health and operational progress of our {farmStats?.stats?.totalBlocks || 35}-block cashew farm in Odienné, Ivory Coast. Below you'll find real-time revenue metrics, profit trends, and key performance indicators that reflect our commitment to transparency and sustainable growth.
+                            </Typography>
+                        </motion.div>
+                    </motion.div>
+                </div>
             </Section>
 
             {/* KPI Grid */}
@@ -368,7 +401,73 @@ const InvestorPortal: React.FC = () => {
                     </div>
                 </div>
             </Section>
+            {/* End-of-page CTA */}
+            <Section className="py-10">
+                <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 text-center">
+                    <motion.div
+                        className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-3xl shadow-xl p-8 md:p-12 transform-gpu"
+                        style={{ transformStyle: 'preserve-3d' }}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={staggerContainer}
+                        whileHover={{
+                            y: -8,
+                            scale: 1.02,
+                            rotateY: 3,
+                            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+                            transition: { duration: 0.3 }
+                        }}
+                    >
+                        <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px] hover:translate-z-[-10px] transition-all duration-500" />
+                        <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40 hover:opacity-60 transition-opacity duration-500" />
+                        <div className="absolute inset-0 rounded-3xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
+                        <div className="absolute inset-0 rounded-3xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
+
+                        <div className="relative z-10">
+                            <motion.div variants={fadeIn}>
+                                <Typography variant="h2" className="mb-6 text-primary">
+                                    Ready to Explore the Full Picture?
+                                </Typography>
+                                <Typography variant="body" className="mb-8 text-gray-700 max-w-3xl mx-auto">
+                                    Return to the operations dashboard for a complete overview of tree health, block status, task management, and financial performance across the farm.
+                                </Typography>
+                                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                                    <motion.button
+                                        className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-4 rounded-full transform-gpu group/btn overflow-hidden"
+                                        variants={fadeIn}
+                                        onClick={() => navigate('/dashboard')}
+                                        whileHover={{ scale: 1.05, y: -2, boxShadow: '0 10px 25px -5px rgba(165, 105, 66, 0.4)' }}
+                                        whileTap={{ scale: 0.95 }}
+                                    >
+                                        <div className="absolute inset-0 rounded-full border-2 border-white/30 transform-gpu translate-z-[-4px] group-hover/btn:translate-z-[-6px] transition-all duration-300" />
+                                        <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50 group-hover/btn:opacity-70 transition-opacity duration-300" />
+                                        <div className="absolute inset-0 rounded-full shadow-[inset_0_2px_8px_rgba(255,255,255,0.3)]" />
+                                        <span className="relative z-10 font-medium text-lg flex items-center gap-2">
+                                <FaTasks className="text-lg" />
+                                Back to Dashboard
+                            </span>
+                                    </motion.button>
+                                    <motion.button
+                                        className="relative border-2 border-primary/50 text-primary hover:bg-white/20 px-8 py-4 rounded-full transform-gpu group/btn overflow-hidden backdrop-blur-sm"
+                                        variants={fadeIn}
+                                        onClick={() => navigate('/dashboard/financials')}
+                                        whileHover={{ scale: 1.05, y: -2, boxShadow: '0 10px 25px -5px rgba(165, 105, 66, 0.2)' }}
+                                        whileTap={{ scale: 0.95 }}
+                                    >
+                            <span className="relative z-10 font-medium text-lg flex items-center gap-2">
+                                <FaChartLine className="text-lg" />
+                                View Financials
+                            </span>
+                                    </motion.button>
+                                </div>
+                            </motion.div>
+                        </div>
+                    </motion.div>
+                </div>
+            </Section>
         </main>
+        </div>
     );
 };
 

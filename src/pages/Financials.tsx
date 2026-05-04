@@ -13,6 +13,7 @@ import {
 } from 'recharts';
 import { fadeIn, staggerContainer } from '@/utils/animations';
 import Section from '@/components/Section/Section';
+import { useNavigate } from 'react-router-dom';
 
 const isDevelopment = import.meta.env.DEV;
 const COLORS = ['#5A7411', '#E04E00', '#A0C800', '#253746', '#698714'];
@@ -39,20 +40,86 @@ const Financials: React.FC = () => {
     const [revenues, setRevenues] = useState<any[]>([]);
     const [expenses, setExpenses] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     const handleExportPDF = async () => {
-        const element = document.querySelector('.container') as HTMLElement;
-        if (!element) return;
+        // Target the dashboard content, not the entire page
+        const element = document.querySelector('.dashboard-content') as HTMLElement;
+        if (!element) {
+            alert('Dashboard content not found. Please try again.');
+            return;
+        }
 
-        const canvas = await html2canvas(element, { scale: 2 });
-        const imgData = canvas.toDataURL('image/png');
+        try {
+            // Show loading state
+            const btn = document.querySelector('.export-btn') as HTMLButtonElement;
+            if (btn) btn.textContent = 'Generating PDF...';
 
-        const pdf = new jsPDF('p', 'mm', 'a4');
-        const imgWidth = 210;
-        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+            const canvas = await html2canvas(element, {
+                scale: 2,
+                useCORS: true,
+                logging: false,
+                // Convert SVGs to images for Recharts compatibility
+                onclone: (clonedDoc) => {
+                    const svgs = clonedDoc.querySelectorAll('svg');
+                    svgs.forEach(svg => {
+                        svg.style.width = svg.getBoundingClientRect().width + 'px';
+                        svg.style.height = svg.getBoundingClientRect().height + 'px';
+                    });
+                }
+            });
 
-        pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
-        pdf.save('afrinuts-financial-report.pdf');
+            const imgData = canvas.toDataURL('image/png');
+            const pdf = new jsPDF('p', 'mm', 'a4');
+
+            // Add branded header
+            pdf.setFillColor(90, 116, 17); // Primary color
+            pdf.rect(0, 0, 210, 20, 'F');
+            pdf.setTextColor(255, 255, 255);
+            pdf.setFontSize(12);
+            pdf.text('AfriNuts Export — Financial Report', 10, 13);
+
+            const today = new Date().toLocaleDateString('en-GB');
+            pdf.setFontSize(8);
+            pdf.text(`Generated: ${today}`, 180, 13, { align: 'right' });
+
+            // Add content
+            const imgWidth = 190;
+            const imgHeight = (canvas.height * imgWidth) / canvas.width;
+            let heightLeft = imgHeight;
+            let position = 25;
+
+            if (imgHeight <= 250) {
+                pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+            } else {
+                // Multi-page
+                pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+                heightLeft -= 270;
+                while (heightLeft > 0) {
+                    position = heightLeft - imgHeight + 25;
+                    pdf.addPage();
+                    pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+                    heightLeft -= 270;
+                }
+            }
+
+            // Footer
+            const pageCount = pdf.getNumberOfPages();
+            for (let i = 1; i <= pageCount; i++) {
+                pdf.setPage(i);
+                pdf.setFontSize(7);
+                pdf.setTextColor(128, 128, 128);
+                pdf.text(`AfriNuts Export — Confidential — Page ${i} of ${pageCount}`, 105, 295, { align: 'center' });
+            }
+
+            pdf.save(`afrinuts-financial-report-${today.replace(/\//g, '-')}.pdf`);
+        } catch (error) {
+            console.error('PDF generation failed:', error);
+            alert('Failed to generate PDF. Please try again.');
+        } finally {
+            const btn = document.querySelector('.export-btn') as HTMLButtonElement;
+            if (btn) btn.innerHTML = '<FaFilePdf /> Export PDF Report';
+        }
     };
 
     useEffect(() => {
@@ -172,12 +239,12 @@ const Financials: React.FC = () => {
                 </div>
             )}
 
-            <div className="container mx-auto px-4 py-8 relative z-10">
+            <div className="dashboard-content container mx-auto px-4 py-8 relative z-10">
                 {/* Export Button */}
                 <div className="flex justify-end mb-8">
                     <motion.button
                         onClick={handleExportPDF}
-                        className="flex items-center gap-2 px-5 py-3 bg-red-600 text-white rounded-full hover:bg-red-700 transition shadow-md"
+                        className="export-btn flex items-center gap-2 px-5 py-3 bg-red-600 text-white rounded-full hover:bg-red-700 transition shadow-md"
                         whileHover={{ scale: 1.05, y: -2 }}
                         whileTap={{ scale: 0.95 }}
                     >
@@ -421,7 +488,7 @@ const Financials: React.FC = () => {
                                         <motion.button
                                             className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-4 rounded-full transform-gpu group/btn overflow-hidden"
                                             variants={fadeIn}
-                                            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                                            onClick={() => navigate('/dashboard')}
                                             whileHover={{ scale: 1.05, y: -2, boxShadow: '0 10px 25px -5px rgba(165, 105, 66, 0.4)' }}
                                             whileTap={{ scale: 0.95 }}
                                         >
