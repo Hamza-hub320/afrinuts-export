@@ -126,6 +126,14 @@ const Dashboard: React.FC = () => {
         transition: { duration: 0.3 }
     };
 
+    const getCurrentSeason = (): string => {
+        const month = new Date().getMonth();
+        if (month >= 2 && month <= 4) return 'Flowering';
+        if (month >= 5 && month <= 7) return 'Fruit Development';
+        if (month >= 8 && month <= 10) return 'Harvest';
+        return 'Maintenance';
+    };
+
     return (
         <div className="min-h-screen relative overflow-hidden pt-[72px]">
 
@@ -172,6 +180,84 @@ const Dashboard: React.FC = () => {
                     </div>
                 </div>
             )}
+
+            {/* Dashboard Overview Intro */}
+            <Section className="py-8">
+                <div className="w-full max-w-5xl mx-auto px-4 sm:px-6">
+                    <motion.div
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={staggerContainer}
+                        className="text-center"
+                    >
+                        <motion.div variants={fadeIn}>
+                            <Typography
+                                variant="h2"
+                                className="mb-4 text-primary"
+                            >
+                                Farm Operations at a Glance
+                            </Typography>
+                            <Typography
+                                variant="lead"
+                                className="text-text-dark max-w-3xl mx-auto mb-8"
+                            >
+                                Monitor tree health, track tasks, and analyze financial performance across all {farmData?.stats?.totalBlocks || 35} blocks of our Odienné farm. Below you'll find real-time metrics, revenue trends, and task management tools to keep operations running smoothly.
+                            </Typography>
+                        </motion.div>
+
+                        {/* Quick Summary Cards */}
+                        <motion.div
+                            variants={fadeIn}
+                            className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto"
+                        >
+                            {[
+                                {
+                                    icon: FaMap,
+                                    label: 'Total Area',
+                                    value: '35 hectares',
+                                    color: 'text-primary'
+                                },
+                                {
+                                    icon: FaUsers,
+                                    label: 'Active Team',
+                                    value: `${farmData?.stats?.activeWorkers || '—'} workers`,
+                                    color: 'text-accent'
+                                },
+                                {
+                                    icon: FaCalendarAlt,
+                                    label: 'Season',
+                                    value: getCurrentSeason(),
+                                    color: 'text-green-600'
+                                },
+                            ].map((item, i) => (
+                                <div
+                                    key={i}
+                                    className="backdrop-blur-sm rounded-xl p-4 transition-all duration-300 hover:scale-[1.02]"
+                                    style={{
+                                        background: 'rgba(255,255,255,0.5)',
+                                        border: '1px solid rgba(255,255,255,0.4)',
+                                        boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.6), 0 2px 8px rgba(0,0,0,0.04)'
+                                    }}
+                                >
+                                    <motion.div
+                                        className={`${item.color} text-2xl mb-2 flex justify-center`}
+                                        whileHover={{ scale: 1.1 }}
+                                    >
+                                        {React.createElement(item.icon)}
+                                    </motion.div>
+                                    <Typography variant="h4" className="text-gray-900 mb-1">
+                                        {item.value}
+                                    </Typography>
+                                    <Typography variant="small" className="text-gray-500">
+                                        {item.label}
+                                    </Typography>
+                                </div>
+                            ))}
+                        </motion.div>
+                    </motion.div>
+                </div>
+            </Section>
 
             <div className="container mx-auto px-4 py-8 relative z-10">
                 {/* KPI Cards Row */}
@@ -378,6 +464,76 @@ const Dashboard: React.FC = () => {
                         </div>
                     </div>
                 </motion.div>
+
+                {/* End-of-page CTA */}
+                <Section className="py-16">
+                    <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 text-center">
+                        <motion.div
+                            className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-3xl shadow-xl p-8 md:p-12 transform-gpu"
+                            style={{ transformStyle: 'preserve-3d' }}
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                            variants={staggerContainer}
+                            whileHover={{
+                                y: -8,
+                                scale: 1.02,
+                                rotateY: 3,
+                                boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+                                transition: { duration: 0.3 }
+                            }}
+                        >
+                            {/* 3D edge effect */}
+                            <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px] hover:translate-z-[-10px] transition-all duration-500" />
+                            {/* Glassy overlay */}
+                            <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40 hover:opacity-60 transition-opacity duration-500" />
+                            {/* Inner shadow */}
+                            <div className="absolute inset-0 rounded-3xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
+                            {/* Background pattern */}
+                            <div className="absolute inset-0 rounded-3xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
+
+                            <div className="relative z-10">
+                                <motion.div variants={fadeIn}>
+                                    <Typography variant="h2" className="mb-6 text-primary">
+                                        Ready to Take Action?
+                                    </Typography>
+                                    <Typography variant="body" className="mb-8 text-gray-700 max-w-3xl mx-auto">
+                                        Review block performance, assign new tasks, or generate detailed reports for stakeholders. Every insight here drives better decisions for the farm.
+                                    </Typography>
+                                    <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                                        <motion.button
+                                            className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-4 rounded-full transform-gpu group/btn overflow-hidden"
+                                            variants={fadeIn}
+                                            onClick={() => navigate('/dashboard/tasks')}
+                                            whileHover={{ scale: 1.05, y: -2, boxShadow: '0 10px 25px -5px rgba(165, 105, 66, 0.4)' }}
+                                            whileTap={{ scale: 0.95 }}
+                                        >
+                                            <div className="absolute inset-0 rounded-full border-2 border-white/30 transform-gpu translate-z-[-4px] group-hover/btn:translate-z-[-6px] transition-all duration-300" />
+                                            <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50 group-hover/btn:opacity-70 transition-opacity duration-300" />
+                                            <div className="absolute inset-0 rounded-full shadow-[inset_0_2px_8px_rgba(255,255,255,0.3)]" />
+                                            <span className="relative z-10 font-medium text-lg flex items-center gap-2">
+                                <FaTasks className="text-lg" />
+                                View Tasks
+                            </span>
+                                        </motion.button>
+                                        <motion.button
+                                            className="relative border-2 border-primary/50 text-primary hover:bg-white/20 px-8 py-4 rounded-full transform-gpu group/btn overflow-hidden backdrop-blur-sm"
+                                            variants={fadeIn}
+                                            onClick={() => navigate('/dashboard/financials')}
+                                            whileHover={{ scale: 1.05, y: -2, boxShadow: '0 10px 25px -5px rgba(165, 105, 66, 0.2)' }}
+                                            whileTap={{ scale: 0.95 }}
+                                        >
+                            <span className="relative z-10 font-medium text-lg flex items-center gap-2">
+                                <FaChartPie className="text-lg" />
+                                View Financial Reports
+                            </span>
+                                        </motion.button>
+                                    </div>
+                                </motion.div>
+                            </div>
+                        </motion.div>
+                    </div>
+                </Section>
             </div>
         </div>
     );
