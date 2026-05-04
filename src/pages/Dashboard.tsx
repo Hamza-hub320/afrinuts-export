@@ -234,102 +234,128 @@ const Dashboard: React.FC = () => {
                 </div>
 
                 {/* Dashboard Navigation Bar */}
-                <div className="relative overflow-hidden rounded-2xl p-2 mb-8 backdrop-blur-lg transition-all duration-500"
+                <div className="group relative overflow-hidden rounded-2xl p-2 mb-8 transition-all duration-500"
                      style={{
-                         background: 'linear-gradient(135deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0.6) 100%)',
+                         background: 'linear-gradient(135deg, rgba(255,255,255,0.75) 0%, rgba(255,255,255,0.5) 50%, rgba(255,255,255,0.65) 100%)',
                          border: '1px solid rgba(255,255,255,0.5)',
-                         boxShadow: '0 8px 32px rgba(165, 105, 66, 0.12), inset 0 1px 0 rgba(255,255,255,0.6), inset 0 -1px 0 rgba(0,0,0,0.05)'
+                         boxShadow: '0 8px 32px rgba(165, 105, 66, 0.12), inset 0 1px 0 rgba(255,255,255,0.6), inset 0 -1px 0 rgba(0,0,0,0.05)',
+                         transformStyle: 'preserve-3d',
+                         perspective: '1000px',
                      }}
                 >
+                    {/* 3D edge effect */}
+                    <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-4px] group-hover:translate-z-[-6px] transition-all duration-500" />
+
                     {/* Animated blobs */}
                     <div
-                        className="absolute -top-10 -right-10 w-24 h-24 rounded-full opacity-10 blur-2xl animate-pulse"
+                        className="absolute -top-12 -right-12 w-28 h-28 rounded-full opacity-10 blur-2xl animate-pulse"
                         style={{ background: 'radial-gradient(circle, rgba(165,105,66,0.4) 0%, transparent 70%)' }}
                     />
                     <div
-                        className="absolute -bottom-8 -left-8 w-20 h-20 rounded-full opacity-8 blur-2xl"
+                        className="absolute -bottom-10 -left-10 w-24 h-24 rounded-full opacity-8 blur-2xl"
                         style={{
                             background: 'radial-gradient(circle, rgba(210,125,45,0.4) 0%, transparent 70%)',
                             animation: 'float 6s ease-in-out infinite'
                         }}
                     />
 
+                    {/* Inner glow overlay */}
+                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/10 to-transparent opacity-30 group-hover:opacity-50 transition-opacity duration-500" />
+
                     <div className="relative z-10 flex flex-wrap items-center gap-1">
-                    <div className="flex flex-wrap items-center gap-1">
                         {/* Block Map */}
                         <motion.button
                             whileHover={{ y: -2, scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                             onClick={() => navigate('/dashboard/blocks')}
-                            className="flex items-center gap-3 px-5 py-3 rounded-xl text-sm font-medium transition-all duration-300 hover:bg-primary/10 text-gray-700 hover:text-primary"
+                            className="flex items-center gap-3 px-5 py-3 rounded-xl text-sm font-medium transition-all duration-300"
+                            style={{
+                                background: 'rgba(255,255,255,0.5)',
+                                border: '1px solid rgba(255,255,255,0.4)',
+                            }}
                         >
-                            <div className="w-9 h-9 bg-primary/10 rounded-lg flex items-center justify-center">
+                            <div className="w-9 h-9 bg-primary/10 rounded-lg flex items-center justify-center backdrop-blur-sm"
+                                 style={{ boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.5)' }}>
                                 <FaMap className="text-primary" />
                             </div>
                             <div className="text-left">
-                                <span className="block font-semibold">Block Map</span>
+                                <span className="block font-semibold text-gray-800">Block Map</span>
                                 <span className="text-xs text-gray-400">Farm grid</span>
                             </div>
                         </motion.button>
 
                         {/* Separator */}
-                        <div className="w-px h-8 bg-gray-200 mx-1 hidden sm:block" />
+                        <div className="w-px h-8 bg-white/50 mx-1 hidden sm:block" />
 
                         {/* Tasks */}
                         <motion.button
                             whileHover={{ y: -2, scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                             onClick={() => navigate('/dashboard/tasks')}
-                            className="flex items-center gap-3 px-5 py-3 rounded-xl text-sm font-medium transition-all duration-300 hover:bg-accent/10 text-gray-700 hover:text-accent"
+                            className="flex items-center gap-3 px-5 py-3 rounded-xl text-sm font-medium transition-all duration-300"
+                            style={{
+                                background: 'rgba(255,255,255,0.5)',
+                                border: '1px solid rgba(255,255,255,0.4)',
+                            }}
                         >
-                            <div className="w-9 h-9 bg-accent/10 rounded-lg flex items-center justify-center">
+                            <div className="w-9 h-9 bg-accent/10 rounded-lg flex items-center justify-center backdrop-blur-sm"
+                                 style={{ boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.5)' }}>
                                 <FaTasks className="text-accent" />
                             </div>
                             <div className="text-left">
-                                <span className="block font-semibold">Tasks</span>
+                                <span className="block font-semibold text-gray-800">Tasks</span>
                                 <span className="text-xs text-gray-400">Operations</span>
                             </div>
                         </motion.button>
 
                         {/* Separator */}
-                        <div className="w-px h-8 bg-gray-200 mx-1 hidden sm:block" />
+                        <div className="w-px h-8 bg-white/50 mx-1 hidden sm:block" />
 
                         {/* Financials */}
                         <motion.button
                             whileHover={{ y: -2, scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                             onClick={() => navigate('/dashboard/financials')}
-                            className="flex items-center gap-3 px-5 py-3 rounded-xl text-sm font-medium transition-all duration-300 hover:bg-secondary/10 text-gray-700 hover:text-secondary"
+                            className="flex items-center gap-3 px-5 py-3 rounded-xl text-sm font-medium transition-all duration-300"
+                            style={{
+                                background: 'rgba(255,255,255,0.5)',
+                                border: '1px solid rgba(255,255,255,0.4)',
+                            }}
                         >
-                            <div className="w-9 h-9 bg-secondary/10 rounded-lg flex items-center justify-center">
+                            <div className="w-9 h-9 bg-secondary/10 rounded-lg flex items-center justify-center backdrop-blur-sm"
+                                 style={{ boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.5)' }}>
                                 <FaChartLine className="text-secondary" />
                             </div>
                             <div className="text-left">
-                                <span className="block font-semibold">Financials</span>
+                                <span className="block font-semibold text-gray-800">Financials</span>
                                 <span className="text-xs text-gray-400">Reports</span>
                             </div>
                         </motion.button>
 
                         {/* Separator */}
-                        <div className="w-px h-8 bg-gray-200 mx-1 hidden sm:block" />
+                        <div className="w-px h-8 bg-white/50 mx-1 hidden sm:block" />
 
                         {/* Investor Portal */}
                         <motion.button
                             whileHover={{ y: -2, scale: 1.02 }}
                             whileTap={{ scale: 0.98 }}
                             onClick={() => navigate('/investor')}
-                            className="flex items-center gap-3 px-5 py-3 rounded-xl text-sm font-medium transition-all duration-300 hover:bg-primary/10 text-gray-700 hover:text-primary ml-auto"
+                            className="flex items-center gap-3 px-5 py-3 rounded-xl text-sm font-medium transition-all duration-300 ml-auto"
+                            style={{
+                                background: 'rgba(255,255,255,0.5)',
+                                border: '1px solid rgba(255,255,255,0.4)',
+                            }}
                         >
-                            <div className="w-9 h-9 bg-primary/10 rounded-lg flex items-center justify-center">
+                            <div className="w-9 h-9 bg-primary/10 rounded-lg flex items-center justify-center backdrop-blur-sm"
+                                 style={{ boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.5)' }}>
                                 <FaDollarSign className="text-primary" />
                             </div>
                             <div className="text-left">
-                                <span className="block font-semibold">Investor Portal</span>
+                                <span className="block font-semibold text-gray-800">Investor Portal</span>
                                 <span className="text-xs text-gray-400">View-only</span>
                             </div>
                         </motion.button>
                     </div>
-                </div>
                 </div>
 
                 {/* Charts Row */}
