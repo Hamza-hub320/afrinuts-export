@@ -9,12 +9,7 @@ import {
     FaTasks,
     FaSpinner,
     FaUserCheck,
-    FaChartPie,
-    FaTimes,
-    FaHistory,
-    FaPhone,
-    FaEnvelope,
-    FaUserCircle
+    FaChartPie, FaUserCircle, FaUserClock, FaClipboardList, FaTimes
 } from 'react-icons/fa';
 import { Typography } from '@/components/Typography/Typography';
 import { getMockData } from '../services/mockData';
@@ -22,7 +17,9 @@ import { callApi } from '../services/api';
 import { staggerContainer, fadeIn } from '@/utils/animations';
 import DashboardNavbar from '@/components/DashboardNavbar/DashboardNavbar';
 import Section from '@/components/Section/Section';
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
+import { Dialog, Transition } from '@headlessui/react';
+import { Fragment } from 'react';
 
 const isDevelopment = import.meta.env.DEV;
 
@@ -50,23 +47,26 @@ interface TaskWithAssignments extends Task {
     currentWorker?: string;
 }
 
-// Extended assignment info for modal
-interface AssignmentWithDetails extends TaskAssignment {
-    workerName: string;
-    workerRole?: string;
-    workerEmail?: string;
-    workerPhone?: string;
-    daysWorked?: number;
-}
-
 const Tasks: React.FC = () => {
     const [tasks, setTasks] = useState<TaskWithAssignments[]>([]);
     const [assignments, setAssignments] = useState<TaskAssignment[]>([]);
     const [filter, setFilter] = useState<'ALL' | 'PENDING' | 'IN_PROGRESS' | 'COMPLETED'>('ALL');
     const [loading, setLoading] = useState(true);
-    const [selectedAssignment, setSelectedAssignment] = useState<AssignmentWithDetails | null>(null);
-    const [showModal, setShowModal] = useState(false);
     const navigate = useNavigate();
+
+    const [selectedWorker, setSelectedWorker] = useState<{
+        name: string;
+        taskTitle: string;
+        assignedAt: number;
+        completedAt?: number;
+        role?: string;
+    } | null>(null);
+
+    const getAssignmentDuration = (assignedAt: number, completedAt?: number): string => {
+        if (!completedAt) return 'In progress';
+        const days = Math.ceil((completedAt - assignedAt) / (1000 * 60 * 60 * 24));
+        return `${days} day${days !== 1 ? 's' : ''}`;
+    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -104,40 +104,6 @@ const Tasks: React.FC = () => {
         };
         fetchData();
     }, []);
-
-    const handleWorkerClick = (workerName: string, taskId: number) => {
-        // Find all assignments for this task
-        const taskAssignments = assignments.filter(a => a.taskId === taskId);
-        const currentAssignment = taskAssignments.find(a => a.assignedTo === workerName);
-
-        if (currentAssignment) {
-            // Calculate days worked if unassigned
-            let daysWorked = undefined;
-            if (currentAssignment.unassignedAt) {
-                const diffMs = currentAssignment.unassignedAt - currentAssignment.assignedAt;
-                daysWorked = Math.round(diffMs / (1000 * 60 * 60 * 24));
-            }
-
-            // Mock additional worker info (in production, fetch from Firestore)
-            const workerDetails: AssignmentWithDetails = {
-                ...currentAssignment,
-                workerName: currentAssignment.assignedTo,
-                workerRole: getWorkerRole(currentAssignment.assignedTo),
-                workerEmail: `${currentAssignment.assignedTo.toLowerCase().replace(/\s/g, '.')}@afrinuts.com`,
-                workerPhone: `+225 ${Math.floor(Math.random() * 100000000)}`,
-                daysWorked,
-            };
-            setSelectedAssignment(workerDetails);
-            setShowModal(true);
-        }
-    };
-
-    const getWorkerRole = (workerName: string): string => {
-        // Mock role assignment - in production, fetch from user database
-        if (workerName.includes('Manager') || workerName.includes('Supervisor')) return 'Farm Manager';
-        if (workerName.includes('Lead')) return 'Team Lead';
-        return 'Farm Worker';
-    };
 
     const filteredTasks = tasks.filter(task => filter === 'ALL' ? true : task.status === filter);
     const pendingCount = tasks.filter(t => t.status === 'PENDING').length;
@@ -188,7 +154,7 @@ const Tasks: React.FC = () => {
         <div className="min-h-screen relative overflow-hidden pt-[72px]">
             <DashboardNavbar />
 
-            {/* Hero Header */}
+            {/* Hero Header - matches Dashboard style */}
             <Section
                 fullHeight={false}
                 className="flex items-center justify-center text-center min-h-[40vh] relative"
@@ -215,7 +181,7 @@ const Tasks: React.FC = () => {
 
                     <motion.div variants={fadeIn}>
                         <Typography variant="lead" className="text-text-dark max-w-3xl mx-auto">
-                            Track and monitor all farm operations including worker assignments and task history.
+                            Track and monitor all farm operations across {tasks.length > 0 ? `${tasks[0]?.blockId || 1} blocks` : 'the farm'}.
                         </Typography>
                     </motion.div>
                 </motion.div>
@@ -229,6 +195,34 @@ const Tasks: React.FC = () => {
                     </div>
                 </div>
             )}
+
+            {/* Dashboard Overview Intro */}
+            <Section className="py-8">
+                <div className="w-full max-w-5xl mx-auto px-4 sm:px-6">
+                    <motion.div
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={staggerContainer}
+                        className="text-center"
+                    >
+                        <motion.div variants={fadeIn}>
+                            <Typography
+                                variant="h2"
+                                className="mb-4 text-primary"
+                            >
+                                Task Management at a Glance
+                            </Typography>
+                            <Typography
+                                variant="lead"
+                                className="text-text-dark max-w-3xl mx-auto mb-8"
+                            >
+                                Monitor all farm operations in real-time. Track pending assignments, review work in progress, and verify completed tasks across every block of our Odienné farm. Use the filters below to focus on what matters most.
+                            </Typography>
+                        </motion.div>
+                    </motion.div>
+                </div>
+            </Section>
 
             <div className="container mx-auto px-4 py-8 relative z-10 max-w-7xl">
                 {/* Stats Cards */}
@@ -257,6 +251,7 @@ const Tasks: React.FC = () => {
                             }}
                         >
                             <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
+                            <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
                             <div className="relative z-10 p-6 text-center">
                                 <motion.div
                                     className={`inline-flex p-3 rounded-full bg-white/40 backdrop-blur-md mb-3`}
@@ -340,13 +335,24 @@ const Tasks: React.FC = () => {
                                             </span>
                                             {task.currentWorker && (
                                                 <motion.button
-                                                    onClick={() => handleWorkerClick(task.currentWorker!, task.id)}
-                                                    className="inline-flex items-center gap-1.5 bg-primary/10 backdrop-blur-sm px-2.5 py-1 rounded-full hover:bg-primary/20 transition-all cursor-pointer"
-                                                    whileHover={{ scale: 1.05 }}
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        const activeAssignment = task.assignments?.find(a => a.assignedTo === task.currentWorker && !a.unassignedAt);
+                                                        const lastCompleted = task.assignments?.find(a => a.assignedTo === task.currentWorker && a.unassignedAt);
+                                                        setSelectedWorker({
+                                                            name: task.currentWorker,
+                                                            taskTitle: task.title,
+                                                            assignedAt: activeAssignment?.assignedAt || lastCompleted?.assignedAt || 0,
+                                                            completedAt: lastCompleted?.unassignedAt,
+                                                            role: task.type || 'Farm Worker',
+                                                        });
+                                                    }}
+                                                    className="inline-flex items-center gap-1.5 bg-primary/10 backdrop-blur-sm px-2.5 py-1 rounded-full hover:bg-primary/20 transition-all duration-200 cursor-pointer group/worker"
+                                                    whileHover={{ scale: 1.05, y: -1 }}
                                                     whileTap={{ scale: 0.95 }}
                                                 >
-                                                    <FaUserCheck className="text-primary" />
-                                                    <span>{task.currentWorker}</span>
+                                                    <FaUserCheck className="text-primary group-hover/worker:text-accent transition-colors" />
+                                                    <span className="group-hover/worker:text-primary transition-colors">{task.currentWorker}</span>
                                                 </motion.button>
                                             )}
                                             {task.completedDate && (
@@ -359,7 +365,7 @@ const Tasks: React.FC = () => {
                                         {task.assignments && task.assignments.length > 1 && (
                                             <details className="mt-3">
                                                 <summary className="text-xs text-gray-400 cursor-pointer hover:text-primary transition">
-                                                    <FaHistory className="inline mr-1" /> Assignment History ({task.assignments.length} records)
+                                                    Assignment History ({task.assignments.length} records)
                                                 </summary>
                                                 <div className="mt-2 space-y-1 pl-4 border-l-2 border-gray-200">
                                                     {task.assignments.map(assignment => (
@@ -415,6 +421,11 @@ const Tasks: React.FC = () => {
                             transition: { duration: 0.3 }
                         }}
                     >
+                        <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px] hover:translate-z-[-10px] transition-all duration-500" />
+                        <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40 hover:opacity-60 transition-opacity duration-500" />
+                        <div className="absolute inset-0 rounded-3xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
+                        <div className="absolute inset-0 rounded-3xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
+
                         <div className="relative z-10">
                             <motion.div variants={fadeIn}>
                                 <Typography variant="h2" className="mb-6 text-primary">
@@ -456,85 +467,125 @@ const Tasks: React.FC = () => {
                         </div>
                     </motion.div>
                 </div>
-            </Section>
 
-            {/* Assignment Detail Modal */}
-            {showModal && selectedAssignment && (
-                <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4" onClick={() => setShowModal(false)}>
-                    <motion.div
-                        initial={{ scale: 0.9, opacity: 0, y: 20 }}
-                        animate={{ scale: 1, opacity: 1, y: 0 }}
-                        exit={{ scale: 0.9, opacity: 0, y: 20 }}
-                        className="bg-white rounded-2xl max-w-md w-full overflow-hidden shadow-2xl"
-                        onClick={e => e.stopPropagation()}
-                    >
-                        {/* Modal Header */}
-                        <div className="bg-gradient-to-r from-primary to-accent p-4 text-white">
-                            <div className="flex justify-between items-center">
-                                <div className="flex items-center gap-3">
-                                    <FaUserCircle className="text-3xl" />
-                                    <div>
-                                        <h3 className="font-bold text-lg">Worker Details</h3>
-                                        <p className="text-sm opacity-90">Assignment Information</p>
-                                    </div>
-                                </div>
-                                <button
-                                    onClick={() => setShowModal(false)}
-                                    className="p-1 hover:bg-white/20 rounded-full transition"
+                {/* Worker Assignment Modal */}
+                <Transition.Root show={!!selectedWorker} as={Fragment}>
+                    <Dialog as="div" className="relative z-50" onClose={() => setSelectedWorker(null)}>
+                        <Transition.Child
+                            as={Fragment}
+                            enter="ease-out duration-300"
+                            enterFrom="opacity-0"
+                            enterTo="opacity-100"
+                            leave="ease-in duration-200"
+                            leaveFrom="opacity-100"
+                            leaveTo="opacity-0"
+                        >
+                            <div className="fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm transition-opacity" />
+                        </Transition.Child>
+
+                        <div className="fixed inset-0 z-50 overflow-y-auto">
+                            <div className="flex min-h-full items-center justify-center p-4 text-center">
+                                <Transition.Child
+                                    as={Fragment}
+                                    enter="ease-out duration-300"
+                                    enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                                    enterTo="opacity-100 translate-y-0 sm:scale-100"
+                                    leave="ease-in duration-200"
+                                    leaveFrom="opacity-100 translate-y-0 sm:scale-100"
+                                    leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                                 >
-                                    <FaTimes className="text-xl" />
-                                </button>
+                                    <Dialog.Panel className="relative w-full max-w-md transform overflow-hidden rounded-2xl text-left shadow-xl backdrop-blur-lg transition-all duration-500"
+                                                  style={{
+                                                      background: 'linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.75) 50%, rgba(255,255,255,0.85) 100%)',
+                                                      border: '1px solid rgba(255,255,255,0.5)',
+                                                      boxShadow: '0 8px 32px rgba(165, 105, 66, 0.15), inset 0 1px 0 rgba(255,255,255,0.6)',
+                                                  }}
+                                    >
+                                        {/* Animated blobs */}
+                                        <div className="absolute -top-16 -right-16 w-32 h-32 rounded-full opacity-10 blur-3xl animate-pulse"
+                                             style={{ background: 'radial-gradient(circle, rgba(165,105,66,0.4) 0%, transparent 70%)' }}
+                                        />
+                                        <div className="absolute -bottom-12 -left-12 w-28 h-28 rounded-full opacity-8 blur-3xl"
+                                             style={{ background: 'radial-gradient(circle, rgba(210,125,45,0.4) 0%, transparent 70%)', animation: 'float 6s ease-in-out infinite' }}
+                                        />
+
+                                        <div className="relative z-10 p-6">
+                                            {selectedWorker && (
+                                                <>
+                                                    <div className="flex justify-between items-start mb-4">
+                                                        <div className="flex items-center gap-3">
+                                                            <div className="bg-primary/10 p-3 rounded-full">
+                                                                <FaUserCircle className="text-primary text-2xl" />
+                                                            </div>
+                                                            <div>
+                                                                <Dialog.Title as="h3" className="text-lg font-semibold text-primary">
+                                                                    {selectedWorker.name}
+                                                                </Dialog.Title>
+                                                                <p className="text-sm text-gray-500">{selectedWorker.role}</p>
+                                                            </div>
+                                                        </div>
+                                                        <button
+                                                            onClick={() => setSelectedWorker(null)}
+                                                            className="text-gray-400 hover:text-gray-600 transition-colors"
+                                                        >
+                                                            <FaTimes className="h-5 w-5" />
+                                                        </button>
+                                                    </div>
+
+                                                    <div className="space-y-3 mt-4">
+                                                        <div className="flex items-center gap-2 text-sm">
+                                                            <FaClipboardList className="text-primary" />
+                                                            <span className="text-gray-600">Task:</span>
+                                                            <span className="font-medium text-gray-900">{selectedWorker.taskTitle}</span>
+                                                        </div>
+                                                        <div className="flex items-center gap-2 text-sm">
+                                                            <FaCalendarAlt className="text-primary" />
+                                                            <span className="text-gray-600">Assigned:</span>
+                                                            <span className="font-medium text-gray-900">
+                                                {new Date(selectedWorker.assignedAt).toLocaleDateString()}
+                                            </span>
+                                                        </div>
+                                                        {selectedWorker.completedAt && (
+                                                            <div className="flex items-center gap-2 text-sm">
+                                                                <FaCheckCircle className="text-green-500" />
+                                                                <span className="text-gray-600">Completed:</span>
+                                                                <span className="font-medium text-gray-900">
+                                                    {new Date(selectedWorker.completedAt).toLocaleDateString()}
+                                                </span>
+                                                            </div>
+                                                        )}
+                                                        <div className="flex items-center gap-2 text-sm">
+                                                            <FaUserClock className="text-primary" />
+                                                            <span className="text-gray-600">Duration:</span>
+                                                            <span className="font-medium text-gray-900">
+                                                {getAssignmentDuration(selectedWorker.assignedAt, selectedWorker.completedAt)}
+                                            </span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="mt-6 flex justify-end">
+                                                        <motion.button
+                                                            onClick={() => setSelectedWorker(null)}
+                                                            className="bg-primary hover:bg-dark-orange text-white px-4 py-2 rounded-lg text-sm transform-gpu hover:scale-105 transition-all"
+                                                            whileHover={{ y: -1 }}
+                                                            whileTap={{ scale: 0.95 }}
+                                                        >
+                                                            Close
+                                                        </motion.button>
+                                                    </div>
+                                                </>
+                                            )}
+                                        </div>
+                                    </Dialog.Panel>
+                                </Transition.Child>
                             </div>
                         </div>
-
-                        {/* Modal Body */}
-                        <div className="p-6">
-                            <div className="text-center mb-4">
-                                <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
-                                    <FaUserCheck className="text-3xl text-primary" />
-                                </div>
-                                <h4 className="text-xl font-bold text-gray-900">{selectedAssignment.assignedTo}</h4>
-                                <p className="text-sm text-gray-500">{selectedAssignment.workerRole || 'Farm Worker'}</p>
-                            </div>
-
-                            <div className="space-y-3 border-t border-gray-100 pt-4">
-                                <div className="flex items-center gap-3 text-sm">
-                                    <FaCalendarAlt className="text-primary w-4" />
-                                    <span className="text-gray-600">Assigned:</span>
-                                    <span className="text-gray-900">{new Date(selectedAssignment.assignedAt).toLocaleDateString()}</span>
-                                </div>
-                                {selectedAssignment.unassignedAt && (
-                                    <div className="flex items-center gap-3 text-sm">
-                                        <FaCheckCircle className="text-green-500 w-4" />
-                                        <span className="text-gray-600">Completed:</span>
-                                        <span className="text-gray-900">{new Date(selectedAssignment.unassignedAt).toLocaleDateString()}</span>
-                                    </div>
-                                )}
-                                {selectedAssignment.daysWorked !== undefined && (
-                                    <div className="flex items-center gap-3 text-sm">
-                                        <FaHistory className="text-accent w-4" />
-                                        <span className="text-gray-600">Duration:</span>
-                                        <span className="text-gray-900">{selectedAssignment.daysWorked} days</span>
-                                    </div>
-                                )}
-                                <div className="flex items-center gap-3 text-sm">
-                                    <FaUser className="text-primary w-4" />
-                                    <span className="text-gray-600">Task ID:</span>
-                                    <span className="text-gray-900">#{selectedAssignment.taskId}</span>
-                                </div>
-                            </div>
-
-                            <div className="mt-6 pt-4 border-t border-gray-100">
-                                <p className="text-xs text-gray-400 text-center">
-                                    Click outside to close • Assignment tracked in real-time
-                                </p>
-                            </div>
-                        </div>
-                    </motion.div>
-                </div>
-            )}
+                    </Dialog>
+                </Transition.Root>
+            </Section>
         </div>
     );
 };
+
 
 export default Tasks;
