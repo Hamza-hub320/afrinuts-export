@@ -59,10 +59,10 @@ const DashboardNavbar: React.FC = () => {
 
     const navLinks = [
         { path: '/dashboard', icon: FaHome, label: 'Dashboard', sub: 'Overview' },
-        { path: '/dashboard/blocks', icon: FaMap, label: 'Block Map', sub: 'Farm grid' },
+        { path: '/dashboard/blocks', icon: FaMap, label: 'Farm', sub: 'Farm grid' },
         { path: '/dashboard/tasks', icon: FaTasks, label: 'Tasks', sub: 'Operations' },
         { path: '/dashboard/financials', icon: FaChartLine, label: 'Financials', sub: 'Reports' },
-        { path: '/investor', icon: FaDollarSign, label: 'Investor Portal', sub: 'View Only' },
+        { path: '/investor', icon: FaDollarSign, label: 'Investor', sub: 'View Portal' },
     ];
 
     return (
