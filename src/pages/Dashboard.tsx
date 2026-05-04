@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { Typography } from '@/components/Typography/Typography';
+import DashboardNavbar from '@/components/DashboardNavbar/DashboardNavbar';
 import {
     FaTractor,
     FaChartLine,
@@ -126,7 +127,9 @@ const Dashboard: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen relative overflow-hidden">
+        <div className="min-h-screen relative overflow-hidden pt-[72px]">
+
+            <DashboardNavbar />
 
             {/* Hero Header */}
             <Section
