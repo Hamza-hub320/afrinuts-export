@@ -130,8 +130,9 @@ exports.handler = async (event, context) => {
         // Get Assignments
         if (action === 'getAssignments' && (userRole === 'OWNER' || userRole === 'MANAGER' || userRole === 'INVESTOR')) {
             try {
-                const assignmentsSnapshot = await db.collection('task_assignments')
-                    .where('farmId', '==', farmId || '1')
+                const assignmentsSnapshot = await db.collection('farms')
+                    .doc(farmId || '1')
+                    .collection('task_assignments')
                     .orderBy('assignedAt', 'desc')
                     .get();
 
