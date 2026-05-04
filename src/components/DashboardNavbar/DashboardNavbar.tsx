@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { FaMap, FaTasks, FaChartLine, FaDollarSign, FaBars, FaTimes, FaSignOutAlt } from 'react-icons/fa';
+import {FaMap, FaTasks, FaChartLine, FaDollarSign, FaBars, FaTimes, FaSignOutAlt, FaHome} from 'react-icons/fa';
 import { useAuth } from '../../contexts/AuthContext';
 
 const DashboardNavbar: React.FC = () => {
@@ -10,32 +10,6 @@ const DashboardNavbar: React.FC = () => {
     const [scrolled, setScrolled] = useState(false);
     const [mobileOpen, setMobileOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
-    const [navbarHeight, setNavbarHeight] = useState(92);
-
-    // Measure the main navbar height on mount and resize
-    useEffect(() => {
-        const measureNavbar = () => {
-            const mainNav = document.querySelector('nav.fixed');
-            if (mainNav) {
-                const height = mainNav.getBoundingClientRect().height;
-                setNavbarHeight(height + 8); // 8px for the top-2 gap
-            }
-        };
-
-        // Measure immediately
-        measureNavbar();
-
-        // Measure after a short delay (for images to load)
-        const timer = setTimeout(measureNavbar, 500);
-
-        // Measure on resize
-        window.addEventListener('resize', measureNavbar);
-
-        return () => {
-            clearTimeout(timer);
-            window.removeEventListener('resize', measureNavbar);
-        };
-    }, []);
 
     useEffect(() => {
         const handleScroll = () => setScrolled(window.scrollY > 10);
@@ -61,6 +35,7 @@ const DashboardNavbar: React.FC = () => {
     const isActive = (path: string) => location.pathname === path;
 
     const navLinks = [
+        { path: '/dashboard', icon: FaHome, label: 'Dashboard', sub: 'Overview' },
         { path: '/dashboard/blocks', icon: FaMap, label: 'Block Map', sub: 'Farm grid' },
         { path: '/dashboard/tasks', icon: FaTasks, label: 'Tasks', sub: 'Operations' },
         { path: '/dashboard/financials', icon: FaChartLine, label: 'Financials', sub: 'Reports' },
@@ -71,7 +46,6 @@ const DashboardNavbar: React.FC = () => {
         <nav
             ref={menuRef}
             className="fixed top-[92px] left-1/2 -translate-x-1/2 z-40 transition-all duration-300 w-auto"
-            style={{ top: `${navbarHeight}px` }}
         >
             <div className={`relative bg-white/60 backdrop-blur-md border-2 border-white/40 shadow-lg mx-auto px-2 transition-all duration-300 ${
                 mobileOpen ? 'rounded-3xl' : 'rounded-full'
