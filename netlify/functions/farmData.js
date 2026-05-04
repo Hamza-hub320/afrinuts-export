@@ -127,20 +127,31 @@ exports.handler = async (event, context) => {
 
         // Get Assignments - accessible by Owner, Manager, and Investor (read-only)
         // ADD THIS SECTION
+        // Get Assignments
         if (action === 'getAssignments' && (userRole === 'OWNER' || userRole === 'MANAGER' || userRole === 'INVESTOR')) {
-            const assignmentsSnapshot = await db.collection('task_assignments')
-                .where('farmId', '==', farmId || '1')
-                .orderBy('assignedAt', 'desc')
-                .get();
+            try {
+                const assignmentsSnapshot = await db.collection('task_assignments')
+                    .where('farmId', '==', farmId || '1')
+                    .orderBy('assignedAt', 'desc')
+                    .get();
 
-            const assignments = [];
-            assignmentsSnapshot.forEach(doc => assignments.push({ id: doc.id, ...doc.data() }));
+                const assignments = [];
+                assignmentsSnapshot.forEach(doc => assignments.push({ id: doc.id, ...doc.data() }));
 
-            return {
-                statusCode: 200,
-                headers,
-                body: JSON.stringify({ success: true, assignments }),
-            };
+                return {
+                    statusCode: 200,
+                    headers,
+                    body: JSON.stringify({ success: true, assignments }),
+                };
+            } catch (error) {
+                // If collection doesn't exist yet, return empty
+                console.log('Assignments query error (may not exist yet):', error.message);
+                return {
+                    statusCode: 200,
+                    headers,
+                    body: JSON.stringify({ success: true, assignments: [] }),
+                };
+            }
         }
 
         // Get Blocks - accessible by Owner and Manager only

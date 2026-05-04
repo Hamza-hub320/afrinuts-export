@@ -181,7 +181,19 @@ const Tasks: React.FC = () => {
 
                     <motion.div variants={fadeIn}>
                         <Typography variant="lead" className="text-text-dark max-w-3xl mx-auto">
-                            Track and monitor all farm operations across {tasks.length > 0 ? `${tasks[0]?.blockId || 1} blocks` : 'the farm'}.
+                            {(() => {
+                                const uniqueBlocks = [...new Set(tasks.map(t => t.blockId).filter(Boolean))];
+                                const farmWideCount = tasks.filter(t => !t.blockId || t.blockId === 1).length;
+
+                                if (uniqueBlocks.length === 0) return 'Track and monitor all farm operations across the entire farm.';
+
+                                const blockList = uniqueBlocks.sort((a, b) => a - b);
+                                const blockText = blockList.length === 1
+                                    ? `Block ${blockList[0]}`
+                                    : `${blockList.length} blocks`;
+
+                                return `Track and monitor ${tasks.length} tasks across ${blockText}${farmWideCount > 0 && uniqueBlocks.length > 1 ? ' and farm-wide operations' : ''}.`;
+                            })()}
                         </Typography>
                     </motion.div>
                 </motion.div>
