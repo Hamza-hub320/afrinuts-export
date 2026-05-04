@@ -50,7 +50,7 @@ const DashboardNavbar: React.FC = () => {
             <div className={`relative bg-white/60 backdrop-blur-md border-2 border-white/40 shadow-lg mx-auto px-2 transition-all duration-300 ${
                 mobileOpen ? 'rounded-3xl' : 'rounded-full'
             } ${scrolled && !mobileOpen ? 'shadow-xl bg-white/80 backdrop-blur-lg scale-[0.97]' : ''}`}>
-                <div className="flex justify-center items-center h-12 px-4 gap-1">
+                <div className="flex justify-center items-center min-h-[48px] py-1 px-4 gap-1">
                     {navLinks.map((link) => (
                         <button
                             key={link.path}
