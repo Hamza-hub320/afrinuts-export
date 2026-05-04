@@ -425,7 +425,7 @@ const Dashboard: React.FC = () => {
                 </motion.div>
 
                 {/* End-of-page CTA */}
-                <Section className="py-16">
+                <Section className="py-10">
                     <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 text-center">
                         <motion.div
                             className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-3xl shadow-xl p-8 md:p-12 transform-gpu"
