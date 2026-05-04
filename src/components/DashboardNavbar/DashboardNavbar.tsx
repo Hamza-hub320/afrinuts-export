@@ -59,10 +59,10 @@ const DashboardNavbar: React.FC = () => {
 
     const navLinks = [
         { path: '/dashboard', icon: FaHome, label: 'Dashboard', sub: 'Overview' },
-        { path: '/dashboard/blocks', icon: FaMap, label: 'Farm', sub: 'Farm grid' },
+        { path: '/dashboard/blocks', icon: FaMap, label: 'Block Map', sub: 'Farm grid' },
         { path: '/dashboard/tasks', icon: FaTasks, label: 'Tasks', sub: 'Operations' },
         { path: '/dashboard/financials', icon: FaChartLine, label: 'Financials', sub: 'Reports' },
-        { path: '/investor', icon: FaDollarSign, label: 'Investor', sub: 'View Portal' },
+        { path: '/investor', icon: FaDollarSign, label: 'Investor Portal', sub: 'View Only' },
     ];
 
     return (
@@ -108,7 +108,7 @@ const DashboardNavbar: React.FC = () => {
                 {/* Mobile: stacked layout like main navbar */}
                 <div className="sm:hidden">
                     <div className="flex items-center justify-between px-4 py-3">
-                        <span className="text-sm font-medium text-gray-700">Dashboard Menu</span>
+                        <span className="text-sm font-medium text-gray-700 whitespace-nowrap mr-2">Dashboard Menu</span>
                         <div className="flex items-center gap-2">
                         <span className="text-xs text-gray-400 bg-white/40 backdrop-blur-sm px-2 py-1 rounded-full">
                             {user?.role || 'User'}

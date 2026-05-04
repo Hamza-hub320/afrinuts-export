@@ -90,6 +90,9 @@ const InvestorPortal: React.FC = () => {
     }
 
     return (
+        <div className="min-h-screen relative overflow-hidden pt-[72px]">
+            <DashboardNavbar />
+
         <main>
             {/* Hero Section */}
             <Section
@@ -124,13 +127,6 @@ const InvestorPortal: React.FC = () => {
                     </motion.div>
                 </motion.div>
             </Section>
-
-            {/* Back to Home Link */}
-            <div className="text-left mt-6">
-                <Link to="/Dashboard" className="text-primary/70 hover:text-primary transition-colors text-sm inline-flex items-center gap-1 group">
-                    ← Back to Dashboard
-                </Link>
-            </div>
 
             <Section className="py-8">
                 <div className="w-full max-w-5xl mx-auto px-4 sm:px-6">
@@ -405,6 +401,7 @@ const InvestorPortal: React.FC = () => {
                 </div>
             </Section>
         </main>
+        </div>
     );
 };
 
