@@ -65,14 +65,19 @@ const DashboardNavbar: React.FC = () => {
                         </button>
                     ))}
 
-                    {/* Logout — inline with nav links */}
-                    <button
-                        onClick={handleLogout}
-                        className="hidden sm:flex items-center gap-2 px-3 py-2 rounded-full text-sm text-gray-400 hover:text-red-500 hover:bg-white/60 transition-all"
-                        title="Logout"
-                    >
-                        <FaSignOutAlt size={14} />
-                    </button>
+                    {/* Role & Logout — desktop */}
+                    <div className="hidden sm:flex items-center gap-2 ml-2 pl-2 border-l border-white/30">
+                        <span className="text-xs text-gray-400 bg-white/40 backdrop-blur-sm px-2 py-1 rounded-full">
+                            {user?.role || 'User'}
+                        </span>
+                        <button
+                            onClick={handleLogout}
+                            className="flex items-center gap-1 px-2 py-1 rounded-full text-sm text-gray-400 hover:text-red-500 hover:bg-white/50 transition-all"
+                            title="Logout"
+                        >
+                            <FaSignOutAlt size={12} />
+                        </button>
+                    </div>
 
                     {/* Mobile toggle */}
                     <button
