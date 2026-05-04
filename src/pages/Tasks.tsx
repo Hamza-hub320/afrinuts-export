@@ -9,7 +9,12 @@ import {
     FaTasks,
     FaSpinner,
     FaUserCheck,
-    FaChartPie
+    FaChartPie,
+    FaTimes,
+    FaHistory,
+    FaPhone,
+    FaEnvelope,
+    FaUserCircle
 } from 'react-icons/fa';
 import { Typography } from '@/components/Typography/Typography';
 import { getMockData } from '../services/mockData';
@@ -17,7 +22,7 @@ import { callApi } from '../services/api';
 import { staggerContainer, fadeIn } from '@/utils/animations';
 import DashboardNavbar from '@/components/DashboardNavbar/DashboardNavbar';
 import Section from '@/components/Section/Section';
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const isDevelopment = import.meta.env.DEV;
 
@@ -45,11 +50,22 @@ interface TaskWithAssignments extends Task {
     currentWorker?: string;
 }
 
+// Extended assignment info for modal
+interface AssignmentWithDetails extends TaskAssignment {
+    workerName: string;
+    workerRole?: string;
+    workerEmail?: string;
+    workerPhone?: string;
+    daysWorked?: number;
+}
+
 const Tasks: React.FC = () => {
     const [tasks, setTasks] = useState<TaskWithAssignments[]>([]);
     const [assignments, setAssignments] = useState<TaskAssignment[]>([]);
     const [filter, setFilter] = useState<'ALL' | 'PENDING' | 'IN_PROGRESS' | 'COMPLETED'>('ALL');
     const [loading, setLoading] = useState(true);
+    const [selectedAssignment, setSelectedAssignment] = useState<AssignmentWithDetails | null>(null);
+    const [showModal, setShowModal] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -89,6 +105,40 @@ const Tasks: React.FC = () => {
         fetchData();
     }, []);
 
+    const handleWorkerClick = (workerName: string, taskId: number) => {
+        // Find all assignments for this task
+        const taskAssignments = assignments.filter(a => a.taskId === taskId);
+        const currentAssignment = taskAssignments.find(a => a.assignedTo === workerName);
+
+        if (currentAssignment) {
+            // Calculate days worked if unassigned
+            let daysWorked = undefined;
+            if (currentAssignment.unassignedAt) {
+                const diffMs = currentAssignment.unassignedAt - currentAssignment.assignedAt;
+                daysWorked = Math.round(diffMs / (1000 * 60 * 60 * 24));
+            }
+
+            // Mock additional worker info (in production, fetch from Firestore)
+            const workerDetails: AssignmentWithDetails = {
+                ...currentAssignment,
+                workerName: currentAssignment.assignedTo,
+                workerRole: getWorkerRole(currentAssignment.assignedTo),
+                workerEmail: `${currentAssignment.assignedTo.toLowerCase().replace(/\s/g, '.')}@afrinuts.com`,
+                workerPhone: `+225 ${Math.floor(Math.random() * 100000000)}`,
+                daysWorked,
+            };
+            setSelectedAssignment(workerDetails);
+            setShowModal(true);
+        }
+    };
+
+    const getWorkerRole = (workerName: string): string => {
+        // Mock role assignment - in production, fetch from user database
+        if (workerName.includes('Manager') || workerName.includes('Supervisor')) return 'Farm Manager';
+        if (workerName.includes('Lead')) return 'Team Lead';
+        return 'Farm Worker';
+    };
+
     const filteredTasks = tasks.filter(task => filter === 'ALL' ? true : task.status === filter);
     const pendingCount = tasks.filter(t => t.status === 'PENDING').length;
     const inProgressCount = tasks.filter(t => t.status === 'IN_PROGRESS').length;
@@ -121,15 +171,8 @@ const Tasks: React.FC = () => {
         return (
             <div className="min-h-screen relative overflow-hidden pt-[72px]">
                 <DashboardNavbar />
-                <div className="flex justify-center items-center min-h-[60vh]">
-                    <motion.div
-                        animate={{ rotate: 360 }}
-                        transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                        className="flex flex-col items-center gap-4"
-                    >
-                        <FaSpinner className="text-4xl text-primary" />
-                        <Typography variant="body" className="text-text-dark">Loading tasks...</Typography>
-                    </motion.div>
+                <div className="flex items-center justify-center min-h-[80vh]">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
                 </div>
             </div>
         );
@@ -145,7 +188,7 @@ const Tasks: React.FC = () => {
         <div className="min-h-screen relative overflow-hidden pt-[72px]">
             <DashboardNavbar />
 
-            {/* Hero Header - matches Dashboard style */}
+            {/* Hero Header */}
             <Section
                 fullHeight={false}
                 className="flex items-center justify-center text-center min-h-[40vh] relative"
@@ -172,7 +215,7 @@ const Tasks: React.FC = () => {
 
                     <motion.div variants={fadeIn}>
                         <Typography variant="lead" className="text-text-dark max-w-3xl mx-auto">
-                            Track and monitor all farm operations across {tasks.length > 0 ? `${tasks[0]?.blockId || 1} blocks` : 'the farm'}.
+                            Track and monitor all farm operations including worker assignments and task history.
                         </Typography>
                     </motion.div>
                 </motion.div>
@@ -186,34 +229,6 @@ const Tasks: React.FC = () => {
                     </div>
                 </div>
             )}
-
-            {/* Dashboard Overview Intro */}
-            <Section className="py-8">
-                <div className="w-full max-w-5xl mx-auto px-4 sm:px-6">
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={staggerContainer}
-                        className="text-center"
-                    >
-                        <motion.div variants={fadeIn}>
-                            <Typography
-                                variant="h2"
-                                className="mb-4 text-primary"
-                            >
-                                Task Management at a Glance
-                            </Typography>
-                            <Typography
-                                variant="lead"
-                                className="text-text-dark max-w-3xl mx-auto mb-8"
-                            >
-                                Monitor all farm operations in real-time. Track pending assignments, review work in progress, and verify completed tasks across every block of our Odienné farm. Use the filters below to focus on what matters most.
-                            </Typography>
-                        </motion.div>
-                    </motion.div>
-                </div>
-            </Section>
 
             <div className="container mx-auto px-4 py-8 relative z-10 max-w-7xl">
                 {/* Stats Cards */}
@@ -242,7 +257,6 @@ const Tasks: React.FC = () => {
                             }}
                         >
                             <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
-                            <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
                             <div className="relative z-10 p-6 text-center">
                                 <motion.div
                                     className={`inline-flex p-3 rounded-full bg-white/40 backdrop-blur-md mb-3`}
@@ -325,9 +339,15 @@ const Tasks: React.FC = () => {
                                                 <FaCalendarAlt className="text-primary" /> Due: {new Date(task.dueDate).toLocaleDateString()}
                                             </span>
                                             {task.currentWorker && (
-                                                <span className="inline-flex items-center gap-1.5 bg-primary/10 backdrop-blur-sm px-2.5 py-1 rounded-full">
-                                                    <FaUserCheck className="text-primary" /> {task.currentWorker}
-                                                </span>
+                                                <motion.button
+                                                    onClick={() => handleWorkerClick(task.currentWorker!, task.id)}
+                                                    className="inline-flex items-center gap-1.5 bg-primary/10 backdrop-blur-sm px-2.5 py-1 rounded-full hover:bg-primary/20 transition-all cursor-pointer"
+                                                    whileHover={{ scale: 1.05 }}
+                                                    whileTap={{ scale: 0.95 }}
+                                                >
+                                                    <FaUserCheck className="text-primary" />
+                                                    <span>{task.currentWorker}</span>
+                                                </motion.button>
                                             )}
                                             {task.completedDate && (
                                                 <span className="inline-flex items-center gap-1.5 bg-green-100/60 backdrop-blur-sm px-2.5 py-1 rounded-full text-green-700">
@@ -339,7 +359,7 @@ const Tasks: React.FC = () => {
                                         {task.assignments && task.assignments.length > 1 && (
                                             <details className="mt-3">
                                                 <summary className="text-xs text-gray-400 cursor-pointer hover:text-primary transition">
-                                                    Assignment History ({task.assignments.length} records)
+                                                    <FaHistory className="inline mr-1" /> Assignment History ({task.assignments.length} records)
                                                 </summary>
                                                 <div className="mt-2 space-y-1 pl-4 border-l-2 border-gray-200">
                                                     {task.assignments.map(assignment => (
@@ -374,8 +394,8 @@ const Tasks: React.FC = () => {
                             <Typography variant="body" className="text-gray-400">No tasks found</Typography>
                         </motion.div>
                     )}
-            </motion.div>
-        </div>
+                </motion.div>
+            </div>
 
             {/* End-of-page CTA */}
             <Section className="py-10">
@@ -395,11 +415,6 @@ const Tasks: React.FC = () => {
                             transition: { duration: 0.3 }
                         }}
                     >
-                        <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px] hover:translate-z-[-10px] transition-all duration-500" />
-                        <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40 hover:opacity-60 transition-opacity duration-500" />
-                        <div className="absolute inset-0 rounded-3xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
-                        <div className="absolute inset-0 rounded-3xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
-
                         <div className="relative z-10">
                             <motion.div variants={fadeIn}>
                                 <Typography variant="h2" className="mb-6 text-primary">
@@ -442,9 +457,84 @@ const Tasks: React.FC = () => {
                     </motion.div>
                 </div>
             </Section>
+
+            {/* Assignment Detail Modal */}
+            {showModal && selectedAssignment && (
+                <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4" onClick={() => setShowModal(false)}>
+                    <motion.div
+                        initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                        animate={{ scale: 1, opacity: 1, y: 0 }}
+                        exit={{ scale: 0.9, opacity: 0, y: 20 }}
+                        className="bg-white rounded-2xl max-w-md w-full overflow-hidden shadow-2xl"
+                        onClick={e => e.stopPropagation()}
+                    >
+                        {/* Modal Header */}
+                        <div className="bg-gradient-to-r from-primary to-accent p-4 text-white">
+                            <div className="flex justify-between items-center">
+                                <div className="flex items-center gap-3">
+                                    <FaUserCircle className="text-3xl" />
+                                    <div>
+                                        <h3 className="font-bold text-lg">Worker Details</h3>
+                                        <p className="text-sm opacity-90">Assignment Information</p>
+                                    </div>
+                                </div>
+                                <button
+                                    onClick={() => setShowModal(false)}
+                                    className="p-1 hover:bg-white/20 rounded-full transition"
+                                >
+                                    <FaTimes className="text-xl" />
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Modal Body */}
+                        <div className="p-6">
+                            <div className="text-center mb-4">
+                                <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
+                                    <FaUserCheck className="text-3xl text-primary" />
+                                </div>
+                                <h4 className="text-xl font-bold text-gray-900">{selectedAssignment.assignedTo}</h4>
+                                <p className="text-sm text-gray-500">{selectedAssignment.workerRole || 'Farm Worker'}</p>
+                            </div>
+
+                            <div className="space-y-3 border-t border-gray-100 pt-4">
+                                <div className="flex items-center gap-3 text-sm">
+                                    <FaCalendarAlt className="text-primary w-4" />
+                                    <span className="text-gray-600">Assigned:</span>
+                                    <span className="text-gray-900">{new Date(selectedAssignment.assignedAt).toLocaleDateString()}</span>
+                                </div>
+                                {selectedAssignment.unassignedAt && (
+                                    <div className="flex items-center gap-3 text-sm">
+                                        <FaCheckCircle className="text-green-500 w-4" />
+                                        <span className="text-gray-600">Completed:</span>
+                                        <span className="text-gray-900">{new Date(selectedAssignment.unassignedAt).toLocaleDateString()}</span>
+                                    </div>
+                                )}
+                                {selectedAssignment.daysWorked !== undefined && (
+                                    <div className="flex items-center gap-3 text-sm">
+                                        <FaHistory className="text-accent w-4" />
+                                        <span className="text-gray-600">Duration:</span>
+                                        <span className="text-gray-900">{selectedAssignment.daysWorked} days</span>
+                                    </div>
+                                )}
+                                <div className="flex items-center gap-3 text-sm">
+                                    <FaUser className="text-primary w-4" />
+                                    <span className="text-gray-600">Task ID:</span>
+                                    <span className="text-gray-900">#{selectedAssignment.taskId}</span>
+                                </div>
+                            </div>
+
+                            <div className="mt-6 pt-4 border-t border-gray-100">
+                                <p className="text-xs text-gray-400 text-center">
+                                    Click outside to close • Assignment tracked in real-time
+                                </p>
+                            </div>
+                        </div>
+                    </motion.div>
+                </div>
+            )}
         </div>
     );
 };
-
 
 export default Tasks;
