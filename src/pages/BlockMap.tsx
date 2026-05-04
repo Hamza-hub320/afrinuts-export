@@ -414,7 +414,7 @@ const BlockMap: React.FC = () => {
                                     </Typography>
                                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
                                         <motion.button
-                                            className="relative w-full bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white py-3 rounded-xl font-semibold transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed overflow-hidden group"
+                                            className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-4 rounded-full transform-gpu group/btn overflow-hidden"
                                             variants={fadeIn}
                                             onClick={() => navigate('/dashboard')}
                                             whileHover={{ scale: 1.05, y: -2, boxShadow: '0 10px 25px -5px rgba(165, 105, 66, 0.4)' }}

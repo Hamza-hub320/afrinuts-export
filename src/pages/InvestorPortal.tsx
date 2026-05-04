@@ -126,7 +126,7 @@ const InvestorPortal: React.FC = () => {
             </Section>
 
             {/* Back to Home Link */}
-            <div className="text-center mt-6">
+            <div className="text-left mt-6">
                 <Link to="/Dashboard" className="text-primary/70 hover:text-primary transition-colors text-sm inline-flex items-center gap-1 group">
                     ← Back to Dashboard
                 </Link>
