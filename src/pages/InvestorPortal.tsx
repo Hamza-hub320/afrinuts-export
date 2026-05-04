@@ -90,9 +90,6 @@ const InvestorPortal: React.FC = () => {
     }
 
     return (
-        <div className="min-h-screen relative overflow-hidden pt-[72px]">
-
-            <DashboardNavbar />
         <main>
             {/* Hero Section */}
             <Section
@@ -467,7 +464,6 @@ const InvestorPortal: React.FC = () => {
                 </div>
             </Section>
         </main>
-        </div>
     );
 };
 
