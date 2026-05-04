@@ -24,7 +24,6 @@ const TermsOfService: React.FC = () => {
     return (
         <main>
             {/* Terms of Service Hero Section */}
-            {/* Terms of Service Hero Section */}
             <Section
                 fullHeight={true}
                 className="flex items-center justify-center text-center min-h-[60vh] bg-gradient-to-b from-primary/10 to-transparent"

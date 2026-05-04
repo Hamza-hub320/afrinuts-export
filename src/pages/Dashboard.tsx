@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
 import { useAuth } from '../contexts/AuthContext';
 import { Typography } from '@/components/Typography/Typography';
 import {
@@ -11,7 +10,7 @@ import {
     FaDollarSign,
     FaTasks,
     FaCalendarAlt,
-    FaMap,
+    FaMap, FaChartPie,
 } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -30,6 +29,9 @@ import {
 import { getMockData } from '../services/mockData';
 import { callApi } from '../services/api';
 import {InfoCard} from "@/components/InfoCard/InfoCard";
+import Section from '@/components/Section/Section';
+import { motion } from 'framer-motion';
+import { fadeIn, staggerContainer } from '@/utils/animations';
 
 const isDevelopment = import.meta.env.DEV;
 
@@ -126,19 +128,38 @@ const Dashboard: React.FC = () => {
     return (
         <div className="min-h-screen relative overflow-hidden">
 
-            {/* Hero Header - Matching Investor Portal */}
-            <div className="flex items-center justify-center text-center min-h-[40vh] bg-gradient-to-b from-primary/10 to-transparent relative">
-                <div className="max-w-4xl px-6 sm:px-8 py-12">
-                    <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-4">
-                        Farm Operations Center
-                    </Typography>
-                    <h1 className="font-display text-4xl md:text-5xl lg:text-6xl text-text-dark mb-6 leading-tight" style={{ letterSpacing: '-0.03em' }}>
+            {/* Hero Header */}
+            <Section
+                fullHeight={false}
+                className="flex items-center justify-center text-center min-h-[40vh] bg-gradient-to-b from-primary/10 to-transparent relative"
+            >
+                <motion.div
+                    className="max-w-4xl px-6 sm:px-8 py-12"
+                    initial="hidden"
+                    animate="visible"
+                    variants={staggerContainer}
+                >
+                    <motion.div variants={fadeIn}>
+                        <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-4">
+                            Farm Operations Center
+                        </Typography>
+                    </motion.div>
+
+                    <motion.h1
+                        className="font-display text-4xl md:text-5xl lg:text-6xl text-text-dark mb-6 leading-tight"
+                        variants={fadeIn}
+                        style={{ letterSpacing: '-0.03em' }}
+                    >
                         Welcome back, {user?.name || user?.email}
-                    </h1>
-                    <Typography variant="lead" className="text-text-dark max-w-3xl mx-auto">
-                        Data-driven insights from our 35-hectare cashew farm in Odienné, Ivory Coast.
-                    </Typography>
-                    <div className="flex items-center justify-center gap-4 mt-6">
+                    </motion.h1>
+
+                    <motion.div variants={fadeIn}>
+                        <Typography variant="lead" className="text-text-dark max-w-3xl mx-auto">
+                            Data-driven insights from our 35-hectare cashew farm in Odienné, Ivory Coast.
+                        </Typography>
+                    </motion.div>
+
+                    <motion.div variants={fadeIn} className="flex items-center justify-center gap-4 mt-6">
                         <div className="px-4 py-2 bg-primary/10 backdrop-blur-sm rounded-full text-sm text-primary border border-primary/20">
                             Role: {user?.role}
                         </div>
@@ -149,9 +170,9 @@ const Dashboard: React.FC = () => {
                             <FaSignOutAlt />
                             <span>Logout</span>
                         </button>
-                    </div>
-                </div>
-            </div>
+                    </motion.div>
+                </motion.div>
+            </Section>
 
             {/* Development Mode Indicator */}
             {isDevelopment && (
@@ -317,56 +338,60 @@ const Dashboard: React.FC = () => {
                     <motion.div
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
-                        className={glassCard}
-                        style={{
-                            boxShadow: '0 8px 32px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.6)'
-                        }}
-                        whileHover={glassCardHover}
                     >
-                        <Typography variant="h4" className="mb-4 text-primary">Revenue vs Expenses</Typography>
-                        <ResponsiveContainer width="100%" height={300}>
-                            <LineChart data={monthlyData}>
-                                <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.05)" />
-                                <XAxis dataKey="month" />
-                                <YAxis />
-                                <Tooltip formatter={(value) => `${new Intl.NumberFormat('fr-FR').format(Number(value))} FCFA`} />
-                                <Legend />
-                                <Line type="monotone" dataKey="revenue" stroke="#5A7411" strokeWidth={2} />
-                                <Line type="monotone" dataKey="expenses" stroke="#E04E00" strokeWidth={2} />
-                            </LineChart>
-                        </ResponsiveContainer>
+                        <InfoCard
+                            icon={() => <FaChartLine className="text-primary text-xl" />}
+                            title="Revenue vs Expenses"
+                            iconColor="text-primary"
+                            className="h-full"
+                            showInfoBadge={false}
+                        >
+                            <ResponsiveContainer width="100%" height={300}>
+                                <LineChart data={monthlyData}>
+                                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.05)" />
+                                    <XAxis dataKey="month" />
+                                    <YAxis />
+                                    <Tooltip formatter={(value) => `${new Intl.NumberFormat('fr-FR').format(Number(value))} FCFA`} />
+                                    <Legend />
+                                    <Line type="monotone" dataKey="revenue" stroke="#5A7411" strokeWidth={2} />
+                                    <Line type="monotone" dataKey="expenses" stroke="#E04E00" strokeWidth={2} />
+                                </LineChart>
+                            </ResponsiveContainer>
+                        </InfoCard>
                     </motion.div>
 
                     {/* Block Status Pie */}
                     <motion.div
                         initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
-                        className={glassCard}
-                        style={{
-                            boxShadow: '0 8px 32px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.6)'
-                        }}
-                        whileHover={glassCardHover}
                     >
-                        <Typography variant="h4" className="mb-4 text-primary">Block Status Distribution</Typography>
-                        <ResponsiveContainer width="100%" height={300}>
-                            <PieChart>
-                                <Pie
-                                    data={pieData}
-                                    cx="50%"
-                                    cy="50%"
-                                    labelLine={false}
-                                    label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
-                                    outerRadius={80}
-                                    fill="#8884d8"
-                                    dataKey="value"
-                                >
-                                    {pieData.map((entry, index) => (
-                                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                                    ))}
-                                </Pie>
-                                <Tooltip />
-                            </PieChart>
-                        </ResponsiveContainer>
+                        <InfoCard
+                            icon={() => <FaChartPie className="text-primary text-xl" />}
+                            title="Block Status Distribution"
+                            iconColor="text-primary"
+                            className="h-full"
+                            showInfoBadge={false}
+                        >
+                            <ResponsiveContainer width="100%" height={300}>
+                                <PieChart>
+                                    <Pie
+                                        data={pieData}
+                                        cx="50%"
+                                        cy="50%"
+                                        labelLine={false}
+                                        label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                                        outerRadius={80}
+                                        fill="#8884d8"
+                                        dataKey="value"
+                                    >
+                                        {pieData.map((entry, index) => (
+                                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                        ))}
+                                    </Pie>
+                                    <Tooltip />
+                                </PieChart>
+                            </ResponsiveContainer>
+                        </InfoCard>
                     </motion.div>
                 </div>
 
@@ -375,36 +400,39 @@ const Dashboard: React.FC = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3 }}
-                    className={glassCard + " mb-8"}
-                    style={{
-                        boxShadow: '0 8px 32px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.6)'
-                    }}
-                    whileHover={glassCardHover}
+                    className="mb-8"
                 >
-                    <Typography variant="h4" className="mb-4 text-primary">Recent Tasks</Typography>
-                    {tasks.slice(0, 5).map((task) => (
-                        <div key={task.id} className="flex items-center justify-between py-3 border-b border-gray-100/50 last:border-0">
-                            <div>
-                                <p className="font-medium text-gray-900">{task.title}</p>
-                                <p className="text-sm text-gray-500">Block {task.blockId} • {task.type}</p>
+                    <InfoCard
+                        icon={() => <FaTasks className="text-primary text-xl" />}
+                        title="Recent Tasks"
+                        iconColor="text-primary"
+                        className="h-full"
+                        showInfoBadge={false}
+                    >
+                        {tasks.slice(0, 5).map((task) => (
+                            <div key={task.id} className="flex items-center justify-between py-3 border-b border-gray-100/50 last:border-0">
+                                <div>
+                                    <p className="font-medium text-gray-900">{task.title}</p>
+                                    <p className="text-sm text-gray-500">Block {task.blockId} • {task.type}</p>
+                                </div>
+                                <div className="flex items-center gap-3">
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                        task.status === 'COMPLETED' ? 'bg-green-100 text-green-700' :
+                            task.status === 'IN_PROGRESS' ? 'bg-blue-100 text-blue-700' :
+                                'bg-yellow-100 text-yellow-700'
+                    }`}>
+                        {task.status}
+                    </span>
+                                    {task.dueDate && (
+                                        <div className="flex items-center gap-1 text-xs text-gray-400">
+                                            <FaCalendarAlt />
+                                            <span>{new Date(task.dueDate).toLocaleDateString()}</span>
+                                        </div>
+                                    )}
+                                </div>
                             </div>
-                            <div className="flex items-center gap-3">
-                                <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                                    task.status === 'COMPLETED' ? 'bg-green-100 text-green-700' :
-                                        task.status === 'IN_PROGRESS' ? 'bg-blue-100 text-blue-700' :
-                                            'bg-yellow-100 text-yellow-700'
-                                }`}>
-                                    {task.status}
-                                </span>
-                                {task.dueDate && (
-                                    <div className="flex items-center gap-1 text-xs text-gray-400">
-                                        <FaCalendarAlt />
-                                        <span>{new Date(task.dueDate).toLocaleDateString()}</span>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-                    ))}
+                        ))}
+                    </InfoCard>
                 </motion.div>
 
                 {/* Financial Summary */}
