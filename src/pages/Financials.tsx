@@ -5,6 +5,8 @@ import { Typography } from '@/components/Typography/Typography';
 import DashboardNavbar from '@/components/DashboardNavbar/DashboardNavbar';
 import { getMockData } from '../services/mockData';
 import { callApi } from '../services/api';
+import { jsPDF } from 'jspdf';
+import html2canvas from 'html2canvas';
 import {
     LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid,
     Tooltip, Legend, ResponsiveContainer, PieChart, Pie, Cell
@@ -37,6 +39,21 @@ const Financials: React.FC = () => {
     const [revenues, setRevenues] = useState<any[]>([]);
     const [expenses, setExpenses] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
+
+    const handleExportPDF = async () => {
+        const element = document.querySelector('.container') as HTMLElement;
+        if (!element) return;
+
+        const canvas = await html2canvas(element, { scale: 2 });
+        const imgData = canvas.toDataURL('image/png');
+
+        const pdf = new jsPDF('p', 'mm', 'a4');
+        const imgWidth = 210;
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+        pdf.addImage(imgData, 'PNG', 0, 0, imgWidth, imgHeight);
+        pdf.save('afrinuts-financial-report.pdf');
+    };
 
     useEffect(() => {
         const fetchFinancials = async () => {
@@ -71,9 +88,6 @@ const Financials: React.FC = () => {
     }, {});
     const pieData = Object.entries(expensesByCategory).map(([name, value]) => ({ name, value }));
 
-    const handleExportPDF = () => {
-        alert('PDF Export functionality - will generate financial report');
-    };
 
     if (loading) {
         return (
