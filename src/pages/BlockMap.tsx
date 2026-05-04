@@ -5,6 +5,9 @@ import { Typography } from '@/components/Typography/Typography';
 import { InfoCard } from '@/components/InfoCard/InfoCard';
 import { getMockData } from '../services/mockData';
 import { callApi } from '../services/api';
+import {fadeIn, staggerContainer} from "@/utils/animations";
+import Section from '../components/Section/Section';
+import DashboardNavbar from "../components/DashboardNavbar/DashboardNavbar";
 
 const isDevelopment = import.meta.env.DEV;
 
@@ -97,22 +100,44 @@ const BlockMap: React.FC = () => {
     const notClearedCount = blocks.filter(b => b.status === 'NOT_CLEARED').length;
 
     return (
-        <div className="p-6">
-            {/* Header */}
-            <motion.div
-                className="text-center mb-10"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
+        <div className="min-h-screen relative overflow-hidden pt-[72px]">
+            <DashboardNavbar />
+
+            {/* Hero Header */}
+            <Section
+                fullHeight={false}
+                className="flex items-center justify-center text-center min-h-[40vh] relative"
             >
-                <Typography variant="h2" className="mb-3 text-primary">
-                    <FaMapMarkerAlt className="inline mr-3 text-accent" />
-                    Farm Block Map
-                </Typography>
-                <Typography variant="body" className="text-gray-600 max-w-2xl mx-auto">
-                    5×7 Grid Layout • 35 Blocks • 100 Trees per Block • 1.0 ha each
-                </Typography>
-            </motion.div>
+                <motion.div
+                    className="max-w-4xl px-6 sm:px-8 py-12"
+                    initial="hidden"
+                    animate="visible"
+                    variants={staggerContainer}
+                >
+                    <motion.div variants={fadeIn}>
+                        <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-4">
+                            Farm Block Map
+                        </Typography>
+                    </motion.div>
+
+                    <motion.h1
+                        className="font-display text-4xl md:text-5xl lg:text-6xl text-text-dark mb-6 leading-tight"
+                        variants={fadeIn}
+                        style={{ letterSpacing: '-0.03em' }}
+                    >
+                        <FaMapMarkerAlt className="inline mr-3 text-accent" />
+                        Block Overview
+                    </motion.h1>
+
+                    <motion.div variants={fadeIn}>
+                        <Typography variant="lead" className="text-text-dark max-w-3xl mx-auto">
+                            5×7 Grid Layout • 35 Blocks • 100 Trees per Block • 1.0 ha each
+                        </Typography>
+                    </motion.div>
+                </motion.div>
+            </Section>
+
+            <div className="container mx-auto px-4 py-8 relative z-10">
 
             {/* Legend - Glassy Card */}
             <motion.div
@@ -313,6 +338,7 @@ const BlockMap: React.FC = () => {
                     </motion.div>
                 </motion.div>
             )}
+        </div>
         </div>
     );
 };
