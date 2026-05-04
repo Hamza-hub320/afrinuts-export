@@ -1,9 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { FaMap, FaTasks, FaChartLine, FaDollarSign, FaBars, FaTimes } from 'react-icons/fa';
-import { motion } from 'framer-motion';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { FaMap, FaTasks, FaChartLine, FaDollarSign, FaBars, FaTimes, FaSignOutAlt } from 'react-icons/fa';
 import { useAuth } from '../../contexts/AuthContext';
-import { FaSignOutAlt } from 'react-icons/fa';
 
 const DashboardNavbar: React.FC = () => {
     const { user, logout } = useAuth();
@@ -19,7 +17,6 @@ const DashboardNavbar: React.FC = () => {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    // Close mobile menu on outside click
     useEffect(() => {
         const handleClickOutside = (e: MouseEvent) => {
             if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
@@ -51,7 +48,6 @@ const DashboardNavbar: React.FC = () => {
         >
             <div className={`relative bg-white/60 backdrop-blur-md border-2 border-white/40 rounded-full shadow-lg mx-auto px-2 transition-all duration-300 ${scrolled ? 'shadow-xl bg-white/80 backdrop-blur-lg scale-[0.97]' : ''}`}>
                 <div className="flex justify-center items-center h-12 px-4 gap-1">
-                    {/* Desktop nav links — icons only on small screens, labels on larger */}
                     {navLinks.map((link) => (
                         <button
                             key={link.path}
@@ -67,16 +63,14 @@ const DashboardNavbar: React.FC = () => {
                         </button>
                     ))}
 
-                    {/* Logout */}
-                    <div className="hidden sm:flex items-center ml-2 pl-2 border-l border-white/30">
-                        <button
-                            onClick={handleLogout}
-                            className="flex items-center gap-2 px-3 py-2 rounded-full text-sm text-gray-400 hover:text-red-500 hover:bg-white/60 transition-all"
-                            title="Logout"
-                        >
-                            <FaSignOutAlt size={14} />
-                        </button>
-                    </div>
+                    {/* Logout — inline with nav links */}
+                    <button
+                        onClick={handleLogout}
+                        className="hidden sm:flex items-center gap-2 px-3 py-2 rounded-full text-sm text-gray-400 hover:text-red-500 hover:bg-white/60 transition-all"
+                        title="Logout"
+                    >
+                        <FaSignOutAlt size={14} />
+                    </button>
 
                     {/* Mobile toggle */}
                     <button
@@ -88,7 +82,7 @@ const DashboardNavbar: React.FC = () => {
                     </button>
                 </div>
 
-                {/* Mobile menu — full width below the pill */}
+                {/* Mobile menu */}
                 {mobileOpen && (
                     <div className="sm:hidden pb-4 px-4 space-y-1 bg-white/90 backdrop-blur-md rounded-2xl mt-2 border border-white/40 shadow-lg">
                         {navLinks.map((link) => (
