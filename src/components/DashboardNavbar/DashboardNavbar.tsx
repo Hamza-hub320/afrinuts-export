@@ -46,7 +46,9 @@ const DashboardNavbar: React.FC = () => {
             ref={menuRef}
             className="fixed top-[92px] left-1/2 -translate-x-1/2 z-40 transition-all duration-300 w-auto"
         >
-            <div className={`relative bg-white/60 backdrop-blur-md border-2 border-white/40 rounded-full shadow-lg mx-auto px-2 transition-all duration-300 ${scrolled ? 'shadow-xl bg-white/80 backdrop-blur-lg scale-[0.97]' : ''}`}>
+            <div className={`relative bg-white/60 backdrop-blur-md border-2 border-white/40 shadow-lg mx-auto px-2 transition-all duration-300 ${
+                mobileOpen ? 'rounded-3xl' : 'rounded-full'
+            } ${scrolled && !mobileOpen ? 'shadow-xl bg-white/80 backdrop-blur-lg scale-[0.97]' : ''}`}>
                 <div className="flex justify-center items-center h-12 px-4 gap-1">
                     {navLinks.map((link) => (
                         <button
@@ -84,7 +86,7 @@ const DashboardNavbar: React.FC = () => {
 
                 {/* Mobile menu */}
                 {mobileOpen && (
-                    <div className="sm:hidden pb-4 px-4 space-y-1 bg-white/90 backdrop-blur-md rounded-2xl mt-2 border border-white/40 shadow-lg">
+                    <div className="sm:hidden pb-4 px-4 space-y-1 bg-transparent">
                         {navLinks.map((link) => (
                             <button
                                 key={link.path}
