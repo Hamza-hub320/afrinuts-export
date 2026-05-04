@@ -203,10 +203,10 @@ const Login: React.FC = () => {
                                 </motion.button>
                             </form>
 
-                            {/* Demo Credentials Info */}
+                            {/* Credentials Info */}
                             <div className="mt-6 pt-6 border-t border-gray-200/50">
                                 <p className="text-xs text-center text-gray-500">
-                                    Demo credentials available upon request
+                                   Credentials available upon request
                                 </p>
                             </div>
                         </div>

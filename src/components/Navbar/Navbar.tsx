@@ -3,6 +3,8 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FaGlobe, FaBars, FaTimes, FaChevronDown, FaChevronUp } from 'react-icons/fa';
 import logo from '@/assets/images/afrinuts-export-official-logo.webp';
 import { useTranslation } from 'react-i18next';
+import { useAuth } from '../../contexts/AuthContext';
+import { FaUserCircle, FaSignOutAlt } from 'react-icons/fa';
 
 // Type for language configuration
 type LanguageConfig = {
@@ -26,6 +28,7 @@ const Navbar: React.FC = () => {
   const aboutDropdownRef = useRef<HTMLDivElement>(null);
   const farmDropdownRef = useRef<HTMLDivElement>(null);
   const productsDropdownRef = useRef<HTMLDivElement>(null);
+  const { user, logout } = useAuth();
 
   // Language configuration
   const languages: LanguageConfig[] = [
@@ -226,7 +229,7 @@ const Navbar: React.FC = () => {
   return (
       <nav className={`fixed top-2 left-3 right-3 z-50 transition-all duration-300 ${scrolled ? 'scale-[0.98]' : ''}`}>
         <div className={`relative bg-white/60 backdrop-blur-md border-2 border-white/40 rounded-2xl shadow-lg mx-auto max-w-7xl transition-all duration-300 ${scrolled ? 'shadow-xl bg-white/80 backdrop-blur-lg' : ''}`}>
-          <div className="flex justify-between items-center h-20 px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-20 px-3 sm:px-4 lg:px-6">
 
             {/* Logo Section */}
             <div className="flex-shrink-0 flex items-center">
@@ -251,7 +254,7 @@ const Navbar: React.FC = () => {
             </div>
 
             {/* Desktop Navigation and Language Toggle */}
-            <div className="hidden md:flex items-center space-x-1">
+            <div className="hidden md:flex items-center gap-0">
               {/* Navigation Links */}
               {navItems.map((item, index) => {
                 if (item.dropdown) {
@@ -260,7 +263,7 @@ const Navbar: React.FC = () => {
                         <div key={index} className="relative" ref={aboutDropdownRef}>
                           <button type="button"
                                   onClick={toggleAboutDropdown}
-                                  className={`px-4 py-2 rounded-lg text-lg font-medium transition-all duration-300 flex items-center ${
+                                  className={`px-4 py-2 rounded-lg text-lg font-medium. transition-all duration-300 flex items-center ${
                                       isActive(item.path)
                                           ? 'bg-primary text-white shadow-md'
                                           : 'text-gray-700 hover:bg-gray-50 hover:text-primary hover:shadow-sm'
@@ -300,7 +303,7 @@ const Navbar: React.FC = () => {
                         <div key={index} className="relative" ref={productsDropdownRef}>
                           <button type="button"
                                   onClick={toggleProductsDropdown}
-                                  className={`px-4 py-2 rounded-lg text-lg font-medium transition-all duration-300 flex items-center ${
+                                  className={`px-4 py-2 rounded-lg text-lg font-medium. transition-all duration-300 flex items-center ${
                                       isActive(item.path)
                                           ? 'bg-primary text-white shadow-md'
                                           : 'text-gray-700 hover:bg-gray-50 hover:text-primary hover:shadow-sm'
@@ -340,7 +343,7 @@ const Navbar: React.FC = () => {
                         <div key={index} className="relative" ref={farmDropdownRef}>
                           <button type="button"
                                   onClick={toggleFarmDropdown}
-                                  className={`px-4 py-2 rounded-lg text-lg font-medium transition-all duration-300 flex items-center ${
+                                  className={`px-4 py-2 rounded-lg text-lg font-medium. transition-all duration-300 flex items-center ${
                                       isActive(item.path)
                                           ? 'bg-primary text-white shadow-md'
                                           : 'text-gray-700 hover:bg-gray-50 hover:text-primary hover:shadow-sm'
@@ -383,7 +386,7 @@ const Navbar: React.FC = () => {
                     <Link
                         key={index}
                         to={item.path}
-                        className={`px-4 py-2 rounded-lg text-lg font-medium transition-all duration-300 ${
+                        className={`px-4 py-2 rounded-lg text-lg font-medium. transition-all duration-300 ${
                             isActive(item.path)
                                 ? 'bg-primary text-white shadow-md'
                                 : 'text-gray-700 hover:bg-gray-50 hover:text-primary hover:shadow-sm'
@@ -438,6 +441,25 @@ const Navbar: React.FC = () => {
                     </div>
                 )}
               </div>
+
+              {/* Login/Logout Button — OUTSIDE the language div */}
+              {user ? (
+                  <button
+                      onClick={() => logout()}
+                      className="flex items-center text-gray-700 hover:text-red-500 p-2 rounded-lg hover:bg-gray-100 transition-colors duration-300 ml-1"
+                      title="Logout"
+                  >
+                    <FaSignOutAlt size={18} />
+                  </button>
+              ) : (
+                  <Link
+                      to="/login"
+                      className="flex items-center text-gray-700 hover:text-primary p-2 rounded-lg hover:bg-gray-100 transition-colors duration-300 ml-1"
+                      title="Login"
+                  >
+                    <FaUserCircle size={20} />
+                  </Link>
+              )}
             </div>
 
             {/* Mobile Menu Button */}
@@ -531,6 +553,22 @@ const Navbar: React.FC = () => {
                     )}
                   </React.Fragment>
               ))}
+              {user ? (
+                  <button
+                      onClick={() => { logout(); closeMobileMenu(); }}
+                      className="block px-3 py-3 rounded-lg text-base font-medium text-red-500 w-full text-left"
+                  >
+                    Logout
+                  </button>
+              ) : (
+                  <Link
+                      to="/login"
+                      onClick={closeMobileMenu}
+                      className="block px-3 py-3 rounded-lg text-base font-medium text-gray-700"
+                  >
+                    Login
+                  </Link>
+              )}
             </div>
           </div>
         </div>
