@@ -205,56 +205,6 @@ const Dashboard: React.FC = () => {
                                 Monitor tree health, track tasks, and analyze financial performance across all {farmData?.stats?.totalBlocks || 35} blocks of our Odienné farm. Below you'll find real-time metrics, revenue trends, and task management tools to keep operations running smoothly.
                             </Typography>
                         </motion.div>
-
-                        {/* Quick Summary Cards */}
-                        <motion.div
-                            variants={fadeIn}
-                            className="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto"
-                        >
-                            {[
-                                {
-                                    icon: FaMap,
-                                    label: 'Total Area',
-                                    value: '35 hectares',
-                                    color: 'text-primary'
-                                },
-                                {
-                                    icon: FaUsers,
-                                    label: 'Active Team',
-                                    value: `${farmData?.stats?.activeWorkers || '—'} workers`,
-                                    color: 'text-accent'
-                                },
-                                {
-                                    icon: FaCalendarAlt,
-                                    label: 'Season',
-                                    value: getCurrentSeason(),
-                                    color: 'text-green-600'
-                                },
-                            ].map((item, i) => (
-                                <div
-                                    key={i}
-                                    className="backdrop-blur-sm rounded-xl p-4 transition-all duration-300 hover:scale-[1.02]"
-                                    style={{
-                                        background: 'rgba(255,255,255,0.5)',
-                                        border: '1px solid rgba(255,255,255,0.4)',
-                                        boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.6), 0 2px 8px rgba(0,0,0,0.04)'
-                                    }}
-                                >
-                                    <motion.div
-                                        className={`${item.color} text-2xl mb-2 flex justify-center`}
-                                        whileHover={{ scale: 1.1 }}
-                                    >
-                                        {React.createElement(item.icon)}
-                                    </motion.div>
-                                    <Typography variant="h4" className="text-gray-900 mb-1">
-                                        {item.value}
-                                    </Typography>
-                                    <Typography variant="small" className="text-gray-500">
-                                        {item.label}
-                                    </Typography>
-                                </div>
-                            ))}
-                        </motion.div>
                     </motion.div>
                 </div>
             </Section>
@@ -355,8 +305,14 @@ const Dashboard: React.FC = () => {
                                         data={pieData}
                                         cx="50%"
                                         cy="50%"
-                                        labelLine={false}
-                                        label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                                        labelLine={true}
+                                        label={({ name, percent }) => {
+                                            // Abbreviate long status names on all screens
+                                            const shortName = name.length > 10
+                                                ? name.substring(0, 10) + '…'
+                                                : name;
+                                            return `${shortName}: ${(percent * 100).toFixed(0)}%`;
+                                        }}
                                         outerRadius={80}
                                         fill="#8884d8"
                                         dataKey="value"
@@ -365,7 +321,10 @@ const Dashboard: React.FC = () => {
                                             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                                         ))}
                                     </Pie>
-                                    <Tooltip />
+                                    <Tooltip
+                                        formatter={(value, name) => [value, name]}
+                                    />
+                                    <Legend />
                                 </PieChart>
                             </ResponsiveContainer>
                         </InfoCard>
@@ -525,7 +484,7 @@ const Dashboard: React.FC = () => {
                                         >
                             <span className="relative z-10 font-medium text-lg flex items-center gap-2">
                                 <FaChartPie className="text-lg" />
-                                View Financial Reports
+                                View Reports
                             </span>
                                         </motion.button>
                                     </div>

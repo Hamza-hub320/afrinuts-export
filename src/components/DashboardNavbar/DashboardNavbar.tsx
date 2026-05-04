@@ -10,6 +10,7 @@ const DashboardNavbar: React.FC = () => {
     const [scrolled, setScrolled] = useState(false);
     const [mobileOpen, setMobileOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
+    const [navbarTop, setNavbarTop] = useState(92);
 
     useEffect(() => {
         const handleScroll = () => setScrolled(window.scrollY > 10);
