@@ -116,6 +116,38 @@ export const mockTasks = [
     },
 ];
 
+export const mockAssignments = [
+    {
+        id: 10,
+        taskId: 1,
+        assignedTo: "John Worker",
+        assignedAt: Date.now() - 15 * 86400000,
+        unassignedAt: Date.now() - 10 * 86400000,
+    },
+    {
+        id: 11,
+        taskId: 1,
+        assignedTo: "Jane Manager",
+        assignedAt: Date.now() - 8 * 86400000,
+        unassignedAt: null, // Still assigned
+    },
+    {
+        id: 12,
+        taskId: 2,
+        assignedTo: "Peter Team",
+        assignedAt: Date.now() - 12 * 86400000,
+        unassignedAt: Date.now() - 5 * 86400000,
+    },
+    {
+        id: 13,
+        taskId: 3,
+        assignedTo: "Mary Foreman",
+        assignedAt: Date.now() - 20 * 86400000,
+        unassignedAt: Date.now() - 18 * 86400000,
+    },
+];
+
+
 export const mockRevenues = [
     { id: 1, totalAmount: 5250000, harvestDate: Date.now() - 15 * 86400000, quality: "PREMIUM" },
     { id: 2, totalAmount: 3120000, harvestDate: Date.now() - 30 * 86400000, quality: "STANDARD" },
@@ -148,5 +180,7 @@ export const getMockData = async (action: string, data?: any) => {
             return { success: true, expenses: mockExpenses, totalExpenses: mockExpenses.reduce((s, e) => s + e.amount, 0) };
         default:
             return { success: false, error: 'Unknown action' };
+        case 'getAssignments':
+            return Promise.resolve({ success: true, assignments: mockAssignments });
     }
 };
