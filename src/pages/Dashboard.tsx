@@ -134,7 +134,7 @@ const Dashboard: React.FC = () => {
             {/* Hero Header */}
             <Section
                 fullHeight={false}
-                className="flex items-center justify-center text-center min-h-[60vh] bg-gradient-to-b from-primary/10 to-transparent relative"
+                className="flex items-center justify-center text-center min-h-[60vh] relative"
             >
                 <motion.div
                     className="max-w-4xl px-6 sm:px-8 py-12"
