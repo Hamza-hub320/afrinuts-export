@@ -9,7 +9,7 @@ interface InfoCardProps {
     icon?: IconType;
     title: string;
     subtitle?: string;
-    children: React.ReactNode;
+    children?: React.ReactNode;
     iconColor?: string;
     className?: string;
     cta?: string | React.ReactNode;

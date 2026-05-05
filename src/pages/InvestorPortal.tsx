@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import {Link, useNavigate} from 'react-router-dom';
 import {
     FaChartLine, FaDollarSign, FaTree, FaSeedling, FaTractor,
-    FaCalendarAlt, FaArrowUp, FaArrowDown, FaTasks
+    FaCalendarAlt, FaArrowUp, FaArrowDown, FaTasks, FaLightbulb, FaLeaf, FaChartBar
 } from 'react-icons/fa';
 import { Typography } from '@/components/Typography/Typography';
 import { InfoCard } from '@/components/InfoCard/InfoCard';
@@ -235,7 +235,7 @@ const InvestorPortal: React.FC = () => {
                             </ResponsiveContainer>
                             <div className="mt-4 p-3 bg-primary/5 rounded-lg">
                                 <p className="text-sm text-gray-600">
-                                    📈 <strong>Insight:</strong> Revenue showing consistent growth with
+                                    <FaLightbulb className="inline mr-1 text-yellow-500" /> <strong>Insight:</strong> Revenue showing consistent growth with
                                     {financials.profitMargin > 20 ? ' strong ' : ' stable '}
                                     profit margins. Projecting {yearlyProjections[1].growth}% YoY growth.
                                 </p>
@@ -291,7 +291,7 @@ const InvestorPortal: React.FC = () => {
                             </div>
                             <div className="mt-4 p-3 bg-accent/5 rounded-lg">
                                 <p className="text-sm text-gray-600">
-                                    🌱 <strong>Sustainability:</strong> Organic practices across {farmStats?.stats?.totalBlocks} blocks.
+                                    <FaLeaf className="inline mr-1 text-green-600" /> <strong>Sustainability:</strong> Organic practices across {farmStats?.stats?.totalBlocks} blocks.
                                     Survival rate exceeds industry average of 85%.
                                 </p>
                             </div>
@@ -336,7 +336,7 @@ const InvestorPortal: React.FC = () => {
                             </div>
                             <div className="mt-4 p-3 bg-primary/5 rounded-lg">
                                 <p className="text-sm text-gray-600">
-                                    📊 <strong>Investment Outlook:</strong> Trees reach peak production in
+                                    <FaChartBar className="inline mr-1 text-primary" /> <strong>Investment Outlook:</strong> Trees reach peak production in
                                     {2027 - new Date().getFullYear()} years.
                                     Projected CAGR of {((yearlyProjections[2].revenue / yearlyProjections[0].revenue) ** (1 / 2) - 1) * 100}%.
                                 </p>
