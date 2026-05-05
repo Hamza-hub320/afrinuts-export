@@ -169,19 +169,28 @@ export const getMockData = async (action: string, data?: any) => {
 
     switch (action) {
         case 'getFarmSummary':
-        case 'getPublicFarmStats':
             return mockFarmStats;
+        case 'getPublicFarmStats':
+            return {
+                ...mockFarmStats,
+                blockStatusDistribution: [
+                    { name: 'PLANTED', value: 8 },
+                    { name: 'PLOWED', value: 5 },
+                    { name: 'CLEARED', value: 7 },
+                    { name: 'NOT_CLEARED', value: 15 },
+                ],
+            };
         case 'getBlocks':
             return { success: true, blocks: mockBlocks };
         case 'getTasks':
             return { success: true, tasks: mockTasks };
+        case 'getAssignments':
+            return { success: true, assignments: mockAssignments };
         case 'getRevenueSummary':
             return { success: true, revenues: mockRevenues, totalRevenue: mockRevenues.reduce((s, r) => s + r.totalAmount, 0) };
         case 'getExpenseSummary':
             return { success: true, expenses: mockExpenses, totalExpenses: mockExpenses.reduce((s, e) => s + e.amount, 0) };
         default:
             return { success: false, error: 'Unknown action' };
-        case 'getAssignments':
-            return Promise.resolve({ success: true, assignments: mockAssignments });
     }
 };

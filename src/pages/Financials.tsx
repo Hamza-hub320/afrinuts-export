@@ -41,6 +41,9 @@ const Financials: React.FC = () => {
     const [expenses, setExpenses] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
+    const [revenuePage, setRevenuePage] = useState(1);
+    const [expensePage, setExpensePage] = useState(1);
+    const ITEMS_PER_PAGE = 5;
 
     const handleExportPDF = async () => {
         // Target the dashboard content, not the entire page
@@ -381,7 +384,7 @@ const Financials: React.FC = () => {
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {revenues.map((revenue: any, i: number) => (
+                                {revenues.slice(0, revenuePage * ITEMS_PER_PAGE).map((revenue: any, i: number) => (
                                     <motion.tr
                                         key={revenue.id}
                                         className="border-b border-gray-100 last:border-0 hover:bg-white/30 transition-colors"
@@ -403,6 +406,18 @@ const Financials: React.FC = () => {
                                 </tbody>
                             </table>
                         </div>
+                        {revenues.length > revenuePage * ITEMS_PER_PAGE && (
+                            <div className="flex justify-center mt-4">
+                                <motion.button
+                                    onClick={() => setRevenuePage(p => p + 1)}
+                                    className="px-6 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium hover:bg-primary/20 transition-colors"
+                                    whileHover={{ y: -2, scale: 1.02 }}
+                                    whileTap={{ scale: 0.95 }}
+                                >
+                                    Load More ({revenues.length - revenuePage * ITEMS_PER_PAGE} remaining)
+                                </motion.button>
+                            </div>
+                        )}
                     </GlassCard>
                 </motion.div>
 
@@ -427,7 +442,7 @@ const Financials: React.FC = () => {
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {expenses.map((expense: any, i: number) => (
+                                {expenses.slice(0, expensePage * ITEMS_PER_PAGE).map((expense: any, i: number) => (
                                     <motion.tr
                                         key={expense.id}
                                         className="border-b border-gray-100 last:border-0 hover:bg-white/30 transition-colors"
@@ -449,6 +464,18 @@ const Financials: React.FC = () => {
                                 </tbody>
                             </table>
                         </div>
+                        {expenses.length > expensePage * ITEMS_PER_PAGE && (
+                            <div className="flex justify-center mt-4">
+                                <motion.button
+                                    onClick={() => setExpensePage(p => p + 1)}
+                                    className="px-6 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium hover:bg-primary/20 transition-colors"
+                                    whileHover={{ y: -2, scale: 1.02 }}
+                                    whileTap={{ scale: 0.95 }}
+                                >
+                                    Load More ({expenses.length - expensePage * ITEMS_PER_PAGE} remaining)
+                                </motion.button>
+                            </div>
+                        )}
                     </GlassCard>
                 </motion.div>
 

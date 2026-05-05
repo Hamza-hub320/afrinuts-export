@@ -209,8 +209,11 @@ const Farm = () => {
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.6 }}
                             >
-                                <p className="text-gray-600 mb-4">
-                                    Want to access the full farm management dashboard?
+                                <p className="text-text-dark mb-2">
+                                    AfriNuts Farm OS — Access for team members
+                                </p>
+                                <p className="text-sm text-text-dark mb-4">
+                                    Founders, managers, and investors can log in to manage farm operations, track tasks, and view financial reports.
                                 </p>
                                 <button
                                     onClick={() => navigate('/login')}

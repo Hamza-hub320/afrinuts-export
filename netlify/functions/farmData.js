@@ -42,6 +42,14 @@ exports.handler = async (event, context) => {
             const plantedBlocks = blocks.filter(b => b.status === 'PLANTED').length;
             const aliveTrees = blocks.reduce((sum, b) => sum + (b.survivalRate || 0), 0);
 
+            // Block status distribution for pie chart
+            const statusCount = {};
+            blocks.forEach(b => {
+                statusCount[b.status] = (statusCount[b.status] || 0) + 1;
+            });
+            const blockStatusDistribution = Object.entries(statusCount).map(([name, value]) => ({ name, value }));
+
+
             return {
                 statusCode: 200,
                 headers,
@@ -55,6 +63,7 @@ exports.handler = async (event, context) => {
                         aliveTrees: aliveTrees,
                         survivalRate: (aliveTrees / (blocks.length * 100)) * 100,
                     },
+                    blockStatusDistribution,
                 }),
             };
         } catch (error) {

@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { FaTree, FaChartLine, FaSeedling, FaTractor } from 'react-icons/fa';
+import { FaChartPie } from 'react-icons/fa';
+import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import { Typography } from '@/components/Typography/Typography';
 import { InfoCard } from '@/components/InfoCard/InfoCard';
 import { getMockData } from '../services/mockData';
 import { callApi } from '../services/api';
+import { motion } from 'framer-motion';
 
 interface FarmStats {
     totalTrees: number;
@@ -17,17 +20,20 @@ interface FarmStats {
 
 const isDevelopment = import.meta.env.DEV;
 
+const COLORS = ['#5A7411', '#E04E00', '#A0C800', '#253746', '#698714'];
+
 const LiveFarmStats: React.FC = () => {
     const [stats, setStats] = useState<FarmStats | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [blockStatusData, setBlockStatusData] = useState<any[]>([]);
 
     useEffect(() => {
         const fetchStats = async () => {
             try {
                 let data;
                 if (isDevelopment) {
-                    data = await getMockData('getFarmSummary');
+                    data = await getMockData('getPublicFarmStats');
                 } else {
                     data = await callApi('farmData', { action: 'getPublicFarmStats', farmId: '1' }, false);
                 }
@@ -42,6 +48,7 @@ const LiveFarmStats: React.FC = () => {
                         totalExpenses: 0,
                         netProfit: 0,
                     });
+                    setBlockStatusData(data.blockStatusDistribution || []);
                 } else {
                     throw new Error(data.error || 'Failed to fetch stats');
                 }
@@ -138,6 +145,37 @@ const LiveFarmStats: React.FC = () => {
                     </InfoCard>
                 ))}
             </div>
+            {blockStatusData.length > 0 && (
+                <div className="mt-8">
+                    <InfoCard
+                        icon={FaChartPie}
+                        title="Block Status Distribution"
+                        iconColor="text-primary"
+                        className="text-center"
+                        showInfoBadge={false}
+                    >
+                        <ResponsiveContainer width="100%" height={350}>
+                            <PieChart>
+                                <Pie
+                                    data={blockStatusData}
+                                    cx="50%"
+                                    cy="50%"
+                                    labelLine={true}
+                                    label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                                    outerRadius={130}
+                                    dataKey="value"
+                                >
+                                    {blockStatusData.map((entry, index) => (
+                                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                                    ))}
+                                </Pie>
+                                <Tooltip />
+                                <Legend verticalAlign="bottom" />
+                            </PieChart>
+                        </ResponsiveContainer>
+                    </InfoCard>
+                </div>
+            )}
 
             <div className="mt-8 text-center">
                 <p className="text-xs text-gray-400">
