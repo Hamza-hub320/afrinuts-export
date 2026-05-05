@@ -181,22 +181,32 @@ const DashboardWeatherWidget: React.FC<WeatherDisplayProps> = ({ location = "Odi
             <motion.div
                 className="group relative overflow-hidden rounded-2xl backdrop-blur-md transition-all duration-500"
                 style={{
-                    background: 'linear-gradient(135deg, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.7) 50%, rgba(255,255,255,0.8) 100%)',
-                    border: '1px solid rgba(255,255,255,0.5)',
-                    boxShadow: '0 8px 32px rgba(165, 105, 66, 0.12), inset 0 1px 0 rgba(255,255,255,0.6)'
+                    background: 'linear-gradient(145deg, rgba(255,255,255,0.9) 0%, rgba(240,245,255,0.8) 50%, rgba(255,255,255,0.85) 100%)',
+                    border: '1px solid rgba(255,255,255,0.6)',
+                    boxShadow: '0 4px 24px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.8)'
                 }}
-                initial={{ opacity: 0, scale: 0.9 }}
+                initial={{ opacity: 0, scale: 0.92 }}
                 animate={{ opacity: 1, scale: 1 }}
-                whileHover={{ y: -4, scale: 1.02 }}
+                whileHover={{ y: -3, scale: 1.01 }}
             >
+                {/* Subtle sky gradient blob */}
+                <div
+                    className="absolute -top-10 -right-10 w-28 h-28 rounded-full opacity-20 blur-2xl"
+                    style={{ background: 'radial-gradient(circle, rgba(56,189,248,0.3) 0%, transparent 70%)' }}
+                />
+                <div
+                    className="absolute -bottom-8 -left-8 w-24 h-24 rounded-full opacity-15 blur-2xl"
+                    style={{ background: 'radial-gradient(circle, rgba(251,191,36,0.3) 0%, transparent 70%)' }}
+                />
+
                 <div className="relative z-10 p-4">
-                    {/* Header - Compact */}
-                    <div className="flex items-center justify-between mb-3">
+                    {/* Header Row */}
+                    <div className="flex items-center justify-between mb-4">
                         <div className="flex items-center gap-1.5">
-                            <FaMapMarkerAlt className="text-accent text-sm" />
-                            <span className="text-sm font-semibold text-gray-700">{loc.name}</span>
+                            <div className="w-2 h-2 rounded-full bg-sky-400 animate-pulse" />
+                            <span className="text-xs font-semibold text-gray-600 tracking-wide uppercase">{loc.name}</span>
                         </div>
-                        <span className="text-xs text-gray-400">
+                        <span className="text-[10px] text-gray-400 font-mono tabular-nums">
                         {currentTime.toLocaleTimeString('en-US', {
                             timeZone: 'Africa/Abidjan',
                             hour: '2-digit',
@@ -206,58 +216,70 @@ const DashboardWeatherWidget: React.FC<WeatherDisplayProps> = ({ location = "Odi
                     </span>
                     </div>
 
-                    {/* Current Weather - Compact Row */}
-                    <div className="flex items-center gap-3 mb-3">
-                        {getWeatherIcon(current.condition.code, "text-4xl")}
-                        <div>
-                            <div className="text-3xl font-bold text-gray-900">{current.temp_c}°C</div>
-                            <div className="text-xs text-gray-500">{current.condition.text}</div>
+                    {/* Main Weather Display */}
+                    <div className="flex items-center gap-4 mb-4">
+                        <div className="relative">
+                            {getWeatherIcon(current.condition.code, "text-4xl")}
                         </div>
-                        <div className="ml-auto grid grid-cols-2 gap-1">
-                            <div className="flex items-center gap-1 text-xs text-gray-500">
-                                <FaTint className="text-blue-400 text-xs" /> {current.humidity}%
-                            </div>
-                            <div className="flex items-center gap-1 text-xs text-gray-500">
-                                <FaWind className="text-gray-400 text-xs" /> {current.wind_kph}
-                            </div>
-                            <div className="flex items-center gap-1 text-xs text-gray-500">
-                                <FaTemperatureHigh className="text-orange-400 text-xs" /> {current.uv}
-                            </div>
-                            <div className="flex items-center gap-1 text-xs text-gray-500">
-                                <FaCloud className="text-gray-400 text-xs" /> {current.cloud}%
-                            </div>
+                        <div>
+                            <div className="text-4xl font-bold text-gray-900 leading-none">{current.temp_c}°<span className="text-lg text-gray-400 font-normal">C</span></div>
+                            <div className="text-xs text-gray-500 mt-0.5">{current.condition.text}</div>
+                            <div className="text-[10px] text-gray-400">Feels like {current.feelslike_c}°C</div>
                         </div>
                     </div>
 
-                    {/* 3-Day Mini Forecast */}
-                    <div className="flex gap-2">
+                    {/* Quick Stats - 2x2 Grid */}
+                    <div className="grid grid-cols-4 gap-2 mb-4">
+                        {[
+                            { icon: <FaTint className="text-[10px]" />, value: `${current.humidity}%`, label: 'Humidity', color: 'text-sky-400' },
+                            { icon: <FaWind className="text-[10px]" />, value: current.wind_kph, label: 'km/h', color: 'text-gray-400' },
+                            { icon: <FaTemperatureHigh className="text-[10px]" />, value: current.uv, label: 'UV', color: 'text-amber-400' },
+                            { icon: <FaCloud className="text-[10px]" />, value: `${current.cloud}%`, label: 'Cloud', color: 'text-gray-400' },
+                        ].map((stat, i) => (
+                            <div key={i} className="flex flex-col items-center bg-white/50 rounded-lg py-1.5 px-1">
+                                <span className={stat.color}>{stat.icon}</span>
+                                <span className="text-xs font-semibold text-gray-700 mt-0.5">{stat.value}</span>
+                                <span className="text-[9px] text-gray-400">{stat.label}</span>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* 3-Day Forecast - Compact Pills */}
+                    <div className="flex gap-1.5 mb-3">
                         {forecastDays.slice(0, 3).map((day, idx) => (
-                            <div key={idx} className="flex-1 text-center bg-white/30 rounded-lg py-2 px-1">
-                                <div className="text-xs font-medium text-gray-500">{getDayName(day.date)}</div>
-                                {getWeatherIcon(day.day.condition.code, "text-lg")}
-                                <div className="flex justify-center gap-1 text-xs mt-1">
-                                    <span className="text-orange-500 font-medium">{Math.round(day.day.maxtemp_c)}°</span>
-                                    <span className="text-blue-500">{Math.round(day.day.mintemp_c)}°</span>
+                            <div
+                                key={idx}
+                                className="flex-1 text-center bg-white/60 rounded-lg py-2 px-1 transition-all hover:bg-white/80"
+                            >
+                                <div className="text-[10px] font-semibold text-gray-500 mb-1">{getDayName(day.date)}</div>
+                                {getWeatherIcon(day.day.condition.code, "text-base")}
+                                <div className="flex justify-center gap-1 mt-1">
+                                    <span className="text-[10px] font-bold text-gray-800">{Math.round(day.day.maxtemp_c)}°</span>
+                                    <span className="text-[10px] text-gray-400">{Math.round(day.day.mintemp_c)}°</span>
+                                </div>
+                                <div className="flex items-center justify-center gap-0.5 mt-0.5">
+                                    <FaTint className="text-[8px] text-sky-300" />
+                                    <span className="text-[9px] text-gray-400">{day.day.daily_chance_of_rain}%</span>
                                 </div>
                             </div>
                         ))}
                     </div>
 
-                    {/* Farm Advisory - Single Line */}
-                    <div className="mt-3 pt-2 border-t border-white/30">
-                        <div className="flex items-center gap-1.5 text-xs text-gray-600">
-                            <FaArrowRight className="text-accent text-xs" />
-                            <span>
-                            {current.condition.code === 1000
-                                ? 'Perfect farm weather today'
-                                : current.temp_c > 35
-                                    ? 'High heat - stay hydrated'
-                                    : current.condition.text.includes("Rain")
-                                        ? 'Rain expected - plan indoors'
-                                        : 'Good conditions for farm work'
-                            }
-                        </span>
-                        </div>
+                    {/* Farm Advisory - Compact Badge */}
+                    <div className="flex items-center gap-1.5 bg-gradient-to-r from-sky-50 to-amber-50 rounded-full px-3 py-1.5 border border-sky-100">
+                    <span className="text-xs">
+                        {current.condition.code === 1000 ? '☀️' : current.temp_c > 35 ? '🔥' : current.condition.text.includes("Rain") ? '🌧️' : '✅'}
+                    </span>
+                        <span className="text-[10px] text-gray-600 font-medium truncate">
+                        {current.condition.code === 1000
+                            ? 'Perfect farm weather'
+                            : current.temp_c > 35
+                                ? 'Stay hydrated'
+                                : current.condition.text.includes("Rain")
+                                    ? 'Rain expected'
+                                    : 'Good conditions'
+                        }
+                    </span>
                     </div>
                 </div>
             </motion.div>

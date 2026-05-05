@@ -270,7 +270,7 @@ const Dashboard: React.FC = () => {
                             icon={FaTasks}
                             title={String(pendingTasks.length + inProgressTasks.length)}
                             subtitle={`Active Tasks${overdueTasks.length > 0 ? ` • ${overdueTasks.length} overdue` : ''}`}
-                            iconColor="text-primary"
+                            iconColor="text-accent"
                             showInfoBadge={false}
                         />
                     </motion.div>
@@ -371,7 +371,7 @@ const Dashboard: React.FC = () => {
                         className="h-full"
                         showInfoBadge={false}
                     >
-                        {tasks.slice(0, 5).map((task) => (
+                        {tasks.slice(0, 3).map((task) => (
                             <div key={task.id} className="flex items-center justify-between py-3 border-b border-gray-100/50 last:border-0">
                                 <div>
                                     <p className="font-medium text-gray-900">{task.title}</p>

@@ -10,7 +10,7 @@ const WeatherToggleButton: React.FC = () => {
         <>
             {/* Toggle Button */}
             <motion.button
-                className="w-12 h-12 flex items-center justify-center bg-gradient-to-br from-primary to-accent text-white rounded-l-lg shadow-xl transform-gpu focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 border-2 border-white/20"
+                className="w-12 h-12 flex items-center justify-center bg-gradient-to-br from-sky-400 to-blue-600 text-white rounded-l-lg shadow-xl transform-gpu focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-offset-2 border-2 border-white/20"
                 style={{ transformStyle: 'preserve-3d' }}
                 onClick={() => setIsOpen(!isOpen)}
                 aria-expanded={isOpen}
