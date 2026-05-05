@@ -61,6 +61,7 @@ const DashboardWeatherWidget: React.FC<WeatherDisplayProps> = ({ location = "Odi
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [currentTime, setCurrentTime] = useState<Date>(new Date());
+    const [showMobileWeather, setShowMobileWeather] = useState(false);
 
     useEffect(() => {
         const timeInterval = setInterval(() => {

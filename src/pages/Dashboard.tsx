@@ -12,7 +12,7 @@ import {
     FaDollarSign,
     FaTasks,
     FaCalendarAlt,
-    FaMap, FaChartPie,
+    FaMap, FaChartPie, FaCloudSun,
 } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -49,6 +49,7 @@ const Dashboard: React.FC = () => {
     const [revenues, setRevenues] = useState<any[]>([]);
     const [expenses, setExpenses] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
+    const [showMobileWeather, setShowMobileWeather] = useState(false);
 
     useEffect(() => {
         const fetchDashboardData = async () => {
@@ -211,14 +212,33 @@ const Dashboard: React.FC = () => {
             </Section>
 
             <div className="container mx-auto px-4 py-8 relative z-10">
-                {/* Floating Weather Widget - Top Right */}
+                {/* Weather Widget - Desktop: floating top-right | Mobile: inline in content */}
                 <motion.div
-                    className="fixed top-20 right-4 z-50 w-72"
+                    className="hidden lg:block fixed top-24 right-4 z-40 w-72"
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.5 }}
                 >
                     <DashboardWeatherWidget location="Odienne" compact />
+                </motion.div>
+
+                {/* Mobile Weather - Collapsible */}
+                <motion.div className="lg:hidden mb-4">
+                    <button
+                        onClick={() => setShowMobileWeather(!showMobileWeather)}
+                        className="w-full flex items-center justify-between bg-white/80 backdrop-blur-md rounded-xl px-4 py-2 border border-white/40 text-sm font-medium text-gray-700"
+                    >
+                        <span className="flex items-center gap-2">
+                            <FaCloudSun className="text-accent" />
+                            Odienné Weather
+                        </span>
+                        <span>{showMobileWeather ? 'Hide' : 'Show'}</span>
+                    </button>
+                    {showMobileWeather && (
+                        <div className="mt-2">
+                            <DashboardWeatherWidget location="Odienne" compact />
+                        </div>
+                    )}
                 </motion.div>
                 {/* KPI Cards Row */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
