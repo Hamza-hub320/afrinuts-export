@@ -10,6 +10,7 @@ import farmImage3 from '@/assets/images/farm-3.webp';
 import farmImage4 from '@/assets/images/farm-4.webp';
 import farmHeroImage from '@/assets/images/farm-hero.webp';
 import { useAuth } from '../contexts/AuthContext';
+import DashboardWeatherWidget from '@/components/DashboardWeatherWidget';
 import LiveFarmStats from '@/components/LiveFarmStats';
 import { motion } from 'framer-motion';
 import { fadeIn, staggerContainer } from '@/utils/animations';
@@ -20,7 +21,6 @@ import ImageGallery from '../components/ImageGallery/ImageGallery';
 import StatsCounter from '../components/StatsCounter/StatsCounter';
 import InteractiveMap from '../components/InteractiveMap/InteractiveMap';
 import { InfoCard } from "../components/InfoCard/InfoCard";
-import {MinusIcon, PlusIcon} from "@heroicons/react/16/solid";
 
 const Farm = () => {
     const { t } = useTranslation('farm');

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { Typography } from '@/components/Typography/Typography';
 import DashboardNavbar from '@/components/DashboardNavbar/DashboardNavbar';
+import DashboardWeatherWidget from '@/components/DashboardWeatherWidget';
 import {
     FaTractor,
     FaChartLine,
@@ -259,6 +260,16 @@ const Dashboard: React.FC = () => {
                     </motion.div>
                 </div>
 
+                {/* Weather Widget - Full width above charts */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.5 }}
+                    className="mb-8"
+                >
+                    <DashboardWeatherWidget location="Odienne" />
+                </motion.div>
+
                 {/* Charts Row */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
                     {/* Revenue vs Expenses */}
@@ -444,7 +455,6 @@ const Dashboard: React.FC = () => {
                                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
                                         <motion.button
                                             className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-4 rounded-full transform-gpu group/btn overflow-hidden"
-                                            variants={fadeIn}
                                             variants={fadeIn}
                                             onClick={() => navigate('/dashboard/tasks')}
                                             whileHover={{ scale: 1.05, y: -2, boxShadow: '0 10px 25px -5px rgba(165, 105, 66, 0.4)' }}
