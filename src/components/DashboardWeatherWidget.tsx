@@ -6,7 +6,16 @@ import {
     FaCalendarAlt, FaArrowRight, FaCheckCircle
 } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
-import weatherSunsetBg from '@/assets/images/weather-sunset.webp';
+import weatherSunny from '@/assets/images/weather-sunny.webp';
+import weatherPartlyCloudy from '@/assets/images/weather-partly-cloudy.webp';
+import weatherCloudy from '@/assets/images/weather-cloudy.webp';
+import weatherFog from '@/assets/images/weather-fog.webp';
+import weatherRain from '@/assets/images/weather-rain.webp';
+import weatherStorm from '@/assets/images/weather-storm.webp';
+import weatherSunset from '@/assets/images/weather-sunset.webp';
+
+import weatherClearNight from '@/assets/images/weather-clear-night.webp';
+import weatherRainNight from '@/assets/images/weather-rain-night.webp';
 
 interface WeatherDisplayProps {
     location?: string;
@@ -55,6 +64,36 @@ interface WeatherData {
         forecastday: ForecastDay[];
     };
 }
+
+const getWeatherBackground = (code: number, isDay: boolean): string => {
+    // Clear / Sunny
+    if (code === 1000) {
+        return isDay ? weatherSunny : weatherClearNight;
+    }
+    // Partly cloudy
+    if (code === 1003) {
+        return weatherPartlyCloudy;
+    }
+    // Cloudy / Overcast
+    if ([1006, 1009].includes(code)) {
+        return weatherCloudy;
+    }
+    // Fog / Mist
+    if ([1030, 1135, 1147].includes(code)) {
+        return weatherFog;
+    }
+    // Rain / Drizzle
+    if ([1063, 1180, 1183, 1186, 1189, 1192, 1195, 1240, 1243, 1246].includes(code)) {
+        return isDay ? weatherRain : weatherRainNight;
+    }
+    // Thunderstorm
+    if ([1087, 1273, 1276].includes(code)) {
+        return weatherStorm;
+    }
+    // Default fallback
+    return weatherSunset;
+};
+
 
 const DashboardWeatherWidget: React.FC<WeatherDisplayProps> = ({ location = "Odienne", compact = false }) => {
     const {t} = useTranslation('contact');
@@ -179,6 +218,10 @@ const DashboardWeatherWidget: React.FC<WeatherDisplayProps> = ({ location = "Odi
 
     const {current, forecast, location: loc} = weatherData;
     const forecastDays = forecast?.forecastday || [];
+
+    const localHour = new Date(loc.localtime).getHours();
+    const isDayTime = localHour > 6 && localHour < 18;
+    const backgroundImage = getWeatherBackground(current.condition.code, isDayTime);
 
     if (compact) {
         return (
@@ -332,18 +375,18 @@ const DashboardWeatherWidget: React.FC<WeatherDisplayProps> = ({ location = "Odi
             animate={{opacity: 1, y: 0}}
             transition={{duration: 0.5}}
         >
-            {/* Sunset Background Image */}
-            <div className="absolute inset-0 z-0">
+            {/* Dynamic Weather Background */}
+            <div className="absolute inset-0 z-0 transition-all duration-1000 ease-in-out">
                 <img
-                    src={weatherSunsetBg}
+                    src={backgroundImage}
                     alt=""
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover transition-opacity duration-1000"
                     loading="lazy"
+                    key={backgroundImage}
                 />
                 {/* Dark overlay for readability */}
-                <div className="absolute inset-0 bg-gradient-to-br from-black/40 via-black/20 to-black/50"/>
-                {/* Warm amber overlay matching brand */}
-                <div className="absolute inset-0 bg-gradient-to-t from-amber-900/30 via-transparent to-transparent"/>
+                <div className="absolute inset-0 bg-gradient-to-br from-black/40 via-black/20 to-black/50" />
+                <div className="absolute inset-0 bg-gradient-to-t from-amber-900/30 via-transparent to-transparent" />
             </div>
 
             {/* Animated floating orbs */}
