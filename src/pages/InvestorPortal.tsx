@@ -9,6 +9,8 @@ import { Typography } from '@/components/Typography/Typography';
 import { InfoCard } from '@/components/InfoCard/InfoCard';
 import { getMockData } from '../services/mockData';
 import { callApi } from '../services/api';
+import { auth } from '../services/firebase';
+import { onAuthStateChanged } from 'firebase/auth';
 import {
     XAxis, YAxis, CartesianGrid,
     Tooltip, Legend, ResponsiveContainer, AreaChart, Area,
@@ -72,7 +74,17 @@ const InvestorPortal: React.FC = () => {
                 setLoading(false);
             }
         };
-        fetchInvestorData();
+
+        // Wait for auth state before fetching
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (user) {
+                fetchInvestorData();
+            } else {
+                setLoading(false);
+            }
+        });
+
+        return () => unsubscribe();
     }, []);
 
     const yearlyProjections = [
