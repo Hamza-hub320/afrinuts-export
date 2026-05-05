@@ -151,7 +151,63 @@ const DashboardWeatherWidget: React.FC<WeatherDisplayProps> = ({ location = "Odi
     const forecastDays = forecast?.forecastday || [];
     const advisory = getFarmAdvisory(weatherData);
 
-    if (compact) return null;
+    if (compact) {
+        const { current, location: loc } = weatherData;
+        return (
+            <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.5 }}
+                className="relative overflow-hidden rounded-2xl bg-white/70 backdrop-blur-md border border-white/50 shadow-lg p-4 h-full"
+            >
+                {/* Subtle sky gradient strip at top */}
+                <div className={`absolute top-0 left-0 right-0 h-1 bg-gradient-to-r ${getSkyGradient(current.condition.code)}`} />
+
+                <div className="flex items-center gap-4">
+                    {/* Icon + Temp */}
+                    <div className="flex items-center gap-2">
+                        <motion.div
+                            animate={{ scale: [1, 1.05, 1] }}
+                            transition={{ duration: 4, repeat: Infinity }}
+                            className="w-12 h-12 rounded-xl bg-white/60 flex items-center justify-center shadow-sm"
+                        >
+                            {getWeatherIcon(current.condition.code, "text-2xl")}
+                        </motion.div>
+                        <div>
+                            <div className="text-2xl font-bold text-slate-800">{Math.round(current.temp_c)}°C</div>
+                            <div className="text-xs text-slate-400">{current.condition.text}</div>
+                        </div>
+                    </div>
+
+                    {/* Metrics */}
+                    <div className="flex gap-3 ml-auto">
+                        <div className="flex items-center gap-1 text-xs text-slate-500">
+                            <FaTint className="text-sky-400" /> {current.humidity}%
+                        </div>
+                        <div className="flex items-center gap-1 text-xs text-slate-500">
+                            <FaWind className="text-slate-400" /> {current.wind_kph}
+                        </div>
+                        <div className="flex items-center gap-1 text-xs text-slate-500">
+                            <FaEye className="text-emerald-400" /> {current.uv}
+                        </div>
+                    </div>
+
+                    {/* Mini 3-day forecast row */}
+                    <div className="hidden lg:flex items-center gap-2 border-l border-white/40 pl-4">
+                        {forecastDays.slice(0, 3).map((day, idx) => (
+                            <div key={idx} className="text-center">
+                                <div className="text-[10px] text-slate-400">{idx === 0 ? 'Today' : getDayName(day.date).slice(0, 2)}</div>
+                                <div className="flex justify-center my-0.5">{getWeatherIcon(day.day.condition.code, "text-sm")}</div>
+                                <div className="text-[10px] font-medium">
+                                    <span className="text-amber-600">{Math.round(day.day.maxtemp_c)}°</span>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </motion.div>
+        );
+    }
 
     return (
         <motion.div

@@ -258,17 +258,14 @@ const Dashboard: React.FC = () => {
                             showInfoBadge={false}
                         />
                     </motion.div>
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.5 }}
+                    >
+                        <DashboardWeatherWidget location="Odienne" compact />
+                    </motion.div>
                 </div>
-
-                {/* Weather Widget - Full width above charts */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.5 }}
-                    className="mb-8"
-                >
-                    <DashboardWeatherWidget location="Odienne" />
-                </motion.div>
 
                 {/* Charts Row */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
