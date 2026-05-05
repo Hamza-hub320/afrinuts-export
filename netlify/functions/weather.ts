@@ -18,6 +18,7 @@ export const handler: Handler = async (event: HandlerEvent, context: HandlerCont
     }
 
     const location = event.queryStringParameters?.location || "Odienne";
+    const days = event.queryStringParameters?.days || "3";
     const API_KEY = process.env.WEATHER_API_KEY;
 
     if (!API_KEY) {
@@ -30,7 +31,7 @@ export const handler: Handler = async (event: HandlerEvent, context: HandlerCont
 
     try {
         const response = await fetch(
-            `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${encodeURIComponent(location)}&days=1&aqi=no`
+            `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${encodeURIComponent(location)}&days=${days}&aqi=no`
         );
 
         const data = await response.json();
