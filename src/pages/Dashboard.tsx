@@ -211,6 +211,15 @@ const Dashboard: React.FC = () => {
             </Section>
 
             <div className="container mx-auto px-4 py-8 relative z-10">
+                {/* Floating Weather Widget - Top Right */}
+                <motion.div
+                    className="fixed top-20 right-4 z-50 w-72"
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.5 }}
+                >
+                    <DashboardWeatherWidget location="Odienne" compact />
+                </motion.div>
                 {/* KPI Cards Row */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
                     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0 }}>
@@ -257,13 +266,6 @@ const Dashboard: React.FC = () => {
                             iconColor="text-accent"
                             showInfoBadge={false}
                         />
-                    </motion.div>
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.5 }}
-                    >
-                        <DashboardWeatherWidget location="Odienne" compact />
                     </motion.div>
                 </div>
 
