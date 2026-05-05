@@ -214,7 +214,7 @@ const Dashboard: React.FC = () => {
             <div className="container mx-auto px-4 py-8 relative z-10">
                 {/* Weather Widget - Desktop: floating top-right | Mobile: inline in content */}
                 <motion.div
-                    className="hidden lg:block fixed top-40 right-4 z-40 w-72"
+                    className="hidden lg:block fixed top-60 right-6 z-40 w-72"
                     initial={{ opacity: 0, x: 20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.5 }}
