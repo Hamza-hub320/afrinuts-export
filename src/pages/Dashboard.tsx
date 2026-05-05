@@ -3,7 +3,6 @@ import { useAuth } from '../contexts/AuthContext';
 import { Typography } from '@/components/Typography/Typography';
 import DashboardNavbar from '@/components/DashboardNavbar/DashboardNavbar';
 import DashboardWeatherWidget from '@/components/DashboardWeatherWidget';
-import WeatherToggleButton from '@/components/WeatherToggleButton';
 import {
     FaTractor,
     FaChartLine,
@@ -213,9 +212,9 @@ const Dashboard: React.FC = () => {
             </Section>
 
             <div className="container mx-auto px-4 py-8 relative z-10">
-                {/* Desktop Weather - Toggle button like accessibility */}
-                <div className="hidden lg:block fixed right-0 top-[20%] z-40">
-                    <WeatherToggleButton />
+                {/* Desktop Weather - Always visible */}
+                <div className="hidden lg:block mb-8">
+                    <DashboardWeatherWidget location="Odienne" />
                 </div>
 
                 {/* Mobile Weather - Collapsible */}
