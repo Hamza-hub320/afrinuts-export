@@ -176,7 +176,8 @@ const DashboardWeatherWidget: React.FC<WeatherDisplayProps> = ({ location = "Odi
     const forecastDays = forecast?.forecastday || [];
 
     if (compact) {
-        // Compact version for sidebar or smaller spaces
+        return ;
+    }
         return (
             <motion.div
                 className="group relative overflow-hidden bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-500 rounded-2xl shadow-xl p-6 backdrop-blur-sm transform-gpu"
@@ -329,7 +330,6 @@ const DashboardWeatherWidget: React.FC<WeatherDisplayProps> = ({ location = "Odi
                 </div>
             </motion.div>
         );
-    }
 };
 
 export default DashboardWeatherWidget;
