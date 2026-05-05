@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import {
     FaTemperatureHigh, FaTemperatureLow, FaWind, FaTint, FaMapMarkerAlt,
     FaSun, FaCloudSun, FaCloud, FaSmog, FaCloudRain, FaBolt,
-    FaCalendarAlt, FaArrowRight, FaCheckCircle
+    FaCalendarAlt, FaArrowRight, FaCheckCircle, FaEye, FaCompass
 } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 
@@ -26,6 +26,8 @@ interface CurrentWeather {
     humidity: number;
     uv: number;
     cloud: number;
+    wind_dir?: string;
+    vis_km?: number;
 }
 
 interface ForecastDay {
@@ -63,27 +65,18 @@ const DashboardWeatherWidget: React.FC<WeatherDisplayProps> = ({ location = "Odi
     const [currentTime, setCurrentTime] = useState<Date>(new Date());
 
     useEffect(() => {
-        const timeInterval = setInterval(() => {
-            setCurrentTime(new Date());
-        }, 1000);
+        const timeInterval = setInterval(() => setCurrentTime(new Date()), 1000);
 
         const fetchWeather = async () => {
             try {
                 const response = await fetch(
                     `/.netlify/functions/weather?location=${encodeURIComponent(location)}&days=3`
                 );
-
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    console.error('Weather API Error:', errorData);
-                    throw new Error(errorData.error?.message || 'Weather data unavailable');
-                }
-
+                if (!response.ok) throw new Error('Weather data unavailable');
                 const data = await response.json();
                 setWeatherData(data);
                 setLoading(false);
             } catch (err: any) {
-                console.error('Weather fetch error:', err);
                 setError(err.message);
                 setLoading(false);
             }
@@ -91,139 +84,106 @@ const DashboardWeatherWidget: React.FC<WeatherDisplayProps> = ({ location = "Odi
 
         fetchWeather();
         const weatherInterval = setInterval(fetchWeather, 30 * 60 * 1000);
-
         return () => {
             clearInterval(timeInterval);
             clearInterval(weatherInterval);
         };
     }, [location]);
 
-    const getWeatherIcon = (conditionCode: number, className: string = "text-4xl"): React.ReactElement => {
-        const iconClass = `${className} transform-gpu group-hover:scale-110 transition-transform duration-300`;
-        switch (conditionCode) {
-            case 1000:
-                return <FaSun className={`${iconClass} text-yellow-400`} />;
-            case 1003:
-                return <FaCloudSun className={`${iconClass} text-gray-400`} />;
-            case 1006:
-            case 1009:
-                return <FaCloud className={`${iconClass} text-gray-500`} />;
-            case 1030:
-            case 1135:
-            case 1147:
-                return <FaSmog className={`${iconClass} text-gray-300`} />;
-            case 1063:
-            case 1180:
-            case 1183:
-            case 1186:
-            case 1189:
-            case 1192:
-            case 1195:
-            case 1240:
-            case 1243:
-            case 1246:
-                return <FaCloudRain className={`${iconClass} text-blue-400`} />;
-            case 1087:
-            case 1273:
-            case 1276:
-                return <FaBolt className={`${iconClass} text-purple-500`} />;
-            default:
-                return <FaSun className={`${iconClass} text-yellow-400`} />;
+    const getWeatherIcon = (code: number, size: string = "text-5xl"): React.ReactElement => {
+        const props = { className: `${size} drop-shadow-lg` };
+        switch (code) {
+            case 1000: return <FaSun {...props} className={`${props.className} text-amber-400`} />;
+            case 1003: return <FaCloudSun {...props} className={`${props.className} text-amber-300`} />;
+            case 1006: case 1009: return <FaCloud {...props} className={`${props.className} text-slate-400`} />;
+            case 1030: case 1135: case 1147: return <FaSmog {...props} className={`${props.className} text-slate-300`} />;
+            case 1063: case 1180: case 1183: case 1186: case 1189: case 1192: case 1195: case 1240: case 1243: case 1246:
+                return <FaCloudRain {...props} className={`${props.className} text-sky-400`} />;
+            case 1087: case 1273: case 1276: return <FaBolt {...props} className={`${props.className} text-violet-500`} />;
+            default: return <FaSun {...props} className={`${props.className} text-amber-400`} />;
         }
     };
 
-    const getDayName = (dateStr: string): string => {
-        const date = new Date(dateStr);
-        return date.toLocaleDateString('en-US', { weekday: 'short' });
+    const getDayName = (dateStr: string): string =>
+        new Date(dateStr).toLocaleDateString('en-US', { weekday: 'short' });
+
+    const getSkyGradient = (code: number): string => {
+        if (code === 1000) return 'from-sky-300 via-blue-400 to-amber-200';
+        if (code === 1003) return 'from-sky-300 via-slate-300 to-amber-100';
+        if (code >= 1006 && code <= 1009) return 'from-slate-300 via-slate-400 to-gray-300';
+        if (code >= 1030 && code <= 1147) return 'from-gray-300 via-slate-300 to-gray-200';
+        if (code >= 1063 || code >= 1180) return 'from-slate-400 via-sky-500 to-blue-400';
+        return 'from-sky-300 via-blue-400 to-amber-200';
+    };
+
+    const getFarmAdvisory = (data: WeatherData): { icon: React.ReactElement; text: string; color: string } => {
+        const { condition, temp_c } = data.current;
+        if (condition.code === 1000) return { icon: <FaSun className="text-amber-500" />, text: "Perfect weather for farm operations today!", color: "bg-amber-50 border-amber-200 text-amber-800" };
+        if (temp_c > 35) return { icon: <FaTemperatureHigh className="text-red-500" />, text: "High temperatures — ensure workers stay hydrated", color: "bg-red-50 border-red-200 text-red-800" };
+        if (condition.text.includes("Rain")) return { icon: <FaCloudRain className="text-sky-600" />, text: "Rain expected — plan indoor tasks accordingly", color: "bg-sky-50 border-sky-200 text-sky-800" };
+        return { icon: <FaCheckCircle className="text-emerald-500" />, text: "Good conditions for farm work", color: "bg-emerald-50 border-emerald-200 text-emerald-800" };
     };
 
     if (loading) {
         return (
-            <motion.div
-                className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl shadow-xl p-6 backdrop-blur-sm transform-gpu"
-                style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-            >
-                <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] transition-all duration-500" />
-                <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 transition-opacity duration-500" />
-                <div className="relative z-10 text-center animate-pulse">
-                    Loading weather data...
+            <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-sky-100 via-blue-50 to-amber-50 p-8 min-h-[400px] flex items-center justify-center">
+                <div className="absolute inset-0 bg-white/20 backdrop-blur-xl" />
+                <div className="relative z-10 flex flex-col items-center gap-4">
+                    <div className="w-16 h-16 rounded-full border-4 border-sky-300 border-t-transparent animate-spin" />
+                    <p className="text-slate-500 font-medium">Loading weather data...</p>
                 </div>
-            </motion.div>
+            </div>
         );
     }
 
     if (error || !weatherData) {
         return (
-            <motion.div
-                className="relative bg-gradient-to-br from-red-100/80 to-red-200/60 border-2 border-red-300/50 rounded-2xl shadow-xl p-6 backdrop-blur-sm transform-gpu"
-                style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-            >
-                <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] transition-all duration-500" />
-                <div className="relative z-10 text-red-700 text-center">
-                    Unable to load weather data
+            <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-red-50 to-rose-50 p-8 min-h-[300px] flex items-center justify-center">
+                <div className="relative z-10 text-center">
+                    <FaCloudRain className="text-5xl text-red-300 mx-auto mb-4" />
+                    <p className="text-red-600 font-medium">Unable to load weather data</p>
                 </div>
-            </motion.div>
+            </div>
         );
     }
 
     const { current, forecast, location: loc } = weatherData;
     const forecastDays = forecast?.forecastday || [];
+    const advisory = getFarmAdvisory(weatherData);
 
-    if (compact) {
-        return ;
-    }
-        return (
-            <motion.div
-                className="group relative overflow-hidden bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-500 rounded-2xl shadow-xl p-6 backdrop-blur-sm transform-gpu"
-                style={{transformStyle: 'preserve-3d', perspective: '1000px'}}
-                whileHover={{
-                    y: -8,
-                    scale: 1.02,
-                    rotateY: 2,
-                    boxShadow: '0 20px 35px -10px rgba(0, 0, 0, 0.2)',
-                    transition: {duration: 0.3}
-                }}
-                initial={{opacity: 0, y: 20}}
-                animate={{opacity: 1, y: 0}}
-                transition={{duration: 0.5}}
-            >
-                {/* Animated blobs */}
-                <div className="absolute -top-16 -right-16 w-36 h-36 rounded-full opacity-15 blur-3xl animate-pulse"
-                     style={{background: 'radial-gradient(circle, rgba(165,105,66,0.4) 0%, transparent 70%)'}}/>
-                <div className="absolute -bottom-12 -left-12 w-32 h-32 rounded-full opacity-10 blur-3xl"
-                     style={{
-                         background: 'radial-gradient(circle, rgba(210,125,45,0.4) 0%, transparent 70%)',
-                         animation: 'float 6s ease-in-out infinite'
-                     }}/>
+    if (compact) return null;
 
-                {/* 3D edge effect */}
-                <div
-                    className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500"/>
-                <div
-                    className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500"/>
-                <div
-                    className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] group-hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500"/>
-                <div
-                    className="absolute inset-0 rounded-2xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20"/>
+    return (
+        <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="relative overflow-hidden rounded-3xl shadow-2xl"
+        >
+            {/* Sky gradient background */}
+            <div className={`absolute inset-0 bg-gradient-to-br ${getSkyGradient(current.condition.code)} opacity-80`} />
 
-                <div className="relative z-10">
-                    {/* Header */}
-                    <div className="flex justify-between items-center mb-6">
-                        <div className="flex items-center gap-2">
-                            <FaMapMarkerAlt
-                                className="text-accent transform-gpu group-hover:scale-110 transition-transform duration-300"/>
-                            <h3 className="text-xl font-semibold text-gray-800">
-                                {loc.name}, {loc.country}
-                            </h3>
+            {/* Cloud-like overlay blobs */}
+            <div className="absolute top-0 right-0 w-96 h-96 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4" />
+            <div className="absolute bottom-0 left-0 w-72 h-72 bg-white/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/4" />
+            <div className="absolute top-1/2 left-1/3 w-48 h-48 bg-amber-200/20 rounded-full blur-3xl" />
+
+            {/* Main glass container */}
+            <div className="relative backdrop-blur-xl bg-white/30 border border-white/40 p-6 md:p-8">
+
+                {/* Header Row */}
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-3">
+                    <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-xl bg-white/50 backdrop-blur-sm flex items-center justify-center shadow-sm">
+                            <FaMapMarkerAlt className="text-rose-500 text-lg" />
                         </div>
-                        <div
-                            className="text-sm font-medium text-gray-600 bg-white/30 backdrop-blur-sm px-3 py-1 rounded-full transform-gpu group-hover:scale-105 transition-transform duration-300">
+                        <div>
+                            <h2 className="text-xl font-bold text-slate-800">{loc.name}</h2>
+                            <p className="text-sm text-slate-500">{loc.region}, {loc.country}</p>
+                        </div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                        <div className="px-4 py-2 rounded-xl bg-white/40 backdrop-blur-sm text-sm font-medium text-slate-600 shadow-sm">
                             {currentTime.toLocaleTimeString('en-US', {
                                 timeZone: 'Africa/Abidjan',
                                 hour: '2-digit',
@@ -231,105 +191,118 @@ const DashboardWeatherWidget: React.FC<WeatherDisplayProps> = ({ location = "Odi
                                 hour12: true
                             })}
                         </div>
-                    </div>
-
-                    {/* Current Weather */}
-                    <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
-                        <div className="flex items-center gap-4">
-                            {getWeatherIcon(current.condition.code, "text-6xl")}
-                            <div>
-                                <div
-                                    className="text-5xl font-bold text-gray-900 transform-gpu group-hover:scale-105 transition-transform duration-300">{current.temp_c}°C
-                                </div>
-                                <div className="text-gray-500">{current.condition.text}</div>
-                                <div className="text-sm text-gray-400">Feels like {current.feelslike_c}°C</div>
-                            </div>
-                        </div>
-                        <div className="grid grid-cols-2 gap-3">
-                            <motion.div
-                                className="flex items-center gap-2 bg-white/30 backdrop-blur-sm px-3 py-2 rounded-lg transform-gpu hover:scale-105 transition-transform duration-300"
-                                whileHover={{x: 3}}>
-                                <FaTint className="text-blue-400"/>
-                                <span className="text-sm text-gray-700">Humidity: {current.humidity}%</span>
-                            </motion.div>
-                            <motion.div
-                                className="flex items-center gap-2 bg-white/30 backdrop-blur-sm px-3 py-2 rounded-lg transform-gpu hover:scale-105 transition-transform duration-300"
-                                whileHover={{x: 3}}>
-                                <FaWind className="text-gray-500"/>
-                                <span className="text-sm text-gray-700">Wind: {current.wind_kph} km/h</span>
-                            </motion.div>
-                            <motion.div
-                                className="flex items-center gap-2 bg-white/30 backdrop-blur-sm px-3 py-2 rounded-lg transform-gpu hover:scale-105 transition-transform duration-300"
-                                whileHover={{x: 3}}>
-                                <FaTemperatureHigh className="text-orange-500"/>
-                                <span className="text-sm text-gray-700">UV: {current.uv}</span>
-                            </motion.div>
-                            <motion.div
-                                className="flex items-center gap-2 bg-white/30 backdrop-blur-sm px-3 py-2 rounded-lg transform-gpu hover:scale-105 transition-transform duration-300"
-                                whileHover={{x: 3}}>
-                                <FaCloud className="text-gray-500"/>
-                                <span className="text-sm text-gray-700">Cloud: {current.cloud}%</span>
-                            </motion.div>
-                        </div>
-                    </div>
-
-                    {/* 3-Day Forecast */}
-                    <div>
-                        <div className="flex items-center gap-2 mb-4">
-                            <FaCalendarAlt className="text-primary"/>
-                            <h4 className="font-semibold text-gray-800">3-Day Forecast</h4>
-                        </div>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            {forecastDays.slice(0, 3).map((day, idx) => (
-                                <motion.div
-                                    key={idx}
-                                    className="bg-white/30 backdrop-blur-sm rounded-xl p-3 text-center hover:bg-white/40 transition-all transform-gpu hover:scale-105 border border-white/20"
-                                    whileHover={{y: -3, scale: 1.03}}
-                                    transition={{duration: 0.2}}
-                                >
-                                    <div className="font-medium text-gray-700 mb-2">{getDayName(day.date)}</div>
-                                    <div
-                                        className="flex justify-center mb-2 transform-gpu group-hover:scale-110 transition-transform duration-300">
-                                        {getWeatherIcon(day.day.condition.code, "text-3xl")}
-                                    </div>
-                                    <div className="text-sm text-gray-600 mb-1">{day.day.condition.text}</div>
-                                    <div className="flex justify-center gap-3 text-sm">
-                                        <span
-                                            className="text-orange-500 font-medium">{Math.round(day.day.maxtemp_c)}°</span>
-                                        <span
-                                            className="text-blue-500 font-medium">{Math.round(day.day.mintemp_c)}°</span>
-                                    </div>
-                                    <div className="text-xs text-gray-400 mt-2 flex items-center justify-center gap-1">
-                                        <FaTint className="text-blue-300 text-xs"/> {day.day.daily_chance_of_rain}%
-                                    </div>
-                                </motion.div>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Farm Advisory */}
-                    <div className="mt-6 pt-4 border-t border-white/30">
-                        <div
-                            className="flex items-center gap-2 text-sm text-gray-600 bg-white/20 backdrop-blur-sm rounded-lg px-3 py-2">
-                            <FaArrowRight className="text-accent"/>
-                            <span className="flex items-center gap-1.5">
-                                {current.condition.code === 1000
-                                    ? <><FaSun className="text-yellow-500"/> Perfect weather for farm operations
-                                        today!</>
-                                    : current.temp_c > 35
-                                        ? <><FaTemperatureHigh className="text-red-500"/> High temperatures - ensure
-                                            workers stay hydrated</> : current.condition.text.includes("Rain")
-                                            ? <><FaCloudRain className="text-navy"/> Rain expected - plan indoor tasks
-                                                accordingly</>
-                                            : <><FaCheckCircle className="text-primary"/> Good conditions for farm
-                                                work</>
-                                }
-                            </span>
+                        <div className="px-3 py-2 rounded-xl bg-white/40 backdrop-blur-sm text-xs font-medium text-slate-500 shadow-sm">
+                            {new Date(loc.localtime).toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}
                         </div>
                     </div>
                 </div>
-            </motion.div>
-        );
+
+                {/* Hero Current Weather Card */}
+                <motion.div
+                    whileHover={{ y: -2 }}
+                    className="relative overflow-hidden rounded-2xl bg-white/40 backdrop-blur-md border border-white/50 p-6 mb-6 shadow-lg"
+                >
+                    <div className="absolute top-0 right-0 w-32 h-32 bg-amber-300/20 rounded-full blur-2xl -translate-y-1/2 translate-x-1/2" />
+                    <div className="flex flex-col md:flex-row items-center gap-6">
+                        <div className="flex items-center gap-5">
+                            <motion.div
+                                animate={{ scale: [1, 1.05, 1] }}
+                                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+                                className="w-24 h-24 rounded-2xl bg-white/50 flex items-center justify-center shadow-inner"
+                            >
+                                {getWeatherIcon(current.condition.code, "text-6xl")}
+                            </motion.div>
+                            <div>
+                                <div className="text-7xl font-light text-slate-800 tracking-tighter">
+                                    {Math.round(current.temp_c)}<span className="text-3xl text-slate-400">°C</span>
+                                </div>
+                                <p className="text-lg font-medium text-slate-600 mt-1">{current.condition.text}</p>
+                                <p className="text-sm text-slate-400 mt-0.5">Feels like {Math.round(current.feelslike_c)}°C</p>
+                            </div>
+                        </div>
+                    </div>
+                </motion.div>
+
+                {/* Metrics Grid */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+                    {[
+                        { icon: <FaTint className="text-sky-500" />, label: "Humidity", value: `${current.humidity}%` },
+                        { icon: <FaWind className="text-slate-500" />, label: "Wind", value: `${current.wind_kph} km/h` },
+                        { icon: <FaEye className="text-emerald-500" />, label: "UV Index", value: `${current.uv}` },
+                        { icon: <FaCloud className="text-slate-400" />, label: "Cloud", value: `${current.cloud}%` },
+                    ].map((metric, i) => (
+                        <motion.div
+                            key={i}
+                            whileHover={{ y: -3, scale: 1.03 }}
+                            className="relative overflow-hidden rounded-xl bg-white/40 backdrop-blur-sm border border-white/40 p-4 shadow-sm group cursor-default"
+                        >
+                            <div className="absolute top-0 right-0 w-16 h-16 bg-white/10 rounded-full blur-xl -translate-y-1/2 translate-x-1/2 group-hover:bg-white/20 transition-colors" />
+                            <div className="relative z-10">
+                                <div className="flex items-center gap-2 mb-2">
+                                    <div className="w-8 h-8 rounded-lg bg-white/60 flex items-center justify-center shadow-sm">
+                                        {metric.icon}
+                                    </div>
+                                    <span className="text-xs font-medium text-slate-400 uppercase tracking-wide">{metric.label}</span>
+                                </div>
+                                <p className="text-2xl font-semibold text-slate-700">{metric.value}</p>
+                            </div>
+                        </motion.div>
+                    ))}
+                </div>
+
+                {/* 3-Day Forecast */}
+                <div className="mb-6">
+                    <div className="flex items-center gap-2 mb-4">
+                        <div className="w-8 h-8 rounded-lg bg-white/50 flex items-center justify-center shadow-sm">
+                            <FaCalendarAlt className="text-sky-600 text-sm" />
+                        </div>
+                        <h4 className="font-semibold text-slate-700">3-Day Forecast</h4>
+                    </div>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        {forecastDays.slice(0, 3).map((day, idx) => (
+                            <motion.div
+                                key={idx}
+                                whileHover={{ y: -4, scale: 1.04 }}
+                                className="relative overflow-hidden rounded-xl bg-white/40 backdrop-blur-sm border border-white/40 p-4 text-center shadow-sm group cursor-default"
+                            >
+                                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-sky-300 to-amber-300 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                <p className="font-semibold text-slate-600 mb-3">{idx === 0 ? 'Today' : getDayName(day.date)}</p>
+                                <div className="flex justify-center mb-3">
+                                    {getWeatherIcon(day.day.condition.code, "text-4xl")}
+                                </div>
+                                <p className="text-xs text-slate-400 mb-2">{day.day.condition.text}</p>
+                                <div className="flex justify-center gap-4 text-sm font-medium">
+                                    <span className="text-amber-600">{Math.round(day.day.maxtemp_c)}°</span>
+                                    <span className="text-sky-600">{Math.round(day.day.mintemp_c)}°</span>
+                                </div>
+                                <div className="flex items-center justify-center gap-1 mt-3 text-xs text-slate-400">
+                                    <FaTint className="text-sky-400" /> {day.day.daily_chance_of_rain}%
+                                </div>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Farm Advisory Banner */}
+                <motion.div
+                    whileHover={{ x: 3 }}
+                    className={`relative overflow-hidden rounded-xl border ${advisory.color} p-4 flex items-center gap-3 cursor-default`}
+                >
+                    <div className="absolute inset-0 bg-white/30 backdrop-blur-sm" />
+                    <div className="relative z-10 flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-xl bg-white/60 flex items-center justify-center shadow-sm text-lg">
+                            {advisory.icon}
+                        </div>
+                        <div>
+                            <p className="text-xs font-semibold uppercase tracking-wide opacity-70">Farm Advisory</p>
+                            <p className="text-sm font-medium">{advisory.text}</p>
+                        </div>
+                    </div>
+                    <FaArrowRight className="relative z-10 ml-auto opacity-50" />
+                </motion.div>
+            </div>
+        </motion.div>
+    );
 };
 
 export default DashboardWeatherWidget;

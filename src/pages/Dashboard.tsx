@@ -218,7 +218,7 @@ const Dashboard: React.FC = () => {
                             icon={FaTree}
                             title={String(farmData?.stats?.aliveTrees || 0)}
                             subtitle="Total Trees Alive"
-                            iconColor="text-primary"
+                            iconColor="text-accent"
                             showInfoBadge={false}
                         />
                     </motion.div>
@@ -236,7 +236,7 @@ const Dashboard: React.FC = () => {
                             icon={FaDollarSign}
                             title={`${new Intl.NumberFormat('fr-FR').format(totalRevenue)} FCFA`}
                             subtitle="Total Revenue"
-                            iconColor="text-green-600"
+                            iconColor="text-accent"
                             showInfoBadge={false}
                         />
                     </motion.div>
