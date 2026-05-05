@@ -113,7 +113,7 @@ exports.handler = async (event, context) => {
         }
 
         // Get Tasks - accessible by Owner, Manager, and Investor (read-only)
-        if (action === 'getTasks' && (userRole === 'OWNER' || userRole === 'MANAGER' || userRole === 'INVESTOR')) {
+        if (action === 'getTasks' && (userRole === 'OWNER' || userRole === 'MANAGER')) {
             const tasksSnapshot = await db.collection('farms').doc(farmId || '1').collection('tasks').get();
             const tasks = [];
             tasksSnapshot.forEach(doc => tasks.push({ id: doc.id, ...doc.data() }));
@@ -125,10 +125,8 @@ exports.handler = async (event, context) => {
             };
         }
 
-        // Get Assignments - accessible by Owner, Manager, and Investor (read-only)
-        // ADD THIS SECTION
-        // Get Assignments
-        if (action === 'getAssignments' && (userRole === 'OWNER' || userRole === 'MANAGER' || userRole === 'INVESTOR')) {
+        // Get Assignments - accessible by Owner, Manager,(read-only)
+        if (action === 'getAssignments' && (userRole === 'OWNER' || userRole === 'MANAGER')) {
             try {
                 const assignmentsSnapshot = await db.collection('farms')
                     .doc(farmId || '1')
@@ -184,7 +182,7 @@ exports.handler = async (event, context) => {
         }
 
         // Expense Summary - accessible by Owner and Manager only
-        if (action === 'getExpenseSummary' && (userRole === 'OWNER' || userRole === 'MANAGER')) {
+        if (action === 'getExpenseSummary' && (userRole === 'OWNER' || userRole === 'MANAGER' || userRole === 'INVESTOR')) {
             const expensesSnapshot = await db.collection('farms').doc(farmId || '1').collection('expenses').get();
             const expenses = [];
             expensesSnapshot.forEach(doc => expenses.push({ id: doc.id, ...doc.data() }));

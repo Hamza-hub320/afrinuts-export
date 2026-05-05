@@ -80,28 +80,28 @@ const LiveFarmStats: React.FC = () => {
             title: 'Trees Planted',
             value: `${Math.round(stats.totalTrees).toLocaleString()}`,
             subtitle: `${stats.plantedBlocks}/${stats.totalBlocks} blocks planted`,
-            iconColor: 'text-green-600',
+            iconColor: 'text-accent',
         },
         {
             icon: FaChartLine,
             title: 'Survival Rate',
             value: `${Math.round(stats.survivalRate)}%`,
             subtitle: 'Trees successfully established',
-            iconColor: 'text-orange-500',
+            iconColor: 'text-accent',
         },
         {
             icon: FaSeedling,
             title: 'Farm Progress',
             value: `${Math.round((stats.plantedBlocks / stats.totalBlocks) * 100)}%`,
             subtitle: `${stats.plantedBlocks} of ${stats.totalBlocks} blocks planted`,
-            iconColor: 'text-teal-500',
+            iconColor: 'text-accent',
         },
         {
             icon: FaTractor,
             title: 'Active Farm',
             value: '35 ha',
             subtitle: 'Total cultivated area',
-            iconColor: 'text-purple-500',
+            iconColor: 'text-accent',
         },
     ];
 
