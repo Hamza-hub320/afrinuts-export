@@ -68,7 +68,7 @@ const DashboardNavbar: React.FC = () => {
     return (
         <nav
             ref={menuRef}
-            className="fixed top-[100px] left-1/2 -translate-x-1/2 z-40 transition-all duration-300 w-auto max-w-[95vw]"
+            className="fixed top-[90px] left-1/2 -translate-x-1/2 z-40 transition-all duration-300 w-auto max-w-[95vw]"
         >
             <div className={`relative bg-white/60 backdrop-blur-md border-2 border-white/40 shadow-lg mx-auto transition-all duration-300 rounded-2xl ${
                 scrolled ? 'shadow-xl bg-white/80 backdrop-blur-lg scale-[0.97]' : ''

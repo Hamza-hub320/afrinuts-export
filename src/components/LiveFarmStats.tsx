@@ -29,7 +29,7 @@ const LiveFarmStats: React.FC = () => {
                 if (isDevelopment) {
                     data = await getMockData('getFarmSummary');
                 } else {
-                    data = await callApi('farmData', { action: 'getFarmSummary', farmId: '1' });
+                    data = await callApi('farmData', { action: 'getPublicFarmStats', farmId: '1' }, false);
                 }
                 if (data.success) {
                     setStats({

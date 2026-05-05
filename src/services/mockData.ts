@@ -169,6 +169,7 @@ export const getMockData = async (action: string, data?: any) => {
 
     switch (action) {
         case 'getFarmSummary':
+        case 'getPublicFarmStats':
             return mockFarmStats;
         case 'getBlocks':
             return { success: true, blocks: mockBlocks };

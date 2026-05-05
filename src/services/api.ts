@@ -12,10 +12,15 @@ const getApiBaseUrl = () => {
     return '/.netlify/functions';
 };
 
-export async function callApi(endpoint: string, data?: any) {
+export async function callApi(endpoint: string, data?: any, requireAuth = true) {
     try {
         const baseUrl = getApiBaseUrl();
-        const idToken = await auth.currentUser?.getIdToken();
+
+        // Only get token if auth is required
+        let idToken: string | undefined;
+        if (requireAuth) {
+            idToken = await auth.currentUser?.getIdToken();
+        }
 
         const response = await fetch(`${baseUrl}/${endpoint}`, {
             method: 'POST',
@@ -33,7 +38,6 @@ export async function callApi(endpoint: string, data?: any) {
         return await response.json();
     } catch (error) {
         console.warn(`API call to ${endpoint} failed, using mock data:`, error);
-        // Return null to indicate fallback to mock data
         return null;
     }
 }
