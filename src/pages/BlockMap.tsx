@@ -95,7 +95,7 @@ const BlockMap: React.FC = () => {
 
     const roadNames = {
         horizontal: ['Farmers Branch', 'Farmers Lane', 'Farmers Parkway', 'Farmers Trail', 'Farmers Crest'],
-        vertical: ['Harvest Drive', 'Sunrise Drive', 'Heritage Drive', 'Unity Drive', 'Prosperity Drive', 'Cashew Creek Drive'],
+        vertical: ['Harvest Drive', 'Sunrise Drive', 'Heritage Drive', 'Unity Drive', 'Prosperity Drive', 'Cashew Creek Drive', 'Orchard Drive'],
     };
 
     const getBlockAccess = (blockName: string): string => {
@@ -261,19 +261,21 @@ const BlockMap: React.FC = () => {
                     </InfoCard>
                 </motion.div>
 
+                {/* Spacer */}
+                <div className="my-8"></div>
+
                 {/* 5×7 Grid */}
                 <div className="overflow-x-auto pb-4">
-                    <div className="min-w-[750px] space-y-1">
+                    <div className="min-w-[750px] space-y-1 px-3 py-3">
                         {/* Column Road Labels at Top */}
-                        <div className="flex gap-2 items-end">
+                        <div className="flex gap-2 items-end mb-2">
                             <div className="w-10"></div>
                             {Array.from({ length: 7 }, (_, colIdx) => (
                                 <div key={colIdx} className="flex-1 flex flex-col items-center">
-                                    {/* Road name to the right of each column (except last) */}
-                                    {colIdx < 6 && (
-                                        <span className="text-[9px] text-gray-400 italic font-medium mb-1 whitespace-nowrap transform -rotate-30">
-                            {roadNames.vertical[colIdx]}
-                        </span>
+                                    {colIdx < 7 && (
+                                        <span className="text-[9px] text-gray-400 italic font-medium mb-1 whitespace-nowrap">
+                    {roadNames.vertical[colIdx]}
+                </span>
                                     )}
                                     <div className="text-xs text-gray-500 font-bold">{colIdx + 1}</div>
                                 </div>
@@ -284,7 +286,7 @@ const BlockMap: React.FC = () => {
                             <React.Fragment key={rowIdx}>
                                 {/* Horizontal road label between rows */}
                                 {rowIdx > 0 && (
-                                    <div className="flex items-center gap-2 py-1">
+                                    <div className="flex items-center gap-2 py-1 pr-6">
                                         <div className="w-10"></div>
                                         <div className="flex-1 text-center">
                             <span className="text-[10px] text-gray-400 italic font-medium px-3 py-0.5 rounded-full bg-white/40 backdrop-blur-sm">
