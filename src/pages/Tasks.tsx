@@ -179,6 +179,13 @@ const Tasks: React.FC = () => {
                         <Typography variant="lead" className="text-text-dark max-w-3xl mx-auto">
                             Track and monitor all farm operations across the entire farm.
                         </Typography>
+                        <Typography
+                            variant="small"
+                            className="text-primary/70 max-w-3xl mx-auto mb-8 flex items-center justify-center gap-1.5"
+                        >
+                            <FaUserCheck className="text-primary" />
+                            Click on a worker's name to view assignment details, duration, and history.
+                        </Typography>
                     </motion.div>
                 </motion.div>
             </Section>

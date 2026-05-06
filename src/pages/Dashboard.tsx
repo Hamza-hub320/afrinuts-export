@@ -144,7 +144,7 @@ const Dashboard: React.FC = () => {
             {/* Hero Header */}
             <Section
                 fullHeight={false}
-                className="flex items-center justify-center text-center min-h-[60vh] relative"
+                className="flex items-center justify-center text-center min-h-[40vh] relative"
             >
                 <motion.div
                     className="max-w-4xl px-6 sm:px-8 py-12"
@@ -174,15 +174,6 @@ const Dashboard: React.FC = () => {
                 </motion.div>
             </Section>
 
-            {/* Development Mode Indicator */}
-            {isDevelopment && (
-                <div className="bg-yellow-100/80 backdrop-blur-sm border-b border-yellow-200">
-                    <div className="container mx-auto px-4 py-2 text-center">
-                        <span className="text-sm text-yellow-700">Development Mode - Using Mock Data</span>
-                    </div>
-                </div>
-            )}
-
             {/* Dashboard Overview Intro */}
             <Section className="py-8">
                 <div className="w-full max-w-5xl mx-auto px-4 sm:px-6">
@@ -210,6 +201,15 @@ const Dashboard: React.FC = () => {
                     </motion.div>
                 </div>
             </Section>
+
+            {/* Development Mode Indicator */}
+            {isDevelopment && (
+                <div className="bg-yellow-100/80 backdrop-blur-sm border-b border-yellow-200">
+                    <div className="container mx-auto px-4 py-2 text-center">
+                        <span className="text-sm text-yellow-700">Development Mode - Using Mock Data</span>
+                    </div>
+                </div>
+            )}
 
             <div className="container mx-auto px-4 py-8 relative z-10">
                 {/* Desktop Weather - Always visible */}
