@@ -74,7 +74,7 @@ const DashboardNavbar: React.FC = () => {
                 scrolled ? 'shadow-xl bg-white/80 backdrop-blur-lg scale-[0.97]' : ''
             }`}>
                 {/* Desktop: pill shape */}
-                <div className="hidden sm:flex justify-center items-center h-15 py-1 px-4 gap-1">
+                <div className="hidden sm:flex justify-center items-center min-h-[48px] py-1 px-4 gap-1">
                     {navLinks.map((link) => (
                         <button
                             key={link.path}
