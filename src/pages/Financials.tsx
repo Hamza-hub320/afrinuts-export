@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { FaDollarSign, FaChartLine, FaChartBar, FaChartPie, FaTable } from 'react-icons/fa';
+import {FaDollarSign, FaChartLine, FaChartBar, FaChartPie, FaTable, FaBorderAll} from 'react-icons/fa';
 import { Typography } from '@/components/Typography/Typography';
 import DashboardNavbar from '@/components/DashboardNavbar/DashboardNavbar';
 import { getMockData } from '../services/mockData';
@@ -104,6 +104,7 @@ const Financials: React.FC = () => {
                 >
                     <motion.div variants={fadeIn}>
                         <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-4">
+                            <FaChartPie className="inline mr-3 text-accent" />
                             Financial Reports
                         </Typography>
                     </motion.div>

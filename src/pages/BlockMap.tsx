@@ -9,7 +9,7 @@ import {
     FaHourglassHalf,
     FaMapMarkerAlt,
     FaTasks,
-    FaChartLine
+    FaChartLine, FaBorderAll
 } from 'react-icons/fa';
 import { Typography } from '@/components/Typography/Typography';
 import { getMockData } from '../services/mockData';
@@ -186,7 +186,7 @@ const BlockMap: React.FC = () => {
                         variants={fadeIn}
                         style={{ letterSpacing: '-0.03em' }}
                     >
-                        <FaMapMarkerAlt className="inline mr-3 text-accent" />
+                        <FaBorderAll className="inline mr-3 text-accent" />
                         Block Overview
                     </motion.h1>
 

@@ -1,6 +1,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import {FaMap, FaTasks, FaChartLine, FaDollarSign, FaBars, FaTimes, FaSignOutAlt, FaHome} from 'react-icons/fa';
+import {
+    FaBars,
+    FaTimes,
+    FaSignOutAlt,
+    FaTachometerAlt, FaBorderAll, FaClipboardList, FaChartPie, FaChartBar
+} from 'react-icons/fa';
 import { useAuth } from '../../contexts/AuthContext';
 
 const DashboardNavbar: React.FC = () => {
@@ -58,11 +63,11 @@ const DashboardNavbar: React.FC = () => {
     const isActive = (path: string) => location.pathname === path;
 
     const navLinks = [
-        { path: '/dashboard', icon: FaHome, label: 'Dashboard', sub: 'Overview' },
-        { path: '/dashboard/blocks', icon: FaMap, label: 'Map', sub: 'Farm grid' },
-        { path: '/dashboard/tasks', icon: FaTasks, label: 'Tasks', sub: 'Operations' },
-        { path: '/dashboard/financials', icon: FaChartLine, label: 'Financials', sub: 'Reports' },
-        { path: '/investor', icon: FaDollarSign, label: 'Investor', sub: 'View Portal' },
+        { path: '/dashboard', icon: FaTachometerAlt, label: 'Dashboard', sub: 'Overview' },
+        { path: '/dashboard/blocks', icon: FaBorderAll, label: 'Map', sub: 'Farm grid' },
+        { path: '/dashboard/tasks', icon: FaClipboardList, label: 'Tasks', sub: 'Operations' },
+        { path: '/dashboard/financials', icon: FaChartPie, label: 'Financials', sub: 'Reports' },
+        { path: '/investor', icon: FaChartBar, label: 'Investor', sub: 'View Portal' },
     ];
 
     return (

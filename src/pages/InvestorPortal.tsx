@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import {Link, useNavigate} from 'react-router-dom';
 import {
     FaChartLine, FaDollarSign, FaTree, FaSeedling, FaTractor,
-    FaCalendarAlt, FaArrowUp, FaArrowDown, FaTasks, FaLightbulb, FaLeaf, FaChartBar
+    FaCalendarAlt, FaArrowUp, FaArrowDown, FaTasks, FaLightbulb, FaLeaf, FaChartBar, FaChartPie
 } from 'react-icons/fa';
 import { Typography } from '@/components/Typography/Typography';
 import { InfoCard } from '@/components/InfoCard/InfoCard';
@@ -119,6 +119,7 @@ const InvestorPortal: React.FC = () => {
                 >
                     <motion.div variants={fadeIn}>
                         <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-4">
+                            <FaChartBar className="inline mr-3 text-accent" />
                             Investor Dashboard
                         </Typography>
                     </motion.div>

@@ -8,7 +8,7 @@ import {
     FaUser,
     FaTasks,
     FaUserCheck,
-    FaChartPie, FaUserCircle, FaUserClock, FaClipboardList, FaTimes
+    FaChartPie, FaUserCircle, FaUserClock, FaClipboardList, FaTimes, FaChartBar
 } from 'react-icons/fa';
 import { Typography } from '@/components/Typography/Typography';
 import { InfoCard } from '@/components/InfoCard/InfoCard';
@@ -165,6 +165,7 @@ const Tasks: React.FC = () => {
                 >
                     <motion.div variants={fadeIn}>
                         <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-4">
+                            <FaClipboardList className="inline mr-3 text-accent" />
                             Task Management
                         </Typography>
                     </motion.div>
