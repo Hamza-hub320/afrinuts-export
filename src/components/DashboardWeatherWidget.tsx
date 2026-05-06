@@ -384,7 +384,7 @@ const DashboardWeatherWidget: React.FC<WeatherDisplayProps> = ({ location = "Odi
                     loading="lazy"
                     key={backgroundImage}
                 />
-                <div className="absolute inset-0 bg-gradient-to-br from-black/35 via-black/15 to-black/40" />
+                <div className="absolute inset-0 bg-gradient-to-br from-black/55 via-black/35 to-black/60" />
             </div>
 
             {/* Glassy content overlay */}
@@ -439,7 +439,7 @@ const DashboardWeatherWidget: React.FC<WeatherDisplayProps> = ({ location = "Odi
                         ].map((stat, i) => (
                             <div
                                 key={i}
-                                className="flex items-center gap-1.5 bg-white/10 backdrop-blur-sm rounded-full px-3 py-1.5 border border-white/10"
+                                className="flex items-center gap-1.5 bg-black/30 backdrop-blur-sm rounded-full px-3 py-1.5 border border-white/15"
                             >
                                 <span className={stat.color}>{stat.icon}</span>
                                 <span className="text-white/80 text-xs font-medium">{stat.value}</span>
@@ -458,7 +458,7 @@ const DashboardWeatherWidget: React.FC<WeatherDisplayProps> = ({ location = "Odi
                         {forecastDays.slice(0, 3).map((day, idx) => (
                             <div
                                 key={idx}
-                                className="flex-1 bg-white/8 backdrop-blur-sm rounded-xl p-2.5 text-center border border-white/10 transition-all hover:bg-white/12"
+                                className="flex-1 bg-black/25 backdrop-blur-sm rounded-xl p-2.5 text-center border border-white/15 transition-all hover:bg-black/35"
                             >
                                 <div className="text-white/50 text-[10px] font-semibold mb-1">{getDayName(day.date)}</div>
                                 {getWeatherIcon(day.day.condition.code, "text-lg")}
