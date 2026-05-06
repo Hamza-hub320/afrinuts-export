@@ -26,7 +26,7 @@ const isDevelopment = import.meta.env.DEV;
 interface Block {
     id: number;
     blockName: string;
-    status: string;
+    status: 'PLANTED' | 'PLOWED' | 'CLEARED' | 'NOT_CLEARED';
     survivalRate: number;
 }
 
@@ -101,21 +101,44 @@ const BlockMap: React.FC = () => {
     const getBlockAccess = (blockName: string): string => {
         const col = parseInt(blockName.substring(1));
         const row = blockName.charAt(0);
-        const roads: string[] = [];
-
-        // Row-based access (roads run east-west between rows)
         const rowIndex = rows.indexOf(row);
-        if (rowIndex === 0) roads.push('AfriNuts Main Loop (N), Farmers Branch (S)');
-        else if (rowIndex === rows.length - 1) roads.push('Farmers Trail (N), AfriNuts Main Loop (S)');
-        else roads.push(`${roadNames.horizontal[rowIndex - 1]} (N), ${roadNames.horizontal[rowIndex]} (S)`);
 
-        // Column-based access (roads run north-south between columns)
-        if (col === 1) roads.push('AfriNuts Main Loop (W)');
-        if (col === 7) roads.push('AfriNuts Main Loop (E)');
-        if (col > 1) roads.push(`${roadNames.vertical[col - 2]} (W)`);
-        if (col < 7) roads.push(`${roadNames.vertical[col - 1]} (E)`);
+        const distToMainLoopN = rowIndex + 0.5;
+        const distToMainLoopS = (rows.length - 1 - rowIndex) + 0.5;
+        const distToMainLoopW = col - 0.5;
+        const distToMainLoopE = (7 - col) + 0.5;
 
-        return roads.join(' | ');
+        type Access = { name: string; distance: number; direction: string };
+
+        const horizontalOptions: Access[] = [
+            { name: 'AfriNuts Main Loop', distance: distToMainLoopN, direction: 'head North' },
+            { name: 'AfriNuts Main Loop', distance: distToMainLoopS, direction: 'head South' },
+        ];
+
+        for (let i = 0; i < roadNames.horizontal.length; i++) {
+            const roadPosition = i + 1;
+            const dist = Math.abs(rowIndex - roadPosition) + 0.5;
+            const dir = rowIndex < roadPosition ? 'head South' : 'head North';
+            horizontalOptions.push({ name: roadNames.horizontal[i], distance: dist, direction: dir });
+        }
+
+        const verticalOptions: Access[] = [
+            { name: 'AfriNuts Main Loop', distance: distToMainLoopW, direction: 'head West' },
+            { name: 'AfriNuts Main Loop', distance: distToMainLoopE, direction: 'head East' },
+        ];
+
+        for (let i = 0; i < roadNames.vertical.length; i++) {
+            const roadPosition = i + 1;
+            const dist = Math.abs(col - roadPosition) + 0.5;
+            const dir = col < roadPosition ? 'head East' : 'head West';
+            verticalOptions.push({ name: roadNames.vertical[i], distance: dist, direction: dir });
+        }
+
+        const allOptions = [...horizontalOptions, ...verticalOptions];
+        allOptions.sort((a, b) => a.distance - b.distance);
+
+        const best = allOptions[0];
+        return `Take ${best.name} — ${best.direction}`;
     };
 
     const rows = ['A', 'B', 'C', 'D', 'E'];
