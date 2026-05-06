@@ -177,6 +177,7 @@ const BlockMap: React.FC = () => {
                 >
                     <motion.div variants={fadeIn}>
                         <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-4">
+                            <FaBorderAll className="inline mr-3 text-accent" />
                             Farm Block Map
                         </Typography>
                     </motion.div>
@@ -186,7 +187,6 @@ const BlockMap: React.FC = () => {
                         variants={fadeIn}
                         style={{ letterSpacing: '-0.03em' }}
                     >
-                        <FaBorderAll className="inline mr-3 text-accent" />
                         Block Overview
                     </motion.h1>
 

@@ -12,7 +12,7 @@ import {
     FaDollarSign,
     FaTasks,
     FaCalendarAlt,
-    FaMap, FaChartPie, FaCloudSun,
+    FaMap, FaChartPie, FaCloudSun, FaBorderAll, FaTachometerAlt,
 } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -154,6 +154,7 @@ const Dashboard: React.FC = () => {
                 >
                     <motion.div variants={fadeIn}>
                         <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-4">
+                            <FaTachometerAlt className="inline mr-3 text-accent" />
                             Farm Operations Center
                         </Typography>
                     </motion.div>
