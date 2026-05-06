@@ -94,24 +94,28 @@ const BlockMap: React.FC = () => {
     }, []);
 
     const roadNames = {
-        horizontal: ['Farmers Branch', 'Farmers Lane', 'Farmers Parkway', 'Farmers Trail', 'Farmers Crest'],
-        vertical: ['Harvest Drive', 'Sunrise Drive', 'Heritage Drive', 'Unity Drive', 'Prosperity Drive', 'Cashew Creek Drive', 'Orchard Drive'],
+        horizontal: ['Farmers Branch', 'Farmers Lane', 'Farmers Parkway', 'Farmers Trail'],
+        vertical: ['Harvest Drive', 'Sunrise Drive', 'Heritage Drive', 'Unity Drive', 'Prosperity Drive', 'Cashew Creek Drive'],
     };
 
     const getBlockAccess = (blockName: string): string => {
         const col = parseInt(blockName.substring(1));
         const row = blockName.charAt(0);
-        const roads = [];
+        const roads: string[] = [];
 
-        // Horizontal roads
-        if (row === 'A') roads.push('Farmers Branch (S)');
-        if (row === 'E') roads.push('Farmers Crest (N)');
+        // Row-based access (roads run east-west between rows)
+        const rowIndex = rows.indexOf(row);
+        if (rowIndex === 0) roads.push('AfriNuts Main Loop (N), Farmers Branch (S)');
+        else if (rowIndex === rows.length - 1) roads.push('Farmers Trail (N), AfriNuts Main Loop (S)');
+        else roads.push(`${roadNames.horizontal[rowIndex - 1]} (N), ${roadNames.horizontal[rowIndex]} (S)`);
 
-        // Vertical roads
-        if (col === 1) roads.push('Prosperity Dr (W)');
-        if (col === 7) roads.push('Harvest Dr (E)');
+        // Column-based access (roads run north-south between columns)
+        if (col === 1) roads.push('AfriNuts Main Loop (W)');
+        if (col === 7) roads.push('AfriNuts Main Loop (E)');
+        if (col > 1) roads.push(`${roadNames.vertical[col - 2]} (W)`);
+        if (col < 7) roads.push(`${roadNames.vertical[col - 1]} (E)`);
 
-        return roads.length > 0 ? roads.join(', ') : 'Internal block';
+        return roads.join(' | ');
     };
 
     const rows = ['A', 'B', 'C', 'D', 'E'];
@@ -267,26 +271,56 @@ const BlockMap: React.FC = () => {
                 {/* 5×7 Grid */}
                 <div className="overflow-x-auto pb-4">
                     <div className="min-w-[750px] space-y-1 px-3 py-3">
-                        {/* Column Road Labels at Top */}
+                        {/* AfriNuts Main Loop - Above grid */}
+                        <div className="flex items-center gap-2 py-1">
+                            <div className="w-10"></div>
+                            <div className="flex-1 text-center">
+                <span className="text-[10px] text-accent italic font-medium px-3 py-0.5 rounded-full bg-accent/10 backdrop-blur-sm border border-accent/20">
+                    AfriNuts Main Loop (North Perimeter)
+                </span>
+                            </div>
+                        </div>
+
+                        {/* Column Road Labels */}
                         <div className="flex gap-2 items-end mb-2">
                             <div className="w-10"></div>
-                            {Array.from({ length: 7 }, (_, colIdx) => (
-                                <div key={colIdx} className="flex-1 flex flex-col items-center">
-                                    {colIdx < 7 && (
-                                        <span className="text-[9px] text-gray-400 italic font-medium mb-1 whitespace-nowrap">
-                    {roadNames.vertical[colIdx]}
+                            {/* Main Loop - West */}
+                            <div className="flex-1 flex flex-col items-center">
+                <span className="text-[8px] text-accent italic font-medium mb-1 whitespace-nowrap">
+                    Main Loop
                 </span>
+                                <div className="text-xs text-accent font-bold">←</div>
+                            </div>
+                            {/* Column labels 1-7 with road names between */}
+                            {Array.from({ length: 7 }, (_, colIdx) => (
+                                <React.Fragment key={colIdx}>
+                                    <div className="flex-1 flex flex-col items-center">
+                                        <div className="text-xs text-gray-500 font-bold">{colIdx + 1}</div>
+                                    </div>
+                                    {/* Road name after each column (except last) */}
+                                    {colIdx < 6 && (
+                                        <div className="flex-1 flex flex-col items-center">
+                            <span className="text-[8px] text-gray-400 italic font-medium mb-1 whitespace-nowrap">
+                                {roadNames.vertical[colIdx]}
+                            </span>
+                                        </div>
                                     )}
-                                    <div className="text-xs text-gray-500 font-bold">{colIdx + 1}</div>
-                                </div>
+                                </React.Fragment>
                             ))}
+                            {/* Main Loop - East */}
+                            <div className="flex-1 flex flex-col items-center">
+                <span className="text-[8px] text-accent italic font-medium mb-1 whitespace-nowrap">
+                    Main Loop
+                </span>
+                                <div className="text-xs text-accent font-bold">→</div>
+                            </div>
                         </div>
 
                         {grid.map((rowBlocks, rowIdx) => (
                             <React.Fragment key={rowIdx}>
                                 {/* Horizontal road label between rows */}
                                 {rowIdx > 0 && (
-                                    <div className="flex items-center gap-2 py-1 pr-6">
+                                    <div className="flex items-center gap-2 py-1">
                                         <div className="w-10"></div>
                                         <div className="flex-1 text-center">
                             <span className="text-[10px] text-gray-400 italic font-medium px-3 py-0.5 rounded-full bg-white/40 backdrop-blur-sm">
@@ -316,7 +350,6 @@ const BlockMap: React.FC = () => {
 
                                             const colors = getStatusColor(block.status);
 
-                                            // Determine infrastructure marker
                                             const infrastructure =
                                                 block.blockName === 'A1'
                                                     ? { type: 'guard-post' as const, label: 'Guard Post (SW corner)' }
@@ -341,6 +374,16 @@ const BlockMap: React.FC = () => {
                                 </div>
                             </React.Fragment>
                         ))}
+
+                        {/* AfriNuts Main Loop - Below grid */}
+                        <div className="flex items-center gap-2 py-1 mt-1">
+                            <div className="w-10"></div>
+                            <div className="flex-1 text-center">
+                <span className="text-[10px] text-accent italic font-medium px-3 py-0.5 rounded-full bg-accent/10 backdrop-blur-sm border border-accent/20">
+                    AfriNuts Main Loop (South Perimeter)
+                </span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -459,40 +502,43 @@ const BlockMap: React.FC = () => {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
                             {/* Vertical Roads */}
                             <div className="p-3 rounded-xl bg-white/50 backdrop-blur-sm">
-                                <p className="font-semibold text-primary text-sm mb-2">North ↔ South (Vertical)</p>
+                                <p className="font-semibold text-primary text-sm mb-2">North ↔ South (Vertical, between columns)</p>
                                 <ul className="space-y-1">
-                                    {[
-                                        'Harvest Drive (East edge)',
-                                        'Sunrise Drive',
-                                        'Heritage Drive',
-                                        'Unity Drive',
-                                        'Prosperity Drive',
-                                        'Cashew Creek Drive (West edge)',
-                                    ].map((road, idx) => (
+                                    <li className="text-xs text-accent flex items-center gap-2">
+                                        <span className="w-1 h-1 bg-accent rounded-full"></span>
+                                        AfriNuts Main Loop (West perimeter)
+                                    </li>
+                                    {roadNames.vertical.map((road, idx) => (
                                         <li key={idx} className="text-xs text-gray-600 flex items-center gap-2">
-                                            <span className="w-1 h-1 bg-primary rounded-full flex-shrink-0"></span>
+                                            <span className="w-1 h-1 bg-primary rounded-full"></span>
                                             {road}
                                         </li>
                                     ))}
+                                    <li className="text-xs text-accent flex items-center gap-2">
+                                        <span className="w-1 h-1 bg-accent rounded-full"></span>
+                                        AfriNuts Main Loop (East perimeter)
+                                    </li>
                                 </ul>
                             </div>
 
                             {/* Horizontal Roads */}
                             <div className="p-3 rounded-xl bg-white/50 backdrop-blur-sm">
-                                <p className="font-semibold text-primary text-sm mb-2">West ↔ East (Horizontal)</p>
+                                <p className="font-semibold text-primary text-sm mb-2 mt-3">West ↔ East (Horizontal, between rows)</p>
                                 <ul className="space-y-1">
-                                    {[
-                                        'Farmers Branch (South edge)',
-                                        'Farmers Lane',
-                                        'Farmers Parkway',
-                                        'Farmers Trail',
-                                        'Farmers Crest (North edge)',
-                                    ].map((road, idx) => (
+                                    <li className="text-xs text-accent flex items-center gap-2">
+                                        <span className="w-1 h-1 bg-accent rounded-full"></span>
+                                        AfriNuts Main Loop (North perimeter)
+                                    </li>
+                                    {roadNames.horizontal.map((road, idx) => (
                                         <li key={idx} className="text-xs text-gray-600 flex items-center gap-2">
-                                            <span className="w-1 h-1 bg-accent rounded-full flex-shrink-0"></span>
+                                            <span className="w-1 h-1 bg-accent rounded-full"></span>
                                             {road}
                                         </li>
                                     ))}
+                                    <li className="text-xs text-accent flex items-center gap-2">
+                                        <span className="w-1 h-1 bg-accent rounded-full"></span>
+                                        AfriNuts Main Loop (South perimeter)
+                                    </li>
                                 </ul>
                             </div>
                         </div>
