@@ -414,9 +414,13 @@ const Vision: React.FC = () => {
                   <Typography variant="h2" className="text-center mb-6">
                     {t('esg.title')}
                   </Typography>
-                  <InfoCard className="bg-primary/5 border-primary/20 p-6 text-center">
-                    {t('esg.content')}
-                  </InfoCard>
+                    <InfoCard
+                        title=""
+                        showInfoBadge={false}
+                        className="bg-primary/5 border-primary/20 p-6 text-center"
+                    >
+                        {t('esg.content')}
+                    </InfoCard>
                 </motion.div>
               </div>
             </Section>

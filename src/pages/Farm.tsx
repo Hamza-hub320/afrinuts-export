@@ -1,7 +1,18 @@
 import React, { lazy, Suspense } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
-import { FaTree, FaArrowRight, FaMapMarkerAlt, FaCalendarAlt, FaLeaf, FaTint, FaUsers, FaChartLine, FaSeedling } from 'react-icons/fa';
+import {
+    FaTree,
+    FaArrowRight,
+    FaMapMarkerAlt,
+    FaCalendarAlt,
+    FaLeaf,
+    FaTint,
+    FaUsers,
+    FaChartLine,
+    FaSeedling,
+    FaCloudSun
+} from 'react-icons/fa';
 import { GiFarmer, GiPlantWatering, GiFruitTree } from 'react-icons/gi';
 import { MdPrecisionManufacturing } from 'react-icons/md';
 import farmImage1 from '@/assets/images/farm-1.webp';
@@ -172,7 +183,6 @@ const Farm = () => {
                                 {t('overview.description')}
                             </Typography>
                         </div>
-
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
                             {farmStats.map((stat, index) => (
                                 <motion.div
@@ -201,7 +211,7 @@ const Farm = () => {
 
                     {/* Live Farm Stats Section */}
                     <section className="py-10">
-                        <div className="container mx-auto px-4">
+                        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                             <LiveFarmStats />
                             <motion.div
                                 className="text-center mt-8"
@@ -227,8 +237,8 @@ const Farm = () => {
                     </section>
 
                     {/*Map section*/}
-                    <Section className="py-8 sm:py-12 lg:py-16">
-                        <div className="w-full max-w-7xl mx-auto">
+                    <Section className="py-8 sm:py-12 lg:py-16 px-0 sm:px-4">
+                        <div className="w-full max-w-7xl mx-auto px-2 sm:px-6">
                             <div className="text-center mb-8 md:mb-12">
                                 <Typography variant="h2" className="text-primary mb-4">
                                     {t('farm.map.title')}
@@ -239,7 +249,7 @@ const Farm = () => {
                             </div>
 
                             <div className="w-full max-w-7xl mx-auto rounded-xl overflow-hidden"
-                                 style={{ height: '60vh', minHeight: '300px', maxHeight: '600px' }}>
+                                 style={{ height: '60vh', minHeight: '350px', maxHeight: '600px' }}>
                                 <InteractiveMap
                                     location={t('farm.map.location')}
                                     description={t('farm.map.locationDescription')}
