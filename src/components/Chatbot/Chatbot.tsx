@@ -15,7 +15,7 @@ const FloatingButtons: React.FC<FloatingButtonsProps> = ({ className = '' }) => 
         <div className={`fixed bottom-36 left-4 z-30 flex flex-col items-end space-y-2 ${className}`}>
             {/* WhatsApp Button */}
             <motion.button
-                className="flex items-center px-3 py-2 rounded-full bg-gradient-to-br from-green-500 to-green-600 text-white shadow-xl transform-gpu group relative"
+                className="flex items-center px-3 py-2 rounded-full bg-gradient-to-r from-primary to-accent text-white shadow-xl transform-gpu group relative"
                 style={{
                     transformStyle: 'preserve-3d',
                 }}
@@ -33,7 +33,7 @@ const FloatingButtons: React.FC<FloatingButtonsProps> = ({ className = '' }) => 
                 whileHover={{
                     scale: 1.05,
                     y: -2,
-                    boxShadow: '0 10px 25px -5px rgba(72, 187, 120, 0.4)',
+                    boxShadow: '0 10px 25px -5px rgba(90, 116, 17, 0.4)',
                     transition: { duration: 0.2 }
                 }}
                 whileTap={{ scale: 0.95 }}
@@ -73,8 +73,9 @@ const FloatingButtons: React.FC<FloatingButtonsProps> = ({ className = '' }) => 
             >
                 <Link
                     to="/contact"
-                    className="flex items-center px-3 py-2 rounded-full bg-gradient-to-br from-blue-600 to-blue-700 text-white shadow-xl transform-gpu group relative"
+                    className="flex items-center px-3 py-2 rounded-full text-white shadow-xl transform-gpu group relative"
                     style={{
+                        background: 'linear-gradient(135deg, rgba(90, 116, 17, 0.9) 0%, rgba(160, 200, 0, 0.9) 100%)',
                         transformStyle: 'preserve-3d',
                     }}
                     aria-label="Go to Contact Page"
@@ -94,8 +95,6 @@ const FloatingButtons: React.FC<FloatingButtonsProps> = ({ className = '' }) => 
                     </div>
                 </Link>
             </motion.div>
-
-            {/* Quick Call Button (Optional) */}
         </div>
     );
 };

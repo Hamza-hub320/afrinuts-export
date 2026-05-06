@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaFilePdf, FaDollarSign, FaChartLine, FaChartBar, FaChartPie, FaTable } from 'react-icons/fa';
@@ -5,6 +6,7 @@ import { Typography } from '@/components/Typography/Typography';
 import DashboardNavbar from '@/components/DashboardNavbar/DashboardNavbar';
 import { getMockData } from '../services/mockData';
 import { callApi } from '../services/api';
+import { Document, Page, Text, View, StyleSheet, PDFDownloadLink } from '@react-pdf/renderer';
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
 import {
@@ -17,6 +19,80 @@ import { useNavigate } from 'react-router-dom';
 
 const isDevelopment = import.meta.env.DEV;
 const COLORS = ['#5A7411', '#E04E00', '#A0C800', '#253746', '#698714'];
+
+const FinancialReport = ({ revenues, expenses, totalRevenue, totalExpenses, netProfit, profitMargin }: any) => (
+    <Document>
+        <Page size="A4" style={styles.page}>
+            {/* Header */}
+            <View style={styles.header}>
+                <Text style={styles.headerText}>AfriNuts Export — Financial Report</Text>
+                <Text style={{ color: '#FFFFFF', fontSize: 10, marginTop: 4 }}>
+                    Generated: {new Date().toLocaleDateString('en-GB')}
+                </Text>
+            </View>
+
+            {/* KPI Cards */}
+            <View style={styles.kpiRow}>
+                <View style={styles.kpiCard}>
+                    <Text style={{ fontSize: 10, color: '#6B7280' }}>Total Revenue</Text>
+                    <Text style={{ fontSize: 18, color: '#16A34A', fontWeight: 'bold' }}>
+                        {totalRevenue.toLocaleString('fr-FR')} FCFA
+                    </Text>
+                </View>
+                <View style={{ ...styles.kpiCard, borderLeftColor: '#DC2626' }}>
+                    <Text style={{ fontSize: 10, color: '#6B7280' }}>Total Expenses</Text>
+                    <Text style={{ fontSize: 18, color: '#DC2626', fontWeight: 'bold' }}>
+                        {totalExpenses.toLocaleString('fr-FR')} FCFA
+                    </Text>
+                </View>
+                <View style={styles.kpiCard}>
+                    <Text style={{ fontSize: 10, color: '#6B7280' }}>Net Profit</Text>
+                    <Text style={{ fontSize: 18, color: '#5A7411', fontWeight: 'bold' }}>
+                        {netProfit.toLocaleString('fr-FR')} FCFA
+                    </Text>
+                    <Text style={{ fontSize: 8, color: '#6B7280' }}>{profitMargin.toFixed(1)}% margin</Text>
+                </View>
+            </View>
+
+            {/* Revenue Table */}
+            <Text style={{ fontSize: 14, fontWeight: 'bold', color: '#5A7411', marginBottom: 8, marginTop: 20 }}>
+                Revenue History
+            </Text>
+            <View style={styles.table}>
+                <View style={styles.tableHeader}>
+                    <Text style={styles.tableHeaderCell}>Date</Text>
+                    <Text style={styles.tableHeaderCell}>Quality</Text>
+                    <Text style={{ ...styles.tableHeaderCell, textAlign: 'right' }}>Amount (FCFA)</Text>
+                </View>
+                {revenues.map((r: any, i: number) => (
+                    <View key={i} style={styles.tableRow}>
+                        <Text style={{ flex: 1, fontSize: 9 }}>{new Date(r.harvestDate).toLocaleDateString()}</Text>
+                        <Text style={{ flex: 1, fontSize: 9 }}>{r.quality}</Text>
+                        <Text style={{ flex: 1, fontSize: 9, textAlign: 'right' }}>{r.totalAmount.toLocaleString('fr-FR')}</Text>
+                    </View>
+                ))}
+            </View>
+
+            {/* Footer */}
+            <Text style={styles.footer}>AfriNuts Export — Confidential — Page 1</Text>
+        </Page>
+    </Document>
+);
+
+// Styles for the PDF
+const styles = StyleSheet.create({
+    page: { padding: 40, backgroundColor: '#FFFFFF' },
+    header: { backgroundColor: '#5A7411', padding: 20, marginBottom: 20, borderRadius: 8 },
+    headerText: { color: '#FFFFFF', fontSize: 20, fontFamily: 'Helvetica-Bold' },
+    kpiRow: { flexDirection: 'row', gap: 12, marginBottom: 20 },
+    kpiCard: { flex: 1, backgroundColor: '#F5F5F5', padding: 16, borderRadius: 8, borderLeft: 4, borderLeftColor: '#5A7411' },
+    table: { marginTop: 10 },
+    tableHeader: { flexDirection: 'row', backgroundColor: '#5A7411', padding: 8, borderRadius: 4 },
+    tableHeaderCell: { flex: 1, color: '#FFFFFF', fontSize: 10, fontWeight: 'bold' },
+    tableRow: { flexDirection: 'row', borderBottom: '1px solid #E5E7EB', padding: 8 },
+    footer: { position: 'absolute', bottom: 30, left: 40, right: 40, textAlign: 'center', color: '#9CA3AF', fontSize: 8 },
+});
+
 
 const GlassCard: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className = '' }) => (
     <motion.div
@@ -245,14 +321,31 @@ const Financials: React.FC = () => {
             <div className="dashboard-content container mx-auto px-4 py-8 relative z-10">
                 {/* Export Button */}
                 <div className="flex justify-end mb-8">
-                    <motion.button
-                        onClick={handleExportPDF}
-                        className="export-btn flex items-center gap-2 px-5 py-3 bg-red-600 text-white rounded-full hover:bg-red-700 transition shadow-md"
-                        whileHover={{ scale: 1.05, y: -2 }}
-                        whileTap={{ scale: 0.95 }}
-                    >
-                        <FaFilePdf /> Export PDF Report
-                    </motion.button>
+                    {revenues.length > 0 && (
+                        <PDFDownloadLink
+                            document={
+                                <FinancialReport
+                                    revenues={revenues}
+                                    totalRevenue={totalRevenue}
+                                    totalExpenses={totalExpenses}
+                                    netProfit={netProfit}
+                                    profitMargin={profitMargin}
+                                />
+                            }
+                            fileName={`afrinuts-financial-report-${new Date().toLocaleDateString('en-GB').replace(/\//g, '-')}.pdf`}
+                        >
+                            {({ loading }) => (
+                                <motion.button
+                                    className="export-btn flex items-center gap-2 px-5 py-3 bg-red-600 text-white rounded-full hover:bg-red-700 transition shadow-md"
+                                    whileHover={{ scale: 1.05, y: -2 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    disabled={loading}
+                                >
+                                    <FaFilePdf /> {loading ? 'Generating PDF...' : 'Export PDF Report'}
+                                </motion.button>
+                            )}
+                        </PDFDownloadLink>
+                    )}
                 </div>
 
                 {/* KPI Cards */}

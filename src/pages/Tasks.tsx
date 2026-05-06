@@ -179,25 +179,9 @@ const Tasks: React.FC = () => {
                         <Typography variant="lead" className="text-text-dark max-w-3xl mx-auto">
                             Track and monitor all farm operations across the entire farm.
                         </Typography>
-                        <Typography
-                            variant="small"
-                            className="text-primary/70 max-w-3xl mx-auto mb-8 flex items-center justify-center gap-1.5"
-                        >
-                            <FaUserCheck className="text-primary" />
-                            Click on a worker's name to view assignment details, duration, and history.
-                        </Typography>
                     </motion.div>
                 </motion.div>
             </Section>
-
-            {/* Development Mode Indicator */}
-            {isDevelopment && (
-                <div className="bg-yellow-100/80 backdrop-blur-sm border-b border-yellow-200">
-                    <div className="container mx-auto px-4 py-2 text-center">
-                        <span className="text-sm text-yellow-700">Development Mode - Using Mock Data</span>
-                    </div>
-                </div>
-            )}
 
             {/* Dashboard Overview Intro */}
             <Section className="py-8">
@@ -216,10 +200,26 @@ const Tasks: React.FC = () => {
                             <Typography variant="lead" className="text-text-dark max-w-3xl mx-auto mb-8">
                                 Monitor all farm operations in real time. Track pending assignments, review work in progress, and verify completed tasks across every block of our farm. Use the filters below to focus on what matters most.
                             </Typography>
+                            <Typography
+                                variant="small"
+                                className="text-primary/70 max-w-3xl mx-auto mb-8 flex items-center justify-center gap-1.5"
+                            >
+                                <FaUserCheck className="text-primary" />
+                                Click on a worker's name to view assignment details, duration, and history.
+                            </Typography>
                         </motion.div>
                     </motion.div>
                 </div>
             </Section>
+
+            {/* Development Mode Indicator */}
+            {isDevelopment && (
+                <div className="bg-yellow-100/80 backdrop-blur-sm border-b border-yellow-200">
+                    <div className="container mx-auto px-4 py-2 text-center">
+                        <span className="text-sm text-yellow-700">Development Mode - Using Mock Data</span>
+                    </div>
+                </div>
+            )}
 
             <div className="container mx-auto px-4 py-8 relative z-10 max-w-7xl">
                 {/* Stats Cards */}
