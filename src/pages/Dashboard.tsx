@@ -168,7 +168,7 @@ const Dashboard: React.FC = () => {
 
                     <motion.div variants={fadeIn}>
                         <Typography variant="lead" className="text-text-dark max-w-3xl mx-auto">
-                            Data-driven insights from our 35-hectare cashew farm in Odienné, Ivory Coast.
+                            Real-time intelligence from 35 hectares of organic cashew farming in Odienné, Ivory Coast.
                         </Typography>
                     </motion.div>
                 </motion.div>

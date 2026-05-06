@@ -226,35 +226,42 @@ const DashboardWeatherWidget: React.FC<WeatherDisplayProps> = ({ location = "Odi
     if (compact) {
         return (
             <motion.div
-                className="group relative overflow-hidden rounded-2xl backdrop-blur-md transition-all duration-500"
+                className="group relative overflow-hidden rounded-2xl transition-all duration-500"
                 style={{
-                    background: 'linear-gradient(145deg, rgba(255,255,255,0.9) 0%, rgba(240,245,255,0.8) 50%, rgba(255,255,255,0.85) 100%)',
-                    border: '1px solid rgba(255,255,255,0.6)',
-                    boxShadow: '0 4px 24px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.8)'
+                    background: 'linear-gradient(180deg, rgba(30,30,40,0.85) 0%, rgba(20,20,30,0.9) 100%)',
+                    border: '1px solid rgba(255,255,255,0.12)',
+                    boxShadow: '0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.06)'
                 }}
-                initial={{opacity: 0, scale: 0.92}}
-                animate={{opacity: 1, scale: 1}}
-                whileHover={{y: -3, scale: 1.01}}
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                whileHover={{ y: -2, scale: 1.005 }}
             >
-                {/* Subtle sky gradient blob */}
-                <div
-                    className="absolute -top-10 -right-10 w-28 h-28 rounded-full opacity-20 blur-2xl"
-                    style={{background: 'radial-gradient(circle, rgba(56,189,248,0.3) 0%, transparent 70%)'}}
-                />
-                <div
-                    className="absolute -bottom-8 -left-8 w-24 h-24 rounded-full opacity-15 blur-2xl"
-                    style={{background: 'radial-gradient(circle, rgba(251,191,36,0.3) 0%, transparent 70%)'}}
+                {/* Dynamic Weather Background - Subtle behind dark overlay */}
+                <div className="absolute inset-0 z-0 opacity-30">
+                    <img
+                        src={backgroundImage}
+                        alt=""
+                        className="w-full h-full object-cover"
+                        loading="lazy"
+                        key={backgroundImage}
+                    />
+                </div>
+
+                {/* Animated subtle glow */}
+                <div className="absolute top-0 right-0 w-32 h-32 rounded-full opacity-10 blur-3xl"
+                     style={{ background: 'radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%)' }}
                 />
 
-                <div className="relative z-10 p-4">
+                <div className="relative z-10 p-3.5">
                     {/* Header Row */}
-                    <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center justify-between mb-3">
                         <div className="flex items-center gap-1.5">
-                            <div className="w-2 h-2 rounded-full bg-sky-400 animate-pulse"/>
-                            <span
-                                className="text-xs font-semibold text-gray-600 tracking-wide uppercase">{loc.name}</span>
+                            <div className="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse shadow-sm shadow-sky-400/50" />
+                            <span className="text-[11px] font-semibold text-white/80 tracking-wide uppercase">
+                            {loc.name}
+                        </span>
                         </div>
-                        <span className="text-[10px] text-gray-400 font-mono tabular-nums">
+                        <span className="text-[10px] text-white/40 font-mono tabular-nums bg-white/5 rounded-full px-2 py-0.5">
                         {currentTime.toLocaleTimeString('en-US', {
                             timeZone: 'Africa/Abidjan',
                             hour: '2-digit',
@@ -265,84 +272,64 @@ const DashboardWeatherWidget: React.FC<WeatherDisplayProps> = ({ location = "Odi
                     </div>
 
                     {/* Main Weather Display */}
-                    <div className="flex items-center gap-4 mb-4">
+                    <div className="flex items-center gap-3 mb-3">
                         <div className="relative">
-                            {getWeatherIcon(current.condition.code, "text-4xl")}
+                            <div className="absolute inset-0 bg-white/10 rounded-full blur-lg scale-125" />
+                            {getWeatherIcon(current.condition.code, "text-3xl drop-shadow-md")}
                         </div>
                         <div>
-                            <div className="text-4xl font-bold text-gray-900 leading-none">{current.temp_c}°<span
-                                className="text-lg text-gray-400 font-normal">C</span></div>
-                            <div className="text-xs text-gray-500 mt-0.5">{current.condition.text}</div>
-                            <div className="text-[10px] text-gray-400">Feels like {current.feelslike_c}°C</div>
+                            <div className="text-3xl font-bold text-white leading-none drop-shadow-md">
+                                {current.temp_c}°<span className="text-base text-white/50 font-normal">C</span>
+                            </div>
+                            <div className="text-[11px] text-white/60 mt-0.5">{current.condition.text}</div>
+                            <div className="text-[10px] text-white/30">Feels like {current.feelslike_c}°C</div>
                         </div>
                     </div>
 
-                    {/* Quick Stats - 2x2 Grid */}
-                    <div className="grid grid-cols-4 gap-2 mb-4">
+                    {/* Quick Stats - Inline Pills */}
+                    <div className="flex gap-1.5 mb-3">
                         {[
-                            {
-                                icon: <FaTint className="text-[10px]"/>,
-                                value: `${current.humidity}%`,
-                                label: 'Humidity',
-                                color: 'text-sky-400'
-                            },
-                            {
-                                icon: <FaWind className="text-[10px]"/>,
-                                value: current.wind_kph,
-                                label: 'km/h',
-                                color: 'text-gray-400'
-                            },
-                            {
-                                icon: <FaTemperatureHigh className="text-[10px]"/>,
-                                value: current.uv,
-                                label: 'UV',
-                                color: 'text-amber-400'
-                            },
-                            {
-                                icon: <FaCloud className="text-[10px]"/>,
-                                value: `${current.cloud}%`,
-                                label: 'Cloud',
-                                color: 'text-gray-400'
-                            },
+                            { icon: <FaTint className="text-[9px]" />, value: `${current.humidity}%`, color: 'text-blue-300' },
+                            { icon: <FaWind className="text-[9px]" />, value: `${current.wind_kph}`, color: 'text-white/70' },
+                            { icon: <FaTemperatureHigh className="text-[9px]" />, value: `${current.uv}`, color: 'text-yellow-300' },
+                            { icon: <FaCloud className="text-[9px]" />, value: `${current.cloud}%`, color: 'text-white/50' },
                         ].map((stat, i) => (
-                            <div key={i} className="flex flex-col items-center bg-white/50 rounded-lg py-1.5 px-1">
+                            <div
+                                key={i}
+                                className="flex-1 flex flex-col items-center bg-white/5 backdrop-blur-sm rounded-lg py-1.5 border border-white/8"
+                            >
                                 <span className={stat.color}>{stat.icon}</span>
-                                <span className="text-xs font-semibold text-gray-700 mt-0.5">{stat.value}</span>
-                                <span className="text-[9px] text-gray-400">{stat.label}</span>
+                                <span className="text-[10px] font-semibold text-white/80 mt-0.5">{stat.value}</span>
                             </div>
                         ))}
                     </div>
 
-                    {/* 3-Day Forecast - Compact Pills */}
+                    {/* 3-Day Forecast */}
                     <div className="flex gap-1.5 mb-3">
                         {forecastDays.slice(0, 3).map((day, idx) => (
                             <div
                                 key={idx}
-                                className="flex-1 text-center bg-white/60 rounded-lg py-2 px-1 transition-all hover:bg-white/80"
+                                className="flex-1 text-center bg-white/5 backdrop-blur-sm rounded-lg py-2 px-1 border border-white/8 transition-all hover:bg-white/10"
                             >
-                                <div
-                                    className="text-[10px] font-semibold text-gray-500 mb-1">{getDayName(day.date)}</div>
-                                {getWeatherIcon(day.day.condition.code, "text-base")}
+                                <div className="text-[10px] font-semibold text-white/40 mb-1">{getDayName(day.date)}</div>
+                                {getWeatherIcon(day.day.condition.code, "text-sm drop-shadow-sm")}
                                 <div className="flex justify-center gap-1 mt-1">
-                                    <span
-                                        className="text-[10px] font-bold text-gray-800">{Math.round(day.day.maxtemp_c)}°</span>
-                                    <span className="text-[10px] text-gray-400">{Math.round(day.day.mintemp_c)}°</span>
+                                    <span className="text-[10px] font-bold text-white/80">{Math.round(day.day.maxtemp_c)}°</span>
+                                    <span className="text-[10px] text-white/30">{Math.round(day.day.mintemp_c)}°</span>
                                 </div>
-                                <div className="flex items-center justify-center gap-0.5 mt-0.5">
-                                    <FaTint className="text-[8px] text-sky-300"/>
-                                    <span className="text-[9px] text-gray-400">{day.day.daily_chance_of_rain}%</span>
+                                <div className="text-white/20 text-[9px] mt-0.5 flex items-center justify-center gap-0.5">
+                                    <FaTint className="text-[7px]" />{day.day.daily_chance_of_rain}%
                                 </div>
                             </div>
                         ))}
                     </div>
 
-                    {/* Farm Advisory - Compact Badge */}
-                    <div
-                        className="flex items-center gap-1.5 bg-gradient-to-r from-sky-50 to-amber-50 rounded-full px-3 py-1.5 border border-sky-100">
-                    <span className="text-xs">
+                    {/* Farm Advisory */}
+                    <div className="bg-white/5 backdrop-blur-sm rounded-full px-3 py-1.5 border border-white/8 flex items-center gap-1.5">
+                    <span className="text-[10px]">
                         {current.condition.code === 1000 ? '☀️' : current.temp_c > 35 ? '🔥' : current.condition.text.includes("Rain") ? '🌧️' : '✅'}
                     </span>
-                        <span className="text-[10px] text-gray-600 font-medium truncate">
+                        <span className="text-[10px] text-white/50 font-medium truncate">
                         {current.condition.code === 1000
                             ? 'Perfect farm weather'
                             : current.temp_c > 35

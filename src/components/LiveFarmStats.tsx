@@ -119,7 +119,7 @@ const LiveFarmStats: React.FC = () => {
                     Live Farm Dashboard
                 </Typography>
                 <Typography variant="subtitle" className="text-gray-600">
-                    Real-time statistics from our Odienné cashew farm
+                    Live from AfriNuts Farm – where data meets the soil
                 </Typography>
                 {isDevelopment && (
                     <div className="mt-2 inline-flex items-center gap-2 px-3 py-1 bg-yellow-100 rounded-full">
