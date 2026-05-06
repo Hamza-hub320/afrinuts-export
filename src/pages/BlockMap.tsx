@@ -18,6 +18,7 @@ import {fadeIn, staggerContainer} from "@/utils/animations";
 import Section from '../components/Section/Section';
 import DashboardNavbar from "../components/DashboardNavbar/DashboardNavbar";
 import { InfoCard } from '@/components/InfoCard/InfoCard';
+import {FarmBlock} from "@/components/FarmBlock/FarmBlock";
 
 
 const isDevelopment = import.meta.env.DEV;
@@ -313,42 +314,25 @@ const BlockMap: React.FC = () => {
 
                                             const colors = getStatusColor(block.status);
 
-                                            return (
-                                                <motion.div
-                                                    key={block.id}
-                                                    whileHover={{ scale: 1.08, y: -6 }}
-                                                    whileTap={{ scale: 0.95 }}
-                                                    onClick={() => setSelectedBlock(block)}
-                                                    className={`aspect-square rounded-xl cursor-pointer transition-all shadow-md hover:shadow-2xl p-2 flex flex-col items-center justify-center relative overflow-hidden bg-gradient-to-br ${colors.bg} border-2 ${colors.border}`}
-                                                    style={{
-                                                        transformStyle: 'preserve-3d',
-                                                        perspective: '1000px',
-                                                    }}
-                                                >
-                                                    <div className="absolute inset-0 rounded-xl bg-gradient-to-b from-white/20 to-transparent opacity-50" />
-                                                    <div className="absolute inset-0 rounded-xl shadow-[inset_0_1px_4px_rgba(255,255,255,0.5)]" />
+                                            // Determine infrastructure marker
+                                            const infrastructure =
+                                                block.blockName === 'A1'
+                                                    ? { type: 'guard-post' as const, label: 'Guard Post (SW corner)' }
+                                                    : block.blockName === 'C4'
+                                                        ? { type: 'water-tank' as const, label: 'Water Tank & Borehole (center)' }
+                                                        : undefined;
 
-                                                    <div className="relative z-10 flex flex-col items-center">
-                                                        <div className="text-sm font-bold text-gray-800">{block.blockName}</div>
-                                                        <div className={`text-xl my-1 p-1.5 rounded-full ${colors.icon}`}>
-                                                            {getStatusIcon(block.status)}
-                                                        </div>
-                                                        {block.status === 'PLANTED' && (
-                                                            <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${colors.badge}`}>
-                                                {block.survivalRate?.toFixed(0)}%
-                                            </span>
-                                                        )}
-                                                        {/* Infrastructure Markers */}
-                                                        {block.blockName === 'A1' && (
-                                                            <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse"
-                                                                 title="Guard Post (SW corner)" />
-                                                        )}
-                                                        {block.blockName === 'C4' && (
-                                                            <div className="absolute -top-1 -right-1 w-3 h-3 bg-blue-500 rounded-full"
-                                                                 title="Water Tank & Borehole (center)" />
-                                                        )}
-                                                    </div>
-                                                </motion.div>
+                                            return (
+                                                <FarmBlock
+                                                    key={block.id}
+                                                    blockName={block.blockName}
+                                                    status={block.status}
+                                                    survivalRate={block.survivalRate}
+                                                    icon={getStatusIcon(block.status)}
+                                                    colors={colors}
+                                                    infrastructure={infrastructure}
+                                                    onClick={() => setSelectedBlock(block)}
+                                                />
                                             );
                                         })}
                                     </div>
@@ -358,34 +342,30 @@ const BlockMap: React.FC = () => {
                     </div>
                 </div>
 
-            {/* Summary Stats */}
-            <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4">
-                {[
-                    { label: 'Planted Blocks', count: plantedCount, icon: FaTree, color: 'text-green-500', bg: 'from-green-50 to-emerald-50', border: 'border-green-200' },
-                    { label: 'Plowed Blocks', count: plowedCount, icon: FaTractor, color: 'text-blue-500', bg: 'from-blue-50 to-sky-50', border: 'border-blue-200' },
-                    { label: 'Cleared Blocks', count: clearedCount, icon: FaSeedling, color: 'text-orange-500', bg: 'from-orange-50 to-amber-50', border: 'border-orange-200' },
-                    { label: 'Not Cleared', count: notClearedCount, icon: FaHourglassHalf, color: 'text-gray-400', bg: 'from-gray-50 to-slate-50', border: 'border-gray-200' },
-                ].map((stat, idx) => (
-                    <motion.div
-                        key={idx}
-                        className={`relative overflow-hidden rounded-2xl bg-gradient-to-br ${stat.bg} border-2 ${stat.border} p-5 text-center backdrop-blur-sm transition-all duration-500`}
-                        style={{
-                            boxShadow: '0 4px 16px rgba(0,0,0,0.06), inset 0 1px 0 rgba(255,255,255,0.5)',
-                        }}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.3 + idx * 0.1 }}
-                        whileHover={{ y: -4, scale: 1.03 }}
-                    >
-                        <div className="absolute -bottom-4 -right-4 w-16 h-16 rounded-full opacity-15 blur-xl"
-                             style={{ background: `radial-gradient(circle, currentColor 0%, transparent 70%)` }}
-                        />
-                        <stat.icon className={`${stat.color} text-2xl mx-auto mb-2`} />
-                        <div className="text-2xl font-bold text-primary">{stat.count}</div>
-                        <div className="text-sm text-gray-500 font-medium">{stat.label}</div>
-                    </motion.div>
-                ))}
-            </div>
+                {/* Summary Stats - Using InfoCard */}
+                <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4">
+                    {[
+                        { label: 'Planted Blocks', count: plantedCount, icon: FaTree, variant: 'secondary' as const },
+                        { label: 'Plowed Blocks', count: plowedCount, icon: FaTractor, variant: 'accent' as const },
+                        { label: 'Cleared Blocks', count: clearedCount, icon: FaSeedling, variant: 'primary' as const },
+                        { label: 'Not Cleared', count: notClearedCount, icon: FaHourglassHalf, variant: 'primary' as const },
+                    ].map((stat, idx) => (
+                        <motion.div
+                            key={idx}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.3 + idx * 0.1 }}
+                        >
+                            <InfoCard
+                                icon={stat.icon}
+                                title={String(stat.count)}
+                                subtitle={stat.label}
+                                variant={stat.variant}
+                                showInfoBadge={false}
+                            />
+                        </motion.div>
+                    ))}
+                </div>
 
             {/* Block Details Modal - Liquid Glassy Morphism */}
             {selectedBlock && (
