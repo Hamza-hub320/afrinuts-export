@@ -91,6 +91,27 @@ const BlockMap: React.FC = () => {
         fetchBlocks();
     }, []);
 
+    const roadNames = {
+        horizontal: ['Farmers Branch', 'Farmers Lane', 'Farmers Parkway', 'Farmers Trail', 'Farmers Crest'],
+        vertical: ['Harvest Drive', 'Sunrise Drive', 'Heritage Drive', 'Unity Drive', 'Prosperity Drive'],
+    };
+
+    const getBlockAccess = (blockName: string): string => {
+        const col = parseInt(blockName.substring(1));
+        const row = blockName.charAt(0);
+        const roads = [];
+
+        // Horizontal roads
+        if (row === 'A') roads.push('Farmers Branch (S)');
+        if (row === 'E') roads.push('Farmers Crest (N)');
+
+        // Vertical roads
+        if (col === 1) roads.push('Prosperity Dr (W)');
+        if (col === 7) roads.push('Harvest Dr (E)');
+
+        return roads.length > 0 ? roads.join(', ') : 'Internal block';
+    };
+
     const rows = ['A', 'B', 'C', 'D', 'E'];
     const grid = rows.map(row =>
         blocks.filter(block => block.blockName.startsWith(row))
@@ -219,15 +240,61 @@ const BlockMap: React.FC = () => {
                     </div>
                 </motion.div>
 
-            {/* 5×7 Grid */}
-            <div className="overflow-x-auto pb-4">
-                <div className="min-w-[600px] space-y-2">
-                    {grid.map((rowBlocks, rowIdx) => (
-                        <div key={rowIdx} className="flex gap-2 items-center">
-                            {/* Row Label */}
-                            <div className="w-10 h-10 flex items-center justify-center font-bold text-primary text-xl bg-white/50 backdrop-blur-sm rounded-xl shadow-sm border border-white/40">
-                                {rows[rowIdx]}
-                            </div>
+                {/* Farm Overview Panel */}
+                <motion.div
+                    className="relative overflow-hidden rounded-2xl mb-6 transition-all duration-500"
+                    style={{
+                        background: 'linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.6) 50%, rgba(255,255,255,0.75) 100%)',
+                        border: '1px solid rgba(255,255,255,0.5)',
+                        boxShadow: '0 4px 20px rgba(165, 105, 66, 0.08), inset 0 1px 0 rgba(255,255,255,0.6)'
+                    }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.2 }}
+                >
+                    <div className="absolute -bottom-6 -left-6 w-24 h-24 rounded-full opacity-10 blur-2xl"
+                         style={{ background: 'radial-gradient(circle, rgba(165,105,66,0.4) 0%, transparent 70%)' }}
+                    />
+                    <div className="relative z-10 p-5">
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                            {[
+                                { label: 'Total Area', value: '35 ha', icon: '📐' },
+                                { label: 'Total Trees', value: '3,500', icon: '🌳' },
+                                { label: 'Block Size', value: '100m × 100m', icon: '📏' },
+                                { label: 'Tree Spacing', value: '10m × 10m', icon: '📋' },
+                            ].map((item, idx) => (
+                                <div key={idx} className="p-3 rounded-xl bg-white/40 backdrop-blur-sm">
+                                    <div className="text-2xl mb-1">{item.icon}</div>
+                                    <div className="text-lg font-bold text-primary">{item.value}</div>
+                                    <div className="text-xs text-gray-500">{item.label}</div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </motion.div>
+
+                {/* 5×7 Grid */}
+                <div className="overflow-x-auto pb-4">
+                    <div className="min-w-[700px] space-y-1">
+                        {grid.map((rowBlocks, rowIdx) => (
+                            <React.Fragment key={rowIdx}>
+                                {/* Road label between rows */}
+                                {rowIdx > 0 && (
+                                    <div className="flex items-center gap-2 py-1">
+                                        <div className="w-10"></div>
+                                        <div className="flex-1 text-center">
+                            <span className="text-[10px] text-gray-400 italic font-medium px-3 py-0.5 rounded-full bg-white/40 backdrop-blur-sm">
+                                {roadNames.horizontal[rowIdx - 1]}
+                            </span>
+                                        </div>
+                                    </div>
+                                )}
+
+                                <div className="flex gap-2 items-center">
+                                    {/* Row Label */}
+                                    <div className="w-10 h-10 flex items-center justify-center font-bold text-primary text-xl bg-white/50 backdrop-blur-sm rounded-xl shadow-sm border border-white/40">
+                                        {rows[rowIdx]}
+                                    </div>
 
                             {/* Blocks in Row */}
                             <div className="flex-1 grid grid-cols-7 gap-2">
@@ -271,12 +338,39 @@ const BlockMap: React.FC = () => {
                                                     </span>
                                                 )}
                                             </div>
+                                            {/* Infrastructure Markers */}
+                                            {block.blockName === 'A1' && (
+                                                <div className="absolute -top-1 -right-1 bg-red-100 rounded-full p-0.5 animate-pulse"
+                                                     title="Guard Post (SW corner)">
+                                                    <span className="text-[8px]">🏠</span>
+                                                </div>
+                                            )}
+                                            {block.blockName === 'C4' && (
+                                                <div className="absolute -top-1 -right-1 bg-blue-100 rounded-full p-0.5"
+                                                     title="Water Tank & Borehole (center)">
+                                                    <span className="text-[8px]">💧</span>
+                                                </div>
+                                            )}
                                         </motion.div>
                                     );
                                 })}
                             </div>
                         </div>
+                            </React.Fragment>
                     ))}
+                                {/* Column labels at bottom */}
+                                <div className="flex gap-2 items-center mt-2">
+                                    <div className="w-10"></div>
+                                    <div className="flex-1 grid grid-cols-7 gap-2">
+                                        {roadNames.vertical.map((name, idx) => (
+                                            <div key={idx} className="text-center">
+                        <span className="text-[10px] text-gray-400 italic font-medium block transform -rotate-45 origin-left whitespace-nowrap">
+                            {name}
+                        </span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
                 </div>
             </div>
 
@@ -359,8 +453,11 @@ const BlockMap: React.FC = () => {
                                 {[
                                     { label: 'Status', value: selectedBlock.status },
                                     { label: 'Survival Rate', value: selectedBlock.survivalRate > 0 ? `${selectedBlock.survivalRate.toFixed(1)}%` : 'N/A' },
-                                    { label: 'Trees', value: '100 trees (standard)' },
-                                    { label: 'Hectares', value: '1.0 ha' },
+                                    { label: 'Trees', value: '100 trees (10×10 grid)' },
+                                    { label: 'Area', value: '1.0 hectare (100m × 100m)' },
+                                    { label: 'Row', value: selectedBlock.blockName.charAt(0) },
+                                    { label: 'Column', value: selectedBlock.blockName.substring(1) },
+                                    { label: 'Access', value: getBlockAccess(selectedBlock.blockName) },
                                 ].map((item, idx) => (
                                     <div key={idx} className="flex justify-between items-center py-3 px-4 rounded-xl bg-white/40 backdrop-blur-sm border border-white/30">
                                         <span className="font-medium text-gray-700">{item.label}</span>
@@ -379,6 +476,45 @@ const BlockMap: React.FC = () => {
                     </motion.div>
                 </motion.div>
             )}
+
+                {/* Road Map Reference */}
+                <details className="mt-6 group">
+                    <summary className="cursor-pointer text-sm text-primary font-medium hover:text-accent transition-colors flex items-center gap-2">
+                        <FaMapMarkerAlt className="text-accent" />
+                        View Road Map & Access Network
+                    </summary>
+                    <div className="mt-3 p-4 rounded-xl bg-white/40 backdrop-blur-sm border border-white/30 text-sm space-y-2">
+                        <p className="font-semibold text-primary">North ↔ South (Vertical) Roads:</p>
+                        <ul className="list-disc pl-5 text-gray-600 space-y-1">
+                            <li>Harvest Drive (East edge)</li>
+                            <li>Sunrise Drive</li>
+                            <li>Heritage Drive</li>
+                            <li>Unity Drive</li>
+                            <li>Prosperity Drive (West edge)</li>
+                        </ul>
+                        <p className="font-semibold text-primary mt-3">West ↔ East (Horizontal) Roads:</p>
+                        <ul className="list-disc pl-5 text-gray-600 space-y-1">
+                            <li>Farmers Branch (South edge)</li>
+                            <li>Farmers Lane</li>
+                            <li>Farmers Parkway</li>
+                            <li>Farmers Trail</li>
+                            <li>Farmers Crest (North edge)</li>
+                        </ul>
+                        <p className="font-semibold text-primary mt-3">Perimeter:</p>
+                        <p className="text-gray-600 pl-5">AfriNuts Main Loop (encircles entire farm)</p>
+                        <div className="mt-3 flex flex-wrap gap-2">
+                            {[
+                                { color: 'bg-red-500', label: 'Guard Post (SW corner)' },
+                                { color: 'bg-blue-500', label: 'Water Tank & Borehole (center)' },
+                            ].map((marker, idx) => (
+                                <span key={idx} className="inline-flex items-center gap-1.5 text-xs text-gray-600">
+                    <span className={`w-2.5 h-2.5 ${marker.color} rounded-full`}></span>
+                                    {marker.label}
+                </span>
+                            ))}
+                        </div>
+                    </div>
+                </details>
 
                 {/* End-of-page CTA */}
                 <Section className="py-10">
