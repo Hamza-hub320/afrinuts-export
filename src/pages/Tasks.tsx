@@ -207,7 +207,7 @@ const Tasks: React.FC = () => {
                                 Task Management at a Glance
                             </Typography>
                             <Typography variant="lead" className="text-text-dark max-w-3xl mx-auto mb-8">
-                                Monitor all farm operations in real-time. Track pending assignments, review work in progress, and verify completed tasks across every block of our Odienné farm. Use the filters below to focus on what matters most.
+                                Monitor all farm operations in real time. Track pending assignments, review work in progress, and verify completed tasks across every block of our farm. Use the filters below to focus on what matters most.
                             </Typography>
                         </motion.div>
                     </motion.div>
@@ -434,7 +434,7 @@ const Tasks: React.FC = () => {
                                         style={{
                                             background: 'linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.75) 50%, rgba(255,255,255,0.85) 100%)',
                                             border: '1px solid rgba(255,255,255,0.5)',
-                                            boxShadow: '0 8px 32px rgba(165, 105, 66, 0.15), inset 0 1px 0 rgba(255,255,255,0.6)',
+                                            boxShadow: '0 8px 32px rgba(165, 105, 66, 0.2), inset 0 1px 0 rgba(255,255,255,0.6), inset 0 -1px 0 rgba(0,0,0,0.05)',
                                         }}
                                     >
                                         <div className="absolute -top-16 -right-16 w-32 h-32 rounded-full opacity-10 blur-3xl animate-pulse"
