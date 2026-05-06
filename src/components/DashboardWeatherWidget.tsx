@@ -360,20 +360,20 @@ const DashboardWeatherWidget: React.FC<WeatherDisplayProps> = ({ location = "Odi
 
     return (
         <motion.div
-            className="group relative overflow-hidden transition-all duration-500 rounded-2xl shadow-xl transform-gpu"
+            className="group relative overflow-hidden transition-all duration-500 rounded-2xl shadow-lg transform-gpu"
             style={{
                 transformStyle: 'preserve-3d',
                 perspective: '1000px',
             }}
             whileHover={{
-                y: -6,
-                scale: 1.01,
-                boxShadow: '0 25px 40px -12px rgba(0, 0, 0, 0.25)',
-                transition: {duration: 0.3}
+                y: -3,
+                scale: 1.005,
+                boxShadow: '0 15px 30px -8px rgba(0, 0, 0, 0.2)',
+                transition: { duration: 0.3 }
             }}
-            initial={{opacity: 0, y: 20}}
-            animate={{opacity: 1, y: 0}}
-            transition={{duration: 0.5}}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
         >
             {/* Dynamic Weather Background */}
             <div className="absolute inset-0 z-0 transition-all duration-1000 ease-in-out">
@@ -384,165 +384,108 @@ const DashboardWeatherWidget: React.FC<WeatherDisplayProps> = ({ location = "Odi
                     loading="lazy"
                     key={backgroundImage}
                 />
-                {/* Dark overlay for readability */}
-                <div className="absolute inset-0 bg-gradient-to-br from-black/40 via-black/20 to-black/50" />
-                <div className="absolute inset-0 bg-gradient-to-t from-amber-900/30 via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-br from-black/35 via-black/15 to-black/40" />
             </div>
 
-            {/* Animated floating orbs */}
-            <div className="absolute top-20 right-16 w-4 h-4 rounded-full bg-yellow-200/40 blur-sm animate-pulse z-10"/>
-            <div className="absolute top-32 right-24 w-2 h-2 rounded-full bg-orange-200/30 blur-sm animate-pulse z-10"
-                 style={{animationDelay: '1s'}}/>
-
             {/* Glassy content overlay */}
-            <div className="absolute inset-0 z-10 backdrop-blur-[1px] bg-white/5"/>
+            <div className="absolute inset-0 z-10 backdrop-blur-[0.5px] bg-white/5" />
 
-            {/* 3D edge effect */}
-            <div
-                className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500 z-20 pointer-events-none"/>
-            <div
-                className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/10 to-transparent opacity-30 group-hover:opacity-50 transition-opacity duration-500 z-20 pointer-events-none"/>
-            <div
-                className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(255,255,255,0.1)] group-hover:shadow-[inset_0_4px_16px_rgba(255,255,255,0.15)] transition-shadow duration-500 z-20 pointer-events-none"/>
+            {/* 3D edge */}
+            <div className="absolute inset-0 rounded-2xl border border-white/15 z-20 pointer-events-none" />
+            <div className="absolute inset-0 rounded-2xl shadow-[inset_0_1px_6px_rgba(255,255,255,0.08)] z-20 pointer-events-none" />
 
-            <div className="relative z-30 p-6 sm:p-8">
-                {/* Header */}
-                <div className="flex justify-between items-center mb-8">
+            <div className="relative z-30 p-4 sm:p-5">
+                {/* Header Row - Compact */}
+                <div className="flex items-center justify-between mb-5">
+                    <div className="flex items-center gap-2">
+                        <FaMapMarkerAlt className="text-white/70 text-sm" />
+                        <span className="text-sm font-semibold text-white/90 drop-shadow-sm">
+                        {loc.name}, {loc.country}
+                    </span>
+                    </div>
+                    <span className="text-xs text-white/60 font-mono tabular-nums bg-white/10 rounded-full px-2.5 py-1 backdrop-blur-sm">
+                    {currentTime.toLocaleTimeString('en-US', {
+                        timeZone: 'Africa/Abidjan',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                        hour12: true
+                    })}
+                </span>
+                </div>
+
+                {/* Main Row: Icon + Temp + Stats */}
+                <div className="flex items-center gap-5 mb-6">
+                    {/* Icon + Temp */}
                     <div className="flex items-center gap-3">
-                        <div
-                            className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center border border-white/30">
-                            <FaMapMarkerAlt className="text-white text-lg"/>
-                        </div>
-                        <div>
-                            <h3 className="text-2xl font-bold text-white drop-shadow-md">
-                                {loc.name}
-                            </h3>
-                            <p className="text-sm text-white/80 drop-shadow-sm">
-                                {loc.region}, {loc.country}
-                            </p>
-                        </div>
-                    </div>
-                    <div className="bg-white/20 backdrop-blur-md px-4 py-2 rounded-full border border-white/30">
-                    <span className="text-white font-mono text-sm tabular-nums drop-shadow-sm">
-                        {currentTime.toLocaleTimeString('en-US', {
-                            timeZone: 'Africa/Abidjan',
-                            hour: '2-digit',
-                            minute: '2-digit',
-                            hour12: true
-                        })}
-                    </span>
-                    </div>
-                </div>
-
-                {/* Current Weather - Hero Display */}
-                <div className="flex flex-col md:flex-row items-center justify-between mb-10 gap-6">
-                    <div className="flex items-center gap-6">
                         <div className="relative">
-                            <div
-                                className="absolute inset-0 bg-white/20 rounded-full blur-2xl scale-150 animate-pulse"/>
-                            {getWeatherIcon(current.condition.code, "text-7xl drop-shadow-lg")}
+                            <div className="absolute inset-0 bg-white/15 rounded-full blur-xl scale-125" />
+                            {getWeatherIcon(current.condition.code, "text-4xl drop-shadow-md")}
                         </div>
                         <div>
-                            <div className="text-7xl font-bold text-white drop-shadow-lg leading-none">
-                                {current.temp_c}°<span className="text-3xl text-white/80 font-normal">C</span>
+                            <div className="text-4xl font-bold text-white drop-shadow-md leading-none">
+                                {current.temp_c}°<span className="text-lg text-white/60 font-normal">C</span>
                             </div>
-                            <div className="text-xl text-white/90 drop-shadow-md mt-1 font-medium">
-                                {current.condition.text}
-                            </div>
-                            <div className="text-sm text-white/70 drop-shadow-sm mt-1">
-                                Feels like {current.feelslike_c}°C
-                            </div>
+                            <div className="text-sm text-white/80 drop-shadow-sm">{current.condition.text}</div>
+                            <div className="text-xs text-white/50">Feels like {current.feelslike_c}°C</div>
                         </div>
                     </div>
 
-                    {/* Quick Stats - 2x2 Grid */}
-                    <div className="grid grid-cols-2 gap-3 w-full md:w-auto">
+                    {/* Quick Stats - Inline pills */}
+                    <div className="flex gap-2 ml-auto">
                         {[
-                            {icon: <FaTint/>, value: `${current.humidity}%`, label: 'Humidity', color: 'text-blue-300'},
-                            {icon: <FaWind/>, value: `${current.wind_kph} km/h`, label: 'Wind', color: 'text-white'},
-                            {
-                                icon: <FaTemperatureHigh/>,
-                                value: `UV ${current.uv}`,
-                                label: 'UV Index',
-                                color: 'text-yellow-300'
-                            },
-                            {
-                                icon: <FaCloud/>,
-                                value: `${current.cloud}%`,
-                                label: 'Cloud Cover',
-                                color: 'text-gray-300'
-                            },
+                            { icon: <FaTint className="text-xs" />, value: `${current.humidity}%`, color: 'text-blue-300' },
+                            { icon: <FaWind className="text-xs" />, value: `${current.wind_kph}`, color: 'text-white/80' },
+                            { icon: <FaTemperatureHigh className="text-xs" />, value: `${current.uv}`, color: 'text-yellow-300' },
                         ].map((stat, i) => (
-                            <motion.div
+                            <div
                                 key={i}
-                                className="flex flex-col items-center bg-white/10 backdrop-blur-md rounded-xl py-3 px-4 border border-white/20 min-w-[100px]"
-                                whileHover={{scale: 1.05, backgroundColor: 'rgba(255,255,255,0.2)'}}
-                                transition={{duration: 0.2}}
+                                className="flex items-center gap-1.5 bg-white/10 backdrop-blur-sm rounded-full px-3 py-1.5 border border-white/10"
                             >
-                                <span className={`${stat.color} text-lg mb-1 drop-shadow-md`}>{stat.icon}</span>
-                                <span className="text-white font-bold text-sm drop-shadow-md">{stat.value}</span>
-                                <span className="text-white/60 text-xs drop-shadow-sm">{stat.label}</span>
-                            </motion.div>
+                                <span className={stat.color}>{stat.icon}</span>
+                                <span className="text-white/80 text-xs font-medium">{stat.value}</span>
+                            </div>
                         ))}
                     </div>
                 </div>
 
-                {/* 3-Day Forecast */}
-                <div className="mb-8">
-                    <div className="flex items-center gap-2 mb-4">
-                        <FaCalendarAlt className="text-white/80"/>
-                        <h4 className="font-semibold text-white/90 text-lg drop-shadow-sm">3-Day Forecast</h4>
+                {/* 3-Day Forecast - Compact Row */}
+                <div className="mb-5">
+                    <div className="flex items-center justify-between mb-3">
+                        <span className="text-xs font-semibold text-white/60 uppercase tracking-wider">3-Day Forecast</span>
+                        <FaCalendarAlt className="text-white/40 text-xs" />
                     </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div className="flex gap-2">
                         {forecastDays.slice(0, 3).map((day, idx) => (
-                            <motion.div
+                            <div
                                 key={idx}
-                                className="bg-white/10 backdrop-blur-md rounded-xl p-4 text-center border border-white/20 transition-all"
-                                whileHover={{y: -4, scale: 1.03, backgroundColor: 'rgba(255,255,255,0.18)'}}
-                                transition={{duration: 0.2}}
+                                className="flex-1 bg-white/8 backdrop-blur-sm rounded-xl p-2.5 text-center border border-white/10 transition-all hover:bg-white/12"
                             >
-                                <div className="text-white/80 font-semibold mb-2 text-sm drop-shadow-sm">
-                                    {getDayName(day.date)}
+                                <div className="text-white/50 text-[10px] font-semibold mb-1">{getDayName(day.date)}</div>
+                                {getWeatherIcon(day.day.condition.code, "text-lg")}
+                                <div className="flex justify-center gap-2 mt-1 text-[11px]">
+                                    <span className="text-white/80 font-medium">{Math.round(day.day.maxtemp_c)}°</span>
+                                    <span className="text-white/40">{Math.round(day.day.mintemp_c)}°</span>
                                 </div>
-                                <div className="flex justify-center mb-2">
-                                    {getWeatherIcon(day.day.condition.code, "text-3xl drop-shadow-md")}
+                                <div className="text-white/30 text-[9px] mt-0.5 flex items-center justify-center gap-0.5">
+                                    <FaTint className="text-[8px]" />{day.day.daily_chance_of_rain}%
                                 </div>
-                                <div
-                                    className="text-white/70 text-xs mb-2 drop-shadow-sm">{day.day.condition.text}</div>
-                                <div className="flex justify-center gap-3 text-sm">
-                                <span className="text-yellow-300 font-bold drop-shadow-sm">
-                                    {Math.round(day.day.maxtemp_c)}°
-                                </span>
-                                    <span className="text-blue-300 font-bold drop-shadow-sm">
-                                    {Math.round(day.day.mintemp_c)}°
-                                </span>
-                                </div>
-                                <div className="text-white/50 text-xs mt-2 flex items-center justify-center gap-1">
-                                    <FaTint className="text-blue-300/70"/>
-                                    <span className="drop-shadow-sm">{day.day.daily_chance_of_rain}%</span>
-                                </div>
-                            </motion.div>
+                            </div>
                         ))}
                     </div>
                 </div>
 
-                {/* Farm Advisory */}
-                <div className="bg-white/10 backdrop-blur-md rounded-xl px-4 py-3 border border-white/20">
-                    <div className="flex items-center gap-2 text-sm text-white/90">
-                        <FaArrowRight className="text-yellow-300"/>
-                        <span className="flex items-center gap-1.5 drop-shadow-sm">
-                        {current.condition.code === 1000
-                            ? <><FaSun className="text-yellow-400"/> Perfect weather for farm operations today!</>
-                            : current.temp_c > 35
-                                ? <><FaTemperatureHigh className="text-red-400"/> High temperatures - ensure workers
-                                    stay hydrated</>
-                                : current.condition.text.includes("Rain")
-                                    ? <><FaCloudRain className="text-blue-300"/> Rain expected - plan indoor tasks
-                                        accordingly</>
-                                    : <><FaCheckCircle className="text-green-400"/> Good conditions for farm work</>
-                        }
-                    </span>
-                    </div>
+                {/* Farm Advisory - Subtle */}
+                <div className="bg-white/5 backdrop-blur-sm rounded-lg px-3 py-2 border border-white/10">
+                <span className="text-xs text-white/60 flex items-center gap-1.5">
+                    {current.condition.code === 1000
+                        ? <><FaSun className="text-yellow-400/80 text-[10px]" /> Perfect farm weather</>
+                        : current.temp_c > 35
+                            ? <><FaTemperatureHigh className="text-red-400/80 text-[10px]" /> Stay hydrated</>
+                            : current.condition.text.includes("Rain")
+                                ? <><FaCloudRain className="text-blue-300/80 text-[10px]" /> Rain expected</>
+                                : <><FaCheckCircle className="text-green-400/80 text-[10px]" /> Good conditions</>
+                    }
+                </span>
                 </div>
             </div>
         </motion.div>
