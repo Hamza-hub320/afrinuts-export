@@ -17,6 +17,7 @@ import { callApi } from '../services/api';
 import {fadeIn, staggerContainer} from "@/utils/animations";
 import Section from '../components/Section/Section';
 import DashboardNavbar from "../components/DashboardNavbar/DashboardNavbar";
+import { InfoCard } from '@/components/InfoCard/InfoCard';
 
 
 const isDevelopment = import.meta.env.DEV;
@@ -93,7 +94,7 @@ const BlockMap: React.FC = () => {
 
     const roadNames = {
         horizontal: ['Farmers Branch', 'Farmers Lane', 'Farmers Parkway', 'Farmers Trail', 'Farmers Crest'],
-        vertical: ['Harvest Drive', 'Sunrise Drive', 'Heritage Drive', 'Unity Drive', 'Prosperity Drive'],
+        vertical: ['Harvest Drive', 'Sunrise Drive', 'Heritage Drive', 'Unity Drive', 'Prosperity Drive', 'Cashew Creek Drive'],
     };
 
     const getBlockAccess = (blockName: string): string => {
@@ -197,88 +198,90 @@ const BlockMap: React.FC = () => {
 
             <div className="container mx-auto px-4 py-8 relative z-10">
 
-                {/* Legend - Glassy Card */}
+                {/* Legend - Using InfoCard */}
                 <motion.div
-                    className="relative overflow-hidden rounded-2xl mb-8 transition-all duration-500"
-                    style={{
-                        background: 'linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.6) 50%, rgba(255,255,255,0.75) 100%)',
-                        border: '1px solid rgba(255,255,255,0.5)',
-                        boxShadow: '0 4px 20px rgba(165, 105, 66, 0.08), inset 0 1px 0 rgba(255,255,255,0.6)'
-                    }}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.1 }}
                 >
-                    <div className="absolute -top-10 -right-10 w-28 h-28 rounded-full opacity-10 blur-2xl"
-                         style={{ background: 'radial-gradient(circle, rgba(210,125,45,0.4) 0%, transparent 70%)' }}
-                    />
-                    <div className="relative z-10 p-4 sm:p-5">
-                        {/* Status items - 2x2 grid on mobile, single row on desktop */}
-                        <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-2 sm:gap-3 items-center justify-center mb-3 sm:mb-0">
-                            <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-green-50/80 backdrop-blur-sm justify-center sm:justify-start">
-                                <FaTree className="text-green-500 flex-shrink-0" />
-                                <span className="text-xs sm:text-sm font-medium text-green-700 whitespace-nowrap">Planted</span>
-                            </div>
-                            <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-blue-50/80 backdrop-blur-sm justify-center sm:justify-start">
-                                <FaTractor className="text-blue-500 flex-shrink-0" />
-                                <span className="text-xs sm:text-sm font-medium text-blue-700 whitespace-nowrap">Plowed</span>
-                            </div>
-                            <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-orange-50/80 backdrop-blur-sm justify-center sm:justify-start">
-                                <FaSeedling className="text-orange-500 flex-shrink-0" />
-                                <span className="text-xs sm:text-sm font-medium text-orange-700 whitespace-nowrap">Cleared</span>
-                            </div>
-                            <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-gray-50/80 backdrop-blur-sm justify-center sm:justify-start">
-                                <FaHourglassHalf className="text-gray-400 flex-shrink-0" />
-                                <span className="text-xs sm:text-sm font-medium text-gray-600 whitespace-nowrap">Not Cleared</span>
-                            </div>
+                    <InfoCard
+                        icon={FaMapMarkerAlt}
+                        title="Block Status Legend"
+                        variant="primary"
+                        showInfoBadge={false}
+                    >
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-3">
+                            {[
+                                { icon: FaTree, label: 'Planted', variant: 'secondary' as const },
+                                { icon: FaTractor, label: 'Plowed', variant: 'accent' as const },
+                                { icon: FaSeedling, label: 'Cleared', variant: 'primary' as const },
+                                { icon: FaHourglassHalf, label: 'Not Cleared', variant: 'primary' as const },
+                            ].map((item, idx) => (
+                                <div key={idx} className="flex items-center gap-2 px-3 py-2 rounded-xl bg-white/50 backdrop-blur-sm">
+                                    <item.icon className="text-primary flex-shrink-0" />
+                                    <span className="text-xs sm:text-sm font-medium text-gray-700">{item.label}</span>
+                                </div>
+                            ))}
                         </div>
-                        {/* Instruction - full width on mobile, separate row */}
-                        <div className="flex items-center justify-center gap-2 px-3 py-2 rounded-xl bg-primary/5 backdrop-blur-sm w-full sm:w-auto sm:mt-0">
+                        <div className="flex items-center justify-center gap-2 mt-4 px-3 py-2 rounded-xl bg-primary/5 backdrop-blur-sm">
                             <FaCheckCircle className="text-primary flex-shrink-0" />
                             <span className="text-xs sm:text-sm text-primary font-medium text-center">Click any block for details</span>
                         </div>
-                    </div>
+                    </InfoCard>
                 </motion.div>
 
-                {/* Farm Overview Panel */}
+                {/* Farm Overview Panel - Using InfoCard */}
                 <motion.div
-                    className="relative overflow-hidden rounded-2xl mb-6 transition-all duration-500"
-                    style={{
-                        background: 'linear-gradient(135deg, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.6) 50%, rgba(255,255,255,0.75) 100%)',
-                        border: '1px solid rgba(255,255,255,0.5)',
-                        boxShadow: '0 4px 20px rgba(165, 105, 66, 0.08), inset 0 1px 0 rgba(255,255,255,0.6)'
-                    }}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.2 }}
+                    className="mt-6"
                 >
-                    <div className="absolute -bottom-6 -left-6 w-24 h-24 rounded-full opacity-10 blur-2xl"
-                         style={{ background: 'radial-gradient(circle, rgba(165,105,66,0.4) 0%, transparent 70%)' }}
-                    />
-                    <div className="relative z-10 p-5">
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+                    <InfoCard
+                        icon={FaChartLine}
+                        title="Farm Overview"
+                        variant="accent"
+                        showInfoBadge={false}
+                    >
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-3 text-center">
                             {[
-                                { label: 'Total Area', value: '35 ha', icon: '📐' },
-                                { label: 'Total Trees', value: '3,500', icon: '🌳' },
-                                { label: 'Block Size', value: '100m × 100m', icon: '📏' },
-                                { label: 'Tree Spacing', value: '10m × 10m', icon: '📋' },
+                                { label: 'Total Area', value: '35 ha', icon: FaMapMarkerAlt },
+                                { label: 'Total Trees', value: '3,500', icon: FaTree },
+                                { label: 'Block Size', value: '100m × 100m', icon: FaTasks },
+                                { label: 'Tree Spacing', value: '10m × 10m', icon: FaSeedling },
                             ].map((item, idx) => (
-                                <div key={idx} className="p-3 rounded-xl bg-white/40 backdrop-blur-sm">
-                                    <div className="text-2xl mb-1">{item.icon}</div>
+                                <div key={idx} className="p-3 rounded-xl bg-white/50 backdrop-blur-sm">
+                                    <item.icon className="text-primary text-xl mx-auto mb-1" />
                                     <div className="text-lg font-bold text-primary">{item.value}</div>
                                     <div className="text-xs text-gray-500">{item.label}</div>
                                 </div>
                             ))}
                         </div>
-                    </div>
+                    </InfoCard>
                 </motion.div>
 
                 {/* 5×7 Grid */}
                 <div className="overflow-x-auto pb-4">
-                    <div className="min-w-[700px] space-y-1">
+                    <div className="min-w-[750px] space-y-1">
+                        {/* Column Road Labels at Top */}
+                        <div className="flex gap-2 items-end">
+                            <div className="w-10"></div>
+                            {Array.from({ length: 7 }, (_, colIdx) => (
+                                <div key={colIdx} className="flex-1 flex flex-col items-center">
+                                    {/* Road name to the right of each column (except last) */}
+                                    {colIdx < 6 && (
+                                        <span className="text-[9px] text-gray-400 italic font-medium mb-1 whitespace-nowrap transform -rotate-30">
+                            {roadNames.vertical[colIdx]}
+                        </span>
+                                    )}
+                                    <div className="text-xs text-gray-500 font-bold">{colIdx + 1}</div>
+                                </div>
+                            ))}
+                        </div>
+
                         {grid.map((rowBlocks, rowIdx) => (
                             <React.Fragment key={rowIdx}>
-                                {/* Road label between rows */}
+                                {/* Horizontal road label between rows */}
                                 {rowIdx > 0 && (
                                     <div className="flex items-center gap-2 py-1">
                                         <div className="w-10"></div>
@@ -296,83 +299,64 @@ const BlockMap: React.FC = () => {
                                         {rows[rowIdx]}
                                     </div>
 
-                            {/* Blocks in Row */}
-                            <div className="flex-1 grid grid-cols-7 gap-2">
-                                {Array.from({ length: 7 }, (_, colIdx) => {
-                                    const block = rowBlocks[colIdx];
-                                    if (!block) {
-                                        return (
-                                            <div key={colIdx} className="aspect-square rounded-xl bg-gray-100/50 backdrop-blur-sm flex items-center justify-center text-gray-300 border border-dashed border-gray-200 text-xs">
-                                                Empty
-                                            </div>
-                                        );
-                                    }
-
-                                    const colors = getStatusColor(block.status);
-
-                                    return (
-                                        <motion.div
-                                            key={block.id}
-                                            whileHover={{ scale: 1.08, y: -6 }}
-                                            whileTap={{ scale: 0.95 }}
-                                            onClick={() => setSelectedBlock(block)}
-                                            className={`aspect-square rounded-xl cursor-pointer transition-all shadow-md hover:shadow-2xl p-2 flex flex-col items-center justify-center relative overflow-hidden bg-gradient-to-br ${colors.bg} border-2 ${colors.border}`}
-                                            style={{
-                                                transformStyle: 'preserve-3d',
-                                                perspective: '1000px',
-                                            }}
-                                        >
-                                            {/* Glassy overlay */}
-                                            <div className="absolute inset-0 rounded-xl bg-gradient-to-b from-white/20 to-transparent opacity-50" />
-                                            {/* Inner highlight */}
-                                            <div className="absolute inset-0 rounded-xl shadow-[inset_0_1px_4px_rgba(255,255,255,0.5)]" />
-
-                                            <div className="relative z-10 flex flex-col items-center">
-                                                <div className="text-sm font-bold text-gray-800">{block.blockName}</div>
-                                                <div className={`text-xl my-1 p-1.5 rounded-full ${colors.icon}`}>
-                                                    {getStatusIcon(block.status)}
-                                                </div>
-                                                {block.status === 'PLANTED' && (
-                                                    <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${colors.badge}`}>
-                                                        {block.survivalRate?.toFixed(0)}%
-                                                    </span>
-                                                )}
-                                            </div>
-                                            {/* Infrastructure Markers */}
-                                            {block.blockName === 'A1' && (
-                                                <div className="absolute -top-1 -right-1 bg-red-100 rounded-full p-0.5 animate-pulse"
-                                                     title="Guard Post (SW corner)">
-                                                    <span className="text-[8px]">🏠</span>
-                                                </div>
-                                            )}
-                                            {block.blockName === 'C4' && (
-                                                <div className="absolute -top-1 -right-1 bg-blue-100 rounded-full p-0.5"
-                                                     title="Water Tank & Borehole (center)">
-                                                    <span className="text-[8px]">💧</span>
-                                                </div>
-                                            )}
-                                        </motion.div>
-                                    );
-                                })}
-                            </div>
-                        </div>
-                            </React.Fragment>
-                    ))}
-                                {/* Column labels at bottom */}
-                                <div className="flex gap-2 items-center mt-2">
-                                    <div className="w-10"></div>
+                                    {/* Blocks in Row */}
                                     <div className="flex-1 grid grid-cols-7 gap-2">
-                                        {roadNames.vertical.map((name, idx) => (
-                                            <div key={idx} className="text-center">
-                        <span className="text-[10px] text-gray-400 italic font-medium block transform -rotate-45 origin-left whitespace-nowrap">
-                            {name}
-                        </span>
-                                            </div>
-                                        ))}
+                                        {Array.from({ length: 7 }, (_, colIdx) => {
+                                            const block = rowBlocks[colIdx];
+                                            if (!block) {
+                                                return (
+                                                    <div key={colIdx} className="aspect-square rounded-xl bg-gray-100/50 backdrop-blur-sm flex items-center justify-center text-gray-300 border border-dashed border-gray-200 text-xs">
+                                                        Empty
+                                                    </div>
+                                                );
+                                            }
+
+                                            const colors = getStatusColor(block.status);
+
+                                            return (
+                                                <motion.div
+                                                    key={block.id}
+                                                    whileHover={{ scale: 1.08, y: -6 }}
+                                                    whileTap={{ scale: 0.95 }}
+                                                    onClick={() => setSelectedBlock(block)}
+                                                    className={`aspect-square rounded-xl cursor-pointer transition-all shadow-md hover:shadow-2xl p-2 flex flex-col items-center justify-center relative overflow-hidden bg-gradient-to-br ${colors.bg} border-2 ${colors.border}`}
+                                                    style={{
+                                                        transformStyle: 'preserve-3d',
+                                                        perspective: '1000px',
+                                                    }}
+                                                >
+                                                    <div className="absolute inset-0 rounded-xl bg-gradient-to-b from-white/20 to-transparent opacity-50" />
+                                                    <div className="absolute inset-0 rounded-xl shadow-[inset_0_1px_4px_rgba(255,255,255,0.5)]" />
+
+                                                    <div className="relative z-10 flex flex-col items-center">
+                                                        <div className="text-sm font-bold text-gray-800">{block.blockName}</div>
+                                                        <div className={`text-xl my-1 p-1.5 rounded-full ${colors.icon}`}>
+                                                            {getStatusIcon(block.status)}
+                                                        </div>
+                                                        {block.status === 'PLANTED' && (
+                                                            <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${colors.badge}`}>
+                                                {block.survivalRate?.toFixed(0)}%
+                                            </span>
+                                                        )}
+                                                        {/* Infrastructure Markers */}
+                                                        {block.blockName === 'A1' && (
+                                                            <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-pulse"
+                                                                 title="Guard Post (SW corner)" />
+                                                        )}
+                                                        {block.blockName === 'C4' && (
+                                                            <div className="absolute -top-1 -right-1 w-3 h-3 bg-blue-500 rounded-full"
+                                                                 title="Water Tank & Borehole (center)" />
+                                                        )}
+                                                    </div>
+                                                </motion.div>
+                                            );
+                                        })}
                                     </div>
                                 </div>
+                            </React.Fragment>
+                        ))}
+                    </div>
                 </div>
-            </div>
 
             {/* Summary Stats */}
             <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -477,44 +461,80 @@ const BlockMap: React.FC = () => {
                 </motion.div>
             )}
 
-                {/* Road Map Reference */}
-                <details className="mt-6 group">
-                    <summary className="cursor-pointer text-sm text-primary font-medium hover:text-accent transition-colors flex items-center gap-2">
-                        <FaMapMarkerAlt className="text-accent" />
-                        View Road Map & Access Network
-                    </summary>
-                    <div className="mt-3 p-4 rounded-xl bg-white/40 backdrop-blur-sm border border-white/30 text-sm space-y-2">
-                        <p className="font-semibold text-primary">North ↔ South (Vertical) Roads:</p>
-                        <ul className="list-disc pl-5 text-gray-600 space-y-1">
-                            <li>Harvest Drive (East edge)</li>
-                            <li>Sunrise Drive</li>
-                            <li>Heritage Drive</li>
-                            <li>Unity Drive</li>
-                            <li>Prosperity Drive (West edge)</li>
-                        </ul>
-                        <p className="font-semibold text-primary mt-3">West ↔ East (Horizontal) Roads:</p>
-                        <ul className="list-disc pl-5 text-gray-600 space-y-1">
-                            <li>Farmers Branch (South edge)</li>
-                            <li>Farmers Lane</li>
-                            <li>Farmers Parkway</li>
-                            <li>Farmers Trail</li>
-                            <li>Farmers Crest (North edge)</li>
-                        </ul>
-                        <p className="font-semibold text-primary mt-3">Perimeter:</p>
-                        <p className="text-gray-600 pl-5">AfriNuts Main Loop (encircles entire farm)</p>
-                        <div className="mt-3 flex flex-wrap gap-2">
+                {/* Road Map Reference - Using InfoCard */}
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: 0.3 }}
+                    className="mt-6"
+                >
+                    <InfoCard
+                        icon={FaMapMarkerAlt}
+                        title="Road Map & Access Network"
+                        variant="primary"
+                        showInfoBadge={false}
+                    >
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
+                            {/* Vertical Roads */}
+                            <div className="p-3 rounded-xl bg-white/50 backdrop-blur-sm">
+                                <p className="font-semibold text-primary text-sm mb-2">North ↔ South (Vertical)</p>
+                                <ul className="space-y-1">
+                                    {[
+                                        'Harvest Drive (East edge)',
+                                        'Sunrise Drive',
+                                        'Heritage Drive',
+                                        'Unity Drive',
+                                        'Prosperity Drive',
+                                        'Cashew Creek Drive (West edge)',
+                                    ].map((road, idx) => (
+                                        <li key={idx} className="text-xs text-gray-600 flex items-center gap-2">
+                                            <span className="w-1 h-1 bg-primary rounded-full flex-shrink-0"></span>
+                                            {road}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+
+                            {/* Horizontal Roads */}
+                            <div className="p-3 rounded-xl bg-white/50 backdrop-blur-sm">
+                                <p className="font-semibold text-primary text-sm mb-2">West ↔ East (Horizontal)</p>
+                                <ul className="space-y-1">
+                                    {[
+                                        'Farmers Branch (South edge)',
+                                        'Farmers Lane',
+                                        'Farmers Parkway',
+                                        'Farmers Trail',
+                                        'Farmers Crest (North edge)',
+                                    ].map((road, idx) => (
+                                        <li key={idx} className="text-xs text-gray-600 flex items-center gap-2">
+                                            <span className="w-1 h-1 bg-accent rounded-full flex-shrink-0"></span>
+                                            {road}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        </div>
+
+                        {/* Perimeter */}
+                        <div className="mt-3 p-3 rounded-xl bg-primary/5 backdrop-blur-sm">
+                            <p className="font-semibold text-primary text-sm">Perimeter</p>
+                            <p className="text-xs text-gray-600">AfriNuts Main Loop (encircles entire farm)</p>
+                        </div>
+
+                        {/* Infrastructure Markers */}
+                        <div className="mt-3 flex flex-wrap gap-3">
                             {[
                                 { color: 'bg-red-500', label: 'Guard Post (SW corner)' },
                                 { color: 'bg-blue-500', label: 'Water Tank & Borehole (center)' },
                             ].map((marker, idx) => (
-                                <span key={idx} className="inline-flex items-center gap-1.5 text-xs text-gray-600">
+                                <span key={idx} className="inline-flex items-center gap-1.5 text-xs text-gray-600 bg-white/50 backdrop-blur-sm px-2 py-1 rounded-full">
                     <span className={`w-2.5 h-2.5 ${marker.color} rounded-full`}></span>
                                     {marker.label}
                 </span>
                             ))}
                         </div>
-                    </div>
-                </details>
+                    </InfoCard>
+                </motion.div>
 
                 {/* End-of-page CTA */}
                 <Section className="py-10">
