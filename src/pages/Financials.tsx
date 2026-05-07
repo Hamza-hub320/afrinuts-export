@@ -491,46 +491,83 @@ const Financials: React.FC = () => {
                     </motion.div>
                 )}
 
-                {/* ROI Insights */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                    <div className="bg-green-50/50 backdrop-blur-sm rounded-xl p-4 text-center border border-green-200">
-                        <div className="text-xs text-gray-500 mb-1">Highest Profit</div>
-                        <div className="text-lg font-bold text-green-700">
-                            {revenueByBlock.length > 0 ? revenueByBlock[0].blockName : '—'}
-                        </div>
-                        <div className="text-sm text-green-600">
-                            {revenueByBlock.length > 0
-                                ? new Intl.NumberFormat('fr-FR').format(revenueByBlock[0].profit) + ' FCFA'
-                                : '—'}
-                        </div>
-                    </div>
-                    <div className="bg-blue-50/50 backdrop-blur-sm rounded-xl p-4 text-center border border-blue-200">
-                        <div className="text-xs text-gray-500 mb-1">Best ROI</div>
-                        <div className="text-lg font-bold text-blue-700">
-                            {revenueByBlock.length > 0
-                                ? [...revenueByBlock].sort((a, b) => b.roi - a.roi)[0].blockName
-                                : '—'}
-                        </div>
-                        <div className="text-sm text-blue-600">
-                            {revenueByBlock.length > 0
-                                ? [...revenueByBlock].sort((a, b) => b.roi - a.roi)[0].roi.toFixed(0) + '%'
-                                : '—'}
-                        </div>
-                    </div>
-                    <div className="bg-amber-50/50 backdrop-blur-sm rounded-xl p-4 text-center border border-amber-200">
-                        <div className="text-xs text-gray-500 mb-1">Needs Attention</div>
-                        <div className="text-lg font-bold text-amber-700">
-                            {revenueByBlock.length > 0
-                                ? revenueByBlock[revenueByBlock.length - 1].blockName
-                                : '—'}
-                        </div>
-                        <div className="text-sm text-amber-600">Lowest profit block</div>
-                    </div>
-                </div>
-
                 {/* Revenue Table - Block Summary View */}
                 {viewMode === 'blocks' && (
                     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
+                        {/* ROI Insights */}
+                        <GlassCard className="mb-6">
+                            <div className="flex items-center gap-2 mb-4">
+                                <FaChartLine className="text-accent text-xl" />
+                                <Typography variant="h5" className="text-primary">Block Performance Insights</Typography>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <motion.div
+                                    className="relative overflow-hidden rounded-xl p-4 text-center border transition-all duration-300 hover:shadow-md"
+                                    style={{
+                                        background: 'linear-gradient(135deg, rgba(34,197,94,0.08) 0%, rgba(34,197,94,0.03) 100%)',
+                                        borderColor: 'rgba(34,197,94,0.3)'
+                                    }}
+                                    whileHover={{ y: -2, scale: 1.02 }}
+                                >
+                                    <div className="absolute -top-6 -right-6 w-16 h-16 rounded-full opacity-20 blur-2xl"
+                                         style={{ background: 'radial-gradient(circle, rgba(34,197,94,0.5) 0%, transparent 70%)' }}
+                                    />
+                                    <div className="text-xs text-gray-500 mb-1 uppercase tracking-wide">Highest Profit</div>
+                                    <div className="text-lg font-bold text-green-700">
+                                        {revenueByBlock.length > 0 ? revenueByBlock[0].blockName : '—'}
+                                    </div>
+                                    <div className="text-sm text-green-600 font-medium">
+                                        {revenueByBlock.length > 0
+                                            ? new Intl.NumberFormat('fr-FR').format(revenueByBlock[0].profit) + ' FCFA'
+                                            : '—'}
+                                    </div>
+                                </motion.div>
+
+                                <motion.div
+                                    className="relative overflow-hidden rounded-xl p-4 text-center border transition-all duration-300 hover:shadow-md"
+                                    style={{
+                                        background: 'linear-gradient(135deg, rgba(59,130,246,0.08) 0%, rgba(59,130,246,0.03) 100%)',
+                                        borderColor: 'rgba(59,130,246,0.3)'
+                                    }}
+                                    whileHover={{ y: -2, scale: 1.02 }}
+                                >
+                                    <div className="absolute -top-6 -right-6 w-16 h-16 rounded-full opacity-20 blur-2xl"
+                                         style={{ background: 'radial-gradient(circle, rgba(59,130,246,0.5) 0%, transparent 70%)' }}
+                                    />
+                                    <div className="text-xs text-gray-500 mb-1 uppercase tracking-wide">Best ROI</div>
+                                    <div className="text-lg font-bold text-blue-700">
+                                        {revenueByBlock.length > 0
+                                            ? [...revenueByBlock].sort((a, b) => b.roi - a.roi)[0].blockName
+                                            : '—'}
+                                    </div>
+                                    <div className="text-sm text-blue-600 font-medium">
+                                        {revenueByBlock.length > 0
+                                            ? [...revenueByBlock].sort((a, b) => b.roi - a.roi)[0].roi.toFixed(0) + '%'
+                                            : '—'}
+                                    </div>
+                                </motion.div>
+
+                                <motion.div
+                                    className="relative overflow-hidden rounded-xl p-4 text-center border transition-all duration-300 hover:shadow-md"
+                                    style={{
+                                        background: 'linear-gradient(135deg, rgba(245,158,11,0.08) 0%, rgba(245,158,11,0.03) 100%)',
+                                        borderColor: 'rgba(245,158,11,0.3)'
+                                    }}
+                                    whileHover={{ y: -2, scale: 1.02 }}
+                                >
+                                    <div className="absolute -top-6 -right-6 w-16 h-16 rounded-full opacity-20 blur-2xl"
+                                         style={{ background: 'radial-gradient(circle, rgba(245,158,11,0.5) 0%, transparent 70%)' }}
+                                    />
+                                    <div className="text-xs text-gray-500 mb-1 uppercase tracking-wide">Needs Attention</div>
+                                    <div className="text-lg font-bold text-amber-700">
+                                        {revenueByBlock.length > 0
+                                            ? revenueByBlock[revenueByBlock.length - 1].blockName
+                                            : '—'}
+                                    </div>
+                                    <div className="text-sm text-amber-600 font-medium">Lowest profit block</div>
+                                </motion.div>
+                            </div>
+                        </GlassCard>
                         <GlassCard className="mb-8">
                             <div className="flex items-center gap-2 mb-4">
                                 <FaBorderAll className="text-primary text-xl" />
