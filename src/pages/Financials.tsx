@@ -28,7 +28,10 @@ const BLOCK_NAMES: { [key: number]: string } = {
 interface RevenueByBlock {
     blockId: number;
     blockName: string;
-    totalAmount: number;
+    totalRevenue: number;
+    totalExpenses: number;
+    profit: number;
+    roi: number;
     transactionCount: number;
     quality: string;
 }
@@ -74,55 +77,72 @@ const Financials: React.FC = () => {
     const ITEMS_PER_PAGE = 5;
 
     useEffect(() => {
-        const fetchFinancials = async () => {
-            try {
-                let revenueData, expenseData;
-                if (isDevelopment) {
-                    revenueData = await getMockData('getRevenueSummary');
-                    expenseData = await getMockData('getExpenseSummary');
-                } else {
-                    revenueData = await callApi('farmData', { action: 'getRevenueSummary', farmId: '1' });
-                    expenseData = await callApi('farmData', { action: 'getExpenseSummary', farmId: '1' });
-                }
-
-                const revenuesList = revenueData.revenues || [];
-                setRevenues(revenuesList);
-                setExpenses(expenseData.expenses || []);
-
-                // Calculate revenue by block
-                const blockMap = new Map<number, RevenueByBlock>();
-                revenuesList.forEach((revenue: RevenueTransaction) => {
-                    if (revenue.blockId) {
-                        const existing = blockMap.get(revenue.blockId);
-                        const blockName = BLOCK_NAMES[revenue.blockId] || `Block ${revenue.blockId}`;
-                        if (existing) {
-                            existing.totalAmount += revenue.totalAmount;
-                            existing.transactionCount++;
-                        } else {
-                            blockMap.set(revenue.blockId, {
-                                blockId: revenue.blockId,
-                                blockName: blockName,
-                                totalAmount: revenue.totalAmount,
-                                transactionCount: 1,
-                                quality: revenue.quality,
-                            });
-                        }
+            const fetchFinancials = async () => {
+                try {
+                    let revenueData, expenseData;
+                    if (isDevelopment) {
+                        revenueData = await getMockData('getRevenueSummary');
+                        expenseData = await getMockData('getExpenseSummary');
+                    } else {
+                        revenueData = await callApi('farmData', { action: 'getRevenueSummary', farmId: '1' });
+                        expenseData = await callApi('farmData', { action: 'getExpenseSummary', farmId: '1' });
                     }
-                });
 
-                // Convert to array and sort by revenue (highest first)
-                const blockRevenueArray = Array.from(blockMap.values())
-                    .sort((a, b) => b.totalAmount - a.totalAmount);
-                setRevenueByBlock(blockRevenueArray);
+                    const revenuesList = revenueData.revenues || [];
+                    const expensesList = expenseData.expenses || [];
+                    setRevenues(revenuesList);
+                    setExpenses(expensesList);
 
-            } catch (error) {
-                console.error('Error fetching financials:', error);
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchFinancials();
-    }, []);
+                    // Calculate revenue AND expenses by block
+                    const blockMap = new Map<number, any>();
+
+                    // Process revenues
+                    revenuesList.forEach((revenue: any) => {
+                        if (revenue.blockId) {
+                            if (!blockMap.has(revenue.blockId)) {
+                                blockMap.set(revenue.blockId, {
+                                    blockId: revenue.blockId,
+                                    blockName: BLOCK_NAMES[revenue.blockId] || `Block ${revenue.blockId}`,
+                                    totalRevenue: 0,
+                                    totalExpenses: 0,
+                                    transactionCount: 0,
+                                    quality: revenue.quality,
+                                });
+                            }
+                            const block = blockMap.get(revenue.blockId);
+                            block.totalRevenue += revenue.totalAmount || 0;
+                            block.transactionCount++;
+                        }
+                    });
+
+                    // Process expenses tied to blocks
+                    expensesList.forEach((expense: any) => {
+                        if (expense.blockId && blockMap.has(expense.blockId)) {
+                            blockMap.get(expense.blockId).totalExpenses += expense.amount || 0;
+                        }
+                    });
+
+                    // Convert to array and calculate profit
+                    const blockRevenueArray = Array.from(blockMap.values())
+                        .map(block => ({
+                            ...block,
+                            profit: block.totalRevenue - block.totalExpenses,
+                            roi: block.totalExpenses > 0
+                                ? ((block.totalRevenue - block.totalExpenses) / block.totalExpenses * 100)
+                                : 100
+                        }))
+                        .sort((a, b) => b.profit - a.profit);
+
+                    setRevenueByBlock(blockRevenueArray);
+
+                } catch (error) {
+                    console.error('Error fetching financials:', error);
+                } finally {
+                    setLoading(false);
+                }
+            };
+            fetchFinancials();
+        }, []);
 
     const totalRevenue = revenues.reduce((sum: number, r: any) => sum + (r.totalAmount || 0), 0);
     const totalExpenses = expenses.reduce((sum: number, e: any) => sum + (e.amount || 0), 0);
@@ -138,7 +158,7 @@ const Financials: React.FC = () => {
     // Revenue by block chart data
     const blockChartData = revenueByBlock.slice(0, 10).map(block => ({
         name: block.blockName,
-        revenue: block.totalAmount,
+        revenue: block.totalRevenue,
         transactions: block.transactionCount,
     }));
 
@@ -317,7 +337,7 @@ const Financials: React.FC = () => {
                                         >
                                             <div className="text-lg font-bold text-primary">{block.blockName}</div>
                                             <div className="text-sm font-semibold text-gray-800 mt-1">
-                                                {new Intl.NumberFormat('fr-FR').format(block.totalAmount)} FCFA
+                                                {new Intl.NumberFormat('fr-FR').format(block.totalRevenue)} FCFA
                                             </div>
                                             <div className="text-xs text-gray-500 mt-1">
                                                 {block.transactionCount} transaction{block.transactionCount !== 1 ? 's' : ''}
@@ -471,13 +491,50 @@ const Financials: React.FC = () => {
                     </motion.div>
                 )}
 
+                {/* ROI Insights */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                    <div className="bg-green-50/50 backdrop-blur-sm rounded-xl p-4 text-center border border-green-200">
+                        <div className="text-xs text-gray-500 mb-1">Highest Profit</div>
+                        <div className="text-lg font-bold text-green-700">
+                            {revenueByBlock.length > 0 ? revenueByBlock[0].blockName : '—'}
+                        </div>
+                        <div className="text-sm text-green-600">
+                            {revenueByBlock.length > 0
+                                ? new Intl.NumberFormat('fr-FR').format(revenueByBlock[0].profit) + ' FCFA'
+                                : '—'}
+                        </div>
+                    </div>
+                    <div className="bg-blue-50/50 backdrop-blur-sm rounded-xl p-4 text-center border border-blue-200">
+                        <div className="text-xs text-gray-500 mb-1">Best ROI</div>
+                        <div className="text-lg font-bold text-blue-700">
+                            {revenueByBlock.length > 0
+                                ? [...revenueByBlock].sort((a, b) => b.roi - a.roi)[0].blockName
+                                : '—'}
+                        </div>
+                        <div className="text-sm text-blue-600">
+                            {revenueByBlock.length > 0
+                                ? [...revenueByBlock].sort((a, b) => b.roi - a.roi)[0].roi.toFixed(0) + '%'
+                                : '—'}
+                        </div>
+                    </div>
+                    <div className="bg-amber-50/50 backdrop-blur-sm rounded-xl p-4 text-center border border-amber-200">
+                        <div className="text-xs text-gray-500 mb-1">Needs Attention</div>
+                        <div className="text-lg font-bold text-amber-700">
+                            {revenueByBlock.length > 0
+                                ? revenueByBlock[revenueByBlock.length - 1].blockName
+                                : '—'}
+                        </div>
+                        <div className="text-sm text-amber-600">Lowest profit block</div>
+                    </div>
+                </div>
+
                 {/* Revenue Table - Block Summary View */}
                 {viewMode === 'blocks' && (
                     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
                         <GlassCard className="mb-8">
                             <div className="flex items-center gap-2 mb-4">
                                 <FaBorderAll className="text-primary text-xl" />
-                                <Typography variant="h4" className="text-primary">Revenue by Block (Summary)</Typography>
+                                <Typography variant="h4" className="text-primary">Block Profit & Loss</Typography>
                             </div>
                             <div className="overflow-x-auto">
                                 <table className="w-full text-sm">
@@ -485,8 +542,10 @@ const Financials: React.FC = () => {
                                     <tr className="border-b border-gray-200 text-left">
                                         <th className="pb-3 font-medium text-gray-600">Rank</th>
                                         <th className="pb-3 font-medium text-gray-600">Block</th>
-                                        <th className="pb-3 font-medium text-gray-600 text-right">Total Revenue</th>
-                                        <th className="pb-3 font-medium text-gray-600 text-center">Transactions</th>
+                                        <th className="pb-3 font-medium text-gray-600 text-right">Revenue</th>
+                                        <th className="pb-3 font-medium text-gray-600 text-right">Expenses</th>
+                                        <th className="pb-3 font-medium text-gray-600 text-right">Profit</th>
+                                        <th className="pb-3 font-medium text-gray-600 text-center">ROI</th>
                                         <th className="pb-3 font-medium text-gray-600">Quality</th>
                                     </tr>
                                     </thead>
@@ -506,16 +565,28 @@ const Financials: React.FC = () => {
                                                 {idx > 2 && `${idx + 1}`}
                                             </td>
                                             <td className="py-3 font-medium">{block.blockName}</td>
-                                            <td className="py-3 text-right font-medium text-primary">
-                                                {new Intl.NumberFormat('fr-FR').format(block.totalAmount)} FCFA
+                                            <td className="py-3 text-right text-green-700">
+                                                {new Intl.NumberFormat('fr-FR').format(block.totalRevenue)}
+                                            </td>
+                                            <td className="py-3 text-right text-red-600">
+                                                {new Intl.NumberFormat('fr-FR').format(block.totalExpenses)}
+                                            </td>
+                                            <td className="py-3 text-right font-bold text-primary">
+                                                {new Intl.NumberFormat('fr-FR').format(block.profit)}
                                             </td>
                                             <td className="py-3 text-center">
-                                                    <span className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full">
-                                                        {block.transactionCount}
-                                                    </span>
+                                    <span className={`px-2 py-1 text-xs rounded-full font-medium ${
+                                        block.roi > 200 ? 'bg-green-100 text-green-700' :
+                                            block.roi > 100 ? 'bg-blue-100 text-blue-700' :
+                                                'bg-orange-100 text-orange-700'
+                                    }`}>
+                                        {block.roi.toFixed(0)}%
+                                    </span>
                                             </td>
                                             <td className="py-3">
-                                                <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-full">{block.quality}</span>
+                                    <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-full">
+                                        {block.quality}
+                                    </span>
                                             </td>
                                         </motion.tr>
                                     ))}
