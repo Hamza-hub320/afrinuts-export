@@ -86,18 +86,36 @@ const Login: React.FC = () => {
                         </Typography>
                     </div>
 
-                    {/* Login Card - Frosted Glass */}
+                    {/* Login Card - Frosted Glass with 3D Lift */}
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.3 }}
-                        className="relative overflow-hidden rounded-2xl backdrop-blur-lg transition-all duration-500"
+                        className="group relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 transition-all duration-500 rounded-2xl shadow-xl"
                         style={{
-                            background: 'linear-gradient(135deg, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.7) 50%, rgba(255,255,255,0.8) 100%)',
-                            border: '1px solid rgba(255,255,255,0.5)',
-                            boxShadow: '0 8px 32px rgba(165, 105, 66, 0.15), inset 0 1px 0 rgba(255,255,255,0.6), inset 0 -1px 0 rgba(0,0,0,0.05)',
+                            transformStyle: 'preserve-3d',
+                            perspective: '1000px',
+                        }}
+                        whileHover={{
+                            y: -8,
+                            scale: 1.03,
+                            rotateY: 2,
+                            boxShadow: '0 20px 35px -10px rgba(0, 0, 0, 0.25)',
+                            transition: { duration: 0.3 }
                         }}
                     >
+                        {/* 3D edge effect */}
+                        <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
+
+                        {/* Glassy overlay */}
+                        <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+
+                        {/* Inner shadow effect */}
+                        <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] group-hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
+
+                        {/* Subtle background pattern */}
+                        <div className="absolute inset-0 rounded-2xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
+
                         {/* Animated blobs inside card */}
                         <div
                             className="absolute -top-16 -right-16 w-32 h-32 rounded-full opacity-10 blur-2xl animate-pulse"
