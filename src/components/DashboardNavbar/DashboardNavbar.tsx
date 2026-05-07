@@ -15,7 +15,7 @@ const DashboardNavbar: React.FC = () => {
     const [scrolled, setScrolled] = useState(false);
     const [mobileOpen, setMobileOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
-    const [navbarHeight, setNavbarHeight] = useState(88);
+    const [navbarHeight, setNavbarHeight] = useState(80);
 
     useEffect(() => {
         const handleScroll = () => setScrolled(window.scrollY > 10);
@@ -40,23 +40,28 @@ const DashboardNavbar: React.FC = () => {
 
     useEffect(() => {
         const updatePosition = () => {
-            const mainNav = document.querySelector('nav.fixed');
+            const allNavs = document.querySelectorAll('nav.fixed');
+            const mainNav = Array.from(allNavs).find(
+                nav => nav instanceof HTMLElement &&
+                    parseInt(getComputedStyle(nav).zIndex) === 50
+            );
+
             if (mainNav) {
-                const height = mainNav.getBoundingClientRect().height;
-                setNavbarHeight(height + 8); // 8px for the top offset
+                const rect = mainNav.getBoundingClientRect();
+                setNavbarHeight(rect.bottom + 4);
+            } else {
+                setNavbarHeight(window.innerWidth < 640 ? 96 : 80);
             }
         };
 
-        // Check immediately
         updatePosition();
 
-        // And after a short delay for rendering
-        const timer = setTimeout(updatePosition, 100);
+        const timers = [50, 200, 500].map(delay => setTimeout(updatePosition, delay));
 
         window.addEventListener('resize', updatePosition);
         return () => {
             window.removeEventListener('resize', updatePosition);
-            clearTimeout(timer);
+            timers.forEach(clearTimeout);
         };
     }, []);
 
@@ -73,7 +78,8 @@ const DashboardNavbar: React.FC = () => {
     return (
         <nav
             ref={menuRef}
-            className="fixed top-[100px] left-1/2 -translate-x-1/2 z-40 transition-all duration-300 w-auto max-w-[95vw]"
+            className="fixed left-1/2 -translate-x-1/2 z-40 transition-all duration-300 w-auto max-w-[95vw]"
+            style={{ top: `${navbarHeight}px` }}
         >
             <div className={`relative bg-white/60 backdrop-blur-md border-2 border-white/40 shadow-lg mx-auto transition-all duration-300 rounded-2xl ${
                 scrolled ? 'shadow-xl bg-white/80 backdrop-blur-lg scale-[0.97]' : ''

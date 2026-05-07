@@ -226,8 +226,10 @@ const Navbar: React.FC = () => {
 
   const currentLanguage = languages.find(lang => lang.code === i18n.language) || languages[0];
 
+  const navRef = useRef<HTMLElement>(null);
+
   return (
-      <nav className={`fixed top-4 left-3 right-3 z-50 transition-all duration-300 ${scrolled ? 'scale-[0.98]' : ''}`}>
+      <nav ref={navRef} className={`fixed top-4 left-3 right-3 z-50 transition-all duration-300 ${scrolled ? 'scale-[0.98]' : ''}`}>
         <div className={`relative bg-white/60 backdrop-blur-md border-2 border-white/40 rounded-2xl shadow-lg mx-auto max-w-7xl transition-all duration-300 ${scrolled ? 'shadow-xl bg-white/80 backdrop-blur-lg' : ''}`}>
           <div className="flex justify-between items-center  h-15 px-3 sm:px-4 lg:px-6">
 
