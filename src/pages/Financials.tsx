@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import {FaDollarSign, FaChartLine, FaChartBar, FaChartPie, FaTable, FaBorderAll} from 'react-icons/fa';
+import { FaDollarSign, FaChartLine, FaChartBar, FaChartPie, FaTable, FaBorderAll, FaMapMarkerAlt, FaTrophy, FaMedal, FaAward } from 'react-icons/fa';
 import { Typography } from '@/components/Typography/Typography';
 import DashboardNavbar from '@/components/DashboardNavbar/DashboardNavbar';
 import { getMockData } from '../services/mockData';
@@ -15,6 +15,34 @@ import { useNavigate } from 'react-router-dom';
 
 const isDevelopment = import.meta.env.DEV;
 const COLORS = ['#5A7411', '#E04E00', '#A0C800', '#253746', '#698714'];
+
+// Add block name mapping
+const BLOCK_NAMES: { [key: number]: string } = {
+    1: 'A1', 2: 'A2', 3: 'A3', 4: 'A4', 5: 'A5', 6: 'A6', 7: 'A7',
+    8: 'B1', 9: 'B2', 10: 'B3', 11: 'B4', 12: 'B5', 13: 'B6', 14: 'B7',
+    15: 'C1', 16: 'C2', 17: 'C3', 18: 'C4', 19: 'C5', 20: 'C6', 21: 'C7',
+    22: 'D1', 23: 'D2', 24: 'D3', 25: 'D4', 26: 'D5', 27: 'D6', 28: 'D7',
+    29: 'E1', 30: 'E2', 31: 'E3', 32: 'E4', 33: 'E5', 34: 'E6', 35: 'E7',
+};
+
+interface RevenueByBlock {
+    blockId: number;
+    blockName: string;
+    totalAmount: number;
+    transactionCount: number;
+    quality: string;
+}
+
+interface RevenueTransaction {
+    id: number;
+    blockId: number;
+    totalAmount: number;
+    harvestDate: number;
+    quality: string;
+    quantityKg: number;
+    pricePerKg: number;
+    buyer?: string;
+}
 
 const GlassCard: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className = '' }) => (
     <motion.div
@@ -35,12 +63,14 @@ const GlassCard: React.FC<{ children: React.ReactNode; className?: string }> = (
 );
 
 const Financials: React.FC = () => {
-    const [revenues, setRevenues] = useState<any[]>([]);
+    const [revenues, setRevenues] = useState<RevenueTransaction[]>([]);
     const [expenses, setExpenses] = useState<any[]>([]);
+    const [revenueByBlock, setRevenueByBlock] = useState<RevenueByBlock[]>([]);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
     const [revenuePage, setRevenuePage] = useState(1);
     const [expensePage, setExpensePage] = useState(1);
+    const [viewMode, setViewMode] = useState<'transactions' | 'blocks'>('transactions');
     const ITEMS_PER_PAGE = 5;
 
     useEffect(() => {
@@ -54,8 +84,37 @@ const Financials: React.FC = () => {
                     revenueData = await callApi('farmData', { action: 'getRevenueSummary', farmId: '1' });
                     expenseData = await callApi('farmData', { action: 'getExpenseSummary', farmId: '1' });
                 }
-                setRevenues(revenueData.revenues || []);
+
+                const revenuesList = revenueData.revenues || [];
+                setRevenues(revenuesList);
                 setExpenses(expenseData.expenses || []);
+
+                // Calculate revenue by block
+                const blockMap = new Map<number, RevenueByBlock>();
+                revenuesList.forEach((revenue: RevenueTransaction) => {
+                    if (revenue.blockId) {
+                        const existing = blockMap.get(revenue.blockId);
+                        const blockName = BLOCK_NAMES[revenue.blockId] || `Block ${revenue.blockId}`;
+                        if (existing) {
+                            existing.totalAmount += revenue.totalAmount;
+                            existing.transactionCount++;
+                        } else {
+                            blockMap.set(revenue.blockId, {
+                                blockId: revenue.blockId,
+                                blockName: blockName,
+                                totalAmount: revenue.totalAmount,
+                                transactionCount: 1,
+                                quality: revenue.quality,
+                            });
+                        }
+                    }
+                });
+
+                // Convert to array and sort by revenue (highest first)
+                const blockRevenueArray = Array.from(blockMap.values())
+                    .sort((a, b) => b.totalAmount - a.totalAmount);
+                setRevenueByBlock(blockRevenueArray);
+
             } catch (error) {
                 console.error('Error fetching financials:', error);
             } finally {
@@ -75,6 +134,16 @@ const Financials: React.FC = () => {
         return acc;
     }, {});
     const pieData = Object.entries(expensesByCategory).map(([name, value]) => ({ name, value }));
+
+    // Revenue by block chart data
+    const blockChartData = revenueByBlock.slice(0, 10).map(block => ({
+        name: block.blockName,
+        revenue: block.totalAmount,
+        transactions: block.transactionCount,
+    }));
+
+    // Top 5 performing blocks
+    const topBlocks = revenueByBlock.slice(0, 5);
 
     if (loading) {
         return (
@@ -121,28 +190,6 @@ const Financials: React.FC = () => {
                         </Typography>
                     </motion.div>
                 </motion.div>
-            </Section>
-
-            {/* Summary Overview Section */}
-            <Section className="py-8">
-                <div className="w-full max-w-5xl mx-auto px-4 sm:px-6">
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={staggerContainer}
-                        className="text-center"
-                    >
-                        <motion.div variants={fadeIn}>
-                            <Typography variant="h2" className="mb-4 text-primary">
-                                Financial Performance at a Glance
-                            </Typography>
-                            <Typography variant="lead" className="text-text-dark max-w-3xl mx-auto mb-8">
-                                Below you'll find a complete breakdown of revenue streams, expense categories, and net profitability across our 35-hectare Odienné farm. Use the charts to identify trends and the tables to drill into individual transactions.
-                            </Typography>
-                        </motion.div>
-                    </motion.div>
-                </div>
             </Section>
 
             {/* Development Mode Indicator */}
@@ -201,7 +248,72 @@ const Financials: React.FC = () => {
                     </GlassCard>
                 </motion.div>
 
-                {/* Charts */}
+                {/* Revenue by Block Section */}
+                {revenueByBlock.length > 0 && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.15 }}
+                        className="mb-8"
+                    >
+                        <GlassCard>
+                            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+                                <div className="flex items-center gap-2">
+                                    <FaMapMarkerAlt className="text-accent text-xl" />
+                                    <Typography variant="h4" className="text-primary">Revenue by Block</Typography>
+                                </div>
+                                <div className="text-sm text-gray-500 bg-white/30 px-3 py-1 rounded-full">
+                                    {revenueByBlock.length} blocks have generated revenue
+                                </div>
+                            </div>
+
+                            {/* Bar Chart for Block Revenue */}
+                            <div className="mb-8">
+                                <ResponsiveContainer width="100%" height={350}>
+                                    <BarChart data={blockChartData} layout="vertical" margin={{ left: 40 }}>
+                                        <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                                        <XAxis type="number" tickFormatter={(value) => `${(value / 1000000).toFixed(0)}M`} />
+                                        <YAxis type="category" dataKey="name" stroke="#6b7280" width={50} />
+                                        <Tooltip formatter={(value) => `${new Intl.NumberFormat('fr-FR').format(Number(value))} FCFA`} />
+                                        <Bar dataKey="revenue" fill="#5A7411" radius={[0, 6, 6, 0]} />
+                                    </BarChart>
+                                </ResponsiveContainer>
+                            </div>
+
+                            {/* Top Performing Blocks Grid */}
+                            <div>
+                                <Typography variant="h5" className="text-primary mb-4">
+                                    <FaTrophy className="inline mr-2 text-yellow-500" />
+                                    Top Performing Blocks
+                                </Typography>
+                                <div className="grid grid-cols-1 md:grid-cols-5 gap-3">
+                                    {topBlocks.map((block, idx) => (
+                                        <motion.div
+                                            key={block.blockId}
+                                            className="bg-white/30 backdrop-blur-sm rounded-xl p-3 text-center hover:bg-white/40 transition-all"
+                                            whileHover={{ y: -2, scale: 1.02 }}
+                                        >
+                                            <div className="text-lg font-bold text-primary">{block.blockName}</div>
+                                            <div className="text-sm font-semibold text-gray-800 mt-1">
+                                                {new Intl.NumberFormat('fr-FR').format(block.totalAmount)} FCFA
+                                            </div>
+                                            <div className="text-xs text-gray-500 mt-1">
+                                                {block.transactionCount} transaction{block.transactionCount !== 1 ? 's' : ''}
+                                            </div>
+                                            <div className="mt-2">
+                                                <span className="px-2 py-0.5 bg-primary/10 text-primary text-xs rounded-full">
+                                                    {block.quality}
+                                                </span>
+                                            </div>
+                                        </motion.div>
+                                    ))}
+                                </div>
+                            </div>
+                        </GlassCard>
+                    </motion.div>
+                )}
+
+                {/* Charts - Revenue by Quality & Expenses by Category */}
                 <motion.div
                     className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8"
                     initial="hidden"
@@ -253,57 +365,149 @@ const Financials: React.FC = () => {
                     </GlassCard>
                 </motion.div>
 
-                {/* Revenue Table */}
-                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
-                    <GlassCard className="mb-8">
-                        <div className="flex items-center gap-2 mb-4">
-                            <FaTable className="text-primary text-xl" />
-                            <Typography variant="h4" className="text-primary">Revenue History</Typography>
-                        </div>
-                        <div className="overflow-x-auto">
-                            <table className="w-full text-sm">
-                                <thead>
-                                <tr className="border-b border-gray-200 text-left">
-                                    <th className="pb-3 font-medium text-gray-600">Date</th>
-                                    <th className="pb-3 font-medium text-gray-600">Quality</th>
-                                    <th className="pb-3 font-medium text-gray-600 text-right">Amount (FCFA)</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {revenues.slice(0, revenuePage * ITEMS_PER_PAGE).map((revenue: any, i: number) => (
-                                    <motion.tr
-                                        key={revenue.id}
-                                        className="border-b border-gray-100 last:border-0 hover:bg-white/30 transition-colors"
-                                        initial={{ opacity: 0, x: -10 }}
-                                        animate={{ opacity: 1, x: 0 }}
-                                        transition={{ delay: i * 0.05 }}
-                                    >
-                                        <td className="py-3">{new Date(revenue.harvestDate).toLocaleDateString()}</td>
-                                        <td className="py-3">
-                                            <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-full">{revenue.quality}</span>
-                                        </td>
-                                        <td className="py-3 text-right font-medium">
-                                            {new Intl.NumberFormat('fr-FR').format(revenue.totalAmount)}
-                                        </td>
-                                    </motion.tr>
-                                ))}
-                                </tbody>
-                            </table>
-                        </div>
-                        {revenues.length > revenuePage * ITEMS_PER_PAGE && (
-                            <div className="flex justify-center mt-4">
-                                <motion.button
-                                    onClick={() => setRevenuePage(p => p + 1)}
-                                    className="px-6 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium hover:bg-primary/20 transition-colors"
-                                    whileHover={{ y: -2, scale: 1.02 }}
-                                    whileTap={{ scale: 0.95 }}
-                                >
-                                    Load More ({revenues.length - revenuePage * ITEMS_PER_PAGE} remaining)
-                                </motion.button>
+                {/* View Toggle for Revenue Tables */}
+                <div className="flex justify-center gap-4 mb-6">
+                    <button
+                        onClick={() => setViewMode('transactions')}
+                        className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${
+                            viewMode === 'transactions'
+                                ? 'bg-primary text-white shadow-md'
+                                : 'bg-white/30 text-gray-600 hover:bg-white/50'
+                        }`}
+                    >
+                        <FaTable className="inline mr-2" />
+                        Transaction View
+                    </button>
+                    <button
+                        onClick={() => setViewMode('blocks')}
+                        className={`px-6 py-2 rounded-full text-sm font-medium transition-all ${
+                            viewMode === 'blocks'
+                                ? 'bg-primary text-white shadow-md'
+                                : 'bg-white/30 text-gray-600 hover:bg-white/50'
+                        }`}
+                    >
+                        <FaBorderAll className="inline mr-2" />
+                        Block Summary
+                    </button>
+                </div>
+
+                {/* Revenue Table - Transaction View */}
+                {viewMode === 'transactions' && (
+                    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
+                        <GlassCard className="mb-8">
+                            <div className="flex items-center gap-2 mb-4">
+                                <FaTable className="text-primary text-xl" />
+                                <Typography variant="h4" className="text-primary">Revenue History (Transaction View)</Typography>
                             </div>
-                        )}
-                    </GlassCard>
-                </motion.div>
+                            <div className="overflow-x-auto">
+                                <table className="w-full text-sm">
+                                    <thead>
+                                    <tr className="border-b border-gray-200 text-left">
+                                        <th className="pb-3 font-medium text-gray-600">Date</th>
+                                        <th className="pb-3 font-medium text-gray-600">Block</th>
+                                        <th className="pb-3 font-medium text-gray-600">Quality</th>
+                                        <th className="pb-3 font-medium text-gray-600 text-right">Amount (FCFA)</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {revenues.slice(0, revenuePage * ITEMS_PER_PAGE).map((revenue: any, i: number) => (
+                                        <motion.tr
+                                            key={revenue.id}
+                                            className="border-b border-gray-100 last:border-0 hover:bg-white/30 transition-colors"
+                                            initial={{ opacity: 0, x: -10 }}
+                                            animate={{ opacity: 1, x: 0 }}
+                                            transition={{ delay: i * 0.05 }}
+                                        >
+                                            <td className="py-3">{new Date(revenue.harvestDate).toLocaleDateString()}</td>
+                                            <td className="py-3">
+                                                {revenue.blockId ? BLOCK_NAMES[revenue.blockId] || `Block ${revenue.blockId}` : 'Processing Center'}
+                                            </td>
+                                            <td className="py-3">
+                                                <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-full">{revenue.quality}</span>
+                                            </td>
+                                            <td className="py-3 text-right font-medium">
+                                                {new Intl.NumberFormat('fr-FR').format(revenue.totalAmount)}
+                                            </td>
+                                        </motion.tr>
+                                    ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                            {revenues.length > revenuePage * ITEMS_PER_PAGE && (
+                                <div className="flex justify-center mt-4">
+                                    <motion.button
+                                        onClick={() => setRevenuePage(p => p + 1)}
+                                        className="px-6 py-2 bg-primary/10 text-primary rounded-full text-sm font-medium hover:bg-primary/20 transition-colors"
+                                        whileHover={{ y: -2, scale: 1.02 }}
+                                        whileTap={{ scale: 0.95 }}
+                                    >
+                                        Load More ({revenues.length - revenuePage * ITEMS_PER_PAGE} remaining)
+                                    </motion.button>
+                                </div>
+                            )}
+                        </GlassCard>
+                    </motion.div>
+                )}
+
+                {/* Revenue Table - Block Summary View */}
+                {viewMode === 'blocks' && (
+                    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
+                        <GlassCard className="mb-8">
+                            <div className="flex items-center gap-2 mb-4">
+                                <FaBorderAll className="text-primary text-xl" />
+                                <Typography variant="h4" className="text-primary">Revenue by Block (Summary)</Typography>
+                            </div>
+                            <div className="overflow-x-auto">
+                                <table className="w-full text-sm">
+                                    <thead>
+                                    <tr className="border-b border-gray-200 text-left">
+                                        <th className="pb-3 font-medium text-gray-600">Rank</th>
+                                        <th className="pb-3 font-medium text-gray-600">Block</th>
+                                        <th className="pb-3 font-medium text-gray-600 text-right">Total Revenue</th>
+                                        <th className="pb-3 font-medium text-gray-600 text-center">Transactions</th>
+                                        <th className="pb-3 font-medium text-gray-600">Quality</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {revenueByBlock.map((block, idx) => (
+                                        <motion.tr
+                                            key={block.blockId}
+                                            className="border-b border-gray-100 last:border-0 hover:bg-white/30 transition-colors"
+                                            initial={{ opacity: 0, x: -10 }}
+                                            animate={{ opacity: 1, x: 0 }}
+                                            transition={{ delay: idx * 0.03 }}
+                                        >
+                                            <td className="py-3 font-medium">
+                                                {idx === 0 && <FaTrophy className="text-yellow-500" />}
+                                                {idx === 1 && <FaMedal className="text-gray-400" />}
+                                                {idx === 2 && <FaAward className="text-amber-700" />}
+                                                {idx > 2 && `${idx + 1}`}
+                                            </td>
+                                            <td className="py-3 font-medium">{block.blockName}</td>
+                                            <td className="py-3 text-right font-medium text-primary">
+                                                {new Intl.NumberFormat('fr-FR').format(block.totalAmount)} FCFA
+                                            </td>
+                                            <td className="py-3 text-center">
+                                                    <span className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full">
+                                                        {block.transactionCount}
+                                                    </span>
+                                            </td>
+                                            <td className="py-3">
+                                                <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-full">{block.quality}</span>
+                                            </td>
+                                        </motion.tr>
+                                    ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                            {revenueByBlock.length === 0 && (
+                                <div className="text-center py-8 text-gray-400">
+                                    No block revenue data available yet.
+                                </div>
+                            )}
+                        </GlassCard>
+                    </motion.div>
+                )}
 
                 {/* Expenses Table */}
                 <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
@@ -375,8 +579,6 @@ const Financials: React.FC = () => {
                         >
                             <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px] hover:translate-z-[-10px] transition-all duration-500" />
                             <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40 hover:opacity-60 transition-opacity duration-500" />
-                            <div className="absolute inset-0 rounded-3xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
-                            <div className="absolute inset-0 rounded-3xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
                             <div className="relative z-10">
                                 <motion.div variants={fadeIn}>
                                     <Typography variant="h2" className="mb-6 text-primary">
