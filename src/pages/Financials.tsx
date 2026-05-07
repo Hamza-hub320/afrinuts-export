@@ -192,6 +192,28 @@ const Financials: React.FC = () => {
                 </motion.div>
             </Section>
 
+            {/* Summary Overview Section */}
+            <Section className="py-8">
+                <div className="w-full max-w-5xl mx-auto px-4 sm:px-6">
+                    <motion.div
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={staggerContainer}
+                        className="text-center"
+                    >
+                        <motion.div variants={fadeIn}>
+                            <Typography variant="h2" className="mb-4 text-primary">
+                                Financial Performance at a Glance
+                            </Typography>
+                            <Typography variant="lead" className="text-text-dark max-w-3xl mx-auto mb-8">
+                                Below you'll find a complete breakdown of revenue streams, expense categories, and net profitability across our 35-hectare Odienné farm. Use the charts to identify trends and the tables to drill into individual transactions.
+                            </Typography>
+                        </motion.div>
+                    </motion.div>
+                </div>
+            </Section>
+
             {/* Development Mode Indicator */}
             {isDevelopment && (
                 <div className="bg-yellow-100/80 backdrop-blur-sm border-b border-yellow-200">
