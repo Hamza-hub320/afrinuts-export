@@ -506,77 +506,75 @@ const InvestorPortal: React.FC = () => {
                                 </p>
                             </div>
                         </InfoCard>
+                        {/* Investment Returns Summary */}
+                        <InfoCard
+                            icon={FaDollarSign}
+                            title="Investment Returns"
+                            variant="primary"
+                            showInfoBadge={false}
+                        >
+                            <div className="space-y-4">
+                                {/* Revenue Multiple */}
+                                <div className="text-center p-3 bg-primary/5 rounded-xl">
+                                    <div className="text-xs text-gray-500 uppercase tracking-wide">Revenue Multiple</div>
+                                    <div className="text-3xl font-bold text-primary">
+                                        {(financials.totalExpenses > 0
+                                            ? (financials.totalRevenue / financials.totalExpenses)
+                                            : 0).toFixed(1)}x
+                                    </div>
+                                    <div className="text-xs text-gray-400 mt-1">
+                                        For every 1 FCFA spent, {financials.totalExpenses > 0
+                                        ? (financials.totalRevenue / financials.totalExpenses).toFixed(1)
+                                        : '—'} FCFA generated
+                                    </div>
+                                </div>
+                                {/* Profit Per Hectare Highlight */}
+                                <div className="grid grid-cols-2 gap-3">
+                                    <div className="text-center p-3 bg-green-50 rounded-xl">
+                                        <div className="text-xs text-gray-500">Profit/Ha</div>
+                                        <div className="text-xl font-bold text-green-700">
+                                            {new Intl.NumberFormat('fr-FR').format(
+                                                Math.round(financials.netProfit / blockCount)
+                                            )} FCFA
+                                        </div>
+                                    </div>
+                                    <div className="text-center p-3 bg-blue-50 rounded-xl">
+                                        <div className="text-xs text-gray-500">Avg Block ROI</div>
+                                        <div className="text-xl font-bold text-blue-700">
+                                            {revenueByBlock.length > 0
+                                                ? (revenueByBlock.reduce((sum, b) => sum + b.roi, 0) / revenueByBlock.filter(b => b.totalRevenue > 0).length || 1).toFixed(0)
+                                                : '—'}%
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Break-Even Insight */}
+                                <div className="p-3 bg-amber-50 rounded-lg">
+                                    <p className="text-sm text-gray-600">
+                                        <FaLightbulb className="inline mr-1 text-amber-500" />
+                                        <strong>Break-even:</strong> At current margins, each block needs{' '}
+                                        {financials.netProfit > 0
+                                            ? new Intl.NumberFormat('fr-FR').format(Math.round(financials.totalExpenses / (financials.netProfit / blockCount)))
+                                            : '—'}{' '}
+                                        harvests to recoup initial investment.
+                                    </p>
+                                </div>
+
+                                {/* Projected Payback */}
+                                <div className="text-center p-3 bg-primary/5 rounded-xl">
+                                    <div className="text-xs text-gray-500 uppercase tracking-wide">Projected Payback Period</div>
+                                    <div className="text-2xl font-bold text-primary">
+                                        {yearlyProjections.length > 1
+                                            ? `${yearlyProjections[1].year - new Date().getFullYear()}+ years`
+                                            : 'Calculating...'}
+                                    </div>
+                                    <div className="text-xs text-gray-400 mt-1">
+                                        Based on {yearlyProjections[1]?.growth}% projected growth
+                                    </div>
+                                </div>
+                            </div>
+                        </InfoCard>
                     </div>
-
-                    {/* Investment Returns Summary */}
-                    <InfoCard
-                        icon={FaDollarSign}
-                        title="Investment Returns"
-                        variant="primary"
-                        showInfoBadge={false}
-                    >
-                        <div className="space-y-4">
-                            {/* Revenue Multiple */}
-                            <div className="text-center p-3 bg-primary/5 rounded-xl">
-                                <div className="text-xs text-gray-500 uppercase tracking-wide">Revenue Multiple</div>
-                                <div className="text-3xl font-bold text-primary">
-                                    {(financials.totalExpenses > 0
-                                        ? (financials.totalRevenue / financials.totalExpenses)
-                                        : 0).toFixed(1)}x
-                                </div>
-                                <div className="text-xs text-gray-400 mt-1">
-                                    For every 1 FCFA spent, {financials.totalExpenses > 0
-                                    ? (financials.totalRevenue / financials.totalExpenses).toFixed(1)
-                                    : '—'} FCFA generated
-                                </div>
-                            </div>
-
-                            {/* Profit Per Hectare Highlight */}
-                            <div className="grid grid-cols-2 gap-3">
-                                <div className="text-center p-3 bg-green-50 rounded-xl">
-                                    <div className="text-xs text-gray-500">Profit/Ha</div>
-                                    <div className="text-xl font-bold text-green-700">
-                                        {new Intl.NumberFormat('fr-FR').format(
-                                            Math.round(financials.netProfit / blockCount)
-                                        )} FCFA
-                                    </div>
-                                </div>
-                                <div className="text-center p-3 bg-blue-50 rounded-xl">
-                                    <div className="text-xs text-gray-500">Avg Block ROI</div>
-                                    <div className="text-xl font-bold text-blue-700">
-                                        {revenueByBlock.length > 0
-                                            ? (revenueByBlock.reduce((sum, b) => sum + b.roi, 0) / revenueByBlock.filter(b => b.totalRevenue > 0).length || 1).toFixed(0)
-                                            : '—'}%
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Break-Even Insight */}
-                            <div className="p-3 bg-amber-50 rounded-lg">
-                                <p className="text-sm text-gray-600">
-                                    <FaLightbulb className="inline mr-1 text-amber-500" />
-                                    <strong>Break-even:</strong> At current margins, each block needs{' '}
-                                    {financials.netProfit > 0
-                                        ? new Intl.NumberFormat('fr-FR').format(Math.round(financials.totalExpenses / (financials.netProfit / blockCount)))
-                                        : '—'}{' '}
-                                    harvests to recoup initial investment.
-                                </p>
-                            </div>
-
-                            {/* Projected Payback */}
-                            <div className="text-center p-3 bg-primary/5 rounded-xl">
-                                <div className="text-xs text-gray-500 uppercase tracking-wide">Projected Payback Period</div>
-                                <div className="text-2xl font-bold text-primary">
-                                    {yearlyProjections.length > 1
-                                        ? `${yearlyProjections[1].year - new Date().getFullYear()}+ years`
-                                        : 'Calculating...'}
-                                </div>
-                                <div className="text-xs text-gray-400 mt-1">
-                                    Based on {yearlyProjections[1]?.growth}% projected growth
-                                </div>
-                            </div>
-                        </div>
-                    </InfoCard>
 
                     {/* 3-Year Forecast */}
                     <motion.div
