@@ -334,10 +334,17 @@ const Tasks: React.FC = () => {
                     >
                         <motion.div variants={fadeIn}>
                             <Typography variant="h2" className="mb-4 text-primary">
-                                Task Management at a Glance
+                                Task Management & Worker Performance
                             </Typography>
                             <Typography variant="lead" className="text-text-dark max-w-3xl mx-auto mb-8">
-                                Monitor all farm operations in real time. Track pending assignments, review work in progress, and verify completed tasks across every block of our farm. Use the filters below to focus on what matters most.
+                                Monitor all farm operations in real time. Track pending assignments, review work in progress, and verify completed tasks across every block. Analyze worker performance with completion rates, task type breakdowns, and average time per task to optimize farm productivity.
+                            </Typography>
+                            <Typography
+                                variant="small"
+                                className="text-primary/70 max-w-3xl mx-auto mb-8 flex items-center justify-center gap-1.5"
+                            >
+                                <FaUserCheck className="text-primary" />
+                                Click on a worker's name to view assignment details, duration, and history.
                             </Typography>
                         </motion.div>
                     </motion.div>

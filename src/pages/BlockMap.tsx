@@ -9,7 +9,7 @@ import {
     FaHourglassHalf,
     FaMapMarkerAlt,
     FaTasks,
-    FaChartLine, FaBorderAll
+    FaChartLine, FaBorderAll, FaArrowsAltV, FaArrowsAltH
 } from 'react-icons/fa';
 import { Typography } from '@/components/Typography/Typography';
 import { getMockData } from '../services/mockData';
@@ -525,7 +525,7 @@ const BlockMap: React.FC = () => {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
                             {/* Vertical Roads */}
                             <div className="p-3 rounded-xl bg-white/50 backdrop-blur-sm">
-                                <p className="font-semibold text-primary text-sm mb-2">North ↔ South (Vertical, between columns)</p>
+                                <p className="font-semibold text-primary text-sm mb-2">North <FaArrowsAltV className="inline mr-1" /> South (Vertical, between columns)</p>
                                 <ul className="space-y-1">
                                     <li className="text-xs text-accent flex items-center gap-2">
                                         <span className="w-1 h-1 bg-accent rounded-full"></span>
@@ -546,7 +546,7 @@ const BlockMap: React.FC = () => {
 
                             {/* Horizontal Roads */}
                             <div className="p-3 rounded-xl bg-white/50 backdrop-blur-sm">
-                                <p className="font-semibold text-primary text-sm mb-2 mt-3">West ↔ East (Horizontal, between rows)</p>
+                                <p className="font-semibold text-primary text-sm mb-2 mt-3">West <FaArrowsAltH className="inline mr-1" /> East (Horizontal, between rows)</p>
                                 <ul className="space-y-1">
                                     <li className="text-xs text-accent flex items-center gap-2">
                                         <span className="w-1 h-1 bg-accent rounded-full"></span>

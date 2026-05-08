@@ -2,8 +2,22 @@ import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import {Link, useNavigate} from 'react-router-dom';
 import {
-    FaChartLine, FaDollarSign, FaTree, FaSeedling, FaTractor,
-    FaCalendarAlt, FaArrowUp, FaArrowDown, FaTasks, FaLightbulb, FaLeaf, FaChartBar, FaChartPie
+    FaChartLine,
+    FaDollarSign,
+    FaTree,
+    FaSeedling,
+    FaTractor,
+    FaCalendarAlt,
+    FaArrowUp,
+    FaArrowDown,
+    FaTasks,
+    FaLightbulb,
+    FaLeaf,
+    FaChartBar,
+    FaChartPie,
+    FaTrophy,
+    FaMedal,
+    FaAward
 } from 'react-icons/fa';
 import { Typography } from '@/components/Typography/Typography';
 import { InfoCard } from '@/components/InfoCard/InfoCard';
@@ -358,7 +372,9 @@ const InvestorPortal: React.FC = () => {
                                     <FaLightbulb className="inline mr-1 text-amber-500 text-xs" />
                                     Farm-wide expenses allocated equally: <strong>{new Intl.NumberFormat('fr-FR').format(perBlockAllocation)} FCFA</strong> per block
                                 </Typography>
-                                <div className="overflow-x-auto">
+
+                                {/* Desktop Table */}
+                                <div className="hidden md:block overflow-x-auto">
                                     <table className="w-full text-sm">
                                         <thead>
                                         <tr className="border-b border-gray-200 text-left">
@@ -372,7 +388,9 @@ const InvestorPortal: React.FC = () => {
                                         {revenueByBlock.slice(0, 5).map((block, idx) => (
                                             <tr key={block.blockId} className="border-b border-gray-100 last:border-0">
                                                 <td className="py-2 font-medium">
-                                                    {idx === 0 && '🥇 '}{idx === 1 && '🥈 '}{idx === 2 && '🥉 '}
+                                                    {idx === 0 && <FaTrophy className="text-yellow-500 inline mr-1" />}
+                                                    {idx === 1 && <FaMedal className="text-gray-400 inline mr-1" />}
+                                                    {idx === 2 && <FaAward className="text-amber-700 inline mr-1" />}
                                                     {block.blockName}
                                                 </td>
                                                 <td className="py-2 text-right text-green-700">
@@ -384,16 +402,53 @@ const InvestorPortal: React.FC = () => {
                                                     {new Intl.NumberFormat('fr-FR').format(block.profit)}
                                                 </td>
                                                 <td className="py-2 text-center">
-                                    <span className={`px-2 py-0.5 text-xs rounded-full font-medium ${
-                                        block.roi > 200 ? 'bg-green-100 text-green-700' : 'bg-blue-100 text-blue-700'
-                                    }`}>
-                                        {block.roi.toFixed(0)}%
-                                    </span>
+                                <span className={`px-2 py-0.5 text-xs rounded-full font-medium ${
+                                    block.roi > 200 ? 'bg-green-100 text-green-700' : 'bg-blue-100 text-blue-700'
+                                }`}>
+                                    {block.roi.toFixed(0)}%
+                                </span>
                                                 </td>
                                             </tr>
                                         ))}
                                         </tbody>
                                     </table>
+                                </div>
+
+                                {/* Mobile Cards */}
+                                <div className="md:hidden space-y-3">
+                                    {revenueByBlock.slice(0, 5).map((block, idx) => (
+                                        <motion.div
+                                            key={block.blockId}
+                                            className="bg-white/50 backdrop-blur-sm rounded-xl p-4 border border-white/30"
+                                            initial={{ opacity: 0, y: 10 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            transition={{ delay: idx * 0.05 }}
+                                        >
+                                            <div className="flex items-center justify-between mb-2">
+                            <span className="font-bold text-primary text-lg">
+                                {idx === 0 && <FaTrophy className="text-yellow-500 inline mr-1" />}
+                                {idx === 1 && <FaMedal className="text-gray-400 inline mr-1" />}
+                                {idx === 2 && <FaAward className="text-amber-700 inline mr-1" />}
+                                {block.blockName}
+                            </span>
+                                                <span className={`px-2 py-0.5 text-xs rounded-full font-medium ${
+                                                    block.roi > 200 ? 'bg-green-100 text-green-700' : 'bg-blue-100 text-blue-700'
+                                                }`}>
+                                {block.roi.toFixed(0)}% ROI
+                            </span>
+                                            </div>
+                                            <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-sm">
+                                                <span className="text-gray-500">Revenue</span>
+                                                <span className="text-right text-green-700 font-medium">
+                                {block.totalRevenue > 0 ? new Intl.NumberFormat('fr-FR').format(block.totalRevenue) : '—'}
+                            </span>
+                                                <span className="text-gray-500">Profit</span>
+                                                <span className="text-right font-bold text-primary">
+                                {new Intl.NumberFormat('fr-FR').format(block.profit)}
+                            </span>
+                                            </div>
+                                        </motion.div>
+                                    ))}
                                 </div>
                             </InfoCard>
                         </motion.div>
