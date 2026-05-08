@@ -381,117 +381,113 @@ const Tasks: React.FC = () => {
                     ))}
                 </motion.div>
 
-                {/* Worker Performance Dashboard */}
-                {workerStats.topPerformers.length > 0 && (
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.2 }}
-                        className="mb-8"
+                {/* Worker KPI Cards - Using InfoCard */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                    <InfoCard
+                        icon={FaUsers}
+                        title={String(workerStats.totalWorkers)}
+                        subtitle="Total Workers"
+                        variant="primary"
+                        showInfoBadge={false}
+                    />
+                    <InfoCard
+                        icon={FaUserCheck}
+                        title={`${workerStats.overallCompletionRate.toFixed(0)}%`}
+                        subtitle="Completion Rate"
+                        variant="secondary"
+                        showInfoBadge={false}
+                    />
+                    <InfoCard
+                        icon={FaUserClock}
+                        title={workerStats.avgTaskTimeFormatted}
+                        subtitle="Avg Time/Task"
+                        variant="accent"
+                        showInfoBadge={false}
+                    />
+                    <InfoCard
+                        icon={FaChartBar}
+                        title={String(workerStats.taskTypeBreakdown.length)}
+                        subtitle="Task Types"
+                        variant="primary"
+                        showInfoBadge={false}
+                    />
+                </div>
+
+                {/* Top Performers + Task Type Breakdown - Using InfoCard */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    {/* Top Performers */}
+                    <InfoCard
+                        icon={FaTrophy}
+                        title="Top Performers"
+                        variant="primary"
+                        showInfoBadge={false}
                     >
-                        {/* Worker KPI Cards */}
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                            <div className="relative overflow-hidden rounded-xl p-4 text-center border border-blue-200"
-                                 style={{ background: 'linear-gradient(135deg, rgba(59,130,246,0.06) 0%, rgba(59,130,246,0.02) 100%)' }}>
-                                <FaUsers className="text-blue-500 text-xl mx-auto mb-2" />
-                                <div className="text-2xl font-bold text-blue-700">{workerStats.totalWorkers}</div>
-                                <div className="text-xs text-gray-500">Total Workers</div>
-                            </div>
-                            <div className="relative overflow-hidden rounded-xl p-4 text-center border border-green-200"
-                                 style={{ background: 'linear-gradient(135deg, rgba(34,197,94,0.06) 0%, rgba(34,197,94,0.02) 100%)' }}>
-                                <FaUserCheck className="text-green-500 text-xl mx-auto mb-2" />
-                                <div className="text-2xl font-bold text-green-700">{workerStats.overallCompletionRate.toFixed(0)}%</div>
-                                <div className="text-xs text-gray-500">Completion Rate</div>
-                            </div>
-                            <div className="relative overflow-hidden rounded-xl p-4 text-center border border-amber-200"
-                                 style={{ background: 'linear-gradient(135deg, rgba(245,158,11,0.06) 0%, rgba(245,158,11,0.02) 100%)' }}>
-                                <FaUserClock className="text-amber-500 text-xl mx-auto mb-2" />
-                                <div className="text-2xl font-bold text-amber-700">{workerStats.avgTaskTimeFormatted}</div>
-                                <div className="text-xs text-gray-500">Avg Time/Task</div>
-                            </div>
-                            <div className="relative overflow-hidden rounded-xl p-4 text-center border border-purple-200"
-                                 style={{ background: 'linear-gradient(135deg, rgba(147,51,234,0.06) 0%, rgba(147,51,234,0.02) 100%)' }}>
-                                <FaChartBar className="text-purple-500 text-xl mx-auto mb-2" />
-                                <div className="text-2xl font-bold text-purple-700">{workerStats.taskTypeBreakdown.length}</div>
-                                <div className="text-xs text-gray-500">Task Types</div>
-                            </div>
+                        <div className="space-y-3 mt-4">
+                            {workerStats.topPerformers.slice(0, 5).map((worker, idx) => (
+                                <motion.div
+                                    key={worker.workerName}
+                                    className="flex items-center justify-between p-3 rounded-xl bg-white/40 backdrop-blur-sm hover:bg-white/60 transition-all"
+                                    whileHover={{ x: 3 }}
+                                >
+                                    <div className="flex items-center gap-3">
+                        <span className="text-lg font-bold text-gray-400 w-6">
+                            {idx === 0 ? <FaTrophy className="text-yellow-500" /> :
+                                idx === 1 ? <FaMedal className="text-gray-400" /> :
+                                    idx === 2 ? <FaAward className="text-amber-700" /> :
+                                        `#${idx + 1}`}
+                        </span>
+                                        <div>
+                                            <div className="font-medium text-gray-900">{worker.workerName}</div>
+                                            <div className="text-xs text-gray-500">
+                                                {worker.taskTypes.slice(0, 3).join(' • ')}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="text-right">
+                                        <div className="font-bold text-primary">{worker.completedTasks}/{worker.totalTasks}</div>
+                                        <div className="text-xs text-gray-400">{worker.completionRate.toFixed(0)}% complete</div>
+                                    </div>
+                                </motion.div>
+                            ))}
                         </div>
+                    </InfoCard>
 
-                        {/* Top Performers + Task Type Breakdown */}
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                            {/* Top Performers */}
-                            <div className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl shadow-xl p-6">
-                                <Typography variant="h5" className="text-primary mb-4">
-                                    <FaTrophy className="inline mr-2 text-yellow-500" />
-                                    Top Performers
-                                </Typography>
-                                <div className="space-y-3">
-                                    {workerStats.topPerformers.slice(0, 5).map((worker, idx) => (
+                    {/* Task Type Breakdown */}
+                    <InfoCard
+                        icon={FaChartPie}
+                        title="Task Type Breakdown"
+                        variant="accent"
+                        showInfoBadge={false}
+                    >
+                        <div className="space-y-3 mt-4">
+                            {workerStats.taskTypeBreakdown.map(typeStat => (
+                                <motion.div
+                                    key={typeStat.type}
+                                    className="p-3 rounded-xl bg-white/40 backdrop-blur-sm"
+                                    whileHover={{ x: 3 }}
+                                >
+                                    <div className="flex justify-between items-center mb-1">
+                                        <span className="text-sm font-medium text-gray-700">{typeStat.type}</span>
+                                        <span className="text-xs text-gray-500">
+                            {typeStat.completedCount}/{typeStat.count} done
+                        </span>
+                                    </div>
+                                    <div className="w-full bg-gray-200 rounded-full h-2">
                                         <motion.div
-                                            key={worker.workerName}
-                                            className="flex items-center justify-between p-3 rounded-xl bg-white/40 backdrop-blur-sm hover:bg-white/60 transition-all"
-                                            whileHover={{ x: 3 }}
-                                        >
-                                            <div className="flex items-center gap-3">
-                                <span className="text-lg font-bold text-gray-400 w-6">
-                                    {idx === 0 ? <FaTrophy className="text-yellow-500" /> :
-                                        idx === 1 ? <FaMedal className="text-gray-400" /> :
-                                            idx === 2 ? <FaAward className="text-amber-700" /> :
-                                                `#${idx + 1}`}
-                                </span>
-                                                <div>
-                                                    <div className="font-medium text-gray-900">{worker.workerName}</div>
-                                                    <div className="text-xs text-gray-500">
-                                                        {worker.taskTypes.slice(0, 3).join(' • ')}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div className="text-right">
-                                                <div className="font-bold text-primary">{worker.completedTasks}/{worker.totalTasks}</div>
-                                                <div className="text-xs text-gray-400">{worker.completionRate.toFixed(0)}% complete</div>
-                                            </div>
-                                        </motion.div>
-                                    ))}
-                                </div>
-                            </div>
-
-                            {/* Task Type Breakdown */}
-                            <div className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl shadow-xl p-6">
-                                <Typography variant="h5" className="text-primary mb-4">
-                                    <FaChartPie className="inline mr-2 text-accent" />
-                                    Task Type Breakdown
-                                </Typography>
-                                <div className="space-y-3">
-                                    {workerStats.taskTypeBreakdown.map(typeStat => (
-                                        <motion.div
-                                            key={typeStat.type}
-                                            className="p-3 rounded-xl bg-white/40 backdrop-blur-sm"
-                                            whileHover={{ x: 3 }}
-                                        >
-                                            <div className="flex justify-between items-center mb-1">
-                                                <span className="text-sm font-medium text-gray-700">{typeStat.type}</span>
-                                                <span className="text-xs text-gray-500">
-                                    {typeStat.completedCount}/{typeStat.count} done
-                                </span>
-                                            </div>
-                                            <div className="w-full bg-gray-200 rounded-full h-2">
-                                                <motion.div
-                                                    className="bg-primary h-2 rounded-full"
-                                                    initial={{ width: 0 }}
-                                                    animate={{ width: `${typeStat.count > 0 ? (typeStat.completedCount / typeStat.count) * 100 : 0}%` }}
-                                                    transition={{ duration: 1, delay: 0.3 }}
-                                                />
-                                            </div>
-                                            <div className="text-xs text-gray-400 mt-1">
-                                                Avg: {formatTime(typeStat.avgTimeMs)} per task
-                                            </div>
-                                        </motion.div>
-                                    ))}
-                                </div>
-                            </div>
+                                            className="bg-primary h-2 rounded-full"
+                                            initial={{ width: 0 }}
+                                            animate={{ width: `${typeStat.count > 0 ? (typeStat.completedCount / typeStat.count) * 100 : 0}%` }}
+                                            transition={{ duration: 1, delay: 0.3 }}
+                                        />
+                                    </div>
+                                    <div className="text-xs text-gray-400 mt-1">
+                                        Avg: {formatTime(typeStat.avgTimeMs)} per task
+                                    </div>
+                                </motion.div>
+                            ))}
                         </div>
-                    </motion.div>
-                )}
+                    </InfoCard>
+                </div>
 
                 {/* Filter Tabs */}
                 <motion.div
