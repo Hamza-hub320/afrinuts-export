@@ -582,7 +582,6 @@ const Financials: React.FC = () => {
                                             ? 'Negative profit'
                                             : 'Lowest profit block'}
                                     </div>
-                                    <div className="text-sm text-amber-600 font-medium">Lowest profit block</div>
                                 </motion.div>
                             </div>
                         </GlassCard>
@@ -590,10 +589,10 @@ const Financials: React.FC = () => {
                             <div className="flex items-center gap-2 mb-4">
                                 <FaBorderAll className="text-primary text-xl" />
                                 <Typography variant="h4" className="text-primary">Block Profit & Loss</Typography>
+                                <Typography variant="small" className="text-gray-500">
+                                    Farm-wide expenses allocated equally: <strong>{new Intl.NumberFormat('fr-FR').format(perBlockAllocation)} FCFA</strong> per block
+                                </Typography>
                             </div>
-                            <Typography variant="small" className="text-gray-500">
-                                Farm-wide expenses allocated equally: <strong>{new Intl.NumberFormat('fr-FR').format(perBlockAllocation)} FCFA</strong> per block
-                            </Typography>
                             <div className="overflow-x-auto">
                                 <table className="w-full text-sm">
                                     <thead>
