@@ -80,7 +80,7 @@ const DashboardNavbar: React.FC = () => {
     return (
         <nav
             ref={menuRef}
-            className="fixed left-1/2 -translate-x-1/2 z-40 transition-all duration-300 w-full max-w-full sm:max-w-[95vw] sm:w-auto px-3 sm:px-0"
+            className="fixed left-1/2 -translate-x-1/2 z-50 transition-all duration-300 w-full max-w-full sm:max-w-[95vw] sm:w-auto px-3 sm:px-0"
             style={{
                 top: `${navbarHeight}px`,
                 position: 'fixed'
