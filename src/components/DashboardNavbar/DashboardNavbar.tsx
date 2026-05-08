@@ -15,7 +15,7 @@ const DashboardNavbar: React.FC = () => {
     const [scrolled, setScrolled] = useState(false);
     const [mobileOpen, setMobileOpen] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
-    const [navbarHeight, setNavbarHeight] = useState(80);
+    const navbarTop = 16;
 
     useEffect(() => {
         const handleScroll = () => setScrolled(window.scrollY > 10);
@@ -38,35 +38,6 @@ const DashboardNavbar: React.FC = () => {
         navigate('/');
     };
 
-    useEffect(() => {
-        const updatePosition = () => {
-            const allNavs = document.querySelectorAll('nav.fixed');
-            const mainNav = Array.from(allNavs).find(
-                nav => nav instanceof HTMLElement &&
-                    parseInt(getComputedStyle(nav).zIndex) === 50
-            );
-
-            if (mainNav && mainNav.getBoundingClientRect().height > 0) {
-                // Main navbar is present — position below it
-                const rect = mainNav.getBoundingClientRect();
-                setNavbarHeight(rect.bottom + 4);
-            } else {
-                // No main navbar (dashboard pages) — use top-4 equivalent
-                setNavbarHeight(16); // 16px = top-4
-            }
-        };
-
-        updatePosition();
-
-        const timers = [50, 200, 500].map(delay => setTimeout(updatePosition, delay));
-
-        window.addEventListener('resize', updatePosition);
-        return () => {
-            window.removeEventListener('resize', updatePosition);
-            timers.forEach(clearTimeout);
-        };
-    }, []);
-
     const isActive = (path: string) => location.pathname === path;
 
     const navLinks = [
@@ -80,11 +51,8 @@ const DashboardNavbar: React.FC = () => {
     return (
         <nav
             ref={menuRef}
-            className="fixed left-1/2 -translate-x-1/2 z-50 transition-all duration-300 w-full max-w-full sm:max-w-[95vw] sm:w-auto px-3 sm:px-0"
-            style={{
-                top: `${navbarHeight}px`,
-                position: 'fixed'
-            }}
+            className="fixed left-1/2 -translate-x-1/2 z-40 transition-all duration-300 w-full max-w-full sm:max-w-[95vw] sm:w-auto px-3 sm:px-0"
+            style={{ top: `${navbarTop}px` }}
         >
             <div className={`relative bg-white/60 backdrop-blur-md border-2 border-white/40 shadow-lg mx-auto transition-all duration-300 rounded-2xl ${
                 scrolled ? 'shadow-xl bg-white/80 backdrop-blur-lg scale-[0.97]' : ''
