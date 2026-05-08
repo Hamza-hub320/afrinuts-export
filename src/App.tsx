@@ -76,6 +76,7 @@ function App(): ReactElement {
 
                                 {/* Auth Routes */}
                                 <Route path="login" element={<Login />} />
+                            </Route>
 
                                 {/* Protected Routes */}
                                 <Route
@@ -110,7 +111,7 @@ function App(): ReactElement {
                                         </ProtectedRoute>
                                     }
                                 />
-                            </Route>
+
                             <Route
                                 path="investor"
                                 element={
