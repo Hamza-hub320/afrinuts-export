@@ -1,7 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import Navbar from '../Navbar/Navbar';
 import Footer from '../Footer/Footer';
-import AccessibilityToolbar from '../AccessibilityToolbar/AccessibilityToolbar';
 import { FC, useEffect } from 'react';
 import Chatbot from '../Chatbot/Chatbot';
 
@@ -23,12 +22,6 @@ const Layout: FC = () => {
 
     return (
         <>
-            {/* Floating Accessibility Toolbar */}
-            <div
-                className="fixed bottom-8 right-8 z-[9999] flex flex-col items-end space-y-3"
-            >
-                <AccessibilityToolbar />
-            </div>
             <Navbar />
             <main>
                 <Outlet />

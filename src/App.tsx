@@ -32,6 +32,7 @@ import './index.css';
 import { ReactElement, useEffect } from 'react';
 import React from 'react';
 import Faq from "@pages/Faq";
+import AccessibilityToolbar from './components/AccessibilityToolbar/AccessibilityToolbar';
 
 // Scroll restoration component
 function ScrollToTop() {
@@ -51,6 +52,10 @@ function App(): ReactElement {
                 <div className="min-h-screen font-sans bg-[var(--background)] text-[var(--text-dark)]">
                     <BrowserRouter basename='/'>
                         <ScrollToTop />
+                        {/* Global Accessibility Toolbar - OUTSIDE Routes */}
+                        <div className="fixed bottom-8 right-8 z-[9999] flex flex-col items-end space-y-3">
+                            <AccessibilityToolbar />
+                        </div>
                         <Routes>
                             <Route path="/" element={<Layout />}>
                                 {/* Public Routes */}
