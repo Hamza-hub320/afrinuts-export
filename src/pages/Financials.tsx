@@ -245,7 +245,10 @@ const Financials: React.FC = () => {
                                 Financial Performance at a Glance
                             </Typography>
                             <Typography variant="lead" className="text-text-dark max-w-3xl mx-auto mb-8">
-                                Below you'll find a complete breakdown of revenue streams, expense categories, and net profitability across our 35-hectare Odienné farm. Use the charts to identify trends and the tables to drill into individual transactions.
+                                Track revenue, expenses, and profitability across all 35 blocks of our Odienné farm.
+                                Farm-wide costs are allocated equally per block for fair comparison, while block-specific
+                                expenses are tracked separately. Use the charts to spot trends and the Block Summary
+                                view to identify your top and bottom performers.
                             </Typography>
                         </motion.div>
                     </motion.div>
@@ -592,6 +595,11 @@ const Financials: React.FC = () => {
                                 <Typography variant="small" className="text-gray-500">
                                     Farm-wide expenses allocated equally: <strong>{new Intl.NumberFormat('fr-FR').format(perBlockAllocation)} FCFA</strong> per block
                                 </Typography>
+                            </div>
+                            <div className="flex items-center gap-2 mb-4">
+                            <Typography variant="small" className="text-gray-500">
+                                Farm-wide expenses allocated equally: <strong>{new Intl.NumberFormat('fr-FR').format(perBlockAllocation)} FCFA</strong> per block
+                            </Typography>
                             </div>
                             <div className="overflow-x-auto">
                                 <table className="w-full text-sm">
