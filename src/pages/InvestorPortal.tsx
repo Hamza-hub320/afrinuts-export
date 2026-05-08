@@ -312,6 +312,93 @@ const InvestorPortal: React.FC = () => {
                         </motion.div>
                     )}
 
+                    {/* Unit Economics */}
+                    <motion.div
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={staggerContainer}
+                        className="mb-12"
+                    >
+                        <InfoCard icon={FaLeaf} title="Unit Economics" variant="primary" showInfoBadge={false}>
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                {[
+                                    { label: 'Cost/Tree', value: financials.totalExpenses / (farmStats?.stats?.aliveTrees || 3500) },
+                                    { label: 'Revenue/Tree', value: financials.totalRevenue / (farmStats?.stats?.aliveTrees || 3500) },
+                                    { label: 'Cost/Hectare', value: financials.totalExpenses / blockCount },
+                                    { label: 'Revenue/Hectare', value: financials.totalRevenue / blockCount },
+                                ].map((stat, i) => (
+                                    <div key={i} className="text-center p-3 bg-white/30 rounded-xl">
+                                        <div className="text-xs text-gray-500">{stat.label}</div>
+                                        <div className="text-lg font-bold text-primary">
+                                            {new Intl.NumberFormat('fr-FR').format(Math.round(stat.value))} FCFA
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </InfoCard>
+                    </motion.div>
+
+                    {/* Block Performance Snapshot */}
+                    {revenueByBlock.length > 0 && (
+                        <motion.div
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                            variants={staggerContainer}
+                            className="mb-12"
+                        >
+                            <InfoCard
+                                icon={FaChartBar}
+                                title="Top 5 Blocks by Profit"
+                                variant="primary"
+                                showInfoBadge={false}
+                            >
+                                <Typography variant="small" className="text-gray-500 mb-3">
+                                    <FaLightbulb className="inline mr-1 text-amber-500 text-xs" />
+                                    Farm-wide expenses allocated equally: <strong>{new Intl.NumberFormat('fr-FR').format(perBlockAllocation)} FCFA</strong> per block
+                                </Typography>
+                                <div className="overflow-x-auto">
+                                    <table className="w-full text-sm">
+                                        <thead>
+                                        <tr className="border-b border-gray-200 text-left">
+                                            <th className="pb-2 font-medium text-gray-600">Block</th>
+                                            <th className="pb-2 font-medium text-gray-600 text-right">Revenue</th>
+                                            <th className="pb-2 font-medium text-gray-600 text-right">Profit</th>
+                                            <th className="pb-2 font-medium text-gray-600 text-center">ROI</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {revenueByBlock.slice(0, 5).map((block, idx) => (
+                                            <tr key={block.blockId} className="border-b border-gray-100 last:border-0">
+                                                <td className="py-2 font-medium">
+                                                    {idx === 0 && '🥇 '}{idx === 1 && '🥈 '}{idx === 2 && '🥉 '}
+                                                    {block.blockName}
+                                                </td>
+                                                <td className="py-2 text-right text-green-700">
+                                                    {block.totalRevenue > 0
+                                                        ? new Intl.NumberFormat('fr-FR').format(block.totalRevenue)
+                                                        : '—'}
+                                                </td>
+                                                <td className="py-2 text-right font-bold text-primary">
+                                                    {new Intl.NumberFormat('fr-FR').format(block.profit)}
+                                                </td>
+                                                <td className="py-2 text-center">
+                                    <span className={`px-2 py-0.5 text-xs rounded-full font-medium ${
+                                        block.roi > 200 ? 'bg-green-100 text-green-700' : 'bg-blue-100 text-blue-700'
+                                    }`}>
+                                        {block.roi.toFixed(0)}%
+                                    </span>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </InfoCard>
+                        </motion.div>
+                    )}
+
                     {/* Revenue Chart & Farm Stats */}
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
                         {/* Revenue & Profit Chart */}
@@ -421,32 +508,75 @@ const InvestorPortal: React.FC = () => {
                         </InfoCard>
                     </div>
 
-                    {/* Unit Economics */}
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={staggerContainer}
-                        className="mb-12"
+                    {/* Investment Returns Summary */}
+                    <InfoCard
+                        icon={FaDollarSign}
+                        title="Investment Returns"
+                        variant="primary"
+                        showInfoBadge={false}
                     >
-                        <InfoCard icon={FaLeaf} title="Unit Economics" variant="primary" showInfoBadge={false}>
-                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                                {[
-                                    { label: 'Cost/Tree', value: financials.totalExpenses / (farmStats?.stats?.aliveTrees || 3500) },
-                                    { label: 'Revenue/Tree', value: financials.totalRevenue / (farmStats?.stats?.aliveTrees || 3500) },
-                                    { label: 'Cost/Hectare', value: financials.totalExpenses / blockCount },
-                                    { label: 'Revenue/Hectare', value: financials.totalRevenue / blockCount },
-                                ].map((stat, i) => (
-                                    <div key={i} className="text-center p-3 bg-white/30 rounded-xl">
-                                        <div className="text-xs text-gray-500">{stat.label}</div>
-                                        <div className="text-lg font-bold text-primary">
-                                            {new Intl.NumberFormat('fr-FR').format(Math.round(stat.value))} FCFA
-                                        </div>
-                                    </div>
-                                ))}
+                        <div className="space-y-4">
+                            {/* Revenue Multiple */}
+                            <div className="text-center p-3 bg-primary/5 rounded-xl">
+                                <div className="text-xs text-gray-500 uppercase tracking-wide">Revenue Multiple</div>
+                                <div className="text-3xl font-bold text-primary">
+                                    {(financials.totalExpenses > 0
+                                        ? (financials.totalRevenue / financials.totalExpenses)
+                                        : 0).toFixed(1)}x
+                                </div>
+                                <div className="text-xs text-gray-400 mt-1">
+                                    For every 1 FCFA spent, {financials.totalExpenses > 0
+                                    ? (financials.totalRevenue / financials.totalExpenses).toFixed(1)
+                                    : '—'} FCFA generated
+                                </div>
                             </div>
-                        </InfoCard>
-                    </motion.div>
+
+                            {/* Profit Per Hectare Highlight */}
+                            <div className="grid grid-cols-2 gap-3">
+                                <div className="text-center p-3 bg-green-50 rounded-xl">
+                                    <div className="text-xs text-gray-500">Profit/Ha</div>
+                                    <div className="text-xl font-bold text-green-700">
+                                        {new Intl.NumberFormat('fr-FR').format(
+                                            Math.round(financials.netProfit / blockCount)
+                                        )} FCFA
+                                    </div>
+                                </div>
+                                <div className="text-center p-3 bg-blue-50 rounded-xl">
+                                    <div className="text-xs text-gray-500">Avg Block ROI</div>
+                                    <div className="text-xl font-bold text-blue-700">
+                                        {revenueByBlock.length > 0
+                                            ? (revenueByBlock.reduce((sum, b) => sum + b.roi, 0) / revenueByBlock.filter(b => b.totalRevenue > 0).length || 1).toFixed(0)
+                                            : '—'}%
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Break-Even Insight */}
+                            <div className="p-3 bg-amber-50 rounded-lg">
+                                <p className="text-sm text-gray-600">
+                                    <FaLightbulb className="inline mr-1 text-amber-500" />
+                                    <strong>Break-even:</strong> At current margins, each block needs{' '}
+                                    {financials.netProfit > 0
+                                        ? new Intl.NumberFormat('fr-FR').format(Math.round(financials.totalExpenses / (financials.netProfit / blockCount)))
+                                        : '—'}{' '}
+                                    harvests to recoup initial investment.
+                                </p>
+                            </div>
+
+                            {/* Projected Payback */}
+                            <div className="text-center p-3 bg-primary/5 rounded-xl">
+                                <div className="text-xs text-gray-500 uppercase tracking-wide">Projected Payback Period</div>
+                                <div className="text-2xl font-bold text-primary">
+                                    {yearlyProjections.length > 1
+                                        ? `${yearlyProjections[1].year - new Date().getFullYear()}+ years`
+                                        : 'Calculating...'}
+                                </div>
+                                <div className="text-xs text-gray-400 mt-1">
+                                    Based on {yearlyProjections[1]?.growth}% projected growth
+                                </div>
+                            </div>
+                        </div>
+                    </InfoCard>
 
                     {/* 3-Year Forecast */}
                     <motion.div
@@ -493,66 +623,6 @@ const InvestorPortal: React.FC = () => {
                             </div>
                         </InfoCard>
                     </motion.div>
-
-                    {/* Block Performance Snapshot */}
-                    {revenueByBlock.length > 0 && (
-                        <motion.div
-                            initial="hidden"
-                            whileInView="visible"
-                            viewport={{ once: true }}
-                            variants={staggerContainer}
-                            className="mb-12"
-                        >
-                            <InfoCard
-                                icon={FaChartBar}
-                                title="Top 5 Blocks by Profit"
-                                variant="primary"
-                                showInfoBadge={false}
-                            >
-                                <Typography variant="small" className="text-gray-500 mb-3">
-                                    <FaLightbulb className="inline mr-1 text-amber-500 text-xs" />
-                                    Farm-wide expenses allocated equally: <strong>{new Intl.NumberFormat('fr-FR').format(perBlockAllocation)} FCFA</strong> per block
-                                </Typography>
-                                <div className="overflow-x-auto">
-                                    <table className="w-full text-sm">
-                                        <thead>
-                                        <tr className="border-b border-gray-200 text-left">
-                                            <th className="pb-2 font-medium text-gray-600">Block</th>
-                                            <th className="pb-2 font-medium text-gray-600 text-right">Revenue</th>
-                                            <th className="pb-2 font-medium text-gray-600 text-right">Profit</th>
-                                            <th className="pb-2 font-medium text-gray-600 text-center">ROI</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        {revenueByBlock.slice(0, 5).map((block, idx) => (
-                                            <tr key={block.blockId} className="border-b border-gray-100 last:border-0">
-                                                <td className="py-2 font-medium">
-                                                    {idx === 0 && '🥇 '}{idx === 1 && '🥈 '}{idx === 2 && '🥉 '}
-                                                    {block.blockName}
-                                                </td>
-                                                <td className="py-2 text-right text-green-700">
-                                                    {block.totalRevenue > 0
-                                                        ? new Intl.NumberFormat('fr-FR').format(block.totalRevenue)
-                                                        : '—'}
-                                                </td>
-                                                <td className="py-2 text-right font-bold text-primary">
-                                                    {new Intl.NumberFormat('fr-FR').format(block.profit)}
-                                                </td>
-                                                <td className="py-2 text-center">
-                                    <span className={`px-2 py-0.5 text-xs rounded-full font-medium ${
-                                        block.roi > 200 ? 'bg-green-100 text-green-700' : 'bg-blue-100 text-blue-700'
-                                    }`}>
-                                        {block.roi.toFixed(0)}%
-                                    </span>
-                                                </td>
-                                            </tr>
-                                        ))}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </InfoCard>
-                        </motion.div>
-                    )}
 
                     {/* Key Highlights */}
                     <motion.div
