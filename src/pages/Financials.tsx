@@ -592,6 +592,11 @@ const Financials: React.FC = () => {
                                          style={{ background: 'radial-gradient(circle, rgba(245,158,11,0.5) 0%, transparent 70%)' }}
                                     />
                                     <div className="text-xs text-gray-500 mb-1 uppercase tracking-wide">Needs Attention</div>
+                                    <div className="text-lg font-bold text-amber-700">
+                                        {revenueByBlock.length > 0
+                                            ? revenueByBlock[revenueByBlock.length - 1].blockName
+                                            : '—'}
+                                    </div>
                                     <div className="text-sm text-amber-600 font-medium">
                                         {revenueByBlock[revenueByBlock.length - 1]?.profit < 0
                                             ? 'Negative profit'
@@ -611,71 +616,116 @@ const Financials: React.FC = () => {
                                 Farm-wide expenses allocated equally: <strong>{new Intl.NumberFormat('fr-FR').format(perBlockAllocation)} FCFA</strong> per block
                             </Typography>
                             </div>
-                            <div className="overflow-x-auto">
-                                <table className="w-full text-sm">
-                                    <thead>
-                                    <tr className="border-b border-gray-200 text-left">
-                                        <th className="pb-3 font-medium text-gray-600">Rank</th>
-                                        <th className="pb-3 font-medium text-gray-600">Block</th>
-                                        <th className="pb-3 font-medium text-gray-600 text-right">Revenue</th>
-                                        <th className="pb-3 font-medium text-gray-600 text-right">Direct Exp.</th>
-                                        <th className="pb-3 font-medium text-gray-600 text-right">Allocated</th>
-                                        <th className="pb-3 font-medium text-gray-600 text-right">Profit</th>
-                                        <th className="pb-3 font-medium text-gray-600 text-center">ROI</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
+                                <div className="hidden md:block overflow-x-auto">
+                                    <table className="w-full text-sm">
+                                        <thead>
+                                        <tr className="border-b border-gray-200 text-left">
+                                            <th className="pb-3 font-medium text-gray-600">Rank</th>
+                                            <th className="pb-3 font-medium text-gray-600">Block</th>
+                                            <th className="pb-3 font-medium text-gray-600 text-right">Revenue</th>
+                                            <th className="pb-3 font-medium text-gray-600 text-right">Direct Exp.</th>
+                                            <th className="pb-3 font-medium text-gray-600 text-right">Allocated</th>
+                                            <th className="pb-3 font-medium text-gray-600 text-right">Profit</th>
+                                            <th className="pb-3 font-medium text-gray-600 text-center">ROI</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {revenueByBlock.map((block, idx) => (
+                                            <motion.tr
+                                                key={block.blockId}
+                                                className="border-b border-gray-100 last:border-0 hover:bg-white/30 transition-colors"
+                                                initial={{ opacity: 0, x: -10 }}
+                                                animate={{ opacity: 1, x: 0 }}
+                                                transition={{ delay: idx * 0.03 }}
+                                            >
+                                                <td className="py-3 font-medium">
+                                                    {idx === 0 && <FaTrophy className="text-yellow-500" />}
+                                                    {idx === 1 && <FaMedal className="text-gray-400" />}
+                                                    {idx === 2 && <FaAward className="text-amber-700" />}
+                                                    {idx > 2 && `${idx + 1}`}
+                                                </td>
+                                                <td className="py-3 font-medium">{block.blockName}</td>
+                                                <td className="py-3 text-right text-green-700">
+                                                    {block.totalRevenue > 0 ? new Intl.NumberFormat('fr-FR').format(block.totalRevenue) : '—'}
+                                                </td>
+                                                <td className="py-3 text-right text-red-600">
+                                                    {block.directExpenses > 0 ? new Intl.NumberFormat('fr-FR').format(block.directExpenses) : '—'}
+                                                </td>
+                                                <td className="py-3 text-right">
+                                                    <span className="text-amber-600">{new Intl.NumberFormat('fr-FR').format(block.allocatedExpenses)}</span>
+                                                    <span className="block text-[10px] text-gray-400 leading-tight">farm-wide</span>
+                                                </td>
+                                                <td className="py-3 text-right font-bold">
+                    <span className={block.profit >= 0 ? 'text-primary' : 'text-red-600'}>
+                        {new Intl.NumberFormat('fr-FR').format(block.profit)}
+                    </span>
+                                                </td>
+                                                <td className="py-3 text-center">
+                    <span className={`px-2 py-1 text-xs rounded-full font-medium ${
+                        block.roi > 200 ? 'bg-green-100 text-green-700' :
+                            block.roi > 100 ? 'bg-blue-100 text-blue-700' :
+                                block.roi > 0 ? 'bg-orange-100 text-orange-700' :
+                                    'bg-red-100 text-red-700'
+                    }`}>
+                        {block.roi.toFixed(0)}%
+                    </span>
+                                                </td>
+                                            </motion.tr>
+                                        ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                {/* Mobile Cards - visible only on mobile */}
+                                <div className="md:hidden space-y-3">
                                     {revenueByBlock.map((block, idx) => (
-                                        <motion.tr
+                                        <motion.div
                                             key={block.blockId}
-                                            className="border-b border-gray-100 last:border-0 hover:bg-white/30 transition-colors"
-                                            initial={{ opacity: 0, x: -10 }}
-                                            animate={{ opacity: 1, x: 0 }}
+                                            className="bg-white/40 backdrop-blur-sm rounded-xl p-4 border border-white/30 space-y-2"
+                                            initial={{ opacity: 0, y: 10 }}
+                                            animate={{ opacity: 1, y: 0 }}
                                             transition={{ delay: idx * 0.03 }}
                                         >
-                                            <td className="py-3 font-medium">
-                                                {idx === 0 && <FaTrophy className="text-yellow-500" />}
-                                                {idx === 1 && <FaMedal className="text-gray-400" />}
-                                                {idx === 2 && <FaAward className="text-amber-700" />}
-                                                {idx > 2 && `${idx + 1}`}
-                                            </td>
-                                            <td className="py-3 font-medium">{block.blockName}</td>
-                                            <td className="py-3 text-right text-green-700">
-                                                {block.totalRevenue > 0
-                                                    ? new Intl.NumberFormat('fr-FR').format(block.totalRevenue)
-                                                    : '—'}
-                                            </td>
-                                            <td className="py-3 text-right text-red-600">
-                                                {block.directExpenses > 0
-                                                    ? new Intl.NumberFormat('fr-FR').format(block.directExpenses)
-                                                    : '—'}
-                                            </td>
-                                            <td className="py-3 text-right">
-                <span className="text-amber-600">
+                                            <div className="flex items-center justify-between">
+                                                <div className="flex items-center gap-2">
+                    <span className="font-bold text-lg">
+                        {idx === 0 && <FaTrophy className="text-yellow-500 inline" />}
+                        {idx === 1 && <FaMedal className="text-gray-400 inline" />}
+                        {idx === 2 && <FaAward className="text-amber-700 inline" />}
+                        {idx > 2 && `#${idx + 1}`}
+                    </span>
+                                                    <span className="font-bold text-primary text-lg">{block.blockName}</span>
+                                                </div>
+                                                <span className={`px-2 py-1 text-xs rounded-full font-medium ${
+                                                    block.roi > 200 ? 'bg-green-100 text-green-700' :
+                                                        block.roi > 100 ? 'bg-blue-100 text-blue-700' :
+                                                            block.roi > 0 ? 'bg-orange-100 text-orange-700' :
+                                                                'bg-red-100 text-red-700'
+                                                }`}>
+                    {block.roi.toFixed(0)}% ROI
+                </span>
+                                            </div>
+
+                                            <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-sm">
+                                                <span className="text-gray-500">Revenue</span>
+                                                <span className="text-right text-green-700 font-medium">
+                    {block.totalRevenue > 0 ? new Intl.NumberFormat('fr-FR').format(block.totalRevenue) : '—'}
+                </span>
+                                                <span className="text-gray-500">Direct Exp.</span>
+                                                <span className="text-right text-red-600">
+                    {block.directExpenses > 0 ? new Intl.NumberFormat('fr-FR').format(block.directExpenses) : '—'}
+                </span>
+                                                <span className="text-gray-500">Allocated</span>
+                                                <span className="text-right text-amber-600">
                     {new Intl.NumberFormat('fr-FR').format(block.allocatedExpenses)}
                 </span>
-                                                <span className="block text-[10px] text-gray-400 leading-tight">farm-wide</span>
-                                            </td>
-                                            <td className="py-3 text-right font-bold">
-                <span className={block.profit >= 0 ? 'text-primary' : 'text-red-600'}>
+                                                <span className="text-gray-500 font-semibold">Profit</span>
+                                                <span className={`text-right font-bold ${block.profit >= 0 ? 'text-primary' : 'text-red-600'}`}>
                     {new Intl.NumberFormat('fr-FR').format(block.profit)}
                 </span>
-                                            </td>
-                                            <td className="py-3 text-center">
-                <span className={`px-2 py-1 text-xs rounded-full font-medium ${
-                    block.roi > 200 ? 'bg-green-100 text-green-700' :
-                        block.roi > 100 ? 'bg-blue-100 text-blue-700' :
-                            block.roi > 0 ? 'bg-orange-100 text-orange-700' :
-                                'bg-red-100 text-red-700'
-                }`}>
-                    {block.roi.toFixed(0)}%
-                </span>
-                                            </td>
-                                        </motion.tr>
+                                            </div>
+                                        </motion.div>
                                     ))}
-                                    </tbody>
-                                </table>
-                            </div>
+                                </div>
                             {revenueByBlock.length === 0 && (
                                 <div className="text-center py-8 text-gray-400">
                                     No block revenue data available yet.
@@ -698,7 +748,8 @@ const Financials: React.FC = () => {
                                 Farm-wide expenses are divided equally across all 35 blocks for P&L calculations
                             </Typography>
                         </div>
-                        <div className="overflow-x-auto">
+                        {/* Desktop Table - hidden on mobile */}
+                        <div className="hidden md:block overflow-x-auto">
                             <table className="w-full text-sm">
                                 <thead>
                                 <tr className="border-b border-gray-200 text-left">
@@ -716,10 +767,7 @@ const Financials: React.FC = () => {
                                     .slice(0, expensePage * ITEMS_PER_PAGE)
                                     .map((expense: any, i: number) => {
                                         const isFarmWide = !expense.blockId;
-                                        const perBlockAmount = isFarmWide
-                                            ? (expense.amount || 0) / 35
-                                            : expense.amount;
-
+                                        const perBlockAmount = isFarmWide ? (expense.amount || 0) / 35 : expense.amount;
                                         return (
                                             <motion.tr
                                                 key={expense.id}
@@ -728,35 +776,31 @@ const Financials: React.FC = () => {
                                                 animate={{ opacity: 1, x: 0 }}
                                                 transition={{ delay: i * 0.05 }}
                                             >
-                                                <td className="py-3 whitespace-nowrap">
-                                                    {new Date(expense.date).toLocaleDateString()}
-                                                </td>
+                                                <td className="py-3 whitespace-nowrap">{new Date(expense.date).toLocaleDateString()}</td>
                                                 <td className="py-3">
-                                <span className={`px-2 py-1 text-xs rounded-full ${
-                                    expense.category === 'LAND_CLEARING' ? 'bg-amber-50 text-amber-700' :
-                                        expense.category === 'LABOR' ? 'bg-blue-50 text-blue-700' :
-                                            expense.category === 'PLOWING' ? 'bg-green-50 text-green-700' :
-                                                expense.category === 'FENCING' ? 'bg-purple-50 text-purple-700' :
-                                                    expense.category === 'SEEDLINGS' ? 'bg-emerald-50 text-emerald-700' :
-                                                        expense.category === 'FERTILIZER' ? 'bg-lime-50 text-lime-700' :
-                                                            expense.category === 'IRRIGATION' ? 'bg-cyan-50 text-cyan-700' :
-                                                                expense.category === 'SECURITY' ? 'bg-slate-100 text-slate-700' :
-                                                                    'bg-red-50 text-red-600'
-                                }`}>
-                                    {expense.category?.replace(/_/g, ' ')}
-                                </span>
+                            <span className={`px-2 py-1 text-xs rounded-full ${
+                                expense.category === 'LAND_CLEARING' ? 'bg-amber-50 text-amber-700' :
+                                    expense.category === 'LABOR' ? 'bg-blue-50 text-blue-700' :
+                                        expense.category === 'PLOWING' ? 'bg-green-50 text-green-700' :
+                                            expense.category === 'FENCING' ? 'bg-purple-50 text-purple-700' :
+                                                expense.category === 'SEEDLINGS' ? 'bg-emerald-50 text-emerald-700' :
+                                                    expense.category === 'FERTILIZER' ? 'bg-lime-50 text-lime-700' :
+                                                        expense.category === 'IRRIGATION' ? 'bg-cyan-50 text-cyan-700' :
+                                                            expense.category === 'SECURITY' ? 'bg-slate-100 text-slate-700' :
+                                                                'bg-red-50 text-red-600'
+                            }`}>
+                                {expense.category?.replace(/_/g, ' ')}
+                            </span>
                                                 </td>
                                                 <td className="py-3">
                                                     {isFarmWide ? (
                                                         <span className="px-2 py-1 bg-amber-50 text-amber-700 text-xs rounded-full inline-flex items-center gap-1">
-                                                            <FaGlobeAfrica className="text-[10px]" />
-                                                                    Farm-wide
-                                                        </span>
+                                    <FaGlobeAfrica className="text-[10px]" /> Farm-wide
+                                </span>
                                                     ) : (
                                                         <span className="px-2 py-1 bg-green-50 text-green-700 text-xs rounded-full inline-flex items-center gap-1">
-                                                            <FaMapPin className="text-[10px]" />
-                                                            Block {BLOCK_NAMES[expense.blockId] || expense.blockId}
-                                                         </span>
+                                    <FaMapPin className="text-[10px]" /> Block {BLOCK_NAMES[expense.blockId] || expense.blockId}
+                                </span>
                                                     )}
                                                 </td>
                                                 <td className="py-3 text-gray-600 text-xs max-w-[200px] truncate" title={expense.description}>
@@ -768,17 +812,81 @@ const Financials: React.FC = () => {
                                                 <td className="py-3 text-right text-xs">
                                                     {isFarmWide ? (
                                                         <span className="text-gray-500">
-                                        {new Intl.NumberFormat('fr-FR').format(perBlockAmount)}
+                                    {new Intl.NumberFormat('fr-FR').format(perBlockAmount)}
                                                             <span className="block text-[10px] text-gray-400">÷ 35 blocks</span>
-                                    </span>
+                                </span>
                                                     ) : (
                                                         <span className="text-gray-400">—</span>
                                                     )}
                                                 </td>
                                             </motion.tr>
-                                        )})}
+                                        );
+                                    })}
                                 </tbody>
                             </table>
+                        </div>
+
+                        {/* Mobile Cards - visible only on mobile */}
+                        <div className="md:hidden space-y-3">
+                            {expenses
+                                .sort((a, b) => (b.date || 0) - (a.date || 0))
+                                .slice(0, expensePage * ITEMS_PER_PAGE)
+                                .map((expense: any, i: number) => {
+                                    const isFarmWide = !expense.blockId;
+                                    const perBlockAmount = isFarmWide ? (expense.amount || 0) / 35 : expense.amount;
+                                    return (
+                                        <motion.div
+                                            key={expense.id}
+                                            className="bg-white/40 backdrop-blur-sm rounded-xl p-4 border border-white/30 space-y-2"
+                                            initial={{ opacity: 0, y: 10 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            transition={{ delay: i * 0.05 }}
+                                        >
+                                            <div className="flex items-center justify-between">
+                        <span className={`px-2 py-1 text-xs rounded-full ${
+                            expense.category === 'LAND_CLEARING' ? 'bg-amber-50 text-amber-700' :
+                                expense.category === 'LABOR' ? 'bg-blue-50 text-blue-700' :
+                                    expense.category === 'PLOWING' ? 'bg-green-50 text-green-700' :
+                                        expense.category === 'FENCING' ? 'bg-purple-50 text-purple-700' :
+                                            expense.category === 'SEEDLINGS' ? 'bg-emerald-50 text-emerald-700' :
+                                                expense.category === 'FERTILIZER' ? 'bg-lime-50 text-lime-700' :
+                                                    expense.category === 'IRRIGATION' ? 'bg-cyan-50 text-cyan-700' :
+                                                        expense.category === 'SECURITY' ? 'bg-slate-100 text-slate-700' :
+                                                            'bg-red-50 text-red-600'
+                        }`}>
+                            {expense.category?.replace(/_/g, ' ')}
+                        </span>
+                                                <span className="text-xs text-gray-400">
+                            {new Date(expense.date).toLocaleDateString()}
+                        </span>
+                                            </div>
+
+                                            <p className="text-xs text-gray-600">{expense.description || '—'}</p>
+
+                                            <div className="flex items-center justify-between">
+                                                {isFarmWide ? (
+                                                    <span className="px-2 py-0.5 bg-amber-50 text-amber-700 text-xs rounded-full inline-flex items-center gap-1">
+                                <FaGlobeAfrica className="text-[10px]" /> Farm-wide
+                            </span>
+                                                ) : (
+                                                    <span className="px-2 py-0.5 bg-green-50 text-green-700 text-xs rounded-full inline-flex items-center gap-1">
+                                <FaMapPin className="text-[10px]" /> Block {BLOCK_NAMES[expense.blockId] || expense.blockId}
+                            </span>
+                                                )}
+                                                <div className="text-right">
+                                                    <div className="font-bold text-red-600">
+                                                        {new Intl.NumberFormat('fr-FR').format(expense.amount)}
+                                                    </div>
+                                                    {isFarmWide && (
+                                                        <div className="text-[10px] text-gray-400">
+                                                            {new Intl.NumberFormat('fr-FR').format(perBlockAmount)} / block
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </motion.div>
+                                    );
+                                })}
                         </div>
                         {expenses.length > expensePage * ITEMS_PER_PAGE && (
                             <div className="flex justify-center mt-4">
