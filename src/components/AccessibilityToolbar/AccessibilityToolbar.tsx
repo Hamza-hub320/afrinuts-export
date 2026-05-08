@@ -57,8 +57,36 @@ const AccessibilityToolbar = () => {
     }
   }, []);
 
+  // Add this new useEffect after the existing ones
+  useEffect(() => {
+    // Load and apply saved settings on mount
+    const savedSettings = localStorage.getItem('accessibilitySettings');
+    if (savedSettings) {
+      const parsedSettings = JSON.parse(savedSettings);
+      setSettings(parsedSettings);
+      applySettings(parsedSettings);
+    }
+
+    // Cleanup: reset only font-related properties when leaving
+    return () => {
+      document.documentElement.style.fontSize = '';
+      document.documentElement.style.removeProperty('--letter-spacing');
+      document.documentElement.style.removeProperty('--word-spacing');
+      document.documentElement.style.removeProperty('--line-height');
+      document.documentElement.style.removeProperty('--link-underline');
+      document.documentElement.style.removeProperty('--link-underline-offset');
+    };
+  }, []);
+
   // Apply settings to document
   const applySettings = (newSettings: AccessibilitySettings) => {
+
+    const publicLayout = document.querySelector('main');
+
+    // Font size - only for public pages
+    if (publicLayout && !window.location.pathname.startsWith('/dashboard') && !window.location.pathname.startsWith('/investor')) {
+      document.documentElement.style.fontSize = `${newSettings.fontSize}%`;
+    }
     // Font size
     document.documentElement.style.fontSize = `${newSettings.fontSize}%`;
 
