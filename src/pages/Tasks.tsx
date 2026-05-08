@@ -8,7 +8,7 @@ import {
     FaUser,
     FaTasks,
     FaUserCheck,
-    FaChartPie, FaUserCircle, FaUserClock, FaClipboardList, FaTimes, FaChartBar
+    FaChartPie, FaUserCircle, FaUserClock, FaClipboardList, FaTimes, FaChartBar, FaTrophy, FaMedal, FaAward, FaUsers
 } from 'react-icons/fa';
 import { Typography } from '@/components/Typography/Typography';
 import { InfoCard } from '@/components/InfoCard/InfoCard';
@@ -39,6 +39,25 @@ interface TaskAssignment {
     assignedTo: string;
     assignedAt: number;
     unassignedAt?: number;
+}
+
+interface WorkerPerformance {
+    workerName: string;
+    totalTasks: number;
+    completedTasks: number;
+    inProgressTasks: number;
+    totalTimeMs: number;
+    averageTimePerTaskMs: number;
+    completionRate: number;
+    taskTypes: string[];
+    assignments: TaskAssignment[];
+}
+
+interface TaskTypeStats {
+    type: string;
+    count: number;
+    completedCount: number;
+    avgTimeMs: number;
 }
 
 interface TaskWithAssignments extends Task {
@@ -86,9 +105,9 @@ const Tasks: React.FC = () => {
 
                 const tasksWithAssignments = tasksList.map((task: Task) => {
                     const taskAssignments = assignmentsList.filter((a: TaskAssignment) => a.taskId === task.id);
-                    const activeAssignment = taskAssignments.find(a => !a.unassignedAt);
+                    const activeAssignment = taskAssignments.find((a: TaskAssignment) => !a.unassignedAt);
                     const lastAssignment = taskAssignments.length > 0
-                        ? taskAssignments.reduce((latest, a) =>
+                        ? taskAssignments.reduce((latest: TaskAssignment, a: TaskAssignment) =>
                             (a.assignedAt > latest.assignedAt) ? a : latest
                         )
                         : null;
@@ -101,6 +120,7 @@ const Tasks: React.FC = () => {
                 });
 
                 setTasks(tasksWithAssignments);
+
             } catch (error) {
                 console.error('Error fetching data:', error);
             } finally {
@@ -109,6 +129,124 @@ const Tasks: React.FC = () => {
         };
         fetchData();
     }, []);
+
+    const [workerStats, setWorkerStats] = useState<{
+        totalWorkers: number;
+        overallCompletionRate: number;
+        avgTaskTimeFormatted: string;
+        topPerformers: WorkerPerformance[];
+        taskTypeBreakdown: TaskTypeStats[];
+    }>({
+        totalWorkers: 0,
+        overallCompletionRate: 0,
+        avgTaskTimeFormatted: '0m',
+        topPerformers: [],
+        taskTypeBreakdown: [],
+    });
+
+// Calculate worker performance (runs when tasks/assignments change)
+    useEffect(() => {
+        if (tasks.length === 0 || assignments.length === 0) return;
+
+        // Group assignments by worker
+        const workerMap = new Map<string, WorkerPerformance>();
+
+        assignments.forEach(assignment => {
+            if (!workerMap.has(assignment.assignedTo)) {
+                workerMap.set(assignment.assignedTo, {
+                    workerName: assignment.assignedTo,
+                    totalTasks: 0,
+                    completedTasks: 0,
+                    inProgressTasks: 0,
+                    totalTimeMs: 0,
+                    averageTimePerTaskMs: 0,
+                    completionRate: 0,
+                    taskTypes: [],
+                    assignments: [],
+                });
+            }
+            const worker = workerMap.get(assignment.assignedTo)!;
+            worker.assignments.push(assignment);
+            worker.totalTasks++;
+
+            if (assignment.unassignedAt) {
+                worker.completedTasks++;
+                worker.totalTimeMs += (assignment.unassignedAt - assignment.assignedAt);
+            }
+        });
+
+        // Calculate task types per worker
+        workerMap.forEach(worker => {
+            const taskIds = [...new Set(worker.assignments.map(a => a.taskId))];
+            taskIds.forEach(taskId => {
+                const task = tasks.find(t => t.id === taskId);
+                if (task && !worker.taskTypes.includes(task.type)) {
+                    worker.taskTypes.push(task.type);
+                }
+            });
+
+            worker.inProgressTasks = worker.totalTasks - worker.completedTasks;
+            worker.completionRate = worker.totalTasks > 0 ? (worker.completedTasks / worker.totalTasks) * 100 : 0;
+            worker.averageTimePerTaskMs = worker.completedTasks > 0 ? worker.totalTimeMs / worker.completedTasks : 0;
+        });
+
+        // Sort by completed tasks (matching your app's logic)
+        const topPerformers = Array.from(workerMap.values())
+            .sort((a, b) => b.completedTasks - a.completedTasks);
+
+        // Overall stats
+        const totalWorkers = workerMap.size;
+        const allCompleted = topPerformers.reduce((sum, w) => sum + w.completedTasks, 0);
+        const allTotal = topPerformers.reduce((sum, w) => sum + w.totalTasks, 0);
+        const allTime = topPerformers.reduce((sum, w) => sum + w.totalTimeMs, 0);
+        const overallCompletionRate = allTotal > 0 ? (allCompleted / allTotal) * 100 : 0;
+        const avgMs = allCompleted > 0 ? allTime / allCompleted : 0;
+
+        const avgHours = Math.floor(avgMs / (1000 * 60 * 60));
+        const avgMinutes = Math.floor((avgMs % (1000 * 60 * 60)) / (1000 * 60));
+        const avgTaskTimeFormatted = avgHours > 0 ? `${avgHours}h ${avgMinutes}m` : `${avgMinutes}m`;
+
+        // Task type breakdown
+        const typeMap = new Map<string, { count: number; completed: number; totalTime: number }>();
+        tasks.forEach(task => {
+            if (!typeMap.has(task.type)) {
+                typeMap.set(task.type, { count: 0, completed: 0, totalTime: 0 });
+            }
+            const stats = typeMap.get(task.type)!;
+            stats.count++;
+            if (task.status === 'COMPLETED') {
+                stats.completed++;
+                const taskAssignments = assignments.filter(a => a.taskId === task.id && a.unassignedAt);
+                taskAssignments.forEach(a => {
+                    stats.totalTime += (a.unassignedAt! - a.assignedAt);
+                });
+            }
+        });
+
+        const taskTypeBreakdown: TaskTypeStats[] = Array.from(typeMap.entries())
+            .map(([type, stats]) => ({
+                type,
+                count: stats.count,
+                completedCount: stats.completed,
+                avgTimeMs: stats.completed > 0 ? stats.totalTime / stats.completed : 0,
+            }))
+            .sort((a, b) => b.count - a.count);
+
+        setWorkerStats({
+            totalWorkers,
+            overallCompletionRate,
+            avgTaskTimeFormatted,
+            topPerformers,
+            taskTypeBreakdown,
+        });
+    }, [tasks, assignments]);
+
+    const formatTime = (ms: number): string => {
+        const hours = Math.floor(ms / (1000 * 60 * 60));
+        const minutes = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
+        if (hours > 0) return `${hours}h ${minutes}m`;
+        return `${minutes}m`;
+    };
 
     const filteredTasks = tasks.filter(task => filter === 'ALL' ? true : task.status === filter);
     const pendingCount = tasks.filter(t => t.status === 'PENDING').length;
@@ -243,6 +381,118 @@ const Tasks: React.FC = () => {
                     ))}
                 </motion.div>
 
+                {/* Worker Performance Dashboard */}
+                {workerStats.topPerformers.length > 0 && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2 }}
+                        className="mb-8"
+                    >
+                        {/* Worker KPI Cards */}
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                            <div className="relative overflow-hidden rounded-xl p-4 text-center border border-blue-200"
+                                 style={{ background: 'linear-gradient(135deg, rgba(59,130,246,0.06) 0%, rgba(59,130,246,0.02) 100%)' }}>
+                                <FaUsers className="text-blue-500 text-xl mx-auto mb-2" />
+                                <div className="text-2xl font-bold text-blue-700">{workerStats.totalWorkers}</div>
+                                <div className="text-xs text-gray-500">Total Workers</div>
+                            </div>
+                            <div className="relative overflow-hidden rounded-xl p-4 text-center border border-green-200"
+                                 style={{ background: 'linear-gradient(135deg, rgba(34,197,94,0.06) 0%, rgba(34,197,94,0.02) 100%)' }}>
+                                <FaUserCheck className="text-green-500 text-xl mx-auto mb-2" />
+                                <div className="text-2xl font-bold text-green-700">{workerStats.overallCompletionRate.toFixed(0)}%</div>
+                                <div className="text-xs text-gray-500">Completion Rate</div>
+                            </div>
+                            <div className="relative overflow-hidden rounded-xl p-4 text-center border border-amber-200"
+                                 style={{ background: 'linear-gradient(135deg, rgba(245,158,11,0.06) 0%, rgba(245,158,11,0.02) 100%)' }}>
+                                <FaUserClock className="text-amber-500 text-xl mx-auto mb-2" />
+                                <div className="text-2xl font-bold text-amber-700">{workerStats.avgTaskTimeFormatted}</div>
+                                <div className="text-xs text-gray-500">Avg Time/Task</div>
+                            </div>
+                            <div className="relative overflow-hidden rounded-xl p-4 text-center border border-purple-200"
+                                 style={{ background: 'linear-gradient(135deg, rgba(147,51,234,0.06) 0%, rgba(147,51,234,0.02) 100%)' }}>
+                                <FaChartBar className="text-purple-500 text-xl mx-auto mb-2" />
+                                <div className="text-2xl font-bold text-purple-700">{workerStats.taskTypeBreakdown.length}</div>
+                                <div className="text-xs text-gray-500">Task Types</div>
+                            </div>
+                        </div>
+
+                        {/* Top Performers + Task Type Breakdown */}
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            {/* Top Performers */}
+                            <div className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl shadow-xl p-6">
+                                <Typography variant="h5" className="text-primary mb-4">
+                                    <FaTrophy className="inline mr-2 text-yellow-500" />
+                                    Top Performers
+                                </Typography>
+                                <div className="space-y-3">
+                                    {workerStats.topPerformers.slice(0, 5).map((worker, idx) => (
+                                        <motion.div
+                                            key={worker.workerName}
+                                            className="flex items-center justify-between p-3 rounded-xl bg-white/40 backdrop-blur-sm hover:bg-white/60 transition-all"
+                                            whileHover={{ x: 3 }}
+                                        >
+                                            <div className="flex items-center gap-3">
+                                <span className="text-lg font-bold text-gray-400 w-6">
+                                    {idx === 0 ? <FaTrophy className="text-yellow-500" /> :
+                                        idx === 1 ? <FaMedal className="text-gray-400" /> :
+                                            idx === 2 ? <FaAward className="text-amber-700" /> :
+                                                `#${idx + 1}`}
+                                </span>
+                                                <div>
+                                                    <div className="font-medium text-gray-900">{worker.workerName}</div>
+                                                    <div className="text-xs text-gray-500">
+                                                        {worker.taskTypes.slice(0, 3).join(' • ')}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="text-right">
+                                                <div className="font-bold text-primary">{worker.completedTasks}/{worker.totalTasks}</div>
+                                                <div className="text-xs text-gray-400">{worker.completionRate.toFixed(0)}% complete</div>
+                                            </div>
+                                        </motion.div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Task Type Breakdown */}
+                            <div className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl shadow-xl p-6">
+                                <Typography variant="h5" className="text-primary mb-4">
+                                    <FaChartPie className="inline mr-2 text-accent" />
+                                    Task Type Breakdown
+                                </Typography>
+                                <div className="space-y-3">
+                                    {workerStats.taskTypeBreakdown.map(typeStat => (
+                                        <motion.div
+                                            key={typeStat.type}
+                                            className="p-3 rounded-xl bg-white/40 backdrop-blur-sm"
+                                            whileHover={{ x: 3 }}
+                                        >
+                                            <div className="flex justify-between items-center mb-1">
+                                                <span className="text-sm font-medium text-gray-700">{typeStat.type}</span>
+                                                <span className="text-xs text-gray-500">
+                                    {typeStat.completedCount}/{typeStat.count} done
+                                </span>
+                                            </div>
+                                            <div className="w-full bg-gray-200 rounded-full h-2">
+                                                <motion.div
+                                                    className="bg-primary h-2 rounded-full"
+                                                    initial={{ width: 0 }}
+                                                    animate={{ width: `${typeStat.count > 0 ? (typeStat.completedCount / typeStat.count) * 100 : 0}%` }}
+                                                    transition={{ duration: 1, delay: 0.3 }}
+                                                />
+                                            </div>
+                                            <div className="text-xs text-gray-400 mt-1">
+                                                Avg: {formatTime(typeStat.avgTimeMs)} per task
+                                            </div>
+                                        </motion.div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </motion.div>
+                )}
+
                 {/* Filter Tabs */}
                 <motion.div
                     className="flex flex-wrap gap-2 mb-8"
@@ -299,7 +549,7 @@ const Tasks: React.FC = () => {
                                                 const activeAssignment = task.assignments?.find(a => a.assignedTo === task.currentWorker && !a.unassignedAt);
                                                 const lastCompleted = task.assignments?.find(a => a.assignedTo === task.currentWorker && a.unassignedAt);
                                                 setSelectedWorker({
-                                                    name: task.currentWorker,
+                                                    name: task.currentWorker || 'Unassigned',
                                                     taskTitle: task.title,
                                                     assignedAt: activeAssignment?.assignedAt || lastCompleted?.assignedAt || 0,
                                                     completedAt: lastCompleted?.unassignedAt,
