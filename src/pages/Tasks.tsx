@@ -398,7 +398,7 @@ const Tasks: React.FC = () => {
                         showInfoBadge={false}
                     />
                     <InfoCard
-                        icon={FaChartBar}
+                        icon={FaClipboardList}
                         title={String(workerStats.taskTypeBreakdown.length)}
                         subtitle="Task Types"
                         variant="primary"
