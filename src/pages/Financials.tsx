@@ -592,9 +592,6 @@ const Financials: React.FC = () => {
                             <div className="flex items-center gap-2 mb-4">
                                 <FaBorderAll className="text-primary text-xl" />
                                 <Typography variant="h4" className="text-primary">Block Profit & Loss</Typography>
-                                <Typography variant="small" className="text-gray-500">
-                                    Farm-wide expenses allocated equally: <strong>{new Intl.NumberFormat('fr-FR').format(perBlockAllocation)} FCFA</strong> per block
-                                </Typography>
                             </div>
                             <div className="flex items-center gap-2 mb-4">
                             <Typography variant="small" className="text-gray-500">
