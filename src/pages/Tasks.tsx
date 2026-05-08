@@ -339,13 +339,6 @@ const Tasks: React.FC = () => {
                             <Typography variant="lead" className="text-text-dark max-w-3xl mx-auto mb-8">
                                 Monitor all farm operations in real time. Track pending assignments, review work in progress, and verify completed tasks across every block of our farm. Use the filters below to focus on what matters most.
                             </Typography>
-                            <Typography
-                                variant="small"
-                                className="text-primary/70 max-w-3xl mx-auto mb-8 flex items-center justify-center gap-1.5"
-                            >
-                                <FaUserCheck className="text-primary" />
-                                Click on a worker's name to view assignment details, duration, and history.
-                            </Typography>
                         </motion.div>
                     </motion.div>
                 </div>
@@ -488,6 +481,9 @@ const Tasks: React.FC = () => {
                         </div>
                     </InfoCard>
                 </div>
+
+                {/* Spacer */}
+                <div className="my-8"></div>
 
                 {/* Filter Tabs */}
                 <motion.div
