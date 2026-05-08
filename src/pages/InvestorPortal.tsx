@@ -32,6 +32,13 @@ const InvestorPortal: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
     const navigate = useNavigate();
+    const [revenues, setRevenues] = useState<any[]>([]);
+    const [expenses, setExpenses] = useState<any[]>([]);
+    const [revenueByBlock, setRevenueByBlock] = useState<any[]>([]);
+    const [perBlockAllocation, setPerBlockAllocation] = useState<number>(0);
+    const [pieData, setPieData] = useState<any[]>([]);
+    const [expensesByCategory, setExpensesByCategory] = useState<Record<string, number>>({});
+    const [blockCount] = useState(35);
 
     useEffect(() => {
         const fetchInvestorData = async () => {
@@ -48,8 +55,14 @@ const InvestorPortal: React.FC = () => {
                 }
 
                 setFarmStats(farmData);
-                const totalRev = revenueData.totalRevenue || 0;
-                const totalExp = expenseData.totalExpenses || 0;
+
+                const revenuesList = revenueData.revenues || [];
+                const expensesList = expenseData.expenses || [];
+                setRevenues(revenuesList);
+                setExpenses(expensesList);
+
+                const totalRev = revenuesList.reduce((sum: number, r: any) => sum + (r.totalAmount || 0), 0);
+                const totalExp = expensesList.reduce((sum: number, e: any) => sum + (e.amount || 0), 0);
                 const netProfitVal = totalRev - totalExp;
                 const margin = totalRev > 0 ? (netProfitVal / totalRev) * 100 : 0;
 
@@ -60,6 +73,53 @@ const InvestorPortal: React.FC = () => {
                     profitMargin: margin,
                 });
 
+                // Expense breakdown for pie chart
+                const byCategory: Record<string, number> = {};
+                expensesList.forEach((e: any) => {
+                    byCategory[e.category] = (byCategory[e.category] || 0) + e.amount;
+                });
+                setExpensesByCategory(byCategory);
+                setPieData(Object.entries(byCategory).map(([name, value]) => ({ name, value })));
+
+                // Block-level P&L
+                const blockMap = new Map<number, any>();
+                for (let i = 1; i <= blockCount; i++) {
+                    blockMap.set(i, {
+                        blockId: i,
+                        blockName: `Block ${i}`,
+                        totalRevenue: 0,
+                        totalExpenses: 0,
+                        profit: 0,
+                        roi: 0,
+                        transactionCount: 0,
+                    });
+                }
+                revenuesList.forEach((r: any) => {
+                    if (r.blockId && blockMap.has(r.blockId)) {
+                        const b = blockMap.get(r.blockId);
+                        b.totalRevenue += r.totalAmount || 0;
+                        b.transactionCount++;
+                    }
+                });
+                let farmWideTotal = 0;
+                expensesList.forEach((e: any) => {
+                    if (e.blockId && blockMap.has(e.blockId)) {
+                        blockMap.get(e.blockId).totalExpenses += e.amount || 0;
+                    } else {
+                        farmWideTotal += e.amount || 0;
+                    }
+                });
+                const perBlock = farmWideTotal / blockCount;
+                setPerBlockAllocation(perBlock);
+                blockMap.forEach((b) => {
+                    b.totalExpenses += perBlock;
+                    b.profit = b.totalRevenue - b.totalExpenses;
+                    b.roi = b.totalExpenses > 0 ? (b.profit / b.totalExpenses) * 100 : (b.totalRevenue > 0 ? 100 : 0);
+                });
+                const sortedBlocks = Array.from(blockMap.values()).sort((a, b) => b.profit - a.profit);
+                setRevenueByBlock(sortedBlocks);
+
+                // Monthly chart data
                 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
                 setMonthlyData(months.map((month, i) => ({
                     month,
@@ -75,15 +135,10 @@ const InvestorPortal: React.FC = () => {
             }
         };
 
-        // Wait for auth state before fetching
         const unsubscribe = onAuthStateChanged(auth, (user) => {
-            if (user) {
-                fetchInvestorData();
-            } else {
-                setLoading(false);
-            }
+            if (user) fetchInvestorData();
+            else setLoading(false);
         });
-
         return () => unsubscribe();
     }, []);
 
@@ -226,6 +281,37 @@ const InvestorPortal: React.FC = () => {
                         ))}
                     </motion.div>
 
+                    {/* Quality Revenue Breakdown */}
+                    {financials.totalRevenue > 0 && (
+                        <motion.div
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                            variants={staggerContainer}
+                            className="mb-8"
+                        >
+                            <InfoCard icon={FaChartBar} title="Revenue by Quality Grade" variant="primary" showInfoBadge={false}>
+                                <div className="flex flex-col sm:flex-row gap-4">
+                                    {Object.entries(
+                                        revenues.reduce((acc: Record<string, number>, r: any) => {
+                                            acc[r.quality] = (acc[r.quality] || 0) + (r.totalAmount || 0);
+                                            return acc;
+                                        }, {} as Record<string, number>)
+                                    ).map(([quality, amount]) => (
+                                        <div key={quality} className="flex-1 text-center p-4 bg-white/30 rounded-xl">
+                                            <div className="text-2xl font-bold text-primary">
+                                                {new Intl.NumberFormat('fr-FR').format(amount)} FCFA
+                                            </div>
+                                            <div className="text-xs text-gray-500 mt-1">
+                                                {quality} ({financials.totalRevenue > 0 ? ((amount / financials.totalRevenue) * 100).toFixed(0) : 0}%)
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </InfoCard>
+                        </motion.div>
+                    )}
+
                     {/* Revenue Chart & Farm Stats */}
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
                         {/* Revenue & Profit Chart */}
@@ -253,6 +339,30 @@ const InvestorPortal: React.FC = () => {
                                     profit margins. Projecting {yearlyProjections[1].growth}% YoY growth.
                                 </p>
                             </div>
+                        </InfoCard>
+
+                        {/* Cost Structure (NEW) */}
+                        <InfoCard icon={FaChartPie} title="Cost Structure" variant="accent" showInfoBadge={false}>
+                            {pieData.length > 0 ? (
+                                <>
+                                    <ResponsiveContainer width="100%" height={250}>
+                                        <PieChart>
+                                            <Pie data={pieData} cx="50%" cy="50%" outerRadius={80} dataKey="value"
+                                                 label={({ name, percent }) => `${name}: ${((percent ?? 0) * 100).toFixed(0)}%`} >
+                                                {pieData.map((_, idx) => (
+                                                    <Cell key={idx} fill={COLORS[idx % COLORS.length]} />
+                                                ))}
+                                            </Pie>
+                                            <Tooltip formatter={(value) => `${new Intl.NumberFormat('fr-FR').format(Number(value))} FCFA`} />
+                                        </PieChart>
+                                    </ResponsiveContainer>
+                                    <p className="text-xs text-gray-500 mt-2 text-center">
+                                        {Object.keys(expensesByCategory).length} expense categories
+                                    </p>
+                                </>
+                            ) : (
+                                <p className="text-center text-gray-400 py-8">No expense data yet</p>
+                            )}
                         </InfoCard>
 
                         {/* Farm Performance */}
@@ -311,6 +421,33 @@ const InvestorPortal: React.FC = () => {
                         </InfoCard>
                     </div>
 
+                    {/* Unit Economics */}
+                    <motion.div
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={staggerContainer}
+                        className="mb-12"
+                    >
+                        <InfoCard icon={FaLeaf} title="Unit Economics" variant="primary" showInfoBadge={false}>
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                                {[
+                                    { label: 'Cost/Tree', value: financials.totalExpenses / (farmStats?.stats?.aliveTrees || 3500) },
+                                    { label: 'Revenue/Tree', value: financials.totalRevenue / (farmStats?.stats?.aliveTrees || 3500) },
+                                    { label: 'Cost/Hectare', value: financials.totalExpenses / blockCount },
+                                    { label: 'Revenue/Hectare', value: financials.totalRevenue / blockCount },
+                                ].map((stat, i) => (
+                                    <div key={i} className="text-center p-3 bg-white/30 rounded-xl">
+                                        <div className="text-xs text-gray-500">{stat.label}</div>
+                                        <div className="text-lg font-bold text-primary">
+                                            {new Intl.NumberFormat('fr-FR').format(Math.round(stat.value))} FCFA
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </InfoCard>
+                    </motion.div>
+
                     {/* 3-Year Forecast */}
                     <motion.div
                         initial="hidden"
@@ -356,6 +493,66 @@ const InvestorPortal: React.FC = () => {
                             </div>
                         </InfoCard>
                     </motion.div>
+
+                    {/* Block Performance Snapshot */}
+                    {revenueByBlock.length > 0 && (
+                        <motion.div
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                            variants={staggerContainer}
+                            className="mb-12"
+                        >
+                            <InfoCard
+                                icon={FaChartBar}
+                                title="Top 5 Blocks by Profit"
+                                variant="primary"
+                                showInfoBadge={false}
+                            >
+                                <Typography variant="small" className="text-gray-500 mb-3">
+                                    <FaLightbulb className="inline mr-1 text-amber-500 text-xs" />
+                                    Farm-wide expenses allocated equally: <strong>{new Intl.NumberFormat('fr-FR').format(perBlockAllocation)} FCFA</strong> per block
+                                </Typography>
+                                <div className="overflow-x-auto">
+                                    <table className="w-full text-sm">
+                                        <thead>
+                                        <tr className="border-b border-gray-200 text-left">
+                                            <th className="pb-2 font-medium text-gray-600">Block</th>
+                                            <th className="pb-2 font-medium text-gray-600 text-right">Revenue</th>
+                                            <th className="pb-2 font-medium text-gray-600 text-right">Profit</th>
+                                            <th className="pb-2 font-medium text-gray-600 text-center">ROI</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {revenueByBlock.slice(0, 5).map((block, idx) => (
+                                            <tr key={block.blockId} className="border-b border-gray-100 last:border-0">
+                                                <td className="py-2 font-medium">
+                                                    {idx === 0 && '🥇 '}{idx === 1 && '🥈 '}{idx === 2 && '🥉 '}
+                                                    {block.blockName}
+                                                </td>
+                                                <td className="py-2 text-right text-green-700">
+                                                    {block.totalRevenue > 0
+                                                        ? new Intl.NumberFormat('fr-FR').format(block.totalRevenue)
+                                                        : '—'}
+                                                </td>
+                                                <td className="py-2 text-right font-bold text-primary">
+                                                    {new Intl.NumberFormat('fr-FR').format(block.profit)}
+                                                </td>
+                                                <td className="py-2 text-center">
+                                    <span className={`px-2 py-0.5 text-xs rounded-full font-medium ${
+                                        block.roi > 200 ? 'bg-green-100 text-green-700' : 'bg-blue-100 text-blue-700'
+                                    }`}>
+                                        {block.roi.toFixed(0)}%
+                                    </span>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </InfoCard>
+                        </motion.div>
+                    )}
 
                     {/* Key Highlights */}
                     <motion.div
