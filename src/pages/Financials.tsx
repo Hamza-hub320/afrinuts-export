@@ -1,6 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { FaDollarSign, FaChartLine, FaChartBar, FaChartPie, FaTable, FaBorderAll, FaMapMarkerAlt, FaTrophy, FaMedal, FaAward } from 'react-icons/fa';
+import {
+    FaDollarSign,
+    FaChartLine,
+    FaChartBar,
+    FaChartPie,
+    FaTable,
+    FaBorderAll,
+    FaMapMarkerAlt,
+    FaTrophy,
+    FaMedal,
+    FaAward,
+    FaLightbulb, FaMapPin, FaGlobeAfrica
+} from 'react-icons/fa';
 import { Typography } from '@/components/Typography/Typography';
 import DashboardNavbar from '@/components/DashboardNavbar/DashboardNavbar';
 import { getMockData } from '../services/mockData';
@@ -595,6 +607,7 @@ const Financials: React.FC = () => {
                             </div>
                             <div className="flex items-center gap-2 mb-4">
                             <Typography variant="small" className="text-gray-500">
+                                <FaLightbulb className="inline mr-1 text-amber-500 text-xs" />
                                 Farm-wide expenses allocated equally: <strong>{new Intl.NumberFormat('fr-FR').format(perBlockAllocation)} FCFA</strong> per block
                             </Typography>
                             </div>
@@ -675,9 +688,15 @@ const Financials: React.FC = () => {
                 {/* Expenses Table */}
                 <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
                     <GlassCard>
-                        <div className="flex items-center gap-2 mb-4">
-                            <FaTable className="text-primary text-xl" />
-                            <Typography variant="h4" className="text-primary">Expense History</Typography>
+                        <div className="flex flex-col gap-1 mb-4">
+                            <div className="flex items-center gap-2">
+                                <FaTable className="text-primary text-xl" />
+                                <Typography variant="h4" className="text-primary">Expense History</Typography>
+                            </div>
+                            <Typography variant="small" className="text-gray-500">
+                                <FaLightbulb className="inline mr-1 text-amber-500 text-xs" />
+                                Farm-wide expenses are divided equally across all 35 blocks for P&L calculations
+                            </Typography>
                         </div>
                         <div className="overflow-x-auto">
                             <table className="w-full text-sm">
@@ -685,27 +704,79 @@ const Financials: React.FC = () => {
                                 <tr className="border-b border-gray-200 text-left">
                                     <th className="pb-3 font-medium text-gray-600">Date</th>
                                     <th className="pb-3 font-medium text-gray-600">Category</th>
-                                    <th className="pb-3 font-medium text-gray-600 text-right">Amount (FCFA)</th>
+                                    <th className="pb-3 font-medium text-gray-600">Scope</th>
+                                    <th className="pb-3 font-medium text-gray-600">Description</th>
+                                    <th className="pb-3 font-medium text-gray-600 text-right">Amount</th>
+                                    <th className="pb-3 font-medium text-gray-600 text-right">Per Block</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {expenses.slice(0, expensePage * ITEMS_PER_PAGE).map((expense: any, i: number) => (
-                                    <motion.tr
-                                        key={expense.id}
-                                        className="border-b border-gray-100 last:border-0 hover:bg-white/30 transition-colors"
-                                        initial={{ opacity: 0, x: -10 }}
-                                        animate={{ opacity: 1, x: 0 }}
-                                        transition={{ delay: i * 0.05 }}
-                                    >
-                                        <td className="py-3">{new Date(expense.date).toLocaleDateString()}</td>
-                                        <td className="py-3">
-                                            <span className="px-2 py-1 bg-red-50 text-red-600 text-xs rounded-full">{expense.category}</span>
-                                        </td>
-                                        <td className="py-3 text-right font-medium">
-                                            {new Intl.NumberFormat('fr-FR').format(expense.amount)}
-                                        </td>
-                                    </motion.tr>
-                                ))}
+                                {expenses
+                                    .sort((a, b) => (b.date || 0) - (a.date || 0))
+                                    .slice(0, expensePage * ITEMS_PER_PAGE)
+                                    .map((expense: any, i: number) => {
+                                        const isFarmWide = !expense.blockId;
+                                        const perBlockAmount = isFarmWide
+                                            ? (expense.amount || 0) / 35
+                                            : expense.amount;
+
+                                        return (
+                                            <motion.tr
+                                                key={expense.id}
+                                                className="border-b border-gray-100 last:border-0 hover:bg-white/30 transition-colors"
+                                                initial={{ opacity: 0, x: -10 }}
+                                                animate={{ opacity: 1, x: 0 }}
+                                                transition={{ delay: i * 0.05 }}
+                                            >
+                                                <td className="py-3 whitespace-nowrap">
+                                                    {new Date(expense.date).toLocaleDateString()}
+                                                </td>
+                                                <td className="py-3">
+                                <span className={`px-2 py-1 text-xs rounded-full ${
+                                    expense.category === 'LAND_CLEARING' ? 'bg-amber-50 text-amber-700' :
+                                        expense.category === 'LABOR' ? 'bg-blue-50 text-blue-700' :
+                                            expense.category === 'PLOWING' ? 'bg-green-50 text-green-700' :
+                                                expense.category === 'FENCING' ? 'bg-purple-50 text-purple-700' :
+                                                    expense.category === 'SEEDLINGS' ? 'bg-emerald-50 text-emerald-700' :
+                                                        expense.category === 'FERTILIZER' ? 'bg-lime-50 text-lime-700' :
+                                                            expense.category === 'IRRIGATION' ? 'bg-cyan-50 text-cyan-700' :
+                                                                expense.category === 'SECURITY' ? 'bg-slate-100 text-slate-700' :
+                                                                    'bg-red-50 text-red-600'
+                                }`}>
+                                    {expense.category?.replace(/_/g, ' ')}
+                                </span>
+                                                </td>
+                                                <td className="py-3">
+                                                    {isFarmWide ? (
+                                                        <span className="px-2 py-1 bg-amber-50 text-amber-700 text-xs rounded-full inline-flex items-center gap-1">
+                                                            <FaGlobeAfrica className="text-[10px]" />
+                                                                    Farm-wide
+                                                        </span>
+                                                    ) : (
+                                                        <span className="px-2 py-1 bg-green-50 text-green-700 text-xs rounded-full inline-flex items-center gap-1">
+                                                            <FaMapPin className="text-[10px]" />
+                                                            Block {BLOCK_NAMES[expense.blockId] || expense.blockId}
+                                                         </span>
+                                                    )}
+                                                </td>
+                                                <td className="py-3 text-gray-600 text-xs max-w-[200px] truncate" title={expense.description}>
+                                                    {expense.description || '—'}
+                                                </td>
+                                                <td className="py-3 text-right font-medium text-red-600">
+                                                    {new Intl.NumberFormat('fr-FR').format(expense.amount)}
+                                                </td>
+                                                <td className="py-3 text-right text-xs">
+                                                    {isFarmWide ? (
+                                                        <span className="text-gray-500">
+                                        {new Intl.NumberFormat('fr-FR').format(perBlockAmount)}
+                                                            <span className="block text-[10px] text-gray-400">÷ 35 blocks</span>
+                                    </span>
+                                                    ) : (
+                                                        <span className="text-gray-400">—</span>
+                                                    )}
+                                                </td>
+                                            </motion.tr>
+                                        )})}
                                 </tbody>
                             </table>
                         </div>
