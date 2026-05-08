@@ -124,7 +124,13 @@ const DashboardNavbar: React.FC = () => {
                 {/* Mobile: stacked layout like main navbar */}
                 <div className="sm:hidden">
                     <div className="flex items-center justify-between px-4 py-3">
-                        <span className="text-sm font-medium text-gray-700 whitespace-nowrap mr-2">Dashboard Menu</span>
+                        <button
+                            onClick={() => { navigate('/dashboard'); setMobileOpen(false); }}
+                            className="flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-primary transition-colors whitespace-nowrap mr-2"
+                        >
+                            <FaTachometerAlt size={18} className="text-primary" />
+                            <span>Dashboard</span>
+                        </button>
                         <div className="flex items-center gap-2">
                         <span className="text-xs text-gray-400 bg-white/40 backdrop-blur-sm px-2 py-1 rounded-full">
                             {user?.role || 'User'}
