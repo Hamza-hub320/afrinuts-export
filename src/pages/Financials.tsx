@@ -534,7 +534,7 @@ const Financials: React.FC = () => {
                                         <th className="pb-3 font-medium text-gray-600">Date</th>
                                         <th className="pb-3 font-medium text-gray-600">Block</th>
                                         <th className="pb-3 font-medium text-gray-600">Cycle</th>
-                                        <th className="pb-3 font-medium text-gray-600">Season</th>
+                                        <th className="pb-3 font-medium text-gray-600">Harvest #</th>
                                         <th className="pb-3 font-medium text-gray-600">Quality</th>
                                         <th className="pb-3 font-medium text-gray-600 text-right">Amount (FCFA)</th>
                                     </tr>
