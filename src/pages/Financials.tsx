@@ -345,19 +345,10 @@ const Financials: React.FC = () => {
                             {/* Bar Chart for Block Revenue */}
                             <div className="mb-8">
                                 <ResponsiveContainer width="100%" height={350}>
-                                    <BarChart data={blockChartData} layout="vertical" margin={{ left: 40, right: 20, top: 10, bottom: 10 }}>
+                                    <BarChart data={blockChartData} layout="vertical" margin={{ left: 40 }}>
                                         <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                                        <XAxis
-                                            type="number"
-                                            tickFormatter={(value) => `${(value / 1000000).toFixed(0)}M`}
-                                            width={60}
-                                        />
-                                        <YAxis
-                                            type="category"
-                                            dataKey="name"
-                                            stroke="#6b7280"
-                                            width={50}
-                                        />
+                                        <XAxis type="number" tickFormatter={(value) => `${(value / 1000000).toFixed(0)}M`} />
+                                        <YAxis type="category" dataKey="name" stroke="#6b7280" width={50} />
                                         <Tooltip formatter={(value) => `${new Intl.NumberFormat('fr-FR').format(Number(value))} FCFA`} />
                                         <Bar dataKey="revenue" fill="#5A7411" radius={[0, 6, 6, 0]} />
                                     </BarChart>
@@ -411,7 +402,7 @@ const Financials: React.FC = () => {
                                 <Typography variant="h4" className="text-primary">Revenue by Quality</Typography>
                             </div>
                             <ResponsiveContainer width="100%" height={300}>
-                                <BarChart data={revenues} margin={{ left: 20, right: 20, top: 10, bottom: 10 }}>
+                                <BarChart data={revenues}>
                                     <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
                                     <XAxis dataKey="quality" stroke="#6b7280" />
                                     <YAxis
