@@ -583,7 +583,8 @@ const InvestorPortal: React.FC = () => {
                                         : '—'} FCFA generated
                                     </div>
                                 </div>
-                                {/* Profit Per Hectare Highlight */}
+
+                                {/* Per-block metrics */}
                                 <div className="grid grid-cols-2 gap-3">
                                     <div className="text-center p-3 bg-green-50 rounded-xl">
                                         <div className="text-xs text-gray-500">Profit/Ha</div>
@@ -603,33 +604,51 @@ const InvestorPortal: React.FC = () => {
                                     </div>
                                 </div>
 
-                                {/* Break-Even Insight */}
-                                <div className="p-3 bg-amber-50 rounded-lg">
-                                    <p className="text-sm text-gray-600">
-                                        <FaLightbulb className="inline mr-1 text-amber-500" />
-                                        <strong>Break-even:</strong> At current margins, each block needs{' '}
-                                        {financials.netProfit > 0
-                                            ? new Intl.NumberFormat('fr-FR').format(Math.round(financials.totalExpenses / (financials.netProfit / blockCount)))
-                                            : '—'}{' '}
-                                        harvests to recoup initial investment.
-                                    </p>
-                                </div>
-
-                                {/* Projected Payback */}
-                                <div className="text-center p-3 bg-primary/5 rounded-xl">
-                                    <div className="text-xs text-gray-500 uppercase tracking-wide">Projected Payback Period</div>
-                                    <div className="text-2xl font-bold text-primary">
-                                        {yearlyProjections.length > 1
-                                            ? `${yearlyProjections[1].year - new Date().getFullYear()}+ years`
-                                            : 'Calculating...'}
+                                {/* Investor Share (25% of Net Profit) */}
+                                <div className="text-center p-3 bg-amber-50 rounded-xl border border-amber-200">
+                                    <div className="text-xs text-gray-500 uppercase tracking-wide">Investor Share (25% of Net Profit)</div>
+                                    <div className="text-2xl font-bold text-amber-700">
+                                        {new Intl.NumberFormat('fr-FR').format(Math.round(financials.netProfit * 0.25))} FCFA
                                     </div>
                                     <div className="text-xs text-gray-400 mt-1">
-                                        Based on {yearlyProjections[1]?.growth}% projected growth
+                                        Per harvest cycle · {new Intl.NumberFormat('fr-FR').format(Math.round(financials.netProfit * 0.25 / 35))} FCFA per block
                                     </div>
+                                </div>
+
+                                {/* Payback Projection */}
+                                {(() => {
+                                    const totalInvestment = financials.totalExpenses;
+                                    const investorSharePerHarvest = financials.netProfit * 0.25;
+                                    const harvestsToDouble = investorSharePerHarvest > 0
+                                        ? Math.ceil((totalInvestment * 1.5) / investorSharePerHarvest)
+                                        : null;
+
+                                    return (
+                                        <div className="text-center p-3 bg-primary/5 rounded-xl">
+                                            <div className="text-xs text-gray-500 uppercase tracking-wide">Estimated Payback</div>
+                                            <div className="text-2xl font-bold text-primary">
+                                                {harvestsToDouble
+                                                    ? `${harvestsToDouble} Harvests`
+                                                    : 'Calculating...'}
+                                            </div>
+                                            <div className="text-xs text-gray-400 mt-1">
+                                                To reach 1.5x return at 25% profit share
+                                                {harvestsToDouble && (
+                                                    <span> (~{Math.ceil(harvestsToDouble)} harvest cycles)</span>
+                                                )}
+                                            </div>
+                                        </div>
+                                    );
+                                })()}
+
+                                {/* Agreement Reference */}
+                                <div className="p-3 bg-gray-50 rounded-lg text-[10px] text-gray-400 leading-relaxed">
+                                    Per Investment Agreement §4–5: Investor receives 25% of net profit for 3 harvests,
+                                    targeting 1.5x–2.5x return on original investment based on yield performance.
+                                    Projections are estimates; actual returns depend on harvest yields and market prices.
                                 </div>
                             </div>
                         </InfoCard>
-                    </div>
 
                     {/* 3-Year Forecast */}
                     <motion.div
