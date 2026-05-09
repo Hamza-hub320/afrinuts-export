@@ -649,6 +649,7 @@ const InvestorPortal: React.FC = () => {
                                 </div>
                             </div>
                         </InfoCard>
+                    </div>
 
                     {/* 3-Year Forecast */}
                     <motion.div
@@ -750,7 +751,6 @@ const InvestorPortal: React.FC = () => {
                         <p>This dashboard provides estimated projections based on current farm data. Actual results may vary.</p>
                         <p>© {new Date().getFullYear()} AfriNuts Export - All Rights Reserved</p>
                     </div>
-                </div>
                 </div>
             </Section>
         </main>
