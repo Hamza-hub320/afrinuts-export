@@ -345,10 +345,19 @@ const Financials: React.FC = () => {
                             {/* Bar Chart for Block Revenue */}
                             <div className="mb-8">
                                 <ResponsiveContainer width="100%" height={350}>
-                                    <BarChart data={blockChartData} layout="vertical" margin={{ left: 40 }}>
+                                    <BarChart data={blockChartData} layout="vertical" margin={{ left: 40, right: 20, top: 10, bottom: 10 }}>
                                         <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                                        <XAxis type="number" tickFormatter={(value) => `${(value / 1000000).toFixed(0)}M`} />
-                                        <YAxis type="category" dataKey="name" stroke="#6b7280" width={50} />
+                                        <XAxis
+                                            type="number"
+                                            tickFormatter={(value) => `${(value / 1000000).toFixed(0)}M`}
+                                            width={60}
+                                        />
+                                        <YAxis
+                                            type="category"
+                                            dataKey="name"
+                                            stroke="#6b7280"
+                                            width={50}
+                                        />
                                         <Tooltip formatter={(value) => `${new Intl.NumberFormat('fr-FR').format(Number(value))} FCFA`} />
                                         <Bar dataKey="revenue" fill="#5A7411" radius={[0, 6, 6, 0]} />
                                     </BarChart>
@@ -402,10 +411,14 @@ const Financials: React.FC = () => {
                                 <Typography variant="h4" className="text-primary">Revenue by Quality</Typography>
                             </div>
                             <ResponsiveContainer width="100%" height={300}>
-                                <BarChart data={revenues}>
+                                <BarChart data={revenues} margin={{ left: 20, right: 20, top: 10, bottom: 10 }}>
                                     <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
                                     <XAxis dataKey="quality" stroke="#6b7280" />
-                                    <YAxis stroke="#6b7280" />
+                                    <YAxis
+                                        stroke="#6b7280"
+                                        width={80}
+                                        tickFormatter={(value) => `${(value / 1000000).toFixed(1)}M`}
+                                    />
                                     <Tooltip formatter={(value) => `${new Intl.NumberFormat('fr-FR').format(Number(value))} FCFA`} />
                                     <Bar dataKey="totalAmount" fill="#5A7411" radius={[6, 6, 0, 0]} />
                                 </BarChart>
@@ -474,7 +487,9 @@ const Financials: React.FC = () => {
                                 <FaTable className="text-primary text-xl" />
                                 <Typography variant="h4" className="text-primary">Revenue History (Transaction View)</Typography>
                             </div>
-                            <div className="overflow-x-auto">
+
+                            {/* Desktop Table */}
+                            <div className="hidden md:block overflow-x-auto">
                                 <table className="w-full text-sm">
                                     <thead>
                                     <tr className="border-b border-gray-200 text-left">
@@ -508,6 +523,51 @@ const Financials: React.FC = () => {
                                     </tbody>
                                 </table>
                             </div>
+
+                            {/* Mobile Cards */}
+                            <div className="md:hidden space-y-3">
+                                {revenues.slice(0, revenuePage * ITEMS_PER_PAGE).map((revenue: any, i: number) => (
+                                    <motion.div
+                                        key={revenue.id}
+                                        className="bg-white/40 backdrop-blur-sm rounded-xl p-4 border border-white/30 space-y-2"
+                                        initial={{ opacity: 0, y: 10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: i * 0.05 }}
+                                    >
+                                        <div className="flex items-center justify-between">
+                            <span className={`px-2 py-1 text-xs rounded-full font-medium ${
+                                revenue.quality === 'PREMIUM'
+                                    ? 'bg-amber-100 text-amber-700'
+                                    : revenue.quality === 'STANDARD'
+                                        ? 'bg-blue-100 text-blue-700'
+                                        : 'bg-gray-100 text-gray-600'
+                            }`}>
+                                {revenue.quality}
+                            </span>
+                                            <span className="text-xs text-gray-400">
+                                {new Date(revenue.harvestDate).toLocaleDateString()}
+                            </span>
+                                        </div>
+
+                                        <div className="flex items-center justify-between">
+                            <span className="text-sm text-gray-600">
+                                <FaMapPin className="inline mr-1 text-gray-400 text-xs" />
+                                {revenue.blockId ? BLOCK_NAMES[revenue.blockId] || `Block ${revenue.blockId}` : 'Processing'}
+                            </span>
+                                            <span className="text-lg font-bold text-green-700">
+                                {new Intl.NumberFormat('fr-FR').format(revenue.totalAmount)}
+                            </span>
+                                        </div>
+
+                                        {revenue.buyer && (
+                                            <div className="text-xs text-gray-400 pt-1 border-t border-gray-100">
+                                                Buyer: {revenue.buyer}
+                                            </div>
+                                        )}
+                                    </motion.div>
+                                ))}
+                            </div>
+
                             {revenues.length > revenuePage * ITEMS_PER_PAGE && (
                                 <div className="flex justify-center mt-4">
                                     <motion.button
