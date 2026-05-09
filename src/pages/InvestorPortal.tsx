@@ -751,6 +751,7 @@ const InvestorPortal: React.FC = () => {
                         <p>© {new Date().getFullYear()} AfriNuts Export - All Rights Reserved</p>
                     </div>
                 </div>
+                </div>
             </Section>
         </main>
         </div>
