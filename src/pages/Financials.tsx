@@ -59,6 +59,10 @@ interface RevenueTransaction {
     quantityKg: number;
     pricePerKg: number;
     buyer?: string;
+    createdAt?: number;
+    harvestCycleId?: string;
+    harvestYear?: number;
+    harvestSeason?: number;
 }
 
 const GlassCard: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className = '' }) => (
@@ -479,6 +483,49 @@ const Financials: React.FC = () => {
                                 <Typography variant="h4" className="text-primary">Revenue History (Transaction View)</Typography>
                             </div>
 
+                            {/* Recent Harvests Banner */}
+                            {(() => {
+                                const now = Date.now();
+                                const sevenDaysAgo = now - 7 * 24 * 60 * 60 * 1000;
+                                const recentHarvests = revenues.filter((r: any) => {
+                                    const harvestTime = r.harvestDate || r.createdAt;
+                                    return harvestTime && harvestTime > sevenDaysAgo;
+                                });
+
+                                if (recentHarvests.length === 0) return null;
+
+                                const recentRevenue = recentHarvests.reduce((sum: number, r: any) => sum + (r.totalAmount || 0), 0);
+                                const recentBlocks = [...new Set(recentHarvests.map((r: any) => r.blockId).filter(Boolean))];
+
+                                return (
+                                    <motion.div
+                                        className="mb-4 p-4 bg-green-50/60 backdrop-blur-sm rounded-xl border border-green-200"
+                                        initial={{ opacity: 0, y: -10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                    >
+                                        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
+                                            <div className="flex items-center gap-2">
+                                <span className="relative flex h-3 w-3">
+                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                    <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                                </span>
+                                                <Typography variant="small" className="font-semibold text-green-800">
+                                                    {recentHarvests.length} new harvest{recentHarvests.length !== 1 ? 's' : ''} this week
+                                                </Typography>
+                                            </div>
+                                            <div className="flex gap-4 text-sm">
+                                <span className="text-green-700">
+                                    <strong>{recentBlocks.length}</strong> block{recentBlocks.length !== 1 ? 's' : ''}
+                                </span>
+                                                <span className="text-green-700 font-bold">
+                                    {new Intl.NumberFormat('fr-FR').format(recentRevenue)} FCFA
+                                </span>
+                                            </div>
+                                        </div>
+                                    </motion.div>
+                                );
+                            })()}
+
                             {/* Desktop Table */}
                             <div className="hidden md:block overflow-x-auto">
                                 <table className="w-full text-sm">
@@ -486,77 +533,144 @@ const Financials: React.FC = () => {
                                     <tr className="border-b border-gray-200 text-left">
                                         <th className="pb-3 font-medium text-gray-600">Date</th>
                                         <th className="pb-3 font-medium text-gray-600">Block</th>
+                                        <th className="pb-3 font-medium text-gray-600">Cycle</th>
+                                        <th className="pb-3 font-medium text-gray-600">Season</th>
                                         <th className="pb-3 font-medium text-gray-600">Quality</th>
                                         <th className="pb-3 font-medium text-gray-600 text-right">Amount (FCFA)</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    {revenues.slice(0, revenuePage * ITEMS_PER_PAGE).map((revenue: any, i: number) => (
-                                        <motion.tr
-                                            key={revenue.id}
-                                            className="border-b border-gray-100 last:border-0 hover:bg-white/30 transition-colors"
-                                            initial={{ opacity: 0, x: -10 }}
-                                            animate={{ opacity: 1, x: 0 }}
-                                            transition={{ delay: i * 0.05 }}
-                                        >
-                                            <td className="py-3">{new Date(revenue.harvestDate).toLocaleDateString()}</td>
-                                            <td className="py-3">
-                                                {revenue.blockId ? BLOCK_NAMES[revenue.blockId] || `Block ${revenue.blockId}` : 'Processing Center'}
-                                            </td>
-                                            <td className="py-3">
-                                                <span className="px-2 py-1 bg-primary/10 text-primary text-xs rounded-full">{revenue.quality}</span>
-                                            </td>
-                                            <td className="py-3 text-right font-medium">
-                                                {new Intl.NumberFormat('fr-FR').format(revenue.totalAmount)}
-                                            </td>
-                                        </motion.tr>
-                                    ))}
+                                    {revenues
+                                        .sort((a, b) => (b.harvestDate || b.createdAt || 0) - (a.harvestDate || a.createdAt || 0))
+                                        .slice(0, revenuePage * ITEMS_PER_PAGE)
+                                        .map((revenue: any, i: number) => {
+                                            const isRecent = (revenue.harvestDate || revenue.createdAt) > (Date.now() - 7 * 24 * 60 * 60 * 1000);
+                                            return (
+                                                <motion.tr
+                                                    key={revenue.id}
+                                                    className="border-b border-gray-100 last:border-0 hover:bg-white/30 transition-colors"
+                                                    initial={{ opacity: 0, x: -10 }}
+                                                    animate={{ opacity: 1, x: 0 }}
+                                                    transition={{ delay: i * 0.05 }}
+                                                >
+                                                    <td className="py-3 whitespace-nowrap">
+                                                        <div className="flex items-center gap-2">
+                                                            {new Date(revenue.harvestDate || revenue.createdAt).toLocaleDateString()}
+                                                            {isRecent && (
+                                                                <span className="px-1.5 py-0.5 bg-green-100 text-green-700 text-[10px] rounded-full font-medium animate-pulse">
+                                                    NEW
+                                                </span>
+                                                            )}
+                                                        </div>
+                                                    </td>
+                                                    <td className="py-3">
+                                                        {revenue.blockId ? BLOCK_NAMES[revenue.blockId] || `Block ${revenue.blockId}` : 'Processing Center'}
+                                                    </td>
+                                                    <td className="py-3">
+                                                        {revenue.harvestCycleId ? (
+                                                            <span className="text-xs text-gray-500" title={revenue.harvestCycleId}>
+                                                {revenue.harvestYear || '—'}
+                                            </span>
+                                                        ) : (
+                                                            <span className="text-xs text-gray-400">—</span>
+                                                        )}
+                                                    </td>
+                                                    <td className="py-3">
+                                                        {revenue.harvestSeason ? (
+                                                            <span className="px-2 py-0.5 bg-blue-50 text-blue-700 text-xs rounded-full">
+                                                #{revenue.harvestSeason}
+                                            </span>
+                                                        ) : (
+                                                            <span className="text-xs text-gray-400">—</span>
+                                                        )}
+                                                    </td>
+                                                    <td className="py-3">
+                                        <span className={`px-2 py-1 text-xs rounded-full ${
+                                            revenue.quality === 'PREMIUM'
+                                                ? 'bg-amber-100 text-amber-700'
+                                                : revenue.quality === 'STANDARD'
+                                                    ? 'bg-blue-100 text-blue-700'
+                                                    : 'bg-gray-100 text-gray-600'
+                                        }`}>
+                                            {revenue.quality}
+                                        </span>
+                                                    </td>
+                                                    <td className="py-3 text-right font-medium">
+                                                        {new Intl.NumberFormat('fr-FR').format(revenue.totalAmount)}
+                                                    </td>
+                                                </motion.tr>
+                                            );
+                                        })}
                                     </tbody>
                                 </table>
                             </div>
 
                             {/* Mobile Cards */}
                             <div className="md:hidden space-y-3">
-                                {revenues.slice(0, revenuePage * ITEMS_PER_PAGE).map((revenue: any, i: number) => (
-                                    <motion.div
-                                        key={revenue.id}
-                                        className="bg-white/40 backdrop-blur-sm rounded-xl p-4 border border-white/30 space-y-2"
-                                        initial={{ opacity: 0, y: 10 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ delay: i * 0.05 }}
-                                    >
-                                        <div className="flex items-center justify-between">
-                            <span className={`px-2 py-1 text-xs rounded-full font-medium ${
-                                revenue.quality === 'PREMIUM'
-                                    ? 'bg-amber-100 text-amber-700'
-                                    : revenue.quality === 'STANDARD'
-                                        ? 'bg-blue-100 text-blue-700'
-                                        : 'bg-gray-100 text-gray-600'
-                            }`}>
-                                {revenue.quality}
-                            </span>
-                                            <span className="text-xs text-gray-400">
-                                {new Date(revenue.harvestDate).toLocaleDateString()}
-                            </span>
-                                        </div>
+                                {revenues
+                                    .sort((a, b) => (b.harvestDate || b.createdAt || 0) - (a.harvestDate || a.createdAt || 0))
+                                    .slice(0, revenuePage * ITEMS_PER_PAGE)
+                                    .map((revenue: any, i: number) => {
+                                        const isRecent = (revenue.harvestDate || revenue.createdAt) > (Date.now() - 7 * 24 * 60 * 60 * 1000);
+                                        return (
+                                            <motion.div
+                                                key={revenue.id}
+                                                className="bg-white/40 backdrop-blur-sm rounded-xl p-4 border border-white/30 space-y-2"
+                                                initial={{ opacity: 0, y: 10 }}
+                                                animate={{ opacity: 1, y: 0 }}
+                                                transition={{ delay: i * 0.05 }}
+                                            >
+                                                <div className="flex items-center justify-between">
+                                    <span className={`px-2 py-1 text-xs rounded-full font-medium ${
+                                        revenue.quality === 'PREMIUM'
+                                            ? 'bg-amber-100 text-amber-700'
+                                            : revenue.quality === 'STANDARD'
+                                                ? 'bg-blue-100 text-blue-700'
+                                                : 'bg-gray-100 text-gray-600'
+                                    }`}>
+                                        {revenue.quality}
+                                    </span>
+                                                    <span className="text-xs text-gray-400 flex items-center gap-1">
+                                        {new Date(revenue.harvestDate || revenue.createdAt).toLocaleDateString()}
+                                                        {isRecent && (
+                                                            <span className="px-1.5 py-0.5 bg-green-100 text-green-700 text-[10px] rounded-full font-medium">
+                                                NEW
+                                            </span>
+                                                        )}
+                                    </span>
+                                                </div>
 
-                                        <div className="flex items-center justify-between">
-                            <span className="text-sm text-gray-600">
-                                <FaMapPin className="inline mr-1 text-gray-400 text-xs" />
-                                {revenue.blockId ? BLOCK_NAMES[revenue.blockId] || `Block ${revenue.blockId}` : 'Processing'}
-                            </span>
-                                            <span className="text-lg font-bold text-green-700">
-                                {new Intl.NumberFormat('fr-FR').format(revenue.totalAmount)}
-                            </span>
-                                        </div>
+                                                <div className="flex items-center justify-between">
+                                    <span className="text-sm text-gray-600">
+                                        <FaMapPin className="inline mr-1 text-gray-400 text-xs" />
+                                        {revenue.blockId ? BLOCK_NAMES[revenue.blockId] || `Block ${revenue.blockId}` : 'Processing'}
+                                    </span>
+                                                    <span className="text-lg font-bold text-green-700">
+                                        {new Intl.NumberFormat('fr-FR').format(revenue.totalAmount)}
+                                    </span>
+                                                </div>
 
-                                        {revenue.buyer && (
-                                            <div className="text-xs text-gray-400 pt-1 border-t border-gray-100">
-                                                Buyer: {revenue.buyer}
-                                            </div>
-                                        )}
-                                    </motion.div>
-                                ))}
+                                                {/* Harvest cycle info row */}
+                                                <div className="flex items-center justify-between text-xs text-gray-500 pt-1 border-t border-gray-100">
+                                    <span>
+                                        {revenue.harvestYear ? `Year ${revenue.harvestYear}` : '—'}
+                                        {revenue.harvestSeason ? ` · Season #${revenue.harvestSeason}` : ''}
+                                    </span>
+                                                    {revenue.harvestCycleId && (
+                                                        <span className="text-[10px] text-gray-400 truncate max-w-[150px]" title={revenue.harvestCycleId}>
+                                            {revenue.harvestCycleId}
+                                        </span>
+                                                    )}
+                                                </div>
+
+                                                {revenue.buyer && (
+                                                    <div className="text-xs text-gray-400 pt-1 border-t border-gray-100">
+                                                        Buyer: {revenue.buyer}
+                                                    </div>
+                                                )}
+                                            </motion.div>
+                                        );
+                                    })}
                             </div>
 
                             {revenues.length > revenuePage * ITEMS_PER_PAGE && (
