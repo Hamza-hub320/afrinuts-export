@@ -561,6 +561,7 @@ const InvestorPortal: React.FC = () => {
                                 </p>
                             </div>
                         </InfoCard>
+
                         {/* Investment Returns Summary */}
                         <InfoCard
                             icon={FaDollarSign}
@@ -570,83 +571,115 @@ const InvestorPortal: React.FC = () => {
                         >
                             <div className="space-y-4">
                                 {/* Revenue Multiple */}
-                                <div className="text-center p-3 bg-primary/5 rounded-xl">
+                                <motion.div
+                                    className="text-center p-4 rounded-xl bg-white/40 backdrop-blur-sm border border-white/30 shadow-sm"
+                                    variants={fadeIn}
+                                    whileHover={{ y: -2, scale: 1.02 }}
+                                >
                                     <div className="text-xs text-gray-500 uppercase tracking-wide">Revenue Multiple</div>
-                                    <div className="text-3xl font-bold text-primary">
+                                    <div className="text-3xl font-bold text-primary mt-1">
                                         {(financials.totalExpenses > 0
                                             ? (financials.totalRevenue / financials.totalExpenses)
                                             : 0).toFixed(1)}x
                                     </div>
-                                    <div className="text-xs text-gray-400 mt-1">
-                                        For every 1 FCFA spent, {financials.totalExpenses > 0
-                                        ? (financials.totalRevenue / financials.totalExpenses).toFixed(1)
-                                        : '—'} FCFA generated
+                                    <div className="text-xs text-gray-500 mt-1">
+                                        For every 1 FCFA spent,{' '}
+                                        <span className="font-semibold text-gray-700">
+                {financials.totalExpenses > 0
+                    ? (financials.totalRevenue / financials.totalExpenses).toFixed(1)
+                    : '—'} FCFA
+            </span>{' '}
+                                        generated
                                     </div>
-                                </div>
+                                </motion.div>
 
                                 {/* Per-block metrics */}
-                                <div className="grid grid-cols-2 gap-3">
-                                    <div className="text-center p-3 bg-green-50 rounded-xl">
+                                <motion.div
+                                    className="grid grid-cols-2 gap-3"
+                                    variants={fadeIn}
+                                >
+                                    <motion.div
+                                        className="text-center p-4 rounded-xl bg-white/40 backdrop-blur-sm border border-white/30 shadow-sm"
+                                        whileHover={{ y: -2, scale: 1.02 }}
+                                    >
                                         <div className="text-xs text-gray-500">Profit/Ha</div>
-                                        <div className="text-xl font-bold text-green-700">
+                                        <div className="text-xl font-bold text-primary mt-1">
                                             {new Intl.NumberFormat('fr-FR').format(
                                                 Math.round(financials.netProfit / blockCount)
                                             )} FCFA
                                         </div>
-                                    </div>
-                                    <div className="text-center p-3 bg-blue-50 rounded-xl">
+                                    </motion.div>
+                                    <motion.div
+                                        className="text-center p-4 rounded-xl bg-white/40 backdrop-blur-sm border border-white/30 shadow-sm"
+                                        whileHover={{ y: -2, scale: 1.02 }}
+                                    >
                                         <div className="text-xs text-gray-500">Avg Block ROI</div>
-                                        <div className="text-xl font-bold text-blue-700">
+                                        <div className="text-xl font-bold text-primary mt-1">
                                             {revenueByBlock.length > 0
                                                 ? (revenueByBlock.reduce((sum, b) => sum + b.roi, 0) / revenueByBlock.filter(b => b.totalRevenue > 0).length || 1).toFixed(0)
                                                 : '—'}%
                                         </div>
-                                    </div>
-                                </div>
+                                    </motion.div>
+                                </motion.div>
 
-                                {/* Investor Share (25% of Net Profit) */}
-                                <div className="text-center p-3 bg-amber-50 rounded-xl border border-amber-200">
+                                {/* Investor Share */}
+                                <motion.div
+                                    className="text-center p-4 rounded-xl bg-white/40 backdrop-blur-sm border border-amber-200 shadow-sm"
+                                    variants={fadeIn}
+                                    whileHover={{ y: -2, scale: 1.02 }}
+                                >
                                     <div className="text-xs text-gray-500 uppercase tracking-wide">Investor Share (25% of Net Profit)</div>
-                                    <div className="text-2xl font-bold text-amber-700">
+                                    <div className="text-2xl font-bold text-primary mt-1">
                                         {new Intl.NumberFormat('fr-FR').format(Math.round(financials.netProfit * 0.25))} FCFA
                                     </div>
-                                    <div className="text-xs text-gray-400 mt-1">
+                                    <div className="text-xs text-gray-500 mt-1">
                                         Per harvest cycle · {new Intl.NumberFormat('fr-FR').format(Math.round(financials.netProfit * 0.25 / 35))} FCFA per block
                                     </div>
-                                </div>
+                                </motion.div>
 
                                 {/* Payback Projection */}
-                                {(() => {
-                                    const totalInvestment = financials.totalExpenses;
-                                    const investorSharePerHarvest = financials.netProfit * 0.25;
-                                    const harvestsToDouble = investorSharePerHarvest > 0
-                                        ? Math.ceil((totalInvestment * 1.5) / investorSharePerHarvest)
-                                        : null;
+                                <motion.div
+                                    className="text-center p-4 rounded-xl bg-white/40 backdrop-blur-sm border border-white/30 shadow-sm"
+                                    variants={fadeIn}
+                                    whileHover={{ y: -2, scale: 1.02 }}
+                                >
+                                    {(() => {
+                                        const totalInvestment = financials.totalExpenses;
+                                        const investorSharePerHarvest = financials.netProfit * 0.25;
+                                        const harvestsToDouble = investorSharePerHarvest > 0
+                                            ? Math.ceil((totalInvestment * 1.5) / investorSharePerHarvest)
+                                            : null;
 
-                                    return (
-                                        <div className="text-center p-3 bg-primary/5 rounded-xl">
-                                            <div className="text-xs text-gray-500 uppercase tracking-wide">Estimated Payback</div>
-                                            <div className="text-2xl font-bold text-primary">
-                                                {harvestsToDouble
-                                                    ? `${harvestsToDouble} Harvests`
-                                                    : 'Calculating...'}
-                                            </div>
-                                            <div className="text-xs text-gray-400 mt-1">
-                                                To reach 1.5x return at 25% profit share
-                                                {harvestsToDouble && (
-                                                    <span> (~{Math.ceil(harvestsToDouble)} harvest cycles)</span>
-                                                )}
-                                            </div>
-                                        </div>
-                                    );
-                                })()}
+                                        return (
+                                            <>
+                                                <div className="text-xs text-gray-500 uppercase tracking-wide">Estimated Payback</div>
+                                                <div className="text-2xl font-bold text-primary mt-1">
+                                                    {harvestsToDouble
+                                                        ? `${harvestsToDouble} Harvests`
+                                                        : 'Calculating...'}
+                                                </div>
+                                                <div className="text-xs text-gray-500 mt-1">
+                                                    To reach 1.5x return at 25% profit share
+                                                    {harvestsToDouble && (
+                                                        <span> (~{harvestsToDouble} harvest cycles)</span>
+                                                    )}
+                                                </div>
+                                            </>
+                                        );
+                                    })()}
+                                </motion.div>
 
                                 {/* Agreement Reference */}
-                                <div className="p-3 bg-gray-50 rounded-lg text-[10px] text-gray-400 leading-relaxed">
-                                    Per Investment Agreement §4–5: Investor receives 25% of net profit for 3 harvests,
-                                    targeting 1.5x–2.5x return on original investment based on yield performance.
-                                    Projections are estimates; actual returns depend on harvest yields and market prices.
-                                </div>
+                                <motion.div
+                                    className="p-3 rounded-lg bg-gray-50/60 backdrop-blur-sm border border-gray-100"
+                                    variants={fadeIn}
+                                >
+                                    <p className="text-[10px] text-gray-400 leading-relaxed">
+                                        Per Investment Agreement §4–5: Investor receives 25% of net profit for 3 harvests,
+                                        targeting 1.5x–2.5x return on original investment based on yield performance.
+                                        Projections are estimates; actual returns depend on harvest yields and market prices.
+                                    </p>
+                                </motion.div>
                             </div>
                         </InfoCard>
                     </div>
