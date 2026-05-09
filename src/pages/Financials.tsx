@@ -541,6 +541,7 @@ const Financials: React.FC = () => {
                                     </thead>
                                     <tbody>
                                     {revenues
+                                        .slice()
                                         .sort((a, b) => (b.harvestDate || b.createdAt || 0) - (a.harvestDate || a.createdAt || 0))
                                         .slice(0, revenuePage * ITEMS_PER_PAGE)
                                         .map((revenue: any, i: number) => {
@@ -608,6 +609,7 @@ const Financials: React.FC = () => {
                             {/* Mobile Cards */}
                             <div className="md:hidden space-y-3">
                                 {revenues
+                                    .slice()
                                     .sort((a, b) => (b.harvestDate || b.createdAt || 0) - (a.harvestDate || a.createdAt || 0))
                                     .slice(0, revenuePage * ITEMS_PER_PAGE)
                                     .map((revenue: any, i: number) => {
