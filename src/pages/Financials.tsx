@@ -960,7 +960,8 @@ const Financials: React.FC = () => {
                                         return (
                                             <motion.tr
                                                 key={expense.id}
-                                                className="border-b border-gray-100 last:border-0 hover:bg-white/30 transition-colors"
+                                                className="border-b border-gray-100 last:border-0 hover:bg-white/30 transition-colors cursor-pointer"
+                                                onClick={() => setSelectedExpense(expense)}
                                                 initial={{ opacity: 0, x: -10 }}
                                                 animate={{ opacity: 1, x: 0 }}
                                                 transition={{ delay: i * 0.05 }}
@@ -1026,7 +1027,8 @@ const Financials: React.FC = () => {
                                     return (
                                         <motion.div
                                             key={expense.id}
-                                            className="bg-white/40 backdrop-blur-sm rounded-xl p-4 border border-white/30 space-y-2"
+                                            className="bg-white/40 backdrop-blur-sm rounded-xl p-4 border border-white/30 space-y-2 cursor-pointer"
+                                            onClick={() => setSelectedExpense(expense)}
                                             initial={{ opacity: 0, y: 10 }}
                                             animate={{ opacity: 1, y: 0 }}
                                             transition={{ delay: i * 0.05 }}

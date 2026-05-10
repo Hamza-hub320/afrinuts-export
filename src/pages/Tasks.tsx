@@ -544,7 +544,13 @@ const Tasks: React.FC = () => {
                     variants={staggerContainer}
                 >
                     {filteredTasks.map((task, index) => (
-                        <motion.div key={task.id} variants={fadeIn} transition={{ delay: index * 0.05 }}>
+                        <motion.div
+                            key={task.id}
+                            variants={fadeIn}
+                            transition={{ delay: index * 0.05 }}
+                            onClick={() => setSelectedTask(task)}
+                            className="cursor-pointer"
+                        >
                             <InfoCard
                                 icon={getStatusIcon(task.status)}
                                 title={task.title}

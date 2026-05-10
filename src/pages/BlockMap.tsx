@@ -520,6 +520,19 @@ const BlockMap: React.FC = () => {
                                 ))}
                             </div>
 
+                            {/* Photo Gallery INSIDE the modal */}
+                            <div className="mt-6">
+                                <PhotoGallery
+                                    photos={blockPhotos}
+                                    entityType="block"
+                                    entityId={selectedBlock.id}
+                                    entityName={`Block ${selectedBlock.blockName}`}
+                                    title={`Block ${selectedBlock.blockName} Photos`}
+                                    compact
+                                />
+                            </div>
+
+
                             <button
                                 onClick={() => setSelectedBlock(null)}
                                 className="mt-6 w-full py-3 bg-gradient-to-r from-primary to-accent text-white rounded-xl font-medium shadow-md hover:shadow-lg transition-all duration-300 transform-gpu hover:scale-[1.02]"
