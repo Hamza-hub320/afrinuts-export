@@ -17,6 +17,8 @@ import { Typography } from '@/components/Typography/Typography';
 import DashboardNavbar from '@/components/DashboardNavbar/DashboardNavbar';
 import { getMockData } from '../services/mockData';
 import { callApi } from '../services/api';
+import PhotoGallery from '@/components/PhotoGallery/PhotoGallery';
+
 import {
     BarChart, Bar, XAxis, YAxis, CartesianGrid,
     Tooltip, ResponsiveContainer, PieChart, Pie, Cell
@@ -65,6 +67,17 @@ interface RevenueTransaction {
     harvestSeason?: number;
 }
 
+interface Photo {
+    id: number;
+    filePath: string;
+    caption?: string;
+    takenAt: number;
+    photoType: 'BLOCK' | 'EXPENSE' | 'TASK';
+    blockId?: number;
+    expenseId?: number;
+    taskId?: number;
+}
+
 const GlassCard: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className = '' }) => (
     <motion.div
         className={`group relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 transition-all duration-500 rounded-2xl shadow-xl transform-gpu overflow-hidden ${className}`}
@@ -94,6 +107,9 @@ const Financials: React.FC = () => {
     const [viewMode, setViewMode] = useState<'transactions' | 'blocks'>('transactions');
     const ITEMS_PER_PAGE = 5;
     const [perBlockAllocation, setPerBlockAllocation] = useState<number>(0);
+    const [expensePhotos, setExpensePhotos] = useState<Photo[]>([]);
+    const [selectedExpense, setSelectedExpense] = useState<any>(null);
+
 
     useEffect(() => {
             const fetchFinancials = async () => {
@@ -1069,6 +1085,13 @@ const Financials: React.FC = () => {
                         )}
                     </GlassCard>
                 </motion.div>
+
+                <PhotoGallery
+                    photos={expensePhotos}
+                    entityType="expense"
+                    entityId={selectedExpense?.id || 0}
+                    title="Expense Photos"
+                />
 
                 {/* End-of-page CTA */}
                 <Section className="py-10">

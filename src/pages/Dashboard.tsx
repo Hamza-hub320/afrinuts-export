@@ -148,7 +148,7 @@ const Dashboard: React.FC = () => {
                     return {
                         stage: 'Young Orchard',
                         icon: FaTree,
-                        color: 'text-green-600',
+                        color: 'text-primary',
                         description: 'All blocks planted — young trees establishing root systems',
                         progressPercent: 100,
                     };
@@ -157,7 +157,7 @@ const Dashboard: React.FC = () => {
                     return {
                         stage: 'Maturing Orchard',
                         icon: FaTree,
-                        color: 'text-green-700',
+                        color: 'text-primary',
                         description: 'Trees maturing — first flowering expected next season',
                         progressPercent: 100,
                     };
@@ -166,7 +166,7 @@ const Dashboard: React.FC = () => {
                     return {
                         stage: 'Early Production',
                         icon: FaChartLine,
-                        color: 'text-amber-600',
+                        color: 'text-primary',
                         description: 'Trees entering production phase — yields increasing annually',
                         progressPercent: 100,
                     };
@@ -458,7 +458,7 @@ const Dashboard: React.FC = () => {
                             icon={FaCloudSun}
                             title="Farm Growth Stage"
                             subtitle={`Odienné, Ivory Coast`}
-                            iconColor="text-primary"
+                            iconColor="text-amber-500"
                             showInfoBadge={false}
                         >
                             {(() => {
@@ -672,10 +672,10 @@ const Dashboard: React.FC = () => {
                 {/* Block Status Quick Summary */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
                     {[
-                        { label: 'Planted', count: blocks.filter(b => b.status === 'PLANTED').length, icon: FaTree, iconColor: 'text-green-500' },
-                        { label: 'Plowed', count: blocks.filter(b => b.status === 'PLOWED').length, icon: FaTractor, iconColor: 'text-blue-500' },
-                        { label: 'Cleared', count: blocks.filter(b => b.status === 'CLEARED').length, icon: FaSeedling, iconColor: 'text-orange-500' },
-                        { label: 'Not Cleared', count: blocks.filter(b => b.status === 'NOT_CLEARED').length, icon: FaHourglassHalf, iconColor: 'text-gray-400' },
+                        { label: 'Planted', count: blocks.filter(b => b.status === 'PLANTED').length, icon: FaTree, iconColor: 'text-accent' },
+                        { label: 'Plowed', count: blocks.filter(b => b.status === 'PLOWED').length, icon: FaTractor, iconColor: 'text-accent' },
+                        { label: 'Cleared', count: blocks.filter(b => b.status === 'CLEARED').length, icon: FaSeedling, iconColor: 'text-accent' },
+                        { label: 'Not Cleared', count: blocks.filter(b => b.status === 'NOT_CLEARED').length, icon: FaHourglassHalf, iconColor: 'text-accent' },
                     ].map((item, idx) => (
                         <motion.div
                             key={idx}

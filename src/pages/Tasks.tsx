@@ -19,6 +19,7 @@ import DashboardNavbar from '@/components/DashboardNavbar/DashboardNavbar';
 import Section from '@/components/Section/Section';
 import { useNavigate } from "react-router-dom";
 import { Dialog, Transition } from '@headlessui/react';
+import PhotoGallery from '@/components/PhotoGallery/PhotoGallery';
 
 const isDevelopment = import.meta.env.DEV;
 
@@ -65,11 +66,24 @@ interface TaskWithAssignments extends Task {
     currentWorker?: string;
 }
 
+interface Photo {
+    id: number;
+    filePath: string;
+    caption?: string;
+    takenAt: number;
+    photoType: 'BLOCK' | 'EXPENSE' | 'TASK';
+    blockId?: number;
+    expenseId?: number;
+    taskId?: number;
+}
+
 const Tasks: React.FC = () => {
     const [tasks, setTasks] = useState<TaskWithAssignments[]>([]);
     const [assignments, setAssignments] = useState<TaskAssignment[]>([]);
     const [filter, setFilter] = useState<'ALL' | 'PENDING' | 'IN_PROGRESS' | 'COMPLETED'>('ALL');
     const [loading, setLoading] = useState(true);
+    const [taskPhotos, setTaskPhotos] = useState<Photo[]>([]);
+    const [selectedTask, setSelectedTask] = useState<TaskWithAssignments | null>(null);
     const navigate = useNavigate();
 
     const [selectedWorker, setSelectedWorker] = useState<{
@@ -608,6 +622,14 @@ const Tasks: React.FC = () => {
                     )}
                 </motion.div>
             </div>
+
+
+            <PhotoGallery
+                photos={taskPhotos}
+                entityType="task"
+                entityId={selectedTask?.id || 0}
+                title="Task Photos"
+            />
 
             {/* End-of-page CTA */}
             <Section className="py-10">

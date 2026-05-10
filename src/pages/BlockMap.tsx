@@ -19,6 +19,7 @@ import Section from '../components/Section/Section';
 import DashboardNavbar from "../components/DashboardNavbar/DashboardNavbar";
 import { InfoCard } from '@/components/InfoCard/InfoCard';
 import {FarmBlock} from "@/components/FarmBlock/FarmBlock";
+import PhotoGallery from '@/components/PhotoGallery/PhotoGallery';
 
 
 const isDevelopment = import.meta.env.DEV;
@@ -28,6 +29,17 @@ interface Block {
     blockName: string;
     status: 'PLANTED' | 'PLOWED' | 'CLEARED' | 'NOT_CLEARED';
     survivalRate: number;
+}
+
+interface Photo {
+    id: number;
+    filePath: string;
+    caption?: string;
+    takenAt: number;
+    photoType: 'BLOCK' | 'EXPENSE' | 'TASK';
+    blockId?: number;
+    expenseId?: number;
+    taskId?: number;
 }
 
 const getStatusIcon = (status: string) => {
@@ -72,6 +84,7 @@ const BlockMap: React.FC = () => {
     const [blocks, setBlocks] = useState<Block[]>([]);
     const [loading, setLoading] = useState(true);
     const [selectedBlock, setSelectedBlock] = useState<Block | null>(null);
+    const [blockPhotos, setBlockPhotos] = useState<Photo[]>([]);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -84,6 +97,15 @@ const BlockMap: React.FC = () => {
                     data = await callApi('farmData', { action: 'getBlocks', farmId: '1' });
                 }
                 setBlocks(data.blocks || []);
+
+                // Fetch photos for all blocks
+                if (data.blocks && data.blocks.length > 0) {
+                    const photosData = await callApi('photos', {
+                        action: 'getPhotos',
+                        farmId: '1'
+                    });
+                    setBlockPhotos(photosData.photos || []);
+                }
             } catch (error) {
                 console.error('Error fetching blocks:', error);
             } finally {
@@ -586,6 +608,16 @@ const BlockMap: React.FC = () => {
                         </div>
                     </InfoCard>
                 </motion.div>
+
+                {selectedBlock && (
+                    <PhotoGallery
+                        photos={blockPhotos}
+                        entityType="block"
+                        entityId={selectedBlock.id}
+                        entityName={selectedBlock.blockName}
+                        compact
+                    />
+                )}
 
                 {/* End-of-page CTA */}
                 <Section className="py-10">

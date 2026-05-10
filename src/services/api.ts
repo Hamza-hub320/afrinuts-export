@@ -1,5 +1,6 @@
 // src/services/api.ts
 import { auth } from './firebase';
+import {getMockData} from "@/services/mockData";
 
 // Determine if we're in development
 const isDevelopment = import.meta.env.DEV;
@@ -10,6 +11,17 @@ const getApiBaseUrl = () => {
         return '/api'; // Will be proxied by Vite (with fallback to mock)
     }
     return '/.netlify/functions';
+};
+
+export const getPhotos = async (entityType: string, entityId: number, farmId: string = '1') => {
+    if (isDevelopment) {
+        return getMockData('getPhotos');
+    }
+    return callApi('photos', {
+        action: 'getPhotos',
+        farmId,
+        [`${entityType}Id`]: entityId
+    });
 };
 
 export async function callApi(endpoint: string, data?: any, requireAuth = true) {
