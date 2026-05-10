@@ -22,7 +22,7 @@ import {
     FaTrophy,
     FaArrowRight,
     FaMedal,
-    FaAward, FaHourglassHalf,
+    FaAward, FaHourglassHalf, FaClipboardList,
 } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -60,6 +60,136 @@ const Dashboard: React.FC = () => {
     const [expenses, setExpenses] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [showMobileWeather, setShowMobileWeather] = useState(false);
+    const getFarmGrowthStage = (): {
+        stage: string;
+        icon: React.ElementType;
+        color: string;
+        description: string;
+        progressPercent: number;
+    } => {
+        const totalBlocks = blocks.length || 35;
+        const plantedBlocks = blocks.filter(b => b.status === 'PLANTED').length;
+        const plowedBlocks = blocks.filter(b => b.status === 'PLOWED').length;
+        const clearedBlocks = blocks.filter(b => b.status === 'CLEARED').length;
+        const notClearedBlocks = blocks.filter(b => b.status === 'NOT_CLEARED').length;
+
+        const progressedBlocks = plantedBlocks + plowedBlocks + clearedBlocks;
+        const progressPercent = totalBlocks > 0 ? (progressedBlocks / totalBlocks) * 100 : 0;
+
+        // No work started
+        if (progressedBlocks === 0) {
+            return {
+                stage: 'Pre-Development',
+                icon: FaClipboardList,
+                color: 'text-gray-500',
+                description: 'Farm planning & preparation phase — no blocks cleared yet',
+                progressPercent: 0,
+            };
+        }
+
+        // Some cleared but nothing planted
+        if (plantedBlocks === 0 && plowedBlocks === 0 && clearedBlocks > 0) {
+            return {
+                stage: 'Land Preparation',
+                icon: FaTractor,
+                color: 'text-orange-500',
+                description: `${clearedBlocks} block${clearedBlocks > 1 ? 's' : ''} cleared — preparing for planting`,
+                progressPercent,
+            };
+        }
+
+        // Plowing underway
+        if (plantedBlocks === 0 && plowedBlocks > 0) {
+            return {
+                stage: 'Soil Preparation',
+                icon: FaTractor,
+                color: 'text-blue-500',
+                description: `${plowedBlocks} block${plowedBlocks > 1 ? 's' : ''} plowed — soil being prepared`,
+                progressPercent,
+            };
+        }
+
+        // Some planted but not all
+        if (plantedBlocks > 0 && plantedBlocks < totalBlocks) {
+            // Check if any planted blocks have survival data suggesting growth stage
+            const plantedBlockData = blocks.filter(b => b.status === 'PLANTED');
+            const avgSurvival = plantedBlockData.reduce((sum, b) => sum + (b.survivalRate || 0), 0) / plantedBlockData.length;
+
+            if (avgSurvival > 80) {
+                return {
+                    stage: 'Young Orchard',
+                    icon: FaTree,
+                    color: 'text-green-500',
+                    description: `${plantedBlocks} blocks planted with ${avgSurvival.toFixed(0)}% survival — trees establishing`,
+                    progressPercent,
+                };
+            }
+
+            return {
+                stage: 'Active Planting',
+                icon: FaSeedling,
+                color: 'text-green-500',
+                description: `${plantedBlocks} of ${totalBlocks} blocks planted — ${totalBlocks - plantedBlocks} remaining`,
+                progressPercent,
+            };
+        }
+
+        // All blocks planted — check maturity based on planting dates
+        if (plantedBlocks === totalBlocks) {
+            const plantedDates = blocks
+                .filter(b => b.plantedDate)
+                .map(b => new Date(b.plantedDate).getTime());
+
+            if (plantedDates.length > 0) {
+                const oldestPlanting = Math.min(...plantedDates);
+                const monthsSincePlanting = (Date.now() - oldestPlanting) / (1000 * 60 * 60 * 24 * 30);
+
+                if (monthsSincePlanting < 6) {
+                    return {
+                        stage: 'Young Orchard',
+                        icon: FaTree,
+                        color: 'text-green-600',
+                        description: 'All blocks planted — young trees establishing root systems',
+                        progressPercent: 100,
+                    };
+                }
+                if (monthsSincePlanting < 12) {
+                    return {
+                        stage: 'Maturing Orchard',
+                        icon: FaTree,
+                        color: 'text-green-700',
+                        description: 'Trees maturing — first flowering expected next season',
+                        progressPercent: 100,
+                    };
+                }
+                if (monthsSincePlanting < 36) {
+                    return {
+                        stage: 'Early Production',
+                        icon: FaChartLine,
+                        color: 'text-amber-600',
+                        description: 'Trees entering production phase — yields increasing annually',
+                        progressPercent: 100,
+                    };
+                }
+            }
+
+            return {
+                stage: 'Mature Orchard',
+                icon: FaTrophy,
+                color: 'text-yellow-500',
+                description: 'All blocks fully established — peak production capacity',
+                progressPercent: 100,
+            };
+        }
+
+        return {
+            stage: 'In Development',
+            icon: FaTractor,
+            color: 'text-blue-500',
+            description: 'Farm under active development',
+            progressPercent,
+        };
+    };
 
     useEffect(() => {
         const fetchDashboardData = async () => {
@@ -136,14 +266,6 @@ const Dashboard: React.FC = () => {
         scale: 1.01,
         boxShadow: '0 15px 30px -8px rgba(165, 105, 66, 0.15)',
         transition: { duration: 0.3 }
-    };
-
-    const getCurrentSeason = (): string => {
-        const month = new Date().getMonth();
-        if (month >= 2 && month <= 4) return 'Flowering';
-        if (month >= 5 && month <= 7) return 'Fruit Development';
-        if (month >= 8 && month <= 10) return 'Harvest';
-        return 'Maintenance';
     };
 
     return (
@@ -330,48 +452,84 @@ const Dashboard: React.FC = () => {
                         </InfoCard>
                     </motion.div>
 
-                    {/* Current Season Indicator */}
+                    {/* Farm Growth Stage (Data-Driven) */}
                     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
                         <InfoCard
                             icon={FaCloudSun}
-                            title="Current Growing Season"
+                            title="Farm Growth Stage"
                             subtitle={`Odienné, Ivory Coast`}
                             iconColor="text-amber-500"
                             showInfoBadge={false}
                         >
-                            <div className="mt-3 space-y-3">
-                                <div className="flex items-center gap-3">
-                                    <div className="bg-amber-100 p-3 rounded-full">
-                                        {getCurrentSeason() === 'Harvest' && <FaTractor className="text-2xl text-amber-600" />}
-                                        {getCurrentSeason() === 'Flowering' && <FaSeedling className="text-2xl text-pink-600" />}
-                                        {getCurrentSeason() === 'Fruit Development' && <FaTree className="text-2xl text-green-600" />}
-                                        {getCurrentSeason() === 'Maintenance' && <FaLeaf className="text-2xl text-blue-600" />}
-                                    </div>
-                                    <div>
-                                        <div className="text-lg font-bold text-primary">{getCurrentSeason()}</div>
-                                        <div className="text-xs text-gray-500">
-                                            {getCurrentSeason() === 'Harvest' && 'Peak harvest period - maximize yield'}
-                                            {getCurrentSeason() === 'Flowering' && 'Critical pollination period'}
-                                            {getCurrentSeason() === 'Fruit Development' && 'Nut formation in progress'}
-                                            {getCurrentSeason() === 'Maintenance' && 'Farm preparation & pruning'}
+                            {(() => {
+                                const growth = getFarmGrowthStage();
+                                return (
+                                    <div className="mt-3 space-y-3">
+                                        <div className="flex items-center gap-3">
+                                            <div className="bg-amber-100 p-3 rounded-full">
+                                                <growth.icon className={`text-2xl ${growth.color}`} />
+                                            </div>
+                                            <div>
+                                                <div className="text-lg font-bold text-primary">{growth.stage}</div>
+                                                <div className="text-xs text-gray-500">{growth.description}</div>
+                                            </div>
+                                        </div>
+
+                                        {/* Progress bar */}
+                                        <div className="w-full bg-gray-200 rounded-full h-2.5">
+                                            <motion.div
+                                                className={`h-2.5 rounded-full ${
+                                                    growth.progressPercent === 100
+                                                        ? 'bg-gradient-to-r from-green-500 to-green-600'
+                                                        : 'bg-gradient-to-r from-primary to-accent'
+                                                }`}
+                                                initial={{ width: 0 }}
+                                                animate={{ width: `${growth.progressPercent}%` }}
+                                                transition={{ duration: 1, delay: 0.3 }}
+                                            />
+                                        </div>
+                                        <div className="flex justify-between text-xs text-gray-500">
+                                            <span>Farm Development</span>
+                                            <span>{growth.progressPercent.toFixed(0)}% complete</span>
+                                        </div>
+
+                                        {/* Stage indicators */}
+                                        <div className="flex gap-2 text-xs">
+                                            {[
+                                                { key: 'Pre-Development', label: 'Planning' },
+                                                { key: 'Land Preparation', label: 'Clearing' },
+                                                { key: 'Soil Preparation', label: 'Plowing' },
+                                                { key: 'Active Planting', label: 'Planting' },
+                                                { key: 'Young Orchard', label: 'Young' },
+                                                { key: 'Maturing Orchard', label: 'Maturing' },
+                                                { key: 'Early Production', label: 'Production' },
+                                                { key: 'Mature Orchard', label: 'Mature' },
+                                            ].map((s) => {
+                                                const stages = ['Pre-Development', 'Land Preparation', 'Soil Preparation', 'Active Planting', 'Young Orchard', 'Maturing Orchard', 'Early Production', 'Mature Orchard'];
+                                                const currentIdx = stages.indexOf(growth.stage);
+                                                const stageIdx = stages.indexOf(s.key);
+                                                const isCurrent = growth.stage === s.key;
+                                                const isPast = stageIdx < currentIdx;
+
+                                                return (
+                                                    <span
+                                                        key={s.key}
+                                                        className={`px-2 py-1 rounded-full whitespace-nowrap ${
+                                                            isCurrent
+                                                                ? 'bg-primary text-white'
+                                                                : isPast
+                                                                    ? 'bg-green-100 text-green-700'
+                                                                    : 'bg-gray-100 text-gray-400'
+                                                        }`}
+                                                    >
+                                    {s.label}
+                                </span>
+                                                );
+                                            })}
                                         </div>
                                     </div>
-                                </div>
-                                <div className="flex gap-2 text-xs">
-                                    {['Flowering', 'Fruit Development', 'Harvest', 'Maintenance'].map((season) => (
-                                        <span
-                                            key={season}
-                                            className={`px-2 py-1 rounded-full ${
-                                                getCurrentSeason() === season
-                                                    ? 'bg-primary text-white'
-                                                    : 'bg-gray-100 text-gray-500'
-                                            }`}
-                                        >
-                            {season}
-                        </span>
-                                    ))}
-                                </div>
-                            </div>
+                                );
+                            })()}
                         </InfoCard>
                     </motion.div>
                 </div>
