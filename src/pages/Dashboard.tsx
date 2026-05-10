@@ -458,7 +458,7 @@ const Dashboard: React.FC = () => {
                             icon={FaCloudSun}
                             title="Farm Growth Stage"
                             subtitle={`Odienné, Ivory Coast`}
-                            iconColor="text-amber-500"
+                            iconColor="text-primary"
                             showInfoBadge={false}
                         >
                             {(() => {
@@ -713,7 +713,7 @@ const Dashboard: React.FC = () => {
                                 <LineChart data={monthlyData}>
                                     <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.05)" />
                                     <XAxis dataKey="month" />
-                                    <YAxis />
+                                    <YAxis tickFormatter={(value) => `${(value / 1000000).toFixed(1)}M`} />
                                     <Tooltip formatter={(value) => `${new Intl.NumberFormat('fr-FR').format(Number(value))} FCFA`} />
                                     <Legend />
                                     <Line type="monotone" dataKey="revenue" stroke="#5A7411" strokeWidth={2} />
