@@ -518,6 +518,32 @@ const Dashboard: React.FC = () => {
                     </motion.div>
                 )}
 
+                {/* Block Status Quick Summary */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
+                    {[
+                        { label: 'Planted', count: blocks.filter(b => b.status === 'PLANTED').length, color: 'bg-green-500', icon: FaTree },
+                        { label: 'Plowed', count: blocks.filter(b => b.status === 'PLOWED').length, color: 'bg-blue-500', icon: FaTractor },
+                        { label: 'Cleared', count: blocks.filter(b => b.status === 'CLEARED').length, color: 'bg-orange-500', icon: FaSeedling },
+                        { label: 'Not Cleared', count: blocks.filter(b => b.status === 'NOT_CLEARED').length, color: 'bg-gray-400', icon: FaHourglassHalf },
+                    ].map((item, idx) => (
+                        <motion.div
+                            key={idx}
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.1 * idx }}
+                            className="flex items-center gap-3 p-3 rounded-xl bg-white/50 backdrop-blur-sm border border-white/30"
+                        >
+                            <div className={`p-2 rounded-full ${item.color.replace('bg-', 'bg-')}/10`}>
+                                <item.icon className={`text-sm ${item.color.replace('bg-', 'text-')}`} />
+                            </div>
+                            <div>
+                                <div className="text-lg font-bold text-gray-900">{item.count}</div>
+                                <div className="text-xs text-gray-500">{item.label}</div>
+                            </div>
+                        </motion.div>
+                    ))}
+                </div>
+
                 {/* Charts Row */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
                     {/* Revenue vs Expenses */}
