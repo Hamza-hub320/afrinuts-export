@@ -490,7 +490,7 @@ const Dashboard: React.FC = () => {
                                         </div>
 
                                         {/* Stage indicators */}
-                                        <div className="flex gap-2 text-xs">
+                                        <div className="flex gap-2 text-xs overflow-x-auto pb-1 -mx-1 px-1 scrollbar-hide">
                                             {[
                                                 { key: 'Pre-Development', label: 'Planning' },
                                                 { key: 'Land Preparation', label: 'Clearing' },
@@ -587,7 +587,6 @@ const Dashboard: React.FC = () => {
                                                         quality === 'PREMIUM' ? 'bg-amber-500' :
                                                             quality === 'STANDARD' ? 'bg-blue-500' : 'bg-gray-400'
                                                     }`}
-                                                    style={{ width: `${totalRevenue > 0 ? (data.amount / totalRevenue) * 100 : 0}%` }}
                                                 />
                                             </div>
                                         </motion.div>
@@ -619,55 +618,53 @@ const Dashboard: React.FC = () => {
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                             {blocks
-                                .sort((a, b) => (b.treeCount || 0) - (a.treeCount || 0))
+                                .sort((a, b) => (b.survivalRate || 0) - (a.survivalRate || 0))
                                 .slice(0, 3)
-                                .map((block, idx) => (
-                                    <motion.div
-                                        key={block.id}
-                                        initial={{ opacity: 0, y: 20 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        transition={{ delay: 0.1 * idx }}
-                                    >
-                                        <InfoCard
-                                            icon={idx === 0 ? FaTrophy : idx === 1 ? FaMedal : FaAward}
-                                            title={`Block ${block.name || block.id}`}
-                                            subtitle={`${block.treeCount || 0} trees • ${block.status || 'Active'}`}
-                                            iconColor={
-                                                idx === 0 ? 'text-yellow-500' :
-                                                    idx === 1 ? 'text-gray-400' :
-                                                        'text-amber-700'
-                                            }
-                                            showInfoBadge={false}
+                                .map((block, idx) => {
+                                    const treeCount = Math.round((block.survivalRate || 0) * 100 / 100); // survivalRate % × 100 trees
+                                    return (
+                                        <motion.div
+                                            key={block.id}
+                                            initial={{ opacity: 0, y: 20 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            transition={{ delay: 0.1 * idx }}
                                         >
-                                            <div className="mt-2 space-y-1">
-                                                {block.plantedDate && (
-                                                    <div className="flex justify-between text-xs">
-                                                        <span className="text-gray-500">Planted</span>
-                                                        <span className="text-gray-700">
-                                            {new Date(block.plantedDate).toLocaleDateString()}
-                                        </span>
-                                                    </div>
-                                                )}
-                                                {block.variety && (
-                                                    <div className="flex justify-between text-xs">
-                                                        <span className="text-gray-500">Variety</span>
-                                                        <span className="text-gray-700">{block.variety}</span>
-                                                    </div>
-                                                )}
-                                                <div className="flex justify-between text-xs">
-                                                    <span className="text-gray-500">Status</span>
-                                                    <span className={`px-2 py-0.5 rounded-full text-xs ${
-                                                        block.status === 'ACTIVE' ? 'bg-green-100 text-green-700' :
-                                                            block.status === 'PLANTED' ? 'bg-blue-100 text-blue-700' :
-                                                                'bg-gray-100 text-gray-600'
-                                                    }`}>
-                                        {block.status}
+                                            <InfoCard
+                                                icon={idx === 0 ? FaTrophy : idx === 1 ? FaMedal : FaAward}
+                                                title={`Block ${block.blockName || block.id}`}
+                                                subtitle={`${treeCount} trees • ${block.survivalRate?.toFixed(0) || 0}% survival`}
+                                                iconColor={
+                                                    idx === 0 ? 'text-yellow-500' :
+                                                        idx === 1 ? 'text-gray-400' :
+                                                            'text-amber-700'
+                                                }
+                                                showInfoBadge={false}
+                                            >
+                                                <div className="mt-2 space-y-1">
+                                                    {block.plantedDate && (
+                                                        <div className="flex justify-between text-xs">
+                                                            <span className="text-gray-500">Planted</span>
+                                                            <span className="text-gray-700">
+                                        {new Date(block.plantedDate).toLocaleDateString()}
                                     </span>
+                                                        </div>
+                                                    )}
+                                                    <div className="flex justify-between text-xs">
+                                                        <span className="text-gray-500">Status</span>
+                                                        <span className={`px-2 py-0.5 rounded-full text-xs ${
+                                                            block.status === 'PLANTED' ? 'bg-green-100 text-green-700' :
+                                                                block.status === 'PLOWED' ? 'bg-blue-100 text-blue-700' :
+                                                                    block.status === 'CLEARED' ? 'bg-orange-100 text-orange-700' :
+                                                                        'bg-gray-100 text-gray-600'
+                                                        }`}>
+                                    {block.status}
+                                </span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </InfoCard>
-                                    </motion.div>
-                                ))}
+                                            </InfoCard>
+                                        </motion.div>
+                                    );
+                                })}
                         </div>
                     </motion.div>
                 )}
