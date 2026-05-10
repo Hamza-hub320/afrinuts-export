@@ -531,6 +531,24 @@ const BlockMap: React.FC = () => {
                 </motion.div>
             )}
 
+                {/* Photo Gallery for Selected Block */}
+                {selectedBlock && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.4 }}
+                        className="mt-6"
+                    >
+                        <PhotoGallery
+                            photos={blockPhotos}
+                            entityType="block"
+                            entityId={selectedBlock.id}
+                            entityName={`Block ${selectedBlock.blockName}`}
+                            title={`Block ${selectedBlock.blockName} Photos`}
+                        />
+                    </motion.div>
+                )}
+
                 {/* Road Map Reference - Using InfoCard */}
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
@@ -608,16 +626,6 @@ const BlockMap: React.FC = () => {
                         </div>
                     </InfoCard>
                 </motion.div>
-
-                {selectedBlock && (
-                    <PhotoGallery
-                        photos={blockPhotos}
-                        entityType="block"
-                        entityId={selectedBlock.id}
-                        entityName={selectedBlock.blockName}
-                        compact
-                    />
-                )}
 
                 {/* End-of-page CTA */}
                 <Section className="py-10">

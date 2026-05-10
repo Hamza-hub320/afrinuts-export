@@ -185,6 +185,12 @@ const Financials: React.FC = () => {
                     setRevenueByBlock(blockRevenueArray);
                     setPerBlockAllocation(perBlockAllocation);
 
+                    // Fetch photos
+                    if (!isDevelopment) {
+                        const photosData = await callApi('photos', { action: 'getPhotos', farmId: '1' });
+                        setExpensePhotos(photosData.photos || []);
+                    }
+
                 } catch (error) {
                     console.error('Error fetching financials:', error);
                 } finally {
@@ -1086,12 +1092,24 @@ const Financials: React.FC = () => {
                     </GlassCard>
                 </motion.div>
 
-                <PhotoGallery
-                    photos={expensePhotos}
-                    entityType="expense"
-                    entityId={selectedExpense?.id || 0}
-                    title="Expense Photos"
-                />
+
+                {/* Photo Gallery */}
+                {selectedExpense && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.3 }}
+                        className="mt-8"
+                    >
+                        <PhotoGallery
+                            photos={expensePhotos}
+                            entityType="expense"
+                            entityId={selectedExpense.id}
+                            entityName={selectedExpense.description || `Expense #${selectedExpense.id}`}
+                            title="Expense Photos"
+                        />
+                    </motion.div>
+                )}
 
                 {/* End-of-page CTA */}
                 <Section className="py-10">

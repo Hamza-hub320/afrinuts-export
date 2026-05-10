@@ -135,6 +135,12 @@ const Tasks: React.FC = () => {
 
                 setTasks(tasksWithAssignments);
 
+                // Fetch photos
+                if (!isDevelopment) {
+                    const photosData = await callApi('photos', { action: 'getPhotos', farmId: '1' });
+                    setTaskPhotos(photosData.photos || []);
+                }
+
             } catch (error) {
                 console.error('Error fetching data:', error);
             } finally {
@@ -623,13 +629,23 @@ const Tasks: React.FC = () => {
                 </motion.div>
             </div>
 
-
-            <PhotoGallery
-                photos={taskPhotos}
-                entityType="task"
-                entityId={selectedTask?.id || 0}
-                title="Task Photos"
-            />
+            {/* Photo Gallery */}
+            {selectedTask && (
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.3 }}
+                    className="mt-8"
+                >
+                    <PhotoGallery
+                        photos={taskPhotos}
+                        entityType="task"
+                        entityId={selectedTask.id}
+                        entityName={selectedTask.title}
+                        title={`Photos for: ${selectedTask.title}`}
+                    />
+                </motion.div>
+            )}
 
             {/* End-of-page CTA */}
             <Section className="py-10">
