@@ -2,7 +2,6 @@ import type { Handler, HandlerEvent } from '@netlify/functions';
 import { initializeApp, cert, getApps } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 
-// Initialize Firebase Admin (only once)
 if (!getApps().length) {
     initializeApp({
         credential: cert({
@@ -30,22 +29,59 @@ export const handler: Handler = async (event: HandlerEvent) => {
         const { action, farmId, blockId, expenseId, taskId } = event.queryStringParameters || {};
 
         if (action === 'getPhotos') {
-            let query = db.collection('photos').where('farmId', '==', farmId || '1');
+            const fid = farmId || '1';
+            let allPhotos: any[] = [];
 
-            if (blockId) query = query.where('blockId', '==', parseInt(blockId));
-            if (expenseId) query = query.where('expenseId', '==', parseInt(expenseId));
-            if (taskId) query = query.where('taskId', '==', parseInt(taskId));
+            if (blockId) {
+                // Query subcollection: farms/{farmId}/blocks/{blockId}/photos
+                const photosRef = db
+                    .collection('farms').doc(fid)
+                    .collection('blocks').doc(blockId)
+                    .collection('photos');
+                const snapshot = await photosRef.orderBy('takenAt', 'desc').get();
+                allPhotos = snapshot.docs.map(doc => ({ id: doc.data().id, ...doc.data() }));
+            } else if (expenseId) {
+                // Query subcollection: farms/{farmId}/expenses/{expenseId}/photos
+                const photosRef = db
+                    .collection('farms').doc(fid)
+                    .collection('expenses').doc(expenseId)
+                    .collection('photos');
+                const snapshot = await photosRef.orderBy('takenAt', 'desc').get();
+                allPhotos = snapshot.docs.map(doc => ({ id: doc.data().id, ...doc.data() }));
+            } else if (taskId) {
+                // Query subcollection: farms/{farmId}/tasks/{taskId}/photos
+                const photosRef = db
+                    .collection('farms').doc(fid)
+                    .collection('tasks').doc(taskId)
+                    .collection('photos');
+                const snapshot = await photosRef.orderBy('takenAt', 'desc').get();
+                allPhotos = snapshot.docs.map(doc => ({ id: doc.data().id, ...doc.data() }));
+            } else {
+                // Fetch all photos across all blocks
+                const blocksSnapshot = await db
+                    .collection('farms').doc(fid)
+                    .collection('blocks').get();
 
-            const snapshot = await query.orderBy('takenAt', 'desc').get();
-            const photos = snapshot.docs.map(doc => ({
-                id: doc.data().id,
-                ...doc.data(),
-            }));
+                for (const blockDoc of blocksSnapshot.docs) {
+                    const photosSnapshot = await db
+                        .collection('farms').doc(fid)
+                        .collection('blocks').doc(blockDoc.id)
+                        .collection('photos')
+                        .orderBy('takenAt', 'desc').get();
+
+                    const blockPhotos = photosSnapshot.docs.map(doc => ({
+                        id: doc.data().id,
+                        blockId: parseInt(blockDoc.id),
+                        ...doc.data(),
+                    }));
+                    allPhotos.push(...blockPhotos);
+                }
+            }
 
             return {
                 statusCode: 200,
                 headers,
-                body: JSON.stringify({ photos }),
+                body: JSON.stringify({ photos: allPhotos }),
             };
         }
 
