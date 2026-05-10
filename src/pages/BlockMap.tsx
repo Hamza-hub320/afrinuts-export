@@ -84,6 +84,7 @@ const BlockMap: React.FC = () => {
     const [blocks, setBlocks] = useState<Block[]>([]);
     const [loading, setLoading] = useState(true);
     const [selectedBlock, setSelectedBlock] = useState<Block | null>(null);
+    const [galleryBlock, setGalleryBlock] = useState<Block | null>(null); // Add this
     const [blockPhotos, setBlockPhotos] = useState<Photo[]>([]);
     const navigate = useNavigate();
 
@@ -411,7 +412,10 @@ const BlockMap: React.FC = () => {
                                                     icon={getStatusIcon(block.status)}
                                                     colors={colors}
                                                     infrastructure={infrastructure}
-                                                    onClick={() => setSelectedBlock(block)}
+                                                    onClick={() => {
+                                                        setSelectedBlock(block);
+                                                        setGalleryBlock(block);
+                                                    }}
                                                 />
                                             );
                                         })}
@@ -457,20 +461,31 @@ const BlockMap: React.FC = () => {
                     ))}
                 </div>
 
-                {/* Photo Gallery - Appears below stats when a block is selected */}
-                {selectedBlock && (
+                {/* Photo Gallery - Stays visible after modal closes */}
+                {galleryBlock && (
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.2 }}
                         className="mt-8"
                     >
+                        <div className="flex items-center justify-between mb-2">
+                            <Typography variant="h4" className="text-primary">
+                                Block {galleryBlock.blockName} Photos
+                            </Typography>
+                            <button
+                                onClick={() => setGalleryBlock(null)}
+                                className="text-sm text-gray-400 hover:text-gray-600 transition-colors"
+                            >
+                                Clear selection
+                            </button>
+                        </div>
                         <PhotoGallery
                             photos={blockPhotos}
                             entityType="block"
-                            entityId={selectedBlock.id}
-                            entityName={`Block ${selectedBlock.blockName}`}
-                            title={`Block ${selectedBlock.blockName} Photos`}
+                            entityId={galleryBlock.id}
+                            entityName={`Block ${galleryBlock.blockName}`}
+                            title={`Block ${galleryBlock.blockName} Photos`}
                         />
                     </motion.div>
                 )}
@@ -547,24 +562,6 @@ const BlockMap: React.FC = () => {
                     </motion.div>
                 </motion.div>
             )}
-
-                {/* Photo Gallery for Selected Block */}
-                {selectedBlock && (
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.4 }}
-                        className="mt-6"
-                    >
-                        <PhotoGallery
-                            photos={blockPhotos}
-                            entityType="block"
-                            entityId={selectedBlock.id}
-                            entityName={`Block ${selectedBlock.blockName}`}
-                            title={`Block ${selectedBlock.blockName} Photos`}
-                        />
-                    </motion.div>
-                )}
 
                 {/* Road Map Reference - Using InfoCard */}
                 <motion.div
