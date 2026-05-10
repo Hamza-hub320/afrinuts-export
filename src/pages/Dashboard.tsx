@@ -437,7 +437,7 @@ const Dashboard: React.FC = () => {
                                 </div>
                                 <div className="w-full bg-gray-200 rounded-full h-2.5">
                                     <motion.div
-                                        className="bg-gradient-to-r from-green-500 to-green-600 h-2.5 rounded-full"
+                                        className="bg-gradient-to-r from-primary to-accent h-2.5 rounded-full"
                                         initial={{ width: 0 }}
                                         animate={{ width: `${farmData?.stats?.survivalRate || 0}%` }}
                                         transition={{ duration: 1, delay: 0.3 }}
@@ -478,11 +478,7 @@ const Dashboard: React.FC = () => {
                                         {/* Progress bar */}
                                         <div className="w-full bg-gray-200 rounded-full h-2.5">
                                             <motion.div
-                                                className={`h-2.5 rounded-full ${
-                                                    growth.progressPercent === 100
-                                                        ? 'bg-gradient-to-r from-green-500 to-green-600'
-                                                        : 'bg-gradient-to-r from-primary to-accent'
-                                                }`}
+                                                className="bg-gradient-to-r from-primary to-accent h-2.5 rounded-full"
                                                 initial={{ width: 0 }}
                                                 animate={{ width: `${growth.progressPercent}%` }}
                                                 transition={{ duration: 1, delay: 0.3 }}
