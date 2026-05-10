@@ -457,10 +457,28 @@ const BlockMap: React.FC = () => {
                     ))}
                 </div>
 
-            {/* Block Details Modal - Liquid Glassy Morphism */}
+                {/* Photo Gallery - Appears below stats when a block is selected */}
+                {selectedBlock && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2 }}
+                        className="mt-8"
+                    >
+                        <PhotoGallery
+                            photos={blockPhotos}
+                            entityType="block"
+                            entityId={selectedBlock.id}
+                            entityName={`Block ${selectedBlock.blockName}`}
+                            title={`Block ${selectedBlock.blockName} Photos`}
+                        />
+                    </motion.div>
+                )}
+
+                {/* Block Details Modal - Liquid Glassy Morphism */}
             {selectedBlock && (
                 <motion.div
-                    className="fixed inset-0 z-100 flex items-center justify-center p-4"
+                    className="fixed inset-0 z-50 flex items-center justify-center p-4"
                     style={{ background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(4px)' }}
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
@@ -519,20 +537,6 @@ const BlockMap: React.FC = () => {
                                     </div>
                                 ))}
                             </div>
-
-                            {/* Photo Gallery INSIDE the modal */}
-                            <div className="mt-6">
-                                <PhotoGallery
-                                    photos={blockPhotos}
-                                    entityType="block"
-                                    entityId={selectedBlock.id}
-                                    entityName={`Block ${selectedBlock.blockName}`}
-                                    title={`Block ${selectedBlock.blockName} Photos`}
-                                    compact
-                                />
-                            </div>
-
-
                             <button
                                 onClick={() => setSelectedBlock(null)}
                                 className="mt-6 w-full py-3 bg-gradient-to-r from-primary to-accent text-white rounded-xl font-medium shadow-md hover:shadow-lg transition-all duration-300 transform-gpu hover:scale-[1.02]"
