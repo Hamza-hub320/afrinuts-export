@@ -17,8 +17,8 @@ const db = getFirestore();
 export const handler: Handler = async (event: HandlerEvent) => {
     const headers = {
         'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'Content-Type',
-        'Access-Control-Allow-Methods': 'GET, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
     };
 
     if (event.httpMethod === 'OPTIONS') {
@@ -26,7 +26,15 @@ export const handler: Handler = async (event: HandlerEvent) => {
     }
 
     try {
-        const { action, farmId, blockId, expenseId, taskId } = event.queryStringParameters || {};
+        // Support both GET (query params) and POST (body)
+        let params: any = {};
+        if (event.httpMethod === 'GET') {
+            params = event.queryStringParameters || {};
+        } else if (event.httpMethod === 'POST') {
+            params = JSON.parse(event.body || '{}');
+        }
+
+        const { action, farmId, blockId, expenseId, taskId } = params;
         const fid = farmId || '1';
         let allPhotos: any[] = [];
 
@@ -41,26 +49,24 @@ export const handler: Handler = async (event: HandlerEvent) => {
                 id: doc.data().id,
                 ...doc.data(),
             }));
-
             allPhotos.push(...rootPhotos);
 
             // Query block subcollection photos
             if (blockId) {
                 const blockPhotosSnapshot = await db
                     .collection('farms').doc(fid)
-                    .collection('blocks').doc(blockId)
+                    .collection('blocks').doc(String(blockId))
                     .collection('photos')
                     .orderBy('takenAt', 'desc')
                     .get();
 
                 const blockPhotos = blockPhotosSnapshot.docs.map(doc => ({
                     id: doc.data().id,
-                    blockId: parseInt(blockId),
+                    blockId: parseInt(String(blockId)),
                     ...doc.data(),
                 }));
                 allPhotos.push(...blockPhotos);
             } else {
-                // Fetch all block subcollection photos
                 const blocksSnapshot = await db
                     .collection('farms').doc(fid)
                     .collection('blocks')
@@ -83,15 +89,14 @@ export const handler: Handler = async (event: HandlerEvent) => {
                 }
             }
 
-            // Filter by blockId if provided (from all sources)
             if (blockId) {
-                allPhotos = allPhotos.filter(p => p.blockId === parseInt(blockId));
+                allPhotos = allPhotos.filter(p => p.blockId === parseInt(String(blockId)));
             }
             if (expenseId) {
-                allPhotos = allPhotos.filter(p => p.expenseId === parseInt(expenseId));
+                allPhotos = allPhotos.filter(p => p.expenseId === parseInt(String(expenseId)));
             }
             if (taskId) {
-                allPhotos = allPhotos.filter(p => p.taskId === parseInt(taskId));
+                allPhotos = allPhotos.filter(p => p.taskId === parseInt(String(taskId)));
             }
 
             return {
