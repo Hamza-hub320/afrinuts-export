@@ -27,47 +27,52 @@ export const handler: Handler = async (event: HandlerEvent) => {
 
     try {
         const { action, farmId, blockId, expenseId, taskId } = event.queryStringParameters || {};
+        const fid = farmId || '1';
+        let allPhotos: any[] = [];
 
         if (action === 'getPhotos') {
-            const fid = farmId || '1';
-            let allPhotos: any[] = [];
+            // Query root-level photos collection
+            const rootPhotosSnapshot = await db
+                .collection('farms').doc(fid)
+                .collection('photos')
+                .get();
 
+            const rootPhotos = rootPhotosSnapshot.docs.map(doc => ({
+                id: doc.data().id,
+                ...doc.data(),
+            }));
+
+            allPhotos.push(...rootPhotos);
+
+            // Query block subcollection photos
             if (blockId) {
-                // Query subcollection: farms/{farmId}/blocks/{blockId}/photos
-                const photosRef = db
+                const blockPhotosSnapshot = await db
                     .collection('farms').doc(fid)
                     .collection('blocks').doc(blockId)
-                    .collection('photos');
-                const snapshot = await photosRef.orderBy('takenAt', 'desc').get();
-                allPhotos = snapshot.docs.map(doc => ({ id: doc.data().id, ...doc.data() }));
-            } else if (expenseId) {
-                // Query subcollection: farms/{farmId}/expenses/{expenseId}/photos
-                const photosRef = db
-                    .collection('farms').doc(fid)
-                    .collection('expenses').doc(expenseId)
-                    .collection('photos');
-                const snapshot = await photosRef.orderBy('takenAt', 'desc').get();
-                allPhotos = snapshot.docs.map(doc => ({ id: doc.data().id, ...doc.data() }));
-            } else if (taskId) {
-                // Query subcollection: farms/{farmId}/tasks/{taskId}/photos
-                const photosRef = db
-                    .collection('farms').doc(fid)
-                    .collection('tasks').doc(taskId)
-                    .collection('photos');
-                const snapshot = await photosRef.orderBy('takenAt', 'desc').get();
-                allPhotos = snapshot.docs.map(doc => ({ id: doc.data().id, ...doc.data() }));
+                    .collection('photos')
+                    .orderBy('takenAt', 'desc')
+                    .get();
+
+                const blockPhotos = blockPhotosSnapshot.docs.map(doc => ({
+                    id: doc.data().id,
+                    blockId: parseInt(blockId),
+                    ...doc.data(),
+                }));
+                allPhotos.push(...blockPhotos);
             } else {
-                // Fetch all photos across all blocks
+                // Fetch all block subcollection photos
                 const blocksSnapshot = await db
                     .collection('farms').doc(fid)
-                    .collection('blocks').get();
+                    .collection('blocks')
+                    .get();
 
                 for (const blockDoc of blocksSnapshot.docs) {
                     const photosSnapshot = await db
                         .collection('farms').doc(fid)
                         .collection('blocks').doc(blockDoc.id)
                         .collection('photos')
-                        .orderBy('takenAt', 'desc').get();
+                        .orderBy('takenAt', 'desc')
+                        .get();
 
                     const blockPhotos = photosSnapshot.docs.map(doc => ({
                         id: doc.data().id,
@@ -76,6 +81,17 @@ export const handler: Handler = async (event: HandlerEvent) => {
                     }));
                     allPhotos.push(...blockPhotos);
                 }
+            }
+
+            // Filter by blockId if provided (from all sources)
+            if (blockId) {
+                allPhotos = allPhotos.filter(p => p.blockId === parseInt(blockId));
+            }
+            if (expenseId) {
+                allPhotos = allPhotos.filter(p => p.expenseId === parseInt(expenseId));
+            }
+            if (taskId) {
+                allPhotos = allPhotos.filter(p => p.taskId === parseInt(taskId));
             }
 
             return {
