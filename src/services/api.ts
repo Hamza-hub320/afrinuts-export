@@ -20,27 +20,40 @@ export const getPhotos = async (entityType: string, entityId: number, farmId: st
     return callApi('photos', {
         action: 'getPhotos',
         farmId,
-        [`${entityType}Id`]: entityId
-    });
+        ...(entityId && { [`${entityType}Id`]: entityId }),
+    }, true, 'GET');
 };
 
-export async function callApi(endpoint: string, data?: any, requireAuth = true) {
+export async function callApi(endpoint: string, data?: any, requireAuth = true, method: string = 'POST') {
     try {
         const baseUrl = getApiBaseUrl();
-
-        // Only get token if auth is required
         let idToken: string | undefined;
+
         if (requireAuth) {
             idToken = await auth.currentUser?.getIdToken();
         }
 
-        const response = await fetch(`${baseUrl}/${endpoint}`, {
-            method: 'POST',
+        let url = `${baseUrl}/${endpoint}`;
+        let body: string | undefined;
+
+        if (method === 'GET' && data) {
+            // Convert data to query string
+            const params = new URLSearchParams();
+            Object.entries(data).forEach(([key, value]) => {
+                params.append(key, String(value));
+            });
+            url += `?${params.toString()}`;
+        } else {
+            body = JSON.stringify(data || {});
+        }
+
+        const response = await fetch(url, {
+            method,
             headers: {
                 'Content-Type': 'application/json',
                 ...(idToken && { 'Authorization': `Bearer ${idToken}` }),
             },
-            body: JSON.stringify(data || {}),
+            ...(body && { body }),
         });
 
         if (!response.ok) {
