@@ -656,7 +656,7 @@ const Financials: React.FC = () => {
                                                 <div className="flex items-center justify-between text-xs text-gray-500 pt-1 border-t border-gray-100">
                                     <span>
                                         {revenue.harvestYear ? `Year ${revenue.harvestYear}` : '—'}
-                                        {revenue.harvestSeason ? ` · Season #${revenue.harvestSeason}` : ''}
+                                        {revenue.harvestSeason ? ` · Harvest #${revenue.harvestSeason}` : ''}
                                     </span>
                                                     {revenue.harvestCycleId && (
                                                         <span className="text-[10px] text-gray-400 truncate max-w-[150px]" title={revenue.harvestCycleId}>

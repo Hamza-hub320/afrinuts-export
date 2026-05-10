@@ -12,7 +12,17 @@ import {
     FaDollarSign,
     FaTasks,
     FaCalendarAlt,
-    FaMap, FaChartPie, FaCloudSun, FaBorderAll, FaTachometerAlt,
+    FaMap,
+    FaChartPie,
+    FaCloudSun,
+    FaBorderAll,
+    FaTachometerAlt,
+    FaSeedling,
+    FaLeaf,
+    FaTrophy,
+    FaArrowRight,
+    FaMedal,
+    FaAward,
 } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -285,6 +295,229 @@ const Dashboard: React.FC = () => {
                     </motion.div>
                 </div>
 
+                {/* Farm Health & Season Row */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    {/* Survival Rate */}
+                    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
+                        <InfoCard
+                            icon={FaTree}
+                            title="Tree Survival Rate"
+                            subtitle={`${farmData?.stats?.aliveTrees?.toLocaleString() || 0} trees alive`}
+                            iconColor="text-green-600"
+                            showInfoBadge={false}
+                        >
+                            <div className="mt-3">
+                                <div className="flex justify-between text-sm mb-1">
+                                    <span className="text-gray-600">Survival Rate</span>
+                                    <span className="font-semibold text-green-700">
+                        {farmData?.stats?.survivalRate?.toFixed(1) || 0}%
+                    </span>
+                                </div>
+                                <div className="w-full bg-gray-200 rounded-full h-2.5">
+                                    <motion.div
+                                        className="bg-gradient-to-r from-green-500 to-green-600 h-2.5 rounded-full"
+                                        initial={{ width: 0 }}
+                                        animate={{ width: `${farmData?.stats?.survivalRate || 0}%` }}
+                                        transition={{ duration: 1, delay: 0.3 }}
+                                    />
+                                </div>
+                                <p className="text-xs text-gray-500 mt-2">
+                                    {farmData?.stats?.survivalRate > 85
+                                        ? 'Exceeds industry average of 85%'
+                                        : 'Below industry average - attention needed'}
+                                </p>
+                            </div>
+                        </InfoCard>
+                    </motion.div>
+
+                    {/* Current Season Indicator */}
+                    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
+                        <InfoCard
+                            icon={FaCloudSun}
+                            title="Current Growing Season"
+                            subtitle={`Odienné, Ivory Coast`}
+                            iconColor="text-amber-500"
+                            showInfoBadge={false}
+                        >
+                            <div className="mt-3 space-y-3">
+                                <div className="flex items-center gap-3">
+                                    <div className="bg-amber-100 p-3 rounded-full">
+                                        {getCurrentSeason() === 'Harvest' && <FaTractor className="text-2xl text-amber-600" />}
+                                        {getCurrentSeason() === 'Flowering' && <FaSeedling className="text-2xl text-pink-600" />}
+                                        {getCurrentSeason() === 'Fruit Development' && <FaTree className="text-2xl text-green-600" />}
+                                        {getCurrentSeason() === 'Maintenance' && <FaLeaf className="text-2xl text-blue-600" />}
+                                    </div>
+                                    <div>
+                                        <div className="text-lg font-bold text-primary">{getCurrentSeason()}</div>
+                                        <div className="text-xs text-gray-500">
+                                            {getCurrentSeason() === 'Harvest' && 'Peak harvest period - maximize yield'}
+                                            {getCurrentSeason() === 'Flowering' && 'Critical pollination period'}
+                                            {getCurrentSeason() === 'Fruit Development' && 'Nut formation in progress'}
+                                            {getCurrentSeason() === 'Maintenance' && 'Farm preparation & pruning'}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="flex gap-2 text-xs">
+                                    {['Flowering', 'Fruit Development', 'Harvest', 'Maintenance'].map((season) => (
+                                        <span
+                                            key={season}
+                                            className={`px-2 py-1 rounded-full ${
+                                                getCurrentSeason() === season
+                                                    ? 'bg-primary text-white'
+                                                    : 'bg-gray-100 text-gray-500'
+                                            }`}
+                                        >
+                            {season}
+                        </span>
+                                    ))}
+                                </div>
+                            </div>
+                        </InfoCard>
+                    </motion.div>
+                </div>
+
+                {/* Revenue by Quality Grade */}
+                {revenues.length > 0 && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.4 }}
+                        className="mb-8"
+                    >
+                        <InfoCard
+                            icon={FaChartPie}
+                            title="Revenue by Quality Grade"
+                            iconColor="text-primary"
+                            showInfoBadge={false}
+                        >
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                {Object.entries(
+                                    revenues.reduce((acc: Record<string, { amount: number; count: number }>, r: any) => {
+                                        const quality = r.quality || 'UNKNOWN';
+                                        if (!acc[quality]) acc[quality] = { amount: 0, count: 0 };
+                                        acc[quality].amount += r.totalAmount || 0;
+                                        acc[quality].count++;
+                                        return acc;
+                                    }, {} as Record<string, { amount: number; count: number }>)
+                                )
+                                    .sort(([, a], [, b]) => b.amount - a.amount)
+                                    .map(([quality, data]) => (
+                                        <motion.div
+                                            key={quality}
+                                            className={`text-center p-4 rounded-xl border transition-all hover:shadow-md ${
+                                                quality === 'PREMIUM'
+                                                    ? 'bg-amber-50 border-amber-200'
+                                                    : quality === 'STANDARD'
+                                                        ? 'bg-blue-50 border-blue-200'
+                                                        : 'bg-gray-50 border-gray-200'
+                                            }`}
+                                            whileHover={{ y: -2, scale: 1.02 }}
+                                        >
+                                            <div className={`text-xs font-semibold uppercase mb-2 ${
+                                                quality === 'PREMIUM' ? 'text-amber-700' :
+                                                    quality === 'STANDARD' ? 'text-blue-700' : 'text-gray-600'
+                                            }`}>
+                                                {quality}
+                                            </div>
+                                            <div className="text-xl font-bold text-gray-900">
+                                                {new Intl.NumberFormat('fr-FR').format(data.amount)} FCFA
+                                            </div>
+                                            <div className="text-xs text-gray-500 mt-1">
+                                                {data.count} transaction{data.count !== 1 ? 's' : ''} • {' '}
+                                                {totalRevenue > 0 ? ((data.amount / totalRevenue) * 100).toFixed(0) : 0}% of revenue
+                                            </div>
+                                            {/* Mini progress bar */}
+                                            <div className="w-full bg-gray-200 rounded-full h-1.5 mt-2">
+                                                <div
+                                                    className={`h-1.5 rounded-full ${
+                                                        quality === 'PREMIUM' ? 'bg-amber-500' :
+                                                            quality === 'STANDARD' ? 'bg-blue-500' : 'bg-gray-400'
+                                                    }`}
+                                                    style={{ width: `${totalRevenue > 0 ? (data.amount / totalRevenue) * 100 : 0}%` }}
+                                                />
+                                            </div>
+                                        </motion.div>
+                                    ))}
+                            </div>
+                        </InfoCard>
+                    </motion.div>
+                )}
+
+                {/* Top 3 Performing Blocks */}
+                {blocks.length > 0 && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.5 }}
+                        className="mb-8"
+                    >
+                        <div className="flex items-center justify-between mb-4">
+                            <Typography variant="h4" className="text-primary flex items-center gap-2">
+                                <FaTrophy className="text-yellow-500" />
+                                Top Performing Blocks
+                            </Typography>
+                            <button
+                                onClick={() => navigate('/dashboard/financials')}
+                                className="text-sm text-primary hover:text-accent transition-colors flex items-center gap-1"
+                            >
+                                View All <FaArrowRight className="text-xs" />
+                            </button>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            {blocks
+                                .sort((a, b) => (b.treeCount || 0) - (a.treeCount || 0))
+                                .slice(0, 3)
+                                .map((block, idx) => (
+                                    <motion.div
+                                        key={block.id}
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: 0.1 * idx }}
+                                    >
+                                        <InfoCard
+                                            icon={idx === 0 ? FaTrophy : idx === 1 ? FaMedal : FaAward}
+                                            title={`Block ${block.name || block.id}`}
+                                            subtitle={`${block.treeCount || 0} trees • ${block.status || 'Active'}`}
+                                            iconColor={
+                                                idx === 0 ? 'text-yellow-500' :
+                                                    idx === 1 ? 'text-gray-400' :
+                                                        'text-amber-700'
+                                            }
+                                            showInfoBadge={false}
+                                        >
+                                            <div className="mt-2 space-y-1">
+                                                {block.plantedDate && (
+                                                    <div className="flex justify-between text-xs">
+                                                        <span className="text-gray-500">Planted</span>
+                                                        <span className="text-gray-700">
+                                            {new Date(block.plantedDate).toLocaleDateString()}
+                                        </span>
+                                                    </div>
+                                                )}
+                                                {block.variety && (
+                                                    <div className="flex justify-between text-xs">
+                                                        <span className="text-gray-500">Variety</span>
+                                                        <span className="text-gray-700">{block.variety}</span>
+                                                    </div>
+                                                )}
+                                                <div className="flex justify-between text-xs">
+                                                    <span className="text-gray-500">Status</span>
+                                                    <span className={`px-2 py-0.5 rounded-full text-xs ${
+                                                        block.status === 'ACTIVE' ? 'bg-green-100 text-green-700' :
+                                                            block.status === 'PLANTED' ? 'bg-blue-100 text-blue-700' :
+                                                                'bg-gray-100 text-gray-600'
+                                                    }`}>
+                                        {block.status}
+                                    </span>
+                                                </div>
+                                            </div>
+                                        </InfoCard>
+                                    </motion.div>
+                                ))}
+                        </div>
+                    </motion.div>
+                )}
+
                 {/* Charts Row */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
                     {/* Revenue vs Expenses */}
@@ -333,11 +566,12 @@ const Dashboard: React.FC = () => {
                                         cy="50%"
                                         labelLine={true}
                                         label={({ name, percent }) => {
-                                            // Abbreviate long status names on all screens
-                                            const shortName = name.length > 10
-                                                ? name.substring(0, 10) + '…'
-                                                : name;
-                                            return `${shortName}: ${(percent * 100).toFixed(0)}%`;
+                                            const safeName = name || 'Unknown';
+                                            const safePercent = percent ?? 0;
+                                            const shortName = safeName.length > 10
+                                                ? safeName.substring(0, 10) + '…'
+                                                : safeName;
+                                            return `${shortName}: ${(safePercent * 100).toFixed(0)}%`;
                                         }}
                                         outerRadius={80}
                                         fill="#8884d8"
@@ -358,19 +592,23 @@ const Dashboard: React.FC = () => {
                 </div>
 
                 {/* Recent Tasks */}
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.3 }}
-                    className="mb-8"
-                >
+                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="mb-8">
                     <InfoCard
                         icon={() => <FaTasks className="text-primary text-xl" />}
-                        title="Recent Tasks"
-                        iconColor="text-primary"
+                        title={`Recent Tasks (${pendingTasks.length + inProgressTasks.length} active)`}
+                        iconColor={overdueTasks.length > 0 ? 'text-red-500' : 'text-primary'}
                         className="h-full"
                         showInfoBadge={false}
                     >
+                        {/* Overdue alert badge */}
+                        {overdueTasks.length > 0 && (
+                            <div className="mb-3 flex items-center gap-2 text-xs text-red-600 bg-red-50 px-3 py-1.5 rounded-full w-fit">
+                                <FaTasks className="text-[10px]" />
+                                <span>{overdueTasks.length} task{overdueTasks.length > 1 ? 's' : ''} overdue</span>
+                            </div>
+                        )}
+
+                        {/* Task list */}
                         {tasks.slice(0, 3).map((task) => (
                             <div key={task.id} className="flex items-center justify-between py-3 border-b border-gray-100/50 last:border-0">
                                 <div>
@@ -394,6 +632,11 @@ const Dashboard: React.FC = () => {
                                 </div>
                             </div>
                         ))}
+
+                        {/* Empty state */}
+                        {tasks.length === 0 && (
+                            <p className="text-center text-gray-400 py-4 text-sm">No tasks yet</p>
+                        )}
                     </InfoCard>
                 </motion.div>
 
