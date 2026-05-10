@@ -303,7 +303,7 @@ const Dashboard: React.FC = () => {
                             icon={FaTree}
                             title="Tree Survival Rate"
                             subtitle={`${farmData?.stats?.aliveTrees?.toLocaleString() || 0} trees alive`}
-                            iconColor="text-green-600"
+                            iconColor="text-primary"
                             showInfoBadge={false}
                         >
                             <div className="mt-3">
@@ -427,7 +427,7 @@ const Dashboard: React.FC = () => {
                                                 {totalRevenue > 0 ? ((data.amount / totalRevenue) * 100).toFixed(0) : 0}% of revenue
                                             </div>
                                             {/* Mini progress bar */}
-                                            <div className="w-full bg-gray-200 rounded-full h-1.5 mt-2">
+                                            <div  className="w-full bg-gray-200 rounded-full h-1.5 mt-2">
                                                 <div
                                                     className={`h-1.5 rounded-full ${
                                                         quality === 'PREMIUM' ? 'bg-amber-500' :
@@ -521,25 +521,25 @@ const Dashboard: React.FC = () => {
                 {/* Block Status Quick Summary */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
                     {[
-                        { label: 'Planted', count: blocks.filter(b => b.status === 'PLANTED').length, color: 'bg-green-500', icon: FaTree },
-                        { label: 'Plowed', count: blocks.filter(b => b.status === 'PLOWED').length, color: 'bg-blue-500', icon: FaTractor },
-                        { label: 'Cleared', count: blocks.filter(b => b.status === 'CLEARED').length, color: 'bg-orange-500', icon: FaSeedling },
-                        { label: 'Not Cleared', count: blocks.filter(b => b.status === 'NOT_CLEARED').length, color: 'bg-gray-400', icon: FaHourglassHalf },
+                        { label: 'Planted', count: blocks.filter(b => b.status === 'PLANTED').length, icon: FaTree, iconColor: 'text-green-500' },
+                        { label: 'Plowed', count: blocks.filter(b => b.status === 'PLOWED').length, icon: FaTractor, iconColor: 'text-blue-500' },
+                        { label: 'Cleared', count: blocks.filter(b => b.status === 'CLEARED').length, icon: FaSeedling, iconColor: 'text-orange-500' },
+                        { label: 'Not Cleared', count: blocks.filter(b => b.status === 'NOT_CLEARED').length, icon: FaHourglassHalf, iconColor: 'text-gray-400' },
                     ].map((item, idx) => (
                         <motion.div
                             key={idx}
                             initial={{ opacity: 0, y: 10 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.1 * idx }}
-                            className="flex items-center gap-3 p-3 rounded-xl bg-white/50 backdrop-blur-sm border border-white/30"
                         >
-                            <div className={`p-2 rounded-full ${item.color.replace('bg-', 'bg-')}/10`}>
-                                <item.icon className={`text-sm ${item.color.replace('bg-', 'text-')}`} />
-                            </div>
-                            <div>
-                                <div className="text-lg font-bold text-gray-900">{item.count}</div>
-                                <div className="text-xs text-gray-500">{item.label}</div>
-                            </div>
+                            <InfoCard
+                                icon={item.icon}
+                                title={String(item.count)}
+                                subtitle={item.label}
+                                iconColor={item.iconColor}
+                                showInfoBadge={false}
+                                className="h-full"
+                            />
                         </motion.div>
                     ))}
                 </div>
