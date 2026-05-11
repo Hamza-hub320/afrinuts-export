@@ -521,7 +521,6 @@ const BlockMap: React.FC = () => {
                                         </div>
                                     ))}
                                 </div>
-
                                 {/* Photo Gallery INSIDE the modal */}
                                 <div className="mt-6">
                                     <PhotoGallery
@@ -533,13 +532,6 @@ const BlockMap: React.FC = () => {
                                         compact
                                     />
                                 </div>
-
-                                <button
-                                    onClick={() => setSelectedBlock(null)}
-                                    className="mt-6 w-full py-3 bg-gradient-to-r from-primary to-accent text-white rounded-xl font-medium shadow-md hover:shadow-lg transition-all duration-300 transform-gpu hover:scale-[1.02]"
-                                >
-                                    Close
-                                </button>
                             </div>
                         </motion.div>
                     </motion.div>
