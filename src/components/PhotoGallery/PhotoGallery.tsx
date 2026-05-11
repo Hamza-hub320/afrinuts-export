@@ -179,7 +179,7 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({
             <AnimatePresence>
                 {selectedPhoto && (
                     <motion.div
-                        className="fixed inset-0 z-50 flex items-center justify-center p-4"
+                        className="fixed inset-0 z-50 flex items-center justify-center p-8"
                         style={{ background: 'rgba(0,0,0,0.85)', backdropFilter: 'blur(12px)' }}
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
@@ -220,7 +220,7 @@ const PhotoGallery: React.FC<PhotoGalleryProps> = ({
                             key={selectedPhoto.id}
                             src={selectedPhoto.filePath}
                             alt={selectedPhoto.caption || 'Photo'}
-                            className="max-w-full max-h-[85vh] object-contain rounded-2xl shadow-2xl border-2 border-white/20"
+                            className="max-w-[95vw] max-h-[90vh] object-contain rounded-2xl shadow-2xl border-2 border-white/20"
                             initial={{ scale: 0.85, opacity: 0 }}
                             animate={{ scale: 1, opacity: 1 }}
                             exit={{ scale: 0.85, opacity: 0 }}

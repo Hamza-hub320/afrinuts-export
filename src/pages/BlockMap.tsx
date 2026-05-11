@@ -460,7 +460,7 @@ const BlockMap: React.FC = () => {
                 {/* Block Details Modal */}
                 {selectedBlock && (
                     <motion.div
-                        className="fixed inset-0 z-50 flex items-center justify-center p-4"
+                        className="fixed inset-0 top-0 z-[100] flex items-center justify-center p-4"
                         style={{ background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(4px)' }}
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
