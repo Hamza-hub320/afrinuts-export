@@ -469,7 +469,7 @@ const BlockMap: React.FC = () => {
                         <motion.div
                             initial={{ scale: 0.9, opacity: 0, y: 20 }}
                             animate={{ scale: 1, opacity: 1, y: 0 }}
-                            className="relative max-w-lg w-full max-h-[85vh] overflow-y-auto rounded-2xl backdrop-blur-lg"
+                            className="relative max-w-lg w-full max-h-[85vh] overflow-y-auto overflow-x-hidden rounded-2xl backdrop-blur-lg"
                             style={{
                                 background: 'linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.75) 50%, rgba(255,255,255,0.85) 100%)',
                                 border: '1px solid rgba(255,255,255,0.5)',
