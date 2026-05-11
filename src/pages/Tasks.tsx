@@ -641,8 +641,20 @@ const Tasks: React.FC = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3 }}
-                    className="mt-8"
+                    className="mt-8 max-w-2xl mx-auto"
                 >
+                    <div className="flex items-center justify-between mb-3">
+                        <Typography variant="small" className="text-gray-500">
+                            Showing photos for: <span className="font-medium text-primary">{selectedTask.title}</span>
+                        </Typography>
+                        <button
+                            onClick={() => setSelectedTask(null)}
+                            className="text-xs text-gray-400 hover:text-red-500 transition-colors flex items-center gap-1"
+                        >
+                            <FaTimes className="text-xs" />
+                            Clear selection
+                        </button>
+                    </div>
                     <PhotoGallery
                         photos={taskPhotos}
                         entityType="task"

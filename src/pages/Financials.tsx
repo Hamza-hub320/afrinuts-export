@@ -11,7 +11,7 @@ import {
     FaTrophy,
     FaMedal,
     FaAward,
-    FaLightbulb, FaMapPin, FaGlobeAfrica
+    FaLightbulb, FaMapPin, FaGlobeAfrica, FaTimes
 } from 'react-icons/fa';
 import { Typography } from '@/components/Typography/Typography';
 import DashboardNavbar from '@/components/DashboardNavbar/DashboardNavbar';
@@ -1096,13 +1096,25 @@ const Financials: React.FC = () => {
 
 
                 {/* Photo Gallery */}
-                {selectedExpense && (
+                {selectedExpense && expensePhotos.filter(p => p.expenseId === selectedExpense.id).length > 0 && (
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.3 }}
-                        className="mt-8"
+                        className="mt-8 max-w-2xl mx-auto"
                     >
+                        <div className="flex items-center justify-between mb-3">
+                            <Typography variant="small" className="text-gray-500">
+                                Showing photos for: <span className="font-medium text-primary">{selectedExpense.description || `Expense #${selectedExpense.id}`}</span>
+                            </Typography>
+                            <button
+                                onClick={() => setSelectedExpense(null)}
+                                className="text-xs text-gray-400 hover:text-red-500 transition-colors flex items-center gap-1"
+                            >
+                                <FaTimes className="text-xs" />
+                                Clear selection
+                            </button>
+                        </div>
                         <PhotoGallery
                             photos={expensePhotos}
                             entityType="expense"
