@@ -485,7 +485,7 @@ const BlockMap: React.FC = () => {
                                  style={{ background: 'radial-gradient(circle, rgba(210,125,45,0.4) 0%, transparent 70%)', animation: 'float 6s ease-in-out infinite' }}
                             />
 
-                            <div className="relative z-10 p-6">
+                            <div className="relative z-10 p-6 pt-[72px]">
                                 {/* Header */}
                                 <div className="flex justify-between items-start mb-5">
                                     <div className="flex items-center gap-3">
