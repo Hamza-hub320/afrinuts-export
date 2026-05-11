@@ -636,7 +636,7 @@ const Tasks: React.FC = () => {
             </div>
 
             {/* Photo Gallery */}
-            {selectedTask && (
+            {selectedTask && taskPhotos.filter(p => p.taskId === selectedTask.id).length > 0 && (
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
