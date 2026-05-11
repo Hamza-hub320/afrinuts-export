@@ -641,7 +641,7 @@ const Tasks: React.FC = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3 }}
-                    className="mt-8 max-w-2xl mx-auto"
+                    className="mt-8 max-w-2xl mx-auto scroll-mt-24 relative z-10"
                 >
                     <div className="flex items-center justify-between mb-3">
                         <Typography variant="small" className="text-gray-500">
