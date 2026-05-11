@@ -89,6 +89,77 @@ export const handler: Handler = async (event: HandlerEvent) => {
                 }
             }
 
+            // Query task subcollection photos
+            if (taskId) {
+                const taskPhotosSnapshot = await db
+                    .collection('farms').doc(fid)
+                    .collection('tasks').doc(String(taskId))
+                    .collection('photos')
+                    .orderBy('takenAt', 'desc')
+                    .get();
+                const taskPhotos = taskPhotosSnapshot.docs.map(doc => ({
+                    id: doc.data().id,
+                    taskId: parseInt(String(taskId)),
+                    ...doc.data(),
+                }));
+                allPhotos.push(...taskPhotos);
+            } else {
+                const tasksSnapshot = await db
+                    .collection('farms').doc(fid)
+                    .collection('tasks')
+                    .get();
+                for (const taskDoc of tasksSnapshot.docs) {
+                    const photosSnapshot = await db
+                        .collection('farms').doc(fid)
+                        .collection('tasks').doc(taskDoc.id)
+                        .collection('photos')
+                        .orderBy('takenAt', 'desc')
+                        .get();
+                    const taskPhotos = photosSnapshot.docs.map(doc => ({
+                        id: doc.data().id,
+                        taskId: parseInt(taskDoc.id),
+                        ...doc.data(),
+                    }));
+                    allPhotos.push(...taskPhotos);
+                }
+            }
+
+            // Query expense subcollection photos
+            if (expenseId) {
+                const expensePhotosSnapshot = await db
+                    .collection('farms').doc(fid)
+                    .collection('expenses').doc(String(expenseId))
+                    .collection('photos')
+                    .orderBy('takenAt', 'desc')
+                    .get();
+                const expensePhotos = expensePhotosSnapshot.docs.map(doc => ({
+                    id: doc.data().id,
+                    expenseId: parseInt(String(expenseId)),
+                    ...doc.data(),
+                }));
+                allPhotos.push(...expensePhotos);
+            } else {
+                const expensesSnapshot = await db
+                    .collection('farms').doc(fid)
+                    .collection('expenses')
+                    .get();
+                for (const expenseDoc of expensesSnapshot.docs) {
+                    const photosSnapshot = await db
+                        .collection('farms').doc(fid)
+                        .collection('expenses').doc(expenseDoc.id)
+                        .collection('photos')
+                        .orderBy('takenAt', 'desc')
+                        .get();
+                    const expensePhotos = photosSnapshot.docs.map(doc => ({
+                        id: doc.data().id,
+                        expenseId: parseInt(expenseDoc.id),
+                        ...doc.data(),
+                    }));
+                    allPhotos.push(...expensePhotos);
+                }
+            }
+
+            // Filters
             if (blockId) {
                 allPhotos = allPhotos.filter(p => p.blockId === parseInt(String(blockId)));
             }
