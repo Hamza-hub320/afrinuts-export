@@ -26,7 +26,7 @@ If you discover a security vulnerability in this repository, please **do not ope
 
 Instead, report it directly to **AfriNuts Export Security Team** at:  
 
-📧 **AfriNutsExport2023@outlook.com**  
+📧 **contact@afrinutsexport.com**  
 
 ### What to Expect:  
 - You will receive an acknowledgment within **72 hours**.  
