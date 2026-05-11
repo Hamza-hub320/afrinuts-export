@@ -84,7 +84,6 @@ const BlockMap: React.FC = () => {
     const [blocks, setBlocks] = useState<Block[]>([]);
     const [loading, setLoading] = useState(true);
     const [selectedBlock, setSelectedBlock] = useState<Block | null>(null);
-    const [galleryBlock, setGalleryBlock] = useState<Block | null>(null); // Add this
     const [blockPhotos, setBlockPhotos] = useState<Photo[]>([]);
     const navigate = useNavigate();
 
@@ -412,10 +411,7 @@ const BlockMap: React.FC = () => {
                                                     icon={getStatusIcon(block.status)}
                                                     colors={colors}
                                                     infrastructure={infrastructure}
-                                                    onClick={() => {
-                                                        setSelectedBlock(block);
-                                                        setGalleryBlock(block);
-                                                    }}
+                                                    onClick={() => setSelectedBlock(block)}
                                                 />
                                             );
                                         })}
@@ -461,107 +457,93 @@ const BlockMap: React.FC = () => {
                     ))}
                 </div>
 
-                {/* Photo Gallery - Stays visible after modal closes */}
-                {galleryBlock && (
+                {/* Block Details Modal */}
+                {selectedBlock && (
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.2 }}
-                        className="mt-8"
+                        className="fixed inset-0 z-50 flex items-center justify-center p-4"
+                        style={{ background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(4px)' }}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        onClick={() => setSelectedBlock(null)}
                     >
-                        <div className="flex items-center justify-between mb-2">
-                            <Typography variant="h4" className="text-primary">
-                                Block {galleryBlock.blockName} Photos
-                            </Typography>
-                            <button
-                                onClick={() => setGalleryBlock(null)}
-                                className="text-sm text-gray-400 hover:text-gray-600 transition-colors"
-                            >
-                                Clear selection
-                            </button>
-                        </div>
-                        <PhotoGallery
-                            photos={blockPhotos}
-                            entityType="block"
-                            entityId={galleryBlock.id}
-                            entityName={`Block ${galleryBlock.blockName}`}
-                            title={`Block ${galleryBlock.blockName} Photos`}
-                        />
-                    </motion.div>
-                )}
+                        <motion.div
+                            initial={{ scale: 0.9, opacity: 0, y: 20 }}
+                            animate={{ scale: 1, opacity: 1, y: 0 }}
+                            className="relative max-w-lg w-full max-h-[85vh] overflow-y-auto rounded-2xl backdrop-blur-lg"
+                            style={{
+                                background: 'linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.75) 50%, rgba(255,255,255,0.85) 100%)',
+                                border: '1px solid rgba(255,255,255,0.5)',
+                                boxShadow: '0 8px 32px rgba(165, 105, 66, 0.2), inset 0 1px 0 rgba(255,255,255,0.6), inset 0 -1px 0 rgba(0,0,0,0.05)',
+                            }}
+                            onClick={e => e.stopPropagation()}
+                        >
+                            {/* Animated blobs */}
+                            <div className="absolute -top-16 -right-16 w-32 h-32 rounded-full opacity-15 blur-3xl animate-pulse"
+                                 style={{ background: 'radial-gradient(circle, rgba(165,105,66,0.4) 0%, transparent 70%)' }}
+                            />
+                            <div className="absolute -bottom-12 -left-12 w-28 h-28 rounded-full opacity-10 blur-3xl"
+                                 style={{ background: 'radial-gradient(circle, rgba(210,125,45,0.4) 0%, transparent 70%)', animation: 'float 6s ease-in-out infinite' }}
+                            />
 
-                {/* Block Details Modal - Liquid Glassy Morphism */}
-            {selectedBlock && (
-                <motion.div
-                    className="fixed inset-0 z-50 flex items-center justify-center p-4"
-                    style={{ background: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(4px)' }}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    onClick={() => setSelectedBlock(null)}
-                >
-                    <motion.div
-                        initial={{ scale: 0.9, opacity: 0, y: 20 }}
-                        animate={{ scale: 1, opacity: 1, y: 0 }}
-                        className="relative max-w-md w-full rounded-2xl overflow-hidden backdrop-blur-lg"
-                        style={{
-                            background: 'linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.75) 50%, rgba(255,255,255,0.85) 100%)',
-                            border: '1px solid rgba(255,255,255,0.5)',
-                            boxShadow: '0 8px 32px rgba(165, 105, 66, 0.2), inset 0 1px 0 rgba(255,255,255,0.6), inset 0 -1px 0 rgba(0,0,0,0.05)',
-                        }}
-                        onClick={e => e.stopPropagation()}
-                    >
-                        {/* Animated blobs */}
-                        <div className="absolute -top-16 -right-16 w-32 h-32 rounded-full opacity-15 blur-3xl animate-pulse"
-                             style={{ background: 'radial-gradient(circle, rgba(165,105,66,0.4) 0%, transparent 70%)' }}
-                        />
-                        <div className="absolute -bottom-12 -left-12 w-28 h-28 rounded-full opacity-10 blur-3xl"
-                             style={{ background: 'radial-gradient(circle, rgba(210,125,45,0.4) 0%, transparent 70%)', animation: 'float 6s ease-in-out infinite' }}
-                        />
-
-                        <div className="relative z-10 p-6">
-                            <div className="flex justify-between items-start mb-5">
-                                <div className="flex items-center gap-3">
-                                    <div className={`p-2.5 rounded-full ${getStatusColor(selectedBlock.status).icon}`}>
-                                        {getStatusIcon(selectedBlock.status)}
+                            <div className="relative z-10 p-6">
+                                {/* Header */}
+                                <div className="flex justify-between items-start mb-5">
+                                    <div className="flex items-center gap-3">
+                                        <div className={`p-2.5 rounded-full ${getStatusColor(selectedBlock.status).icon}`}>
+                                            {getStatusIcon(selectedBlock.status)}
+                                        </div>
+                                        <Typography variant="h3" className="text-primary">
+                                            Block {selectedBlock.blockName}
+                                        </Typography>
                                     </div>
-                                    <Typography variant="h3" className="text-primary">
-                                        Block {selectedBlock.blockName}
-                                    </Typography>
+                                    <button
+                                        onClick={() => setSelectedBlock(null)}
+                                        className="w-8 h-8 rounded-full bg-white/60 backdrop-blur-sm flex items-center justify-center text-gray-400 hover:text-gray-600 hover:bg-white/80 transition-all"
+                                    >
+                                        ×
+                                    </button>
                                 </div>
+
+                                {/* Block Details */}
+                                <div className="space-y-3">
+                                    {[
+                                        { label: 'Status', value: selectedBlock.status },
+                                        { label: 'Survival Rate', value: selectedBlock.survivalRate > 0 ? `${selectedBlock.survivalRate.toFixed(1)}%` : 'N/A' },
+                                        { label: 'Trees', value: '100 trees (10×10 grid)' },
+                                        { label: 'Area', value: '1.0 hectare (100m × 100m)' },
+                                        { label: 'Row', value: selectedBlock.blockName.charAt(0) },
+                                        { label: 'Column', value: selectedBlock.blockName.substring(1) },
+                                        { label: 'Access', value: getBlockAccess(selectedBlock.blockName) },
+                                    ].map((item, idx) => (
+                                        <div key={idx} className="flex justify-between items-center py-3 px-4 rounded-xl bg-white/40 backdrop-blur-sm border border-white/30">
+                                            <span className="font-medium text-gray-700">{item.label}</span>
+                                            <span className="capitalize text-gray-900 font-semibold">{item.value}</span>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                {/* Photo Gallery INSIDE the modal */}
+                                <div className="mt-6">
+                                    <PhotoGallery
+                                        photos={blockPhotos}
+                                        entityType="block"
+                                        entityId={selectedBlock.id}
+                                        entityName={`Block ${selectedBlock.blockName}`}
+                                        title={`Block ${selectedBlock.blockName} Photos`}
+                                        compact
+                                    />
+                                </div>
+
                                 <button
                                     onClick={() => setSelectedBlock(null)}
-                                    className="w-8 h-8 rounded-full bg-white/60 backdrop-blur-sm flex items-center justify-center text-gray-400 hover:text-gray-600 hover:bg-white/80 transition-all"
+                                    className="mt-6 w-full py-3 bg-gradient-to-r from-primary to-accent text-white rounded-xl font-medium shadow-md hover:shadow-lg transition-all duration-300 transform-gpu hover:scale-[1.02]"
                                 >
-                                    ×
+                                    Close
                                 </button>
                             </div>
-
-                            <div className="space-y-3">
-                                {[
-                                    { label: 'Status', value: selectedBlock.status },
-                                    { label: 'Survival Rate', value: selectedBlock.survivalRate > 0 ? `${selectedBlock.survivalRate.toFixed(1)}%` : 'N/A' },
-                                    { label: 'Trees', value: '100 trees (10×10 grid)' },
-                                    { label: 'Area', value: '1.0 hectare (100m × 100m)' },
-                                    { label: 'Row', value: selectedBlock.blockName.charAt(0) },
-                                    { label: 'Column', value: selectedBlock.blockName.substring(1) },
-                                    { label: 'Access', value: getBlockAccess(selectedBlock.blockName) },
-                                ].map((item, idx) => (
-                                    <div key={idx} className="flex justify-between items-center py-3 px-4 rounded-xl bg-white/40 backdrop-blur-sm border border-white/30">
-                                        <span className="font-medium text-gray-700">{item.label}</span>
-                                        <span className="capitalize text-gray-900 font-semibold">{item.value}</span>
-                                    </div>
-                                ))}
-                            </div>
-                            <button
-                                onClick={() => setSelectedBlock(null)}
-                                className="mt-6 w-full py-3 bg-gradient-to-r from-primary to-accent text-white rounded-xl font-medium shadow-md hover:shadow-lg transition-all duration-300 transform-gpu hover:scale-[1.02]"
-                            >
-                                Close
-                            </button>
-                        </div>
+                        </motion.div>
                     </motion.div>
-                </motion.div>
-            )}
+                )}
 
                 {/* Road Map Reference - Using InfoCard */}
                 <motion.div
