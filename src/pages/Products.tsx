@@ -20,6 +20,7 @@ import roastedCashewImage from '../assets/images/roasted-cashew.webp';
 import ourProductHeroImage from '../assets/images/our-product-hero.webp';
 import processImage from '../assets/images/production-process.webp';
 import qualityImage from '../assets/images/quality-control.webp';
+import qualityAssuranceImage from '../assets/images/quality-assurance.webp';
 import packagingImage from '../assets/images/packaging.webp';
 import rawCashewImage from '../assets/images/raw-cashew.webp';
 import productCataloguePdf from '../assets/documents/afrinuts-products-catalogue.pdf';
@@ -40,7 +41,7 @@ const productImageMap: Record<string, string> = {
     'cashew-kernels.jpg': cashewKernelsImage,
     'cashew-milk.jpg': cashewMilkImage,
     'cashew-nut-shell-liquid.jpg': cashewShellImage,
-    'roasted-cashew.jpg': roastedCashewImage,
+    'roasted-cashew.jpg': qualityImage,
     'raw-cashew.jpg': rawCashewImage,
 };
 
@@ -647,7 +648,7 @@ const Products: React.FC = () => {
                                     {/* Subtle background pattern */}
                                     <div className="absolute inset-0 rounded-2xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
 
-                                    <div className="h-48 bg-gray-100 overflow-hidden relative z-10 rounded-t-2xl">
+                                    <div className="h-64 bg-gray-100 overflow-hidden relative z-10 rounded-t-2xl">
                                         <motion.img
                                             src={index === 0 ? processImage : index === 1 ? qualityImage : packagingImage}
                                             alt={step.title}
@@ -720,7 +721,7 @@ const Products: React.FC = () => {
                                     <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] group-hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
 
                                     <img
-                                        src={qualityImage}
+                                        src={qualityAssuranceImage}
                                         alt={t('quality.title')}
                                         className="rounded-2xl w-full transition-transform duration-500 transform-gpu group-hover:scale-105 relative z-10"
                                         loading="lazy"

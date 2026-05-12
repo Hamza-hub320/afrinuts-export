@@ -663,7 +663,6 @@ const Tasks: React.FC = () => {
                         title={`Photos for: ${selectedTask.title}`}
                     />
                 </motion.div>
-                </div>
             )}
 
             {/* End-of-page CTA */}
