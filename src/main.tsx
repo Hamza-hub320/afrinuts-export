@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import { AuthProvider } from './contexts/AuthContext';
 import './index.css'
 import App from './App'
+import { HelmetProvider } from 'react-helmet-async';
 
 // Add error logging
 console.log('App starting...')
@@ -11,7 +12,9 @@ try {
     ReactDOM.createRoot(document.getElementById('root')!).render(
         <React.StrictMode>
             <AuthProvider>
-            <App />
+                <HelmetProvider>
+                    <App />
+                </HelmetProvider>
             </AuthProvider>
         </React.StrictMode>
     )

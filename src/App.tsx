@@ -36,6 +36,7 @@ import React from 'react';
 import Faq from "@pages/Faq";
 import AccessibilityToolbar from './components/AccessibilityToolbar/AccessibilityToolbar';
 
+
 // Scroll restoration component
 function ScrollToTop() {
     const { pathname } = useLocation();

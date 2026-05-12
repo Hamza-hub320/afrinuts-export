@@ -6,6 +6,7 @@ import { Typography } from '@/components/Typography/Typography';
 import { InfoCard } from '@/components/InfoCard/InfoCard';
 import Section from '@/components/Section/Section';
 import { fadeIn, staggerContainer } from '@/utils/animations';
+import { useNavigate } from 'react-router-dom';
 
 interface BlogPost {
     id: string;
@@ -26,6 +27,46 @@ const Blog: React.FC = () => {
     const [selectedCategory, setSelectedCategory] = useState('All');
     const [searchQuery, setSearchQuery] = useState('');
     const [showFilters, setShowFilters] = useState(false);
+    const navigate = useNavigate();
+    const [subscribeStatus, setSubscribeStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+    const [subscribeMessage, setSubscribeMessage] = useState('');
+
+    const handleSubscribe = async (email: string, form: HTMLFormElement) => {
+        setSubscribeStatus('loading');
+        setSubscribeMessage('');
+
+        try {
+            const response = await fetch('/.netlify/functions/newsletter', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email }),
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                const errorMap: Record<string, string> = {
+                    'INVALID_EMAIL': 'Please enter a valid email address.',
+                    'ALREADY_SUBSCRIBED': 'You are already subscribed.',
+                    'SUBSCRIBE_FAILED': 'Something went wrong. Please try again.',
+                    'SERVER_ERROR': 'Something went wrong. Please try again.',
+                };
+                throw new Error(errorMap[data.error] || 'Something went wrong.');
+            }
+
+            setSubscribeStatus('success');
+            setSubscribeMessage('Successfully subscribed!');
+            form.reset();
+
+            setTimeout(() => {
+                setSubscribeStatus('idle');
+                setSubscribeMessage('');
+            }, 5000);
+        } catch (error: any) {
+            setSubscribeStatus('error');
+            setSubscribeMessage(error.message);
+        }
+    };
 
     useEffect(() => {
         const fetchPosts = async () => {
@@ -183,6 +224,75 @@ const Blog: React.FC = () => {
                             ))}
                         </div>
                     )}
+                </div>
+            </Section>
+            {/* End-of-page CTA */}
+            <Section className="py-10 mt-8">
+                <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 text-center">
+                    <motion.div
+                        className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-3xl shadow-xl p-8 md:p-12 transform-gpu"
+                        style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={staggerContainer}
+                        whileHover={{
+                            y: -8, scale: 1.02, rotateY: 3,
+                            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+                            transition: { duration: 0.3 }
+                        }}
+                    >
+                        <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px] hover:translate-z-[-10px] transition-all duration-500" />
+                        <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40 hover:opacity-60 transition-opacity duration-500" />
+                        <div className="absolute inset-0 rounded-3xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
+                        <div className="absolute inset-0 rounded-3xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
+
+                        <div className="relative z-10">
+                            <motion.div variants={fadeIn}>
+                                <Typography variant="h2" className="mb-6 text-primary">
+                                    Get More Cashew Insights
+                                </Typography>
+                                <Typography variant="body" className="mb-6 text-gray-700 max-w-3xl mx-auto">
+                                    Subscribe to our newsletter for expert articles on cashew farming, industry trends, and sustainable agriculture delivered straight to your inbox.
+                                </Typography>
+                                <form
+                                    className="flex flex-col items-center gap-3 max-w-md mx-auto"
+                                    onSubmit={async (e) => {
+                                        e.preventDefault();
+                                        const form = e.target as HTMLFormElement;
+                                        const emailInput = form.querySelector('#blog-cta-email') as HTMLInputElement;
+                                        await handleSubscribe(emailInput.value, form);
+                                    }}
+                                >
+                                    <div className="flex flex-col sm:flex-row gap-3 w-full">
+                                        <input
+                                            type="email"
+                                            id="blog-cta-email"
+                                            placeholder="Your email address"
+                                            required
+                                            className="flex-grow px-5 py-3 rounded-full border border-gray-300 bg-white/70 backdrop-blur-sm text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                                        />
+                                        <button
+                                            type="submit"
+                                            disabled={subscribeStatus === 'loading'}
+                                            className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-3 rounded-full transform-gpu group/btn overflow-hidden disabled:opacity-50 font-medium"
+                                        >
+                                            <div className="absolute inset-0 rounded-full border-2 border-white/30" />
+                                            <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50" />
+                                            <span className="relative z-10">
+                                                {subscribeStatus === 'loading' ? 'Subscribing...' : 'Subscribe'}
+                                            </span>
+                                        </button>
+                                    </div>
+                                    {subscribeStatus !== 'idle' && (
+                                        <p className={`text-sm ${subscribeStatus === 'success' ? 'text-green-600' : 'text-red-600'}`}>
+                                            {subscribeMessage}
+                                        </p>
+                                    )}
+                                </form>
+                            </motion.div>
+                        </div>
+                    </motion.div>
                 </div>
             </Section>
         </div>

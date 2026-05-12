@@ -1072,7 +1072,6 @@ const News: React.FC = () => {
                     </Transition.Root>
                 </div>
             </Section>
-
             {/* Newsletter Section */}
             <Section className="py-16">
                 <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 text-center">
