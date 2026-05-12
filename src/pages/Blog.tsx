@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FaCalendarAlt, FaUser, FaSearch } from 'react-icons/fa';
+import { FaCalendarAlt, FaUser, FaSearch, FaChevronDown } from 'react-icons/fa';
 import { Typography } from '@/components/Typography/Typography';
+import { InfoCard } from '@/components/InfoCard/InfoCard';
 import Section from '@/components/Section/Section';
 import { fadeIn, staggerContainer } from '@/utils/animations';
 
@@ -24,6 +25,7 @@ const Blog: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [selectedCategory, setSelectedCategory] = useState('All');
     const [searchQuery, setSearchQuery] = useState('');
+    const [showFilters, setShowFilters] = useState(false);
 
     useEffect(() => {
         const fetchPosts = async () => {
@@ -90,43 +92,56 @@ const Blog: React.FC = () => {
             {/* Filters & Search */}
             <Section className="py-8">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6">
-                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
-                        <div className="flex flex-wrap gap-2">
-                            {CATEGORIES.map(cat => (
-                                <motion.button
-                                    key={cat}
-                                    onClick={() => setSelectedCategory(cat)}
-                                    className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                                        selectedCategory === cat
-                                            ? 'bg-primary text-white shadow-md'
-                                            : 'bg-white/60 text-gray-600 hover:bg-white/80 border border-gray-200 backdrop-blur-sm'
-                                    }`}
-                                    whileHover={{ y: -2 }}
-                                    whileTap={{ scale: 0.95 }}
-                                >
-                                    {cat}
-                                </motion.button>
-                            ))}
-                        </div>
-                        <div className="relative w-full sm:w-48">
-                            <FaSearch className="absolute left-3 top-3 text-gray-400 text-sm" />
-                            <input
-                                type="text"
-                                placeholder="Search..."
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                                className="w-full pl-9 pr-4 py-2 rounded-full border border-gray-300 bg-white/60 backdrop-blur-sm text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-                            />
-                        </div>
+                    {/* Search Bar - Always Visible */}
+                    <div className="relative w-full mb-4">
+                        <FaSearch className="absolute left-4 top-3.5 text-gray-400" />
+                        <input
+                            type="text"
+                            placeholder="Search blog posts..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className="w-full pl-11 pr-4 py-3 rounded-full border border-gray-300 bg-white/60 backdrop-blur-md text-sm focus:outline-none focus:ring-2 focus:ring-primary shadow-sm"
+                        />
                     </div>
 
-                    {/* Posts Grid */}
+                    {/* Mobile Filter Toggle */}
+                    <button
+                        onClick={() => setShowFilters(!showFilters)}
+                        className="md:hidden w-full flex items-center justify-between px-4 py-3 rounded-xl bg-white/60 backdrop-blur-md border border-gray-200 text-sm font-medium text-gray-700 mb-3"
+                    >
+                        <span>Filter: {selectedCategory}</span>
+                        <FaChevronDown className={`transition-transform ${showFilters ? 'rotate-180' : ''}`} />
+                    </button>
+
+                    {/* Category Filters */}
+                    <div className={`flex flex-wrap gap-2 ${showFilters ? 'block' : 'hidden'} md:flex`}>
+                        {CATEGORIES.map(cat => (
+                            <motion.button
+                                key={cat}
+                                onClick={() => {
+                                    setSelectedCategory(cat);
+                                    setShowFilters(false);
+                                }}
+                                className={`px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all ${
+                                    selectedCategory === cat
+                                        ? 'bg-primary text-white shadow-md'
+                                        : 'bg-white/60 text-gray-600 hover:bg-white/80 border border-gray-200 backdrop-blur-sm'
+                                }`}
+                                whileHover={{ y: -2 }}
+                                whileTap={{ scale: 0.95 }}
+                            >
+                                {cat}
+                            </motion.button>
+                        ))}
+                    </div>
+
+                    {/* Posts Grid with InfoCard Styling */}
                     {filteredPosts.length === 0 ? (
                         <div className="text-center py-16">
                             <Typography variant="h4" className="text-gray-400">No posts found</Typography>
                         </div>
                     ) : (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-6">
                             {filteredPosts.map((post, idx) => (
                                 <motion.div
                                     key={post.id}
@@ -135,15 +150,15 @@ const Blog: React.FC = () => {
                                     transition={{ delay: idx * 0.1 }}
                                 >
                                     <Link to={`/blog/${post.slug}`}>
-                                        <motion.div
-                                            className="group relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl overflow-hidden shadow-lg h-full transform-gpu"
-                                            whileHover={{ y: -6, scale: 1.02 }}
+                                        <InfoCard
+                                            title={post.title}
+                                            subtitle={post.excerpt}
+                                            iconColor="text-accent"
+                                            className="h-full cursor-pointer"
+                                            showInfoBadge={false}
                                         >
-                                            <div className="absolute inset-0 rounded-2xl border-2 border-white/20" />
-                                            <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40" />
-
                                             {post.featuredImage && (
-                                                <div className="h-48 overflow-hidden relative z-10">
+                                                <div className="h-44 overflow-hidden rounded-xl mb-3 -mt-2 border-2 border-white/30 shadow-md">
                                                     <img
                                                         src={post.featuredImage}
                                                         alt={post.title}
@@ -151,27 +166,18 @@ const Blog: React.FC = () => {
                                                     />
                                                 </div>
                                             )}
-
-                                            <div className="p-5 relative z-10">
-                                                <span className="inline-block px-3 py-1 bg-accent/10 text-accent text-xs rounded-full mb-3">
-                                                    {post.category}
+                                            <span className="inline-block px-3 py-1 bg-accent/10 text-accent text-xs rounded-full mb-2">
+                                                {post.category}
+                                            </span>
+                                            <div className="flex items-center justify-between text-xs text-gray-400 pt-3 border-t border-gray-100/50 mt-auto">
+                                                <span className="flex items-center gap-1">
+                                                    <FaCalendarAlt /> {new Date(post.publishedDate).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
                                                 </span>
-                                                <Typography variant="h4" className="mb-2 text-primary group-hover:text-accent transition-colors">
-                                                    {post.title}
-                                                </Typography>
-                                                <Typography variant="small" className="text-gray-600 mb-4 line-clamp-2">
-                                                    {post.excerpt}
-                                                </Typography>
-                                                <div className="flex items-center justify-between text-xs text-gray-400 pt-3 border-t border-gray-100">
-                                                    <span className="flex items-center gap-1">
-                                                        <FaCalendarAlt /> {new Date(post.publishedDate).toLocaleDateString()}
-                                                    </span>
-                                                    <span className="flex items-center gap-1">
-                                                        <FaUser /> {post.author}
-                                                    </span>
-                                                </div>
+                                                <span className="flex items-center gap-1">
+                                                    <FaUser /> {post.author.split(',')[0]}
+                                                </span>
                                             </div>
-                                        </motion.div>
+                                        </InfoCard>
                                     </Link>
                                 </motion.div>
                             ))}
