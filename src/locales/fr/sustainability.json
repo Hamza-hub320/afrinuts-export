@@ -1,104 +1,99 @@
 {
   "hero": {
-    "title": "Culture durable de noix de cajou",
-    "subtitle": "Cultiver la qualité tout en préservant notre planète"
+    "title": "Culture de Noix de Cajou Durable et Biologique en Côte d'Ivoire",
+    "subtitle": "Cultiver des noix de cajou premium tout en protégeant notre planète et en autonomisant notre communauté"
   },
   "intro": {
-    "title": "L'importance d'une agrobusiness durable de noix de cajou",
+    "title": "Pourquoi la Culture Durable de la Noix de Cajou est Importante pour l'Afrique de l'Ouest",
     "content": [
-      "L'industrie mondiale de la noix de cajou joue un rôle vital dans de nombreuses économies, particulièrement en Afrique de l'Ouest où la Côte d'Ivoire est leader en production. Avec la croissance de la demande, augmente aussi le besoin de pratiques durables protégeant les écosystèmes tout en assurant les moyens de subsistance des agriculteurs. Chez AfriNuts Export, nous nous engageons à révolutionner la production de noix de cajou grâce à des méthodes écologiquement et socialement responsables."
-    ],
-    "badges": [
-      "Certifié Biologique",
-      "Commerce Équitable",
-      "Alliance pour la Forêt Tropicale",
-      "Neutre en Carbone"
+      "La Côte d'Ivoire est le plus grand producteur mondial de noix de cajou, mais les méthodes agricoles conventionnelles ont souvent un coût — déforestation, épuisement de l'eau et faibles revenus des agriculteurs. Chez AfriNuts Export, nous prouvons que les noix de cajou peuvent être cultivées différemment.",
+      "Notre approche combine l'agriculture biologique, des pratiques de travail équitables et le réinvestissement communautaire. Nous protégeons les écosystèmes tout en garantissant aux agriculteurs un revenu digne. Ce n'est pas seulement de la durabilité — c'est l'avenir de l'agriculture ivoirienne."
     ]
   },
   "environment": {
-    "title": "Impacts environnementaux & nos solutions",
+    "title": "Les Défis Environnementaux que Nous Résolvons sur Notre Ferme de 35 Hectares",
     "challenges": {
-      "title": "Défis majeurs",
+      "title": "Les Problèmes de la Culture Conventionnelle de la Noix de Cajou",
       "items": [
         {
-          "title": "Déforestation & biodiversité",
-          "content": "L'expansion des cultures de cajou peut entraîner la déforestation, menaçant les écosystèmes.",
+          "title": "Déforestation et Perte de Biodiversité",
+          "content": "L'expansion de la noix de cajou a défriché des milliers d'hectares de forêt en Côte d'Ivoire, menaçant la faune et la santé des sols.",
           "icon": "FaTree"
         },
         {
-          "title": "Qualité de l'eau & des sols",
-          "content": "L'agriculture intensive risque d'épuiser les ressources en eau et dégrader les sols.",
+          "title": "Épuisement de l'Eau et Dégradation des Sols",
+          "content": "L'irrigation intensive et les engrais chimiques épuisent les nutriments du sol et drainent les nappes phréatiques locales.",
           "icon": "FaWater"
         },
         {
-          "title": "Utilisation de produits chimiques",
-          "content": "Pesticides et engrais peuvent nuire à l'environnement si mal utilisés.",
+          "title": "Utilisation Excessive de Produits Chimiques",
+          "content": "Les pesticides et les engrais synthétiques contaminent les sources d'eau et nuisent à la santé des agriculteurs.",
           "icon": "FaLeaf"
         },
         {
-          "title": "Gestion des déchets",
-          "content": "La transformation génère des coques et pommes nécessitant une élimination appropriée.",
+          "title": "Déchets de la Transformation",
+          "content": "Les coques et les pommes de cajou sont souvent jetées, créant des déchets et manquant des opportunités économiques.",
           "icon": "FaIndustry"
         }
       ]
     },
     "solutions": {
-      "title": "Nos pratiques durables",
+      "title": "Comment AfriNuts Résout Ces Problèmes",
       "items": [
         {
-          "title": "Systèmes agroforestiers",
-          "content": "Nous associons les cajoutiers à des espèces locales pour maintenir la biodiversité.",
+          "title": "Agroforesterie et Biodiversité",
+          "content": "Nous cultivons les noix de cajou en association avec des arbres indigènes sur notre ferme de 35 hectares, créant un habitat pour les espèces locales et améliorant le carbone du sol.",
           "icon": "FaSeedling"
         },
         {
-          "title": "Conservation de l'eau",
-          "content": "L'irrigation goutte-à-goutte et la récupération d'eau de pluie minimisent l'usage hydrique.",
+          "title": "Conservation de l'Eau",
+          "content": "L'irrigation goutte à goutte et la collecte des eaux de pluie réduisent la consommation d'eau jusqu'à 60 % par rapport aux méthodes conventionnelles.",
           "icon": "FaTint"
         },
         {
-          "title": "Méthodes biologiques",
-          "content": "Contrôle naturel des parasites et compost remplacent les intrants synthétiques.",
+          "title": "Méthodes 100 % Biologiques",
+          "content": "Aucun pesticide ni engrais synthétique. Nous utilisons du compost, des prédateurs naturels de ravageurs et la rotation des cultures.",
           "icon": "FaBug"
         },
         {
-          "title": "Valorisation des déchets",
-          "content": "Les coques deviennent biocarburant ; les pommes sont utilisées pour jus et vinaigre.",
+          "title": "Transformation Zéro Déchet",
+          "content": "Les coques de cajou deviennent du biocarburant pour notre centre de transformation. Les pommes de cajou deviennent du jus, du vinaigre et de l'alimentation animale.",
           "icon": "FaRecycle"
         }
       ]
     }
   },
   "social": {
-    "title": "Responsabilité sociale",
+    "title": "Responsabilité Sociale : Notre Engagement Envers les Personnes",
     "farmers": {
-      "title": "Autonomisation des petits exploitants",
+      "title": "Autonomiser les Petits Agriculteurs",
       "content": [
-        "Nous offrons des prix équitables, formations et accès au marché aux producteurs locaux.",
-        "Nos relations directes éliminent les intermédiaires, garantissant de meilleurs revenus."
+        "Nous payons des prix supérieurs au marché pour les noix de cajou brutes des producteurs locaux, éliminant les intermédiaires pour que les agriculteurs conservent plus de leurs revenus.",
+        "Nous offrons une formation gratuite sur l'agriculture biologique, la manutention post-récolte et la gestion d'entreprise. Notre objectif est d'intégrer plus de 20 agriculteurs locaux dans notre chaîne d'approvisionnement d'ici 2028."
       ]
     },
     "labor": {
-      "title": "Pratiques de travail éthiques",
+      "title": "Pratiques de Travail Éthiques",
       "content": [
-        "Conditions de travail sûres et salaires équitables pour tous les employés.",
-        "Pas de travail des enfants et respect strict des normes internationales."
+        "Tous les travailleurs reçoivent des salaires équitables supérieurs au minimum régional, des conditions de travail sûres et un accès à l'eau potable sur place.",
+        "Nous interdisons strictement le travail des enfants et effectuons des audits réguliers par des tiers pour garantir la conformité aux normes internationales du travail."
       ]
     },
     "gender": {
-      "title": "Équité des genres",
+      "title": "Égalité des Genres dans l'Agriculture",
       "content": [
-        "Programmes spéciaux pour soutenir les femmes dans la production de cajou.",
-        "Égalité des salaires et opportunités de leadership à tous les niveaux."
+        "Les femmes représentent plus de 40 % de la main-d'œuvre agricole en Côte d'Ivoire mais gagnent souvent moins et manquent d'opportunités de leadership.",
+        "Chez AfriNuts, nous garantissons un salaire égal pour un travail égal et recrutons activement des femmes pour des postes de supervision. Notre première cohorte de formation était composée à 50 % de femmes."
       ]
     }
   },
   "future": {
-    "title": "Notre vision pour une croissance durable",
+    "title": "Notre Feuille de Route pour la Durabilité 2031",
     "content": [
-      "D'ici 2031, nous visons la neutralité carbone sur toute notre chaîne d'approvisionnement.",
-      "Notre centre de transformation appliquera des principes zéro déchet.",
-      "Nous investissons dans les énergies renouvelables et la traçabilité blockchain."
+      "D'ici 2028 : Atteindre la neutralité carbone sur l'ensemble de notre chaîne d'approvisionnement (de la ferme au port).",
+      "D'ici 2031 : Atteindre une transformation zéro déchet dans notre installation (coques → biocarburant, pommes → produits à valeur ajoutée).",
+      "D'ici 2031 : Mettre en œuvre la traçabilité par blockchain pour que les acheteurs puissent suivre chaque noix de cajou de l'arbre à l'exportation."
     ],
-    "cta": "Découvrez notre Feuille de Route Durabilité 2031"
+    "cta": "Découvrir notre Feuille de Route pour la Durabilité 2031"
   }
 }

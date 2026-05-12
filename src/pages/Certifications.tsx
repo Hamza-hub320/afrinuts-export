@@ -13,7 +13,15 @@ import {
     FaClock,
     FaAward,
     FaKaaba,
-    FaCrown, FaIndustry, FaMapMarkerAlt, FaMedal
+    FaCrown,
+    FaIndustry,
+    FaMapMarkerAlt,
+    FaMedal,
+    FaArrowRight,
+    FaInfoCircle,
+    FaShoppingCart,
+    FaChartLine,
+    FaHandsHelping
 } from "react-icons/fa";
 import Section from '@/components/Section/Section';
 import { fadeIn, staggerContainer } from '@/utils/animations';
@@ -21,7 +29,17 @@ import { Typography } from "@/components/Typography/Typography";
 import { InfoCard } from "@/components/InfoCard/InfoCard";
 import CertModal from "../components/CertModal/CertModal";
 import CertCard from "../components/CertCard/CertCard";
-type CertStatus = "achieved" | "upcoming";
+import {IconType} from "react-icons";
+type CertStatus = "achieved" | "upcoming" | "in-progress";
+
+const getIcon = (iconName: string) => {
+    const icons: Record<string, React.ElementType> = {
+        FaShoppingCart: FaShoppingCart,
+        FaChartLine: FaChartLine,
+        FaHandsHelping: FaHandsHelping
+    };
+    return icons[iconName] || FaShoppingCart;
+};
 
 const Certifications: React.FC = () => {
     const { t } = useTranslation('certifications');
@@ -47,7 +65,7 @@ const Certifications: React.FC = () => {
             id: "organic",
             title: t('certifications.organic.title'),
             icon: FaLeaf,
-            status: "achieved",
+            status: "upcoming",
             description: t('certifications.organic.description'),
             benefits: t('certifications.organic.benefits', { returnObjects: true }) as string[],
             validity: t('certifications.organic.validity'),
@@ -60,7 +78,7 @@ const Certifications: React.FC = () => {
             id: "fairtrade",
             title: t('certifications.fairtrade.title'),
             icon: FaHandshake,
-            status: "achieved",
+            status: "upcoming",
             description: t('certifications.fairtrade.description'),
             benefits: t('certifications.fairtrade.benefits', { returnObjects: true }) as string[],
             validity: t('certifications.fairtrade.validity'),
@@ -121,7 +139,7 @@ const Certifications: React.FC = () => {
             {/* Hero Section */}
             <Section
                 fullHeight={true}
-                className="flex items-center justify-center text-center min-h-[60vh] bg-gradient-to-b from-primary/10 to-transparent"
+                className="flex items-center justify-center text-center min-h-[40vh] bg-gradient-to-b from-primary/10 to-transparent"
             >
                 <motion.div
                     className="max-w-4xl px-6 sm:px-8 py-12"
@@ -509,6 +527,127 @@ const Certifications: React.FC = () => {
                         </InfoCard>
                     </motion.div>
 
+                    {/* Why Certifications Matter Section */}
+                    <Section>
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+                            <motion.div
+                                className="text-center mb-12"
+                                initial="hidden"
+                                whileInView="visible"
+                                viewport={{ once: true }}
+                                variants={fadeIn}
+                            >
+                                <Typography variant="h2" className="mb-4">
+                                    {t('whyCertifications.title')}
+                                </Typography>
+                                <Typography
+                                    variant="body"
+                                    className="max-w-3xl mx-auto text-base md:text-lg leading-relaxed"
+                                >
+                                    {t('whyCertifications.subtitle')}
+                                </Typography>
+                            </motion.div>
+
+                            <motion.div
+                                className="grid md:grid-cols-3 gap-8"
+                                initial="hidden"
+                                whileInView="visible"
+                                viewport={{ once: true }}
+                                variants={staggerContainer}
+                            >
+                                {(() => {
+                                    // Attempt to get the items array
+                                    let itemsArray: any[] = [];
+
+                                    try {
+                                        const result = t('whyCertifications.items', { returnObjects: true });
+                                        if (Array.isArray(result)) {
+                                            itemsArray = result;
+                                        } else if (result && typeof result === 'object') {
+                                            // If it's an object but not array, log warning
+                                            console.warn('whyCertifications.items is an object, expected array:', result);
+                                            itemsArray = [];
+                                        } else {
+                                            console.warn('whyCertifications.items not found or invalid:', result);
+                                        }
+                                    } catch (error) {
+                                        console.error('Error loading whyCertifications.items:', error);
+                                    }
+
+                                    // If no items, don't render anything
+                                    if (itemsArray.length === 0) {
+                                        return (
+                                            <div className="col-span-3 text-center py-8">
+                                                <Typography variant="body" className="text-gray-500">
+                                                    Loading certification information...
+                                                </Typography>
+                                            </div>
+                                        );
+                                    }
+
+                                    return itemsArray.map((item: any, index: number) => {
+                                        // Map icon string to actual component
+                                        const getIconComponent = (iconName: string) => {
+                                            switch (iconName) {
+                                                case 'FaShoppingCart': return <FaShoppingCart />;
+                                                case 'FaChartLine': return <FaChartLine />;
+                                                case 'FaHandsHelping': return <FaHandsHelping />;
+                                                default: return <FaShoppingCart />;
+                                            }
+                                        };
+
+                                        return (
+                                            <InfoCard
+                                                key={item.title || index}
+                                                icon={() => getIconComponent(item.icon)}
+                                                title={item.title}
+                                                iconColor="text-accent"
+                                                className="h-full transform-gpu transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl"
+                                            >
+                                                <div className="space-y-4">
+                                                    <ul className="space-y-2">
+                                                        {(item.points || []).map((point: string, idx: number) => (
+                                                            <li key={idx} className="flex items-start gap-2">
+                                                                <FaCheckCircle className="text-accent mt-1 flex-shrink-0 text-sm" />
+                                                                <Typography variant="body" className="text-text-dark text-sm">
+                                                                    {point}
+                                                                </Typography>
+                                                            </li>
+                                                        ))}
+                                                    </ul>
+                                                    {item.ctaText && (
+                                                        <motion.button
+                                                            onClick={() => navigate(item.ctaLink || '/contact')}
+                                                            className="text-primary hover:text-accent font-medium flex items-center gap-2 transition-colors text-sm mt-2"
+                                                            whileHover={{ x: 3 }}
+                                                        >
+                                                            {item.ctaText}
+                                                            <FaArrowRight className="text-sm" />
+                                                        </motion.button>
+                                                    )}
+                                                </div>
+                                            </InfoCard>
+                                        );
+                                    });
+                                })()}
+                            </motion.div>
+
+                            {/* Note about certification progress */}
+                            <motion.div
+                                className="mt-8 text-center p-4 bg-amber-50/80 rounded-xl border border-amber-200"
+                                initial="hidden"
+                                whileInView="visible"
+                                viewport={{ once: true }}
+                                variants={fadeIn}
+                            >
+                                <Typography variant="small" className="text-amber-700">
+                                    <FaInfoCircle className="inline mr-2" />
+                                    {t('whyCertifications.note')}
+                                </Typography>
+                            </motion.div>
+                        </div>
+                    </Section>
+
                     {/* Competitive Analysis Table - Responsive */}
                     <motion.div
                         className="group relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 transition-all duration-500 rounded-2xl shadow-xl overflow-hidden transform-gpu"
@@ -728,7 +867,6 @@ const Certifications: React.FC = () => {
                         </div>
                     </motion.div>
 
-
                     {/* Unique Value Proposition */}
                     <div className="mt-12">
                         <motion.div
@@ -786,6 +924,24 @@ const Certifications: React.FC = () => {
                     </div>
                 </div>
             </Section>
+
+            {/* Disclaimer for Competitive Analysis */}
+            <motion.div
+                className="max-w-7xl mx-auto px-4 sm:px-6 mb-6"
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={fadeIn}
+            >
+                <div className="bg-amber-50/80 border-l-4 border-amber-500 p-4 rounded-r-xl">
+                    <div className="flex items-start gap-3">
+                        <FaInfoCircle className="text-amber-500 mt-0.5 flex-shrink-0" />
+                        <Typography variant="small" className="text-amber-700">
+                            {t('competitiveLandscape.competitiveDisclaimer')}
+                        </Typography>
+                    </div>
+                </div>
+            </motion.div>
 
             {/* Call to Action */}
             <Section className="py-16 text-center">

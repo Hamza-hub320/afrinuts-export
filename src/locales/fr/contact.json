@@ -1,128 +1,131 @@
 {
   "hero": {
-    "title": "Connectez-vous avec AfriNuts Export",
-    "subtitle": "Contactez-nous pour des opportunités de partenariat, des demandes de produits ou des informations d'investissement"
+    "title": "Contacter AfriNuts Export – Noix de Cajou Premium de Côte d'Ivoire",
+    "subtitle": "Demandez un devis, discutez des opportunités de partenariat ou renseignez-vous sur l'investissement dans la culture durable de la noix de cajou en Côte d'Ivoire."
   },
   "form": {
-    "title": "Contactez Notre Équipe",
+    "title": "Contacter Notre Équipe",
     "name": "Nom Complet*",
     "email": "Email Professionnel*",
     "phone": "Numéro de Téléphone",
     "subject": "Sujet*",
     "message": "Votre Message*",
-    "submit": "Soumettre la Demande",
+    "submit": "Envoyer la Demande",
     "sending": "Traitement de Votre Demande...",
     "requestType": "Type de Demande",
-    "requestTypePlaceholder": "Sélectionner une demande",
-    "productInterest": "Produit Intéressant",
-    "productInterestPlaceholder": "Sélectionner un produit",
+    "requestTypePlaceholder": "Sélectionnez une demande",
+    "productInterest": "Produit d'Intérêt",
+    "productInterestPlaceholder": "Sélectionnez un produit",
     "productInterestOptions": {
       "rawCashew": "Noix de Cajou Brutes",
       "cashewKernels": "Amandes de Cajou",
       "cnsl": "Liquide de Coque de Noix de Cajou (CNSL)",
-      "customOrder": "Commande Sur Mesure"
+      "customOrder": "Commande Personnalisée"
     },
     "quantity": "Quantité",
     "unit": "Unité",
-    "unitPlaceholder": "Sélectionner l'unité",
+    "unitPlaceholder": "Sélectionnez l'Unité",
     "shipping": "Préférence d'Expédition",
-    "shippingPlaceholder": "Sélectionner une préférence",
+    "shippingPlaceholder": "Sélectionnez la préférence",
     "shippingOptions": {
-      "cif": "CIF (Coût, Assurance, Fret)",
+      "cif": "CIF (Coût, Assurance et Fret)",
       "fob": "FOB (Franco à Bord)",
-      "exw": "EXW (Sortie Usine)",
-      "ddp": "DDP - Livraison Droits Acquittés à Votre Porte",
-      "other": "Autre - Veuillez préciser"
+      "exw": "EXW (Départ Usine)",
+      "ddp": "DDP – Rendu Droits Acquittés jusqu'à votre porte",
+      "other": "Autre – veuillez préciser"
     },
     "requestTypes": {
       "information": "Demande d'Information",
-      "quote": "Demande de Devis",
-      "proposal": "Demande de Proposition",
+      "quote": "Demande de Devis en Gros",
       "partnership": "Opportunité de Partenariat",
       "investment": "Demande d'Investissement",
       "other": "Autre Demande"
     },
-    "checkFaq": "Des questions ? Consultez notre FAQ avant de nous contacter.",
+    "checkFaq": "Vous avez des questions ? Consultez notre FAQ avant de nous contacter.",
     "faqLink": "Aller à la FAQ"
   },
   "info": {
-    "title": "Siège Social",
+    "title": "Siège Social de l'Entreprise",
     "headquarters": "Siège d'AfriNuts",
     "address": "Odienné, Côte d'Ivoire",
-    "zipCode": "Code Postal: 00225",
+    "zipCode": "Code Postal : 00225",
     "phone": "Téléphone",
     "phoneNumber": "+225 (077) 919 - 1460",
     "email": "Email",
     "emailPrimary": "contact@afrinutsexport.com",
     "emailSecondary": "sales@afrinutsexport.com",
-    "hours": "Lundi-Vendredi: 8:00 - 17:00 GMT",
+    "hours": "Lundi-Vendredi : 8h00 - 17h00 GMT",
     "businessHours": "Heures de Bureau",
-    "weekdays": "Lundi - Vendredi: 8:00 - 17:00",
-    "saturday": "Samedi: 9:00 - 13:00"
+    "weekdays": "Lundi - Vendredi : 8h00 - 17h00",
+    "saturday": "Samedi : 9h00 - 13h00"
   },
   "map": {
-    "title": "Notre Siège Opérationnel",
+    "title": "Notre Quartier Général Opérationnel",
     "iframeTitle": "Localisation d'AfriNuts Export"
   },
   "success": {
-    "title": "Merci d'avoir Contacté AfriNuts Export",
-    "message": "Votre demande a été reçue. Notre équipe répondra dans les 2 jours ouvrables.",
+    "title": "Merci d'Avoir Contacté AfriNuts Export",
+    "message": "Votre demande a bien été reçue. Notre équipe vous répondra sous 2 jours ouvrables.",
     "close": "Retour au Site",
-    "extraCelebration": "Nous sommes ravis de vous connecter !"
+    "extraCelebration": "Nous sommes ravis d'échanger avec vous !"
   },
   "errors": {
-    "name": "Veuillez saisir votre nom complet",
+    "name": "Veuillez entrer votre nom complet",
     "emailRequired": "Une adresse email valide est requise",
-    "emailInvalid": "Veuillez saisir une adresse email valide",
-    "subject": "Veuillez spécifier le sujet de votre demande",
+    "emailInvalid": "Veuillez entrer une adresse email correctement formatée",
+    "subject": "Veuillez préciser le sujet de votre demande",
     "message": "Veuillez inclure un message détaillé",
-    "fileSize": "Taille de fichier maximale dépassée (limite 5MB)",
-    "submit": "Une erreur s'est produite. Veuillez nous envoyer un email directement à contact@afrinutsexport.com",
+    "fileSize": "Taille maximale du fichier dépassée (limite de 5 Mo)",
+    "submit": "Nous avons rencontré une erreur. Veuillez nous envoyer un email directement à contact@afrinutsexport.com",
     "requestType": "Veuillez sélectionner un type de demande"
   },
   "weather": {
     "currentWeather": "Météo actuelle à {{location}}",
-    "feelsLike": "Ressenti: {{temp}}°C",
-    "highTemp": "Max: {{temp}}°C",
-    "lowTemp": "Min: {{temp}}°C",
-    "wind": "Vent: {{speed}} km/h",
-    "humidity": "Humidité: {{percent}}%",
+    "feelsLike": "Ressenti : {{temp}}°C",
+    "highTemp": "Max : {{temp}}°C",
+    "lowTemp": "Min : {{temp}}°C",
+    "wind": "Vent : {{speed}} km/h",
+    "humidity": "Humidité : {{percent}}%",
     "loading": "Chargement des données météo...",
     "error": "Informations météo actuellement indisponibles",
     "notAvailable": "N/D"
   },
   "offlinePayment": {
     "title": "Instructions de Paiement Hors Ligne",
-    "description": "Pour les commandes en gros, tous les paiements sont traités directement par virement bancaire. Après avoir soumis votre demande, notre équipe commerciale vous fournira une facture et des instructions de paiement.",
-    "additionalInfo": "Contactez notre équipe commerciale si vous avez besoin d'instructions spécifiques pour votre mode de paiement.",
+    "description": "Pour les commandes en gros, tous les paiements sont traités directement par virement bancaire. Après avoir soumis votre demande, notre équipe commerciale vous fournira une facture et les instructions de paiement.",
     "button": "Contacter les Ventes",
-    "methods": ["Virement Bancaire", "Virement", "Chèque"]
+    "methods": ["Virement Bancaire", "Paiement par Virement", "Chèque"]
   },
   "shippingGuidance": {
-    "title": "Conseils d'Expédition",
-    "intro": "Chez AfriNuts, nous nous engageons à fournir des solutions d'expédition flexibles pour répondre à vos besoins. Actuellement, nous proposons deux options principales d'expédition, avec plus à venir.",
+    "title": "Guide d'Expédition",
+    "intro": "Chez AfriNuts, nous nous engageons à fournir des solutions d'expédition flexibles pour répondre à vos besoins. Actuellement, nous proposons deux options principales d'expédition avec d'autres à venir prochainement.",
     "currentlyAvailable": "Actuellement Disponible",
     "fob": {
       "title": "FOB (Franco à Bord)",
-      "description": "L'acheteur prend la responsabilité de l'expédition depuis notre port d'origine. Idéal pour les acheteurs ayant des partenaires d'expédition préférés."
+      "description": "L'acheteur prend en charge l'expédition depuis notre port d'origine. Idéal pour les acheteurs ayant des partenaires d'expédition privilégiés."
     },
     "exw": {
-      "title": "EXW (Sortie Usine)",
-      "description": "Retirer les marchandises de notre entrepôt ; l'acheteur gère tout le transport et la logistique. Parfait pour les acheteurs locaux ou ceux ayant une logistique établie."
+      "title": "EXW (Départ Usine)",
+      "description": "Retirez les marchandises de notre entrepôt ; l'acheteur gère tout le transport et la logistique. Parfait pour les acheteurs locaux ou ceux disposant d'une logistique établie."
     },
     "comingSoon": "Bientôt Disponible",
     "cif": {
-      "title": "CIF (Coût, Assurance, Fret)",
+      "title": "CIF (Coût, Assurance et Fret)",
       "description": "Nous gérons l'expédition, l'assurance et la livraison jusqu'à votre port de destination. Nous nous occupons de tout jusqu'à votre port de destination."
     },
     "ddp": {
-      "title": "DDP (Livraison Droits Acquittés)",
-      "description": "Le vendeur assume l'entière responsabilité, y compris les droits de douane et taxes, livré à l'emplacement de l'acheteur. Service complet porte-à-porte avec tous frais inclus."
+      "title": "DDP (Rendu Droits Acquittés)",
+      "description": "Le vendeur assume l'entière responsabilité, y compris les droits et taxes d'importation, livré au lieu de l'acheteur. Service porte-à-porte complet avec tous les coûts inclus."
     },
     "other": {
       "title": "Autre / Arrangement Personnalisé",
-      "description": "Certains clients peuvent vouloir une solution logistique spécifique (navire affrété, consolidation de conteneurs, etc.). Solutions sur mesure pour des exigences uniques."
+      "description": "Certains clients peuvent vouloir une solution logistique spécifique (navire affrété, groupage de conteneurs, etc.). Solutions sur mesure pour des besoins uniques."
     },
-    "helpText": "Besoin d'aide pour décider quelle option vous convient le mieux ? Notre équipe est là pour vous guider tout au long du processus."
-  }
+    "helpText": "Besoin d'aide pour décider quelle option est la meilleure pour vous ? Notre équipe est là pour vous guider dans le processus."
+  },
+  "title": "Contactez-Nous",
+  "description": "Envoyez-nous un message et nous vous répondrons rapidement.",
+  "buttonLabel": "Ouvrir le Formulaire de Contact",
+  "buttonText": "Contactez-Nous",
+  "close": "Fermer"
 }

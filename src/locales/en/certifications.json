@@ -1,14 +1,17 @@
 {
   "hero": {
-    "subtitle": "Quality Assurance & Compliance",
-    "title": "Trusted Global Standards",
-    "description": "We adhere to internationally recognized certifications that guarantee food safety, sustainability, and ethical sourcing — giving our partners confidence in every cashew we deliver."
+    "subtitle": "Quality Assurance & Compliance Roadmap",
+    "title": "Our Certification Journey: Premium Cashews from Ivory Coast",
+    "description": "AfriNuts Export is pursuing internationally recognized certifications including Organic, Fair Trade, ISO 22000, Halal, and Rainforest Alliance. Learn about our commitment to quality, sustainability, and ethical sourcing from our farm in Odienné, Ivory Coast."
   },
-      "filters": {
-      "all": "All Certifications",
-      "achieved": "Achieved",
-      "upcoming": "Upcoming"
+  "filters": {
+    "all": "All Certifications",
+    "achieved": "Achieved",
+    "upcoming": "In Progress",
+    "inProgress": "In Progress"
     },
+  "noCertifications": "No certifications found",
+  "tryDifferentFilter": "Please try a different filter to see more certifications.",
     "status": {
       "achieved": "Certified",
       "upcoming": "In Progress"
@@ -19,55 +22,57 @@
       "organic": {
         "title": "Organic Certification",
         "issuer": "ECOCERT",
-        "description": "Certified organic cashew processing.",
+        "description": "Working towards organic certification for our cashew production and processing.",
         "benefits": [
-          "Ensures product is 100% organic",
-          "Certified by ECOCERT",
-          "Meets international organic standards"
+          "100% organic product verification",
+          "Internationally recognized standard",
+          "Premium market access"
         ],
-        "validity": "Valid until 2030"
+        "validity": "Target completion: 2027-2028"
       },
       "fairtrade": {
         "title": "Fair Trade",
-        "issuer": "Fair Trade International",
-        "description": "Supports ethical sourcing practices.",
+        "issuer": "Fair Trade International (Target)",
+        "description": "Building systems to ensure fair compensation and ethical sourcing.",
         "benefits": [
           "Fair compensation for farmers",
           "Ethical sourcing standards",
-          "Third-party verified"
+          "Third-party verification"
         ],
-        "validity": "Valid until 2030"
+        "validity": "Target completion: 2027"
       },
       "iso22000": {
         "title": "ISO 22000",
         "issuer": "International Organization for Standardization",
-        "description": "Food safety management system standard.",
+        "description": "Developing food safety management systems for future processing facility.",
         "benefits": [
           "Structured food safety management",
-          "Prevents hazards in food processing",
-          "Ensures global compliance"
+          "Hazard prevention in processing",
+          "Global compliance readiness"
         ],
-        "validity": "Valid until 2026"
+        "validity": "Target completion: 2028 (with processing center)"
       },
       "halal": {
         "title": "Halal Certification",
-        "issuer": "Halal Certification Authority",
-        "description": "Compliance with halal standards.",
+        "issuer": "Halal Certification Authority (Target)",
+        "description": "Preparing processes to meet Halal standards for Muslim-majority markets.",
         "benefits": [
-          "Ensures compliance with halal guidelines",
-          "Verified by authorized certification bodies"
+          "Compliance with Halal guidelines",
+          "Access to MENA markets",
+          "Verified by authorized bodies"
         ],
-        "validity": "Valid until 2025"
+        "validity": "Target completion: 2027"
       },
       "rainforest": {
         "title": "Rainforest Alliance",
-        "issuer": "Rainforest Alliance",
-        "description": "Sustainable and ethical sourcing.",
+        "issuer": "Rainforest Alliance (Target)",
+        "description": "Aligning farming practices with sustainability and fair labor standards.",
         "benefits": [
           "Environmentally responsible practices",
-          "Supports fair labor standards"
+          "Fair labor standards",
+          "Eco-conscious brand positioning"
         ],
-        "validity": "Valid until 2026"
+        "validity": "Target completion: 2028"
       }
     },
     "actions": {
@@ -121,10 +126,49 @@
       "contactButton": "Contact Our Team",
       "downloadButton": "Download Compliance Pack"
     },
+  "whyCertifications": {
+    "title": "Why These Certifications Matter",
+    "subtitle": "Certifications are more than badges — they are our promise to stakeholders at every level.",
+    "items": [
+      {
+        "title": "For Buyers",
+        "icon": "FaShoppingCart",
+        "points": [
+          "Guaranteed quality and food safety",
+          "Fully traceable supply chain from tree to container",
+          "Ethical sourcing verification for your own compliance"
+        ],
+        "ctaText": "Request Certification Documentation",
+        "ctaLink": "/contact"
+      },
+      {
+        "title": "For Investors",
+        "icon": "FaChartLine",
+        "points": [
+          "Premium pricing power in organic and fair trade markets",
+          "Market access advantages to Europe, MENA, and North America",
+          "ESG compliance for institutional and impact investors"
+        ],
+        "ctaText": "View Investor ESG Report",
+        "ctaLink": "/sustainability"
+      },
+      {
+        "title": "For Communities",
+        "icon": "FaHandsHelping",
+        "points": [
+          "Fair wages and safe working conditions for farm workers",
+          "Environmental protection through organic and sustainable practices",
+          "Long-term community development through our 10% profit reinvestment"
+        ],
+        "ctaText": "See Our Community Impact",
+        "ctaLink": "/about"
+      }
+    ],
+    "note": "All certifications are actively in progress. Target completion dates available in our Certification Roadmap."
+  },
   "competitiveLandscape": {
     "title": "Our Competitive Advantage",
     "description": "In a crowded global market, AfriNuts stands apart through our unique combination of origin story, quality certifications, and vertical integration.",
-
     "origin": {
       "title": "Single-Origin",
       "description": "Direct from Ivory Coast, the world's largest producer"
@@ -141,28 +185,24 @@
       "title": "Premium Positioning",
       "description": "Competing on quality, not just price"
     },
-
     "tableTitle": "Market Positioning Analysis",
     "competitorType": "Competitor Type",
     "theirAdvantage": "Their Advantage",
     "theirDisadvantage": "Their Disadvantage",
     "ourStrategy": "AfriNuts' Counter-Strategy",
-
     "asianProcessors": "Large Asian Processors",
     "asianAdvantage": "Scale, established infrastructure, low-cost labor",
     "asianDisadvantage": "Geographic disconnect from source, rising labor costs",
     "asianStrategy": "Origin Story & Traceability: Single-Origin Ivory Coast traceability",
-
     "localProcessors": "Local Ivorian Processors",
     "localAdvantage": "Local presence, access to raw nuts",
     "localDisadvantage": "Lack scale, international certifications, market access",
     "localStrategy": "Certification & Quality: Meet highest international standards",
-
     "westernBrands": "Western Brands",
     "westernAdvantage": "Strong consumer brands, market access",
     "westernDisadvantage": "Reliant on imported kernels, disconnected from source",
     "westernStrategy": "Vertical Integration: Control entire chain, ensure quality",
-
+    "competitiveDisclaimer": "The following analysis represents AfriNuts' strategic positioning based on our certification roadmap and operational plans. Certification statuses reflect our current progress and target completion dates. We do not claim to have achieved certifications marked as 'In Progress.'",
     "uniqueValue": {
       "title": "AfriNuts' Unique Competitive Edge",
       "description": "Our vertical integration combined with local expertise and certification strategy allows us to offer what no other player can: premium, certified, traceable cashews from a transparent, socially responsible source in the heart of the world's largest producing region."

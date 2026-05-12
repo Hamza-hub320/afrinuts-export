@@ -9,8 +9,8 @@ interface CertCardProps {
     title: string;
     description: string;
     issuer: string;
-    status: 'achieved' | 'upcoming';
-    benefits: string[] | string; // <-- allow string fallback
+    status: 'achieved' | 'upcoming'| 'in-progress';
+    benefits: string[] | string;
     validity?: string;
     color: string;
     borderColor: string;

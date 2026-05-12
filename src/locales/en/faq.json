@@ -1,8 +1,8 @@
 {
   "hero": {
-    "title": "Frequently Asked Questions",
-    "subtitle": "Find answers to common questions about AfriNuts Export",
-    "description": "Find clear, straightforward answers about AfriNuts — from our farming practices and sustainability initiatives to our processing center plans and community impact."
+    "title": "Frequently Asked Questions About AfriNuts Export",
+    "subtitle": "Organic Cashews, Sustainable Farming, and Ethical Investment",
+    "description": "Get clear, straightforward answers about our organic cashew farm in Odienné, Ivory Coast. Learn about our sustainability practices, processing center plans, community impact, and how to partner with us."
   },
   "audience": {
     "all": "All Users",
@@ -18,16 +18,16 @@
   },
   "loadMore": "Load More Topics",
   "stillQuestions": {
-    "title": "Still have questions",
-    "content": "If you can't find what you're looking for, our team is happy to help.",
-    "button": "Contact Us"
+    "title": "Didn't find your answer",
+    "content":  "Ask us anything about our farm, products, or investment opportunities.",
+    "button": "Ask a Question"
   },
   "general": {
     "title": "General",
     "questions": [
       {
         "question": "What is AfriNuts Export?",
-        "answer": "AfriNuts Export is vertically integrated cashew value chain based in Odienné, Ivory Coast, focused on sustainable cashew farming and future processing. Our mission is to produce high-quality, ethically farmed cashews for both domestic and international markets, while contributing to rural development and community upliftment.",
+        "answer": "AfriNuts Export is a family-owned cashew farm and future processing company based in Odienné, Ivory Coast. We grow organic cashews, plan to build a local processing facility, and reinvest 10% of our profits into community development like schools, water wells, and mosques.",
         "audience": ["all", "customers"]
       },
       {
@@ -58,7 +58,7 @@
       },
       {
         "question": "When is your harvest season?",
-        "answer": "Harvest typically begins three years after planting, with the first major harvest expected in 2029, as our first planting is planned for May–June 2026.",
+        "answer": "Cashew trees typically begin producing in year 3, reach early commercial yields in year 4-5, and reach full maturity in year 7+. Our first trees were planted in 2026. We expect our first small harvest in 2029, with increasing volumes each season. Peak production is expected by 2031.",
         "audience": ["all", "b2b"]
       },
       {
@@ -106,7 +106,7 @@
       },
       {
         "question": "How do you reinvest profits into the community?",
-        "answer": "We reinvest 10% of our net profits into local initiatives such as water access, education, and places of worship. This is part of our commitment to shared prosperity and faith-based impact.",
+        "answer": "We reinvest 10% of our net profits into local community initiatives. Examples include: drilling water wells, supporting local madrasas (Islamic schools), and contributing to mosque maintenance. This is our commitment to sadaqah jariyah — ongoing charity that benefits generations.",
         "audience": ["all", "investors"]
       }
     ]
@@ -116,7 +116,7 @@
     "questions": [
       {
         "question": "When will the processing center be operational?",
-        "answer": "The cashew processing center is part of our long-term development plan, scheduled to be built between 2027 and 2030. It will allow us to add value locally and create new jobs in the region.",
+        "answer": "The cashew processing center is planned for construction starting in 2028, pending land title finalization and investment. Our target is operations by 2031. We will share updates as milestones are reached.",
         "audience": ["all", "b2b", "partners"],
         "visualAid": {
           "type": "image",
@@ -184,7 +184,7 @@
       },
       {
         "question": "What logistics options do you offer?",
-        "answer": "Strategically headquartered in Ivory Coast, AfriNuts Export leverages the world-class logistics of the Port of Abidjan. This allows us to offer competitive transit times and reliable shipping schedules for our premium cashew and nut exports to Europe, Asia, and the Americas. We work with trusted logistics partners and can arrange FOB, CIF, or other Incoterms based on your requirements.",
+        "answer": "We ship from the Port of Abidjan, one of West Africa's most efficient ports. Current lead times: 4-6 weeks to Europe, 6-8 weeks to North America, 3-4 weeks to Middle East. We offer FOB Abidjan and can arrange CIF for qualified buyers. Custom logistics solutions available for large volumes.",
         "audience": ["b2b", "partners"]
       }
     ]

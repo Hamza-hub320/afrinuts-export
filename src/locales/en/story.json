@@ -1,13 +1,13 @@
 {
   "hero": {
     "subtitle": "Our Journey",
-    "title": "A Story Rooted In Heritage, Sustainability, and Community",
+    "title": "Our Story: Three Generations of Cashew Farming in Odienné, Ivory Coast",
     "quote": "A single seed holds the promise of generations. Our story begins in Odienné, a land of heritage, cultivation, and resilience.",
     "backToExecutive": "Back To The Executive Team"
   },
   "intro": {
-    "title": "Our Vision and Commitment",
-    "description": "AfriNuts Export combines heritage with innovation, empowering communities while ensuring transparency and traceability from seed to harvest. Discover how our story is shaping a sustainable future in West Africa."
+    "title": "From Family Farm to Global Vision",
+    "description": "AfriNuts Export combines three generations of cashew farming heritage with modern technology and Islamic ethical principles. We are building a vertically integrated operation — from seed to harvest to export — that empowers local communities, protects the land, and delivers premium organic cashews to the world."
   },
   "timeline": {
     "title": "Our Path to Impact",
@@ -58,6 +58,6 @@
   "cta": {
     "title": "Join Our Story",
     "subtitle": "When you choose AfriNuts Export, you select a purpose. You choose legacy. You decide to invest in a story that redefines agriculture in West Africa.",
-    "button": "Partner With Us"
+    "button": "Contact Our Team"
   }
 }

@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { fadeIn, staggerContainer } from '@/utils/animations';
 import { Typography } from "@/components/Typography/Typography";
 import Section from '@/components/Section/Section';
-import { FaTimes, FaArrowLeft } from 'react-icons/fa';
+import {FaTimes, FaArrowLeft, FaEnvelope, FaLinkedin} from 'react-icons/fa';
 import {Link, useNavigate} from 'react-router-dom';
 import {Dialog, Transition} from '@headlessui/react';
 import { ProfileCard } from '@/components/ProfileCard/ProfileCard';
@@ -16,7 +16,7 @@ import ccoImage from '@/assets/images/cco.webp';
 import opsImage from '@/assets/images/ops-manager.webp';
 import adminImage from '@/assets/images/admin-manager.webp';
 import farmImage from '@/assets/images/farm-manager.webp';
-import {navigate} from "next/dist/client/components/segment-cache";
+import JsonLd from "@/components/Seo/JsonLd";
 
 interface Executive {
     id: number;
@@ -55,8 +55,8 @@ const ExecutiveTeam: React.FC = () => {
                 "Islamic Finance & Governance (Applied)"
             ],
             department: "leadership",
-            email: "ceo@company.com",
-            linkedin: "https://linkedin.com/in/example",
+            email: "hamza@afrinutsexport.com",
+            linkedin: "https://www.linkedin.com/in/hamza-sangare-827a8a130/",
             idLabel: "ceo"
         },
         {
@@ -69,7 +69,7 @@ const ExecutiveTeam: React.FC = () => {
             bio: t('executives.cfo.bio', { returnObjects: true }),
             certifications: ["Sharia Compliance", "Organic Certification"],
             department: "leadership",
-            email: "cfo@company.com",
+            email: "sekou@afrinutsexport.com",
             linkedin: "https://linkedin.com/in/example",
             idLabel: "cfo"
         },
@@ -83,27 +83,36 @@ const ExecutiveTeam: React.FC = () => {
             bio: t('executives.cco.bio', { returnObjects: true }),
             certifications: ["Export & Trade Compliance", "Supply Chain and Logistics Management", "Process Improvement & Lean Practices"],
             department: "operations",
-            email: "cco@company.com",
+            email: "mohamad@afrinutsexport.com",
             linkedin: "https://linkedin.com/in/example",
             idLabel: "cco"
         },
         {
             id: 4,
             name: "Alassana Bah",
-            title: t('executives.cto.title'),
-            role: t('executives.cto.role'),
+            title: t('executives.ops.title'),
+            role: t('executives.ops.role'),
             image: opsImage,
             alt: t('executives.cto.alt'),
-            bio: t('executives.cto.bio', { returnObjects: true }),
-            certifications: ["ISO 22000", "Food Safety"],
+            bio: t('executives.ops.bio', { returnObjects: true }),
+            education: [
+                "B.Sc. in Computer Science or Information Technology",
+                "M.Sc. in Data Science or Agricultural Technology (in progress)"
+            ],
+            certifications: [
+                "AWS Certified Solutions Architect",
+                "Certified Data Analyst (CDA)",
+                "IoT Security Certification",
+                "Agritech Systems Integration"
+            ],
             department: "Technology",
-            email: "ops@company.com",
+            email: "alassana@afrinutsexport.com",
             linkedin: "https://linkedin.com/in/example",
             idLabel: "ops"
         },
         {
             id: 5,
-            name: "Mohammed Beniken",
+            name: "Mohamed Beniken",
             title: t('executives.admin.title'),
             role: t('executives.admin.role'),
             image: adminImage,
@@ -111,7 +120,7 @@ const ExecutiveTeam: React.FC = () => {
             bio: t('executives.admin.bio', { returnObjects: true }),
             certifications: ["Fair Trade", "Legal Compliance"],
             department: "operations",
-            email: "admin@company.com",
+            email: "mohamedb@afrinutsexport.com",
             linkedin: "https://linkedin.com/in/example",
             idLabel: "admin"
         },
@@ -125,7 +134,7 @@ const ExecutiveTeam: React.FC = () => {
             bio: t('executives.farm.bio', { returnObjects: true }),
             certifications: ["Sustainable Agriculture", "Community Development"],
             department: "operations",
-            email: "farm@company.com",
+            email: "souleymane@afrinutsexport.com",
             linkedin: "https://linkedin.com/in/example",
             idLabel: "farm"
         }
@@ -161,10 +170,57 @@ const ExecutiveTeam: React.FC = () => {
 
     return (
         <main className="text-text-dark font-sans">
+            <JsonLd data={{
+                "@context": "https://schema.org",
+                "@type": "WebPage",
+                "name": "Meet the Team Building a New Standard for Ethical Agribusiness",
+                "description": "Guided by Islamic values of Amanah and Ihsan, our leadership team brings together decades of experience in agribusiness, finance, technology, and community development.",
+                "about": {
+                    "@type": "Organization",
+                    "name": "AfriNuts Export",
+                    "description": "Building a vertically integrated, ethical cashew value chain rooted in Côte d'Ivoire.",
+                    "employees": [
+                        {
+                            "@type": "Person",
+                            "name": "Hamza S. Ralsan Sangare",
+                            "jobTitle": "Chief Executive Officer",
+                            "email": "hamza@afrinutsexport.com",
+                            "sameAs": "https://www.linkedin.com/in/hamza-sangare-827a8a130/"
+                        },
+                        {
+                            "@type": "Person",
+                            "name": "Sekou Hakim",
+                            "jobTitle": "Chief Financial & Operating Officer",
+                            "email": "sekou@afrinutsexport.com",
+                            "sameAs": "https://www.linkedin.com/in/sekou-peters"
+                        },
+                        {
+                            "@type": "Person",
+                            "name": "Mohamadue Kouyaté",
+                            "jobTitle": "Chief Commercial Officer"
+                        },
+                        {
+                            "@type": "Person",
+                            "name": "Alassana Bah",
+                            "jobTitle": "Chief Technology Officer"
+                        },
+                        {
+                            "@type": "Person",
+                            "name": "Mohammed Beniken",
+                            "jobTitle": "Chief Administrative Officer"
+                        },
+                        {
+                            "@type": "Person",
+                            "name": "Souleymane Sangare",
+                            "jobTitle": "Agricultural Operations Manager"
+                        }
+                    ]
+                }
+            }} />
             {/* Hero Section */}
             <Section
                 fullHeight={true}
-                className="flex items-center justify-center text-center min-h-[60vh] bg-gradient-to-b from-primary/10 to-transparent"
+                className="flex items-center justify-center text-center min-h-[40vh] bg-gradient-to-b from-primary/10 to-transparent"
             >
                 <motion.div
                     className="max-w-4xl px-6 sm:px-8 py-12"
@@ -223,23 +279,6 @@ const ExecutiveTeam: React.FC = () => {
                         <FaArrowLeft className="mr-2" />
                         {t('executives.backToAbout')}
                     </motion.button>
-                </div>
-            </Section>
-
-            {/* Info/Intro Section */}
-            <Section className="py-6 text-center">
-                <div className="max-w-4xl mx-auto px-6">
-                    <Typography variant="h2" className="text-3xl md:text-4xl font-bold text-primary mb-4">
-                        {t('executives.introHeading')}
-                    </Typography>
-                    <Typography variant="lead" className="text-text-dark mb-8">
-                        {t('executives.introDescription')}
-                    </Typography>
-                    {t('executives.introSupporting', { defaultValue: '' }) && t('executives.introSupporting') !== '' && (
-                        <Typography variant="body" className="text-text-dark mb-4">
-                            {t('executives.introSupporting')}
-                        </Typography>
-                    )}
                 </div>
             </Section>
 
@@ -384,6 +423,23 @@ const ExecutiveTeam: React.FC = () => {
                                                         </div>
                                                     </div>
 
+                                                    {/* Email & LinkedIn */}
+                                                    <div className="mt-4 pt-4 border-t border-gray-200 space-y-2">
+                                                        <div className="flex items-center gap-2 text-sm">
+                                                            <FaEnvelope className="text-primary" />
+                                                            <a href={`mailto:${selectedExecutive.email}`} className="text-gray-700 hover:text-accent transition-colors">
+                                                                {selectedExecutive.email}
+                                                            </a>
+                                                        </div>
+                                                        {selectedExecutive.linkedin && selectedExecutive.linkedin !== 'https://linkedin.com/in/example' && (
+                                                            <div className="flex items-center gap-2 text-sm">
+                                                                <FaLinkedin className="text-primary" />
+                                                                <a href={selectedExecutive.linkedin} target="_blank" rel="noopener noreferrer" className="text-gray-700 hover:text-accent transition-colors">
+                                                                    LinkedIn Profile
+                                                                </a>
+                                                            </div>
+                                                        )}
+                                                    </div>
 
                                                     <div className="mt-6 flex justify-end">
                                                         <button

@@ -12,7 +12,7 @@ import {
     FaSolarPanel,
     FaWater,
     FaTree,
-    FaSeedling
+    FaSeedling, FaCheckCircle
 } from "react-icons/fa";
 
 import Section from '@/components/Section/Section';
@@ -404,25 +404,55 @@ const Vision: React.FC = () => {
 
             {/* ESG Section */}
             <Section className="py-10">
-              <div className="w-full max-w-4xl mx-auto px-4 sm:px-6">
-                <motion.div
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true }}
-                  variants={staggerContainer}
-                >
-                  <Typography variant="h2" className="text-center mb-6">
-                    {t('esg.title')}
-                  </Typography>
-                    <InfoCard
-                        title=""
-                        showInfoBadge={false}
-                        className="bg-primary/5 border-primary/20 p-6 text-center"
+                <div className="w-full max-w-6xl mx-auto px-4 sm:px-6">
+                    <motion.div
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={staggerContainer}
                     >
-                        {t('esg.content')}
-                    </InfoCard>
-                </motion.div>
-              </div>
+                        <Typography variant="h2" className="text-center mb-4">
+                            {t('esg.title')}
+                        </Typography>
+                        <Typography variant="subtitle" className="text-center text-gray-600 mb-10 max-w-3xl mx-auto">
+                            {t('esg.subtitle')}
+                        </Typography>
+
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            {(t('esg.items', { returnObjects: true }) as Array<{
+                                category: string;
+                                commitments: string[];
+                            }>).map((item, index) => (
+                                <motion.div
+                                    key={item.category}
+                                    variants={fadeIn}
+                                    transition={{ delay: index * 0.1 }}
+                                >
+                                    <InfoCard
+                                        icon={
+                                            item.category === 'Environmental' ? FaLeaf :
+                                                item.category === 'Social' ? FaUsers :
+                                                    FaHandshake
+                                        }
+                                        title={item.category}
+                                        variant={index === 0 ? 'primary' : index === 1 ? 'accent' : 'secondary'}
+                                        showInfoBadge={false}
+                                        className="h-full"
+                                    >
+                                        <ul className="space-y-2 mt-3">
+                                            {item.commitments.map((commitment, idx) => (
+                                                <li key={idx} className="flex items-start gap-2 text-sm text-gray-700">
+                                                    <FaCheckCircle className="text-green-500 mt-0.5 flex-shrink-0 text-xs" />
+                                                    <span>{commitment}</span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </InfoCard>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </motion.div>
+                </div>
             </Section>
 
             {/* Mid-page CTA */}

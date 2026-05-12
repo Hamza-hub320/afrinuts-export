@@ -17,7 +17,7 @@ import {
   FaWater,
   FaTimes,
   FaEnvelope,
-  FaLinkedin
+  FaLinkedin, FaArrowRight
 } from "react-icons/fa";
 import { Dialog, Transition } from '@headlessui/react';
 
@@ -32,6 +32,7 @@ import {Typography} from "@/components/Typography/Typography";
 import { InfoCard } from '@/components/InfoCard/InfoCard';
 import {useNavigate} from "react-router-dom";
 import {ProfileCard} from "../components/ProfileCard/ProfileCard";
+import JsonLd from '@/components/Seo/JsonLd';
 
 interface Executive {
   name: string;
@@ -106,6 +107,47 @@ const About: React.FC = () => {
 
   return (
       <main>
+        <JsonLd data={{
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+          "name": "Our Story: Three Generations of Cashew Excellence in Ivory Coast",
+          "description": "From family farm to global exporter — AfriNuts Export is redefining Ivory Coast's cashew industry through vertical integration, organic farming, and community investment.",
+          "about": {
+            "@type": "Organization",
+            "name": "AfriNuts Export",
+            "foundingDate": "2023",
+            "description": "Premium organic cashew exporter from Odienné, Ivory Coast. 35-hectare farm with over 3,500 trees using sustainable farming methods.",
+            "founders": [
+              {"@type": "Person", "name": "Hamza S. Ralsan Sangare", "jobTitle": "Founder & CEO"},
+              {"@type": "Person", "name": "Sekou Hakim Peters", "jobTitle": "Co-Founder & CFO/COO"}
+            ],
+            "knowsAbout": [
+              "Organic Cashew Farming",
+              "Islamic Finance",
+              "Community Development",
+              "Sustainable Agriculture",
+              "Vertical Integration"
+            ],
+            "contactPoint": {
+              "@type": "ContactPoint",
+              "email": "hamza@afrinutsexport.com"
+            }
+          },
+          "mainEntity": {
+            "@type": "Place",
+            "name": "AfriNuts Export Farm",
+            "address": {
+              "@type": "PostalAddress",
+              "addressLocality": "Odienné",
+              "addressCountry": "CI"
+            },
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 9.51,
+              "longitude": -7.5692
+            }
+          }
+        }} />
         {/* Hero Section */}
         <div className=" text-text-dark font-sans leading-relaxed">
           <Section
@@ -214,6 +256,25 @@ const About: React.FC = () => {
               </div>
             </div>
           </Section>
+
+          {/* Meet the Full Team CTA */}
+          <div className="text-center mt-10">
+            <motion.button
+                className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-4 rounded-full transform-gpu group/btn overflow-hidden"
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={fadeIn}
+                onClick={() => navigate('/executive-team')}
+                whileHover={{ scale: 1.05, y: -2, boxShadow: '0 10px 25px -5px rgba(165, 105, 66, 0.4)' }}
+                whileTap={{ scale: 0.95 }}
+            >
+        <span className="relative z-10 font-medium flex items-center gap-2">
+            {t('leadership.ctaText', 'Meet Our Full Executive Team')}
+          <FaArrowRight className="group-hover/btn:translate-x-1 transition-transform" />
+        </span>
+            </motion.button>
+          </div>
 
           {/* Bio Modal */}
           <Transition.Root show={isModalOpen && !!selectedExecutive} as={React.Fragment}>
@@ -343,22 +404,36 @@ const About: React.FC = () => {
           </Transition.Root>
 
         {/* Brand Statement */}
-        <Section className="py-10 md:py-10 text-center text-text-dark">
-          <motion.div
-              className="w-full max-w-7xl mx-auto px-4 sm:px-6"
-              initial="hidden"
-              whileInView="visible"
-              viewport={{once: true}}
-              variants={fadeIn}
-          >
-            <Typography variant="h2" className="mb-6 md:mb-8">
-              {t('brand.title')}
-            </Typography>
-            <Typography variant="body" className="max-w-3xl mx-auto">
-              {t('brand.text')}
-            </Typography>
-          </motion.div>
-        </Section>
+          <Section className="py-10 md:py-10 text-center text-text-dark">
+            <motion.div
+                className="w-full max-w-7xl mx-auto px-4 sm:px-6"
+                initial="hidden"
+                whileInView="visible"
+                viewport={{once: true}}
+                variants={fadeIn}
+            >
+              <Typography variant="h2" className="mb-6 md:mb-8">
+                {t('brand.title')}
+              </Typography>
+              <Typography variant="body" className="max-w-3xl mx-auto">
+                {t('brand.text')}
+              </Typography>
+
+              {/* CTA Button */}
+              <motion.button
+                  className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-4 rounded-full transform-gpu group/btn overflow-hidden mt-8"
+                  variants={fadeIn}
+                  onClick={() => navigate(t('ctaButton', '/farm'))}
+                  whileHover={{ scale: 1.05, y: -2, boxShadow: '0 10px 25px -5px rgba(165, 105, 66, 0.4)' }}
+                  whileTap={{ scale: 0.95 }}
+              >
+            <span className="relative z-10 font-medium flex items-center gap-2">
+                {t('ctaText', 'Explore Our Farm')}
+              <FaArrowRight className="group-hover/btn:translate-x-1 transition-transform" />
+            </span>
+              </motion.button>
+            </motion.div>
+          </Section>
 
         {/* Vision, Mission, Values */}
         <Section className="py-10 md:py-10 bg-gradient-to-r from-primary/30 via-white/30
@@ -451,6 +526,23 @@ const About: React.FC = () => {
                 {t('community.cards.religion.text')}
               </InfoCard>
             </div>
+            {/* CTA Button */}
+            <motion.div
+                variants={fadeIn}
+                className="text-center mt-8"
+            >
+              <motion.button
+                  className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-4 rounded-full transform-gpu group/btn overflow-hidden"
+                  onClick={() => navigate('/contact')}
+                  whileHover={{ scale: 1.05, y: -2, boxShadow: '0 10px 25px -5px rgba(165, 105, 66, 0.4)' }}
+                  whileTap={{ scale: 0.95 }}
+              >
+            <span className="relative z-10 font-medium flex items-center gap-2">
+                {t('ctaText', 'Partner With Us')}
+              <FaArrowRight className="group-hover/btn:translate-x-1 transition-transform" />
+            </span>
+              </motion.button>
+          </motion.div>
           </motion.div>
         </Section>
 
@@ -481,6 +573,18 @@ const About: React.FC = () => {
                     <span>{t('farm.size')}</span>
                   </div>
                 </div>
+                {/* CTA Button */}
+                <motion.button
+                    className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-4 rounded-full transform-gpu group/btn overflow-hidden mt-6"
+                    whileHover={{ scale: 1.05, y: -2, boxShadow: '0 10px 25px -5px rgba(165, 105, 66, 0.4)' }}
+                    whileTap={{ scale: 0.95 }}
+                    onClick={() => navigate('/farm')}
+                >
+    <span className="relative z-10 font-medium flex items-center gap-2">
+        {t('farm.ctaText', 'Visit Our Farm Page')}
+      <FaArrowRight className="group-hover/btn:translate-x-1 transition-transform" />
+    </span>
+                </motion.button>
               </motion.div>
               <motion.div
                   className="flex-1"

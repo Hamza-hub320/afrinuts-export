@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import {
     FaLeaf, FaSeedling, FaIndustry, FaWeightHanging,
-    FaStar, FaTrophy, FaChartLine, FaShieldAlt, FaShippingFast, FaArrowDown, FaDownload
+    FaStar, FaTrophy, FaChartLine, FaShieldAlt, FaShippingFast, FaArrowDown, FaDownload, FaClock
 } from 'react-icons/fa';
 import {fadeIn, slideInFromLeft, slideInFromRight, staggerContainer} from '@/utils/animations';
 import Section from '../components/Section/Section';
@@ -24,6 +24,7 @@ import packagingImage from '../assets/images/packaging.webp';
 import rawCashewImage from '../assets/images/raw-cashew.webp';
 import productCataloguePdf from '../assets/documents/afrinuts-products-catalogue.pdf';
 import { AvailabilityFilter } from '@/types/filters';
+import JsonLd from "@/components/Seo/JsonLd";
 
 type AvailabilityFilter = 'all' | 'available' | 'coming-soon';
 type CertificationFilter = 'organic' | 'halal' | 'fairtrade' | '';
@@ -122,6 +123,78 @@ const Products: React.FC = () => {
 
     return (
         <main>
+            <JsonLd data={{
+                "@context": "https://schema.org",
+                "@type": "WebPage",
+                "name": "Our Premium Cashew Products - AfriNuts Export",
+                "description": "Ethically sourced premium cashew products from Odienné, Ivory Coast. Raw nuts, kernels, butter, and value-added goods for B2B clients.",
+                "about": {
+                    "@type": "Organization",
+                    "name": "AfriNuts Export",
+                    "makesOffer": [
+                        {
+                            "@type": "Offer",
+                            "itemOffered": {
+                                "@type": "Product",
+                                "name": "Raw Cashew Nuts",
+                                "description": "Sun-dried, hand-sorted Grade A cashews with 95% whole nuts"
+                            }
+                        },
+                        {
+                            "@type": "Offer",
+                            "itemOffered": {
+                                "@type": "Product",
+                                "name": "Cashew Kernels",
+                                "description": "W320, W240, W180 grade kernels, HACCP-certified processing"
+                            }
+                        },
+                        {
+                            "@type": "Offer",
+                            "itemOffered": {
+                                "@type": "Product",
+                                "name": "Cashew Butter",
+                                "description": "100% pure single-origin cashew butter, organic and halal certified"
+                            }
+                        },
+                        {
+                            "@type": "Offer",
+                            "itemOffered": {
+                                "@type": "Product",
+                                "name": "Roasted Cashews",
+                                "description": "Premium dry-roasted cashews in natural, salted, and spiced varieties"
+                            }
+                        },
+                        {
+                            "@type": "Offer",
+                            "itemOffered": {
+                                "@type": "Product",
+                                "name": "Cashew Milk",
+                                "description": "Creamy plant-based milk alternative, fortified with calcium and vitamin D"
+                            }
+                        },
+                        {
+                            "@type": "Offer",
+                            "itemOffered": {
+                                "@type": "Product",
+                                "name": "Cashew Nut Shell Liquid (CNSL)",
+                                "description": "Industrial-grade byproduct for paints, varnishes, and brake linings"
+                            }
+                        },
+                        {
+                            "@context": "https://schema.org",
+                            "@type": "Product",
+                            "name": "Raw Cashew Nuts",
+                            "description": "Grade A raw cashews from Ivory Coast",
+                            "offers": {
+                                "@type": "Offer",
+                                "price": "1200",
+                                "priceCurrency": "USD",
+                                "availability": "https://schema.org/InStock"
+                            }
+                        }
+                    ]
+                }
+            }} />
             {/* Hero Section */}
             <div className=" text-text-dark font-sans leading-relaxed">
                 <div className=" text-text-dark font-sans leading-relaxed">
@@ -362,14 +435,14 @@ const Products: React.FC = () => {
                                             perspective: '1000px',
                                         }}
                                     >
-                                      <ProductCard
-                                        product={product}
-                                        handleContactClick={handleContactClick}
-                                        productImageMap={productImageMap}
-                                        iconMap={iconMap}
-                                        variants={fadeIn}
-                                        compact={false}
-                                      />
+                                        <ProductCard
+                                            product={product}
+                                            handleContactClick={() => navigate('/contact?type=wholesale')}
+                                            handlePreorderClick={() => navigate('/contact?type=preorder')}
+                                            handleWaitlistClick={() => navigate('/contact?type=waitlist')}
+                                            productImageMap={productImageMap}
+                                            iconMap={iconMap}
+                                        />
                                     </motion.div>
                                 ))}
                             </div>
@@ -787,11 +860,9 @@ const Products: React.FC = () => {
                                         {t(`certifications.${cert}.title`)}
                                     </Typography>
 
-                                    {/* Subtle certification badge */}
+                                    {/* Subtle certification badge - In Progress */}
                                     <div className="absolute -top-2 -right-2 w-6 h-6 bg-accent rounded-full flex items-center justify-center transform-gpu group-hover:scale-125 transition-transform duration-500">
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 text-white" viewBox="0 0 20 20" fill="currentColor">
-                                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                        </svg>
+                                        <FaClock className="text-white text-[10px]" />
                                     </div>
                                 </motion.div>
                             ))}

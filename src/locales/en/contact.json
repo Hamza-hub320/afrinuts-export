@@ -1,7 +1,7 @@
 {
   "hero": {
-    "title": "Connect With AfriNuts Export",
-    "subtitle": "Reach out for partnership opportunities, product inquiries, or investment information"
+    "title": "Contact AfriNuts Export – Premium Cashews from Ivory Coast",
+    "subtitle": "Request a quote, discuss partnership opportunities, or learn more about investing in sustainable cashew farming in Ivory Coast."
   },
   "form": {
     "title": "Contact Our Team",
@@ -36,8 +36,7 @@
     },
     "requestTypes": {
       "information": "Request for Information",
-      "quote": "Request for Quote",
-      "proposal": "Request for Proposal",
+      "quote": "Request for Wholesale Quote",
       "partnership": "Partnership Opportunity",
       "investment": "Investment Inquiry",
       "other": "Other Request"
@@ -94,7 +93,6 @@
   "offlinePayment": {
     "title": "Offline Payment Instructions",
     "description": "For bulk orders, all payments are handled directly via bank transfer. After submitting your inquiry, our sales team will provide an invoice and payment instructions.",
-    "additionalInfo": "Contact our sales team if you require specific instructions for your payment method.",
     "button": "Contact Sales",
     "methods": ["Bank Transfer", "Wire Payment", "Check"]
   },

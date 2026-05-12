@@ -1,73 +1,74 @@
 {
   "hero": {
-    "title": "Notre Héritage",
-    "subtitle": "Réinventer l'industrie de la noix de cajou en Côte d'Ivoire grâce à l'intégration verticale"
+    "title": "Notre Histoire : Trois Générations d'Excellence dans la Noix de Cajou en Côte d'Ivoire",
+    "subtitle": "De la ferme familiale à l'exportateur mondial — AfriNuts Export redéfinit l'industrie ivoirienne de la noix de cajou grâce à l'intégration verticale, l'agriculture biologique et l'investissement communautaire."
   },
   "leadership": {
     "title": "Guider AfriNuts vers l'Avenir",
-    "subtitle": "Notre Direction"
+    "subtitle": "Notre Direction",
+    "ctaText": "Rencontrer Notre Équipe de Direction Complète"
   },
   "ceo": {
-    "title": "Un message de notre PDG",
+    "title": "Un Message de Notre PDG",
     "message": [
-      "Chez AfriNuts Export, notre parcours est profondément personnel, enraciné dans la famille, la foi et Odienné, au cœur de la Côte d'Ivoire — le plus grand producteur mondial de noix de cajou. Ce qui a commencé comme le travail de mon grand-père dans les champs est devenu un héritage sur trois générations, et aujourd'hui, nous transformons cet héritage en une vision mondiale pour l'avenir de l'industrie de la noix de cajou.",
+      "Chez AfriNuts Export, notre parcours est profondément personnel, enraciné dans la famille, la foi et Odienné, au cœur de la Côte d'Ivoire — le plus grand pays producteur de noix de cajou au monde. Ce qui a commencé comme le travail de mon grand-père dans les champs est devenu un héritage de trois générations, et aujourd'hui, nous transformons cet héritage en une vision mondiale pour l'avenir de l'industrie de la noix de cajou.",
 
       "Nous construisons plus qu'une entreprise — nous construisons une chaîne de valeur verticalement intégrée conçue pour redéfinir la manière dont les produits agricoles africains atteignent le monde. De la culture à la transformation, l'emballage et l'exportation, chaque étape est contrôlée avec précision, garantissant qualité, traçabilité et responsabilité pour nos partenaires mondiaux.",
 
-      "Notre ambition est claire : aller au-delà de l'exportation de matières premières brutes et faire de la Côte d'Ivoire un leader dans les produits agricoles finis et marqués. La noix de cajou ne doit pas quitter l'Afrique comme matière première — elle doit arriver sur les marchés internationaux comme un produit premium à valeur ajoutée qui reflète l'excellence de son origine.",
+      "Notre ambition est claire : aller au-delà des exportations de matières premières et faire de la Côte d'Ivoire un leader des produits agricoles finis et de marque. La noix de cajou ne doit pas quitter l'Afrique comme matière première — elle doit atteindre les marchés internationaux comme un produit premium à valeur ajoutée qui reflète l'excellence de son origine.",
 
-      "Au cœur de cette vision se trouve l'impact. Nous investissons dans la formation des agriculteurs, l'emploi des jeunes et les pratiques agricoles durables qui protègent la terre pour les générations futures. Grâce à nos initiatives de partage des bénéfices, nous contribuons à la construction de puits, au soutien des écoles et au renforcement des communautés — car le véritable succès se mesure à la valeur que nous créons pour les autres.",
+      "Au cœur de cette vision se trouve l'impact. Nous investissons dans la formation des agriculteurs, l'emploi des jeunes et des pratiques agricoles durables qui protègent la terre pour les générations futures. Grâce à nos initiatives de partage des bénéfices, nous contribuons à la construction de puits, au soutien des écoles et au renforcement des communautés — car le véritable succès se mesure par la valeur que nous créons pour les autres.",
 
-      "Nous développons notre ferme de 35 hectares à Odienné comme un modèle d'agriculture régénératrice et de durabilité à long terme. Avec des projets futurs d'installation de transformation moderne, AfriNuts se positionne comme un pôle d'innovation, de création d'emplois et de commerce international en Afrique de l'Ouest.",
+      "Nous développons notre ferme de 35 hectares à Odienné comme un modèle d'agriculture régénératrice et de durabilité à long terme. Avec des projets futurs pour une installation de transformation moderne, AfriNuts est positionnée pour devenir un pôle d'innovation, de création d'emplois et de commerce international en Afrique de l'Ouest.",
 
-      "Notre engagement en faveur de la transparence, de l'approvisionnement éthique et de la confiance repose à la fois sur les normes commerciales internationales et sur nos valeurs islamiques. Ces principes guident chaque partenariat que nous formons et chaque produit que nous livrons.",
+      "Notre engagement envers la transparence, l'approvisionnement éthique et la confiance est ancré à la fois dans les normes commerciales mondiales et nos valeurs islamiques. Ces principes guident chaque partenariat que nous formons et chaque produit que nous livrons.",
 
-      "À nos partenaires, clients et investisseurs : ceci est une invitation à faire partie d'un nouveau chapitre de l'entreprise africaine — un chapitre défini non par l'extraction, mais par la création de valeur, la dignité et une vision à long terme.",
+      "À nos partenaires, clients et investisseurs : c'est une invitation à faire partie d'un nouveau chapitre de l'entreprise africaine — défini non par l'extraction, mais par la création de valeur, la dignité et une vision à long terme.",
 
       "Avec la guidance d'Allah et la force de notre équipe, nous construisons une entreprise qui portera l'histoire d'Odienné des champs locaux aux marchés mondiaux — établissant une nouvelle norme pour ce que l'agriculture africaine peut accomplir."
     ],
     "signature": "- Hamza S. Ralsan Sangare",
-    "experience": "Plus de 5 ans de leadership dans le développement agro-industriel, l'exécution de projets et les opérations basées sur les technologies.",
+    "position": "Fondateur & Président-Directeur Général (PDG)",
+    "alt": "Portrait du PDG Hamza S. Ralsan Sangare",
+    "readMore": "Lire Plus",
+    "readLess": "Lire Moins",
+    "experience": "Plus de 5 ans de leadership dans le développement agroalimentaire, l'exécution de projets et les opérations assistées par la technologie.",
     "education": [
-      "Licence en génie logiciel",
-      "Master en ingénierie de l'IA (en cours)"
+      "Licence en Génie Logiciel",
+      "Master en Ingénierie de l'IA (en cours)"
     ],
     "certifications": [
       "ITIL® 4 Foundation",
       "CompTIA Project+",
       "AWS Certified Cloud Practitioner",
-      "Finance et gouvernance islamiques (appliquées)"
+      "Finance Islamique & Gouvernance (Appliquée)"
     ],
     "email": "hamza@afrinutsexport.com",
-    "linkedin": "",
-    "position": "Fondateur & Président-Directeur Général (PDG)",
-    "alt": "Portrait du PDG Hamza S. Ralsan Sangare",
-    "readMore": "Lire la suite",
-    "readLess": "Réduire"
+    "linkedin": ""
   },
   "cfo": {
-    "title": "Message de notre Directeur Financier",
-    "alt": "Portrait du Directeur Financier d'AfriNuts",
-    "position": "Co-fondateur | Directeur Financier & Directeur des Opérations (CFO & COO)",
+    "title": "Message de Notre Directeur des Opérations",
+    "alt": "Portrait du Directeur des Opérations d'AfriNuts",
+    "position": "Co-Fondateur | Directeur Financier et des Opérations (CFO & COO)",
     "message": [
-      "Chez AfriNuts Export, notre stratégie financière s'enracine dans un équilibre entre croissance et responsabilité, innovation et intégrité. En tant qu'entreprise représentant trois générations de culture de noix de cajou, nous avons hérité plus que des terres ; nous avons hérité d'un devoir envers la communauté, l'environnement et les personnes qui rendent cette entreprise possible.",
+      "Chez AfriNuts Export, notre stratégie financière est fondée sur la croissance avec responsabilité et l'innovation avec intégrité. Représentant trois générations de culture de noix de cajou, nous avons hérité de plus que des terres, nous avons hérité d'un héritage de confiance, d'un engagement envers nos communautés et d'un devoir de gérer nos ressources avec transparence et justice.",
 
-      "Notre approche financière ne se limite pas à la rentabilité. Il s'agit de construire une agro-industrie résiliente, éthique et inclusive qui réinvestit dans les personnes et les régions qui la dynamisent. Du respect des principes financiers islamiques à la conception de modèles de partage des bénéfices avantageux pour les agriculteurs et les futurs investisseurs, notre mission est claire : la croissance doit être partagée.",
+      "En tant que CFO, je supervise un cadre financier qui n'est pas uniquement motivé par le profit, mais par le principe que la croissance doit être partagée. Notre approche s'aligne sur l'éthique financière islamique, en priorisant le partage des bénéfices, l'impact social et le réinvestissement à long terme dans les personnes et les lieux mêmes qui alimentent notre entreprise.",
 
-      "Nous ne croyons pas aux affaires extractives. C'est pourquoi nous passons des exportations de noix brutes à la transformation locale, ajoutant de la valeur, créant des emplois et bâtissant une infrastructure durable à Odienné et au-delà. Chaque décision financière soutient notre vision à long terme : une chaîne de valeur intégrée qui élève nos communautés locales et livre une qualité de classe mondiale aux marchés globaux.",
+      "Nous rejetons les modèles d'affaires extractifs. C'est pourquoi nous passons de l'exportation de noix de cajou brutes à la transformation locale, créant des emplois, construisant des infrastructures et ajoutant de la valeur en Côte d'Ivoire. Chaque décision financière soutient notre vision plus large : une chaîne de valeur de noix de cajou verticalement intégrée qui offre une qualité de classe mondiale tout en élevant les communautés locales.",
 
-      "En tant que Directeur Financier, je garantis la transparence, la discipline fiscale et le réinvestissement responsable des bénéfices - particulièrement dans les domaines les plus importants : former les agriculteurs, faire progresser l'agriculture durable et développer une usine de transformation ultramoderne répondant à la demande régionale et internationale.",
+      "J'assure la discipline fiscale, l'investissement stratégique et une transparence totale dans toutes les opérations. De la formation des agriculteurs à la promotion de l'agriculture durable, en passant par le développement d'une installation de transformation de pointe à Odienné, nos priorités financières servent à la fois l'autonomisation régionale et l'excellence mondiale.",
 
-      "Nous sommes plus qu'une entreprise ; nous sommes un mouvement vers la souveraineté économique de l'agriculture africaine. Et nous accueillons tous les partenaires souhaitant investir dans un avenir aussi éthique que profitable."
+      "AfriNuts est plus qu'une entreprise. Nous sommes un mouvement pour la souveraineté agricole africaine, et nous invitons tous les partenaires qui croient en un avenir aussi éthique que rentable."
     ],
     "signature": "- Sekou Hakim Peters",
-    "experience": "Plus de 15 ans de gestion financière",
-    "education": "Master en finance",
-    "certifications": ["Conformité charia", "Certification biologique"],
+    "experience": "Plus de 15 ans en gestion financière",
+    "education": "Master en Finance",
+    "certifications": ["Conformité Charia", "Certification Biologique"],
     "email": "sekou@afrinutsexport.com",
     "linkedin": "",
-    "readMore": "Lire la suite",
-    "readLess": "Réduire"
+    "readMore": "Lire Plus",
+    "readLess": "Lire Moins"
   },
   "labels": {
     "certifications": "Certifications & Expertise",
@@ -76,68 +77,72 @@
     "close": "Fermer"
   },
   "brand": {
-    "title": "Notre Engagement",
-    "text": "Située au cœur de la Côte d'Ivoire, premier pays producteur de noix de cajou au monde, AfriNuts Export propose des noix de cajou ivoiriennes de qualité supérieure grâce à une agriculture durable et une transformation minutieuse. Nous allions le patrimoine agricole de l'Afrique de l'Ouest aux normes internationales de qualité pour répondre à la demande mondiale croissante de produits traçables et issus de sources responsables."
+    "title": "Notre Engagement pour des Noix de Cajou Bio Premium de Côte d'Ivoire",
+    "text": "Située au cœur du plus grand pays producteur de noix de cajou au monde, la Côte d'Ivoire, AfriNuts Export fournit des noix de cajou ivoiriennes premium grâce à une agriculture durable et un traitement méticuleux. Nous combinons le patrimoine agricole de l'Afrique de l'Ouest avec les normes de qualité internationales pour répondre à la demande mondiale croissante de produits traçables et issus de sources responsables.",
+    "ctaText": "Explorer Notre Ferme"
   },
   "vmv": {
     "vmvHeader": {
       "subtitle": "Notre Fondation",
-      "title": "Vision, Mission et Valeurs"
+      "title": "Vision, Mission & Valeurs"
     },
     "vision": {
       "title": "Notre Vision",
-      "text": "Définir un avenir durable pour l'industrie de la noix de cajou ivoirienne, guidé par l'excellence, la transparence et la responsabilité sociale."
+      "text": "Définir un avenir durable pour l'industrie ivoirienne de la noix de cajou par l'excellence, la transparence et la responsabilité sociale."
     },
     "mission": {
       "title": "Notre Mission",
-      "text": "Produire des noix de cajou premium grâce à une agriculture durable, un contrôle qualité rigoureux et des partenariats équitables avec les producteurs locaux."
+      "text": "Produire des produits de cajou premium grâce à une agriculture durable, un contrôle qualité rigoureux et des partenariats équitables avec les producteurs locaux."
     },
     "values": {
       "title": "Nos Valeurs",
-      "text": "Qualité, Durabilité, Partenariat Communautaire et Innovation guident chaque aspect de nos opérations."
+      "text": "La Qualité, la Durabilité, le Partenariat Communautaire et l'Innovation guident chaque aspect de nos opérations."
     }
   },
   "community": {
-    "title": "Investissement Communautaire",
+    "title": "10 % de Nos Bénéfices Retournent à la Communauté",
     "cards": {
       "pledge": {
-        "title": "Engagement de Réinvestissement de 10%",
-        "text": "Nous allouons 10% de nos bénéfices annuels à des projets locaux dans l'éducation, les infrastructures et les institutions religieuses."
+        "title": "Engagement de Réinvestissement de 10 %",
+        "text": "Nous allouons 10 % du bénéfice net annuel de notre ferme de 35 hectares au développement local. Les premiers projets comprennent un puits d'eau et une école communautaire à Odienné."
       },
       "water": {
         "title": "Initiative d'Accès à l'Eau",
-        "text": "Développement de solutions hydriques durables pour les communautés agricoles de nos zones d'opération."
+        "text": "Forage de puits et installation de systèmes de purification d'eau pour les communautés agricoles dans nos zones d'opération."
       },
       "religion": {
-        "title": "Infrastructures Communautaires",
-        "text": "Soutien à la construction et maintenance d'institutions communautaires essentielles."
+        "title": "Infrastructure Communautaire",
+        "text": "Soutenir la construction et l'entretien de mosquées, de médersas et d'institutions communautaires essentielles.",
+        "ctaText": "Devenir Partenaire"
       }
     }
   },
   "farm": {
-    "title": "Notre Ferme Durable à Odienné",
+    "title": "Notre Ferme Bio de Noix de Cajou de 35 Hectares à Odienné, Côte d'Ivoire",
     "subtitle": "NOS OPÉRATIONS",
-    "text": "Au cœur de la région productrice de noix de cajou en Côte d'Ivoire se trouve notre ferme familiale de 35 hectares - le pilier d'AfriNuts Export. En développement pour une première récolte en 2031, nous mettons en œuvre des pratiques agricoles durables qui valorisent à la fois les terres et les communautés locales.",
+    "text": "Au cœur de la ceinture de cajou de la Côte d'Ivoire se trouve notre ferme familiale — 35 hectares de terres agricoles de première qualité avec plus de 3 500 anacardiers plantés. Nous utilisons des méthodes d'agriculture biologique, sans pesticides synthétiques, et une gestion durable de l'eau.",
     "location": "Odienné, Côte d'Ivoire",
     "size": "35 Hectares de Terres Cultivées",
-    "alt": "Ferme de noix de cajou d'AfriNuts Export à Odienné"
+    "alt": "Ferme de noix de cajou d'AfriNuts Export à Odienné",
+    "ctaText": "Visiter Notre Page Ferme"
   },
   "legacy": {
     "title": "Trois Générations d'Excellence Agricole",
     "subtitle": "Notre Parcours à Travers le Temps",
     "learnMore": "En Savoir Plus Sur Notre Vision",
     "family": {
-      "title": "Fondations Familiales (1990–2020)",
-      "text": "Notre parcours familial de trois décennies dans la culture de noix de cajou a forgé une expertise agricole profonde et des relations communautaires solides.",
+      "title": "Racines Fondatrices (1990–2020)",
+      "text": "Le parcours de trois décennies de notre famille dans la culture de la noix de cajou a établi une expertise agricole profonde et des relations communautaires en Côte d'Ivoire.",
       "feats": [
-        "Méthodes durables de culture pionnières",
-        "Partenariats durables avec les producteurs locaux",
-        "Normes de préservation écologique maintenues"
+        "Pionnier des méthodes de culture durable de la noix de cajou",
+        "Forgé des partenariats durables avec les producteurs locaux",
+        "Maintenu des normes de préservation écologique"
       ]
     },
     "afrinuts": {
-      "title": "Transformation Moderne (2023–Présent)",
-      "text": "AfriNuts Export élève notre héritage familial grâce à l'innovation stratégique et l'expansion commerciale.",
+      "title": "Transformation Moderne (2023–Aujourd'hui)",
+      "subtitle": "Notre Parcours à Travers le Temps",
+      "text": "AfriNuts Export élève notre héritage familial grâce à l'innovation stratégique et l'expansion des marchés.",
       "feats": [
         "Développement de capacités de transformation intégrées",
         "Établissement de canaux de distribution mondiaux",
@@ -147,7 +152,7 @@
     },
     "future": {
       "title": "Vision Stratégique 2031",
-      "text": "Positionner AfriNuts comme l'exportateur de noix de cajou le plus fiable d'Afrique de l'Ouest grâce à un développement durable et une qualité constante."
+      "text": "Positionner AfriNuts comme l'exportateur de noix de cajou le plus fiable d'Afrique de l'Ouest grâce à une croissance durable et une qualité constante."
     }
   }
 }

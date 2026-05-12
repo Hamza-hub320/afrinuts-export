@@ -13,6 +13,7 @@ import { ShippingInfoCard } from '../components/ShippingInfoCard/ShippingInfoCar
 import { ContactInfoCard } from '../components/ContactInfoCard/ContactInfoCard';
 import { InfoCard } from '@/components/InfoCard/InfoCard';
 import { FormCard } from '@/components/FormCard/FormCard';
+import JsonLd from "@/components/Seo/JsonLd";
 
 interface FormData {
   name: string;
@@ -183,6 +184,55 @@ const Contact: React.FC = () => {
 
   return (
       <div className="contact-page overflow-x-hidden">
+        <JsonLd data={{
+          "@context": "https://schema.org",
+          "@type": "WebPage",
+          "name": "Connect With AfriNuts Export",
+          "description": "Reach out for partnership opportunities, product inquiries, or investment information.",
+          "mainEntity": {
+            "@type": "Organization",
+            "name": "AfriNuts Export",
+            "description": "Premium organic cashew exporter from Odienné, Ivory Coast.",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "Odienné",
+              "addressLocality": "Odienné",
+              "addressCountry": "CI",
+              "postalCode": "00225"
+            },
+            "telephone": "+2250779191460",
+            "email": ["contact@afrinutsexport.com", "sales@afrinutsexport.com"],
+            "contactPoint": {
+              "@type": "ContactPoint",
+              "contactType": "sales",
+              "email": "sales@afrinutsexport.com",
+              "telephone": "+2250779191460",
+              "availableLanguage": ["English", "French", "Arabic"],
+              "hoursAvailable": [
+                {
+                  "@type": "OpeningHoursSpecification",
+                  "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+                  "opens": "08:00",
+                  "closes": "17:00"
+                },
+                {
+                  "@type": "OpeningHoursSpecification",
+                  "dayOfWeek": "Saturday",
+                  "opens": "09:00",
+                  "closes": "13:00"
+                }
+              ]
+            },
+            "makesOffer": {
+              "@type": "Offer",
+              "itemOffered": [
+                {"@type": "Product", "name": "Raw Cashew Nuts"},
+                {"@type": "Product", "name": "Cashew Kernels"},
+                {"@type": "Product", "name": "Cashew Nut Shell Liquid (CNSL)"}
+              ]
+            }
+          }
+        }} />
         {/* Success Modal */}
         {showSuccess && (
             <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
@@ -346,18 +396,13 @@ const Contact: React.FC = () => {
               className="w-full mb-8 md:mb-12 text-center mx-auto"
               hideIconContainer={true}
           >
-            <div className="mt-4">
-              <Typography variant="body" className="text-text-dark">
-                {t('offlinePayment.additionalInfo')}
-              </Typography>
-            </div>
             {/* Responsive padding and text */}
             <div className="mt-6 flex flex-wrap justify-center gap-2 md:gap-4">
               {t('offlinePayment.methods', { returnObjects: true }).map((method: string, idx: number) => (
-                // Responsive padding and text
-                <div key={idx} className="bg-white/30 p-2 md:p-3 rounded-lg text-sm md:text-base">
-                  {method}
-                </div>
+                  // Responsive padding and text
+                  <div key={idx} className="bg-white/30 p-2 md:p-3 rounded-lg text-sm md:text-base">
+                    {method}
+                  </div>
               ))}
             </div>
           </InfoCard>
@@ -368,12 +413,13 @@ const Contact: React.FC = () => {
         <div className="container mx-auto px-4 max-w-4xl text-center mb-6">
           <Typography variant="body">
             {t('form.checkFaq')}{' '}
-            <span
-                className="text-accent underline cursor-pointer transform-gpu hover:scale-105 transition-transform duration-300"
+            <button
                 onClick={() => navigate('/faq')}
+                className="text-accent underline cursor-pointer hover:scale-105 transition-transform duration-300 bg-transparent border-0 p-0 font-inherit"
+                aria-label="Go to Frequently Asked Questions page"
             >
-            {t('form.faqLink')}
-          </span>
+              {t('form.faqLink')}
+            </button>
           </Typography>
         </div>
 
@@ -395,12 +441,12 @@ const Contact: React.FC = () => {
             <form ref={formRef} onSubmit={handleSubmit} className="space-y-6">
               {/* Honeypot anti-spam field */}
               <input
-                type="text"
-                name="company"
-                className="hidden"
-                tabIndex={-1}
-                autoComplete="off"
-                aria-label="Company (Do not fill out if you are human)"
+                  type="text"
+                  name="company"
+                  className="hidden"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-label="Company (Do not fill out if you are human)"
               />
 
               {/* Visually hidden title for ARIA */}
@@ -483,10 +529,10 @@ const Contact: React.FC = () => {
                     className="w-full p-3 rounded-lg border border-warm-grey focus:outline-none focus:ring-2 focus:ring-accent backdrop-blur-sm bg-white/80"
                 >
                   <option value="">{t('form.requestTypePlaceholder')}</option>
-                  <option value="information">{t('form.requestTypes.information')}</option>
                   <option value="quote">{t('form.requestTypes.quote')}</option>
                   <option value="partnership">{t('form.requestTypes.partnership')}</option>
                   <option value="investment">{t('form.requestTypes.investment')}</option>
+                  <option value="information">{t('form.requestTypes.information')}</option>
                   <option value="other">{t('form.requestTypes.other')}</option>
                 </select>
                 {errors.requestType && <Typography variant="small" id="error-requestType"

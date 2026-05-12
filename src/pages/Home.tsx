@@ -28,6 +28,7 @@ import afrinutsUpdatesData from '@/data/afrinutsUpdates.json';
 
 import Section from '../components/Section/Section';
 import ProductCard from '../components/ProductCard/ProductCard';
+import JsonLd from "@/components/Seo/JsonLd";
 
 
 interface AfriNutsUpdate {
@@ -88,6 +89,27 @@ const Home: React.FC = () => {
 
     return (
         <div className="min-h-[80vh] md:min-h-screen overflow-hidden text-balance">
+            <JsonLd data={{
+                "@context": "https://schema.org",
+                "@type": "WebPage",
+                "name": "Premium Organic Cashews from Ivory Coast | AfriNuts Export",
+                "description": "Sustainably grown on our 35-hectare family farm in Odienné. Certified organic cashews for wholesale buyers, retailers, and distributors worldwide.",
+                "mainEntity": {
+                    "@type": "Organization",
+                    "name": "AfriNuts Export",
+                    "foundingDate": "2023",
+                    "founders": [
+                        {"@type": "Person", "name": "Hamza S. Ralsan Sangare"},
+                        {"@type": "Person", "name": "Sekou Hakim Peters"}
+                    ],
+                    "knowsAbout": ["Organic Cashew Farming", "Wholesale Cashew Export", "Sustainable Agriculture", "Islamic Finance"],
+                    "address": {
+                        "@type": "PostalAddress",
+                        "addressLocality": "Odienné",
+                        "addressCountry": "CI"
+                    }
+                }
+            }} />
             {/* Hero Section */}
             <Section
                 fullHeight={false}

@@ -1,7 +1,7 @@
 {
     "hero": {
-      "title": "The AfriNuts Export Cashew Plantation",
-      "subtitle": "Cultivating West Africa's finest cashews through regenerative agriculture"
+      "title": "Our 35-Hectare Organic Cashew Farm in Odienné, Ivory Coast",
+      "subtitle": "Family-owned. Sustainably farmed. Cultivating West Africa's finest cashews through regenerative agriculture and organic practices."
     },
     "overview": {
       "heading": "35 Hectares of Premium Cashew Production",
@@ -33,7 +33,7 @@
       },
       "harvest": {
         "title": "First Harvest",
-        "description": "Projected first harvest in 2031 from mature trees"
+        "description": "First commercial harvest projected for 2028 (Year 4 of tree maturity), with full production by 2030."
       }
     },
     "timeline": {
@@ -50,9 +50,9 @@
         "description": "Systematic planting of high-yield cashew cultivars across 35 hectares with optimal spacing for growth"
       },
       "harvest": {
-        "year": "2030",
+        "year": "2028",
         "title": "First Commercial Harvest",
-        "description": "Projected initial yield of 8-10 tons per hectare from mature cashew trees"
+        "description": "Projected initial yield of 0.5-1 ton per hectare from young trees, scaling to full production by 2030"
       }
     },
     "gallery": {
@@ -67,8 +67,8 @@
       "caption4": "High-yield cultivars at 6 months growth"
     },
     "sustainability": {
-      "title": "Our Regenerative Agriculture Commitment",
-      "description": "We implement practices that restore ecosystem health while producing premium cashews",
+      "title": "Farm-to-Export Traceability",
+      "description": "Blockchain-ready tracking from tree to container. Every harvest is logged, every batch is traceable.",
       "organic": {
         "title": "Organic Cultivation",
         "description": "Integrated pest management and organic fertilizers to maintain ecosystem balance"
@@ -82,34 +82,34 @@
         "description": "Training programs for local farmers in sustainable techniques"
       }
     },
-    "impact": {
-      "title": "Our Plantation Impact",
-      "hectares": {
-        "label": "Hectares Under Cultivation",
-        "description": "35 hectares dedicated to sustainable cashew production, supporting long-term ecological balance."
-      },
-      "jobs": {
-        "label": "Jobs Created",
-        "description": "Local employment opportunities generated through farming, processing, and community support activities."
-      },
-      "farmers": {
-        "label": "Farmer Income Increase",
-        "description": "Partnership programs designed to improve livelihoods of local farmers through fair pricing and training."
-      },
-      "profits": {
-        "label": "Profits to Community",
-        "description": "A share of profits reinvested into education, healthcare, and infrastructure projects for surrounding communities."
-      }
+  "impact": {
+    "title": "Our Impact",
+    "hectares": {
+      "label": "Hectares Under Cultivation",
+      "description": "35 hectares dedicated to sustainable cashew production, supporting long-term ecological balance."
     },
+    "jobs": {
+      "label": "Jobs Created",
+      "description": "Local employment opportunities generated through farming, processing, and community support activities."
+    },
+    "farmers": {
+      "label": "Farmer Income",
+      "description": "Partnership programs designed to improve livelihoods of local farmers through fair pricing and training."
+    },
+    "profits": {
+      "label": "Community Reinvestment",
+      "description": "10% of profits reinvested into education, healthcare, and infrastructure for surrounding communities."
+    }
+  },
     "cta": {
-      "title": "Join Our Sustainable Journey",
-      "description": "Learn more about our cashew plantation and partnership opportunities",
-      "button": "Contact Our Farm Team"
+      "title": "Partner With Us",
+      "description": "Whether you're a wholesale buyer, investor, or distribution partner, we'd love to hear from you.",
+      "button": "Request Wholesale Info"
     },
   "farm": {
     "map": {
       "title": "Our Farm Location",
-      "description": "Explore our 35-hectare family-owned cashew farm in the heart of Ivory Coast's cashew belt.",
+      "description": "Explore our 35-hectare family-owned cashew farm in the heart of Ivory Coast's cashew belt. The property spans 70 total hectares, with 35 currently under cultivation and the remainder reserved for future processing facilities and community development.",
       "location": "Odienné, Ivory Coast",
       "locationDescription": "Our 70-hectare family-owned farm is located in the heart of Ivory Coast's cashew belt, with optimal growing conditions for premium quality cashews."
     }

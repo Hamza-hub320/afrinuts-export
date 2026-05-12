@@ -12,6 +12,7 @@ import farmImage from '@/assets/images/farm.webp';
 import innovationImage from '@/assets/images/innovation.webp';
 import communityImage from '@/assets/images/community.webp';
 import futureImage from '@/assets/images/future.webp';
+import JsonLd from "@/components/Seo/JsonLd";
 
 interface StorySection {
     title: string;
@@ -147,6 +148,22 @@ const OurStory: React.FC = () => {
 
     return (
         <main className={`text-text-dark font-sans leading-relaxed ${isRTL ? 'direction-rtl' : 'direction-ltr'}`}>
+            <JsonLd data={{
+                "@context": "https://schema.org",
+                "@type": "WebPage",
+                "name": "Our Story - AfriNuts Export",
+                "description": "Three generations of cashew farming in Odienné, Ivory Coast. Heritage, sustainability, community, and Islamic values.",
+                "mainEntity": {
+                    "@type": "Organization",
+                    "name": "AfriNuts Export",
+                    "foundingDate": "2023",
+                    "founders": [
+                        {"@type": "Person", "name": "Hamza S. Ralsan Sangare"},
+                        {"@type": "Person", "name": "Sekou Hakim Peters"}
+                    ],
+                    "knowsAbout": ["Organic Cashew Farming", "Islamic Finance", "Community Development", "Sustainable Agriculture"]
+                }
+            }} />
             {/* Hero Section */}
             <Section
                 fullHeight={true}

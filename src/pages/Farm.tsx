@@ -32,6 +32,7 @@ import ImageGallery from '../components/ImageGallery/ImageGallery';
 import StatsCounter from '../components/StatsCounter/StatsCounter';
 import InteractiveMap from '../components/InteractiveMap/InteractiveMap';
 import { InfoCard } from "../components/InfoCard/InfoCard";
+import JsonLd from "@/components/Seo/JsonLd";
 
 const Farm = () => {
     const { t } = useTranslation('farm');
@@ -123,6 +124,52 @@ const Farm = () => {
 
     return (
         <Suspense fallback={<div>Loading...</div>}>
+            <JsonLd data={{
+                "@context": "https://schema.org",
+                "@type": "WebPage",
+                "name": "The AfriNuts Export Cashew Plantation",
+                "description": "Cultivating West Africa's finest cashews through regenerative agriculture on our 35-hectare family-owned plantation in Odienné, Ivory Coast.",
+                "about": {
+                    "@type": "Place",
+                    "name": "AfriNuts Export Cashew Plantation",
+                    "address": {
+                        "@type": "PostalAddress",
+                        "addressLocality": "Odienné",
+                        "addressCountry": "CI"
+                    },
+                    "geo": {
+                        "@type": "GeoCoordinates",
+                        "latitude": 9.51,
+                        "longitude": -7.5692
+                    }
+                },
+                "mainEntity": {
+                    "@type": "Organization",
+                    "name": "AfriNuts Export",
+                    "description": "Family-owned cashew plantation using climate-smart agricultural techniques. Phase 1 development with first commercial harvest projected for 2031.",
+                    "knowsAbout": [
+                        "Regenerative Agriculture",
+                        "Organic Cashew Farming",
+                        "Smart Irrigation",
+                        "Sustainable Land Management",
+                        "Climate-Smart Agriculture"
+                    ],
+                    "location": {
+                        "@type": "Place",
+                        "name": "AfriNuts Export Farm",
+                        "address": {
+                            "@type": "PostalAddress",
+                            "addressLocality": "Odienné",
+                            "addressCountry": "CI"
+                        }
+                    },
+                    "potentialAction": {
+                        "@type": "OrderAction",
+                        "name": "Request Wholesale Quote",
+                        "target": "https://www.afrinutsexport.com/contact"
+                    }
+                }
+            }} />
             <div className="text-text-dark font-sans leading-relaxed">
                 {/* Hero Section */}
                 <Section

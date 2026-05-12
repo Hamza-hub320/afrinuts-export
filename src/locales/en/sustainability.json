@@ -1,103 +1,98 @@
 {
   "hero": {
-    "title": "Sustainable Cashew Farming",
-    "subtitle": "Cultivating quality while preserving our planet"
+    "title": "Sustainable & Organic Cashew Farming in Ivory Coast",
+    "subtitle": "Cultivating premium cashews while protecting our planet and empowering our community"
   },
   "intro": {
-    "title": "The Importance of Sustainable Cashew Agribusiness",
+    "title": "Why Sustainable Cashew Farming Matters for West Africa",
     "content": [
-      "The global cashew industry plays a vital role in many economies, particularly in West Africa where Ivory Coast leads production. As demand grows, so does the need for sustainable practices that protect ecosystems while ensuring farmer livelihoods. At AfriNuts Export, we're committed to revolutionizing cashew production through environmentally and socially responsible methods."
-    ],
-    "badges": [
-      "Organic Certified",
-      "Fair Trade",
-      "Rainforest Alliance",
-      "Carbon Neutral"
+      "Ivory Coast is the world's largest cashew producer, but conventional farming methods often come at a cost – deforestation, water depletion, and low farmer incomes. At AfriNuts Export, we are proving that cashews can be grown differently.",
+      "Our approach combines organic farming, fair labor practices, and community reinvestment. We protect ecosystems while ensuring farmers earn a dignified living. This is not just sustainability – this is the future of Ivorian agriculture."
     ]
   },
   "environment": {
-    "title": "Environmental Impacts & Our Solutions",
+    "title": "Environmental Challenges We're Solving on Our 35-Hectare Farm",
     "challenges": {
-      "title": "Key Challenges",
+      "title": "The Problems with Conventional Cashew Farming",
       "items": [
         {
-          "title": "Deforestation & Biodiversity",
-          "content": "Cashew expansion can lead to forest clearing, threatening ecosystems.",
+          "title": "Deforestation & Biodiversity Loss",
+          "content": "Cashew expansion has cleared thousands of hectares of forest in Ivory Coast, threatening wildlife and soil health.",
           "icon": "FaTree"
         },
         {
-          "title": "Water & Soil Quality",
-          "content": "Intensive farming risks water depletion and soil degradation.",
+          "title": "Water Depletion & Soil Degradation",
+          "content": "Intensive irrigation and chemical fertilizers strip soil nutrients and drain local water tables.",
           "icon": "FaWater"
         },
         {
-          "title": "Chemical Use",
-          "content": "Pesticides and fertilizers can harm environments if misused.",
+          "title": "Chemical Overuse",
+          "content": "Pesticides and synthetic fertilizers contaminate water sources and harm farmer health.",
           "icon": "FaLeaf"
         },
         {
-          "title": "Waste Management",
-          "content": "Processing generates shells and apples needing proper disposal.",
+          "title": "Waste from Processing",
+          "content": "Cashew shells and apples are often discarded, creating waste and missing economic opportunities.",
           "icon": "FaIndustry"
         }
       ]
     },
     "solutions": {
-      "title": "Our Sustainable Practices",
+      "title": "How AfriNuts Is Solving These Problems",
       "items": [
         {
-          "title": "Agroforestry Systems",
-          "content": "We intercrop cashews with native species to maintain biodiversity.",
+          "title": "Agroforestry & Biodiversity",
+          "content": "We intercrop cashews with native trees on our 35-hectare farm, creating habitat for local species and improving soil carbon.",
           "icon": "FaSeedling"
         },
         {
           "title": "Water Conservation",
-          "content": "Drip irrigation and rainwater harvesting minimize water use.",
+          "content": "Drip irrigation and rainwater harvesting reduce water use by up to 60% compared to conventional methods.",
           "icon": "FaTint"
         },
         {
-          "title": "Organic Methods",
-          "content": "Natural pest control and compost replace synthetic inputs.",
+          "title": "100% Organic Methods",
+          "content": "No synthetic pesticides or fertilizers. We use compost, natural pest predators, and crop rotation.",
           "icon": "FaBug"
         },
         {
-          "title": "Waste Valorization",
-          "content": "Shells become biofuel; apples are used for juices and vinegar.",
+          "title": "Zero-Waste Processing",
+          "content": "Cashew shells become biofuel for our processing center. Cashew apples become juice, vinegar, and animal feed.",
           "icon": "FaRecycle"
         }
       ]
     }
   },
   "social": {
-    "title": "Social Responsibility",
+    "title": "Social Responsibility: Our Commitment to People",
     "farmers": {
       "title": "Empowering Smallholder Farmers",
       "content": [
-        "We provide fair pricing, training, and market access to local growers.",
-        "Our direct relationships eliminate middlemen, ensuring better incomes."
+        "We pay above-market prices for raw cashews from local outgrowers, eliminating middlemen so farmers keep more of their income.",
+        "We provide free training on organic farming, post-harvest handling, and business management. Our goal is to onboard 20+ local farmers into our supply chain by 2028."
       ]
     },
     "labor": {
       "title": "Ethical Labor Practices",
       "content": [
-        "Safe working conditions and fair wages for all employees.",
-        "No child labor and strict adherence to international standards."
+        "All workers receive fair wages above the regional minimum, safe working conditions, and access to clean water on site.",
+        "We strictly prohibit child labor and conduct regular third-party audits to ensure compliance with international labor standards."
       ]
     },
     "gender": {
-      "title": "Gender Equity",
+      "title": "Gender Equity in Agriculture",
       "content": [
-        "Special programs to support women in cashew production.",
-        "Equal pay and leadership opportunities across operations."
+        "Women make up 40%+ of the agricultural workforce in Ivory Coast but often earn less and lack leadership opportunities.",
+        "At AfriNuts, we guarantee equal pay for equal work and actively recruit women for supervisory roles. Our first training cohort was 50% women."
       ]
     }
   },
   "future": {
-    "title": "Our Vision for Sustainable Growth",
+    "title": "Our 2031 Sustainability Roadmap",
     "content": [
-      "By 2031, we aim to be carbon-neutral across our supply chain.",
-      "Our processing center will implement zero-waste principles.",
-      "We're investing in renewable energy and blockchain traceability."
+      "By 2028: Achieve carbon-neutral status across our entire supply chain (farm to port).",
+      "By 2031: Achieve zero-waste processing at our facility (shells → biofuel, apples → value-added products).",
+      "By 2031: Implement blockchain traceability so buyers can track every cashew from tree to export."
     ],
     "cta": "Learn about our 2031 Sustainability Roadmap"
   }

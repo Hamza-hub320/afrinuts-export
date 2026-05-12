@@ -1,11 +1,12 @@
 {
   "hero": {
-    "title": "Our Heritage",
-    "subtitle": "Redefining Ivory Coast's cashew industry through vertical integration"
+    "title": "Our Story: Three Generations of Cashew Excellence in Ivory Coast",
+    "subtitle": "From family farm to global exporter — AfriNuts Export is redefining Ivory Coast's cashew industry through vertical integration, organic farming, and community investment."
   },
   "leadership": {
     "title": "Guiding AfriNuts Forward",
-    "subtitle": "Our Leadership"
+    "subtitle": "Our Leadership",
+    "ctaText": "Meet Our Full Executive Team"
   },
   "ceo": {
     "title": "A Message From Our CEO",
@@ -76,8 +77,9 @@
     "close": "Close"
   },
   "brand": {
-    "title": "Our Commitment",
-    "text": "Located in the heart of the world's largest cashew-producing nation, Côte d'Ivoire, AfriNuts Export delivers premium Ivory Coast cashews through sustainable farming and meticulous processing. We combine West Africa's agricultural heritage with international quality standards to meet growing global demand for traceable, responsibly-sourced products."
+    "title": "Our Commitment to Premium Organic Cashews from Ivory Coast",
+    "text": "Located in the heart of the world's largest cashew-producing nation, Côte d'Ivoire, AfriNuts Export delivers premium Ivory Coast cashews through sustainable farming and meticulous processing. We combine West Africa's agricultural heritage with international quality standards to meet growing global demand for traceable, responsibly-sourced products.",
+    "ctaText": "Explore Our Farm"
   },
   "vmv": {
     "vmvHeader": {
@@ -98,29 +100,31 @@
     }
   },
   "community": {
-    "title": "Community Investment",
+    "title": "10% of Our Profits Go Back to the Community",
     "cards": {
       "pledge": {
         "title": "10% Reinvestment Pledge",
-        "text": "We allocate 10% of annual profits to local development projects including education, infrastructure, and religious institutions."
+        "text": "We allocate 10% of annual net profit from our 35-hectare farm to local development. First projects include a water well and community school in Odienné."
       },
       "water": {
         "title": "Water Access Initiative",
-        "text": "Developing sustainable water solutions for farming communities in our operational areas."
+        "text": "Drilling boreholes and installing water purification systems for farming communities in our operational areas."
       },
       "religion": {
         "title": "Community Infrastructure",
-        "text": "Supporting the construction and maintenance of essential community institutions."
+        "text": "Supporting the construction and maintenance of mosques, madrasas, and essential community institutions.",
+        "ctaText": "Partner With Us"
       }
     }
   },
   "farm": {
-    "title": "Our Sustainable Farm in Odienné",
+    "title": "Our 35-Hectare Organic Cashew Farm in Odienné, Ivory Coast",
     "subtitle": "OUR OPERATIONS",
-    "text": "At the heart of Ivory Coast's cashew-producing region lies our 35-hectare family farm - the cornerstone of AfriNuts Export. Currently developing our plantation for first harvest in 2031, we're implementing sustainable growing practices that enrich both the land and surrounding communities.",
+    "text": "At the heart of Ivory Coast's cashew belt lies our family farm — 35 hectares of prime agricultural land with over 3,500 cashew trees planted. We use organic farming methods, no synthetic pesticides, and sustainable water management.",
     "location": "Odienné, Ivory Coast",
     "size": "35 Hectares of Cultivated Land",
-    "alt": "AfriNuts Export's cashew farm in Odienné"
+    "alt": "AfriNuts Export's cashew farm in Odienné",
+    "ctaText": "Visit Our Farm Page"
   },
   "legacy": {
     "title": "Three Generations of Agricultural Excellence",

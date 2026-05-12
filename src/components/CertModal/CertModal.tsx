@@ -11,7 +11,7 @@ interface CertModalProps {
     title: string;
     description: string;
     issuer: string;
-    status: 'achieved' | 'upcoming';
+    status: 'achieved' | 'upcoming' | "in-progress";
     benefits: string[] | string; // Accept string or array
     validity?: string;
     color: string;

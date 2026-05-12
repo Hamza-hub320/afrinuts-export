@@ -1,8 +1,8 @@
 {
   "hero": {
-    "title": "Foire Aux Questions",
-    "subtitle": "Trouvez des réponses aux questions courantes sur AfriNuts Export",
-    "description": "Trouvez des réponses claires et directes sur AfriNuts - de nos pratiques agricoles et initiatives durables à nos projets de centre de transformation et impact communautaire."
+    "title": "Foire Aux Questions sur AfriNuts Export",
+    "subtitle": "Noix de Cajou Bio, Agriculture Durable et Investissement Éthique",
+    "description": "Obtenez des réponses claires et directes sur notre ferme de noix de cajou biologique à Odienné, Côte d'Ivoire. Découvrez nos pratiques de durabilité, nos plans de centre de transformation, notre impact communautaire et comment collaborer avec nous."
   },
   "audience": {
     "all": "Tous les Utilisateurs",
@@ -18,75 +18,75 @@
   },
   "loadMore": "Charger Plus de Sujets",
   "stillQuestions": {
-    "title": "Vous avez encore des questions ?",
-    "content": "Si vous ne trouvez pas ce que vous cherchez, notre équipe se fera un plaisir de vous aider.",
-    "button": "Contactez-nous"
+    "title": "Vous n'avez pas trouvé votre réponse",
+    "content": "Posez-nous vos questions sur notre ferme, nos produits ou nos opportunités d'investissement.",
+    "button": "Poser une Question"
   },
   "general": {
     "title": "Général",
     "questions": [
       {
         "question": "Qu'est-ce qu'AfriNuts Export ?",
-        "answer": "AfriNuts Export est une chaîne de valeur intégrée verticalement de l'anacarde, basée à Odienné, en Côte d'Ivoire, axée sur la culture durable de l'anacarde et sa future transformation. Notre mission est de produire des noix de cajou de haute qualité, cultivées de manière éthique, pour les marchés locaux et internationaux, tout en contribuant au développement rural et à l'amélioration des conditions de vie des communautés.",
+        "answer": "AfriNuts Export est une ferme de noix de cajou familiale et une future entreprise de transformation basée à Odienné, en Côte d'Ivoire. Nous cultivons des noix de cajou biologiques, prévoyons de construire une installation de transformation locale et réinvestissons 10 % de nos bénéfices dans le développement communautaire comme les écoles, les puits d'eau et les mosquées.",
         "audience": ["all", "customers"]
       },
       {
         "question": "Où se trouve votre ferme ?",
-        "answer": "Notre plantation d'anacardiers est située sur un terrain de 35 hectares à Odienné, une région du nord-ouest de la Côte d'Ivoire. 35 hectares sont dédiés aux anacardiers, et nous prévoyons de construire un centre de transformation sur place à l'avenir.",
+        "answer": "Notre ferme de noix de cajou est située sur un terrain de 35 hectares à Odienné, une région du nord-ouest de la Côte d'Ivoire. 35 hectares sont consacrés aux anacardiers, et nous prévoyons d'y construire un centre de transformation à l'avenir.",
         "audience": ["all", "customers", "b2b"]
       },
       {
         "question": "Quels produits proposez-vous ?",
-        "answer": "Nous cultivons actuellement des noix de cajou brutes, qui seront récoltées et vendues comme noix non transformées lors des premières phases. À mesure que la ferme mûrira, nous nous étendrons aux produits à valeur ajoutée grâce à notre future usine de transformation.",
+        "answer": "Nous cultivons actuellement des noix de cajou brutes, qui seront récoltées et vendues comme noix non transformées pendant les premières phases. À mesure que la ferme mûrira, nous élargirons notre gamme vers des produits à valeur ajoutée grâce à notre future installation de transformation.",
         "audience": ["all", "customers", "b2b"]
       }
     ]
   },
   "farming": {
-    "title": "Culture de l'Anacarde",
+    "title": "Culture de la Noix de Cajou",
     "questions": [
       {
-        "question": "Comment cultivez-vous vos anacardes ?",
-        "answer": "Nous plantons directement en terre en utilisant des graines de haute qualité, méthode standard locale et économique. Notre densité de plantation est de 100 arbres par hectare. Nous maintenons également une réserve de 500 plants en pépinière pour remplacer ceux qui échouent pendant la croissance précoce.",
+        "question": "Comment cultivez-vous vos noix de cajou ?",
+        "answer": "Nous plantons directement dans le sol en utilisant des semences de haute qualité, ce qui est la norme locale et une méthode économique. Notre densité de plantation est de 100 arbres par hectare. Nous maintenons également une réserve de 500 plants en pépinière pour remplacer ceux qui échouent pendant la croissance précoce.",
         "audience": ["all", "b2b"],
         "visualAid": {
           "type": "image",
-          "src": "/images/cashew-farming.jpg",
-          "alt": "Processus de culture d'anacarde",
-          "caption": "Nos pratiques durables de culture d'anacarde"
+          "src": "/assets/images/farm-hero.webp",
+          "alt": "Processus de culture de la noix de cajou",
+          "caption": "Nos pratiques de culture durable de la noix de cajou"
         }
       },
       {
-        "question": "Quand est votre saison de récolte ?",
-        "answer": "La récolte commence généralement trois ans après la plantation, avec la première récolte majeure prévue en 2029, notre première plantation étant planifiée pour mai-juin 2026.",
+        "question": "Quand a lieu votre saison de récolte ?",
+        "answer": "Les anacardiers commencent généralement à produire en année 3, atteignent des rendements commerciaux précoces en année 4-5, et atteignent leur pleine maturité en année 7+. Nos premiers arbres ont été plantés en 2026. Nous prévoyons notre première petite récolte en 2029, avec des volumes croissants chaque saison. La production maximale est attendue d'ici 2031.",
         "audience": ["all", "b2b"]
       },
       {
-        "question": "Vos anacardes sont-elles biologiques ?",
-        "answer": "Bien que non encore certifiées biologiques, nous utilisons des méthodes agricoles durables et minimales en produits chimiques, conformes aux pratiques agroécologiques. Nous prévoyons d'obtenir une certification biologique dans le cadre de nos objectifs ESG.",
+        "question": "Vos noix de cajou sont-elles biologiques ?",
+        "answer": "Bien que nous ne soyons pas encore certifiés biologiques, nous utilisons des méthodes agricoles durables et à faible apport chimique qui s'alignent sur les pratiques agroécologiques. Nous prévoyons de poursuivre la certification biologique dans le cadre de nos objectifs ESG.",
         "audience": ["all", "b2b"]
       }
     ]
   },
   "sustainability": {
-    "title": "Durabilité & ESG",
+    "title": "Durabilité et ESG",
     "questions": [
       {
         "question": "Quelles pratiques de durabilité suivez-vous ?",
-        "answer": "Nous utilisons l'agriculture pluviale pour économiser l'eau et éviter l'irrigation en Phase 1. Nous employons également des coupe-feu pour prévenir les incendies, pratiquons l'agroforesterie lorsque possible, et maintenons des zones tampons naturelles pour préserver la biodiversité.",
+        "answer": "Nous utilisons l'agriculture pluviale pour conserver l'eau et éviter le besoin d'irrigation en Phase 1. Nous utilisons également des pare-feux pour prévenir les incendies de forêt, pratiquons l'agroforesterie lorsque c'est possible et maintenons des zones tampons naturelles pour préserver la biodiversité.",
         "audience": ["all", "b2b", "investors"]
       },
       {
         "question": "Comment gérez-vous l'eau et les déchets ?",
-        "answer": "Notre ferme dépend des pluies naturelles, et nous évitons les ruissellements chimiques. En nous développant, nous mettrons en place des systèmes hydro-efficaces et des solutions de compostage pour maintenir la santé des sols et réduire les déchets.",
+        "answer": "Notre ferme dépend des précipitations naturelles et nous évitons le ruissellement chimique. À mesure que nous nous développons, nous développerons des systèmes économes en eau et des solutions de compostage pour maintenir la santé des sols et réduire les déchets.",
         "audience": ["all", "b2b", "investors"]
       },
       {
-        "question": "Quelle est votre approche de l'ESG ?",
-        "answer": "AfriNuts s'engage envers les principes Environnementaux, Sociaux et de Gouvernance (ESG). Cela inclut le réinvestissement dans les infrastructures locales, la promotion d'embauches inclusives, et une gouvernance transparente alignée sur des valeurs éthiques.",
+        "question": "Quelle est votre approche ESG ?",
+        "answer": "AfriNuts s'engage envers les principes Environnementaux, Sociaux et de Gouvernance (ESG). Cela inclut le réinvestissement dans les infrastructures locales, la promotion d'un recrutement inclusif et la garantie d'une gouvernance transparente alignée sur les valeurs éthiques.",
         "audience": ["all", "b2b", "investors"],
         "actions": {
-          "download": "/documents/esg-report.pdf"
+          "download": "/documents/rapport-esg.pdf"
         }
       }
     ]
@@ -95,18 +95,18 @@
     "title": "Investissement Éthique Islamique",
     "questions": [
       {
-        "question": "Comment la ferme respecte-t-elle les principes d'investissement islamique ?",
-        "answer": "Nous opérons sous une politique sans riba (sans intérêt) et privilégions les partenariats reflétant le partage des risques et profits. Notre modèle d'investisseur est basé sur le financement éthique, le bénéfice communautaire et la durabilité à long terme.",
+        "question": "Comment la ferme est-elle alignée sur les principes d'investissement islamiques ?",
+        "answer": "Nous opérons selon une politique sans riba (sans intérêt) et priorisons les partenariats qui reflètent le partage des risques et des bénéfices. Notre modèle d'investisseur est basé sur le financement éthique, le bénéfice communautaire et la durabilité à long terme.",
         "audience": ["all", "investors"]
       },
       {
         "question": "Y a-t-il des intérêts (riba) dans votre modèle de financement ?",
-        "answer": "Non. Nous ne facturons ni ne payons d'intérêts. Nos investisseurs reçoivent une part des bénéfices nets (ex: 25%) basée sur la performance, pas des rendements fixes. Ceci est conforme à l'éthique financière islamique.",
+        "answer": "Non. Nous ne facturons ni ne payons d'intérêts. Nos investisseurs reçoivent une part du bénéfice net (par exemple, 25 %) basée sur la performance, et non des rendements fixes. Cela est conforme à l'éthique financière islamique.",
         "audience": ["all", "investors"]
       },
       {
-        "question": "Comment réinvestissez-vous les profits dans la communauté ?",
-        "answer": "Nous réinvestissons 10% de nos bénéfices nets dans des initiatives locales comme l'accès à l'eau, l'éducation et les lieux de culte. Cela fait partie de notre engagement envers la prospérité partagée et l'impact basé sur la foi.",
+        "question": "Comment réinvestissez-vous les bénéfices dans la communauté ?",
+        "answer": "Nous réinvestissons 10 % de nos bénéfices nets dans des initiatives communautaires locales. Exemples : forage de puits d'eau, soutien aux médersas locales (écoles islamiques) et contribution à l'entretien des mosquées. C'est notre engagement envers la sadaqah jariyah — une charité continue qui profite aux générations.",
         "audience": ["all", "investors"]
       }
     ]
@@ -116,23 +116,23 @@
     "questions": [
       {
         "question": "Quand le centre de transformation sera-t-il opérationnel ?",
-        "answer": "Le centre de transformation d'anacardes fait partie de notre plan de développement à long terme, prévu pour être construit entre 2027 et 2030. Il nous permettra d'ajouter de la valeur localement et de créer des emplois dans la région.",
+        "answer": "La construction du centre de transformation de noix de cajou est prévue pour débuter en 2028, sous réserve de la finalisation du titre foncier et de l'investissement. Notre objectif est le début des opérations d'ici 2031. Nous partagerons les mises à jour au fur et à mesure que les jalons seront atteints.",
         "audience": ["all", "b2b", "partners"],
         "visualAid": {
           "type": "image",
           "src": "/images/processing-center.jpg",
           "alt": "Plans du centre de transformation",
-          "caption": "Rendu de notre future usine de transformation"
+          "caption": "Rendu de notre future installation de transformation"
         }
       },
       {
         "question": "Qu'est-ce qui rend votre centre écologique ?",
-        "answer": "Notre centre intégrera l'énergie solaire, des systèmes hydro-efficaces et des pratiques de travail éthiques. Nous visons à créer un site agro-industriel modèle qui minimise les émissions carbone et soutient l'économie circulaire.",
+        "answer": "Notre centre intégrera l'énergie solaire, des systèmes économes en eau et des pratiques de travail éthiques. Nous visons à construire un site agro-industriel modèle qui minimise les émissions de carbone et soutient l'économie circulaire.",
         "audience": ["all", "b2b", "partners"]
       },
       {
         "question": "Servira-t-il la communauté locale ?",
-        "answer": "Oui. Au-delà de la transformation, le centre fournira des emplois, des formations et un développement communautaire. Il s'inscrit dans notre vision plus large de faire d'Odienné un hub d'agriculture éthique.",
+        "answer": "Oui. Au-delà de la transformation de la noix de cajou, le centre fournira des emplois, des formations professionnelles et du développement communautaire. Cela fait partie de notre vision plus large de faire d'Odienné un pôle d'agriculture éthique.",
         "audience": ["all", "b2b", "partners"]
       }
     ]
@@ -141,44 +141,42 @@
     "title": "Qualité",
     "questions": [
       {
-        "question": "Comment assurez-vous la qualité de vos anacardes ?",
-        "answer": "Nous appliquons des contrôles qualité stricts à la ferme, de la sélection des graines à la récolte et au post-récolte. Notre futur centre de transformation sera équipé de technologies modernes de tri et classement pour garantir une qualité premium.",
+        "question": "Comment assurez-vous la qualité de vos noix de cajou ?",
+        "answer": "Nous mettons en œuvre des contrôles de qualité stricts à la ferme, de la sélection des semences au moment de la récolte et à la manutention post-récolte. Notre futur centre de transformation sera équipé d'une technologie moderne de tri et de calibrage pour garantir une qualité premium.",
         "audience": ["all", "b2b"]
       },
       {
         "question": "Vos produits sont-ils traçables ?",
-        "answer": "Oui. Nous utilisons un suivi transparent par lots, permettant aux clients de retracer les produits jusqu'à la ferme et la saison de récolte.",
+        "answer": "Oui. Nous utilisons une tenue de registres transparente et un suivi par lots, permettant aux clients de retracer les produits jusqu'à la ferme et la saison de récolte.",
         "audience": ["all", "b2b"],
         "actions": {
-          "download": "/documents/traceability-protocol.pdf"
+          "download": "/documents/protocole-tracabilite.pdf"
         }
       }
     ]
   },
   "b2b": {
-    "title": "B2B & Vente en Gros",
+    "title": "B2B et Vente en Gros",
     "questions": [
       {
-        "question": "Quelle est votre Quantité Minimale de Commande (MOQ) ?",
-        "answer": "Notre MOQ pour les commandes en gros est de 1 tonne métrique. Pour les commandes d'essai plus petites, nous pouvons accommoder les demandes au cas par cas.",
+        "question": "Quelle est votre Quantité Minimum de Commande (MOQ) ?",
+        "answer": "Notre MOQ pour les commandes en gros est de 1 tonne métrique. Pour les petites commandes d'essai, nous pouvons répondre aux demandes au cas par cas.",
         "audience": ["b2b", "partners"],
         "actions": {
           "contact": true
-        },
-        "ctaLabel": "Request Pricing Info"
+        }
       },
       {
-        "question": "Proposez-vous des tarifs de gros ?",
-        "answer": "Oui, nous proposons des tarifs dégressifs basés sur le volume de commande. Veuillez contacter notre équipe commerciale pour des informations détaillées sur les prix.",
+        "question": "Proposez-vous des prix de gros ?",
+        "answer": "Oui, nous proposons des prix échelonnés basés sur le volume de commande. Veuillez contacter notre équipe commerciale pour des informations détaillées sur les prix.",
         "audience": ["b2b", "partners"],
         "actions": {
           "contact": true
-        },
-        "ctaLabel": "Request Quote"
+        }
       },
       {
-        "question": "Quelles certifications avez-vous ?",
-        "answer": "Nous poursuivons la certification biologique, ISO 22000 pour la sécurité alimentaire, et d'autres certifications pertinentes pour l'exportation internationale. La documentation est disponible sur demande.",
+        "question": "Quelles certifications possédez-vous ?",
+        "answer": "Nous sommes en cours d'obtention de la certification biologique, ISO 22000 pour la sécurité alimentaire et d'autres certifications pertinentes pour l'exportation internationale. La documentation est disponible sur demande.",
         "audience": ["b2b", "partners"],
         "actions": {
           "download": "/documents/certifications.pdf"
@@ -186,7 +184,7 @@
       },
       {
         "question": "Quelles options logistiques proposez-vous ?",
-        "answer": "Stratégiquement basée en Côte d'Ivoire, AfriNuts Export exploite la logistique de classe mondiale du port d'Abidjan. Cela nous permet d'offrir des délais de transit compétitifs et des calendriers d'expédition fiables pour nos exportations de noix de cajou et autres fruits à coque de qualité supérieure vers l'Europe, l'Asie et les Amériques. Nous collaborons avec des partenaires logistiques de confiance et pouvons organiser des expéditions en FOB, CIF ou selon d'autres Incoterms en fonction de vos besoins.",
+        "answer": "Nous expédions depuis le Port d'Abidjan, l'un des ports les plus efficaces d'Afrique de l'Ouest. Délais actuels : 4-6 semaines vers l'Europe, 6-8 semaines vers l'Amérique du Nord, 3-4 semaines vers le Moyen-Orient. Nous proposons FOB Abidjan et pouvons organiser CIF pour les acheteurs qualifiés. Solutions logistiques personnalisées disponibles pour les grands volumes.",
         "audience": ["b2b", "partners"]
       }
     ]
@@ -196,28 +194,28 @@
     "questions": [
       {
         "question": "Puis-je investir dans AfriNuts Export ?",
-        "answer": "Oui. Nous accueillons les investisseurs éthiques alignés sur notre mission. Les opportunités d'investissement sont structurées pour respecter les standards éthiques internationaux et islamiques.",
+        "answer": "Oui. Nous accueillons les investisseurs éthiques alignés sur notre mission et nos valeurs. Les opportunités d'investissement sont structurées pour être conformes aux normes éthiques internationales et islamiques.",
         "audience": ["all", "investors"],
         "actions": {
-          "request": "investor-package"
+          "request": "dossier-investisseur"
         }
       },
       {
         "question": "Quel est le retour sur investissement attendu ?",
-        "answer": "Les rendements sont basés sur le partage des bénéfices, pas sur des intérêts fixes. Les investisseurs reçoivent une part des bénéfices nets, avec des projections disponibles sur demande. Les rendements dépendent de la performance de la ferme et des conditions du marché.",
+        "answer": "Les rendements sont basés sur le partage des bénéfices, et non sur des intérêts fixes. Les investisseurs reçoivent une part des bénéfices nets, avec des projections disponibles sur demande. Les rendements dépendent de la performance de la ferme et des conditions du marché.",
         "audience": ["investors"]
       },
       {
-        "question": "Quelles sont les conditions contractuelles ?",
-        "answer": "Nos contrats d'investissement sont structurés avec des termes de 5 ans, avec options de renouvellement. Tous les contrats incluent reporting transparent et provisions de gouvernance.",
+        "question": "Quelles sont les conditions du contrat ?",
+        "answer": "Nos contrats d'investissement sont structurés avec des durées de 5 ans, avec des options de renouvellement. Tous les contrats incluent des dispositions de reporting transparent et de gouvernance.",
         "audience": ["investors"]
       },
       {
         "question": "Fournissez-vous des audits de durabilité ?",
-        "answer": "Oui, nous réalisons des audits de durabilité annuels et mettons des rapports sommaires à disposition des investisseurs et partenaires.",
+        "answer": "Oui, nous effectuons des audits de durabilité annuels et mettons les rapports de synthèse à la disposition des investisseurs et des partenaires.",
         "audience": ["investors"],
         "actions": {
-          "download": "/documents/sustainability-report.pdf"
+          "download": "/documents/rapport-durabilite.pdf"
         }
       }
     ]
@@ -227,21 +225,20 @@
     "questions": [
       {
         "question": "Comment puis-je devenir partenaire ?",
-        "answer": "Nous accueillons les partenariats avec distributeurs, détaillants et entreprises complémentaires. Veuillez contacter notre équipe partenariat pour discuter des opportunités.",
+        "answer": "Nous accueillons les partenariats avec les distributeurs, les détaillants et les entreprises complémentaires. Veuillez contacter notre équipe partenariats pour discuter des opportunités.",
         "audience": ["partners"],
         "actions": {
           "contact": true
-        },
-        "ctaLabel": "Request Partnership Info"
+        }
       },
       {
         "question": "Proposez-vous des options de marque blanche ?",
-        "answer": "Oui, nous proposons des options d'emballage marque blanche et de marque privée pour les partenaires qualifiés avec des volumes de commande suffisants.",
+        "answer": "Oui, nous proposons des emballages en marque blanche et des options de marque de distributeur pour les partenaires qualifiés avec des volumes de commande suffisants.",
         "audience": ["partners"]
       },
       {
         "question": "Quel soutien fournissez-vous aux partenaires ?",
-        "answer": "Nous fournissons du matériel marketing, de la formation produit et des opportunités promotionnelles conjointes à nos partenaires pour assurer un succès mutuel.",
+        "answer": "Nous fournissons du matériel marketing, des formations sur les produits et des opportunités promotionnelles conjointes à nos partenaires pour assurer un succès mutuel.",
         "audience": ["partners"]
       }
     ]
@@ -251,12 +248,12 @@
     "questions": [
       {
         "question": "Qui dirige AfriNuts Export ?",
-        "answer": "AfriNuts Export est dirigée par une équipe expérimentée en agriculture, commerce et développement communautaire, engagée envers un leadership éthique et l'autonomisation rurale.",
+        "answer": "AfriNuts Export est dirigée par une équipe expérimentée dans l'agriculture, les affaires et le développement communautaire, engagée envers un leadership éthique et l'autonomisation rurale.",
         "audience": ["all", "investors"]
       },
       {
         "question": "Comment la gouvernance est-elle gérée ?",
-        "answer": "Notre gouvernance est transparente et participative, avec un suivi des parties prenantes locales et des conseillers externes pour assurer la responsabilité.",
+        "answer": "Notre gouvernance est transparente et participative, avec la supervision des parties prenantes locales et des conseillers externes pour garantir la responsabilité.",
         "audience": ["all", "investors"]
       }
     ]
@@ -266,39 +263,34 @@
     "questions": [
       {
         "question": "Comment le projet est-il financé ?",
-        "answer": "Le projet est financé par un mix d'investissements en capitaux propres, de financement éthique et de bénéfices réinvestis. Nous évitons la dette avec intérêts (riba) pour respecter nos valeurs.",
-        "audience": [
-          "all",
-          "investors"
-        ]
+        "answer": "Le projet est financé par une combinaison d'investissement en capital, de financement éthique et de bénéfices réinvestis. Nous évitons la dette avec intérêt (riba) pour nous aligner sur nos valeurs.",
+        "audience": ["all", "investors"]
       },
       {
         "question": "Fournissez-vous des rapports financiers ?",
         "answer": "Oui. Nous fournissons des mises à jour financières régulières et des rapports transparents à toutes les parties prenantes et investisseurs.",
-        "audience": [
-          "investors"
-        ]
+        "audience": ["investors"]
       }
     ]
   },
   "cta": {
-    "requestInfo": "Demander des informations",
-    "requestPartnership": "Demander des informations sur le partenariat",
-    "requestQuote": "Demander un devis",
-    "requestPricing": "Demander les prix",
-    "downloadInvestor": "Télécharger le prospectus investisseur",
-    "downloadCertification": "Télécharger le plan de certification",
-    "downloadWholesale": "Télécharger la liste de prix en gros",
+    "requestInfo": "Demander des Informations",
+    "requestPartnership": "Demander des Infos Partenariat",
+    "requestQuote": "Demander un Devis",
+    "requestPricing": "Demander des Infos sur les Prix",
+    "downloadInvestor": "Télécharger le Prospectus Investisseur",
+    "downloadCertification": "Télécharger la Feuille de Route des Certifications",
+    "downloadWholesale": "Télécharger la Liste de Prix en Gros",
     "downloadPdf": "Télécharger le PDF"
   },
   "certifications": {
-    "title": "Certifications que nous poursuivons",
+    "title": "Certifications Que Nous Poursuivons",
     "list": [
-      "Certification Biologique",
+      "Certifié Biologique",
       "Commerce Équitable",
       "ISO 22000",
-      "Certification Halal",
-      "Rainforest Alliance"
+      "Certifié Halal",
+      "Certifié Rainforest Alliance"
     ]
   }
 }

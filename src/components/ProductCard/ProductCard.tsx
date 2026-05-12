@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Typography } from '../Typography/Typography';
-import { FaArrowRight, FaCheck } from 'react-icons/fa';
+import { FaArrowRight, FaCheck, FaBell, FaClock, FaShoppingCart } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 
 interface ProductCardProps {
@@ -13,10 +13,16 @@ interface ProductCardProps {
         features: string[];
         available: boolean;
         comingSoon?: string;
+        preorder?: boolean;
+        preorderDate?: string;
+        waitlist?: boolean;
+        status?: 'available' | 'preorder' | 'waitlist' | 'coming-soon';
         loading?: 'lazy' | 'eager';
     };
     compact?: boolean;
     handleContactClick: () => void;
+    handlePreorderClick?: () => void;
+    handleWaitlistClick?: () => void;
     productImageMap: Record<string, string>;
     iconMap: Record<string, React.ComponentType<{ className?: string }>>;
     className?: string;
@@ -26,6 +32,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                                                             product,
                                                             compact = false,
                                                             handleContactClick,
+                                                            handlePreorderClick,
+                                                            handleWaitlistClick,
                                                             productImageMap,
                                                             iconMap,
                                                             className = ''
@@ -33,6 +41,63 @@ export const ProductCard: React.FC<ProductCardProps> = ({
     const { t } = useTranslation('products');
     const IconComponent = iconMap[product.icon];
     const imageSrc = productImageMap[product.backgroundImage];
+
+    // Determine product status
+    const getProductStatus = () => {
+        if (product.available) return 'available';
+        if (product.preorder) return 'preorder';
+        if (product.waitlist) return 'waitlist';
+        return 'coming-soon';
+    };
+
+    const status = getProductStatus();
+
+    // Get status badge text
+    const getStatusBadgeText = () => {
+        switch (status) {
+            case 'preorder':
+                return product.preorderDate
+                    ? t('productCard.preorderBadgeWithDate', { date: product.preorderDate })
+                    : t('productCard.preorderBadge');
+            case 'waitlist':
+                return t('productCard.waitlistBadge');
+            case 'coming-soon':
+                return product.comingSoon || t('productCard.comingSoon');
+            default:
+                return null;
+        }
+    };
+
+    // Get button configuration
+    const getButtonConfig = () => {
+        switch (status) {
+            case 'available':
+                return {
+                    text: t('productCard.requestQuote'),
+                    onClick: handleContactClick,
+                    icon: FaArrowRight,
+                    variant: 'primary'
+                };
+            case 'preorder':
+                return {
+                    text: t('productCard.preorderButton'),
+                    onClick: handlePreorderClick || handleContactClick,
+                    icon: FaShoppingCart,
+                    variant: 'preorder'
+                };
+            case 'waitlist':
+                return {
+                    text: t('productCard.waitlistButton'),
+                    onClick: handleWaitlistClick || handleContactClick,
+                    icon: FaBell,
+                    variant: 'waitlist'
+                };
+            default:
+                return null;
+        }
+    };
+
+    const buttonConfig = getButtonConfig();
 
     return (
         <motion.div
@@ -63,10 +128,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             <div className="absolute inset-0 rounded-2xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
 
             {/* Advanced Glow Effect */}
-            <div
-                aria-hidden="true"
-                className="absolute inset-0 z-0 pointer-events-none"
-            >
+            <div aria-hidden="true" className="absolute inset-0 z-0 pointer-events-none">
                 <div className="absolute inset-0 scale-105 blur-2xl opacity-80"
                      style={{
                          background: 'radial-gradient(ellipse 80% 60% at 50% 30%, rgba(255, 186, 73, 0.25) 0%, rgba(255,255,255,0.10) 60%, rgba(255,186,73,0.08) 100%)'
@@ -94,13 +156,22 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                 {/* Image overlay gradient */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent" />
 
-                {!product.available && (
+                {/* Status Badge */}
+                {status !== 'available' && (
                     <motion.div
-                        className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full shadow-md border border-white/30 text-xs md:text-sm font-semibold transform-gpu"
+                        className={`absolute top-4 right-4 backdrop-blur-sm px-3 py-1 rounded-full shadow-md border border-white/30 text-xs md:text-sm font-semibold transform-gpu flex items-center gap-1 ${
+                            status === 'preorder'
+                                ? 'bg-orange-500/90 text-white'
+                                : status === 'waitlist'
+                                    ? 'bg-blue-500/90 text-white'
+                                    : 'bg-white/90 text-gray-700'
+                        }`}
                         whileHover={{ scale: 1.05 }}
                         transition={{ duration: 0.2 }}
                     >
-                        {product.comingSoon || t('productCard.comingSoon')}
+                        {status === 'preorder' && <FaClock className="text-xs" />}
+                        {status === 'waitlist' && <FaBell className="text-xs" />}
+                        {getStatusBadgeText()}
                     </motion.div>
                 )}
             </div>
@@ -154,23 +225,55 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                     </div>
                 )}
 
+                {/* Pre-order Info Text (for preorder status) */}
+                {status === 'preorder' && product.preorderDate && (
+                    <motion.div
+                        className="mb-4 text-center"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                    >
+                        <Typography variant="small" className="text-orange-600 font-medium">
+                            📦 {t('productCard.estimatedDelivery')}: {product.preorderDate}
+                        </Typography>
+                    </motion.div>
+                )}
+
+                {/* Waitlist Info Text */}
+                {status === 'waitlist' && (
+                    <motion.div
+                        className="mb-4 text-center"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                    >
+                        <Typography variant="small" className="text-blue-600">
+                            🔔 {t('productCard.beNotified')}
+                        </Typography>
+                    </motion.div>
+                )}
+
                 {/* CTA Button */}
                 <div className="mt-auto">
-                    {product.available ? (
+                    {buttonConfig ? (
                         <motion.button
-                            className="w-full bg-gradient-to-r from-primary to-accent text-white px-5 py-3 rounded-lg font-medium shadow-md flex items-center justify-center transition-all transform-gpu hover:scale-105 group/btn"
-                            onClick={handleContactClick}
-                            aria-label={t('productCard.requestQuote')}
+                            className={`w-full px-5 py-3 rounded-lg font-medium shadow-md flex items-center justify-center transition-all transform-gpu hover:scale-105 group/btn ${
+                                buttonConfig.variant === 'preorder'
+                                    ? 'bg-gradient-to-r from-orange-500 to-orange-600 text-white'
+                                    : buttonConfig.variant === 'waitlist'
+                                        ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white'
+                                        : 'bg-gradient-to-r from-primary to-accent text-white'
+                            }`}
+                            onClick={buttonConfig.onClick}
+                            aria-label={buttonConfig.text}
                             whileHover={{ y: -2 }}
                             whileTap={{ scale: 0.95 }}
                         >
-                            {t('productCard.requestQuote')}
+                            {buttonConfig.text}
                             <motion.span
                                 className="ml-2"
                                 whileHover={{ x: 3 }}
                                 transition={{ type: 'spring', stiffness: 400 }}
                             >
-                                <FaArrowRight className="transition-transform group-hover/btn:translate-x-1" />
+                                <buttonConfig.icon className="transition-transform group-hover/btn:translate-x-1" />
                             </motion.span>
                         </motion.button>
                     ) : (
@@ -179,7 +282,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                             whileHover={{ y: -2 }}
                         >
                             <Typography variant="body" className="text-gray-700 font-medium">
-                                {t('productCard.comingSoon')}
+                                {product.comingSoon || t('productCard.comingSoon')}
                             </Typography>
                         </motion.div>
                     )}

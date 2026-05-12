@@ -1,52 +1,47 @@
 {
   "hero": {
     "title": "Building Africa's Premier Ethical Cashew Brand",
-    "subtitle": "From our farm in Odienné to the world: sustainable, traceable, and faith-aligned cashews"
+    "subtitle": "From our family farm in Odienné, Ivory Coast to global markets — sustainable, traceable, and faith-aligned cashews."
   },
   "intro": {
     "title": "Transforming West Africa's Cashew Industry",
-    "content": "At AfriNuts Export, we're not just building a business - we're creating a movement that combines ethical agribusiness, Islamic values, and sustainable development to revolutionize the cashew sector in Ivory Coast and beyond."
+    "content": ["Ivory Coast produces 45% of the world's cashews, yet less than 10% are processed locally. Most farmers live below the poverty line while the value is captured overseas. At AfriNuts Export, we are changing that.",
+                "We are building a vertically integrated, ethical cashew brand that keeps value in Africa. From our 35-hectare farm in Odienné to our future processing center, every step is owned and operated by us. No middlemen. No extraction. Just fair, transparent, faith-aligned agribusiness."]
   },
   "sustainability": {
     "title": "Sustainability & Stewardship",
     "subtitle": "Building a low-waste, renewable-powered cashew value chain",
     "items": [
-      {
-        "text": "Our processing center will transform waste shells into biofuel for energy",
+      { "text": "Our processing center will transform waste shells into biofuel, powering 30% of our energy needs",
         "icon": "FaRecycle"
       },
-      {
-        "text":"Powered by a solar-hybrid energy system",
+      { "text": "Solar-hybrid energy system projected to reduce grid dependency by 50% by 2030",
         "icon": "FaSolarPanel"
       },
-      {
-        "text": "Organic farming practices that enhance soil health and biodiversity",
-        "icon": "FaLeaf"
-      },
-      {
-        "text": "Implementing traceability technology for full supply chain transparency",
-        "icon": "FaGlobe"
-      }
+      { "text": "100% organic farming methods — no synthetic pesticides or fertilizers on our 35 hectares",
+        "icon": "FaLeaf" },
+      { "text": "Blockchain traceability from tree to export container, launching 2028",
+        "icon": "FaGlobe"}
     ],
-    "quote": "The land is a trust (amanah) — and we must preserve it for generations to come."
+    "quote": "The land is a trust (amanah). We borrow it from our children. We must return it better than we found it."
   },
   "community": {
     "title": "Community Empowerment",
     "subtitle": "Our farm is more than a business — it's a community uplift project",
     "items": [
       {
-        "title": "Farmer Training",
-        "content": "Training and supporting smallholder farmers with fair contracts and best practices",
+        "title": "Farmer Training & Outgrower Program",
+        "content": "We train local farmers in organic cashew production and provide fair, guaranteed contracts. Goal: 20+ outgrowers supplying 10% of our volume by 2028.",
         "icon": "FaUsers"
       },
       {
-        "title": "Community Reinvestment",
-        "content": "Reinvesting profits in local development, water access, and spiritual infrastructure",
+        "title": "10% Community Reinvestment",
+        "content": "We allocate 10% of annual net profits to community projects: water wells, schools, mosques, and farmer training. First well planned for 2026.",
         "icon": "FaWater"
       },
       {
-        "title": "Employment Creation",
-        "content": "Creating jobs for youth and women in Odienné through agro-industry",
+        "title": "Youth & Women's Employment",
+        "content": "Priority hiring for local youth and women. Target: 50% of farm workforce from the local village, with equal pay for equal work.",
         "icon": "FaHandshake"
       }
     ]
@@ -55,29 +50,29 @@
     "title": "Value Addition & Trade",
     "subtitle": "We believe Africa must export finished products, not just raw materials",
     "items": [
-      "Our Phase 1 processing center will produce export-grade organic kernels",
-      "Future expansion (Phase 2) will add value-added products like cashew butter & milk",
-      "Exploring by-product valorization, such as cashew oil for industrial uses",
-      "Our goal is to be a top exporter of certified products to Europe and the Middle East"
+      "Phase 1 (2027-2030): Processing center producing export-grade organic kernels. Target capacity: 1,000-2,000 metric tons annually.",
+      "Phase 2 (2031+): Value-added products including roasted cashews, cashew butter, and cashew milk powder.",
+      "By-product valorization: Cashew shells → biofuel. Cashew apples → juice, vinegar, and animal feed.",
+      "Target export markets: Europe (organic buyers) and Middle East (Halal-certified buyers)."
     ]
   },
   "finance": {
     "title": "Ethical Finance",
-    "subtitle": "We uphold Islamic financial ethics in all our operations",
+    "subtitle": "We uphold Islamic financial ethics (Sharia-compliant) in all our operations",
     "principles": [
       {
-        "title": "Riba-Free",
-        "content": "We avoid debt and interest (riba) in all financial transactions",
+        "title": "Riba-Free (No Interest)",
+        "content": "We avoid debt and interest (riba) in all financial transactions. Our investor partnerships use profit-sharing (Mudarabah) not fixed-interest loans.",
         "icon": "FaHandshake"
       },
       {
-        "title": "Transparent Partnerships",
-        "content": "We share risk and reward transparently with investors and partners",
+        "title": "Transparent Partnerships (Musharakah)",
+        "content": "We share both risk and reward transparently with investors. No hidden fees. No speculative trading.",
         "icon": "FaChartLine"
       },
       {
         "title": "Profit with Purpose",
-        "content": "We prioritize long-term benefit over short-term gain, reinvesting for community impact",
+        "content": "We prioritize long-term community benefit over short-term gain. Our investors receive returns but also contribute to sadaqah jariyah (ongoing charity).",
         "icon": "FaTree"
       }
     ]
@@ -87,23 +82,23 @@
     "subtitle": "Building the first locally owned, export-grade cashew brand from northwestern Côte d'Ivoire",
     "items": [
       {
-        "title": "Digital Traceability",
-        "content": "Batch-level tracking from our farm to the export container",
+        "title": "Digital Traceability (2028+)",
+        "content": "Batch-level blockchain tracking from our farm to the export container. Every cashew traceable.",
         "icon": "FaGlobe"
       },
       {
-        "title": "Smart Farming (Future Phase)",
-        "content": "Plans for drone monitoring and soil sensors to optimize yield",
+        "title": "Smart Farming (2030+)",
+        "content": "Planned implementation of drone monitoring, soil sensors, and predictive analytics to optimize yield and reduce inputs.",
         "icon": "FaSeedling"
       },
       {
-        "title":  "International Certification",
-        "content": "Pursuing Organic, Halal, and ISO 22000 certifications for global market access",
+        "title": "International Certification (2026-2029)",
+        "content": "Organic (2027 target), Halal (2028 target), and ISO 22000 (2029 target) for global market access.",
         "icon": "FaLeaf"
       },
       {
-        "title": "Regional Leadership",
-        "content": "Creating a new model for ethical and profitable agribusiness in Odienné",
+        "title": "Regional Leadership (Ongoing)",
+        "content": "Creating a replicable model for ethical, profitable agribusiness that can scale across West Africa.",
         "icon": "FaChartLine"
       }
     ]
@@ -115,11 +110,40 @@
   },
   "midCta": {
     "title": "Join Our Mission",
-    "button": "Contact Us"
+    "button": "Partner With Us"
   },
   "esg": {
     "title": "Our Commitment to ESG",
-    "content": "At AfriNuts, our vision is deeply aligned with Environmental, Social, and Governance (ESG) principles. We are building a carbon-neutral, zero-waste cashew supply chain powered by renewable energy, organic farming, and blockchain traceability. Our social mission prioritizes fair trade, local job creation, clean water access, and Islamic financial ethics, reinvesting in the community and empowering future generations. With full transparency, ethical investor terms, and a commitment to sustainability at every step, AfriNuts is proud to be Africa's ESG-first cashew initiative."
+    "subtitle": "Environmental, Social, and Governance principles are embedded in everything we do.",
+    "items": [
+      {
+        "category": "Environmental",
+        "commitments": [
+          "Carbon-neutral supply chain by 2031",
+          "Zero-waste processing (shells → biofuel, apples → products)",
+          "Solar-hybrid energy system",
+          "Organic farming (no synthetic pesticides or fertilizers)"
+        ]
+      },
+      {
+        "category": "Social",
+        "commitments": [
+          "10% of profits reinvested in community (wells, schools, mosques)",
+          "Fair wages above regional minimum",
+          "Youth and women's employment priority",
+          "Free farmer training programs"
+        ]
+      },
+      {
+        "category": "Governance",
+        "commitments": [
+          "Full financial transparency",
+          "Sharia-compliant profit-sharing (Mudarabah)",
+          "Third-party audits for labor and environmental standards",
+          "Blockchain traceability from farm to export"
+        ]
+      }
+    ]
   },
   "timeline": {
     "empty": "No roadmap items available",

@@ -637,6 +637,7 @@ const Tasks: React.FC = () => {
 
             {/* Photo Gallery */}
             {selectedTask && taskPhotos.filter(p => p.taskId === selectedTask.id).length > 0 && (
+                <div className="mb-20">
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
@@ -663,6 +664,7 @@ const Tasks: React.FC = () => {
                         title={`Photos for: ${selectedTask.title}`}
                     />
                 </motion.div>
+                </div>
             )}
 
             {/* End-of-page CTA */}

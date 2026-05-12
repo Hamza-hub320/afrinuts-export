@@ -1,63 +1,63 @@
 {
   "hero": {
-    "subtitle": "Notre parcours",
-    "title": "Une histoire enracinée dans l'héritage, la durabilité et la communauté",
+    "subtitle": "Notre Parcours",
+    "title": "Notre Histoire : Trois Générations de Culture de Noix de Cajou à Odienné, Côte d'Ivoire",
     "quote": "Une seule graine porte la promesse des générations. Notre histoire commence à Odienné, une terre d'héritage, de culture et de résilience.",
-    "backToExecutive": "Retour à l'Équipe Exécutive"
+    "backToExecutive": "Retour à l'Équipe de Direction"
   },
   "intro": {
-    "title": "Notre vision et engagement",
-    "description": "AfriNuts Export allie héritage et innovation, autonomisant les communautés tout en garantissant transparence et traçabilité de la graine à la récolte. Découvrez comment notre histoire façonne un avenir durable en Afrique de l'Ouest."
+    "title": "De la Ferme Familiale à la Vision Mondiale",
+    "description": "AfriNuts Export combine trois générations d'héritage dans la culture de la noix de cajou avec la technologie moderne et les principes éthiques islamiques. Nous construisons une opération verticalement intégrée — de la graine à la récolte jusqu'à l'exportation — qui autonomise les communautés locales, protège la terre et fournit des noix de cajou bio premium au monde entier."
   },
   "timeline": {
-    "title": "Notre chemin vers l'impact",
+    "title": "Notre Chemin vers l'Impact",
     "subtitle": "Des débuts modestes à une vision pour l'avenir agricole de l'Afrique de l'Ouest"
   },
   "sections": {
     "heritage": {
-      "title": "Enraciné dans l'héritage",
+      "title": "Enracinés dans l'Héritage",
       "alt": "Héritage d'AfriNuts à Odienné",
       "content": [
-        "Notre histoire commence à Odienné, une terre d'héritage, de culture et de résilience. AfriNuts ne s'est pas construit uniquement sur des noix de cajou, mais sur un engagement : honorer la tradition, embrasser l'innovation et apporter une transformation significative.",
-        "Pendant des décennies, notre famille a travaillé main dans la main avec les agriculteurs locaux, cultivant la confiance et l'excellence, et maîtrisant l'art de cultiver des noix de cajou de classe mondiale."
+        "Notre histoire commence à Odienné, une terre d'héritage, de culture et de résilience. AfriNuts n'a pas été construite uniquement sur les noix de cajou, mais sur un engagement : honorer la tradition, embrasser l'innovation et apporter une transformation significative.",
+        "Pendant des décennies, notre famille a travaillé main dans la main avec les agriculteurs locaux, cultivant la confiance et l'excellence, et maîtrisant l'art de faire pousser des noix de cajou de classe mondiale."
       ]
     },
     "tradition": {
-      "title": "Tradition et savoir-faire",
-      "alt": "Tradition de culture de cajou",
+      "title": "La Tradition Rencontre le Savoir-Faire",
+      "alt": "Tradition de culture de la noix de cajou",
       "content": [
-        "Les noix de cajou ne sont pas qu'une culture ; elles sont notre fondation. Elles représentent un lien entre la terre et son peuple.",
-        "Mais la tradition seule ne garantit pas l'avenir. Pour répondre aux demandes des marchés mondiaux, nous devons innover tout en protégeant la terre qui nous nourrit."
+        "Les noix de cajou sont plus qu'une culture ; elles sont notre fondation. Elles représentent un lien entre la terre et son peuple.",
+        "Mais la tradition seule ne garantit pas l'avenir. Pour répondre aux exigences des marchés mondiaux, nous devons innover tout en protégeant la terre qui nous nourrit."
       ]
     },
     "innovation": {
-      "title": "Innovation durable",
+      "title": "Innovation Durable",
       "alt": "Innovation agricole durable",
       "content": [
         "Chez AfriNuts Export, la durabilité n'est pas un slogan ; c'est une promesse. Nous investissons dans des pratiques biologiques, une irrigation économe en eau et des technologies innovantes comme les drones et les capteurs de sol.",
-        "Chaque noix de cajou que nous récoltons symbolisera la qualité, le soin et la responsabilité envers la terre. D'ici 2031, notre usine de transformation ultramoderne apportera une transformation à valeur ajoutée à notre région."
+        "Chaque noix de cajou que nous récoltons symbolisera la qualité, le soin et la responsabilité envers la terre. D'ici 2031, notre installation de transformation de pointe apportera une transformation à valeur ajoutée à notre région."
       ]
     },
     "community": {
-      "title": "Engagement communautaire",
+      "title": "Engagement Communautaire",
       "alt": "Autonomisation communautaire",
       "content": [
         "AfriNuts Export va au-delà des affaires. Il s'agit d'autonomisation. Notre mission est liée au succès des personnes que nous servons.",
-        "Guidés par nos valeurs islamiques, nous réinvestissons 10 % des bénéfices dans la communauté musulmane locale - construisant des puits, des mosquées et une école coranique enracinée dans le Coran et la Sounna. Ce n'est pas du branding - c'est une obligation."
+        "Guidés par nos valeurs islamiques, nous réinvestissons 10 % des bénéfices dans la communauté musulmane locale — en construisant des puits, un masjid et une médersa enracinés dans le Coran et la Sounnah. Ce n'est pas du marketing — c'est une obligation."
       ]
     },
     "future": {
-      "title": "Un avenir prometteur",
-      "alt": "Vision future d'AfriNuts",
+      "title": "Un Avenir en Plein Essor",
+      "alt": "Vision future pour AfriNuts",
       "content": [
         "Nous plantons des graines de changement. Avec chaque emploi créé et chaque récolte améliorée, nous cultivons un avenir plus fort et plus résilient pour nos communautés.",
-        "L'Afrique, en particulier l'Afrique de l'Ouest, est la terre promise pour ceux qui cherchent des opportunités commerciales authentiques et à long terme. AfriNuts Export est cette porte de confiance - enracinée dans le sol, respectée par le peuple et alignée sur les normes mondiales."
+        "L'Afrique, en particulier l'Afrique de l'Ouest, est la terre promise pour ceux qui recherchent des opportunités d'affaires authentiques et à long terme. AfriNuts Export est cette porte de confiance — enracinée dans la terre, respectée par le peuple et alignée sur les normes mondiales."
       ]
     }
   },
   "cta": {
-    "title": "Rejoignez notre histoire",
-    "subtitle": "En choisissant AfriNuts Export, vous choisissez un but. Vous choisissez un héritage. Vous décidez d'investir dans une histoire qui redéfinit l'agriculture en Afrique de l'Ouest.",
-    "button": "Partenariat avec nous"
+    "title": "Rejoignez Notre Histoire",
+    "subtitle": "Lorsque vous choisissez AfriNuts Export, vous choisissez un but. Vous choisissez l'héritage. Vous décidez d'investir dans une histoire qui redéfinit l'agriculture en Afrique de l'Ouest.",
+    "button": "Contacter Notre Équipe"
   }
 }

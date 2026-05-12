@@ -1,17 +1,23 @@
 {
-  "hero": {
-    "title": "Nos Produits Premium de Noix de Cajou",
-    "subtitle": "Source éthique des terres fertiles d'Odienné aux marchés mondiaux"
-  },
   "catalogue": {
     "title": "Catalogue Complet des Produits",
-    "description": "Découvrez notre gamme complète de produits de cajou, allant des noix brutes aux produits transformés à valeur ajoutée. Le catalogue fournit des spécifications détaillées, des options d'emballage, des certifications et des fourchettes de prix pour aider les clients B2B à prendre des décisions d'achat éclairées.",
-    "download": "Télécharger le catalogue des produits"
+    "description": "Explorez notre gamme complète de produits à base de noix de cajou, des noix brutes aux produits à valeur ajoutée. Le catalogue fournit des spécifications détaillées, les options d'emballage, les certifications et les fourchettes de prix pour aider les clients B2B à prendre des décisions d'achat éclairées.",
+    "download": "Télécharger le Catalogue Produits"
+  },
+  "hero": {
+    "title": "Produits de Cajou Premium de Côte d'Ivoire | Vente en Gros et Export",
+    "subtitle": "Approvisionnés de manière éthique depuis notre ferme familiale à Odienné. Disponibles pour la vente en gros, l'exportation en vrac et la marque de distributeur. Noix brutes, amandes, beurre et plus encore."
   },
   "productCard": {
-    "comingSoon": "Bientôt disponible",
-    "requestQuote": "Demander un devis",
-    "productionStarts": "Production prévue au 1er trimestre 2031"
+    "comingSoon": "Bientôt Disponible",
+    "requestQuote": "Demander un Devis",
+    "preorderBadge": "Précommander Maintenant",
+    "preorderBadgeWithDate": "Précommande : {{date}}",
+    "waitlistBadge": "Rejoindre la Liste d'Attente",
+    "preorderButton": "Précommander Maintenant",
+    "waitlistButton": "Rejoindre la Liste d'Attente",
+    "estimatedDelivery": "Livraison estimée",
+    "beNotified": "Soyez informé dès que disponible"
   },
   "filters": {
     "searchLabel": "Rechercher des Produits",
@@ -19,7 +25,7 @@
     "searchPlaceholder": "Rechercher des produits...",
     "availability": {
       "label": "Disponibilité",
-      "all": "Toute Disponibilité",
+      "all": "Toutes Disponibilités",
       "available": "Disponible Maintenant",
       "coming-soon": "Bientôt Disponible"
     },
@@ -27,7 +33,7 @@
       "all": "Toutes Catégories",
       "raw": "Noix Brutes",
       "processed": "Transformés",
-      "byproducts": "Sous-Produits"
+      "byproducts": "Sous-produits"
     },
     "certifications": {
       "label": "Certifications",
@@ -36,90 +42,97 @@
       "halal": "Certifié Halal",
       "fairtrade": "Certifié Commerce Équitable"
     },
-    "reset": "Réinitialiser tous les filtres",
+    "reset": "Réinitialiser Tous les Filtres",
     "results": "{count} produits"
+  },
+  "featured": {
+    "title": "Produits Phares",
+    "subtitle": "Découvrez nos offres signature de noix de cajou de Côte d'Ivoire"
+  },
+  "fullRange": {
+    "title": "Notre Gamme Complète de Produits",
+    "subtitle": "Des noix brutes aux produits transformés à valeur ajoutée"
   },
   "products": {
     "noResults": "Aucun produit trouvé",
-    "tryDifferentFilters": "Essayez de modifier votre recherche ou vos filtres",
+    "tryDifferentFilters": "Essayez d'ajuster votre recherche ou vos filtres",
     "quality": {
-      "title": "Contrôle Qualité",
-      "description": "Notre processus rigoureux garantit des produits de qualité supérieure",
+      "title": "Assurance Qualité",
+      "description": "Notre processus rigoureux de contrôle qualité garantit des produits premium",
       "bullets": [
-        "100% d'ingrédients naturels",
+        "Ingrédients 100 % naturels",
         "Sans conservateurs artificiels",
-        "Inspections de qualité régulières"
+        "Inspections qualité régulières"
       ]
     }
   },
-  "featured": {
-    "title": "Produits Vedettes",
-    "subtitle": "Découvrez nos offres spéciales de noix de cajou de Côte d'Ivoire"
-  },
-  "fullRange": {
-    "title": "Notre Gamme Complète",
-    "subtitle": "Des noix brutes aux produits transformés à valeur ajoutée"
-  },
   "process": {
     "title": "Notre Processus de Production",
-    "subtitle": "Agriculture durable et transformation de précision",
+    "subtitle": "L'agriculture durable rencontre la transformation de précision",
     "steps": [
       {
         "title": "Agriculture Durable",
-        "description": "Nos noix de cajou sont cultivées selon des méthodes biologiques sur notre ferme familiale de 35 hectares à Odienné, avec une première récolte prévue en 2031."
+        "description": "Nos noix de cajou sont cultivées selon des méthodes biologiques sur notre ferme familiale de 35 hectares à Odienné. Nous commençons la plantation en 2026, avec une première récolte prévue en 2029."
       },
       {
         "title": "Contrôle Qualité",
-        "description": "Chaque lot subit des contrôles de qualité rigoureux pour répondre aux normes internationales de taille, de couleur et de goût."
+        "description": "Chaque lot est soumis à des contrôles de qualité rigoureux pour répondre aux normes internationales de taille, de couleur et de goût."
       },
       {
         "title": "Distribution Efficace",
-        "description": "Un emballage sous vide garantit la fraîcheur de nos produits lors de leur transport de la Côte d'Ivoire vers les marchés mondiaux."
+        "description": "L'emballage sous vide scellé garantit la fraîcheur de nos produits durant leur transport de la Côte d'Ivoire vers les marchés mondiaux."
       }
     ]
   },
   "quality": {
     "title": "Assurance Qualité",
-    "description": "Nous mettons en œuvre des mesures de contrôle qualité strictes à chaque étape de la production pour garantir que nos noix de cajou répondent aux normes internationales les plus élevées.",
+    "description": "Nous mettons en œuvre des mesures strictes de contrôle qualité à chaque étape de la production pour garantir que nos noix de cajou répondent aux normes internationales les plus élevées.",
     "bullets": [
-      "Noix de cajou de qualité premium avec un calibrage uniforme",
-      "Traçabilité garantie depuis les fermes de notre réseau",
-      "Tests de laboratoire réguliers pour les aflatoxines et contaminants"
+      "Noix de cajou de qualité supérieure avec calibrage constant (W320, W240, W180)",
+      "Traçables jusqu'aux fermes spécifiques de notre réseau",
+      "Tests réguliers en laboratoire pour les aflatoxines et les contaminants"
     ]
   },
   "certifications": {
     "title": "Nos Certifications",
-    "subtitle": "Répondre aux normes mondiales de qualité et de durabilité",
+    "subtitle": "Respecter les normes mondiales de qualité et de durabilité",
     "organic": {
-      "title": "Certifié Biologique"
+      "title": "Certification Biologique (En Cours)"
     },
     "fairtrade": {
-      "title": "Commerce Équitable"
+      "title": "Commerce Équitable (En Cours)"
     },
     "iso": {
-      "title": "ISO 22000"
+      "title": "ISO 22000 (En Cours)"
     },
     "halal": {
-      "title": "Certifié Halal"
+      "title": "Certifié Halal (En Cours)"
     },
     "rainforest": {
-      "title": "Certifié Rainforest Alliance"
+      "title": "Certifié Rainforest Alliance (En Cours)"
     }
   },
   "cta": {
-    "title": "Prêt à Découvrir la Qualité AfriNuts?",
-    "subtitle": "Contactez-nous pour des demandes en gros, des échantillons de produits ou pour discuter des disponibilités futures",
-    "contact": "Contactez-nous",
+    "title": "Prêt à Vous Approvisionner en Noix de Cajou Premium ?",
+    "subtitle": "Contactez-nous pour des demandes de vente en gros, des échantillons de produits ou pour discuter de la disponibilité future",
+    "contact": "Contactez-Nous",
     "viewAll": "Voir Tous les Produits"
+  },
+  "offlinePayment": {
+    "title": "Instructions de Paiement Hors Ligne",
+    "description": "Vous préférez payer hors ligne ? Nous prenons en charge les méthodes de paiement sur facture et hors ligne pour les commandes en gros et les clients B2B. Contactez notre équipe commerciale pour les détails du virement bancaire, les factures proforma ou pour discuter de votre méthode de paiement préférée.",
+    "button": "Contacter les Ventes"
   },
   "items": [
     {
       "name": "Noix de Cajou Brutes",
-      "description": "Noix de cajou séchées au soleil et triées à la main provenant de notre ferme familiale et de nos producteurs partenaires de confiance",
+      "type": "raw",
+      "description": "Noix de cajou de Grade A séchées au soleil et triées à la main provenant de notre ferme familiale. Disponibles maintenant pour exportation immédiate.",
       "features": [
-        "Qualité Grade A avec 95% de noix entières",
-        "Disponible en sacs de jute de qualité export de 50 kg",
-        "Traçable à des fermes spécifiques de la région d'Odienné"
+        "Qualité Grade A avec 95 % de noix entières",
+        "Disponibles en sacs de jute de 50 kg pour l'exportation",
+        "Quantité minimum : 1 tonne (20 sacs)",
+        "Délai de livraison : 14 jours à compter de la confirmation de commande"
       ],
       "available": true,
       "backgroundImage": "raw-cashew.jpg",
@@ -127,131 +140,132 @@
       "certifications": ["Biologique", "Commerce Équitable"],
       "variants": [
         {
-          "name": "Grade Standard",
-          "priceRange": "$1,200 - $1,500/tonne"
+          "name": "Qualité Standard",
+          "priceRange": "1 200 $ - 1 500 $/tonne"
         }
       ]
     },
     {
       "name": "Amandes de Cajou",
-      "description": "Amandes transformées avec précision dans notre future usine de transformation",
+      "type": "processed",
+      "description": "Amandes transformées avec précision provenant de notre future installation de transformation. Réservez votre approvisionnement dès maintenant.",
       "features": [
         "Plusieurs grades : W320, W240, W180",
-        "Transformation certifiée HACCP",
-        "Emballées sous vide pour la fraîcheur"
+        "Précommande pour la première récolte 2029",
+        "Boîtes d'échantillons disponibles sur demande"
       ],
-      "comingSoon": "Production commence Q1 2031",
       "available": false,
+      "preorder": true,
+      "preorderDate": "T1 2030",
       "backgroundImage": "cashew-kernels.jpg",
       "icon": "FaWeightHanging",
       "certifications": ["Biologique", "Halal", "ISO 22000"],
       "variants": [
         {
           "name": "Amandes Entières",
-          "priceRange": "$6,500 - $8,000/tonne"
+          "priceRange": "6 500 $ - 8 000 $/tonne"
         },
         {
-          "name": "Morceaux et Brisures",
-          "priceRange": "$4,000 - $5,500/tonne"
+          "name": "Brisures et Morceaux",
+          "priceRange": "4 000 $ - 5 500 $/tonne"
         }
       ]
     },
     {
       "name": "Beurre de Cajou",
-      "description": "Beurre de cajou 100% pur, mono-origine sans additifs",
+      "type": "processed",
+      "description": "Beurre de cajou 100 % pur, d'origine unique, sans additifs. Rejoignez la liste d'attente pour le lancement.",
       "features": [
-        "Texture onctueuse à partir de noix de cajou premium de Côte d'Ivoire",
-        "Riche en graisses saines (18g par portion)",
-        "Adapté aux régimes végétaliens et paléo"
+        "Texture crémeuse à base de noix de cajou premium de Côte d'Ivoire",
+        "Riche en graisses saines (18 g par portion)",
+        "Adapté aux régimes véganes et paléo"
       ],
-      "comingSoon": "Production commence Q1 2031",
       "available": false,
+      "waitlist": true,
       "backgroundImage": "cashew-butter.jpg",
       "icon": "FaIndustry",
       "certifications": ["Biologique", "Halal"],
       "variants": [
         {
-          "name": "Lisse",
-          "priceRange": "$8 - $12/kg"
+          "name": "Onctueux",
+          "priceRange": "8 $ - 12 $/kg"
         },
         {
           "name": "Croustillant",
-          "priceRange": "$8 - $12/kg"
-        }
-      ]
-    },
-    {
-      "name": "Liquide de Coque de Noix de Cajou (CNSL)",
-      "description": "Sous-produit industriel à haute valeur ajoutée de nos opérations de transformation",
-      "features": [
-        "Utilisé dans les peintures, vernis et garnitures de frein",
-        "Qualité industrielle",
-        "Disponible en grandes quantités"
-      ],
-      "comingSoon": "Production commence Q1 2031",
-      "available": false,
-      "backgroundImage": "cashew-nut-shell-liquid.jpg",
-      "icon": "FaLeaf",
-      "variants": [
-        {
-          "name": "Grade Technique",
-          "priceRange": "$300 - $600/tonne"
+          "priceRange": "8 $ - 12 $/kg"
         }
       ]
     },
     {
       "name": "Noix de Cajou Grillées",
-      "description": "Noix de cajou premium grillées à sec avec un croquant optimal",
+      "type": "processed",
+      "description": "Noix de cajou premium grillées à sec pour un croquant optimal. Rejoignez la liste d'attente pour le lancement.",
       "features": [
-        "Trois variétés : Naturel, Légèrement Salé, Épicé",
-        "Grillées lentement pour préserver les nutriments",
+        "Trois variétés : Nature, Légèrement Salée, Épicée",
+        "Torréfiées lentement pour préserver les nutriments",
         "Riches en cuivre, magnésium et antioxydants"
       ],
-      "comingSoon": "Production commence Q1 2031",
       "available": false,
+      "waitlist": true,
       "backgroundImage": "roasted-cashew.jpg",
       "icon": "FaLeaf",
       "certifications": ["Biologique", "Halal"],
       "variants": [
         {
-          "name": "Naturel",
-          "priceRange": "$10 - $15/kg"
+          "name": "Nature",
+          "priceRange": "10 $ - 15 $/kg"
         },
         {
-          "name": "Salé",
-          "priceRange": "$10 - $15/kg"
+          "name": "Salée",
+          "priceRange": "10 $ - 15 $/kg"
+        }
+      ]
+    },
+    {
+      "name": "Liquide de Coque de Noix de Cajou (CNSL)",
+      "type": "byproduct",
+      "description": "Sous-produit industriel à haute valeur ajoutée issu de nos opérations de transformation. Disponible en précommande.",
+      "features": [
+        "Utilisé dans les peintures, vernis et garnitures de frein",
+        "Qualité grade industriel",
+        "Disponible en grande quantité"
+      ],
+      "available": false,
+      "preorder": true,
+      "preorderDate": "T1 2030",
+      "backgroundImage": "cashew-nut-shell-liquid.jpg",
+      "icon": "FaLeaf",
+      "variants": [
+        {
+          "name": "Qualité Technique",
+          "priceRange": "300 $ - 600 $/tonne"
         }
       ]
     },
     {
       "name": "Lait de Cajou",
-      "description": "Alternative végétale crémeuse au lait",
+      "type": "processed",
+      "description": "Alternative végétale onctueuse au lait. Rejoignez la liste d'attente pour le lancement.",
       "features": [
         "Enrichi en calcium et vitamine D",
-        "Faible en sucre (2g pour 100ml)",
+        "Faible teneur en sucre (2 g pour 100 ml)",
         "Emballage UHT longue conservation"
       ],
-      "comingSoon": "Production commence Q1 2031",
       "available": false,
+      "waitlist": true,
       "backgroundImage": "cashew-milk.jpg",
       "icon": "FaLeaf",
       "certifications": ["Biologique", "Halal"],
       "variants": [
         {
           "name": "Original",
-          "priceRange": "$2 - $3/litre"
+          "priceRange": "2 $ - 3 $/litre"
         },
         {
           "name": "Non Sucré",
-          "priceRange": "$2 - $3/litre"
+          "priceRange": "2 $ - 3 $/litre"
         }
       ]
     }
   ]
-  ,
-  "offlinePayment": {
-    "title": "Instructions de paiement hors ligne",
-    "description": "Vous préférez payer hors ligne ? Nous prenons en charge les méthodes de paiement sur facture et hors ligne pour les commandes en gros et les clients B2B. Contactez notre équipe commerciale pour les détails du virement bancaire, les factures proforma ou pour discuter de votre méthode de paiement préférée.",
-    "button": "Contacter le service commercial"
-  }
 }

@@ -1,94 +1,106 @@
 {
   "executives": {
-    "introHeading": "Direction Exécutive",
-    "introDescription": "Guidé par les valeurs islamiques d'Amanah (confiance sacrée) et d'Ihsan (excellence opérationnelle), notre direction exécutive guide AfriNuts avec une intégrité inébranlable et une vision stratégique.",
-    "subtitle": "Direction Exécutive",
-    "title": "Notre Équipe de Direction",
-    "description": "Guidé par les valeurs islamiques d'Amanah (confiance sacrée) et d'Ihsan (excellence opérationnelle), notre direction exécutive guide AfriNuts avec une intégrité inébranlable et une vision stratégique.",
-    "backToAbout": "Retour à À Propos",
-    "ctaTitle": "Rejoignez-nous pour façonner l'avenir de l'agroindustrie éthique",
-    "ctaDescription": "Chez AfriNuts, notre équipe de direction s'engage en faveur de la transparence, de la durabilité et du développement communautaire. Découvrez comment vous pouvez faire partie de ce parcours.",
-    "ctaButton": "Contactez-nous",
+    "subtitle": "Direction Générale",
+    "title": "Rencontrez l'Équipe qui Établit une Nouvelle Norme pour l'Agroalimentaire Éthique",
+    "description": "Guidée par les valeurs islamiques d'Amanah (dépôt sacré) et d'Ihsan (excellence opérationnelle), notre équipe de direction réunit des décennies d'expérience dans l'agroalimentaire, la finance, la technologie et le développement communautaire. Nous ne construisons pas seulement une entreprise — nous construisons un héritage d'intégrité, de transparence et de prospérité partagée.",
+    "backToAbout": "Retour à Qui Sommes-Nous",
+    "ctaTitle": "Rejoignez-Nous pour Façonner l'Avenir de l'Agroalimentaire Éthique",
+    "ctaDescription": "Nous invitons les investisseurs, partenaires et distributeurs qui partagent nos valeurs à se connecter avec notre équipe de direction.",
+    "ctaButton": "Contacter Notre Équipe",
     "labels": {
-      "readMore": "Lire plus",
+      "readMore": "Lire Plus",
       "close": "Fermer",
       "experience": "Expérience",
-      "education": "Éducation",
-      "certifications": "Certifications et Expertises"
+      "education": "Formation",
+      "certifications": "Certifications & Expertise"
     },
     "ceo": {
-      "title": "Directeur Général",
-      "role": "Vision Stratégique et Leadership d'Entreprise Éthique",
-      "alt": "Hamza S. Ralsan Sangare, Fondateur et PDG d'AfriNuts Export",
+      "title": "Président-Directeur Général",
+      "role": "Vision Stratégique & Leadership d'Entreprise Éthique",
+      "alt": "Hamza S. Ralsan Sangare, Fondateur & PDG d'AfriNuts Export",
+      "email": "hamza@afrinutsexport.com",
+      "linkedin": "https://www.linkedin.com/in/hamza-sangare-827a8a130/",
       "bio": [
-        "Hamza S. Ralsan Sangare est le Fondateur et PDG d'AfriNuts Export, menant la vision de l'entreprise pour construire une chaîne de valeur éthique et intégrée verticalement de la noix de cajou enracinée en Côte d'Ivoire. Avec un héritage agricole familial de trois générations à Odienné et une expérience professionnelle en génie logiciel et en leadership de projet, il allie tradition et exécution moderne.",
-        "Hamza applique une approche systémique à l'agro-industrie, en tirant parti des technologies cloud, des plateformes numériques et des outils de traçabilité pour soutenir des opérations évolutives de la ferme à l'exportation. Il détient des certifications AWS Cloud, ITIL® 4 et CompTIA Project+, et applique les principes Agile et de gestion des services à travers les opérations et la planification stratégique.",
-        "Sous sa direction, AfriNuts développe une ferme de noix de cajou régénératrice de 35 hectares avec une vision à long terme de transformation locale, d'exportations certifiées et de croissance centrée sur la communauté. Hamza s'engage à bâtir une entreprise où les valeurs islamiques, la transparence et les normes mondiales de qualité convergent — garantissant que la valeur agricole africaine reste sur le continent tout en servant les marchés internationaux avec intégrité."
+        "Hamza S. Ralsan Sangare est le Fondateur et PDG d'AfriNuts Export, dirigeant la vision de l'entreprise pour construire une chaîne de valeur de cajou verticalement intégrée et éthique, enracinée en Côte d'Ivoire. Avec trois générations d'héritage agricole familial à Odienné et une formation professionnelle en génie logiciel et leadership de projet, il allie tradition et exécution moderne.",
+        "Hamza applique une approche systémique à l'agroalimentaire, en tirant parti des technologies cloud, des plateformes numériques et des outils de traçabilité pour soutenir des opérations évolutives de la ferme à l'exportation. Il détient des certifications en AWS Cloud, ITIL® 4 et CompTIA Project+, et applique les principes Agiles et de gestion des services dans les opérations et la planification stratégique.",
+        "Sous sa direction, AfriNuts développe une ferme de cajou régénératrice de 35 hectares avec une vision à long terme pour la transformation locale, les exportations certifiées et la croissance centrée sur la communauté. Hamza s'engage à construire une entreprise où les valeurs islamiques, la transparence et les normes de qualité mondiales convergent — garantissant que la valeur agricole africaine reste sur le continent tout en servant les marchés internationaux avec intégrité."
       ],
-      "experience": "5+ ans de leadership dans le développement agro-industriel, l'exécution de projets et les opérations soutenues par la technologie.",
+      "experience": "Plus de 5 ans de leadership dans le développement agroalimentaire, l'exécution de projets et les opérations assistées par la technologie.",
       "education": [
         "Licence en Génie Logiciel",
-        "Master en Génie de l'IA (en cours)"
+        "Master en Ingénierie de l'IA (en cours)"
       ]
     },
     "cfo": {
-      "title": "Directeur Financier et Opérationnel",
-      "role": "Architecte Financier Éthique et Stratège de la Chaîne de Valeur",
+      "title": "Directeur Financier et des Opérations",
+      "role": "Architecte Financier Éthique & Stratège de la Chaîne de Valeur",
       "alt": "Sekou Hakim, Directeur Financier d'AfriNuts Export",
+      "email": "sekou@afrinutsexport.com",
+      "linkedin": "https://www.linkedin.com/in/sekou-peters",
       "bio": [
-        "Sekou Hakim conçoit des systèmes financiers où la rentabilité converge avec les principes prophétiques, mettant en œuvre des cadres conformes à la Charia qui transforment l'économie agroindustrielle traditionnelle. Sa gestion remplace les modèles extractifs par une finance régénérative - où 20 % des bénéfices reconstruisent activement les communautés through des puits, des mosquées et l'éducation des agriculteurs.",
-        "En tant que gardien financier et stratège opérationnel, Sekou supervise la monétisation complète de notre chaîne de valeur de la noix de cajou, du sol à l'étagère. Il a orchestré la transition des exportations de matières premières brutes vers la transformation locale, concevant des structures capitalistiques qui financent la première usine de transformation moderne d'Odienné tout en maintenant des normes rigoureuses de partage des bénéfices (Mudarabah).",
-        "Sous sa direction, AfriNuts atteint l'équilibre rare entre discipline fiscale et impact social : déployant une transparence enabled par la blockchain pour les investisseurs, des primes de commerce équitable pour les agriculteurs et de la microfinance islamique pour l'équipement - prouvant que la finance éthique peut driving un avantage concurrentiel sur les marchés mondiaux."
+        "Sekou Hakim conçoit des systèmes financiers où la rentabilité converge avec les principes prophétiques, en mettant en œuvre des cadres conformes à la Charia qui transforment l'économie agroalimentaire traditionnelle. Sa gestion remplace les modèles extractifs par une finance régénératrice — où 20 % des bénéfices reconstruisent activement les communautés à travers des puits, des mosquées et la formation des agriculteurs.",
+        "En tant que gardien financier et stratège opérationnel, Sekou supervise la monétisation complète de notre chaîne de valeur du cajou, du sol à l'étagère. Il a dirigé la transition des exportations de matières premières brutes vers la transformation locale, concevant des structures de capital qui financent la première installation de transformation moderne d'Odienné tout en maintenant des normes rigoureuses de partage des bénéfices (Moudaraba).",
+        "Sous sa direction, AfriNuts atteint l'équilibre rare entre discipline fiscale et impact social : en déployant une transparence basée sur la blockchain pour les investisseurs, des primes de commerce équitable pour les agriculteurs et du microfinancement islamique pour l'équipement — prouvant que la finance éthique peut générer un avantage concurrentiel sur les marchés mondiaux."
       ],
-      "experience": "15+ ans en gestion financière",
+      "experience": "Plus de 15 ans en gestion financière",
       "education": "Master en Finance",
       "certifications": ["Conformité Charia", "Certification Biologique"]
     },
     "cco": {
       "title": "Directeur Commercial",
-      "role": "Expansion du marché mondial et conformité commerciale",
+      "role": "Expansion des marchés mondiaux & conformité commerciale",
       "alt": "Portrait de Mohamadue Kouyaté, Directeur Commercial",
       "bio": [
-        "Muhamadue Kouyaté dirige les opérations commerciales mondiales en mettant l'accent sur les pratiques commerciales éthiques et sans intérêt et l'expansion stratégique du marché. Fort de plus d'une décennie d'expérience en conformité, logistique et opérations, il construit des partenariats commerciaux durables et des processus évolutifs ancrés dans la transparence et l'intégrité."
+        "Muhamadue Kouyaté dirige les opérations commerciales mondiales en mettant l'accent sur des pratiques commerciales éthiques, sans intérêt, et l'expansion stratégique des marchés. S'appuyant sur plus d'une décennie d'expérience en conformité, logistique et opérations, il construit des partenariats commerciaux durables et des processus évolutifs enracinés dans la transparence et l'intégrité.",
+        "Il supervise toute la documentation d'exportation, la conformité commerciale et les relations avec les acheteurs — garantissant que chaque expédition respecte les normes de qualité internationales tout en adhérant aux principes de la finance islamique. Son cadre logistique minimise les déchets, maximise l'efficacité et garantit la traçabilité de la ferme au port."
       ],
-      "experience": "12+ ans en gestion des opérations, logistique de la chaîne d'approvisionnement et conformité réglementaire.",
+      "experience": "Plus de 12 ans en gestion des opérations, logistique de la chaîne d'approvisionnement et conformité réglementaire.",
       "education": [
         "Licence en Sciences Politiques",
         "MBA (en cours)",
-        "Associate of Applied Science en Opérations Aéronautiques"
+        "Diplôme en Opérations Aéronautiques"
       ],
-      "certifications": ["Conformité à l'Exportation et au Commerce", "Gestion de la Chaîne d'Approvisionnement et Logistique", "Amélioration des Processus et Pratiques Lean"]
+      "certifications": ["Conformité Export & Commerce", "Gestion de la Chaîne d'Approvisionnement et Logistique", "Amélioration des Processus & Pratiques Lean"]
     },
-    "cto": {
-      "title": "Responsable des Opérations",
-      "role": "Supervision de la production et assurance qualité",
-      "alt": "Portrait d'Alassana Bah, Responsable des Opérations",
+    "ops": {
+      "title": "Directeur de la Technologie",
+      "role": "Systèmes technologiques agricoles, infrastructure IoT et analyse de données",
+      "alt": "Portrait d'Alassana Bah, Directeur Technique",
+      "linkedin": "https://linkedin.com/in/example",
       "bio": [
-        "Alassana Bah maintient l'excellence opérationnelle grâce à une supervision méticuleuse des processus de culture, en mettant en œuvre des mesures de contrôle qualité rigoureuses fondées sur le principe islamique d'Ihsan (la perfection dans le travail)."
+        "Alassana Bah dirige notre infrastructure technologique, en mettant en œuvre des capteurs IoT, des logiciels de gestion agricole et l'analyse de données pour optimiser la culture et la transformation. Fondé sur le principe islamique d'Ihsan (la perfection dans le travail), il veille à ce que chaque système fonctionne avec précision et intégrité."
       ],
-      "experience": "18+ ans en gestion des opérations",
-      "education": "Licence en Gestion des Opérations",
-      "certifications": ["ISO 22000", "Sécurité Alimentaire"]
+      "experience": "Plus de 12 ans en génie logiciel, gestion de bases de données et systèmes d'information de gestion agricole",
+      "education": [
+        "Licence en Informatique ou Technologies de l'Information",
+        "Master en Science des Données ou Technologie Agricole (en cours)"
+      ],
+      "certifications": [
+        "Microsoft Certified: Azure Data Engineer",
+        "Auditeur Certifié des Systèmes d'Information (CISA)",
+        "Professionnel en Gestion de Projet (PMP)"
+      ]
     },
     "admin": {
-      "title": "Responsable du Support Administratif",
-      "role": "Gouvernance d'entreprise et infrastructure",
-      "alt": "Portrait de Mohammed Beniken, Responsable Administratif",
+      "title": "Directeur Administratif",
+      "role": "Gouvernance d'entreprise, affaires juridiques et ressources humaines",
+      "alt": "Portrait de Mohammed Beniken, Directeur Administratif",
       "bio": [
         "Mohammed Beniken assure la conformité organisationnelle avec le mandat prophétique pour des pratiques de travail équitables, supervisant les ressources humaines, les affaires juridiques et les protocoles de sécurité de l'information."
       ],
-      "experience": "10+ ans en leadership administratif",
+      "experience": "Plus de 10 ans en leadership administratif",
       "education": "Licence en Administration des Affaires",
       "certifications": ["Commerce Équitable", "Conformité Légale"]
     },
     "farm": {
       "title": "Responsable des Opérations Agricoles",
-      "role": "Gestion agronomique et relations communautaires",
+      "role": "Gestion agronomique & relations communautaires",
       "alt": "Portrait de Souleymane Sangare, Responsable des Opérations Agricoles",
       "bio": [
-        "Souleymane Sangare intègre la sagesse agricole islamique traditionnelle aux techniques agricoles modernes, servant à la fois de spécialiste de la cultivation et de liaison avec les communautés agricoles locales."
+        "Souleymane Sangare est l'homme de terrain à Odienné. Il gère les opérations agricoles quotidiennes, de la préparation des terres et la plantation à l'irrigation et la récolte. Avec 14 ans d'expérience agricole et des racines profondes dans la communauté locale, il sert à la fois de spécialiste de la culture et d'agent de liaison principal auprès des agriculteurs locaux, des anciens et des autorités.",
+        "Il intègre la sagesse agricole traditionnelle aux techniques modernes d'agriculture biologique, garantissant que notre ferme de 35 hectares fonctionne de manière efficace, éthique et en harmonie avec la terre. Il dirige également nos efforts d'engagement communautaire, y compris les programmes de formation des agriculteurs et l'initiative de producteurs associés qui intègre les petits exploitants locaux dans la chaîne d'approvisionnement d'AfriNuts."
       ],
-      "experience": "14+ ans en gestion agricole",
+      "experience": "Plus de 14 ans en gestion agricole",
       "education": "Licence en Sciences Agricoles",
       "certifications": ["Agriculture Durable", "Développement Communautaire"]
     }

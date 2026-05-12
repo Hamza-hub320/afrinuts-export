@@ -1,8 +1,7 @@
 {
   "hero": {
-    "title": "Premium Cashews from the Heart of Ivory Coast",
-    "subtitle": "Sustainably grown, ethically sourced, and packed with flavor connecting West Africa's finest harvest to global markets.",
-    "imageAlt": "Cashew farm in Ivory Coast",
+    "title": "Premium Organic Cashews from Ivory Coast | Wholesale & Direct",
+    "subtitle": "Sustainably grown on our 35-hectare family farm in Odienné. Certified organic cashews for wholesale buyers, retailers, and distributors worldwide. Ethically sourced, naturally delicious.",
     "ctaButtons": {
       "exploreProducts": "Explore Products",
       "learnMore": "Learn More"
@@ -11,55 +10,40 @@
   "aboutPreview": {
     "title": "Rooted in Tradition, Growing for the Future",
     "description": "AfriNuts Export is a family-owned agribusiness based in Odienné, Ivory Coast. With over 35 hectares of prime cashew farmland, we combine traditional farming knowledge with modern sustainable practices to produce premium quality cashews for global markets.",
-    "ctaButton": "Our Story"
+    "ctaButton": "Read Our Farm Story"
   },
   "products": {
-    "title": "Our Premium Products",
-    "subtitle": "From raw cashews to value-added products, we offer the finest quality from our farm to your table",
+    "title": "Premium Cashew Products for Wholesale & Retail",
+    "subtitle": "From our farm in Odienné to buyers worldwide. Explore our product range and request a quote.",
     "ctaButton": "View All Products",
     "items": [
       {
-        "name": "Raw Cashews",
-        "description": "Premium quality raw cashews, carefully selected and packed for export",
+        "name": "Raw Cashews (W320 / W240)",
+        "description": "Premium grade raw cashews, carefully hand-sorted and packed for export. Suitable for roasting, processing, or direct consumption. Request wholesale pricing and specifications.",
         "icon": "raw-cashews",
-        "features": [
-          "Direct from our 35-hectare farm",
-          "Premium grade selection",
-          "Sustainable farming practices",
-          "Ethically sourced"
-        ],
+        "features": ["Direct from farm", "Grade W320 / W240", "MOQ 1 ton", "Export ready"],
         "available": true
       },
       {
         "name": "Organic Cashews",
-        "description": "Certified organic cashews grown without synthetic pesticides or fertilizers",
+        "description": "Certified organic cashews grown without synthetic pesticides or fertilizers. Perfect for health-conscious brands and organic-certified buyers.",
         "icon": "organic-cashews",
-        "features": [
-          "100% organic certified",
-          "No synthetic chemicals",
-          "Higher nutritional value",
-          "Environmentally friendly"
-        ],
-        "available": true
+        "features": ["Organic certified", "No chemicals", "Premium grade", "Traceable"],
+        "available": false
       },
       {
         "name": "Value-Added Products",
-        "description": "Roasted cashews, cashew butter, and other premium processed products",
+        "description": "Roasted cashews, cashew butter, and cashew milk powder. Launching Q1 2025. Join our waitlist for early access and wholesale pricing.",
         "icon": "value-added",
-        "features": [
-          "Premium roasted cashews",
-          "Organic cashew butter",
-          "Cashew milk powder",
-          "Coming soon: Cashew oil"
-        ],
+        "features": ["Coming soon", "Join waitlist", "Bulk pricing available"],
         "available": false,
         "comingSoon": "Available Q1 2025"
       }
     ]
   },
   "farm": {
-    "title": "Our Sustainable Farm",
-    "description": "Located in the heart of Ivory Coast's cashew belt, our 35-hectare family farm combines traditional knowledge with modern sustainable practices. We're committed to ethical farming that benefits both people and the planet.",
+    "title": "Our 35-Hectare Organic Cashew Farm in Odienné",
+    "description": "Located in the heart of Ivory Coast's cashew belt, our family farm spans 35 hectares with over 3,500 cashew trees planted. We combine traditional knowledge passed down through generations with modern organic farming practices. Every tree is hand-tended. Every harvest is tracked. From land clearing to your table, we control the entire process.",
     "imageAlt": "AfriNuts Farm",
     "location": "Odienné, Ivory Coast",
     "ctaButton": "Visit Our Farm",
@@ -77,39 +61,39 @@
     ]
   },
   "sustainability": {
-    "title": "Our Commitment to Sustainability",
-    "description": "At AfriNuts Export, we believe in farming practices that protect the environment and support local communities. From water conservation to fair wages, sustainability is at the core of everything we do.",
-    "ctaButton": "Our Sustainability Promise",
+    "title": "Organic. Ethical. Traceable. Our Sustainability Promise.",
+    "description": "At AfriNuts Export, we believe great cashews come from healthy land and happy people. That's why every decision we make considers the environment, our workers, and the community. Our farm is on track for organic certification in 2026, and we pay fair wages above regional standards.",
+    "ctaButton": "Read Our Sustainability Pledge",
     "features": [
       {
         "title": "Organic Farming",
-        "description": "No synthetic pesticides or fertilizers",
+        "description": "No synthetic pesticides or fertilizers. Our soil is tested regularly to ensure purity.",
         "icon": "FaSeedling"
       },
       {
         "title": "Fair Trade Practices",
-        "description": "Ethical treatment and fair wages for workers",
+        "description": "Ethical treatment, fair wages, and safe working conditions for all workers. We pay above minimum wage.",
         "icon": "FaGlobeAfrica"
       },
       {
         "title": "Zero Waste Processing",
-        "description": "Utilizing byproducts like CNSL for biofuels",
+        "description": "Utilizing byproducts like CNSL (Cashew Nut Shell Liquid) for biofuels and industrial applications.",
         "icon": "FaLeaf"
       }
     ]
   },
   "news": {
-    "title": "Latest News & Updates",
-    "subtitle": "Stay informed about our farm, products, and industry developments",
+    "title": "Cashew Industry Insights & Farm Updates",
+    "subtitle": "Stories from our farm, organic farming tips, and what's happening in the global cashew market.",
     "ctaButton": "View All News"
   },
   "newsCard": {
     "readMore": "Read more"
   },
   "contact": {
-    "title": "Ready to Experience Premium Cashews?",
-    "subtitle": "Whether you're a wholesaler, retailer, or just love quality cashews, we'd love to hear from you.",
-    "ctaButton": "Get In Touch"
+    "title": "Ready to Source Premium Cashews from Ivory Coast?",
+    "subtitle": "Wholesale buyers: Request a quote, sample, or export documentation. Retailers: Inquire about bulk pricing and private labeling. Consumers: Shop our products or ask us anything.",
+    "ctaButton": "Contact Our Sales Team"
   },
   "loading": {
     "about": "Loading about preview...",

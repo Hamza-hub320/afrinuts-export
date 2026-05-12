@@ -5,13 +5,19 @@
     "download": "Download Product Catalogue"
   },
   "hero": {
-    "title": "Our Premium Cashew Products",
-    "subtitle": "Ethically sourced from Odienné's fertile lands to global markets"
+    "title": "Premium Cashew Products from Ivory Coast | Wholesale & Export",
+    "subtitle": "Ethically sourced from our family farm in Odienné. Available for wholesale, bulk export, and private label. Raw nuts, kernels, butter, and more."
   },
   "productCard": {
     "comingSoon": "Coming Soon",
     "requestQuote": "Request a Quote",
-    "productionStarts": "Production begins Q1 2031"
+    "preorderBadge": "Pre-Order Now",
+    "preorderBadgeWithDate": "Pre-Order: {{date}}",
+    "waitlistBadge": "Join Waitlist",
+    "preorderButton": "Pre-Order Now",
+    "waitlistButton": "Join Waitlist",
+    "estimatedDelivery": "Estimated delivery",
+    "beNotified": "Be notified when available"
   },
   "filters": {
     "searchLabel": "Search Products",
@@ -66,7 +72,7 @@
     "steps": [
       {
         "title": "Sustainable Farming",
-        "description": "Our cashews are grown using organic methods on our 35-hectare family farm in Odienné, with first harvest expected in 2031."
+        "description": "Our cashews are grown using organic methods on our 35-hectare family farm in Odienné. We begin planting in 2026, with first harvest expected in 2029."
       },
       {
         "title": "Quality Control",
@@ -82,7 +88,7 @@
     "title": "Quality Assurance",
     "description": "We implement strict quality control measures at every stage of production to ensure our cashews meet the highest international standards.",
     "bullets": [
-      "Premium grade cashews with consistent sizing",
+      "Premium grade cashews with consistent sizing (W320, W240, W180)",
       "Traceable to specific farms in our network",
       "Regular laboratory testing for aflatoxins and contaminants"
     ]
@@ -91,23 +97,23 @@
     "title": "Our Certifications",
     "subtitle": "Meeting global standards for quality and sustainability",
     "organic": {
-      "title": "Organic Certified"
+      "title":  "Organic Certification (In Progress)"
     },
     "fairtrade": {
-      "title": "Fair Trade"
+      "title": "Fair Trade (In Progress)"
     },
     "iso": {
-      "title": "ISO 22000"
+      "title": "ISO 22000 (In Progress)"
     },
     "halal": {
-      "title": "Halal Certified"
+      "title": "Halal Certified (In Progress)"
     },
     "rainforest": {
-      "title": "Rainforest Alliance Certified"
+      "title": "Rainforest Alliance Certified (In Progress)"
     }
   },
   "cta": {
-    "title": "Ready to Experience AfriNuts Quality?",
+    "title": "Ready to Source Premium Cashews?",
     "subtitle": "Contact us for wholesale inquiries, product samples, or to discuss future availability",
     "contact": "Contact Us",
     "viewAll": "View All Products"
@@ -121,19 +127,17 @@
     {
       "name": "Raw Cashew Nuts",
       "type": "raw",
-      "description": "Sun-dried, hand-sorted cashews from our family farm and trusted partner growers",
+      "description": "Sun-dried, hand-sorted Grade A cashews from our family farm. Available now for immediate export.",
       "features": [
         "Grade A quality with 95% whole nuts",
         "Available in 50kg export-grade jute bags",
-        "Traceable to specific farms in Odienné region"
+        "MOQ: 1 ton (20 bags)",
+        "Lead time: 14 days from order confirmation"
       ],
       "available": true,
       "backgroundImage": "raw-cashew.jpg",
       "icon": "FaSeedling",
-      "certifications": [
-        "Organic",
-        "Fair Trade"
-      ],
+      "certifications": ["Organic", "Fair Trade"],
       "variants": [
         {
           "name": "Standard Grade",
@@ -144,21 +148,18 @@
     {
       "name": "Cashew Kernels",
       "type": "processed",
-      "description": "Precision-processed kernels from our future processing facility",
+      "description": "Precision-processed kernels from our future processing facility. Reserve your supply now.",
       "features": [
         "Multiple grades: W320, W240, W180",
-        "HACCP-certified processing",
-        "Vacuum-packed for freshness"
+        "Pre-order for first harvest 2029",
+        "Sample boxes available upon request"
       ],
-      "comingSoon": "Production begins Q1 2031",
       "available": false,
+      "preorder": true,
+      "preorderDate": "Q1 2030",
       "backgroundImage": "cashew-kernels.jpg",
       "icon": "FaWeightHanging",
-      "certifications": [
-        "Organic",
-        "Halal",
-        "ISO 22000"
-      ],
+      "certifications": ["Organic", "Halal", "ISO 22000"],
       "variants": [
         {
           "name": "Whole Kernels",
@@ -172,20 +173,18 @@
     },
     {
       "name": "Cashew Butter",
-      "description": "100% pure, single-origin cashew butter with no additives",
+      "type": "processed",
+      "description": "100% pure, single-origin cashew butter with no additives. Join the waitlist for launch.",
       "features": [
         "Creamy texture from premium Ivory Coast cashews",
         "Rich in healthy fats (18g per serving)",
         "Vegan and paleo-friendly"
       ],
-      "comingSoon": "Production begins Q1 2031",
       "available": false,
+      "waitlist": true,
       "backgroundImage": "cashew-butter.jpg",
       "icon": "FaIndustry",
-      "certifications": [
-        "Organic",
-        "Halal"
-      ],
+      "certifications": ["Organic", "Halal"],
       "variants": [
         {
           "name": "Smooth",
@@ -198,41 +197,19 @@
       ]
     },
     {
-      "name": "Cashew Nut Shell Liquid (CNSL)",
-      "type": "byproduct",
-      "description": "High-value industrial byproduct from our processing operations",
-      "features": [
-        "Used in paints, varnishes and brake linings",
-        "Industrial grade quality",
-        "Available in bulk quantity"
-      ],
-      "comingSoon": "Production begins Q1 2031",
-      "available": false,
-      "backgroundImage": "cashew-nut-shell-liquid.jpg",
-      "icon": "FaLeaf",
-      "variants": [
-        {
-          "name": "Technical Grade",
-          "priceRange": "$300 - $600/ton"
-        }
-      ]
-    },
-    {
       "name": "Roasted Cashews",
-      "description": "Premium dry-roasted cashews with optimal crunch",
+      "type": "processed",
+      "description": "Premium dry-roasted cashews with optimal crunch. Join the waitlist for launch.",
       "features": [
         "Three varieties: Natural, Lightly Salted, Spiced",
         "Slow-roasted to preserve nutrients",
         "Rich in copper, magnesium and antioxidants"
       ],
-      "comingSoon": "Production begins Q1 2031",
       "available": false,
+      "waitlist": true,
       "backgroundImage": "roasted-cashew.jpg",
       "icon": "FaLeaf",
-      "certifications": [
-        "Organic",
-        "Halal"
-      ],
+      "certifications": ["Organic", "Halal"],
       "variants": [
         {
           "name": "Natural",
@@ -245,21 +222,40 @@
       ]
     },
     {
+      "name": "Cashew Nut Shell Liquid (CNSL)",
+      "type": "byproduct",
+      "description": "High-value industrial byproduct from our processing operations. Available for pre-order.",
+      "features": [
+        "Used in paints, varnishes and brake linings",
+        "Industrial grade quality",
+        "Available in bulk quantity"
+      ],
+      "available": false,
+      "preorder": true,
+      "preorderDate": "Q1 2030",
+      "backgroundImage": "cashew-nut-shell-liquid.jpg",
+      "icon": "FaLeaf",
+      "variants": [
+        {
+          "name": "Technical Grade",
+          "priceRange": "$300 - $600/ton"
+        }
+      ]
+    },
+    {
       "name": "Cashew Milk",
-      "description": "Creamy plant-based milk alternative",
+      "type": "processed",
+      "description": "Creamy plant-based milk alternative. Join the waitlist for launch.",
       "features": [
         "Fortified with calcium & vitamin D",
         "Low sugar (2g per 100ml)",
         "Shelf-stable UHT packaging"
       ],
-      "comingSoon": "Production begins Q1 2031",
       "available": false,
+      "waitlist": true,
       "backgroundImage": "cashew-milk.jpg",
       "icon": "FaLeaf",
-      "certifications": [
-        "Organic",
-        "Halal"
-      ],
+      "certifications": ["Organic", "Halal"],
       "variants": [
         {
           "name": "Original",

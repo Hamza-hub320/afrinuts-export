@@ -1,73 +1,78 @@
 {
   "hero": {
-    "subtitle": "Assurance Qualité et Conformité",
-    "title": "Nos Certifications",
-    "description": "Découvrez les normes internationales et les certifications qui garantissent la plus haute qualité, sécurité et pratiques éthiques dans notre transformation de noix de cajou."
+    "subtitle": "Feuille de Route Assurance Qualité & Conformité",
+    "title": "Notre Parcours de Certification : Noix de Cajou Premium de Côte d'Ivoire",
+    "description": "AfriNuts Export poursuit des certifications internationalement reconnues, notamment Biologique, Commerce Équitable, ISO 22000, Halal et Rainforest Alliance. Découvrez notre engagement envers la qualité, la durabilité et l'approvisionnement éthique depuis notre ferme à Odienné, Côte d'Ivoire."
   },
-   "filters": {
+  "filters": {
     "all": "Toutes les Certifications",
     "achieved": "Obtenues",
-    "upcoming": "À Venir"
+    "upcoming": "En Cours",
+    "inProgress": "En Cours"
   },
+  "noCertifications": "Aucune certification trouvée",
+  "tryDifferentFilter": "Veuillez essayer un filtre différent pour voir plus de certifications.",
   "status": {
     "achieved": "Certifié",
     "upcoming": "En Cours"
   },
   "certifications": {
     "title": "Explorez Nos Certifications",
-    "description": "Parcourez nos certifications obtenues et à venir pour voir comment AfriNuts s'aligne sur les normes mondiales les plus élevées en matière de qualité, de durabilité et de responsabilité.",
+    "description": "Parcourez nos certifications obtenues et en cours pour voir comment AfriNuts s'aligne sur les normes mondiales les plus élevées en matière de qualité, de durabilité et de responsabilité.",
     "organic": {
       "title": "Certification Biologique",
       "issuer": "ECOCERT",
-      "description": "Transformation de noix de cajou biologique certifiée.",
+      "description": "En voie d'obtention de la certification biologique pour notre production et transformation de noix de cajou.",
       "benefits": [
-        "Garantit un produit 100% biologique",
-        "Certifié par ECOCERT",
-        "Répond aux normes biologiques internationales"
+        "Vérification du produit 100 % biologique",
+        "Norme internationalement reconnue",
+        "Accès au marché premium"
       ],
-      "validity": "Valide jusqu'en 2030"
+      "validity": "Achèvement prévu : 2027-2028"
     },
     "fairtrade": {
       "title": "Commerce Équitable",
-      "issuer": "Fair Trade International",
-      "description": "Soutient des pratiques d'approvisionnement éthiques.",
+      "issuer": "Fair Trade International (Cible)",
+      "description": "Mise en place de systèmes pour garantir une rémunération équitable et un approvisionnement éthique.",
       "benefits": [
         "Rémunération équitable pour les agriculteurs",
-        "Normes d'approvisionnement éthiques",
-        "Vérifié par tierce partie"
+        "Normes d'approvisionnement éthique",
+        "Vérification par tierce partie"
       ],
-      "validity": "Valide jusqu'en 2030"
+      "validity": "Achèvement prévu : 2027"
     },
     "iso22000": {
       "title": "ISO 22000",
       "issuer": "Organisation Internationale de Normalisation",
-      "description": "Norme de système de management de la sécurité des denrées alimentaires.",
+      "description": "Développement de systèmes de gestion de la sécurité alimentaire pour la future installation de transformation.",
       "benefits": [
-        "Management structuré de la sécurité alimentaire",
-        "Prévient les dangers dans la transformation alimentaire",
-        "Garantit la conformité mondiale"
+        "Gestion structurée de la sécurité alimentaire",
+        "Prévention des dangers dans la transformation",
+        "Préparation à la conformité mondiale"
       ],
-      "validity": "Valide jusqu'en 2026"
+      "validity": "Achèvement prévu : 2028 (avec le centre de transformation)"
     },
     "halal": {
       "title": "Certification Halal",
-      "issuer": "Halal Certification Authority",
-      "description": "Conformité aux normes halal.",
+      "issuer": "Autorité de Certification Halal (Cible)",
+      "description": "Préparation des processus pour répondre aux normes Halal pour les marchés à majorité musulmane.",
       "benefits": [
-        "Garantit la conformité aux directives halal",
-        "Vérifié par des organismes de certification autorisés"
+        "Conformité aux directives Halal",
+        "Accès aux marchés MENA",
+        "Vérifié par des organismes autorisés"
       ],
-      "validity": "Valide jusqu'en 2025"
+      "validity": "Achèvement prévu : 2027"
     },
     "rainforest": {
       "title": "Rainforest Alliance",
-      "issuer": "Rainforest Alliance",
-      "description": "Approvisionnement durable et éthique.",
+      "issuer": "Rainforest Alliance (Cible)",
+      "description": "Alignement des pratiques agricoles avec les normes de durabilité et de travail équitable.",
       "benefits": [
         "Pratiques écologiquement responsables",
-        "Soutient les normes de travail équitables"
+        "Normes de travail équitables",
+        "Positionnement de marque éco-responsable"
       ],
-      "validity": "Valide jusqu'en 2026"
+      "validity": "Achèvement prévu : 2028"
     }
   },
   "actions": {
@@ -77,61 +82,100 @@
   "backToProducts": "Retour aux Produits",
   "introduction": {
     "title": "Engagement envers l'Excellence",
-    "description": "Nos certifications démontrent notre engagement indéfectible envers la qualité, la durabilité et les pratiques commerciales éthiques. Chaque certification représente notre dévouement à répondre aux normes internationales les plus strictes."
+    "description": "Nos certifications démontrent notre engagement indéfectible envers la qualité, la durabilité et les pratiques commerciales éthiques. Chaque certification représente notre dévouement à respecter les normes internationales les plus élevées."
   },
   "values": {
     "quality": {
       "title": "Qualité Premium",
-      "description": "Des processus de contrôle qualité rigoureux garantissent que chaque noix de cajou répond à des normes exceptionnelles."
+      "description": "Des processus rigoureux de contrôle qualité garantissent que chaque noix de cajou répond à des normes exceptionnelles."
     },
     "trust": {
-      "title": "Confiance et Transparence",
-      "description": "Les certifications vérifiées par des tierces parties bâtissent la confiance avec les acheteurs et les consommateurs."
+      "title": "Confiance & Transparence",
+      "description": "Les certifications vérifiées par des tiers renforcent la confiance des acheteurs et des consommateurs."
     },
     "global": {
       "title": "Normes Mondiales",
-      "description": "Conformité aux exigences internationales pour les marchés d'exportation mondiaux."
+      "description": "Conformité aux exigences internationales pour les marchés d'exportation du monde entier."
     }
   },
   "framework": {
     "title": "Cadre de Conformité Intégré",
-    "description": "Notre approche globale garantit que toutes les certifications fonctionnent ensemble de manière transparente.",
+    "description": "Notre approche globale garantit que toutes les certifications fonctionnent ensemble de manière harmonieuse.",
     "quality": {
-      "title": "Management de la Qualité",
+      "title": "Gestion de la Qualité",
       "features": [
         "Audits et inspections internes réguliers",
         "Processus d'amélioration continue",
         "Programmes d'assurance qualité des fournisseurs",
-        "Procédures opératoires standardisées documentées"
+        "Procédures opérationnelles standard documentées"
       ]
     },
     "compliance": {
       "title": "Systèmes de Conformité",
       "features": [
         "Responsable conformité dédié",
-        "Audits tiers réguliers",
+        "Audits réguliers par des tiers",
         "Formation et renforcement des capacités",
         "Tenue de registres transparente"
       ]
     }
   },
   "cta": {
-    "title": "Prêt à en savoir plus ?",
+    "title": "Prêt à en Savoir Plus ?",
     "description": "Contactez-nous pour des informations détaillées sur les certifications ou téléchargez notre documentation de conformité.",
     "contactButton": "Contacter Notre Équipe",
-    "downloadButton": "Télécharger le Pack de Conformité"
+    "downloadButton": "Télécharger le Dossier de Conformité"
+  },
+  "whyCertifications": {
+    "title": "Pourquoi Ces Certifications Sont Importantes",
+    "subtitle": "Les certifications sont plus que des badges — elles sont notre promesse envers les parties prenantes à tous les niveaux.",
+    "items": [
+      {
+        "title": "Pour les Acheteurs",
+        "icon": "FaShoppingCart",
+        "points": [
+          "Qualité et sécurité alimentaire garanties",
+          "Chaîne d'approvisionnement entièrement traçable de l'arbre au conteneur",
+          "Vérification de l'approvisionnement éthique pour votre propre conformité"
+        ],
+        "ctaText": "Demander la Documentation de Certification",
+        "ctaLink": "/contact"
+      },
+      {
+        "title": "Pour les Investisseurs",
+        "icon": "FaChartLine",
+        "points": [
+          "Pouvoir de tarification premium sur les marchés biologiques et équitables",
+          "Avantages d'accès aux marchés vers l'Europe, le MENA et l'Amérique du Nord",
+          "Conformité ESG pour les investisseurs institutionnels et d'impact"
+        ],
+        "ctaText": "Voir le Rapport ESG Investisseur",
+        "ctaLink": "/sustainability"
+      },
+      {
+        "title": "Pour les Communautés",
+        "icon": "FaHandsHelping",
+        "points": [
+          "Salaires équitables et conditions de travail sûres pour les ouvriers agricoles",
+          "Protection de l'environnement par des pratiques biologiques et durables",
+          "Développement communautaire à long terme via notre réinvestissement de 10 % des bénéfices"
+        ],
+        "ctaText": "Voir Notre Impact Communautaire",
+        "ctaLink": "/about"
+      }
+    ],
+    "note": "Toutes les certifications sont activement en cours. Les dates d'achèvement prévues sont disponibles dans notre Feuille de Route des Certifications."
   },
   "competitiveLandscape": {
     "title": "Notre Avantage Concurrentiel",
-    "description": "Dans un marché mondial encombré, AfriNuts se distingue par notre combinaison unique d'histoire d'origine, de certifications de qualité et d'intégration verticale.",
-
+    "description": "Dans un marché mondial saturé, AfriNuts se distingue par notre combinaison unique d'histoire d'origine, de certifications de qualité et d'intégration verticale.",
     "origin": {
       "title": "Origine Unique",
-      "description": "Directement de la Côte d'Ivoire, le plus grand producteur mondial"
+      "description": "Directement de Côte d'Ivoire, le plus grand producteur mondial"
     },
     "quality": {
       "title": "Qualité Premium",
-      "description": "Pratiques biologiques et de commerce équitable certifiées"
+      "description": "Pratiques certifiées biologiques et de commerce équitable"
     },
     "vertical": {
       "title": "Intégration Verticale",
@@ -141,31 +185,27 @@
       "title": "Positionnement Premium",
       "description": "Concurrence sur la qualité, pas seulement sur le prix"
     },
-
-    "tableTitle": "Analyse de Positionnement sur le Marché",
+    "tableTitle": "Analyse du Positionnement sur le Marché",
     "competitorType": "Type de Concurrent",
     "theirAdvantage": "Leur Avantage",
     "theirDisadvantage": "Leur Désavantage",
-    "ourStrategy": "Contre-Strategie d'AfriNuts",
-
+    "ourStrategy": "Contre-Stratégie d'AfriNuts",
     "asianProcessors": "Grands Transformateurs Asiatiques",
     "asianAdvantage": "Échelle, infrastructure établie, main-d'œuvre à faible coût",
-    "asianDisadvantage": "Déconnexion géographique de la source, coûts de main-d'œuvre croissants",
-    "asianStrategy": "Histoire d'Origine et Traçabilité : Traçabilité origine unique Côte d'Ivoire",
-
-    "localProcessors": "Transformateurs Ivoiriens Locaux",
+    "asianDisadvantage": "Déconnexion géographique de la source, hausse des coûts de main-d'œuvre",
+    "asianStrategy": "Histoire d'Origine & Traçabilité : Traçabilité d'origine unique de Côte d'Ivoire",
+    "localProcessors": "Transformateurs Locaux Ivoiriens",
     "localAdvantage": "Présence locale, accès aux noix brutes",
-    "localDisadvantage": "Manque d'échelle, certifications internationales, accès au marché",
-    "localStrategy": "Certification et Qualité : Respecter les normes internationales les plus strictes",
-
+    "localDisadvantage": "Manquent d'échelle, de certifications internationales, d'accès au marché",
+    "localStrategy": "Certification & Qualité : Respecter les normes internationales les plus élevées",
     "westernBrands": "Marques Occidentales",
-    "westernAdvantage": "Marques consommateurs fortes, accès au marché",
-    "westernDisadvantage": "Dépendance des amandes importées, déconnectées de la source",
-    "westernStrategy": "Intégration Verticale : Contrôler toute la chaîne, assurer la qualité",
-
+    "westernAdvantage": "Marques grand public fortes, accès au marché",
+    "westernDisadvantage": "Dépendantes des amandes importées, déconnectées de la source",
+    "westernStrategy": "Intégration Verticale : Contrôler toute la chaîne, garantir la qualité",
+    "competitiveDisclaimer": "L'analyse suivante représente le positionnement stratégique d'AfriNuts basé sur notre feuille de route de certification et nos plans opérationnels. Les statuts de certification reflètent nos progrès actuels et les dates d'achèvement prévues. Nous ne prétendons pas avoir obtenu les certifications marquées comme 'En Cours.'",
     "uniqueValue": {
-      "title": "Avantage Concurrentiel Unique d'AfriNuts",
-      "description": "Notre intégration verticale combinée à une expertise locale et une stratégie de certification nous permet d'offrir ce qu'aucun autre acteur ne peut : des noix de cajou premium, certifiées, traçables, provenant d'une source transparente et socialement responsable au cœur de la plus grande région productrice mondiale."
+      "title": "L'Avantage Concurrentiel Unique d'AfriNuts",
+      "description": "Notre intégration verticale combinée à l'expertise locale et à la stratégie de certification nous permet d'offrir ce qu'aucun autre acteur ne peut : des noix de cajou premium, certifiées et traçables provenant d'une source transparente et socialement responsable au cœur de la plus grande région productrice mondiale."
     }
   }
 }
