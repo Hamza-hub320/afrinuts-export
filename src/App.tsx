@@ -22,6 +22,8 @@ import Accessibility from '@/pages/Accessibility';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import BlockMap from './pages/BlockMap';
+import Blog from '@/pages/Blog';
+import BlogPost from '@/pages/BlogPost';
 import Tasks from './pages/Tasks';
 import Financials from './pages/Financials';
 import InvestorPortal from './pages/InvestorPortal';
@@ -78,6 +80,8 @@ function App(): ReactElement {
                                 <Route path="processing" element={<Processing />} />
                                 <Route path="processing/facility-flowchart" element={<FacilityFlowchart />} />
                                 <Route path="accessibility" element={<Accessibility />} />
+                                <Route path="/blog" element={<Blog />} />
+                                <Route path="/blog/:slug" element={<BlogPost />} />
 
                                 {/* Auth Routes */}
                                 <Route path="login" element={<Login />} />

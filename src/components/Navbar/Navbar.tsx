@@ -23,6 +23,8 @@ const Navbar: React.FC = () => {
   const [aboutDropdownOpen, setAboutDropdownOpen] = useState<boolean>(false);
   const [farmDropdownOpen, setFarmDropdownOpen] = useState<boolean>(false);
   const [productsDropdownOpen, setProductsDropdownOpen] = useState<boolean>(false);
+  const [newsDropdownOpen, setNewsDropdownOpen] = useState<boolean>(false);
+  const newsDropdownRef = useRef<HTMLDivElement>(null);
   const languageDropdownRef = useRef<HTMLDivElement>(null);
   const desktopLanguageDropdownRef = useRef<HTMLDivElement>(null);
   const aboutDropdownRef = useRef<HTMLDivElement>(null);
@@ -68,6 +70,12 @@ const Navbar: React.FC = () => {
           !productsDropdownRef.current.contains(event.target as Node)
       ) {
         setProductsDropdownOpen(false);
+      }
+      if (
+          newsDropdownRef.current &&
+          !newsDropdownRef.current.contains(event.target as Node)
+      ) {
+        setNewsDropdownOpen(false);
       }
     };
 
@@ -119,6 +127,10 @@ const Navbar: React.FC = () => {
           .some(p => location.pathname === p);
     }
 
+    if (path === '/news') {
+      return ['/news', '/blog'].some(p => location.pathname.startsWith(p));
+    }
+
     // Default: highlight if the current path starts with the link path
     return location.pathname === path;
   };
@@ -154,7 +166,14 @@ const Navbar: React.FC = () => {
     { path: '/vision', label: t('navbar.vision') },
     { path: '/contact', label: t('navbar.contact') },
     //{ path: '/trace', label: t('navbar.trace') },//
-    { path: '/news', label: t('navbar.news') },
+    {
+      path: '/news',
+      label: t('navbar.news'),
+      dropdown: [
+        { path: '/news', label: t('navbar.news_overview') },
+        { path: '/blog', label: t('navbar.blog') }
+      ]
+    },
     { path: '/faq', label: t('navbar.faq') },
   ];
 
@@ -168,6 +187,7 @@ const Navbar: React.FC = () => {
     setAboutDropdownOpen(false);
     setFarmDropdownOpen(false);
     setProductsDropdownOpen(false);
+    setNewsDropdownOpen(false);
     document.body.classList.remove('overflow-hidden');
   };
 
@@ -200,6 +220,15 @@ const Navbar: React.FC = () => {
     setFarmDropdownOpen(!farmDropdownOpen);
     setLanguageDropdownOpen(false);
     setAboutDropdownOpen(false);
+    setProductsDropdownOpen(false);
+  };
+
+  const toggleNewsDropdown = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setNewsDropdownOpen(!newsDropdownOpen);
+    setLanguageDropdownOpen(false);
+    setAboutDropdownOpen(false);
+    setFarmDropdownOpen(false);
     setProductsDropdownOpen(false);
   };
 
@@ -380,6 +409,49 @@ const Navbar: React.FC = () => {
                         </div>
                     );
                   }
+
+                  if (item.path === '/news') {
+                    return (
+                        <div key={index} className="relative" ref={newsDropdownRef}>
+                          <button type="button"
+                                  onClick={toggleNewsDropdown}
+                                  className={`px-4 py-2 rounded-lg text-lg font-medium transition-all duration-300 flex items-center ${
+                                      isActive(item.path)
+                                          ? 'bg-primary text-white shadow-md'
+                                          : 'text-gray-700 hover:bg-gray-50 hover:text-primary hover:shadow-sm'
+                                  }`}
+                          >
+                            {item.label}
+                            {newsDropdownOpen ? (
+                                <FaChevronUp className="ml-1" />
+                            ) : (
+                                <FaChevronDown className="ml-1" />
+                            )}
+                          </button>
+                          {newsDropdownOpen && (
+                              <div className="absolute left-0 mt-2 w-48 bg-white rounded-lg shadow-lg z-50 border border-gray-200">
+                                {item.dropdown.map((dropdownItem, idx) => (
+                                    <Link
+                                        key={idx}
+                                        to={dropdownItem.path}
+                                        onClick={(e) => {
+                                          e.stopPropagation();
+                                          setNewsDropdownOpen(false);
+                                        }}
+                                        className={`block px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors duration-200 ${
+                                            location.pathname === dropdownItem.path ||
+                                            (dropdownItem.path === '/blog' && location.pathname.startsWith('/blog'))
+                                                ? 'bg-gray-100 font-medium' : ''
+                                        }`}
+                                    >
+                                      {dropdownItem.label}
+                                    </Link>
+                                ))}
+                              </div>
+                          )}
+                        </div>
+                    );
+                  }
                   // fallback for other dropdowns if any
                   return null;
                 }
@@ -545,7 +617,10 @@ const Navbar: React.FC = () => {
                                   to={subItem.path}
                                   onClick={closeMobileMenu}
                                   className={`block px-5 py-2 rounded-lg text-base font-medium ${
-                                      location.pathname === subItem.path ? 'bg-primary text-white font-bold' : 'text-gray-700'
+                                      location.pathname === subItem.path ||
+                                      (subItem.path === '/blog' && location.pathname.startsWith('/blog'))
+                                          ? 'bg-primary text-white font-bold'
+                                          : 'text-gray-700'
                                   }`}
                               >
                                 {subItem.label}
