@@ -7,7 +7,7 @@ import Section from '@/components/Section/Section';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import JsonLd from '@/components/Seo/JsonLd';
 import { Helmet } from 'react-helmet-async';
-
+import { BLOCKS, INLINES, MARKS } from '@contentful/rich-text-types';
 interface BlogPostType {
     slug: string;
     title: string;
@@ -27,6 +27,27 @@ const calculateReadTime = (content: any): number => {
     const text = JSON.stringify(content);
     const wordCount = text.split(/\s+/).length;
     return Math.max(3, Math.ceil(wordCount / 200));
+};
+
+const options = {
+    renderNode: {
+        [BLOCKS.TABLE]: (node: any, children: any) => (
+            <div className="overflow-x-auto my-6">
+                <table className="min-w-full border-collapse border border-gray-200 rounded-lg overflow-hidden">
+                    <tbody>{children}</tbody>
+                </table>
+            </div>
+        ),
+        [BLOCKS.TABLE_ROW]: (node: any, children: any) => (
+            <tr className="border-b border-gray-200 even:bg-gray-50">{children}</tr>
+        ),
+        [BLOCKS.TABLE_CELL]: (node: any, children: any) => (
+            <td className="px-4 py-3 text-sm text-gray-700 border-r border-gray-200 last:border-r-0">{children}</td>
+        ),
+        [BLOCKS.TABLE_HEADER_CELL]: (node: any, children: any) => (
+            <th className="px-4 py-3 text-sm font-semibold text-primary bg-primary/5 border-r border-gray-200 last:border-r-0 text-left">{children}</th>
+        ),
+    },
 };
 
 const getAuthorBio = (author: string): string => {
@@ -246,7 +267,7 @@ const BlogPost: React.FC = () => {
 
                         {/* Article Content */}
                         <div className="prose prose-lg max-w-none">
-                            {post.content && documentToReactComponents(post.content)}
+                            {post.content && documentToReactComponents(post.content, options)}
                         </div>
                     </motion.div>
 
@@ -295,8 +316,9 @@ const BlogPost: React.FC = () => {
                                             await handleSubscribe(emailInput.value, form);
                                         }}
                                     >
+                                        <label htmlFor="blog-newsletter" className="sr-only">Email address</label>
                                         <input type="email" id="blog-newsletter" placeholder="Your email address" required
-                                               className="w-full px-4 py-2 rounded-full border border-gray-300 bg-white/60 backdrop-blur-sm text-sm focus:outline-none focus:ring-2 focus:ring-primary" />
+                                               className="w-full px-4 py-2 rounded-full border border-gray-300 relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white transform-gpu group/btn overflow-hidden disabled:opacity-50 font-medium" />
                                         <button type="submit" disabled={subscribeStatus === 'loading'}
                                                 className="w-full px-4 py-2 bg-primary text-white rounded-full text-sm font-medium hover:bg-dark-orange transition-colors disabled:opacity-50">
                                             {subscribeStatus === 'loading' ? 'Subscribing...' : 'Subscribe'}
@@ -322,7 +344,7 @@ const BlogPost: React.FC = () => {
                                         Explore our organic, sustainably-farmed cashew products.
                                     </Typography>
                                     <button onClick={() => navigate('/products')}
-                                            className="w-full px-4 py-2 bg-accent text-white rounded-full text-sm font-medium hover:bg-orange-700 transition-colors">
+                                            className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-3 rounded-full transform-gpu group/btn overflow-hidden disabled:opacity-50 font-medium">
                                         View Products
                                     </button>
                                 </div>

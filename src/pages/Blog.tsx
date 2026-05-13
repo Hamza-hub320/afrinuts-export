@@ -136,12 +136,14 @@ const Blog: React.FC = () => {
                     {/* Search Bar - Always Visible */}
                     <div className="relative w-full mb-4">
                         <FaSearch className="absolute left-4 top-3.5 text-gray-400" />
+                        <label htmlFor="blog-search" className="sr-only">Search blog posts</label>
                         <input
                             type="text"
+                            id="blog-search"
                             placeholder="Search blog posts..."
+                            className="w-full pl-11 pr-4 py-3 rounded-full border border-gray-300 bg-white/60 backdrop-blur-md text-sm focus:outline-none focus:ring-2 focus:ring-primary shadow-sm"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full pl-11 pr-4 py-3 rounded-full border border-gray-300 bg-white/60 backdrop-blur-md text-sm focus:outline-none focus:ring-2 focus:ring-primary shadow-sm"
                         />
                     </div>
 
@@ -265,6 +267,7 @@ const Blog: React.FC = () => {
                                     }}
                                 >
                                     <div className="flex flex-col sm:flex-row gap-3 w-full">
+                                        <label htmlFor="blog-cta-email" className="sr-only">Email address</label>
                                         <input
                                             type="email"
                                             id="blog-cta-email"
