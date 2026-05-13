@@ -8,12 +8,13 @@ import { Helmet } from 'react-helmet-async';
 import newsImage from '@/assets/images/news.webp';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import { BLOCKS, MARKS } from '@contentful/rich-text-types';
+import {staggerContainer} from "@/utils/animations";
 
 interface NewsUpdateType {
     id: string;
     title: string;
     slug: string;
-    content: string;
+    content: any;
     excerpt: string;
     author: string;
     publishedDate: string;
@@ -21,9 +22,13 @@ interface NewsUpdateType {
     tags?: string[];
 }
 
-const calculateReadTime = (content: string): number => {
+const calculateReadTime = (content: any): number => {
     if (!content) return 3;
-    const wordCount = content.split(/\s+/).length;
+    // Handle both string and Rich text Document
+    const text = typeof content === 'string'
+        ? content
+        : JSON.stringify(content);
+    const wordCount = text.split(/\s+/).length;
     return Math.max(2, Math.ceil(wordCount / 200));
 };
 
@@ -255,13 +260,19 @@ const NewsPost: React.FC = () => {
                     {/* Post Footer CTA */}
                     <div className="mt-10 pt-8 border-t border-gray-200">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            {/* Newsletter Form */}
                             <motion.div
-                                className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl p-6 text-center overflow-hidden"
+                                className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-3xl shadow-xl p-6 text-center overflow-hidden transform-gpu"
                                 style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
-                                whileHover={{ y: -4, scale: 1.01 }}
+                                initial="hidden"
+                                whileInView="visible"
+                                viewport={{ once: true }}
+                                variants={staggerContainer}
+                                whileHover={{ y: -6, scale: 1.02, boxShadow: '0 20px 35px -10px rgba(0,0,0,0.2)', transition: { duration: 0.3 } }}
                             >
-                                <div className="absolute inset-0 rounded-2xl border-2 border-white/20" />
-                                <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40" />
+                                <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px] hover:translate-z-[-10px] transition-all duration-500" />
+                                <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40 hover:opacity-60 transition-opacity duration-500" />
+                                <div className="absolute inset-0 rounded-3xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)]" />
                                 <div className="relative z-10">
                                     <Typography variant="h4" className="mb-2 text-primary">Stay Updated</Typography>
                                     <Typography variant="small" className="text-gray-600 mb-4">
@@ -273,11 +284,16 @@ const NewsPost: React.FC = () => {
                                         const emailInput = form.querySelector('#news-newsletter') as HTMLInputElement;
                                         await handleSubscribe(emailInput.value, form);
                                     }}>
+                                        <label htmlFor="news-newsletter" className="sr-only">Email address</label>
                                         <input type="email" id="news-newsletter" placeholder="Your email address" required
                                                className="w-full px-4 py-2 rounded-full border border-gray-300 bg-white/60 backdrop-blur-sm text-sm focus:outline-none focus:ring-2 focus:ring-primary" />
                                         <button type="submit" disabled={subscribeStatus === 'loading'}
-                                                className="w-full px-4 py-2 relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white  rounded-full text-sm font-medium transition-colors disabled:opacity-50">
-                                            {subscribeStatus === 'loading' ? 'Subscribing...' : 'Subscribe'}
+                                                className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-6 py-2.5 rounded-full transform-gpu group/btn overflow-hidden disabled:opacity-50 font-medium text-sm">
+                                            <div className="absolute inset-0 rounded-full border-2 border-white/30" />
+                                            <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50" />
+                                            <span className="relative z-10">
+                            {subscribeStatus === 'loading' ? 'Subscribing...' : 'Subscribe'}
+                        </span>
                                         </button>
                                         {subscribeStatus !== 'idle' && (
                                             <p className={`text-xs ${subscribeStatus === 'success' ? 'text-green-600' : 'text-red-600'}`}>{subscribeMessage}</p>
@@ -285,25 +301,36 @@ const NewsPost: React.FC = () => {
                                     </form>
                                 </div>
                             </motion.div>
+
+                            {/* Explore Blog */}
                             <motion.div
-                                className="relative bg-gradient-to-br from-accent/5 to-primary/5 border-2 border-accent/20 rounded-2xl p-6 text-center overflow-hidden"
+                                className="relative bg-gradient-to-br from-accent/5 to-primary/5 border-2 border-accent/20 rounded-3xl shadow-xl p-6 text-center overflow-hidden transform-gpu"
                                 style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
-                                whileHover={{ y: -4, scale: 1.01 }}
+                                initial="hidden"
+                                whileInView="visible"
+                                viewport={{ once: true }}
+                                variants={staggerContainer}
+                                whileHover={{ y: -6, scale: 1.02, boxShadow: '0 20px 35px -10px rgba(0,0,0,0.2)', transition: { duration: 0.3 } }}
                             >
-                                <div className="absolute inset-0 rounded-2xl border-2 border-white/20" />
-                                <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40" />
+                                <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px] hover:translate-z-[-10px] transition-all duration-500" />
+                                <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40 hover:opacity-60 transition-opacity duration-500" />
+                                <div className="absolute inset-0 rounded-3xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)]" />
                                 <div className="relative z-10">
                                     <Typography variant="h4" className="mb-2 text-primary">Explore Our Blog</Typography>
                                     <Typography variant="small" className="text-gray-600 mb-4">
                                         Read in-depth articles on cashew farming, sustainability, and industry insights.
                                     </Typography>
                                     <button onClick={() => navigate('/blog')}
-                                            className="w-full px-4 py-2 bg-accent text-white rounded-full text-sm font-medium hover:bg-orange-700 transition-colors">
-                                        Visit Blog
+                                            className="relative bg-gradient-to-r from-accent to-primary hover:from-primary hover:to-accent text-white px-6 py-2.5 rounded-full transform-gpu group/btn overflow-hidden font-medium text-sm">
+                                        <div className="absolute inset-0 rounded-full border-2 border-white/30" />
+                                        <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50" />
+                                        <span className="relative z-10">Visit Blog</span>
                                     </button>
                                 </div>
                             </motion.div>
                         </div>
+
+                        {/* Back to News */}
                         <div className="text-center mt-6">
                             <Link to="/news" className="text-primary hover:text-accent text-sm flex items-center justify-center gap-1">
                                 <FaArrowLeft /> Back to all updates

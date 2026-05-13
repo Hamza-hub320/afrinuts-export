@@ -1,9 +1,7 @@
-import React, {Suspense, useState} from 'react';
+import React, {Suspense, useEffect, useState} from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import {Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import landClearingImage from '@/assets/images/land-clearing.webp';
-import signingImage from '@/assets/images/partnership-signing.webp';
 import {
     FaChevronDown, FaLeaf, FaSeedling,
     FaGlobeAfrica, FaArrowRight, FaBullhorn,
@@ -44,6 +42,19 @@ interface AfriNutsUpdate {
 
 }
 
+// Add this interface
+interface AfriNutsUpdate {
+    id: string;
+    slug: string;
+    title: string;
+    date: string;
+    excerpt: string;
+    content: string;
+    image?: string;
+    tags: string[];
+    author?: string;
+}
+
 const Home: React.FC = () => {
     const { t } = useTranslation('home');
     const navigate = useNavigate();
@@ -74,9 +85,7 @@ const Home: React.FC = () => {
 
     // For News Load More
     const [newsToShow, setNewsToShow] = useState(2);
-    const allUpdates = afrinutsUpdatesData.updates as AfriNutsUpdate[];
-    const featuredUpdates = allUpdates.filter((u) => u.isFeatured);
-    const nonFeaturedUpdates = allUpdates.filter((u) => !u.isFeatured);
+    const [homeUpdates, setHomeUpdates] = useState<AfriNutsUpdate[]>([]);
 
     // Social share handler (dummy)
     const handleShare = (url: string, title: string) => {
@@ -86,6 +95,30 @@ const Home: React.FC = () => {
         window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`, '_blank');
       }
     };
+
+    useEffect(() => {
+        const fetchHomeUpdates = async () => {
+            try {
+                const response = await fetch('/.netlify/functions/blog?contentType=newsUpdate');
+                const data = await response.json();
+                const updates = (data.posts || []).map((post: any) => ({
+                    id: post.id,
+                    slug: post.slug,
+                    title: post.title,
+                    date: post.publishedDate,
+                    excerpt: post.excerpt,
+                    content: post.content,
+                    image: post.image,
+                    tags: post.tags || [],
+                    author: post.author || 'AfriNuts',
+                }));
+                setHomeUpdates(updates);
+            } catch (error) {
+                console.error('Error fetching home updates:', error);
+            }
+        };
+        fetchHomeUpdates();
+    }, []);
 
     return (
         <div className="min-h-[80vh] md:min-h-screen overflow-hidden text-balance">
@@ -626,25 +659,29 @@ const Home: React.FC = () => {
                 </div>
             </Section>
 
-            {/* 6. News & Updates - Updated to match news.tsx style */}
-            <Suspense fallback={<div>{t('loading.news')}</div>}>
-                <Section className="py-16">
-                    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
-                        <motion.div
-                            className="text-center mb-12"
-                            initial="hidden"
-                            whileInView="visible"
-                            viewport={{ once: true }}
-                            variants={fadeIn}
-                        >
-                            <Typography variant="h2" className="mb-4">
-                                {t('news.title')}
-                            </Typography>
-                            <Typography variant="subhead" className="max-w-3xl mx-auto">
-                                {t('news.subtitle')}
-                            </Typography>
-                        </motion.div>
+            {/* 6. News & Updates - Dynamic from Contentful */}
+            <Section className="py-16">
+                <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
+                    <motion.div
+                        className="text-center mb-12"
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={fadeIn}
+                    >
+                        <Typography variant="h2" className="mb-4">
+                            {t('news.title')}
+                        </Typography>
+                        <Typography variant="subhead" className="max-w-3xl mx-auto">
+                            {t('news.subtitle')}
+                        </Typography>
+                    </motion.div>
 
+                    {homeUpdates.length === 0 ? (
+                        <div className="text-center py-10">
+                            <Typography variant="body" className="text-gray-500">{t('news.noUpdates')}</Typography>
+                        </div>
+                    ) : (
                         <motion.div
                             className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12"
                             variants={staggerContainer}
@@ -652,165 +689,82 @@ const Home: React.FC = () => {
                             whileInView="visible"
                             viewport={{ once: true }}
                         >
-                            {[...featuredUpdates, ...nonFeaturedUpdates].slice(0, newsToShow).map((update: AfriNutsUpdate, index: number) => (
+                            {homeUpdates.slice(0, newsToShow).map((update: AfriNutsUpdate, index: number) => (
                                 <motion.div
                                     key={update.id}
-                                    variants={index % 2 === 0 ? slideInFromLeft : slideInFromRight}
+                                    variants={fadeIn}
                                     className="group relative bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl border-2 border-primary/20 hover:border-accent/30 shadow-xl overflow-hidden transform-gpu"
-                                    style={{
-                                        transformStyle: 'preserve-3d',
-                                        perspective: '1000px',
-                                    }}
-                                    whileHover={{
-                                        y: -8,
-                                        scale: 1.02,
-                                        rotateY: 3,
-                                        boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
-                                        transition: { duration: 0.3 }
-                                    }}
+                                    style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
+                                    whileHover={{ y: -8, scale: 1.02, rotateY: 3, boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)', transition: { duration: 0.3 } }}
                                 >
-                                    {/* 3D edge effect */}
-                                    <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
-
-                                    {/* Glassy overlay */}
-                                    <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
-
-                                    {/* Inner shadow effect */}
-                                    <div className="absolute inset-0 rounded-3xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] group-hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
-
-                                    {/* Subtle background pattern */}
+                                    <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px]" />
+                                    <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40" />
+                                    <div className="absolute inset-0 rounded-3xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)]" />
                                     <div className="absolute inset-0 rounded-3xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
 
                                     <div className="relative z-10">
-                                        <div className="h-48 overflow-hidden rounded-t-lg relative">
-                                            {update.id === 'update-2024-001' ? (
-                                                <motion.img
-                                                    src={landClearingImage}
-                                                    alt={t('news.images.landClearingAlt')}
-                                                    className="w-full h-full object-cover"
-                                                    loading="lazy"
-                                                    aria-label={t('news.images.landClearingAlt')}
-                                                    whileHover={{ scale: 1.1 }}
-                                                    transition={{ duration: 0.5 }}
-                                                />
-                                            ) : update.id === 'update-2024-002' ? (
-                                                <motion.img
-                                                    src={signingImage}
-                                                    alt={t('news.images.partnershipSigningAlt')}
-                                                    className="w-full h-full object-cover"
-                                                    loading="lazy"
-                                                    aria-label={t('news.images.partnershipSigningAlt')}
-                                                    whileHover={{ scale: 1.1 }}
-                                                    transition={{ duration: 0.5 }}
-                                                />
-                                            ) : (
-                                                <motion.img
-                                                    src={update.image || newsImage}
-                                                    alt={update.title}
-                                                    className="w-full h-full object-cover"
-                                                    loading="lazy"
-                                                    aria-label={update.title}
-                                                    whileHover={{ scale: 1.1 }}
-                                                    transition={{ duration: 0.5 }}
-                                                />
-                                            )}
-                                            {/* Image overlay gradient */}
+                                        <div className="h-48 overflow-hidden rounded-t-lg">
+                                            <motion.img
+                                                src={update.image || newsImage}
+                                                alt={update.title}
+                                                className="w-full h-full object-cover"
+                                                loading="lazy"
+                                                whileHover={{ scale: 1.1 }}
+                                                transition={{ duration: 0.5 }}
+                                            />
                                             <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
                                         </div>
                                         <div className="p-6">
-                                            <div className="flex items-center gap-2 mb-3 relative z-10">
-                                                <motion.div
-                                                    className="bg-accent/20 p-2 rounded-full"
-                                                    whileHover={{ scale: 1.1, rotate: 5 }}
-                                                    transition={{ type: 'spring', stiffness: 300 }}
-                                                >
-                                                    <FaBullhorn className="text-accent" aria-label={t('newsCard.announcementAria')} />
-                                                </motion.div>
+                                            <div className="flex items-center gap-2 mb-3">
+                                                <div className="bg-accent/20 p-2 rounded-full">
+                                                    <FaBullhorn className="text-accent" />
+                                                </div>
                                                 <Typography variant="caption" className="text-gray-500">
-                                                    {new Date(update.date).toLocaleDateString('en-US', {
-                                                        year: 'numeric',
-                                                        month: 'long',
-                                                        day: 'numeric'
-                                                    })}
+                                                    {new Date(update.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
                                                 </Typography>
                                             </div>
-                                            <Typography variant="h3" className="mb-3 relative z-10">
-                                                {update.title}
-                                            </Typography>
-                                            <Typography variant="body" className="mb-4 text-gray-600 relative z-10">
-                                                {update.excerpt}
-                                            </Typography>
-                                            <div className="flex flex-wrap gap-2 mb-4 relative z-10">
-                                                {update.tags.map((tag: string) => (
-                                                    <motion.span
-                                                        key={tag}
-                                                        className="px-3 py-1 text-sm  font-medium bg-primary/10 text-primary rounded-full backdrop-blur-sm"
-                                                        whileHover={{ scale: 1.05 }}
-                                                        transition={{ duration: 0.2 }}
-                                                    >
-                                                        {tag}
-                                                    </motion.span>
+                                            <Typography variant="h3" className="mb-3">{update.title}</Typography>
+                                            <Typography variant="body" className="mb-4 text-gray-600">{update.excerpt}</Typography>
+                                            <div className="flex flex-wrap gap-2 mb-4">
+                                                {update.tags?.map((tag: string) => (
+                                                    <span key={tag} className="px-3 py-1 text-sm font-medium bg-primary/10 text-primary rounded-full">
+                                            {tag}
+                                        </span>
                                                 ))}
                                             </div>
-                                            <motion.button
-                                                onClick={() => navigate('/news')}
-                                                className="text-accent hover:text-primary font-medium flex items-center gap-1 transition-colors relative z-10 transform-gpu hover:scale-105"
-                                                aria-label={t('newsCard.readMore')}
-                                                whileHover={{ x: 3 }}
-                                                whileTap={{ scale: 0.95 }}
+                                            <Link
+                                                to={`/news/${update.slug}`}
+                                                className="text-accent hover:text-primary font-medium flex items-center gap-1 transition-colors"
                                             >
                                                 {t('newsCard.readMore')}
-                                                <motion.span
-                                                    animate={{ x: 0 }}
-                                                    whileHover={{ x: 3 }}
-                                                    transition={{ type: 'spring', stiffness: 400 }}
-                                                >
-                                                    <FaArrowRight className="text-sm" aria-hidden="true"/>
-                                                </motion.span>
-                                            </motion.button>
+                                                <FaArrowRight className="text-sm" />
+                                            </Link>
                                         </div>
                                     </div>
                                 </motion.div>
                             ))}
                         </motion.div>
-                        <motion.div
-                            className="text-center"
-                            initial="hidden"
-                            whileInView="visible"
-                            viewport={{ once: true }}
-                            variants={fadeIn}
-                        >
-                            {newsToShow < allUpdates.length && (
-                                <motion.button
-                                    whileHover={{ scale: 1.08 }}
-                                    whileTap={{ scale: 0.96 }}
-                                    className="group border-2 border-primary text-primary hover:bg-accent hover:text-white hover:border-accent px-8 py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg inline-flex items-center mx-auto mb-4 transform-gpu backdrop-blur-sm bg-white/80"
-                                    onClick={() => setNewsToShow((prev) => Math.min(prev + 2, allUpdates.length))}
-                                    aria-label={t('news.loadMore')}
-                                >
-                                    {t('news.loadMore')}
-                                </motion.button>
-                            )}
-                            <motion.button
-                                whileHover={{ scale: 1.08 }}
-                                whileTap={{ scale: 0.96 }}
-                                className="group border-2 border-primary text-primary hover:bg-accent hover:text-white hover:border-accent px-6 py-2 md:px-8 md:py-3 rounded-full transition-all duration-300 inline-flex items-center text-sm md:text-base"
-                                onClick={() => navigate('/news')}
-                                aria-label={t('news.ctaButton')}
+                    )}
+
+                    <motion.div className="text-center" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
+                        {newsToShow < homeUpdates.length && (
+                            <button
+                                onClick={() => setNewsToShow(prev => Math.min(prev + 2, homeUpdates.length))}
+                                className="group border-2 border-primary text-primary hover:bg-accent hover:text-white hover:border-accent px-8 py-3 rounded-full transition-all duration-300 shadow-md inline-flex items-center mb-4 backdrop-blur-sm bg-white/80"
                             >
-                                {t('news.ctaButton')}
-                                <motion.span
-                                    animate={{ x: 0 }}
-                                    whileHover={{ x: 3 }}
-                                    transition={{ type: 'spring', stiffness: 400 }}
-                                >
-                                    <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" aria-hidden="true"/>
-                                </motion.span>
-                            </motion.button>
-                        </motion.div>
-                    </div>
-                </Section>
-            </Suspense>
+                                {t('news.loadMore')}
+                            </button>
+                        )}
+                        <Link
+                            to="/news"
+                            className="group border-2 border-primary text-primary hover:bg-accent hover:text-white hover:border-accent px-6 py-2 md:px-8 md:py-3 rounded-full transition-all duration-300 inline-flex items-center text-sm md:text-base"
+                        >
+                            {t('news.ctaButton')}
+                            <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+                        </Link>
+                    </motion.div>
+                </div>
+            </Section>
 
             {/* 7. Contact CTA */}
             <Suspense fallback={<div>{t('loading.contact')}</div>}>

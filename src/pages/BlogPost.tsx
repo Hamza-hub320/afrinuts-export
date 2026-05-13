@@ -8,6 +8,7 @@ import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import JsonLd from '@/components/Seo/JsonLd';
 import { Helmet } from 'react-helmet-async';
 import { BLOCKS, INLINES, MARKS } from '@contentful/rich-text-types';
+import {staggerContainer} from "@/utils/animations";
 interface BlogPostType {
     slug: string;
     title: string;
@@ -296,32 +297,38 @@ const BlogPost: React.FC = () => {
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             {/* Newsletter Form */}
                             <motion.div
-                                className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl p-6 text-center overflow-hidden"
+                                className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-3xl shadow-xl p-6 text-center overflow-hidden transform-gpu"
                                 style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
-                                whileHover={{ y: -4, scale: 1.01 }}
+                                initial="hidden"
+                                whileInView="visible"
+                                viewport={{ once: true }}
+                                variants={staggerContainer}
+                                whileHover={{ y: -6, scale: 1.02, boxShadow: '0 20px 35px -10px rgba(0,0,0,0.2)', transition: { duration: 0.3 } }}
                             >
-                                <div className="absolute inset-0 rounded-2xl border-2 border-white/20" />
-                                <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40" />
+                                <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px] hover:translate-z-[-10px] transition-all duration-500" />
+                                <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40 hover:opacity-60 transition-opacity duration-500" />
+                                <div className="absolute inset-0 rounded-3xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)]" />
                                 <div className="relative z-10">
-                                    <Typography variant="h4" className="mb-2 text-primary">Enjoyed this article?</Typography>
+                                    <Typography variant="h4" className="mb-2 text-primary">Stay Updated</Typography>
                                     <Typography variant="small" className="text-gray-600 mb-4">
-                                        Get the latest cashew farming insights delivered to your inbox.
+                                        Get the latest AfriNuts news delivered to your inbox.
                                     </Typography>
-                                    <form
-                                        className="flex flex-col gap-3"
-                                        onSubmit={async (e) => {
-                                            e.preventDefault();
-                                            const form = e.target as HTMLFormElement;
-                                            const emailInput = form.querySelector('#blog-newsletter') as HTMLInputElement;
-                                            await handleSubscribe(emailInput.value, form);
-                                        }}
-                                    >
-                                        <label htmlFor="blog-newsletter" className="sr-only">Email address</label>
-                                        <input type="email" id="blog-newsletter" placeholder="Your email address" required
+                                    <form className="flex flex-col gap-3" onSubmit={async (e) => {
+                                        e.preventDefault();
+                                        const form = e.target as HTMLFormElement;
+                                        const emailInput = form.querySelector('#news-newsletter') as HTMLInputElement;
+                                        await handleSubscribe(emailInput.value, form);
+                                    }}>
+                                        <label htmlFor="news-newsletter" className="sr-only">Email address</label>
+                                        <input type="email" id="news-newsletter" placeholder="Your email address" required
                                                className="w-full px-4 py-2 rounded-full border border-gray-300 bg-white/60 backdrop-blur-sm text-sm focus:outline-none focus:ring-2 focus:ring-primary" />
                                         <button type="submit" disabled={subscribeStatus === 'loading'}
-                                                className="w-full px-4 py-2 relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white transform-gpu group/btn overflow-hidden disabled:opacity-50 font-medium">
-                                            {subscribeStatus === 'loading' ? 'Subscribing...' : 'Subscribe'}
+                                                className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-6 py-2.5 rounded-full transform-gpu group/btn overflow-hidden disabled:opacity-50 font-medium text-sm">
+                                            <div className="absolute inset-0 rounded-full border-2 border-white/30" />
+                                            <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50" />
+                                            <span className="relative z-10">
+                            {subscribeStatus === 'loading' ? 'Subscribing...' : 'Subscribe'}
+                        </span>
                                         </button>
                                         {subscribeStatus !== 'idle' && (
                                             <p className={`text-xs ${subscribeStatus === 'success' ? 'text-green-600' : 'text-red-600'}`}>{subscribeMessage}</p>
@@ -330,31 +337,38 @@ const BlogPost: React.FC = () => {
                                 </div>
                             </motion.div>
 
-                            {/* Explore Products */}
+                            {/* Explore Blog */}
                             <motion.div
-                                className="relative bg-gradient-to-br from-accent/5 to-primary/5 border-2 border-accent/20 rounded-2xl p-6 text-center overflow-hidden"
+                                className="relative bg-gradient-to-br from-accent/5 to-primary/5 border-2 border-accent/20 rounded-3xl shadow-xl p-6 text-center overflow-hidden transform-gpu"
                                 style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
-                                whileHover={{ y: -4, scale: 1.01 }}
+                                initial="hidden"
+                                whileInView="visible"
+                                viewport={{ once: true }}
+                                variants={staggerContainer}
+                                whileHover={{ y: -6, scale: 1.02, boxShadow: '0 20px 35px -10px rgba(0,0,0,0.2)', transition: { duration: 0.3 } }}
                             >
-                                <div className="absolute inset-0 rounded-2xl border-2 border-white/20" />
-                                <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40" />
+                                <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px] hover:translate-z-[-10px] transition-all duration-500" />
+                                <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40 hover:opacity-60 transition-opacity duration-500" />
+                                <div className="absolute inset-0 rounded-3xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)]" />
                                 <div className="relative z-10">
-                                    <Typography variant="h4" className="mb-2 text-primary">Looking for Premium Cashews?</Typography>
+                                    <Typography variant="h4" className="mb-2 text-primary">Explore Our Blog</Typography>
                                     <Typography variant="small" className="text-gray-600 mb-4">
-                                        Explore our organic, sustainably-farmed cashew products.
+                                        Read in-depth articles on cashew farming, sustainability, and industry insights.
                                     </Typography>
-                                    <button onClick={() => navigate('/products')}
-                                            className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-3 rounded-full transform-gpu group/btn overflow-hidden disabled:opacity-50 font-medium">
-                                        View Products
+                                    <button onClick={() => navigate('/blog')}
+                                            className="relative bg-gradient-to-r from-accent to-primary hover:from-primary hover:to-accent text-white px-6 py-2.5 rounded-full transform-gpu group/btn overflow-hidden font-medium text-sm">
+                                        <div className="absolute inset-0 rounded-full border-2 border-white/30" />
+                                        <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50" />
+                                        <span className="relative z-10">Visit Blog</span>
                                     </button>
                                 </div>
                             </motion.div>
                         </div>
 
-                        {/* Back to Blog */}
+                        {/* Back to News */}
                         <div className="text-center mt-6">
-                            <Link to="/blog" className="text-primary hover:text-accent text-sm flex items-center justify-center gap-1">
-                                <FaArrowLeft /> Back to all articles
+                            <Link to="/news" className="text-primary hover:text-accent text-sm flex items-center justify-center gap-1">
+                                <FaArrowLeft /> Back to all updates
                             </Link>
                         </div>
                     </div>
