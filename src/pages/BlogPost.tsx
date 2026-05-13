@@ -318,9 +318,9 @@ const BlogPost: React.FC = () => {
                                     >
                                         <label htmlFor="blog-newsletter" className="sr-only">Email address</label>
                                         <input type="email" id="blog-newsletter" placeholder="Your email address" required
-                                               className="w-full px-4 py-2 rounded-full border border-gray-300 relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white transform-gpu group/btn overflow-hidden disabled:opacity-50 font-medium" />
+                                               className="w-full px-4 py-2 rounded-full border border-gray-300" />
                                         <button type="submit" disabled={subscribeStatus === 'loading'}
-                                                className="w-full px-4 py-2 bg-primary text-white rounded-full text-sm font-medium hover:bg-dark-orange transition-colors disabled:opacity-50">
+                                                className="w-full px-4 py-2 relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white transform-gpu group/btn overflow-hidden disabled:opacity-50 font-medium">
                                             {subscribeStatus === 'loading' ? 'Subscribing...' : 'Subscribe'}
                                         </button>
                                         {subscribeStatus !== 'idle' && (

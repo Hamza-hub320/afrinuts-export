@@ -12,9 +12,10 @@ export const handler: Handler = async (event) => {
     const query = event.queryStringParameters || {};
     const slug = query.slug;
     const category = query.category;
+    const contentType = query.contentType || 'blogPost';
 
     try {
-        let url = `https://cdn.contentful.com/spaces/${SPACE_ID}/environments/master/entries?access_token=${ACCESS_TOKEN}&content_type=blogPost&order=-fields.publishedDate`;
+        let url = `https://cdn.contentful.com/spaces/${SPACE_ID}/environments/master/entries?access_token=${ACCESS_TOKEN}&content_type=${contentType}&order=-fields.publishedDate`;
 
         if (slug) url += `&fields.slug=${slug}&limit=1`;
         if (category && category !== 'All') url += `&fields.category=${category}`;
@@ -32,9 +33,9 @@ export const handler: Handler = async (event) => {
 
         const posts = data.items.map((item: any) => {
             let imageUrl = null;
-            if (item.fields.featuredImage && data.includes?.Asset) {
+            if (item.fields.image && data.includes?.Asset) {
                 const asset = data.includes.Asset.find(
-                    (a: any) => a.sys.id === item.fields.featuredImage.sys.id
+                    (a: any) => a.sys.id === item.fields.image.sys.id
                 );
                 if (asset?.fields?.file?.url) {
                     imageUrl = `https:${asset.fields.file.url}`;
@@ -52,6 +53,8 @@ export const handler: Handler = async (event) => {
                 publishedDate: item.fields.publishedDate,
                 metaDescription: item.fields.metaDescription,
                 featuredImage: imageUrl,
+                image: imageUrl,
+                tags: item.fields.tags || [],
             };
         });
 

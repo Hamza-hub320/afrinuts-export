@@ -35,6 +35,7 @@ import { ReactElement, useEffect } from 'react';
 import React from 'react';
 import Faq from "@pages/Faq";
 import AccessibilityToolbar from './components/AccessibilityToolbar/AccessibilityToolbar';
+import NewsPost from '@/pages/NewsPost';
 
 
 // Scroll restoration component
@@ -83,6 +84,7 @@ function App(): ReactElement {
                                 <Route path="accessibility" element={<Accessibility />} />
                                 <Route path="/blog" element={<Blog />} />
                                 <Route path="/blog/:slug" element={<BlogPost />} />
+                                <Route path="/news/:slug" element={<NewsPost />} />
 
                                 {/* Auth Routes */}
                                 <Route path="login" element={<Login />} />

@@ -247,26 +247,53 @@ const Home: React.FC = () => {
                                     <Typography variant="body" className="mb-6 md:mb-8">
                                         {t('aboutPreview.description')}
                                     </Typography>
-                                    <motion.button
-                                        whileHover={{
-                                            scale: 1.08,
-                                            y: -2,
-                                            boxShadow: '0 10px 25px -5px rgba(165, 105, 66, 0.4)'
-                                        }}
-                                        whileTap={{ scale: 0.96 }}
-                                        className="group border-2 border-primary text-primary hover:bg-accent hover:text-white hover:border-accent px-6 py-2 md:px-8 md:py-3 rounded-full transition-all duration-300 inline-flex items-center text-sm md:text-base"
-                                        onClick={() => navigate('/about')}
-                                        aria-label={t('aboutPreview.ctaButton')}
-                                    >
-                                        {t('aboutPreview.ctaButton')}
-                                        <motion.span
-                                            animate={{ x: 0 }}
-                                            whileHover={{ x: 3 }}
-                                            transition={{ type: 'spring', stiffness: 400 }}
+
+                                    {/* Two Button Row */}
+                                    <div className="flex flex-col sm:flex-row gap-4">
+                                        {/* Farm Story Button */}
+                                        <motion.button
+                                            whileHover={{
+                                                scale: 1.08,
+                                                y: -2,
+                                                boxShadow: '0 10px 25px -5px rgba(165, 105, 66, 0.4)'
+                                            }}
+                                            whileTap={{ scale: 0.96 }}
+                                            className="group border-2 border-primary text-primary hover:bg-accent hover:text-white hover:border-accent px-6 py-2 md:px-8 md:py-3 rounded-full transition-all duration-300 inline-flex items-center justify-center text-sm md:text-base"
+                                            onClick={() => navigate('/about')}
+                                            aria-label={t('aboutPreview.ctaButton')}
                                         >
-                                            <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" aria-hidden="true"/>
-                                        </motion.span>
-                                    </motion.button>
+                                            {t('aboutPreview.ctaButton')}
+                                            <motion.span
+                                                animate={{ x: 0 }}
+                                                whileHover={{ x: 3 }}
+                                                transition={{ type: 'spring', stiffness: 400 }}
+                                            >
+                                                <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" aria-hidden="true"/>
+                                            </motion.span>
+                                        </motion.button>
+
+                                        {/* Blog Button */}
+                                        <motion.button
+                                            whileHover={{
+                                                scale: 1.08,
+                                                y: -2,
+                                                boxShadow: '0 10px 25px -5px rgba(160, 200, 0, 0.4)'
+                                            }}
+                                            whileTap={{ scale: 0.96 }}
+                                            className="group border-2 border-primary text-primary hover:bg-accent hover:text-white hover:border-accent px-6 py-2 md:px-8 md:py-3 rounded-full transition-all duration-300 inline-flex items-center justify-center text-sm md:text-base"
+                                            onClick={() => navigate('/blog')}
+                                            aria-label="Visit our blog"
+                                        >
+                                            {t('aboutPreview.blogButton')}
+                                            <motion.span
+                                                animate={{ x: 0 }}
+                                                whileHover={{ x: 3 }}
+                                                transition={{ type: 'spring', stiffness: 400 }}
+                                            >
+                                                <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" aria-hidden="true"/>
+                                            </motion.span>
+                                        </motion.button>
+                                    </div>
                                 </motion.div>
                             </div>
                         </motion.div>
