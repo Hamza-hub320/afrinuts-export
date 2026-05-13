@@ -6,6 +6,8 @@ import { Typography } from '@/components/Typography/Typography';
 import Section from '@/components/Section/Section';
 import { Helmet } from 'react-helmet-async';
 import newsImage from '@/assets/images/news.webp';
+import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
+import { BLOCKS, MARKS } from '@contentful/rich-text-types';
 
 interface NewsUpdateType {
     id: string;
@@ -210,11 +212,43 @@ const NewsPost: React.FC = () => {
 
                         {/* Content */}
                         <div className="prose prose-lg max-w-none">
-                            {post.content.split('\n').map((paragraph, i) => (
-                                <Typography key={i} variant="body" className="text-gray-700 mb-4 leading-relaxed">
-                                    {paragraph}
-                                </Typography>
-                            ))}
+                            {post.content ? (
+                                typeof post.content === 'string' ? (
+                                    // Plain text fallback
+                                    post.content.split('\n').map((paragraph: string, i: number) => (
+                                        <Typography key={i} variant="body" className="text-gray-700 mb-4 leading-relaxed">
+                                            {paragraph}
+                                        </Typography>
+                                    ))
+                                ) : (
+                                    // Rich text (Document object)
+                                    documentToReactComponents(post.content, {
+                                        renderNode: {
+                                            [BLOCKS.HEADING_2]: (_node, children) => (
+                                                <Typography variant="h3" className="text-xl font-bold text-primary mt-8 mb-4">{children}</Typography>
+                                            ),
+                                            [BLOCKS.HEADING_3]: (_node, children) => (
+                                                <Typography variant="h4" className="text-lg font-semibold text-text-dark mt-6 mb-3">{children}</Typography>
+                                            ),
+                                            [BLOCKS.PARAGRAPH]: (_node, children) => (
+                                                <Typography variant="body" className="text-gray-700 mb-4 leading-relaxed">{children}</Typography>
+                                            ),
+                                            [BLOCKS.UL_LIST]: (_node, children) => (
+                                                <ul className="list-disc pl-6 mb-4 space-y-2">{children}</ul>
+                                            ),
+                                            [BLOCKS.OL_LIST]: (_node, children) => (
+                                                <ol className="list-decimal pl-6 mb-4 space-y-2">{children}</ol>
+                                            ),
+                                            [BLOCKS.LIST_ITEM]: (_node, children) => (
+                                                <li className="text-gray-700">{children}</li>
+                                            ),
+                                        },
+                                        renderMark: {
+                                            [MARKS.BOLD]: (text) => <strong className="font-bold text-text-dark">{text}</strong>,
+                                        },
+                                    })
+                                )
+                            ) : null}
                         </div>
                     </motion.div>
 
@@ -242,7 +276,7 @@ const NewsPost: React.FC = () => {
                                         <input type="email" id="news-newsletter" placeholder="Your email address" required
                                                className="w-full px-4 py-2 rounded-full border border-gray-300 bg-white/60 backdrop-blur-sm text-sm focus:outline-none focus:ring-2 focus:ring-primary" />
                                         <button type="submit" disabled={subscribeStatus === 'loading'}
-                                                className="w-full px-4 py-2 bg-primary text-white rounded-full text-sm font-medium hover:bg-dark-orange transition-colors disabled:opacity-50">
+                                                className="w-full px-4 py-2 relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white  rounded-full text-sm font-medium transition-colors disabled:opacity-50">
                                             {subscribeStatus === 'loading' ? 'Subscribing...' : 'Subscribe'}
                                         </button>
                                         {subscribeStatus !== 'idle' && (
