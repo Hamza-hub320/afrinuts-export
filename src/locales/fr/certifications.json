@@ -207,5 +207,10 @@
       "title": "L'Avantage Concurrentiel Unique d'AfriNuts",
       "description": "Notre intégration verticale combinée à l'expertise locale et à la stratégie de certification nous permet d'offrir ce qu'aucun autre acteur ne peut : des noix de cajou premium, certifiées et traçables provenant d'une source transparente et socialement responsable au cœur de la plus grande région productrice mondiale."
     }
+  },
+  "breadcrumbs": {
+    "home": "Accueil",
+    "products": "Produits",
+    "certifications": "Certification & Qualité"
   }
 }

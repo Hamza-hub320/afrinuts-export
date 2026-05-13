@@ -164,10 +164,21 @@ const OurStory: React.FC = () => {
                     "knowsAbout": ["Organic Cashew Farming", "Islamic Finance", "Community Development", "Sustainable Agriculture"]
                 }
             }} />
+
+            {/* Breadcrumbs */}
+            <div className="max-w-4xl mx-auto px-6 sm:px-8 pt-[88px] pb-2">
+                <div className="text-sm text-text-dark flex items-center gap-1 flex-wrap">
+                    <Link to="/" className="hover:text-primary transition-colors">{t('breadcrumbs.home', 'Home')}</Link>
+                    <span>/</span>
+                    <Link to="/about" className="hover:text-primary transition-colors">{t('breadcrumbs.about', 'About')}</Link>
+                    <span>/</span>
+                    <span className="text-primary font-medium">{t('breadcrumbs.ourStory', 'Our Story')}</span>
+                </div>
+            </div>
             {/* Hero Section */}
             <Section
-                fullHeight={true}
-                className="flex items-center justify-center text-center min-h-[60vh] bg-gradient-to-b from-primary/10 to-transparent"
+                fullHeight={false}
+                className="flex items-center justify-center text-center min-h-[40vh]"
             >
                 <motion.div
                     className="max-w-4xl px-6 sm:px-8 py-12"
@@ -205,23 +216,6 @@ const OurStory: React.FC = () => {
                     <div className="w-1 h-3 bg-primary rounded-full mt-2"></div>
                 </div>
             </motion.div>
-
-            {/* Back Button */}
-            <Section className="py-6">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6">
-                    <motion.button
-                        onClick={() => navigate('/executive-team')}
-                        className="flex items-center text-primary hover:text-accent transition-colors"
-                        whileHover={{ x: -5 }}
-                        initial="hidden"
-                        animate="visible"
-                        variants={fadeIn}
-                    >
-                        <FaArrowLeft className="mr-2" />
-                        {t('hero.backToExecutive')}
-                    </motion.button>
-                </div>
-            </Section>
 
             {/* Intro Section - Enhanced with Glassy 3D */}
             <motion.div
@@ -286,9 +280,7 @@ const OurStory: React.FC = () => {
                             {storySections.map((section, index) => {
                                 const isExpanded = expandedSections[index] ?? false;
                                 const descriptionArray = Array.isArray(section.description) ? section.description : [section.description];
-                                // Determine if content needs collapsing (not used here, but left for possible future use)
                                 const combinedDescription = descriptionArray.join(' ');
-                                // Keep layout and timeline dot, but replace content card with InfoCard
                                 return (
                                     <motion.div
                                         key={index}

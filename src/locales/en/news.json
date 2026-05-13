@@ -1,25 +1,25 @@
 {
   "hero": {
     "title": "AfriNuts News Hub",
-    "subtitle": "Cashew agriculture updates from Ivory Coast and beyond",
-    "description": "Stay updated with AfriNuts' latest news, insights, and developments in cashew farming, sustainability, and industry trends."
+    "subtitle": "Cashew Agriculture Updates from Ivory Coast & Beyond",
+    "description": "Stay updated with AfriNuts Export — company milestones, farm developments, industry trends, and insights from the heart of West Africa's cashew belt."
   },
   "tabs": {
     "all": "All News",
-    "afrinuts": "Our Updates",
+    "afrinuts": "AfriNuts News",
     "industry": "Industry News"
   },
   "filters": {
     "title": "Filter by:",
-    "cashew": "Cashew",
+    "cashew": "Cashew Industry",
     "agriculture": "Agriculture",
     "ivoryCoast": "Ivory Coast",
     "sustainability": "Sustainability",
-    "trade": "Trade",
-    "searchPlaceholder": "Search news..."
+    "trade": "Trade & Export",
+    "searchPlaceholder": "Search news articles..."
   },
   "sections": {
-    "afrinutsUpdates": "Our Updates",
+    "afrinutsUpdates": "AfriNuts Updates",
     "industryNews": "Industry News",
     "newsIntro": {
       "title": "Join Our Growing Knowledge Community",
@@ -32,13 +32,13 @@
     "shareArticle": "Share Article",
     "readFullArticle": "Read Full Article →",
     "newsletter": {
-      "title": "Subscribe to Our Agri-News Digest",
-      "description": "Monthly updates...",
+      "title": "Subscribe to Our Newsletter",
+      "description": "Get monthly updates on cashew farming, export insights, and AfriNuts milestones delivered to your inbox.",
       "placeholder": "Your email address",
       "subscribe": "Subscribe",
       "loading": "Subscribing...",
-      "success": "Check your email! We sent a confirmation link to complete your subscription.",
-      "alreadySubscribed": "You are already subscribed.",
+      "success": "Thanks for subscribing! Please check your email to confirm.",
+      "alreadySubscribed": "This email is already subscribed.",
       "invalidEmail": "Please enter a valid email address.",
       "error": "Something went wrong. Please try again."
     }

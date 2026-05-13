@@ -217,10 +217,19 @@ const ExecutiveTeam: React.FC = () => {
                     ]
                 }
             }} />
+            <div className="max-w-4xl mx-auto px-6 sm:px-8 pt-[88px] pb-2">
+            <div className="text-sm text-text-dark mb-4 flex items-center gap-1 flex-wrap">
+                <Link to="/" className="hover:text-primary transition-colors">{t('breadcrumbs.home', 'Home')}</Link>
+                <span>/</span>
+                <Link to="/about" className="hover:text-primary transition-colors">{t('breadcrumbs.about', 'About')}</Link>
+                <span>/</span>
+                <span className="text-primary font-medium">{t('breadcrumbs.executiveTeam', 'Executive Team')}</span>
+            </div>
+            </div>
             {/* Hero Section */}
             <Section
-                fullHeight={true}
-                className="flex items-center justify-center text-center min-h-[40vh] bg-gradient-to-b from-primary/10 to-transparent"
+                fullHeight={false}
+                className="flex items-center justify-center text-center min-h-[40vh]"
             >
                 <motion.div
                     className="max-w-4xl px-6 sm:px-8 py-12"
@@ -264,23 +273,6 @@ const ExecutiveTeam: React.FC = () => {
                     <div className="w-1 h-3 bg-primary rounded-full mt-2"></div>
                 </div>
             </motion.div>
-
-            {/* Back Button */}
-            <Section className="py-6">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6">
-                    <motion.button
-                        onClick={() => navigate('/about')}
-                        className="flex items-center text-primary hover:text-accent transition-colors"
-                        whileHover={{ x: -5 }}
-                        initial="hidden"
-                        animate="visible"
-                        variants={fadeIn}
-                    >
-                        <FaArrowLeft className="mr-2" />
-                        {t('executives.backToAbout')}
-                    </motion.button>
-                </div>
-            </Section>
 
             {/* Executive Team Grid using ProfileCard */}
             <Section className="py-16">

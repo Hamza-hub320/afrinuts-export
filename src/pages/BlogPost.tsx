@@ -203,7 +203,7 @@ const BlogPost: React.FC = () => {
             <Section className="py-8">
                 <div className="max-w-3xl mx-auto px-4 sm:px-6">
                     {/* Breadcrumbs */}
-                    <div className="text-sm text-gray-400 mb-4 flex items-center gap-1 flex-wrap">
+                    <div className="text-sm text-text-darkmb-4 flex items-center gap-1 flex-wrap">
                         <Link to="/" className="hover:text-primary transition-colors">Home</Link>
                         <span>/</span>
                         <Link to="/blog" className="hover:text-primary transition-colors">Blog</Link>
@@ -337,7 +337,7 @@ const BlogPost: React.FC = () => {
                                 </div>
                             </motion.div>
 
-                            {/* Explore Blog */}
+                            {/* Explore Products */}
                             <motion.div
                                 className="relative bg-gradient-to-br from-accent/5 to-primary/5 border-2 border-accent/20 rounded-3xl shadow-xl p-6 text-center overflow-hidden transform-gpu"
                                 style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
@@ -351,15 +351,15 @@ const BlogPost: React.FC = () => {
                                 <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40 hover:opacity-60 transition-opacity duration-500" />
                                 <div className="absolute inset-0 rounded-3xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)]" />
                                 <div className="relative z-10">
-                                    <Typography variant="h4" className="mb-2 text-primary">Explore Our Blog</Typography>
+                                    <Typography variant="h4" className="mb-2 text-primary">Looking for Premium Cashews?</Typography>
                                     <Typography variant="small" className="text-gray-600 mb-4">
-                                        Read in-depth articles on cashew farming, sustainability, and industry insights.
+                                        Explore our organic, sustainably-farmed cashew products.
                                     </Typography>
-                                    <button onClick={() => navigate('/blog')}
+                                    <button onClick={() => navigate('/product')}
                                             className="relative bg-gradient-to-r from-accent to-primary hover:from-primary hover:to-accent text-white px-6 py-2.5 rounded-full transform-gpu group/btn overflow-hidden font-medium text-sm">
                                         <div className="absolute inset-0 rounded-full border-2 border-white/30" />
                                         <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50" />
-                                        <span className="relative z-10">Visit Blog</span>
+                                        <span className="relative z-10">View Products</span>
                                     </button>
                                 </div>
                             </motion.div>

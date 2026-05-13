@@ -93,7 +93,7 @@ const Footer = () => {
                   {[
                     { icon: <FaFacebook />, url: "https://facebook.com", ariaLabel: "Follow us on Facebook" },
                     { icon: <FaTwitter />, url: "https://twitter.com", ariaLabel: "Follow us on Twitter" },
-                    { icon: <FaLinkedin />, url: "https://linkedin.com", ariaLabel: "Follow us on LinkedIn" },
+                    { icon: <FaLinkedin />, url: "https://www.linkedin.com/company/afrinuts-export", ariaLabel: "Follow us on LinkedIn" },
                     { icon: <FaInstagram />, url: "https://instagram.com", ariaLabel: "Follow us on Instagram" }
                   ].map((social, index) => (
                       <motion.a

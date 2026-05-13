@@ -157,7 +157,7 @@ const NewsPost: React.FC = () => {
             <Section className="py-8">
                 <div className="max-w-3xl mx-auto px-4 sm:px-6">
                     {/* Breadcrumbs */}
-                    <div className="text-sm text-gray-400 mb-4 flex items-center gap-1 flex-wrap">
+                    <div className="text-sm text-text-dark mb-4 flex items-center gap-1 flex-wrap">
                         <Link to="/" className="hover:text-primary">Home</Link>
                         <span>/</span>
                         <Link to="/news" className="hover:text-primary">News</Link>

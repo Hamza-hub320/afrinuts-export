@@ -734,7 +734,7 @@ const Home: React.FC = () => {
                                             </div>
                                             <Link
                                                 to={`/news/${update.slug}`}
-                                                className="text-accent hover:text-primary font-medium flex items-center gap-1 transition-colors"
+                                                className="text-accent hover:text-primary font-medium flex items-center gap-1 transition-colors relative z-20"
                                             >
                                                 {t('newsCard.readMore')}
                                                 <FaArrowRight className="text-sm" />

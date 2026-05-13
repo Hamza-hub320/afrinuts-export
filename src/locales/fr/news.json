@@ -1,56 +1,52 @@
 {
   "hero": {
-    "title": "Centre d'Actualités AfriNuts",
-    "subtitle": "Nouvelles de l'agriculture de noix de cajou en Côte d'Ivoire et au-delà",
-    "description": "Restez informé des dernières actualités, analyses et développements d'AfriNuts sur la culture de noix de cajou, la durabilité et les tendances du secteur."
+    "title": "Le Hub d'Actualités AfriNuts",
+    "subtitle": "Actualités de la Culture de la Noix de Cajou en Côte d'Ivoire et Ailleurs",
+    "description": "Restez informé avec AfriNuts Export — jalons de l'entreprise, développements de la ferme, tendances de l'industrie et perspectives du cœur de la ceinture de cajou de l'Afrique de l'Ouest."
   },
   "tabs": {
     "all": "Toutes les Actualités",
-    "afrinuts": "Nos Mises à Jour",
+    "afrinuts": "Actualités AfriNuts",
     "industry": "Actualités du Secteur"
   },
   "filters": {
     "title": "Filtrer par :",
-    "cashew": "Noix de Cajou",
+    "cashew": "Industrie de la Noix de Cajou",
     "agriculture": "Agriculture",
     "ivoryCoast": "Côte d'Ivoire",
     "sustainability": "Durabilité",
-    "trade": "Commerce",
-    "searchPlaceholder": "Rechercher des actualités..."
+    "trade": "Commerce et Exportation",
+    "searchPlaceholder": "Rechercher des articles..."
   },
   "sections": {
-    "afrinutsUpdates": "Nos Mises à Jour",
+    "afrinutsUpdates": "Actualités AfriNuts",
     "industryNews": "Actualités du Secteur",
-    "noUpdatesFound": "Aucune Mise à Jour Trouvée",
-    "readMore": "Lire Plus",
-    "readLess": "Lire Moins",
-    "close": "Ferme",
-    "readFullArticle": "Lire l'article complet →",
-    "newsletter": {
-      "title": "Abonnez-vous à Notre Bulletin Agricole",
-      "description": "Mises à jour mensuelles...",
-      "placeholder": "Votre adresse email",
-      "subscribe": "S'abonner"
-    },
     "newsIntro": {
       "title": "Rejoignez Notre Communauté de Connaissances en Pleine Croissance",
-      "description": "Connectez-vous avec les leaders de l'industrie et accédez à des ressources précieuses qui stimulent l'innovation et la croissance durable dans la culture de la noix de cajou."
+      "description": "Connectez-vous avec les leaders du secteur et accédez à des ressources précieuses qui stimulent l'innovation et la croissance durable dans la culture de la noix de cajou."
+    },
+    "noUpdatesFound": "Aucune Actualité Trouvée",
+    "readMore": "Lire Plus",
+    "readLess": "Lire Moins",
+    "close": "Fermer",
+    "shareArticle": "Partager l'Article",
+    "readFullArticle": "Lire l'Article Complet →",
+    "newsletter": {
+      "title": "Abonnez-vous à Notre Newsletter",
+      "description": "Recevez des mises à jour mensuelles sur la culture de la noix de cajou, les perspectives d'exportation et les jalons d'AfriNuts dans votre boîte de réception.",
+      "placeholder": "Votre adresse email",
+      "subscribe": "S'abonner",
+      "loading": "Abonnement en cours...",
+      "success": "Merci de votre abonnement ! Veuillez vérifier votre email pour confirmer.",
+      "alreadySubscribed": "Cet email est déjà abonné.",
+      "invalidEmail": "Veuillez entrer une adresse email valide.",
+      "error": "Une erreur s'est produite. Veuillez réessayer."
     }
-  },
-  "categories": {
-    "agroforestry": "Agroforesterie",
-    "sustainable-farming": "Agriculture Durable",
-    "Ivory-Coast": "Côte d'Ivoire",
-    "regenerative-agriculture": "Agriculture Régénérative",
-    "partnership": "Partenariat",
-    "community": "Communauté",
-    "farmers": "Agriculteurs",
-    "agriculture": "Agriculture"
   },
   "updateTemplates": {
     "readMore": "Lire la mise à jour complète →",
     "postedBy": "Publié par {{author}} le {{date}}",
-    "tags": "Étiquettes :"
+    "tags": "Tags :"
   },
   "emptyState": {
     "noResults": "Aucun article correspondant trouvé",
@@ -60,5 +56,15 @@
       "description": "Nous n'avons trouvé aucun article correspondant à vos filtres actuels.",
       "resetFilters": "Réinitialiser les Filtres"
     }
+  },
+  "categories": {
+    "agroforestry": "Agroforesterie",
+    "sustainable-farming": "Agriculture Durable",
+    "Ivory-Coast": "Côte d'Ivoire",
+    "regenerative-agriculture": "Agriculture Régénératrice",
+    "partnership": "Partenariat",
+    "community": "Communauté",
+    "farmers": "Agriculteurs",
+    "agriculture": "Agriculture"
   }
 }

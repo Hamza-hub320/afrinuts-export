@@ -176,5 +176,11 @@
     "title": "Découvrez Notre Qualité",
     "description": "Rejoignez-nous pour révolutionner la transformation africaine de la noix de cajou avec des produits certifiés et premium.",
     "button": "Demander des Échantillons"
+  },
+  "breadcrumbs": {
+    "home": "Accueil",
+    "farm": "Ferme",
+    "processing": "Transformation",
+    "facilityFlowchart": "Organigramme de l'Installation"
   }
 }

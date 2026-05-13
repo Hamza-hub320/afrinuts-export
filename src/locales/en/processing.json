@@ -176,5 +176,11 @@
     "title": "Experience Our Quality",
     "description": "Join us in revolutionizing African cashew processing with premium, certified products.",
     "button": "Request Product Samples"
+  },
+  "breadcrumbs": {
+    "home": "Home",
+    "farm": "Farm",
+    "processing": "Processing",
+    "facilityFlowchart": "Facility Flowchart"
   }
 }

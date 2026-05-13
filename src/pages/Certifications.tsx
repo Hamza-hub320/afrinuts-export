@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import {
     FaCertificate,
     FaLeaf,
@@ -136,10 +136,19 @@ const Certifications: React.FC = () => {
 
     return (
         <main className="text-text-dark font-sans">
+            <div className="max-w-4xl mx-auto px-6 sm:px-8 pt-[88px] pb-2">
+            <div className="text-sm text-text-darkmb-4 flex items-center gap-1 flex-wrap">
+                <Link to="/" className="hover:text-primary transition-colors">{t('breadcrumbs.home', 'Home')}</Link>
+                <span>/</span>
+                <Link to="/products" className="hover:text-primary transition-colors">{t('breadcrumbs.products', 'Products')}</Link>
+                <span>/</span>
+                <span className="text-primary font-medium">{t('breadcrumbs.certifications', 'Certification & Quality')}</span>
+            </div>
+            </div>
             {/* Hero Section */}
             <Section
-                fullHeight={true}
-                className="flex items-center justify-center text-center min-h-[40vh] bg-gradient-to-b from-primary/10 to-transparent"
+                fullHeight={false}
+                className="flex items-center justify-center text-center min-h-[40vh]"
             >
                 <motion.div
                     className="max-w-4xl px-6 sm:px-8 py-12"
@@ -171,34 +180,6 @@ const Certifications: React.FC = () => {
                         </Typography>
                     </motion.div>
                 </motion.div>
-            </Section>
-
-            {/* Scroll indicator */}
-            <motion.div
-                className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-                animate={{ y: [0, 10, 0] }}
-                transition={{ duration: 2, repeat: Infinity }}
-            >
-                <div className="w-6 h-10 border-2 border-primary rounded-full flex justify-center">
-                    <div className="w-1 h-3 bg-primary rounded-full mt-2"></div>
-                </div>
-            </motion.div>
-
-            {/* Back Button */}
-            <Section className="py-6">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6">
-                    <motion.button
-                        onClick={() => navigate('/products')}
-                        className="flex items-center text-primary hover:text-accent transition-colors"
-                        whileHover={{ x: -5 }}
-                        initial="hidden"
-                        animate="visible"
-                        variants={fadeIn}
-                    >
-                        <FaArrowLeft className="mr-2" />
-                        {t('backToProducts')}
-                    </motion.button>
-                </div>
             </Section>
 
             {/* Introduction */}

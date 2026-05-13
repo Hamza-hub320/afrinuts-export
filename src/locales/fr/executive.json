@@ -104,5 +104,11 @@
       "education": "Licence en Sciences Agricoles",
       "certifications": ["Agriculture Durable", "Développement Communautaire"]
     }
+  },
+  "breadcrumbs": {
+    "home": "Accueil",
+    "about": "À Propos",
+    "executiveTeam": "Équipe de Direction",
+    "ourStory": "Notre Histoire"
   }
 }

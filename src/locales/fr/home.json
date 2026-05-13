@@ -9,8 +9,10 @@
   },
   "aboutPreview": {
     "title": "Enracinés dans la Tradition, Cultivons pour l'Avenir",
-    "description": "AfriNuts Export est une entreprise agroalimentaire familiale basée à Odienné, en Côte d'Ivoire. Avec plus de 35 hectares de terres agricoles de première qualité pour la culture de noix de cajou, nous combinons le savoir-faire traditionnel avec des pratiques modernes et durables pour produire des noix de cajou de qualité supérieure destinées aux marchés internationaux.",
-    "ctaButton": "Lire l'Histoire de Notre Ferme"
+    "description": "AfriNuts Export est une entreprise agroalimentaire familiale basée à Odienné, en Côte d'Ivoire. Avec plus de 35 hectares de terres agricoles de première qualité pour la culture de la noix de cajou, nous combinons le savoir-faire traditionnel avec des pratiques modernes et durables pour produire des noix de cajou de qualité supérieure destinées aux marchés internationaux. Découvrez comment nous cultivons des noix de cajou biologiques sans produits chimiques dans le blog de notre ferme.",
+    "ctaButton": "Lire l'Histoire de Notre Ferme",
+    "blogButton": "Lire Notre Blog",
+    "blogLink": "/blog"
   },
   "products": {
     "title": "Produits de Cajou Premium pour la Vente en Gros et au Détail",

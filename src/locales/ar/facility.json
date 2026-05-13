@@ -202,5 +202,12 @@
     "play": "جولة تلقائية",
     "pause": "إيقاف مؤقت"
   },
-  "featuresTitle": "الميزات الرئيسية"
+  "featuresTitle": "الميزات الرئيسية",
+  "breadcrumbs": {
+    "home": "الرئيسية",
+    "farm": "المزرعة",
+    "processing": "المعالجة",
+    "facilityFlowchart": "مخطط المنشأة"
+  }
+
 }

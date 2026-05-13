@@ -202,5 +202,11 @@
     "play": "Visite auto.",
     "pause": "Pause"
   },
-  "featuresTitle": "Caractéristiques Clés"
+  "featuresTitle": "Caractéristiques Clés",
+  "breadcrumbs": {
+    "home": "Accueil",
+    "farm": "Ferme",
+    "processing": "Transformation",
+    "facilityFlowchart": "Organigramme de l'Installation"
+  }
 }

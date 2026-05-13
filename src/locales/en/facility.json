@@ -210,5 +210,11 @@
     "play": "Auto-tour",
     "pause": "Pause"
   },
-  "featuresTitle": "Key Features"
+  "featuresTitle": "Key Features",
+  "breadcrumbs": {
+    "home": "Home",
+    "farm": "Farm",
+    "processing": "Processing",
+    "facilityFlowchart": "Facility Flowchart"
+  }
 }

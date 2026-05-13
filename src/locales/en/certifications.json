@@ -207,5 +207,10 @@
       "title": "AfriNuts' Unique Competitive Edge",
       "description": "Our vertical integration combined with local expertise and certification strategy allows us to offer what no other player can: premium, certified, traceable cashews from a transparent, socially responsible source in the heart of the world's largest producing region."
     }
+  },
+  "breadcrumbs": {
+    "home": "Home",
+    "products": "Products",
+    "certifications": "Certification & Quality"
   }
 }

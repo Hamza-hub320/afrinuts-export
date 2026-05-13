@@ -104,5 +104,11 @@
       "education": "BS in Agricultural Science",
       "certifications": ["Sustainable Agriculture", "Community Development"]
     }
+  },
+  "breadcrumbs": {
+    "home": "Home",
+    "about": "About",
+    "executiveTeam": "Executive Team",
+    "ourStory": "Our Story"
   }
 }

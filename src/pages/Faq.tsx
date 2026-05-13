@@ -348,7 +348,7 @@ const Faq: React.FC = () => {
         <main>
             {/* Hero Section */}
             <Section
-                fullHeight={true}
+                fullHeight={false}
                 className="flex items-center justify-center text-center min-h-[40vh] bg-gradient-to-b from-primary/10 to-transparent"
             >
                 <motion.div
