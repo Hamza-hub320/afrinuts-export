@@ -3,8 +3,21 @@ import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import {
-    FaLeaf, FaSeedling, FaIndustry, FaWeightHanging,
-    FaStar, FaTrophy, FaChartLine, FaShieldAlt, FaShippingFast, FaArrowDown, FaDownload, FaClock
+    FaLeaf,
+    FaSeedling,
+    FaIndustry,
+    FaWeightHanging,
+    FaStar,
+    FaTrophy,
+    FaChartLine,
+    FaShieldAlt,
+    FaShippingFast,
+    FaArrowDown,
+    FaDownload,
+    FaClock,
+    FaCertificate,
+    FaAward,
+    FaRibbon
 } from 'react-icons/fa';
 import {fadeIn, slideInFromLeft, slideInFromRight, staggerContainer} from '@/utils/animations';
 import Section from '../components/Section/Section';
@@ -26,6 +39,7 @@ import rawCashewImage from '../assets/images/raw-cashew.webp';
 import productCataloguePdf from '../assets/documents/afrinuts-products-catalogue.pdf';
 import { AvailabilityFilter } from '@/types/filters';
 import JsonLd from "@/components/Seo/JsonLd";
+import {CertificationsCard} from "@/components/CertificationsCard/CertificationsCard";
 
 type AvailabilityFilter = 'all' | 'available' | 'coming-soon';
 type CertificationFilter = 'organic' | 'halal' | 'fairtrade' | '';
@@ -804,70 +818,49 @@ const Products: React.FC = () => {
                 {/* Certifications */}
                 <Section className="py-10">
                     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
-                        <motion.div
-                            initial="hidden"
-                            whileInView="visible"
-                            viewport={{once: true}}
-                            variants={fadeIn}
-                        >
-                            <Typography variant="h2" className="text-center text-primary mb-4">
-                                {t('certifications.title')}
-                            </Typography>
-                            <Typography variant="subtitle" className="text-center max-w-2xl mx-auto mb-12">
-                                {t('certifications.subtitle')}
-                            </Typography>
-                        </motion.div>
-
-                        <motion.div
-                            className="grid grid-cols-2 md:grid-cols-5 gap-6 md:gap-8"
-                            initial="hidden"
-                            whileInView="visible"
-                            viewport={{once: true}}
-                            variants={staggerContainer}
-                        >
-                            {['organic', 'fairtrade', 'iso', 'halal', 'rainforest'].map((cert) => (
-                                <motion.div
-                                    key={cert}
-                                    variants={fadeIn}
-                                    className="group relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-500 p-6 rounded-2xl shadow-lg flex flex-col items-center transform-gpu"
-                                    whileHover={{
-                                        y: -10,
-                                        scale: 1.05,
-                                        rotateY: 5,
-                                        transition: { duration: 0.3 }
-                                    }}
-                                    style={{
-                                        transformStyle: 'preserve-3d',
-                                        perspective: '1000px',
-                                    }}
-                                >
-                                    {/* 3D edge effect */}
-                                    <div className="absolute inset-0 rounded-2xl border-2 border-white/30 transform-gpu translate-z-[-8px] group-hover:translate-z-[-12px] transition-all duration-500" />
-
-                                    {/* Certificate background pattern */}
-                                    <div className="absolute inset-2 rounded-xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMTY1LCAxMDUsIDY2LCAwLjA1KSIgc3Ryb2tlLXdpZHRoPSIxIj48cGF0aCBkPSJNIDAgMCBMIDYwIDYwIE0gNjAgMCBMIDAgNjAiLz48L2c+PC9zdmc+')] opacity-30" />
-
-                                    {/* Glossy overlay */}
-                                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/10 to-transparent opacity-30 group-hover:opacity-50 transition-opacity duration-500" />
-
-                                    {/* Inner shadow effect */}
-                                    <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_8px_rgba(0,0,0,0.1)] group-hover:shadow-[inset_0_4px_12px_rgba(0,0,0,0.15)] transition-shadow duration-500" />
-
-                                    <div className="relative z-10 w-16 h-16 bg-gradient-to-br from-accent/20 to-accent/40 rounded-full flex items-center justify-center mb-4 transform-gpu group-hover:scale-110 transition-transform duration-500 shadow-md">
-                                        <FaShieldAlt className="text-accent text-2xl transform-gpu group-hover:scale-110 transition-transform duration-500" />
-                                    </div>
-
-                                    <Typography variant="h4" className="text-center relative z-10 font-semibold text-text-dark">
-                                        {t(`certifications.${cert}.title`)}
-                                    </Typography>
-
-                                    {/* Subtle certification badge - In Progress */}
-                                    <div className="absolute -top-2 -right-2 w-6 h-6 bg-accent rounded-full flex items-center justify-center transform-gpu group-hover:scale-125 transition-transform duration-500">
-                                        <FaClock className="text-white text-[10px]" />
-                                    </div>
-                                </motion.div>
-                            ))}
-                        </motion.div>
+                        <CertificationsCard
+                            certifications={[
+                                {
+                                    id: 'organic',
+                                    title: t('certifications.organic.title'),
+                                    status: 'in-progress',
+                                    targetDate: t('certifications.organic.targetDate'),
+                                    icon: FaLeaf,
+                                },
+                                {
+                                    id: 'fairtrade',
+                                    title: t('certifications.fairtrade.title'),
+                                    status: 'in-progress',
+                                    targetDate: t('certifications.fairtrade.targetDate'),
+                                    icon: FaRibbon,
+                                },
+                                {
+                                    id: 'iso',
+                                    title: t('certifications.iso.title'),
+                                    status: 'in-progress',
+                                    targetDate: t('certifications.iso.targetDate'),
+                                    icon: FaShieldAlt,
+                                },
+                                {
+                                    id: 'halal',
+                                    title: t('certifications.halal.title'),
+                                    status: 'in-progress',
+                                    targetDate: t('certifications.halal.targetDate'),
+                                    icon: FaAward,
+                                },
+                                {
+                                    id: 'rainforest',
+                                    title: t('certifications.rainforest.title'),
+                                    status: 'in-progress',
+                                    targetDate: t('certifications.rainforest.targetDate'),
+                                    icon: FaCertificate,
+                                },
+                            ]}
+                            title={t('certifications.title')}
+                            subtitle={t('certifications.subtitle')}
+                            variant="primary"
+                            columns={5}
+                        />
                     </div>
                 </Section>
 

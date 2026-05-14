@@ -475,6 +475,7 @@ const Processing: React.FC = () => {
                             icon={FaIndustry}
                             title={t('roadmap.phase1.title')}
                             iconColor="text-primary"
+                            showInfoBadge={false}
                             className="flex-1 bg-gradient-to-br from-primary/10 to-primary/5 rounded-2xl p-6 border border-primary/20 shadow-lg flex flex-col"
                         >
                             <Typography variant="body" className="mb-4">
@@ -490,6 +491,7 @@ const Processing: React.FC = () => {
                             icon={FaCogs}
                             title={t('roadmap.phase2.title')}
                             iconColor="text-accent"
+                            showInfoBadge={false}
                             className="flex-1 bg-gradient-to-br from-accent/10 to-accent/5 rounded-2xl p-6 border border-accent/20 shadow-lg flex flex-col"
                         >
                             <Typography variant="body" className="mb-4">
@@ -556,20 +558,31 @@ const Processing: React.FC = () => {
                     <Section className="py-16">
                         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                             <motion.div
-                                className="relative bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-200 rounded-3xl p-8 md:p-12 text-center transform-gpu"
+                                className="relative bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-200 hover:border-green-300 rounded-3xl p-8 md:p-12 text-center transform-gpu shadow-xl transition-all duration-500"
                                 style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
                                 initial="hidden"
                                 whileInView="visible"
                                 viewport={{ once: true }}
                                 variants={fadeIn}
-                                whileHover={{ y: -6, scale: 1.01 }}
+                                whileHover={{ y: -8, scale: 1.02, rotateY: 2, boxShadow: '0 25px 50px -12px rgba(0,100,0,0.2)', transition: { duration: 0.3 } }}
                             >
-                                <div className="absolute inset-0 rounded-3xl border-2 border-white/20" />
-                                <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40" />
+                                {/* 3D edge effect */}
+                                <div className="absolute inset-0 rounded-3xl border-2 border-white/30 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
+                                {/* Glassy overlay */}
+                                <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/20 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+                                {/* Inner shadow */}
+                                <div className="absolute inset-0 rounded-3xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.05)] group-hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.08)] transition-shadow duration-500" />
+                                {/* Background pattern */}
+                                <div className="absolute inset-0 rounded-3xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMCwgMTAwLCAwLCAwLjA1KSIgc3Ryb2tlLXdpZHRoPSIxIj48Y2lyY2xlIGN4PSIzMCIgY3k9IjMwIiByPSIyNSIvPjwvZz48L3N2Zz4=')] opacity-20" />
+
                                 <div className="relative z-10">
-                                    <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                                    <motion.div
+                                        className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6 shadow-md"
+                                        whileHover={{ scale: 1.1, rotate: 5 }}
+                                        transition={{ type: 'spring', stiffness: 300 }}
+                                    >
                                         <FaLeaf className="text-green-600 text-3xl" />
-                                    </div>
+                                    </motion.div>
                                     <Typography variant="h2" className="mb-4 text-green-800">
                                         {t('chemicalFree.title')}
                                     </Typography>
@@ -873,20 +886,31 @@ const Processing: React.FC = () => {
                         {(t('whyProcessLocal.benefits', { returnObjects: true }) as string[]).map((benefit, index) => (
                             <motion.div
                                 key={index}
-                                className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl p-6 text-center transform-gpu"
+                                className="group relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 rounded-2xl p-6 text-center transform-gpu shadow-lg transition-all duration-500"
                                 style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
                                 initial="hidden"
                                 whileInView="visible"
                                 viewport={{ once: true }}
                                 variants={fadeIn}
-                                whileHover={{ y: -4, scale: 1.02 }}
+                                whileHover={{ y: -6, scale: 1.03, rotateY: 2, boxShadow: '0 20px 35px -10px rgba(0,0,0,0.2)', transition: { duration: 0.3 } }}
                             >
-                                <div className="absolute inset-0 rounded-2xl border-2 border-white/20" />
-                                <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40" />
+                                {/* 3D edge effect */}
+                                <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
+                                {/* Glassy overlay */}
+                                <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+                                {/* Inner shadow */}
+                                <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] group-hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
+                                {/* Background pattern */}
+                                <div className="absolute inset-0 rounded-2xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
+
                                 <div className="relative z-10">
-                                    <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
+                                    <motion.div
+                                        className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3 backdrop-blur-sm"
+                                        whileHover={{ scale: 1.15, rotate: 5 }}
+                                        transition={{ type: 'spring', stiffness: 300 }}
+                                    >
                                         <FaCheckCircle className="text-primary text-xl" />
-                                    </div>
+                                    </motion.div>
                                     <Typography variant="body" className="text-text-dark">{benefit}</Typography>
                                 </div>
                             </motion.div>
@@ -920,6 +944,7 @@ const Processing: React.FC = () => {
                         <InfoCard
                             icon={FaShieldAlt}
                             title={t('differentiators.quality.title')}
+                            showInfoBadge={false}
                             iconColor="text-accent"
                         >
                             {t('differentiators.quality.description')}
@@ -927,6 +952,7 @@ const Processing: React.FC = () => {
                         <InfoCard
                             icon={FaRecycle}
                             title={t('differentiators.sustainability.title')}
+                            showInfoBadge={false}
                             iconColor="text-accent"
                         >
                             {t('differentiators.sustainability.description')}
@@ -934,6 +960,7 @@ const Processing: React.FC = () => {
                         <InfoCard
                             icon={FaCertificate}
                             title={t('differentiators.certifications.title')}
+                            showInfoBadge={false}
                             iconColor="text-accent"
                         >
                             {t('differentiators.certifications.description')}
@@ -1035,6 +1062,7 @@ const Processing: React.FC = () => {
                         <InfoCard
                             icon={FaWater}
                             title={t('sustainability.water.title')}
+                            showInfoBadge={false}
                             iconColor="text-accent"
                         >
                             {t('sustainability.water.description')}
@@ -1042,6 +1070,7 @@ const Processing: React.FC = () => {
                         <InfoCard
                             icon={FaRecycle}
                             title={t('sustainability.waste.title')}
+                            showInfoBadge={false}
                             iconColor="text-accent"
                         >
                             {t('sustainability.waste.description')}
@@ -1049,6 +1078,7 @@ const Processing: React.FC = () => {
                         <InfoCard
                             icon={FaLeaf}
                             title={t('sustainability.energy.title')}
+                            showInfoBadge={false}
                             iconColor="text-accent"
                         >
                             {t('sustainability.energy.description')}
@@ -1072,6 +1102,7 @@ const Processing: React.FC = () => {
                                 icon={FaRecycle}
                                 title={t('cnslRecovery.title')}
                                 iconColor="text-accent"
+                                showInfoBadge={false}
                             >
                                 {t('cnslRecovery.description')}
                             </InfoCard>
@@ -1084,10 +1115,26 @@ const Processing: React.FC = () => {
                                     { label: t('cnslRecovery.uses.polymers'), icon: FaRecycle },
                                     { label: t('cnslRecovery.uses.revenue'), icon: FaChartLine },
                                 ].map((item, idx) => (
-                                    <div key={idx} className="bg-white/50 backdrop-blur-sm rounded-xl p-4 text-center border border-primary/10">
-                                        <item.icon className="text-primary text-2xl mx-auto mb-2" />
-                                        <Typography variant="small" className="text-text-dark">{item.label}</Typography>
-                                    </div>
+                                    <motion.div
+                                        key={idx}
+                                        className="group relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 rounded-2xl p-4 text-center transform-gpu shadow-md transition-all duration-500"
+                                        style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
+                                        whileHover={{ y: -4, scale: 1.03, boxShadow: '0 15px 30px -8px rgba(0,0,0,0.15)', transition: { duration: 0.3 } }}
+                                    >
+                                        <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-4px] group-hover:translate-z-[-8px] transition-all duration-500" />
+                                        <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-30 group-hover:opacity-50 transition-opacity duration-500" />
+                                        <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_8px_rgba(0,0,0,0.05)] group-hover:shadow-[inset_0_4px_12px_rgba(0,0,0,0.08)] transition-shadow duration-500" />
+                                        <div className="relative z-10">
+                                            <motion.div
+                                                className="bg-primary/10 p-3 rounded-full w-fit mx-auto mb-2"
+                                                whileHover={{ scale: 1.15, rotate: 5 }}
+                                                transition={{ type: 'spring', stiffness: 300 }}
+                                            >
+                                                <item.icon className="text-primary text-xl" />
+                                            </motion.div>
+                                            <Typography variant="small" className="text-text-dark font-medium">{item.label}</Typography>
+                                        </div>
+                                    </motion.div>
                                 ))}
                             </div>
                         </motion.div>

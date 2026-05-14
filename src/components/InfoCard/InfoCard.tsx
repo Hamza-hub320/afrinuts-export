@@ -29,7 +29,7 @@ export const InfoCard: React.FC<InfoCardProps> = ({
                                                       cta,
                                                       onClickCta,
                                                       variant = 'primary',
-                                                      showInfoBadge = true,
+                                                      showInfoBadge = false,
                                                   }) => {
     // Define gradient and border based on variant
     const variantStyles = {

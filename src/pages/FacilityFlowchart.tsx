@@ -348,6 +348,7 @@ const FacilityFlowchart: React.FC = () => {
                                 key={index}
                                 icon={feature.icon}
                                 title={feature.title}
+                                showInfoBadge={false}
                                 variant={feature.variant}
                                 className="h-full"
                             >
@@ -561,6 +562,7 @@ const FacilityFlowchart: React.FC = () => {
                                 <InfoCard
                                     icon={FaFlask}
                                     title={item.test}
+                                    showInfoBadge={false}
                                     iconColor="text-primary"
                                     className="h-full"
                                 >
@@ -610,6 +612,7 @@ const FacilityFlowchart: React.FC = () => {
                                 <InfoCard
                                     icon={iconMap[item.icon] || FaShieldAlt}
                                     title={item.area}
+                                    showInfoBadge={false}
                                     iconColor="text-accent"
                                     className="h-full"
                                 >
@@ -646,6 +649,7 @@ const FacilityFlowchart: React.FC = () => {
                         <InfoCard
                             icon={FaShower}
                             title={t('compliance.hygiene.title')}
+                            showInfoBadge={false}
                             variant="primary"
                         >
                             <ul className="space-y-3">
@@ -663,6 +667,7 @@ const FacilityFlowchart: React.FC = () => {
                         <InfoCard
                             icon={FaCertificate}
                             title={t('compliance.certifications.title')}
+                            showInfoBadge={false}
                             variant="accent"
                         >
                             <ul className="space-y-3">
@@ -733,6 +738,7 @@ const FacilityFlowchart: React.FC = () => {
                     <InfoCard
                         icon={FaIndustry}
                         title={t('cta.title')}
+                        showInfoBadge={false}
                         variant="primary"
                         className="text-center"
                     >

@@ -97,19 +97,24 @@
     "title": "Our Certifications",
     "subtitle": "Meeting global standards for quality and sustainability",
     "organic": {
-      "title":  "Organic Certification (In Progress)"
+      "title": "Organic Certification",
+      "targetDate": "Q4 2026"
     },
     "fairtrade": {
-      "title": "Fair Trade (In Progress)"
+      "title": "Fair Trade",
+      "targetDate": "2027"
     },
     "iso": {
-      "title": "ISO 22000 (In Progress)"
+      "title": "ISO 22000",
+      "targetDate": "2027"
     },
     "halal": {
-      "title": "Halal Certified (In Progress)"
+      "title": "Halal Certified",
+      "targetDate": "Q2 2026"
     },
     "rainforest": {
-      "title": "Rainforest Alliance Certified (In Progress)"
+      "title": "Rainforest Alliance",
+      "targetDate": "2028"
     }
   },
   "cta": {

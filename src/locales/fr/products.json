@@ -97,19 +97,24 @@
     "title": "Nos Certifications",
     "subtitle": "Respecter les normes mondiales de qualité et de durabilité",
     "organic": {
-      "title": "Certification Biologique (En Cours)"
+      "title": "Certification Biologique",
+      "targetDate": "T4 2026"
     },
     "fairtrade": {
-      "title": "Commerce Équitable (En Cours)"
+      "title": "Commerce Équitable",
+      "targetDate": "2027"
     },
     "iso": {
-      "title": "ISO 22000 (En Cours)"
+      "title": "ISO 22000",
+      "targetDate": "2027"
     },
     "halal": {
-      "title": "Certifié Halal (En Cours)"
+      "title": "Certifié Halal",
+      "targetDate": "T2 2026"
     },
     "rainforest": {
-      "title": "Certifié Rainforest Alliance (En Cours)"
+      "title": "Rainforest Alliance",
+      "targetDate": "2028"
     }
   },
   "cta": {
