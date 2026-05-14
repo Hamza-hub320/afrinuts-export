@@ -468,7 +468,7 @@ const Vision: React.FC = () => {
                             {t('midCta.title')}
                         </Typography>
                         <motion.button
-                            className="group border-2 border-primary text-primary hover:bg-accent hover:text-white hover:border-accent px-6 py-2 md:px-8 md:py-3 rounded-full transition-all duration-300 inline-flex items-center text-sm md:text-base"
+                            className="group border-2 relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-6 py-2 md:px-8 md:py-3 rounded-full transition-all duration-300 inline-flex items-center text-sm md:text-base"
                             variants={fadeIn}
                             onClick={() => navigate('/contact')}
                             aria-label={t('midCta.button')}

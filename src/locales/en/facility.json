@@ -216,5 +216,52 @@
     "farm": "Farm",
     "processing": "Processing",
     "facilityFlowchart": "Facility Flowchart"
+  },
+  "facilityStats": {
+    "title": "Facility at a Glance",
+    "stats": [
+      { "label": "Processing Capacity", "value": "5,000 MT/year", "icon": "FaIndustry" },
+      { "label": "Jobs Created", "value": "100+", "icon": "FaUsers" },
+      { "label": "Export Value", "value": "$15M+", "icon": "FaChartLine" },
+      { "label": "Land Area", "value": "10 Hectares", "icon": "FaTree" }
+    ]
+  },
+  "qualityLab": {
+    "title": "In-House Quality Control Lab",
+    "subtitle": "Testing capabilities for export-grade certification",
+    "method": "Method",
+    "standard": "Standard",
+    "capabilities": [
+      { "test": "Moisture Content", "method": "Oven drying method", "standard": "< 8% for export" },
+      { "test": "Aflatoxin Testing", "method": "ELISA / HPLC", "standard": "EU/US compliance" },
+      { "test": "Kernel Out-Turn", "method": "Manual sampling", "standard": "52-55 lbs/kernel count" },
+      { "test": "Microbiological", "method": "Petri film culture", "standard": "ISO 22000" },
+      { "test": "Foreign Material", "method": "Visual + electronic sorting", "standard": "0% foreign matter" },
+      { "test": "Traceability", "method": "Batch-level ERP tracking", "standard": "Farm to fork" }
+    ],
+    "note": "All tests documented for traceability and export compliance"
+  },
+  "workerWelfare": {
+    "title": "Worker Safety & Welfare",
+    "subtitle": "Our team is our greatest asset",
+    "features": [
+      { "area": "PPE & Safety Gear", "details": "Gloves, aprons, safety glasses, dust masks provided for all processing staff", "icon": "FaShieldAlt" },
+      { "area": "Hygiene Protocols", "details": "Mandatory hand washing before entry, hair nets, shoe sanitizing stations", "icon": "FaShower" },
+      { "area": "Ergonomic Workstations", "details": "Designed to reduce repetitive strain injuries with adjustable heights", "icon": "FaCogs" },
+      { "area": "First Aid & Medical", "details": "On-site first aid kit, trained first responders, health insurance coverage", "icon": "FaInfoCircle" },
+      { "area": "Fair Wages", "details": "Above minimum wage with regular pay cycles and overtime compensation", "icon": "FaUsers" },
+      { "area": "Training & Development", "details": "Ongoing skills training and career progression pathways", "icon": "FaChalkboardTeacher" }
+    ]
+  },
+  "projectTimeline": {
+    "title": "Project Timeline",
+    "description": "Key milestones for facility development",
+    "milestones": [
+      { "phase": "2026-2027", "milestone": "Fundraising & Site Preparation", "status": "In Progress", "icon": "FaChartLine" },
+      { "phase": "2027-2028", "milestone": "Construction & Equipment", "status": "Planned", "icon": "FaIndustry" },
+      { "phase": "2028", "milestone": "Training & Pilot Processing", "status": "Planned", "icon": "FaCogs" },
+      { "phase": "2029", "milestone": "Full Operations & Certification", "status": "Planned", "icon": "FaCertificate" },
+      { "phase": "2030+", "milestone": "5,000 MT Capacity", "status": "Planned", "icon": "FaExpand" }
+    ]
   }
 }

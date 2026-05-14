@@ -21,7 +21,18 @@ import {
     FaArrowLeft as FaPrev,
     FaArrowRight as FaNext,
     FaPlay,
-    FaPause
+    FaPause,
+    FaGlobe,
+    FaShieldAlt,
+    FaCogs,
+    FaLeaf,
+    FaRecycle,
+    FaChartLine,
+    FaUsers,
+    FaTree,
+    FaFlask,
+    FaCalendarAlt,
+    FaHeart, FaHandSparkles
 } from "react-icons/fa";
 import {Link, useNavigate} from 'react-router-dom';
 import Section from '@/components/Section/Section';
@@ -36,6 +47,32 @@ const FacilityFlowchart: React.FC = () => {
     const [activeStep, setActiveStep] = useState(0);
     const [isPlaying, setIsPlaying] = useState(false);
     const animationRef = useRef<NodeJS.Timeout | null>(null);
+
+    const iconMap: Record<string, React.ComponentType> = {
+        FaIndustry,
+        FaWarehouse,
+        FaBox,
+        FaTruck,
+        FaShower,
+        FaPray,
+        FaChalkboardTeacher,
+        FaUtensils,
+        FaWater,
+        FaSolarPanel,
+        FaExpand,
+        FaCertificate,
+        FaTree,
+        FaUsers,
+        FaChartLine,
+        FaRecycle,
+        FaLeaf,
+        FaCogs,
+        FaShieldAlt,
+        FaGlobe, FaFlask,
+        FaCalendarAlt,
+        FaHeart,
+        FaHandSparkles,
+    };
 
     // Facility zones by category
     const facilityZones = {
@@ -166,7 +203,7 @@ const FacilityFlowchart: React.FC = () => {
     // Helper to get features array safely
     const getFeatures = (key: string): string[] => {
         const result = t(key, { returnObjects: true });
-        return Array.isArray(result) ? result : [];
+        return Array.isArray(result) ? result.map(String) : [];
     };
 
     return (
@@ -239,6 +276,45 @@ const FacilityFlowchart: React.FC = () => {
                             {t('introduction.description')}
                         </Typography>
                     </motion.div>
+
+                    {/* Facility at a Glance */}
+                    <Section className="py-12">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+                            <motion.div
+                                className="text-center mb-12"
+                                initial="hidden"
+                                whileInView="visible"
+                                viewport={{ once: true }}
+                                variants={fadeIn}
+                            >
+                                <Typography variant="h2" className="mb-4">
+                                    {t('facilityStats.title')}
+                                </Typography>
+                            </motion.div>
+
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                                {(t('facilityStats.stats', { returnObjects: true }) as { label: string; value: string; icon: string }[]).map((stat, index) => (
+                                    <motion.div
+                                        key={index}
+                                        initial="hidden"
+                                        whileInView="visible"
+                                        viewport={{ once: true }}
+                                        variants={fadeIn}
+                                        transition={{ delay: index * 0.1 }}
+                                    >
+                                        <InfoCard
+                                            icon={iconMap[stat.icon] || FaIndustry}
+                                            title={stat.value}
+                                            subtitle={stat.label}
+                                            iconColor="text-primary"
+                                            showInfoBadge={false}
+                                            className="h-full"
+                                        />
+                                    </motion.div>
+                                ))}
+                            </div>
+                        </div>
+                    </Section>
 
                     {/* Key Features Grid */}
                     <motion.div
@@ -455,6 +531,96 @@ const FacilityFlowchart: React.FC = () => {
                 </div>
             </Section>
 
+            {/* Quality Control Lab */}
+            <Section className="py-16">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6">
+                    <motion.div
+                        className="text-center mb-12"
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={fadeIn}
+                    >
+                        <Typography variant="h2" className="mb-4">
+                            {t('qualityLab.title')}
+                        </Typography>
+                        <Typography variant="lead" className="max-w-3xl mx-auto text-text-dark/70">
+                            {t('qualityLab.subtitle')}
+                        </Typography>
+                    </motion.div>
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {(t('qualityLab.capabilities', { returnObjects: true }) as Array<{ test: string; method: string; standard: string }>).map((item, idx) => (
+                            <motion.div
+                                key={idx}
+                                variants={fadeIn}
+                                initial="hidden"
+                                whileInView="visible"
+                                viewport={{ once: true }}
+                                transition={{ delay: idx * 0.1 }}
+                            >
+                                <InfoCard
+                                    icon={FaFlask}
+                                    title={item.test}
+                                    iconColor="text-primary"
+                                    className="h-full"
+                                >
+                                    <div className="space-y-2 text-sm">
+                                        <p><span className="font-medium text-gray-700">{t('qualityLab.method')}:</span> {item.method}</p>
+                                        <p><span className="font-medium text-gray-700">{t('qualityLab.standard')}:</span> {item.standard}</p>
+                                    </div>
+                                </InfoCard>
+                            </motion.div>
+                        ))}
+                    </div>
+                    <motion.div
+                        className="mt-8 p-4 bg-primary/5 rounded-xl text-center"
+                        variants={fadeIn}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                    >
+                        <Typography variant="small" className="text-primary">{t('qualityLab.note')}</Typography>
+                    </motion.div>
+                </div>
+            </Section>
+
+            {/* Worker Safety & Welfare */}
+            <Section className="py-16">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6">
+                    <motion.div
+                        className="text-center mb-12"
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={fadeIn}
+                    >
+                        <Typography variant="h2" className="mb-4">{t('workerWelfare.title')}</Typography>
+                        <Typography variant="lead" className="max-w-3xl mx-auto text-text-dark/70">{t('workerWelfare.subtitle')}</Typography>
+                    </motion.div>
+                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {(t('workerWelfare.features', { returnObjects: true }) as Array<{ area: string; details: string; icon: string }>).map((item, idx) => (
+                            <motion.div
+                                key={idx}
+                                variants={fadeIn}
+                                initial="hidden"
+                                whileInView="visible"
+                                viewport={{ once: true }}
+                                transition={{ delay: idx * 0.1 }}
+                            >
+                                <InfoCard
+                                    icon={iconMap[item.icon] || FaShieldAlt}
+                                    title={item.area}
+                                    iconColor="text-accent"
+                                    className="h-full"
+                                >
+                                    <Typography variant="small">{item.details}</Typography>
+                                </InfoCard>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+            </Section>
+
             {/* Compliance & Standards Section */}
             <Section className="py-16">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6">
@@ -510,6 +676,53 @@ const FacilityFlowchart: React.FC = () => {
                                 ))}
                             </ul>
                         </InfoCard>
+                    </div>
+                </div>
+            </Section>
+
+            {/* Project Timeline */}
+            <Section className="py-16">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6">
+                    <motion.div
+                        className="text-center mb-12"
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={fadeIn}
+                    >
+                        <Typography variant="h2" className="mb-4">{t('projectTimeline.title')}</Typography>
+                        <Typography variant="lead" className="max-w-3xl mx-auto text-text-dark/70">{t('projectTimeline.description')}</Typography>
+                    </motion.div>
+                    <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                        {(t('projectTimeline.milestones', { returnObjects: true }) as Array<{ phase: string; milestone: string; status: string; icon: string }>).map((item, idx) => (
+                            <motion.div
+                                key={idx}
+                                initial="hidden"
+                                whileInView="visible"
+                                viewport={{ once: true }}
+                                variants={fadeIn}
+                                transition={{ delay: idx * 0.1 }}
+                            >
+                                <InfoCard
+                                    icon={iconMap[item.icon] || FaCalendarAlt}
+                                    title={item.phase}
+                                    subtitle={item.milestone}
+                                    iconColor={
+                                        item.status === 'In Progress' ? 'text-yellow-500' :
+                                            item.status === 'Completed' ? 'text-green-500' : 'text-gray-400'
+                                    }
+                                    showInfoBadge={false}
+                                    className="h-full"
+                                >
+                        <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium mt-2 ${
+                            item.status === 'In Progress' ? 'bg-yellow-100 text-yellow-700' :
+                                item.status === 'Completed' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'
+                        }`}>
+                            {item.status}
+                        </span>
+                                </InfoCard>
+                            </motion.div>
+                        ))}
                     </div>
                 </div>
             </Section>

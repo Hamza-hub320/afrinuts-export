@@ -1,12 +1,14 @@
 // components/CertificationsCard/CertificationsCard.tsx
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FaShieldAlt, FaCheckCircle, FaAward, FaCertificate, FaRibbon } from 'react-icons/fa';
+import { FaShieldAlt, FaCheckCircle, FaAward, FaCertificate, FaRibbon, FaClock, FaSpinner, FaCheck } from 'react-icons/fa';
 
 export interface Certification {
     id: string;
     title: string;
     description?: string;
+    status?: 'achieved' | 'in-progress' | 'planned';
+    targetDate?: string;
     issuer?: string;
     year?: string;
     icon?: React.ComponentType<{ className?: string }>;
@@ -52,6 +54,40 @@ export const CertificationsCard: React.FC<CertificationsCardProps> = ({
             text: 'text-secondary-dark',
             icon: 'text-secondary'
         },
+    };
+
+    // Helper function to get status badge styles
+    const getStatusBadge = (status?: string) => {
+        switch (status) {
+            case 'achieved':
+                return {
+                    bg: 'bg-green-100',
+                    text: 'text-green-700',
+                    icon: FaCheck,
+                    label: 'Certified'
+                };
+            case 'in-progress':
+                return {
+                    bg: 'bg-blue-100',
+                    text: 'text-blue-700',
+                    icon: FaSpinner,
+                    label: 'In Progress'
+                };
+            case 'planned':
+                return {
+                    bg: 'bg-gray-100',
+                    text: 'text-gray-600',
+                    icon: FaClock,
+                    label: 'Planned'
+                };
+            default:
+                return {
+                    bg: 'bg-gray-100',
+                    text: 'text-gray-600',
+                    icon: FaClock,
+                    label: 'Planned'
+                };
+        }
     };
 
     // Column classes
@@ -125,8 +161,9 @@ export const CertificationsCard: React.FC<CertificationsCardProps> = ({
                         },
                     }}
                 >
-                    {certifications.map((certification, index) => {
+                    {certifications.map((certification) => {
                         const IconComponent = certification.icon || DefaultIcon;
+                        const statusBadge = getStatusBadge(certification.status);
 
                         return (
                             <motion.div
@@ -164,6 +201,21 @@ export const CertificationsCard: React.FC<CertificationsCardProps> = ({
                                     {certification.title}
                                 </h3>
 
+                                {/* Status Badge */}
+                                {certification.status && (
+                                    <div className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium ${statusBadge.bg} ${statusBadge.text} mb-2`}>
+                                        <statusBadge.icon className="w-3 h-3" />
+                                        <span>{statusBadge.label}</span>
+                                    </div>
+                                )}
+
+                                {/* Target Date */}
+                                {certification.targetDate && (
+                                    <div className="text-xs text-primary font-medium mb-2">
+                                        Target: {certification.targetDate}
+                                    </div>
+                                )}
+
                                 {/* Optional Description */}
                                 {!compact && certification.description && (
                                     <p className="text-text-dark/70 text-xs mb-2">
@@ -171,11 +223,10 @@ export const CertificationsCard: React.FC<CertificationsCardProps> = ({
                                     </p>
                                 )}
 
-                                {/* Optional Issuer and Year */}
-                                {!compact && (certification.issuer || certification.year) && (
+                                {/* Optional Issuer */}
+                                {!compact && certification.issuer && (
                                     <div className="text-text-dark/60 text-xs mt-auto">
-                                        {certification.issuer && <div>{certification.issuer}</div>}
-                                        {certification.year && <div>{certification.year}</div>}
+                                        {certification.issuer}
                                     </div>
                                 )}
 

@@ -291,7 +291,7 @@ const Home: React.FC = () => {
                                                 boxShadow: '0 10px 25px -5px rgba(165, 105, 66, 0.4)'
                                             }}
                                             whileTap={{ scale: 0.96 }}
-                                            className="group border-2 border-primary text-primary hover:bg-accent hover:text-white hover:border-accent px-6 py-2 md:px-8 md:py-3 rounded-full transition-all duration-300 inline-flex items-center justify-center text-sm md:text-base"
+                                            className="group border-2 relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-6 py-2 md:px-8 md:py-3 rounded-full transition-all duration-300 inline-flex items-center justify-center text-sm md:text-base"
                                             onClick={() => navigate('/about')}
                                             aria-label={t('aboutPreview.ctaButton')}
                                         >
@@ -313,7 +313,7 @@ const Home: React.FC = () => {
                                                 boxShadow: '0 10px 25px -5px rgba(160, 200, 0, 0.4)'
                                             }}
                                             whileTap={{ scale: 0.96 }}
-                                            className="group border-2 border-primary text-primary hover:bg-accent hover:text-white hover:border-accent px-6 py-2 md:px-8 md:py-3 rounded-full transition-all duration-300 inline-flex items-center justify-center text-sm md:text-base"
+                                            className="group border-2 relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-6 py-2 md:px-8 md:py-3 rounded-full transition-all duration-300 inline-flex items-center justify-center text-sm md:text-base"
                                             onClick={() => navigate('/blog')}
                                             aria-label="Visit our blog"
                                         >
@@ -425,7 +425,7 @@ const Home: React.FC = () => {
                             <motion.button
                                 whileHover={{ scale: 1.08 }}
                                 whileTap={{ scale: 0.96 }}
-                                className="group border-2 border-primary text-primary hover:bg-accent hover:text-white hover:border-accent px-6 py-2 md:px-8 md:py-3 rounded-full transition-all duration-300 inline-flex items-center text-sm md:text-base"
+                                className="group border-2 relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-6 py-2 md:px-8 md:py-3 rounded-full transition-all duration-300 inline-flex items-center text-sm md:text-base"
                                 onClick={() => navigate('/products')}
                                 aria-label={t('products.ctaButton')}
                             >
@@ -495,7 +495,7 @@ const Home: React.FC = () => {
                             <motion.button
                                 whileHover={{ scale: 1.08 }}
                                 whileTap={{ scale: 0.96 }}
-                                className="group border-2 border-primary text-primary hover:bg-accent hover:text-white hover:border-accent px-6 py-2 md:px-8 md:py-3 rounded-full transition-all duration-300 inline-flex items-center text-sm md:text-base"
+                                className="group border-2 relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-6 py-2 md:px-8 md:py-3 rounded-full transition-all duration-300 inline-flex items-center text-sm md:text-base"
                                 onClick={() => navigate('/farm')}
                                 aria-label={t('farm.ctaButton')}
                             >
@@ -645,7 +645,7 @@ const Home: React.FC = () => {
                                     <motion.button
                                         whileHover={{ scale: 1.08 }}
                                         whileTap={{ scale: 0.96 }}
-                                        className="group border-2 border-primary text-primary hover:bg-accent hover:text-white hover:border-accent px-6 py-2 md:px-8 md:py-3 rounded-full transition-all duration-300 inline-flex items-center text-sm md:text-base"
+                                        className="group border-2 relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-6 py-2 md:px-8 md:py-3 rounded-full transition-all duration-300 inline-flex items-center text-sm md:text-base"
                                         onClick={() => navigate('/sustainability')}
                                         aria-label={t('sustainability.ctaButton')}
                                     >
@@ -757,7 +757,7 @@ const Home: React.FC = () => {
                         )}
                         <Link
                             to="/news"
-                            className="group border-2 border-primary text-primary hover:bg-accent hover:text-white hover:border-accent px-6 py-2 md:px-8 md:py-3 rounded-full transition-all duration-300 inline-flex items-center text-sm md:text-base"
+                            className="group border-2 relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-6 py-2 md:px-8 md:py-3 rounded-full transition-all duration-300 inline-flex items-center text-sm md:text-base"
                         >
                             {t('news.ctaButton')}
                             <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />

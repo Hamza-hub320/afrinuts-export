@@ -18,7 +18,7 @@ import {
     FaPause,
     FaExpand,
     FaCompress, FaAward,
-    FaRibbon
+    FaRibbon, FaCheckCircle, FaChartLine
 } from "react-icons/fa";
 // AnimatedProgressBar: KPI glassy 3D progress bar with animation
 interface AnimatedProgressBarProps {
@@ -164,6 +164,8 @@ import { Typography } from "@/components/Typography/Typography";
 import { InfoCard } from '@/components/InfoCard/InfoCard';
 import Mermaid from '@/components/Mermaid/Mermaid';
 import {CertificationsCard} from "@/components/CertificationsCard/CertificationsCard";
+import {Helmet} from "react-helmet-async";
+import JsonLd from "@/components/Seo/JsonLd";
 
 const Processing: React.FC = () => {
     const { t } = useTranslation('processing');
@@ -369,6 +371,39 @@ const Processing: React.FC = () => {
 
     return (
         <main className="text-text-dark font-sans">
+            <Helmet>
+                <title>Cashew Processing | AfriNuts Export – Chemical-Free & Certified</title>
+                <meta name="description" content="AfriNuts Export processes organic cashews in Ivory Coast. Two-phase roadmap: pilot (2028-2030) to industrial (2033+). Chemical-free, certification-ready, and sustainable." />
+                <link rel="canonical" href="https://www.afrinutsexport.com/processing" />
+            </Helmet>
+
+            <JsonLd data={{
+                "@context": "https://schema.org",
+                "@type": "Product",
+                "name": "AfriNuts Processed Cashew Kernels",
+                "description": "Chemical-free, organic cashew kernels processed in Ivory Coast. Available in grades W320, W240, and WW320.",
+                "brand": {
+                    "@type": "Brand",
+                    "name": "AfriNuts Export"
+                },
+                "manufacturer": {
+                    "@type": "Organization",
+                    "name": "AfriNuts Export",
+                    "location": {
+                        "@type": "Place",
+                        "address": {
+                            "@type": "PostalAddress",
+                            "addressLocality": "Odienné",
+                            "addressCountry": "CI"
+                        }
+                    }
+                },
+                "productionDate": "2028",
+                "audience": {
+                    "@type": "BusinessAudience",
+                    "businessRole": "B2B Buyer"
+                }
+            }} />
             <div className="max-w-4xl mx-auto px-6 sm:px-8 pt-[88px] pb-2">
             <div className="text-sm text-text-dark mb-4 flex items-center gap-1 flex-wrap">
                 <Link to="/" className="hover:text-primary transition-colors">{t('breadcrumbs.home', 'Home')}</Link>
@@ -516,6 +551,35 @@ const Processing: React.FC = () => {
                             </motion.button>
                         </div>
                     </motion.div>
+
+                    {/* Chemical-Free Processing */}
+                    <Section className="py-16">
+                        <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
+                            <motion.div
+                                className="relative bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-200 rounded-3xl p-8 md:p-12 text-center transform-gpu"
+                                style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
+                                initial="hidden"
+                                whileInView="visible"
+                                viewport={{ once: true }}
+                                variants={fadeIn}
+                                whileHover={{ y: -6, scale: 1.01 }}
+                            >
+                                <div className="absolute inset-0 rounded-3xl border-2 border-white/20" />
+                                <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40" />
+                                <div className="relative z-10">
+                                    <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                                        <FaLeaf className="text-green-600 text-3xl" />
+                                    </div>
+                                    <Typography variant="h2" className="mb-4 text-green-800">
+                                        {t('chemicalFree.title')}
+                                    </Typography>
+                                    <Typography variant="lead" className="max-w-3xl mx-auto text-green-700">
+                                        {t('chemicalFree.description')}
+                                    </Typography>
+                                </div>
+                            </motion.div>
+                        </div>
+                    </Section>
 
                     {/* Phase Description */}
                     <motion.div
@@ -791,6 +855,46 @@ const Processing: React.FC = () => {
                 </div>
             </Section>
 
+            {/* Why Process Locally */}
+            <Section className="py-16">
+                <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
+                    <motion.div
+                        className="text-center mb-12"
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={fadeIn}
+                    >
+                        <Typography variant="h2" className="mb-4">
+                            {t('whyProcessLocal.title')}
+                        </Typography>
+                    </motion.div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        {(t('whyProcessLocal.benefits', { returnObjects: true }) as string[]).map((benefit, index) => (
+                            <motion.div
+                                key={index}
+                                className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl p-6 text-center transform-gpu"
+                                style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
+                                initial="hidden"
+                                whileInView="visible"
+                                viewport={{ once: true }}
+                                variants={fadeIn}
+                                whileHover={{ y: -4, scale: 1.02 }}
+                            >
+                                <div className="absolute inset-0 rounded-2xl border-2 border-white/20" />
+                                <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40" />
+                                <div className="relative z-10">
+                                    <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-3">
+                                        <FaCheckCircle className="text-primary text-xl" />
+                                    </div>
+                                    <Typography variant="body" className="text-text-dark">{benefit}</Typography>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+            </Section>
+
             {/* Key Differentiators */}
             <Section className="py-16">
                 <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
@@ -866,24 +970,36 @@ const Processing: React.FC = () => {
                                 title: t('certifications.organic.title'),
                                 description: t('certifications.organic.description'),
                                 icon: FaLeaf,
-                            },
-                            {
-                                id: 'fairtrade',
-                                title: t('certifications.fairtrade.title'),
-                                description: t('certifications.fairtrade.description'),
-                                icon: FaRibbon,
+                                status: t('certifications.organic.status') as 'achieved' | 'in-progress' | 'planned',
+                                targetDate: t('certifications.organic.targetDate'),
+                                issuer: t('certifications.organic.issuer')
                             },
                             {
                                 id: 'halal',
                                 title: t('certifications.halal.title'),
                                 description: t('certifications.halal.description'),
                                 icon: FaAward,
+                                status: t('certifications.halal.status') as 'achieved' | 'in-progress' | 'planned',
+                                targetDate: t('certifications.halal.targetDate'),
+                                issuer: t('certifications.halal.issuer')
                             },
                             {
                                 id: 'iso',
                                 title: t('certifications.iso.title'),
                                 description: t('certifications.iso.description'),
                                 icon: FaShieldAlt,
+                                status: t('certifications.iso.status') as 'achieved' | 'in-progress' | 'planned',
+                                targetDate: t('certifications.iso.targetDate'),
+                                issuer: t('certifications.iso.issuer')
+                            },
+                            {
+                                id: 'fairtrade',
+                                title: t('certifications.fairtrade.title'),
+                                description: t('certifications.fairtrade.description'),
+                                icon: FaRibbon,
+                                status: t('certifications.fairtrade.status') as 'achieved' | 'in-progress' | 'planned',
+                                targetDate: t('certifications.fairtrade.targetDate'),
+                                issuer: t('certifications.fairtrade.issuer')
                             }
                         ]}
                         title={t('certifications.title')}
@@ -941,24 +1057,62 @@ const Processing: React.FC = () => {
                 </div>
             </Section>
 
+            {/* CNSL Recovery */}
+            <Section className="py-16">
+                <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
+                    <motion.div
+                        className="flex flex-col lg:flex-row gap-8 items-center"
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={staggerContainer}
+                    >
+                        <motion.div className="lg:w-1/2" variants={fadeIn}>
+                            <InfoCard
+                                icon={FaRecycle}
+                                title={t('cnslRecovery.title')}
+                                iconColor="text-accent"
+                            >
+                                {t('cnslRecovery.description')}
+                            </InfoCard>
+                        </motion.div>
+                        <motion.div className="lg:w-1/2" variants={fadeIn}>
+                            <div className="grid grid-cols-2 gap-4">
+                                {[
+                                    { label: t('cnslRecovery.uses.biofuels'), icon: FaIndustry },
+                                    { label: t('cnslRecovery.uses.lubricants'), icon: FaCogs },
+                                    { label: t('cnslRecovery.uses.polymers'), icon: FaRecycle },
+                                    { label: t('cnslRecovery.uses.revenue'), icon: FaChartLine },
+                                ].map((item, idx) => (
+                                    <div key={idx} className="bg-white/50 backdrop-blur-sm rounded-xl p-4 text-center border border-primary/10">
+                                        <item.icon className="text-primary text-2xl mx-auto mb-2" />
+                                        <Typography variant="small" className="text-text-dark">{item.label}</Typography>
+                                    </div>
+                                ))}
+                            </div>
+                        </motion.div>
+                    </motion.div>
+                </div>
+            </Section>
+
             {/* KPI Section */}
             <Section className="py-16">
                 <div className="max-w-2xl mx-auto">
                     <AnimatedProgressBar
                         label={t('sustainability.kpis.water')}
-                        value={-38}
+                        value={38}
                         color="primary"
                         isVisible={true}
                     />
                     <AnimatedProgressBar
                         label={t('sustainability.kpis.waste')}
-                        value={-45}
+                        value={45}
                         color="accent"
                         isVisible={true}
                     />
                     <AnimatedProgressBar
                         label={t('sustainability.kpis.energy')}
-                        value={-29}
+                        value={29}
                         color="green"
                         isVisible={true}
                     />

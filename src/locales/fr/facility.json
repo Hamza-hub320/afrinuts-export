@@ -1,18 +1,18 @@
 {
   "hero": {
-    "subtitle": "Conception et Aménagement de l'Usine",
-    "title": "Notre Usine de Transformation de Pointe",
+    "subtitle": "Conception et Agencement de l'Installation",
+    "title": "Notre Installation de Transformation de Pointe",
     "description": "Découvrez notre centre de transformation méticuleusement conçu pour l'efficacité, l'hygiène et l'évolutivité"
   },
   "backToProcessing": "Retour à la Transformation",
   "introduction": {
-    "title": "Aménagement d'Usine Optimisé",
-    "description": "Notre usine est conçue stratégiquement pour garantir un flux de travail fluide, une hygiène maximale et la conformité aux normes internationales tout en soutenant nos ambitions de croissance."
+    "title": "Agencement Optimisé de l'Installation",
+    "description": "Notre installation est stratégiquement conçue pour assurer un flux de travail fluide, une hygiène maximale et la conformité aux normes internationales tout en soutenant nos ambitions de croissance."
   },
   "features": {
     "hygiene": {
       "title": "Zones d'Hygiène",
-      "description": "Des zones sales et propres séparées préviennent la contamination croisée"
+      "description": "Des zones sales et propres séparées empêchent la contamination croisée"
     },
     "efficiency": {
       "title": "Flux de Travail Efficace",
@@ -20,117 +20,117 @@
     },
     "sustainability": {
       "title": "Conception Durable",
-      "description": "Systèmes écoénergétiques et intégration de la gestion des déchets"
+      "description": "Systèmes économes en énergie et intégration de la gestion des déchets"
     }
   },
   "flowchart": {
-    "title": "Organigramme de l'Usine",
-    "description": "Aperçu interactif de l'aménagement et du flux de travail de notre usine de transformation",
+    "title": "Organigramme de l'Installation",
+    "description": "Aperçu interactif de l'agencement et du flux de travail de notre installation de transformation",
     "instructions": "Cliquez sur n'importe quelle zone pour en savoir plus sur sa fonction et ses caractéristiques"
   },
   "legend": {
     "process": "Zones de Processus",
     "staff": "Installations du Personnel",
-    "utilities": "Utilities & Expansion"
+    "utilities": "Services Publics et Expansion"
   },
   "zones": {
     "reception": {
-      "description": "Zone de réception initiale pour les noix de cajou brutes avec évaluation de la qualité et pesée",
+      "description": "Zone de réception initiale des noix de cajou brutes avec évaluation de la qualité et pesée",
       "features": [
         "Pont-bascule numérique pour une mesure précise",
-        "Station d'échantillonnage qualité et test d'humidité",
-        "Zone de stockage temporaire avant transfert vers l'entrepôt",
-        "Traitement de la documentation des fournisseurs"
+        "Station d'échantillonnage de qualité et de test d'humidité",
+        "Zone de rétention temporaire avant transfert au stockage",
+        "Traitement de la documentation fournisseur"
       ]
     },
     "storage": {
-      "description": "Stockage climatisé pour les noix de cajou brutes avant transformation",
+      "description": "Stockage à climat contrôlé pour les noix de cajou brutes avant transformation",
       "features": [
         "Entrepôts ventilés avec contrôle de l'humidité",
         "Palettes en bois surélevées pour éviter la contamination par l'humidité",
-        "Capacité pour plus de 500 tonnes métriques de noix brutes",
+        "Capacité de plus de 500 tonnes métriques de noix brutes",
         "Systèmes de lutte antiparasitaire et surveillance régulière"
       ]
     },
     "dirtyZone": {
       "description": "Zone de transformation initiale où les noix brutes sont nettoyées et préparées",
       "features": [
-        "Zone dédiée au nettoyage et tri initiaux",
+        "Zone dédiée au nettoyage et au tri initiaux",
         "Systèmes d'extraction de poussière et de ventilation",
         "Stations d'équipement de protection pour les travailleurs",
         "Entrée/sortie séparée pour maintenir l'intégrité de la zone"
       ]
     },
     "cleanZone": {
-      "description": "Zone de transformation principale où le décorticage, l'épluchage et le classement ont lieu",
+      "description": "Zone principale de transformation où le décorticage, le pelage et le calibrage ont lieu",
       "features": [
-        "Pression d'air positive pour éviter la contamination",
+        "Pression d'air positive pour prévenir la contamination",
         "Stations d'hygiène à tous les points d'entrée",
         "Équipement en acier inoxydable de qualité alimentaire",
         "Contrôle de la température et de l'humidité"
       ]
     },
     "grading": {
-      "description": "Zone de contrôle qualité où les amandes sont triées et classées",
+      "description": "Zone de contrôle qualité où les amandes sont triées et calibrées",
       "features": [
-        "Trieurs de couleurs électroniques et calibreurs de taille",
+        "Trieuses colorimétriques électroniques et calibreuses par taille",
         "Stations de détection des métaux et d'assurance qualité",
         "Éclairage naturel pour une évaluation précise des couleurs",
         "Zone de documentation du contrôle qualité"
       ]
     },
     "finished": {
-      "description": "Stockage pour les amandes de cajou transformées et emballées",
+      "description": "Stockage des amandes de cajou transformées et emballées",
       "features": [
-        "Environnement climatisé (15-18°C, 50-60% HR)",
-        "Système d'inventaire FIFO (First In, First Out)",
-        "Accès sécurisé avec contrôle des stocks",
-        "Emballage et stockage résistants aux parasites"
+        "Environnement à climat contrôlé (15-18°C, 50-60% HR)",
+        "Système d'inventaire FIFO (Premier Entré, Premier Sorti)",
+        "Accès sécurisé avec contrôle d'inventaire",
+        "Emballage et stockage à l'épreuve des nuisibles"
       ]
     },
     "dispatch": {
       "description": "Zone de préparation à l'expédition et à l'exportation",
       "features": [
-        "Quais de chargement pour les camions conteneurs",
+        "Quais de chargement pour camions conteneurs",
         "Station de traitement de la documentation d'exportation",
-        "Point de contrôle final qualité",
+        "Point de contrôle qualité final",
         "Zone sécurisée pour les expéditions de valeur"
       ]
     },
     "locker": {
-      "description": "Installations d'hygiène et vestiaires du personnel",
+      "description": "Installations d'hygiène et de vestiaires du personnel",
       "features": [
         "Vestiaires séparés hommes/femmes",
-        "Stockage casier personnel",
-        "Installations de douches pour le personnel",
+        "Casiers personnels",
+        "Douches pour le personnel",
         "Distribution d'uniformes et service de blanchisserie"
       ]
     },
     "prayer": {
-      "description": "Espace dédié à la prière et à la réflexion calme",
+      "description": "Espace dédié à la prière et à la réflexion silencieuse",
       "features": [
         "Salles de prière séparées pour hommes et femmes",
-        "Installations pour ablutions avec eau courante",
+        "Installations d'ablution avec eau courante",
         "Direction de la Qibla clairement indiquée",
-        "Environnement calme et propre pour la contemplation"
+        "Environnement calme et propre pour le recueillement"
       ]
     },
     "training": {
       "description": "Salle polyvalente pour la formation du personnel et les réunions",
       "features": [
-        "Équipement audiovisuel pour présentations",
-        "Capacité pour 30+ personnes",
+        "Équipement audiovisuel pour les présentations",
+        "Capacité de plus de 30 personnes",
         "Matériel de formation et bibliothèque",
-        "Disposition flexible des sièges"
+        "Dispositions de sièges flexibles"
       ]
     },
     "canteen": {
-      "description": "Espace repas et pause du personnel",
+      "description": "Espace de restauration et de pause du personnel",
       "features": [
-        "Zone de préparation alimentaire hygiénique",
-        "Sièges pour 50+ membres du personnel",
-        "Installations de rafraîchissements",
-        "Espace de sièges extérieur"
+        "Zone de préparation des aliments hygiénique",
+        "Places assises pour plus de 50 membres du personnel",
+        "Installations de rafraîchissement",
+        "Espace repas extérieur"
       ]
     },
     "water": {
@@ -138,45 +138,45 @@
       "features": [
         "Purification de l'eau par osmose inverse",
         "Systèmes de recyclage et de réutilisation de l'eau",
-        "Puits avec alimentation de secours",
+        "Forage avec approvisionnement de secours",
         "Station de surveillance de la qualité de l'eau"
       ]
     },
     "energy": {
-      "description": "Production et gestion d'énergie durable",
+      "description": "Génération et gestion d'énergie durable",
       "features": [
         "Chaudière à biomasse utilisant les coques de cajou comme combustible",
-        "Système photovoltaïque solaire pour alimentation auxiliaire",
-        "Groupe électrogène de secours pour un fonctionnement ininterrompu",
+        "Système solaire photovoltaïque pour l'alimentation auxiliaire",
+        "Générateur de secours pour un fonctionnement ininterrompu",
         "Surveillance de la consommation d'énergie"
       ]
     },
     "expansion": {
-      "description": "Zone réservée à l'expansion future de l'usine",
+      "description": "Zone réservée à l'expansion future de l'installation",
       "features": [
         "Connexions d'infrastructure pré-planifiées",
-        "Espace pour lignes de transformation supplémentaires",
-        "Zone de développement future pour stockage frigorifique",
-        "Connexions d'utilités évolutives"
+        "Espace pour des lignes de transformation supplémentaires",
+        "Zone de développement futur pour le stockage frigorifique",
+        "Raccordements évolutifs aux services publics"
       ]
     }
   },
   "compliance": {
     "title": "Conformité et Normes",
-    "description": "Notre usine répond aux normes internationales les plus strictes en matière de sécurité et de qualité alimentaires",
+    "description": "Notre installation répond aux normes internationales les plus élevées en matière de sécurité alimentaire et de qualité",
     "hygiene": {
       "title": "Protocoles d'Hygiène",
       "features": [
         "Zones sales/propres séparées avec sas",
         "Stations d'hygiène obligatoires à toutes les entrées de zone",
-        "Programmes et documentation d'assainissement réguliers",
+        "Horaires d'assainissement réguliers et documentation",
         "Système de gestion de la lutte antiparasitaire"
       ]
     },
     "certifications": {
-      "title": "Prêt pour la Certification",
+      "title": "Prête pour les Certifications",
       "standards": [
-        "Système de Management de la Sécurité des Denrées Alimentaires ISO 22000",
+        "ISO 22000 Management de la Sécurité Alimentaire",
         "Conformité et Certification Halal",
         "Normes de Transformation Biologique (ECOCERT)",
         "Commerce Équitable et Rainforest Alliance"
@@ -184,29 +184,76 @@
     }
   },
   "cta": {
-    "title": "Vous voulez en savoir plus ?",
-    "description": "Contactez-nous pour une visite détaillée de l'usine ou les spécifications techniques",
-    "button": "Planifier une Visite d'Usine"
+    "title": "Vous Voulez en Savoir Plus ?",
+    "description": "Contactez-nous pour une visite détaillée de l'installation ou des spécifications techniques",
+    "button": "Planifier une Visite de l'Installation"
   },
   "categories": {
     "process": "Zones de Processus",
     "staff": "Installations du Personnel",
-    "utilities": "Utilities & Expansion"
+    "utilities": "Services Publics et Expansion"
   },
   "facilityLayout": {
-    "title": "Aperçu de l'Aménagement de l'Usine",
-    "description": "Explorez notre usine spécialement conçue pour un flux de travail optimal et la conformité",
+    "title": "Aperçu de l'Agencement de l'Installation",
+    "description": "Explorez notre installation spécialement conçue pour un flux de travail et une conformité optimaux",
     "zone": "Zone"
   },
   "controls": {
-    "play": "Visite auto.",
+    "play": "Visite Auto",
     "pause": "Pause"
   },
-  "featuresTitle": "Caractéristiques Clés",
+  "featuresTitle": "Caractéristiques Principales",
   "breadcrumbs": {
     "home": "Accueil",
     "farm": "Ferme",
     "processing": "Transformation",
     "facilityFlowchart": "Organigramme de l'Installation"
+  },
+  "facilityStats": {
+    "title": "L'Installation en un Coup d'Œil",
+    "stats": [
+      { "label": "Capacité de Transformation", "value": "5 000 TM/an", "icon": "FaIndustry" },
+      { "label": "Emplois Créés", "value": "100+", "icon": "FaUsers" },
+      { "label": "Valeur d'Exportation", "value": "15M$+", "icon": "FaChartLine" },
+      { "label": "Superficie du Terrain", "value": "10 Hectares", "icon": "FaTree" }
+    ]
+  },
+  "qualityLab": {
+    "title": "Laboratoire de Contrôle Qualité Interne",
+    "subtitle": "Capacités de test pour la certification de qualité export",
+    "method": "Méthode",
+    "standard": "Norme",
+    "capabilities": [
+      { "test": "Teneur en Humidité", "method": "Méthode de séchage au four", "standard": "< 8% pour l'export" },
+      { "test": "Test d'Aflatoxine", "method": "ELISA / HPLC", "standard": "Conformité EU/US" },
+      { "test": "Rendement en Amandes", "method": "Échantillonnage manuel", "standard": "52-55 lbs/compte d'amandes" },
+      { "test": "Microbiologique", "method": "Culture sur film Petri", "standard": "ISO 22000" },
+      { "test": "Matières Étrangères", "method": "Tri visuel + électronique", "standard": "0% matières étrangères" },
+      { "test": "Traçabilité", "method": "Suivi ERP au niveau du lot", "standard": "De la ferme à la fourchette" }
+    ],
+    "note": "Tous les tests sont documentés pour la traçabilité et la conformité à l'exportation"
+  },
+  "workerWelfare": {
+    "title": "Sécurité et Bien-être des Travailleurs",
+    "subtitle": "Notre équipe est notre plus grand atout",
+    "features": [
+      { "area": "EPI et Équipement de Sécurité", "details": "Gants, tabliers, lunettes de sécurité, masques anti-poussière fournis pour tout le personnel de transformation", "icon": "FaShieldAlt" },
+      { "area": "Protocoles d'Hygiène", "details": "Lavage des mains obligatoire avant l'entrée, charlottes, stations de désinfection des chaussures", "icon": "FaShower" },
+      { "area": "Postes de Travail Ergonomiques", "details": "Conçus pour réduire les microtraumatismes répétés avec hauteurs réglables", "icon": "FaCogs" },
+      { "area": "Premiers Soins et Médical", "details": "Trousse de premiers soins sur place, secouristes formés, couverture d'assurance maladie", "icon": "FaInfoCircle" },
+      { "area": "Salaires Équitables", "details": "Au-dessus du salaire minimum avec cycles de paie réguliers et compensation des heures supplémentaires", "icon": "FaUsers" },
+      { "area": "Formation et Développement", "details": "Formation continue aux compétences et parcours de progression de carrière", "icon": "FaChalkboardTeacher" }
+    ]
+  },
+  "projectTimeline": {
+    "title": "Calendrier du Projet",
+    "description": "Jalons clés pour le développement de l'installation",
+    "milestones": [
+      { "phase": "2026-2027", "milestone": "Collecte de Fonds et Préparation du Site", "status": "En Cours", "icon": "FaChartLine" },
+      { "phase": "2027-2028", "milestone": "Construction et Équipement", "status": "Planifié", "icon": "FaIndustry" },
+      { "phase": "2028", "milestone": "Formation et Transformation Pilote", "status": "Planifié", "icon": "FaCogs" },
+      { "phase": "2029", "milestone": "Opérations Complètes et Certification", "status": "Planifié", "icon": "FaCertificate" },
+      { "phase": "2030+", "milestone": "Capacité de 5 000 TM", "status": "Planifié", "icon": "FaExpand" }
+    ]
   }
 }

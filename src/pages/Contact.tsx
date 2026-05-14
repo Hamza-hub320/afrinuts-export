@@ -670,7 +670,7 @@ const Contact: React.FC = () => {
               <div className="text-center pt-4">
                 <motion.button
                     type="submit"
-                    className="bg-primary hover:bg-dark-orange text-white px-6 py-2 rounded-full transition-colors transform-gpu hover:scale-105 inline-flex justify-center items-center gap-2"
+                    className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-6 py-2 rounded-full transition-colors transform-gpu hover:scale-105 inline-flex justify-center items-center gap-2"
                     disabled={isSubmitting}
                     whileHover={{y: -2}}
                     whileTap={{scale: 0.95}}

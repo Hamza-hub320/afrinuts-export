@@ -206,17 +206,6 @@ const OurStory: React.FC = () => {
                 </motion.div>
             </Section>
 
-            {/* Scroll indicator */}
-            <motion.div
-                className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-                animate={{ y: [0, 10, 0] }}
-                transition={{ duration: 2, repeat: Infinity }}
-            >
-                <div className="w-6 h-10 border-2 border-primary rounded-full flex justify-center">
-                    <div className="w-1 h-3 bg-primary rounded-full mt-2"></div>
-                </div>
-            </motion.div>
-
             {/* Intro Section - Enhanced with Glassy 3D */}
             <motion.div
                 className="py-16 md:py-24 mx-6 sm:mx-12 lg:mx-32 xl:mx-48 transform-gpu"
