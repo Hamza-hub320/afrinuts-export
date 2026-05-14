@@ -15,9 +15,13 @@ interface ProductCardProps {
         comingSoon?: string;
         preorder?: boolean;
         preorderDate?: string;
+        imageAlt?: string;
+        ariaLabel?: string;
+        renderSocialShare?: () => React.ReactNode;
         waitlist?: boolean;
         status?: 'available' | 'preorder' | 'waitlist' | 'coming-soon';
         loading?: 'lazy' | 'eager';
+        title?: string;
     };
     compact?: boolean;
     handleContactClick: () => void;
@@ -26,6 +30,9 @@ interface ProductCardProps {
     productImageMap: Record<string, string>;
     iconMap: Record<string, React.ComponentType<{ className?: string }>>;
     className?: string;
+    imageAlt?: string;
+    ariaLabel?: string;
+    renderSocialShare?: () => React.ReactNode;
 }
 
 export const ProductCard: React.FC<ProductCardProps> = ({
@@ -36,7 +43,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                                                             handleWaitlistClick,
                                                             productImageMap,
                                                             iconMap,
-                                                            className = ''
+                                                            className = '',
+                                                            imageAlt,
                                                         }) => {
     const { t } = useTranslation('products');
     const IconComponent = iconMap[product.icon];
@@ -146,7 +154,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                 {imageSrc && (
                     <motion.img
                         src={imageSrc}
-                        alt={product.name}
+                        alt={imageAlt || product.name}
                         className="w-full h-full object-cover"
                         loading={product.loading || 'lazy'}
                         whileHover={{ scale: 1.1 }}

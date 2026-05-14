@@ -287,7 +287,7 @@ const FacilityFlowchart: React.FC = () => {
                                 viewport={{ once: true }}
                                 variants={fadeIn}
                             >
-                                <Typography variant="h2" className="mb-4">
+                                <Typography variant="h3" className="mb-4">
                                     {t('facilityStats.title')}
                                 </Typography>
                             </motion.div>

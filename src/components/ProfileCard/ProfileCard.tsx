@@ -1,10 +1,7 @@
 // components/ProfileCard/ProfileCard.tsx
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ChevronDownIcon } from '@heroicons/react/24/outline';
-import { FaExternalLinkAlt, FaExpandAlt } from 'react-icons/fa';
-import {t} from "i18next";
-import {useTranslation} from "react-i18next";
+import { FaExpand } from 'react-icons/fa';
 
 interface ProfileCardProps {
     image: string;
@@ -31,9 +28,9 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                                                             variant = 'primary',
                                                             onClick,
                                                         }) => {
-    const [expanded, setExpanded] = useState(false);
+    const [expanded] = useState(false);
     const shouldTruncate = expandable && message.length > 1;
-    const { t } = useTranslation('about');
+
 
     // Variant colors
     const variantColors = {
@@ -101,7 +98,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                         transition: { duration: 0.2 }
                     }}
                 >
-                    <FaExpandAlt className="w-3 h-3 text-white" />
+                    <FaExpand className="w-3 h-3 text-white" />
                 </motion.div>
             )}
 
