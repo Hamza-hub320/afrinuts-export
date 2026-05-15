@@ -186,7 +186,8 @@
   "cta": {
     "title": "Vous Voulez en Savoir Plus ?",
     "description": "Contactez-nous pour une visite détaillée de l'installation ou des spécifications techniques",
-    "button": "Planifier une Visite de l'Installation"
+    "button": "Planifier une Visite de l'Installation",
+    "backToFarm": "Retour à la Ferme"
   },
   "categories": {
     "process": "Zones de Processus",

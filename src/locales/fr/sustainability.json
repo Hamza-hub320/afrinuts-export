@@ -12,6 +12,7 @@
   },
   "environment": {
     "title": "Les Défis Environnementaux que Nous Résolvons sur Notre Ferme de 35 Hectares",
+    "seeFacility": "Découvrez comment notre installation soutient ces pratiques →",
     "challenges": {
       "title": "Les Problèmes de la Culture Conventionnelle de la Noix de Cajou",
       "items": [
@@ -95,5 +96,11 @@
       "D'ici 2031 : Mettre en œuvre la traçabilité par blockchain pour que les acheteurs puissent suivre chaque noix de cajou de l'arbre à l'exportation."
     ],
     "cta": "Découvrir notre Feuille de Route pour la Durabilité 2031"
+  },
+  "endCta": {
+    "title": "Voir la Durabilité en Action",
+    "content": "Nos pratiques de durabilité font partie d'une vision plus large. Découvrez comment nous construisons une entreprise de noix de cajou éthique et verticalement intégrée, de la ferme aux marchés mondiaux.",
+    "visionButton": "Notre Vision",
+    "productsButton": "Voir les Produits"
   }
 }

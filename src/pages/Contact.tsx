@@ -1,4 +1,14 @@
-import {FaMapMarkerAlt, FaPhone, FaEnvelope, FaClock, FaCheckCircle, FaArrowDown, FaInfoCircle, FaRegSmile} from 'react-icons/fa';
+import {
+  FaMapMarkerAlt,
+  FaPhone,
+  FaEnvelope,
+  FaClock,
+  FaCheckCircle,
+  FaArrowDown,
+  FaInfoCircle,
+  FaRegSmile,
+  FaShieldAlt
+} from 'react-icons/fa';
 import emailjs from '@emailjs/browser';
 import React, { useState, useRef, FormEvent, ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -687,6 +697,10 @@ const Contact: React.FC = () => {
               </div>
             </form>
           </FormCard>
+          <div className="text-center mt-4 text-sm text-text-dark">
+            <FaShieldAlt className="inline mr-1" />
+            {t('form.privacy', 'Your information is secure and will never be shared.')}
+          </div>
         </div>
 
         {/* Map Section */}

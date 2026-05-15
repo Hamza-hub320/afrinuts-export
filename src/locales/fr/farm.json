@@ -129,5 +129,10 @@
     "legendWater": "Source d'Eau",
     "legendRoads": "Voies d'Accès",
     "legendFacilities": "Installations de Stockage"
+  },
+  "midCta": {
+    "title": "Comment Nous Transformons les Parcelles en Unités Commerciales",
+    "description": "Chaque hectare est suivi, chaque arbre compté, chaque dépense allouée. Découvrez comment notre modèle opérationnel crée de la transparence pour les investisseurs et les partenaires.",
+    "button": "Explorer Notre Vision"
   }
 }

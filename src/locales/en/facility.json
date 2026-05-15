@@ -194,7 +194,8 @@
   "cta": {
     "title": "Want to Learn More?",
     "description": "Contact us for a detailed facility tour or technical specifications",
-    "button": "Schedule a Facility Tour"
+    "button": "Schedule a Facility Tour",
+    "backToFarm": "Back to Farm"
   },
   "categories": {
     "process": "Process Areas",

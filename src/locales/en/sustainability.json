@@ -12,6 +12,7 @@
   },
   "environment": {
     "title": "Environmental Challenges We're Solving on Our 35-Hectare Farm",
+    "seeFacility": "See how our facility supports these practices →",
     "challenges": {
       "title": "The Problems with Conventional Cashew Farming",
       "items": [
@@ -95,5 +96,11 @@
       "By 2031: Implement blockchain traceability so buyers can track every cashew from tree to export."
     ],
     "cta": "Learn about our 2031 Sustainability Roadmap"
+  },
+  "endCta": {
+    "title": "See Sustainability in Action",
+    "content": "Our sustainability practices are part of a larger vision. Explore how we're building a vertically integrated, ethical cashew business from farm to global markets.",
+    "visionButton": "Our Vision",
+    "productsButton": "View Products"
   }
 }

@@ -202,5 +202,39 @@
         "description": "Début des distributions de dividendes aux actionnaires. Réinvestissement des bénéfices pour financer la planification et le développement de l'installation industrielle Phase 2 (5 000+ TM/an)."
       }
     ]
+  },
+  "processingLinks": {
+    "title": "Donner Vie à la Vision",
+    "subtitle": "Découvrez comment nous transformons les noix de cajou brutes en produits premium prêts à l'exportation grâce à notre infrastructure de transformation.",
+    "processing": {
+      "title": "Notre Approche de Transformation",
+      "description": "De la noix brute au produit prêt à l'exportation — découvrez comment nous ajoutons de la valeur à chaque étape de la chaîne de transformation de la noix de cajou.",
+      "link": "Explorer la Transformation"
+    },
+    "facility": {
+      "title": "Future Installation de Transformation",
+      "description": "Visitez notre installation planifiée — des laboratoires de contrôle qualité au bien-être des travailleurs, découvrez l'agencement conçu pour l'efficacité et la durabilité.",
+      "link": "Voir l'Organigramme de l'Installation"
+    }
+  },
+  "transparency": {
+    "title": "Une Transparence Opérationnelle Intégrée",
+    "subtitle": "Chaque arbre, chaque parcelle, chaque dépense — suivi et rapporté. Notre système de gestion agricole apporte une visibilité de niveau institutionnel à l'investissement agricole.",
+    "cards": {
+      "tracking": {
+        "title": "Suivi par Parcelle",
+        "description": "Notre ferme de 35 hectares est divisée en blocs surveillés individuellement. Chaque bloc a sa propre date de plantation, son taux de survie et ses indicateurs de performance — offrant aux investisseurs une visibilité granulaire sur les opérations agricoles."
+      },
+      "reporting": {
+        "title": "Rapports de Qualité Investisseur",
+        "description": "Les rapports trimestriels incluent les taux de survie des arbres, les volumes de récolte, les niveaux de qualité et les états de profits et pertes par bloc. Pas de boîtes noires — juste des données claires et vérifiables."
+      },
+      "allocation": {
+        "title": "Allocation Transparente des Coûts",
+        "description": "Les dépenses à l'échelle de la ferme sont réparties équitablement par bloc. Les coûts directs sont suivis par bloc. Nos investisseurs savent toujours exactement où va chaque FCFA."
+      }
+    },
+    "note": "Notre tableau de bord opérationnel et nos rapports financiers détaillés sont disponibles pour les investisseurs vérifiés via un portail sécurisé.",
+    "cta": "Renseignez-vous sur l'Investissement"
   }
 }

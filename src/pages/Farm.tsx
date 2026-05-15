@@ -446,6 +446,42 @@ const Farm = () => {
                     </div>
                 </Section>
 
+                {/* Mid-page CTA */}
+                <Section className="py-8">
+                    <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
+                        <motion.div
+                            className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl shadow-lg p-6 sm:p-8 transform-gpu"
+                            style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                            variants={staggerContainer}
+                            whileHover={{ y: -4, scale: 1.01, boxShadow: '0 15px 30px -8px rgba(165,105,66,0.15)', transition: { duration: 0.3 } }}
+                        >
+                            <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-4px]" />
+                            <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-30" />
+                            <div className="relative z-10">
+                                <Typography variant="h2" className="text-primary mb-3">
+                                    {t('midCta.title', 'How We Turn Blocks Into Business Units')}
+                                </Typography>
+                                <Typography variant="body" className="text-gray-600 mb-5 max-w-xl mx-auto">
+                                    {t('midCta.description', 'Every hectare is tracked, every tree counted, every expense allocated. See how our operational model creates transparency for investors and partners.')}
+                                </Typography>
+                                <motion.button
+                                    onClick={() => navigate('/vision')}
+                                    className="relative border-2 border-primary/50 text-primary hover:bg-primary hover:text-white px-6 py-2.5 rounded-full transform-gpu transition-all duration-300 inline-flex items-center gap-2 text-sm font-medium bg-white/30 backdrop-blur-sm"
+                                    whileHover={{ y: -2, scale: 1.03 }}
+                                    whileTap={{ scale: 0.95 }}
+                                >
+                                    <FaChartLine />
+                                    {t('midCta.button', 'Explore Our Vision')}
+                                    <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
+                                </motion.button>
+                            </div>
+                        </motion.div>
+                    </div>
+                </Section>
+
                 {/* Impact Section */}
                 <section className="py-10 px-6 text-primary">
                     <div className="max-w-4xl mx-auto">

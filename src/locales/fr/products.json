@@ -123,6 +123,15 @@
     "contact": "Contactez-Nous",
     "viewAll": "Voir Tous les Produits"
   },
+  "midCta": {
+    "title": "Intéressé par Nos Produits ?",
+    "button": "Demander les Prix"
+  },
+  "processCta": {
+    "title": "Découvrez Comment Nous Transformons Nos Noix de Cajou",
+    "description": "De la récolte à l'emballage — visitez notre installation de transformation de pointe et découvrez comment nous maintenons la qualité à chaque étape.",
+    "button": "Visiter l'Installation de Transformation"
+  },
   "offlinePayment": {
     "title": "Instructions de Paiement Hors Ligne",
     "description": "Vous préférez payer hors ligne ? Nous prenons en charge les méthodes de paiement sur facture et hors ligne pour les commandes en gros et les clients B2B. Contactez notre équipe commerciale pour les détails du virement bancaire, les factures proforma ou pour discuter de votre méthode de paiement préférée.",

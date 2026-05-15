@@ -17,7 +17,7 @@ import {
     FaClock,
     FaCertificate,
     FaAward,
-    FaRibbon
+    FaRibbon, FaArrowRight
 } from 'react-icons/fa';
 import {fadeIn, slideInFromLeft, slideInFromRight, staggerContainer} from '@/utils/animations';
 import Section from '../components/Section/Section';
@@ -29,7 +29,6 @@ import cashewButterDarkImage from '../assets/images/cashew-butter-dark.webp';
 import cashewKernelsImage from '../assets/images/cashew-kernels.webp';
 import cashewMilkImage from '../assets/images/cashew-milk.webp';
 import cashewShellImage from '../assets/images/cashew-nut-shell-liquid.webp';
-import roastedCashewImage from '../assets/images/roasted-cashew.webp';
 import ourProductHeroImage from '../assets/images/our-product-hero.webp';
 import processImage from '../assets/images/production-process.webp';
 import qualityImage from '../assets/images/quality-control.webp';
@@ -488,8 +487,33 @@ const Products: React.FC = () => {
                                 </motion.button>
                             </motion.div>
                         )}
-
+                    {/* CTA After Products */}
+                    {filteredProducts.length > 0 && (
+                        <motion.div
+                            className="text-center mt-12 mb-8"
+                            initial={{ opacity: 0 }}
+                            whileInView={{ opacity: 1 }}
+                            viewport={{ once: true }}
+                        >
+                            <Typography variant="h3" className="text-primary mb-4">
+                                {t('midCta.title')}
+                            </Typography>
+                            <motion.button
+                                onClick={() => navigate('/contact')}
+                                className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-3 rounded-full transform-gpu group/btn overflow-hidden font-medium shadow-md"
+                                whileHover={{ y: -2, scale: 1.03 }}
+                                whileTap={{ scale: 0.95 }}
+                            >
+                                <div className="absolute inset-0 rounded-full border-2 border-white/30" />
+                                <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50" />
+                                <span className="relative z-10 flex items-center gap-2">
+                {t('midCta.button')}
+            </span>
+                            </motion.button>
+                        </motion.div>
+                    )}
                 </Section>
+
                 {/* Unified Offline Payment & Catalogue Section */}
                 <Section className="mb-12 py-12">
                     <div className="flex flex-col lg:flex-row items-stretch justify-center gap-8 lg:gap-12">
@@ -812,6 +836,48 @@ const Products: React.FC = () => {
                                 </motion.div>
                             </motion.div>
                         </div>
+                    </div>
+                </Section>
+
+                {/* CTA: Visit Processing Page */}
+                <Section className="py-10">
+                    <div className="w-full max-w-3xl mx-auto px-4 sm:px-6 text-center">
+                        <motion.div
+                            className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-3xl shadow-xl p-8 md:p-10 transform-gpu"
+                            style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                            variants={staggerContainer}
+                            whileHover={{ y: -6, scale: 1.02, boxShadow: '0 20px 35px -10px rgba(0,0,0,0.2)', transition: { duration: 0.3 } }}
+                        >
+                            <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px] hover:translate-z-[-10px] transition-all duration-500" />
+                            <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40 hover:opacity-60 transition-opacity duration-500" />
+                            <div className="absolute inset-0 rounded-3xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)]" />
+                            <div className="absolute inset-0 rounded-3xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
+
+                            <div className="relative z-10">
+                                <Typography variant="h2" className="text-primary mb-4">
+                                    {t('processCta.title', 'See How We Process Our Cashews')}
+                                </Typography>
+                                <Typography variant="body" className="text-gray-600 mb-6 max-w-2xl mx-auto">
+                                    {t('processCta.description', 'From harvest to packaging — tour our state-of-the-art processing facility and see how we maintain quality at every step.')}
+                                </Typography>
+                                <motion.button
+                                    onClick={() => navigate('/processing')}
+                                    className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-3 rounded-full transform-gpu group/btn overflow-hidden font-medium shadow-md"
+                                    whileHover={{ y: -2, scale: 1.03, boxShadow: '0 10px 25px -5px rgba(165,105,66,0.4)' }}
+                                    whileTap={{ scale: 0.95 }}
+                                >
+                                    <div className="absolute inset-0 rounded-full border-2 border-white/30" />
+                                    <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50" />
+                                    <span className="relative z-10 flex items-center gap-2">
+                        {t('processCta.button', 'Visit Processing Facility')}
+                                        <FaArrowRight />
+                    </span>
+                                </motion.button>
+                            </div>
+                        </motion.div>
                     </div>
                 </Section>
 

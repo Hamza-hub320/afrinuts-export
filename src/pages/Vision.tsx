@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import {Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
     FaLeaf,
@@ -12,7 +12,7 @@ import {
     FaSolarPanel,
     FaWater,
     FaTree,
-    FaSeedling, FaCheckCircle
+    FaSeedling, FaCheckCircle, FaArrowRight
 } from "react-icons/fa";
 
 import Section from '@/components/Section/Section';
@@ -402,6 +402,65 @@ const Vision: React.FC = () => {
                 </div>
             </Section>
 
+            {/* Processing & Facility Links */}
+            <Section className="py-10">
+                <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
+                    <motion.div
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={staggerContainer}
+                    >
+                        <div className="text-center mb-10">
+                            <Typography variant="h2" className="mb-4">
+                                {t('processingLinks.title', 'Bringing the Vision to Life')}
+                            </Typography>
+                            <Typography variant="subtitle" className="max-w-3xl mx-auto text-gray-600">
+                                {t('processingLinks.subtitle', 'Explore how we are turning raw cashews into premium export-ready products through our processing infrastructure.')}
+                            </Typography>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <motion.div variants={fadeIn}>
+                                <InfoCard
+                                    icon={FaIndustry}
+                                    title={t('processingLinks.processing.title', 'Our Processing Approach')}
+                                    iconColor="text-accent"
+                                    showInfoBadge={false}
+                                    className="h-full"
+                                >
+                                    <Typography variant="body" className="mb-4 text-gray-600">
+                                        {t('processingLinks.processing.description', 'From raw nut to export-ready product — discover how we add value at every stage of the cashew processing chain.')}
+                                    </Typography>
+                                    <Link to="/processing" className="inline-flex items-center gap-2 text-accent hover:text-primary font-medium transition-colors">
+                                        {t('processingLinks.processing.link', 'Explore Processing')}
+                                        <FaArrowRight className="text-sm" />
+                                    </Link>
+                                </InfoCard>
+                            </motion.div>
+
+                            <motion.div variants={fadeIn} transition={{ delay: 0.1 }}>
+                                <InfoCard
+                                    icon={FaSolarPanel}
+                                    title={t('processingLinks.facility.title', 'Future Processing Facility')}
+                                    iconColor="text-primary"
+                                    showInfoBadge={false}
+                                    className="h-full"
+                                >
+                                    <Typography variant="body" className="mb-4 text-gray-600">
+                                        {t('processingLinks.facility.description', 'Take a tour of our planned facility — from quality control labs to worker welfare, see the layout designed for efficiency and sustainability.')}
+                                    </Typography>
+                                    <Link to="/processing/facility-flowchart" className="inline-flex items-center gap-2 text-primary hover:text-accent font-medium transition-colors">
+                                        {t('processingLinks.facility.link', 'View Facility Flowchart')}
+                                        <FaArrowRight className="text-sm" />
+                                    </Link>
+                                </InfoCard>
+                            </motion.div>
+                        </div>
+                    </motion.div>
+                </div>
+            </Section>
+
             {/* ESG Section */}
             <Section className="py-10">
                 <div className="w-full max-w-6xl mx-auto px-4 sm:px-6">
@@ -556,6 +615,84 @@ const Vision: React.FC = () => {
                                 </motion.div>
                             ))}
                         </div>
+                    </motion.div>
+                </div>
+            </Section>
+
+            {/* Operational Transparency Teaser */}
+            <Section className="py-10">
+                <div className="w-full max-w-6xl mx-auto px-4 sm:px-6">
+                    <motion.div
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={staggerContainer}
+                    >
+                        <div className="text-center mb-16">
+                            <Typography variant="h2" className="mb-4">
+                                {t('transparency.title', 'Operational Transparency Built In')}
+                            </Typography>
+                            <Typography variant="subtitle" className="max-w-3xl mx-auto text-gray-600">
+                                {t('transparency.subtitle', 'Every tree, every block, every expense — tracked and reported. Our farm management system brings institutional-grade visibility to agricultural investment.')}
+                            </Typography>
+                        </div>
+
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            {[
+                                {
+                                    icon: FaChartLine,
+                                    title: t('transparency.cards.tracking.title', 'Block-Level Tracking'),
+                                    description: t('transparency.cards.tracking.description', 'Our 35-hectare farm is divided into individually monitored blocks. Each block has its own planting date, survival rate, and performance metrics — giving investors granular visibility into farm operations.')
+                                },
+                                {
+                                    icon: FaCheckCircle,
+                                    title: t('transparency.cards.reporting.title', 'Investor-Grade Reporting'),
+                                    description: t('transparency.cards.reporting.description', 'Quarterly reports include tree survival rates, harvest volumes, quality grades, and profit-and-loss statements by block. No black boxes — just clear, auditable data.')
+                                },
+                                {
+                                    icon: FaIndustry,
+                                    title: t('transparency.cards.allocation.title', 'Transparent Cost Allocation'),
+                                    description: t('transparency.cards.allocation.description', 'Farm-wide expenses are allocated equally per block. Direct costs are tracked per block. Our investors always know exactly where every FCFA goes.')
+                                }
+                            ].map((item, index) => (
+                                <motion.div
+                                    key={index}
+                                    variants={fadeIn}
+                                    transition={{ delay: index * 0.1 }}
+                                >
+                                    <InfoCard
+                                        icon={item.icon}
+                                        title={item.title}
+                                        iconColor="text-accent"
+                                        className="h-full"
+                                        showInfoBadge={false}
+                                    >
+                                        <Typography variant="body" className="text-gray-600 text-sm">
+                                            {item.description}
+                                        </Typography>
+                                    </InfoCard>
+                                </motion.div>
+                            ))}
+                        </div>
+
+                        <motion.div
+                            variants={fadeIn}
+                            className="text-center mt-10"
+                        >
+                            <Typography variant="body" className="text-gray-500 italic max-w-2xl mx-auto">
+                                {t('transparency.note', 'Our operational dashboard and detailed financial reports are available to verified investors through a secure portal.')}
+                            </Typography>
+                            <motion.button
+                                onClick={() => navigate('/contact')}
+                                className="mt-6 relative border-2 border-primary/50 text-primary hover:bg-primary hover:text-white px-6 py-2.5 rounded-full transform-gpu transition-all duration-300 inline-flex items-center gap-2 text-sm font-medium bg-white/30 backdrop-blur-sm"
+                                whileHover={{ y: -2, scale: 1.03 }}
+                                whileTap={{ scale: 0.95 }}
+                            >
+                                <FaHandshake />
+                                {t('transparency.cta', 'Inquire About Investing')}
+                                <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
+                            </motion.button>
+                        </motion.div>
                     </motion.div>
                 </div>
             </Section>

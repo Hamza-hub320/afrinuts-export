@@ -5,6 +5,7 @@
   },
   "form": {
     "title": "Contacter Notre Équipe",
+    "privacy": "Vos informations sont sécurisées et ne seront jamais partagées.",
     "name": "Nom Complet*",
     "email": "Email Professionnel*",
     "phone": "Numéro de Téléphone",

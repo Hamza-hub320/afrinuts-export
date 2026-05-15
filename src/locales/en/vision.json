@@ -194,5 +194,39 @@
         "description": "Begin dividend distributions to shareholders. Reinvest profits to fund planning and development of the Phase 2 industrial-scale facility (5,000+ MT/year)."
       }
     ]
+  },
+  "processingLinks": {
+    "title": "Bringing the Vision to Life",
+    "subtitle": "Explore how we are turning raw cashews into premium export-ready products through our processing infrastructure.",
+    "processing": {
+      "title": "Our Processing Approach",
+      "description": "From raw nut to export-ready product — discover how we add value at every stage of the cashew processing chain.",
+      "link": "Explore Processing"
+    },
+    "facility": {
+      "title": "Future Processing Facility",
+      "description": "Take a tour of our planned facility — from quality control labs to worker welfare, see the layout designed for efficiency and sustainability.",
+      "link": "View Facility Flowchart"
+    }
+  },
+  "transparency": {
+    "title": "Operational Transparency Built In",
+    "subtitle": "Every tree, every block, every expense — tracked and reported. Our farm management system brings institutional-grade visibility to agricultural investment.",
+    "cards": {
+      "tracking": {
+        "title": "Block-Level Tracking",
+        "description": "Our 35-hectare farm is divided into individually monitored blocks. Each block has its own planting date, survival rate, and performance metrics — giving investors granular visibility into farm operations."
+      },
+      "reporting": {
+        "title": "Investor-Grade Reporting",
+        "description": "Quarterly reports include tree survival rates, harvest volumes, quality grades, and profit-and-loss statements by block. No black boxes — just clear, auditable data."
+      },
+      "allocation": {
+        "title": "Transparent Cost Allocation",
+        "description": "Farm-wide expenses are allocated equally per block. Direct costs are tracked per block. Our investors always know exactly where every FCFA goes."
+      }
+    },
+    "note": "Our operational dashboard and detailed financial reports are available to verified investors through a secure portal.",
+    "cta": "Inquire About Investing"
   }
 }

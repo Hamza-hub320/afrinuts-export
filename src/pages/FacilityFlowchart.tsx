@@ -759,6 +759,11 @@ const FacilityFlowchart: React.FC = () => {
                     </InfoCard>
                 </div>
             </Section>
+            <div className="text-center mt-4 pb-8">
+                <Link to="/farm" className="text-primary hover:text-accent text-sm flex items-center justify-center gap-1">
+                    <FaArrowLeft /> {t('cta.backToFarm', 'Back to Farm')}
+                </Link>
+            </div>
         </main>
     );
 };

@@ -123,6 +123,15 @@
     "contact": "Contact Us",
     "viewAll": "View All Products"
   },
+  "midCta": {
+    "title": "Interested in Our Products?",
+    "button": "Request Pricing"
+  },
+  "processCta": {
+    "title": "See How We Process Our Cashews",
+    "description": "From harvest to packaging — tour our state-of-the-art processing facility and see how we maintain quality at every step.",
+    "button": "Visit Processing Facility"
+  },
   "offlinePayment": {
     "title": "Offline Payment Instructions",
     "description": "Prefer to pay offline? We support invoice-based and offline payment methods for bulk orders and B2B clients. Contact our sales team for bank transfer details, proforma invoices, or to discuss your preferred payment method.",
