@@ -629,6 +629,7 @@ const Certifications: React.FC = () => {
                         </div>
                     </Section>
 
+
                     {/* Competitive Analysis Table - Responsive */}
                     <motion.div
                         className="group relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 transition-all duration-500 rounded-2xl shadow-xl overflow-hidden transform-gpu"
@@ -666,6 +667,16 @@ const Certifications: React.FC = () => {
                                     {t('competitiveLandscape.tableTitle', "Market Positioning Analysis")}
                                 </Typography>
                             </div>
+
+                            <div className="px-6 py-3 bg-amber-50/60 border-b border-amber-200">
+                                <div className="flex items-start gap-2">
+                                    <FaInfoCircle className="text-amber-500 mt-0.5 flex-shrink-0 text-xs" />
+                                    <Typography variant="small" className="text-amber-700 text-xs">
+                                        {t('competitiveLandscape.competitiveDisclaimer')}
+                                    </Typography>
+                                </div>
+                            </div>
+
 
                             {/* Desktop Table */}
                             <div className="hidden md:block overflow-x-auto">
@@ -905,24 +916,6 @@ const Certifications: React.FC = () => {
                     </div>
                 </div>
             </Section>
-
-            {/* Disclaimer for Competitive Analysis */}
-            <motion.div
-                className="max-w-7xl mx-auto px-4 sm:px-6 mb-6"
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={fadeIn}
-            >
-                <div className="bg-amber-50/80 border-l-4 border-amber-500 p-4 rounded-r-xl">
-                    <div className="flex items-start gap-3">
-                        <FaInfoCircle className="text-amber-500 mt-0.5 flex-shrink-0" />
-                        <Typography variant="small" className="text-amber-700">
-                            {t('competitiveLandscape.competitiveDisclaimer')}
-                        </Typography>
-                    </div>
-                </div>
-            </motion.div>
 
             {/* Call to Action */}
             <Section className="py-16 text-center">

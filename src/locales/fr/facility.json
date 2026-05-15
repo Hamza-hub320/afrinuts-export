@@ -163,23 +163,25 @@
   },
   "compliance": {
     "title": "Conformité et Normes",
-    "description": "Notre installation répond aux normes internationales les plus élevées en matière de sécurité alimentaire et de qualité",
+    "description": "Notre installation de transformation est conçue pour répondre aux normes internationales de sécurité alimentaire et de qualité dès le premier jour.",
     "hygiene": {
-      "title": "Protocoles d'Hygiène",
+      "title": "Protocoles d'Hygiène et d'Assainissement",
       "features": [
-        "Zones sales/propres séparées avec sas",
-        "Stations d'hygiène obligatoires à toutes les entrées de zone",
-        "Horaires d'assainissement réguliers et documentation",
-        "Système de gestion de la lutte antiparasitaire"
+        "SSOPs alignés sur les directives du Codex Alimentarius",
+        "Stations automatisées de lavage des mains et de désinfection des bottes à tous les points d'entrée",
+        "Drainage avec pente de 2% et grilles anti-rongeurs dans toute l'installation",
+        "Zones séparées pour les matières premières et les produits finis",
+        "Tests quotidiens par écouvillonnage ATP sur les surfaces en contact avec les aliments"
       ]
     },
     "certifications": {
-      "title": "Prête pour les Certifications",
+      "title": "Certifications en Cours",
+      "description": "Nous poursuivons activement les certifications internationales suivantes. Les délais sont soumis aux calendriers d'audit et à l'approbation réglementaire.",
       "standards": [
-        "ISO 22000 Management de la Sécurité Alimentaire",
-        "Conformité et Certification Halal",
-        "Normes de Transformation Biologique (ECOCERT)",
-        "Commerce Équitable et Rainforest Alliance"
+        "ISO 22000 Management de la Sécurité Alimentaire — Demande soumise, objectif 2029",
+        "Conformité et Certification Halal — Documentation en préparation, objectif 2028",
+        "Normes de Transformation Biologique (ECOCERT) — Transition de 3 ans débutée en 2027, objectif 2030",
+        "Commerce Équitable et Rainforest Alliance — Étude de faisabilité en cours"
       ]
     }
   },

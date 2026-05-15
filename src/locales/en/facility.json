@@ -170,23 +170,25 @@
 
   "compliance": {
     "title": "Compliance & Standards",
-    "description": "Our facility meets the highest international standards for food safety and quality",
+    "description": "Our processing facility is designed to meet international food safety and quality standards from day one.",
     "hygiene": {
-      "title": "Hygiene Protocols",
+      "title": "Hygiene & Sanitation Protocols",
       "features": [
-        "Separate dirty/clean zones with airlocks",
-        "Mandatory hygiene stations at all zone entries",
-        "Regular sanitation schedules and documentation",
-        "Pest control management system"
+        "SSOPs aligned with Codex Alimentarius guidelines",
+        "Automated hand-washing and boot-sanitizing stations at all entry points",
+        "Drainage with 2% slope and rodent-proof gratings throughout the facility",
+        "Separate raw material and finished goods zones",
+        "Daily ATP swab testing on food-contact surfaces"
       ]
     },
     "certifications": {
-      "title": "Certification Ready",
+      "title": "Certifications In Progress",
+      "description": "We are actively pursuing the following international certifications. Timelines are subject to audit schedules and regulatory approval.",
       "standards": [
-        "ISO 22000 Food Safety Management",
-        "Halal Compliance and Certification",
-        "Organic Processing Standards (ECOCERT)",
-        "Fair Trade and Rainforest Alliance"
+        "ISO 22000 Food Safety Management — Application submitted, targeting 2029",
+        "Halal Compliance and Certification — Documentation in preparation, targeting 2028",
+        "Organic Processing Standards (ECOCERT) — 3-year transition started 2027, targeting 2030",
+        "Fair Trade and Rainforest Alliance — Feasibility assessment underway"
       ]
     }
   },

@@ -32,7 +32,7 @@ import {
     FaTree,
     FaFlask,
     FaCalendarAlt,
-    FaHeart, FaHandSparkles
+    FaHeart, FaHandSparkles, FaClock
 } from "react-icons/fa";
 import {Link, useNavigate} from 'react-router-dom';
 import Section from '@/components/Section/Section';
@@ -670,10 +670,15 @@ const FacilityFlowchart: React.FC = () => {
                             showInfoBadge={false}
                             variant="accent"
                         >
+                            {t('compliance.certifications.description') && (
+                                <Typography variant="small" className="text-gray-500 mb-4 italic">
+                                    {t('compliance.certifications.description')}
+                                </Typography>
+                            )}
                             <ul className="space-y-3">
                                 {getFeatures('compliance.certifications.standards').map((standard, index) => (
                                     <li key={index} className="flex items-start">
-                                        <FaInfoCircle className="text-accent mt-1 mr-3 flex-shrink-0" />
+                                        <FaClock className="text-amber-500 mt-1 mr-3 flex-shrink-0" />
                                         <Typography variant="body">
                                             {standard}
                                         </Typography>
