@@ -413,28 +413,46 @@ const Home: React.FC = () => {
                                 </motion.div>
                             ))}
                         </motion.div>
-
-                        <motion.div
-                            className="text-center mt-16"
-                            initial="hidden"
-                            whileInView="visible"
-                            viewport={{ once: true }}
-                            variants={fadeIn}
-                        >
-                            <motion.button
-                                whileHover={{ scale: 1.08 }}
-                                whileTap={{ scale: 0.96 }}
-                                className="group border-2 relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-6 py-2 md:px-8 md:py-3 rounded-full transition-all duration-300 inline-flex items-center text-sm md:text-base"
-                                onClick={() => navigate('/products')}
-                                aria-label={t('products.ctaButton')}
-                            >
-                                {t('products.ctaButton')}
-                                <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" aria-hidden="true"/>
-                            </motion.button>
-                        </motion.div>
                     </div>
                 </Section>
             </Suspense>
+
+            {/* Product CTA */}
+            <Section className="py-8">
+                <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
+                    <motion.div
+                        className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl shadow-lg p-6 sm:p-8 transform-gpu"
+                        style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={staggerContainer}
+                        whileHover={{ y: -4, scale: 1.01, boxShadow: '0 15px 30px -8px rgba(165,105,66,0.15)', transition: { duration: 0.3 } }}
+                    >
+                        <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-4px]" />
+                        <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-30" />
+                        <div className="relative z-10">
+                            <Typography variant="h2" className="text-primary mb-3">
+                                {t('products.cta.heading', 'Find the Right Cashew Product for Your Business')}
+                            </Typography>
+                            <Typography variant="body" className="text-gray-600 mb-5 max-w-xl mx-auto">
+                                {t('products.cta.description', 'Browse our full catalog with organic and conventional options, pricing details, certifications, and availability timelines.')}
+                            </Typography>
+                            <motion.button
+                                onClick={() => navigate('/products')}
+                                className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-6 py-2.5 rounded-full transform-gpu transition-all duration-300 inline-flex items-center gap-2 text-sm font-medium shadow-md"
+                                whileHover={{ y: -2, scale: 1.03 }}
+                                whileTap={{ scale: 0.95 }}
+                            >
+                                <div className="absolute inset-0 rounded-full border-2 border-white/30" />
+                                <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50" />
+                                <span className="relative z-10">{t('products.cta.button', 'Explore All Products')}</span>
+                                <FaArrowRight className="relative z-10 group-hover:translate-x-1 transition-transform" />
+                            </motion.button>
+                        </div>
+                    </motion.div>
+                </div>
+            </Section>
 
             {/* 4. Farm Story */}
             <Section className="py-10 bg-gradient-to-r from-primary/30 via-white/30
