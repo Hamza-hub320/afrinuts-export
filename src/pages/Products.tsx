@@ -131,7 +131,7 @@ const Products: React.FC = () => {
                 (productionType === 'organic' && (product.productionType === 'organic' || product.productionType === 'both')) ||
                 (productionType === 'conventional' && (product.productionType === 'conventional' || product.productionType === 'both'));
 
-            return matchesSearch && matchesAvailability && matchesCertifications;
+            return matchesSearch && matchesAvailability && matchesCertifications && matchesProductionType;
         });
     }, [products, filters]);
 
