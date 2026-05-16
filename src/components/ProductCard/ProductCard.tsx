@@ -133,7 +133,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             <div className="absolute inset-0 rounded-2xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
 
             {/* ===== IMAGE SECTION ===== */}
-            <div className="relative w-full h-56 md:h-64 overflow-hidden z-10 flex-shrink-0">
+            <div className="relative w-full h-72 md:h-80 overflow-hidden z-10">
                 <div className="relative w-full h-full overflow-hidden rounded-t-2xl rounded-b-[40px]">
                     {imageSrc && (
                         <motion.img
