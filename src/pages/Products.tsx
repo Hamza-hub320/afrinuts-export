@@ -471,6 +471,7 @@ const Products: React.FC = () => {
                             {filteredProducts.map((product) => (
                                 <motion.div
                                     key={product.name}
+                                    className="h-full"
                                     whileHover={{
                                         y: -6,
                                         scale: 1.025,
@@ -485,6 +486,7 @@ const Products: React.FC = () => {
                                 >
                                     <ProductCard
                                         product={product}
+                                        className="h-full"
                                         productionTypeFilter={productionType}
                                         handleContactClick={() => navigate('/contact?type=wholesale')}
                                         handlePreorderClick={() => navigate('/contact?type=preorder')}

@@ -127,13 +127,13 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             whileTap={{ y: -2, scale: 0.98 }}
         >
             {/* ===== Decorative layers ===== */}
-            <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-8px] transition-all duration-500" />
-            <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
-            <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] group-hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
+            <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px]hover:translate-z-[-8px] transition-all duration-500" />
+            <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 hover:opacity-60 transition-opacity duration-500" />
+            <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
             <div className="absolute inset-0 rounded-2xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
 
             {/* ===== IMAGE SECTION ===== */}
-            <div className="relative w-full h-72 md:h-80 overflow-hidden z-10">
+            <div className="relative w-full h-56 md:h-64 overflow-hidden z-10 flex-shrink-0">
                 <div className="relative w-full h-full overflow-hidden rounded-t-2xl rounded-b-[40px]">
                     {imageSrc && (
                         <motion.img
@@ -184,7 +184,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
             </div>
 
             {/* ===== CONTENT SECTION ===== */}
-            <div className="relative z-10 flex flex-col flex-grow p-6">
+            <div className="relative z-10 flex flex-col flex-grow p-5">
                 {/* ----- HEADER ----- */}
                 <div className="flex items-start gap-4 mb-4">
                     {IconComponent && (
@@ -254,7 +254,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                 )}
 
                 {/* ----- PRICING SECTION ----- */}
-                <div className="space-y-3 mb-4">
+                <div className="space-y-2.5 mb-4 flex-shrink-0">
                     {/* Organic Variants */}
                     {showOrganic && product.variants && product.variants.length > 0 && (
                         <div className="rounded-xl bg-white/50 backdrop-blur-sm border border-white/30 p-4">
@@ -332,7 +332,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                 )}
 
                 {/* ----- CTA BUTTON ----- */}
-                <div className="mt-auto pt-2">
+                <div className="mt-auto pt-2 flex-shrink-0">
                     {buttonConfig ? (
                         <motion.button
                             className={`w-full px-6 py-3.5 rounded-xl font-semibold shadow-lg flex items-center justify-center 

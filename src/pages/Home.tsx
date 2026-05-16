@@ -339,7 +339,7 @@ const Home: React.FC = () => {
                 <Section className="py-10">
                     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                         <motion.div
-                            className="text-center mb-16"
+                            className="text-center mb-16 h-full"
                             initial="hidden"
                             whileInView="visible"
                             viewport={{ once: true }}
@@ -365,7 +365,7 @@ const Home: React.FC = () => {
                                     key={product.key}
                                     whileHover={{ scale: 1.02 }}
                                     whileTap={{ scale: 0.97 }}
-                                    className="w-full relative z-0 overflow-visible"
+                                    className="w-full relative z-0 overflow-visible h-full"
                                 >
                                     <ProductCard
                                         product={{
@@ -374,6 +374,7 @@ const Home: React.FC = () => {
                                             backgroundImage: product.icon.toLowerCase().replace(/\s+/g, '-'),
                                             features: product.features || []
                                         }}
+                                        className="h-full"
                                         handleContactClick={handleContactClick}
                                         productImageMap={productImageMap}
                                         iconMap={iconMap}
