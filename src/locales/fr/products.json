@@ -19,7 +19,9 @@
     "estimatedDelivery": "Livraison estimée",
     "beNotified": "Soyez informé dès que disponible",
     "priceEstimate": "Prix estimé — susceptible de changer selon les conditions du marché au moment du lancement.",
-    "organic": "Biologique"
+    "organic": "Biologique",
+    "organicLabel": "Biologique",
+    "conventionalLabel": "Conventionnel"
   },
   "filters": {
     "searchLabel": "Rechercher des Produits",

@@ -49,6 +49,12 @@
     }
   }
 
+  .animate-pulse-slow {
+    animation: pulse-slow 4s ease-in-out infinite;
+  }
+
+
+
   @keyframes gradientCycle {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }

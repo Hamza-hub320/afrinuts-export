@@ -465,63 +465,63 @@ const Products: React.FC = () => {
                         </motion.div>
                     </div>
 
-                        {/* Products Grid */}
-                        {filteredProducts.length > 0 ? (
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-                                {filteredProducts.map((product) => (
-                                    <motion.div
-                                        key={product.name}
-                                        whileHover={{
-                                            y: -6,
-                                            scale: 1.025,
-                                            rotateY: 2,
-                                            boxShadow: '0 16px 32px -8px rgba(255, 140, 0, 0.10)',
-                                            transition: { duration: 0.25 }
-                                        }}
-                                        style={{
-                                            transformStyle: 'preserve-3d',
-                                            perspective: '1000px',
-                                        }}
-                                    >
-                                        <ProductCard
-                                            product={product}
-                                            productionTypeFilter={productionType}
-                                            handleContactClick={() => navigate('/contact?type=wholesale')}
-                                            handlePreorderClick={() => navigate('/contact?type=preorder')}
-                                            handleWaitlistClick={() => navigate('/contact?type=waitlist')}
-                                            productImageMap={productImageMap}
-                                            iconMap={iconMap}
-                                        />
-                                    </motion.div>
-                                ))}
-                            </div>
-                        ) : (
-                            <motion.div
-                                className="text-center py-12"
-                                whileHover={{
-                                    scale: 1.025,
-                                    boxShadow: '0 8px 24px -6px rgba(255, 140, 0, 0.10)',
-                                    transition: { duration: 0.2 }
-                                }}
-                            >
-                                <h3 className="text-xl font-medium text-gray-700 mb-2">
-                                    {t('products.noResults')}
-                                </h3>
-                                <p className="text-gray-500">
-                                    {t('products.tryDifferentFilters')}
-                                </p>
-                                <motion.button
-                                    onClick={resetFilters}
-                                    className="mt-4 px-6 py-2 bg-primary text-white rounded-lg hover:bg-dark-orange transition-colors"
+                    {/* Products Grid */}
+                    {filteredProducts.length > 0 ? (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                            {filteredProducts.map((product) => (
+                                <motion.div
+                                    key={product.name}
                                     whileHover={{
-                                        scale: 1.10,
-                                        transition: { duration: 0.16 }
+                                        y: -6,
+                                        scale: 1.025,
+                                        rotateY: 2,
+                                        boxShadow: '0 16px 32px -8px rgba(255, 140, 0, 0.10)',
+                                        transition: { duration: 0.25 }
+                                    }}
+                                    style={{
+                                        transformStyle: 'preserve-3d',
+                                        perspective: '1000px',
                                     }}
                                 >
-                                    {t('filters.resetAll')}
-                                </motion.button>
-                            </motion.div>
-                        )}
+                                    <ProductCard
+                                        product={product}
+                                        productionTypeFilter={productionType}
+                                        handleContactClick={() => navigate('/contact?type=wholesale')}
+                                        handlePreorderClick={() => navigate('/contact?type=preorder')}
+                                        handleWaitlistClick={() => navigate('/contact?type=waitlist')}
+                                        productImageMap={productImageMap}
+                                        iconMap={iconMap}
+                                    />
+                                </motion.div>
+                            ))}
+                        </div>
+                    ) : (
+                        <motion.div
+                            className="text-center py-12"
+                            whileHover={{
+                                scale: 1.025,
+                                boxShadow: '0 8px 24px -6px rgba(255, 140, 0, 0.10)',
+                                transition: { duration: 0.2 }
+                            }}
+                        >
+                            <h3 className="text-xl font-medium text-gray-700 mb-2">
+                                {t('products.noResults')}
+                            </h3>
+                            <p className="text-gray-500">
+                                {t('products.tryDifferentFilters')}
+                            </p>
+                            <motion.button
+                                onClick={resetFilters}
+                                className="mt-4 px-6 py-2 bg-primary text-white rounded-lg hover:bg-dark-orange transition-colors"
+                                whileHover={{
+                                    scale: 1.10,
+                                    transition: { duration: 0.16 }
+                                }}
+                            >
+                                {t('filters.resetAll')}
+                            </motion.button>
+                        </motion.div>
+                    )}
                     {/* CTA After Products */}
                     {filteredProducts.length > 0 && (
                         <motion.div
@@ -547,10 +547,10 @@ const Products: React.FC = () => {
                             </motion.button>
                         </motion.div>
                     )}
-                </Section>
 
-                {/* Unified Offline Payment & Catalogue Section */}
-                <Section className="mb-12 py-12">
+
+                    {/* Unified Offline Payment & Catalogue Section */}
+
                     <div className="flex flex-col lg:flex-row items-stretch justify-center gap-8 lg:gap-12">
                         {/* Offline Payment motion div */}
                         <motion.div
@@ -648,19 +648,19 @@ const Products: React.FC = () => {
                                     {t('catalogue.description')}
                                 </Typography>
                                 <motion.a
-                                  href={productCataloguePdf}
-                                  download
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  className="group bg-primary hover:bg-orange-700 text-white px-6 py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center mx-auto text-base font-semibold transform-gpu hover:scale-105"
-                                  whileHover={{
-                                    scale: 1.08,
-                                    transition: { duration: 0.18, type: "spring", stiffness: 320 }
-                                  }}
-                                  whileTap={{ scale: 0.95 }}
+                                    href={productCataloguePdf}
+                                    download
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="group bg-primary hover:bg-orange-700 text-white px-6 py-3 rounded-full transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center mx-auto text-base font-semibold transform-gpu hover:scale-105"
+                                    whileHover={{
+                                        scale: 1.08,
+                                        transition: { duration: 0.18, type: "spring", stiffness: 320 }
+                                    }}
+                                    whileTap={{ scale: 0.95 }}
                                 >
-                                  <FaDownload className="mr-2 text-xl" />
-                                  {t('catalogue.download')}
+                                    <FaDownload className="mr-2 text-xl" />
+                                    {t('catalogue.download')}
                                 </motion.a>
                             </div>
                         </motion.div>
@@ -1051,7 +1051,7 @@ const Products: React.FC = () => {
                         </motion.div>
                     </div>
                 </Section>
-                </div>
+            </div>
         </main>
     );
 }

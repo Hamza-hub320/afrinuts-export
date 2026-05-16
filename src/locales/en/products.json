@@ -19,7 +19,9 @@
     "estimatedDelivery": "Estimated delivery",
     "beNotified": "Be notified when available",
     "priceEstimate": "Estimated pricing — subject to change based on market conditions at launch.",
-    "organic": "Organic"
+    "organic": "Organic",
+    "organicLabel": "Organic",
+    "conventionalLabel": "Conventional"
   },
   "filters": {
     "searchLabel": "Search Products",

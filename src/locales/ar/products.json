@@ -19,7 +19,10 @@
     "estimatedDelivery": "موعد التسليم المتوقع",
     "beNotified": "سيتم إشعارك عند توفره",
     "priceEstimate": "سعر تقديري — قابل للتغيير بناءً على ظروف السوق عند الإطلاق.",
-    "organic": "عضوي"
+    "organic": "عضوي",
+    "organicLabel": "عضوي",
+    "conventionalLabel": "تقليدي"
+
   },
   "filters": {
     "searchLabel": "البحث عن المنتجات",
