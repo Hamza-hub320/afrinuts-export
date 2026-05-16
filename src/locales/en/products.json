@@ -17,7 +17,9 @@
     "preorderButton": "Pre-Order Now",
     "waitlistButton": "Join Waitlist",
     "estimatedDelivery": "Estimated delivery",
-    "beNotified": "Be notified when available"
+    "beNotified": "Be notified when available",
+    "priceEstimate": "Estimated pricing — subject to change based on market conditions at launch.",
+    "organic": "Organic"
   },
   "filters": {
     "searchLabel": "Search Products",
@@ -28,6 +30,11 @@
       "all": "All Availability",
       "available": "Available Now",
       "coming-soon": "Coming Soon"
+    },
+    "productionType": {
+      "all": "All",
+      "organic": "Organic",
+      "conventional": "Conventional"
     },
     "category": {
       "all": "All Categories",
@@ -40,7 +47,8 @@
       "all": "All Certifications",
       "organic": "Organic Certified",
       "halal": "Halal Certified",
-      "fairtrade": "Fair Trade Certified"
+      "fairtrade": "Fair Trade Certified",
+      "iso": "ISO 22000 Certified"
     },
     "reset": "Reset All Filters",
     "results": "{count} products"
@@ -105,7 +113,7 @@
       "targetDate": "2027"
     },
     "iso": {
-      "title": "ISO 22000",
+      "title": "ISO 22000 Certified",
       "targetDate": "2027"
     },
     "halal": {
@@ -141,6 +149,7 @@
     {
       "name": "Raw Cashew Nuts",
       "type": "raw",
+      "productionType": "both",
       "description": "Sun-dried, hand-sorted Grade A cashews from our family farm. Available now for immediate export.",
       "features": [
         "Grade A quality with 95% whole nuts",
@@ -151,17 +160,29 @@
       "available": true,
       "backgroundImage": "raw-cashew.jpg",
       "icon": "FaSeedling",
-      "certifications": ["Organic", "Fair Trade"],
+      "certifications": [
+        "Organic",
+        "Halal",
+        "ISO 22000",
+        "Fair Trade"
+      ],
       "variants": [
         {
-          "name": "Standard Grade",
+          "name": "Organic Standard Grade",
           "priceRange": "$1,200 - $1,500/ton"
+        }
+      ],
+      "conventionalVariants": [
+        {
+          "name": "Conventional Standard Grade",
+          "priceRange": "$800 - $1,100/ton"
         }
       ]
     },
     {
       "name": "Cashew Kernels",
       "type": "processed",
+      "productionType": "both",
       "description": "Precision-processed kernels from our future processing facility. Reserve your supply now.",
       "features": [
         "Multiple grades: W320, W240, W180",
@@ -173,21 +194,37 @@
       "preorderDate": "Q1 2030",
       "backgroundImage": "cashew-kernels.jpg",
       "icon": "FaWeightHanging",
-      "certifications": ["Organic", "Halal", "ISO 22000"],
+      "certifications": [
+        "Organic",
+        "Halal",
+        "ISO 22000",
+        "Fair Trade"
+      ],
       "variants": [
         {
-          "name": "Whole Kernels",
+          "name": "Organic Whole Kernels",
           "priceRange": "$6,500 - $8,000/ton"
         },
         {
-          "name": "Splits & Pieces",
+          "name": "Organic Splits & Pieces",
           "priceRange": "$4,000 - $5,500/ton"
+        }
+      ],
+      "conventionalVariants": [
+        {
+          "name": "Conventional Whole Kernels",
+          "priceRange": "$4,500 - $6,000/ton"
+        },
+        {
+          "name": "Conventional Splits & Pieces",
+          "priceRange": "$2,800 - $3,800/ton"
         }
       ]
     },
     {
       "name": "Cashew Butter",
       "type": "processed",
+      "productionType": "organic",
       "description": "100% pure, single-origin cashew butter with no additives. Join the waitlist for launch.",
       "features": [
         "Creamy texture from premium Ivory Coast cashews",
@@ -198,14 +235,19 @@
       "waitlist": true,
       "backgroundImage": "cashew-butter.jpg",
       "icon": "FaIndustry",
-      "certifications": ["Organic", "Halal"],
+      "certifications": [
+        "Organic",
+        "Halal",
+        "ISO 22000",
+        "Fair Trade"
+      ],
       "variants": [
         {
-          "name": "Smooth",
+          "name": "Organic Smooth",
           "priceRange": "$8 - $12/kg"
         },
         {
-          "name": "Crunchy",
+          "name": "Organic Crunchy",
           "priceRange": "$8 - $12/kg"
         }
       ]
@@ -213,6 +255,7 @@
     {
       "name": "Roasted Cashews",
       "type": "processed",
+      "productionType": "both",
       "description": "Premium dry-roasted cashews with optimal crunch. Join the waitlist for launch.",
       "features": [
         "Three varieties: Natural, Lightly Salted, Spiced",
@@ -223,21 +266,37 @@
       "waitlist": true,
       "backgroundImage": "roasted-cashew.jpg",
       "icon": "FaLeaf",
-      "certifications": ["Organic", "Halal"],
+      "certifications": [
+        "Organic",
+        "Halal",
+        "ISO 22000",
+        "Fair Trade"
+      ],
       "variants": [
         {
-          "name": "Natural",
+          "name": "Organic Natural",
           "priceRange": "$10 - $15/kg"
         },
         {
-          "name": "Salted",
+          "name": "Organic Salted",
           "priceRange": "$10 - $15/kg"
+        }
+      ],
+      "conventionalVariants": [
+        {
+          "name": "Conventional Natural",
+          "priceRange": "$6 - $9/kg"
+        },
+        {
+          "name": "Conventional Salted",
+          "priceRange": "$6 - $9/kg"
         }
       ]
     },
     {
       "name": "Cashew Nut Shell Liquid (CNSL)",
       "type": "byproduct",
+      "productionType": "conventional",
       "description": "High-value industrial byproduct from our processing operations. Available for pre-order.",
       "features": [
         "Used in paints, varnishes and brake linings",
@@ -249,6 +308,7 @@
       "preorderDate": "Q1 2030",
       "backgroundImage": "cashew-nut-shell-liquid.jpg",
       "icon": "FaLeaf",
+      "certifications": ["Fair Trade"],
       "variants": [
         {
           "name": "Technical Grade",
@@ -259,6 +319,7 @@
     {
       "name": "Cashew Milk",
       "type": "processed",
+      "productionType": "organic",
       "description": "Creamy plant-based milk alternative. Join the waitlist for launch.",
       "features": [
         "Fortified with calcium & vitamin D",
@@ -269,14 +330,19 @@
       "waitlist": true,
       "backgroundImage": "cashew-milk.jpg",
       "icon": "FaLeaf",
-      "certifications": ["Organic", "Halal"],
+      "certifications": [
+        "Organic",
+        "Halal",
+        "ISO 22000",
+        "Fair Trade"
+      ],
       "variants": [
         {
-          "name": "Original",
+          "name": "Organic Original",
           "priceRange": "$2 - $3/liter"
         },
         {
-          "name": "Unsweetened",
+          "name": "Organic Unsweetened",
           "priceRange": "$2 - $3/liter"
         }
       ]

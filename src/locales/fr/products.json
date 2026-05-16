@@ -17,7 +17,9 @@
     "preorderButton": "Précommander Maintenant",
     "waitlistButton": "Rejoindre la Liste d'Attente",
     "estimatedDelivery": "Livraison estimée",
-    "beNotified": "Soyez informé dès que disponible"
+    "beNotified": "Soyez informé dès que disponible",
+    "priceEstimate": "Prix estimé — susceptible de changer selon les conditions du marché au moment du lancement.",
+    "organic": "Biologique"
   },
   "filters": {
     "searchLabel": "Rechercher des Produits",
@@ -28,6 +30,11 @@
       "all": "Toutes Disponibilités",
       "available": "Disponible Maintenant",
       "coming-soon": "Bientôt Disponible"
+    },
+    "productionType": {
+      "all": "Tout",
+      "organic": "Biologique",
+      "conventional": "Conventionnel"
     },
     "category": {
       "all": "Toutes Catégories",
@@ -40,7 +47,8 @@
       "all": "Toutes Certifications",
       "organic": "Certifié Biologique",
       "halal": "Certifié Halal",
-      "fairtrade": "Certifié Commerce Équitable"
+      "fairtrade": "Certifié Commerce Équitable",
+      "iso": "Certifié ISO 22000"
     },
     "reset": "Réinitialiser Tous les Filtres",
     "results": "{count} produits"
@@ -105,7 +113,7 @@
       "targetDate": "2027"
     },
     "iso": {
-      "title": "ISO 22000",
+      "title": "Certifié ISO 22000",
       "targetDate": "2027"
     },
     "halal": {
@@ -141,6 +149,7 @@
     {
       "name": "Noix de Cajou Brutes",
       "type": "raw",
+      "productionType": "both",
       "description": "Noix de cajou de Grade A séchées au soleil et triées à la main provenant de notre ferme familiale. Disponibles maintenant pour exportation immédiate.",
       "features": [
         "Qualité Grade A avec 95 % de noix entières",
@@ -151,17 +160,24 @@
       "available": true,
       "backgroundImage": "raw-cashew.jpg",
       "icon": "FaSeedling",
-      "certifications": ["Biologique", "Commerce Équitable"],
+      "certifications": ["Biologique", "Halal", "ISO 22000", "Commerce Équitable"],
       "variants": [
         {
-          "name": "Qualité Standard",
+          "name": "Qualité Standard Biologique",
           "priceRange": "1 200 $ - 1 500 $/tonne"
+        }
+      ],
+      "conventionalVariants": [
+        {
+          "name": "Qualité Standard Conventionnelle",
+          "priceRange": "800 $ - 1 100 $/tonne"
         }
       ]
     },
     {
       "name": "Amandes de Cajou",
       "type": "processed",
+      "productionType": "both",
       "description": "Amandes transformées avec précision provenant de notre future installation de transformation. Réservez votre approvisionnement dès maintenant.",
       "features": [
         "Plusieurs grades : W320, W240, W180",
@@ -173,21 +189,32 @@
       "preorderDate": "T1 2030",
       "backgroundImage": "cashew-kernels.jpg",
       "icon": "FaWeightHanging",
-      "certifications": ["Biologique", "Halal", "ISO 22000"],
+      "certifications": ["Biologique", "Halal", "ISO 22000", "Commerce Équitable"],
       "variants": [
         {
-          "name": "Amandes Entières",
+          "name": "Amandes Entières Biologiques",
           "priceRange": "6 500 $ - 8 000 $/tonne"
         },
         {
-          "name": "Brisures et Morceaux",
+          "name": "Brisures et Morceaux Biologiques",
           "priceRange": "4 000 $ - 5 500 $/tonne"
+        }
+      ],
+      "conventionalVariants": [
+        {
+          "name": "Amandes Entières Conventionnelles",
+          "priceRange": "4 500 $ - 6 000 $/tonne"
+        },
+        {
+          "name": "Brisures et Morceaux Conventionnels",
+          "priceRange": "2 800 $ - 3 800 $/tonne"
         }
       ]
     },
     {
       "name": "Beurre de Cajou",
       "type": "processed",
+      "productionType": "organic",
       "description": "Beurre de cajou 100 % pur, d'origine unique, sans additifs. Rejoignez la liste d'attente pour le lancement.",
       "features": [
         "Texture crémeuse à base de noix de cajou premium de Côte d'Ivoire",
@@ -198,14 +225,14 @@
       "waitlist": true,
       "backgroundImage": "cashew-butter.jpg",
       "icon": "FaIndustry",
-      "certifications": ["Biologique", "Halal"],
+      "certifications": ["Biologique", "Halal", "ISO 22000", "Commerce Équitable"],
       "variants": [
         {
-          "name": "Onctueux",
+          "name": "Onctueux Biologique",
           "priceRange": "8 $ - 12 $/kg"
         },
         {
-          "name": "Croustillant",
+          "name": "Croustillant Biologique",
           "priceRange": "8 $ - 12 $/kg"
         }
       ]
@@ -213,6 +240,7 @@
     {
       "name": "Noix de Cajou Grillées",
       "type": "processed",
+      "productionType": "both",
       "description": "Noix de cajou premium grillées à sec pour un croquant optimal. Rejoignez la liste d'attente pour le lancement.",
       "features": [
         "Trois variétés : Nature, Légèrement Salée, Épicée",
@@ -223,21 +251,32 @@
       "waitlist": true,
       "backgroundImage": "roasted-cashew.jpg",
       "icon": "FaLeaf",
-      "certifications": ["Biologique", "Halal"],
+      "certifications": ["Biologique", "Halal", "ISO 22000", "Commerce Équitable"],
       "variants": [
         {
-          "name": "Nature",
+          "name": "Nature Biologique",
           "priceRange": "10 $ - 15 $/kg"
         },
         {
-          "name": "Salée",
+          "name": "Salée Biologique",
           "priceRange": "10 $ - 15 $/kg"
+        }
+      ],
+      "conventionalVariants": [
+        {
+          "name": "Nature Conventionnelle",
+          "priceRange": "6 $ - 9 $/kg"
+        },
+        {
+          "name": "Salée Conventionnelle",
+          "priceRange": "6 $ - 9 $/kg"
         }
       ]
     },
     {
       "name": "Liquide de Coque de Noix de Cajou (CNSL)",
       "type": "byproduct",
+      "productionType": "conventional",
       "description": "Sous-produit industriel à haute valeur ajoutée issu de nos opérations de transformation. Disponible en précommande.",
       "features": [
         "Utilisé dans les peintures, vernis et garnitures de frein",
@@ -249,6 +288,7 @@
       "preorderDate": "T1 2030",
       "backgroundImage": "cashew-nut-shell-liquid.jpg",
       "icon": "FaLeaf",
+      "certifications": ["Commerce Équitable"],
       "variants": [
         {
           "name": "Qualité Technique",
@@ -259,6 +299,7 @@
     {
       "name": "Lait de Cajou",
       "type": "processed",
+      "productionType": "organic",
       "description": "Alternative végétale onctueuse au lait. Rejoignez la liste d'attente pour le lancement.",
       "features": [
         "Enrichi en calcium et vitamine D",
@@ -269,14 +310,14 @@
       "waitlist": true,
       "backgroundImage": "cashew-milk.jpg",
       "icon": "FaLeaf",
-      "certifications": ["Biologique", "Halal"],
+      "certifications": ["Biologique", "Halal", "ISO 22000", "Commerce Équitable"],
       "variants": [
         {
-          "name": "Original",
+          "name": "Original Biologique",
           "priceRange": "2 $ - 3 $/litre"
         },
         {
-          "name": "Non Sucré",
+          "name": "Non Sucré Biologique",
           "priceRange": "2 $ - 3 $/litre"
         }
       ]

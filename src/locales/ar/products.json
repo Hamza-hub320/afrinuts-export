@@ -17,7 +17,9 @@
     "preorderButton": "اطلب مسبقاً الآن",
     "waitlistButton": "انضم إلى قائمة الانتظار",
     "estimatedDelivery": "موعد التسليم المتوقع",
-    "beNotified": "سيتم إشعارك عند توفره"
+    "beNotified": "سيتم إشعارك عند توفره",
+    "priceEstimate": "سعر تقديري — قابل للتغيير بناءً على ظروف السوق عند الإطلاق.",
+    "organic": "عضوي"
   },
   "filters": {
     "searchLabel": "البحث عن المنتجات",
@@ -28,6 +30,11 @@
       "all": "جميع حالات التوفر",
       "available": "متوفر الآن",
       "coming-soon": "قريباً"
+    },
+    "productionType": {
+      "all": "الكل",
+      "organic": "عضوي",
+      "conventional": "تقليدي"
     },
     "category": {
       "all": "جميع الفئات",
@@ -40,7 +47,8 @@
       "all": "جميع الشهادات",
       "organic": "عضوي معتمد",
       "halal": "حلال معتمد",
-      "fairtrade": "تجارة عادلة معتمدة"
+      "fairtrade": "تجارة عادلة معتمدة",
+      "iso": "معتمد ISO 22000"
     },
     "reset": "إعادة ضبط جميع الفلاتر",
     "results": "{count} منتج"
@@ -105,7 +113,7 @@
       "targetDate": "2027"
     },
     "iso": {
-      "title": "ISO 22000",
+      "title": "معتمد ISO 22000",
       "targetDate": "2027"
     },
     "halal": {
@@ -141,6 +149,7 @@
     {
       "name": "كاجو خام",
       "type": "raw",
+      "productionType": "both",
       "description": "كاجو درجة أولى مجفف بالشمس ومفرز يدوياً من مزرعتنا العائلية. متوفر الآن للتصدير الفوري.",
       "features": [
         "جودة درجة أولى بنسبة 95% مكسرات كاملة",
@@ -151,17 +160,24 @@
       "available": true,
       "backgroundImage": "raw-cashew.jpg",
       "icon": "FaSeedling",
-      "certifications": ["عضوي", "تجارة عادلة"],
+      "certifications": ["عضوي", "حلال", "ISO 22000", "تجارة عادلة"],
       "variants": [
         {
-          "name": "درجة قياسية",
+          "name": "درجة قياسية عضوية",
           "priceRange": "1,200 - 1,500 دولار/طن"
+        }
+      ],
+      "conventionalVariants": [
+        {
+          "name": "درجة قياسية تقليدية",
+          "priceRange": "800 - 1,100 دولار/طن"
         }
       ]
     },
     {
       "name": "حبوب الكاجو",
       "type": "processed",
+      "productionType": "both",
       "description": "حبوب معالجة بدقة من منشأة المعالجة المستقبلية لدينا. احجز إمداداتك الآن.",
       "features": [
         "درجات متعددة: W320، W240، W180",
@@ -173,21 +189,32 @@
       "preorderDate": "الربع الأول 2030",
       "backgroundImage": "cashew-kernels.jpg",
       "icon": "FaWeightHanging",
-      "certifications": ["عضوي", "حلال", "ISO 22000"],
+      "certifications": ["عضوي", "حلال", "ISO 22000", "تجارة عادلة"],
       "variants": [
         {
-          "name": "حبوب كاملة",
+          "name": "حبوب كاملة عضوية",
           "priceRange": "6,500 - 8,000 دولار/طن"
         },
         {
-          "name": "أنصاف وقطع",
+          "name": "أنصاف وقطع عضوية",
           "priceRange": "4,000 - 5,500 دولار/طن"
+        }
+      ],
+      "conventionalVariants": [
+        {
+          "name": "حبوب كاملة تقليدية",
+          "priceRange": "4,500 - 6,000 دولار/طن"
+        },
+        {
+          "name": "أنصاف وقطع تقليدية",
+          "priceRange": "2,800 - 3,800 دولار/طن"
         }
       ]
     },
     {
       "name": "زبدة الكاجو",
       "type": "processed",
+      "productionType": "organic",
       "description": "زبدة كاجو نقية 100% من مصدر واحد بدون إضافات. انضم إلى قائمة الانتظار للإطلاق.",
       "features": [
         "قوام كريمي من كاجو ساحل العاج الممتاز",
@@ -198,14 +225,14 @@
       "waitlist": true,
       "backgroundImage": "cashew-butter.jpg",
       "icon": "FaIndustry",
-      "certifications": ["عضوي", "حلال"],
+      "certifications": ["عضوي", "حلال", "ISO 22000", "تجارة عادلة"],
       "variants": [
         {
-          "name": "ناعمة",
+          "name": "ناعمة عضوية",
           "priceRange": "8 - 12 دولار/كجم"
         },
         {
-          "name": "مقرمشة",
+          "name": "مقرمشة عضوية",
           "priceRange": "8 - 12 دولار/كجم"
         }
       ]
@@ -213,6 +240,7 @@
     {
       "name": "كاجو محمص",
       "type": "processed",
+      "productionType": "both",
       "description": "كاجو ممتاز محمص جافاً بقرمشة مثالية. انضم إلى قائمة الانتظار للإطلاق.",
       "features": [
         "ثلاثة أصناف: طبيعي، مملح خفيف، متبل",
@@ -223,21 +251,32 @@
       "waitlist": true,
       "backgroundImage": "roasted-cashew.jpg",
       "icon": "FaLeaf",
-      "certifications": ["عضوي", "حلال"],
+      "certifications": ["عضوي", "حلال", "ISO 22000", "تجارة عادلة"],
       "variants": [
         {
-          "name": "طبيعي",
+          "name": "طبيعي عضوي",
           "priceRange": "10 - 15 دولار/كجم"
         },
         {
-          "name": "مملح",
+          "name": "مملح عضوي",
           "priceRange": "10 - 15 دولار/كجم"
+        }
+      ],
+      "conventionalVariants": [
+        {
+          "name": "طبيعي تقليدي",
+          "priceRange": "6 - 9 دولار/كجم"
+        },
+        {
+          "name": "مملح تقليدي",
+          "priceRange": "6 - 9 دولار/كجم"
         }
       ]
     },
     {
       "name": "سائل قشرة الكاجو (CNSL)",
       "type": "byproduct",
+      "productionType": "conventional",
       "description": "منتج ثانوي صناعي عالي القيمة من عمليات المعالجة لدينا. متاح للطلب المسبق.",
       "features": [
         "يستخدم في الدهانات والورنيش وبطانات الفرامل",
@@ -249,6 +288,7 @@
       "preorderDate": "الربع الأول 2030",
       "backgroundImage": "cashew-nut-shell-liquid.jpg",
       "icon": "FaLeaf",
+      "certifications": ["تجارة عادلة"],
       "variants": [
         {
           "name": "درجة تقنية",
@@ -259,6 +299,7 @@
     {
       "name": "حليب الكاجو",
       "type": "processed",
+      "productionType": "organic",
       "description": "بديل حليب نباتي كريمي. انضم إلى قائمة الانتظار للإطلاق.",
       "features": [
         "مدعم بالكالسيوم وفيتامين د",
@@ -269,14 +310,14 @@
       "waitlist": true,
       "backgroundImage": "cashew-milk.jpg",
       "icon": "FaLeaf",
-      "certifications": ["عضوي", "حلال"],
+      "certifications": ["عضوي", "حلال", "ISO 22000", "تجارة عادلة"],
       "variants": [
         {
-          "name": "أصلي",
+          "name": "أصلي عضوي",
           "priceRange": "2 - 3 دولار/لتر"
         },
         {
-          "name": "غير محلى",
+          "name": "غير محلى عضوي",
           "priceRange": "2 - 3 دولار/لتر"
         }
       ]

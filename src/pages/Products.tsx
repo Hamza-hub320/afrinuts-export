@@ -12,9 +12,7 @@ import {
     FaChartLine,
     FaShieldAlt,
     FaShippingFast,
-    FaArrowDown,
     FaDownload,
-    FaClock,
     FaCertificate,
     FaAward,
     FaRibbon, FaArrowRight
@@ -41,7 +39,7 @@ import JsonLd from "@/components/Seo/JsonLd";
 import {CertificationsCard} from "@/components/CertificationsCard/CertificationsCard";
 
 type AvailabilityFilter = 'all' | 'available' | 'coming-soon';
-type CertificationFilter = 'organic' | 'halal' | 'fairtrade' | '';
+type CertificationFilter = 'Organic' | 'Halal' | 'Fair Trade' | 'ISO 22000' | '';
 
 interface Filters {
     availability: AvailabilityFilter;
@@ -75,12 +73,15 @@ interface Product {
     comingSoon?: string;
     certifications?: string[];
     variants?: { name: string; priceRange: string }[];
+    conventionalVariants?: { name: string; priceRange: string }[];
+    productionType?: 'organic' | 'conventional' | 'both';
 }
 
 const Products: React.FC = () => {
     const {t} = useTranslation(['products', 'common']);
     const navigate = useNavigate();
     const scrollRef = useRef<HTMLDivElement>(null);
+    const [productionType, setProductionType] = useState<'all' | 'organic' | 'conventional'>('organic');
 
     const [filters, setFilters] = useState<{
         availability: 'all' | 'available' | 'coming-soon';
@@ -119,7 +120,16 @@ const Products: React.FC = () => {
 
             const matchesCertifications = filters.certifications.length === 0 ||
                 (product.certifications &&
-                    filters.certifications.some(cert => product.certifications?.includes(cert)));
+                    filters.certifications.some(cert =>
+                        product.certifications?.some(productCert =>
+                            productCert.toLowerCase() === cert.toLowerCase()
+                        )
+                    ));
+
+            // Production type filter
+            const matchesProductionType = productionType === 'all' ||
+                (productionType === 'organic' && (product.productionType === 'organic' || product.productionType === 'both')) ||
+                (productionType === 'conventional' && (product.productionType === 'conventional' || product.productionType === 'both'));
 
             return matchesSearch && matchesAvailability && matchesCertifications;
         });
@@ -381,9 +391,10 @@ const Products: React.FC = () => {
                                                 }}
                                             >
                                                 <option value="">{t('filters.certifications.all')}</option>
-                                                <option value="organic">{t('certifications.organic.title')}</option>
-                                                <option value="halal">{t('certifications.halal.title')}</option>
-                                                <option value="fairtrade">{t('certifications.fairtrade.title')}</option>
+                                                <option value="Organic">{t('certifications.organic.title')}</option>
+                                                <option value="Halal">{t('certifications.halal.title')}</option>
+                                                <option value="ISO 22000">{t('certifications.iso.title')}</option>
+                                                <option value="Fair Trade">{t('certifications.fairtrade.title')}</option>
                                             </motion.select>
                                             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-4 text-primary/60">
                                                 <svg
@@ -400,6 +411,29 @@ const Products: React.FC = () => {
                                                 </svg>
                                             </div>
                                         </div>
+                                    </div>
+
+                                    {/* Production Type Filter */}
+                                    <div className="flex gap-2">
+                                        {[
+                                            { key: 'all', label: t('filters.productionType.all', 'All') },
+                                            { key: 'organic', label: t('filters.productionType.organic', 'Organic') },
+                                            { key: 'conventional', label: t('filters.productionType.conventional', 'Conventional') }
+                                        ].map((type) => (
+                                            <motion.button
+                                                key={type.key}
+                                                onClick={() => setProductionType(type.key as any)}
+                                                className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                                                    productionType === type.key
+                                                        ? 'bg-primary text-white shadow-md'
+                                                        : 'bg-white/60 text-gray-600 hover:bg-white/80 border border-gray-200'
+                                                }`}
+                                                whileHover={{ y: -2 }}
+                                                whileTap={{ scale: 0.95 }}
+                                            >
+                                                {type.label}
+                                            </motion.button>
+                                        ))}
                                     </div>
 
                                     {/* Reset Button */}
@@ -451,6 +485,7 @@ const Products: React.FC = () => {
                                     >
                                         <ProductCard
                                             product={product}
+                                            productionTypeFilter={productionType}
                                             handleContactClick={() => navigate('/contact?type=wholesale')}
                                             handlePreorderClick={() => navigate('/contact?type=preorder')}
                                             handleWaitlistClick={() => navigate('/contact?type=waitlist')}
@@ -495,7 +530,7 @@ const Products: React.FC = () => {
                             whileInView={{ opacity: 1 }}
                             viewport={{ once: true }}
                         >
-                            <Typography variant="h3" className="text-primary mb-4">
+                            <Typography variant="h2" className="text-primary mb-4">
                                 {t('midCta.title')}
                             </Typography>
                             <motion.button

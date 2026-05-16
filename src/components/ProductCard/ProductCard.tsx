@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Typography } from '../Typography/Typography';
-import { FaArrowRight, FaCheck, FaBell, FaClock, FaShoppingCart } from 'react-icons/fa';
+import {FaArrowRight, FaCheck, FaBell, FaClock, FaShoppingCart, FaInfoCircle, FaIndustry, FaLeaf} from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 
 interface ProductCardProps {
@@ -15,14 +15,16 @@ interface ProductCardProps {
         comingSoon?: string;
         preorder?: boolean;
         preorderDate?: string;
-        imageAlt?: string;
-        ariaLabel?: string;
-        renderSocialShare?: () => React.ReactNode;
         waitlist?: boolean;
         status?: 'available' | 'preorder' | 'waitlist' | 'coming-soon';
+        productionType?: 'organic' | 'conventional' | 'both';
+        variants?: { name: string; priceRange: string }[];
+        conventionalVariants?: { name: string; priceRange: string }[];
+        certifications?: string[];
         loading?: 'lazy' | 'eager';
         title?: string;
     };
+    productionTypeFilter?: 'all' | 'organic' | 'conventional';
     compact?: boolean;
     handleContactClick: () => void;
     handlePreorderClick?: () => void;
@@ -37,6 +39,7 @@ interface ProductCardProps {
 
 export const ProductCard: React.FC<ProductCardProps> = ({
                                                             product,
+                                                            productionTypeFilter = 'all',
                                                             compact = false,
                                                             handleContactClick,
                                                             handlePreorderClick,
@@ -45,6 +48,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                                                             iconMap,
                                                             className = '',
                                                             imageAlt,
+                                                            renderSocialShare,
                                                         }) => {
     const { t } = useTranslation('products');
     const IconComponent = iconMap[product.icon];
@@ -57,6 +61,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({
         if (product.waitlist) return 'waitlist';
         return 'coming-soon';
     };
+
+    const showOrganic = productionTypeFilter === 'all' || productionTypeFilter === 'organic';
+    const showConventional = productionTypeFilter === 'all' || productionTypeFilter === 'conventional';
+    const isOrganicOnly = productionTypeFilter === 'organic';
+    const isConventionalOnly = productionTypeFilter === 'conventional';
 
     const status = getProductStatus();
 
@@ -151,6 +160,13 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
             {/* Image Section */}
             <div className="relative w-full h-64 md:h-72 overflow-hidden z-10 rounded-t-2xl">
+                {/* Organic Badge */}
+                {showOrganic && product.productionType !== 'conventional' && (
+                    <div className="absolute top-4 left-4 z-20 bg-green-600/90 backdrop-blur-sm text-white px-2.5 py-1 rounded-full text-xs font-semibold flex items-center gap-1 shadow-md border border-green-300/30">
+                        <FaLeaf className="text-[10px]" />
+                        {t('productCard.organic', 'Organic')}
+                    </div>
+                )}
                 {imageSrc && (
                     <motion.img
                         src={imageSrc}
@@ -169,16 +185,17 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                     <motion.div
                         className={`absolute top-4 right-4 backdrop-blur-sm px-3 py-1 rounded-full shadow-md border border-white/30 text-xs md:text-sm font-semibold transform-gpu flex items-center gap-1 ${
                             status === 'preorder'
-                                ? 'bg-orange-500/90 text-white'
+                                ? 'bg-accent/90 text-white'
                                 : status === 'waitlist'
-                                    ? 'bg-blue-500/90 text-white'
+                                    ? 'bg-primary/90 text-white'
                                     : 'bg-white/90 text-gray-700'
                         }`}
                         whileHover={{ scale: 1.05 }}
                         transition={{ duration: 0.2 }}
                     >
-                        {status === 'preorder' && <FaClock className="text-xs" />}
+                        {status === 'preorder' && <FaShoppingCart className="text-xs" />}
                         {status === 'waitlist' && <FaBell className="text-xs" />}
+                        {status === 'coming-soon' && <FaClock className="text-xs" />}
                         {getStatusBadgeText()}
                     </motion.div>
                 )}
@@ -233,41 +250,94 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                     </div>
                 )}
 
-                {/* Pre-order Info Text (for preorder status) */}
+                {/* Pre-order Info Text */}
                 {status === 'preorder' && product.preorderDate && (
-                    <motion.div
-                        className="mb-4 text-center"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                    >
-                        <Typography variant="small" className="text-orange-600 font-medium">
-                            📦 {t('productCard.estimatedDelivery')}: {product.preorderDate}
+                    <motion.div className="mb-4 text-center" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                        <Typography variant="small" className="text-accent font-medium flex items-center justify-center gap-1.5">
+                            <FaClock className="text-xs" />
+                            {t('productCard.estimatedDelivery')}: {product.preorderDate}
                         </Typography>
                     </motion.div>
                 )}
 
                 {/* Waitlist Info Text */}
                 {status === 'waitlist' && (
-                    <motion.div
-                        className="mb-4 text-center"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                    >
-                        <Typography variant="small" className="text-blue-600">
-                            🔔 {t('productCard.beNotified')}
+                    <motion.div className="mb-4 text-center" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+                        <Typography variant="small" className="text-primary font-medium flex items-center justify-center gap-1.5">
+                            <FaBell className="text-xs" />
+                            {t('productCard.beNotified')}
                         </Typography>
                     </motion.div>
+                )}
+
+                {/* Organic Variants */}
+                {showOrganic && product.variants && product.variants.length > 0 && (
+                    <div className="mb-3">
+                        <Typography variant="small" className="text-green-700 font-medium mb-1.5 flex items-center gap-1">
+                            <FaLeaf className="text-xs" />
+                            {!isConventionalOnly ? 'Organic' : ''}:
+                        </Typography>
+                        <div className="space-y-1">
+                            {product.variants.map((variant, i) => (
+                                <div key={i} className="flex justify-between items-center bg-green-50/50 backdrop-blur-sm rounded-lg px-3 py-1.5 text-sm border border-green-100">
+                                    <span className="text-gray-700">{variant.name.replace(/^Organic\s+/i, '')}</span>
+                                    <span className="text-green-700 font-semibold">{variant.priceRange}</span>
+                                </div>
+                            ))}
+                        </div>
+                        {!product.available && (
+                            <Typography variant="small" className="text-amber-600 text-xs mt-2 flex items-center gap-1">
+                                <FaInfoCircle className="text-[10px]" />
+                                {t('productCard.priceEstimate', 'Estimated pricing — subject to change based on market conditions at launch.')}
+                            </Typography>
+                        )}
+                    </div>
+                )}
+
+                {/* Conventional Variants */}
+                {showConventional && product.conventionalVariants && product.conventionalVariants.length > 0 && (
+                    <div className="mb-3">
+                        <Typography variant="small" className="text-gray-600 font-medium mb-1.5 flex items-center gap-1">
+                            <FaIndustry className="text-xs" />
+                            {!isOrganicOnly ? 'Conventional' : ''}:
+                        </Typography>
+                        <div className="space-y-1">
+                            {product.conventionalVariants.map((variant, i) => (
+                                <div key={i} className="flex justify-between items-center bg-gray-50/50 backdrop-blur-sm rounded-lg px-3 py-1.5 text-sm border border-gray-200">
+                                    <span className="text-gray-600">{variant.name.replace(/^Conventional\s+/i, '')}</span>
+                                    <span className="text-gray-700 font-semibold">{variant.priceRange}</span>
+                                </div>
+                            ))}
+                        </div>
+                        {!product.available && (
+                            <Typography variant="small" className="text-amber-600 text-xs mt-2 flex items-center gap-1">
+                                <FaInfoCircle className="text-[10px]" />
+                                {t('productCard.priceEstimate', 'Estimated pricing — subject to change based on market conditions at launch.')}
+                            </Typography>
+                        )}
+                    </div>
+                )}
+
+                {/* Certifications */}
+                {product.certifications && product.certifications.length > 0 && (
+                    <div className="flex flex-wrap gap-1.5 mb-4">
+                        {product.certifications.map((cert, i) => (
+                            <span key={i} className="px-2 py-0.5 bg-primary/10 text-primary text-xs rounded-full font-medium">
+                {cert}
+            </span>
+                        ))}
+                    </div>
                 )}
 
                 {/* CTA Button */}
                 <div className="mt-auto">
                     {buttonConfig ? (
                         <motion.button
-                            className={`w-full px-5 py-3 rounded-lg font-medium shadow-md flex items-center justify-center transition-all transform-gpu hover:scale-105 group/btn ${
+                            className={`w-full px-5 py-3 rounded-full font-medium shadow-md flex items-center justify-center transition-all transform-gpu hover:scale-105 group/btn gap-2 ${
                                 buttonConfig.variant === 'preorder'
-                                    ? 'bg-gradient-to-r from-orange-500 to-orange-600 text-white'
+                                    ? 'bg-gradient-to-r from-accent to-dark-orange text-white'
                                     : buttonConfig.variant === 'waitlist'
-                                        ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white'
+                                        ? 'bg-gradient-to-r from-primary to-olive text-white'
                                         : 'bg-gradient-to-r from-primary to-accent text-white'
                             }`}
                             onClick={buttonConfig.onClick}
@@ -275,26 +345,29 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                             whileHover={{ y: -2 }}
                             whileTap={{ scale: 0.95 }}
                         >
-                            {buttonConfig.text}
-                            <motion.span
-                                className="ml-2"
-                                whileHover={{ x: 3 }}
-                                transition={{ type: 'spring', stiffness: 400 }}
-                            >
+                            <span className="relative z-10">{buttonConfig.text}</span>
+                            <motion.span whileHover={{ x: 3 }} transition={{ type: 'spring', stiffness: 400 }}>
                                 <buttonConfig.icon className="transition-transform group-hover/btn:translate-x-1" />
                             </motion.span>
                         </motion.button>
                     ) : (
                         <motion.div
-                            className="text-center py-3 bg-white/30 backdrop-blur-sm rounded-lg border border-white/20"
+                            className="text-center py-3 bg-white/30 backdrop-blur-sm rounded-full border border-white/20"
                             whileHover={{ y: -2 }}
                         >
-                            <Typography variant="body" className="text-gray-700 font-medium">
+                            <Typography variant="body" className="text-primary font-medium flex items-center justify-center gap-2">
+                                <FaClock className="text-sm" />
                                 {product.comingSoon || t('productCard.comingSoon')}
                             </Typography>
                         </motion.div>
                     )}
                 </div>
+                {/* Social Share */}
+                {renderSocialShare && (
+                    <div className="px-5 pb-4 pt-1 relative z-10">
+                        {renderSocialShare()}
+                    </div>
+                )}
             </div>
         </motion.div>
     );
