@@ -13,7 +13,6 @@ import {
     FaWater,
     FaSolarPanel,
     FaExpand,
-    FaCompress,
     FaInfoCircle,
     FaArrowLeft,
     FaCertificate,

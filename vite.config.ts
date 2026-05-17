@@ -76,9 +76,8 @@ export default defineConfig({
             'react-dom',
             'react-router-dom',
             'date-fns',
-            'recharts', // Add recharts for charts
         ],
-        exclude: ['js-big-decimal']
+        exclude: ['js-big-decimal', 'mermaid', 'recharts', 'leaflet']
     },
     css: {
         postcss: './postcss.config.cjs',

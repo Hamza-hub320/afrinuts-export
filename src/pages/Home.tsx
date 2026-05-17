@@ -14,7 +14,7 @@ import {
     staggerContainer,
 } from '@/utils/animations';
 import { Typography } from '@/components/Typography/Typography';
-import {NewsItem, Product, FarmHighlight, SustainabilityFeature} from '@/types/translations';
+import { Product, FarmHighlight, SustainabilityFeature} from '@/types/translations';
 import heroImage from '../assets/images/hero.webp';
 import farmImage from '../assets/images/farm.webp';
 import sustainabilityImage from '../assets/images/sustainability.webp';
@@ -22,7 +22,6 @@ import newsImage from '../assets/images/news.webp';
 import valueAddedImage from '../assets/images/value-added.webp';
 import organicCashewImage from '../assets/images/organic-cashew.webp';
 import rawCashewImage from '../assets/images/raw-cashew.webp';
-import afrinutsUpdatesData from '@/data/afrinutsUpdates.json';
 
 import Section from '../components/Section/Section';
 import ProductCard from '../components/ProductCard/ProductCard';
@@ -551,9 +550,11 @@ const Home: React.FC = () => {
                                 <img
                                     src={farmImage}
                                     alt={t('farm.imageAlt')}
-                                    loading="lazy"
+                                    width={1200}
+                                    height={800}
+                                    loading="eager"
+                                    fetchPriority="high"
                                     className="w-full h-full object-cover relative z-0"
-                                    aria-label={t('farm.imageAlt')}
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent flex items-end p-6 md:p-8 z-10">
                                     <Typography variant="h4" className="text-white">
@@ -612,6 +613,8 @@ const Home: React.FC = () => {
                                     src={sustainabilityImage}
                                     alt={t('sustainability.imageAlt')}
                                     className="w-full h-full object-cover rounded-none"
+                                    width={1200}
+                                    height={800}
                                     loading="lazy"
                                     aria-label={t('sustainability.imageAlt')}
                                     style={{ display: 'none' }}
@@ -725,7 +728,7 @@ const Home: React.FC = () => {
                                             <div className="absolute inset-0 rounded-3xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
 
                                             {/* Image with asymmetrical corners */}
-                                            <div className="relative h-48 overflow-hidden z-10 rounded-t-3xl rounded-bl-3xl rounded-br-[80px]">
+                                            <div className="relative h-64 overflow-hidden z-10 rounded-t-3xl rounded-bl-3xl rounded-br-[80px]">
                                                 <motion.img
                                                     src={update.image || newsImage}
                                                     alt={update.title}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, {useState, useEffect, useRef, Suspense} from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import {Link, useNavigate} from 'react-router-dom';
@@ -20,7 +20,7 @@ import {
     FaCompress, FaAward,
     FaRibbon, FaCheckCircle, FaChartLine
 } from "react-icons/fa";
-// AnimatedProgressBar: KPI glassy 3D progress bar with animation
+
 interface AnimatedProgressBarProps {
     label: string;
     value: number;
@@ -39,6 +39,7 @@ const AnimatedProgressBar: React.FC<AnimatedProgressBarProps> = ({
     const [progress, setProgress] = useState(0);
     const percentage = Math.abs(value);
     const isNegative = value < 0;
+
 
     const colorClasses = {
         primary: {
@@ -68,6 +69,7 @@ const AnimatedProgressBar: React.FC<AnimatedProgressBarProps> = ({
             setProgress(0);
         }
     }, [isVisible, percentage]);
+
 
     return (
         <div className="mb-8 transform-gpu">
@@ -162,7 +164,7 @@ import Section from '@/components/Section/Section';
 import { fadeIn, staggerContainer } from '@/utils/animations';
 import { Typography } from "@/components/Typography/Typography";
 import { InfoCard } from '@/components/InfoCard/InfoCard';
-import Mermaid from '@/components/Mermaid/Mermaid';
+const Mermaid = React.lazy(() => import('@/components/Mermaid/Mermaid'));
 import {CertificationsCard} from "@/components/CertificationsCard/CertificationsCard";
 import {Helmet} from "react-helmet-async";
 import JsonLd from "@/components/Seo/JsonLd";
@@ -331,7 +333,7 @@ const Processing: React.FC = () => {
         setMermaidKey(prev => prev + 1);
     }, [activePhase]);
 
-    // Auto-play animation for step-by-step view
+    // animation for step-by-step view
     useEffect(() => {
         if (isPlaying && viewMode === 'steps') {
             animationRef.current = setInterval(() => {
@@ -725,10 +727,12 @@ const Processing: React.FC = () => {
                                 /* Mermaid Diagram View */
                                 <>
                                     <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-4 border border-primary/20 overflow-auto">
-                                        <Mermaid
-                                            chart={currentChart}
-                                            key={mermaidKey}
-                                        />
+                                        <Suspense fallback={<div className="animate-pulse bg-gray-200 h-64 rounded-xl" />}>
+                                            <Mermaid
+                                                chart={currentChart}
+                                                key={mermaidKey}
+                                            />
+                                        </Suspense>
                                     </div>
 
                                     {/* Legend */}

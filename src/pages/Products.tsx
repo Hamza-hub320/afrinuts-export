@@ -472,13 +472,6 @@ const Products: React.FC = () => {
                                 <motion.div
                                     key={product.name}
                                     className="h-full"
-                                    whileHover={{
-                                        y: -6,
-                                        scale: 1.025,
-                                        rotateY: 2,
-                                        boxShadow: '0 16px 32px -8px rgba(255, 140, 0, 0.10)',
-                                        transition: { duration: 0.25 }
-                                    }}
                                     style={{
                                         transformStyle: 'preserve-3d',
                                         perspective: '1000px',

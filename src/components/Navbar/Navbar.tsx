@@ -272,8 +272,8 @@ const Navbar: React.FC = () => {
                 <img
                     src={logo}
                     alt="AfriNuts Export Logo"
-                    width={64}
-                    height={64}
+                    width={102}
+                    height={102}
                     className="h-12 w-auto md:h-16 transition-transform duration-300 group-hover:scale-105"
                     loading="eager"
                     decoding="sync"
