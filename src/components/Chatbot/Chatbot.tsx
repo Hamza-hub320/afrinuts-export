@@ -2,6 +2,7 @@ import React from 'react';
 import { FaWhatsapp, FaPhone, FaComment } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { trackOutboundClick, trackCtaClick } from '@/utils/analytics';
 
 interface FloatingButtonsProps {
     className?: string;
@@ -20,7 +21,10 @@ const FloatingButtons: React.FC<FloatingButtonsProps> = ({ className = '' }) => 
                     transformStyle: 'preserve-3d',
                 }}
                 aria-label="Contact AfriNuts Export via WhatsApp"
-                onClick={() => window.open(WHATSAPP_URL, '_blank', 'noopener,noreferrer')}
+                onClick={() => {
+                    trackOutboundClick('whatsapp', 'floating_button');
+                    window.open(WHATSAPP_URL, '_blank', 'noopener,noreferrer');
+                }}
                 type="button"
                 initial={{ scale: 0, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
@@ -73,6 +77,7 @@ const FloatingButtons: React.FC<FloatingButtonsProps> = ({ className = '' }) => 
             >
                 <Link
                     to="/contact"
+                    onClick={() => trackCtaClick('contact_us', 'floating_button')}
                     className="flex items-center px-3 py-2 rounded-full text-white shadow-xl transform-gpu group relative"
                     style={{
                         background: 'linear-gradient(135deg, rgba(90, 116, 17, 0.9) 0%, rgba(160, 200, 0, 0.9) 100%)',

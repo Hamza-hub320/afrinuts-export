@@ -170,7 +170,33 @@
   .light-button {
     @apply bg-warm-grey text-text-dark hover:bg-white hover:text-accent;
   }
+  /* Fix Mermaid text rendering */
+  .mermaid svg text,
+  svg[id^="mermaid"] text,
+  .interactive-mermaid svg text {
+    fill: #333 !important;
+    font-family: 'Inter', sans-serif !important;
+    font-size: 12px !important;
+  }
 
+  .mermaid svg .node rect,
+  .mermaid svg .node polygon,
+  .mermaid svg .node path,
+  svg[id^="mermaid"] .node rect,
+  svg[id^="mermaid"] .node polygon {
+    stroke: #5A7411 !important;
+  }
+
+  .mermaid svg .edgePath path,
+  svg[id^="mermaid"] .edgePath path {
+    stroke: #666 !important;
+  }
+
+  .mermaid svg .cluster rect,
+  svg[id^="mermaid"] .cluster rect {
+    stroke: #5A7411 !important;
+    fill: rgba(90, 116, 17, 0.05) !important;
+  }
   /* Utilities */
   @layer utilities {
     /* Text handling */

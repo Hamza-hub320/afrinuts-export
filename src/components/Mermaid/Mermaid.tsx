@@ -14,7 +14,12 @@ const Mermaid: React.FC<MermaidProps> = ({ chart }) => {
         const renderChart = async () => {
             if (ref.current) {
                 try {
-                    mermaid.initialize({ startOnLoad: false, theme: 'default' });
+                    mermaid.initialize({
+                        startOnLoad: false,
+                        theme: 'default',
+                        htmlLabels: true,
+                        securityLevel: 'loose',
+                    });
 
                     const { svg } = await mermaid.render(
                         `mermaid-${Date.now()}`,

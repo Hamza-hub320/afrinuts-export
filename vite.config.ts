@@ -64,7 +64,7 @@ export default defineConfig({
         alias: {
             '@': path.resolve(__dirname, './src'),
             '~': path.resolve(__dirname, './public'),
-            '@pages': path.resolve(__dirname, './src/pages')
+            '@pages': path.resolve(__dirname, './src/pages'),
         }
     },
     optimizeDeps: {
@@ -75,8 +75,10 @@ export default defineConfig({
             'react-dom',
             'react-router-dom',
             'date-fns',
-            'es-toolkit',
             'dayjs',
+            '@braintree/sanitize-url',
+            'es-toolkit',
+            'debug',
         ],
         exclude: ['js-big-decimal', 'mermaid', 'recharts', 'leaflet']
     },
