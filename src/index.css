@@ -53,8 +53,6 @@
     animation: pulse-slow 4s ease-in-out infinite;
   }
 
-
-
   @keyframes gradientCycle {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
@@ -66,14 +64,20 @@
     50% { transform: translateY(-15px) scale(1.05); }
   }
 
-  @keyframes float {
-    0%, 100% { transform: translateY(0px) scale(1); }
-    50% { transform: translateY(-15px) scale(1.05); }
+  @keyframes pulse-slow {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
   }
 
-  @keyframes float {
-    0%, 100% { transform: translateY(0px) scale(1); }
-    50% { transform: translateY(-20px) scale(1.05); }
+  @keyframes gradientCycle {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  @keyframes gradient-x-slow {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
   }
 
   body {
@@ -82,20 +86,9 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     min-height: 100vh;
-
-    /* Multi-step animated gradient */
-    background: var(--gradient-light);
+    background: radial-gradient(ellipse at top right, rgba(253, 129, 4, 0.05), transparent 70%), radial-gradient(ellipse at bottom left, rgba(90, 116, 17, 0.05), transparent 70%);
     background-size: 400% 400%;
     animation: gradientCycle 30s ease infinite;
-  }
-
-  /* For browsers that don't support CSS variables */
-  @supports not (--css: variables) {
-    body {
-      @apply bg-main-gradient;
-      background-size: 200% 200%;
-      animation: gradient-shift 30s ease infinite alternate;
-    }
   }
 
   h1, h2, h3, h4, h5, h6 {
