@@ -670,7 +670,7 @@ const Products: React.FC = () => {
                 </Section>
 
                 {/* Our Process Section */}
-                <Section className="py-10 bg-gradient-to-r from-primary/30 via-white/30
+                <Section className="py-16 bg-gradient-to-r from-primary/30 via-white/30
   bg-[length:400%_400%] animate-gradient-x-slow rounded-t-[80px] md:rounded-t-[100px] overflow-hidden pt-24 pb-8 relative">
                     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 transform-gpu">
                         <motion.div
@@ -877,7 +877,7 @@ const Products: React.FC = () => {
                 </Section>
 
                 {/* CTA: Visit Processing Page */}
-                <Section className="py-10">
+                <Section className="py-16">
                     <div className="w-full max-w-3xl mx-auto px-4 sm:px-6 text-center">
                         <motion.div
                             className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-3xl shadow-xl p-8 md:p-10 transform-gpu"
@@ -933,28 +933,28 @@ const Products: React.FC = () => {
                                 {
                                     id: 'fairtrade',
                                     title: t('certifications.fairtrade.title'),
-                                    status: 'in-progress',
+                                    status: 'planned',
                                     targetDate: t('certifications.fairtrade.targetDate'),
                                     icon: FaRibbon,
                                 },
                                 {
                                     id: 'iso',
                                     title: t('certifications.iso.title'),
-                                    status: 'in-progress',
+                                    status: 'planned',
                                     targetDate: t('certifications.iso.targetDate'),
                                     icon: FaShieldAlt,
                                 },
                                 {
                                     id: 'halal',
                                     title: t('certifications.halal.title'),
-                                    status: 'in-progress',
+                                    status: 'planned',
                                     targetDate: t('certifications.halal.targetDate'),
                                     icon: FaAward,
                                 },
                                 {
                                     id: 'rainforest',
                                     title: t('certifications.rainforest.title'),
-                                    status: 'in-progress',
+                                    status: 'planned',
                                     targetDate: t('certifications.rainforest.targetDate'),
                                     icon: FaCertificate,
                                 },

@@ -207,8 +207,20 @@ const News: React.FC = () => {
                                     <div className="absolute inset-0 rounded-3xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)]" />
                                     <div className="absolute inset-0 rounded-3xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
 
-                                    <div className="h-48 overflow-hidden relative z-10">
-                                        <motion.img src={update.image || newsImage} alt={update.title} className="w-full h-full object-cover" loading="lazy" whileHover={{ scale: 1.1 }} transition={{ duration: 0.5 }} />
+                                    <div className="relative h-56 overflow-hidden z-10">
+                                        <motion.img
+                                            src={update.image || newsImage}
+                                            alt={update.title}
+                                            className="w-full h-full object-cover"
+                                            loading="lazy"
+                                            whileHover={{ scale: 1.1 }}
+                                            transition={{ duration: 0.5 }}
+                                        />
+                                        {/* Diagonal cut overlay */}
+                                        <div
+                                            className="absolute -bottom-1 left-0 right-0 h-16 bg-gradient-to-b from-transparent via-white/10 to-white/20 backdrop-blur-[2px]"
+                                            style={{ clipPath: 'polygon(0 100%, 100% 100%, 100% 30%, 0 0)' }}
+                                        />
                                     </div>
 
                                     {/* Share button - top right corner */}
@@ -335,6 +347,21 @@ const News: React.FC = () => {
             setNewsSubscribeMessage(error.message);
         }
     };
+
+    if (loading) {
+        return (
+            <main>
+                <Section className="flex items-center justify-center min-h-[60vh]">
+                    <div className="text-center">
+                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+                        <Typography variant="body" className="text-text-dark">
+                            {t('loading', 'Loading latest news...')}
+                        </Typography>
+                    </div>
+                </Section>
+            </main>
+        );
+    }
 
     return (
         <main>
