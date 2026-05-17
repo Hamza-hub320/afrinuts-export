@@ -208,7 +208,7 @@ const News: React.FC = () => {
                                     <div className="absolute inset-0 rounded-3xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)]" />
                                     <div className="absolute inset-0 rounded-3xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
 
-                                    <div className="relative h-56 overflow-hidden z-10">
+                                    <div className="relative h-64 overflow-hidden z-10 rounded-t-3xl rounded-bl-3xl rounded-br-[80px]">
                                         <motion.img
                                             src={update.image || newsImage}
                                             alt={update.title}
@@ -217,11 +217,7 @@ const News: React.FC = () => {
                                             whileHover={{ scale: 1.1 }}
                                             transition={{ duration: 0.5 }}
                                         />
-                                        {/* Diagonal cut overlay */}
-                                        <div
-                                            className="absolute -bottom-1 left-0 right-0 h-16 bg-gradient-to-b from-transparent via-white/10 to-white/20 backdrop-blur-[2px]"
-                                            style={{ clipPath: 'polygon(0 100%, 100% 100%, 100% 30%, 0 0)' }}
-                                        />
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/15 to-transparent" />
                                     </div>
 
                                     {/* Share button - top right corner */}
