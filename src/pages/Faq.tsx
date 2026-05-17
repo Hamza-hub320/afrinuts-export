@@ -26,7 +26,7 @@ import { motion, LazyMotion, domAnimation } from 'framer-motion';
 import Section from '@/components/Section/Section';
 import { fadeIn, staggerContainer } from '@/utils/animations';
 import { Typography } from '@/components/Typography/Typography';
-import { InfoCard } from '@/components/InfoCard/InfoCard';
+import { trackCtaClick, trackDownload, trackFormSubmission } from '@/utils/analytics';
 import investorProspectus from '@/assets/documents/investor-prospectus.pdf';
 import wholesalePriceList from '@/assets/documents/wholesale-price-list.pdf';
 import certificationRoadmap from '@/assets/documents/certification-roadmap.pdf';
@@ -112,6 +112,7 @@ const Faq: React.FC = () => {
         switch (action.type) {
             case 'contact':
                 navigate('/contact', { state: { subject: item?.question, audience: activeAudience !== 'all' ? activeAudience : undefined } });
+                trackFormSubmission('faq_contact');
                 break;
             case 'download':
                 let pdfLink = action.link;
@@ -122,6 +123,7 @@ const Faq: React.FC = () => {
                 break;
             case 'request':
                 navigate('/contact', { state: { subject: item?.question, audience: activeAudience !== 'all' ? activeAudience : undefined } });
+                trackFormSubmission('faq_request');
                 break;
         }
     };
@@ -280,7 +282,10 @@ const Faq: React.FC = () => {
                                                                             {item.actions?.download && !["What certifications do you have?", "Do you provide sustainability audits?", "Are your products traceable?", "What is your approach to ESG?"].includes(item.question) && (
                                                                                 <motion.button whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
                                                                                                className="px-4 py-2 bg-accent text-white rounded-full text-xs font-medium hover:bg-orange-700 transition-colors flex items-center shadow-sm"
-                                                                                               onClick={() => handleActionClick({ type: 'download', link: item.actions?.download }, item)}>
+                                                                                               onClick={() => {
+                                                                                                   trackDownload(item.actions?.download || 'faq_document');
+                                                                                                   handleActionClick({ type: 'download', link: item.actions?.download }, item);
+                                                                                               }}>
                                                                                     <FaDownload className="mr-1.5" />{getButtonLabel(item)}
                                                                                 </motion.button>
                                                                             )}
@@ -327,7 +332,10 @@ const Faq: React.FC = () => {
                                 </div>
                                 <Typography variant="h3" className="text-primary mb-3">{t('stillQuestions.title')}</Typography>
                                 <Typography variant="body" className="text-gray-600 mb-6">{t('stillQuestions.content')}</Typography>
-                                <motion.button onClick={() => navigate('/contact')}
+                                <motion.button onClick={() => {
+                                    trackCtaClick('still_questions', 'faq_page');
+                                    navigate('/contact');
+                                }}
                                                className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-3 rounded-full transform-gpu group/btn overflow-hidden font-medium shadow-md"
                                                whileHover={{ y: -2, scale: 1.03, boxShadow: '0 10px 25px -5px rgba(165,105,66,0.4)' }} whileTap={{ scale: 0.95 }}>
                                     <div className="absolute inset-0 rounded-full border-2 border-white/30" />

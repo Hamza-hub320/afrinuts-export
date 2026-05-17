@@ -2,6 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import {Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { trackCtaClick } from '@/utils/analytics';
 import {
     FaLeaf,
     FaUsers,
@@ -529,7 +530,10 @@ const Vision: React.FC = () => {
                         <motion.button
                             className="group border-2 relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-6 py-2 md:px-8 md:py-3 rounded-full transition-all duration-300 inline-flex items-center text-sm md:text-base"
                             variants={fadeIn}
-                            onClick={() => navigate('/contact')}
+                            onClick={() => {
+                                trackCtaClick('partner_with_us', 'vision_mid');
+                                navigate('/contact');
+                            }}
                             aria-label={t('midCta.button')}
                         >
                             {t('midCta.button')}
@@ -683,7 +687,10 @@ const Vision: React.FC = () => {
                                 {t('transparency.note', 'Our operational dashboard and detailed financial reports are available to verified investors through a secure portal.')}
                             </Typography>
                             <motion.button
-                                onClick={() => navigate('/contact')}
+                                onClick={() => {
+                                    trackCtaClick('inquire_investing', 'vision_transparency');
+                                    navigate('/contact');
+                                }}
                                 className="mt-6 relative border-2 border-primary/50 text-primary hover:bg-primary hover:text-white px-6 py-2.5 rounded-full transform-gpu transition-all duration-300 inline-flex items-center gap-2 text-sm font-medium bg-white/30 backdrop-blur-sm"
                                 whileHover={{ y: -2, scale: 1.03 }}
                                 whileTap={{ scale: 0.95 }}
@@ -776,7 +783,10 @@ const Vision: React.FC = () => {
                                 <motion.button
                                     className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-4 rounded-full transform-gpu group/btn overflow-hidden"
                                     variants={fadeIn}
-                                    onClick={() => navigate('/contact')}
+                                    onClick={() => {
+                                        trackCtaClick('join_vision', 'vision_end');
+                                        navigate('/contact');
+                                    }}
                                     aria-label={t('cta.button')}
                                     whileHover={{
                                         scale: 1.05,

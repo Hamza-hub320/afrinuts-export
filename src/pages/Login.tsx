@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuth } from '../contexts/AuthContext';
+import { trackCtaClick } from '@/utils/analytics';
+
 import {
     FaEnvelope,
     FaLock,
@@ -28,6 +30,7 @@ const Login: React.FC = () => {
 
         try {
             await login(email, password);
+            trackCtaClick('login', 'login_page');
             navigate('/dashboard');
         } catch (err: any) {
             setError(err.message || 'Login failed. Please check your credentials.');

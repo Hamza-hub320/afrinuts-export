@@ -8,6 +8,7 @@ import {FaTimes, FaArrowLeft, FaEnvelope, FaLinkedin} from 'react-icons/fa';
 import {Link, useNavigate} from 'react-router-dom';
 import {Dialog, Transition} from '@headlessui/react';
 import { ProfileCard } from '@/components/ProfileCard/ProfileCard';
+import { trackCtaClick } from '@/utils/analytics';
 
 // Import executive images
 import ceoImage from '@/assets/images/ceo.webp';
@@ -285,7 +286,10 @@ const ExecutiveTeam: React.FC = () => {
                                 expandable={true}
                                 variant={executive.department === "leadership" ? "primary" : "accent"}
                                 className="cursor-pointer"
-                                onClick={() => openModal(executive)}
+                                onClick={() => {
+                                    trackCtaClick('view_bio', 'executive_team');
+                                    openModal(executive);
+                                }}
                             />
                         ))}
                     </motion.div>

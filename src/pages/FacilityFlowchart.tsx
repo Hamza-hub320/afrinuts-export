@@ -38,6 +38,7 @@ import Section from '@/components/Section/Section';
 import { fadeIn, staggerContainer } from '@/utils/animations';
 import { Typography } from "@/components/Typography/Typography";
 import { InfoCard } from "@/components/InfoCard/InfoCard";
+import { trackCtaClick } from '@/utils/analytics';
 
 const FacilityFlowchart: React.FC = () => {
     const { t } = useTranslation('facility');
@@ -753,7 +754,10 @@ const FacilityFlowchart: React.FC = () => {
                             className="group relative bg-gradient-to-r from-primary to-accent text-white px-8 py-4 rounded-full font-medium shadow-lg transform-gpu hover:scale-105"
                             whileHover={{ y: -4 }}
                             whileTap={{ scale: 0.95 }}
-                            onClick={() => navigate('/contact')}
+                            onClick={() => {
+                                trackCtaClick('contact', 'facility_page');
+                                navigate('/contact');
+                            }}
                         >
                             <span className="relative z-10 flex items-center justify-center">
                                 {t('cta.button')}

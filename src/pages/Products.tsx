@@ -2,6 +2,7 @@ import React, { useState, useMemo, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
+import { trackCtaClick, trackProductInquiry } from '@/utils/analytics';
 import {
     FaLeaf,
     FaSeedling,
@@ -481,9 +482,18 @@ const Products: React.FC = () => {
                                         product={product}
                                         className="h-full"
                                         productionTypeFilter={productionType}
-                                        handleContactClick={() => navigate('/contact?type=wholesale')}
-                                        handlePreorderClick={() => navigate('/contact?type=preorder')}
-                                        handleWaitlistClick={() => navigate('/contact?type=waitlist')}
+                                        handleContactClick={() => {
+                                            trackProductInquiry(product.name);
+                                            navigate('/contact?type=wholesale');
+                                        }}
+                                        handlePreorderClick={() => {
+                                            trackProductInquiry(product.name);
+                                            navigate('/contact?type=preorder');
+                                        }}
+                                        handleWaitlistClick={() => {
+                                            trackProductInquiry(product.name);
+                                            navigate('/contact?type=waitlist');
+                                        }}
                                         productImageMap={productImageMap}
                                         iconMap={iconMap}
                                     />
@@ -529,7 +539,10 @@ const Products: React.FC = () => {
                                 {t('midCta.title')}
                             </Typography>
                             <motion.button
-                                onClick={() => navigate('/contact')}
+                                onClick={() => {
+                                    trackCtaClick('contact_inquiry', 'products_page');
+                                    navigate('/contact');
+                                }}
                                 className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-3 rounded-full transform-gpu group/btn overflow-hidden font-medium shadow-md"
                                 whileHover={{ y: -2, scale: 1.03 }}
                                 whileTap={{ scale: 0.95 }}
@@ -590,7 +603,10 @@ const Products: React.FC = () => {
                                 </Typography>
 
                                 <motion.button
-                                    onClick={handleContactClick}
+                                    onClick={() => {
+                                        trackCtaClick('request_quote', 'products_page');
+                                        handleContactClick();
+                                    }}
                                     className="text-white bg-yellow-700  px-4 py-2 rounded-full transition-all duration-300 shadow-md hover:shadow-lg flex items-center justify-center mx-auto text-base font-semibold min-w-[140px] transform-gpu hover:scale-105"
                                     style={{ minHeight: 42 }}
                                     whileHover={{
@@ -894,7 +910,10 @@ const Products: React.FC = () => {
                                     {t('processCta.description', 'From harvest to packaging — tour our state-of-the-art processing facility and see how we maintain quality at every step.')}
                                 </Typography>
                                 <motion.button
-                                    onClick={() => navigate('/processing')}
+                                    onClick={() => {
+                                        trackCtaClick('view_processing', 'products_page');
+                                        navigate('/processing');
+                                    }}
                                     className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-3 rounded-full transform-gpu group/btn overflow-hidden font-medium shadow-md"
                                     whileHover={{ y: -2, scale: 1.03, boxShadow: '0 10px 25px -5px rgba(165,105,66,0.4)' }}
                                     whileTap={{ scale: 0.95 }}
@@ -1006,7 +1025,10 @@ const Products: React.FC = () => {
                                     transition={{ type: 'spring', stiffness: 400 }}
                                 >
                                     <motion.button
-                                        onClick={() => navigate('/contact')}
+                                        onClick={() => {
+                                            trackCtaClick('contact', 'products_footer');
+                                            navigate('/contact');
+                                        }}
                                         className="bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-4 rounded-full text-lg font-medium transform-gpu relative overflow-hidden group"
                                         style={{
                                             transformStyle: 'preserve-3d',

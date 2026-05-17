@@ -9,6 +9,7 @@ import newsImage from '@/assets/images/news.webp';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import { BLOCKS, MARKS } from '@contentful/rich-text-types';
 import {staggerContainer} from "@/utils/animations";
+import { trackCtaClick } from '@/utils/analytics';
 
 interface NewsUpdateType {
     id: string;
@@ -320,7 +321,10 @@ const NewsPost: React.FC = () => {
                                     <Typography variant="small" className="text-gray-600 mb-4">
                                         Read in-depth articles on cashew farming, sustainability, and industry insights.
                                     </Typography>
-                                    <button onClick={() => navigate('/blog')}
+                                    <button onClick={() => {
+                                        trackCtaClick('visit_blog', 'news_post');
+                                        navigate('/blog');
+                                    }}
                                             className="relative bg-gradient-to-r from-accent to-primary hover:from-primary hover:to-accent text-white px-6 py-2.5 rounded-full transform-gpu group/btn overflow-hidden font-medium text-sm">
                                         <div className="absolute inset-0 rounded-full border-2 border-white/30" />
                                         <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50" />

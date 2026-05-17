@@ -9,6 +9,7 @@ import JsonLd from '@/components/Seo/JsonLd';
 import { Helmet } from 'react-helmet-async';
 import { BLOCKS, INLINES, MARKS } from '@contentful/rich-text-types';
 import {staggerContainer} from "@/utils/animations";
+import { trackCtaClick } from '@/utils/analytics';
 interface BlogPostType {
     slug: string;
     title: string;
@@ -355,7 +356,10 @@ const BlogPost: React.FC = () => {
                                     <Typography variant="small" className="text-gray-600 mb-4">
                                         Explore our organic, sustainably-farmed cashew products.
                                     </Typography>
-                                    <button onClick={() => navigate('/products')}
+                                    <button onClick={() => {
+                                        trackCtaClick('view_products', 'blog_post');
+                                        navigate('/products');
+                                    }}
                                             className="relative bg-gradient-to-r from-accent to-primary hover:from-primary hover:to-accent text-white px-6 py-2.5 rounded-full transform-gpu group/btn overflow-hidden font-medium text-sm">
                                         <div className="absolute inset-0 rounded-full border-2 border-white/30" />
                                         <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50" />

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FaCalendarAlt, FaUser, FaSearch, FaChevronDown } from 'react-icons/fa';
 import { Typography } from '@/components/Typography/Typography';
-import { InfoCard } from '@/components/InfoCard/InfoCard';
+import { trackCtaClick, trackBlogRead } from '@/utils/analytics';
 import Section from '@/components/Section/Section';
 import { fadeIn, staggerContainer } from '@/utils/animations';
 import { useNavigate } from 'react-router-dom';
@@ -164,6 +164,7 @@ const Blog: React.FC = () => {
                                 onClick={() => {
                                     setSelectedCategory(cat);
                                     setShowFilters(false);
+                                    trackCtaClick(`category_${cat.toLowerCase().replace(/\s+/g, '_')}`, 'blog_filter');
                                 }}
                                 className={`px-4 py-2 rounded-full text-xs sm:text-sm font-medium transition-all ${
                                     selectedCategory === cat
@@ -192,7 +193,10 @@ const Blog: React.FC = () => {
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: idx * 0.1 }}
                                 >
-                                    <Link to={`/blog/${post.slug}`}>
+                                    <Link
+                                        to={`/blog/${post.slug}`}
+                                        onClick={() => trackBlogRead(post.title, post.slug)}
+                                    >
                                         <motion.div
                                             className="group relative bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl border-2 border-primary/20 hover:border-accent/30 shadow-lg overflow-hidden hover:shadow-xl transition-all duration-500 border-l-4 border-accent h-full transform-gpu flex flex-col"
                                             style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
@@ -282,6 +286,7 @@ const Blog: React.FC = () => {
                                         e.preventDefault();
                                         const form = e.target as HTMLFormElement;
                                         const emailInput = form.querySelector('#blog-cta-email') as HTMLInputElement;
+                                        trackCtaClick('newsletter_subscribe', 'blog_cta');
                                         await handleSubscribe(emailInput.value, form);
                                     }}
                                 >

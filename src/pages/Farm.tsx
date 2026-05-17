@@ -1,6 +1,7 @@
 import React, { Suspense } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import { trackCtaClick } from '@/utils/analytics';
 import {
     FaTree,
     FaArrowRight,
@@ -271,7 +272,10 @@ const Farm = () => {
                                     Founders, managers, and investors can log in to manage farm operations, track tasks, and view financial reports.
                                 </p>
                                 <button
-                                    onClick={() => navigate('/login')}
+                                    onClick={() => {
+                                        trackCtaClick('login_farm_os', 'farm_page');
+                                        navigate('/login');
+                                    }}
                                     className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-primary to-accent text-white rounded-xl hover:shadow-lg transition-all group"
                                 >
                                     <span>Login to Farm Operations Center</span>
@@ -466,7 +470,10 @@ const Farm = () => {
                                     {t('midCta.description', 'Every hectare is tracked, every tree counted, every expense allocated. See how our operational model creates transparency for investors and partners.')}
                                 </Typography>
                                 <motion.button
-                                    onClick={() => navigate('/vision')}
+                                    onClick={() => {
+                                        trackCtaClick('explore_vision', 'farm_mid_cta');
+                                        navigate('/vision');
+                                    }}
                                     className="relative border-2 border-primary/50 text-primary hover:bg-primary hover:text-white px-6 py-2.5 rounded-full transform-gpu transition-all duration-300 inline-flex items-center gap-2 text-sm font-medium bg-white/30 backdrop-blur-sm"
                                     whileHover={{ y: -2, scale: 1.03 }}
                                     whileTap={{ scale: 0.95 }}
@@ -674,7 +681,10 @@ const Farm = () => {
                                 </Typography>
                                 <motion.button
                                     className="group bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-4 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl inline-flex items-center mx-auto transform-gpu relative overflow-hidden"
-                                    onClick={() => navigate('/contact')}
+                                    onClick={() => {
+                                        trackCtaClick('contact_from_farm', 'farm_footer_cta');
+                                        navigate('/contact');
+                                    }}
                                     whileHover={{
                                         scale: 1.05,
                                         y: -2,

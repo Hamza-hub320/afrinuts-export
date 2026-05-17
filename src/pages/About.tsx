@@ -1,6 +1,7 @@
 import React, {useState, useRef} from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
+import { trackCtaClick } from '@/utils/analytics';
 import {
   FaTree,
   FaSeedling,
@@ -16,8 +17,7 @@ import {
   FaMosque,
   FaWater,
   FaTimes,
-  FaEnvelope,
-  FaLinkedin, FaArrowRight
+  FaArrowRight
 } from "react-icons/fa";
 import { Dialog, Transition } from '@headlessui/react';
 
@@ -265,7 +265,10 @@ const About: React.FC = () => {
                 whileInView="visible"
                 viewport={{ once: true }}
                 variants={fadeIn}
-                onClick={() => navigate('/executive-team')}
+                onClick={() => {
+                  trackCtaClick('executive_team', 'about_page');
+                  navigate('/executive-team');
+                }}
                 whileHover={{ scale: 1.05, y: -2, boxShadow: '0 10px 25px -5px rgba(165, 105, 66, 0.4)' }}
                 whileTap={{ scale: 0.95 }}
             >
@@ -423,7 +426,10 @@ const About: React.FC = () => {
               <motion.button
                   className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-4 rounded-full transform-gpu group/btn overflow-hidden mt-8"
                   variants={fadeIn}
-                  onClick={() => navigate(t('ctaButton', '/farm'))}
+                  onClick={() => {
+                    trackCtaClick('visit_farm', 'about_page');
+                    navigate(t('ctaButton', '/farm'));
+                  }}
                   whileHover={{ scale: 1.05, y: -2, boxShadow: '0 10px 25px -5px rgba(165, 105, 66, 0.4)' }}
                   whileTap={{ scale: 0.95 }}
               >
@@ -533,7 +539,10 @@ const About: React.FC = () => {
             >
               <motion.button
                   className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-4 rounded-full transform-gpu group/btn overflow-hidden"
-                  onClick={() => navigate('/contact')}
+                  onClick={() => {
+                    trackCtaClick('contact', 'about_page');
+                    navigate('/contact');
+                  }}
                   whileHover={{ scale: 1.05, y: -2, boxShadow: '0 10px 25px -5px rgba(165, 105, 66, 0.4)' }}
                   whileTap={{ scale: 0.95 }}
               >
@@ -578,7 +587,10 @@ const About: React.FC = () => {
                     className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-4 rounded-full transform-gpu group/btn overflow-hidden mt-6"
                     whileHover={{ scale: 1.05, y: -2, boxShadow: '0 10px 25px -5px rgba(165, 105, 66, 0.4)' }}
                     whileTap={{ scale: 0.95 }}
-                    onClick={() => navigate('/farm')}
+                    onClick={() => {
+                      trackCtaClick('explore_farm', 'about_page');
+                      navigate('/farm');
+                    }}
                 >
     <span className="relative z-10 font-medium flex items-center gap-2">
         {t('farm.ctaText', 'Visit Our Farm Page')}
@@ -854,7 +866,10 @@ const About: React.FC = () => {
                       <motion.button
                           className="group bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-4 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl inline-flex items-center mx-auto transform-gpu relative overflow-hidden"
                           variants={fadeIn}
-                          onClick={() => navigate('/vision')}
+                          onClick={() => {
+                            trackCtaClick('vision', 'about_page');
+                            navigate('/vision');
+                          }}
                           whileHover={{ y: -2 }}
                           whileTap={{ scale: 0.95 }}
                           aria-label={t('legacy.learnMoreAria', {defaultValue: "Learn more about Vision 2031"})}

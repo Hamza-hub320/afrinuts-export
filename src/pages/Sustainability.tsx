@@ -2,6 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import {Link, useNavigate } from 'react-router-dom';
+import { trackCtaClick } from '@/utils/analytics';
 import {
     FaTree,
     FaWater,
@@ -416,7 +417,10 @@ const Sustainability: React.FC = () => {
                                 boxShadow: '0 10px 25px -5px rgba(165, 105, 66, 0.4)'
                             }}
                             whileTap={{ scale: 0.98 }}
-                            onClick={() => navigate('/vision')}
+                            onClick={() => {
+                                trackCtaClick('explore_vision', 'sustainability_page');
+                                navigate('/vision');
+                            }}
                         >
                             <span className="relative z-10">{t('future.cta')}</span>
                             <motion.span
@@ -463,7 +467,10 @@ const Sustainability: React.FC = () => {
                                     <motion.button
                                         className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-4 rounded-full transform-gpu group/btn overflow-hidden"
                                         variants={fadeIn}
-                                        onClick={() => navigate('/vision')}
+                                        onClick={() => {
+                                            trackCtaClick('learn_more_vision', 'sustainability_page');
+                                            navigate('/vision');
+                                        }}
                                         whileHover={{ scale: 1.05, y: -2, boxShadow: '0 10px 25px -5px rgba(165, 105, 66, 0.4)' }}
                                         whileTap={{ scale: 0.95 }}
                                     >
@@ -474,7 +481,10 @@ const Sustainability: React.FC = () => {
                                     <motion.button
                                         className="relative border-2 border-primary/50 text-primary hover:bg-white/20 px-8 py-4 rounded-full transform-gpu backdrop-blur-sm"
                                         variants={fadeIn}
-                                        onClick={() => navigate('/products')}
+                                        onClick={() => {
+                                            trackCtaClick('explore_products', 'sustainability_page');
+                                            navigate('/products');
+                                        }}
                                         whileHover={{ scale: 1.05, y: -2 }}
                                         whileTap={{ scale: 0.95 }}
                                     >

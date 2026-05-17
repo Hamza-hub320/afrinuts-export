@@ -26,6 +26,7 @@ import rawCashewImage from '../assets/images/raw-cashew.webp';
 import Section from '../components/Section/Section';
 import ProductCard from '../components/ProductCard/ProductCard';
 import JsonLd from "@/components/Seo/JsonLd";
+import { trackCtaClick, trackProductInquiry, trackOutboundClick } from '@/utils/analytics';
 
 
 interface AfriNutsUpdate {
@@ -87,12 +88,13 @@ const Home: React.FC = () => {
     const [homeUpdates, setHomeUpdates] = useState<AfriNutsUpdate[]>([]);
 
     // Social share handler (dummy)
-    const handleShare = (url: string, title: string) => {
-      if (navigator.share) {
-        navigator.share({ title, url });
-      } else {
-        window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`, '_blank');
-      }
+    const handleShare = (url: string, title: string, platform: string) => {
+        trackOutboundClick(platform, title);
+        if (navigator.share) {
+            navigator.share({ title, url });
+        } else {
+            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`, '_blank');
+        }
     };
 
     useEffect(() => {
@@ -193,7 +195,10 @@ const Home: React.FC = () => {
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                                 className="overflow-hidden relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-5 py-2 sm:px-6 sm:py-3 md:px-8 md:py-4 rounded-full text-base sm:text-lg md:text-xl font-medium transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2 group/btn"
-                                onClick={() => navigate('/products')}
+                                onClick={() => {
+                                    trackCtaClick('explore_products', 'hero');
+                                    navigate('/products');
+                                }}
                             >
                                 {/* Button glass highlight */}
                                 <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50" />
@@ -209,7 +214,10 @@ const Home: React.FC = () => {
                                 style={{
                                     backdropFilter: 'blur(4px)'
                                 }}
-                                onClick={() => scrollToSection('about-preview')}
+                                onClick={() => {
+                                    trackCtaClick('learn_more', 'hero');
+                                    scrollToSection('about-preview');
+                                }}
                             >
             <span className="relative z-10 flex items-center gap-2">
                 {t('hero.ctaButtons.learnMore')}
@@ -290,7 +298,10 @@ const Home: React.FC = () => {
                                             }}
                                             whileTap={{ scale: 0.96 }}
                                             className="group border-2 relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-6 py-2 md:px-8 md:py-3 rounded-full transition-all duration-300 inline-flex items-center justify-center text-sm md:text-base"
-                                            onClick={() => navigate('/about')}
+                                            onClick={() => {
+                                                trackCtaClick('farm_story', 'about_section');
+                                                navigate('/about');
+                                            }}
                                             aria-label={t('aboutPreview.ctaButton')}
                                         >
                                             {t('aboutPreview.ctaButton')}
@@ -312,7 +323,10 @@ const Home: React.FC = () => {
                                             }}
                                             whileTap={{ scale: 0.96 }}
                                             className="group border-2 relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-6 py-2 md:px-8 md:py-3 rounded-full transition-all duration-300 inline-flex items-center justify-center text-sm md:text-base"
-                                            onClick={() => navigate('/blog')}
+                                            onClick={() => {
+                                                trackCtaClick('visit_blog', 'about_section');
+                                                navigate('/blog');
+                                            }}
                                             aria-label="Visit our blog"
                                         >
                                             {t('aboutPreview.blogButton')}
@@ -374,7 +388,10 @@ const Home: React.FC = () => {
                                             features: product.features || []
                                         }}
                                         className="h-full"
-                                        handleContactClick={handleContactClick}
+                                        handleContactClick={() => {
+                                            trackProductInquiry(product.name);
+                                            handleContactClick();
+                                        }}
                                         productImageMap={productImageMap}
                                         iconMap={iconMap}
                                         // Pass i18n alt texts and aria labels
@@ -386,7 +403,7 @@ const Home: React.FC = () => {
                                                 <button
                                                     aria-label={t('products.share.facebook')}
                                                     className="rounded-full p-2 hover:bg-primary/10 transition"
-                                                    onClick={() => handleShare(window.location.href, product.name)}
+                                                    onClick={() => handleShare(window.location.href, product.name, 'facebook')}
                                                     type="button"
                                                 >
                                                     <FaFacebook className="w-4 h-4 text-primary" />
@@ -394,7 +411,7 @@ const Home: React.FC = () => {
                                                 <button
                                                     aria-label={t('products.share.twitter')}
                                                     className="rounded-full p-2 hover:bg-accent/10 transition"
-                                                    onClick={() => handleShare(window.location.href, product.name)}
+                                                    onClick={() => handleShare(window.location.href, product.name, 'twitter')}
                                                     type="button"
                                                 >
                                                     <FaTwitter className="w-4 h-4 text-accent" />
@@ -402,7 +419,7 @@ const Home: React.FC = () => {
                                                 <button
                                                     aria-label={t('products.share.linkedin')}
                                                     className="rounded-full p-2 hover:bg-primary/10 transition"
-                                                    onClick={() => handleShare(window.location.href, product.name)}
+                                                    onClick={() => handleShare(window.location.href, product.name, 'linkedin')}
                                                     type="button"
                                                 >
                                                     <FaLinkedin className="w-4 h-4 text-primary" />
@@ -439,7 +456,10 @@ const Home: React.FC = () => {
                                 {t('products.cta.description', 'Browse our full catalog with organic and conventional options, pricing details, certifications, and availability timelines.')}
                             </Typography>
                             <motion.button
-                                onClick={() => navigate('/products')}
+                                onClick={() => {
+                                    trackCtaClick('explore_all_products', 'product_section');
+                                    navigate('/products');
+                                }}
                                 className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-6 py-2.5 rounded-full transform-gpu transition-all duration-300 inline-flex items-center gap-2 text-sm font-medium shadow-md"
                                 whileHover={{ y: -2, scale: 1.03 }}
                                 whileTap={{ scale: 0.95 }}
@@ -513,7 +533,10 @@ const Home: React.FC = () => {
                                 whileHover={{ scale: 1.08 }}
                                 whileTap={{ scale: 0.96 }}
                                 className="group border-2 relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-6 py-2 md:px-8 md:py-3 rounded-full transition-all duration-300 inline-flex items-center text-sm md:text-base"
-                                onClick={() => navigate('/farm')}
+                                onClick={() => {
+                                    trackCtaClick('explore_farm', 'farm_section');
+                                    navigate('/farm');
+                                }}
                                 aria-label={t('farm.ctaButton')}
                             >
                                 {t('farm.ctaButton')}
@@ -667,7 +690,10 @@ const Home: React.FC = () => {
                                         whileHover={{ scale: 1.08 }}
                                         whileTap={{ scale: 0.96 }}
                                         className="group border-2 relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-6 py-2 md:px-8 md:py-3 rounded-full transition-all duration-300 inline-flex items-center text-sm md:text-base"
-                                        onClick={() => navigate('/sustainability')}
+                                        onClick={() => {
+                                            trackCtaClick('sustainability', 'sustainability_section');
+                                            navigate('/sustainability');
+                                        }}
                                         aria-label={t('sustainability.ctaButton')}
                                     >
                                         {t('sustainability.ctaButton')}
@@ -849,7 +875,10 @@ const Home: React.FC = () => {
                                     </Typography>
                                     <motion.button
                                         className="group bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-4 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl inline-flex items-center mx-auto transform-gpu relative overflow-hidden"
-                                        onClick={() => navigate('/contact')}
+                                        onClick={() => {
+                                            trackCtaClick('get_in_touch', 'contact_section');
+                                            navigate('/contact');
+                                        }}
                                         aria-label={t('contact.ctaButton')}
                                         whileHover={{
                                             scale: 1.08,

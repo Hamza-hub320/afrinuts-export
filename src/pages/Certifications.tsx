@@ -8,7 +8,6 @@ import {
     FaHandshake,
     FaShieldAlt,
     FaGlobe,
-    FaArrowLeft,
     FaCheckCircle,
     FaClock,
     FaAward,
@@ -30,6 +29,7 @@ import { InfoCard } from "@/components/InfoCard/InfoCard";
 import CertModal from "../components/CertModal/CertModal";
 import CertCard from "../components/CertCard/CertCard";
 import {IconType} from "react-icons";
+import { trackCtaClick, trackDownload } from '@/utils/analytics';
 type CertStatus = "achieved" | "upcoming" | "in-progress";
 
 const getIcon = (iconName: string) => {
@@ -598,7 +598,10 @@ const Certifications: React.FC = () => {
                                                     </ul>
                                                     {item.ctaText && (
                                                         <motion.button
-                                                            onClick={() => navigate(item.ctaLink || '/contact')}
+                                                            onClick={() => {
+                                                                trackCtaClick(item.ctaText || 'certification_cta', 'why_certifications');
+                                                                navigate(item.ctaLink || '/contact');
+                                                            }}
                                                             className="text-primary hover:text-accent font-medium flex items-center gap-2 transition-colors text-sm mt-2"
                                                             whileHover={{ x: 3 }}
                                                         >
@@ -934,7 +937,10 @@ const Certifications: React.FC = () => {
                                 className="group relative bg-gradient-to-r from-primary to-accent text-white px-8 py-3 rounded-full transition-all duration-300 shadow-md transform-gpu hover:scale-105"
                                 whileHover={{ y: -2 }}
                                 whileTap={{ scale: 0.95 }}
-                                onClick={() => navigate('/contact')}
+                                onClick={() => {
+                                    trackCtaClick('request_info', 'certifications_page');
+                                    navigate('/contact');
+                                }}
                             >
                                 {t('cta.contactButton')}
                             </motion.button>

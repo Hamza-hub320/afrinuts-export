@@ -10,6 +10,7 @@ import { Typography } from '@/components/Typography/Typography';
 import newsConfig from '@/data/newsConfig.json';
 import newsFeeds from '@/data/newsFeeds.json';
 import newsImage from '@/assets/images/news.webp';
+import { trackCtaClick, trackOutboundClick } from '@/utils/analytics';
 
 interface RSSItem {
     title: string;
@@ -197,7 +198,11 @@ const News: React.FC = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     {paginatedUpdates.map((update, index) => (
                         <motion.div key={update.id} variants={fadeIn} transition={{ delay: index * 0.1 }}>
-                            <Link to={`/news/${update.slug}`} className="block h-full">
+                            <Link
+                                to={`/news/${update.slug}`}
+                                onClick={() => trackCtaClick('read_update', 'news_page')}
+                                className="text-accent hover:underline text-sm"
+                            >
                                 <motion.div
                                     className="relative bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl border-2 border-primary/20 hover:border-accent/30 shadow-lg overflow-hidden hover:shadow-xl transition-all duration-500 border-l-4 border-accent h-full transform-gpu"
                                     style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
@@ -260,7 +265,10 @@ const News: React.FC = () => {
             )}
             {paginatedUpdates.length < filteredUpdates.length && (
                 <div className="flex justify-center mt-8">
-                    <motion.button className="px-6 py-2 rounded-full bg-primary text-white hover:bg-dark-orange transition-colors transform-gpu hover:scale-105" onClick={() => setUpdatesPage(p => p + 1)} whileHover={{ y: -2 }} whileTap={{ scale: 0.95 }}>{t('sections.loadMore')}</motion.button>
+                    <motion.button className="px-6 py-2 rounded-full bg-primary text-white hover:bg-dark-orange transition-colors transform-gpu hover:scale-105" onClick={() => {
+                        trackCtaClick('load_more_updates', 'news_page');
+                        setUpdatesPage(p => p + 1);
+                    }} whileHover={{ y: -2 }} whileTap={{ scale: 0.95 }}>{t('sections.loadMore')}</motion.button>
                 </div>
             )}
         </motion.div>
@@ -300,7 +308,11 @@ const News: React.FC = () => {
                                 </div>
                                 <div className="flex mt-4 relative z-10">
                                     <button className="ml-0 px-3 py-1 rounded-full bg-accent text-white hover:bg-accent-dark text-xs flex items-center justify-center transform-gpu hover:scale-105 transition-transform"
-                                            onClick={e => { e.stopPropagation(); if (navigator.share) navigator.share({ title: article.title, url: article.link }); }}>
+                                            onClick={e => {
+                                                e.stopPropagation();
+                                                trackOutboundClick('share', article.title);
+                                                if (navigator.share) navigator.share({ title: article.title, url: article.link });
+                                            }}>
                                         <FaShareSquare className="w-4 h-4" />
                                     </button>
                                 </div>
@@ -311,7 +323,10 @@ const News: React.FC = () => {
             )}
             {paginatedArticles.length < filteredArticles.length && (
                 <div className="flex justify-center mt-8">
-                    <motion.button className="px-6 py-2 rounded-full bg-primary text-white hover:bg-dark-orange transition-colors transform-gpu hover:scale-105" onClick={() => setArticlesPage(p => p + 1)} whileHover={{ y: -2 }} whileTap={{ scale: 0.95 }}>{t('sections.loadMore')}</motion.button>
+                    <motion.button className="px-6 py-2 rounded-full bg-primary text-white hover:bg-dark-orange transition-colors transform-gpu hover:scale-105" onClick={() => {
+                        trackCtaClick('load_more_articles', 'news_page');
+                        setArticlesPage(p => p + 1);
+                    }} whileHover={{ y: -2 }} whileTap={{ scale: 0.95 }}>{t('sections.loadMore')}</motion.button>
                 </div>
             )}
         </motion.div>
@@ -392,7 +407,10 @@ const News: React.FC = () => {
                         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                             <div className="flex flex-wrap gap-2">
                                 {tabs.map(tab => (
-                                    <motion.button key={tab.id} onClick={() => toggleTab(tab.id)}
+                                    <motion.button key={tab.id} onClick={() => {
+                                        trackCtaClick(`tab_${tab.id}`, 'news_page');
+                                        toggleTab(tab.id);
+                                    }}
                                                    className={`px-4 py-2 rounded-full flex items-center gap-2 ${activeTabs.includes(tab.id) ? 'bg-primary text-white' : 'bg-background text-gray-700 hover:bg-gray-200'} transition-colors`}
                                                    aria-pressed={activeTabs.includes(tab.id)} whileHover={{ y: -2, scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                                         <FaNewspaper className="text-lg" />{t(tab.translationKey as string)}

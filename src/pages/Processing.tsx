@@ -2,6 +2,7 @@ import React, {useState, useEffect, useRef, Suspense} from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import {Link, useNavigate} from 'react-router-dom';
+import { trackCtaClick } from '@/utils/analytics';
 import {
     FaIndustry,
     FaCogs,
@@ -535,7 +536,10 @@ const Processing: React.FC = () => {
                                         ? 'bg-primary text-white shadow-lg'
                                         : 'bg-white text-primary border-2 border-primary/30 hover:border-primary/50'
                                 }`}
-                                onClick={() => setActivePhase('phase1')}
+                                onClick={() => {
+                                    trackCtaClick('phase1_tab', 'processing_page');
+                                    setActivePhase('phase1');
+                                }}
                                 whileHover={{ y: -2, scale: 1.02 }}
                                 whileTap={{ scale: 0.98 }}
                             >
@@ -547,7 +551,10 @@ const Processing: React.FC = () => {
                                         ? 'bg-accent text-white shadow-lg'
                                         : 'bg-white text-accent border-2 border-accent/30 hover:border-accent/50'
                                 }`}
-                                onClick={() => setActivePhase('phase2')}
+                                onClick={() => {
+                                    trackCtaClick('phase2_tab', 'processing_page');
+                                    setActivePhase('phase2');
+                                }}
                                 whileHover={{ y: -2, scale: 1.02 }}
                                 whileTap={{ scale: 0.98 }}
                             >
@@ -639,7 +646,10 @@ const Processing: React.FC = () => {
                     >
                         <div className="bg-white/80 backdrop-blur-sm rounded-full p-1 border border-primary/20">
                             <button
-                                onClick={() => setViewMode('diagram')}
+                                onClick={() => {
+                                    trackCtaClick('diagram_view', 'processing_page');
+                                    setViewMode('diagram');
+                                }}
                                 className={`px-3 sm:px-6 py-1 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-colors ${
                                     viewMode === 'diagram'
                                         ? 'bg-primary text-white'
@@ -649,7 +659,10 @@ const Processing: React.FC = () => {
                                 {t('viewMode.diagram')}
                             </button>
                             <button
-                                onClick={() => setViewMode('steps')}
+                                onClick={() => {
+                                    trackCtaClick('steps_view', 'processing_page');
+                                    setViewMode('steps');
+                                }}
                                 className={`px-3 sm:px-6 py-1 sm:py-2 rounded-full text-xs sm:text-sm font-medium transition-colors ${
                                     viewMode === 'steps'
                                         ? 'bg-accent text-white'
@@ -1214,7 +1227,10 @@ const Processing: React.FC = () => {
                                 className="group relative bg-gradient-to-r from-primary to-accent text-white px-8 py-4 rounded-full font-medium shadow-lg transform-gpu hover:scale-105 overflow-hidden"
                                 whileHover={{ y: -4 }}
                                 whileTap={{ scale: 0.95 }}
-                                onClick={() => navigate('/contact')}
+                                onClick={() => {
+                                    trackCtaClick('contact_us', 'processing_page');
+                                    navigate('/contact');
+                                }}
                             >
                                 {/* Button glossy overlay */}
                                 <div className="absolute inset-0 bg-gradient-to-b from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />

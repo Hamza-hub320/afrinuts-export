@@ -1,18 +1,12 @@
 import {
-  FaMapMarkerAlt,
-  FaPhone,
-  FaEnvelope,
-  FaClock,
   FaCheckCircle,
-  FaArrowDown,
-  FaInfoCircle,
   FaRegSmile,
   FaShieldAlt
 } from 'react-icons/fa';
 import emailjs from '@emailjs/browser';
 import React, { useState, useRef, FormEvent, ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
-import WeatherDisplay from '@/components/WeatherDisplay/WeatherDisplay';
+import { trackCtaClick, trackFormSubmission } from '@/utils/analytics';
 import Section from '@/components/Section/Section';
 import contactHeroImage from '@/assets/images/contact-hero.webp';
 import { motion } from 'framer-motion';
@@ -169,6 +163,7 @@ const Contact: React.FC = () => {
       );
 
       if (response.status === 200) {
+        trackFormSubmission('contact');
         setShowSuccess(true);
         setFormData({
           name: '',
@@ -270,7 +265,10 @@ const Contact: React.FC = () => {
                   <Typography variant="h3" className="mb-2">{t('success.title')}</Typography>
                   <Typography variant="body" className="mb-6">{t('success.message')}</Typography>
                   <motion.button
-                      onClick={() => setShowSuccess(false)}
+                      onClick={() => {
+                        trackCtaClick('close_success', 'contact_page');
+                        setShowSuccess(false);
+                      }}
                       className="bg-primary hover:bg-dark-orange text-white px-6 py-2 rounded-full transition-colors transform-gpu hover:scale-105"
                       whileHover={{y: -2}}
                       whileTap={{scale: 0.95}}
@@ -424,7 +422,10 @@ const Contact: React.FC = () => {
           <Typography variant="body">
             {t('form.checkFaq')}{' '}
             <button
-                onClick={() => navigate('/faq')}
+                onClick={() => {
+                  trackCtaClick('visit_faq', 'contact_page');
+                  navigate('/faq');
+                }}
                 className="text-accent underline cursor-pointer hover:scale-105 transition-transform duration-300 bg-transparent border-0 p-0 font-inherit"
                 aria-label="Go to Frequently Asked Questions page"
             >
