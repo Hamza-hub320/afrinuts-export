@@ -2,7 +2,6 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import path from 'path'
 import { fileURLToPath } from 'url'
-import viteCompression from 'vite-plugin-compression'
 import { visualizer } from 'rollup-plugin-visualizer'
 import { ViteImageOptimizer } from 'vite-plugin-image-optimizer';
 import * as fs from "node:fs";
@@ -76,6 +75,8 @@ export default defineConfig({
             'react-dom',
             'react-router-dom',
             'date-fns',
+            'es-toolkit',
+            'dayjs',
         ],
         exclude: ['js-big-decimal', 'mermaid', 'recharts', 'leaflet']
     },

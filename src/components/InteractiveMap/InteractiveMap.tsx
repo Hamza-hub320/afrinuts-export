@@ -4,39 +4,36 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Typography } from '../Typography/Typography';
 import { FaMapMarkerAlt, FaTree, FaWater, FaRoad, FaWarehouse } from 'react-icons/fa';
-import { Icon } from 'leaflet';
 import Button from '../Button/Button';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
+import { renderToStaticMarkup } from 'react-dom/server';
 
-// Custom icons
-const farmIcon = new Icon({
-    iconUrl: 'https://cdn-icons-png.flaticon.com/512/684/684908.png',
-    iconSize: [32, 32],
-    iconAnchor: [16, 32],
-    popupAnchor: [0, -32]
-});
 
-const waterIcon = new Icon({
-    iconUrl: 'https://cdn-icons-png.flaticon.com/512/3163/3163471.png',
-    iconSize: [28, 28],
-    iconAnchor: [14, 28],
-    popupAnchor: [0, -28]
-});
+const createMarkerIcon = (Icon: React.ComponentType<{ color?: string }>, color: string, bgColor: string = 'white') => {
+    return L.divIcon({
+        className: '',
+        html: `<div style="
+            background:${bgColor};
+            width:36px;height:36px;
+            border-radius:50%;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            border:3px solid ${color};
+            box-shadow:0 2px 8px rgba(0,0,0,0.25);
+            font-size:16px;
+        ">${renderToStaticMarkup(<Icon color={color} />)}</div>`,
+        iconSize: [36, 36],
+        iconAnchor: [18, 18],
+        popupAnchor: [0, -18],
+    });
+};
 
-const roadIcon = new Icon({
-    iconUrl: 'https://cdn-icons-png.flaticon.com/512/854/854878.png',
-    iconSize: [28, 28],
-    iconAnchor: [14, 28],
-    popupAnchor: [0, -28]
-});
-
-const facilityIcon = new Icon({
-    iconUrl: 'https://cdn-icons-png.flaticon.com/512/3069/3069172.png',
-    iconSize: [32, 32],
-    iconAnchor: [16, 32],
-    popupAnchor: [0, -32]
-});
+const farmIcon = createMarkerIcon(FaTree, '#5A7411');
+const waterIcon = createMarkerIcon(FaWater, '#00869D');
+const roadIcon = createMarkerIcon(FaRoad, '#5A4D47');
+const facilityIcon = createMarkerIcon(FaWarehouse, '#E04E00');
 
 interface FarmFeature {
     id: string;

@@ -1,4 +1,4 @@
-import React, { lazy, Suspense } from 'react';
+import React, { Suspense } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -11,7 +11,6 @@ import {
     FaUsers,
     FaChartLine,
     FaSeedling,
-    FaCloudSun
 } from 'react-icons/fa';
 import { GiFarmer, GiPlantWatering, GiFruitTree } from 'react-icons/gi';
 import { MdPrecisionManufacturing } from 'react-icons/md';
@@ -21,7 +20,6 @@ import farmImage3 from '@/assets/images/farm-3.webp';
 import farmImage4 from '@/assets/images/farm-4.webp';
 import farmHeroImage from '@/assets/images/farm-hero.webp';
 import { useAuth } from '../contexts/AuthContext';
-import DashboardWeatherWidget from '@/components/DashboardWeatherWidget';
 import LiveFarmStats from '@/components/LiveFarmStats';
 import { motion } from 'framer-motion';
 import { fadeIn, staggerContainer } from '@/utils/animations';
