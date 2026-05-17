@@ -178,7 +178,7 @@ const Blog: React.FC = () => {
                         ))}
                     </div>
 
-                    {/* Posts Grid with InfoCard Styling */}
+                    {/* Posts Grid */}
                     {filteredPosts.length === 0 ? (
                         <div className="text-center py-16">
                             <Typography variant="h4" className="text-gray-400">No posts found</Typography>
@@ -193,34 +193,53 @@ const Blog: React.FC = () => {
                                     transition={{ delay: idx * 0.1 }}
                                 >
                                     <Link to={`/blog/${post.slug}`}>
-                                        <InfoCard
-                                            title={post.title}
-                                            subtitle={post.excerpt}
-                                            iconColor="text-accent"
-                                            className="h-full cursor-pointer"
-                                            showInfoBadge={false}
+                                        <motion.div
+                                            className="group relative bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl border-2 border-primary/20 hover:border-accent/30 shadow-lg overflow-hidden hover:shadow-xl transition-all duration-500 border-l-4 border-accent h-full transform-gpu flex flex-col"
+                                            style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
+                                            whileHover={{ y: -8, scale: 1.03, rotateY: 2, boxShadow: '0 20px 35px -10px rgba(0,0,0,0.25)', transition: { duration: 0.3 } }}
                                         >
+                                            {/* 3D edge effect */}
+                                            <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
+                                            {/* Glassy overlay */}
+                                            <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+                                            {/* Inner shadow */}
+                                            <div className="absolute inset-0 rounded-3xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] group-hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
+                                            {/* Background pattern */}
+                                            <div className="absolute inset-0 rounded-3xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
+
+                                            {/* Featured Image */}
                                             {post.featuredImage && (
-                                                <div className="h-44 overflow-hidden rounded-xl mb-3 -mt-2 border-2 border-white/30 shadow-md">
+                                                <div className="relative h-48 overflow-hidden z-10 rounded-t-3xl rounded-bl-3xl rounded-br-[80px] flex-shrink-0">
                                                     <img
                                                         src={post.featuredImage}
                                                         alt={post.title}
                                                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                                                     />
+                                                    <div className="absolute inset-0 bg-gradient-to-t from-black/15 to-transparent" />
                                                 </div>
                                             )}
-                                            <span className="inline-block px-3 py-1 bg-accent/10 text-accent text-xs rounded-full mb-2">
-                                                {post.category}
-                                            </span>
-                                            <div className="flex items-center justify-between text-xs text-gray-400 pt-3 border-t border-gray-100/50 mt-auto">
-                                                <span className="flex items-center gap-1">
-                                                    <FaCalendarAlt /> {new Date(post.publishedDate).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
-                                                </span>
-                                                <span className="flex items-center gap-1">
-                                                    <FaUser /> {post.author.split(',')[0]}
-                                                </span>
+
+                                            {/* Content */}
+                                            <div className="relative z-10 flex flex-col flex-grow p-5">
+                            <span className="inline-block px-3 py-1 bg-accent/10 text-accent text-xs rounded-full mb-3 w-fit">
+                                {post.category}
+                            </span>
+                                                <Typography variant="h4" className="mb-2 text-primary group-hover:text-accent transition-colors line-clamp-2">
+                                                    {post.title}
+                                                </Typography>
+                                                <Typography variant="small" className="text-gray-600 mb-4 line-clamp-2 flex-grow">
+                                                    {post.excerpt}
+                                                </Typography>
+                                                <div className="flex items-center justify-between text-xs text-gray-400 pt-3 border-t border-gray-100/50 mt-auto">
+                                <span className="flex items-center gap-1">
+                                    <FaCalendarAlt /> {new Date(post.publishedDate).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
+                                </span>
+                                                    <span className="flex items-center gap-1">
+                                    <FaUser /> {post.author.split(',')[0]}
+                                </span>
+                                                </div>
                                             </div>
-                                        </InfoCard>
+                                        </motion.div>
                                     </Link>
                                 </motion.div>
                             ))}
