@@ -4,7 +4,7 @@ import {Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
     FaChevronDown, FaLeaf, FaSeedling,
-    FaGlobeAfrica, FaArrowRight, FaBullhorn, FaTwitter, FaLinkedin, FaFacebook,
+    FaGlobeAfrica, FaArrowRight, FaBullhorn, FaTwitter, FaLinkedin, FaFacebook, FaShareSquare,
 } from 'react-icons/fa';
 import {
     fadeIn,
@@ -708,57 +708,76 @@ const Home: React.FC = () => {
                             viewport={{ once: true }}
                         >
                             {homeUpdates.slice(0, newsToShow).map((update: AfriNutsUpdate, index: number) => (
-                                <motion.div
-                                    key={update.id}
-                                    variants={fadeIn}
-                                    className="group relative bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl border-2 border-primary/20 hover:border-accent/30 shadow-xl overflow-hidden transform-gpu"
-                                    style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
-                                    whileHover={{ y: -8, scale: 1.02, rotateY: 3, boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)', transition: { duration: 0.3 } }}
-                                >
-                                    <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px]" />
-                                    <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40" />
-                                    <div className="absolute inset-0 rounded-3xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)]" />
-                                    <div className="absolute inset-0 rounded-3xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
+                                <motion.div key={update.id} variants={fadeIn}>
+                                    <Link to={`/news/${update.slug}`} className="block h-full">
+                                        <motion.div
+                                            className="group relative bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl border-2 border-primary/20 hover:border-accent/30 shadow-lg overflow-hidden hover:shadow-xl transition-all duration-500 border-l-4 border-accent h-full transform-gpu"
+                                            style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
+                                            whileHover={{ y: -8, scale: 1.03, rotateY: 2, boxShadow: '0 20px 35px -10px rgba(0,0,0,0.25)', transition: { duration: 0.3 } }}
+                                        >
+                                            {/* 3D edge effect */}
+                                            <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px]" />
+                                            {/* Glassy overlay */}
+                                            <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40" />
+                                            {/* Inner shadow */}
+                                            <div className="absolute inset-0 rounded-3xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)]" />
+                                            {/* Background pattern */}
+                                            <div className="absolute inset-0 rounded-3xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
 
-                                    <div className="relative z-10">
-                                        <div className="h-48 overflow-hidden rounded-t-lg">
-                                            <motion.img
-                                                src={update.image || newsImage}
-                                                alt={update.title}
-                                                className="w-full h-full object-cover"
-                                                loading="lazy"
-                                                whileHover={{ scale: 1.1 }}
-                                                transition={{ duration: 0.5 }}
-                                            />
-                                            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
-                                        </div>
-                                        <div className="p-6">
-                                            <div className="flex items-center gap-2 mb-3">
-                                                <div className="bg-accent/20 p-2 rounded-full">
-                                                    <FaBullhorn className="text-accent" />
-                                                </div>
-                                                <Typography variant="caption" className="text-gray-500">
-                                                    {new Date(update.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-                                                </Typography>
+                                            {/* Image with asymmetrical corners */}
+                                            <div className="relative h-48 overflow-hidden z-10 rounded-t-3xl rounded-bl-3xl rounded-br-[80px]">
+                                                <motion.img
+                                                    src={update.image || newsImage}
+                                                    alt={update.title}
+                                                    className="w-full h-full object-cover"
+                                                    loading="lazy"
+                                                    whileHover={{ scale: 1.1 }}
+                                                    transition={{ duration: 0.5 }}
+                                                />
+                                                <div className="absolute inset-0 bg-gradient-to-t from-black/15 to-transparent" />
                                             </div>
-                                            <Typography variant="h3" className="mb-3">{update.title}</Typography>
-                                            <Typography variant="body" className="mb-4 text-gray-600">{update.excerpt}</Typography>
-                                            <div className="flex flex-wrap gap-2 mb-4">
-                                                {update.tags?.map((tag: string) => (
-                                                    <span key={tag} className="px-3 py-1 text-sm font-medium bg-primary/10 text-primary rounded-full">
-                                            {tag}
-                                        </span>
-                                                ))}
-                                            </div>
-                                            <Link
-                                                to={`/news/${update.slug}`}
-                                                className="text-accent hover:text-primary font-medium flex items-center gap-1 transition-colors relative z-20"
+
+                                            {/* Share button - top right corner */}
+                                            <button
+                                                className="absolute top-4 right-4 z-20 w-9 h-9 rounded-full bg-white/70 backdrop-blur-md border border-white/40 shadow-md flex items-center justify-center text-primary hover:text-accent hover:bg-white/90 transition-all transform-gpu hover:scale-110"
+                                                onClick={(e) => {
+                                                    e.preventDefault();
+                                                    e.stopPropagation();
+                                                    const url = `${window.location.origin}/news/${update.slug}`;
+                                                    if (navigator.share) {
+                                                        navigator.share({ title: update.title, url });
+                                                    } else {
+                                                        navigator.clipboard.writeText(url);
+                                                    }
+                                                }}
+                                                aria-label={t('newsCard.share', 'Share')}
                                             >
-                                                {t('newsCard.readMore')}
-                                                <FaArrowRight className="text-sm" />
-                                            </Link>
-                                        </div>
-                                    </div>
+                                                <FaShareSquare className="w-4 h-4" />
+                                            </button>
+
+                                            <div className="p-6 relative z-10">
+                                                <div className="flex items-center gap-2 mb-3">
+                                                    <div className="bg-accent/20 p-2 rounded-full">
+                                                        <FaBullhorn className="text-accent" />
+                                                    </div>
+                                                    <Typography variant="caption" className="text-gray-500">
+                                                        {new Date(update.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                                                    </Typography>
+                                                </div>
+                                                <Typography variant="h3" className="mb-3">{update.title}</Typography>
+                                                <Typography variant="body" className="mb-4 text-gray-600">{update.excerpt}</Typography>
+                                                <div className="flex flex-wrap gap-2 mb-4">
+                                                    {update.tags?.map((tag: string) => (
+                                                        <span key={tag} className="px-3 py-1 text-sm font-medium bg-primary/10 text-primary rounded-full">{tag}</span>
+                                                    ))}
+                                                </div>
+                                                <span className="text-accent hover:text-primary font-medium flex items-center gap-1 transition-colors">
+                                        {t('newsCard.readMore')}
+                                                    <FaArrowRight className="text-sm" />
+                                    </span>
+                                            </div>
+                                        </motion.div>
+                                    </Link>
                                 </motion.div>
                             ))}
                         </motion.div>
