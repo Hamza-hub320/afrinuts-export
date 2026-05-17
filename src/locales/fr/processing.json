@@ -35,6 +35,11 @@
     "title": "Transformation Pilote (2028-2030)",
     "description": "Notre première installation à petite échelle se concentre sur le contrôle qualité, l'apprentissage opérationnel et l'établissement de liens avec le marché avec une technologie manuelle à semi-automatisée.",
     "automation": "Semi-Automatisée",
+    "qa": {
+      "moisture": "Tests d'humidité — méthode au four",
+      "kernel": "Tests de rendement en amandes",
+      "batchLogs": "Journaux de lots — papier/Excel"
+    },
     "steps": {
       "reception": {
         "title": "Réception et Stockage",
@@ -94,6 +99,7 @@
     }
   },
   "workflow": {
+    "qaLabel": "AQ",
     "title": "Flux de Travail de Transformation",
     "subtitle": "Visualiser notre parcours complet de transformation de la noix de cajou",
     "qaManual": "Contrôles Qualité Manuels",

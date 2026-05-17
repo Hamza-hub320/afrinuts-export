@@ -35,6 +35,11 @@
     "title": "Pilot Processing (2028-2030)",
     "description": "Our initial small-scale facility focuses on quality control, operational learning, and establishing market linkages with manual to semi-automated technology.",
     "automation": "Semi-Automated",
+    "qa": {
+      "moisture": "Moisture tests — oven method",
+      "kernel": "Kernel out-turn cut tests",
+      "batchLogs": "Batch logs — paper/Excel"
+    },
     "steps": {
       "reception": {
         "title": "Reception & Storage",
@@ -94,128 +99,129 @@
     }
   },
   "workflow": {
+    "qaLabel": "QA",
     "title": "Processing Workflow",
     "subtitle": "Visualizing our end-to-end cashew processing journey",
     "qaManual": "Manual QA Checks",
     "qaAutomated": "Automated QA Systems",
     "processStep": "Process Step"
   },
-  "stepByStep": {
-    "title": "Step-by-Step Process",
-    "subtitle": "Follow each stage of our premium cashew processing"
-  },
-  "viewMode": {
-    "diagram": "Diagram View",
-    "steps": "Step-by-Step"
-  },
-  "controls": {
-    "play": "Play",
-    "pause": "Pause"
-  },
-  "differentiators": {
-    "title": "What Sets Us Apart",
-    "description": "Our processing approach combines traditional expertise with modern technology for exceptional quality.",
-    "quality": {
-      "title": "Premium Quality",
-      "description": "Rigorous quality control at every stage ensures consistently superior cashew kernels that meet international standards."
+    "stepByStep": {
+      "title": "Step-by-Step Process",
+      "subtitle": "Follow each stage of our premium cashew processing"
     },
-    "sustainability": {
-      "title": "Sustainable Practices",
-      "description": "Zero-waste processing, water conservation, and renewable energy integration minimize our environmental footprint."
+    "viewMode": {
+      "diagram": "Diagram View",
+      "steps": "Step-by-Step"
+    },
+    "controls": {
+      "play": "Play",
+      "pause": "Pause"
+    },
+    "differentiators": {
+      "title": "What Sets Us Apart",
+      "description": "Our processing approach combines traditional expertise with modern technology for exceptional quality.",
+      "quality": {
+        "title": "Premium Quality",
+        "description": "Rigorous quality control at every stage ensures consistently superior cashew kernels that meet international standards."
+      },
+      "sustainability": {
+        "title": "Sustainable Practices",
+        "description": "Zero-waste processing, water conservation, and renewable energy integration minimize our environmental footprint."
+      },
+      "certifications": {
+        "title": "Certification Ready",
+        "description": "Our processes are designed to meet Organic, Halal, Fair Trade, and ISO 22000 certification requirements from day one."
+      }
     },
     "certifications": {
-      "title": "Certification Ready",
-      "description": "Our processes are designed to meet Organic, Halal, Fair Trade, and ISO 22000 certification requirements from day one."
+      "title": "Our Certifications",
+      "description": "We adhere to the highest international standards for quality, safety, and sustainability.",
+      "organic": {
+        "title": "Organic Certification",
+        "description": "Our farm is transitioning to organic practices from planting. Full organic certification requires 3 years of verified organic methods.",
+        "status": "in-progress",
+        "targetDate": "2029 (Farm) / 2030 (Processing)",
+        "issuer": "ECOCERT"
+      },
+      "halal": {
+        "title": "Halal Certification",
+        "description": "Our processing facility will be designed to meet Halal standards from day one.",
+        "status": "planned",
+        "targetDate": "2029",
+        "issuer": "Halal Certification Authority"
+      },
+      "iso": {
+        "title": "ISO 22000",
+        "description": "Food safety management systems will be implemented during facility construction.",
+        "status": "planned",
+        "targetDate": "2030",
+        "issuer": "International Organization for Standardization"
+      },
+      "fairtrade": {
+        "title": "Fair Trade",
+        "description": "We will pursue Fair Trade certification once our outgrower program is established.",
+        "status": "planned",
+        "targetDate": "2030-2031",
+        "issuer": "Fair Trade International"
+      }
+    },
+    "sustainability": {
+      "title": "Sustainability Practices",
+      "description": "We design every stage of our processing to reduce waste, conserve resources, and use renewable energy.",
+      "water": {
+        "title": "Water Efficiency",
+        "description": "Closed-loop recycling to minimize water usage.",
+        "kpi": "Target: 30% recycling by 2030"
+      },
+      "waste": {
+        "title": "Waste Management",
+        "description": "Shell byproducts repurposed as fuel and biomaterials.",
+        "kpi": "Target: 40% reuse by 2028"
+      },
+      "energy": {
+        "title": "Green Energy",
+        "description": "Solar and energy-efficient equipment.",
+        "kpi": "Target: 20% solar by 2030"
+      },
+      "kpis": {
+        "water": "Water Usage Reduction",
+        "waste": "Waste to Landfill Reduction",
+        "energy": "Energy from Renewable Sources"
+      }
+    },
+    "cta": {
+      "title": "Experience Our Quality",
+      "description": "Join us in revolutionizing African cashew processing with premium, certified products.",
+      "button": "Request Product Samples"
+    },
+    "breadcrumbs": {
+      "home": "Home",
+      "farm": "Farm",
+      "processing": "Processing",
+      "facilityFlowchart": "Facility Flowchart"
+    },
+    "whyProcessLocal": {
+      "title": "Why We Process Cashews in Ivory Coast",
+      "benefits": [
+        "Keep value in the country of origin",
+        "Create local jobs (100+ positions)",
+        "Reduce shipping weight by 25% (shells removed)",
+        "Premium pricing for processed kernels"
+      ]
+    },
+    "chemicalFree": {
+      "title": "100% Chemical-Free Processing",
+      "description": "Unlike traditional methods that use chemicals to soften shells, our steaming and roasting process is entirely chemical-free. This preserves the organic integrity of our cashews and ensures food safety."
+    },
+    "cnslRecovery": {
+      "title": "CNSL Recovery & Reuse",
+      "description": "The liquid from cashew shells (CNSL) is recovered during processing and used for biofuels, industrial lubricants, and polymer production. This creates an additional revenue stream and reduces waste.",
+      "uses": {
+        "biofuels": "Biofuels",
+        "lubricants": "Industrial Lubricants",
+        "polymers": "Polymers & Resins",
+        "revenue": "Additional Revenue"
+      }
     }
-  },
-  "certifications": {
-    "title": "Our Certifications",
-    "description": "We adhere to the highest international standards for quality, safety, and sustainability.",
-    "organic": {
-      "title": "Organic Certification",
-      "description": "Our farm is transitioning to organic practices from planting. Full organic certification requires 3 years of verified organic methods.",
-      "status": "in-progress",
-      "targetDate": "2029 (Farm) / 2030 (Processing)",
-      "issuer": "ECOCERT"
-    },
-    "halal": {
-      "title": "Halal Certification",
-      "description": "Our processing facility will be designed to meet Halal standards from day one.",
-      "status": "planned",
-      "targetDate": "2029",
-      "issuer": "Halal Certification Authority"
-    },
-    "iso": {
-      "title": "ISO 22000",
-      "description": "Food safety management systems will be implemented during facility construction.",
-      "status": "planned",
-      "targetDate": "2030",
-      "issuer": "International Organization for Standardization"
-    },
-    "fairtrade": {
-      "title": "Fair Trade",
-      "description": "We will pursue Fair Trade certification once our outgrower program is established.",
-      "status": "planned",
-      "targetDate": "2030-2031",
-      "issuer": "Fair Trade International"
-    }
-  },
-  "sustainability": {
-    "title": "Sustainability Practices",
-    "description": "We design every stage of our processing to reduce waste, conserve resources, and use renewable energy.",
-    "water": {
-      "title": "Water Efficiency",
-      "description": "Closed-loop recycling to minimize water usage.",
-      "kpi": "Target: 30% recycling by 2030"
-    },
-    "waste": {
-      "title": "Waste Management",
-      "description": "Shell byproducts repurposed as fuel and biomaterials.",
-      "kpi": "Target: 40% reuse by 2028"
-    },
-    "energy": {
-      "title": "Green Energy",
-      "description": "Solar and energy-efficient equipment.",
-      "kpi": "Target: 20% solar by 2030"
-    },
-    "kpis": {
-      "water": "Water Usage Reduction",
-      "waste": "Waste to Landfill Reduction",
-      "energy": "Energy from Renewable Sources"
-    }
-  },
-  "cta": {
-    "title": "Experience Our Quality",
-    "description": "Join us in revolutionizing African cashew processing with premium, certified products.",
-    "button": "Request Product Samples"
-  },
-  "breadcrumbs": {
-    "home": "Home",
-    "farm": "Farm",
-    "processing": "Processing",
-    "facilityFlowchart": "Facility Flowchart"
-  },
-  "whyProcessLocal": {
-    "title": "Why We Process Cashews in Ivory Coast",
-    "benefits": [
-      "Keep value in the country of origin",
-      "Create local jobs (100+ positions)",
-      "Reduce shipping weight by 25% (shells removed)",
-      "Premium pricing for processed kernels"
-    ]
-  },
-  "chemicalFree": {
-    "title": "100% Chemical-Free Processing",
-    "description": "Unlike traditional methods that use chemicals to soften shells, our steaming and roasting process is entirely chemical-free. This preserves the organic integrity of our cashews and ensures food safety."
-  },
-  "cnslRecovery": {
-    "title": "CNSL Recovery & Reuse",
-    "description": "The liquid from cashew shells (CNSL) is recovered during processing and used for biofuels, industrial lubricants, and polymer production. This creates an additional revenue stream and reduces waste.",
-    "uses": {
-      "biofuels": "Biofuels",
-      "lubricants": "Industrial Lubricants",
-      "polymers": "Polymers & Resins",
-      "revenue": "Additional Revenue"
-    }
-  }
 }

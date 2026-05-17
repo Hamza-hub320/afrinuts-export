@@ -75,12 +75,8 @@ export default defineConfig({
             'react-dom',
             'react-router-dom',
             'date-fns',
-            'dayjs',
-            '@braintree/sanitize-url',
-            'es-toolkit',
-            'debug',
         ],
-        exclude: ['js-big-decimal', 'mermaid', 'recharts', 'leaflet']
+        exclude: ['js-big-decimal', 'recharts', 'leaflet', 'es-toolkit']
     },
     css: {
         postcss: './postcss.config.cjs',
