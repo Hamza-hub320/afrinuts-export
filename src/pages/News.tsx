@@ -188,7 +188,8 @@ const News: React.FC = () => {
 
     // Render AfriNuts Updates
     const renderAfriNutsUpdates = () => (
-        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer} className="mb-16">
+        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-50px" }} animate="visible" variants={staggerContainer}
+                    className="mb-16">
             <Typography variant="h3" className="flex items-center gap-2 mb-6"><FaBullhorn className="text-accent" />{t('sections.afrinutsUpdates')}</Typography>
             {paginatedUpdates.length === 0 ? (
                 <Typography variant="body" className="text-center py-10 text-gray-500">{t('sections.noUpdatesFound')}</Typography>
@@ -271,7 +272,7 @@ const News: React.FC = () => {
 
     // Render External News
     const renderExternalNews = () => (
-        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
+        <motion.div initial="hidden" whileInView="visible" animate="visible" viewport={{ once: true, margin: "-50px" }} variants={staggerContainer} className="mb-16">
             <Typography variant="h3" className="flex items-center gap-2 mb-6"><FaGlobe className="text-accent" />{t('sections.industryNews')}</Typography>
             {paginatedArticles.length === 0 ? (
                 <div className="text-center py-10">
