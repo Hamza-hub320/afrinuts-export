@@ -500,20 +500,24 @@ const TracePage: React.FC = () => {
                             >
                                 <div className="space-y-4 mt-3">
                                     {[
-                                        { label: t('quality.moisture'), value: batch.moistureContent, unit: '%', max: 10, color: 'bg-blue-500' },
-                                        { label: t('quality.nutCount'), value: batch.nutCount, unit: '', max: 200, color: 'bg-green-500' },
-                                        { label: t('quality.kernelRatio'), value: batch.kernelRatio, unit: '%', max: 55, color: 'bg-purple-500' },
-                                        { label: t('quality.defectiveRate'), value: batch.defectiveRate, unit: '%', max: 10, color: 'bg-orange-500' },
+                                        { label: t('quality.moisture'), value: batch.moistureContent, unit: '%', max: 10, color: 'bg-primary', textColor: 'text-primary', bgLight: 'bg-primary/10' },
+                                        { label: t('quality.nutCount'), value: batch.nutCount, unit: '', max: 200, color: 'bg-secondary', textColor: 'text-secondary', bgLight: 'bg-secondary/10' },
+                                        { label: t('quality.kernelRatio'), value: batch.kernelRatio, unit: '%', max: 55, color: 'bg-accent', textColor: 'text-accent', bgLight: 'bg-accent/10' },
+                                        { label: t('quality.defectiveRate'), value: batch.defectiveRate, unit: '%', max: 10, color: 'bg-dark-orange', textColor: 'text-dark-orange', bgLight: 'bg-dark-orange/10' },
                                     ].filter(m => m.value != null).map((metric, i) => (
-                                        <div key={i} className="bg-white/40 rounded-xl p-3 border border-white/30">
+                                        <div key={i} className={`${metric.bgLight} rounded-xl p-3 border border-white/30`}>
                                             <div className="flex justify-between items-center mb-2">
                                                 <Typography variant="small" className="text-gray-700 font-medium">{metric.label}</Typography>
-                                                <Typography variant="small" className="font-bold text-gray-800">{metric.value}{metric.unit}</Typography>
+                                                <Typography variant="small" className={`font-bold ${metric.textColor}`}>{metric.value}{metric.unit}</Typography>
                                             </div>
                                             <div className="w-full bg-gray-200 rounded-full h-2">
-                                                <motion.div className={`h-2 rounded-full ${metric.color}`} initial={{ width: 0 }}
-                                                            whileInView={{ width: `${Math.min((metric.value! / metric.max) * 100, 100)}%` }}
-                                                            viewport={{ once: true }} transition={{ duration: 1, delay: i * 0.2 }} />
+                                                <motion.div
+                                                    className={`h-2 rounded-full ${metric.color}`}
+                                                    initial={{ width: 0 }}
+                                                    whileInView={{ width: `${Math.min((metric.value! / metric.max) * 100, 100)}%` }}
+                                                    viewport={{ once: true }}
+                                                    transition={{ duration: 1, delay: i * 0.2 }}
+                                                />
                                             </div>
                                         </div>
                                     ))}
@@ -593,27 +597,26 @@ const TracePage: React.FC = () => {
                     </div>
 
                     {/* Compliance Pack CTA */}
-                    <motion.div initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-                        <div className="relative bg-gradient-to-r from-primary to-accent rounded-2xl p-6 text-center overflow-hidden transform-gpu"
-                             style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}>
-                            <div className="absolute inset-0 rounded-2xl border-2 border-white/20" />
-                            <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40" />
-                            <div className="relative z-10">
-                                <FaFileAlt className="text-2xl text-white mx-auto mb-3" />
-                                <Typography variant="h5" className="font-bold text-white mb-2">
-                                    {t('docs.compliancePack', 'Download Complete Compliance Pack')}
-                                </Typography>
-                                <Typography variant="small" className="text-white/80 mb-4">
-                                    {t('docs.compliancePackDesc')}
+                    <Section className="py-10">
+                        <div className="max-w-2xl mx-auto px-4 sm:px-6 text-center">
+                            <InfoCard
+                                icon={FaFileAlt}
+                                title={t('docs.compliancePack', 'Download Complete Compliance Pack')}
+                                iconColor="text-accent"
+                                variant="primary"
+                                className="text-center"
+                            >
+                                <Typography variant="body" className="text-gray-600 mb-6">
+                                    {t('docs.compliancePackDesc', 'All documents in one file for easy sharing with customs and regulators')}
                                 </Typography>
                                 <a href="/documents/compliance-pack.pdf" target="_blank" rel="noopener noreferrer"
-                                   className="relative bg-white text-primary hover:bg-gray-100 px-6 py-2.5 rounded-full font-medium text-sm inline-flex items-center gap-2 shadow-md">
-                                    <FaDownload className="text-xs" />
+                                   className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-3 rounded-full inline-flex items-center gap-2 font-medium shadow-md">
+                                    <FaDownload className="text-sm" />
                                     {t('docs.downloadAll', 'Download All')}
                                 </a>
-                            </div>
+                            </InfoCard>
                         </div>
-                    </motion.div>
+                    </Section>
                 </div>
             )}
 
