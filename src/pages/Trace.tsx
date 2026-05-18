@@ -1,52 +1,31 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import Section from "@/components/Section/Section";
 import { Typography } from "@/components/Typography/Typography";
+import { InfoCard } from "@/components/InfoCard/InfoCard";
+import {
+    FaTree, FaIndustry, FaCertificate, FaTruck, FaBuilding,
+    FaCheckCircle, FaArrowDown, FaSearch, FaMapMarkerAlt
+} from "react-icons/fa";
+import { fadeIn } from "@/utils/animations";
 
-import { FaGlobeEurope, FaGlobeAmericas, FaGlobeAsia, FaBuilding, FaIndustry, FaStore } from "react-icons/fa";
-import {TestimonialCard} from "../components/TestimonialCard/TestimonialCard";
-
-const fadeIn = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
-};
-
-
-// Simulated batch data for development/testing
-const simulatedBatches = [
-    {
-        BatchID: "AFN-SIM-001",
-        HarvestDate: "2025-01-01",
-        FarmLocation: "Odienné, Ivory Coast",
-        DestinationLocation: "Rotterdam, Netherlands",
-        ReceivingCompany: "NutriGlobal BV",
-        ProcessingInfo: "Sun-dried, sorted manually",
-        Certifications: ["Organic Pending", "Fair Trade"],
-        QualityCheckResults: "Moisture < 5%, Size Grade A",
-    },
-    {
-        BatchID: "AFN-SIM-002",
-        HarvestDate: "2025-02-01",
-        FarmLocation: "Odienné, Ivory Coast",
-        DestinationLocation: "Hamburg, Germany",
-        ReceivingCompany: "Cashew Importers GmbH",
-        ProcessingInfo: "Steam-roasted, shell removed",
-        Certifications: ["ISO 22000", "Rainforest Alliance"],
-        QualityCheckResults: "Moisture < 4.8%, Size Grade B",
-    },
-    {
-        BatchID: "AFN-SIM-003",
-        HarvestDate: "2025-03-15",
-        FarmLocation: "Odienné, Ivory Coast",
-        DestinationLocation: "Marseille, France",
-        ReceivingCompany: "ProNuts SARL",
-        ProcessingInfo: "Manual sorting and grading",
-        Certifications: ["Fair Trade", "Rainforest Alliance"],
-        QualityCheckResults: "Moisture < 4.9%, Size Grade A",
-    },
-];
+interface BatchData {
+    id: string;
+    batchId: string;
+    harvestDate: string;
+    farmLocation: string;
+    block?: string;
+    processingInfo: string;
+    certifications: string[];
+    qualityGrade?: string;
+    qualityResults?: string;
+    destination: string;
+    buyer?: string;
+    status: string;
+    slug: string;
+}
 
 function useQuery() {
     return new URLSearchParams(useLocation().search);
@@ -56,429 +35,216 @@ const TracePage: React.FC = () => {
     const { t } = useTranslation("trace");
     const query = useQuery();
     const batchId = query.get("batchId");
-
-    const batch =
-        simulatedBatches.find((b) => b.BatchID === batchId) || simulatedBatches[0];
-    const isPreview = !batchId;
     const navigate = useNavigate();
+
+    const [batch, setBatch] = useState<BatchData | null>(null);
+    const [allBatches, setAllBatches] = useState<BatchData[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [searchInput, setSearchInput] = useState("");
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                // Fetch all batches for the preview grid
+                const allResponse = await fetch('/.netlify/functions/trace');
+                const allData = await allResponse.json();
+                setAllBatches(allData.batches || []);
+
+                // Fetch specific batch if batchId is in URL
+                if (batchId) {
+                    const response = await fetch(`/.netlify/functions/trace?batchId=${encodeURIComponent(batchId)}`);
+                    const data = await response.json();
+                    setBatch(data.batch);
+                } else if (allData.batches?.length > 0) {
+                    setBatch(allData.batches[0]);
+                }
+            } catch (error) {
+                console.error('Error fetching batch data:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchData();
+    }, [batchId]);
+
+    const handleSearch = (e: React.FormEvent) => {
+        e.preventDefault();
+        if (searchInput.trim()) {
+            navigate(`/trace?batchId=${encodeURIComponent(searchInput.trim())}`);
+        }
+    };
+
+    if (loading) {
+        return (
+            <div className="min-h-screen flex items-center justify-center pt-[72px]">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+            </div>
+        );
+    }
+
+    if (!batch) {
+        return (
+            <div className="min-h-screen pt-[72px]">
+                <Section className="text-center py-20">
+                    <Typography variant="h2" className="text-primary mb-4">
+                        {t('notFound.title', 'Batch Not Found')}
+                    </Typography>
+                    <Typography variant="body" className="text-gray-600 mb-6">
+                        {t('notFound.description', 'The batch ID you entered was not found. Please check and try again.')}
+                    </Typography>
+                    <Link to="/trace" className="text-primary hover:text-accent">
+                        {t('notFound.backLink', '← Back to Traceability')}
+                    </Link>
+                </Section>
+            </div>
+        );
+    }
+
+    const isPreview = !batchId;
 
     return (
         <main className="text-text-dark font-sans">
-            {/* Hero Section */}
-            <Section
-                fullHeight={true}
-                className="flex items-center justify-center text-center min-h-[60vh] bg-gradient-to-b from-primary/10 to-transparent"
-            >
-                <div className="max-w-3xl px-6 sm:px-8 py-12">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6 }}
-                    >
-                        <Typography
-                            variant="subhead"
-                            className="uppercase tracking-widest text-primary mb-4"
-                        >
-                            {t("page.title")}
-                        </Typography>
-                        <Typography
-                            variant="h1"
-                            className="text-4xl md:text-5xl lg:text-6xl font-display text-text-dark mb-6"
-                        >
-                            {batch.BatchID}
-                        </Typography>
-                        <Typography
-                            variant="lead"
-                            className="text-text-dark max-w-2xl mx-auto"
-                        >
-                            {t("page.description")}
-                        </Typography>
-                        {isPreview && (
-                            <motion.div
-                                className="bg-yellow-100 text-yellow-800 p-3 rounded-xl mt-4 border border-yellow-300 backdrop-blur-sm"
-                                initial={{ scale: 0.9 }}
-                                animate={{ scale: 1 }}
-                                transition={{ delay: 0.3 }}
-                            >
-                                {t("batch.previewNotice")}
-                            </motion.div>
-                        )}
-                    </motion.div>
-                </div>
-            </Section>
+            {/* Hero */}
+            <Section className="flex items-center justify-center text-center min-h-[40vh] bg-gradient-to-b from-primary/10 to-transparent">
+                <motion.div className="max-w-3xl px-6 sm:px-8 py-12" variants={fadeIn} initial="hidden" animate="visible">
+                    <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-4">
+                        {t('page.title')}
+                    </Typography>
+                    <Typography variant="h1" className="text-4xl md:text-5xl lg:text-6xl font-display text-text-dark mb-6">
+                        {batch.batchId}
+                    </Typography>
+                    <Typography variant="lead" className="text-text-dark max-w-2xl mx-auto">
+                        {t('page.description')}
+                    </Typography>
 
-            {/* Scroll indicator */}
-            <motion.div
-                className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-                animate={{ y: [0, 10, 0] }}
-                transition={{ duration: 2, repeat: Infinity }}
-            >
-                <div className="w-6 h-10 border-2 border-primary rounded-full flex justify-center">
-                    <div className="w-1 h-3 bg-primary rounded-full mt-2"></div>
-                </div>
-            </motion.div>
-
-            {/* Intro/About Section */}
-            <Section fullHeight={false} className="py-16 text-center">
-                <div className="max-w-4xl mx-auto px-6">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6 }}
-                    >
-                        <Typography variant="h2" className="text-4xl font-bold text-primary mb-4">
-                            {t("page.title")}
-                        </Typography>
-                        <Typography variant="h5" className="text-primary-dark mb-4">
-                            {t("page.subtitle")}
-                        </Typography>
-                        <Typography variant="lead" className="text-text-dark max-w-3xl mx-auto">
-                            {t("page.about")}
-                        </Typography>
-                    </motion.div>
-                </div>
-            </Section>
-
-            {/* Batch Details Card */}
-            <Section className="py-16">
-                <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <motion.div
-                        className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 rounded-3xl shadow-xl p-8 transform-gpu"
-                        style={{
-                            transformStyle: 'preserve-3d',
-                            perspective: '1000px',
-                        }}
-                        whileHover={{
-                            y: -5,
-                            scale: 1.01,
-                            rotateY: 1,
-                            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
-                            transition: { duration: 0.3 }
-                        }}
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6 }}
-                    >
-                        {/* 3D edge effect */}
-                        <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px] hover:translate-z-[-10px] transition-all duration-500" />
-
-                        {/* Glassy overlay */}
-                        <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40 hover:opacity-60 transition-opacity duration-500" />
-
-                        {/* Inner shadow effect */}
-                        <div className="absolute inset-0 rounded-3xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
-
-                        {/* Subtle background pattern */}
-                        <div className="absolute inset-0 rounded-3xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
-
-                        <div className="relative z-10">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <motion.div
-                                    initial={{ opacity: 0, x: -20 }}
-                                    whileInView={{ opacity: 1, x: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ duration: 0.4, delay: 0.1 }}
-                                >
-                                    <Typography variant="h5" className="font-bold text-primary mb-2">
-                                        {t("batch.harvestDate")}
-                                    </Typography>
-                                    <Typography variant="body" className="bg-white/30 backdrop-blur-sm p-3 rounded-xl border border-white/20">
-                                        {batch.HarvestDate}
-                                    </Typography>
-                                </motion.div>
-                                <motion.div
-                                    initial={{ opacity: 0, x: 20 }}
-                                    whileInView={{ opacity: 1, x: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ duration: 0.4, delay: 0.2 }}
-                                >
-                                    <Typography variant="h5" className="font-bold text-primary mb-2">
-                                        {t("batch.farmLocation")}
-                                    </Typography>
-                                    <Typography variant="body" className="bg-white/30 backdrop-blur-sm p-3 rounded-xl border border-white/20">
-                                        {batch.FarmLocation}
-                                    </Typography>
-                                </motion.div>
-                                <motion.div
-                                    initial={{ opacity: 0, x: -20 }}
-                                    whileInView={{ opacity: 1, x: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ duration: 0.4, delay: 0.25 }}
-                                >
-                                    <Typography variant="h5" className="font-bold text-primary mb-2">
-                                        {t("batch.destinationLocation")}
-                                    </Typography>
-                                    <Typography variant="body" className="bg-white/30 backdrop-blur-sm p-3 rounded-xl border border-white/20">
-                                        {batch.DestinationLocation}
-                                    </Typography>
-                                </motion.div>
-                                <motion.div
-                                    initial={{ opacity: 0, x: 20 }}
-                                    whileInView={{ opacity: 1, x: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ duration: 0.4, delay: 0.3 }}
-                                >
-                                    <Typography variant="h5" className="font-bold text-primary mb-2">
-                                        {t("batch.receivingCompany")}
-                                    </Typography>
-                                    <Typography variant="body" className="bg-white/30 backdrop-blur-sm p-3 rounded-xl border border-white/20">
-                                        {batch.ReceivingCompany}
-                                    </Typography>
-                                </motion.div>
-                                <motion.div
-                                    className="md:col-span-2"
-                                    initial={{ opacity: 0, y: 20 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ duration: 0.4, delay: 0.3 }}
-                                >
-                                    <Typography variant="h5" className="font-bold text-primary mb-2">
-                                        {t("batch.processingInfo")}
-                                    </Typography>
-                                    <Typography variant="body" className="bg-white/30 backdrop-blur-sm p-3 rounded-xl border border-white/20">
-                                        {batch.ProcessingInfo}
-                                    </Typography>
-                                </motion.div>
-                                <motion.div
-                                    initial={{ opacity: 0, y: 20 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ duration: 0.4, delay: 0.4 }}
-                                >
-                                    <Typography variant="h5" className="font-bold text-primary mb-2">
-                                        {t("batch.certifications")}
-                                    </Typography>
-                                    <div className="flex flex-wrap gap-2">
-                                        {batch.Certifications.map((cert, idx) => (
-                                            <motion.span
-                                                key={idx}
-                                                className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-primary/20 text-primary backdrop-blur-sm border border-primary/30 transform-gpu hover:scale-105 transition-transform duration-300"
-                                                whileHover={{ scale: 1.05, y: -2 }}
-                                                transition={{ type: 'spring', stiffness: 400 }}
-                                            >
-                                                {cert}
-                                            </motion.span>
-                                        ))}
-                                    </div>
-                                </motion.div>
-                                <motion.div
-                                    initial={{ opacity: 0, y: 20 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ duration: 0.4, delay: 0.5 }}
-                                >
-                                    <Typography variant="h5" className="font-bold text-primary mb-2">
-                                        {t("batch.qualityCheckResults")}
-                                    </Typography>
-                                    <Typography variant="body" className="bg-white/30 backdrop-blur-sm p-3 rounded-xl border border-white/20">
-                                        {batch.QualityCheckResults}
-                                    </Typography>
-                                </motion.div>
-                            </div>
-
-                            {/* Preview All Batches */}
-                            <motion.div
-                                className="mt-12"
-                                initial={{ opacity: 0 }}
-                                whileInView={{ opacity: 1 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.6, delay: 0.6 }}
-                            >
-                                <Typography variant="h3" className="text-2xl font-bold text-primary mb-6 text-center">
-                                    {t("batch.previewAllBatches")}
-                                </Typography>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                                    {simulatedBatches.map((b, index) => (
-                                        <motion.button
-                                            key={b.BatchID}
-                                            onClick={() => navigate(`/trace?batchId=${b.BatchID}`)}
-                                            className="relative bg-white/20 backdrop-blur-md border border-white/30 rounded-xl shadow p-4 hover:shadow-lg transition flex flex-col items-center text-center transform-gpu group"
-                                            style={{
-                                                transformStyle: 'preserve-3d',
-                                            }}
-                                            whileHover={{
-                                                y: -5,
-                                                scale: 1.03,
-                                                boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)',
-                                            }}
-                                            initial={{ opacity: 0, y: 20 }}
-                                            whileInView={{ opacity: 1, y: 0 }}
-                                            viewport={{ once: true }}
-                                            transition={{ duration: 0.4, delay: 0.1 * index }}
-                                        >
-                                            {/* Glassy effect for batch cards */}
-                                            <div className="absolute inset-0 rounded-xl bg-gradient-to-b from-white/10 to-transparent opacity-50 group-hover:opacity-70 transition-opacity duration-300" />
-                                            <div className="relative z-10">
-                                                <Typography variant="h5" className="font-bold text-primary mb-2">
-                                                    {b.BatchID}
-                                                </Typography>
-                                                <Typography variant="body-sm" className="text-gray-700">
-                                                    {b.HarvestDate}
-                                                </Typography>
-                                                <Typography variant="body-sm" className="text-gray-500 mt-1">
-                                                    {b.FarmLocation}
-                                                </Typography>
-                                            </div>
-                                        </motion.button>
-                                    ))}
-                                </div>
-                            </motion.div>
-
-                            <motion.div
-                                className="mt-8 text-center"
-                                initial={{ opacity: 0 }}
-                                whileInView={{ opacity: 1 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.6, delay: 0.8 }}
-                            >
-                                <Link
-                                    to="/"
-                                    className="bg-primary hover:bg-dark-orange text-white px-6 py-2 rounded-full transition-colors transform-gpu hover:scale-105"
-                                >
-                                    {t("batch.backToHome")}
-                                </Link>
-                            </motion.div>
+                    {/* Search Bar */}
+                    <form onSubmit={handleSearch} className="mt-8 max-w-md mx-auto">
+                        <div className="relative">
+                            <FaSearch className="absolute left-4 top-3.5 text-gray-400" />
+                            <input
+                                type="text"
+                                placeholder={t('search.placeholder', 'Enter Batch ID...')}
+                                value={searchInput}
+                                onChange={(e) => setSearchInput(e.target.value)}
+                                className="w-full pl-11 pr-4 py-3 rounded-full border border-gray-300 bg-white/70 backdrop-blur-md text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                            />
                         </div>
-                    </motion.div>
-                </div>
+                    </form>
+
+                    {isPreview && (
+                        <motion.div className="bg-amber-50/80 text-amber-700 px-4 py-2 rounded-full mt-4 inline-block text-sm border border-amber-200"
+                                    initial={{ scale: 0.9 }} animate={{ scale: 1 }} transition={{ delay: 0.3 }}>
+                            {t('batch.previewNotice')}
+                        </motion.div>
+                    )}
+                </motion.div>
             </Section>
-            {/* B2B Testimonials Section */}
-            <Section className="py-20">
-                <div className="max-w-6xl mx-auto px-4">
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={fadeIn}
-                        transition={{ duration: 0.7 }}
-                        className="text-center mb-12"
-                    >
-                        <Typography variant="h2" className="text-4xl font-bold text-primary mb-2">
-                            {t("testimonials.title")}
+
+            {/* Farm-to-Fork Journey Map */}
+            <Section className="py-16">
+                <div className="max-w-5xl mx-auto px-4 sm:px-6">
+                    <motion.div className="text-center mb-12" variants={fadeIn} initial="hidden" whileInView="visible" viewport={{ once: true }}>
+                        <Typography variant="h2" className="text-primary mb-4">
+                            {t('journey.title', "Your Order's Journey")}
                         </Typography>
                         <Typography variant="lead" className="text-text-dark max-w-2xl mx-auto">
-                            {t("testimonials.subtitle")}
+                            {t('journey.subtitle', 'Follow your cashews from our farm in Odienné to your doorstep.')}
                         </Typography>
                     </motion.div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        <TestimonialCard
-                            icon={FaGlobeEurope}
-                            quote={t('testimonials.europe.quote')}
-                            name={t('testimonials.europe.name')}
-                            position={t('testimonials.europe.position')}
-                            region={t('testimonials.europe.region')}
-                            iconAria={t('testimonials.europe.iconAria')}
-                        />
-                        <TestimonialCard
-                            icon={FaGlobeAmericas}
-                            quote={t('testimonials.americas.quote')}
-                            name={t('testimonials.americas.name')}
-                            position={t('testimonials.americas.position')}
-                            region={t('testimonials.americas.region')}
-                            iconAria={t('testimonials.americas.iconAria')}
-                        />
-                        <TestimonialCard
-                            icon={FaGlobeAsia}
-                            quote={t('testimonials.asia.quote')}
-                            name={t('testimonials.asia.name')}
-                            position={t('testimonials.asia.position')}
-                            region={t('testimonials.asia.region')}
-                            iconAria={t('testimonials.asia.iconAria')}
-                        />
-                        <TestimonialCard
-                            icon={FaBuilding}
-                            quote={t('testimonials.france.quote')}
-                            name={t('testimonials.france.name')}
-                            position={t('testimonials.france.position')}
-                            region={t('testimonials.france.region')}
-                            iconAria={t('testimonials.france.iconAria')}
-                        />
-                        <TestimonialCard
-                            icon={FaIndustry}
-                            quote={t('testimonials.italy.quote')}
-                            name={t('testimonials.italy.name')}
-                            position={t('testimonials.italy.position')}
-                            region={t('testimonials.italy.region')}
-                            iconAria={t('testimonials.italy.iconAria')}
-                        />
-                        <TestimonialCard
-                            icon={FaStore}
-                            quote={t('testimonials.me.quote')}
-                            name={t('testimonials.me.name')}
-                            position={t('testimonials.me.position')}
-                            region={t('testimonials.me.region')}
-                            iconAria={t('testimonials.me.iconAria')}
-                        />
+
+                    <div className="relative">
+                        <div className="hidden md:block absolute left-0 right-0 top-12 h-1 bg-gradient-to-r from-primary via-accent to-primary opacity-30 rounded-full" />
+
+                        <div className="grid grid-cols-1 md:grid-cols-5 gap-4 md:gap-2">
+                            {[
+                                { icon: FaTree, title: t('journey.farm', 'Farm'), detail: batch.farmLocation, description: batch.block ? t('journey.farmDesc', 'Block {block}', { block: batch.block }) : '', color: 'primary' },
+                                { icon: FaIndustry, title: t('journey.process', 'Process'), detail: batch.processingInfo, description: batch.qualityGrade ? t('journey.processDesc', 'Grade: {grade}', { grade: batch.qualityGrade }) : '', color: 'accent' },
+                                { icon: FaCertificate, title: t('journey.certify', 'Certify'), detail: batch.certifications?.join(', ') || '', description: t('journey.certifyDesc', '{count} certifications', { count: batch.certifications?.length || 0 }), color: 'primary' },
+                                { icon: FaTruck, title: t('journey.ship', 'Ship'), detail: batch.destination, description: t('journey.shipDesc', 'Via Abidjan Port'), color: 'accent' },
+                                { icon: FaBuilding, title: t('journey.deliver', 'Deliver'), detail: batch.buyer || batch.destination, description: batch.status === 'Delivered' ? t('journey.delivered', 'Delivered') : t('journey.inTransit', 'In Transit'), color: 'primary' },
+                            ].map((step, i) => (
+                                <motion.div key={i} className="relative flex flex-col items-center text-center group"
+                                            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.15 }}>
+                                    <motion.div className={`relative w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center shadow-lg mb-4 z-10 border-4 ${step.color === 'primary' ? 'bg-primary/10 border-primary text-primary' : 'bg-accent/10 border-accent text-accent'}`}
+                                                whileHover={{ scale: 1.1, rotate: 5 }}>
+                                        <div className="absolute inset-0 rounded-full border-2 border-white/20" />
+                                        <step.icon className="text-2xl relative z-10" />
+                                    </motion.div>
+                                    <div className={`absolute top-0 right-0 md:right-2 w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-bold ${step.color === 'primary' ? 'bg-primary' : 'bg-accent'}`}>{i + 1}</div>
+                                    <Typography variant="h5" className="font-bold text-primary mb-1">{step.title}</Typography>
+                                    <Typography variant="small" className="text-gray-600 font-medium mb-1">{step.detail}</Typography>
+                                    <Typography variant="small" className="text-gray-400 text-xs">{step.description}</Typography>
+                                    {i < 4 && <div className="md:hidden flex justify-center my-2"><FaArrowDown className="text-primary/40" /></div>}
+                                </motion.div>
+                            ))}
+                        </div>
                     </div>
+
+                    {/* Batch Info Summary Card */}
+                    <motion.div className="mt-12 relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl p-6 max-w-2xl mx-auto"
+                                variants={fadeIn} initial="hidden" whileInView="visible" viewport={{ once: true }}>
+                        <div className="absolute inset-0 rounded-2xl border-2 border-white/20" />
+                        <div className="relative z-10">
+                            <Typography variant="h4" className="text-primary mb-4 text-center">
+                                {t('batchSummary.title', 'Batch Verification')}
+                            </Typography>
+                            <div className="grid grid-cols-2 gap-4 text-sm">
+                                <div><span className="text-gray-500">{t('batchSummary.batchId', 'Batch ID')}:</span><span className="font-mono font-bold text-primary ml-2">{batch.batchId}</span></div>
+                                <div><span className="text-gray-500">{t('batchSummary.harvestDate', 'Harvested')}:</span><span className="font-medium ml-2">{new Date(batch.harvestDate).toLocaleDateString()}</span></div>
+                                <div><span className="text-gray-500">{t('batchSummary.quality', 'Quality')}:</span><span className="font-medium ml-2">{batch.qualityResults || batch.qualityGrade || '—'}</span></div>
+                                <div>
+                                    <span className="text-gray-500">{t('batchSummary.status', 'Status')}:</span>
+                                    <span className={`font-medium ml-2 flex items-center gap-1 ${batch.status === 'Delivered' ? 'text-green-600' : 'text-amber-600'}`}>
+                                        <FaCheckCircle className="text-xs" />
+                                        {batch.status}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </motion.div>
                 </div>
             </Section>
 
-            {/* CTA Section - Enhanced with Glassy 3D */}
-            <Section className="py-16 text-text-dark">
-                <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 text-center">
-                    <motion.div
-                        className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-3xl shadow-xl p-8 md:p-12 transform-gpu group"
-                        style={{
-                            transformStyle: 'preserve-3d',
-                            perspective: '1000px',
-                        }}
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={fadeIn}
-                        whileHover={{
-                            y: -8,
-                            scale: 1.02,
-                            rotateY: 3,
-                            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
-                            transition: { duration: 0.3 }
-                        }}
-                    >
-                        {/* 3D edge effect */}
-                        <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
-
-                        {/* Glassy overlay */}
-                        <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
-
-                        {/* Inner shadow effect */}
-                        <div className="absolute inset-0 rounded-3xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] group-hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
-
-                        {/* Subtle background pattern */}
-                        <div className="absolute inset-0 rounded-3xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
-
-                        <div className="relative z-10">
-                            <Typography variant="h2" className="text-3xl md:text-4xl font-bold text-primary mb-6">
-                                {t("cta.title")}
-                            </Typography>
-                            <Typography variant="lead" className="text-text-dark max-w-3xl mx-auto mb-8">
-                                {t("cta.subtitle")}
-                            </Typography>
-                            <motion.div
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                                transition={{ type: 'spring', stiffness: 400 }}
-                            >
-                                <Link
-                                    to="/contact"
-                                    className="inline-flex items-center bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-4 rounded-full transition-all duration-300 shadow-lg transform-gpu hover:scale-105 group/btn"
-                                >
-                        <span className="font-medium text-lg">
-                            {t("cta.button")}
-                        </span>
-                                    <svg
-                                        className="ml-2 w-5 h-5 transform group-hover/btn:translate-x-1 transition-transform duration-300"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        viewBox="0 0 24 24"
-                                    >
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                                    </svg>
-                                </Link>
-                            </motion.div>
+            {/* All Batches Grid */}
+            {allBatches.length > 1 && (
+                <Section className="py-10">
+                    <div className="max-w-4xl mx-auto px-4 sm:px-6">
+                        <Typography variant="h3" className="text-2xl font-bold text-primary mb-6 text-center">
+                            {t('batch.previewAllBatches')}
+                        </Typography>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                            {allBatches.map((b, index) => (
+                                <motion.button key={b.batchId}
+                                               onClick={() => navigate(`/trace?batchId=${b.batchId}`)}
+                                               className="relative bg-white/20 backdrop-blur-md border border-white/30 rounded-xl shadow p-4 hover:shadow-lg transition flex flex-col items-center text-center group"
+                                               whileHover={{ y: -5, scale: 1.03 }}
+                                               initial={{ opacity: 0, y: 20 }}
+                                               whileInView={{ opacity: 1, y: 0 }}
+                                               viewport={{ once: true }}
+                                               transition={{ duration: 0.4, delay: 0.1 * index }}>
+                                    <div className="absolute inset-0 rounded-xl bg-gradient-to-b from-white/10 to-transparent opacity-50 group-hover:opacity-70" />
+                                    <div className="relative z-10">
+                                        <Typography variant="h5" className="font-bold text-primary mb-2">{b.batchId}</Typography>
+                                        <Typography variant="body-sm" className="text-gray-700">{new Date(b.harvestDate).toLocaleDateString()}</Typography>
+                                        <Typography variant="body-sm" className="text-gray-500 mt-1">{b.farmLocation}</Typography>
+                                        <span className={`inline-block mt-2 px-2 py-0.5 rounded-full text-xs font-medium ${b.status === 'Delivered' ? 'bg-green-100 text-green-700' : 'bg-amber-100 text-amber-700'}`}>{b.status}</span>
+                                    </div>
+                                </motion.button>
+                            ))}
                         </div>
-                    </motion.div>
+                    </div>
+                </Section>
+            )}
+
+            {/* CTA */}
+            <Section className="py-16">
+                <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
+                    <InfoCard icon={FaMapMarkerAlt} title={t('cta.title')} iconColor="text-accent" variant="primary" showInfoBadge={false} className="text-center">
+                        <Typography variant="body" className="text-gray-600 mb-6">{t('cta.subtitle')}</Typography>
+                        <Link to="/contact" className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-3 rounded-full inline-flex items-center gap-2 font-medium shadow-md">
+                            {t('cta.button')}
+                        </Link>
+                    </InfoCard>
                 </div>
             </Section>
         </main>
