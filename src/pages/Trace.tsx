@@ -82,16 +82,40 @@ const TracePage: React.FC = () => {
 
     useEffect(() => {
         const fetchData = async () => {
+            // Reset batch when navigating without batchId
+            if (!batchId) {
+                setBatch(null);
+                setLoading(false);
+
+                // Still fetch all batches and testimonials for the promo page
+                try {
+                    const allResponse = await fetch('/.netlify/functions/trace');
+                    const allData = await allResponse.json();
+                    setAllBatches(allData.batches || []);
+                } catch (error) {
+                    console.error('Error fetching batch data:', error);
+                }
+
+                try {
+                    const testimonialsResponse = await fetch('/.netlify/functions/blog?contentType=testimonial');
+                    const testimonialsData = await testimonialsResponse.json();
+                    setTestimonials(testimonialsData.posts || []);
+                } catch (error) {
+                    console.error('Error fetching testimonials:', error);
+                }
+                return;
+            }
+
+            // Fetch specific batch
+            setLoading(true);
             try {
                 const allResponse = await fetch('/.netlify/functions/trace');
                 const allData = await allResponse.json();
                 setAllBatches(allData.batches || []);
 
-                if (batchId) {
-                    const response = await fetch(`/.netlify/functions/trace?batchId=${encodeURIComponent(batchId)}`);
-                    const data = await response.json();
-                    setBatch(data.batch);
-                }
+                const response = await fetch(`/.netlify/functions/trace?batchId=${encodeURIComponent(batchId)}`);
+                const data = await response.json();
+                setBatch(data.batch);
             } catch (error) {
                 console.error('Error fetching batch data:', error);
             } finally {
@@ -465,22 +489,31 @@ const TracePage: React.FC = () => {
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 space-y-6">
                     {batch?.overallScore ? (
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div className="bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl p-6">
-                                <Typography variant="h4" className="text-primary mb-4 text-center">{t('quality.metrics', 'Quality Metrics')}</Typography>
-                                <div className="space-y-4">
+                            {/* Quality Metrics Card */}
+                            <InfoCard
+                                icon={FaChartBar}
+                                title={t('quality.metrics', 'Quality Metrics')}
+                                iconColor="text-accent"
+                                variant="primary"
+                                showInfoBadge={false}
+                                className="h-full"
+                            >
+                                <div className="space-y-4 mt-3">
                                     {[
                                         { label: t('quality.moisture'), value: batch.moistureContent, unit: '%', max: 10, color: 'bg-blue-500' },
                                         { label: t('quality.nutCount'), value: batch.nutCount, unit: '', max: 200, color: 'bg-green-500' },
                                         { label: t('quality.kernelRatio'), value: batch.kernelRatio, unit: '%', max: 55, color: 'bg-purple-500' },
                                         { label: t('quality.defectiveRate'), value: batch.defectiveRate, unit: '%', max: 10, color: 'bg-orange-500' },
                                     ].filter(m => m.value != null).map((metric, i) => (
-                                        <div key={i} className="bg-white/40 rounded-xl p-4 border border-white/30">
+                                        <div key={i} className="bg-white/40 rounded-xl p-3 border border-white/30">
                                             <div className="flex justify-between items-center mb-2">
                                                 <Typography variant="small" className="text-gray-700 font-medium">{metric.label}</Typography>
                                                 <Typography variant="small" className="font-bold text-gray-800">{metric.value}{metric.unit}</Typography>
                                             </div>
                                             <div className="w-full bg-gray-200 rounded-full h-2">
-                                                <motion.div className={`h-2 rounded-full ${metric.color}`} initial={{ width: 0 }} whileInView={{ width: `${Math.min((metric.value! / metric.max) * 100, 100)}%` }} viewport={{ once: true }} transition={{ duration: 1, delay: i * 0.2 }} />
+                                                <motion.div className={`h-2 rounded-full ${metric.color}`} initial={{ width: 0 }}
+                                                            whileInView={{ width: `${Math.min((metric.value! / metric.max) * 100, 100)}%` }}
+                                                            viewport={{ once: true }} transition={{ duration: 1, delay: i * 0.2 }} />
                                             </div>
                                         </div>
                                     ))}
@@ -491,53 +524,92 @@ const TracePage: React.FC = () => {
                                         <Typography variant="small" className="text-gray-500">{t('quality.overallScore')}</Typography>
                                     </div>
                                 )}
-                            </div>
-                            <div className="bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl p-6">
-                                <Typography variant="h4" className="text-primary mb-4 text-center">{t('batch.certifications')}</Typography>
-                                <div className="space-y-3">
+                            </InfoCard>
+
+                            {/* Certifications Card */}
+                            <InfoCard
+                                icon={FaCertificate}
+                                title={t('batch.certifications')}
+                                iconColor="text-accent"
+                                variant="accent"
+                                showInfoBadge={false}
+                                className="h-full"
+                            >
+                                <div className="space-y-3 mt-3">
                                     {batch.certifications?.map((cert, i) => (
                                         <div key={i} className="flex items-center gap-3 bg-white/40 rounded-xl p-3">
                                             <FaCertificate className="text-accent" />
                                             <div>
                                                 <Typography variant="small" className="font-medium text-gray-800">{cert}</Typography>
-                                                <Typography variant="small" className="text-green-600 text-xs flex items-center gap-1"><FaCheckCircle className="text-[10px]" /> Verified</Typography>
+                                                <Typography variant="small" className="text-green-600 text-xs flex items-center gap-1">
+                                                    <FaCheckCircle className="text-[10px]" /> Verified
+                                                </Typography>
                                             </div>
                                         </div>
                                     ))}
                                 </div>
-                            </div>
+                            </InfoCard>
                         </div>
                     ) : (
-                        <motion.div className="text-center py-16 bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
-                            <FaChartBar className="text-4xl text-gray-300 mx-auto mb-4" />
-                            <Typography variant="h4" className="text-gray-500 mb-2">{t('quality.comingSoon')}</Typography>
-                            <Typography variant="small" className="text-gray-400 max-w-md mx-auto">{t('quality.comingSoonDesc')}</Typography>
-                        </motion.div>
+                        <InfoCard
+                            icon={FaChartBar}
+                            title={t('quality.comingSoon', 'Quality Metrics Coming Soon')}
+                            iconColor="text-accent"
+                            variant="primary"
+                            showInfoBadge={false}
+                            className="text-center py-12"
+                        >
+                            <Typography variant="body" className="text-gray-400 max-w-md mx-auto">
+                                {t('quality.comingSoonDesc')}
+                            </Typography>
+                        </InfoCard>
                     )}
                 </div>
             )}
 
             {activeTab === 'documents' && (
-                <div className="max-w-4xl mx-auto px-4 sm:px-6 space-y-4">
+                <div className="max-w-4xl mx-auto px-4 sm:px-6 space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {[
-                            { title: t('docs.coo'), icon: FaFileAlt }, { title: t('docs.phyto'), icon: FaLeaf },
-                            { title: t('docs.billOfLading'), icon: FaTruck }, { title: t('docs.packingList'), icon: FaBox },
-                            { title: t('docs.invoice'), icon: FaFileAlt }, { title: t('docs.insurance'), icon: FaShieldAlt },
+                            { title: t('docs.coo'), icon: FaFileAlt, variant: 'primary' as const },
+                            { title: t('docs.phyto'), icon: FaLeaf, variant: 'accent' as const },
+                            { title: t('docs.billOfLading'), icon: FaTruck, variant: 'secondary' as const },
+                            { title: t('docs.packingList'), icon: FaBox, variant: 'primary' as const },
+                            { title: t('docs.invoice'), icon: FaFileAlt, variant: 'accent' as const },
+                            { title: t('docs.insurance'), icon: FaShieldAlt, variant: 'secondary' as const },
                         ].map((doc, i) => (
-                            <motion.div key={i} className="bg-white/50 backdrop-blur-sm rounded-xl p-4 border border-white/30 flex items-center justify-between hover:shadow-md transition" whileHover={{ y: -2 }}>
-                                <div className="flex items-center gap-3"><doc.icon className="text-accent" /><Typography variant="small" className="font-medium text-gray-800">{doc.title}</Typography></div>
-                                <span className="px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-medium">{t('docs.available')}</span>
+                            <motion.div key={i} initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }}>
+                                <InfoCard
+                                    icon={doc.icon}
+                                    title={doc.title}
+                                    subtitle={t('docs.available', 'Available')}
+                                    iconColor="text-accent"
+                                    variant={doc.variant}
+                                    showInfoBadge={false}
+                                    className="h-full"
+                                />
                             </motion.div>
                         ))}
                     </div>
-                    <motion.div className="bg-gradient-to-r from-primary to-accent rounded-2xl p-6 text-white text-center" whileHover={{ y: -2 }}>
-                        <FaFileAlt className="text-2xl mx-auto mb-3" />
-                        <Typography variant="h5" className="font-bold mb-2">{t('docs.compliancePack')}</Typography>
-                        <Typography variant="small" className="text-white/80 mb-4">{t('docs.compliancePackDesc')}</Typography>
-                        <a href="/documents/compliance-pack.pdf" target="_blank" rel="noopener noreferrer" className="bg-white text-primary px-6 py-2 rounded-full font-medium text-sm hover:bg-gray-100 transition inline-flex items-center gap-2">
-                            <FaDownload className="text-xs" />{t('docs.downloadAll')}
-                        </a>
+
+                    {/* Compliance Pack CTA */}
+                    <motion.div initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+                        <InfoCard
+                            icon={FaFileAlt}
+                            title={t('docs.compliancePack', 'Download Complete Compliance Pack')}
+                            iconColor="text-white"
+                            variant="primary"
+                            showInfoBadge={false}
+                            className="text-center bg-gradient-to-r from-primary to-accent !border-primary/30"
+                        >
+                            <Typography variant="small" className="text-white/80 mb-4">
+                                {t('docs.compliancePackDesc')}
+                            </Typography>
+                            <a href="/documents/compliance-pack.pdf" target="_blank" rel="noopener noreferrer"
+                               className="bg-white text-primary px-6 py-2 rounded-full font-medium text-sm hover:bg-gray-100 transition inline-flex items-center gap-2">
+                                <FaDownload className="text-xs" />{t('docs.downloadAll', 'Download All')}
+                            </a>
+                        </InfoCard>
                     </motion.div>
                 </div>
             )}
