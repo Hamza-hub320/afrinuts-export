@@ -1,71 +1,82 @@
 {
   "page": {
     "title": "AfriNuts Batch Traceability",
-    "subtitle": "Track every batch from harvest to processing",
-    "description": "View detailed information about this batch, from harvest to processing and quality checks.",
-    "about": "Our unique traceability system allows you to scan a QR code and instantly see detailed information about each batch: harvest date, farm location, processing method, certifications, and quality checks. This ensures transparency, quality, and trust for our customers and partners."
+    "description": "View detailed information about this batch, from harvest through processing and quality checks."
+  },
+  "promo": {
+    "heading": "Audit-Ready Traceability for Serious Importers",
+    "subheading": "Every AfriNuts shipment comes with a unique traceability code. Scan your QR code or enter your batch ID to see the full journey — from our farm to your door."
+  },
+  "search": {
+    "placeholder": "Enter your Batch ID...",
+    "button": "Trace",
+    "notFound": "Batch \"{id}\" not found. Please check and try again."
+  },
+  "howItWorks": {
+    "title": "How Our Traceability Works",
+    "scan": { "title": "1. Scan the QR Code", "description": "Every bag or container includes a unique QR code linked to its batch." },
+    "trace": { "title": "2. Enter Your Batch ID", "description": "Or type your batch ID above to see your order's full journey." },
+    "view": { "title": "3. View the Full Journey", "description": "From the exact block in Odienné through processing, certification, and delivery." }
+  },
+  "trust": {
+    "title": "How We Verify Traceability",
+    "farm": "Single-origin from our 35-hectare farm in Odienné, Ivory Coast",
+    "batch": "Unique batch IDs tracked from harvest to delivery",
+    "public": "Publicly verifiable — anyone with the batch ID can check",
+    "certs": "Certifications verified and displayed per batch",
+    "origin": "Verified Origin",
+    "originDesc": "GPS coordinates recorded at harvest from our farm in Odienné",
+    "batchTitle": "Batch Recorded",
+    "batchDesc": "Each batch receives a unique ID tracked at every stage",
+    "transparent": "Publicly Visible",
+    "transparentDesc": "Anyone with the batch ID can verify this information"
+  },
+  "promoCta": {
+    "title": "Want This for Your Orders?",
+    "description": "Every AfriNuts Export wholesale order includes traceability. Contact us to place your first order and experience full supply chain transparency.",
+    "button": "Request a Quote"
   },
   "batch": {
     "harvestDate": "Harvest Date",
     "farmLocation": "Farm Location",
-    "processingInfo": "Processing Info",
+    "processingInfo": "Processing Information",
     "certifications": "Certifications",
     "qualityCheckResults": "Quality Check Results",
     "destinationLocation": "Destination Location",
     "receivingCompany": "Receiving Company",
     "previewAllBatches": "Preview All Batches",
-    "backToHome": "Back to Home",
-    "previewNotice": "Previewing default batch (no batchId provided in URL)"
+    "previewNotice": "Default batch preview (no batchId provided in URL)"
   },
-  "testimonials": {
-    "title": "B2B Testimonials",
-    "subtitle": "See what our international and local partners say about working with us.",
-    "europe": {
-      "quote": "Afrinuts’ traceability system gives us full confidence in the supply chain. We can track each batch from the farm to our warehouse, ensuring unmatched quality and transparency for our European clients.",
-      "name": "Anna Müller",
-      "position": "Procurement Manager, EuroNut GmbH",
-      "region": "Germany",
-      "iconAria": "Europe Client"
-    },
-    "americas": {
-      "quote": "The batch-level data and certifications provided by Afrinuts make compliance with US regulations seamless. Our customers value the transparency, and so do we.",
-      "name": "James Smith",
-      "position": "Lead Buyer, NutriTrade Inc.",
-      "region": "USA",
-      "iconAria": "US Client"
-    },
-    "asia": {
-      "quote": "We appreciate Afrinuts’ commitment to quality and traceability. The detailed batch info helps us maintain our premium product standards.",
-      "name": "Mei Lin",
-      "position": "Quality Assurance, AsiaFoods Co.",
-      "region": "Singapore",
-      "iconAria": "Asia Client"
-    },
-    "france": {
-      "quote": "Being able to access real-time data on each cashew batch streamlines our chocolate production and guarantees consistency in taste and safety.",
-      "name": "Luc Moreau",
-      "position": "Production Director, ChocoMakers",
-      "region": "France",
-      "iconAria": "France Client"
-    },
-    "italy": {
-      "quote": "Afrinuts’ transparent supply chain and certifications are a game-changer for our responsible sourcing policy.",
-      "name": "Elena Rossi",
-      "position": "Head of Sourcing, SnackWorks",
-      "region": "Italy",
-      "iconAria": "Italy Client"
-    },
-    "me": {
-      "quote": "Afrinuts’ traceability system allows us to verify each batch with confidence, ensuring consistency and quality for our clients in the Middle East.",
-      "name": "Omar Al-Farsi",
-      "position": "Procurement Manager, NutriCo Middle East",
-      "region": "United Arab Emirates",
-      "iconAria": "Middle East Client"
-    }
+  "batchInfo": {
+    "verified": "Batch Verified"
+  },
+  "journey": {
+    "title": "Your Order's Journey",
+    "subtitle": "Follow your cashews from our farm in Odienné to your door.",
+    "farm": "Farm",
+    "farmDesc": "Harvested from Block {block}",
+    "process": "Processing",
+    "processDesc": "Quality: {grade}",
+    "certify": "Certify",
+    "certifyDesc": "{count} certifications verified",
+    "ship": "Ship",
+    "shipDesc": "Via Port of Abidjan",
+    "deliver": "Deliver",
+    "deliverDesc": "Estimated arrival: {date}",
+    "delivered": "Delivered",
+    "inTransit": "In Transit"
+  },
+  "batchSummary": {
+    "title": "Batch Verification",
+    "batchId": "Batch ID",
+    "harvestDate": "Harvested",
+    "quality": "Quality",
+    "status": "Status",
+    "verified": "Verified"
   },
   "cta": {
-    "title": "Connect with AfriNuts",
-    "subtitle": "Have questions about batch traceability or want to partner with us? Reach out today and experience full transparency from farm to final product.",
+    "title": "Connect With AfriNuts",
+    "subtitle": "Have questions about batch traceability or want to partner with us? Reach out today.",
     "button": "Contact Us"
   }
 }

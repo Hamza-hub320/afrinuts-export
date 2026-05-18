@@ -1,9 +1,40 @@
 {
   "page": {
     "title": "Traçabilité des Lots AfriNuts",
-    "subtitle": "Suivez chaque lot de la récolte à la transformation",
-    "description": "Consultez des informations détaillées sur ce lot, de la récolte à la transformation et aux contrôles qualité.",
-    "about": "Notre système de traçabilité unique vous permet de scanner un code QR et de voir instantanément des informations détaillées sur chaque lot : date de récolte, emplacement de la ferme, méthode de transformation, certifications et contrôles qualité. Cela garantit la transparence, la qualité et la confiance pour nos clients et partenaires."
+    "description": "Consultez des informations détaillées sur ce lot, de la récolte à la transformation et aux contrôles qualité."
+  },
+  "promo": {
+    "heading": "Sachez Exactement D'où Viennent Vos Noix de Cajou",
+    "subheading": "Chaque expédition AfriNuts est accompagnée d'un code de traçabilité unique. Scannez votre QR code ou entrez votre ID de lot pour voir le parcours complet — de notre ferme à votre porte."
+  },
+  "search": {
+    "placeholder": "Entrez votre ID de lot...",
+    "button": "Tracer",
+    "notFound": "Lot \"{id}\" introuvable. Veuillez vérifier et réessayer."
+  },
+  "howItWorks": {
+    "title": "Comment Fonctionne Notre Traçabilité",
+    "scan": { "title": "1. Scannez le QR Code", "description": "Chaque sac ou conteneur comprend un QR code unique lié à son lot." },
+    "trace": { "title": "2. Entrez Votre ID de Lot", "description": "Ou tapez votre ID de lot ci-dessus pour voir le parcours complet de votre commande." },
+    "view": { "title": "3. Voyez le Parcours Complet", "description": "Du bloc exact à Odienné jusqu'à la transformation, la certification et la livraison." }
+  },
+  "trust": {
+    "title": "Comment Nous Vérifions la Traçabilité",
+    "farm": "Origine unique de notre ferme de 35 hectares à Odienné, Côte d'Ivoire",
+    "batch": "IDs de lot uniques suivis de la récolte à la livraison",
+    "public": "Vérifiable publiquement — toute personne avec l'ID de lot peut vérifier",
+    "certs": "Certifications vérifiées et affichées par lot",
+    "origin": "Origine Vérifiée",
+    "originDesc": "Coordonnées GPS enregistrées à la récolte depuis notre ferme à Odienné",
+    "batchTitle": "Lot Enregistré",
+    "batchDesc": "Chaque lot reçoit un ID unique suivi à chaque étape",
+    "transparent": "Visible Publiquement",
+    "transparentDesc": "Toute personne avec l'ID de lot peut vérifier ces informations"
+  },
+  "promoCta": {
+    "title": "Vous Voulez Cela Pour Vos Commandes ?",
+    "description": "Chaque commande en gros d'AfriNuts Export inclut la traçabilité. Contactez-nous pour passer votre première commande et découvrez la transparence totale de la chaîne d'approvisionnement.",
+    "button": "Demander un Devis"
   },
   "batch": {
     "harvestDate": "Date de Récolte",
@@ -14,58 +45,38 @@
     "destinationLocation": "Lieu de Destination",
     "receivingCompany": "Entreprise Destinataire",
     "previewAllBatches": "Aperçu de Tous les Lots",
-    "backToHome": "Retour à l'Accueil",
     "previewNotice": "Aperçu du lot par défaut (aucun batchId fourni dans l'URL)"
   },
-  "testimonials": {
-    "title": "Témoignages B2B",
-    "subtitle": "Découvrez ce que disent nos partenaires internationaux et locaux de leur collaboration avec nous.",
-    "europe": {
-      "quote": "Le système de traçabilité d'Afrinuts nous donne une confiance totale dans la chaîne d'approvisionnement. Nous pouvons suivre chaque lot de la ferme à notre entrepôt, garantissant une qualité et une transparence inégalées pour nos clients européens.",
-      "name": "Anna Müller",
-      "position": "Responsable des Achats, EuroNut GmbH",
-      "region": "Allemagne",
-      "iconAria": "Client Européen"
-    },
-    "americas": {
-      "quote": "Les données au niveau du lot et les certifications fournies par Afrinuts rendent la conformité avec les réglementations américaines transparente. Nos clients apprécient la transparence, et nous aussi.",
-      "name": "James Smith",
-      "position": "Acheteur Principal, NutriTrade Inc.",
-      "region": "États-Unis",
-      "iconAria": "Client Américain"
-    },
-    "asia": {
-      "quote": "Nous apprécions l'engagement d'Afrinuts en faveur de la qualité et de la traçabilité. Les informations détaillées sur les lots nous aident à maintenir nos normes de produits premium.",
-      "name": "Mei Lin",
-      "position": "Assurance Qualité, AsiaFoods Co.",
-      "region": "Singapour",
-      "iconAria": "Client Asiatique"
-    },
-    "france": {
-      "quote": "Pouvoir accéder aux données en temps réel sur chaque lot de noix de cajou rationalise notre production de chocolat et garantit une constance du goût et de la sécurité.",
-      "name": "Luc Moreau",
-      "position": "Directeur de Production, ChocoMakers",
-      "region": "France",
-      "iconAria": "Client Français"
-    },
-    "italy": {
-      "quote": "La chaîne d'approvisionnement transparente et les certifications d'Afrinuts changent la donne pour notre politique d'approvisionnement responsable.",
-      "name": "Elena Rossi",
-      "position": "Responsable de l'Approvisionnement, SnackWorks",
-      "region": "Italie",
-      "iconAria": "Client Italien"
-    },
-    "me": {
-      "quote": "Le système de traçabilité d'Afrinuts nous permet de vérifier chaque lot en toute confiance, garantissant cohérence et qualité pour nos clients au Moyen-Orient.",
-      "name": "Omar Al-Farsi",
-      "position": "Responsable des Achats, NutriCo Moyen-Orient",
-      "region": "Émirats Arabes Unis",
-      "iconAria": "Client du Moyen-Orient"
-    }
+  "batchInfo": {
+    "verified": "Lot Vérifié"
+  },
+  "journey": {
+    "title": "Le Parcours de Votre Commande",
+    "subtitle": "Suivez vos noix de cajou de notre ferme à Odienné jusqu'à votre porte.",
+    "farm": "Ferme",
+    "farmDesc": "Récolté du Bloc {block}",
+    "process": "Transformation",
+    "processDesc": "Qualité: {grade}",
+    "certify": "Certifier",
+    "certifyDesc": "{count} certifications vérifiées",
+    "ship": "Expédier",
+    "shipDesc": "Via le Port d'Abidjan",
+    "deliver": "Livrer",
+    "deliverDesc": "Arrivée estimée: {date}",
+    "delivered": "Livré",
+    "inTransit": "En Transit"
+  },
+  "batchSummary": {
+    "title": "Vérification du Lot",
+    "batchId": "ID de Lot",
+    "harvestDate": "Récolté",
+    "quality": "Qualité",
+    "status": "Statut",
+    "verified": "Vérifié"
   },
   "cta": {
     "title": "Connectez-vous avec AfriNuts",
-    "subtitle": "Vous avez des questions sur la traçabilité des lots ou vous souhaitez vous associer à nous ? Contactez-nous dès aujourd'hui et vivez une transparence totale de la ferme au produit final.",
+    "subtitle": "Vous avez des questions sur la traçabilité des lots ou vous souhaitez vous associer à nous ? Contactez-nous dès aujourd'hui.",
     "button": "Contactez-nous"
   }
 }
