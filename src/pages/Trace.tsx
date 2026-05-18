@@ -10,9 +10,7 @@ import {
     FaCheckCircle, FaSearch, FaMapMarkerAlt, FaClipboardList,
     FaGlobe, FaShieldAlt, FaCalendarAlt, FaFlask, FaEnvelope, FaArrowRight, FaQrcode,
     FaFileAlt, FaGlobeEurope, FaGlobeAmericas, FaGlobeAsia, FaCopy,
-    FaWhatsapp,
-    FaTwitter,
-    FaLinkedin, FaPrint,
+    FaWhatsapp, FaTwitter, FaLinkedin, FaPrint,
     FaArrowLeft, FaShare, FaChartBar, FaDownload, FaLeaf, FaBox
 } from "react-icons/fa";
 import { fadeIn } from "@/utils/animations";
@@ -100,7 +98,6 @@ const TracePage: React.FC = () => {
                 setLoading(false);
             }
 
-            // Fetch testimonials
             try {
                 const testimonialsResponse = await fetch('/.netlify/functions/blog?contentType=testimonial');
                 const testimonialsData = await testimonialsResponse.json();
@@ -127,10 +124,10 @@ const TracePage: React.FC = () => {
         );
     }
 
+    // ========== PROMO PAGE (no batch found) ==========
     if (!batch && !loading) {
         return (
             <main className="text-text-dark font-sans min-h-screen pt-[72px]">
-                {/* Hero */}
                 <Section className="flex items-center justify-center text-center min-h-[40vh]">
                     <motion.div className="max-w-3xl px-6 sm:px-8 py-12" variants={fadeIn} initial="hidden" animate="visible">
                         <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-4">
@@ -140,23 +137,17 @@ const TracePage: React.FC = () => {
                             {t('promo.heading', 'Audit-Ready Traceability for Serious Importers')}
                         </Typography>
                         <Typography variant="lead" className="text-text-dark max-w-2xl mx-auto">
-                            {t('promo.subheading', 'Every AfriNuts shipment comes with a unique traceability code. Scan your QR code or enter your batch ID to see the full journey — from our farm to your doorstep.')}
+                            {t('promo.subheading', 'Every AfriNuts shipment comes with a unique traceability code. Scan your QR code or enter your batch ID to see the full journey.')}
                         </Typography>
                     </motion.div>
                 </Section>
 
-                {/* Search Bar */}
                 <Section className="py-8">
                     <div className="max-w-xl mx-auto px-4 sm:px-6">
                         <form onSubmit={handleSearch} className="relative">
                             <FaSearch className="absolute left-4 top-3.5 text-gray-400" />
-                            <input
-                                type="text"
-                                placeholder={t('search.placeholder', 'Enter your Batch ID...')}
-                                value={searchInput}
-                                onChange={(e) => setSearchInput(e.target.value)}
-                                className="w-full pl-12 pr-4 py-3.5 rounded-full border border-gray-300 bg-white/70 backdrop-blur-md text-sm focus:outline-none focus:ring-2 focus:ring-primary shadow-sm"
-                            />
+                            <input type="text" placeholder={t('search.placeholder', 'Enter your Batch ID...')} value={searchInput} onChange={(e) => setSearchInput(e.target.value)}
+                                   className="w-full pl-12 pr-20 py-3.5 rounded-full border border-gray-300 bg-white/70 backdrop-blur-md text-sm focus:outline-none focus:ring-2 focus:ring-primary shadow-sm" />
                             <button type="submit" className="absolute right-2 top-1/2 -translate-y-1/2 bg-primary text-white px-5 py-1.5 rounded-full text-sm font-medium hover:bg-dark-orange transition">
                                 {t('search.button', 'Trace')}
                             </button>
@@ -164,66 +155,33 @@ const TracePage: React.FC = () => {
                         {batchId && (
                             <motion.div className="mt-4 text-center" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                                 <Typography variant="small" className="text-amber-600 bg-amber-50/80 px-4 py-2 rounded-full inline-block">
-                                    {t('search.notFound', 'Batch "{id}" not found. Please check and try again.', { id: batchId })}
+                                    {t('search.notFound', 'Batch "{id}" not found.', { id: batchId })}
                                 </Typography>
                             </motion.div>
                         )}
                     </div>
-                    {/* Demo CTA */}
-                    <motion.div className="mt-8" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }}>
+                    <motion.div className="mt-8 text-center" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }}>
                         <Typography variant="small" className="text-gray-500 mb-3">
                             {t('demo.note', 'Try it yourself — enter AFN-2026-001 in the search box above')}
                         </Typography>
-                        <button
-                            onClick={() => {
-                                setSearchInput('AFN-2026-001');
-                                navigate('/trace?batchId=AFN-2026-001');
-                            }}
-                            className="relative border-2 border-primary/50 text-primary hover:bg-primary hover:text-white px-6 py-2.5 rounded-full inline-flex items-center gap-2 text-sm font-medium bg-white/30 backdrop-blur-sm transition-all"
-                        >
-                            <FaSearch className="text-sm" />
-                            {t('demo.button', 'View Sample Batch')}
+                        <button onClick={() => { setSearchInput('AFN-2026-001'); navigate('/trace?batchId=AFN-2026-001'); }}
+                                className="relative border-2 border-primary/50 text-primary hover:bg-primary hover:text-white px-6 py-2.5 rounded-full inline-flex items-center gap-2 text-sm font-medium bg-white/30 backdrop-blur-sm transition-all">
+                            <FaSearch className="text-sm" />{t('demo.button', 'View Sample Batch')}
                         </button>
                     </motion.div>
                 </Section>
 
-                {/* How It Works */}
                 <Section className="py-12">
                     <div className="max-w-4xl mx-auto px-4 sm:px-6">
-                        <Typography variant="h2" className="text-primary text-center mb-10">
-                            {t('howItWorks.title', 'How Our Traceability Works')}
-                        </Typography>
+                        <Typography variant="h2" className="text-primary text-center mb-10">{t('howItWorks.title', 'How Our Traceability Works')}</Typography>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             {[
-                                {
-                                    icon: FaQrcode,
-                                    title: t('howItWorks.scan.title', '1. Scan the QR Code'),
-                                    description: t('howItWorks.scan.description', 'Every product bag or container includes a unique QR code linked to its batch.'),
-                                    variant: 'primary' as const,
-                                },
-                                {
-                                    icon: FaSearch,
-                                    title: t('howItWorks.trace.title', '2. Enter Your Batch ID'),
-                                    description: t('howItWorks.trace.description', 'Or type your batch ID above to pull up your order\'s complete journey.'),
-                                    variant: 'accent' as const,
-                                },
-                                {
-                                    icon: FaMapMarkerAlt,
-                                    title: t('howItWorks.view.title', '3. See the Full Journey'),
-                                    description: t('howItWorks.view.description', 'From the exact block in Odienné to processing, certification, and delivery.'),
-                                    variant: 'secondary' as const,
-                                },
+                                { icon: FaQrcode, title: t('howItWorks.scan.title', '1. Scan the QR Code'), description: t('howItWorks.scan.description'), variant: 'primary' as const },
+                                { icon: FaSearch, title: t('howItWorks.trace.title', '2. Enter Your Batch ID'), description: t('howItWorks.trace.description'), variant: 'accent' as const },
+                                { icon: FaMapMarkerAlt, title: t('howItWorks.view.title', '3. See the Full Journey'), description: t('howItWorks.view.description'), variant: 'secondary' as const },
                             ].map((step, i) => (
-                                <motion.div key={i}
-                                            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
-                                    <InfoCard
-                                        icon={step.icon}
-                                        title={step.title}
-                                        iconColor="text-accent"
-                                        variant={step.variant}
-                                        showInfoBadge={false}
-                                        className="h-full text-center"
-                                    >
+                                <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
+                                    <InfoCard icon={step.icon} title={step.title} iconColor="text-accent" variant={step.variant} showInfoBadge={false} className="h-full text-center">
                                         <Typography variant="small" className="text-gray-600">{step.description}</Typography>
                                     </InfoCard>
                                 </motion.div>
@@ -232,23 +190,15 @@ const TracePage: React.FC = () => {
                     </div>
                 </Section>
 
-                {/* Trust Signals */}
                 <Section className="py-10">
                     <div className="max-w-3xl mx-auto px-4 sm:px-6">
-                        <InfoCard
-                            icon={FaShieldAlt}
-                            title={t('trust.title', 'Why You Can Trust Our Traceability')}
-                            iconColor="text-accent"
-                            variant="primary"
-                            showInfoBadge={false}
-                            className="text-center"
-                        >
+                        <InfoCard icon={FaShieldAlt} title={t('trust.title', 'Why You Can Trust Our Traceability')} iconColor="text-accent" variant="primary" showInfoBadge={false} className="text-center">
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-3">
                                 {[
-                                    { icon: FaTree, text: t('trust.farm', 'Single-origin from our 35-hectare farm in Odienné, Ivory Coast') },
-                                    { icon: FaClipboardList, text: t('trust.batch', 'Unique batch IDs tracked from harvest through delivery') },
-                                    { icon: FaGlobe, text: t('trust.public', 'Publicly verifiable — anyone with the batch ID can check') },
-                                    { icon: FaCertificate, text: t('trust.certs', 'Certifications verified and displayed per batch') },
+                                    { icon: FaTree, text: t('trust.farm') },
+                                    { icon: FaClipboardList, text: t('trust.batch') },
+                                    { icon: FaGlobe, text: t('trust.public') },
+                                    { icon: FaCertificate, text: t('trust.certs') },
                                 ].map((item, i) => (
                                     <div key={i} className="flex items-start gap-3 p-3 bg-white/40 rounded-xl text-left">
                                         <item.icon className="text-accent mt-0.5 flex-shrink-0" />
@@ -260,23 +210,12 @@ const TracePage: React.FC = () => {
                     </div>
                 </Section>
 
-                {/* CTA */}
                 <Section className="py-12">
                     <div className="max-w-2xl mx-auto px-4 sm:px-6 text-center">
-                        <InfoCard
-                            icon={FaEnvelope}
-                            title={t('promoCta.title', 'Want This for Your Orders?')}
-                            iconColor="text-accent"
-                            variant="primary"
-                            showInfoBadge={false}
-                            className="text-center"
-                        >
-                            <Typography variant="body" className="text-gray-600 mb-6">
-                                {t('promoCta.description', 'Every wholesale order from AfriNuts Export includes traceability. Contact us to place your first order and experience full supply chain transparency.')}
-                            </Typography>
+                        <InfoCard icon={FaEnvelope} title={t('promoCta.title', 'Want This for Your Orders?')} iconColor="text-accent" variant="primary" showInfoBadge={false} className="text-center">
+                            <Typography variant="body" className="text-gray-600 mb-6">{t('promoCta.description')}</Typography>
                             <Link to="/contact" className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-3 rounded-full inline-flex items-center gap-2 font-medium shadow-md">
-                                {t('promoCta.button', 'Request a Quote')}
-                                <FaArrowRight />
+                                {t('promoCta.button', 'Request a Quote')}<FaArrowRight />
                             </Link>
                         </InfoCard>
                     </div>
@@ -285,6 +224,7 @@ const TracePage: React.FC = () => {
         );
     }
 
+    // ========== BATCH FOUND ==========
     const isPreview = !batchId;
 
     return (
@@ -292,33 +232,20 @@ const TracePage: React.FC = () => {
             {/* Hero */}
             <Section className="flex items-center justify-center text-center min-h-[40vh]">
                 <motion.div className="max-w-3xl px-6 sm:px-8 py-12" variants={fadeIn} initial="hidden" animate="visible">
-                    <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-4">
-                        {t('page.title')}
-                    </Typography>
-                    <Typography variant="h1" className="text-4xl md:text-5xl lg:text-6xl font-display text-text-dark mb-6">
-                        {batch?.batchId}
-                    </Typography>
-                    <Typography variant="lead" className="text-text-dark max-w-2xl mx-auto">
-                        {t('page.description')}
-                    </Typography>
+                    <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-4">{t('page.title')}</Typography>
+                    <Typography variant="h1" className="text-4xl md:text-5xl lg:text-6xl font-display text-text-dark mb-6">{batch?.batchId}</Typography>
+                    <Typography variant="lead" className="text-text-dark max-w-2xl mx-auto">{t('page.description')}</Typography>
 
-                    {/* Search Bar */}
                     <form onSubmit={handleSearch} className="mt-8 max-w-md mx-auto">
                         <div className="relative">
                             <FaSearch className="absolute left-4 top-3.5 text-gray-400" />
-                            <input
-                                type="text"
-                                placeholder={t('search.placeholder', 'Enter your Batch ID...')}
-                                value={searchInput}
-                                onChange={(e) => setSearchInput(e.target.value)}
-                                className="w-full pl-12 pr-20 py-3 rounded-full border border-gray-300 bg-white/70 backdrop-blur-md text-sm focus:outline-none focus:ring-2 focus:ring-primary shadow-sm"
-                            />
+                            <input type="text" placeholder={t('search.placeholder', 'Enter your Batch ID...')} value={searchInput} onChange={(e) => setSearchInput(e.target.value)}
+                                   className="w-full pl-12 pr-20 py-3 rounded-full border border-gray-300 bg-white/70 backdrop-blur-md text-sm focus:outline-none focus:ring-2 focus:ring-primary shadow-sm" />
                             <button type="submit" className="absolute right-2 top-1/2 -translate-y-1/2 bg-primary text-white px-5 py-1.5 rounded-full text-sm font-medium hover:bg-dark-orange transition">
                                 {t('search.button', 'Trace')}
                             </button>
                         </div>
                     </form>
-
                     {isPreview && (
                         <motion.div className="bg-amber-50/80 text-amber-700 px-4 py-2 rounded-full mt-4 inline-block text-sm border border-amber-200"
                                     initial={{ scale: 0.9 }} animate={{ scale: 1 }} transition={{ delay: 0.3 }}>
@@ -328,211 +255,136 @@ const TracePage: React.FC = () => {
                 </motion.div>
             </Section>
 
-            {/* Batch Information & Trust Section */}
-            <Section className="py-16">
+            {/* Batch Information Card */}
+            <Section className="py-12">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <motion.div
-                        className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-3xl shadow-xl p-8 transform-gpu overflow-hidden"
-                        style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
-                        whileHover={{ y: -5, scale: 1.01, boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)', transition: { duration: 0.3 } }}
-                        initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}
-                    >
-                        {/* 3D edge effect */}
+                    <motion.div className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-3xl shadow-xl p-8 transform-gpu overflow-hidden"
+                                style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
+                                whileHover={{ y: -5, scale: 1.01, boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)' }}
+                                initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
                         <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px]" />
                         <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40" />
                         <div className="absolute inset-0 rounded-3xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)]" />
-                        <div className="absolute inset-0 rounded-3xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
 
                         <div className="relative z-10">
-                            {/* Header with Batch ID */}
                             <div className="text-center mb-8">
-                                <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-2">
-                                    {t('batchInfo.verified', 'Verified Batch')}
-                                </Typography>
+                                <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-2">{t('batchInfo.verified', 'Verified Batch')}</Typography>
                                 <div className="inline-flex items-center gap-2 bg-primary/10 px-6 py-2 rounded-full">
                                     <FaCheckCircle className="text-primary" />
                                     <span className="font-mono text-lg font-bold text-primary">{batch?.batchId}</span>
                                 </div>
                             </div>
 
-                            {/* Two Column Grid */}
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                                 {[
                                     { label: t('batch.harvestDate'), value: new Date(batch?.harvestDate || '').toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }), icon: FaCalendarAlt },
-                                    { label: t('batch?.farmLocation'), value: `${batch?.farmLocation}${batch?.block ? ` · ${batch?.block}` : ''}`, icon: FaMapMarkerAlt },
-                                    { label: t('batch?.destinationLocation'), value: batch?.destination, icon: FaTruck },
-                                    { label: t('batch?.receivingCompany'), value: batch?.buyer || '—', icon: FaBuilding },
+                                    { label: t('batch.farmLocation'), value: `${batch?.farmLocation}${batch?.block ? ` · ${batch?.block}` : ''}`, icon: FaMapMarkerAlt },
+                                    { label: t('batch.destinationLocation'), value: batch?.destination, icon: FaTruck },
+                                    { label: t('batch.receivingCompany'), value: batch?.buyer || '—', icon: FaBuilding },
                                 ].map((item, i) => (
-                                    <motion.div key={i}
-                                                className="bg-white/30 backdrop-blur-sm rounded-xl p-4 border border-white/20"
+                                    <motion.div key={i} className="bg-white/30 backdrop-blur-sm rounded-xl p-4 border border-white/20"
                                                 initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
-                                        <div className="flex items-center gap-2 mb-1">
-                                            <item.icon className="text-accent text-sm" />
-                                            <Typography variant="small" className="text-gray-500 font-medium">{item.label}</Typography>
-                                        </div>
+                                        <div className="flex items-center gap-2 mb-1"><item.icon className="text-accent text-sm" /><Typography variant="small" className="text-gray-500 font-medium">{item.label}</Typography></div>
                                         <Typography variant="body" className="font-semibold text-gray-800">{item.value}</Typography>
                                     </motion.div>
                                 ))}
                             </div>
 
-                            {/* Processing & Quality Row */}
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
-                                <motion.div className="bg-white/30 backdrop-blur-sm rounded-xl p-4 border border-white/20"
-                                            initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.4 }}>
-                                    <div className="flex items-center gap-2 mb-1">
-                                        <FaIndustry className="text-accent text-sm" />
-                                        <Typography variant="small" className="text-gray-500 font-medium">{t('batch?.processingInfo')}</Typography>
-                                    </div>
+                                <motion.div className="bg-white/30 backdrop-blur-sm rounded-xl p-4 border border-white/20" initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.4 }}>
+                                    <div className="flex items-center gap-2 mb-1"><FaIndustry className="text-accent text-sm" /><Typography variant="small" className="text-gray-500 font-medium">{t('batch.processingInfo')}</Typography></div>
                                     <Typography variant="body" className="font-semibold text-gray-800">{batch?.processingInfo}</Typography>
                                 </motion.div>
-                                <motion.div className="bg-white/30 backdrop-blur-sm rounded-xl p-4 border border-white/20"
-                                            initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.5 }}>
-                                    <div className="flex items-center gap-2 mb-1">
-                                        <FaFlask className="text-accent text-sm" />
-                                        <Typography variant="small" className="text-gray-500 font-medium">{t('batch?.qualityCheckResults')}</Typography>
-                                    </div>
+                                <motion.div className="bg-white/30 backdrop-blur-sm rounded-xl p-4 border border-white/20" initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.5 }}>
+                                    <div className="flex items-center gap-2 mb-1"><FaFlask className="text-accent text-sm" /><Typography variant="small" className="text-gray-500 font-medium">{t('batch.qualityCheckResults')}</Typography></div>
                                     <Typography variant="body" className="font-semibold text-gray-800">{batch?.qualityResults || batch?.qualityGrade || '—'}</Typography>
                                 </motion.div>
                             </div>
 
-                            {/* Certifications */}
-                            {batch?.certifications && batch?.certifications.length > 0 && (
-                                <motion.div className="mt-5 bg-white/30 backdrop-blur-sm rounded-xl p-4 border border-white/20"
-                                            initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.6 }}>
-                                    <div className="flex items-center gap-2 mb-2">
-                                        <FaCertificate className="text-accent text-sm" />
-                                        <Typography variant="small" className="text-gray-500 font-medium">{t('batch?.certifications')}</Typography>
-                                    </div>
+                            {batch?.certifications && batch.certifications.length > 0 && (
+                                <motion.div className="mt-5 bg-white/30 backdrop-blur-sm rounded-xl p-4 border border-white/20" initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.6 }}>
+                                    <div className="flex items-center gap-2 mb-2"><FaCertificate className="text-accent text-sm" /><Typography variant="small" className="text-gray-500 font-medium">{t('batch.certifications')}</Typography></div>
                                     <div className="flex flex-wrap gap-2">
-                                        {batch?.certifications.map((cert, idx) => (
-                                            <span key={idx} className="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium bg-primary/10 text-primary border border-primary/20">
-                                    {cert}
-                                </span>
+                                        {batch.certifications.map((cert, idx) => (
+                                            <span key={idx} className="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium bg-primary/10 text-primary border border-primary/20">{cert}</span>
                                         ))}
                                     </div>
                                 </motion.div>
                             )}
 
-                            {/* Status Bar */}
-                            <motion.div className="mt-6 flex items-center justify-center gap-3"
-                                        initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.7 }}>
-                    <span className={`px-4 py-2 rounded-full text-sm font-semibold flex items-center gap-2 ${
-                        batch?.status === 'Delivered' ? 'bg-green-100 text-green-700' :
-                            batch?.status === 'Shipped' ? 'bg-blue-100 text-blue-700' :
-                                batch?.status === 'Processing' ? 'bg-amber-100 text-amber-700' :
-                                    'bg-gray-100 text-gray-600'
-                    }`}>
-                        <FaCheckCircle className="text-xs" />
-                        {batch?.status}
-                    </span>
+                            <motion.div className="mt-6 flex items-center justify-center gap-3" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.7 }}>
+                                <span className={`px-4 py-2 rounded-full text-sm font-semibold flex items-center gap-2 ${
+                                    batch?.status === 'Delivered' ? 'bg-green-100 text-green-700' :
+                                        batch?.status === 'Shipped' ? 'bg-blue-100 text-blue-700' :
+                                            batch?.status === 'Processing' ? 'bg-amber-100 text-amber-700' : 'bg-gray-100 text-gray-600'
+                                }`}><FaCheckCircle className="text-xs" />{batch?.status}</span>
                             </motion.div>
                         </div>
                     </motion.div>
                 </div>
             </Section>
 
-                    {/* Action Bar */}
-                    <motion.div
-                        className="flex flex-wrap justify-between items-center gap-3 mb-6"
-                        initial={{ opacity: 0, y: -10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                    >
-                        <Link to="/trace" className="text-primary hover:text-accent flex items-center gap-2 text-sm font-medium">
-                            <FaArrowLeft className="text-xs" />
-                            {t('batch.searchAnother', 'Search Another Batch')}
-                        </Link>
-
-                        <div className="flex gap-2">
-                            {/* Print Button */}
-                            <motion.button
-                                onClick={() => window.print()}
-                                className="px-4 py-2 bg-white/50 backdrop-blur-sm border border-gray-200 rounded-full text-sm font-medium hover:bg-white/80 transition flex items-center gap-2"
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                            >
-                                <FaPrint className="text-xs" />
-                                {t('batch.print', 'Print')}
+            {/* Action Bar */}
+            <div className="max-w-4xl mx-auto px-4 sm:px-6">
+                <motion.div className="flex flex-wrap justify-between items-center gap-3 mb-6" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
+                    <Link to="/trace" className="text-primary hover:text-accent flex items-center gap-2 text-sm font-medium">
+                        <FaArrowLeft className="text-xs" />{t('batch.searchAnother', 'Search Another Batch')}
+                    </Link>
+                    <div className="flex gap-2">
+                        <motion.button onClick={() => window.print()} className="px-4 py-2 bg-white/50 backdrop-blur-sm border border-gray-200 rounded-full text-sm font-medium hover:bg-white/80 transition flex items-center gap-2" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                            <FaPrint className="text-xs" />{t('batch.print', 'Print')}
+                        </motion.button>
+                        <div className="relative">
+                            <motion.button onClick={() => setShowShareMenu(!showShareMenu)} className="px-4 py-2 bg-primary text-white rounded-full text-sm font-medium hover:bg-dark-orange transition flex items-center gap-2" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                                {copied ? <FaCheckCircle className="text-xs" /> : <FaShare className="text-xs" />}
+                                {copied ? t('batch.copied', 'Copied!') : t('batch.share', 'Share')}
                             </motion.button>
-
-                            {/* Share Button with Dropdown */}
-                            <div className="relative">
-                                <motion.button
-                                    onClick={() => setShowShareMenu(!showShareMenu)}
-                                    className="px-4 py-2 bg-primary text-white rounded-full text-sm font-medium hover:bg-dark-orange transition flex items-center gap-2"
-                                    whileHover={{ scale: 1.05 }}
-                                    whileTap={{ scale: 0.95 }}
-                                >
-                                    {copied ? <FaCheckCircle className="text-xs" /> : <FaShare className="text-xs" />}
-                                    {copied ? t('batch.copied', 'Copied!') : t('batch.share', 'Share')}
-                                </motion.button>
-
-                                {showShareMenu && (
-                                    <motion.div
-                                        className="absolute right-0 mt-2 w-44 bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden z-50"
-                                        initial={{ opacity: 0, y: -10 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                    >
-                                        {[
-                                            { icon: FaCopy, label: t('share.copyLink', 'Copy Link'), action: () => handleShare() },
-                                            { icon: FaWhatsapp, label: 'WhatsApp', action: () => handleShare('whatsapp') },
-                                            { icon: FaTwitter, label: 'Twitter', action: () => handleShare('twitter') },
-                                            { icon: FaLinkedin, label: 'LinkedIn', action: () => handleShare('linkedin') },
-                                            { icon: FaEnvelope, label: t('share.email', 'Email'), action: () => handleShare('email') },
-                                        ].map((item, i) => (
-                                            <button key={i} onClick={item.action}
-                                                    className="w-full px-4 py-2.5 text-left hover:bg-gray-50 flex items-center gap-3 text-sm transition">
-                                                <item.icon className="text-gray-500 text-xs" />
-                                                {item.label}
-                                            </button>
-                                        ))}
-                                    </motion.div>
-                                )}
-                            </div>
+                            {showShareMenu && (
+                                <motion.div className="absolute right-0 mt-2 w-44 bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden z-50" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
+                                    {[
+                                        { icon: FaCopy, label: t('share.copyLink', 'Copy Link'), action: () => handleShare() },
+                                        { icon: FaWhatsapp, label: 'WhatsApp', action: () => handleShare('whatsapp') },
+                                        { icon: FaTwitter, label: 'Twitter', action: () => handleShare('twitter') },
+                                        { icon: FaLinkedin, label: 'LinkedIn', action: () => handleShare('linkedin') },
+                                        { icon: FaEnvelope, label: t('share.email', 'Email'), action: () => handleShare('email') },
+                                    ].map((item, i) => (
+                                        <button key={i} onClick={item.action} className="w-full px-4 py-2.5 text-left hover:bg-gray-50 flex items-center gap-3 text-sm transition">
+                                            <item.icon className="text-gray-500 text-xs" />{item.label}
+                                        </button>
+                                    ))}
+                                </motion.div>
+                            )}
                         </div>
-                    </motion.div>
-
-                    {/* Tabs */}
-                    <div className="flex gap-2 mb-6 border-b border-gray-200 overflow-x-auto">
-                        {[
-                            { key: 'journey' as const, icon: FaMapMarkerAlt, label: t('tabs.journey', 'Journey') },
-                            { key: 'quality' as const, icon: FaChartBar, label: t('tabs.quality', 'Quality') },
-                            { key: 'documents' as const, icon: FaFileAlt, label: t('tabs.documents', 'Documents') },
-                        ].map((tab) => (
-                            <motion.button
-                                key={tab.key}
-                                onClick={() => setActiveTab(tab.key)}
-                                className={`flex items-center gap-2 px-4 py-3 text-sm font-medium transition border-b-2 -mb-[2px] whitespace-nowrap ${
-                                    activeTab === tab.key
-                                        ? 'border-primary text-primary'
-                                        : 'border-transparent text-gray-500 hover:text-gray-700'
-                                }`}
-                                whileHover={{ y: -1 }}
-                                whileTap={{ scale: 0.95 }}
-                            >
-                                <tab.icon className="text-xs" />
-                                {tab.label}
-                            </motion.button>
-                        ))}
                     </div>
+                </motion.div>
 
-                    {/* Tab Content */}
-                    {activeTab === 'journey' && (
-                        <>
-                    {/* Farm-to-Fork Curved Journey Map */}
-                    <Section className="py-16">
+                {/* Tabs */}
+                <div className="flex gap-2 mb-6 border-b border-gray-200 overflow-x-auto">
+                    {[
+                        { key: 'journey' as const, icon: FaMapMarkerAlt, label: t('tabs.journey', 'Journey') },
+                        { key: 'quality' as const, icon: FaChartBar, label: t('tabs.quality', 'Quality') },
+                        { key: 'documents' as const, icon: FaFileAlt, label: t('tabs.documents', 'Documents') },
+                    ].map((tab) => (
+                        <motion.button key={tab.key} onClick={() => setActiveTab(tab.key)}
+                                       className={`flex items-center gap-2 px-4 py-3 text-sm font-medium transition border-b-2 -mb-[2px] whitespace-nowrap ${activeTab === tab.key ? 'border-primary text-primary' : 'border-transparent text-gray-500 hover:text-gray-700'}`}
+                                       whileHover={{ y: -1 }} whileTap={{ scale: 0.95 }}>
+                            <tab.icon className="text-xs" />{tab.label}
+                        </motion.button>
+                    ))}
+                </div>
+            </div>
+
+            {/* Tab Content */}
+            {activeTab === 'journey' && (
+                <>
+                    <Section className="py-12">
                         <div className="max-w-4xl mx-auto px-4 sm:px-6">
                             <motion.div className="text-center mb-8" variants={fadeIn} initial="hidden" whileInView="visible" viewport={{ once: true }}>
-                                <Typography variant="h2" className="text-primary mb-4">
-                                    {t('journey.title', "Your Order's Journey")}
-                                </Typography>
-                                <Typography variant="lead" className="text-text-dark max-w-2xl mx-auto">
-                                    {t('journey.subtitle', 'Follow your cashews from our farm in Odienné to your doorstep.')}
-                                </Typography>
+                                <Typography variant="h2" className="text-primary mb-4">{t('journey.title', "Your Order's Journey")}</Typography>
+                                <Typography variant="lead" className="text-text-dark max-w-2xl mx-auto">{t('journey.subtitle')}</Typography>
                             </motion.div>
 
-                            {/* Curved Path Container */}
                             <div className="relative py-8">
-                                {/* Curved SVG Path */}
                                 <svg className="absolute inset-0 w-full h-full hidden md:block" viewBox="0 0 800 200" preserveAspectRatio="none">
                                     <defs>
                                         <linearGradient id="journeyGradient" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -541,323 +393,168 @@ const TracePage: React.FC = () => {
                                             <stop offset="100%" stopColor="#5A7411" stopOpacity="0.3" />
                                         </linearGradient>
                                     </defs>
-                                    <path
-                                        d="M40,100 C200,20 300,180 500,100 C650,40 700,160 760,100"
-                                        fill="none"
-                                        stroke="url(#journeyGradient)"
-                                        strokeWidth="3"
-                                        strokeLinecap="round"
-                                        strokeDasharray="8,4"
-                                    />
+                                    <path d="M40,100 C200,20 300,180 500,100 C650,40 700,160 760,100" fill="none" stroke="url(#journeyGradient)" strokeWidth="3" strokeLinecap="round" strokeDasharray="8,4" />
                                 </svg>
 
-                                {/* Journey Steps */}
                                 <div className="grid grid-cols-1 md:grid-cols-6 gap-6 relative z-10">
                                     {[
-                                        {
-                                            icon: FaTree,
-                                            title: t('journey.farm', 'Farm'),
-                                            detail: batch!.farmLocation,
-                                            description: batch!.block
-                                                ? t('journey.farmDesc', { block: batch!.block, defaultValue: 'Block {block}' })
-                                                : '',
-                                            color: 'primary'
-                                        },
-                                        {
-                                            icon: FaIndustry,
-                                            title: t('journey.process', 'Process'),
-                                            detail: batch!.processingInfo,
-                                            description: batch!.qualityGrade
-                                                ? t('journey.processDesc', { grade: batch!.qualityGrade, defaultValue: 'Grade: {grade}' })
-                                                : '',
-                                            color: 'accent'
-                                        },
-                                        {
-                                            icon: FaCertificate,
-                                            title: t('journey.certify', 'Certify'),
-                                            detail: batch!.certifications?.join(', ') || '',
-                                            description: t('journey.certifyDesc', {
-                                                count: batch!.certifications?.length || 0,
-                                                defaultValue: '{count} certifications verified'
-                                            }),
-                                            color: 'primary'
-                                        },
+                                        { icon: FaTree, title: t('journey.farm', 'Farm'), detail: batch!.farmLocation, description: batch!.block ? t('journey.farmDesc', { block: batch!.block, defaultValue: 'Block {block}' }) : '', color: 'primary' },
+                                        { icon: FaIndustry, title: t('journey.process', 'Process'), detail: batch!.processingInfo, description: batch!.qualityGrade ? t('journey.processDesc', { grade: batch!.qualityGrade, defaultValue: 'Grade: {grade}' }) : '', color: 'accent' },
+                                        { icon: FaCertificate, title: t('journey.certify', 'Certify'), detail: batch!.certifications?.join(', ') || '', description: t('journey.certifyDesc', { count: batch!.certifications?.length || 0, defaultValue: '{count} certifications verified' }), color: 'primary' },
                                         { icon: FaTruck, title: t('journey.ship', 'Ship'), detail: t('journey.shipDesc', 'Via Abidjan Port'), sub: batch!.destination, pos: 'md:mt-2' },
                                         { icon: FaBuilding, title: t('journey.deliver', 'Deliver'), detail: batch!.buyer || batch!.destination, sub: batch!.status === 'Delivered' ? '✓ Delivered' : 'In Transit', pos: 'md:mt-14' },
                                         { icon: FaFileAlt, title: t('journey.docs', 'Docs'), detail: t('journey.docsDetail', 'Export Ready'), sub: t('journey.docsDesc', 'COO, Phyto, B/L'), pos: 'md:mt-6' },
                                     ].map((step, i) => (
-                                        <motion.div
-                                            key={i}
-                                            className={`relative flex flex-col items-center text-center group ${step.pos}`}
-                                            initial={{ opacity: 0, y: 20 }}
-                                            whileInView={{ opacity: 1, y: 0 }}
-                                            viewport={{ once: true }}
-                                            transition={{ delay: i * 0.15 }}
-                                        >
-                                            {/* Curved connector dot */}
+                                        <motion.div key={i} className={`relative flex flex-col items-center text-center group ${step.pos}`} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.15 }}>
                                             <div className="hidden md:block absolute -top-8 left-1/2 w-3 h-3 rounded-full bg-gradient-to-r from-primary to-accent shadow-md" />
-
-                                            {/* Step circle */}
-                                            <motion.div
-                                                className="relative w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center shadow-lg mb-3 z-10 border-3 bg-white/80 backdrop-blur-sm transform-gpu group/step"
-                                                style={{
-                                                    borderColor: i % 2 === 0 ? '#5A7411' : '#E04E00',
-                                                    transformStyle: 'preserve-3d',
-                                                    perspective: '1000px',
-                                                }}
-                                                whileHover={{ scale: 1.15, rotate: 5 }}
-                                            >
-                                                {/* 3D edge effect */}
+                                            <motion.div className="relative w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center shadow-lg mb-3 z-10 border-3 bg-white/80 backdrop-blur-sm transform-gpu group/step"
+                                                        style={{ borderColor: i % 2 === 0 ? '#5A7411' : '#E04E00', transformStyle: 'preserve-3d', perspective: '1000px' }} whileHover={{ scale: 1.15, rotate: 5 }}>
                                                 <div className="absolute inset-0 rounded-full border-2 border-white/30 transform-gpu translate-z-[-4px] group-hover/step:translate-z-[-6px] transition-all duration-500" />
-                                                {/* Glassy overlay */}
                                                 <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50 group-hover/step:opacity-70 transition-opacity duration-300" />
-                                                {/* Inner shadow */}
                                                 <div className="absolute inset-0 rounded-full shadow-[inset_0_1px_4px_rgba(0,0,0,0.08)]" />
                                                 <step.icon className="text-xl md:text-2xl relative z-10" style={{ color: i % 2 === 0 ? '#5A7411' : '#E04E00' }} />
                                             </motion.div>
-
-                                            {/* Step number */}
-                                            <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full flex items-center justify-center text-white text-[10px] font-bold shadow"
-                                                 style={{ background: i % 2 === 0 ? '#5A7411' : '#E04E00' }}>
-                                                {i + 1}
-                                            </div>
-
-                                            {/* Content */}
+                                            <div className="absolute -top-1 -right-1 w-5 h-5 rounded-full flex items-center justify-center text-white text-[10px] font-bold shadow" style={{ background: i % 2 === 0 ? '#5A7411' : '#E04E00' }}>{i + 1}</div>
                                             <Typography variant="small" className="font-bold text-primary leading-tight">{step.title}</Typography>
                                             <Typography variant="small" className="text-gray-600 text-xs leading-tight mt-0.5">{step.detail}</Typography>
                                             <Typography variant="small" className="text-gray-400 text-[10px] leading-tight">{step.sub}</Typography>
                                         </motion.div>
                                     ))}
                                 </div>
-
-                                {/* Mobile - Vertical connector line */}
                                 <div className="md:hidden absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary via-accent to-primary opacity-30" />
                             </div>
                         </div>
                     </Section>
 
-                    {/* Trust Section */}
-                    <motion.div className="mt-8 max-w-2xl mx-auto"
-                                initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
-                        <InfoCard
-                            icon={FaShieldAlt}
-                            title={t('trust.title', 'How We Verify Traceability')}
-                            iconColor="text-accent"
-                            variant="primary"
-                            showInfoBadge={false}
-                            className="text-center"
-                        >
-                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-3">
-                                {[
-                                    { icon: FaMapMarkerAlt, title: t('trust.origin', 'Origin Verified'), desc: t('trust.originDesc', 'GPS coordinates recorded at harvest from our farm in Odienné') },
-                                    { icon: FaClipboardList, title: t('trust.batch', 'Batch Recorded'), desc: t('trust.batchDesc', 'Each batch assigned a unique ID tracked through every stage') },
-                                    { icon: FaGlobe, title: t('trust.transparent', 'Publicly Visible'), desc: t('trust.transparentDesc', 'Anyone with the batch ID can verify this information') },
-                                ].map((item, i) => (
-                                    <div key={i} className="text-center p-3 bg-white/40 rounded-xl">
-                                        <item.icon className="text-accent text-xl mx-auto mb-2" />
-                                        <Typography variant="small" className="font-semibold text-gray-800">{item.title}</Typography>
-                                        <Typography variant="small" className="text-gray-500 text-xs mt-1">{item.desc}</Typography>
-                                    </div>
-                                ))}
-                            </div>
-                            {/* Compliance Pack Link */}
-                            <motion.div className="mt-6 pt-4 border-t border-gray-200/50" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
-                                <Typography variant="small" className="text-gray-500 mb-2">
-                                    {t('compliance.description', 'Every traceable batch comes with full compliance documentation.')}
-                                </Typography>
-                                <a
-                                    href="/documents/compliance-pack.pdf"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="inline-flex items-center gap-2 text-accent hover:text-primary font-medium text-sm transition-colors"
-                                >
-                                    <FaFileAlt className="text-xs" />
-                                    {t('compliance.link', 'Download Compliance Pack')}
-                                </a>
-                            </motion.div>
-                        </InfoCard>
-                    </motion.div>
-
-                    {/* Mini CTA - After batch details */}
                     <div className="max-w-2xl mx-auto px-4 sm:px-6">
-                        <motion.div className="mt-6 text-center"
-                                    initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.5 }}>
-                            <Typography variant="small" className="text-gray-500 mb-3">
-                                {t('ctaQuote.description', 'Every wholesale order includes full traceability. Get your quote today.')}
-                            </Typography>
+                        <motion.div className="mt-8" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
+                            <InfoCard icon={FaShieldAlt} title={t('trust.title', 'How We Verify Traceability')} iconColor="text-accent" variant="primary" showInfoBadge={false} className="text-center">
+                                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-3">
+                                    {[
+                                        { icon: FaMapMarkerAlt, title: t('trust.origin', 'Origin Verified'), desc: t('trust.originDesc') },
+                                        { icon: FaClipboardList, title: t('trust.batch', 'Batch Recorded'), desc: t('trust.batchDesc') },
+                                        { icon: FaGlobe, title: t('trust.transparent', 'Publicly Visible'), desc: t('trust.transparentDesc') },
+                                    ].map((item, i) => (
+                                        <div key={i} className="text-center p-3 bg-white/40 rounded-xl">
+                                            <item.icon className="text-accent text-xl mx-auto mb-2" />
+                                            <Typography variant="small" className="font-semibold text-gray-800">{item.title}</Typography>
+                                            <Typography variant="small" className="text-gray-500 text-xs mt-1">{item.desc}</Typography>
+                                        </div>
+                                    ))}
+                                </div>
+                                <motion.div className="mt-6 pt-4 border-t border-gray-200/50" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
+                                    <Typography variant="small" className="text-gray-500 mb-2">{t('compliance.description')}</Typography>
+                                    <a href="/documents/compliance-pack.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-accent hover:text-primary font-medium text-sm transition-colors">
+                                        <FaFileAlt className="text-xs" />{t('compliance.link', 'Download Compliance Pack')}
+                                    </a>
+                                </motion.div>
+                            </InfoCard>
+                        </motion.div>
+
+                        <motion.div className="mt-6 text-center" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.5 }}>
+                            <Typography variant="small" className="text-gray-500 mb-3">{t('ctaQuote.description')}</Typography>
                             <Link to="/contact" className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-6 py-2.5 rounded-full inline-flex items-center gap-2 text-sm font-medium shadow-md">
-                                <FaEnvelope className="text-xs" />
-                                {t('ctaQuote.button', 'Request a Traceable Batch')}
+                                <FaEnvelope className="text-xs" />{t('ctaQuote.button', 'Request a Traceable Batch')}
                             </Link>
                         </motion.div>
                     </div>
                 </>
-                )}
+            )}
 
-                {activeTab === 'quality' && (
-                    <div className="space-y-6">
-                        {batch?.overallScore ? (
-                            <>
-                                {/* Quality Metrics */}
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    <div className="bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl p-6">
-                                        <Typography variant="h4" className="text-primary mb-4 text-center">
-                                            {t('quality.metrics', 'Quality Metrics')}
-                                        </Typography>
-                                        <div className="space-y-4">
-                                            {[
-                                                { label: t('quality.moisture', 'Moisture Content'), value: batch.moistureContent, unit: '%', max: 10, color: 'bg-blue-500' },
-                                                { label: t('quality.nutCount', 'Nut Count/kg'), value: batch.nutCount, unit: '', max: 200, color: 'bg-green-500' },
-                                                { label: t('quality.kernelRatio', 'Kernel Ratio'), value: batch.kernelRatio, unit: '%', max: 55, color: 'bg-purple-500' },
-                                                { label: t('quality.defectiveRate', 'Defective Rate'), value: batch.defectiveRate, unit: '%', max: 10, color: 'bg-orange-500' },
-                                            ].filter(m => m.value != null).map((metric, i) => (
-                                                <div key={i} className="bg-white/40 rounded-xl p-4 border border-white/30">
-                                                    <div className="flex justify-between items-center mb-2">
-                                                        <Typography variant="small" className="text-gray-700 font-medium">{metric.label}</Typography>
-                                                        <Typography variant="small" className="font-bold text-gray-800">{metric.value}{metric.unit}</Typography>
-                                                    </div>
-                                                    <div className="w-full bg-gray-200 rounded-full h-2">
-                                                        <motion.div
-                                                            className={`h-2 rounded-full ${metric.color}`}
-                                                            initial={{ width: 0 }}
-                                                            whileInView={{ width: `${Math.min((metric.value! / metric.max) * 100, 100)}%` }}
-                                                            viewport={{ once: true }}
-                                                            transition={{ duration: 1, delay: i * 0.2 }}
-                                                        />
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        </div>
-                                        {batch.overallScore && (
-                                            <div className="mt-4 bg-gradient-to-r from-primary/10 to-accent/10 rounded-xl p-4 text-center">
-                                                <Typography variant="h3" className="font-bold text-primary">{batch.overallScore}%</Typography>
-                                                <Typography variant="small" className="text-gray-500">{t('quality.overallScore', 'Overall Quality Score')}</Typography>
+            {activeTab === 'quality' && (
+                <div className="max-w-4xl mx-auto px-4 sm:px-6 space-y-6">
+                    {batch?.overallScore ? (
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div className="bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl p-6">
+                                <Typography variant="h4" className="text-primary mb-4 text-center">{t('quality.metrics', 'Quality Metrics')}</Typography>
+                                <div className="space-y-4">
+                                    {[
+                                        { label: t('quality.moisture'), value: batch.moistureContent, unit: '%', max: 10, color: 'bg-blue-500' },
+                                        { label: t('quality.nutCount'), value: batch.nutCount, unit: '', max: 200, color: 'bg-green-500' },
+                                        { label: t('quality.kernelRatio'), value: batch.kernelRatio, unit: '%', max: 55, color: 'bg-purple-500' },
+                                        { label: t('quality.defectiveRate'), value: batch.defectiveRate, unit: '%', max: 10, color: 'bg-orange-500' },
+                                    ].filter(m => m.value != null).map((metric, i) => (
+                                        <div key={i} className="bg-white/40 rounded-xl p-4 border border-white/30">
+                                            <div className="flex justify-between items-center mb-2">
+                                                <Typography variant="small" className="text-gray-700 font-medium">{metric.label}</Typography>
+                                                <Typography variant="small" className="font-bold text-gray-800">{metric.value}{metric.unit}</Typography>
                                             </div>
-                                        )}
-                                    </div>
-
-                                    {/* Certifications */}
-                                    <div className="bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl p-6">
-                                        <Typography variant="h4" className="text-primary mb-4 text-center">
-                                            {t('batch.certifications')}
-                                        </Typography>
-                                        <div className="space-y-3">
-                                            {batch.certifications?.map((cert, i) => (
-                                                <div key={i} className="flex items-center gap-3 bg-white/40 rounded-xl p-3">
-                                                    <FaCertificate className="text-accent" />
-                                                    <div>
-                                                        <Typography variant="small" className="font-medium text-gray-800">{cert}</Typography>
-                                                        <Typography variant="small" className="text-green-600 text-xs flex items-center gap-1">
-                                                            <FaCheckCircle className="text-[10px]" /> Verified
-                                                        </Typography>
-                                                    </div>
-                                                </div>
-                                            ))}
+                                            <div className="w-full bg-gray-200 rounded-full h-2">
+                                                <motion.div className={`h-2 rounded-full ${metric.color}`} initial={{ width: 0 }} whileInView={{ width: `${Math.min((metric.value! / metric.max) * 100, 100)}%` }} viewport={{ once: true }} transition={{ duration: 1, delay: i * 0.2 }} />
+                                            </div>
                                         </div>
-                                        {batch.labReportUrl && (
-                                            <motion.a
-                                                href={batch.labReportUrl}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="mt-4 inline-flex items-center gap-2 text-accent hover:text-primary font-medium text-sm"
-                                            >
-                                                <FaDownload className="text-xs" />
-                                                {t('quality.downloadReport', 'Download Lab Report')}
-                                            </motion.a>
-                                        )}
-                                    </div>
+                                    ))}
                                 </div>
-                            </>
-                        ) : (
-                            <motion.div className="text-center py-16 bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl"
-                                        initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
-                                <FaChartBar className="text-4xl text-gray-300 mx-auto mb-4" />
-                                <Typography variant="h4" className="text-gray-500 mb-2">
-                                    {t('quality.comingSoon', 'Quality Metrics Coming Soon')}
-                                </Typography>
-                                <Typography variant="small" className="text-gray-400 max-w-md mx-auto">
-                                    {t('quality.comingSoonDesc', 'Detailed quality metrics will be available once testing is complete for this batch.')}
-                                </Typography>
-                            </motion.div>
-                        )}
-                    </div>
-                )}
-
-                {activeTab === 'documents' && (
-                    <div className="space-y-4">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            {[
-                                { title: t('docs.coo', 'Certificate of Origin'), icon: FaFileAlt },
-                                { title: t('docs.phyto', 'Phytosanitary Certificate'), icon: FaLeaf },
-                                { title: t('docs.billOfLading', 'Bill of Lading'), icon: FaTruck },
-                                { title: t('docs.packingList', 'Packing List'), icon: FaBox },
-                                { title: t('docs.invoice', 'Commercial Invoice'), icon: FaFileAlt },
-                                { title: t('docs.insurance', 'Insurance Certificate'), icon: FaShieldAlt },
-                            ].map((doc, i) => (
-                                <motion.div key={i}
-                                            className="bg-white/50 backdrop-blur-sm rounded-xl p-4 border border-white/30 flex items-center justify-between hover:shadow-md transition"
-                                            whileHover={{ y: -2 }}>
-                                    <div className="flex items-center gap-3">
-                                        <doc.icon className="text-accent" />
-                                        <Typography variant="small" className="font-medium text-gray-800">{doc.title}</Typography>
+                                {batch.overallScore && (
+                                    <div className="mt-4 bg-gradient-to-r from-primary/10 to-accent/10 rounded-xl p-4 text-center">
+                                        <Typography variant="h3" className="font-bold text-primary">{batch.overallScore}%</Typography>
+                                        <Typography variant="small" className="text-gray-500">{t('quality.overallScore')}</Typography>
                                     </div>
-                                    <span className="px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-medium">
-                        {t('docs.available', 'Available')}
-                    </span>
-                                </motion.div>
-                            ))}
+                                )}
+                            </div>
+                            <div className="bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl p-6">
+                                <Typography variant="h4" className="text-primary mb-4 text-center">{t('batch.certifications')}</Typography>
+                                <div className="space-y-3">
+                                    {batch.certifications?.map((cert, i) => (
+                                        <div key={i} className="flex items-center gap-3 bg-white/40 rounded-xl p-3">
+                                            <FaCertificate className="text-accent" />
+                                            <div>
+                                                <Typography variant="small" className="font-medium text-gray-800">{cert}</Typography>
+                                                <Typography variant="small" className="text-green-600 text-xs flex items-center gap-1"><FaCheckCircle className="text-[10px]" /> Verified</Typography>
+                                            </div>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
                         </div>
-
-                        <motion.div className="bg-gradient-to-r from-primary to-accent rounded-2xl p-6 text-white text-center" whileHover={{ y: -2 }}>
-                            <FaFileAlt className="text-2xl mx-auto mb-3" />
-                            <Typography variant="h5" className="font-bold mb-2">
-                                {t('docs.compliancePack', 'Download Complete Compliance Pack')}
-                            </Typography>
-                            <Typography variant="small" className="text-white/80 mb-4">
-                                {t('docs.compliancePackDesc', 'All documents in one file for easy sharing with customs and regulators')}
-                            </Typography>
-                            <a href="/documents/compliance-pack.pdf" target="_blank" rel="noopener noreferrer"
-                               className="bg-white text-primary px-6 py-2 rounded-full font-medium text-sm hover:bg-gray-100 transition inline-flex items-center gap-2">
-                                <FaDownload className="text-xs" />
-                                {t('docs.downloadAll', 'Download All')}
-                            </a>
+                    ) : (
+                        <motion.div className="text-center py-16 bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
+                            <FaChartBar className="text-4xl text-gray-300 mx-auto mb-4" />
+                            <Typography variant="h4" className="text-gray-500 mb-2">{t('quality.comingSoon')}</Typography>
+                            <Typography variant="small" className="text-gray-400 max-w-md mx-auto">{t('quality.comingSoonDesc')}</Typography>
                         </motion.div>
+                    )}
+                </div>
+            )}
+
+            {activeTab === 'documents' && (
+                <div className="max-w-4xl mx-auto px-4 sm:px-6 space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {[
+                            { title: t('docs.coo'), icon: FaFileAlt }, { title: t('docs.phyto'), icon: FaLeaf },
+                            { title: t('docs.billOfLading'), icon: FaTruck }, { title: t('docs.packingList'), icon: FaBox },
+                            { title: t('docs.invoice'), icon: FaFileAlt }, { title: t('docs.insurance'), icon: FaShieldAlt },
+                        ].map((doc, i) => (
+                            <motion.div key={i} className="bg-white/50 backdrop-blur-sm rounded-xl p-4 border border-white/30 flex items-center justify-between hover:shadow-md transition" whileHover={{ y: -2 }}>
+                                <div className="flex items-center gap-3"><doc.icon className="text-accent" /><Typography variant="small" className="font-medium text-gray-800">{doc.title}</Typography></div>
+                                <span className="px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-medium">{t('docs.available')}</span>
+                            </motion.div>
+                        ))}
                     </div>
-                )}
+                    <motion.div className="bg-gradient-to-r from-primary to-accent rounded-2xl p-6 text-white text-center" whileHover={{ y: -2 }}>
+                        <FaFileAlt className="text-2xl mx-auto mb-3" />
+                        <Typography variant="h5" className="font-bold mb-2">{t('docs.compliancePack')}</Typography>
+                        <Typography variant="small" className="text-white/80 mb-4">{t('docs.compliancePackDesc')}</Typography>
+                        <a href="/documents/compliance-pack.pdf" target="_blank" rel="noopener noreferrer" className="bg-white text-primary px-6 py-2 rounded-full font-medium text-sm hover:bg-gray-100 transition inline-flex items-center gap-2">
+                            <FaDownload className="text-xs" />{t('docs.downloadAll')}
+                        </a>
+                    </motion.div>
+                </div>
+            )}
 
             {/* B2B Testimonials */}
             {testimonials.length > 0 && (
                 <Section className="py-10">
                     <div className="max-w-4xl mx-auto px-4 sm:px-6">
-                        <Typography variant="h2" className="text-primary text-center mb-8">
-                            {t('testimonials.title', 'Trusted by Importers Worldwide')}
-                        </Typography>
+                        <Typography variant="h2" className="text-primary text-center mb-8">{t('testimonials.title', 'Trusted by Importers Worldwide')}</Typography>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             {testimonials.map((item, i) => {
-                                const regionIcons: Record<string, any> = {
-                                    'Europe': FaGlobeEurope,
-                                    'North America': FaGlobeAmericas,
-                                    'Middle East': FaGlobeAsia,
-                                    'Asia': FaGlobeAsia,
-                                    'Africa': FaGlobe,
-                                };
+                                const regionIcons: Record<string, any> = { 'Europe': FaGlobeEurope, 'North America': FaGlobeAmericas, 'Middle East': FaGlobeAsia, 'Asia': FaGlobeAsia, 'Africa': FaGlobe };
                                 const variants: Array<'primary' | 'accent' | 'secondary'> = ['primary', 'accent', 'secondary'];
-
                                 return (
-                                    <motion.div key={item.id || i}
-                                                initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
-                                        <InfoCard
-                                            icon={regionIcons[item.region] || FaGlobe}
-                                            title={item.buyerName}
-                                            subtitle={`${item.company || item.region}, ${item.verified ? 'Verified Buyer' : ''}`}
-                                            iconColor="text-accent"
-                                            variant={variants[i % 3]}
-                                            showInfoBadge={false}
-                                            className="h-full text-center"
-                                        >
-                                            <Typography variant="body" className="text-gray-600 italic mt-2">
-                                                "{item.quote}"
-                                            </Typography>
+                                    <motion.div key={item.id || i} initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
+                                        <InfoCard icon={regionIcons[item.region] || FaGlobe} title={item.buyerName} subtitle={`${item.company || item.region}, ${item.verified ? 'Verified Buyer' : ''}`} iconColor="text-accent" variant={variants[i % 3]} showInfoBadge={false} className="h-full text-center">
+                                            <Typography variant="body" className="text-gray-600 italic mt-2">"{item.quote}"</Typography>
                                         </InfoCard>
                                     </motion.div>
                                 );
@@ -867,7 +564,7 @@ const TracePage: React.FC = () => {
                 </Section>
             )}
 
-            {/* CTA */}
+            {/* Final CTA */}
             <Section className="py-16">
                 <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
                     <InfoCard icon={FaMapMarkerAlt} title={t('cta.title')} iconColor="text-accent" variant="primary" showInfoBadge={false} className="text-center">
