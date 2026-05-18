@@ -15,10 +15,11 @@ export const handler: Handler = async (event) => {
     const contentType = query.contentType || 'blogPost';
 
     try {
-        let url = `https://cdn.contentful.com/spaces/${SPACE_ID}/environments/master/entries?access_token=${ACCESS_TOKEN}&content_type=${contentType}&order=-fields.publishedDate`;
+        let url = `https://cdn.contentful.com/spaces/${SPACE_ID}/environments/master/entries?access_token=${ACCESS_TOKEN}&content_type=${contentType}`;
 
         if (slug) url += `&fields.slug=${slug}&limit=1`;
         if (category && category !== 'All') url += `&fields.category=${category}`;
+        if (contentType !== 'testimonial') {url += `&order=-fields.publishedDate`;}
 
         const response = await fetch(url);
         const data = await response.json();
@@ -41,6 +42,26 @@ export const handler: Handler = async (event) => {
                     imageUrl = `https:${asset.fields.file.url}`;
                 }
             }
+
+            // Base fields
+            const base = {
+                id: item.sys.id,
+                publishedDate: item.fields.publishedDate,
+            };
+
+            // Testimonial fields
+            if (contentType === 'testimonial') {
+                return {
+                    ...base,
+                    quote: item.fields.quote,
+                    buyerName: item.fields.buyerName,
+                    company: item.fields.company,
+                    region: item.fields.region,
+                    verified: item.fields.verified,
+                    featured: item.fields.featured,
+                };
+            }
+
 
             return {
                 id: item.sys.id,
