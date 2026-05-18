@@ -12,11 +12,24 @@
     "button": "Trace",
     "notFound": "Batch \"{id}\" not found. Please check and try again."
   },
+  "demo": {
+    "note": "Try it yourself — enter AFN-2026-001 in the search box above",
+    "button": "View Sample Batch"
+  },
   "howItWorks": {
     "title": "How Our Traceability Works",
-    "scan": { "title": "1. Scan the QR Code", "description": "Every bag or container includes a unique QR code linked to its batch." },
-    "trace": { "title": "2. Enter Your Batch ID", "description": "Or type your batch ID above to see your order's full journey." },
-    "view": { "title": "3. View the Full Journey", "description": "From the exact block in Odienné through processing, certification, and delivery." }
+    "scan": {
+      "title": "1. Scan the QR Code",
+      "description": "Every bag or container includes a unique QR code linked to its batch."
+    },
+    "trace": {
+      "title": "2. Enter Your Batch ID",
+      "description": "Or type your batch ID above to see your order's full journey."
+    },
+    "view": {
+      "title": "3. View the Full Journey",
+      "description": "From the exact block in Odienné through processing, certification, and delivery."
+    }
   },
   "trust": {
     "title": "How We Verify Traceability",
@@ -64,19 +77,53 @@
     "deliver": "Deliver",
     "deliverDesc": "Estimated arrival: {date}",
     "delivered": "Delivered",
-    "inTransit": "In Transit"
+    "inTransit": "In Transit",
+    "docs": "Docs",
+    "docsDetail": "Export Ready",
+    "docsDesc": "COO, Phyto, B/L"
   },
-  "batchSummary": {
-    "title": "Batch Verification",
-    "batchId": "Batch ID",
-    "harvestDate": "Harvested",
-    "quality": "Quality",
-    "status": "Status",
-    "verified": "Verified"
+  "compliance": {
+    "description": "Every traceable batch comes with full compliance documentation.",
+    "link": "Download Compliance Pack"
+  },
+  "ctaQuote": {
+    "description": "Every wholesale order includes full traceability. Get your quote today.",
+    "button": "Request a Traceable Batch"
+  },
+  "testimonials": {
+    "title": "Trusted by Importers Worldwide"
   },
   "cta": {
     "title": "Connect With AfriNuts",
     "subtitle": "Have questions about batch traceability or want to partner with us? Reach out today.",
     "button": "Contact Us"
+  },
+  "tabs": {
+    "journey": "Journey",
+    "quality": "Quality",
+    "documents": "Documents"
+  },
+  "quality": {
+    "metrics": "Quality Metrics",
+    "moisture": "Moisture Content",
+    "nutCount": "Nut Count/kg",
+    "kernelRatio": "Kernel Ratio",
+    "defectiveRate": "Defective Rate",
+    "overallScore": "Overall Quality Score",
+    "downloadReport": "Download Lab Report",
+    "comingSoon": "Quality Metrics Coming Soon",
+    "comingSoonDesc": "Detailed quality metrics will be available once testing is complete for this batch."
+  },
+  "docs": {
+    "coo": "Certificate of Origin",
+    "phyto": "Phytosanitary Certificate",
+    "billOfLading": "Bill of Lading",
+    "packingList": "Packing List",
+    "invoice": "Commercial Invoice",
+    "insurance": "Insurance Certificate",
+    "available": "Available",
+    "compliancePack": "Download Complete Compliance Pack",
+    "compliancePackDesc": "All documents in one file for easy sharing with customs and regulators",
+    "downloadAll": "Download All"
   }
 }

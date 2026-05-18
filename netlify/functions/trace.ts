@@ -48,6 +48,12 @@ export const handler: Handler = async (event) => {
             buyer: item.fields.buyer,
             status: item.fields.status,
             slug: item.fields.slug,
+            moistureContent: item.fields.moistureContent,
+            nutCount: item.fields.nutCount,
+            kernelRatio: item.fields.kernelRatio,
+            defectiveRate: item.fields.defectiveRate,
+            overallScore: item.fields.overallScore,
+            labReportUrl: item.fields.labReportUrl,
         }));
 
         return {

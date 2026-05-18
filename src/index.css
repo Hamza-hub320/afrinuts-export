@@ -314,6 +314,19 @@ a {
   text-underline-offset: var(--link-underline-offset);
 }
 
+@media print {
+  nav, footer, .fixed, button:not(.print-keep), [class*="z-50"] {
+    display: none !important;
+  }
+  body {
+    background: white !important;
+    color: black !important;
+  }
+  .print-keep {
+    display: block !important;
+  }
+}
+
 @keyframes float {
   0%, 100% {
     transform: translateY(0px);

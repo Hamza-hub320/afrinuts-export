@@ -7,9 +7,13 @@ import { Typography } from "@/components/Typography/Typography";
 import { InfoCard } from "@/components/InfoCard/InfoCard";
 import {
     FaTree, FaIndustry, FaCertificate, FaTruck, FaBuilding,
-    FaCheckCircle, FaArrowDown, FaSearch, FaMapMarkerAlt, FaClipboardList,
+    FaCheckCircle, FaSearch, FaMapMarkerAlt, FaClipboardList,
     FaGlobe, FaShieldAlt, FaCalendarAlt, FaFlask, FaEnvelope, FaArrowRight, FaQrcode,
-    FaFileAlt, FaGlobeEurope, FaGlobeAmericas, FaGlobeAsia
+    FaFileAlt, FaGlobeEurope, FaGlobeAmericas, FaGlobeAsia, FaCopy,
+    FaWhatsapp,
+    FaTwitter,
+    FaLinkedin, FaPrint,
+    FaArrowLeft, FaShare, FaChartBar, FaDownload, FaLeaf, FaBox
 } from "react-icons/fa";
 import { fadeIn } from "@/utils/animations";
 
@@ -27,6 +31,12 @@ interface BatchData {
     buyer?: string;
     status: string;
     slug: string;
+    moistureContent?: number;
+    nutCount?: number;
+    kernelRatio?: number;
+    defectiveRate?: number;
+    overallScore?: number;
+    labReportUrl?: string;
 }
 
 function useQuery() {
@@ -44,6 +54,33 @@ const TracePage: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [searchInput, setSearchInput] = useState("");
     const [testimonials, setTestimonials] = useState<any[]>([]);
+    const [showShareMenu, setShowShareMenu] = useState(false);
+    const [copied, setCopied] = useState(false);
+    const [activeTab, setActiveTab] = useState<'journey' | 'quality' | 'documents'>('journey');
+
+    const handleShare = async (platform?: string) => {
+        const url = window.location.href;
+        const text = `AfriNuts Batch Traceability: ${batch?.batchId}`;
+
+        if (platform === 'whatsapp') {
+            window.open(`https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}`);
+        } else if (platform === 'twitter') {
+            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`);
+        } else if (platform === 'linkedin') {
+            window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`);
+        } else if (platform === 'email') {
+            window.location.href = `mailto:?subject=${encodeURIComponent('Batch Traceability: ' + batch?.batchId)}&body=${encodeURIComponent(text + '\n\n' + url)}`;
+        } else {
+            try {
+                await navigator.clipboard.writeText(url);
+                setCopied(true);
+                setTimeout(() => setCopied(false), 2000);
+            } catch (err) {
+                console.error('Failed to copy:', err);
+            }
+        }
+        setShowShareMenu(false);
+    };
 
     useEffect(() => {
         const fetchData = async () => {
@@ -120,7 +157,7 @@ const TracePage: React.FC = () => {
                                 onChange={(e) => setSearchInput(e.target.value)}
                                 className="w-full pl-12 pr-4 py-3.5 rounded-full border border-gray-300 bg-white/70 backdrop-blur-md text-sm focus:outline-none focus:ring-2 focus:ring-primary shadow-sm"
                             />
-                            <button type="submit" className="absolute right-2 top-1.5 bg-primary text-white px-5 py-1.5 rounded-full text-sm font-medium hover:bg-dark-orange transition">
+                            <button type="submit" className="absolute right-2 top-1/2 -translate-y-1/2 bg-primary text-white px-5 py-1.5 rounded-full text-sm font-medium hover:bg-dark-orange transition">
                                 {t('search.button', 'Trace')}
                             </button>
                         </form>
@@ -271,11 +308,14 @@ const TracePage: React.FC = () => {
                             <FaSearch className="absolute left-4 top-3.5 text-gray-400" />
                             <input
                                 type="text"
-                                placeholder={t('search.placeholder', 'Enter Batch ID...')}
+                                placeholder={t('search.placeholder', 'Enter your Batch ID...')}
                                 value={searchInput}
                                 onChange={(e) => setSearchInput(e.target.value)}
-                                className="w-full pl-11 pr-4 py-3 rounded-full border border-gray-300 bg-white/70 backdrop-blur-md text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                                className="w-full pl-12 pr-20 py-3 rounded-full border border-gray-300 bg-white/70 backdrop-blur-md text-sm focus:outline-none focus:ring-2 focus:ring-primary shadow-sm"
                             />
+                            <button type="submit" className="absolute right-2 top-1/2 -translate-y-1/2 bg-primary text-white px-5 py-1.5 rounded-full text-sm font-medium hover:bg-dark-orange transition">
+                                {t('search.button', 'Trace')}
+                            </button>
                         </div>
                     </form>
 
@@ -388,7 +428,96 @@ const TracePage: React.FC = () => {
                             </motion.div>
                         </div>
                     </motion.div>
+                </div>
+            </Section>
 
+                    {/* Action Bar */}
+                    <motion.div
+                        className="flex flex-wrap justify-between items-center gap-3 mb-6"
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                    >
+                        <Link to="/trace" className="text-primary hover:text-accent flex items-center gap-2 text-sm font-medium">
+                            <FaArrowLeft className="text-xs" />
+                            {t('batch.searchAnother', 'Search Another Batch')}
+                        </Link>
+
+                        <div className="flex gap-2">
+                            {/* Print Button */}
+                            <motion.button
+                                onClick={() => window.print()}
+                                className="px-4 py-2 bg-white/50 backdrop-blur-sm border border-gray-200 rounded-full text-sm font-medium hover:bg-white/80 transition flex items-center gap-2"
+                                whileHover={{ scale: 1.05 }}
+                                whileTap={{ scale: 0.95 }}
+                            >
+                                <FaPrint className="text-xs" />
+                                {t('batch.print', 'Print')}
+                            </motion.button>
+
+                            {/* Share Button with Dropdown */}
+                            <div className="relative">
+                                <motion.button
+                                    onClick={() => setShowShareMenu(!showShareMenu)}
+                                    className="px-4 py-2 bg-primary text-white rounded-full text-sm font-medium hover:bg-dark-orange transition flex items-center gap-2"
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
+                                >
+                                    {copied ? <FaCheckCircle className="text-xs" /> : <FaShare className="text-xs" />}
+                                    {copied ? t('batch.copied', 'Copied!') : t('batch.share', 'Share')}
+                                </motion.button>
+
+                                {showShareMenu && (
+                                    <motion.div
+                                        className="absolute right-0 mt-2 w-44 bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden z-50"
+                                        initial={{ opacity: 0, y: -10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                    >
+                                        {[
+                                            { icon: FaCopy, label: t('share.copyLink', 'Copy Link'), action: () => handleShare() },
+                                            { icon: FaWhatsapp, label: 'WhatsApp', action: () => handleShare('whatsapp') },
+                                            { icon: FaTwitter, label: 'Twitter', action: () => handleShare('twitter') },
+                                            { icon: FaLinkedin, label: 'LinkedIn', action: () => handleShare('linkedin') },
+                                            { icon: FaEnvelope, label: t('share.email', 'Email'), action: () => handleShare('email') },
+                                        ].map((item, i) => (
+                                            <button key={i} onClick={item.action}
+                                                    className="w-full px-4 py-2.5 text-left hover:bg-gray-50 flex items-center gap-3 text-sm transition">
+                                                <item.icon className="text-gray-500 text-xs" />
+                                                {item.label}
+                                            </button>
+                                        ))}
+                                    </motion.div>
+                                )}
+                            </div>
+                        </div>
+                    </motion.div>
+
+                    {/* Tabs */}
+                    <div className="flex gap-2 mb-6 border-b border-gray-200 overflow-x-auto">
+                        {[
+                            { key: 'journey' as const, icon: FaMapMarkerAlt, label: t('tabs.journey', 'Journey') },
+                            { key: 'quality' as const, icon: FaChartBar, label: t('tabs.quality', 'Quality') },
+                            { key: 'documents' as const, icon: FaFileAlt, label: t('tabs.documents', 'Documents') },
+                        ].map((tab) => (
+                            <motion.button
+                                key={tab.key}
+                                onClick={() => setActiveTab(tab.key)}
+                                className={`flex items-center gap-2 px-4 py-3 text-sm font-medium transition border-b-2 -mb-[2px] whitespace-nowrap ${
+                                    activeTab === tab.key
+                                        ? 'border-primary text-primary'
+                                        : 'border-transparent text-gray-500 hover:text-gray-700'
+                                }`}
+                                whileHover={{ y: -1 }}
+                                whileTap={{ scale: 0.95 }}
+                            >
+                                <tab.icon className="text-xs" />
+                                {tab.label}
+                            </motion.button>
+                        ))}
+                    </div>
+
+                    {/* Tab Content */}
+                    {activeTab === 'journey' && (
+                        <>
                     {/* Farm-to-Fork Curved Journey Map */}
                     <Section className="py-16">
                         <div className="max-w-4xl mx-auto px-4 sm:px-6">
@@ -548,24 +677,153 @@ const TracePage: React.FC = () => {
                             </motion.div>
                         </InfoCard>
                     </motion.div>
-                </div>
-            </Section>
 
-            {/* Mini CTA - After batch details */}
-            <div className="max-w-2xl mx-auto px-4 sm:px-6">
-                <motion.div className="mt-6 text-center"
-                            initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.5 }}>
-                    <Typography variant="small" className="text-gray-500 mb-3">
-                        {t('ctaQuote.description', 'Every wholesale order includes full traceability. Get your quote today.')}
-                    </Typography>
-                    <Link to="/contact" className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-6 py-2.5 rounded-full inline-flex items-center gap-2 text-sm font-medium shadow-md">
-                        <FaEnvelope className="text-xs" />
-                        {t('ctaQuote.button', 'Request a Traceable Batch')}
-                    </Link>
-                </motion.div>
-            </div>
+                    {/* Mini CTA - After batch details */}
+                    <div className="max-w-2xl mx-auto px-4 sm:px-6">
+                        <motion.div className="mt-6 text-center"
+                                    initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.5 }}>
+                            <Typography variant="small" className="text-gray-500 mb-3">
+                                {t('ctaQuote.description', 'Every wholesale order includes full traceability. Get your quote today.')}
+                            </Typography>
+                            <Link to="/contact" className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-6 py-2.5 rounded-full inline-flex items-center gap-2 text-sm font-medium shadow-md">
+                                <FaEnvelope className="text-xs" />
+                                {t('ctaQuote.button', 'Request a Traceable Batch')}
+                            </Link>
+                        </motion.div>
+                    </div>
+                </>
+                )}
 
+                {activeTab === 'quality' && (
+                    <div className="space-y-6">
+                        {batch?.overallScore ? (
+                            <>
+                                {/* Quality Metrics */}
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div className="bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl p-6">
+                                        <Typography variant="h4" className="text-primary mb-4 text-center">
+                                            {t('quality.metrics', 'Quality Metrics')}
+                                        </Typography>
+                                        <div className="space-y-4">
+                                            {[
+                                                { label: t('quality.moisture', 'Moisture Content'), value: batch.moistureContent, unit: '%', max: 10, color: 'bg-blue-500' },
+                                                { label: t('quality.nutCount', 'Nut Count/kg'), value: batch.nutCount, unit: '', max: 200, color: 'bg-green-500' },
+                                                { label: t('quality.kernelRatio', 'Kernel Ratio'), value: batch.kernelRatio, unit: '%', max: 55, color: 'bg-purple-500' },
+                                                { label: t('quality.defectiveRate', 'Defective Rate'), value: batch.defectiveRate, unit: '%', max: 10, color: 'bg-orange-500' },
+                                            ].filter(m => m.value != null).map((metric, i) => (
+                                                <div key={i} className="bg-white/40 rounded-xl p-4 border border-white/30">
+                                                    <div className="flex justify-between items-center mb-2">
+                                                        <Typography variant="small" className="text-gray-700 font-medium">{metric.label}</Typography>
+                                                        <Typography variant="small" className="font-bold text-gray-800">{metric.value}{metric.unit}</Typography>
+                                                    </div>
+                                                    <div className="w-full bg-gray-200 rounded-full h-2">
+                                                        <motion.div
+                                                            className={`h-2 rounded-full ${metric.color}`}
+                                                            initial={{ width: 0 }}
+                                                            whileInView={{ width: `${Math.min((metric.value! / metric.max) * 100, 100)}%` }}
+                                                            viewport={{ once: true }}
+                                                            transition={{ duration: 1, delay: i * 0.2 }}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                        {batch.overallScore && (
+                                            <div className="mt-4 bg-gradient-to-r from-primary/10 to-accent/10 rounded-xl p-4 text-center">
+                                                <Typography variant="h3" className="font-bold text-primary">{batch.overallScore}%</Typography>
+                                                <Typography variant="small" className="text-gray-500">{t('quality.overallScore', 'Overall Quality Score')}</Typography>
+                                            </div>
+                                        )}
+                                    </div>
 
+                                    {/* Certifications */}
+                                    <div className="bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl p-6">
+                                        <Typography variant="h4" className="text-primary mb-4 text-center">
+                                            {t('batch.certifications')}
+                                        </Typography>
+                                        <div className="space-y-3">
+                                            {batch.certifications?.map((cert, i) => (
+                                                <div key={i} className="flex items-center gap-3 bg-white/40 rounded-xl p-3">
+                                                    <FaCertificate className="text-accent" />
+                                                    <div>
+                                                        <Typography variant="small" className="font-medium text-gray-800">{cert}</Typography>
+                                                        <Typography variant="small" className="text-green-600 text-xs flex items-center gap-1">
+                                                            <FaCheckCircle className="text-[10px]" /> Verified
+                                                        </Typography>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                        {batch.labReportUrl && (
+                                            <motion.a
+                                                href={batch.labReportUrl}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="mt-4 inline-flex items-center gap-2 text-accent hover:text-primary font-medium text-sm"
+                                            >
+                                                <FaDownload className="text-xs" />
+                                                {t('quality.downloadReport', 'Download Lab Report')}
+                                            </motion.a>
+                                        )}
+                                    </div>
+                                </div>
+                            </>
+                        ) : (
+                            <motion.div className="text-center py-16 bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl"
+                                        initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
+                                <FaChartBar className="text-4xl text-gray-300 mx-auto mb-4" />
+                                <Typography variant="h4" className="text-gray-500 mb-2">
+                                    {t('quality.comingSoon', 'Quality Metrics Coming Soon')}
+                                </Typography>
+                                <Typography variant="small" className="text-gray-400 max-w-md mx-auto">
+                                    {t('quality.comingSoonDesc', 'Detailed quality metrics will be available once testing is complete for this batch.')}
+                                </Typography>
+                            </motion.div>
+                        )}
+                    </div>
+                )}
+
+                {activeTab === 'documents' && (
+                    <div className="space-y-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            {[
+                                { title: t('docs.coo', 'Certificate of Origin'), icon: FaFileAlt },
+                                { title: t('docs.phyto', 'Phytosanitary Certificate'), icon: FaLeaf },
+                                { title: t('docs.billOfLading', 'Bill of Lading'), icon: FaTruck },
+                                { title: t('docs.packingList', 'Packing List'), icon: FaBox },
+                                { title: t('docs.invoice', 'Commercial Invoice'), icon: FaFileAlt },
+                                { title: t('docs.insurance', 'Insurance Certificate'), icon: FaShieldAlt },
+                            ].map((doc, i) => (
+                                <motion.div key={i}
+                                            className="bg-white/50 backdrop-blur-sm rounded-xl p-4 border border-white/30 flex items-center justify-between hover:shadow-md transition"
+                                            whileHover={{ y: -2 }}>
+                                    <div className="flex items-center gap-3">
+                                        <doc.icon className="text-accent" />
+                                        <Typography variant="small" className="font-medium text-gray-800">{doc.title}</Typography>
+                                    </div>
+                                    <span className="px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-medium">
+                        {t('docs.available', 'Available')}
+                    </span>
+                                </motion.div>
+                            ))}
+                        </div>
+
+                        <motion.div className="bg-gradient-to-r from-primary to-accent rounded-2xl p-6 text-white text-center" whileHover={{ y: -2 }}>
+                            <FaFileAlt className="text-2xl mx-auto mb-3" />
+                            <Typography variant="h5" className="font-bold mb-2">
+                                {t('docs.compliancePack', 'Download Complete Compliance Pack')}
+                            </Typography>
+                            <Typography variant="small" className="text-white/80 mb-4">
+                                {t('docs.compliancePackDesc', 'All documents in one file for easy sharing with customs and regulators')}
+                            </Typography>
+                            <a href="/documents/compliance-pack.pdf" target="_blank" rel="noopener noreferrer"
+                               className="bg-white text-primary px-6 py-2 rounded-full font-medium text-sm hover:bg-gray-100 transition inline-flex items-center gap-2">
+                                <FaDownload className="text-xs" />
+                                {t('docs.downloadAll', 'Download All')}
+                            </a>
+                        </motion.div>
+                    </div>
+                )}
 
             {/* B2B Testimonials */}
             {testimonials.length > 0 && (
