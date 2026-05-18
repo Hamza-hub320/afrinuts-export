@@ -1,82 +1,130 @@
 {
   "page": {
     "title": "Traçabilité des Lots AfriNuts",
-    "description": "Consultez des informations détaillées sur ce lot, de la récolte à la transformation et aux contrôles qualité."
+    "description": "Consultez les informations détaillées sur ce lot, de la récolte à la transformation en passant par les contrôles qualité."
   },
   "promo": {
-    "heading": "Sachez Exactement D'où Viennent Vos Noix de Cajou",
-    "subheading": "Chaque expédition AfriNuts est accompagnée d'un code de traçabilité unique. Scannez votre QR code ou entrez votre ID de lot pour voir le parcours complet — de notre ferme à votre porte."
+    "heading": "Traçabilité Prête pour l'Audit pour les Importateurs Exigeants",
+    "subheading": "Chaque expédition AfriNuts est accompagnée d'un code de traçabilité unique. Scannez votre QR code ou saisissez votre ID de lot pour voir le parcours complet — de notre ferme à votre porte."
   },
   "search": {
     "placeholder": "Entrez votre ID de lot...",
     "button": "Tracer",
     "notFound": "Lot \"{id}\" introuvable. Veuillez vérifier et réessayer."
   },
+  "demo": {
+    "note": "Essayez vous-même — entrez AFN-2026-001 dans la zone de recherche ci-dessus",
+    "button": "Voir un Lot d'Exemple"
+  },
   "howItWorks": {
     "title": "Comment Fonctionne Notre Traçabilité",
-    "scan": { "title": "1. Scannez le QR Code", "description": "Chaque sac ou conteneur comprend un QR code unique lié à son lot." },
-    "trace": { "title": "2. Entrez Votre ID de Lot", "description": "Ou tapez votre ID de lot ci-dessus pour voir le parcours complet de votre commande." },
-    "view": { "title": "3. Voyez le Parcours Complet", "description": "Du bloc exact à Odienné jusqu'à la transformation, la certification et la livraison." }
+    "scan": {
+      "title": "1. Scannez le QR Code",
+      "description": "Chaque sac ou conteneur comprend un QR code unique lié à son lot."
+    },
+    "trace": {
+      "title": "2. Entrez Votre ID de Lot",
+      "description": "Ou saisissez votre ID de lot ci-dessus pour voir le parcours complet de votre commande."
+    },
+    "view": {
+      "title": "3. Consultez le Parcours Complet",
+      "description": "Du bloc exact à Odienné en passant par la transformation, la certification et la livraison."
+    }
   },
   "trust": {
     "title": "Comment Nous Vérifions la Traçabilité",
     "farm": "Origine unique de notre ferme de 35 hectares à Odienné, Côte d'Ivoire",
     "batch": "IDs de lot uniques suivis de la récolte à la livraison",
-    "public": "Vérifiable publiquement — toute personne avec l'ID de lot peut vérifier",
+    "public": "Vérifiable publiquement — toute personne ayant l'ID de lot peut vérifier",
     "certs": "Certifications vérifiées et affichées par lot",
     "origin": "Origine Vérifiée",
     "originDesc": "Coordonnées GPS enregistrées à la récolte depuis notre ferme à Odienné",
     "batchTitle": "Lot Enregistré",
     "batchDesc": "Chaque lot reçoit un ID unique suivi à chaque étape",
     "transparent": "Visible Publiquement",
-    "transparentDesc": "Toute personne avec l'ID de lot peut vérifier ces informations"
+    "transparentDesc": "Toute personne ayant l'ID de lot peut vérifier ces informations"
   },
   "promoCta": {
     "title": "Vous Voulez Cela Pour Vos Commandes ?",
-    "description": "Chaque commande en gros d'AfriNuts Export inclut la traçabilité. Contactez-nous pour passer votre première commande et découvrez la transparence totale de la chaîne d'approvisionnement.",
+    "description": "Chaque commande en gros AfriNuts Export inclut la traçabilité. Contactez-nous pour passer votre première commande et découvrez une transparence totale de la chaîne d'approvisionnement.",
     "button": "Demander un Devis"
   },
   "batch": {
     "harvestDate": "Date de Récolte",
-    "farmLocation": "Emplacement de la Ferme",
+    "farmLocation": "Localisation de la Ferme",
     "processingInfo": "Informations de Transformation",
     "certifications": "Certifications",
     "qualityCheckResults": "Résultats du Contrôle Qualité",
-    "destinationLocation": "Lieu de Destination",
+    "destinationLocation": "Localisation de Destination",
     "receivingCompany": "Entreprise Destinataire",
     "previewAllBatches": "Aperçu de Tous les Lots",
-    "previewNotice": "Aperçu du lot par défaut (aucun batchId fourni dans l'URL)"
+    "previewNotice": "Aperçu du lot par défaut (aucun ID de lot fourni dans l'URL)"
   },
   "batchInfo": {
     "verified": "Lot Vérifié"
   },
   "journey": {
     "title": "Le Parcours de Votre Commande",
+    "scrollHint": "Faites glisser pour explorer le parcours",
     "subtitle": "Suivez vos noix de cajou de notre ferme à Odienné jusqu'à votre porte.",
     "farm": "Ferme",
     "farmDesc": "Récolté du Bloc {block}",
     "process": "Transformation",
-    "processDesc": "Qualité: {grade}",
+    "processDesc": "Qualité : {grade}",
     "certify": "Certifier",
     "certifyDesc": "{count} certifications vérifiées",
     "ship": "Expédier",
     "shipDesc": "Via le Port d'Abidjan",
     "deliver": "Livrer",
-    "deliverDesc": "Arrivée estimée: {date}",
+    "deliverDesc": "Arrivée estimée : {date}",
     "delivered": "Livré",
-    "inTransit": "En Transit"
+    "inTransit": "En Transit",
+    "docs": "Documents",
+    "docsDetail": "Prêt à l'Export",
+    "docsDesc": "COO, Phyto, B/L"
   },
-  "batchSummary": {
-    "title": "Vérification du Lot",
-    "batchId": "ID de Lot",
-    "harvestDate": "Récolté",
-    "quality": "Qualité",
-    "status": "Statut",
-    "verified": "Vérifié"
+  "compliance": {
+    "description": "Chaque lot traçable est accompagné d'une documentation de conformité complète.",
+    "link": "Télécharger le Dossier de Conformité"
+  },
+  "ctaQuote": {
+    "description": "Chaque commande en gros inclut une traçabilité complète. Obtenez votre devis aujourd'hui.",
+    "button": "Demander un Lot Traçable"
+  },
+  "testimonials": {
+    "title": "Approuvé par des Importateurs du Monde Entier"
   },
   "cta": {
-    "title": "Connectez-vous avec AfriNuts",
-    "subtitle": "Vous avez des questions sur la traçabilité des lots ou vous souhaitez vous associer à nous ? Contactez-nous dès aujourd'hui.",
-    "button": "Contactez-nous"
+    "title": "Connectez-Vous Avec AfriNuts",
+    "subtitle": "Vous avez des questions sur la traçabilité des lots ou souhaitez collaborer avec nous ? Contactez-nous dès aujourd'hui.",
+    "button": "Contactez-Nous"
+  },
+  "tabs": {
+    "journey": "Parcours",
+    "quality": "Qualité",
+    "documents": "Documents"
+  },
+  "quality": {
+    "metrics": "Indicateurs de Qualité",
+    "moisture": "Teneur en Humidité",
+    "nutCount": "Nombre de Noix/kg",
+    "kernelRatio": "Ratio d'Amandes",
+    "defectiveRate": "Taux de Défauts",
+    "overallScore": "Score de Qualité Global",
+    "downloadReport": "Télécharger le Rapport de Laboratoire",
+    "comingSoon": "Indicateurs de Qualité à Venir",
+    "comingSoonDesc": "Les indicateurs de qualité détaillés seront disponibles une fois les tests terminés pour ce lot."
+  },
+  "docs": {
+    "coo": "Certificat d'Origine",
+    "phyto": "Certificat Phytosanitaire",
+    "billOfLading": "Connaissement",
+    "packingList": "Liste de Colisage",
+    "invoice": "Facture Commerciale",
+    "insurance": "Certificat d'Assurance",
+    "available": "Disponible",
+    "compliancePack": "Télécharger le Dossier de Conformité Complet",
+    "compliancePackDesc": "Tous les documents en un seul fichier pour faciliter le partage avec les douanes et les régulateurs",
+    "downloadAll": "Tout Télécharger"
   }
 }

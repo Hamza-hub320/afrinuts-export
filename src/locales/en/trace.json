@@ -65,6 +65,7 @@
   },
   "journey": {
     "title": "Your Order's Journey",
+    "scrollHint": "Swipe to explore the journey",
     "subtitle": "Follow your cashews from our farm in Odienné to your door.",
     "farm": "Farm",
     "farmDesc": "Harvested from Block {block}",

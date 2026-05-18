@@ -409,6 +409,7 @@ const TracePage: React.FC = () => {
                             </motion.div>
 
                             <div className="relative py-8">
+                                {/* Desktop: Curved SVG Path */}
                                 <svg className="absolute inset-0 w-full h-full hidden md:block" viewBox="0 0 800 200" preserveAspectRatio="none">
                                     <defs>
                                         <linearGradient id="journeyGradient" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -419,6 +420,91 @@ const TracePage: React.FC = () => {
                                     </defs>
                                     <path d="M40,100 C200,20 300,180 500,100 C650,40 700,160 760,100" fill="none" stroke="url(#journeyGradient)" strokeWidth="3" strokeLinecap="round" strokeDasharray="8,4" />
                                 </svg>
+
+                                {/* Mobile: Horizontal Scroll Container */}
+                                <div className="md:hidden relative">
+                                    {/* Curved path for mobile */}
+                                    <svg className="absolute top-12 left-0 w-full h-24" viewBox="0 0 400 100" preserveAspectRatio="none">
+                                        <defs>
+                                            <linearGradient id="mobileJourneyGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                                <stop offset="0%" stopColor="#5A7411" stopOpacity="0.2" />
+                                                <stop offset="25%" stopColor="#E04E00" stopOpacity="0.3" />
+                                                <stop offset="50%" stopColor="#5A7411" stopOpacity="0.2" />
+                                                <stop offset="75%" stopColor="#E04E00" stopOpacity="0.3" />
+                                                <stop offset="100%" stopColor="#5A7411" stopOpacity="0.2" />
+                                            </linearGradient>
+                                        </defs>
+                                        <path d="M10,80 C60,10 100,70 150,40 C200,10 240,80 290,30 C330,-10 370,60 390,20"
+                                              fill="none" stroke="url(#mobileJourneyGradient)" strokeWidth="2.5" strokeLinecap="round" strokeDasharray="6,3" />
+                                    </svg>
+
+                                    {/* Scroll hint */}
+                                    <div className="flex items-center justify-center gap-1 mb-4 text-xs text-gray-400">
+                                        <FaArrowLeft className="text-[10px]" />
+                                        <span>{t('journey.scrollHint', 'Swipe to explore the journey')}</span>
+                                        <FaArrowRight className="text-[10px]" />
+                                    </div>
+
+                                    {/* Horizontal scroll snap */}
+                                    <div className="flex overflow-x-auto snap-x snap-mandatory gap-0 pb-4 -mx-4 px-4 scrollbar-hide"
+                                         style={{ scrollSnapType: 'x mandatory', WebkitOverflowScrolling: 'touch' }}>
+
+                                        {[
+                                            { icon: FaTree, title: t('journey.farm', 'Farm'), detail: batch!.farmLocation, sub: batch!.block ? t('journey.farmDesc', { block: batch!.block, defaultValue: 'Block {block}' }) : '', color: 'primary', alt: 'md:mt-16' },
+                                            { icon: FaIndustry, title: t('journey.process', 'Process'), detail: batch!.processingInfo, sub: batch!.qualityGrade ? t('journey.processDesc', { grade: batch!.qualityGrade, defaultValue: 'Grade: {grade}' }) : '', color: 'accent', alt: 'md:mt-4' },
+                                            { icon: FaCertificate, title: t('journey.certify', 'Certify'), detail: batch!.certifications?.[0] || '', sub: t('journey.certifyDesc', { count: batch!.certifications?.length || 0, defaultValue: '{count} verified' }), color: 'primary', alt: 'md:mt-20' },
+                                            { icon: FaTruck, title: t('journey.ship', 'Ship'), detail: t('journey.shipDesc', 'Via Abidjan Port'), sub: batch!.destination, color: 'accent', alt: 'md:mt-2' },
+                                            { icon: FaBuilding, title: t('journey.deliver', 'Deliver'), detail: batch!.buyer || batch!.destination, sub: batch!.status === 'Delivered' ? '✓ Delivered' : 'In Transit', color: 'primary', alt: 'md:mt-14' },
+                                            { icon: FaFileAlt, title: t('journey.docs', 'Docs'), detail: t('journey.docsDetail', 'Export Ready'), sub: t('journey.docsDesc', 'COO, Phyto, B/L'), color: 'accent', alt: 'md:mt-6' },
+                                        ].map((step, i) => (
+                                            <motion.div
+                                                key={i}
+                                                className={`snap-center flex-shrink-0 w-[140px] flex flex-col items-center text-center px-2 ${i % 2 === 0 ? 'mt-8' : 'mt-16'}`}
+                                                initial={{ opacity: 0, y: 20 }}
+                                                whileInView={{ opacity: 1, y: 0 }}
+                                                viewport={{ once: true }}
+                                                transition={{ delay: i * 0.1 }}
+                                            >
+                                                {/* Connector dot on the curved path */}
+                                                <div className={`w-2.5 h-2.5 rounded-full mb-2 shadow-sm ${i % 2 === 0 ? 'bg-primary/60' : 'bg-accent/60'}`} />
+
+                                                {/* Step circle */}
+                                                <motion.div
+                                                    className="relative w-14 h-14 rounded-full flex items-center justify-center shadow-lg mb-3 z-10 border-3 bg-white/80 backdrop-blur-sm"
+                                                    style={{ borderColor: i % 2 === 0 ? '#5A7411' : '#E04E00', transformStyle: 'preserve-3d', perspective: '1000px' }}
+                                                    whileHover={{ scale: 1.1 }}
+                                                >
+                                                    <div className="absolute inset-0 rounded-full border-2 border-white/30 transform-gpu translate-z-[-4px]" />
+                                                    <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50" />
+                                                    <step.icon className="text-lg relative z-10" style={{ color: i % 2 === 0 ? '#5A7411' : '#E04E00' }} />
+                                                </motion.div>
+
+                                                {/* Step number */}
+                                                <div className="absolute top-1 right-2 w-5 h-5 rounded-full flex items-center justify-center text-white text-[10px] font-bold shadow"
+                                                     style={{ background: i % 2 === 0 ? '#5A7411' : '#E04E00' }}>
+                                                    {i + 1}
+                                                </div>
+
+                                                {/* Content */}
+                                                <Typography variant="small" className="font-bold text-primary leading-tight text-xs">{step.title}</Typography>
+                                                <Typography variant="small" className="text-gray-600 text-[11px] leading-tight mt-0.5 line-clamp-2">{step.detail}</Typography>
+                                                <Typography variant="small" className="text-gray-400 text-[10px] leading-tight line-clamp-1">{step.sub}</Typography>
+
+                                                {/* Arrow to next step (except last) */}
+                                                {i < 5 && (
+                                                    <FaArrowRight className="absolute -right-1 top-1/2 text-gray-300 text-xs" />
+                                                )}
+                                            </motion.div>
+                                        ))}
+                                    </div>
+
+                                    {/* Dot indicators */}
+                                    <div className="flex justify-center gap-1.5 mt-4">
+                                        {[0, 1, 2, 3, 4, 5].map((i) => (
+                                            <div key={i} className={`w-1.5 h-1.5 rounded-full ${i % 2 === 0 ? 'bg-primary/50' : 'bg-accent/50'}`} />
+                                        ))}
+                                    </div>
+                                </div>
 
                                 <div className="grid grid-cols-1 md:grid-cols-6 gap-6 relative z-10">
                                     {[
