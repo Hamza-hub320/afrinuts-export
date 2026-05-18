@@ -594,22 +594,25 @@ const TracePage: React.FC = () => {
 
                     {/* Compliance Pack CTA */}
                     <motion.div initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
-                        <InfoCard
-                            icon={FaFileAlt}
-                            title={t('docs.compliancePack', 'Download Complete Compliance Pack')}
-                            iconColor="text-white"
-                            variant="primary"
-                            showInfoBadge={false}
-                            className="text-center bg-gradient-to-r from-primary to-accent !border-primary/30"
-                        >
-                            <Typography variant="small" className="text-white/80 mb-4">
-                                {t('docs.compliancePackDesc')}
-                            </Typography>
-                            <a href="/documents/compliance-pack.pdf" target="_blank" rel="noopener noreferrer"
-                               className="bg-white text-primary px-6 py-2 rounded-full font-medium text-sm hover:bg-gray-100 transition inline-flex items-center gap-2">
-                                <FaDownload className="text-xs" />{t('docs.downloadAll', 'Download All')}
-                            </a>
-                        </InfoCard>
+                        <div className="relative bg-gradient-to-r from-primary to-accent rounded-2xl p-6 text-center overflow-hidden transform-gpu"
+                             style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}>
+                            <div className="absolute inset-0 rounded-2xl border-2 border-white/20" />
+                            <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40" />
+                            <div className="relative z-10">
+                                <FaFileAlt className="text-2xl text-white mx-auto mb-3" />
+                                <Typography variant="h5" className="font-bold text-white mb-2">
+                                    {t('docs.compliancePack', 'Download Complete Compliance Pack')}
+                                </Typography>
+                                <Typography variant="small" className="text-white/80 mb-4">
+                                    {t('docs.compliancePackDesc')}
+                                </Typography>
+                                <a href="/documents/compliance-pack.pdf" target="_blank" rel="noopener noreferrer"
+                                   className="relative bg-white text-primary hover:bg-gray-100 px-6 py-2.5 rounded-full font-medium text-sm inline-flex items-center gap-2 shadow-md">
+                                    <FaDownload className="text-xs" />
+                                    {t('docs.downloadAll', 'Download All')}
+                                </a>
+                            </div>
+                        </div>
                     </motion.div>
                 </div>
             )}
