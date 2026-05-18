@@ -47,18 +47,14 @@ const TracePage: React.FC = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // Fetch all batches for the preview grid
                 const allResponse = await fetch('/.netlify/functions/trace');
                 const allData = await allResponse.json();
                 setAllBatches(allData.batches || []);
 
-                // Fetch specific batch if batchId is in URL
                 if (batchId) {
                     const response = await fetch(`/.netlify/functions/trace?batchId=${encodeURIComponent(batchId)}`);
                     const data = await response.json();
                     setBatch(data.batch);
-                } else if (allData.batches?.length > 0) {
-                    setBatch(allData.batches[0]);
                 }
             } catch (error) {
                 console.error('Error fetching batch data:', error);
@@ -276,7 +272,7 @@ const TracePage: React.FC = () => {
                     {isPreview && (
                         <motion.div className="bg-amber-50/80 text-amber-700 px-4 py-2 rounded-full mt-4 inline-block text-sm border border-amber-200"
                                     initial={{ scale: 0.9 }} animate={{ scale: 1 }} transition={{ delay: 0.3 }}>
-                            {t('batch?.previewNotice')}
+                            {t('batch.previewNotice')}
                         </motion.div>
                     )}
                 </motion.div>
@@ -439,11 +435,21 @@ const TracePage: React.FC = () => {
 
                                             {/* Step circle */}
                                             <motion.div
-                                                className="relative w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center shadow-lg mb-3 z-10 border-3 bg-white/80 backdrop-blur-sm"
-                                                style={{ borderColor: i % 2 === 0 ? '#5A7411' : '#E04E00' }}
+                                                className="relative w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center shadow-lg mb-3 z-10 border-3 bg-white/80 backdrop-blur-sm transform-gpu group/step"
+                                                style={{
+                                                    borderColor: i % 2 === 0 ? '#5A7411' : '#E04E00',
+                                                    transformStyle: 'preserve-3d',
+                                                    perspective: '1000px',
+                                                }}
                                                 whileHover={{ scale: 1.15, rotate: 5 }}
                                             >
-                                                <step.icon className="text-xl md:text-2xl" style={{ color: i % 2 === 0 ? '#5A7411' : '#E04E00' }} />
+                                                {/* 3D edge effect */}
+                                                <div className="absolute inset-0 rounded-full border-2 border-white/30 transform-gpu translate-z-[-4px] group-hover/step:translate-z-[-6px] transition-all duration-500" />
+                                                {/* Glassy overlay */}
+                                                <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50 group-hover/step:opacity-70 transition-opacity duration-300" />
+                                                {/* Inner shadow */}
+                                                <div className="absolute inset-0 rounded-full shadow-[inset_0_1px_4px_rgba(0,0,0,0.08)]" />
+                                                <step.icon className="text-xl md:text-2xl relative z-10" style={{ color: i % 2 === 0 ? '#5A7411' : '#E04E00' }} />
                                             </motion.div>
 
                                             {/* Step number */}
@@ -530,23 +536,26 @@ const TracePage: React.FC = () => {
                     </Typography>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         {[
-                            { quote: t('testimonials.eu', 'The traceability system gave us complete confidence in our supply chain.'), buyer: t('testimonials.euBuyer', 'European Importer'), icon: FaGlobeEurope },
-                            { quote: t('testimonials.us', 'Audit-ready documentation that makes compliance straightforward.'), buyer: t('testimonials.usBuyer', 'North American Distributor'), icon: FaGlobeAmericas },
-                            { quote: t('testimonials.me', 'Full transparency from farm to container. Exactly what our market demands.'), buyer: t('testimonials.meBuyer', 'Middle East Buyer'), icon: FaGlobeAsia },
+                            { quote: t('testimonials.eu', 'The traceability system gave us complete confidence in our supply chain.'), buyer: t('testimonials.euBuyer', 'European Importer'), icon: FaGlobeEurope, variant: 'primary' as const },
+                            { quote: t('testimonials.us', 'Audit-ready documentation that makes compliance straightforward.'), buyer: t('testimonials.usBuyer', 'North American Distributor'), icon: FaGlobeAmericas, variant: 'accent' as const },
+                            { quote: t('testimonials.me', 'Full transparency from farm to container. Exactly what our market demands.'), buyer: t('testimonials.meBuyer', 'Middle East Buyer'), icon: FaGlobeAsia, variant: 'secondary' as const },
                         ].map((item, i) => (
                             <motion.div key={i}
-                                        className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl p-5 text-center"
                                         initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
-                                <div className="absolute inset-0 rounded-2xl border-2 border-white/20" />
-                                <div className="relative z-10">
-                                    <item.icon className="text-accent text-2xl mx-auto mb-3" />
-                                    <Typography variant="body" className="text-gray-600 italic mb-3">"{item.quote}"</Typography>
-                                    <Typography variant="small" className="text-primary font-semibold">{item.buyer}</Typography>
-                                    <div className="flex items-center justify-center gap-1 mt-1 text-green-600 text-xs">
+                                <InfoCard
+                                    icon={item.icon}
+                                    title={`"${item.quote}"`}
+                                    subtitle={item.buyer}
+                                    iconColor="text-accent"
+                                    variant={item.variant}
+                                    showInfoBadge={false}
+                                    className="h-full text-center"
+                                >
+                                    <div className="flex items-center justify-center gap-1 mt-2 text-green-600 text-xs">
                                         <FaCheckCircle className="text-[10px]" />
                                         {t('testimonials.verified', 'Verified Buyer')}
                                     </div>
-                                </div>
+                                </InfoCard>
                             </motion.div>
                         ))}
                     </div>
