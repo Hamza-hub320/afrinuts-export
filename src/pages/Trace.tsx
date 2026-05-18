@@ -425,9 +425,34 @@ const TracePage: React.FC = () => {
                                 {/* Journey Steps */}
                                 <div className="grid grid-cols-1 md:grid-cols-6 gap-6 relative z-10">
                                     {[
-                                        { icon: FaTree, title: t('journey.farm', 'Farm'), detail: batch!.farmLocation, sub: batch!.block ? t('journey.farmDesc', 'Block {block}', { block: batch!.block }) : '', pos: 'md:mt-16' },
-                                        { icon: FaIndustry, title: t('journey.process', 'Process'), detail: batch!.processingInfo, sub: batch!.qualityGrade ? t('journey.processDesc', 'Grade: {grade}', { grade: batch!.qualityGrade }) : '', pos: 'md:mt-4' },
-                                        { icon: FaCertificate, title: t('journey.certify', 'Certify'), detail: batch!.certifications?.[0] || '', sub: t('journey.certifyDesc', '{count} verified', { count: batch!.certifications?.length || 0 }), pos: 'md:mt-20' },
+                                        {
+                                            icon: FaTree,
+                                            title: t('journey.farm', 'Farm'),
+                                            detail: batch!.farmLocation,
+                                            description: batch!.block
+                                                ? t('journey.farmDesc', { block: batch!.block, defaultValue: 'Block {block}' })
+                                                : '',
+                                            color: 'primary'
+                                        },
+                                        {
+                                            icon: FaIndustry,
+                                            title: t('journey.process', 'Process'),
+                                            detail: batch!.processingInfo,
+                                            description: batch!.qualityGrade
+                                                ? t('journey.processDesc', { grade: batch!.qualityGrade, defaultValue: 'Grade: {grade}' })
+                                                : '',
+                                            color: 'accent'
+                                        },
+                                        {
+                                            icon: FaCertificate,
+                                            title: t('journey.certify', 'Certify'),
+                                            detail: batch!.certifications?.join(', ') || '',
+                                            description: t('journey.certifyDesc', {
+                                                count: batch!.certifications?.length || 0,
+                                                defaultValue: '{count} certifications verified'
+                                            }),
+                                            color: 'primary'
+                                        },
                                         { icon: FaTruck, title: t('journey.ship', 'Ship'), detail: t('journey.shipDesc', 'Via Abidjan Port'), sub: batch!.destination, pos: 'md:mt-2' },
                                         { icon: FaBuilding, title: t('journey.deliver', 'Deliver'), detail: batch!.buyer || batch!.destination, sub: batch!.status === 'Delivered' ? '✓ Delivered' : 'In Transit', pos: 'md:mt-14' },
                                         { icon: FaFileAlt, title: t('journey.docs', 'Docs'), detail: t('journey.docsDetail', 'Export Ready'), sub: t('journey.docsDesc', 'COO, Phyto, B/L'), pos: 'md:mt-6' },
@@ -527,16 +552,20 @@ const TracePage: React.FC = () => {
             </Section>
 
             {/* Mini CTA - After batch details */}
-            <motion.div className="mt-6 text-center"
-                        initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.5 }}>
-                <Typography variant="small" className="text-gray-500 mb-3">
-                    {t('ctaQuote.description', 'Every wholesale order includes full traceability. Get your quote today.')}
-                </Typography>
-                <Link to="/contact" className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-6 py-2.5 rounded-full inline-flex items-center gap-2 text-sm font-medium shadow-md">
-                    <FaEnvelope className="text-xs" />
-                    {t('ctaQuote.button', 'Request a Traceable Batch')}
-                </Link>
-            </motion.div>
+            <div className="max-w-2xl mx-auto px-4 sm:px-6">
+                <motion.div className="mt-6 text-center"
+                            initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.5 }}>
+                    <Typography variant="small" className="text-gray-500 mb-3">
+                        {t('ctaQuote.description', 'Every wholesale order includes full traceability. Get your quote today.')}
+                    </Typography>
+                    <Link to="/contact" className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-6 py-2.5 rounded-full inline-flex items-center gap-2 text-sm font-medium shadow-md">
+                        <FaEnvelope className="text-xs" />
+                        {t('ctaQuote.button', 'Request a Traceable Batch')}
+                    </Link>
+                </motion.div>
+            </div>
+
+
 
             {/* B2B Testimonials */}
             {testimonials.length > 0 && (
@@ -561,17 +590,16 @@ const TracePage: React.FC = () => {
                                                 initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
                                         <InfoCard
                                             icon={regionIcons[item.region] || FaGlobe}
-                                            title={`"${item.quote}"`}
-                                            subtitle={`${item.buyerName}${item.company ? `, ${item.company}` : ''}`}
+                                            title={item.buyerName}
+                                            subtitle={`${item.company || item.region}, ${item.verified ? 'Verified Buyer' : ''}`}
                                             iconColor="text-accent"
                                             variant={variants[i % 3]}
                                             showInfoBadge={false}
                                             className="h-full text-center"
                                         >
-                                            <div className="flex items-center justify-center gap-1 mt-2 text-green-600 text-xs">
-                                                <FaCheckCircle className="text-[10px]" />
-                                                {item.verified ? t('testimonials.verified', 'Verified Buyer') : item.region}
-                                            </div>
+                                            <Typography variant="body" className="text-gray-600 italic mt-2">
+                                                "{item.quote}"
+                                            </Typography>
                                         </InfoCard>
                                     </motion.div>
                                 );
