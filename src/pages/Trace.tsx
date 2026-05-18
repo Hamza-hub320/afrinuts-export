@@ -43,6 +43,7 @@ const TracePage: React.FC = () => {
     const [allBatches, setAllBatches] = useState<BatchData[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchInput, setSearchInput] = useState("");
+    const [testimonials, setTestimonials] = useState<any[]>([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -60,6 +61,15 @@ const TracePage: React.FC = () => {
                 console.error('Error fetching batch data:', error);
             } finally {
                 setLoading(false);
+            }
+
+            // Fetch testimonials
+            try {
+                const testimonialsResponse = await fetch('/.netlify/functions/blog?contentType=testimonial');
+                const testimonialsData = await testimonialsResponse.json();
+                setTestimonials(testimonialsData.posts || []);
+            } catch (error) {
+                console.error('Error fetching testimonials:', error);
             }
         };
         fetchData();
@@ -529,38 +539,47 @@ const TracePage: React.FC = () => {
             </motion.div>
 
             {/* B2B Testimonials */}
-            <Section className="py-10">
-                <div className="max-w-4xl mx-auto px-4 sm:px-6">
-                    <Typography variant="h3" className="text-primary text-center mb-8">
-                        {t('testimonials.title', 'Trusted by Importers Worldwide')}
-                    </Typography>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        {[
-                            { quote: t('testimonials.eu', 'The traceability system gave us complete confidence in our supply chain.'), buyer: t('testimonials.euBuyer', 'European Importer'), icon: FaGlobeEurope, variant: 'primary' as const },
-                            { quote: t('testimonials.us', 'Audit-ready documentation that makes compliance straightforward.'), buyer: t('testimonials.usBuyer', 'North American Distributor'), icon: FaGlobeAmericas, variant: 'accent' as const },
-                            { quote: t('testimonials.me', 'Full transparency from farm to container. Exactly what our market demands.'), buyer: t('testimonials.meBuyer', 'Middle East Buyer'), icon: FaGlobeAsia, variant: 'secondary' as const },
-                        ].map((item, i) => (
-                            <motion.div key={i}
-                                        initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
-                                <InfoCard
-                                    icon={item.icon}
-                                    title={`"${item.quote}"`}
-                                    subtitle={item.buyer}
-                                    iconColor="text-accent"
-                                    variant={item.variant}
-                                    showInfoBadge={false}
-                                    className="h-full text-center"
-                                >
-                                    <div className="flex items-center justify-center gap-1 mt-2 text-green-600 text-xs">
-                                        <FaCheckCircle className="text-[10px]" />
-                                        {t('testimonials.verified', 'Verified Buyer')}
-                                    </div>
-                                </InfoCard>
-                            </motion.div>
-                        ))}
+            {testimonials.length > 0 && (
+                <Section className="py-10">
+                    <div className="max-w-4xl mx-auto px-4 sm:px-6">
+                        <Typography variant="h2" className="text-primary text-center mb-8">
+                            {t('testimonials.title', 'Trusted by Importers Worldwide')}
+                        </Typography>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            {testimonials.map((item, i) => {
+                                const regionIcons: Record<string, any> = {
+                                    'Europe': FaGlobeEurope,
+                                    'North America': FaGlobeAmericas,
+                                    'Middle East': FaGlobeAsia,
+                                    'Asia': FaGlobeAsia,
+                                    'Africa': FaGlobe,
+                                };
+                                const variants: Array<'primary' | 'accent' | 'secondary'> = ['primary', 'accent', 'secondary'];
+
+                                return (
+                                    <motion.div key={item.id || i}
+                                                initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
+                                        <InfoCard
+                                            icon={regionIcons[item.region] || FaGlobe}
+                                            title={`"${item.quote}"`}
+                                            subtitle={`${item.buyerName}${item.company ? `, ${item.company}` : ''}`}
+                                            iconColor="text-accent"
+                                            variant={variants[i % 3]}
+                                            showInfoBadge={false}
+                                            className="h-full text-center"
+                                        >
+                                            <div className="flex items-center justify-center gap-1 mt-2 text-green-600 text-xs">
+                                                <FaCheckCircle className="text-[10px]" />
+                                                {item.verified ? t('testimonials.verified', 'Verified Buyer') : item.region}
+                                            </div>
+                                        </InfoCard>
+                                    </motion.div>
+                                );
+                            })}
+                        </div>
                     </div>
-                </div>
-            </Section>
+                </Section>
+            )}
 
             {/* CTA */}
             <Section className="py-16">
