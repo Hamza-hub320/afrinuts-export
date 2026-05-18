@@ -165,7 +165,7 @@ const Navbar: React.FC = () => {
     { path: '/sustainability', label: t('navbar.sustainability') },
     { path: '/vision', label: t('navbar.vision') },
     { path: '/contact', label: t('navbar.contact') },
-    //{ path: '/trace', label: t('navbar.trace') },//
+    { path: '/trace', label: t('navbar.trace') },
     {
       path: '/news',
       label: t('navbar.news'),

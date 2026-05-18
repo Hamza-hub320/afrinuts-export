@@ -17,8 +17,8 @@ import {
     FaArrowLeft,
     FaPlay,
     FaPause,
-     FaAward,
-    FaRibbon, FaCheckCircle, FaChartLine,
+    FaAward,
+    FaRibbon, FaCheckCircle, FaChartLine, FaFlask, FaTimes, FaGlobe,
 } from "react-icons/fa";
 import Section from '@/components/Section/Section';
 import { fadeIn, staggerContainer } from '@/utils/animations';
@@ -224,6 +224,127 @@ const Processing: React.FC = () => {
                 </div>
             </Section>
 
+            {/* Chemical-Free vs Traditional Processing */}
+            <Section className="py-16">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6">
+                    <motion.div
+                        className="text-center mb-10"
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={fadeIn}
+                    >
+                        <motion.div
+                            className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 shadow-md"
+                            whileHover={{ scale: 1.1, rotate: 5 }}
+                        >
+                            <FaLeaf className="text-green-600 text-3xl" />
+                        </motion.div>
+                        <Typography variant="h2" className="mb-4 text-green-800">
+                            {t('chemicalFree.title')}
+                        </Typography>
+                        <Typography variant="lead" className="max-w-3xl mx-auto text-green-700">
+                            {t('chemicalFree.description')}
+                        </Typography>
+                    </motion.div>
+
+                    {/* Comparison */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {/* Traditional Method */}
+                        <motion.div
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                            variants={fadeIn}
+                            transition={{ delay: 0.1 }}
+                        >
+                            <InfoCard
+                                icon={FaIndustry}
+                                title={t('chemicalFree.traditional.title', 'Traditional Method')}
+                                iconColor="text-red-500"
+                                variant="primary"
+                                showInfoBadge={false}
+                                className="h-full"
+                            >
+                                <Typography variant="body" className="text-gray-600 mb-4">
+                                    {t('chemicalFree.traditional.description', 'Many processors soak cashew shells in chemicals to soften them for cutting. This leaves residues, damages kernels, and creates hazardous waste.')}
+                                </Typography>
+                                <ul className="space-y-2">
+                                    {[
+                                        t('chemicalFree.traditional.point1', 'Chemical residue on kernels'),
+                                        t('chemicalFree.traditional.point2', 'Hazardous waste disposal'),
+                                        t('chemicalFree.traditional.point3', 'Damages organic certification potential'),
+                                        t('chemicalFree.traditional.point4', 'Worker exposure to harmful substances'),
+                                    ].map((point, i) => (
+                                        <li key={i} className="flex items-start gap-2 text-sm text-gray-600">
+                                            <FaTimes className="text-red-400 mt-0.5 flex-shrink-0 text-xs" />
+                                            {point}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </InfoCard>
+                        </motion.div>
+
+                        {/* AfriNuts Method */}
+                        <motion.div
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                            variants={fadeIn}
+                            transition={{ delay: 0.2 }}
+                        >
+                            <InfoCard
+                                icon={FaLeaf}
+                                title={t('chemicalFree.afrinuts.title', 'The AfriNuts Method')}
+                                iconColor="text-green-600"
+                                variant="accent"
+                                showInfoBadge={false}
+                                className="h-full"
+                            >
+                                <Typography variant="body" className="text-gray-600 mb-4">
+                                    {t('chemicalFree.afrinuts.description', 'We use steam roasting to naturally soften cashew shells. No chemicals — just heat and pressure. Cleaner kernels, safer workers, zero chemical waste.')}
+                                </Typography>
+                                <ul className="space-y-2">
+                                    {[
+                                        t('chemicalFree.afrinuts.point1', '100% chemical-free processing'),
+                                        t('chemicalFree.afrinuts.point2', 'Zero hazardous waste from shelling'),
+                                        t('chemicalFree.afrinuts.point3', 'Preserves organic certification eligibility'),
+                                        t('chemicalFree.afrinuts.point4', 'Safer working conditions for our team'),
+                                    ].map((point, i) => (
+                                        <li key={i} className="flex items-start gap-2 text-sm text-green-700">
+                                            <FaCheckCircle className="text-green-500 mt-0.5 flex-shrink-0 text-xs" />
+                                            {point}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </InfoCard>
+                        </motion.div>
+                    </div>
+
+                    {/* Bottom Line */}
+                    <motion.div
+                        className="max-w-2xl mx-auto mt-8"
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={fadeIn}
+                    >
+                        <InfoCard
+                            icon={FaGlobe}
+                            title={t('chemicalFree.bottomLine.title', 'Why It Matters for Buyers')}
+                            iconColor="text-accent"
+                            variant="primary"
+                            showInfoBadge={false}
+                            className="text-center"
+                        >
+                            <Typography variant="body" className="text-gray-600">
+                                {t('chemicalFree.bottomLine.description', 'Chemical-free processing means our kernels meet the strictest EU organic import standards. For you, that means fewer rejected shipments, cleaner labels, and a product consumers trust.')}
+                            </Typography>
+                        </InfoCard>
+                    </motion.div>
+                </div>
+            </Section>
+
             {/* Phases Section with Flow Diagram */}
             <Section className="py-16">
                 <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
@@ -236,14 +357,6 @@ const Processing: React.FC = () => {
                             <motion.button className={`px-4 sm:px-6 py-2 sm:py-3 rounded-full text-sm sm:text-lg font-medium transition-all ${activePhase === 'phase2' ? 'bg-accent text-white shadow-lg' : 'bg-white text-accent border-2 border-accent/30'}`}
                                            onClick={() => { trackCtaClick('phase2_tab', 'processing_page'); setActivePhase('phase2'); }} whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }}>{t('phases.phase2')}</motion.button>
                         </div>
-                    </motion.div>
-
-                    {/* Chemical-Free Badge */}
-                    <motion.div className="relative bg-gradient-to-br from-green-50 to-emerald-50 border-2 border-green-200 rounded-3xl p-8 md:p-12 text-center mb-12 shadow-xl"
-                                variants={fadeIn} whileHover={{ y: -4 }}>
-                        <FaLeaf className="text-green-600 text-3xl mx-auto mb-4" />
-                        <Typography variant="h2" className="mb-4 text-green-800">{t('chemicalFree.title')}</Typography>
-                        <Typography variant="lead" className="text-green-700">{t('chemicalFree.description')}</Typography>
                     </motion.div>
 
                     {/* Processing Flow Carousel */}
@@ -357,6 +470,37 @@ const Processing: React.FC = () => {
                     </motion.div>
                 </div>
             </Section>
+
+            {/* Mid-Flow CTA */}
+            <motion.div
+                className="max-w-2xl mx-auto mt-8"
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={fadeIn}
+            >
+                <InfoCard
+                    icon={FaIndustry}
+                    title={t('midCta.title', 'See the Facility Behind the Process')}
+                    iconColor="text-accent"
+                    variant="primary"
+                    showInfoBadge={false}
+                    className="text-center"
+                >
+                    <Typography variant="body" className="text-gray-600 mb-4">
+                        {t('midCta.description', 'Explore the layout of our future processing center — from raw nut intake to dispatch. Every zone designed for efficiency and certification compliance.')}
+                    </Typography>
+                    <motion.button
+                        onClick={() => navigate('/processing/facility-flowchart')}
+                        className="relative border-2 border-primary/50 text-primary hover:bg-primary hover:text-white px-6 py-2.5 rounded-full inline-flex items-center gap-2 text-sm font-medium bg-white/30 backdrop-blur-sm"
+                        whileHover={{ y: -2, scale: 1.03 }}
+                        whileTap={{ scale: 0.95 }}
+                    >
+                        <FaArrowRight />
+                        {t('midCta.button', 'View Facility Flowchart')}
+                    </motion.button>
+                </InfoCard>
+            </motion.div>
 
             {/* Why Process Locally */}
             <Section className="py-16">
@@ -632,6 +776,130 @@ const Processing: React.FC = () => {
                 </div>
             </Section>
 
+            {/* CNSL: From Waste to Revenue */}
+            <Section className="py-16">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6">
+                    <motion.div
+                        className="text-center mb-12"
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={fadeIn}
+                    >
+                        <Typography variant="h2" className="mb-4">
+                            {t('cnsl.title', 'CNSL: Turning Shell Waste Into Industrial Gold')}
+                        </Typography>
+                        <Typography variant="body" className="max-w-3xl mx-auto text-gray-600">
+                            {t('cnsl.description', 'Cashew Nut Shell Liquid is a high-value byproduct extracted during processing. Instead of paying to dispose of shells, we sell CNSL to industries worldwide — transforming a cost into a profit center.')}
+                        </Typography>
+                    </motion.div>
+
+                    {/* Flow: Shell → CNSL → Applications → Revenue */}
+                    <div className="space-y-6">
+                        {/* Row 1: Shell → CNSL */}
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
+                            <InfoCard
+                                icon={FaIndustry}
+                                title={t('cnsl.shellRecovery.title', '1. Shell Recovery')}
+                                iconColor="text-accent"
+                                showInfoBadge={false}
+                            >
+                                <Typography variant="small" className="text-gray-600">
+                                    {t('cnsl.shellRecovery.description', 'During shelling, cashew shells are collected. 1 ton of raw nuts yields ~250kg of shells — all captured for processing.')}
+                                </Typography>
+                            </InfoCard>
+
+                            <div className="flex justify-center">
+                                <FaArrowRight className="text-accent text-xl rotate-90 md:rotate-0" />
+                            </div>
+
+                            <InfoCard
+                                icon={FaFlask}
+                                title={t('cnsl.extraction.title', '2. CNSL Extraction')}
+                                iconColor="text-accent"
+                                showInfoBadge={false}
+                            >
+                                <Typography variant="small" className="text-gray-600">
+                                    {t('cnsl.extraction.description', 'Shells are pressed or solvent-extracted to yield CNSL — rich in cardanol and anacardic acid, prized industrial compounds.')}
+                                </Typography>
+                            </InfoCard>
+                        </div>
+
+                        <div className="flex justify-center">
+                            <FaArrowRight className="text-accent text-xl rotate-90" />
+                        </div>
+
+                        {/* Row 2: Four Industrial Applications */}
+                        <Typography variant="h4" className="text-center text-primary">
+                            {t('cnsl.applications.title', '3. Industrial Applications')}
+                        </Typography>
+                        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                            {[
+                                { icon: FaIndustry, title: t('cnsl.applications.friction', 'Friction Materials'), desc: t('cnsl.applications.frictionDesc', 'Brake linings & clutch facings') },
+                                { icon: FaCogs, title: t('cnsl.applications.coatings', 'Coatings & Paints'), desc: t('cnsl.applications.coatingsDesc', 'Anti-corrosion & marine paints') },
+                                { icon: FaRecycle, title: t('cnsl.applications.polymers', 'Polymers & Resins'), desc: t('cnsl.applications.polymersDesc', 'Bio-based phenolic resins') },
+                                { icon: FaWater, title: t('cnsl.applications.biofuels', 'Biofuels'), desc: t('cnsl.applications.biofuelsDesc', 'Biodiesel & renewable energy') },
+                            ].map((item, i) => (
+                                <motion.div
+                                    key={i}
+                                    initial="hidden"
+                                    whileInView="visible"
+                                    viewport={{ once: true }}
+                                    variants={fadeIn}
+                                    transition={{ delay: i * 0.1 }}
+                                >
+                                    <InfoCard
+                                        icon={item.icon}
+                                        title={item.title}
+                                        iconColor="text-accent"
+                                        showInfoBadge={false}
+                                        className="h-full"
+                                    >
+                                        <Typography variant="small" className="text-gray-500 text-xs">
+                                            {item.desc}
+                                        </Typography>
+                                    </InfoCard>
+                                </motion.div>
+                            ))}
+                        </div>
+
+                        <div className="flex justify-center">
+                            <FaArrowRight className="text-accent text-xl rotate-90" />
+                        </div>
+
+                        {/* Row 3: Revenue Impact */}
+                        <div className="max-w-2xl mx-auto">
+                            <InfoCard
+                                icon={FaChartLine}
+                                title={t('cnsl.revenue.title', '4. Revenue Impact')}
+                                iconColor="text-accent"
+                                variant="primary"
+                                showInfoBadge={false}
+                                className="text-center"
+                            >
+                                <Typography variant="body" className="text-gray-600">
+                                    {t('cnsl.revenue.description', 'At full capacity, CNSL is projected to contribute 8-12% of total processing revenue — transforming a disposal cost into a profit center while achieving near-zero waste.')}
+                                </Typography>
+                                <div className="flex items-center justify-center gap-3 mt-4 text-xs sm:text-sm">
+                        <span className="flex items-center gap-1 px-3 py-1 bg-green-50 text-green-700 rounded-full">
+                            <FaLeaf />
+                            {t('cnsl.revenue.zeroWaste', 'Near-Zero Waste')}
+                        </span>
+                                    <span className="flex items-center gap-1 px-3 py-1 bg-primary/10 text-primary rounded-full">
+                            <FaChartLine />
+                                        {t('cnsl.revenue.revenueShare', '8-12% Revenue')}
+                        </span>
+                                    <span className="flex items-center gap-1 px-3 py-1 bg-accent/10 text-accent rounded-full">
+                            <FaIndustry />
+                                        {t('cnsl.revenue.industrial', 'Industrial Grade')}
+                        </span>
+                                </div>
+                            </InfoCard>
+                        </div>
+                    </div>
+                </div>
+            </Section>
+
             {/* KPI Section */}
             <Section className="py-16">
                 <div className="max-w-2xl mx-auto">
@@ -655,6 +923,115 @@ const Processing: React.FC = () => {
                     />
                 </div>
             </Section>
+
+            {/* Production Timeline */}
+            <Section className="py-10">
+                <div className="max-w-4xl mx-auto px-4 sm:px-6">
+                    <motion.div
+                        className="text-center mb-8"
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={fadeIn}
+                    >
+                        <Typography variant="h2" className="text-primary">
+                            {t('timeline.title', 'Road to Production')}
+                        </Typography>
+                    </motion.div>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                        {[
+                            {
+                                year: '2028-2030',
+                                label: t('roadmap.phase1.title', 'Pilot / Semi-Automated'),
+                                detail: '1,000-2,000 MT/yr',
+                                icon: FaIndustry,
+                                variant: 'primary' as const
+                            },
+                            {
+                                year: '2031-2032',
+                                label: t('timeline.transition', 'Transition & Scaling'),
+                                detail: t('timeline.transitionDetail', 'Certifications & Market Entry'),
+                                icon: FaCogs,
+                                variant: 'accent' as const
+                            },
+                            {
+                                year: '2033+',
+                                label: t('roadmap.phase2.title', 'Industrial / Automated'),
+                                detail: '5,000+ MT/yr',
+                                icon: FaChartLine,
+                                variant: 'secondary' as const
+                            },
+                        ].map((item, i) => (
+                            <motion.div
+                                key={i}
+                                initial="hidden"
+                                whileInView="visible"
+                                viewport={{ once: true }}
+                                variants={fadeIn}
+                                transition={{ delay: i * 0.1 }}
+                            >
+                                <InfoCard
+                                    icon={item.icon}
+                                    title={item.year}
+                                    subtitle={item.label}
+                                    iconColor="text-accent"
+                                    variant={item.variant}
+                                    showInfoBadge={false}
+                                    className="h-full text-center"
+                                >
+                                    <Typography variant="small" className="text-accent font-medium mt-1">
+                                        {item.detail}
+                                    </Typography>
+                                </InfoCard>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+            </Section>
+
+            {/* Trust Signals */}
+            <motion.div
+                className="max-w-lg mx-auto mt-6 px-4"
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={fadeIn}
+            >
+                <div className="grid grid-cols-3 gap-2">
+                    {[
+                        { icon: FaLeaf, color: 'text-green-600', label: t('trustSignals.chemicalFree', 'Chemical-Free') },
+                        { icon: FaCertificate, color: 'text-amber-600', label: t('trustSignals.certificationReady', 'Cert-Ready') },
+                        { icon: FaIndustry, color: 'text-primary', label: t('trustSignals.ivorianMade', 'Ivorian-Made') },
+                    ].map((item, i) => (
+                        <motion.div
+                            key={i}
+                            className="relative flex flex-col items-center gap-1 px-2 py-3 rounded-xl text-center transition-all duration-500 transform-gpu overflow-hidden"
+                            style={{
+                                background: 'linear-gradient(135deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0.6) 100%)',
+                                border: '1px solid rgba(255,255,255,0.5)',
+                                boxShadow: '0 4px 16px rgba(165,105,66,0.08), inset 0 1px 0 rgba(255,255,255,0.5), inset 0 -1px 0 rgba(0,0,0,0.03)',
+                                transformStyle: 'preserve-3d',
+                                perspective: '1000px',
+                            }}
+                            whileHover={{ y: -3, scale: 1.04, boxShadow: '0 8px 24px rgba(165,105,66,0.15), inset 0 1px 0 rgba(255,255,255,0.6)' }}
+                        >
+                            {/* 3D edge */}
+                            <div className="absolute inset-0 rounded-xl border border-white/30 transform-gpu translate-z-[-3px]" />
+                            {/* Glassy overlay */}
+                            <div className="absolute inset-0 rounded-xl bg-gradient-to-b from-white/15 to-transparent opacity-40" />
+                            {/* Inner shadow */}
+                            <div className="absolute inset-0 rounded-xl shadow-[inset_0_1px_6px_rgba(0,0,0,0.04)]" />
+
+                            <div className="relative z-10">
+                                <item.icon className={`${item.color} text-sm mb-0.5`} />
+                                <Typography variant="small" className="text-gray-600 text-[10px] sm:text-xs font-medium leading-tight">
+                                    {item.label}
+                                </Typography>
+                            </div>
+                        </motion.div>
+                    ))}
+                </div>
+            </motion.div>
 
             {/* Call to Action - Enhanced with Glassy 3D */}
             <Section className="py-16 text-center">

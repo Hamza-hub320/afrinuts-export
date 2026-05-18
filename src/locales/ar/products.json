@@ -22,7 +22,6 @@
     "organic": "عضوي",
     "organicLabel": "عضوي",
     "conventionalLabel": "تقليدي"
-
   },
   "filters": {
     "searchLabel": "البحث عن المنتجات",
@@ -163,7 +162,12 @@
       "available": true,
       "backgroundImage": "raw-cashew.jpg",
       "icon": "FaSeedling",
-      "certifications": ["عضوي", "حلال", "ISO 22000", "تجارة عادلة"],
+      "certifications": [
+        "عضوي",
+        "حلال",
+        "ISO 22000",
+        "تجارة عادلة"
+      ],
       "variants": [
         {
           "name": "درجة قياسية عضوية",
@@ -192,7 +196,12 @@
       "preorderDate": "الربع الأول 2030",
       "backgroundImage": "cashew-kernels.jpg",
       "icon": "FaWeightHanging",
-      "certifications": ["عضوي", "حلال", "ISO 22000", "تجارة عادلة"],
+      "certifications": [
+        "عضوي",
+        "حلال",
+        "ISO 22000",
+        "تجارة عادلة"
+      ],
       "variants": [
         {
           "name": "حبوب كاملة عضوية",
@@ -228,7 +237,12 @@
       "waitlist": true,
       "backgroundImage": "cashew-butter.jpg",
       "icon": "FaIndustry",
-      "certifications": ["عضوي", "حلال", "ISO 22000", "تجارة عادلة"],
+      "certifications": [
+        "عضوي",
+        "حلال",
+        "ISO 22000",
+        "تجارة عادلة"
+      ],
       "variants": [
         {
           "name": "ناعمة عضوية",
@@ -254,7 +268,12 @@
       "waitlist": true,
       "backgroundImage": "roasted-cashew.jpg",
       "icon": "FaLeaf",
-      "certifications": ["عضوي", "حلال", "ISO 22000", "تجارة عادلة"],
+      "certifications": [
+        "عضوي",
+        "حلال",
+        "ISO 22000",
+        "تجارة عادلة"
+      ],
       "variants": [
         {
           "name": "طبيعي عضوي",
@@ -291,7 +310,9 @@
       "preorderDate": "الربع الأول 2030",
       "backgroundImage": "cashew-nut-shell-liquid.jpg",
       "icon": "FaLeaf",
-      "certifications": ["تجارة عادلة"],
+      "certifications": [
+        "تجارة عادلة"
+      ],
       "variants": [
         {
           "name": "درجة تقنية",
@@ -313,7 +334,12 @@
       "waitlist": true,
       "backgroundImage": "cashew-milk.jpg",
       "icon": "FaLeaf",
-      "certifications": ["عضوي", "حلال", "ISO 22000", "تجارة عادلة"],
+      "certifications": [
+        "عضوي",
+        "حلال",
+        "ISO 22000",
+        "تجارة عادلة"
+      ],
       "variants": [
         {
           "name": "أصلي عضوي",
@@ -325,5 +351,37 @@
         }
       ]
     }
-  ]
+  ],
+  "timeline": {
+    "badge": "خارطة طريق الإنتاج",
+    "title": "متى يمكنك الطلب؟",
+    "subtitle": "نمونا الاستراتيجي من المرحلة التجريبية إلى النطاق الصناعي",
+    "overallProgress": "التقدم الكلي",
+    "products": "منتجات",
+    "available": "متوفر",
+    "productsTba": "منتجات قادمة",
+    "pilot": "الإنتاج التجريبي",
+    "pilotDesc": "الإنتاج الأولي واختبار السوق",
+    "scale": "التوسع",
+    "scaleDesc": "توسيع طاقة المعالجة",
+    "industrial": "النطاق الصناعي",
+    "industrialDesc": "إنتاج صناعي واسع النطاق",
+    "availableNow": "متوفر الآن",
+    "availableDesc": "منتجات جاهزة للطلب الفوري",
+    "soon": "قريباً",
+    "inProgress": "قيد التطوير",
+    "inProgressDesc": "منتجات قيد التطوير حالياً",
+    "future": "المستقبل",
+    "futureDesc": "توسيع خط منتجاتنا",
+    "planned": "مخطط له",
+    "plannedDesc": "منتجات في خارطة طريقنا المستقبلية",
+    "phase1": "المرحلة المستقبلية 1",
+    "phase2": "المرحلة المستقبلية 2",
+    "phase3": "المرحلة المستقبلية 3",
+    "status": {
+      "available": "متوفر الآن",
+      "inProgress": "قيد التطوير",
+      "upcoming": "قريباً"
+    }
+  }
 }

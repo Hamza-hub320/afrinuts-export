@@ -313,3 +313,20 @@ a {
   text-decoration: var(--link-underline);
   text-underline-offset: var(--link-underline-offset);
 }
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.timeline-node {
+  animation: float 3s ease-in-out infinite;
+}
+
+.timeline-node:nth-child(even) {
+  animation-delay: 1.5s;
+}

@@ -210,10 +210,6 @@
       "Prix premium pour les amandes transformées"
     ]
   },
-  "chemicalFree": {
-    "title": "Transformation 100 % Sans Produits Chimiques",
-    "description": "Contrairement aux méthodes traditionnelles qui utilisent des produits chimiques pour ramollir les coques, notre processus de cuisson à la vapeur et de torréfaction est entièrement sans produits chimiques. Cela préserve l'intégrité biologique de nos noix de cajou et garantit la sécurité alimentaire."
-  },
   "cnslRecovery": {
     "title": "Récupération et Réutilisation du CNSL",
     "description": "Le liquide des coques de noix de cajou (CNSL) est récupéré pendant la transformation et utilisé pour les biocarburants, les lubrifiants industriels et la production de polymères. Cela crée une source de revenus supplémentaire et réduit les déchets.",
@@ -222,6 +218,79 @@
       "lubricants": "Lubrifiants Industriels",
       "polymers": "Polymères et Résines",
       "revenue": "Revenus Supplémentaires"
+    }
+  },
+  "midCta": {
+    "title": "Découvrez l'Installation Derrière le Processus",
+    "description": "Explorez l'agencement de notre futur centre de transformation — de la réception des noix brutes à l'expédition. Chaque zone est conçue pour l'efficacité et la conformité aux certifications.",
+    "button": "Voir l'Organigramme de l'Installation"
+  },
+  "timeline": {
+    "title": "Route vers la Production",
+    "transition": "Transition et Montée en Échelle",
+    "transitionDetail": "Certifications et Entrée sur le Marché",
+    "pilot": "Production Pilote",
+    "scale": "Montée en Échelle",
+    "industrial": "Industriel"
+  },
+  "trustSignals": {
+    "title": "Construit sur la Confiance et la Transparence",
+    "chemicalFree": "Sans Produits Chimiques",
+    "certificationReady": "Prêt pour les Certifications",
+    "ivorianMade": "Fabriqué en Côte d'Ivoire"
+  },
+  "cnsl": {
+    "title": "CNSL : Transformer les Déchets de Coques en Or Industriel",
+    "description": "Le Liquide de Coque de Noix de Cajou est un sous-produit de haute valeur extrait lors de la transformation. Au lieu de payer pour éliminer les coques, nous vendons le CNSL aux industries du monde entier — transformant un coût en centre de profit.",
+    "shellRecovery": {
+      "title": "1. Récupération des Coques",
+      "description": "Lors du décorticage, les coques de cajou sont collectées. 1 tonne de noix brutes donne environ 250 kg de coques — toutes capturées pour la transformation."
+    },
+    "extraction": {
+      "title": "2. Extraction du CNSL",
+      "description": "Les coques sont pressées ou extraites par solvant pour produire le CNSL — riche en cardanol et en acide anacardique, des composés industriels prisés."
+    },
+    "applications": {
+      "title": "3. Applications Industrielles",
+      "friction": "Matériaux de Friction",
+      "frictionDesc": "Garnitures de frein et embrayages",
+      "coatings": "Revêtements et Peintures",
+      "coatingsDesc": "Peintures anti-corrosion et marines",
+      "polymers": "Polymères et Résines",
+      "polymersDesc": "Résines phénoliques biosourcées",
+      "biofuels": "Biocarburants",
+      "biofuelsDesc": "Biodiesel et énergie renouvelable"
+    },
+    "revenue": {
+      "title": "4. Impact sur les Revenus",
+      "description": "À pleine capacité, le CNSL devrait contribuer à 8-12 % du revenu total de transformation — transformant un coût d'élimination en centre de profit tout en atteignant un niveau proche du zéro déchet.",
+      "zeroWaste": "Proche du Zéro Déchet",
+      "revenueShare": "8-12 % des Revenus",
+      "industrial": "Qualité Industrielle"
+    }
+  },
+  "chemicalFree": {
+    "title": "Transformation 100 % Sans Produits Chimiques",
+    "description": "Contrairement aux méthodes traditionnelles qui utilisent des produits chimiques pour ramollir les coques, notre procédé à la vapeur préserve l'intégrité biologique et garantit la sécurité alimentaire.",
+    "traditional": {
+      "title": "Méthode Traditionnelle",
+      "description": "De nombreux transformateurs trempent les coques de cajou dans des produits chimiques (comme l'hydroxyde de sodium ou l'acide chlorhydrique) pour les ramollir avant découpe. Cela laisse des résidus chimiques, endommage les amandes et crée des déchets dangereux.",
+      "point1": "Résidus chimiques sur les amandes",
+      "point2": "Élimination de déchets dangereux",
+      "point3": "Compromet le potentiel de certification biologique",
+      "point4": "Exposition des travailleurs aux substances nocives"
+    },
+    "afrinuts": {
+      "title": "La Méthode AfriNuts",
+      "description": "Nous utilisons la torréfaction à la vapeur pour ramollir naturellement les coques de cajou. Aucun produit chimique — juste de la chaleur et de la pression. Des amandes plus propres, des travailleurs en sécurité, zéro déchet chimique.",
+      "point1": "Transformation 100 % sans produits chimiques",
+      "point2": "Zéro déchet dangereux issu du décorticage",
+      "point3": "Préserve l'éligibilité à la certification biologique",
+      "point4": "Conditions de travail plus sûres pour notre équipe"
+    },
+    "bottomLine": {
+      "title": "Pourquoi C'est Important pour les Acheteurs",
+      "description": "La transformation sans produits chimiques signifie que nos amandes respectent les normes d'importation biologique les plus strictes de l'UE. Pour vous, cela signifie moins d'envois rejetés, des étiquettes plus propres et un produit auquel les consommateurs font confiance."
     }
   }
 }

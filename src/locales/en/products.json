@@ -349,5 +349,37 @@
         }
       ]
     }
-  ]
+  ],
+  "timeline": {
+    "badge": "Production Roadmap",
+    "title": "When Can You Order?",
+    "subtitle": "Our strategic growth from pilot to industrial scale",
+    "overallProgress": "Overall Progress",
+    "products": "products",
+    "available": "available",
+    "productsTba": "Products TBA",
+    "pilot": "Pilot Production",
+    "pilotDesc": "Initial production and market testing",
+    "scale": "Scale Up",
+    "scaleDesc": "Expanding processing capacity",
+    "industrial": "Industrial Scale",
+    "industrialDesc": "Full-scale industrial production",
+    "availableNow": "Available Now",
+    "availableDesc": "Products ready for immediate order",
+    "soon": "Coming Soon",
+    "inProgress": "In Development",
+    "inProgressDesc": "Products currently in development",
+    "future": "Future",
+    "futureDesc": "Expanding our product line",
+    "planned": "Planned",
+    "plannedDesc": "Products in our future roadmap",
+    "phase1": "Future Phase 1",
+    "phase2": "Future Phase 2",
+    "phase3": "Future Phase 3",
+    "status": {
+      "available": "Available Now",
+      "inProgress": "In Development",
+      "upcoming": "Coming Soon"
+    }
+  }
 }

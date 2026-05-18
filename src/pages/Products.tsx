@@ -38,6 +38,7 @@ import productCataloguePdf from '../assets/documents/afrinuts-products-catalogue
 import { AvailabilityFilter } from '@/types/filters';
 import JsonLd from "@/components/Seo/JsonLd";
 import {CertificationsCard} from "@/components/CertificationsCard/CertificationsCard";
+import ProductTimeline from "@/components/ProductTimeline/ProductTimeline";
 
 type AvailabilityFilter = 'all' | 'available' | 'coming-soon';
 type CertificationFilter = 'Organic' | 'Halal' | 'Fair Trade' | 'ISO 22000' | '';
@@ -556,6 +557,26 @@ const Products: React.FC = () => {
                         </motion.div>
                     )}
 
+                    {/* Product Availability Timeline */}
+                    <Section className="py-8">
+                        <div className="w-full max-w-4xl mx-auto px-4 sm:px-6">
+                            <ProductTimeline
+                                products={filteredProducts}
+                                onPhaseClick={(phase) => {
+                                    // Filter products by the clicked phase
+                                    if (phase.status === 'available') {
+                                        setFilters({...filters, availability: 'available'});
+                                    } else if (phase.status === 'in-progress' || phase.status === 'upcoming') {
+                                        setFilters({...filters, availability: 'coming-soon'});
+                                    }
+                                    // Scroll to products
+                                    scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
+                                }}
+                                showHeader={true}
+                                maxPhases={3}
+                            />
+                        </div>
+                    </Section>
 
                     {/* Unified Offline Payment & Catalogue Section */}
 

@@ -312,7 +312,12 @@
       "waitlist": true,
       "backgroundImage": "cashew-milk.jpg",
       "icon": "FaLeaf",
-      "certifications": ["Biologique", "Halal", "ISO 22000", "Commerce Équitable"],
+      "certifications": [
+        "Biologique",
+        "Halal",
+        "ISO 22000",
+        "Commerce Équitable"
+      ],
       "variants": [
         {
           "name": "Original Biologique",
@@ -324,5 +329,37 @@
         }
       ]
     }
-  ]
+  ],
+  "timeline": {
+    "badge": "Feuille de Route de Production",
+    "title": "Quand Pouvez-Vous Commander ?",
+    "subtitle": "Notre croissance stratégique, du pilote à l'échelle industrielle",
+    "overallProgress": "Progrès Global",
+    "products": "produits",
+    "available": "disponible",
+    "productsTba": "Produits à Venir",
+    "pilot": "Production Pilote",
+    "pilotDesc": "Production initiale et test de marché",
+    "scale": "Montée en Échelle",
+    "scaleDesc": "Expansion de la capacité de transformation",
+    "industrial": "Échelle Industrielle",
+    "industrialDesc": "Production industrielle à pleine échelle",
+    "availableNow": "Disponible Maintenant",
+    "availableDesc": "Produits prêts pour commande immédiate",
+    "soon": "Bientôt Disponible",
+    "inProgress": "En Développement",
+    "inProgressDesc": "Produits actuellement en développement",
+    "future": "Futur",
+    "futureDesc": "Expansion de notre gamme de produits",
+    "planned": "Planifié",
+    "plannedDesc": "Produits dans notre feuille de route future",
+    "phase1": "Phase Future 1",
+    "phase2": "Phase Future 2",
+    "phase3": "Phase Future 3",
+    "status": {
+      "available": "Disponible Maintenant",
+      "inProgress": "En Développement",
+      "upcoming": "Bientôt Disponible"
+    }
+  }
 }

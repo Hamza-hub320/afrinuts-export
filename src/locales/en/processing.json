@@ -210,10 +210,6 @@
         "Premium pricing for processed kernels"
       ]
     },
-    "chemicalFree": {
-      "title": "100% Chemical-Free Processing",
-      "description": "Unlike traditional methods that use chemicals to soften shells, our steaming and roasting process is entirely chemical-free. This preserves the organic integrity of our cashews and ensures food safety."
-    },
     "cnslRecovery": {
       "title": "CNSL Recovery & Reuse",
       "description": "The liquid from cashew shells (CNSL) is recovered during processing and used for biofuels, industrial lubricants, and polymer production. This creates an additional revenue stream and reduces waste.",
@@ -222,6 +218,76 @@
         "lubricants": "Industrial Lubricants",
         "polymers": "Polymers & Resins",
         "revenue": "Additional Revenue"
+      }
+    },
+  "midCta": {
+  "title": "See the Facility Behind the Process",
+  "description": "Explore the layout of our future processing center — from raw nut intake to dispatch. Every zone designed for efficiency and certification compliance.",
+  "button": "View Facility Flowchart"
+},
+  "timeline": {
+    "title": "Road to Production",
+    "transition": "Transition & Scaling",
+    "transitionDetail": "Certifications & Market Entry"
+  },
+  "trustSignals": {
+    "title": "Built on Trust & Transparency",
+    "chemicalFree": "Chemical-Free",
+    "certificationReady": "Certification-Ready",
+    "ivorianMade": "Ivorian-Made"
+  },
+  "cnsl": {
+    "title": "CNSL: Turning Shell Waste Into Industrial Gold",
+    "description": "Cashew Nut Shell Liquid is a high-value byproduct extracted during processing. Instead of paying to dispose of shells, we sell CNSL to industries worldwide — transforming a cost into a profit center.",
+    "shellRecovery": {
+      "title": "1. Shell Recovery",
+      "description": "During shelling, cashew shells are collected. 1 ton of raw nuts yields ~250kg of shells — all captured for processing."
+    },
+    "extraction": {
+      "title": "2. CNSL Extraction",
+      "description": "Shells are pressed or solvent-extracted to yield CNSL — rich in cardanol and anacardic acid, prized industrial compounds."
+    },
+    "applications": {
+      "title": "3. Industrial Applications",
+      "friction": "Friction Materials",
+      "frictionDesc": "Brake linings & clutch facings",
+      "coatings": "Coatings & Paints",
+      "coatingsDesc": "Anti-corrosion & marine paints",
+      "polymers": "Polymers & Resins",
+      "polymersDesc": "Bio-based phenolic resins",
+      "biofuels": "Biofuels",
+      "biofuelsDesc": "Biodiesel & renewable energy"
+    },
+    "revenue": {
+      "title": "4. Revenue Impact",
+      "description": "At full capacity, CNSL is projected to contribute 8-12% of total processing revenue — transforming a disposal cost into a profit center while achieving near-zero waste.",
+      "zeroWaste": "Near-Zero Waste",
+      "revenueShare": "8-12% Revenue",
+      "industrial": "Industrial Grade"
+    }
+  },
+    "chemicalFree": {
+      "title": "100% Chemical-Free Processing",
+      "description": "Unlike traditional methods that use chemicals to soften shells, our steaming process preserves organic integrity and ensures food safety.",
+      "traditional": {
+        "title": "Traditional Method",
+        "description": "Many processors soak cashew shells in chemicals (like sodium hydroxide or hydrochloric acid) to soften them for cutting. This leaves chemical residues, damages kernels, and creates hazardous waste.",
+        "point1": "Chemical residue on kernels",
+        "point2": "Hazardous waste disposal",
+        "point3": "Damages organic certification potential",
+        "point4": "Worker exposure to harmful substances"
+      },
+      "afrinuts": {
+        "title": "The AfriNuts Method",
+        "description": "We use steam roasting to naturally soften cashew shells. No chemicals — just heat and pressure. Cleaner kernels, safer workers, zero chemical waste.",
+        "point1": "100% chemical-free processing",
+        "point2": "Zero hazardous waste from shelling",
+        "point3": "Preserves organic certification eligibility",
+        "point4": "Safer working conditions for our team"
+      },
+      "bottomLine": {
+        "title": "Why It Matters for Buyers",
+        "description": "Chemical-free processing means our kernels meet the strictest EU organic import standards. For you, that means fewer rejected shipments, cleaner labels, and a product consumers trust."
       }
     }
 }
