@@ -1,7 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FaCalendarAlt, FaUser, FaArrowLeft, FaTwitter, FaLinkedin, FaEnvelope, FaClock, FaTag } from 'react-icons/fa';
+import {
+    FaCalendarAlt,
+    FaUser,
+    FaArrowLeft,
+    FaTwitter,
+    FaLinkedin,
+    FaEnvelope,
+    FaClock,
+    FaTag,
+    FaHeadphones
+} from 'react-icons/fa';
 import { Typography } from '@/components/Typography/Typography';
 import Section from '@/components/Section/Section';
 import { Helmet } from 'react-helmet-async';
@@ -174,13 +184,29 @@ const NewsPost: React.FC = () => {
                         <span className="inline-block px-3 py-1 bg-accent/10 text-accent text-xs rounded-full mb-4">
                             AfriNuts Update
                         </span>
-                        <Typography variant="h1" className="text-3xl md:text-4xl font-bold mb-4 text-text-dark">
+                        <Typography variant="h1" id="news-post-title" className="text-3xl md:text-4xl font-bold mb-4 text-text-dark">
                             {post.title}
                         </Typography>
                         <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500 mb-6">
                             <span className="flex items-center gap-1"><FaCalendarAlt /> {new Date(post.publishedDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
                             <span className="flex items-center gap-1"><FaUser /> {post.author}</span>
                             <span className="flex items-center gap-1"><FaClock /> {readTime} min read</span>
+                            {/* Listen Button */}
+                            <button
+                                onClick={() => {
+                                    const content = document.querySelector('[role="textbox"]');
+                                    if (content) {
+                                        content.setAttribute('tabindex', '-1');
+                                        (content as HTMLElement).focus();
+                                    }
+                                }}
+                                className="flex items-center gap-1.5 px-3 py-1.5 bg-primary/10 text-primary rounded-full hover:bg-primary/20 transition-colors"
+                                aria-label="Focus article content for screen reader"
+                                title="Use your device's built-in screen reader to listen"
+                            >
+                                <FaHeadphones className="text-xs" />
+                                <span>Listen</span>
+                            </button>
                         </div>
 
                         {post.image && (
@@ -217,45 +243,52 @@ const NewsPost: React.FC = () => {
                         )}
 
                         {/* Content */}
-                        <div className="prose prose-lg max-w-none">
-                            {post.content ? (
-                                typeof post.content === 'string' ? (
-                                    // Plain text fallback
-                                    post.content.split('\n').map((paragraph: string, i: number) => (
-                                        <Typography key={i} variant="body" className="text-gray-700 mb-4 leading-relaxed">
-                                            {paragraph}
-                                        </Typography>
-                                    ))
-                                ) : (
-                                    // Rich text (Document object)
-                                    documentToReactComponents(post.content, {
-                                        renderNode: {
-                                            [BLOCKS.HEADING_2]: (_node, children) => (
-                                                <Typography variant="h3" className="text-xl font-bold text-primary mt-8 mb-4">{children}</Typography>
-                                            ),
-                                            [BLOCKS.HEADING_3]: (_node, children) => (
-                                                <Typography variant="h4" className="text-lg font-semibold text-text-dark mt-6 mb-3">{children}</Typography>
-                                            ),
-                                            [BLOCKS.PARAGRAPH]: (_node, children) => (
-                                                <Typography variant="body" className="text-gray-700 mb-4 leading-relaxed">{children}</Typography>
-                                            ),
-                                            [BLOCKS.UL_LIST]: (_node, children) => (
-                                                <ul className="list-disc pl-6 mb-4 space-y-2">{children}</ul>
-                                            ),
-                                            [BLOCKS.OL_LIST]: (_node, children) => (
-                                                <ol className="list-decimal pl-6 mb-4 space-y-2">{children}</ol>
-                                            ),
-                                            [BLOCKS.LIST_ITEM]: (_node, children) => (
-                                                <li className="text-gray-700">{children}</li>
-                                            ),
-                                        },
-                                        renderMark: {
-                                            [MARKS.BOLD]: (text) => <strong className="font-bold text-text-dark">{text}</strong>,
-                                        },
-                                    })
-                                )
-                            ) : null}
-                        </div>
+                        <article aria-labelledby="news-post-title" role="article">
+                            <div
+                                className="prose prose-lg max-w-none"
+                                role="textbox"
+                                aria-label="News article content"
+                                tabIndex={0}
+                            >
+                                {post.content ? (
+                                    typeof post.content === 'string' ? (
+                                        // Plain text fallback
+                                        post.content.split('\n').map((paragraph: string, i: number) => (
+                                            <Typography key={i} variant="body" className="text-gray-700 mb-4 leading-relaxed">
+                                                {paragraph}
+                                            </Typography>
+                                        ))
+                                    ) : (
+                                        // Rich text (Document object)
+                                        documentToReactComponents(post.content, {
+                                            renderNode: {
+                                                [BLOCKS.HEADING_2]: (_node, children) => (
+                                                    <Typography variant="h3" className="text-xl font-bold text-primary mt-8 mb-4">{children}</Typography>
+                                                ),
+                                                [BLOCKS.HEADING_3]: (_node, children) => (
+                                                    <Typography variant="h4" className="text-lg font-semibold text-text-dark mt-6 mb-3">{children}</Typography>
+                                                ),
+                                                [BLOCKS.PARAGRAPH]: (_node, children) => (
+                                                    <Typography variant="body" className="text-gray-700 mb-4 leading-relaxed">{children}</Typography>
+                                                ),
+                                                [BLOCKS.UL_LIST]: (_node, children) => (
+                                                    <ul className="list-disc pl-6 mb-4 space-y-2" role="list">{children}</ul>
+                                                ),
+                                                [BLOCKS.OL_LIST]: (_node, children) => (
+                                                    <ol className="list-decimal pl-6 mb-4 space-y-2" role="list">{children}</ol>
+                                                ),
+                                                [BLOCKS.LIST_ITEM]: (_node, children) => (
+                                                    <li className="text-gray-700">{children}</li>
+                                                ),
+                                            },
+                                            renderMark: {
+                                                [MARKS.BOLD]: (text) => <strong className="font-bold text-text-dark">{text}</strong>,
+                                            },
+                                        })
+                                    )
+                                ) : null}
+                            </div>
+                        </article>
                     </motion.div>
 
                     {/* Post Footer CTA */}
@@ -353,7 +386,7 @@ const NewsPost: React.FC = () => {
                             {relatedPosts.map((related) => (
                                 <Link to={`/news/${related.slug}`} key={related.id} className="group">
                                     <motion.div className="bg-white rounded-xl overflow-hidden shadow-md border border-gray-100" whileHover={{ y: -4 }}>
-                                        <img src={related.image || newsImage} alt={related.title} className="w-full h-36 object-cover" />
+                                        <img src={related.image || newsImage} alt={related.title} className="w-full h-64 object-cover" />
                                         <div className="p-4">
                                             <Typography variant="h5" className="group-hover:text-accent transition-colors line-clamp-2">{related.title}</Typography>
                                             <div className="flex items-center gap-2 text-xs text-gray-400 mt-2">
