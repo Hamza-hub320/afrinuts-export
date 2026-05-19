@@ -161,5 +161,10 @@
     "sustainability": "Durabilité",
     "sustainabilityDesc": "Pratiques biologiques sur {{blocks}} blocs. Le taux de survie dépasse la moyenne du secteur de 85 %.",
     "lastSync": "Les données se mettent à jour en temps réel • Dernière synchronisation : {{time}}"
+  },
+  "farmOs": {
+    "title": "AfriNuts Farm OS — Accès pour les membres de l'équipe",
+    "description": "Les fondateurs, gestionnaires et investisseurs peuvent se connecter pour gérer les opérations de la ferme, suivre les tâches et consulter les rapports financiers.",
+    "button": "Connexion au Centre des Opérations Agricoles"
   }
 }

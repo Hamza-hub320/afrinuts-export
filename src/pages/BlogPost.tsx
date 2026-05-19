@@ -1,7 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FaCalendarAlt, FaUser, FaArrowLeft, FaTwitter, FaLinkedin, FaEnvelope, FaClock } from 'react-icons/fa';
+import {
+    FaCalendarAlt,
+    FaUser,
+    FaArrowLeft,
+    FaTwitter,
+    FaLinkedin,
+    FaEnvelope,
+    FaClock,
+    FaHeadphones
+} from 'react-icons/fa';
 import { Typography } from '@/components/Typography/Typography';
 import Section from '@/components/Section/Section';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
@@ -220,13 +229,29 @@ const BlogPost: React.FC = () => {
                         <span className="inline-block px-3 py-1 bg-accent/10 text-accent text-xs rounded-full mb-4">
                             {post.category}
                         </span>
-                        <Typography variant="h1" className="text-3xl md:text-4xl font-bold mb-4 text-text-dark">
+                        <Typography variant="h1" id="post-title" className="text-3xl md:text-4xl font-bold mb-4 text-text-dark">
                             {post.title}
                         </Typography>
                         <div className="flex flex-wrap items-center gap-4 text-sm text-gray-500 mb-6">
                             <span className="flex items-center gap-1"><FaCalendarAlt /> {new Date(post.publishedDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
                             <span className="flex items-center gap-1"><FaUser /> {post.author}</span>
                             <span className="flex items-center gap-1"><FaClock /> {readTime} min read</span>
+                            {/* Listen Button */}
+                            <button
+                                onClick={() => {
+                                    const content = document.querySelector('.prose');
+                                    if (content) {
+                                        content.setAttribute('tabindex', '-1');
+                                        (content as HTMLElement).focus();
+                                    }
+                                }}
+                                className="flex items-center gap-1.5 px-3 py-1.5 bg-primary/10 text-primary rounded-full hover:bg-primary/20 transition-colors"
+                                aria-label="Focus article content for screen reader"
+                                title="Use your device's built-in screen reader to listen"
+                            >
+                                <FaHeadphones className="text-xs" />
+                                <span>Listen</span>
+                            </button>
                         </div>
 
                         {post.featuredImage && (
@@ -268,9 +293,16 @@ const BlogPost: React.FC = () => {
                         </div>
 
                         {/* Article Content */}
-                        <div className="prose prose-lg max-w-none">
-                            {post.content && documentToReactComponents(post.content, options)}
-                        </div>
+                        <article aria-labelledby="post-title" role="article">
+                            <div
+                                className="prose prose-lg max-w-none"
+                                role="textbox"
+                                aria-label="Article content"
+                                tabIndex={0}
+                            >
+                                {post.content && documentToReactComponents(post.content, options)}
+                            </div>
+                        </article>
                     </motion.div>
 
                     {/* Author Bio */}

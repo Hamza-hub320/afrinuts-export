@@ -266,10 +266,10 @@ const Farm = () => {
                                 transition={{ delay: 0.6 }}
                             >
                                 <p className="text-text-dark mb-2">
-                                    AfriNuts Farm OS — Access for team members
+                                    {t('farmOs.title', 'AfriNuts Farm OS — Access for team members')}
                                 </p>
                                 <p className="text-sm text-text-dark mb-4">
-                                    Founders, managers, and investors can log in to manage farm operations, track tasks, and view financial reports.
+                                    {t('farmOs.description', 'Founders, managers, and investors can log in to manage farm operations, track tasks, and view financial reports.')}
                                 </p>
                                 <button
                                     onClick={() => {
@@ -278,7 +278,7 @@ const Farm = () => {
                                     }}
                                     className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-primary to-accent text-white rounded-xl hover:shadow-lg transition-all group"
                                 >
-                                    <span>Login to Farm Operations Center</span>
+                                    <span>{t('farmOs.button', 'Login to Farm Operations Center')}</span>
                                     <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
                                 </button>
                             </motion.div>
