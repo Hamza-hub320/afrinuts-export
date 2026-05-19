@@ -201,7 +201,7 @@ const News: React.FC = () => {
                             <Link
                                 to={`/news/${update.slug}`}
                                 onClick={() => trackCtaClick('read_update', 'news_page')}
-                                className="text-accent hover:underline text-sm"
+                                className="block"
                             >
                                 <motion.div
                                     className="relative bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl border-2 border-primary/20 hover:border-accent/30 shadow-lg overflow-hidden hover:shadow-xl transition-all duration-500 border-l-4 border-accent h-full transform-gpu"

@@ -242,6 +242,7 @@ const NewsPost: React.FC = () => {
                             </div>
                         )}
 
+
                         {/* Content */}
                         <article aria-labelledby="news-post-title" role="article">
                             <div
@@ -290,6 +291,7 @@ const NewsPost: React.FC = () => {
                             </div>
                         </article>
                     </motion.div>
+
 
                     {/* Post Footer CTA */}
                     <div className="mt-10 pt-8 border-t border-gray-200">
