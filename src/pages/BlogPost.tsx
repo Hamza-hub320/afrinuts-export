@@ -42,6 +42,27 @@ const calculateReadTime = (content: any): number => {
 
 const options = {
     renderNode: {
+        [BLOCKS.EMBEDDED_ASSET]: (node: any) => {
+            const { file, title, description } = node.data.target.fields;
+            const imageUrl = `https:${file.url}`;
+            const altText = description || title || 'Blog post image';
+
+            return (
+                <figure className="my-8">
+                    <img
+                        src={imageUrl}
+                        alt={altText}
+                        className="w-full rounded-2xl shadow-lg border-2 border-white/20"
+                        loading="lazy"
+                    />
+                    {title && (
+                        <figcaption className="text-center text-sm text-gray-500 mt-3 italic">
+                            {title}
+                        </figcaption>
+                    )}
+                </figure>
+            );
+        },
         [BLOCKS.TABLE]: (node: any, children: any) => (
             <div className="overflow-x-auto my-6">
                 <table className="min-w-full border-collapse border border-gray-200 rounded-lg overflow-hidden">
