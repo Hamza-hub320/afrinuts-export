@@ -134,5 +134,32 @@
     "title": "Comment Nous Transformons les Parcelles en Unités Commerciales",
     "description": "Chaque hectare est suivi, chaque arbre compté, chaque dépense allouée. Découvrez comment notre modèle opérationnel crée de la transparence pour les investisseurs et les partenaires.",
     "button": "Explorer Notre Vision"
+  },
+  "liveStats": {
+    "title": "Tableau de Bord de la Ferme en Direct",
+    "subtitle": "En direct de la Ferme AfriNuts – là où les données rencontrent le sol",
+    "devMode": "Mode Développement - Utilisation de Données Simulées",
+    "error": "Impossible de charger les données de la ferme en direct",
+    "unavailable": "Statistiques indisponibles",
+    "cards": {
+      "treesPlanted": "Arbres Plantés",
+      "blocksPlanted": "{{planted}}/{{total}} blocs plantés",
+      "survivalRate": "Taux de Survie",
+      "treesEstablished": "Arbres établis avec succès",
+      "farmProgress": "Progrès de la Ferme",
+      "blocksProgress": "{{planted}} sur {{total}} blocs plantés",
+      "activeFarm": "Ferme Active",
+      "totalArea": "35 ha",
+      "cultivatedArea": "Superficie totale cultivée"
+    },
+    "blockDistribution": "Distribution des Statuts des Blocs",
+    "performanceMetrics": "Indicateurs de Performance de la Ferme",
+    "farmCompletion": "Achèvement de la Ferme",
+    "survivalRateLabel": "Taux de Survie",
+    "treesAlive": "Arbres Vivants",
+    "blocksPlantedLabel": "Blocs Plantés",
+    "sustainability": "Durabilité",
+    "sustainabilityDesc": "Pratiques biologiques sur {{blocks}} blocs. Le taux de survie dépasse la moyenne du secteur de 85 %.",
+    "lastSync": "Les données se mettent à jour en temps réel • Dernière synchronisation : {{time}}"
   }
 }

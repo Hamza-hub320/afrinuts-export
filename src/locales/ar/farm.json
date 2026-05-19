@@ -134,5 +134,32 @@
     "title": "كيف نحول القطع إلى وحدات أعمال",
     "description": "كل هكتار يتم تتبعه، كل شجرة يتم إحصاؤها، كل نفقة يتم تخصيصها. اكتشف كيف يخلق نموذجنا التشغيلي الشفافية للمستثمرين والشركاء.",
     "button": "استكشف رؤيتنا"
+  },
+  "liveStats": {
+    "title": "لوحة تحكم المزرعة المباشرة",
+    "subtitle": "مباشرة من مزرعة أفري ناتس – حيث تلتقي البيانات بالتربة",
+    "devMode": "وضع التطوير - استخدام بيانات محاكاة",
+    "error": "تعذر تحميل بيانات المزرعة المباشرة",
+    "unavailable": "الإحصائيات غير متاحة",
+    "cards": {
+      "treesPlanted": "الأشجار المزروعة",
+      "blocksPlanted": "{{planted}}/{{total}} قطعة مزروعة",
+      "survivalRate": "معدل البقاء",
+      "treesEstablished": "أشجار تم إنباتها بنجاح",
+      "farmProgress": "تقدم المزرعة",
+      "blocksProgress": "{{planted}} من {{total}} قطعة مزروعة",
+      "activeFarm": "مزرعة نشطة",
+      "totalArea": "35 هكتاراً",
+      "cultivatedArea": "المساحة الإجمالية المزروعة"
+    },
+    "blockDistribution": "توزيع حالة القطع",
+    "performanceMetrics": "مقاييس أداء المزرعة",
+    "farmCompletion": "اكتمال المزرعة",
+    "survivalRateLabel": "معدل البقاء",
+    "treesAlive": "أشجار حية",
+    "blocksPlantedLabel": "قطع مزروعة",
+    "sustainability": "الاستدامة",
+    "sustainabilityDesc": "ممارسات عضوية عبر {{blocks}} قطعة. معدل البقاء يتجاوز متوسط الصناعة البالغ 85%.",
+    "lastSync": "تتحدث البيانات في الوقت الفعلي • آخر مزامنة: {{time}}"
   }
 }

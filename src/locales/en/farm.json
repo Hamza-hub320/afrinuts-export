@@ -134,5 +134,32 @@
     "title": "How We Turn Blocks Into Business Units",
     "description": "Every hectare is tracked, every tree counted, every expense allocated. See how our operational model creates transparency for investors and partners.",
     "button": "Explore Our Vision"
+  },
+  "liveStats": {
+    "title": "Live Farm Dashboard",
+    "subtitle": "Live from AfriNuts Farm – where data meets the soil",
+    "devMode": "Development Mode - Using Mock Data",
+    "error": "Unable to load live farm data",
+    "unavailable": "Stats unavailable",
+    "cards": {
+      "treesPlanted": "Trees Planted",
+      "blocksPlanted": "{{planted}}/{{total}} blocks planted",
+      "survivalRate": "Survival Rate",
+      "treesEstablished": "Trees successfully established",
+      "farmProgress": "Farm Progress",
+      "blocksProgress": "{{planted}} of {{total}} blocks planted",
+      "activeFarm": "Active Farm",
+      "totalArea": "35 ha",
+      "cultivatedArea": "Total cultivated area"
+    },
+    "blockDistribution": "Block Status Distribution",
+    "performanceMetrics": "Farm Performance Metrics",
+    "farmCompletion": "Farm Completion",
+    "survivalRateLabel": "Survival Rate",
+    "treesAlive": "Trees Alive",
+    "blocksPlantedLabel": "Blocks Planted",
+    "sustainability": "Sustainability",
+    "sustainabilityDesc": "Organic practices across {{blocks}} blocks. Survival rate exceeds industry average of 85%.",
+    "lastSync": "Data updates in real-time • Last sync: {{time}}"
   }
 }
