@@ -43,25 +43,33 @@ const calculateReadTime = (content: any): number => {
 const options = {
     renderNode: {
         [BLOCKS.EMBEDDED_ASSET]: (node: any) => {
-            const { file, title, description } = node.data.target.fields;
-            const imageUrl = `https:${file.url}`;
-            const altText = description || title || 'Blog post image';
+            try {
+                const target = node?.data?.target;
+                if (!target?.fields?.file?.url) {
+                    return null;
+                }
+                const imageUrl = `https:${target.fields.file.url}`;
+                const altText = target.fields.description || target.fields.title || 'Blog post image';
+                const imageDetails = target.fields.file.details?.image;
+                const isPortrait = imageDetails && imageDetails.height > imageDetails.width;
 
-            return (
-                <figure className="my-8">
-                    <img
-                        src={imageUrl}
-                        alt={altText}
-                        className="w-full rounded-2xl shadow-lg border-2 border-white/20"
-                        loading="lazy"
-                    />
-                    {title && (
-                        <figcaption className="text-center text-sm text-gray-500 mt-3 italic">
-                            {title}
-                        </figcaption>
-                    )}
-                </figure>
-            );
+                return (
+                    <div className="my-8 flex justify-center">
+                        <img
+                            src={imageUrl}
+                            alt={altText}
+                            className={`rounded-2xl shadow-lg border-2 border-white/20 object-contain ${
+                                isPortrait
+                                    ? 'max-h-[500px] w-auto'
+                                    : 'max-w-full max-h-[400px]'
+                            }`}
+                            loading="lazy"
+                        />
+                    </div>
+                );
+            } catch {
+                return null;
+            }
         },
         [BLOCKS.TABLE]: (node: any, children: any) => (
             <div className="overflow-x-auto my-6">
