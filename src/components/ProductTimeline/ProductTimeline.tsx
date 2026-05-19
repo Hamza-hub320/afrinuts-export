@@ -1,7 +1,17 @@
 // components/ProductTimeline/ProductTimeline.tsx
-import React, { useMemo } from 'react';
-import { motion } from 'framer-motion';
-import { FaCheckCircle, FaHourglassHalf, FaIndustry, FaCalendarAlt, FaRocket, FaClock } from 'react-icons/fa';
+import React, { useMemo, useState, useEffect, useCallback } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import {
+    FaCheckCircle,
+    FaHourglassHalf,
+    FaIndustry,
+    FaCalendarAlt,
+    FaRocket,
+    FaClock,
+    FaChevronLeft,
+    FaChevronRight,
+    FaCircle
+} from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
 
 interface Product {
@@ -44,6 +54,21 @@ export const ProductTimeline: React.FC<ProductTimelineProps> = ({
                                                                     maxPhases = 3
                                                                 }) => {
     const { t } = useTranslation('products');
+    const [activeIndex, setActiveIndex] = useState(0);
+    const [isMobile, setIsMobile] = useState(false);
+    const [touchStart, setTouchStart] = useState(0);
+    const [touchEnd, setTouchEnd] = useState(0);
+
+    // Check if mobile on mount and resize
+    useEffect(() => {
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth < 768);
+        };
+
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
 
     // Dynamically generate phases based on actual product data
     const phases = useMemo(() => {
@@ -142,7 +167,7 @@ export const ProductTimeline: React.FC<ProductTimelineProps> = ({
                 label: t(`timeline.phase${phases.length + 1}`, `Future Phase ${phases.length}`),
                 description: t('timeline.futureDesc', 'Expanding our product line'),
                 products: [],
-                status: 'upcoming',
+                status: 'upcoming' as const,
                 productCount: 0,
                 availableCount: 0
             });
@@ -167,6 +192,42 @@ export const ProductTimeline: React.FC<ProductTimelineProps> = ({
 
         return Math.min((weightedProgress / totalProducts) * 100, 100);
     }, [phases]);
+
+    // Mobile navigation
+    const nextPhase = useCallback(() => {
+        setActiveIndex(prev => Math.min(prev + 1, phases.length - 1));
+    }, [phases.length]);
+
+    const prevPhase = useCallback(() => {
+        setActiveIndex(prev => Math.max(prev - 1, 0));
+    }, []);
+
+    // Touch handlers for swipe
+    const handleTouchStart = (e: React.TouchEvent) => {
+        setTouchStart(e.targetTouches[0].clientX);
+    };
+
+    const handleTouchMove = (e: React.TouchEvent) => {
+        setTouchEnd(e.targetTouches[0].clientX);
+    };
+
+    const handleTouchEnd = () => {
+        if (!touchStart || !touchEnd) return;
+
+        const distance = touchStart - touchEnd;
+        const isLeftSwipe = distance > 50;
+        const isRightSwipe = distance < -50;
+
+        if (isLeftSwipe) {
+            nextPhase();
+        }
+        if (isRightSwipe) {
+            prevPhase();
+        }
+
+        setTouchStart(0);
+        setTouchEnd(0);
+    };
 
     const statusConfig = {
         'available': {
@@ -205,12 +266,187 @@ export const ProductTimeline: React.FC<ProductTimelineProps> = ({
     };
 
     if (phases.length === 0) {
-        return null; // Don't render if no phases
+        return null;
     }
+
+    const PhaseCard = ({ phase, index, isActive }: { phase: TimelinePhase; index: number; isActive: boolean }) => {
+        const config = statusConfig[phase.status];
+        const StatusIcon = config.icon;
+        const isEmpty = phase.productCount === 0;
+
+        return (
+            <motion.div
+                className={`relative ${isMobile ? 'w-full flex-shrink-0' : ''}`}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.2, duration: 0.5 }}
+            >
+                {/* Timeline node */}
+                <div className="flex justify-center mb-6 relative z-20">
+                    <motion.div
+                        className="relative cursor-pointer"
+                        whileHover={{ scale: 1.1 }}
+                        onClick={() => {
+                            setActiveIndex(index);
+                            onPhaseClick?.(phase);
+                        }}
+                    >
+                        {/* Outer ring with glass morphism */}
+                        <div className={`relative w-12 h-12 md:w-16 md:h-16 rounded-full border-2 ${config.border} ${config.bg} backdrop-blur-sm flex items-center justify-center shadow-lg ${config.glow} transform-gpu ${isEmpty ? 'opacity-50' : ''} ${isActive ? 'ring-2 ring-primary/30 ring-offset-2' : ''}`}
+                             style={{ transformStyle: 'preserve-3d' }}
+                        >
+                            {/* 3D edge for node */}
+                            <div className="absolute inset-0 rounded-full border border-white/30 transform-gpu translate-z-[-2px]" />
+
+                            {/* Glassy overlay for node */}
+                            <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50" />
+
+                            {/* Product count or icon */}
+                            <div className="relative z-10 flex flex-col items-center">
+                                {phase.productCount > 0 ? (
+                                    <>
+                                        <span className="text-sm md:text-lg font-bold text-gray-700 leading-none">
+                                            {phase.productCount}
+                                        </span>
+                                        <span className="text-[8px] md:text-[10px] text-gray-500 leading-tight">
+                                            {t('timeline.products', 'products')}
+                                        </span>
+                                    </>
+                                ) : (
+                                    <StatusIcon className={`text-base md:text-xl ${config.color} opacity-50`} />
+                                )}
+                            </div>
+                        </div>
+
+                        {/* Pulse ring for in-progress */}
+                        {phase.status === 'in-progress' && phase.productCount > 0 && (
+                            <motion.div
+                                className={`absolute inset-0 rounded-full border-2 ${config.border}`}
+                                animate={{
+                                    scale: [1, 1.8],
+                                    opacity: [0.6, 0],
+                                }}
+                                transition={{
+                                    repeat: Infinity,
+                                    duration: 2,
+                                    delay: 0.5,
+                                }}
+                            />
+                        )}
+                    </motion.div>
+                </div>
+
+                {/* Content card with glass morphism */}
+                <motion.div
+                    className={`relative rounded-2xl border ${config.border} ${config.bg} backdrop-blur-sm p-4 md:p-5 shadow-md hover:shadow-lg transition-all duration-300 transform-gpu group/card ${onPhaseClick ? 'cursor-pointer' : ''} ${isEmpty ? 'opacity-60' : ''}`}
+                    style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
+                    whileHover={{
+                        y: -5,
+                        scale: 1.02,
+                        transition: { duration: 0.3 }
+                    }}
+                    onClick={() => onPhaseClick?.(phase)}
+                >
+                    {/* Card 3D edge */}
+                    <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-4px] group-hover/card:translate-z-[-6px] transition-all duration-500" />
+
+                    {/* Card glassy overlay */}
+                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/10 to-transparent opacity-30 group-hover/card:opacity-50 transition-opacity duration-500" />
+
+                    {/* Card inner shadow */}
+                    <div className="absolute inset-0 rounded-2xl shadow-[inset_0_1px_8px_rgba(0,0,0,0.06)] group-hover/card:shadow-[inset_0_2px_12px_rgba(0,0,0,0.1)] transition-shadow duration-500" />
+
+                    <div className="relative z-10">
+                        {/* Year badge */}
+                        <div className="flex items-center justify-between mb-3 md:mb-4">
+                            <span className={`px-2 md:px-3 py-1 rounded-full text-[10px] md:text-xs font-bold ${config.badge} backdrop-blur-sm`}>
+                                {phase.year}
+                            </span>
+                            <div className="flex items-center gap-1 md:gap-2">
+                                {phase.availableCount > 0 && (
+                                    <span className="text-[8px] md:text-[10px] font-medium text-emerald-600 bg-emerald-100/50 px-1.5 md:px-2 py-0.5 rounded-full backdrop-blur-sm hidden sm:inline-block">
+                                        {phase.availableCount} {t('timeline.available', 'available')}
+                                    </span>
+                                )}
+                                <StatusIcon className={`text-sm md:text-lg ${config.color} ${isEmpty ? 'opacity-50' : ''}`} />
+                            </div>
+                        </div>
+
+                        {/* Title */}
+                        <h4 className="text-sm md:text-lg font-bold text-gray-900 mb-1 md:mb-2">
+                            {phase.label}
+                        </h4>
+
+                        {/* Description */}
+                        <p className="text-gray-600 text-xs md:text-sm mb-3 md:mb-4 line-clamp-2">
+                            {phase.description}
+                        </p>
+
+                        {/* Products */}
+                        {phase.products.length > 0 ? (
+                            <div className="space-y-1.5 md:space-y-2 mb-3 md:mb-4">
+                                {phase.products.slice(0, 3).map((product, pIndex) => (
+                                    <motion.div
+                                        key={product}
+                                        className="flex items-center gap-1.5 md:gap-2 bg-white/40 backdrop-blur-sm rounded-lg px-2 md:px-3 py-1.5 md:py-2 border border-white/50"
+                                        initial={{ opacity: 0, x: -10 }}
+                                        whileInView={{ opacity: 1, x: 0 }}
+                                        viewport={{ once: true }}
+                                        transition={{ delay: index * 0.2 + pIndex * 0.1 }}
+                                    >
+                                        <FaIndustry className={`text-[10px] md:text-xs ${config.color} opacity-70 flex-shrink-0`} />
+                                        <span className="text-[10px] md:text-xs font-medium text-gray-700 truncate">
+                                            {product}
+                                        </span>
+                                    </motion.div>
+                                ))}
+                                {phase.products.length > 3 && (
+                                    <div className="text-[10px] md:text-xs text-gray-500 text-center">
+                                        +{phase.products.length - 3} more
+                                    </div>
+                                )}
+                            </div>
+                        ) : (
+                            <div className="mb-3 md:mb-4 p-2 md:p-3 bg-white/30 rounded-lg border border-dashed border-gray-300 text-center">
+                                <FaClock className="mx-auto text-gray-400 mb-1 text-xs md:text-sm" />
+                                <p className="text-[10px] md:text-xs text-gray-500">
+                                    {t('timeline.productsTba', 'Products TBA')}
+                                </p>
+                            </div>
+                        )}
+
+                        {/* Status indicator */}
+                        <div className="flex items-center gap-1.5 md:gap-2 pt-2 md:pt-3 border-t border-white/30">
+                            <span className={`w-1.5 h-1.5 md:w-2 md:h-2 rounded-full ${config.dot} ${
+                                phase.status === 'in-progress' ? 'animate-pulse' : ''
+                            } ${isEmpty ? 'opacity-50' : ''}`} />
+                            <span className={`text-[10px] md:text-xs font-semibold ${config.color} ${isEmpty ? 'opacity-50' : ''}`}>
+                                {config.label}
+                            </span>
+                        </div>
+
+                        {/* Progress bar for in-progress */}
+                        {phase.status === 'in-progress' && phase.productCount > 0 && (
+                            <div className="mt-2 md:mt-3 bg-white/50 rounded-full h-1 md:h-1.5 overflow-hidden backdrop-blur-sm">
+                                <motion.div
+                                    className="h-full rounded-full bg-gradient-to-r from-amber-400 to-amber-300"
+                                    initial={{ width: 0 }}
+                                    whileInView={{ width: '65%' }}
+                                    viewport={{ once: true }}
+                                    transition={{ delay: index * 0.2 + 0.5, duration: 1 }}
+                                />
+                            </div>
+                        )}
+                    </div>
+                </motion.div>
+            </motion.div>
+        );
+    };
 
     return (
         <motion.div
-            className={`relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 rounded-2xl shadow-xl p-6 md:p-8 transform-gpu group ${className}`}
+            className={`relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 rounded-2xl shadow-xl p-4 md:p-6 lg:p-8 transform-gpu group ${className}`}
             style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -238,30 +474,30 @@ export const ProductTimeline: React.FC<ProductTimelineProps> = ({
                 {/* Header */}
                 {showHeader && (
                     <motion.div
-                        className="text-center mb-8 md:mb-12"
+                        className="text-center mb-6 md:mb-8 lg:mb-12"
                         initial={{ opacity: 0, y: -20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.2 }}
                     >
-                        <span className="inline-block px-4 py-1.5 bg-primary/10 text-primary rounded-full text-sm font-semibold mb-4 backdrop-blur-sm">
-                            <FaCalendarAlt className="inline-block mr-2" />
+                        <span className="inline-block px-3 md:px-4 py-1 md:py-1.5 bg-primary/10 text-primary rounded-full text-xs md:text-sm font-semibold mb-3 md:mb-4 backdrop-blur-sm">
+                            <FaCalendarAlt className="inline-block mr-1.5 md:mr-2 text-xs md:text-sm" />
                             {t('timeline.badge', 'Production Roadmap')}
                         </span>
-                        <h3 className="text-2xl md:text-3xl font-bold text-primary mb-2">
+                        <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-primary mb-1 md:mb-2">
                             {t('timeline.title', 'When Can You Order?')}
                         </h3>
-                        <p className="text-gray-600 max-w-2xl mx-auto text-sm">
+                        <p className="text-gray-600 max-w-2xl mx-auto text-xs md:text-sm">
                             {t('timeline.subtitle', 'Our strategic growth from pilot to industrial scale')}
                         </p>
 
                         {/* Overall Progress */}
-                        <div className="mt-4 max-w-md mx-auto">
-                            <div className="flex justify-between text-xs text-gray-500 mb-1">
+                        <div className="mt-3 md:mt-4 max-w-md mx-auto px-4">
+                            <div className="flex justify-between text-[10px] md:text-xs text-gray-500 mb-1">
                                 <span>{t('timeline.overallProgress', 'Overall Progress')}</span>
                                 <span>{Math.round(timelineProgress)}%</span>
                             </div>
-                            <div className="bg-white/50 rounded-full h-2 overflow-hidden backdrop-blur-sm">
+                            <div className="bg-white/50 rounded-full h-1.5 md:h-2 overflow-hidden backdrop-blur-sm">
                                 <motion.div
                                     className="h-full rounded-full bg-gradient-to-r from-emerald-400 via-amber-400 to-blue-400"
                                     initial={{ width: 0 }}
@@ -274,205 +510,118 @@ export const ProductTimeline: React.FC<ProductTimelineProps> = ({
                     </motion.div>
                 )}
 
-                {/* Horizontal Timeline */}
-                <div className="relative max-w-5xl mx-auto">
-                    {/* Connecting line */}
-                    <div className="absolute top-8 left-0 right-0 h-0.5 bg-gradient-to-r from-emerald-400 via-amber-400 to-blue-400 rounded-full opacity-30" />
+                {/* Mobile View - Swipeable Carousel */}
+                {isMobile ? (
+                    <div className="relative">
+                        {/* Navigation Buttons */}
+                        <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 flex justify-between z-30 pointer-events-none px-2">
+                            <motion.button
+                                onClick={prevPhase}
+                                className={`pointer-events-auto w-8 h-8 md:w-10 md:h-10 rounded-full bg-white/80 backdrop-blur-sm shadow-lg flex items-center justify-center border border-white/50 ${activeIndex === 0 ? 'opacity-30 cursor-not-allowed' : 'hover:bg-white'}`}
+                                whileHover={activeIndex > 0 ? { scale: 1.1 } : {}}
+                                whileTap={activeIndex > 0 ? { scale: 0.9 } : {}}
+                                disabled={activeIndex === 0}
+                            >
+                                <FaChevronLeft className="text-gray-600 text-sm md:text-base" />
+                            </motion.button>
+                            <motion.button
+                                onClick={nextPhase}
+                                className={`pointer-events-auto w-8 h-8 md:w-10 md:h-10 rounded-full bg-white/80 backdrop-blur-sm shadow-lg flex items-center justify-center border border-white/50 ${activeIndex === phases.length - 1 ? 'opacity-30 cursor-not-allowed' : 'hover:bg-white'}`}
+                                whileHover={activeIndex < phases.length - 1 ? { scale: 1.1 } : {}}
+                                whileTap={activeIndex < phases.length - 1 ? { scale: 0.9 } : {}}
+                                disabled={activeIndex === phases.length - 1}
+                            >
+                                <FaChevronRight className="text-gray-600 text-sm md:text-base" />
+                            </motion.button>
+                        </div>
 
-                    {/* Animated progress line */}
-                    <motion.div
-                        className="absolute top-8 left-0 h-0.5 bg-gradient-to-r from-emerald-400 via-amber-400 to-transparent rounded-full"
-                        initial={{ width: 0 }}
-                        whileInView={{ width: `${timelineProgress}%` }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.5, duration: 1.5, ease: "easeInOut" }}
-                    />
-
-                    <div className={`grid grid-cols-1 md:grid-cols-${Math.min(phases.length, 3)} gap-8 md:gap-4`}>
-                        {phases.map((phase, index) => {
-                            const config = statusConfig[phase.status];
-                            const StatusIcon = config.icon;
-                            const isEmpty = phase.productCount === 0;
-
-                            return (
-                                <motion.div
-                                    key={`${phase.status}-${index}`}
-                                    className="relative"
-                                    initial={{ opacity: 0, y: 30 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ delay: index * 0.2, duration: 0.5 }}
-                                    onClick={() => onPhaseClick?.(phase)}
-                                >
-                                    {/* Timeline node */}
-                                    <div className="flex justify-center mb-6 relative z-20">
-                                        <motion.div
-                                            className="relative cursor-pointer"
-                                            whileHover={{ scale: 1.1 }}
-                                        >
-                                            {/* Outer ring with glass morphism */}
-                                            <div className={`relative w-16 h-16 rounded-full border-2 ${config.border} ${config.bg} backdrop-blur-sm flex items-center justify-center shadow-lg ${config.glow} transform-gpu ${isEmpty ? 'opacity-50' : ''}`}
-                                                 style={{ transformStyle: 'preserve-3d' }}
-                                            >
-                                                {/* 3D edge for node */}
-                                                <div className="absolute inset-0 rounded-full border border-white/30 transform-gpu translate-z-[-2px]" />
-
-                                                {/* Glassy overlay for node */}
-                                                <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50" />
-
-                                                {/* Product count or icon */}
-                                                <div className="relative z-10 flex flex-col items-center">
-                                                    {phase.productCount > 0 ? (
-                                                        <>
-                                                            <span className="text-lg font-bold text-gray-700 leading-none">
-                                                                {phase.productCount}
-                                                            </span>
-                                                            <span className="text-[10px] text-gray-500 leading-tight">
-                                                                {t('timeline.products', 'products')}
-                                                            </span>
-                                                        </>
-                                                    ) : (
-                                                        <StatusIcon className={`text-xl ${config.color} opacity-50`} />
-                                                    )}
-                                                </div>
-                                            </div>
-
-                                            {/* Pulse ring for in-progress */}
-                                            {phase.status === 'in-progress' && phase.productCount > 0 && (
-                                                <motion.div
-                                                    className={`absolute inset-0 rounded-full border-2 ${config.border}`}
-                                                    animate={{
-                                                        scale: [1, 1.8],
-                                                        opacity: [0.6, 0],
-                                                    }}
-                                                    transition={{
-                                                        repeat: Infinity,
-                                                        duration: 2,
-                                                        delay: 0.5,
-                                                    }}
-                                                />
-                                            )}
-
-                                            {/* Connection line glow */}
-                                            <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-20 h-0.5 ${config.lineGlow} blur-sm -z-10 ${isEmpty ? 'opacity-30' : ''}`} />
-                                        </motion.div>
+                        {/* Carousel Container */}
+                        <div
+                            className="overflow-hidden"
+                            onTouchStart={handleTouchStart}
+                            onTouchMove={handleTouchMove}
+                            onTouchEnd={handleTouchEnd}
+                        >
+                            <motion.div
+                                className="flex"
+                                animate={{ x: `-${activeIndex * 100}%` }}
+                                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                            >
+                                {phases.map((phase, index) => (
+                                    <div key={`${phase.status}-${index}`} className="w-full flex-shrink-0 px-2">
+                                        <PhaseCard phase={phase} index={index} isActive={index === activeIndex} />
                                     </div>
+                                ))}
+                            </motion.div>
+                        </div>
 
-                                    {/* Content card with glass morphism */}
-                                    <motion.div
-                                        className={`relative rounded-2xl border ${config.border} ${config.bg} backdrop-blur-sm p-5 shadow-md hover:shadow-lg transition-all duration-300 transform-gpu group/card ${onPhaseClick ? 'cursor-pointer' : ''} ${isEmpty ? 'opacity-60' : ''}`}
-                                        style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
-                                        whileHover={{
-                                            y: -5,
-                                            scale: 1.02,
-                                            transition: { duration: 0.3 }
-                                        }}
-                                    >
-                                        {/* Card 3D edge */}
-                                        <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-4px] group-hover/card:translate-z-[-6px] transition-all duration-500" />
+                        {/* Dot Indicators */}
+                        <div className="flex justify-center gap-2 mt-4">
+                            {phases.map((_, index) => (
+                                <motion.button
+                                    key={index}
+                                    onClick={() => setActiveIndex(index)}
+                                    className={`w-2 h-2 md:w-2.5 md:h-2.5 rounded-full transition-all ${
+                                        index === activeIndex
+                                            ? 'bg-primary scale-125'
+                                            : 'bg-gray-300 hover:bg-gray-400'
+                                    }`}
+                                    whileHover={{ scale: 1.2 }}
+                                    whileTap={{ scale: 0.9 }}
+                                />
+                            ))}
+                        </div>
 
-                                        {/* Card glassy overlay */}
-                                        <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/10 to-transparent opacity-30 group-hover/card:opacity-50 transition-opacity duration-500" />
-
-                                        {/* Card inner shadow */}
-                                        <div className="absolute inset-0 rounded-2xl shadow-[inset_0_1px_8px_rgba(0,0,0,0.06)] group-hover/card:shadow-[inset_0_2px_12px_rgba(0,0,0,0.1)] transition-shadow duration-500" />
-
-                                        <div className="relative z-10">
-                                            {/* Year badge */}
-                                            <div className="flex items-center justify-between mb-4">
-                                                <span className={`px-3 py-1 rounded-full text-xs font-bold ${config.badge} backdrop-blur-sm`}>
-                                                    {phase.year}
-                                                </span>
-                                                <div className="flex items-center gap-2">
-                                                    {phase.availableCount > 0 && (
-                                                        <span className="text-[10px] font-medium text-emerald-600 bg-emerald-100/50 px-2 py-0.5 rounded-full backdrop-blur-sm">
-                                                            {phase.availableCount} {t('timeline.available', 'available')}
-                                                        </span>
-                                                    )}
-                                                    <StatusIcon className={`text-lg ${config.color} ${isEmpty ? 'opacity-50' : ''}`} />
-                                                </div>
-                                            </div>
-
-                                            {/* Title */}
-                                            <h4 className="text-lg font-bold text-gray-900 mb-2">
-                                                {phase.label}
-                                            </h4>
-
-                                            {/* Description */}
-                                            <p className="text-gray-600 text-sm mb-4">
-                                                {phase.description}
-                                            </p>
-
-                                            {/* Products */}
-                                            {phase.products.length > 0 ? (
-                                                <div className="space-y-2 mb-4">
-                                                    {phase.products.map((product, pIndex) => (
-                                                        <motion.div
-                                                            key={product}
-                                                            className="flex items-center gap-2 bg-white/40 backdrop-blur-sm rounded-lg px-3 py-2 border border-white/50"
-                                                            initial={{ opacity: 0, x: -10 }}
-                                                            whileInView={{ opacity: 1, x: 0 }}
-                                                            viewport={{ once: true }}
-                                                            transition={{ delay: index * 0.2 + pIndex * 0.1 }}
-                                                        >
-                                                            <FaIndustry className={`text-xs ${config.color} opacity-70 flex-shrink-0`} />
-                                                            <span className="text-xs font-medium text-gray-700 truncate">
-                                                                {product}
-                                                            </span>
-                                                        </motion.div>
-                                                    ))}
-                                                </div>
-                                            ) : (
-                                                <div className="mb-4 p-3 bg-white/30 rounded-lg border border-dashed border-gray-300 text-center">
-                                                    <FaClock className="mx-auto text-gray-400 mb-1" />
-                                                    <p className="text-xs text-gray-500">
-                                                        {t('timeline.productsTba', 'Products TBA')}
-                                                    </p>
-                                                </div>
-                                            )}
-
-                                            {/* Status indicator */}
-                                            <div className="flex items-center gap-2 pt-3 border-t border-white/30">
-                                                <span className={`w-2 h-2 rounded-full ${config.dot} ${
-                                                    phase.status === 'in-progress' ? 'animate-pulse' : ''
-                                                } ${isEmpty ? 'opacity-50' : ''}`} />
-                                                <span className={`text-xs font-semibold ${config.color} ${isEmpty ? 'opacity-50' : ''}`}>
-                                                    {config.label}
-                                                </span>
-                                            </div>
-
-                                            {/* Progress bar for in-progress */}
-                                            {phase.status === 'in-progress' && phase.productCount > 0 && (
-                                                <div className="mt-3 bg-white/50 rounded-full h-1.5 overflow-hidden backdrop-blur-sm">
-                                                    <motion.div
-                                                        className="h-full rounded-full bg-gradient-to-r from-amber-400 to-amber-300"
-                                                        initial={{ width: 0 }}
-                                                        whileInView={{ width: '65%' }}
-                                                        viewport={{ once: true }}
-                                                        transition={{ delay: index * 0.2 + 0.5, duration: 1 }}
-                                                    />
-                                                </div>
-                                            )}
-                                        </div>
-                                    </motion.div>
-                                </motion.div>
-                            );
-                        })}
+                        {/* Swipe hint */}
+                        {activeIndex === 0 && (
+                            <motion.div
+                                className="text-center mt-2 text-[10px] md:text-xs text-gray-400"
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ delay: 1 }}
+                            >
+                                {t('timeline.swipeHint', 'Swipe to explore phases →')}
+                            </motion.div>
+                        )}
                     </div>
-                </div>
+                ) : (
+                    /* Desktop View - Horizontal Timeline */
+                    <div className="relative max-w-5xl mx-auto">
+                        {/* Connecting line */}
+                        <div className="absolute top-8 left-0 right-0 h-0.5 bg-gradient-to-r from-emerald-400 via-amber-400 to-blue-400 rounded-full opacity-30" />
+
+                        {/* Animated progress line */}
+                        <motion.div
+                            className="absolute top-8 left-0 h-0.5 bg-gradient-to-r from-emerald-400 via-amber-400 to-transparent rounded-full"
+                            initial={{ width: 0 }}
+                            whileInView={{ width: `${timelineProgress}%` }}
+                            viewport={{ once: true }}
+                            transition={{ delay: 0.5, duration: 1.5, ease: "easeInOut" }}
+                        />
+
+                        <div className="grid grid-cols-3 gap-4 lg:gap-8">
+                            {phases.map((phase, index) => (
+                                <PhaseCard key={`${phase.status}-${index}`} phase={phase} index={index} isActive={false} />
+                            ))}
+                        </div>
+                    </div>
+                )}
 
                 {/* Legend with glass morphism */}
                 <motion.div
-                    className="flex flex-wrap justify-center gap-4 mt-10 pt-6 border-t border-white/20"
+                    className="flex flex-wrap justify-center gap-2 md:gap-4 mt-6 md:mt-8 lg:mt-10 pt-4 md:pt-6 border-t border-white/20"
                     initial={{ opacity: 0 }}
                     whileInView={{ opacity: 1 }}
                     viewport={{ once: true }}
                     transition={{ delay: 0.8 }}
                 >
                     {Object.entries(statusConfig).map(([status, config]) => (
-                        <div key={status} className="flex items-center gap-2 bg-white/30 backdrop-blur-sm rounded-full px-4 py-1.5 border border-white/40">
-                            <span className={`w-3 h-3 rounded-full ${config.dot}`} />
-                            <span className="text-xs font-medium text-gray-600">
+                        <div
+                            key={status}
+                            className="flex items-center gap-1.5 md:gap-2 bg-white/30 backdrop-blur-sm rounded-full px-3 md:px-4 py-1 md:py-1.5 border border-white/40"
+                        >
+                            <span className={`w-2 h-2 md:w-3 md:h-3 rounded-full ${config.dot}`} />
+                            <span className="text-[10px] md:text-xs font-medium text-gray-600">
                                 {config.label}
                             </span>
                         </div>

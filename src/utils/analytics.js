@@ -1,12 +1,33 @@
 // src/utils/analytics.js
 
+// Helper to check if gtag is ready
+const isGtagReady = () => {
+    return typeof window !== 'undefined' && typeof window.gtag === 'function';
+};
+
 // Send event to Google Analytics
 export const trackEvent = (eventName, eventParams = {}) => {
-    if (typeof window !== 'undefined' && window.gtag) {
+    if (isGtagReady()) {
         window.gtag('event', eventName, eventParams);
-        console.log(`GA Event: ${eventName}`, eventParams);
+        console.log(`✅ GA Event: ${eventName}`, eventParams);
     } else {
-        console.warn('GTag not available');
+        console.warn(`⚠️ GTag not ready. Event not sent: ${eventName}`);
+        // Optional: queue events for later
+        if (typeof window !== 'undefined') {
+            window._gaEventsQueue = window._gaEventsQueue || [];
+            window._gaEventsQueue.push({ eventName, eventParams });
+        }
+    }
+};
+
+// Retry queued events when gtag becomes available
+export const flushQueuedEvents = () => {
+    if (isGtagReady() && window._gaEventsQueue && window._gaEventsQueue.length) {
+        console.log(`🔄 Flushing ${window._gaEventsQueue.length} queued events`);
+        window._gaEventsQueue.forEach(({ eventName, eventParams }) => {
+            window.gtag('event', eventName, eventParams);
+        });
+        window._gaEventsQueue = [];
     }
 };
 
@@ -49,6 +70,7 @@ export const trackCtaClick = (ctaName, ctaLocation) => {
         cta_location: ctaLocation, // 'hero', 'contact_page', 'processing_page'
     });
 };
+
 export const trackSearch = (searchQuery, resultsCount) => {
     trackEvent('site_search', {
         search_term: searchQuery,
@@ -60,4 +82,21 @@ export const trackNewsletterSubscribe = (source) => {
     trackEvent('newsletter_subscribe', {
         source: source, // 'footer', 'blog_post', 'news_page', 'popup'
     });
+};
+
+// Initialize queued events on page load (call this in your App component)
+export const initAnalytics = () => {
+    if (isGtagReady()) {
+        flushQueuedEvents();
+    } else {
+        // Wait for gtag to load
+        const checkInterval = setInterval(() => {
+            if (isGtagReady()) {
+                clearInterval(checkInterval);
+                flushQueuedEvents();
+            }
+        }, 100);
+        // Timeout after 5 seconds
+        setTimeout(() => clearInterval(checkInterval), 5000);
+    }
 };

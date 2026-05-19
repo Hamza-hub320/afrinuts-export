@@ -1,30 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
+    <!-- Google tag (gtag.js) - LOAD IMMEDIATELY -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-EV50QEBNKE"></script>
     <script>
-        window.addEventListener('load', function() {
-            var script = document.createElement('script');
-            script.src = 'https://www.googletagmanager.com/gtag/js?id=G-EV50QEBNKE';
-            script.async = true;
-            document.head.appendChild(script);
+        // Initialize dataLayer
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
 
-            script.onload = function() {
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', 'G-EV50QEBNKE');
-            };
+        // Consent default (GDPR compliant)
+        gtag('consent', 'default', {
+            'ad_storage': 'denied',
+            'analytics_storage': 'granted',
+            'wait_for_update': 500
+        });
+
+        // Initialize GA4
+        gtag('js', new Date());
+        gtag('config', 'G-EV50QEBNKE', {
+            'send_page_view': true,
+            'anonymize_ip': true
         });
     </script>
 
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <!-- ADD THE META DESCRIPTION HERE -->
     <meta name="description" content="Premium organic cashews from the heart of Ivory Coast. AfriNuts Export — sustainably grown, ethically sourced, and packed with flavor. Connecting West Africa's finest harvest to global markets." />
-
     <title>AfriNuts Export</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="icon" type="image/webp" href="/ic_afrinuts_foreground.webp" />

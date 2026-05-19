@@ -1,5 +1,6 @@
 import React, { Suspense, ReactElement, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { initAnalytics } from './utils/analytics';
 import Layout from './components/Layout/Layout';
 import { I18nextProvider } from 'react-i18next';
 import { AuthProvider } from './contexts/AuthContext';
@@ -55,6 +56,9 @@ const LoadingFallback = () => (
 );
 
 function App(): ReactElement {
+    useEffect(() => {
+        initAnalytics();
+    }, []);
     return (
         <I18nextProvider i18n={i18n}>
             <AuthProvider>
