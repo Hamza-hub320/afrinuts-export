@@ -40,44 +40,56 @@ const calculateReadTime = (content: any): number => {
     return Math.max(3, Math.ceil(wordCount / 200));
 };
 
+let pendingImage: string | null = null;
+let pendingAlt: string | null = null;
+
 const options = {
     renderNode: {
         [BLOCKS.EMBEDDED_ASSET]: (node: any) => {
             try {
                 const target = node?.data?.target;
-                if (!target?.fields?.file?.url) {
-                    return null;
-                }
+                if (!target?.fields?.file?.url) return null;
+
                 const imageUrl = `https:${target.fields.file.url}`;
                 const altText = target.fields.description || target.fields.title || 'Blog post image';
-                const imageDetails = target.fields.file.details?.image;
-                const isPortrait = imageDetails && imageDetails.height > imageDetails.width;
+
+                // First image: store it and wait
+                if (!pendingImage) {
+                    pendingImage = imageUrl;
+                    pendingAlt = altText;
+                    return null; // Don't render yet
+                }
+
+                // Second image: render both side by side
+                const firstImage = pendingImage;
+                const firstAlt = pendingAlt;
+                pendingImage = null;
+                pendingAlt = null;
 
                 return (
-                    <div className="my-8 flex justify-center">
-                        <img
-                            src={imageUrl}
-                            alt={altText}
-                            className={`rounded-2xl shadow-lg border-2 border-white/20 object-contain ${
-                                isPortrait
-                                    ? 'max-h-[500px] w-auto'
-                                    : 'max-w-full max-h-[400px]'
-                            }`}
-                            loading="lazy"
-                        />
+                    <div className="my-8 grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <img
+                                src={firstImage}
+                                alt={firstAlt || ''}
+                                className="w-full rounded-2xl shadow-lg border-2 border-white/20 max-h-[400px] object-contain"
+                                loading="lazy"
+                            />
+                        </div>
+                        <div>
+                            <img
+                                src={imageUrl}
+                                alt={altText || ''}
+                                className="w-full rounded-2xl shadow-lg border-2 border-white/20 max-h-[400px] object-contain"
+                                loading="lazy"
+                            />
+                        </div>
                     </div>
                 );
             } catch {
                 return null;
             }
         },
-        [BLOCKS.TABLE]: (node: any, children: any) => (
-            <div className="overflow-x-auto my-6">
-                <table className="min-w-full border-collapse border border-gray-200 rounded-lg overflow-hidden">
-                    <tbody>{children}</tbody>
-                </table>
-            </div>
-        ),
         [BLOCKS.TABLE_ROW]: (node: any, children: any) => (
             <tr className="border-b border-gray-200 even:bg-gray-50">{children}</tr>
         ),
