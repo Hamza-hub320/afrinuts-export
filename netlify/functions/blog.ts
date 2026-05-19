@@ -43,7 +43,7 @@ export const handler: Handler = async (event) => {
                 }
             }
 
-            f (item.fields.content?.content && data.includes?.Asset) {
+            if (item.fields.content?.content && data.includes?.Asset) {
                 item.fields.content.content = item.fields.content.content.map((node: any) => {
                     if (node.nodeType === 'embedded-asset-block' && node.data?.target?.sys?.id) {
                         const asset = data.includes.Asset.find(
