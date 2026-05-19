@@ -263,6 +263,35 @@ const NewsPost: React.FC = () => {
                                         // Rich text (Document object)
                                         documentToReactComponents(post.content, {
                                             renderNode: {
+                                                [BLOCKS.EMBEDDED_ASSET]: (node: any) => {
+                                                    try {
+                                                        const target = node?.data?.target;
+                                                        if (!target?.fields?.file?.url) {
+                                                            return null;
+                                                        }
+                                                        const imageUrl = `https:${target.fields.file.url}`;
+                                                        const altText = target.fields.description || target.fields.title || 'News image';
+                                                        const imageDetails = target.fields.file.details?.image;
+                                                        const isPortrait = imageDetails && imageDetails.height > imageDetails.width;
+
+                                                        return (
+                                                            <div className="my-8 flex justify-center">
+                                                                <img
+                                                                    src={imageUrl}
+                                                                    alt={altText}
+                                                                    className={`rounded-2xl shadow-lg border-2 border-white/20 object-contain ${
+                                                                        isPortrait
+                                                                            ? 'max-h-[500px] w-auto'
+                                                                            : 'max-w-full max-h-[400px]'
+                                                                    }`}
+                                                                    loading="lazy"
+                                                                />
+                                                            </div>
+                                                        );
+                                                    } catch {
+                                                        return null;
+                                                    }
+                                                },
                                                 [BLOCKS.HEADING_2]: (_node, children) => (
                                                     <Typography variant="h3" className="text-xl font-bold text-primary mt-8 mb-4">{children}</Typography>
                                                 ),
