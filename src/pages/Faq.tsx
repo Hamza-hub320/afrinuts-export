@@ -20,7 +20,7 @@ import {
     FaRecycle,
     FaShieldAlt,
     FaHandHoldingUsd,
-    FaUsers
+    FaUsers, FaQuestionCircle
 } from 'react-icons/fa';
 import { motion, LazyMotion, domAnimation } from 'framer-motion';
 import Section from '@/components/Section/Section';
@@ -162,7 +162,7 @@ const Faq: React.FC = () => {
             {/* Hero */}
             <Section className="flex items-center justify-center text-center min-h-[40vh]">
                 <motion.div className="max-w-4xl px-6 sm:px-8 py-12" initial="hidden" animate="visible" variants={staggerContainer}>
-                    <motion.div variants={fadeIn}><Typography variant="subhead" className="uppercase tracking-widest text-primary mb-4">{t('hero.subtitle')}</Typography></motion.div>
+                    <motion.div variants={fadeIn}><Typography variant="subhead" className="uppercase tracking-widest text-primary mb-4"><FaQuestionCircle className="inline mr-3 text-accent" />{t('hero.subtitle')}</Typography></motion.div>
                     <motion.h1 className="font-display text-4xl md:text-5xl lg:text-6xl text-text-dark mb-6 leading-tight" variants={fadeIn} style={{ letterSpacing: '-0.03em' }}>{t('hero.title')}</motion.h1>
                     <motion.div variants={fadeIn}><Typography variant="lead" className="text-text-dark max-w-3xl mx-auto">{t('hero.description')}</Typography></motion.div>
                 </motion.div>

@@ -194,7 +194,7 @@
     "viewAll": "Meet the full leadership team",
     "members": [
       { "name": "Hamza Sangare", "position": "Founder & CEO", "bio": "3rd generation cashew farmer. Software engineering background. Leads strategy, investor relations, and project execution.", "imageKey": "ceo" },
-      { "name": "Sekou Hakim Peters", "position": "Co-Founder & CFO/COO", "bio": "15+ years financial management. Shariah-compliant investment structuring. Oversees finance, operations, and compliance.", "imageKey": "cfo" },
+      { "name": "Sekou Hakim Peters", "position": "Co-Founder & CFO/COO", "bio": "Architects ethical financial systems at the convergence of profitability and prophetic principles. Leads Shariah-compliant structuring, operational strategy, and community reinvestment.", "imageKey": "cfo" },
       { "name": "Mohamadue Kouyaté", "position": "Chief Commercial Officer", "bio": "12+ years in export compliance, logistics, and operations. Manages buyer relationships and trade documentation.", "imageKey": "cco" },
       { "name": "Alassana Bah", "position": "Chief Technology Officer", "bio": "12+ years in software engineering and database management. Leads IoT infrastructure and farm management systems.", "imageKey": "ops" },
       { "name": "Mohammed Beniken", "position": "Chief Administrative Officer", "bio": "10+ years in administrative leadership. Oversees HR, legal affairs, and information security protocols.", "imageKey": "admin" },

@@ -126,5 +126,12 @@
     "compliancePack": "Download Complete Compliance Pack",
     "compliancePackDesc": "All documents in one file for easy sharing with customs and regulators",
     "downloadAll": "Download All"
+  },
+  "breadcrumbs": {
+    "home": "Home",
+    "farm": "Farm",
+    "processing": "Processing",
+    "facilityFlowchart": "Facility Flowchart",
+    "batchTraceability": "Batch Traceability"
   }
 }

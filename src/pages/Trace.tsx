@@ -151,11 +151,24 @@ const TracePage: React.FC = () => {
     // ========== PROMO PAGE (no batch found) ==========
     if (!batch && !loading) {
         return (
-            <main className="text-text-dark font-sans min-h-screen pt-[72px]">
+            <main className="text-text-dark font-sans pt-[72px]">
+                <div className="max-w-4xl mx-auto px-6 sm:px-8 pt-[88px] pb-2">
+                    <div className="text-sm text-gray-400 mb-4 flex items-center gap-1 flex-wrap">
+                        <Link to="/" className="hover:text-primary transition-colors">{t('breadcrumbs.home', 'Home')}</Link>
+                        <span>/</span>
+                        <Link to="/farm" className="hover:text-primary transition-colors">{t('breadcrumbs.farm', 'Farm')}</Link>
+                        <span>/</span>
+                        <Link to="/processing" className="hover:text-primary transition-colors">{t('breadcrumbs.processing', 'Processing')}</Link>
+                        <span>/</span>
+                        <Link to="/processing/facility-flowchart" className="hover:text-primary transition-colors">{t('breadcrumbs.facility_flowchart', 'Facility Flowchart')}</Link>
+                        <span>/</span>
+                        <span className="text-primary font-medium">{t('breadcrumbs.batchTraceability', 'Batch Traceability')}</span>
+                    </div>
+                </div>
                 <Section className="flex items-center justify-center text-center min-h-[40vh]">
                     <motion.div className="max-w-3xl px-6 sm:px-8 py-12" variants={fadeIn} initial="hidden" animate="visible">
                         <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-4">
-                            {t('page.title')}
+                            <FaQrcode className="inline mr-3 text-accent" />{t('page.title')}
                         </Typography>
                         <Typography variant="h1" className="text-4xl md:text-5xl lg:text-6xl font-display text-text-dark mb-6">
                             {t('promo.heading', 'Audit-Ready Traceability for Serious Importers')}
@@ -253,10 +266,23 @@ const TracePage: React.FC = () => {
 
     return (
         <main className="text-text-dark font-sans">
+            <div className="max-w-4xl mx-auto px-6 sm:px-8 pt-[88px] pb-2">
+                <div className="text-sm text-gray-400 mb-4 flex items-center gap-1 flex-wrap">
+                    <Link to="/" className="hover:text-primary transition-colors">{t('breadcrumbs.home', 'Home')}</Link>
+                    <span>/</span>
+                    <Link to="/farm" className="hover:text-primary transition-colors">{t('breadcrumbs.farm', 'Farm')}</Link>
+                    <span>/</span>
+                    <Link to="/processing" className="hover:text-primary transition-colors">{t('breadcrumbs.processing', 'Processing')}</Link>
+                    <span>/</span>
+                    <Link to="/processing/facility-flowchart" className="hover:text-primary transition-colors">{t('breadcrumbs.facility_flowchart', 'Facility Flowchart')}</Link>
+                    <span>/</span>
+                    <span className="text-primary font-medium">{t('breadcrumbs.batchTraceability', 'Batch Traceability')}</span>
+                </div>
+            </div>
             {/* Hero */}
             <Section className="flex items-center justify-center text-center min-h-[40vh]">
                 <motion.div className="max-w-3xl px-6 sm:px-8 py-12" variants={fadeIn} initial="hidden" animate="visible">
-                    <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-4">{t('page.title')}</Typography>
+                    <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-4"><FaQrcode className="inline mr-3 text-accent" />{t('page.title')}</Typography>
                     <Typography variant="h1" className="text-4xl md:text-5xl lg:text-6xl font-display text-text-dark mb-6">{batch?.batchId}</Typography>
                     <Typography variant="lead" className="text-text-dark max-w-2xl mx-auto">{t('page.description')}</Typography>
 

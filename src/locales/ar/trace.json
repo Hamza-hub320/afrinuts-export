@@ -126,5 +126,12 @@
     "compliancePack": "تحميل حزمة الامتثال الكاملة",
     "compliancePackDesc": "جميع المستندات في ملف واحد لسهولة المشاركة مع الجمارك والجهات التنظيمية",
     "downloadAll": "تحميل الكل"
+  },
+  "breadcrumbs": {
+    "home": "الرئيسية",
+    "farm": "المزرعة",
+    "processing": "المعالجة",
+    "facilityFlowchart": "مخطط المنشأة",
+    "batchTraceability": "تتبع الدفعات"
   }
 }

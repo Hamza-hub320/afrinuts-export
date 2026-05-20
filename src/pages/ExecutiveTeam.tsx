@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { fadeIn, staggerContainer } from '@/utils/animations';
 import { Typography } from "@/components/Typography/Typography";
 import Section from '@/components/Section/Section';
-import {FaTimes, FaArrowLeft, FaEnvelope, FaLinkedin} from 'react-icons/fa';
+import {FaTimes, FaEnvelope, FaLinkedin, FaUserTie} from 'react-icons/fa';
 import {Link, useNavigate} from 'react-router-dom';
 import {Dialog, Transition} from '@headlessui/react';
 import { ProfileCard } from '@/components/ProfileCard/ProfileCard';
@@ -62,7 +62,7 @@ const ExecutiveTeam: React.FC = () => {
         },
         {
             id: 2,
-            name: "Sekou Hakim",
+            name: "Sekou Hakim Peters",
             title: t('executives.cfo.title'),
             role: t('executives.cfo.role'),
             image: cfoImage,
@@ -243,7 +243,7 @@ const ExecutiveTeam: React.FC = () => {
                             variant="subhead"
                             className="uppercase tracking-widest text-primary mb-4"
                         >
-                            {t('executives.subtitle')}
+                            <FaUserTie className="inline mr-3 text-accent" />{t('executives.subtitle')}
                         </Typography>
                     </motion.div>
                     <motion.h1

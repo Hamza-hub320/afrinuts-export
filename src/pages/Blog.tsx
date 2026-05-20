@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FaCalendarAlt, FaUser, FaSearch, FaChevronDown } from 'react-icons/fa';
+import {FaCalendarAlt, FaUser, FaSearch, FaChevronDown, FaPenFancy} from 'react-icons/fa';
 import { Typography } from '@/components/Typography/Typography';
 import { trackCtaClick, trackBlogRead } from '@/utils/analytics';
 import Section from '@/components/Section/Section';
@@ -111,7 +111,7 @@ const Blog: React.FC = () => {
                 >
                     <motion.div variants={fadeIn}>
                         <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-4">
-                            Insights from Our Cashew Farm in Odienné
+                            <FaPenFancy className="inline mr-3 text-accent" />Insights from Our Cashew Farm in Odienné
                         </Typography>
                     </motion.div>
                     <motion.h1

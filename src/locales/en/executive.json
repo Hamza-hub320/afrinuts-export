@@ -32,18 +32,22 @@
         ]
     },
     "cfo": {
-      "title": "Chief Financial & Operating Officer",
-      "role": "Ethical Financial Architect & Value Chain Strategist",
-      "alt": "Sekou Hakim, CFO of AfriNuts Export",
+      "title": "Co-Founder & Chief Financial Officer",
+      "role": "Ethical Financial Architect & Operational Strategy Lead",
+      "alt": "Sekou Hakim Peters, CFO of AfriNuts Export",
       "email": "sekou@afrinutsexport.com",
       "linkedin": "https://www.linkedin.com/in/sekou-peters",
       "bio": [
-        "Sekou Hakim architects financial systems where profitability converges with prophetic principles, implementing Sharia-compliant frameworks that transform traditional agribusiness economics. His stewardship replaces extractive models with regenerative finance - where 20% of profits actively rebuild communities through wells, mosques, and farmer education.",
-        "As both financial guardian and operational strategist, Sekou oversees the complete monetization of our cashew value chain, from soil to shelf. He engineered the transition from raw commodity exports to in-country processing, designing capital structures that fund Odienné's first modern processing facility while maintaining rigorous profit-sharing (Mudarabah) standards.",
-        "Under his leadership, AfriNuts achieves the rare balance of fiscal discipline and social impact: deploying blockchain-enabled transparency for investors, fair trade premiums for farmers, and Islamic microfinancing for equipment - proving ethical finance can drive competitive advantage in global markets."
+        "Sekou Hakim Peters helps architect ethical financial and operational systems where profitability aligns with prophetic principles and long-term community impact. His approach emphasizes Sharia-compliant business frameworks that move beyond extractive economic models by reinvesting into sustainable development initiatives such as wells, mosques, farmer support, and educational programs.",
+        "As Co-Founder and Operational Strategy Lead of AfriNuts Export, Sekou contributes to the development of the company's monetization and operational structure across the cashew value chain, from cultivation and sourcing to processing and export strategy. He has played a key role in advancing the vision of transitioning from raw commodity exports toward in-country processing and value-added production within Côte d'Ivoire.",
+        "His leadership focuses on balancing operational discipline with social responsibility through transparent business practices, fair farmer partnerships, ethical profit-sharing principles, and sustainable growth strategies designed to benefit both investors and local communities."
       ],
-      "experience": "15+ years in financial management",
-      "education": "Master's in Finance",
+      "experience": "Years of leadership experience in operations, organizational management, nonprofit administration, and business development",
+      "education": [
+        "Associate Degree in Computer Network Operations",
+        "Additional studies in Criminal Justice",
+        "Professional certifications in IT Support"
+      ],
       "certifications": ["Sharia Compliance", "Organic Certification"]
     },
     "cco": {

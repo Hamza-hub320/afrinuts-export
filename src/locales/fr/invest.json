@@ -194,7 +194,7 @@
     "viewAll": "Rencontrer toute l'équipe de direction",
     "members": [
       { "name": "Hamza Sangare", "position": "Fondateur et PDG", "bio": "Producteur de cajou de 3e génération. Formation en génie logiciel. Dirige la stratégie, les relations investisseurs et l'exécution des projets.", "imageKey": "ceo" },
-      { "name": "Sekou Hakim Peters", "position": "Co-Fondateur et CFO/COO", "bio": "Plus de 15 ans en gestion financière. Structuration d'investissement conforme à la Charia. Supervise les finances, les opérations et la conformité.", "imageKey": "cfo" },
+      {"name": "Sekou Hakim Peters", "position": "Co-Fondateur & CFO/COO", "bio": "Conçoit des systèmes financiers éthiques à la convergence de la rentabilité et des principes prophétiques. Dirige la structuration conforme à la Charia, la stratégie opérationnelle et le réinvestissement communautaire.", "imageKey": "cfo"},
       { "name": "Mohamadue Kouyaté", "position": "Directeur Commercial", "bio": "Plus de 12 ans en conformité export, logistique et opérations. Gère les relations acheteurs et la documentation commerciale.", "imageKey": "cco" },
       { "name": "Alassana Bah", "position": "Directeur de la Technologie", "bio": "Plus de 12 ans en génie logiciel et gestion de bases de données. Dirige l'infrastructure IoT et les systèmes de gestion agricole.", "imageKey": "ops" },
       { "name": "Mohammed Beniken", "position": "Directeur Administratif", "bio": "Plus de 10 ans en leadership administratif. Supervise les RH, les affaires juridiques et les protocoles de sécurité de l'information.", "imageKey": "admin" },

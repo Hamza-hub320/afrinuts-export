@@ -20,7 +20,7 @@ import {
     FaInfoCircle,
     FaShoppingCart,
     FaChartLine,
-    FaHandsHelping
+    FaHandsHelping, FaClipboardCheck
 } from "react-icons/fa";
 import Section from '@/components/Section/Section';
 import { fadeIn, staggerContainer } from '@/utils/animations';
@@ -161,7 +161,7 @@ const Certifications: React.FC = () => {
                             variant="subhead"
                             className="uppercase tracking-widest text-primary mb-4"
                         >
-                            {t('hero.subtitle')}
+                            <FaClipboardCheck className="inline mr-3 text-accent" />{t('hero.subtitle')}
                         </Typography>
                     </motion.div>
                     <motion.h1

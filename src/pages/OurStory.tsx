@@ -5,7 +5,16 @@ import { fadeIn, staggerContainer } from '@/utils/animations';
 import { Typography } from "@/components/Typography/Typography";
 import { InfoCard } from '@/components/InfoCard/InfoCard';
 import Section from '@/components/Section/Section';
-import {FaTree, FaHandsHelping, FaGlobe, FaChartLine, FaSeedling, FaArrowLeft} from "react-icons/fa";
+import {
+    FaTree,
+    FaHandsHelping,
+    FaGlobe,
+    FaChartLine,
+    FaSeedling,
+    FaArrowLeft,
+    FaHistory,
+    FaMapSigns
+} from "react-icons/fa";
 import {Link, useNavigate} from 'react-router-dom';
 import heritageImage from '@/assets/images/heritage.webp';
 import farmImage from '@/assets/images/farm.webp';
@@ -188,7 +197,7 @@ const OurStory: React.FC = () => {
                 >
                     <motion.div variants={fadeIn}>
                         <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-4">
-                            {t('hero.subtitle')}
+                            <FaMapSigns className="inline mr-3 text-accent" />{t('hero.subtitle')}
                         </Typography>
                     </motion.div>
                     <motion.h1

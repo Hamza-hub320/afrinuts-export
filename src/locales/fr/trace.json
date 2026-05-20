@@ -126,5 +126,12 @@
     "compliancePack": "Télécharger le Dossier de Conformité Complet",
     "compliancePackDesc": "Tous les documents en un seul fichier pour faciliter le partage avec les douanes et les régulateurs",
     "downloadAll": "Tout Télécharger"
+  },
+  "breadcrumbs": {
+    "home": "Accueil",
+    "farm": "Ferme",
+    "processing": "Transformation",
+    "facilityFlowchart": "Organigramme de l'Installation",
+    "batchTraceability": "Traçabilité des Lots"
   }
 }

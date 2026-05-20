@@ -31,7 +31,7 @@ import {
     FaTree,
     FaFlask,
     FaCalendarAlt,
-    FaHeart, FaHandSparkles, FaClock
+    FaHeart, FaHandSparkles, FaClock, FaDrawPolygon
 } from "react-icons/fa";
 import {Link, useNavigate} from 'react-router-dom';
 import Section from '@/components/Section/Section';
@@ -220,10 +220,7 @@ const FacilityFlowchart: React.FC = () => {
             </div>
             </div>
             {/* Hero Section */}
-            <Section
-                fullHeight={false}
-                className="flex items-center justify-center text-center min-h-[40vh]"
-            >
+            <Section  fullHeight={false} className="flex items-center justify-center text-center min-h-[40vh]">
                 <motion.div
                     className="max-w-4xl px-6 sm:px-8 py-12"
                     initial="hidden"
@@ -235,7 +232,7 @@ const FacilityFlowchart: React.FC = () => {
                             variant="subhead"
                             className="uppercase tracking-widest text-primary mb-4"
                         >
-                            {t('hero.subtitle')}
+                            <FaDrawPolygon className="inline mr-3 text-accent" />{t('hero.subtitle')}
                         </Typography>
                     </motion.div>
                     <motion.h1
