@@ -76,7 +76,7 @@ export default defineConfig({
             'react-router-dom',
             'date-fns',
         ],
-        exclude: ['js-big-decimal', 'recharts', 'leaflet', 'es-toolkit']
+        exclude: ['js-big-decimal', 'leaflet']
     },
     css: {
         postcss: './postcss.config.cjs',
@@ -108,7 +108,7 @@ export default defineConfig({
                     i18n: ['i18next', 'react-i18next'],
                     icons: ['react-icons/fa', 'react-icons/gi'],
                     vendor: ['lodash', 'date-fns'],
-                    charts: ['recharts'], // Add charts chunk
+                    charts: ['recharts'],
                 },
                 assetFileNames: 'assets/[name]-[hash][extname]',
                 entryFileNames: 'assets/[name]-[hash].js',

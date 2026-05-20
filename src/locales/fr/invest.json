@@ -1,0 +1,279 @@
+{
+  "seo": {
+    "title": "Investissez dans AfriNuts Export | Transformation Certifiée de Noix de Cajou Côte d'Ivoire",
+    "description": "Opportunité d'investissement de 1,25M$ : Construisez le premier centre de transformation de noix de cajou certifié détenu localement en Côte d'Ivoire. Adossé à des actifs, conforme à la Charia, 25 % de participation."
+  },
+  "hero": {
+    "subtitle": "Opportunité d'Investissement",
+    "title": "Construction du Premier Centre de Transformation de Noix de Cajou Certifié de Côte d'Ivoire",
+    "tagline": "Investissement de 1 250 000 $ adossé à des actifs · 25 % de participation · Moudaraba conforme à la Charia · Dividendes à partir de 2033",
+    "downloadNda": "Télécharger la NDA",
+    "scheduleCall": "Planifier un Appel",
+    "kpis": {
+      "targetRaise": "Objectif de Levée",
+      "equityOffered": "Participation Offerte",
+      "postMoneyVal": "Val. Post-Money",
+      "dividendsStart": "Début des Dividendes"
+    }
+  },
+  "opportunity": {
+    "title": "L'Opportunité",
+    "body": "La Côte d'Ivoire est le plus grand producteur mondial de noix de cajou — plus de 1,2 million de tonnes métriques par an — pourtant moins de 15 % est transformé localement. Des milliards de valeur quittent le pays chaque année, les noix brutes étant expédiées en Asie pour transformation. Le gouvernement ivoirien encourage désormais activement les transformateurs nationaux à combler cet écart. AfriNuts est positionnée pour être le premier transformateur certifié dans le nord-ouest de la Côte d'Ivoire.",
+    "cards": {
+      "producer": {
+        "title": "1er Producteur, <20 % de la Valeur",
+        "desc": "La Côte d'Ivoire produit 45 % des noix de cajou mondiales mais ne capte que moins de 20 % de la valeur finale au détail — un écart de plusieurs milliards de dollars à combler.",
+        "stat": "Écart de +2 G$",
+        "highlights": ["Plus grand producteur mondial de cajou", "Incitations gouvernementales pour les transformateurs", "Accès portuaire stratégique aux marchés de l'UE"]
+      },
+      "firstMover": {
+        "title": "Avantage du Premier Entrant",
+        "desc": "AfriNuts sera la première installation de transformation certifiée dans le nord-ouest de la Côte d'Ivoire, avec des terres, une ferme et une chaîne d'approvisionnement déjà sécurisées.",
+        "stat": "Premier Entrant",
+        "highlights": ["Ferme de 35 hectares opérationnelle", "Coopérative de 200+ agriculteurs sécurisée", "10 hectares réservés pour l'installation"]
+      },
+      "margin": {
+        "title": "Expansion de Marge x5",
+        "desc": "En transformant localement, nous convertissons les noix de cajou brutes (~1 200 $/tonne) en amandes certifiées biologiques + Halal (6 500 $/tonne), capturant toute la chaîne de valeur.",
+        "stat": "Marge x5",
+        "highlights": ["Prix premium certifié", "Modèle d'exportation B2B direct", "Revenus du sous-produit CNSL"]
+      }
+    }
+  },
+  "funding": {
+    "title": "Ce Que Vous Financez",
+    "subtitle": "Votre investissement construit le centre de transformation. La ferme est déjà opérationnelle et entièrement financée — ce capital est spécifiquement destiné à l'installation de Phase 1.",
+    "operational": {
+      "title": "Déjà Opérationnel",
+      "items": {
+        "farm": "35 hectares plantés — 3 500 anacardiers en croissance",
+        "organic": "Agroforesterie biologique — sans produits chimiques synthétiques",
+        "financed": "Entièrement financé — ne fait pas partie de cette levée de fonds"
+      }
+    },
+    "supplyChain": {
+      "title": "Chaîne d'Approvisionnement Sécurisée",
+      "items": {
+        "harvest": "Première récolte commerciale prévue en 2029",
+        "cooperative": "Accord coopératif exclusif — 200+ agriculteurs",
+        "supply": "Approvisionnement évolutif garanti en noix de cajou brutes"
+      }
+    },
+    "quote": "\"La terre est un dépôt sacré. Nous l'empruntons à nos enfants. Nous devons la rendre meilleure que nous l'avons trouvée.\""
+  },
+  "charts": {
+    "sectionTitle": "L'Opportunité + Votre Capital",
+    "sectionBody": "La Côte d'Ivoire exporte 85 % de ses noix de cajou brutes, perdant des milliards de valeur. Votre investissement de 1,25 M$ construit le centre de transformation qui capture cette marge — transformant une matière première à 1 200 $/tonne en exportations certifiées à 6 500 $/tonne.",
+    "processingGap": {
+      "title": "L'Écart de Transformation",
+      "subtitle": "Production vs Transformation de Noix de Cajou en Côte d'Ivoire",
+      "produced": "Produit",
+      "processed": "Transformé",
+      "exported": "Exporté Brut",
+      "note": "<strong class=\"text-primary\">85 % exporté brut</strong> — des milliards perdus chaque année. Le gouvernement incite activement les transformateurs nationaux."
+    },
+    "capitalAllocation": {
+      "title": "Allocation du Capital",
+      "note": "975 K$ CAPEX + 275 K$ Fonds de Roulement"
+    }
+  },
+  "capitalAllocation": {
+    "construction": "Construction",
+    "machinery": "Machinerie",
+    "workingCapital": "Fonds de Roulement",
+    "powerWater": "Énergie et Eau",
+    "certifications": "Certifications",
+    "contingency": "Imprévus"
+  },
+  "returns": {
+    "title": "Rendements Projetés pour l'Investisseur (Scénario de Base)",
+    "subtitle": "Participation de 25 % avec dividendes croissants à partir de l'Année 3 d'exploitation (2033). 50 % des bénéfices nets distribués ; 50 % réinvestis pour l'expansion Phase 2.",
+    "kpis": {
+      "investment": "Investissement",
+      "equityStake": "Participation de 25 %",
+      "postMoneyVal": "Val. Post-Money",
+      "assetBacked": "Adossé à des actifs",
+      "dividendsBegin": "Début des Dividendes",
+      "yearThree": "Année 3 d'exploitation",
+      "annualDividend": "Dividende Annuel (2035)",
+      "growingTo": "Atteignant 93 750 $ d'ici 2037"
+    },
+    "dividendTable": {
+      "title": "Projection des Dividendendes (Scénario de Base)",
+      "year": "Année",
+      "netProfit": "Bénéfice Net",
+      "dividendPool": "Pool de Dividendes (50 %)",
+      "investorShare": "Part Investisseur (25 %)",
+      "cumulative": "Cumul",
+      "rows": [
+        { "year": 2033, "profit": 120000, "pool": 60000, "share": 15000, "cum": 15000 },
+        { "year": 2034, "profit": 280000, "pool": 140000, "share": 35000, "cum": 50000 },
+        { "year": 2035, "profit": 450000, "pool": 225000, "share": 56250, "cum": 106250 },
+        { "year": "2036 (Est.)", "profit": 600000, "pool": 300000, "share": 75000, "cum": 181250 },
+        { "year": "2037 (Est.)", "profit": 750000, "pool": 375000, "share": 93750, "cum": 275000 }
+      ],
+      "summary": "D'ici fin 2037 : <strong class=\"text-primary\">275 000 $ de dividendes cumulés</strong> — retour de 22 % sur l'investissement initial de 1,25 M$ rien qu'avec les dividendes. L'investisseur conserve 25 % de participation dans une entreprise générant plus de 750 K$ de bénéfice annuel."
+    },
+    "unitEconomics": {
+      "rcnCost": "Coût N.B.",
+      "rcnDesc": "Matière première brute",
+      "kernelPrice": "Prix Amandes",
+      "kernelDesc": "Export certifié bio + Halal",
+      "valueAdded": "Valeur Ajoutée",
+      "valueDesc": "Marge captée par la transformation locale",
+      "cnsl": "Sous-produit CNSL",
+      "cnslDesc": "Revenus du liquide de coque"
+    },
+    "disclaimer": "Projections du scénario de base. Les scénarios conservateur et optimiste sont disponibles dans le modèle financier complet après signature de la NDA. Ceci ne constitue pas une offre de vente de titres."
+  },
+  "certifications": {
+    "title": "Feuille de Route des Certifications",
+    "body": "Les certifications internationales sont la clé des prix premium. Notre installation est construite dès le départ pour se conformer aux normes les plus rigoureuses au monde — ouvrant les portes des marchés à forte valeur en Europe, au Moyen-Orient et en Amérique du Nord que les exportateurs de cajou de base ne peuvent pas atteindre.",
+    "cardTitle": "Certifications en Cours",
+    "cardSubtitle": "Chaque certification débloque un marché premium spécifique. Les délais reflètent les progrès actuels et les dates d'achèvement prévues.",
+    "items": [
+      { "id": "organic", "title": "Biologique (ECOCERT)", "description": "Transition de 3 ans débutée en 2024. Agriculture sans produits chimiques vérifiée.", "status": "in-progress", "targetDate": "2027", "issuer": "ECOCERT" },
+      { "id": "fairtrade", "title": "Commerce Équitable", "description": "Pratiques de travail éthiques, salaires équitables, primes communautaires.", "status": "planned", "targetDate": "2030", "issuer": "FLO-CERT" },
+      { "id": "iso", "title": "ISO 22000", "description": "Système de gestion de la sécurité alimentaire pour les marchés d'exportation.", "status": "planned", "targetDate": "2029", "issuer": "ISO" },
+      { "id": "halal", "title": "Halal", "description": "Transformation conforme à la Charia pour les marchés du Moyen-Orient.", "status": "planned", "targetDate": "2029", "issuer": "Autorité Halal" },
+      { "id": "rainforest", "title": "Rainforest Alliance", "description": "Biodiversité, reforestation, agriculture climato-intelligente.", "status": "planned", "targetDate": "2028", "issuer": "Rainforest Alliance" }
+    ]
+  },
+  "competitiveAnalysis": {
+    "title": "Pourquoi AfriNuts Gagne",
+    "tableTitle": "Analyse de Positionnement sur le Marché",
+    "disclaimer": "Positionnement stratégique basé sur notre feuille de route de certification et nos plans opérationnels. Les certifications marquées 'En Cours' reflètent le statut actuel et les dates cibles.",
+    "competitorType": "Type de Concurrent",
+    "theirAdvantage": "Leur Avantage",
+    "theirDisadvantage": "Leur Désavantage",
+    "ourStrategy": "Contre-Stratégie d'AfriNuts",
+    "uniqueValueTitle": "L'Avantage Concurrentiel Unique d'AfriNuts",
+    "uniqueValueDesc": "Notre intégration verticale combinée à l'expertise locale et à la stratégie de certification nous permet d'offrir ce qu'aucun autre acteur ne peut : des noix de cajou premium, certifiées et traçables provenant d'une source transparente et socialement responsable au cœur de la plus grande région productrice mondiale.",
+    "rows": [
+      { "competitor": "Grands Transformateurs Asiatiques", "advantage": "Échelle, infrastructure établie, main-d'œuvre à faible coût", "weakness": "Déconnexion géographique de la source, hausse des coûts de main-d'œuvre", "strategy": "Histoire d'Origine et Traçabilité : Traçabilité d'origine unique de Côte d'Ivoire" },
+      { "competitor": "Transformateurs Locaux Ivoiriens", "advantage": "Présence locale, accès aux noix brutes", "weakness": "Manquent d'échelle, de certifications internationales, d'accès au marché", "strategy": "Certification et Qualité : Respecter les normes internationales les plus élevées" },
+      { "competitor": "Marques Occidentales", "advantage": "Marques grand public fortes, accès au marché", "weakness": "Dépendantes des amandes importées, déconnectées de la source", "strategy": "Intégration Verticale : Contrôler toute la chaîne, garantir la qualité" }
+    ]
+  },
+  "shariah": {
+    "title": "Investissement Conforme à la Charia",
+    "cardTitle": "Structure 100 % Sans Riba",
+    "body": "Notre investissement est structuré en Moudaraba (partage des bénéfices), entièrement aligné sur les principes de la finance islamique. Aucun intérêt (riba), aucune spéculation (gharar), et aucune activité interdite.",
+    "items": [
+      "Distribution transparente des bénéfices — 25 % de part investisseur",
+      "Conseil consultatif charia engagé pour la vérification de conformité",
+      "Certification Halal pour l'installation de transformation (objectif 2027)"
+    ]
+  },
+  "risk": {
+    "title": "Cadre d'Atténuation des Risques",
+    "cardTitle": "Comment Nous Protégeons Votre Capital",
+    "items": [
+      { "risk": "Retards de Construction", "mitigation": "Contrats à prix fixe avec des constructeurs réputés. Tampon d'imprévus de 10 % intégré au CAPEX." },
+      { "risk": "Retards de Certification", "mitigation": "Transition biologique de 3 ans débutée en 2024. Responsable conformité dédié. Audits blancs avant les inspections." },
+      { "risk": "Volatilité des Prix du Marché", "mitigation": "Les certifications premium (Biologique, Halal) garantissent 6 500 $/tonne contre des prix volatils de 1 200 $/tonne pour les noix brutes." },
+      { "risk": "Perturbation de la Chaîne d'Approvisionnement", "mitigation": "Propre ferme (35 ha) + accord coopératif exclusif avec 200 agriculteurs garantit l'approvisionnement de base." },
+      { "risk": "Montée en Puissance Opérationnelle", "mitigation": "Réserve de fonds de roulement de 275 K$ assure une entrée sur le marché sans détresse financière." }
+    ]
+  },
+  "impact": {
+    "title": "Indicateurs ESG et d'Impact",
+    "subtitle": "Au-delà des rendements financiers, votre investissement génère un impact social et environnemental mesurable à Odienné.",
+    "jobs": "Emplois Locaux Directs",
+    "jobsDesc": "Emplois à la ferme et au centre de transformation d'ici 2035. Priorité d'embauche pour les femmes et les jeunes.",
+    "farmers": "Agriculteurs Soutenus",
+    "farmersDesc": "Via notre accord coopératif exclusif avec des prix équitables et une formation technique.",
+    "reinvestment": "Réinvestissement Communautaire",
+    "reinvestmentDesc": "Des bénéfices nets annuels alloués aux puits d'eau, aux écoles et à la construction de mosquées.",
+    "energy": "Énergie Renouvelable",
+    "energyDesc": "De l'énergie totale provenant du système hybride solaire d'ici 2030. Les coques de cajou utilisées comme combustible de biomasse."
+  },
+  "team": {
+    "title": "Équipe de Direction",
+    "subtitle": "Les investisseurs investissent dans les personnes. Notre équipe combine des générations de culture de noix de cajou avec une expertise en finance, technologie, opérations et commerce international — le tout guidé par les principes éthiques islamiques.",
+    "viewAll": "Rencontrer toute l'équipe de direction",
+    "members": [
+      { "name": "Hamza Sangare", "position": "Fondateur et PDG", "bio": "Producteur de cajou de 3e génération. Formation en génie logiciel. Dirige la stratégie, les relations investisseurs et l'exécution des projets.", "imageKey": "ceo" },
+      { "name": "Sekou Hakim Peters", "position": "Co-Fondateur et CFO/COO", "bio": "Plus de 15 ans en gestion financière. Structuration d'investissement conforme à la Charia. Supervise les finances, les opérations et la conformité.", "imageKey": "cfo" },
+      { "name": "Mohamadue Kouyaté", "position": "Directeur Commercial", "bio": "Plus de 12 ans en conformité export, logistique et opérations. Gère les relations acheteurs et la documentation commerciale.", "imageKey": "cco" },
+      { "name": "Alassana Bah", "position": "Directeur de la Technologie", "bio": "Plus de 12 ans en génie logiciel et gestion de bases de données. Dirige l'infrastructure IoT et les systèmes de gestion agricole.", "imageKey": "ops" },
+      { "name": "Mohammed Beniken", "position": "Directeur Administratif", "bio": "Plus de 10 ans en leadership administratif. Supervise les RH, les affaires juridiques et les protocoles de sécurité de l'information.", "imageKey": "admin" },
+      { "name": "Souleymane Sangare", "position": "Responsable des Opérations Agricoles", "bio": "Plus de 14 ans en gestion agricole. Racines communautaires profondes à Odienné. Dirige les opérations quotidiennes de la ferme et les relations avec les agriculteurs.", "imageKey": "farm" }
+    ]
+  },
+  "cta": {
+    "title": "Prêt à Explorer Cette Opportunité ?",
+    "body": "Téléchargez notre NDA pour commencer. Une fois signée, vous recevrez le plan d'affaires complet, le modèle financier détaillé et l'accès pour planifier un appel personnel avec notre équipe de direction.",
+    "downloadNda": "Télécharger la NDA",
+    "scheduleCall": "Planifier un Appel"
+  },
+  "marketSize": {
+    "title": "Marché Total Adressable",
+    "subtitle": "Une opportunité de plusieurs milliards de dollars dans un marché mondial en croissance",
+    "globalMarket": {
+      "title": "Marché Mondial des Amandes de Cajou",
+      "growth": "TCAC de 4-5 % jusqu'en 2030"
+    },
+    "ivoryCoast": {
+      "title": "Production de la Côte d'Ivoire",
+      "gap": "<15 % transformé localement"
+    },
+    "ourTarget": {
+      "title": "Notre Marché Cible",
+      "description": "Importations d'amandes certifiées premium vers l'UE, le Moyen-Orient et l'Amérique du Nord"
+    },
+    "growthRate": "Taux de Croissance Annuel",
+    "growthDesc": "Porté par les tendances santé et les régimes à base de plantes",
+    "driversTitle": "Moteurs de Croissance du Marché",
+    "drivers": [
+      "Santé et Bien-être : Les noix de cajou sont riches en graisses saines, protéines et minéraux",
+      "Révolution Végétale : Demande croissante pour le lait, le beurre, le fromage et la crème de cajou",
+      "Premiumisation : Les consommateurs paient plus pour des produits biologiques, équitables, durables et traçables"
+    ]
+  },
+  "exitStrategy": {
+    "title": "Stratégie de Sortie et Protections des Investisseurs",
+    "subtitle": "Des voies claires vers la liquidité avec des protections solides pour les actionnaires",
+    "options": [
+      {
+        "title": "Vente de l'Entreprise / Fusion / IPO",
+        "description": "En cas de Sortie, l'Investisseur reçoit 25 % du produit net distribué aux actionnaires, proportionnellement à sa participation."
+      },
+      {
+        "title": "Droit de Sortie Conjointe (Drag-Along)",
+        "description": "Si les actionnaires majoritaires approuvent une vente, l'Investisseur accepte de vendre aux mêmes conditions — garantissant une sortie propre et unifiée pour toutes les parties."
+      },
+      {
+        "title": "Droit de Cession Conjointe (Tag-Along)",
+        "description": "Si un fondateur ou un actionnaire majoritaire vend ses parts, l'Investisseur peut se joindre à la transaction et vendre un montant proportionnel aux mêmes conditions — le protégeant contre la détention d'actions illiquides."
+      },
+      {
+        "title": "Option de Rachat Mutuel (2031)",
+        "description": "L'une ou l'autre partie peut déclencher un rachat. Évaluation basée sur : 2× l'investissement initial, 5× le revenu brut, ou une évaluation indépendante. Paiements différés autorisés — sans riba, sans coercition."
+      }
+    ],
+    "liquidation": "En cas de force majeure ou d'échec commercial, l'Investisseur reçoit une part des actifs restants après les dettes — proportionnelle à sa participation."
+  },
+  "investorProtections": {
+    "title": "Protections Clés des Investisseurs",
+    "subtitle": "Vos Droits en Vertu du Contrat d'Investissement",
+    "items": [
+      "Droits préférentiels de souscription — maintenez votre pourcentage de propriété lors des futures levées",
+      "Siège d'observateur au conseil — assistez aux réunions du conseil ou aux réunions consultatives",
+      "Rapports trimestriels + états financiers annuels audités",
+      "Droits d'approbation pour les dettes >100 K$, les changements structurels ou les transactions avec des parties liées",
+      "Droits de sortie conjointe (tag-along et drag-along) pour une participation propre à la sortie",
+      "Résolution des litiges conforme à la Charia (droit ivoirien + Tribunal Islamique si nécessaire)"
+    ]
+  },
+  "socialProof": {
+    "title": "Déjà Approuvé par des Investisseurs",
+    "description": "AfriNuts a levé et déployé avec succès des capitaux pour notre ferme de 35 hectares — maintenant opérationnelle avec 3 500 anacardiers. Notre investisseur agricole existant a confirmé son engagement à participer à cette levée pour le centre de transformation.",
+    "testimonial": "AfriNuts a atteint chaque jalon. La ferme est réelle, l'équipe est compétente et la vision est claire.",
+    "attribution": "— Investisseur Existant, Phase de Développement Agricole"
+  },
+  "legalDisclaimer": {
+    "text": "Ces informations sont fournies à titre informatif uniquement et ne constituent pas une offre de vente ni une sollicitation d'offre d'achat de titres. Tout investissement comporte des risques. Les performances passées ne garantissent pas les résultats futurs. Les projections ne sont que des estimations et peuvent ne pas être atteintes. Cette opportunité d'investissement est disponible uniquement pour les investisseurs qualifiés capables de supporter le risque de perte.",
+    "ndaRequired": "Les détails complets, y compris le plan d'affaires complet et le modèle financier, sont disponibles uniquement après la signature de la NDA."
+  }
+}

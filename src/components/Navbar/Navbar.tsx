@@ -123,7 +123,7 @@ const Navbar: React.FC = () => {
 
     // Farm and its subpages — ADD THIS BLOCK
     if (path === '/farm') {
-      return ['/farm', '/processing', '/processing/facility-flowchart']
+      return ['/farm', '/processing', '/processing/facility-flowchart', '/trace']
           .some(p => location.pathname === p);
     }
 
@@ -159,13 +159,14 @@ const Navbar: React.FC = () => {
       dropdown: [
         { path: '/farm', label: t('navbar.farm') },
         { path: '/processing', label: t('navbar.processing') },
-        { path: '/processing/facility-flowchart', label: t('navbar.facility_flowchart') }
+        { path: '/processing/facility-flowchart', label: t('navbar.facility_flowchart') },
+        { path: '/trace', label: t('navbar.trace') }
       ]
     },
     { path: '/sustainability', label: t('navbar.sustainability') },
     { path: '/vision', label: t('navbar.vision') },
+    { path: '/invest', label: t('navbar.invest', 'Invest') },
     { path: '/contact', label: t('navbar.contact') },
-    { path: '/trace', label: t('navbar.trace') },
     {
       path: '/news',
       label: t('navbar.news'),

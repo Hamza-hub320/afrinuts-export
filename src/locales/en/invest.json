@@ -1,0 +1,258 @@
+{
+  "seo": {
+    "title": "Invest in AfriNuts Export | Certified Cashew Processing Côte d'Ivoire",
+    "description": "$1.25M investment opportunity: Build Côte d'Ivoire's first locally-owned certified cashew processing center. Asset-backed, Shariah-compliant, 25% equity."
+  },
+  "hero": {
+    "subtitle": "Investment Opportunity",
+    "title": "Building Côte d'Ivoire's First Certified Cashew Processing Center",
+    "tagline": "$1,250,000 asset-backed investment · 25% equity · Shariah-compliant Mudarabah · Dividends from 2033",
+    "downloadNda": "Download NDA",
+    "scheduleCall": "Schedule a Call",
+    "kpis": {
+      "targetRaise": "Target Raise",
+      "equityOffered": "Equity Offered",
+      "postMoneyVal": "Post-Money Val.",
+      "dividendsStart": "Dividends Start"
+    }
+  },
+  "opportunity": {
+    "title": "The Opportunity",
+    "body": "Côte d'Ivoire is the world's largest cashew producer — over 1.2 million metric tons annually — yet less than 15% is processed locally. Billions in value leave the country every year as raw nuts are shipped to Asia for processing. The Ivorian government is now actively incentivizing domestic processors to close this gap. AfriNuts is positioned to be the first certified processor in northwestern Côte d'Ivoire.",
+    "cards": {
+      "producer": {
+        "title": "#1 Producer, <20% Value",
+        "desc": "Côte d'Ivoire produces 45% of global cashews but captures less than 20% of the final retail value — a multi-billion dollar gap waiting to be closed.",
+        "stat": "$2B+ Gap",
+        "highlights": ["World's largest cashew producer", "Government incentives for processors", "Strategic port access to EU markets"]
+      },
+      "firstMover": {
+        "title": "First Mover Advantage",
+        "desc": "AfriNuts will be the first certified processing facility in northwestern Côte d'Ivoire, with land, farm, and supply chain already secured.",
+        "stat": "First Mover",
+        "highlights": ["35-hectare farm operational", "200+ farmer cooperative secured", "10 hectares reserved for facility"]
+      },
+      "margin": {
+        "title": "5x Margin Expansion",
+        "desc": "By processing locally, we transform raw cashews (~$1,200/ton) into certified organic + Halal kernels ($6,500/ton), capturing the full value chain.",
+        "stat": "5x Margin",
+        "highlights": ["Premium certified pricing", "Direct B2B export model", "CNSL by-product revenue"]
+      }
+    }
+  },
+  "funding": {
+    "title": "What You're Funding",
+    "subtitle": "Your investment builds the processing center. The farm is already operational and fully financed — this capital is specifically for the Phase 1 facility.",
+    "operational": {
+      "title": "Already Operational",
+      "items": {
+        "farm": "35 hectares planted — 3,500 cashew trees growing",
+        "organic": "Organic agroforestry — no synthetic chemicals",
+        "financed": "Fully financed — not part of this funding ask"
+      }
+    },
+    "supplyChain": {
+      "title": "Supply Chain Secured",
+      "items": {
+        "harvest": "First commercial harvest expected 2029",
+        "cooperative": "Exclusive cooperative agreement — 200+ farmers",
+        "supply": "Guaranteed scalable raw cashew nut supply"
+      }
+    },
+    "quote": "\"The land is a trust. We borrow it from our children. We must return it better than we found it.\""
+  },
+  "charts": {
+    "sectionTitle": "The Opportunity + Your Capital",
+    "sectionBody": "Côte d'Ivoire exports 85% of its cashews raw, losing billions in value. Your $1.25M investment builds the processing center that captures this margin — turning a $1,200/ton commodity into $6,500/ton certified exports.",
+    "processingGap": {
+      "title": "The Processing Gap",
+      "subtitle": "Ivory Coast Cashew Production vs Processing",
+      "produced": "Produced",
+      "processed": "Processed",
+      "exported": "Exported Raw",
+      "note": "<strong class=\"text-primary\">85% exported raw</strong> — billions lost annually. Government actively incentivizing domestic processors."
+    },
+    "capitalAllocation": {
+      "title": "Capital Allocation",
+      "note": "$975K CAPEX + $275K Working Capital"
+    }
+  },
+  "capitalAllocation": {
+    "construction": "Construction",
+    "machinery": "Machinery",
+    "workingCapital": "Working Capital",
+    "powerWater": "Power & Water",
+    "certifications": "Certifications",
+    "contingency": "Contingency"
+  },
+  "returns": {
+    "title": "Projected Investor Returns (Base Case)",
+    "subtitle": "25% equity stake with growing dividends starting Year 3 of operations (2033). 50% of net profits distributed; 50% reinvested for Phase 2 expansion.",
+    "kpis": {
+      "investment": "Investment",
+      "equityStake": "25% equity stake",
+      "postMoneyVal": "Post-Money Val.",
+      "assetBacked": "Asset-backed",
+      "dividendsBegin": "Dividends Begin",
+      "yearThree": "Year 3 of operations",
+      "annualDividend": "Annual Dividend (2035)",
+      "growingTo": "Growing to $93,750 by 2037"
+    },
+    "dividendTable": {
+      "title": "Dividend Projection (Base Case)",
+      "year": "Year",
+      "netProfit": "Net Profit",
+      "dividendPool": "Dividend Pool (50%)",
+      "investorShare": "Investor Share (25%)",
+      "cumulative": "Cumulative",
+      "rows": [
+        { "year": 2033, "profit": 120000, "pool": 60000, "share": 15000, "cum": 15000 },
+        { "year": 2034, "profit": 280000, "pool": 140000, "share": 35000, "cum": 50000 },
+        { "year": 2035, "profit": 450000, "pool": 225000, "share": 56250, "cum": 106250 },
+        { "year": "2036 (Est.)", "profit": 600000, "pool": 300000, "share": 75000, "cum": 181250 },
+        { "year": "2037 (Est.)", "profit": 750000, "pool": 375000, "share": 93750, "cum": 275000 }
+      ],
+      "summary": "By end of 2037: <strong class=\"text-primary\">$275,000 cumulative dividends</strong> — 22% return on initial $1.25M investment from dividends alone. Investor retains 25% equity in a company generating $750K+ annual profit."
+    },
+    "unitEconomics": {
+      "rcnCost": "RCN Cost",
+      "rcnDesc": "Raw material input",
+      "kernelPrice": "Kernel Price",
+      "kernelDesc": "Certified organic + Halal export",
+      "valueAdded": "Value Added",
+      "valueDesc": "Margin captured through local processing",
+      "cnsl": "CNSL By-product",
+      "cnslDesc": "Revenue from shell liquid"
+    },
+    "disclaimer": "Base case projections. Conservative and optimistic scenarios available in the full financial model after NDA. This is not an offer to sell securities."
+  },
+  "certifications": {
+    "title": "Certification Roadmap",
+    "body": "International certifications are the key to premium pricing. Our facility is being built from the ground up to comply with the world's most rigorous standards — opening doors to high-value markets in Europe, the Middle East, and North America that commodity cashew exporters cannot access.",
+    "cardTitle": "Certifications in Progress",
+    "cardSubtitle": "Each certification unlocks a specific premium market. Timelines reflect current progress and target completion dates.",
+    "items": [
+      { "id": "organic", "title": "Organic (ECOCERT)", "description": "3-year transition started 2024. Chemical-free farming verified.", "status": "in-progress", "targetDate": "2027", "issuer": "ECOCERT" },
+      { "id": "fairtrade", "title": "Fair Trade", "description": "Ethical labor practices, fair wages, community premiums.", "status": "planned", "targetDate": "2030", "issuer": "FLO-CERT" },
+      { "id": "iso", "title": "ISO 22000", "description": "Food safety management system for export markets.", "status": "planned", "targetDate": "2029", "issuer": "ISO" },
+      { "id": "halal", "title": "Halal", "description": "Shariah-compliant processing for Middle East markets.", "status": "planned", "targetDate": "2029", "issuer": "Halal Authority" },
+      { "id": "rainforest", "title": "Rainforest Alliance", "description": "Biodiversity, reforestation, climate-smart agriculture.", "status": "planned", "targetDate": "2028", "issuer": "Rainforest Alliance" }
+    ]
+  },
+  "competitiveAnalysis": {
+    "title": "Why AfriNuts Wins",
+    "tableTitle": "Market Positioning Analysis",
+    "disclaimer": "Strategic positioning based on our certification roadmap and operational plans. Certifications marked 'In Progress' reflect current status and target dates.",
+    "competitorType": "Competitor Type",
+    "theirAdvantage": "Their Advantage",
+    "theirDisadvantage": "Their Disadvantage",
+    "ourStrategy": "AfriNuts' Counter-Strategy",
+    "uniqueValueTitle": "AfriNuts' Unique Competitive Edge",
+    "uniqueValueDesc": "Our vertical integration combined with local expertise and certification strategy allows us to offer what no other player can: premium, certified, traceable cashews from a transparent, socially responsible source in the heart of the world's largest producing region.",
+    "rows": [
+      { "competitor": "Large Asian Processors", "advantage": "Scale, established infrastructure, low-cost labor", "weakness": "Geographic disconnect from source, rising labor costs", "strategy": "Origin Story & Traceability: Single-Origin Ivory Coast traceability" },
+      { "competitor": "Local Ivorian Processors", "advantage": "Local presence, access to raw nuts", "weakness": "Lack scale, international certifications, market access", "strategy": "Certification & Quality: Meet highest international standards" },
+      { "competitor": "Western Brands", "advantage": "Strong consumer brands, market access", "weakness": "Reliant on imported kernels, disconnected from source", "strategy": "Vertical Integration: Control entire chain, ensure quality" }
+    ]
+  },
+  "shariah": {
+    "title": "Shariah-Compliant Investment",
+    "cardTitle": "100% Riba-Free Structure",
+    "body": "Our investment is structured as Mudarabah (profit-sharing), fully aligned with Islamic finance principles. No interest (riba), no speculation (gharar), and no prohibited activities.",
+    "items": [
+      "Transparent profit distribution — 25% investor share",
+      "Shariah advisory board engaged for compliance verification",
+      "Halal certification for processing facility (target 2027)"
+    ]
+  },
+  "risk": {
+    "title": "Risk Mitigation Framework",
+    "cardTitle": "How We Protect Your Capital",
+    "items": [
+      { "risk": "Construction Delays", "mitigation": "Fixed-price contracts with reputable builders. 10% contingency buffer built into CAPEX." },
+      { "risk": "Certification Delays", "mitigation": "3-year organic transition started 2024. Dedicated compliance officer. Mock audits before inspections." },
+      { "risk": "Market Price Volatility", "mitigation": "Premium certifications (Organic, Halal) lock in $6,500/ton vs volatile $1,200/ton raw nut prices." },
+      { "risk": "Supply Chain Disruption", "mitigation": "Own farm (35ha) + exclusive 200-farmer cooperative agreement guarantees base supply." },
+      { "risk": "Operational Ramp-Up", "mitigation": "$275K working capital reserve ensures smooth market entry without financial distress." }
+    ]
+  },
+  "impact": {
+    "title": "ESG & Impact Metrics",
+    "subtitle": "Beyond financial returns, your investment drives measurable social and environmental impact in Odienné.",
+    "jobs": "Direct Local Jobs",
+    "jobsDesc": "Farm + processing center employment by 2035. Priority hiring for women and youth.",
+    "farmers": "Farmers Supported",
+    "farmersDesc": "Through our exclusive cooperative agreement with fair pricing and technical training.",
+    "reinvestment": "Community Reinvestment",
+    "reinvestmentDesc": "Of annual net profits allocated to water wells, schools, and mosque construction.",
+    "energy": "Renewable Energy",
+    "energyDesc": "Of total power from solar-hybrid system by 2030. Cashew shells used as biomass fuel."
+  },
+  "team": {
+    "title": "Leadership Team",
+    "subtitle": "Investors invest in people. Our team combines generations of cashew farming with expertise in finance, technology, operations, and international trade — all guided by Islamic ethical principles.",
+    "viewAll": "Meet the full leadership team",
+    "members": [
+      { "name": "Hamza Sangare", "position": "Founder & CEO", "bio": "3rd generation cashew farmer. Software engineering background. Leads strategy, investor relations, and project execution.", "imageKey": "ceo" },
+      { "name": "Sekou Hakim Peters", "position": "Co-Founder & CFO/COO", "bio": "15+ years financial management. Shariah-compliant investment structuring. Oversees finance, operations, and compliance.", "imageKey": "cfo" },
+      { "name": "Mohamadue Kouyaté", "position": "Chief Commercial Officer", "bio": "12+ years in export compliance, logistics, and operations. Manages buyer relationships and trade documentation.", "imageKey": "cco" },
+      { "name": "Alassana Bah", "position": "Chief Technology Officer", "bio": "12+ years in software engineering and database management. Leads IoT infrastructure and farm management systems.", "imageKey": "ops" },
+      { "name": "Mohammed Beniken", "position": "Chief Administrative Officer", "bio": "10+ years in administrative leadership. Oversees HR, legal affairs, and information security protocols.", "imageKey": "admin" },
+      { "name": "Souleymane Sangare", "position": "Farm Operations Manager", "bio": "14+ years agricultural management. Deep community roots in Odienné. Leads daily farm operations and farmer relations.", "imageKey": "farm" }
+    ]
+  },
+  "cta": {
+    "title": "Ready to Explore This Opportunity?",
+    "body": "Download our NDA to begin. Once signed, you'll receive the full business plan, detailed financial model, and access to schedule a personal call with our leadership team.",
+    "downloadNda": "Download NDA",
+    "scheduleCall": "Schedule a Call"
+  },
+  "marketSize": {
+    "title": "Total Addressable Market",
+    "subtitle": "A multi-billion dollar opportunity in a growing global market",
+    "globalMarket": { "title": "Global Cashew Kernel Market", "growth": "4-5% CAGR through 2030" },
+    "ivoryCoast": { "title": "Ivory Coast Production", "gap": "<15% processed locally" },
+    "ourTarget": { "title": "Our Target Market", "description": "Premium certified kernel imports to EU, Middle East, and North America" },
+    "growthRate": "Annual Growth Rate",
+    "growthDesc": "Driven by health trends and plant-based diets",
+    "driversTitle": "Market Growth Drivers",
+    "drivers": [
+      "Health & Wellness: Cashews are rich in healthy fats, protein, and minerals",
+      "Plant-Based Revolution: Surging demand for cashew milk, butter, cheese, and cream",
+      "Premiumization: Consumers pay more for organic, fair trade, sustainable, traceable products"
+    ]
+  },
+  "exitStrategy": {
+    "title": "Exit Strategy & Investor Protections",
+    "subtitle": "Clear paths to liquidity with robust shareholder protections",
+    "options": [
+      { "title": "Company Sale / Merger / IPO", "description": "In the event of an Exit, the Investor receives 25% of net proceeds distributed to shareholders, proportionate to their equity ownership." },
+      { "title": "Drag-Along Rights", "description": "If majority shareholders approve a sale, the Investor agrees to sell on the same terms — ensuring a clean, unified exit for all parties." },
+      { "title": "Tag-Along Rights", "description": "If a founder or majority shareholder sells their shares, the Investor may join the transaction and sell a proportionate amount on the same terms — protecting against being left with illiquid shares." },
+      { "title": "Mutual Buyout Option (2031)", "description": "Either party may trigger a buyout. Valuation based on: 2× original investment, 5× gross revenue, or independent appraisal. Deferred payments allowed — no riba, no coercion." }
+    ],
+    "liquidation": "In the event of force majeure or business failure, Investor receives a share of remaining assets after debts — proportionate to their equity ownership."
+  },
+  "investorProtections": {
+    "title": "Key Investor Protections",
+    "subtitle": "Your Rights Under the Investment Agreement",
+    "items": [
+      "Pre-emptive rights — maintain your ownership percentage in future rounds",
+      "Board observer seat — attend board or advisory meetings",
+      "Quarterly reports + audited year-end financials",
+      "Approval rights for debt >$100K, structural changes, or related-party deals",
+      "Tag-along and drag-along rights for clean exit participation",
+      "Shariah-compliant dispute resolution (Ivorian law + Islamic Tribunal as needed)"
+    ]
+  },
+  "socialProof": {
+    "title": "Already Trusted by Investors",
+    "description": "AfriNuts successfully raised and deployed capital for our 35-hectare farm — now operational with 3,500 cashew trees. Our existing farm investor has confirmed commitment to participate in this processing center round.",
+    "testimonial": "AfriNuts delivered on every milestone. The farm is real, the team is capable, and the vision is clear.",
+    "attribution": "— Existing Investor, Farm Development Phase"
+  },
+  "legalDisclaimer": {
+    "text": "This information is for informational purposes only and does not constitute an offer to sell or a solicitation of an offer to buy securities. Any investment involves risk. Past performance does not guarantee future results. Projections are estimates only and may not be achieved. This investment opportunity is available only to qualified investors who can bear the risk of loss.",
+    "ndaRequired": "Full details, including the complete business plan and financial model, are available only after signing the NDA."
+  }
+}

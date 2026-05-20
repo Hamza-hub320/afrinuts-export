@@ -2,7 +2,7 @@ import React, { useEffect, useState, Fragment, useRef } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
-import { FaNewspaper, FaGlobe, FaBullhorn, FaSearch, FaShareSquare } from 'react-icons/fa';
+import {FaNewspaper, FaGlobe, FaBullhorn, FaSearch, FaShareSquare, FaSadTear} from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import Section from '@/components/Section/Section';
 import { fadeIn, staggerContainer } from '@/utils/animations';
@@ -193,7 +193,10 @@ const News: React.FC = () => {
                     className="mb-16">
             <Typography variant="h3" className="flex items-center gap-2 mb-6"><FaBullhorn className="text-accent" />{t('sections.afrinutsUpdates')}</Typography>
             {paginatedUpdates.length === 0 ? (
-                <Typography variant="body" className="text-center py-10 text-gray-500">{t('sections.noUpdatesFound')}</Typography>
+                <div className="text-center py-10">
+                    <FaSadTear className="text-4xl text-gray-300 mx-auto mb-3" />
+                    <Typography variant="body" className="text-gray-500">{t('sections.noUpdatesFound')}</Typography>
+                </div>
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     {paginatedUpdates.map((update, index) => (

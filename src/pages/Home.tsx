@@ -4,7 +4,7 @@ import {Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
     FaChevronDown, FaLeaf, FaSeedling,
-    FaGlobeAfrica, FaArrowRight, FaBullhorn, FaTwitter, FaLinkedin, FaFacebook, FaShareSquare,
+    FaGlobeAfrica, FaArrowRight, FaBullhorn, FaTwitter, FaLinkedin, FaFacebook, FaShareSquare, FaSadTear,
 } from 'react-icons/fa';
 import {
     fadeIn,
@@ -726,6 +726,7 @@ const Home: React.FC = () => {
 
                     {homeUpdates.length === 0 ? (
                         <div className="text-center py-10">
+                            <FaSadTear className="text-4xl text-gray-300 mx-auto mb-3" />
                             <Typography variant="body" className="text-gray-500">{t('news.noUpdates')}</Typography>
                         </div>
                     ) : (

@@ -26,6 +26,7 @@ import processingEN from './locales/en/processing.json';
 import facilityEN from './locales/en/facility.json';
 import certificationsEN from './locales/en/certifications.json';
 import accessibilityEN from './locales/en/accessibility.json';
+import investEN from './locales/en//invest.json';
 
 // French translations
 import homeFR from './locales/fr/home.json';
@@ -51,6 +52,7 @@ import processingFR from './locales/fr/processing.json';
 import facilityFR from './locales/fr/facility.json';
 import certificationsFR from './locales/fr/certifications.json';
 import accessibilityFR from './locales/fr/accessibility.json';
+import investFR from './locales/fr//invest.json';
 
 // Arabic translations
 import homeAR from './locales/ar/home.json';
@@ -76,6 +78,7 @@ import processingAR from './locales/ar/processing.json';
 import facilityAR from './locales/ar/facility.json';
 import certificationsAR from './locales/ar/certifications.json';
 import accessibilityAR from './locales/ar/accessibility.json';
+import investAR from './locales/ar/invest.json';
 
 
 // Type definitions
@@ -105,6 +108,7 @@ interface TranslationResources {
     facility: typeof facilityEN;
     certifications: typeof certificationsEN;
     accessibility: typeof accessibilityEN;
+    invest: typeof investEN;
 }
 
 interface I18nOptions {
@@ -150,7 +154,8 @@ const resources: Record<SupportedLanguages, TranslationResources> = {
         processing: processingEN,
         facility: facilityEN,
         certifications: certificationsEN,
-        accessibility: accessibilityEN
+        accessibility: accessibilityEN,
+        invest: investEN
     },
     fr: {
         home: homeFR,
@@ -175,7 +180,8 @@ const resources: Record<SupportedLanguages, TranslationResources> = {
         processing: processingFR,
         facility: facilityFR,
         certifications: certificationsFR,
-        accessibility: accessibilityFR
+        accessibility: accessibilityFR,
+        invest: investFR
     },
     ar: {
         home: homeAR,
@@ -200,7 +206,8 @@ const resources: Record<SupportedLanguages, TranslationResources> = {
         processing: processingAR,
         facility: facilityAR,
         certifications: certificationsAR,
-        accessibility: accessibilityAR
+        accessibility: accessibilityAR,
+        invest: investAR
     }
 };
 
@@ -208,7 +215,7 @@ const options: I18nOptions = {
     fallbackLng: 'en',
     debug: process.env.NODE_ENV === 'development',
     supportedLngs: ['en', 'fr', 'ar'],
-    ns: ['home', 'common', 'about', 'products', 'farm', 'contact', 'footer', 'sustainability', 'vision', 'privacy', 'terms', 'cookies', 'cookiePolicy', 'news', 'faq', 'chatbot', 'executive', 'story','trace', 'processing', 'facility', 'certifications', 'accessibility'],
+    ns: ['home', 'common', 'about', 'products', 'farm', 'contact', 'footer', 'sustainability', 'vision', 'privacy', 'terms', 'cookies', 'cookiePolicy', 'news', 'faq', 'chatbot', 'executive', 'story','trace', 'processing', 'facility', 'certifications', 'accessibility', 'invest'],
     defaultNS: 'common',
     resources,
     interpolation: {
