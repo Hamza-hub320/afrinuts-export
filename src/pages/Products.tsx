@@ -1,5 +1,5 @@
 import React, { useState, useMemo, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { trackCtaClick, trackProductInquiry } from '@/utils/analytics';
@@ -16,7 +16,7 @@ import {
     FaDownload,
     FaCertificate,
     FaAward,
-    FaRibbon, FaArrowRight
+    FaRibbon, FaArrowRight, FaBookOpen
 } from 'react-icons/fa';
 import {fadeIn, slideInFromLeft, slideInFromRight, staggerContainer} from '@/utils/animations';
 import Section from '../components/Section/Section';
@@ -528,6 +528,16 @@ const Products: React.FC = () => {
                             </motion.button>
                         </motion.div>
                     )}
+
+                    {/* Product Education Link */}
+                    <div className="text-center mt-6">
+                        <Link to="/blog/raw-cashews-vs-roasted-cashews-whats-the-difference" className="text-accent hover:text-primary text-sm font-medium flex items-center justify-center gap-1">
+                            <FaBookOpen className="text-xs" />
+                            {t('relatedReading.rawVsRoasted')}
+                            <FaArrowRight className="text-xs" />
+                        </Link>
+                    </div>
+
                     {/* CTA After Products */}
                     {filteredProducts.length > 0 && (
                         <motion.div

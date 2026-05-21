@@ -17,7 +17,7 @@ import {
   FaMosque,
   FaWater,
   FaTimes,
-  FaArrowRight
+  FaArrowRight, FaBookOpen
 } from "react-icons/fa";
 import { Dialog, Transition } from '@headlessui/react';
 
@@ -30,7 +30,7 @@ import farmImage from '@/assets/images/cashew-farm.webp';
 import aboutUsHeroImage from '@/assets/images/about-us-hero.webp';
 import {Typography} from "@/components/Typography/Typography";
 import { InfoCard } from '@/components/InfoCard/InfoCard';
-import {useNavigate} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {ProfileCard} from "../components/ProfileCard/ProfileCard";
 import JsonLd from '@/components/Seo/JsonLd';
 
@@ -256,6 +256,15 @@ const About: React.FC = () => {
               </div>
             </div>
           </Section>
+
+          {/* Origin Story Link */}
+          <div className="text-center mt-6">
+            <Link to="/blog/afrinuts-export-origin-story-heritage-sustainability-community" className="text-accent hover:text-primary text-sm font-medium flex items-center justify-center gap-1">
+              <FaBookOpen className="text-xs" />
+              {t('relatedReading.originStory')}
+              <FaArrowRight className="text-xs" />
+            </Link>
+          </div>
 
           {/* Meet the Full Team CTA */}
           <div className="text-center mt-10">

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import {FaCalendarAlt, FaUser, FaSearch, FaChevronDown, FaPenFancy} from 'react-icons/fa';
+import {FaCalendarAlt, FaUser, FaSearch, FaChevronDown, FaPenFancy, FaBookOpen} from 'react-icons/fa';
 import { Typography } from '@/components/Typography/Typography';
 import { trackCtaClick, trackBlogRead } from '@/utils/analytics';
 import Section from '@/components/Section/Section';

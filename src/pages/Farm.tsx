@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import { trackCtaClick } from '@/utils/analytics';
 import {
     FaTree,
@@ -11,7 +11,7 @@ import {
     FaTint,
     FaUsers,
     FaChartLine,
-    FaSeedling,
+    FaSeedling, FaBookOpen,
 } from 'react-icons/fa';
 import { GiFarmer, GiPlantWatering, GiFruitTree } from 'react-icons/gi';
 import { MdPrecisionManufacturing } from 'react-icons/md';
@@ -253,6 +253,15 @@ const Farm = () => {
                                 </motion.div>
                             ))}
                         </div>
+                    </div>
+
+                    {/* Related Reading */}
+                    <div className="text-center mt-6">
+                        <Link to="/blog/how-to-grow-cashew-trees-west-africa" className="text-accent hover:text-primary text-sm font-medium flex items-center justify-center gap-1">
+                            <FaBookOpen className="text-xs" />
+                            {t('relatedReading.growingGuide')}
+                            <FaArrowRight className="text-xs" />
+                        </Link>
                     </div>
 
                     {/* Live Farm Stats Section */}
