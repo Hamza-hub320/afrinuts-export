@@ -43,6 +43,11 @@
       }
     ]
   },
+  "traceability": {
+    "title": "Traceable from Tree to Container",
+    "description": "Our custom Farm OS tracks every cashew from the block it was harvested to the container it ships in. Buyers and investors get real-time visibility into origin, quality, and handling — not just a paper trail.",
+    "cta": "See How Traceability Works"
+  },
   "farm": {
     "title": "Our 35-Hectare Organic Cashew Farm in Odienné",
     "description": "Located in the heart of Ivory Coast's cashew belt, our family farm spans 35 hectares with over 3,500 cashew trees planted. We combine traditional knowledge passed down through generations with modern organic farming practices. Every tree is hand-tended. Every harvest is tracked. From land clearing to your table, we control the entire process.",

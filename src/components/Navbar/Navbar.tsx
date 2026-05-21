@@ -111,7 +111,7 @@ const Navbar: React.FC = () => {
 
     // Treat About link as active for any of its subpages including Executive Team or History
     if (path === '/about') {
-      return ['/about', '/executive-team', '/about/our-story']
+      return ['/about', '/executive-team', '/about/our-story', '/sustainability', '/vision']
           .some(p => location.pathname === p);
     }
 
@@ -142,9 +142,12 @@ const Navbar: React.FC = () => {
       dropdown: [
         { path: '/about', label: t('navbar.about_overview') },
         { path: '/executive-team', label: t('navbar.executive_team') },
-        { path: '/about/our-story', label: t('navbar.our_story') }
+        { path: '/about/our-story', label: t('navbar.our_story') },
+        { path: '/sustainability', label: t('navbar.sustainability') },
+        { path: '/vision', label: t('navbar.vision') },
       ]
     },
+    { path: '/wholesale', label: t('navbar.wholesale', 'Wholesale') },
     {
       path: '/products',
       label: t('navbar.products'),
@@ -163,8 +166,6 @@ const Navbar: React.FC = () => {
         { path: '/trace', label: t('navbar.trace') }
       ]
     },
-    { path: '/sustainability', label: t('navbar.sustainability') },
-    { path: '/vision', label: t('navbar.vision') },
     { path: '/invest', label: t('navbar.invest', 'Invest') },
     { path: '/contact', label: t('navbar.contact') },
     {
@@ -261,7 +262,7 @@ const Navbar: React.FC = () => {
   return (
       <nav ref={navRef} className={`fixed top-4 left-3 right-3 z-50 transition-all duration-300 ${scrolled ? 'scale-[0.98]' : ''}`}>
         <div className={`relative bg-white/60 backdrop-blur-md border-2 border-white/40 rounded-2xl shadow-lg mx-auto max-w-7xl transition-all duration-300 ${scrolled ? 'shadow-xl bg-white/80 backdrop-blur-lg' : ''}`}>
-          <div className="flex justify-between items-center  h-15 px-3 sm:px-4 lg:px-6">
+          <div className="flex justify-between items-center h-15 px-3 sm:px-4 lg:px-6">
 
             {/* Logo Section */}
             <div className="flex-shrink-0 flex items-center">

@@ -11,28 +11,28 @@
   "ceo": {
     "title": "A Message From Our CEO",
     "message": [
-      "At AfriNuts Export, our journey is deeply personal, rooted in family, faith, and Odienné, in the heart of Côte d’Ivoire — the world’s largest cashew-producing nation. What began as my grandfather’s work in the fields has become a three-generation legacy, and today, we are transforming that legacy into a global vision for the future of the cashew industry.",
+      "At AfriNuts Export, our story begins where most agribusiness stories end — in the soil of Odienné, Côte d'Ivoire, the world's largest cashew-producing nation. I am the third generation of my family to work this land, but I came to farming through an unexpected path: software engineering.",
 
-      "We are building more than a business — we are building a vertically integrated value chain designed to redefine how African agricultural products reach the world. From cultivation to processing, packaging, and export, every step is controlled with precision, ensuring quality, traceability, and accountability for our global partners.",
+      "That combination — ancestral farming wisdom and modern technology — is what makes AfriNuts different. We don't just grow cashews. We built our own farm operating system — an offline-first Android platform that tracks every tree, every block, and every expense from the field to the cloud. When a buyer asks about traceability, we don't send a spreadsheet. We show them real-time data from a farm management system we engineered ourselves.",
 
-      "Our ambition is clear: to move beyond raw commodity exports and establish Côte d’Ivoire as a leader in finished, branded agricultural products. The cashew should not leave Africa as a raw material — it should reach international markets as a premium, value-added product that reflects the excellence of its origin.",
+      "We are building a vertically integrated cashew platform — from our 35-hectare organic farm to our future processing center. Every stage is designed for transparency: block-level tracking, digital photo documentation, harvest cycle monitoring, and financial reporting that meets institutional standards. This is not how most West African farms operate. It is how AfriNuts operates.",
 
-      "At the core of this vision is impact. We invest in farmer training, youth employment, and sustainable agricultural practices that protect the land for future generations. Through our profit-sharing initiatives, we contribute to building wells, supporting schools, and strengthening communities — because true success is measured by the value we create for others.",
+      "Our vision is clear: the cashew should not leave Africa as a raw commodity. It should reach global markets as a premium, certified product that carries the name of its origin with pride. That means investing in local processing, creating skilled jobs in Odienné, and building infrastructure that serves our community for generations.",
 
-      "We are developing our 35-hectare farm in Odienné as a model for regenerative agriculture and long-term sustainability. With future plans for a modern processing facility, AfriNuts is positioned to become a hub for innovation, job creation, and international trade in West Africa.",
+      "Impact is not an afterthought — it is built into our structure. Ten percent of our net profits are reinvested into community projects: water wells, schools, and mosques. Our farmer cooperative connects 200+ local smallholders to fair pricing and technical training. This is sadaqah jariyah — ongoing charity that benefits people long after we are gone.",
 
-      "Our commitment to transparency, ethical sourcing, and trust is grounded in both global business standards and our Islamic values. These principles guide every partnership we form and every product we deliver.",
+      "Our commitment to transparency is grounded in both global standards and our Islamic values. We operate on Mudarabah principles — no riba, no speculation, no hidden terms. Every investor, every buyer, every partner deserves clarity and honesty from the first conversation to the final shipment.",
 
-      "To our partners, customers, and investors: this is an invitation to be part of a new chapter in African enterprise — one defined not by extraction, but by value creation, dignity, and long-term vision.",
+      "To our partners, customers, and investors: AfriNuts is not just another cashew supplier. We are a tech-enabled West African agribusiness platform where farming heritage, digital infrastructure, and ethical operations converge. This is an invitation to be part of something that has never been built before in this region — an African-owned, technology-driven, vertically integrated cashew value chain.",
 
-      "With Allah’s guidance and the strength of our team, we are building a company that will carry the story of Odienné from local fields to global markets — setting a new standard for what African agriculture can achieve."
+      "With Allah's guidance and the strength of our team, we are building more than a company. We are building a new standard for what African agriculture can achieve — from Odienné to the world."
     ],
     "signature": "- Hamza S. Ralsan Sangare",
     "position": "Founder & Chief Executive Officer (CEO)",
     "alt": "Portrait of CEO Hamza S. Ralsan Sangare",
     "readMore": "Read More",
     "readLess": "Read Less",
-    "experience": "5+ years of leadership across agribusiness development, project execution, and technology-enabled operations.",
+    "experience": "Software engineer turned agribusiness founder. 5+ years leading technology-enabled agricultural operations, Farm OS development, and ethical supply chain architecture.",
     "education": [
       "B.S. in Software Engineering",
       "M.S. in AI Engineering (in progress)"
@@ -75,6 +75,23 @@
     "experience": "Experience",
     "education": "Education",
     "close": "Close"
+  },
+  "farmOs": {
+    "title": "Built Different: Farm OS",
+    "subtitle": "Most West African farms run on paper. Ours runs on a custom-built operating system — engineered by our founder to bring institutional-grade transparency to cashew production.",
+    "offline": {
+      "title": "Offline-First Android App",
+      "desc": "Our field teams use a custom Android application that works without internet. Data syncs automatically when connectivity returns — no paper logs, no lost records."
+    },
+    "tracking": {
+      "title": "Block-Level Tracking",
+      "desc": "Every cashew tree is mapped to a specific block. Planting dates, survival rates, expenses, and harvest volumes are recorded per block — giving buyers full traceability."
+    },
+    "dashboard": {
+      "title": "Real-Time Dashboard",
+      "desc": "Investors and managers access a live dashboard showing farm performance, financials, task management, and photo documentation — updated from the field in real time."
+    },
+    "techStack": "Built with React, TypeScript, Firebase, and Android. Offline-first architecture with cloud synchronization. No internet? No problem."
   },
   "brand": {
     "title": "Our Commitment to Premium Organic Cashews from Ivory Coast",

@@ -13,7 +13,7 @@ import {
     FaSolarPanel,
     FaWater,
     FaTree,
-    FaSeedling, FaCheckCircle, FaArrowRight
+    FaSeedling, FaCheckCircle, FaArrowRight, FaMobile, FaGlobeAfrica
 } from "react-icons/fa";
 
 import Section from '@/components/Section/Section';
@@ -619,6 +619,86 @@ const Vision: React.FC = () => {
                                 </motion.div>
                             ))}
                         </div>
+                    </motion.div>
+                </div>
+            </Section>
+
+            {/* Agritech Hub Section */}
+            <Section className="py-10">
+                <div className="w-full max-w-6xl mx-auto px-4 sm:px-6">
+                    <motion.div
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={staggerContainer}
+                    >
+                        <div className="text-center mb-12">
+                            <Typography variant="h2" className="mb-4">
+                                {t('agritechHub.title', 'Beyond Cashews: Building Odienné\'s Agritech Future')}
+                            </Typography>
+                            <Typography variant="subtitle" className="max-w-3xl mx-auto text-gray-600">
+                                {t('agritechHub.subtitle', 'What started as a farm operating system can become a regional platform.')}
+                            </Typography>
+                        </div>
+
+                        {/* Vision Statement */}
+                        <motion.div
+                            variants={fadeIn}
+                            className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl shadow-lg p-6 sm:p-8 transform-gpu group mb-8 max-w-4xl mx-auto"
+                            style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
+                            whileHover={{ y: -4, scale: 1.01, boxShadow: '0 15px 30px -8px rgba(0,0,0,0.15)', transition: { duration: 0.3 } }}
+                        >
+                            <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-4px] group-hover:translate-z-[-8px] transition-all duration-500" />
+                            <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40" />
+                            <div className="relative z-10">
+                                <Typography variant="body" className="text-gray-700 leading-relaxed text-center">
+                                    {t('agritechHub.vision', 'AfriNuts Export is proof that a small agribusiness can build enterprise-grade technology. Our next ambition is to turn Odienné into West Africa\'s first agritech cluster — where farmers use mobile apps, buyers verify batches online, and investors access live performance data.')}
+                                </Typography>
+                            </div>
+                        </motion.div>
+
+                        {/* Three Pillars */}
+                        <div className="grid md:grid-cols-3 gap-6">
+                            {(t('agritechHub.pillars', { returnObjects: true }) as Array<{ title: string; description: string }>).map((pillar, idx) => (
+                                <motion.div
+                                    key={idx}
+                                    variants={fadeIn}
+                                    transition={{ delay: idx * 0.1 }}
+                                >
+                                    <InfoCard
+                                        icon={idx === 0 ? FaMobile : idx === 1 ? FaUsers : FaGlobeAfrica}
+                                        title={pillar.title}
+                                        iconColor="text-accent"
+                                        showInfoBadge={false}
+                                        className="h-full"
+                                    >
+                                        <Typography variant="small" className="text-gray-600">
+                                            {pillar.description}
+                                        </Typography>
+                                    </InfoCard>
+                                </motion.div>
+                            ))}
+                        </div>
+
+                        {/* CTA */}
+                        <motion.div
+                            variants={fadeIn}
+                            className="text-center mt-8"
+                        >
+                            <Typography variant="body" className="text-gray-600 italic max-w-2xl mx-auto">
+                                {t('agritechHub.cta', 'Investors and government partners: join us in building the agritech future of West Africa.')}
+                            </Typography>
+                            <motion.button
+                                onClick={() => navigate('/contact')}
+                                className="mt-4 relative border-2 border-primary/50 text-primary hover:bg-primary hover:text-white px-6 py-2.5 rounded-full transform-gpu transition-all duration-300 inline-flex items-center gap-2 text-sm font-medium bg-white/30 backdrop-blur-sm"
+                                whileHover={{ y: -2, scale: 1.03 }}
+                                whileTap={{ scale: 0.95 }}
+                            >
+                                <FaHandshake className="text-sm" />
+                                {t('agritechHub.ctaButton', 'Partner With Us')}
+                                <FaArrowRight className="text-xs group-hover:translate-x-1 transition-transform" />
+                            </motion.button>
+                        </motion.div>
                     </motion.div>
                 </div>
             </Section>

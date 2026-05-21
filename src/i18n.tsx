@@ -27,6 +27,7 @@ import facilityEN from './locales/en/facility.json';
 import certificationsEN from './locales/en/certifications.json';
 import accessibilityEN from './locales/en/accessibility.json';
 import investEN from './locales/en//invest.json';
+import wholesaleEN from './locales/en//wholesale.json';
 
 // French translations
 import homeFR from './locales/fr/home.json';
@@ -53,6 +54,7 @@ import facilityFR from './locales/fr/facility.json';
 import certificationsFR from './locales/fr/certifications.json';
 import accessibilityFR from './locales/fr/accessibility.json';
 import investFR from './locales/fr//invest.json';
+import wholesaleFR from './locales/fr/wholesale.json';
 
 // Arabic translations
 import homeAR from './locales/ar/home.json';
@@ -79,6 +81,7 @@ import facilityAR from './locales/ar/facility.json';
 import certificationsAR from './locales/ar/certifications.json';
 import accessibilityAR from './locales/ar/accessibility.json';
 import investAR from './locales/ar/invest.json';
+import wholesaleAR from './locales/ar/wholesale.json';
 
 
 // Type definitions
@@ -109,6 +112,7 @@ interface TranslationResources {
     certifications: typeof certificationsEN;
     accessibility: typeof accessibilityEN;
     invest: typeof investEN;
+    wholesale: typeof wholesaleEN;
 }
 
 interface I18nOptions {
@@ -155,7 +159,8 @@ const resources: Record<SupportedLanguages, TranslationResources> = {
         facility: facilityEN,
         certifications: certificationsEN,
         accessibility: accessibilityEN,
-        invest: investEN
+        invest: investEN,
+        wholesale: wholesaleEN
     },
     fr: {
         home: homeFR,
@@ -181,7 +186,8 @@ const resources: Record<SupportedLanguages, TranslationResources> = {
         facility: facilityFR,
         certifications: certificationsFR,
         accessibility: accessibilityFR,
-        invest: investFR
+        invest: investFR,
+        wholesale: wholesaleFR
     },
     ar: {
         home: homeAR,
@@ -207,7 +213,8 @@ const resources: Record<SupportedLanguages, TranslationResources> = {
         facility: facilityAR,
         certifications: certificationsAR,
         accessibility: accessibilityAR,
-        invest: investAR
+        invest: investAR,
+        wholesale: wholesaleAR,
     }
 };
 
@@ -215,7 +222,7 @@ const options: I18nOptions = {
     fallbackLng: 'en',
     debug: process.env.NODE_ENV === 'development',
     supportedLngs: ['en', 'fr', 'ar'],
-    ns: ['home', 'common', 'about', 'products', 'farm', 'contact', 'footer', 'sustainability', 'vision', 'privacy', 'terms', 'cookies', 'cookiePolicy', 'news', 'faq', 'chatbot', 'executive', 'story','trace', 'processing', 'facility', 'certifications', 'accessibility', 'invest'],
+    ns: ['home', 'common', 'about', 'products', 'farm', 'contact', 'footer', 'sustainability', 'vision', 'privacy', 'terms', 'cookies', 'cookiePolicy', 'news', 'faq', 'chatbot', 'executive', 'story','trace', 'processing', 'facility', 'certifications', 'accessibility', 'invest', 'wholesale'],
     defaultNS: 'common',
     resources,
     interpolation: {

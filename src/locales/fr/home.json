@@ -43,6 +43,11 @@
       }
     ]
   },
+  "traceability": {
+    "title": "Traçable de l'Arbre au Conteneur",
+    "description": "Notre Farm OS suit chaque noix de cajou, du bloc où elle a été récoltée jusqu'au conteneur d'expédition. Acheteurs et investisseurs bénéficient d'une visibilité en temps réel sur l'origine, la qualité et la manutention.",
+    "cta": "Découvrir Notre Traçabilité"
+  },
   "farm": {
     "title": "Notre Ferme Bio de Noix de Cajou de 35 Hectares à Odienné",
     "description": "Située au cœur de la ceinture de cajou en Côte d'Ivoire, notre ferme familiale s'étend sur 35 hectares avec plus de 3 500 anacardiers plantés. Nous combinons les connaissances traditionnelles transmises de génération en génération avec des pratiques modernes d'agriculture biologique. Chaque arbre est entretenu à la main. Chaque récolte est suivie. Du défrichage à votre table, nous maîtrisons l'ensemble du processus.",

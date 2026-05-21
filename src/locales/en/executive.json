@@ -16,20 +16,22 @@
     },
     "ceo": {
       "title": "Chief Executive Officer",
-      "role": "Strategic Vision & Ethical Enterprise Leadership",
+      "role": "Software Engineer Turned Agribusiness Founder",
       "alt": "Hamza S. Ralsan Sangare, Founder & CEO of AfriNuts Export",
       "email": "hamza@afrinutsexport.com",
       "linkedin": "https://www.linkedin.com/in/hamza-sangare-827a8a130/",
       "bio": [
-        "Hamza S. Ralsan Sangare is the Founder and CEO of AfriNuts Export, leading the company’s vision to build a vertically integrated, ethical cashew value chain rooted in Côte d’Ivoire. With three generations of family farming heritage in Odienné and a professional background in software engineering and project leadership, he combines tradition with modern execution.",
-        "Hamza applies a systems-driven approach to agribusiness, leveraging cloud technologies, digital platforms, and traceability tools to support scalable farm-to-export operations. He holds certifications in AWS Cloud, ITIL® 4, and CompTIA Project+, and applies Agile and service management principles across operations and strategic planning.",
-        "Under his leadership, AfriNuts is developing a 35-hectare regenerative cashew farm with a long-term vision for local processing, certified exports, and community-centered growth. Hamza is committed to building a business where Islamic values, transparency, and global quality standards converge—ensuring African agricultural value remains on the continent while serving international markets with integrity."
+        "Hamza S. Ralsan Sangare is the Founder and CEO of AfriNuts Export — a tech-enabled West African cashew platform built on three generations of family farming in Odienné, Côte d'Ivoire. His unconventional path from software engineering to agribusiness leadership is what defines AfriNuts' competitive edge.",
+
+        "Hamza architected and built AfriNuts Farm OS — an offline-first Android application with cloud synchronization that tracks every block, every tree, every expense, and every harvest cycle in real time. This system gives buyers and investors institutional-grade visibility into farm operations — a level of transparency almost unheard of in West African agriculture. He holds AWS Cloud Practitioner, ITIL® 4, and CompTIA Project+ certifications, and is completing a Master's in AI Engineering.",
+
+        "Under his leadership, AfriNuts has transformed family land into a 35-hectare organic cashew farm with a 200+ farmer cooperative, a secure supply chain, and a clear roadmap to building Côte d'Ivoire's first locally-owned certified processing center. Every system — from the farm management dashboard to the investor portal — was designed to scale African agricultural exports without sacrificing ethics, transparency, or community impact."
       ],
-      "experience": "5+ years of leadership across agribusiness development, project execution, and technology-enabled operations.",
+      "experience": "Software engineer turned agribusiness founder. 5+ years leading technology-enabled agricultural operations, Farm OS development, and ethical supply chain architecture.",
       "education": [
         "B.S. in Software Engineering",
         "M.S. in AI Engineering (in progress)"
-        ]
+      ]
     },
     "cfo": {
       "title": "Co-Founder & Chief Financial Officer",

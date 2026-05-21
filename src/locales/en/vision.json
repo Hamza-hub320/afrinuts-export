@@ -228,5 +228,26 @@
     },
     "note": "Our operational dashboard and detailed financial reports are available to verified investors through a secure portal.",
     "cta": "Inquire About Investing"
+  },
+  "agritechHub": {
+    "title": "Beyond Cashews: Building Odienné's Agritech Future",
+    "subtitle": "What started as a farm operating system can become a regional platform.",
+    "vision": "AfriNuts Export is proof that a small agribusiness can build enterprise-grade technology. Our next ambition is to turn Odienné into West Africa's first agritech cluster — where farmers use mobile apps, buyers verify batches online, and investors access live performance data.",
+    "pillars": [
+      {
+        "title": "Digitize the Supply Chain",
+        "description": "Extend Farm OS to cooperatives and outgrowers. Every farmer, every tree, every harvest tracked."
+      },
+      {
+        "title": "Train Local Talent",
+        "description": "Partner with technical schools to train the next generation of Ivorian software engineers and agritech specialists."
+      },
+      {
+        "title": "Replicate the Model",
+        "description": "Prove the concept in cashew, then adapt to other crops: cocoa, shea, coffee, cotton."
+      }
+    ],
+    "cta": "Investors and government partners: join us in building the agritech future of West Africa.",
+    "ctaButton": "Partner With Us"
   }
 }

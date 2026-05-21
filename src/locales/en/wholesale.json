@@ -1,0 +1,125 @@
+{
+  "seo": {
+    "title": "Wholesale Cashew Supply | Traceable from Tree to Container | AfriNuts Export",
+    "description": "Wholesale cashew nuts direct from our 35-hectare farm in Odienné, Côte d'Ivoire. Block-level traceability, export-ready documentation, Grade A quality."
+  },
+  "hero": {
+    "subtitle": "Wholesale Supply",
+    "title": "Not Just Cashews. Traceable Cashews.",
+    "lead": "Most suppliers send you a price list. We send you the farm data — block-level tracking, harvest dates, moisture readings, and container-ready documentation.",
+    "subtext": "Direct from our 35-hectare farm in Odienné, Côte d'Ivoire. Single-origin. Fully traceable. Export-ready.",
+    "moq": "MOQ: 1 ton (20 bags)",
+    "available": "Available Now",
+    "requestPricing": "Request Wholesale Pricing",
+    "downloadCatalogue": "Download Product Catalogue",
+    "whatsapp": "WhatsApp"
+  },
+  "whyDifferent": {
+    "title": "Why Our Cashews Are Different",
+    "body": "Most cashew suppliers are traders — they buy from whoever has nuts and resell to whoever needs them. We grow what we sell on our own farm, track every batch with our own software, and provide documentation most suppliers cannot.",
+    "cards": {
+      "traceability": { "title": "Full Traceability", "desc": "Every batch traced to the exact block and harvest date. Our Farm OS gives you data most suppliers cannot provide — not just a paper trail, but a digital record.", "stat": "Block-Level" },
+      "consistency": { "title": "Single-Origin Consistency", "desc": "No mixed lots. No middlemen. Every shipment comes from our 35-hectare farm in Odienné — same soil, same trees, same quality standards.", "stat": "One Farm" },
+      "documentation": { "title": "Export-Ready Documentation", "desc": "Full export package: COO, SGS, Phyto, Organic and Halal certs (as achieved). Your customs broker will have everything they need.", "stat": "Complete" }
+    }
+  },
+  "blockTracking": {
+    "title": "Block-Level Tracking: See What Others Can't Show",
+    "description": "Our Farm OS maps every block by row, column, survival rate, and GPS coordinates. Each block has its own planting date, tree count, and harvest history. When you ask for traceability, we show you the actual data — not a promise.",
+    "gridLabel": "5×7 block grid — 35 hectares",
+    "tags": ["Row A-E", "Column 1-7", "Survival Rate", "GPS Mapped", "Planting Date", "Harvest Log"],
+    "viewLiveExample": "See a live traceability example",
+    "legend": {
+      "planted": "Planted",
+      "harvested": "Harvested",
+      "infrastructure": "Infrastructure"
+    }
+  },
+  "products": {
+    "title": "Product Range",
+    "body": "Raw nuts available today. Processed products available for pre-order. All sourced from our single-origin farm in Odienné.",
+    "cardTitle": "Current & Upcoming Products",
+    "product": "Product",
+    "grade": "Grade",
+    "moq": "MOQ",
+    "leadTime": "Lead Time",
+    "status": "Status",
+    "available": "Available",
+    "downloadCatalogue": "Download Full Product Catalogue (PDF)",
+    "requestSample": "Request a Sample Batch",
+    "table": [
+      { "product": "Raw Cashew Nuts", "grade": "Grade A, 95% whole", "moq": "1 ton (20 bags)", "leadTime": "14 days", "status": "Available", "icon": "FaBox" },
+      { "product": "Cashew Kernels", "grade": "W320, W240, W180", "moq": "By request", "leadTime": "Q1 2030", "status": "Pre-Order", "icon": "FaIndustry" },
+      { "product": "CNSL", "grade": "Technical Grade", "moq": "Bulk", "leadTime": "Q1 2030", "status": "Pre-Order", "icon": "FaFlask" }
+    ]
+  },
+  "farmOs": {
+    "title": "Ask Your Current Supplier for Block-Level Traceability Data. We'll Wait.",
+    "body": "Our custom-built Farm OS tracks every tree, every expense, and every harvest. When you place an order, we don't just ship cashews — we ship a digital record of exactly where they came from, when they were harvested, and how they were handled.",
+    "batchNote": "Test our traceability: ask for batch <strong>AFN-2026-001</strong> when you inquire",
+    "cta": "See How Traceability Works"
+  },
+  "quality": {
+    "title": "Quality You Can Verify",
+    "body": "Every shipment meets export-grade specifications backed by documentation. From moisture content to container loading, quality is measured — not assumed.",
+    "specsTitle": "Quality Specifications",
+    "specs": [
+      { "label": "Moisture Content", "value": "≤ 8%" },
+      { "label": "Defective Nuts", "value": "≤ 5%" },
+      { "label": "Aflatoxin", "value": "< 4 ppb (EU)" },
+      { "label": "Packaging", "value": "50-80 kg jute bags" },
+      { "label": "Container", "value": "20 ft (~22 MT)" },
+      { "label": "Nut Count", "value": "170-190 nuts/kg" }
+    ]
+  },
+  "logistics": {
+    "title": "Export Logistics",
+    "description": "We ship from the Port of Abidjan — one of West Africa's most efficient and modern deep-water ports. Direct shipping lines to Europe, the Middle East, and North America mean your cargo moves fast, with fewer transshipments and lower risk of delay.",
+    "documentation": "Documentation: Certificate of Origin, SGS Inspection, Phytosanitary Certificate, Organic + Halal certs (as achieved).",
+    "items": [
+      { "icon": "FaTruck", "label": "Port", "value": "Abidjan, Côte d'Ivoire" },
+      { "icon": "FaGlobeAfrica", "label": "EU Transit", "value": "4-6 weeks" },
+      { "icon": "FaGlobeAfrica", "label": "North America", "value": "6-8 weeks" },
+      { "icon": "FaFileContract", "label": "Terms", "value": "FOB Abidjan, CIF available" }
+    ]
+  },
+  "process": {
+    "title": "How to Start",
+    "body": "From inquiry to delivery — a simple process designed for wholesale buyers.",
+    "stepLabel": "Step",
+    "steps": [
+      { "step": "1", "title": "Request Pricing", "desc": "Tell us your volume and grade requirements" },
+      { "step": "2", "title": "Receive Specs", "desc": "We send product sheets + sample availability" },
+      { "step": "3", "title": "Place Trial Order", "desc": "Start with 1 ton to verify quality firsthand" },
+      { "step": "4", "title": "Scale Up", "desc": "Move to container loads with confidence" }
+    ]
+  },
+  "trust": {
+    "title": "Trusted by Farmers, Backed by Investors",
+    "body": "We're not a trading desk. We own the farm, manage the cooperative, and operate with full transparency.",
+    "items": [
+      { "icon": "FaUsers", "value": "200+", "label": "Farmers in Cooperative", "desc": "Direct partnership with local growers" },
+      { "icon": "FaLeaf", "value": "35 ha", "label": "Owned Farm", "desc": "Not a trading desk — we grow what we sell" },
+      { "icon": "FaChartLine", "value": "Backed", "label": "Investor-Funded", "desc": "Not broker-dependent. Real assets." },
+      { "icon": "FaGlobeAfrica", "value": "100%", "label": "Single Origin", "desc": "Odienné, Côte d'Ivoire. One farm, one quality." }
+    ]
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "body": "Quick answers for wholesale buyers. Can't find what you're looking for? Contact us directly.",
+    "viewAll": "View all FAQs",
+    "items": [
+      { "q": "Do you ship to my country?", "a": "Yes. We export to the European Union, the Middle East, and North America. Our port of departure is Abidjan — one of West Africa's most efficient container ports. Transit times: 4-6 weeks to EU, 6-8 weeks to North America." },
+      { "q": "Can I visit the farm?", "a": "Absolutely. We encourage qualified buyers to visit our 35-hectare farm in Odienné, Côte d'Ivoire. Seeing the operation firsthand builds the trust that documentation alone cannot. Visits are arranged on request." },
+      { "q": "What certifications do you have?", "a": "We are actively pursuing Organic (ECOCERT), Halal, ISO 22000, and Fair Trade certifications. Our farm has been chemical-free since inception. See our full certification roadmap for timelines and current status." },
+      { "q": "What is your minimum order quantity?", "a": "Our standard MOQ is 1 metric ton (approximately 20 jute bags) for raw cashew nuts. For processed kernels and specialty products, MOQs vary — contact us for details." },
+      { "q": "How do you ensure consistent quality?", "a": "Every shipment comes from our single-origin farm — same soil, same trees, same processing standards. We don't mix lots from different sources. Our Farm OS tracks quality metrics per batch, and we provide documentation with every shipment." }
+    ]
+  },
+  "cta": {
+    "title": "Ready to Source With Confidence?",
+    "body": "Request pricing, download our product catalogue, or review our compliance documentation. We respond to wholesale inquiries within 24 hours.",
+    "requestPricing": "Request Wholesale Pricing",
+    "viewCertifications": "View Certification Roadmap"
+  }
+}

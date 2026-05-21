@@ -236,5 +236,26 @@
     },
     "note": "Notre tableau de bord opérationnel et nos rapports financiers détaillés sont disponibles pour les investisseurs vérifiés via un portail sécurisé.",
     "cta": "Renseignez-vous sur l'Investissement"
+  },
+  "agritechHub": {
+    "title": "Au-Delà de la Noix de Cajou : Construire l'Avenir Agritech d'Odienné",
+    "subtitle": "Ce qui a commencé comme un système d'exploitation agricole peut devenir une plateforme régionale.",
+    "vision": "AfriNuts Export est la preuve qu'une petite entreprise agroalimentaire peut construire une technologie de niveau entreprise. Notre prochaine ambition est de faire d'Odienné le premier pôle agritech d'Afrique de l'Ouest — où les agriculteurs utilisent des applications mobiles, les acheteurs vérifient les lots en ligne et les investisseurs accèdent aux données de performance en direct.",
+    "pillars": [
+      {
+        "title": "Numériser la Chaîne d'Approvisionnement",
+        "description": "Étendre Farm OS aux coopératives et aux producteurs associés. Chaque agriculteur, chaque arbre, chaque récolte suivi."
+      },
+      {
+        "title": "Former les Talents Locaux",
+        "description": "S'associer aux écoles techniques pour former la prochaine génération d'ingénieurs logiciels et de spécialistes agritech ivoiriens."
+      },
+      {
+        "title": "Répliquer le Modèle",
+        "description": "Faire ses preuves avec la noix de cajou, puis adapter à d'autres cultures : cacao, karité, café, coton."
+      }
+    ],
+    "cta": "Investisseurs et partenaires gouvernementaux : rejoignez-nous pour construire l'avenir agritech de l'Afrique de l'Ouest.",
+    "ctaButton": "Devenir Partenaire"
   }
 }

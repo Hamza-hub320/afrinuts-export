@@ -14,22 +14,24 @@
       "certifications": "Certifications & Expertise"
     },
     "ceo": {
-      "title": "Président-Directeur Général",
-      "role": "Vision Stratégique & Leadership d'Entreprise Éthique",
+      "title": "Fondateur & Président-Directeur Général",
+      "role": "Ingénieur Logiciel Devenu Fondateur Agroalimentaire",
       "alt": "Hamza S. Ralsan Sangare, Fondateur & PDG d'AfriNuts Export",
       "email": "hamza@afrinutsexport.com",
       "linkedin": "https://www.linkedin.com/in/hamza-sangare-827a8a130/",
       "bio": [
-        "Hamza S. Ralsan Sangare est le Fondateur et PDG d'AfriNuts Export, dirigeant la vision de l'entreprise pour construire une chaîne de valeur de cajou verticalement intégrée et éthique, enracinée en Côte d'Ivoire. Avec trois générations d'héritage agricole familial à Odienné et une formation professionnelle en génie logiciel et leadership de projet, il allie tradition et exécution moderne.",
-        "Hamza applique une approche systémique à l'agroalimentaire, en tirant parti des technologies cloud, des plateformes numériques et des outils de traçabilité pour soutenir des opérations évolutives de la ferme à l'exportation. Il détient des certifications en AWS Cloud, ITIL® 4 et CompTIA Project+, et applique les principes Agiles et de gestion des services dans les opérations et la planification stratégique.",
-        "Sous sa direction, AfriNuts développe une ferme de cajou régénératrice de 35 hectares avec une vision à long terme pour la transformation locale, les exportations certifiées et la croissance centrée sur la communauté. Hamza s'engage à construire une entreprise où les valeurs islamiques, la transparence et les normes de qualité mondiales convergent — garantissant que la valeur agricole africaine reste sur le continent tout en servant les marchés internationaux avec intégrité."
+        "Hamza S. Ralsan Sangare est le Fondateur et PDG d'AfriNuts Export — une plateforme de noix de cajou ouest-africaine axée sur la technologie, bâtie sur trois générations d'agriculture familiale à Odienné, Côte d'Ivoire. Son parcours non conventionnel, du génie logiciel au leadership agroalimentaire, est ce qui définit l'avantage concurrentiel d'AfriNuts.",
+
+        "Hamza a conçu et construit AfriNuts Farm OS — une application Android hors ligne avec synchronisation cloud qui suit chaque bloc, chaque arbre, chaque dépense et chaque cycle de récolte en temps réel. Ce système donne aux acheteurs et aux investisseurs une visibilité de niveau institutionnel sur les opérations agricoles — un niveau de transparence presque inédit dans l'agriculture ouest-africaine. Il détient les certifications AWS Cloud Practitioner, ITIL® 4 et CompTIA Project+, et termine un Master en Ingénierie de l'IA.",
+
+        "Sous sa direction, AfriNuts a transformé des terres familiales en une ferme de noix de cajou biologique de 35 hectares avec une coopérative de plus de 200 agriculteurs, une chaîne d'approvisionnement sécurisée et une feuille de route claire pour construire le premier centre de transformation certifié détenu localement en Côte d'Ivoire. Chaque système — du tableau de bord de gestion agricole au portail investisseur — a été conçu pour développer les exportations agricoles africaines sans sacrifier l'éthique, la transparence ou l'impact communautaire."
       ],
-      "experience": "Plus de 5 ans de leadership dans le développement agroalimentaire, l'exécution de projets et les opérations assistées par la technologie.",
+      "experience": "Ingénieur logiciel devenu fondateur agroalimentaire. Plus de 5 ans à diriger des opérations agricoles axées sur la technologie, le développement de Farm OS et l'architecture de chaîne d'approvisionnement éthique.",
       "education": [
         "Licence en Génie Logiciel",
         "Master en Ingénierie de l'IA (en cours)"
       ]
-    },
+     },
     "cfo": {
       "title": "Co-Fondateur & Directeur Financier",
       "role": "Architecte Financier Éthique & Responsable Stratégie Opérationnelle",

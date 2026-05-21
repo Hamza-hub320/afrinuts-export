@@ -17,7 +17,7 @@ import {
   FaMosque,
   FaWater,
   FaTimes,
-  FaArrowRight, FaBookOpen
+  FaArrowRight, FaBookOpen, FaMobile, FaDatabase, FaCloud
 } from "react-icons/fa";
 import { Dialog, Transition } from '@headlessui/react';
 
@@ -414,6 +414,72 @@ const About: React.FC = () => {
               </div>
             </Dialog>
           </Transition.Root>
+
+          {/* Farm OS Section */}
+          <Section className="py-10">
+            <div className="max-w-6xl mx-auto px-4 sm:px-6">
+              <motion.div
+                  className="text-center mb-10"
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  variants={fadeIn}
+              >
+                <Typography variant="h2" className="mb-4">
+                  {t('farmOs.title', 'Built Different: Farm OS')}
+                </Typography>
+                <Typography variant="lead" className="max-w-3xl mx-auto text-gray-600">
+                  {t('farmOs.subtitle', 'Most West African farms run on paper. Ours runs on a custom-built operating system — engineered by our founder to bring institutional-grade transparency to cashew production.')}
+                </Typography>
+              </motion.div>
+
+              <div className="grid md:grid-cols-3 gap-6 mb-8">
+                {[
+                  {
+                    icon: FaMobile,
+                    title: t('farmOs.offline.title', 'Offline-First Android App'),
+                    desc: t('farmOs.offline.desc', 'Our field teams use a custom Android application that works without internet. Data syncs automatically when connectivity returns — no paper logs, no lost records.'),
+                  },
+                  {
+                    icon: FaDatabase,
+                    title: t('farmOs.tracking.title', 'Block-Level Tracking'),
+                    desc: t('farmOs.tracking.desc', 'Every cashew tree is mapped to a specific block. Planting dates, survival rates, expenses, and harvest volumes are recorded per block — giving buyers full traceability.'),
+                  },
+                  {
+                    icon: FaCloud,
+                    title: t('farmOs.dashboard.title', 'Real-Time Dashboard'),
+                    desc: t('farmOs.dashboard.desc', 'Investors and managers access a live dashboard showing farm performance, financials, task management, and photo documentation — updated from the field in real time.'),
+                  },
+                ].map((item, idx) => (
+                    <motion.div key={idx} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} transition={{ delay: idx * 0.1 }}>
+                      <InfoCard icon={item.icon} title={item.title} iconColor="text-accent" showInfoBadge={false} className="h-full">
+                        <Typography variant="small" className="text-gray-600">{item.desc}</Typography>
+                      </InfoCard>
+                    </motion.div>
+                ))}
+              </div>
+
+              {/* Tech stack mention */}
+              <motion.div
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  variants={fadeIn}
+                  className="bg-primary/5 rounded-xl p-5 text-center max-w-3xl mx-auto"
+              >
+                <Typography variant="small" className="text-gray-600">
+                  {t('farmOs.techStack', 'Built with React, TypeScript, Firebase, and Android. Offline-first architecture with cloud synchronization. No internet? No problem.')}
+                </Typography>
+                <div className="flex flex-wrap justify-center gap-2 mt-3">
+                  {['React', 'TypeScript', 'Firebase', 'Android', 'Offline-First', 'Cloud Sync'].map((tech) => (
+                      <span key={tech} className="px-3 py-1 bg-white/60 backdrop-blur-sm rounded-full text-xs font-medium text-primary border border-primary/10">
+                        {tech}
+                    </span>
+                  ))}
+                </div>
+              </motion.div>
+            </div>
+          </Section>
 
         {/* Brand Statement */}
           <Section className="py-10 md:py-10 text-center text-text-dark">
