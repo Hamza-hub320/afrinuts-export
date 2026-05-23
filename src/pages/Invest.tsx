@@ -27,6 +27,7 @@ import ccoImage from '@/assets/images/cco.webp';
 import opsImage from '@/assets/images/ops-manager.webp';
 import adminImage from '@/assets/images/admin-manager.webp';
 import farmManagerImage from '@/assets/images/farm-manager.webp';
+import {trackCtaClick} from "@/utils/analytics";
 
 const Invest: React.FC = () => {
     const { t } = useTranslation('invest');
@@ -131,7 +132,10 @@ const Invest: React.FC = () => {
                             <div className="absolute inset-0 rounded-full border-2 border-white/30" /><div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50" />
                             <FaDownload className="relative z-10" /><span className="relative z-10">{t('hero.downloadNda')}</span>
                         </a>
-                        <motion.button onClick={() => navigate('/contact')} className="relative border-2 border-primary/50 text-primary hover:bg-primary hover:text-white px-8 py-4 rounded-full transform-gpu font-medium inline-flex items-center gap-2 bg-white/30 backdrop-blur-sm" whileHover={{ y: -2 }}>
+                        <motion.button onClick={() => {
+                            trackCtaClick('schedule_call', 'invest_hero');
+                            navigate('/contact');
+                        }} className="relative border-2 border-primary/50 text-primary hover:bg-primary hover:text-white px-8 py-4 rounded-full transform-gpu font-medium inline-flex items-center gap-2 bg-white/30 backdrop-blur-sm" whileHover={{ y: -2 }}>
                             <FaHandshake />{t('hero.scheduleCall')}
                         </motion.button>
                     </motion.div>
@@ -542,7 +546,10 @@ const Invest: React.FC = () => {
                     </div>
                 </motion.div>))}</div>
                 <motion.div className="text-center mt-8" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
-                    <motion.button onClick={() => navigate('/executive-team')} className="relative border-2 border-primary/50 text-primary hover:bg-primary hover:text-white px-6 py-2.5 rounded-full transform-gpu transition-all duration-300 inline-flex items-center gap-2 text-sm font-medium bg-white/30 backdrop-blur-sm" whileHover={{ y: -2, scale: 1.03 }} whileTap={{ scale: 0.95 }}><FaUsers className="text-sm" />{t('team.viewAll')}<FaArrowRight className="text-xs group-hover:translate-x-1 transition-transform" /></motion.button>
+                    <motion.button onClick={() => {
+                        trackCtaClick('view_leadership_team', 'invest_page');
+                        navigate('/executive-team');
+                    }} className="relative border-2 border-primary/50 text-primary hover:bg-primary hover:text-white px-6 py-2.5 rounded-full transform-gpu transition-all duration-300 inline-flex items-center gap-2 text-sm font-medium bg-white/30 backdrop-blur-sm" whileHover={{ y: -2, scale: 1.03 }} whileTap={{ scale: 0.95 }}><FaUsers className="text-sm" />{t('team.viewAll')}<FaArrowRight className="text-xs group-hover:translate-x-1 transition-transform" /></motion.button>
                 </motion.div>
             </div></Section>
 
@@ -555,7 +562,9 @@ const Invest: React.FC = () => {
                         <Typography variant="body" className="mb-6 text-gray-600 max-w-2xl mx-auto">{t('cta.body')}</Typography>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
                             <a href={ndaPDF} download className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-4 rounded-full transform-gpu group/btn overflow-hidden font-medium shadow-lg inline-flex items-center gap-2"><div className="absolute inset-0 rounded-full border-2 border-white/30" /><FaFileContract className="relative z-10" /><span className="relative z-10">{t('cta.downloadNda')}</span></a>
-                            <motion.button onClick={() => navigate('/contact')} className="relative border-2 border-primary/50 text-primary hover:bg-primary hover:text-white px-8 py-4 rounded-full transform-gpu font-medium inline-flex items-center gap-2 bg-white/30 backdrop-blur-sm" whileHover={{ y: -2 }}><FaHandshake />{t('cta.scheduleCall')}</motion.button>
+                            <motion.button onClick={() => {
+                                trackCtaClick('schedule_call', 'invest_final_cta');
+                                navigate('/contact'); }} className="relative border-2 border-primary/50 text-primary hover:bg-primary hover:text-white px-8 py-4 rounded-full transform-gpu font-medium inline-flex items-center gap-2 bg-white/30 backdrop-blur-sm" whileHover={{ y: -2 }}><FaHandshake />{t('cta.scheduleCall')}</motion.button>
                         </div>
                     </div>
                 </motion.div>

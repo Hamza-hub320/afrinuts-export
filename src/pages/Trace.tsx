@@ -16,6 +16,7 @@ import {
 import { fadeIn } from "@/utils/animations";
 import {Helmet} from "react-helmet-async";
 import JsonLd from "@/components/Seo/JsonLd";
+import {trackCtaClick, trackEvent, trackOutboundClick} from "@/utils/analytics";
 
 interface BatchData {
     id: string;
@@ -187,7 +188,9 @@ const TracePage: React.FC = () => {
                             <FaSearch className="absolute left-4 top-3.5 text-gray-400" />
                             <input type="text" placeholder={t('search.placeholder', 'Enter your Batch ID...')} value={searchInput} onChange={(e) => setSearchInput(e.target.value)}
                                    className="w-full pl-12 pr-20 py-3.5 rounded-full border border-gray-300 bg-white/70 backdrop-blur-md text-sm focus:outline-none focus:ring-2 focus:ring-primary shadow-sm" />
-                            <button type="submit" className="absolute right-2 top-1/2 -translate-y-1/2 bg-primary text-white px-5 py-1.5 rounded-full text-sm font-medium hover:bg-dark-orange transition">
+                            <button type="submit" onClick={() => {
+                                trackEvent('site_search', { search_term: searchInput });
+                            }} className="absolute right-2 top-1/2 -translate-y-1/2 bg-primary text-white px-5 py-1.5 rounded-full text-sm font-medium hover:bg-dark-orange transition">
                                 {t('search.button', 'Trace')}
                             </button>
                         </form>
@@ -203,8 +206,11 @@ const TracePage: React.FC = () => {
                         <Typography variant="small" className="text-gray-500 mb-3">
                             {t('demo.note', 'Try it yourself — enter AFN-2026-001 in the search box above')}
                         </Typography>
-                        <button onClick={() => { setSearchInput('AFN-2026-001'); navigate('/trace?batchId=AFN-2026-001'); }}
-                                className="relative border-2 border-primary/50 text-primary hover:bg-primary hover:text-white px-6 py-2.5 rounded-full inline-flex items-center gap-2 text-sm font-medium bg-white/30 backdrop-blur-sm transition-all">
+                        <button onClick={() => {
+                            trackCtaClick('view_sample_batch', 'trace_page');
+                            setSearchInput('AFN-2026-001');
+                            navigate('/trace?batchId=AFN-2026-001');
+                        }} className="relative border-2 border-primary/50 text-primary hover:bg-primary hover:text-white px-6 py-2.5 rounded-full inline-flex items-center gap-2 text-sm font-medium bg-white/30 backdrop-blur-sm transition-all">
                             <FaSearch className="text-sm" />{t('demo.button', 'View Sample Batch')}
                         </button>
                     </motion.div>
@@ -417,7 +423,10 @@ const TracePage: React.FC = () => {
                                         { icon: FaLinkedin, label: 'LinkedIn', action: () => handleShare('linkedin') },
                                         { icon: FaEnvelope, label: t('share.email', 'Email'), action: () => handleShare('email') },
                                     ].map((item, i) => (
-                                        <button key={i} onClick={item.action} className="w-full px-4 py-2.5 text-left hover:bg-gray-50 flex items-center gap-3 text-sm transition">
+                                        <button key={i} onClick={() => {
+    trackOutboundClick(item.label.toLowerCase(), 'share_menu');
+    item.action();
+}} className="w-full px-4 py-2.5 text-left hover:bg-gray-50 flex items-center gap-3 text-sm transition">
                                             <item.icon className="text-gray-500 text-xs" />{item.label}
                                         </button>
                                     ))}
@@ -752,13 +761,14 @@ const TracePage: React.FC = () => {
                             <Typography variant="small" className="text-gray-500 mb-3">
                                 {t('ctaQuote.description')}
                             </Typography>
-                            <Link
-                                to="/contact"
-                                className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-6 py-2.5 rounded-full inline-flex items-center gap-2 text-sm font-medium shadow-md"
-                            >
+                            <button onClick={() => {
+                                trackCtaClick('request_traceable_batch', 'trace_cta');
+                                navigate('/contact?type=wholesale');
+                            }} className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-6 py-2.5 rounded-full inline-flex items-center gap-2 text-sm font-medium shadow-md">
+
                                 <FaEnvelope className="text-xs" />
                                 {t('ctaQuote.button', 'Request a Traceable Batch')}
-                            </Link>
+                            </button>
                         </motion.div>
                     </div>
                 </>
@@ -926,9 +936,12 @@ const TracePage: React.FC = () => {
                 <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
                     <InfoCard icon={FaMapMarkerAlt} title={t('cta.title')} iconColor="text-accent" variant="primary" showInfoBadge={false} className="text-center">
                         <Typography variant="body" className="text-gray-600 mb-6">{t('cta.subtitle')}</Typography>
-                        <Link to="/contact" className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-3 rounded-full inline-flex items-center gap-2 font-medium shadow-md">
+                        <button onClick={() => {
+                            trackCtaClick('contact_us', 'trace_cta');
+                            navigate('/contact');
+                        }} className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-3 rounded-full inline-flex items-center gap-2 font-medium shadow-md">
                             {t('cta.button')}
-                        </Link>
+                        </button>
                     </InfoCard>
                 </div>
             </Section>

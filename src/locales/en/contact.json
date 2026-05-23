@@ -1,7 +1,7 @@
 {
   "hero": {
-    "title": "Contact AfriNuts Export – Premium Cashews from Ivory Coast",
-    "subtitle": "Request a quote, discuss partnership opportunities, or learn more about investing in sustainable cashew farming in Ivory Coast."
+    "title": "Let's Talk Cashews — With Data to Back It Up",
+    "subtitle": "Whether you're a wholesale buyer seeking traceable supply, an investor evaluating our tech-enabled platform, or a partner interested in West African agritech — start the conversation here."
   },
   "form": {
     "title": "Contact Our Team",
@@ -98,12 +98,12 @@
     "methods": ["Bank Transfer", "Wire Payment", "Check"]
   },
   "shippingGuidance": {
-    "title": "Shipping Guidance",
-    "intro": "At AfriNuts, we're committed to providing flexible shipping solutions to meet your needs. Currently, we offer two main shipping options with more coming soon.",
+    "title": "Shipping Options",
+    "intro": "We ship from the Port of Abidjan — one of West Africa's most efficient deep-water ports. Every shipment includes Farm OS traceability documentation.",
     "currentlyAvailable": "Currently Available",
     "fob": {
       "title": "FOB (Free on Board)",
-      "description": "Buyer takes responsibility for shipping from our port of origin. Ideal for buyers who have preferred shipping partners."
+      "description": "We handle export clearance. You arrange shipping from Abidjan. Full documentation included."
     },
     "exw": {
       "title": "EXW (Ex Works)",
@@ -122,8 +122,8 @@
       "title": "Other / Custom Arrangement",
       "description": "Some clients may want a specific logistic solution (charter ship, container consolidation, etc.). Tailored solutions for unique requirements."
     },
-    "helpText": "Need help deciding which option is best for you? Our team is here to guide you through the process."
-  },
+    "helpText": "Not sure which option fits your needs? Our team will guide you after you submit your inquiry."
+},
   "title": "Contact Us",
   "description": "Send us a message and we'll get back to you promptly.",
   "buttonLabel": "Open Contact Form",

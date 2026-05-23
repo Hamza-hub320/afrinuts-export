@@ -35,6 +35,7 @@ import { Helmet } from 'react-helmet-async';
 import cashewKernelsImage from '../assets/images/cashew-kernels.webp';
 import productCataloguePdf from '@/assets/documents/afrinuts-products-catalogue.pdf';
 import { Link } from 'react-router-dom';
+import {trackCtaClick} from "@/utils/analytics";
 
 const Wholesale: React.FC = () => {
     const { t } = useTranslation('wholesale');
@@ -96,7 +97,10 @@ const Wholesale: React.FC = () => {
                 </span>
                         </div>
                         <motion.div variants={fadeIn} className="flex flex-wrap gap-2.5 justify-center lg:justify-start">
-                            <motion.button onClick={() => navigate('/contact?type=wholesale')} className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-5 py-2.5 rounded-full text-sm font-medium shadow-md inline-flex items-center gap-1.5" whileHover={{ y: -1 }}>
+                            <motion.button onClick={() => {
+    trackCtaClick('request_wholesale_pricing', 'wholesale_cta');
+    navigate('/contact?type=wholesale');
+}}className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-5 py-2.5 rounded-full text-sm font-medium shadow-md inline-flex items-center gap-1.5" whileHover={{ y: -1 }}>
                                 <FaEnvelope className="text-xs" />{t('hero.requestPricing')}
                             </motion.button>
                             <a
@@ -282,7 +286,10 @@ const Wholesale: React.FC = () => {
                             <a href={productCataloguePdf} download className="text-accent hover:text-primary text-sm font-medium inline-flex items-center gap-1"><FaDownload className="text-xs" /> {t('products.downloadCatalogue')}</a>
                         </div>
                         <div className="mt-3 text-center">
-                            <motion.button onClick={() => navigate('/contact?type=sample')} className="text-accent hover:text-primary text-sm font-medium inline-flex items-center gap-1" whileHover={{ x: 2 }}><FaFlask className="text-xs" /> {t('products.requestSample')}</motion.button>
+                            <motion.button onClick={() => {
+    trackCtaClick('request_sample_batch', 'wholesale_products');
+    navigate('/contact?type=sample');
+}}className="text-accent hover:text-primary text-sm font-medium inline-flex items-center gap-1" whileHover={{ x: 2 }}><FaFlask className="text-xs" /> {t('products.requestSample')}</motion.button>
                         </div>
                     </InfoCard>
                 </motion.div>
@@ -379,8 +386,14 @@ const Wholesale: React.FC = () => {
                         <Typography variant="h2" className="mb-4 text-primary">{t('cta.title')}</Typography>
                         <Typography variant="body" className="mb-6 text-gray-600 max-w-2xl mx-auto">{t('cta.body')}</Typography>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            <motion.button onClick={() => navigate('/contact?type=wholesale')} className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-4 rounded-full transform-gpu group/btn overflow-hidden font-medium shadow-lg inline-flex items-center gap-2" whileHover={{ y: -2 }}><div className="absolute inset-0 rounded-full border-2 border-white/30" /><FaEnvelope className="relative z-10" /><span className="relative z-10">{t('cta.requestPricing')}</span></motion.button>
-                            <motion.button onClick={() => navigate('/certifications')} className="relative border-2 border-primary/50 text-primary hover:bg-primary hover:text-white px-8 py-4 rounded-full transform-gpu font-medium inline-flex items-center gap-2 bg-white/30 backdrop-blur-sm"><FaShieldAlt /> {t('cta.viewCertifications')}</motion.button>
+                            <motion.button onClick={() => {
+    trackCtaClick('request_wholesale_pricing', 'wholesale_hero');
+    navigate('/contact?type=wholesale');
+}} className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-4 rounded-full transform-gpu group/btn overflow-hidden font-medium shadow-lg inline-flex items-center gap-2" whileHover={{ y: -2 }}><div className="absolute inset-0 rounded-full border-2 border-white/30" /><FaEnvelope className="relative z-10" /><span className="relative z-10">{t('cta.requestPricing')}</span></motion.button>
+                            <motion.button onClick={() => {
+    trackCtaClick('view_certifications', 'wholesale_cta');
+    navigate('/certifications');
+}} className="relative border-2 border-primary/50 text-primary hover:bg-primary hover:text-white px-8 py-4 rounded-full transform-gpu font-medium inline-flex items-center gap-2 bg-white/30 backdrop-blur-sm"><FaShieldAlt /> {t('cta.viewCertifications')}</motion.button>
                         </div>
                     </div>
                 </motion.div>
