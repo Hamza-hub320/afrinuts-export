@@ -318,28 +318,12 @@ export const ProductTimeline: React.FC<ProductTimelineProps> = ({
                                 )}
                             </div>
                         </div>
-
-                        {/* Pulse ring for in-progress */}
-                        {phase.status === 'in-progress' && phase.productCount > 0 && (
-                            <motion.div
-                                className={`absolute inset-0 rounded-full border-2 ${config.border}`}
-                                animate={{
-                                    scale: [1, 1.8],
-                                    opacity: [0.6, 0],
-                                }}
-                                transition={{
-                                    repeat: Infinity,
-                                    duration: 2,
-                                    delay: 0.5,
-                                }}
-                            />
-                        )}
                     </motion.div>
                 </div>
 
                 {/* Content card with glass morphism */}
                 <motion.div
-                    className={`relative rounded-2xl border ${config.border} ${config.bg} backdrop-blur-sm p-4 md:p-5 shadow-md hover:shadow-lg transition-all duration-300 transform-gpu group/card ${onPhaseClick ? 'cursor-pointer' : ''} ${isEmpty ? 'opacity-60' : ''}`}
+                    className={`relative rounded-xl border ${config.border} ${config.bg} backdrop-blur-sm p-3 shadow-sm hover:shadow-md transition-all duration-300 transform-gpu group/card ${isEmpty ? 'opacity-60' : ''}`}
                     style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
                     whileHover={{
                         y: -5,
@@ -386,7 +370,7 @@ export const ProductTimeline: React.FC<ProductTimelineProps> = ({
                         {/* Products */}
                         {phase.products.length > 0 ? (
                             <div className="space-y-1.5 md:space-y-2 mb-3 md:mb-4">
-                                {phase.products.slice(0, 3).map((product, pIndex) => (
+                                {phase.products.slice(0, isMobile ? 2 : 3).map((product, pIndex) => (
                                     <motion.div
                                         key={product}
                                         className="flex items-center gap-1.5 md:gap-2 bg-white/40 backdrop-blur-sm rounded-lg px-2 md:px-3 py-1.5 md:py-2 border border-white/50"
@@ -446,7 +430,7 @@ export const ProductTimeline: React.FC<ProductTimelineProps> = ({
 
     return (
         <motion.div
-            className={`relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 rounded-2xl shadow-xl p-4 md:p-6 lg:p-8 transform-gpu group ${className}`}
+            className={`relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 rounded-2xl shadow-xl p-3 md:p-6 lg:p-8 transform-gpu group ${className}`}
             style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -513,36 +497,40 @@ export const ProductTimeline: React.FC<ProductTimelineProps> = ({
                 {/* Mobile View - Swipeable Carousel */}
                 {isMobile ? (
                     <div className="relative">
-                        {/* Navigation Buttons */}
-                        <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 flex justify-between z-30 pointer-events-none px-2">
+                        {/* Navigation Arrows */}
+                        <div className="flex items-center justify-between px-2 mb-3">
                             <motion.button
                                 onClick={prevPhase}
-                                className={`pointer-events-auto w-8 h-8 md:w-10 md:h-10 rounded-full bg-white/80 backdrop-blur-sm shadow-lg flex items-center justify-center border border-white/50 ${activeIndex === 0 ? 'opacity-30 cursor-not-allowed' : 'hover:bg-white'}`}
+                                className={`w-8 h-8 rounded-full bg-white/80 backdrop-blur-sm shadow-md flex items-center justify-center border border-white/50 ${activeIndex === 0 ? 'opacity-30' : 'hover:bg-white'}`}
                                 whileHover={activeIndex > 0 ? { scale: 1.1 } : {}}
                                 whileTap={activeIndex > 0 ? { scale: 0.9 } : {}}
                                 disabled={activeIndex === 0}
                             >
-                                <FaChevronLeft className="text-gray-600 text-sm md:text-base" />
+                                <FaChevronLeft className="text-gray-600 text-sm" />
                             </motion.button>
+                            <span className="text-xs font-medium text-gray-500">
+                                {activeIndex + 1} / {phases.length}
+                            </span>
                             <motion.button
                                 onClick={nextPhase}
-                                className={`pointer-events-auto w-8 h-8 md:w-10 md:h-10 rounded-full bg-white/80 backdrop-blur-sm shadow-lg flex items-center justify-center border border-white/50 ${activeIndex === phases.length - 1 ? 'opacity-30 cursor-not-allowed' : 'hover:bg-white'}`}
+                                className={`w-8 h-8 rounded-full bg-white/80 backdrop-blur-sm shadow-md flex items-center justify-center border border-white/50 ${activeIndex === phases.length - 1 ? 'opacity-30' : 'hover:bg-white'}`}
                                 whileHover={activeIndex < phases.length - 1 ? { scale: 1.1 } : {}}
                                 whileTap={activeIndex < phases.length - 1 ? { scale: 0.9 } : {}}
                                 disabled={activeIndex === phases.length - 1}
                             >
-                                <FaChevronRight className="text-gray-600 text-sm md:text-base" />
+                                <FaChevronRight className="text-gray-600 text-sm" />
                             </motion.button>
                         </div>
 
                         {/* Carousel Container */}
                         <div
-                            className="overflow-hidden"
+                            className="overflow-hidden px-4"
                             onTouchStart={handleTouchStart}
                             onTouchMove={handleTouchMove}
                             onTouchEnd={handleTouchEnd}
                         >
-                            <motion.div
+
+                        <motion.div
                                 className="flex"
                                 animate={{ x: `-${activeIndex * 100}%` }}
                                 transition={{ type: "spring", stiffness: 300, damping: 30 }}
@@ -559,30 +547,18 @@ export const ProductTimeline: React.FC<ProductTimelineProps> = ({
                         <div className="flex justify-center gap-2 mt-4">
                             {phases.map((_, index) => (
                                 <motion.button
-                                    key={index}
                                     onClick={() => setActiveIndex(index)}
-                                    className={`w-2 h-2 md:w-2.5 md:h-2.5 rounded-full transition-all ${
+                                    className={`w-3 h-3 rounded-full transition-all ${
                                         index === activeIndex
                                             ? 'bg-primary scale-125'
                                             : 'bg-gray-300 hover:bg-gray-400'
                                     }`}
-                                    whileHover={{ scale: 1.2 }}
+                                    whileHover={{ scale: 1.3 }}
                                     whileTap={{ scale: 0.9 }}
+                                    aria-label={`Go to phase ${index + 1}`}
                                 />
                             ))}
                         </div>
-
-                        {/* Swipe hint */}
-                        {activeIndex === 0 && (
-                            <motion.div
-                                className="text-center mt-2 text-[10px] md:text-xs text-gray-400"
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ delay: 1 }}
-                            >
-                                {t('timeline.swipeHint', 'Swipe to explore phases →')}
-                            </motion.div>
-                        )}
                     </div>
                 ) : (
                     /* Desktop View - Horizontal Timeline */
@@ -601,7 +577,9 @@ export const ProductTimeline: React.FC<ProductTimelineProps> = ({
 
                         <div className="grid grid-cols-3 gap-4 lg:gap-8">
                             {phases.map((phase, index) => (
-                                <PhaseCard key={`${phase.status}-${index}`} phase={phase} index={index} isActive={false} />
+                                <div key={`${phase.year}-${phase.status}-${index}`} className="w-full flex-shrink-0 px-2">
+                                    <PhaseCard phase={phase} index={index} isActive={index === activeIndex} />
+                                </div>
                             ))}
                         </div>
                     </div>
