@@ -18,7 +18,7 @@ import {
     FaPlay,
     FaPause,
     FaAward,
-    FaRibbon, FaCheckCircle, FaChartLine, FaFlask, FaTimes, FaGlobe,
+    FaRibbon, FaCheckCircle, FaChartLine, FaFlask, FaTimes, FaGlobe, FaBolt, FaTint,
 } from "react-icons/fa";
 import Section from '@/components/Section/Section';
 import { fadeIn, staggerContainer } from '@/utils/animations';
@@ -923,27 +923,136 @@ const Processing: React.FC = () => {
                 </div>
             </Section>
 
-            {/* KPI Section */}
+            {/* KPI Section - Using InfoCard */}
             <Section className="py-16">
-                <div className="max-w-2xl mx-auto">
-                    <AnimatedProgressBar
-                        label={t('sustainability.kpis.water')}
-                        value={38}
-                        color="primary"
-                        isVisible={true}
-                    />
-                    <AnimatedProgressBar
-                        label={t('sustainability.kpis.waste')}
-                        value={45}
-                        color="accent"
-                        isVisible={true}
-                    />
-                    <AnimatedProgressBar
-                        label={t('sustainability.kpis.energy')}
-                        value={29}
-                        color="green"
-                        isVisible={true}
-                    />
+                <div className="max-w-5xl mx-auto px-4 sm:px-6">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+                        {/* Water KPI */}
+                        <InfoCard
+                            icon={FaTint}
+                            title={t('sustainability.kpis.water')}
+                            subtitle={t('sustainability.water.kpi')}
+                            variant="primary"
+                            iconColor="text-blue-500"
+                            className="text-center"
+                        >
+                            <div className="relative w-28 h-28 mx-auto mt-4">
+                                <svg className="w-28 h-28 transform -rotate-90" viewBox="0 0 120 120">
+                                    <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(59, 130, 246, 0.12)" strokeWidth="8" />
+                                    <motion.circle
+                                        cx="60" cy="60" r="52" fill="none" stroke="url(#waterGradient)" strokeWidth="8"
+                                        strokeLinecap="round"
+                                        strokeDasharray={`${2 * Math.PI * 52}`}
+                                        initial={{ strokeDashoffset: 2 * Math.PI * 52 }}
+                                        whileInView={{ strokeDashoffset: 2 * Math.PI * 52 * (1 - 38 / 100) }}
+                                        viewport={{ once: true }}
+                                        transition={{ duration: 1.5, ease: 'easeOut' }}
+                                    />
+                                    <defs>
+                                        <linearGradient id="waterGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                            <stop offset="0%" stopColor="#3B82F6" />
+                                            <stop offset="100%" stopColor="#06B6D4" />
+                                        </linearGradient>
+                                    </defs>
+                                </svg>
+                                <div className="absolute inset-0 flex items-center justify-center">
+                                    <motion.span
+                                        className="text-3xl font-bold text-blue-600"
+                                        initial={{ opacity: 0, scale: 0.5 }}
+                                        whileInView={{ opacity: 1, scale: 1 }}
+                                        viewport={{ once: true }}
+                                        transition={{ delay: 0.8, duration: 0.4 }}
+                                    >
+                                        38<sup className="text-sm">%</sup>
+                                    </motion.span>
+                                </div>
+                            </div>
+                        </InfoCard>
+
+                        {/* Waste KPI */}
+                        <InfoCard
+                            icon={FaRecycle}
+                            title={t('sustainability.kpis.waste')}
+                            subtitle={t('sustainability.waste.kpi')}
+                            variant="accent"
+                            iconColor="text-amber-500"
+                            className="text-center"
+                        >
+                            <div className="relative w-28 h-28 mx-auto mt-4">
+                                <svg className="w-28 h-28 transform -rotate-90" viewBox="0 0 120 120">
+                                    <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(245, 158, 11, 0.12)" strokeWidth="8" />
+                                    <motion.circle
+                                        cx="60" cy="60" r="52" fill="none" stroke="url(#wasteGradient)" strokeWidth="8"
+                                        strokeLinecap="round"
+                                        strokeDasharray={`${2 * Math.PI * 52}`}
+                                        initial={{ strokeDashoffset: 2 * Math.PI * 52 }}
+                                        whileInView={{ strokeDashoffset: 2 * Math.PI * 52 * (1 - 45 / 100) }}
+                                        viewport={{ once: true }}
+                                        transition={{ duration: 1.5, ease: 'easeOut', delay: 0.2 }}
+                                    />
+                                    <defs>
+                                        <linearGradient id="wasteGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                            <stop offset="0%" stopColor="#F59E0B" />
+                                            <stop offset="100%" stopColor="#F97316" />
+                                        </linearGradient>
+                                    </defs>
+                                </svg>
+                                <div className="absolute inset-0 flex items-center justify-center">
+                                    <motion.span
+                                        className="text-3xl font-bold text-amber-600"
+                                        initial={{ opacity: 0, scale: 0.5 }}
+                                        whileInView={{ opacity: 1, scale: 1 }}
+                                        viewport={{ once: true }}
+                                        transition={{ delay: 1.0, duration: 0.4 }}
+                                    >
+                                        45<sup className="text-sm">%</sup>
+                                    </motion.span>
+                                </div>
+                            </div>
+                        </InfoCard>
+
+                        {/* Energy KPI */}
+                        <InfoCard
+                            icon={FaBolt}
+                            title={t('sustainability.kpis.energy')}
+                            subtitle={t('sustainability.energy.kpi')}
+                            variant="secondary"
+                            iconColor="text-green-500"
+                            className="text-center"
+                        >
+                            <div className="relative w-28 h-28 mx-auto mt-4">
+                                <svg className="w-28 h-28 transform -rotate-90" viewBox="0 0 120 120">
+                                    <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(16, 185, 129, 0.12)" strokeWidth="8" />
+                                    <motion.circle
+                                        cx="60" cy="60" r="52" fill="none" stroke="url(#energyGradient)" strokeWidth="8"
+                                        strokeLinecap="round"
+                                        strokeDasharray={`${2 * Math.PI * 52}`}
+                                        initial={{ strokeDashoffset: 2 * Math.PI * 52 }}
+                                        whileInView={{ strokeDashoffset: 2 * Math.PI * 52 * (1 - 29 / 100) }}
+                                        viewport={{ once: true }}
+                                        transition={{ duration: 1.5, ease: 'easeOut', delay: 0.4 }}
+                                    />
+                                    <defs>
+                                        <linearGradient id="energyGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                            <stop offset="0%" stopColor="#10B981" />
+                                            <stop offset="100%" stopColor="#059669" />
+                                        </linearGradient>
+                                    </defs>
+                                </svg>
+                                <div className="absolute inset-0 flex items-center justify-center">
+                                    <motion.span
+                                        className="text-3xl font-bold text-green-600"
+                                        initial={{ opacity: 0, scale: 0.5 }}
+                                        whileInView={{ opacity: 1, scale: 1 }}
+                                        viewport={{ once: true }}
+                                        transition={{ delay: 1.2, duration: 0.4 }}
+                                    >
+                                        29<sup className="text-sm">%</sup>
+                                    </motion.span>
+                                </div>
+                            </div>
+                        </InfoCard>
+                    </div>
                 </div>
             </Section>
 
