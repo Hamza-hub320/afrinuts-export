@@ -11,8 +11,6 @@ import {
     FaGlobe,
     FaChartLine,
     FaSeedling,
-    FaArrowLeft,
-    FaHistory,
     FaMapSigns
 } from "react-icons/fa";
 import {Link, useNavigate} from 'react-router-dom';
@@ -22,6 +20,7 @@ import innovationImage from '@/assets/images/innovation.webp';
 import communityImage from '@/assets/images/community.webp';
 import futureImage from '@/assets/images/future.webp';
 import JsonLd from "@/components/Seo/JsonLd";
+import {Helmet} from "react-helmet-async";
 
 interface StorySection {
     title: string;
@@ -157,6 +156,15 @@ const OurStory: React.FC = () => {
 
     return (
         <main className={`text-text-dark font-sans leading-relaxed ${isRTL ? 'direction-rtl' : 'direction-ltr'}`}>
+            <Helmet>
+                <title>Our Story | Three Generations of Cashew Farming | AfriNuts Export</title>
+                <meta name="description" content="From grandfather's fields to a tech-enabled agribusiness — the story of AfriNuts Export. Three generations of cashew farming in Odienné, Côte d'Ivoire, guided by Islamic values and community impact." />
+                <link rel="canonical" href="https://www.afrinutsexport.com/about/our-story" />
+                <meta property="og:title" content="Our Story | Three Generations of Cashew Farming | AfriNuts Export" />
+                <meta property="og:description" content="From grandfather's fields to a tech-enabled agribusiness. Three generations of cashew farming in Odienné, Côte d'Ivoire." />
+                <meta property="og:type" content="article" />
+                <meta name="twitter:card" content="summary_large_image" />
+            </Helmet>
             <JsonLd data={{
                 "@context": "https://schema.org",
                 "@type": "WebPage",

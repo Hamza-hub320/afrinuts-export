@@ -1,8 +1,9 @@
 {
   "executives": {
     "subtitle": "Direction Générale",
-    "title": "Rencontrez l'Équipe qui Établit une Nouvelle Norme pour l'Agroalimentaire Éthique",
-    "description": "Guidée par les valeurs islamiques d'Amanah (dépôt sacré) et d'Ihsan (excellence opérationnelle), notre équipe de direction réunit des décennies d'expérience dans l'agroalimentaire, la finance, la technologie et le développement communautaire. Nous ne construisons pas seulement une entreprise — nous construisons un héritage d'intégrité, de transparence et de prospérité partagée.",
+    "title": "L'Équipe Derrière la Technologie et les Arbres",
+    "description": "Nous sommes des ingénieurs logiciels, des architectes financiers, des agronomes et des spécialistes de la conformité commerciale — unis par la conviction commune que l'agriculture africaine mérite de meilleurs systèmes. Notre plateforme Farm OS ne vient pas d'un fournisseur. Elle a été construite ici, par notre équipe, pour notre ferme.",
+    "backToAbout": "Retour à Qui Sommes-Nous",
     "ctaTitle": "Prêt à Travailler Avec Nous ?",
     "ctaDescription": "Notre équipe de direction s'engage à bâtir l'entreprise d'exportation de noix de cajou la plus fiable d'Afrique. Contactez-nous pour discuter de partenariats, d'investissement ou d'approvisionnement.",
     "ctaButton": "Contactez-Nous",
@@ -20,28 +21,28 @@
       "email": "hamza@afrinutsexport.com",
       "linkedin": "https://www.linkedin.com/in/hamza-sangare-827a8a130/",
       "bio": [
-        "Hamza S. Ralsan Sangare est le Fondateur et PDG d'AfriNuts Export — une plateforme de noix de cajou ouest-africaine axée sur la technologie, bâtie sur trois générations d'agriculture familiale à Odienné, Côte d'Ivoire. Son parcours non conventionnel, du génie logiciel au leadership agroalimentaire, est ce qui définit l'avantage concurrentiel d'AfriNuts.",
+        "Hamza S. Ralsan Sangare est le Fondateur et PDG d'AfriNuts Export — une plateforme de noix de cajou ouest-africaine axée sur la technologie, bâtie sur trois générations d'agriculture familiale à Odienné, Côte d'Ivoire. Son parcours du génie logiciel à l'agroalimentaire n'est pas un changement de carrière. C'est l'avantage concurrentiel de l'entreprise.",
 
         "Hamza a conçu et construit AfriNuts Farm OS — une application Android hors ligne avec synchronisation cloud qui suit chaque bloc, chaque arbre, chaque dépense et chaque cycle de récolte en temps réel. Ce système donne aux acheteurs et aux investisseurs une visibilité de niveau institutionnel sur les opérations agricoles — un niveau de transparence presque inédit dans l'agriculture ouest-africaine. Il détient les certifications AWS Cloud Practitioner, ITIL® 4 et CompTIA Project+, et termine un Master en Ingénierie de l'IA.",
 
-        "Sous sa direction, AfriNuts a transformé des terres familiales en une ferme de noix de cajou biologique de 35 hectares avec une coopérative de plus de 200 agriculteurs, une chaîne d'approvisionnement sécurisée et une feuille de route claire pour construire le premier centre de transformation certifié détenu localement en Côte d'Ivoire. Chaque système — du tableau de bord de gestion agricole au portail investisseur — a été conçu pour développer les exportations agricoles africaines sans sacrifier l'éthique, la transparence ou l'impact communautaire."
+        "Sous sa direction, AfriNuts a transformé des terres familiales en une ferme de noix de cajou biologique de 35 hectares avec une coopérative de plus de 200 agriculteurs, une chaîne d'approvisionnement sécurisée et une feuille de route claire pour construire le premier centre de transformation certifié détenu localement en Côte d'Ivoire. Chaque système — du tableau de bord de gestion agricole au portail investisseur — a été construit en interne pour développer les exportations agricoles africaines sans sacrifier l'éthique, la transparence ou l'impact communautaire."
       ],
       "experience": "Ingénieur logiciel devenu fondateur agroalimentaire. Plus de 5 ans à diriger des opérations agricoles axées sur la technologie, le développement de Farm OS et l'architecture de chaîne d'approvisionnement éthique.",
       "education": [
         "Licence en Génie Logiciel",
         "Master en Ingénierie de l'IA (en cours)"
       ]
-     },
+    },
     "cfo": {
       "title": "Co-Fondateur & Directeur Financier",
       "role": "Architecte Financier Éthique & Responsable Stratégie Opérationnelle",
-      "alt": "Sekou Hakim, CFO d'AfriNuts Export",
+      "alt": "Sekou Hakim Peters, CFO d'AfriNuts Export",
       "email": "sekou@afrinutsexport.com",
       "linkedin": "https://www.linkedin.com/in/sekou-peters",
       "bio": [
-        "Sekou Hakim contribue à concevoir des systèmes financiers et opérationnels éthiques où la rentabilité s'aligne sur les principes prophétiques et l'impact communautaire à long terme. Son approche met l'accent sur des cadres commerciaux conformes à la Charia qui dépassent les modèles économiques extractifs en réinvestissant dans des initiatives de développement durable telles que les puits, les mosquées, le soutien aux agriculteurs et les programmes éducatifs.",
-        "En tant que Co-Fondateur et Responsable Stratégie Opérationnelle d'AfriNuts Export, Sekou contribue au développement de la structure de monétisation et opérationnelle de l'entreprise à travers la chaîne de valeur de la noix de cajou, de la culture et l'approvisionnement à la stratégie de transformation et d'exportation. Il a joué un rôle clé dans l'avancement de la vision de transition des exportations de matières premières brutes vers la transformation locale et la production à valeur ajoutée en Côte d'Ivoire.",
-        "Son leadership se concentre sur l'équilibre entre la discipline opérationnelle et la responsabilité sociale à travers des pratiques commerciales transparentes, des partenariats équitables avec les agriculteurs, des principes éthiques de partage des bénéfices et des stratégies de croissance durable conçues pour bénéficier à la fois aux investisseurs et aux communautés locales."
+        "Sekou Hakim Peters conçoit des systèmes financiers éthiques où la rentabilité converge avec les principes prophétiques. Il a conçu la structure de partage des bénéfices Moudaraba qui régit nos relations avec les investisseurs — garantissant que chaque décision financière est conforme à la Charia et que chaque investisseur a une transparence totale sur le déploiement de son capital.",
+        "En tant que Co-Fondateur et Responsable Stratégie Opérationnelle, Sekou supervise l'architecture financière de toute notre chaîne de valeur de la noix de cajou — du suivi des dépenses au niveau de la ferme dans Farm OS à la tarification à l'exportation et à la distribution des dividendes. Il a joué un rôle déterminant dans la transition de la stratégie de l'entreprise des exportations de matières premières vers la transformation locale et la production à valeur ajoutée en Côte d'Ivoire.",
+        "Son leadership fait le pont entre la discipline opérationnelle et la responsabilité sociale : des partenariats équitables avec les agriculteurs, un partage transparent des bénéfices et des stratégies de croissance durable conçues pour bénéficier à la fois aux investisseurs et aux communautés que nous servons."
       ],
       "experience": "Années d'expérience en leadership dans les opérations, la gestion organisationnelle, l'administration d'organisations à but non lucratif et le développement des affaires",
       "education": [
@@ -53,29 +54,31 @@
     },
     "cco": {
       "title": "Directeur Commercial",
-      "role": "Expansion des marchés mondiaux & conformité commerciale",
+      "role": "Expansion des Marchés Mondiaux & Conformité Commerciale",
       "alt": "Portrait de Mohamadue Kouyaté, Directeur Commercial",
       "bio": [
-        "Muhamadue Kouyaté dirige les opérations commerciales mondiales en mettant l'accent sur des pratiques commerciales éthiques, sans intérêt, et l'expansion stratégique des marchés. S'appuyant sur plus d'une décennie d'expérience en conformité, logistique et opérations, il construit des partenariats commerciaux durables et des processus évolutifs enracinés dans la transparence et l'intégrité.",
-        "Il supervise toute la documentation d'exportation, la conformité commerciale et les relations avec les acheteurs — garantissant que chaque expédition respecte les normes de qualité internationales tout en adhérant aux principes de la finance islamique. Son cadre logistique minimise les déchets, maximise l'efficacité et garantit la traçabilité de la ferme au port."
+        "Mohamadue Kouyaté dirige les opérations commerciales mondiales — garantissant que chaque relation acheteur est construite sur la confiance, la transparence et les données pour les étayer. Avec plus d'une décennie d'expérience en conformité, logistique et documentation commerciale, il transforme les exigences d'exportation complexes en expériences acheteur fluides.",
+        "Il supervise toute la documentation d'exportation, la conformité commerciale et les relations avec les acheteurs. Chaque expédition est soutenue par les données de traçabilité Farm OS — pas seulement de la paperasse, mais des enregistrements numériques vérifiables du bloc au conteneur. Son cadre logistique minimise les déchets, maximise l'efficacité et garantit que ce que nous promettons est ce qui est livré."
       ],
       "experience": "Plus de 12 ans en gestion des opérations, logistique de la chaîne d'approvisionnement et conformité réglementaire.",
       "education": [
         "Licence en Sciences Politiques",
         "MBA (en cours)",
-        "Diplôme en Opérations Aéronautiques"
+        "Diplôme d'Associé en Sciences Appliquées en Opérations Aéronautiques"
       ],
       "certifications": ["Conformité Export & Commerce", "Gestion de la Chaîne d'Approvisionnement et Logistique", "Amélioration des Processus & Pratiques Lean"]
     },
     "ops": {
-      "title": "Directeur de la Technologie",
-      "role": "Systèmes technologiques agricoles, infrastructure IoT et analyse de données",
-      "alt": "Portrait d'Alassana Bah, Directeur Technique",
+      "title": "Directeur de la Technologie & Investisseur Précoce",
+      "role": "Développement Farm OS, Infrastructure IoT & Analyse de Données",
+      "alt": "Portrait d'Alassana Bah, Directeur de la Technologie",
       "linkedin": "https://linkedin.com/in/example",
       "bio": [
-        "Alassana Bah dirige notre infrastructure technologique, en mettant en œuvre des capteurs IoT, des logiciels de gestion agricole et l'analyse de données pour optimiser la culture et la transformation. Fondé sur le principe islamique d'Ihsan (la perfection dans le travail), il veille à ce que chaque système fonctionne avec précision et intégrité."
+        "Le parcours d'Alassana Bah avec AfriNuts a commencé comme investisseur externe dans notre phase de développement agricole. Après avoir vu la plateforme technologique de ses propres yeux — une application Android personnalisée avec synchronisation hors ligne, des tableaux de bord en temps réel et un suivi par bloc — il n'a pas seulement maintenu son investissement. Il a rejoint l'équipe à plein temps en tant que Directeur de la Technologie.",
+        "Aujourd'hui, Alassana dirige le développement de Farm OS, notre infrastructure de capteurs IoT et notre pipeline d'analyse de données. Son travail garantit que chaque point de données — de l'humidité du sol au rendement de la récolte en passant par la documentation d'exportation — est capturé, vérifié et accessible aux acheteurs et aux investisseurs en temps réel. Ancré dans le principe islamique d'Ihsan (la perfection dans le travail), il veille à ce que chaque système fonctionne avec précision et intégrité.",
+        "Sa transition d'investisseur externe à CTO est la plus forte preuve du potentiel d'AfriNuts — quand quelqu'un signe un chèque puis décide de consacrer sa carrière à construire la plateforme, cela en dit plus que n'importe quel pitch deck ne pourrait jamais le faire."
       ],
-      "experience": "Plus de 12 ans en génie logiciel, gestion de bases de données et systèmes d'information de gestion agricole",
+      "experience": "Plus de 12 ans en génie logiciel, gestion de bases de données et systèmes d'information de gestion agricole. Investisseur devenu CTO.",
       "education": [
         "Licence en Informatique ou Technologies de l'Information",
         "Master en Science des Données ou Technologie Agricole (en cours)"
@@ -88,10 +91,10 @@
     },
     "admin": {
       "title": "Directeur Administratif",
-      "role": "Gouvernance d'entreprise, affaires juridiques et ressources humaines",
+      "role": "Gouvernance d'Entreprise, Affaires Juridiques & Ressources Humaines",
       "alt": "Portrait de Mohammed Beniken, Directeur Administratif",
       "bio": [
-        "Mohammed Beniken assure la conformité organisationnelle avec le mandat prophétique pour des pratiques de travail équitables, supervisant les ressources humaines, les affaires juridiques et les protocoles de sécurité de l'information."
+        "Mohammed Beniken assure la conformité organisationnelle avec le mandat prophétique pour des pratiques de travail équitables. Il supervise les ressources humaines, les affaires juridiques et les protocoles de sécurité de l'information — garantissant que l'intégrité des données Farm OS répond à la fois aux normes de gouvernance d'entreprise et aux principes éthiques islamiques."
       ],
       "experience": "Plus de 10 ans en leadership administratif",
       "education": "Licence en Administration des Affaires",
@@ -99,11 +102,11 @@
     },
     "farm": {
       "title": "Responsable des Opérations Agricoles",
-      "role": "Gestion agronomique & relations communautaires",
+      "role": "Gestion Agronomique & Relations Communautaires",
       "alt": "Portrait de Souleymane Sangare, Responsable des Opérations Agricoles",
       "bio": [
-        "Souleymane Sangare est l'homme de terrain à Odienné. Il gère les opérations agricoles quotidiennes, de la préparation des terres et la plantation à l'irrigation et la récolte. Avec 14 ans d'expérience agricole et des racines profondes dans la communauté locale, il sert à la fois de spécialiste de la culture et d'agent de liaison principal auprès des agriculteurs locaux, des anciens et des autorités.",
-        "Il intègre la sagesse agricole traditionnelle aux techniques modernes d'agriculture biologique, garantissant que notre ferme de 35 hectares fonctionne de manière efficace, éthique et en harmonie avec la terre. Il dirige également nos efforts d'engagement communautaire, y compris les programmes de formation des agriculteurs et l'initiative de producteurs associés qui intègre les petits exploitants locaux dans la chaîne d'approvisionnement d'AfriNuts."
+        "Souleymane Sangare est l'homme de terrain à Odienné — et le lien humain entre les données Farm OS et la réalité du terrain. Il gère les opérations agricoles quotidiennes sur les 35 blocs, de la préparation des terres et la plantation à l'irrigation et la récolte. Avec 14 ans d'expérience agricole et des racines profondes dans la communauté locale, il sert à la fois de spécialiste de la culture et d'agent de liaison principal auprès des agriculteurs locaux, des anciens et des autorités.",
+        "Chaque point de données dans Farm OS — dates de plantation, taux de survie, volumes de récolte — provient de l'équipe de Souleymane. Sa connaissance intime du terrain garantit que ce que notre logiciel rapporte est ce qui se passe réellement dans le champ. Il dirige également nos efforts d'engagement communautaire, y compris les programmes de formation des agriculteurs et l'initiative de producteurs associés qui intègre les petits exploitants locaux dans la chaîne d'approvisionnement d'AfriNuts."
       ],
       "experience": "Plus de 14 ans en gestion agricole",
       "education": "Licence en Sciences Agricoles",

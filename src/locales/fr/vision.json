@@ -1,4 +1,8 @@
 {
+  "seo": {
+    "title": "Notre Vision | Construire la Première Marque de Cajou Éthique d'Afrique | AfriNuts Export",
+    "description": "La vision d'AfriNuts Export pour transformer l'agriculture ouest-africaine par l'intégration verticale, la technologie Farm OS, la finance éthique et le réinvestissement communautaire. Construction du premier centre de transformation de cajou certifié de Côte d'Ivoire."
+  },
   "hero": {
     "title": "Construire la Première Marque de Cajou Éthique d'Afrique",
     "subtitle": "De notre ferme familiale à Odienné, Côte d'Ivoire, aux marchés mondiaux — des noix de cajou durables, traçables et alignées sur la foi."
@@ -6,30 +10,27 @@
   "intro": {
     "title": "Transformer l'Industrie de la Noix de Cajou en Afrique de l'Ouest",
     "content": [
-      "La Côte d'Ivoire produit 45 % des noix de cajou mondiales, mais moins de 10 % sont transformées localement. La plupart des agriculteurs vivent sous le seuil de pauvreté tandis que la valeur est captée à l'étranger. Chez AfriNuts Export, nous changeons cela.",
-      "Nous construisons une marque de cajou éthique, verticalement intégrée, qui conserve la valeur en Afrique. De notre ferme de 35 hectares à Odienné à notre futur centre de transformation, chaque étape nous appartient et est opérée par nous. Pas d'intermédiaires. Pas d'extraction. Juste une agro-industrie équitable, transparente et alignée sur la foi."
+      "La Côte d'Ivoire produit plus de 45 % des noix de cajou mondiales, mais moins de 15 % est transformé localement. Des milliards de valeur sont captés à l'étranger tandis que les agriculteurs restent dans la pauvreté. Chez AfriNuts Export, nous changeons cela.",
+      "Nous construisons une marque de cajou verticalement intégrée et axée sur la technologie qui conserve la valeur en Afrique. De notre ferme de 35 hectares à Odienné à notre futur centre de transformation, chaque étape nous appartient et est opérée par nous — alimentée par notre Farm OS personnalisé, guidée par la finance éthique et conçue pour les marchés mondiaux."
+    ]
+  },
+  "traction": {
+    "title": "Où Nous En Sommes Aujourd'hui",
+    "items": [
+      { "stat": "35 ha", "label": "Ferme Opérationnelle", "desc": "3 500 anacardiers plantés" },
+      { "stat": "200+", "label": "Agriculteurs dans la Coopérative", "desc": "Accord d'approvisionnement exclusif signé" },
+      { "stat": "Farm OS", "label": "Technologie Déployée", "desc": "Application Android personnalisée avec synchronisation cloud" },
+      { "stat": "1,25 M$", "label": "Centre de Transformation", "desc": "Levée de fonds en cours" }
     ]
   },
   "sustainability": {
     "title": "Durabilité et Intendance",
     "subtitle": "Construire une chaîne de valeur du cajou à faible gaspillage et alimentée par des énergies renouvelables",
     "items": [
-      {
-        "text": "Notre centre de transformation convertira les coques usagées en biocarburant, alimentant 30 % de nos besoins énergétiques",
-        "icon": "FaRecycle"
-      },
-      {
-        "text": "Système énergétique hybride solaire prévu pour réduire la dépendance au réseau de 50 % d'ici 2030",
-        "icon": "FaSolarPanel"
-      },
-      {
-        "text": "Méthodes agricoles 100 % biologiques — sans pesticides ni engrais synthétiques sur nos 35 hectares",
-        "icon": "FaLeaf"
-      },
-      {
-        "text": "Traçabilité blockchain de l'arbre au conteneur d'exportation, lancement en 2028",
-        "icon": "FaGlobe"
-      }
+      { "text": "Notre centre de transformation convertira les coques usagées en biocarburant, alimentant 30 % de nos besoins énergétiques", "icon": "FaRecycle" },
+      { "text": "Système énergétique hybride solaire prévu pour réduire la dépendance au réseau de 50 % d'ici 2030", "icon": "FaSolarPanel" },
+      { "text": "Méthodes agricoles 100 % biologiques — sans pesticides ni engrais synthétiques sur nos 35 hectares", "icon": "FaLeaf" },
+      { "text": "Traçabilité blockchain de l'arbre au conteneur d'exportation, lancement en 2028", "icon": "FaGlobe" }
     ],
     "quote": "La terre est un dépôt sacré (amanah). Nous l'empruntons à nos enfants. Nous devons la rendre meilleure que nous l'avons trouvée."
   },
@@ -37,21 +38,9 @@
     "title": "Autonomisation Communautaire",
     "subtitle": "Notre ferme est plus qu'une entreprise — c'est un projet d'élévation communautaire",
     "items": [
-      {
-        "title": "Formation des Agriculteurs et Programme de Producteurs Associés",
-        "content": "Nous formons les agriculteurs locaux à la production biologique de noix de cajou et fournissons des contrats équitables et garantis. Objectif : plus de 20 producteurs associés fournissant 10 % de notre volume d'ici 2028.",
-        "icon": "FaUsers"
-      },
-      {
-        "title": "Réinvestissement Communautaire de 10 %",
-        "content": "Nous allouons 10 % des bénéfices nets annuels aux projets communautaires : puits d'eau, écoles, mosquées et formation des agriculteurs. Premier puits prévu pour 2026.",
-        "icon": "FaWater"
-      },
-      {
-        "title": "Emploi des Jeunes et des Femmes",
-        "content": "Embauche prioritaire pour les jeunes et les femmes locaux. Objectif : 50 % de la main-d'œuvre agricole provenant du village local, avec un salaire égal pour un travail égal.",
-        "icon": "FaHandshake"
-      }
+      { "title": "Formation des Agriculteurs et Réseau Coopératif", "content": "Nous dirigeons la Coopérative Agricole AfriNuts avec plus de 200 agriculteurs locaux, offrant une formation en production biologique de cajou et des contrats équitables et garantis.", "icon": "FaUsers" },
+      { "title": "Réinvestissement Communautaire de 10 %", "content": "Nous allouons 10 % des bénéfices nets annuels aux projets communautaires : puits d'eau, écoles, mosquées et formation des agriculteurs. Premiers projets communautaires en cours.", "icon": "FaWater" },
+      { "title": "Emploi des Jeunes et des Femmes", "content": "Embauche prioritaire pour les jeunes et les femmes locaux. Objectif : 50 % de la main-d'œuvre agricole provenant du village local, avec un salaire égal pour un travail égal.", "icon": "FaHandshake" }
     ]
   },
   "value": {
@@ -68,47 +57,19 @@
     "title": "Finance Éthique",
     "subtitle": "Nous respectons l'éthique financière islamique (conforme à la Charia) dans toutes nos opérations",
     "principles": [
-      {
-        "title": "Sans Riba (Sans Intérêt)",
-        "content": "Nous évitons la dette et l'intérêt (riba) dans toutes les transactions financières. Nos partenariats avec les investisseurs utilisent le partage des bénéfices (Moudaraba) et non des prêts à intérêt fixe.",
-        "icon": "FaHandshake"
-      },
-      {
-        "title": "Partenariats Transparents (Moucharaka)",
-        "content": "Nous partageons à la fois le risque et la récompense de manière transparente avec les investisseurs. Pas de frais cachés. Pas de trading spéculatif.",
-        "icon": "FaChartLine"
-      },
-      {
-        "title": "Le Profit avec un But",
-        "content": "Nous privilégions le bénéfice communautaire à long terme sur le gain à court terme. Nos investisseurs reçoivent des rendements mais contribuent également à la sadaqah jariyah (charité continue).",
-        "icon": "FaTree"
-      }
+      { "title": "Sans Riba (Sans Intérêt)", "content": "Nous évitons la dette et l'intérêt (riba) dans toutes les transactions financières. Nos partenariats avec les investisseurs utilisent le partage des bénéfices (Moudaraba) et non des prêts à intérêt fixe.", "icon": "FaHandshake" },
+      { "title": "Partenariats Transparents (Moucharaka)", "content": "Nous partageons à la fois le risque et la récompense de manière transparente avec les investisseurs. Pas de frais cachés. Pas de trading spéculatif.", "icon": "FaChartLine" },
+      { "title": "Le Profit avec un But", "content": "Nous privilégions le bénéfice communautaire à long terme sur le gain à court terme. Nos investisseurs reçoivent des rendements mais contribuent également à la sadaqah jariyah (charité continue).", "icon": "FaTree" }
     ]
   },
   "innovation": {
-    "title": "Innovation et Transformation",
-    "subtitle": "Construire la première marque de cajou de qualité export détenue localement dans le nord-ouest de la Côte d'Ivoire",
+    "title": "Farm OS — Construit et Déployé",
+    "subtitle": "Application Android personnalisée avec architecture hors ligne d'abord. Suivi par bloc, documentation photo, gestion des tâches et rapports financiers — déjà opérationnel sur notre ferme de 35 hectares.",
     "items": [
-      {
-        "title": "Traçabilité Numérique (2028+)",
-        "content": "Suivi blockchain au niveau des lots de notre ferme au conteneur d'exportation. Chaque noix de cajou traçable.",
-        "icon": "FaGlobe"
-      },
-      {
-        "title": "Agriculture Intelligente (2030+)",
-        "content": "Mise en œuvre prévue de la surveillance par drones, des capteurs de sol et de l'analyse prédictive pour optimiser le rendement et réduire les intrants.",
-        "icon": "FaSeedling"
-      },
-      {
-        "title": "Certification Internationale (2026-2029)",
-        "content": "Biologique (objectif 2027), Halal (objectif 2028) et ISO 22000 (objectif 2029) pour l'accès aux marchés mondiaux.",
-        "icon": "FaLeaf"
-      },
-      {
-        "title": "Leadership Régional (En cours)",
-        "content": "Créer un modèle reproductible d'agro-industrie éthique et rentable pouvant être déployé à grande échelle en Afrique de l'Ouest.",
-        "icon": "FaChartLine"
-      }
+      { "title": "Traçabilité Numérique (2028+)", "content": "Suivi blockchain au niveau des lots de notre ferme au conteneur d'exportation. Chaque noix de cajou traçable.", "icon": "FaGlobe" },
+      { "title": "Agriculture Intelligente (2030+)", "content": "Mise en œuvre prévue de la surveillance par drones, des capteurs de sol et de l'analyse prédictive pour optimiser le rendement et réduire les intrants.", "icon": "FaSeedling" },
+      { "title": "Certification Internationale (2026-2029)", "content": "Biologique (objectif 2027), Halal (objectif 2028) et ISO 22000 (objectif 2029) pour l'accès aux marchés mondiaux.", "icon": "FaLeaf" },
+      { "title": "Leadership Régional (En cours)", "content": "Créer un modèle reproductible d'agro-industrie éthique et rentable pouvant être déployé à grande échelle en Afrique de l'Ouest.", "icon": "FaChartLine" }
     ]
   },
   "cta": {
@@ -124,33 +85,9 @@
     "title": "Notre Engagement ESG",
     "subtitle": "Les principes Environnementaux, Sociaux et de Gouvernance sont intégrés dans tout ce que nous faisons.",
     "items": [
-      {
-        "category": "Environnemental",
-        "commitments": [
-          "Chaîne d'approvisionnement neutre en carbone d'ici 2031",
-          "Transformation zéro déchet (coques → biocarburant, pommes → produits)",
-          "Système énergétique hybride solaire",
-          "Agriculture biologique (sans pesticides ni engrais synthétiques)"
-        ]
-      },
-      {
-        "category": "Social",
-        "commitments": [
-          "10 % des bénéfices réinvestis dans la communauté (puits, écoles, mosquées)",
-          "Salaires équitables supérieurs au minimum régional",
-          "Priorité à l'emploi des jeunes et des femmes",
-          "Programmes gratuits de formation des agriculteurs"
-        ]
-      },
-      {
-        "category": "Gouvernance",
-        "commitments": [
-          "Transparence financière totale",
-          "Partage des bénéfices conforme à la Charia (Moudaraba)",
-          "Audits par des tiers pour les normes de travail et environnementales",
-          "Traçabilité blockchain de la ferme à l'exportation"
-        ]
-      }
+      { "category": "Environnemental", "commitments": ["Chaîne d'approvisionnement neutre en carbone d'ici 2031", "Transformation zéro déchet (coques → biocarburant, pommes → produits)", "Système énergétique hybride solaire", "Agriculture biologique (sans pesticides ni engrais synthétiques)"] },
+      { "category": "Social", "commitments": ["10 % des bénéfices réinvestis dans la communauté (puits, écoles, mosquées)", "Salaires équitables supérieurs au minimum régional", "Priorité à l'emploi des jeunes et des femmes", "Programmes gratuits de formation des agriculteurs"] },
+      { "category": "Gouvernance", "commitments": ["Transparence financière totale", "Partage des bénéfices conforme à la Charia (Moudaraba)", "Audits par des tiers pour les normes de travail et environnementales", "Traçabilité blockchain de la ferme à l'exportation"] }
     ]
   },
   "timeline": {
@@ -166,73 +103,28 @@
     "title": "Notre Feuille de Route Stratégique : De la Ferme à la Marque Mondiale",
     "subtitle": "Construire un avenir durable grâce à une croissance stratégique et l'excellence des certifications",
     "items": [
-      {
-        "date": "2024",
-        "title": "Phase de Fondation : Ferme et Chaîne d'Approvisionnement Sécurisées",
-        "description": "Ferme de cajou de 35 hectares pleinement opérationnelle à Odienné. Accord d'approvisionnement exclusif signé avec la Coopérative Agricole AfriNuts, réunissant plus de 200 agriculteurs locaux."
-      },
-      {
-        "date": "2025-2026",
-        "title": "Initiation de la Certification et Planification Détaillée",
-        "description": "Début de la transition de 3 ans pour la certification Biologique. Finalisation des plans d'ingénierie de l'usine de transformation, obtention des permis et préparation du tour d'investissement."
-      },
-      {
-        "date": "2027",
-        "title": "Investissement et Construction",
-        "description": "Sécurisation de l'investissement de 1,25M$. Début des travaux et construction du Centre Pilote de Transformation Phase 1. Début des demandes pour les certifications Halal et ISO 22000."
-      },
-      {
-        "date": "2028",
-        "title": "Mise en Service et Entrée sur le Marché",
-        "description": "Installation des équipements, mise en service de l'usine et formation du personnel. Production des premiers lots d'échantillons pour les acheteurs internationaux. Obtention des premières Lettres d'Intention (LOI)."
-      },
-      {
-        "date": "2029-2030",
-        "title": "Opérations Pilotes et Obtention des Certifications",
-        "description": "Début de la transformation à l'échelle pilote utilisant la production de la ferme et de la coopérative. Obtention complète des certifications Biologique, Halal et ISO 22000. Montée en puissance de la production et perfectionnement des opérations."
-      },
-      {
-        "date": "2031-2032",
-        "title": "Montée en Puissance vers la Rentabilité",
-        "description": "Atteinte de la pleine capacité de l'usine Phase 1 (1 000-2 000 TM/an). Exécution des contrats d'exportation. Objectif : atteindre le seuil de rentabilité opérationnelle et les premiers bénéfices nets."
-      },
-      {
-        "date": "2033+",
-        "title": "Croissance Durable et Planification de l'Expansion",
-        "description": "Début des distributions de dividendes aux actionnaires. Réinvestissement des bénéfices pour financer la planification et le développement de l'installation industrielle Phase 2 (5 000+ TM/an)."
-      }
+      { "date": "2024", "title": "Phase de Fondation : Ferme et Chaîne d'Approvisionnement Sécurisées", "description": "Ferme de cajou de 35 hectares pleinement opérationnelle à Odienné. Accord d'approvisionnement exclusif signé avec la Coopérative Agricole AfriNuts, réunissant plus de 200 agriculteurs locaux." },
+      { "date": "2025-2026", "title": "Initiation de la Certification et Planification Détaillée", "description": "Début de la transition de 3 ans pour la certification Biologique. Finalisation des plans d'ingénierie de l'usine de transformation, obtention des permis et préparation du tour d'investissement." },
+      { "date": "2027", "title": "Investissement et Construction", "description": "Sécurisation de l'investissement de 1,25 M$. Début des travaux et construction du Centre Pilote de Transformation Phase 1. Début des demandes pour les certifications Halal et ISO 22000." },
+      { "date": "2028", "title": "Mise en Service et Entrée sur le Marché", "description": "Installation des équipements, mise en service de l'usine et formation du personnel. Production des premiers lots d'échantillons pour les acheteurs internationaux. Obtention des premières Lettres d'Intention (LOI)." },
+      { "date": "2029-2030", "title": "Opérations Pilotes et Obtention des Certifications", "description": "Début de la transformation à l'échelle pilote utilisant la production de la ferme et de la coopérative. Obtention complète des certifications Biologique, Halal et ISO 22000. Montée en puissance de la production et perfectionnement des opérations." },
+      { "date": "2031-2032", "title": "Montée en Puissance vers la Rentabilité", "description": "Atteinte de la pleine capacité de l'usine Phase 1 (1 000-2 000 TM/an). Exécution des contrats d'exportation. Objectif : atteindre le seuil de rentabilité opérationnelle et les premiers bénéfices nets." },
+      { "date": "2033+", "title": "Croissance Durable et Planification de l'Expansion", "description": "Début des distributions de dividendes aux actionnaires. Réinvestissement des bénéfices pour financer la planification et le développement de l'installation industrielle Phase 2 (5 000+ TM/an)." }
     ]
   },
   "processingLinks": {
     "title": "Donner Vie à la Vision",
     "subtitle": "Découvrez comment nous transformons les noix de cajou brutes en produits premium prêts à l'exportation grâce à notre infrastructure de transformation.",
-    "processing": {
-      "title": "Notre Approche de Transformation",
-      "description": "De la noix brute au produit prêt à l'exportation — découvrez comment nous ajoutons de la valeur à chaque étape de la chaîne de transformation de la noix de cajou.",
-      "link": "Explorer la Transformation"
-    },
-    "facility": {
-      "title": "Future Installation de Transformation",
-      "description": "Visitez notre installation planifiée — des laboratoires de contrôle qualité au bien-être des travailleurs, découvrez l'agencement conçu pour l'efficacité et la durabilité.",
-      "link": "Voir l'Organigramme de l'Installation"
-    }
+    "processing": { "title": "Notre Approche de Transformation", "description": "De la noix brute au produit prêt à l'exportation — découvrez comment nous ajoutons de la valeur à chaque étape de la chaîne de transformation de la noix de cajou.", "link": "Explorer la Transformation" },
+    "facility": { "title": "Future Installation de Transformation", "description": "Visitez notre installation planifiée — des laboratoires de contrôle qualité au bien-être des travailleurs, découvrez l'agencement conçu pour l'efficacité et la durabilité.", "link": "Voir l'Organigramme de l'Installation" }
   },
   "transparency": {
     "title": "Une Transparence Opérationnelle Intégrée",
     "subtitle": "Chaque arbre, chaque parcelle, chaque dépense — suivi et rapporté. Notre système de gestion agricole apporte une visibilité de niveau institutionnel à l'investissement agricole.",
     "cards": {
-      "tracking": {
-        "title": "Suivi par Parcelle",
-        "description": "Notre ferme de 35 hectares est divisée en blocs surveillés individuellement. Chaque bloc a sa propre date de plantation, son taux de survie et ses indicateurs de performance — offrant aux investisseurs une visibilité granulaire sur les opérations agricoles."
-      },
-      "reporting": {
-        "title": "Rapports de Qualité Investisseur",
-        "description": "Les rapports trimestriels incluent les taux de survie des arbres, les volumes de récolte, les niveaux de qualité et les états de profits et pertes par bloc. Pas de boîtes noires — juste des données claires et vérifiables."
-      },
-      "allocation": {
-        "title": "Allocation Transparente des Coûts",
-        "description": "Les dépenses à l'échelle de la ferme sont réparties équitablement par bloc. Les coûts directs sont suivis par bloc. Nos investisseurs savent toujours exactement où va chaque FCFA."
-      }
+      "tracking": { "title": "Suivi par Parcelle", "description": "Notre ferme de 35 hectares est divisée en blocs surveillés individuellement. Chaque bloc a sa propre date de plantation, son taux de survie et ses indicateurs de performance — offrant aux investisseurs une visibilité granulaire sur les opérations agricoles." },
+      "reporting": { "title": "Rapports de Qualité Investisseur", "description": "Les rapports trimestriels incluent les taux de survie des arbres, les volumes de récolte, les niveaux de qualité et les états de profits et pertes par bloc. Pas de boîtes noires — juste des données claires et vérifiables." },
+      "allocation": { "title": "Allocation Transparente des Coûts", "description": "Les dépenses à l'échelle de la ferme sont réparties équitablement par bloc. Les coûts directs sont suivis par bloc. Nos investisseurs savent toujours exactement où va chaque FCFA." }
     },
     "note": "Notre tableau de bord opérationnel et nos rapports financiers détaillés sont disponibles pour les investisseurs vérifiés via un portail sécurisé.",
     "cta": "Renseignez-vous sur l'Investissement"
@@ -242,18 +134,9 @@
     "subtitle": "Ce qui a commencé comme un système d'exploitation agricole peut devenir une plateforme régionale.",
     "vision": "AfriNuts Export est la preuve qu'une petite entreprise agroalimentaire peut construire une technologie de niveau entreprise. Notre prochaine ambition est de faire d'Odienné le premier pôle agritech d'Afrique de l'Ouest — où les agriculteurs utilisent des applications mobiles, les acheteurs vérifient les lots en ligne et les investisseurs accèdent aux données de performance en direct.",
     "pillars": [
-      {
-        "title": "Numériser la Chaîne d'Approvisionnement",
-        "description": "Étendre Farm OS aux coopératives et aux producteurs associés. Chaque agriculteur, chaque arbre, chaque récolte suivi."
-      },
-      {
-        "title": "Former les Talents Locaux",
-        "description": "S'associer aux écoles techniques pour former la prochaine génération d'ingénieurs logiciels et de spécialistes agritech ivoiriens."
-      },
-      {
-        "title": "Répliquer le Modèle",
-        "description": "Faire ses preuves avec la noix de cajou, puis adapter à d'autres cultures : cacao, karité, café, coton."
-      }
+      { "title": "Numériser la Chaîne d'Approvisionnement", "description": "Étendre Farm OS aux coopératives et aux producteurs associés. Chaque agriculteur, chaque arbre, chaque récolte suivi." },
+      { "title": "Former les Talents Locaux", "description": "S'associer aux écoles techniques pour former la prochaine génération d'ingénieurs logiciels et de spécialistes agritech ivoiriens." },
+      { "title": "Répliquer le Modèle", "description": "Faire ses preuves avec la noix de cajou, puis adapter à d'autres cultures : cacao, karité, café, coton." }
     ],
     "cta": "Investisseurs et partenaires gouvernementaux : rejoignez-nous pour construire l'avenir agritech de l'Afrique de l'Ouest.",
     "ctaButton": "Devenir Partenaire"

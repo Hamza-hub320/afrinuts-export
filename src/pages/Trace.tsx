@@ -14,6 +14,8 @@ import {
     FaArrowLeft, FaShare, FaChartBar, FaDownload, FaLeaf, FaBox
 } from "react-icons/fa";
 import { fadeIn } from "@/utils/animations";
+import {Helmet} from "react-helmet-async";
+import JsonLd from "@/components/Seo/JsonLd";
 
 interface BatchData {
     id: string;
@@ -266,6 +268,23 @@ const TracePage: React.FC = () => {
 
     return (
         <main className="text-text-dark font-sans">
+            <Helmet>
+                <title>{t('seo.title')}</title>
+                <meta name="description" content={t('seo.description')} />
+                <link rel="canonical" href="https://www.afrinutsexport.com/trace" />
+            </Helmet>
+
+            <JsonLd data={{
+                "@context": "https://schema.org",
+                "@type": "WebPage",
+                "name": "Cashew Traceability | AfriNuts Export",
+                "description": "Block-level traceability from our 35-hectare farm in Odienné, Côte d'Ivoire. Custom Farm OS technology tracks every harvest.",
+                "about": {
+                    "@type": "Thing",
+                    "name": "Farm OS Traceability System",
+                    "description": "Offline-first Android application with cloud synchronization for block-level cashew tracking, quality documentation, and export verification."
+                }
+            }} />
             <div className="max-w-4xl mx-auto px-6 sm:px-8 pt-[88px] pb-2">
                 <div className="text-sm text-gray-400 mb-4 flex items-center gap-1 flex-wrap">
                     <Link to="/" className="hover:text-primary transition-colors">{t('breadcrumbs.home', 'Home')}</Link>

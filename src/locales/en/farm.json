@@ -1,120 +1,120 @@
 {
   "hero": {
-    "title": "Our 35-Hectare Organic Cashew Farm in Odienné, Ivory Coast",
-    "subtitle": "Family-owned. Sustainably farmed. Cultivating West Africa's finest cashews through regenerative agriculture and organic practices."
+    "title": "The Farm That Built Its Own Operating System",
+    "subtitle": "35 hectares in Odienné, Côte d'Ivoire. 3,500 trees. One custom-built Farm OS tracking every block, every tree, every harvest. This is where our technology meets the soil."
   },
   "overview": {
-    "heading": "35 Hectares of Premium Cashew Production",
-    "description": "Nestled in Odienné, the epicenter of Ivory Coast's cashew production, our family-owned plantation is being developed using climate-smart agricultural techniques to yield premium grade raw cashew nuts with full traceability from soil to shipment."
+    "heading": "35 Hectares. One System. Complete Visibility.",
+    "description": "Our family-owned plantation in Odienné is managed through Farm OS — a custom platform that tracks every block by GPS coordinates, survival rate, planting date, and harvest history. What happens on this farm doesn't stay in a paper ledger. It flows into dashboards that buyers and investors can see."
   },
   "stats": {
     "area": "35 hectares",
-    "areaLabel": "Total Plantation Area – Our family-owned land dedicated to cashew cultivation",
+    "areaLabel": "Total Plantation Area — Every hectare mapped and tracked in Farm OS",
     "location": "Odienné",
-    "locationLabel": "Location – In the heart of Ivory Coast’s cashew belt for optimal growth",
+    "locationLabel": "Location — GPS-verified in the heart of Ivory Coast's cashew belt",
     "phase": "Phase 1",
-    "phaseLabel": "Development Phase – Land clearing, soil mapping, and planting operations underway",
+    "phaseLabel": "Development Phase — Progress logged per block with photo documentation",
     "practices": "Organic",
-    "practicesLabel": "Farming Practices – Climate-smart and organic methods for sustainable production"
+    "practicesLabel": "Farming Practices — Chemical-free methods verified by digital input tracking"
   },
   "relatedReading": {
-    "growingGuide": "Read our complete guide: How to Grow Cashew Trees in West Africa"
+    "growingGuide": "Our Complete guide: How to Grow Cashew Trees in West Africa"
   },
   "features": {
-    "title": "Key Plantation Features",
+    "title": "What Makes This Farm Different",
     "family": {
-      "title": "Family-Owned Land",
-      "description": "70 hectares of family-owned land with full development rights"
+      "title": "Family-Owned. Tech-Managed.",
+      "description": "70 hectares of family land. 35 under cultivation. Every block mapped, every tree counted, every expense allocated in Farm OS."
     },
     "irrigation": {
       "title": "Smart Irrigation",
-      "description": "Water-efficient systems for optimal growth in all seasons"
+      "description": "Water-efficient systems with usage tracked in Farm OS for continuous optimization."
     },
     "processing": {
       "title": "Future Processing",
-      "description": "On-site processing facility planned for 2031"
+      "description": "On-site facility planned for 2031 — designed to integrate directly with Farm OS for end-to-end traceability."
     },
     "harvest": {
       "title": "First Harvest",
-      "description": "First commercial harvest projected for 2028 (Year 4 of tree maturity), with full production by 2030."
+      "description": "First commercial harvest projected for 2028. Every kilogram will be logged by block, date, and quality grade in Farm OS."
     }
   },
   "timeline": {
-    "title": "Strategic Development Phases",
+    "title": "Farm Development Timeline",
     "scrollIndicator": "Scroll to view timeline",
     "land": {
       "year": "2025",
       "title": "Land Development",
-      "description": "Comprehensive soil mapping, selective land clearing, and installation of precision irrigation infrastructure"
+      "description": "Soil mapping, land clearing, and irrigation — every activity documented with photos and GPS data in Farm OS."
     },
     "planting": {
       "year": "2026",
       "title": "Planting Operations",
-      "description": "Systematic planting of high-yield cashew cultivars across 35 hectares with optimal spacing for growth"
+      "description": "3,500 trees planted across 35 blocks. Each tree assigned to a block. Each block tracked for survival rate, growth stage, and maintenance."
     },
     "harvest": {
       "year": "2028",
       "title": "First Commercial Harvest",
-      "description": "Projected initial yield of 0.5-1 ton per hectare from young trees, scaling to full production by 2030"
+      "description": "Initial yield tracked per block. Quality metrics recorded. The data foundation for our processing center begins here."
     }
   },
   "gallery": {
-    "title": "Plantation Progress",
+    "title": "Farm Progress — Documented",
     "alt1": "Developing cashew orchard with young trees",
-    "caption1": "Initial planting phase on our 35-hectare property",
+    "caption1": "Every development stage photographed and logged in Farm OS",
     "alt2": "Sustainable land preparation techniques",
-    "caption2": "Eco-friendly land clearing methods",
+    "caption2": "Eco-friendly clearing — methods documented for organic certification",
     "alt3": "Irrigation system installation",
-    "caption3": "Precision water delivery systems",
+    "caption3": "Water infrastructure mapped and monitored",
     "alt4": "Young cashew trees",
-    "caption4": "High-yield cultivars at 6 months growth"
+    "caption4": "Tree growth tracked per block with survival rate monitoring"
   },
   "sustainability": {
-    "title": "Farm-to-Export Traceability",
-    "description": "Blockchain-ready tracking from tree to container. Every harvest is logged, every batch is traceable.",
+    "title": "Sustainability You Can Verify",
+    "description": "Our Farm OS doesn't just track production. It tracks our environmental footprint: water usage, organic inputs, and soil health per block. Sustainability claims are easy. Data-backed sustainability is rare.",
     "organic": {
       "title": "Organic Cultivation",
-      "description": "Integrated pest management and organic fertilizers to maintain ecosystem balance"
+      "description": "Every input logged. Every application recorded per block, per date. Audit-ready for ECOCERT certification."
     },
     "water": {
       "title": "Water Stewardship",
-      "description": "Drip irrigation systems reducing water usage by 40% compared to traditional methods"
+      "description": "Drip irrigation reducing water usage by 40%. Consumption tracked monthly in Farm OS for continuous improvement."
     },
     "community": {
       "title": "Community Empowerment",
-      "description": "Training programs for local farmers in sustainable techniques"
+      "description": "200+ farmers in our cooperative. Training programs tracked. Fair pricing documented. Impact measured, not just claimed."
     }
   },
   "impact": {
-    "title": "Our Impact",
+    "title": "Impact You Can Measure",
     "hectares": {
       "label": "Hectares Under Cultivation",
-      "description": "35 hectares dedicated to sustainable cashew production, supporting long-term ecological balance."
+      "description": "35 hectares tracked block-by-block in Farm OS — every tree, every input, every output recorded."
     },
     "jobs": {
       "label": "Jobs Created",
-      "description": "Local employment opportunities generated through farming, processing, and community support activities."
+      "description": "Employment data tracked. Fair wage compliance monitored. Not estimates — actual payroll data."
     },
     "farmers": {
       "label": "Farmer Income",
-      "description": "Partnership programs designed to improve livelihoods of local farmers through fair pricing and training."
+      "description": "Cooperative pricing and volume tracked. Farmer payments documented. Transparent for investors and partners."
     },
     "profits": {
       "label": "Community Reinvestment",
-      "description": "10% of profits reinvested into education, healthcare, and infrastructure for surrounding communities."
+      "description": "10% of profits reinvested. Projects tracked with budgets and completion status in Farm OS."
     }
   },
   "cta": {
-    "title": "Partner With Us",
-    "description": "Whether you're a wholesale buyer, investor, or distribution partner, we'd love to hear from you.",
+    "title": "See the System Behind the Farm",
+    "description": "Whether you're a wholesale buyer, investor, or distribution partner — we can show you the data, not just tell you the story.",
     "button": "Request Wholesale Info"
   },
   "farm": {
     "map": {
-      "title": "Our Farm Location",
-      "description": "Explore our 35-hectare family-owned cashew farm in the heart of Ivory Coast's cashew belt. The property spans 70 total hectares, with 35 currently under cultivation and the remainder reserved for future processing facilities and community development.",
+      "title": "Our Farm — GPS Mapped",
+      "description": "Explore our 35-hectare farm in Odienné. Every block is GPS-mapped in Farm OS with planting dates, survival rates, and harvest history. Click any block to see its data.",
       "location": "Odienné, Ivory Coast",
-      "locationDescription": "Our 70-hectare family-owned farm is located in the heart of Ivory Coast's cashew belt, with optimal growing conditions for premium quality cashews."
+      "locationDescription": "GPS-verified coordinates. Not a claimed location — a verifiable one."
     }
   },
   "map": {

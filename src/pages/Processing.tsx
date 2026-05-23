@@ -172,16 +172,39 @@ const Processing: React.FC = () => {
     return (
         <main className="text-text-dark font-sans">
             <Helmet>
-                <title>Cashew Processing | AfriNuts Export – Chemical-Free & Certified</title>
-                <meta name="description" content="AfriNuts Export processes organic cashews in Ivory Coast. Two-phase roadmap: pilot to industrial. Chemical-free, certification-ready, and sustainable." />
+                <title>Cashew Processing Center | AfriNuts Export – Chemical-Free & Certified | Côte d'Ivoire</title>
+                <meta name="description" content="AfriNuts Export's two-phase cashew processing roadmap: from pilot facility (1,000-2,000 MT/year) to industrial scale (5,000+ MT/year). Chemical-free, organic, Halal, and ISO 22000 certified. Built in Odienné, Côte d'Ivoire." />
                 <link rel="canonical" href="https://www.afrinutsexport.com/processing" />
             </Helmet>
+
             <JsonLd data={{
-                "@context": "https://schema.org", "@type": "Product",
-                "name": "AfriNuts Processed Cashew Kernels",
-                "description": "Chemical-free, organic cashew kernels processed in Ivory Coast.",
-                "brand": { "@type": "Brand", "name": "AfriNuts Export" },
-                "manufacturer": { "@type": "Organization", "name": "AfriNuts Export", "location": { "@type": "Place", "address": { "@type": "PostalAddress", "addressLocality": "Odienné", "addressCountry": "CI" } } }
+                "@context": "https://schema.org",
+                "@type": "WebPage",
+                "name": "AfriNuts Export Cashew Processing Center",
+                "description": "Two-phase cashew processing facility in Odienné, Côte d'Ivoire. Chemical-free, organic, and certified for export to EU, Middle East, and North American markets.",
+                "about": {
+                    "@type": "Organization",
+                    "name": "AfriNuts Export",
+                    "description": "Vertically integrated cashew processor from farm to export.",
+                    "location": {
+                        "@type": "Place",
+                        "address": {
+                            "@type": "PostalAddress",
+                            "addressLocality": "Odienné",
+                            "addressCountry": "CI"
+                        }
+                    }
+                },
+                "mainEntity": {
+                    "@type": "Product",
+                    "name": "AfriNuts Processed Cashew Kernels",
+                    "description": "Chemical-free, organic cashew kernels processed in Ivory Coast. Available in grades W320, W240, and WW320.",
+                    "brand": { "@type": "Brand", "name": "AfriNuts Export" },
+                    "manufacturer": {
+                        "@type": "Organization",
+                        "name": "AfriNuts Export"
+                    }
+                }
             }} />
 
             <div className="max-w-4xl mx-auto px-6 sm:px-8 pt-[88px] pb-2">
@@ -764,7 +787,7 @@ const Processing: React.FC = () => {
                                                 whileHover={{ scale: 1.15, rotate: 5 }}
                                                 transition={{ type: 'spring', stiffness: 300 }}
                                             >
-                                                <item.icon className="text-primary text-xl" />
+                                                <item.icon className="text-primary text-s" />
                                             </motion.div>
                                             <Typography variant="small" className="text-text-dark font-medium">{item.label}</Typography>
                                         </div>
@@ -855,7 +878,7 @@ const Processing: React.FC = () => {
                                         showInfoBadge={false}
                                         className="h-full"
                                     >
-                                        <Typography variant="small" className="text-gray-500 text-xs">
+                                        <Typography variant="small" className="text-gray-500 text-s">
                                             {item.desc}
                                         </Typography>
                                     </InfoCard>

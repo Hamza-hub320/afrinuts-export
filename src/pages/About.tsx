@@ -33,6 +33,7 @@ import { InfoCard } from '@/components/InfoCard/InfoCard';
 import {Link, useNavigate} from "react-router-dom";
 import {ProfileCard} from "../components/ProfileCard/ProfileCard";
 import JsonLd from '@/components/Seo/JsonLd';
+import {Helmet} from "react-helmet-async";
 
 interface Executive {
   name: string;
@@ -107,6 +108,11 @@ const About: React.FC = () => {
 
   return (
       <main>
+        <Helmet>
+          <title>About AfriNuts Export | Our Story, Team & Farm OS Technology | Côte d'Ivoire</title>
+          <meta name="description" content="Three generations of cashew farming meets modern technology. Learn about AfriNuts Export's 35-hectare farm, custom Farm OS, leadership team, and mission to transform West African agriculture." />
+          <link rel="canonical" href="https://www.afrinutsexport.com/about" />
+        </Helmet>
         <JsonLd data={{
           "@context": "https://schema.org",
           "@type": "WebPage",

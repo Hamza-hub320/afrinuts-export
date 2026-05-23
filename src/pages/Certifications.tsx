@@ -30,6 +30,8 @@ import CertModal from "../components/CertModal/CertModal";
 import CertCard from "../components/CertCard/CertCard";
 import {IconType} from "react-icons";
 import { trackCtaClick, trackDownload } from '@/utils/analytics';
+import { Helmet } from 'react-helmet-async';
+import JsonLd from "@/components/Seo/JsonLd";
 type CertStatus = "achieved" | "upcoming" | "in-progress";
 
 const getIcon = (iconName: string) => {
@@ -136,6 +138,24 @@ const Certifications: React.FC = () => {
 
     return (
         <main className="text-text-dark font-sans">
+            <Helmet>
+                <title>Certifications & Quality | Organic, Halal, ISO 22000 | AfriNuts Export</title>
+                <meta name="description" content="AfriNuts Export is pursuing Organic (ECOCERT), Halal, ISO 22000, Fair Trade, and Rainforest Alliance certifications. Our 35-hectare farm has been chemical-free since inception." />
+                <link rel="canonical" href="https://www.afrinutsexport.com/certifications" />
+            </Helmet>
+
+            <JsonLd data={{
+                "@context": "https://schema.org",
+                "@type": "WebPage",
+                "name": "Certifications & Quality Standards | AfriNuts Export",
+                "description": "AfriNuts Export is pursuing Organic (ECOCERT), Halal, ISO 22000, Fair Trade, and Rainforest Alliance certifications for our cashew farm and future processing center in Odienné, Côte d'Ivoire.",
+                "about": {
+                    "@type": "Organization",
+                    "name": "AfriNuts Export",
+                    "description": "Premium organic cashew exporter pursuing international certifications for farm-to-export traceability."
+                }
+            }} />
+
             <div className="max-w-4xl mx-auto px-6 sm:px-8 pt-[88px] pb-2">
             <div className="text-sm text-text-darkmb-4 flex items-center gap-1 flex-wrap">
                 <Link to="/" className="hover:text-primary transition-colors">{t('breadcrumbs.home', 'Home')}</Link>

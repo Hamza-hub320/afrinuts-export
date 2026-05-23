@@ -39,6 +39,8 @@ import { fadeIn, staggerContainer } from '@/utils/animations';
 import { Typography } from "@/components/Typography/Typography";
 import { InfoCard } from "@/components/InfoCard/InfoCard";
 import { trackCtaClick } from '@/utils/analytics';
+import JsonLd from "@/components/Seo/JsonLd";
+import { Helmet } from 'react-helmet-async';
 
 const FacilityFlowchart: React.FC = () => {
     const { t } = useTranslation('facility');
@@ -208,6 +210,27 @@ const FacilityFlowchart: React.FC = () => {
 
     return (
         <main className="text-text-dark font-sans">
+            <Helmet>
+                <title>Cashew Processing Facility Flowchart | AfriNuts Export</title>
+                <meta name="description" content="Explore the layout of AfriNuts Export's future cashew processing facility in Odienné, Côte d'Ivoire. Zone-by-zone breakdown of reception, processing, grading, staff facilities, and utilities." />
+                <link rel="canonical" href="https://www.afrinutsexport.com/processing/facility-flowchart" />
+            </Helmet>
+
+            <JsonLd data={{
+                "@context": "https://schema.org",
+                "@type": "WebPage",
+                "name": "Cashew Processing Facility Flowchart | AfriNuts Export",
+                "description": "Detailed zone-by-zone layout of AfriNuts Export's planned cashew processing center in Odienné, Côte d'Ivoire — from raw nut reception to export dispatch.",
+                "about": {
+                    "@type": "Place",
+                    "name": "AfriNuts Export Processing Center",
+                    "address": {
+                        "@type": "PostalAddress",
+                        "addressLocality": "Odienné",
+                        "addressCountry": "CI"
+                    }
+                }
+            }} />
             <div className="max-w-4xl mx-auto px-6 sm:px-8 pt-[88px] pb-2">
             <div className="text-sm text-gray-400 mb-4 flex items-center gap-1 flex-wrap">
                 <Link to="/" className="hover:text-primary transition-colors">{t('breadcrumbs.home', 'Home')}</Link>

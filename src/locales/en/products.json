@@ -5,8 +5,8 @@
     "download": "Download Product Catalogue"
   },
   "hero": {
-    "title": "Premium Cashew Products from Ivory Coast | Wholesale & Export",
-    "subtitle": "Ethically sourced from our family farm in Odienné. Available for wholesale, bulk export, and private label. Raw nuts, kernels, butter, and more."
+    "title": "Premium Cashew Products | Traceable from Farm to Export",
+    "subtitle": "Single-origin from our 35-hectare farm in Odienné, Côte d'Ivoire. Organic and conventional options. Block-level traceability. Export-ready documentation."
   },
   "productCard": {
     "comingSoon": "Coming Soon",
@@ -59,56 +59,56 @@
     "rawVsRoasted": "Not sure which to choose? Read: Raw vs Roasted Cashews — What's the Difference"
   },
   "featured": {
-    "title": "Featured Products",
-    "subtitle": "Discover our signature cashew offerings from Ivory Coast"
+    "title": "Our Product Line",
+    "subtitle": "From raw nuts to value-added goods — every product backed by Farm OS traceability"
   },
   "fullRange": {
-    "title": "Our Complete Product Line",
-    "subtitle": "From raw nuts to value-added processed goods"
+    "title": "Complete Product Range",
+    "subtitle": "Raw nuts available today. Processed products available for pre-order with certified delivery timelines."
   },
   "products": {
     "noResults": "No products found",
     "tryDifferentFilters": "Try adjusting your search or filters",
     "quality": {
-      "title": "Quality Assurance",
-      "description": "Our rigorous quality control process ensures premium products",
+      "title": "Quality You Can Verify",
+      "description": "Every product meets export-grade specifications backed by digital documentation — not promises.",
       "bullets": [
-        "100% natural ingredients",
-        "No artificial preservatives",
-        "Regular quality inspections"
+        "Single-origin from our farm — no mixed lots",
+        "Block-level traceability via Farm OS",
+        "Regular aflatoxin and moisture testing"
       ]
     }
   },
   "process": {
-    "title": "Our Production Process",
-    "subtitle": "Sustainable farming meets precision processing",
+    "title": "From Our Farm to Your Container",
+    "subtitle": "Vertical integration means we control quality at every stage",
     "steps": [
       {
-        "title": "Sustainable Farming",
-        "description": "Our cashews are grown using organic methods on our 35-hectare family farm in Odienné. We begin planting in 2026, with first harvest expected in 2029."
+        "title": "Cultivation",
+        "description": "3,500 cashew trees across 35 hectares in Odienné. Organic agroforestry. No synthetic chemicals. Farm OS tracks every block."
       },
       {
-        "title": "Quality Control",
-        "description": "Every batch undergoes rigorous quality checks to meet international standards for size, color, and taste."
+        "title": "Processing",
+        "description": "Phase 1 pilot facility (1,000-2,000 MT/year). Chemical-free shelling. Export-grade grading and vacuum packaging."
       },
       {
-        "title": "Efficient Distribution",
-        "description": "Vacuum-sealed packaging ensures freshness as our products travel from Ivory Coast to global markets."
+        "title": "Export",
+        "description": "FOB Abidjan. Full documentation package: COO, SGS, Phyto, Organic + Halal certs. Direct to EU, Middle East, and North America."
       }
     ]
   },
   "quality": {
-    "title": "Quality Assurance",
-    "description": "We implement strict quality control measures at every stage of production to ensure our cashews meet the highest international standards.",
+    "title": "Quality Specifications",
+    "description": "Every shipment meets export-grade standards. Moisture content, defect rates, and aflatoxin levels are measured and documented per batch.",
     "bullets": [
-      "Premium grade cashews with consistent sizing (W320, W240, W180)",
-      "Traceable to specific farms in our network",
-      "Regular laboratory testing for aflatoxins and contaminants"
+      "Grade A cashews with consistent sizing (W320, W240, W180)",
+      "Full traceability to specific farm blocks via Farm OS",
+      "Laboratory testing for aflatoxins, moisture, and contaminants"
     ]
   },
   "certifications": {
-    "title": "Our Certifications",
-    "subtitle": "Meeting global standards for quality and sustainability",
+    "title": "Certification Roadmap",
+    "subtitle": "Built from the ground up to meet international standards — unlocking premium pricing in global markets.",
     "organic": {
       "title": "Organic Certification",
       "targetDate": "2029 (Farm) / 2030 (Processing)"
@@ -132,18 +132,18 @@
   },
   "cta": {
     "title": "Ready to Source Premium Cashews?",
-    "subtitle": "Contact us for wholesale inquiries, product samples, or to discuss future availability",
-    "contact": "Contact Us",
+    "subtitle": "Request pricing, product samples, or discuss contract terms. We respond to wholesale inquiries within 24 hours.",
+    "contact": "Request Pricing",
     "viewAll": "View All Products"
   },
   "midCta": {
-    "title": "Interested in Our Products?",
-    "button": "Request Pricing"
+    "title": "Looking for Wholesale Supply?",
+    "button": "Visit Wholesale Page"
   },
   "processCta": {
-    "title": "See How We Process Our Cashews",
-    "description": "From harvest to packaging — tour our state-of-the-art processing facility and see how we maintain quality at every step.",
-    "button": "Visit Processing Facility"
+    "title": "See How We Process Cashews",
+    "description": "From harvest to export — tour our chemical-free processing approach and quality control systems.",
+    "button": "View Processing Overview"
   },
   "offlinePayment": {
     "title": "Offline Payment Instructions",
@@ -356,24 +356,24 @@
   "timeline": {
     "badge": "Production Roadmap",
     "title": "When Can You Order?",
-    "subtitle": "Our strategic growth from pilot to industrial scale",
+    "subtitle": "Phased rollout from pilot to industrial scale — aligned with our farm's maturation and certification timeline.",
     "overallProgress": "Overall Progress",
     "products": "products",
     "available": "available",
     "productsTba": "Products TBA",
     "pilot": "Pilot Production",
-    "pilotDesc": "Initial production and market testing",
+    "pilotDesc": "Initial production and market validation",
     "scale": "Scale Up",
     "scaleDesc": "Expanding processing capacity",
     "industrial": "Industrial Scale",
-    "industrialDesc": "Full-scale industrial production",
+    "industrialDesc": "Full-scale production",
     "availableNow": "Available Now",
-    "availableDesc": "Products ready for immediate order",
+    "availableDesc": "Ready for immediate order",
     "soon": "Coming Soon",
     "inProgress": "In Development",
-    "inProgressDesc": "Products currently in development",
+    "inProgressDesc": "Currently in development",
     "future": "Future",
-    "futureDesc": "Expanding our product line",
+    "futureDesc": "Planned product line expansion",
     "planned": "Planned",
     "plannedDesc": "Products in our future roadmap",
     "phase1": "Future Phase 1",

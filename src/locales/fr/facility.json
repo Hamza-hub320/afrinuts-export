@@ -1,32 +1,31 @@
 {
   "hero": {
     "subtitle": "Conception et Agencement de l'Installation",
-    "title": "Notre Installation de Transformation de Pointe",
-    "description": "Découvrez notre centre de transformation méticuleusement conçu pour l'efficacité, l'hygiène et l'évolutivité"
+    "title": "Une Installation de Transformation Conçue pour la Transparence",
+    "description": "Chaque zone, chaque processus, chaque point de contrôle de conformité — conçu pour l'efficacité et documenté dans Farm OS. Ce n'est pas juste un bâtiment. C'est l'infrastructure physique d'une plateforme de cajou axée sur la technologie."
   },
-  "backToProcessing": "Retour à la Transformation",
   "introduction": {
-    "title": "Agencement Optimisé de l'Installation",
-    "description": "Notre installation est stratégiquement conçue pour assurer un flux de travail fluide, une hygiène maximale et la conformité aux normes internationales tout en soutenant nos ambitions de croissance."
+    "title": "Conçue pour les Données, Construite pour l'Échelle",
+    "description": "L'agencement de notre installation ne concerne pas seulement le flux de travail — il s'agit de la capture de données. Chaque zone alimente Farm OS en informations : poids d'entrée, rendements de transformation, indicateurs de qualité et documentation de conformité. Lorsqu'un acheteur demande la traçabilité, les données sont déjà là."
   },
   "features": {
     "hygiene": {
-      "title": "Zones d'Hygiène",
-      "description": "Des zones sales et propres séparées empêchent la contamination croisée"
+      "title": "Zones d'Hygiène Surveillées Numériquement",
+      "description": "Zones sales et propres séparées avec calendriers d'assainissement enregistrés dans Farm OS et résultats des tests par écouvillonnage ATP"
     },
     "efficiency": {
-      "title": "Flux de Travail Efficace",
-      "description": "Le flux de production linéaire minimise la manutention et maximise l'efficacité"
+      "title": "Flux de Travail Axé sur les Données",
+      "description": "Flux de production linéaire où chaque étape alimente Farm OS en indicateurs pour une optimisation continue"
     },
     "sustainability": {
-      "title": "Conception Durable",
-      "description": "Systèmes économes en énergie et intégration de la gestion des déchets"
+      "title": "Durabilité Mesurable",
+      "description": "Consommation d'énergie et d'eau suivie dans Farm OS — pas estimée, vérifiée"
     }
   },
   "flowchart": {
     "title": "Organigramme de l'Installation",
-    "description": "Aperçu interactif de l'agencement et du flux de travail de notre installation de transformation",
-    "instructions": "Cliquez sur n'importe quelle zone pour en savoir plus sur sa fonction et ses caractéristiques"
+    "description": "Aperçu interactif de notre installation de transformation — chaque zone connectée à Farm OS pour une surveillance et une traçabilité en temps réel",
+    "instructions": "Cliquez sur n'importe quelle zone pour en savoir plus sur sa fonction et comment les données circulent vers Farm OS"
   },
   "legend": {
     "process": "Zones de Processus",
@@ -35,159 +34,159 @@
   },
   "zones": {
     "reception": {
-      "description": "Zone de réception initiale des noix de cajou brutes avec évaluation de la qualité et pesée",
+      "description": "Zone de réception initiale où les noix brutes entrent dans notre système de suivi Farm OS",
       "features": [
-        "Pont-bascule numérique pour une mesure précise",
-        "Station d'échantillonnage de qualité et de test d'humidité",
-        "Zone de rétention temporaire avant transfert au stockage",
-        "Traitement de la documentation fournisseur"
+        "Pont-bascule numérique — poids automatiquement enregistré dans le dossier du lot",
+        "Échantillonnage de qualité et test d'humidité — résultats stockés dans Farm OS",
+        "ID de lot fournisseur attribué et lié au suivi interne",
+        "Documentation numérisée et attachée au dossier de lot numérique"
       ]
     },
     "storage": {
-      "description": "Stockage à climat contrôlé pour les noix de cajou brutes avant transformation",
+      "description": "Stockage à climat contrôlé avec gestion d'inventaire Farm OS",
       "features": [
-        "Entrepôts ventilés avec contrôle de l'humidité",
-        "Palettes en bois surélevées pour éviter la contamination par l'humidité",
-        "Capacité de plus de 500 tonnes métriques de noix brutes",
-        "Systèmes de lutte antiparasitaire et surveillance régulière"
+        "Entrepôts ventilés avec capteurs d'humidité alimentant Farm OS en données",
+        "Suivi d'inventaire FIFO — âge et emplacement de chaque lot connus",
+        "Capacité de plus de 500 tonnes métriques avec niveaux de stock numériques",
+        "Registres de lutte antiparasitaire et calendriers de surveillance gérés dans Farm OS"
       ]
     },
     "dirtyZone": {
-      "description": "Zone de transformation initiale où les noix brutes sont nettoyées et préparées",
+      "description": "Transformation initiale — là où les noix brutes commencent leur parcours documenté",
       "features": [
-        "Zone dédiée au nettoyage et au tri initiaux",
-        "Systèmes d'extraction de poussière et de ventilation",
-        "Stations d'équipement de protection pour les travailleurs",
-        "Entrée/sortie séparée pour maintenir l'intégrité de la zone"
+        "Zone dédiée au nettoyage et au tri avec suivi des tâches dans Farm OS",
+        "Systèmes d'extraction de poussière avec registres de maintenance",
+        "Contrôles de conformité des EPI des travailleurs enregistrés numériquement",
+        "Entrée/sortie séparée pour maintenir l'intégrité de la zone — accès enregistré"
       ]
     },
     "cleanZone": {
-      "description": "Zone principale de transformation où le décorticage, le pelage et le calibrage ont lieu",
+      "description": "Zone principale de transformation — le cœur de notre opération suivie par Farm OS",
       "features": [
-        "Pression d'air positive pour prévenir la contamination",
-        "Stations d'hygiène à tous les points d'entrée",
-        "Équipement en acier inoxydable de qualité alimentaire",
-        "Contrôle de la température et de l'humidité"
+        "Pression d'air positive surveillée par capteurs — données enregistrées en continu",
+        "Stations d'hygiène avec enregistrements numériques de conformité",
+        "Équipement en acier inoxydable de qualité alimentaire avec calendriers de maintenance dans Farm OS",
+        "Température et humidité suivies par quart pour l'assurance qualité"
       ]
     },
     "grading": {
-      "description": "Zone de contrôle qualité où les amandes sont triées et calibrées",
+      "description": "Zone de contrôle qualité où les données des amandes sont capturées et analysées",
       "features": [
-        "Trieuses colorimétriques électroniques et calibreuses par taille",
-        "Stations de détection des métaux et d'assurance qualité",
-        "Éclairage naturel pour une évaluation précise des couleurs",
-        "Zone de documentation du contrôle qualité"
+        "Trieuses colorimétriques électroniques et calibreuses — résultats transmis à Farm OS",
+        "Détection de métaux avec journalisation automatique des rejets",
+        "Indicateurs de qualité par lot : distribution des grades, taux de défauts, profil de taille",
+        "Documentation QC auto-générée à partir des données Farm OS"
       ]
     },
     "finished": {
-      "description": "Stockage des amandes de cajou transformées et emballées",
+      "description": "Stockage des produits finis à climat contrôlé avec suivi complet des stocks",
       "features": [
-        "Environnement à climat contrôlé (15-18°C, 50-60% HR)",
-        "Système d'inventaire FIFO (Premier Entré, Premier Sorti)",
-        "Accès sécurisé avec contrôle d'inventaire",
-        "Emballage et stockage à l'épreuve des nuisibles"
+        "Environnement surveillé 24h/24 (15-18°C, 50-60% HR) — alertes dans Farm OS",
+        "Système FIFO avec lecture de codes-barres liée aux enregistrements de lot",
+        "Accès sécurisé avec journaux d'entrée numériques",
+        "Niveaux d'inventaire visibles en temps réel sur le tableau de bord Farm OS"
       ]
     },
     "dispatch": {
-      "description": "Zone de préparation à l'expédition et à l'exportation",
+      "description": "Préparation à l'exportation — là où les données de lot deviennent la documentation d'expédition",
       "features": [
-        "Quais de chargement pour camions conteneurs",
-        "Station de traitement de la documentation d'exportation",
-        "Point de contrôle qualité final",
-        "Zone sécurisée pour les expéditions de valeur"
+        "Quai de chargement avec suivi des conteneurs dans Farm OS",
+        "Documentation d'exportation auto-générée à partir des données de lot",
+        "Point de contrôle QC final avec signature numérique",
+        "Numéros de scellé de conteneur enregistrés et liés à l'ID de lot"
       ]
     },
     "locker": {
-      "description": "Installations d'hygiène et de vestiaires du personnel",
+      "description": "Installations d'hygiène et de vestiaires du personnel avec suivi de conformité",
       "features": [
-        "Vestiaires séparés hommes/femmes",
-        "Casiers personnels",
-        "Douches pour le personnel",
-        "Distribution d'uniformes et service de blanchisserie"
+        "Vestiaires séparés hommes/femmes avec accès numérique",
+        "Attribution des casiers personnels gérée dans le système RH",
+        "Distribution des uniformes suivie par employé",
+        "Calendrier d'assainissement enregistré dans Farm OS"
       ]
     },
     "prayer": {
-      "description": "Espace dédié à la prière et à la réflexion silencieuse",
+      "description": "Espace de prière dédié — partie de notre engagement envers la dignité des travailleurs",
       "features": [
         "Salles de prière séparées pour hommes et femmes",
         "Installations d'ablution avec eau courante",
         "Direction de la Qibla clairement indiquée",
-        "Environnement calme et propre pour le recueillement"
+        "Environnement calme et propre — maintenu selon un calendrier de nettoyage numérique"
       ]
     },
     "training": {
-      "description": "Salle polyvalente pour la formation du personnel et les réunions",
+      "description": "Là où notre équipe apprend à utiliser Farm OS et l'équipement de transformation",
       "features": [
-        "Équipement audiovisuel pour les présentations",
+        "Équipement audiovisuel pour les sessions de formation Farm OS",
         "Capacité de plus de 30 personnes",
-        "Matériel de formation et bibliothèque",
-        "Dispositions de sièges flexibles"
+        "Registres de formation suivis par employé dans le système RH",
+        "Suivi des certifications pour la sécurité alimentaire et l'utilisation des équipements"
       ]
     },
     "canteen": {
-      "description": "Espace de restauration et de pause du personnel",
+      "description": "Espace de restauration du personnel avec surveillance de l'hygiène",
       "features": [
-        "Zone de préparation des aliments hygiénique",
+        "Zone de préparation des aliments hygiénique avec registres numériques de température",
         "Places assises pour plus de 50 membres du personnel",
-        "Installations de rafraîchissement",
+        "Calendrier de nettoyage géré dans Farm OS",
         "Espace repas extérieur"
       ]
     },
     "water": {
-      "description": "Systèmes de traitement et de gestion de l'eau",
+      "description": "Gestion de l'eau — consommation suivie pour les rapports de durabilité",
       "features": [
-        "Purification de l'eau par osmose inverse",
-        "Systèmes de recyclage et de réutilisation de l'eau",
-        "Forage avec approvisionnement de secours",
-        "Station de surveillance de la qualité de l'eau"
+        "Purification par osmose inverse avec débitmètres alimentant Farm OS",
+        "Indicateurs de recyclage de l'eau suivis pour les rapports ESG",
+        "Forage avec approvisionnement de secours — niveaux surveillés",
+        "Résultats des tests de qualité de l'eau stockés numériquement"
       ]
     },
     "energy": {
-      "description": "Génération et gestion d'énergie durable",
+      "description": "Systèmes énergétiques — là où la durabilité rencontre les données",
       "features": [
-        "Chaudière à biomasse utilisant les coques de cajou comme combustible",
-        "Système solaire photovoltaïque pour l'alimentation auxiliaire",
-        "Générateur de secours pour un fonctionnement ininterrompu",
-        "Surveillance de la consommation d'énergie"
+        "Chaudière à biomasse utilisant les coques de cajou — consommation de combustible suivie",
+        "Production solaire PV surveillée en temps réel sur le tableau de bord Farm OS",
+        "Générateur de secours avec calendriers de test automatisés",
+        "Consommation d'énergie par lot calculée pour l'analyse des coûts"
       ]
     },
     "expansion": {
-      "description": "Zone réservée à l'expansion future de l'installation",
+      "description": "Zone de croissance future — infrastructure prête pour la mise à l'échelle de Farm OS",
       "features": [
-        "Connexions d'infrastructure pré-planifiées",
-        "Espace pour des lignes de transformation supplémentaires",
-        "Zone de développement futur pour le stockage frigorifique",
-        "Raccordements évolutifs aux services publics"
+        "Raccordements aux services publics pré-planifiés pour des lignes de transformation supplémentaires",
+        "Espace alloué pour le stockage frigorifique — infrastructure de surveillance précâblée",
+        "Infrastructure réseau et capteurs évolutive",
+        "Conçue pour doubler la capacité sans perturber les opérations"
       ]
     }
   },
   "compliance": {
-    "title": "Conformité et Normes",
-    "description": "Notre installation de transformation est conçue pour répondre aux normes internationales de sécurité alimentaire et de qualité dès le premier jour.",
+    "title": "Conformité et Normes — Documentées Numériquement",
+    "description": "Notre installation de transformation est conçue pour répondre aux normes internationales — et Farm OS crée la piste d'audit pour le prouver.",
     "hygiene": {
       "title": "Protocoles d'Hygiène et d'Assainissement",
       "features": [
-        "SSOPs alignés sur les directives du Codex Alimentarius",
-        "Stations automatisées de lavage des mains et de désinfection des bottes à tous les points d'entrée",
-        "Drainage avec pente de 2% et grilles anti-rongeurs dans toute l'installation",
-        "Zones séparées pour les matières premières et les produits finis",
-        "Tests quotidiens par écouvillonnage ATP sur les surfaces en contact avec les aliments"
+        "SSOPs alignés sur le Codex Alimentarius — listes de contrôle gérées dans Farm OS",
+        "Stations automatisées de lavage des mains et de désinfection des bottes — utilisation enregistrée",
+        "Drainage avec pente de 2% et grilles anti-rongeurs — registres d'inspection numériques",
+        "Zones séparées pour les matières premières et les produits finis — accès contrôlé et enregistré",
+        "Tests quotidiens par écouvillonnage ATP — résultats stockés dans Farm OS pour examen par les auditeurs"
       ]
     },
     "certifications": {
       "title": "Certifications en Cours",
-      "description": "Nous poursuivons activement les certifications internationales suivantes. Les délais sont soumis aux calendriers d'audit et à l'approbation réglementaire.",
+      "description": "Chaque certification nécessite une piste d'audit. Farm OS construit cette piste automatiquement.",
       "standards": [
-        "ISO 22000 Management de la Sécurité Alimentaire — Demande soumise, objectif 2029",
-        "Conformité et Certification Halal — Documentation en préparation, objectif 2028",
-        "Normes de Transformation Biologique (ECOCERT) — Transition de 3 ans débutée en 2027, objectif 2030",
-        "Commerce Équitable et Rainforest Alliance — Étude de faisabilité en cours"
+        "ISO 22000 Management de la Sécurité Alimentaire — registres HACCP numériques, objectif 2029",
+        "Conformité Halal — approvisionnement en ingrédients et ségrégation des processus documentés, objectif 2028",
+        "Transformation Biologique (ECOCERT) — suivi des intrants sur 3 ans dans Farm OS, objectif 2030",
+        "Commerce Équitable et Rainforest Alliance — registres numériques du travail et de l'environnement"
       ]
     }
   },
   "cta": {
-    "title": "Vous Voulez en Savoir Plus ?",
-    "description": "Contactez-nous pour une visite détaillée de l'installation ou des spécifications techniques",
+    "title": "Vous Voulez Voir les Données Derrière la Conception ?",
+    "description": "Contactez-nous pour une visite détaillée de l'installation ou pour discuter de la façon dont l'intégration de Farm OS offre une traçabilité de la réception à l'exportation.",
     "button": "Planifier une Visite de l'Installation",
     "backToFarm": "Retour à la Ferme"
   },
@@ -222,8 +221,8 @@
     ]
   },
   "qualityLab": {
-    "title": "Laboratoire de Contrôle Qualité Interne",
-    "subtitle": "Capacités de test pour la certification de qualité export",
+    "title": "Laboratoire de Contrôle Qualité Interne — Des Données, Pas des Opinions",
+    "subtitle": "Chaque résultat de test enregistré dans Farm OS pour une traçabilité au niveau du lot",
     "method": "Méthode",
     "standard": "Norme",
     "capabilities": [
@@ -232,25 +231,25 @@
       { "test": "Rendement en Amandes", "method": "Échantillonnage manuel", "standard": "52-55 lbs/compte d'amandes" },
       { "test": "Microbiologique", "method": "Culture sur film Petri", "standard": "ISO 22000" },
       { "test": "Matières Étrangères", "method": "Tri visuel + électronique", "standard": "0% matières étrangères" },
-      { "test": "Traçabilité", "method": "Suivi ERP au niveau du lot", "standard": "De la ferme à la fourchette" }
+      { "test": "Traçabilité", "method": "Suivi par lot Farm OS", "standard": "De la ferme au conteneur" }
     ],
-    "note": "Tous les tests sont documentés pour la traçabilité et la conformité à l'exportation"
+    "note": "Tous les résultats de tests stockés dans Farm OS et disponibles par lot pour vérification par l'acheteur"
   },
   "workerWelfare": {
-    "title": "Sécurité et Bien-être des Travailleurs",
-    "subtitle": "Notre équipe est notre plus grand atout",
+    "title": "Sécurité et Bien-être des Travailleurs — Suivis, Pas Juste Promis",
+    "subtitle": "Notre équipe est notre plus grand atout — et leur sécurité est documentée",
     "features": [
-      { "area": "EPI et Équipement de Sécurité", "details": "Gants, tabliers, lunettes de sécurité, masques anti-poussière fournis pour tout le personnel de transformation", "icon": "FaShieldAlt" },
-      { "area": "Protocoles d'Hygiène", "details": "Lavage des mains obligatoire avant l'entrée, charlottes, stations de désinfection des chaussures", "icon": "FaShower" },
-      { "area": "Postes de Travail Ergonomiques", "details": "Conçus pour réduire les microtraumatismes répétés avec hauteurs réglables", "icon": "FaCogs" },
-      { "area": "Premiers Soins et Médical", "details": "Trousse de premiers soins sur place, secouristes formés, couverture d'assurance maladie", "icon": "FaInfoCircle" },
-      { "area": "Salaires Équitables", "details": "Au-dessus du salaire minimum avec cycles de paie réguliers et compensation des heures supplémentaires", "icon": "FaUsers" },
-      { "area": "Formation et Développement", "details": "Formation continue aux compétences et parcours de progression de carrière", "icon": "FaChalkboardTeacher" }
+      { "area": "EPI et Équipement de Sécurité", "details": "Gants, tabliers, lunettes de sécurité, masques anti-poussière — distribution suivie par employé", "icon": "FaShieldAlt" },
+      { "area": "Protocoles d'Hygiène", "details": "Enregistrement numérique aux stations d'assainissement, conformité surveillée par quart", "icon": "FaShower" },
+      { "area": "Postes de Travail Ergonomiques", "details": "Conçus pour réduire la fatigue — évaluations des postes de travail documentées", "icon": "FaCogs" },
+      { "area": "Premiers Soins et Médical", "details": "Premiers soins sur place, secouristes formés, rapports d'incident enregistrés numériquement", "icon": "FaInfoCircle" },
+      { "area": "Salaires Équitables", "details": "Au-dessus du salaire minimum, paie numérique, heures supplémentaires suivies dans le système RH", "icon": "FaUsers" },
+      { "area": "Formation et Développement", "details": "Formation Farm OS et équipement — achèvement suivi par employé", "icon": "FaChalkboardTeacher" }
     ]
   },
   "projectTimeline": {
     "title": "Calendrier du Projet",
-    "description": "Jalons clés pour le développement de l'installation",
+    "description": "Jalons clés — suivis et mis à jour au fur et à mesure de notre progression",
     "milestones": [
       { "phase": "2026-2027", "milestone": "Collecte de Fonds et Préparation du Site", "status": "En Cours", "icon": "FaChartLine" },
       { "phase": "2027-2028", "milestone": "Construction et Équipement", "status": "Planifié", "icon": "FaIndustry" },

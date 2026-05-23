@@ -30,6 +30,8 @@ import { trackCtaClick, trackDownload, trackFormSubmission } from '@/utils/analy
 import investorProspectus from '@/assets/documents/investor-prospectus.pdf';
 import wholesalePriceList from '@/assets/documents/wholesale-price-list.pdf';
 import certificationRoadmap from '@/assets/documents/certification-roadmap.pdf';
+import JsonLd from "@/components/Seo/JsonLd";
+import { Helmet } from 'react-helmet-async';
 
 interface FAQItem {
     question: string;
@@ -159,6 +161,26 @@ const Faq: React.FC = () => {
 
     return (
         <main>
+            <Helmet>
+                <title>Frequently Asked Questions | AfriNuts Export | Organic Cashews & Ethical Investment</title>
+                <meta name="description" content="Get clear answers about our organic cashew farm in Odienné, Côte d'Ivoire. Learn about sustainability, processing plans, community impact, and how to partner with us." />
+                <link rel="canonical" href="https://www.afrinutsexport.com/faq" />
+            </Helmet>
+
+            <JsonLd data={{
+                "@context": "https://schema.org",
+                "@type": "FAQPage",
+                "name": "AfriNuts Export Frequently Asked Questions",
+                "description": "Answers about organic cashew farming, sustainability, processing, and investment in Côte d'Ivoire.",
+                "mainEntity": [{
+                    "@type": "Question",
+                    "name": "What is AfriNuts Export?",
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": "AfriNuts Export is a family-owned cashew farm and future processing company based in Odienné, Ivory Coast. We grow organic cashews, plan to build a local processing facility, and reinvest 10% of our profits into community development."
+                    }
+                }]
+            }} />
             {/* Hero */}
             <Section className="flex items-center justify-center text-center min-h-[40vh]">
                 <motion.div className="max-w-4xl px-6 sm:px-8 py-12" initial="hidden" animate="visible" variants={staggerContainer}>

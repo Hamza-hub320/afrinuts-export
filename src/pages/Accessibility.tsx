@@ -29,8 +29,8 @@ const Accessibility: React.FC = () => {
         <main>
             {/* Hero Section */}
             <Section
-                fullHeight={true}
-                className="flex items-center justify-center text-center min-h-[60vh] bg-gradient-to-b from-primary/10 to-transparent"
+                fullHeight={false}
+                className="flex items-center justify-center text-center min-h-[40vh]"
             >
                 <motion.div
                     className="max-w-4xl px-6 sm:px-8 py-12"

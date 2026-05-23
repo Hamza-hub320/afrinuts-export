@@ -25,6 +25,8 @@ import farmImage from '@/assets/images/farm-vision.webp';
 import processingImage from '@/assets/images/processing-vision.webp';
 import { IconType } from 'react-icons';
 import {TimelineCard} from "@/components/TimelineCard/TimelineCard";
+import {Helmet} from "react-helmet-async";
+import JsonLd from "@/components/Seo/JsonLd";
 
 const Vision: React.FC = () => {
     const { t } = useTranslation('vision');
@@ -64,6 +66,24 @@ const Vision: React.FC = () => {
 
     return (
         <main>
+            <Helmet>
+                <title>{t('seo.title')}</title>
+                <meta name="description" content={t('seo.description')} />
+                <link rel="canonical" href="https://www.afrinutsexport.com/vision" />
+            </Helmet>
+
+            <JsonLd data={{
+                "@context": "https://schema.org",
+                "@type": "WebPage",
+                "name": "Our Vision | Building Africa's Premier Ethical Cashew Brand",
+                "description": "AfriNuts Export's vision to transform West African agriculture through vertical integration, ethical finance, and community reinvestment.",
+                "url": "https://www.afrinutsexport.com/vision",
+                "about": {
+                    "@type": "Organization",
+                    "name": "AfriNuts Export",
+                    "description": "Building a vertically integrated, ethical cashew value chain rooted in Côte d'Ivoire."
+                }
+            }} />
             {/* Hero Section */}
             <Section
                 fullHeight={false}
@@ -136,6 +156,46 @@ const Vision: React.FC = () => {
                                 {t('intro.content')}
                             </Typography>
                         </motion.div>
+                    </motion.div>
+                </div>
+            </Section>
+
+            {/* Current Traction */}
+            <Section className="py-10">
+                <div className="w-full max-w-6xl mx-auto px-4 sm:px-6">
+                    <motion.div
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={staggerContainer}
+                    >
+                        <div className="text-center mb-10">
+                            <Typography variant="h2" className="mb-4">
+                                {t('traction.title', 'Where We Are Today')}
+                            </Typography>
+                        </div>
+
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            {(t('traction.items', { returnObjects: true }) as Array<{ stat: string; label: string; desc: string }>).map((item, idx) => (
+                                <motion.div
+                                    key={idx}
+                                    variants={fadeIn}
+                                    transition={{ delay: idx * 0.1 }}
+                                >
+                                    <InfoCard
+                                        title={item.stat}
+                                        subtitle={item.label}
+                                        iconColor="text-accent"
+                                        showInfoBadge={false}
+                                        className="h-full text-center"
+                                    >
+                                        <Typography variant="subtitle" className="text-gray-500 text-s">
+                                            {item.desc}
+                                        </Typography>
+                                    </InfoCard>
+                                </motion.div>
+                            ))}
+                        </div>
                     </motion.div>
                 </div>
             </Section>
@@ -591,9 +651,12 @@ const Vision: React.FC = () => {
                         viewport={{ once: true }}
                         variants={staggerContainer}
                     >
-                        <div className="text-center mb-16">
+                        <div className="text-center mb-12">
                             <Typography variant="h2">
                                 {t('innovation.title')}
+                            </Typography>
+                            <Typography variant="subtitle" className="mt-4 max-w-3xl mx-auto text-gray-600">
+                                {t('innovation.subtitle')}
                             </Typography>
                         </div>
 
@@ -614,7 +677,9 @@ const Vision: React.FC = () => {
                                         iconColor="text-accent"
                                         className="h-full"
                                     >
-                                        {item.content}
+                                        <Typography variant="small" className="text-gray-600">
+                                            {item.content}
+                                        </Typography>
                                     </InfoCard>
                                 </motion.div>
                             ))}

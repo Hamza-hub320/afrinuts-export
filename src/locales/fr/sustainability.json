@@ -1,13 +1,13 @@
 {
   "hero": {
-    "title": "Culture de Noix de Cajou Durable et Biologique en Côte d'Ivoire",
-    "subtitle": "Cultiver des noix de cajou premium tout en protégeant notre planète et en autonomisant notre communauté"
+    "title": "Une Durabilité Que Vous Pouvez Vérifier. Pas Juste Des Promesses.",
+    "subtitle": "Notre Farm OS suit les indicateurs environnementaux en même temps que les données de production. Pratiques biologiques, conservation de l'eau et transformation zéro déchet — documentées, mesurées et vérifiables publiquement."
   },
   "intro": {
     "title": "Pourquoi la Culture Durable de la Noix de Cajou est Importante pour l'Afrique de l'Ouest",
     "content": [
-      "La Côte d'Ivoire est le plus grand producteur mondial de noix de cajou, mais les méthodes agricoles conventionnelles ont souvent un coût — déforestation, épuisement de l'eau et faibles revenus des agriculteurs. Chez AfriNuts Export, nous prouvons que les noix de cajou peuvent être cultivées différemment.",
-      "Notre approche combine l'agriculture biologique, des pratiques de travail équitables et le réinvestissement communautaire. Nous protégeons les écosystèmes tout en garantissant aux agriculteurs un revenu digne. Ce n'est pas seulement de la durabilité — c'est l'avenir de l'agriculture ivoirienne."
+      "La Côte d'Ivoire est le plus grand producteur mondial de noix de cajou, mais les méthodes agricoles conventionnelles ont souvent un coût — déforestation, épuisement de l'eau et faibles revenus des agriculteurs. Chez AfriNuts Export, nous prouvons que les noix de cajou peuvent être cultivées différemment — et nous pouvons le prouver avec des données.",
+      "Notre Farm OS ne suit pas seulement la production. Il suit notre empreinte environnementale : consommation d'eau, intrants biologiques, détournement des déchets et indicateurs de santé des sols. Ce n'est pas seulement de la durabilité — c'est une agriculture vérifiable, axée sur la technologie."
     ]
   },
   "environment": {
@@ -39,26 +39,26 @@
       ]
     },
     "solutions": {
-      "title": "Comment AfriNuts Résout Ces Problèmes",
+      "title": "Comment AfriNuts Résout Ces Problèmes — Avec des Données pour le Prouver",
       "items": [
         {
           "title": "Agroforesterie et Biodiversité",
-          "content": "Nous cultivons les noix de cajou en association avec des arbres indigènes sur notre ferme de 35 hectares, créant un habitat pour les espèces locales et améliorant le carbone du sol.",
+          "content": "Nous cultivons les noix de cajou en association avec des arbres indigènes sur notre ferme de 35 hectares, créant un habitat pour les espèces locales. Chaque arbre est cartographié dans Farm OS avec des coordonnées GPS.",
           "icon": "FaSeedling"
         },
         {
           "title": "Conservation de l'Eau",
-          "content": "L'irrigation goutte à goutte et la collecte des eaux de pluie réduisent la consommation d'eau jusqu'à 60 % par rapport aux méthodes conventionnelles.",
+          "content": "L'irrigation goutte à goutte et la collecte des eaux de pluie réduisent la consommation d'eau jusqu'à 60 %. Les indicateurs d'eau sont enregistrés dans Farm OS pour une amélioration continue.",
           "icon": "FaTint"
         },
         {
           "title": "Méthodes 100 % Biologiques",
-          "content": "Aucun pesticide ni engrais synthétique. Nous utilisons du compost, des prédateurs naturels de ravageurs et la rotation des cultures.",
+          "content": "Aucun pesticide ni engrais synthétique — vérifié par notre suivi numérique des intrants. Chaque application est enregistrée par bloc, par date.",
           "icon": "FaBug"
         },
         {
           "title": "Transformation Zéro Déchet",
-          "content": "Les coques de cajou deviennent du biocarburant pour notre centre de transformation. Les pommes de cajou deviennent du jus, du vinaigre et de l'alimentation animale.",
+          "content": "Les coques de cajou deviennent du biocarburant pour notre centre de transformation. Les pommes de cajou deviennent du jus, du vinaigre et de l'alimentation animale. Le détournement des déchets est suivi mensuellement.",
           "icon": "FaRecycle"
         }
       ]
@@ -89,17 +89,17 @@
     }
   },
   "future": {
-    "title": "Notre Feuille de Route pour la Durabilité 2031",
+    "title": "Notre Feuille de Route Durabilité 2031 — Suivie dans Farm OS",
     "content": [
-      "D'ici 2028 : Atteindre la neutralité carbone sur l'ensemble de notre chaîne d'approvisionnement (de la ferme au port).",
-      "D'ici 2031 : Atteindre une transformation zéro déchet dans notre installation (coques → biocarburant, pommes → produits à valeur ajoutée).",
-      "D'ici 2031 : Mettre en œuvre la traçabilité par blockchain pour que les acheteurs puissent suivre chaque noix de cajou de l'arbre à l'exportation."
+      "D'ici 2028 : Atteindre la neutralité carbone sur l'ensemble de notre chaîne d'approvisionnement (de la ferme au port) — progrès suivis trimestriellement.",
+      "D'ici 2031 : Atteindre une transformation zéro déchet dans notre installation (coques → biocarburant, pommes → produits à valeur ajoutée) — indicateurs de détournement des déchets publiés.",
+      "D'ici 2031 : Mettre en œuvre la traçabilité par blockchain pour que les acheteurs puissent suivre chaque noix de cajou de l'arbre à l'exportation — construit sur notre infrastructure Farm OS existante."
     ],
-    "cta": "Découvrir notre Feuille de Route pour la Durabilité 2031"
+    "cta": "Découvrir notre Feuille de Route Durabilité 2031"
   },
   "endCta": {
-    "title": "Voir la Durabilité en Action",
-    "content": "Nos pratiques de durabilité font partie d'une vision plus large. Découvrez comment nous construisons une entreprise de noix de cajou éthique et verticalement intégrée, de la ferme aux marchés mondiaux.",
+    "title": "Une Durabilité Soutenue par la Technologie",
+    "content": "Nos pratiques de durabilité ne sont pas que des promesses — elles sont suivies dans Farm OS, vérifiées par des auditeurs tiers et visibles pour les acheteurs et les investisseurs. Découvrez comment nous construisons une entreprise de noix de cajou éthique et verticalement intégrée, de la ferme aux marchés mondiaux.",
     "visionButton": "Notre Vision",
     "productsButton": "Voir les Produits"
   }

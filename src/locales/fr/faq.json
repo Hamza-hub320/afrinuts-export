@@ -1,8 +1,8 @@
 {
   "hero": {
     "title": "Foire Aux Questions sur AfriNuts Export",
-    "subtitle": "Noix de Cajou Bio, Agriculture Durable et Investissement Éthique",
-    "description": "Obtenez des réponses claires et directes sur notre ferme de noix de cajou biologique à Odienné, Côte d'Ivoire. Découvrez nos pratiques de durabilité, nos plans de centre de transformation, notre impact communautaire et comment collaborer avec nous."
+    "subtitle": "Noix de Cajou Bio, Technologie Farm OS et Investissement Éthique",
+    "description": "Obtenez des réponses claires sur notre ferme de noix de cajou axée sur la technologie à Odienné, Côte d'Ivoire. Découvrez la traçabilité Farm OS, les pratiques biologiques, les plans de transformation, l'impact communautaire et comment collaborer avec nous."
   },
   "audience": {
     "all": "Tous les Utilisateurs",
@@ -27,12 +27,12 @@
     "questions": [
       {
         "question": "Qu'est-ce qu'AfriNuts Export ?",
-        "answer": "AfriNuts Export est une ferme de noix de cajou familiale et une future entreprise de transformation basée à Odienné, en Côte d'Ivoire. Nous cultivons des noix de cajou biologiques, prévoyons de construire une installation de transformation locale et réinvestissons 10 % de nos bénéfices dans le développement communautaire comme les écoles, les puits d'eau et les mosquées.",
+        "answer": "AfriNuts Export est une ferme de noix de cajou axée sur la technologie et une future entreprise de transformation basée à Odienné, Côte d'Ivoire. Nous cultivons des noix de cajou biologiques sur notre ferme de 35 hectares, gérons les opérations via notre plateforme Farm OS sur mesure et réinvestissons 10 % des bénéfices dans le développement communautaire comme les écoles, les puits d'eau et les mosquées.",
         "audience": ["all", "customers"]
       },
       {
         "question": "Où se trouve votre ferme ?",
-        "answer": "Notre ferme de noix de cajou est située sur un terrain de 35 hectares à Odienné, une région du nord-ouest de la Côte d'Ivoire. 35 hectares sont consacrés aux anacardiers, et nous prévoyons d'y construire un centre de transformation à l'avenir.",
+        "answer": "Notre ferme de noix de cajou de 35 hectares se trouve à Odienné, dans le nord-ouest de la Côte d'Ivoire. Chaque bloc est cartographié par GPS dans notre Farm OS — nous pouvons vous dire exactement de quelle rangée et colonne proviennent vos noix de cajou.",
         "audience": ["all", "customers", "b2b"]
       },
       {
@@ -47,18 +47,12 @@
     "questions": [
       {
         "question": "Comment cultivez-vous vos noix de cajou ?",
-        "answer": "Nous plantons directement dans le sol en utilisant des semences de haute qualité, ce qui est la norme locale et une méthode économique. Notre densité de plantation est de 100 arbres par hectare. Nous maintenons également une réserve de 500 plants en pépinière pour remplacer ceux qui échouent pendant la croissance précoce.",
-        "audience": ["all", "b2b"],
-        "visualAid": {
-          "type": "image",
-          "src": "/assets/images/farm-hero.webp",
-          "alt": "Processus de culture de la noix de cajou",
-          "caption": "Nos pratiques de culture durable de la noix de cajou"
-        }
+        "answer": "Nous plantons 100 arbres par hectare sur 35 blocs suivis individuellement. Notre Farm OS enregistre les dates de plantation, les taux de survie et les activités d'entretien par bloc — pas par ferme. Nous maintenons également une réserve de pépinière de 500 plants pour le remplacement.",
+        "audience": ["all", "b2b"]
       },
       {
         "question": "Quand a lieu votre saison de récolte ?",
-        "answer": "Les anacardiers commencent généralement à produire en année 3, atteignent des rendements commerciaux précoces en année 4-5, et atteignent leur pleine maturité en année 7+. Nos premiers arbres ont été plantés en 2026. Nous prévoyons notre première petite récolte en 2029, avec des volumes croissants chaque saison. La production maximale est attendue d'ici 2031.",
+        "answer": "Nos premiers arbres ont été plantés en 2026. Première petite récolte prévue en 2029, avec une production maximale d'ici 2031. Chaque récolte est enregistrée dans Farm OS par bloc, date et volume — les acheteurs reçoivent ces données avec leur expédition.",
         "audience": ["all", "b2b"]
       },
       {
@@ -138,20 +132,17 @@
     ]
   },
   "quality": {
-    "title": "Qualité",
+    "title": "Qualité et Traçabilité",
     "questions": [
       {
         "question": "Comment assurez-vous la qualité de vos noix de cajou ?",
-        "answer": "Nous mettons en œuvre des contrôles de qualité stricts à la ferme, de la sélection des semences au moment de la récolte et à la manutention post-récolte. Notre futur centre de transformation sera équipé d'une technologie moderne de tri et de calibrage pour garantir une qualité premium.",
+        "answer": "Le contrôle qualité commence au champ. Notre Farm OS suit la teneur en humidité, le nombre de noix et les taux de défauts par lot. Lorsque vous recevez une expédition, vous recevez les données — pas seulement les noix.",
         "audience": ["all", "b2b"]
       },
       {
         "question": "Vos produits sont-ils traçables ?",
-        "answer": "Oui. Nous utilisons une tenue de registres transparente et un suivi par lots, permettant aux clients de retracer les produits jusqu'à la ferme et la saison de récolte.",
-        "audience": ["all", "b2b"],
-        "actions": {
-          "download": "/documents/protocole-tracabilite.pdf"
-        }
+        "answer": "Oui — et nous le pensons différemment de la plupart des fournisseurs. Notre Farm OS fournit une traçabilité au niveau du bloc : coordonnées GPS, date de récolte, lot de transformation et indicateurs de qualité. Entrez votre ID de lot sur notre page Trace et voyez le parcours complet par vous-même. Aucune connexion requise.",
+        "audience": ["all", "b2b"]
       }
     ]
   },
@@ -159,8 +150,8 @@
     "title": "B2B et Vente en Gros",
     "questions": [
       {
-        "question": "Quelle est votre Quantité Minimum de Commande (MOQ) ?",
-        "answer": "Notre MOQ pour les commandes en gros est de 1 tonne métrique. Pour les petites commandes d'essai, nous pouvons répondre aux demandes au cas par cas.",
+        "question": "Quelles options logistiques proposez-vous ?",
+        "answer": "Nous expédions depuis le Port d'Abidjan — l'un des ports en eau profonde les plus efficaces d'Afrique de l'Ouest. Délais actuels : 4-6 semaines vers l'Europe, 6-8 semaines vers l'Amérique du Nord, 3-4 semaines vers le Moyen-Orient. Chaque expédition comprend la documentation de traçabilité Farm OS.",
         "audience": ["b2b", "partners"],
         "actions": {
           "contact": true
@@ -194,7 +185,7 @@
     "questions": [
       {
         "question": "Puis-je investir dans AfriNuts Export ?",
-        "answer": "Oui. Nous accueillons les investisseurs éthiques alignés sur notre mission et nos valeurs. Les opportunités d'investissement sont structurées pour être conformes aux normes éthiques internationales et islamiques.",
+        "answer": "Oui. Nous accueillons les investisseurs éthiques alignés sur notre mission. Notre tableau de bord investisseur offre une visibilité en temps réel sur les performances de la ferme — arbres vivants, dépenses par bloc, revenus par niveau de qualité. Ce sont les mêmes données que nous utilisons pour gérer l'entreprise. Commencez par télécharger notre NDA sur la page Investir.",
         "audience": ["all", "investors"],
         "actions": {
           "request": "dossier-investisseur"
@@ -212,7 +203,7 @@
       },
       {
         "question": "Fournissez-vous des audits de durabilité ?",
-        "answer": "Oui, nous effectuons des audits de durabilité annuels et mettons les rapports de synthèse à la disposition des investisseurs et des partenaires.",
+        "answer": "Oui. Notre Farm OS suit les indicateurs environnementaux en même temps que les données de production — consommation d'eau, intrants biologiques, détournement des déchets. Nous fournissons des rapports de synthèse aux investisseurs avec des données extraites directement de notre système d'exploitation, pas des estimations.",
         "audience": ["investors"],
         "actions": {
           "download": "/documents/rapport-durabilite.pdf"
@@ -248,7 +239,7 @@
     "questions": [
       {
         "question": "Qui dirige AfriNuts Export ?",
-        "answer": "AfriNuts Export est dirigée par une équipe expérimentée dans l'agriculture, les affaires et le développement communautaire, engagée envers un leadership éthique et l'autonomisation rurale.",
+        "answer": "AfriNuts est dirigée par Hamza Sangare (PDG) — un ingénieur logiciel qui a construit Farm OS lui-même — aux côtés d'une équipe experte en finance, agriculture, technologie et développement communautaire. La double formation de notre fondateur en technologie et en agriculture est ce qui rend notre modèle opérationnel possible.",
         "audience": ["all", "investors"]
       },
       {
@@ -274,7 +265,7 @@
     ]
   },
   "cta": {
-    "requestInfo": "Demander des Informations",
+    "requestInfo": "Demander des Infos",
     "requestPartnership": "Demander des Infos Partenariat",
     "requestQuote": "Demander un Devis",
     "requestPricing": "Demander des Infos sur les Prix",

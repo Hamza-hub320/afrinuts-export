@@ -32,6 +32,7 @@ import StatsCounter from '../components/StatsCounter/StatsCounter';
 import InteractiveMap from '../components/InteractiveMap/InteractiveMap';
 import { InfoCard } from "../components/InfoCard/InfoCard";
 import JsonLd from "@/components/Seo/JsonLd";
+import {Helmet} from "react-helmet-async";
 
 const Farm = () => {
     const { t } = useTranslation('farm');
@@ -123,6 +124,11 @@ const Farm = () => {
 
     return (
         <Suspense fallback={<div>Loading...</div>}>
+            <Helmet>
+                <title>The AfriNuts Export Farm | 35-Hectare Cashew Plantation in Odienné, Côte d'Ivoire</title>
+                <meta name="description" content="Explore our 35-hectare organic cashew farm in Odienné, Côte d'Ivoire. Block-level tracking, sustainable agroforestry, 3,500 trees, and a 200+ farmer cooperative. First harvest expected 2029." />
+                <link rel="canonical" href="https://www.afrinutsexport.com/farm" />
+            </Helmet>
             <JsonLd data={{
                 "@context": "https://schema.org",
                 "@type": "WebPage",

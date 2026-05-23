@@ -1,11 +1,15 @@
 {
+  "seo": {
+    "title": "Traçabilité du Cajou | Suivi de Lot Vérifié par Farm OS | AfriNuts Export",
+    "description": "Traçabilité au niveau du bloc alimentée par AfriNuts Farm OS. Suivez votre expédition de noix de cajou depuis notre ferme de 35 hectares à Odienné, Côte d'Ivoire — coordonnées GPS, dates de récolte, indicateurs de qualité et vérification des certifications. Pas juste une trace papier. Une preuve."
+  },
   "page": {
-    "title": "Traçabilité des Lots AfriNuts",
-    "description": "Consultez les informations détaillées sur ce lot, de la récolte à la transformation en passant par les contrôles qualité."
+    "title": "Traçabilité des Lots AfriNuts | Vérifié par Farm OS",
+    "description": "Consultez les données de traçabilité au niveau du bloc pour votre expédition de noix de cajou — dates de récolte, coordonnées GPS, indicateurs de qualité et vérification des certifications. Alimenté par AfriNuts Farm OS."
   },
   "promo": {
-    "heading": "Traçabilité Prête pour l'Audit pour les Importateurs Exigeants",
-    "subheading": "Chaque expédition AfriNuts est accompagnée d'un code de traçabilité unique. Scannez votre QR code ou saisissez votre ID de lot pour voir le parcours complet — de notre ferme à votre porte."
+    "heading": "Pas Juste une Trace Papier. Vérifié par Farm OS.",
+    "subheading": "Chaque expédition AfriNuts est accompagnée d'un code de traçabilité unique lié à notre Farm OS. Scannez votre QR code ou saisissez votre ID de lot pour voir l'enregistrement numérique complet — du bloc exact à Odienné jusqu'à votre conteneur. La plupart des fournisseurs envoient des documents. Nous envoyons des preuves."
   },
   "search": {
     "placeholder": "Entrez votre ID de lot...",
@@ -24,34 +28,34 @@
     },
     "trace": {
       "title": "2. Entrez Votre ID de Lot",
-      "description": "Ou saisissez votre ID de lot ci-dessus pour voir le parcours complet de votre commande."
+      "description": "Ou saisissez votre ID de lot ci-dessus pour accéder à l'enregistrement numérique complet — sans paperasse."
     },
     "view": {
-      "title": "3. Consultez le Parcours Complet",
-      "description": "Du bloc exact à Odienné en passant par la transformation, la certification et la livraison."
+      "title": "3. Consultez le Parcours Numérique Complet",
+      "description": "Voyez l'emplacement exact du bloc, la date de récolte, les détails de transformation, les indicateurs de qualité, les certifications et la documentation d'expédition."
     }
   },
   "trust": {
-    "title": "Comment Nous Vérifions la Traçabilité",
-    "farm": "Origine unique de notre ferme de 35 hectares à Odienné, Côte d'Ivoire",
-    "batch": "IDs de lot uniques suivis de la récolte à la livraison",
-    "public": "Vérifiable publiquement — toute personne ayant l'ID de lot peut vérifier",
-    "certs": "Certifications vérifiées et affichées par lot",
-    "origin": "Origine Vérifiée",
-    "originDesc": "Coordonnées GPS enregistrées à la récolte depuis notre ferme à Odienné",
-    "batchTitle": "Lot Enregistré",
-    "batchDesc": "Chaque lot reçoit un ID unique suivi à chaque étape",
-    "transparent": "Visible Publiquement",
-    "transparentDesc": "Toute personne ayant l'ID de lot peut vérifier ces informations"
+    "title": "Ce Qui Rend Notre Traçabilité Différente",
+    "farm": "Origine unique de notre ferme de 35 hectares à Odienné, Côte d'Ivoire — pas de lots mélangés de sources inconnues",
+    "batch": "IDs de lot uniques suivis dans Farm OS de la récolte à la livraison — pas un registre papier",
+    "public": "Vérifiable publiquement — toute personne ayant l'ID de lot peut vérifier. Aucune connexion requise.",
+    "certs": "Certifications vérifiées et affichées par lot — pas seulement des affirmations sur un site web",
+    "origin": "Origine Vérifiée par GPS",
+    "originDesc": "Coordonnées GPS enregistrées à la récolte depuis notre ferme à Odienné — vérifiable sur n'importe quelle carte",
+    "batchTitle": "Enregistrement de Lot Farm OS",
+    "batchDesc": "Chaque lot reçoit un ID numérique unique suivi à chaque étape dans notre système d'exploitation personnalisé",
+    "transparent": "Vérifiable Publiquement",
+    "transparentDesc": "Toute personne ayant l'ID de lot peut vérifier ces informations — acheteurs, douanes, investisseurs"
   },
   "promoCta": {
-    "title": "Vous Voulez Cela Pour Vos Commandes ?",
-    "description": "Chaque commande en gros AfriNuts Export inclut la traçabilité. Contactez-nous pour passer votre première commande et découvrez une transparence totale de la chaîne d'approvisionnement.",
-    "button": "Demander un Devis"
+    "title": "Vous Voulez Ce Niveau de Transparence Pour Vos Commandes ?",
+    "description": "Chaque commande en gros AfriNuts Export inclut la traçabilité Farm OS. Contactez-nous pour passer votre première commande et découvrez une transparence de la chaîne d'approvisionnement que la plupart des fournisseurs ouest-africains ne peuvent pas offrir.",
+    "button": "Demander un Devis Traçable"
   },
   "batch": {
     "harvestDate": "Date de Récolte",
-    "farmLocation": "Localisation de la Ferme",
+    "farmLocation": "Localisation de la Ferme (Vérifié par GPS)",
     "processingInfo": "Informations de Transformation",
     "certifications": "Certifications",
     "qualityCheckResults": "Résultats du Contrôle Qualité",
@@ -61,12 +65,12 @@
     "previewNotice": "Aperçu du lot par défaut (aucun ID de lot fourni dans l'URL)"
   },
   "batchInfo": {
-    "verified": "Lot Vérifié"
+    "verified": "Vérifié par Farm OS"
   },
   "journey": {
-    "title": "Le Parcours de Votre Commande",
+    "title": "Le Parcours Numérique de Votre Commande",
     "scrollHint": "Faites glisser pour explorer le parcours",
-    "subtitle": "Suivez vos noix de cajou de notre ferme à Odienné jusqu'à votre porte.",
+    "subtitle": "Suivez vos noix de cajou de notre ferme à Odienné jusqu'à votre porte — chaque étape enregistrée dans Farm OS.",
     "farm": "Ferme",
     "farmDesc": "Récolté du Bloc {block}",
     "process": "Transformation",
@@ -84,11 +88,11 @@
     "docsDesc": "COO, Phyto, B/L"
   },
   "compliance": {
-    "description": "Chaque lot traçable est accompagné d'une documentation de conformité complète.",
+    "description": "Chaque lot traçable est accompagné d'une documentation de conformité complète — pas seulement des promesses, des enregistrements vérifiables.",
     "link": "Télécharger le Dossier de Conformité"
   },
   "ctaQuote": {
-    "description": "Chaque commande en gros inclut une traçabilité complète. Obtenez votre devis aujourd'hui.",
+    "description": "Chaque commande en gros inclut une traçabilité Farm OS complète. Obtenez votre devis aujourd'hui.",
     "button": "Demander un Lot Traçable"
   },
   "testimonials": {

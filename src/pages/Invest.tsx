@@ -6,7 +6,7 @@ import {
     FaChartLine, FaIndustry, FaLeaf, FaShieldAlt, FaUsers,
     FaArrowRight, FaDownload, FaHandshake, FaCalendarAlt, FaFileContract, FaCheckCircle,
     FaHeart, FaSolarPanel, FaGlobeAfrica, FaChartPie,
-    FaMoneyBillWave, FaBuilding, FaSeedling, FaInfoCircle, FaChartBar, FaCrown, FaRecycle
+    FaMoneyBillWave, FaBuilding, FaSeedling, FaInfoCircle, FaChartBar, FaCrown, FaRecycle, FaMobile
 } from 'react-icons/fa';
 import {
     BarChart, Bar, XAxis, YAxis, CartesianGrid,
@@ -226,6 +226,52 @@ const Invest: React.FC = () => {
                     <Typography variant="body" className="text-primary-dark italic relative z-10 text-center">{t('funding.quote')}</Typography>
                 </motion.div>
             </div></Section>
+
+            {/* Farm OS: Technology Behind the Investment */}
+            <Section className="py-10">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6">
+                    <motion.div className="text-center mb-10" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
+                        <Typography variant="h2" className="mb-4">{t('farmOs.title')}</Typography>
+                        <Typography variant="body" className="text-gray-600 max-w-3xl mx-auto">{t('farmOs.body')}</Typography>
+                    </motion.div>
+
+                    <div className="grid md:grid-cols-2 gap-8">
+                        {/* Capabilities */}
+                        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
+                            <InfoCard icon={FaMobile} title="Investor-Grade Technology" variant="primary" showInfoBadge={false}>
+                                <ul className="space-y-2 text-sm">
+                                    {(t('farmOs.capabilities', { returnObjects: true }) as string[]).map((item, idx) => (
+                                        <li key={idx} className="flex items-start gap-2">
+                                            <FaCheckCircle className="text-green-500 mt-0.5 flex-shrink-0 text-xs" />
+                                            <span className="text-gray-700">{item}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </InfoCard>
+                        </motion.div>
+
+                        {/* Visual / Dashboard Preview */}
+                            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} transition={{ delay: 0.1 }}>
+                        <InfoCard
+                            icon={FaChartLine}
+                            title="Live Dashboard Access"
+                            variant="accent"
+                            showInfoBadge={false}
+                            className="h-full text-center"
+                        >
+                            <div className="flex flex-col items-center justify-center min-h-[180px]">
+                                <Typography variant="small" className="text-gray-600 mb-4">
+                                    Block-level P&L · Tree survival rates · Harvest projections · Task completion · Photo documentation
+                                </Typography>
+                                <div className="inline-block bg-accent/10 text-accent text-xs font-medium px-4 py-2 rounded-full">
+                                    {t('farmOs.cta')}
+                                </div>
+                            </div>
+                        </InfoCard>
+                    </motion.div>
+                    </div>
+                </div>
+            </Section>
 
             {/* Charts Row — The Opportunity + Your Capital */}
             <Section className="py-10">

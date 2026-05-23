@@ -3,8 +3,19 @@ import { useTranslation } from 'react-i18next';
 import {Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
-    FaChevronDown, FaLeaf, FaSeedling,
-    FaGlobeAfrica, FaArrowRight, FaBullhorn, FaTwitter, FaLinkedin, FaFacebook, FaShareSquare, FaSadTear, FaSearch,
+    FaChevronDown,
+    FaLeaf,
+    FaSeedling,
+    FaGlobeAfrica,
+    FaArrowRight,
+    FaBullhorn,
+    FaTwitter,
+    FaLinkedin,
+    FaFacebook,
+    FaShareSquare,
+    FaSadTear,
+    FaSearch,
+    FaBox, FaPenFancy, FaMapSigns,
 } from 'react-icons/fa';
 import {
     fadeIn,
@@ -28,6 +39,7 @@ import ProductCard from '../components/ProductCard/ProductCard';
 import JsonLd from "@/components/Seo/JsonLd";
 import { trackCtaClick, trackProductInquiry, trackOutboundClick } from '@/utils/analytics';
 import { InfoCard } from '@/components/InfoCard/InfoCard';
+import {Helmet} from "react-helmet-async";
 
 
 interface AfriNutsUpdate {
@@ -124,6 +136,16 @@ const Home: React.FC = () => {
 
     return (
         <div className="min-h-[80vh] md:min-h-screen overflow-hidden text-balance">
+            <Helmet>
+                <title>AfriNuts Export | Traceable Cashews from Côte d'Ivoire | Wholesale & Investment</title>
+                <meta name="description" content="Traceable cashews from our 35-hectare farm in Odienné, Côte d'Ivoire. Block-level tracking, export-ready documentation, and custom Farm OS technology. Wholesale, investment, and partnership inquiries welcome." />
+                <link rel="canonical" href="https://www.afrinutsexport.com" />
+                <meta property="og:title" content="AfriNuts Export | Traceable Cashews from Côte d'Ivoire" />
+                <meta property="og:description" content="Block-level tracking, Farm OS technology, and export-ready documentation. Direct from our 35-hectare farm in Odienné." />
+                <meta property="og:image" content="https://www.afrinutsexport.com/logo192.png" />
+                <meta property="og:url" content="https://www.afrinutsexport.com" />
+                <meta name="twitter:card" content="summary_large_image" />
+            </Helmet>
             <JsonLd data={{
                 "@context": "https://schema.org",
                 "@type": "WebPage",
@@ -288,56 +310,45 @@ const Home: React.FC = () => {
                                         {t('aboutPreview.description')}
                                     </Typography>
 
-                                    {/* Two Button Row */}
+                                    {/* Two Button Row — Now Three */}
                                     <div className="flex flex-col sm:flex-row gap-4">
                                         {/* Farm Story Button */}
                                         <motion.button
-                                            whileHover={{
-                                                scale: 1.08,
-                                                y: -2,
-                                                boxShadow: '0 10px 25px -5px rgba(165, 105, 66, 0.4)'
-                                            }}
+                                            whileHover={{ scale: 1.08, y: -2, boxShadow: '0 10px 25px -5px rgba(165, 105, 66, 0.4)' }}
                                             whileTap={{ scale: 0.96 }}
-                                            className="group border-2 relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-6 py-2 md:px-8 md:py-3 rounded-full transition-all duration-300 inline-flex items-center justify-center text-sm md:text-base"
-                                            onClick={() => {
-                                                trackCtaClick('farm_story', 'about_section');
-                                                navigate('/about');
-                                            }}
+                                            className="group relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-6 py-2 md:px-8 md:py-3 rounded-full transition-all duration-300 inline-flex items-center justify-center text-sm md:text-base"
+                                            onClick={() => navigate('/about')}
                                             aria-label={t('aboutPreview.ctaButton')}
                                         >
+                                            <FaMapSigns className="mr-2" />
                                             {t('aboutPreview.ctaButton')}
-                                            <motion.span
-                                                animate={{ x: 0 }}
-                                                whileHover={{ x: 3 }}
-                                                transition={{ type: 'spring', stiffness: 400 }}
-                                            >
-                                                <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" aria-hidden="true"/>
-                                            </motion.span>
+                                            <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
                                         </motion.button>
 
                                         {/* Blog Button */}
                                         <motion.button
-                                            whileHover={{
-                                                scale: 1.08,
-                                                y: -2,
-                                                boxShadow: '0 10px 25px -5px rgba(160, 200, 0, 0.4)'
-                                            }}
+                                            whileHover={{ scale: 1.08, y: -2, boxShadow: '0 10px 25px -5px rgba(160, 200, 0, 0.4)' }}
                                             whileTap={{ scale: 0.96 }}
-                                            className="group border-2 relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-6 py-2 md:px-8 md:py-3 rounded-full transition-all duration-300 inline-flex items-center justify-center text-sm md:text-base"
-                                            onClick={() => {
-                                                trackCtaClick('visit_blog', 'about_section');
-                                                navigate('/blog');
-                                            }}
+                                            className="group relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-6 py-2 md:px-8 md:py-3 rounded-full transition-all duration-300 inline-flex items-center justify-center text-sm md:text-base"
+                                            onClick={() => navigate('/blog')}
                                             aria-label="Visit our blog"
                                         >
+                                            <FaPenFancy className="mr-2" />
                                             {t('aboutPreview.blogButton')}
-                                            <motion.span
-                                                animate={{ x: 0 }}
-                                                whileHover={{ x: 3 }}
-                                                transition={{ type: 'spring', stiffness: 400 }}
-                                            >
-                                                <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" aria-hidden="true"/>
-                                            </motion.span>
+                                            <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+                                        </motion.button>
+
+                                        {/* Wholesale Button */}
+                                        <motion.button
+                                            whileHover={{ scale: 1.08, y: -2, boxShadow: '0 10px 25px -5px rgba(165, 105, 66, 0.4)' }}
+                                            whileTap={{ scale: 0.96 }}
+                                            className="group relative bg-gradient-to-r from-accent to-dark-orange hover:from-dark-orange hover:to-accent text-white px-6 py-2 md:px-8 md:py-3 rounded-full transition-all duration-300 inline-flex items-center justify-center text-sm md:text-base"
+                                            onClick={() => navigate('/wholesale')}
+                                            aria-label={t('aboutPreview.wholesaleButton', 'Wholesale Inquiry')}
+                                        >
+                                            <FaBox className="mr-2" />
+                                            {t('aboutPreview.wholesaleButton', 'Wholesale Inquiry')}
+                                            <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
                                         </motion.button>
                                     </div>
                                 </motion.div>
@@ -934,7 +945,7 @@ const Home: React.FC = () => {
                     </div>
                 </Section>
             </Suspense>
-    </div>
+        </div>
     );
 };
 

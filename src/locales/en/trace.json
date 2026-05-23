@@ -1,12 +1,16 @@
 {
+  "seo": {
+    "title": "Cashew Traceability | Farm OS Verified Batch Tracking | AfriNuts Export",
+    "description": "Block-level traceability powered by AfriNuts Farm OS. Track your cashew shipment from our 35-hectare farm in Odienné, Côte d'Ivoire — GPS coordinates, harvest dates, quality metrics, and certification verification. Not just a paper trail. Proof."
+  },
   "page": {
-    "title": "AfriNuts Batch Traceability",
-    "description": "View detailed information about this batch, from harvest through processing and quality checks."
-  },
+    "title": "AfriNuts Batch Traceability | Farm OS Verified",
+    "description": "View block-level traceability data for your cashew shipment — harvest dates, GPS coordinates, quality metrics, and certification verification. Powered by AfriNuts Farm OS."
+},
   "promo": {
-    "heading": "Audit-Ready Traceability for Serious Importers",
-    "subheading": "Every AfriNuts shipment comes with a unique traceability code. Scan your QR code or enter your batch ID to see the full journey — from our farm to your door."
-  },
+    "heading": "Not Just a Paper Trail. Farm OS Verified.",
+    "subheading": "Every AfriNuts shipment comes with a unique traceability code linked to our Farm OS. Scan your QR code or enter your batch ID to see the full digital record — from the exact block in Odienné to your container. Most suppliers send paperwork. We send proof."
+},
   "search": {
     "placeholder": "Enter your Batch ID...",
     "button": "Trace",
@@ -24,34 +28,34 @@
     },
     "trace": {
       "title": "2. Enter Your Batch ID",
-      "description": "Or type your batch ID above to see your order's full journey."
+      "description": "Or type your batch ID above to access the full digital record — no paperwork required."
     },
     "view": {
-      "title": "3. View the Full Journey",
-      "description": "From the exact block in Odienné through processing, certification, and delivery."
+      "title": "3. View the Full Digital Journey",
+      "description": "See the exact block location, harvest date, processing details, quality metrics, certifications, and shipping documentation."
     }
   },
   "trust": {
-    "title": "How We Verify Traceability",
-    "farm": "Single-origin from our 35-hectare farm in Odienné, Ivory Coast",
-    "batch": "Unique batch IDs tracked from harvest to delivery",
-    "public": "Publicly verifiable — anyone with the batch ID can check",
-    "certs": "Certifications verified and displayed per batch",
-    "origin": "Verified Origin",
-    "originDesc": "GPS coordinates recorded at harvest from our farm in Odienné",
-    "batchTitle": "Batch Recorded",
-    "batchDesc": "Each batch receives a unique ID tracked at every stage",
-    "transparent": "Publicly Visible",
-    "transparentDesc": "Anyone with the batch ID can verify this information"
+    "title": "What Makes Our Traceability Different",
+    "farm": "Single-origin from our 35-hectare farm in Odienné, Côte d'Ivoire — not mixed lots from unknown sources",
+    "batch": "Unique batch IDs tracked in Farm OS from harvest to delivery — not a paper ledger",
+    "public": "Publicly verifiable — anyone with the batch ID can check. No login required.",
+    "certs": "Certifications verified and displayed per batch — not just claims on a website",
+    "origin": "GPS-Verified Origin",
+    "originDesc": "GPS coordinates recorded at harvest from our farm in Odienné — verifiable on any map",
+    "batchTitle": "Farm OS Batch Record",
+    "batchDesc": "Each batch receives a unique digital ID tracked at every stage in our custom operating system",
+    "transparent": "Publicly Verifiable",
+    "transparentDesc": "Anyone with the batch ID can verify this information — buyers, customs, investors"
   },
   "promoCta": {
-    "title": "Want This for Your Orders?",
-    "description": "Every AfriNuts Export wholesale order includes traceability. Contact us to place your first order and experience full supply chain transparency.",
-    "button": "Request a Quote"
+    "title": "Want This Level of Transparency for Your Orders?",
+    "description": "Every AfriNuts Export wholesale order includes Farm OS traceability. Contact us to place your first order and experience supply chain transparency that most West African suppliers cannot provide.",
+    "button": "Request a Traceable Quote"
   },
   "batch": {
     "harvestDate": "Harvest Date",
-    "farmLocation": "Farm Location",
+    "farmLocation": "Farm Location (GPS Verified)",
     "processingInfo": "Processing Information",
     "certifications": "Certifications",
     "qualityCheckResults": "Quality Check Results",
@@ -61,12 +65,12 @@
     "previewNotice": "Default batch preview (no batchId provided in URL)"
   },
   "batchInfo": {
-    "verified": "Batch Verified"
+    "verified": "Farm OS Verified"
   },
   "journey": {
-    "title": "Your Order's Journey",
+    "title": "Your Order's Digital Journey",
     "scrollHint": "Swipe to explore the journey",
-    "subtitle": "Follow your cashews from our farm in Odienné to your door.",
+    "subtitle": "Follow your cashews from our farm in Odienné to your door — every step recorded in Farm OS.",
     "farm": "Farm",
     "farmDesc": "Harvested from Block {block}",
     "process": "Processing",
@@ -84,11 +88,11 @@
     "docsDesc": "COO, Phyto, B/L"
   },
   "compliance": {
-    "description": "Every traceable batch comes with full compliance documentation.",
+    "description": "Every traceable batch comes with full compliance documentation — not just promises, verifiable records.",
     "link": "Download Compliance Pack"
   },
   "ctaQuote": {
-    "description": "Every wholesale order includes full traceability. Get your quote today.",
+    "description": "Every wholesale order includes full Farm OS traceability. Get your quote today.",
     "button": "Request a Traceable Batch"
   },
   "testimonials": {

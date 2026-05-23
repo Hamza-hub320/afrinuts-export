@@ -1,33 +1,33 @@
 {
   "hero": {
     "subtitle": "Cashew Processing",
-    "title": "From Raw Nuts to Premium Kernels",
-    "description": "AfriNuts processes cashews in two scalable phases, starting from small-batch, semi-automated systems and advancing to a modern, large-scale operation that ensures efficiency, quality, and sustainability. Using clean and sustainable techniques instead of chemicals or outdated methods, we deliver premium kernels ready for global markets."
+    "title": "Chemical-Free Processing. Farm OS Documented.",
+    "description": "Every kernel we process is tracked in our Farm OS — from the block it was harvested to the processing batch, quality grade, and export container. Most processors send paperwork. We send proof."
   },
   "backToFarm": "Back to the Farm",
   "roadmap": {
     "title": "Processing Roadmap",
-    "description": "Our journey is structured in clear milestones, ensuring sustainable growth and efficiency.",
+    "description": "Two phases, one operating system. Every stage documented in Farm OS for full traceability.",
     "phase1": {
       "title": "Phase 1: Pilot / Semi-Automated",
       "dates": "2028–2030",
-      "description": "Focused on artisanal and semi-automatic methods with 1,000–2,000 MT/year.",
-      "point1": "Establish artisanal and semi-automatic operations",
-      "point2": "Train staff and build initial export capacity",
-      "point3": "Reach 1,000–2,000 MT/year capacity by 2030"
-    },
+      "description": "Small-batch, quality-first processing with Farm OS tracking at every stage. 1,000–2,000 MT/year.",
+      "point1": "Semi-automated operations with digital batch tracking",
+      "point2": "Staff training with Farm OS documentation protocols",
+      "point3": "1,000–2,000 MT/year capacity by 2030"
+  },
     "phase2": {
       "title": "Phase 2: Industrial / Automated",
-      "dates":  "2033+",
-      "description": "Scaling to 5,000 MT/year with advanced automation and global certifications.",
-      "point1": "Expand facility with advanced automation",
-      "point2": "Achieve international certifications",
-      "point3": "Scale to 5,000 MT/year capacity by 2033+"
+      "dates": "2033+",
+      "description": "Full-scale processing with advanced automation, integrated Farm OS analytics, and global certifications.",
+      "point1": "Automated lines with real-time Farm OS monitoring",
+      "point2": "International certifications verified and tracked digitally",
+      "point3": "5,000 MT/year capacity by 2033+"
     }
   },
   "phases": {
     "title": "Our Processing Phases",
-    "description": "We've designed a scalable approach to cashew processing, starting with a pilot facility and expanding to industrial capacity.",
+    "description": "From pilot to industrial scale — every phase connected to our Farm OS for complete traceability and quality assurance.",
     "phase1": "Pilot Phase",
     "phase2": "Industrial Phase"
   },
@@ -41,190 +41,154 @@
       "batchLogs": "Batch logs — paper/Excel"
     },
     "steps": {
-      "reception": {
-        "title": "Reception & Storage",
-        "description": "Raw cashew nuts are received, weighed, and stored in ventilated warehouses with proper moisture control and sampling for quality assessment."
-      },
-      "steaming": {
-        "title": "Steaming & Roasting",
-        "description": "Small-batch steam roasting softens shells without chemicals, preserving organic integrity and ensuring food safety standards."
-      },
-      "shelling": {
-        "title": "Shelling",
-        "description": "Manual and semi-automatic shelling with protective gear to handle cashew nut shell liquid safely while creating local employment opportunities."
-      },
-      "drying": {
-        "title": "Drying & Peeling",
-        "description": "Kernels are carefully dried to optimal moisture levels and manually peeled to maintain quality and texture."
-      },
-      "grading": {
-        "title": "Grading",
-        "description": "Visual inspection and manual sorting by size, color, and quality to meet international standards."
-      },
-      "packaging": {
-        "title": "Packaging",
-        "description": "Vacuum sealing with nitrogen flushing in export-ready packaging to preserve freshness and extend shelf life."
-      }
+      "reception": { "title": "Reception & Storage", "description": "Raw nuts weighed, sampled, and logged in Farm OS with supplier batch ID and moisture readings." },
+      "steaming": { "title": "Steaming & Roasting", "description": "Chemical-free steam processing. Temperature and duration recorded per batch in Farm OS." },
+      "shelling": { "title": "Shelling", "description": "Manual and semi-automatic shelling with yield rates tracked per batch for quality optimization." },
+      "drying": { "title": "Drying & Peeling", "description": "Moisture levels monitored and logged. Each batch tracked to target specifications." },
+      "grading": { "title": "Grading", "description": "Size, color, and quality data entered per batch — building the dataset for AI-assisted grading in Phase 2." },
+      "packaging": { "title": "Packaging", "description": "Vacuum sealed with nitrogen flush. Batch ID linked to packaging date, weight, and destination." }
     }
   },
   "phase2": {
     "title": "Industrial Scaling (2033+)",
-    "description": "Our expanded facility will feature semi-automated processing lines with advanced quality control systems for higher volume production and full certification compliance.",
-    "automation": "Semi-Automated Industrial",
+    "description": "Full-scale processing with Farm OS integration at every stage — real-time monitoring, automated quality checks, and complete traceability.",
+    "automation": "Automated + Farm OS Integrated",
     "steps": {
-      "reception": {
-        "title": "Automated Reception",
-        "description": "Advanced intake systems with automated weighing, sampling, and silo storage with climate control for optimal raw nut preservation."
-      },
-      "steaming": {
-        "title": "Industrial Roasting",
-        "description": "Continuous steam roasters with precise temperature control and biomass energy utilization for efficient, chemical-free processing."
-      },
-      "shelling": {
-        "title": "Mechanical Shelling",
-        "description": "Semi-automated shelling lines with dust extraction systems for improved efficiency and worker safety."
-      },
-      "drying": {
-        "title": "Automated Drying",
-        "description": "Industrial dryers with digital moisture sensors and mechanical peeling aids for consistent quality and higher throughput."
-      },
-      "grading": {
-        "title": "Electronic Grading",
-        "description": "Optical sorters, vibration graders, and metal detection systems for precise quality control and certification compliance."
-      },
-      "packaging": {
-        "title": "Automated Packaging",
-        "description": "High-speed vacuum packaging with nitrogen flushing, checkweighers, and automated labeling for export markets."
-      }
+      "reception": { "title": "Automated Reception", "description": "Digital intake with automated weighing, sampling, and silo storage — all data flowing directly into Farm OS." },
+      "steaming": { "title": "Industrial Roasting", "description": "Continuous steam roasters with sensor data logged to Farm OS for quality consistency and energy optimization." },
+      "shelling": { "title": "Mechanical Shelling", "description": "Semi-automated lines with real-time yield monitoring and dust extraction — performance metrics tracked per shift." },
+      "drying": { "title": "Automated Drying", "description": "Digital moisture sensors feeding data to Farm OS. Mechanical peeling with quality verification at each stage." },
+      "grading": { "title": "Electronic Grading", "description": "Optical sorters integrated with Farm OS. AI-assisted defect detection and automatic grade classification." },
+      "packaging": { "title": "Automated Packaging", "description": "High-speed lines with checkweighers and label printers linked to Farm OS batch records and export documentation." }
     }
   },
   "workflow": {
     "qaLabel": "QA",
     "title": "Processing Workflow",
-    "subtitle": "Visualizing our end-to-end cashew processing journey",
-    "qaManual": "Manual QA Checks",
-    "qaAutomated": "Automated QA Systems",
+    "subtitle": "Every step documented. Every batch traceable.",
+    "qaManual": "Manual QA Checks — Logged in Farm OS",
+    "qaAutomated": "Automated QA — Real-Time Farm OS Data",
     "processStep": "Process Step"
   },
-    "stepByStep": {
-      "title": "Step-by-Step Process",
-      "subtitle": "Follow each stage of our premium cashew processing"
-    },
-    "viewMode": {
-      "diagram": "Diagram View",
-      "steps": "Step-by-Step"
-    },
-    "controls": {
-      "play": "Play",
-      "pause": "Pause"
-    },
-    "differentiators": {
-      "title": "What Sets Us Apart",
-      "description": "Our processing approach combines traditional expertise with modern technology for exceptional quality.",
-      "quality": {
-        "title": "Premium Quality",
-        "description": "Rigorous quality control at every stage ensures consistently superior cashew kernels that meet international standards."
-      },
-      "sustainability": {
-        "title": "Sustainable Practices",
-        "description": "Zero-waste processing, water conservation, and renewable energy integration minimize our environmental footprint."
-      },
-      "certifications": {
-        "title": "Certification Ready",
-        "description": "Our processes are designed to meet Organic, Halal, Fair Trade, and ISO 22000 certification requirements from day one."
-      }
-    },
-    "certifications": {
-      "title": "Our Certifications",
-      "description": "We adhere to the highest international standards for quality, safety, and sustainability.",
-      "organic": {
-        "title": "Organic Certification",
-        "description": "Our farm is transitioning to organic practices from planting. Full organic certification requires 3 years of verified organic methods.",
-        "status": "in-progress",
-        "targetDate": "2029 (Farm) / 2030 (Processing)",
-        "issuer": "ECOCERT"
-      },
-      "halal": {
-        "title": "Halal Certification",
-        "description": "Our processing facility will be designed to meet Halal standards from day one.",
-        "status": "planned",
-        "targetDate": "2029",
-        "issuer": "Halal Certification Authority"
-      },
-      "iso": {
-        "title": "ISO 22000",
-        "description": "Food safety management systems will be implemented during facility construction.",
-        "status": "planned",
-        "targetDate": "2030",
-        "issuer": "International Organization for Standardization"
-      },
-      "fairtrade": {
-        "title": "Fair Trade",
-        "description": "We will pursue Fair Trade certification once our outgrower program is established.",
-        "status": "planned",
-        "targetDate": "2030-2031",
-        "issuer": "Fair Trade International"
-      }
+  "stepByStep": {
+    "title": "Step-by-Step Process",
+    "subtitle": "Follow each stage of our Farm OS-tracked processing"
+  },
+  "viewMode": {
+    "diagram": "Diagram View",
+    "steps": "Step-by-Step"
+  },
+  "controls": {
+    "play": "Play",
+    "pause": "Pause"
+  },
+  "differentiators": {
+    "title": "What Sets Us Apart",
+    "description": "Most processors can tell you what they did. We can show you — with Farm OS data backing every claim.",
+    "quality": {
+      "title": "Data-Backed Quality",
+      "description": "Every quality check is logged digitally. Buyers receive batch-specific data, not generic certificates."
     },
     "sustainability": {
-      "title": "Sustainability Practices",
-      "description": "We design every stage of our processing to reduce waste, conserve resources, and use renewable energy.",
-      "water": {
-        "title": "Water Efficiency",
-        "description": "Closed-loop recycling to minimize water usage.",
-        "kpi": "Target: 30% recycling by 2030"
-      },
-      "waste": {
-        "title": "Waste Management",
-        "description": "Shell byproducts repurposed as fuel and biomaterials.",
-        "kpi": "Target: 40% reuse by 2028"
-      },
-      "energy": {
-        "title": "Green Energy",
-        "description": "Solar and energy-efficient equipment.",
-        "kpi": "Target: 20% solar by 2030"
-      },
-      "kpis": {
-        "water": "Water Usage Reduction",
-        "waste": "Waste to Landfill Reduction",
-        "energy": "Energy from Renewable Sources"
-      }
+      "title": "Measurable Sustainability",
+      "description": "Water usage, waste diversion, and energy consumption tracked in Farm OS — not estimated, measured."
     },
-    "cta": {
-      "title": "Experience Our Quality",
-      "description": "Join us in revolutionizing African cashew processing with premium, certified products.",
-      "button": "Request Product Samples"
+    "certifications": {
+      "title": "Audit-Ready Compliance",
+      "description": "Our digital records create a continuous audit trail. When certifiers arrive, the data is already organized."
+    }
+  },
+  "certifications": {
+    "title": "Our Certifications",
+    "description": "We adhere to the highest international standards for quality, safety, and sustainability.",
+    "organic": {
+      "title": "Organic Certification",
+      "description": "Our farm is transitioning to organic practices from planting. Full organic certification requires 3 years of verified organic methods.",
+      "status": "in-progress",
+      "targetDate": "2029 (Farm) / 2030 (Processing)",
+      "issuer": "ECOCERT"
     },
-    "breadcrumbs": {
-      "home": "Home",
-      "farm": "Farm",
-      "processing": "Processing",
-      "facilityFlowchart": "Facility Flowchart"
+    "halal": {
+      "title": "Halal Certification",
+      "description": "Our processing facility will be designed to meet Halal standards from day one.",
+      "status": "planned",
+      "targetDate": "2029",
+      "issuer": "Halal Certification Authority"
     },
-    "whyProcessLocal": {
-      "title": "Why We Process Cashews in Ivory Coast",
-      "benefits": [
-        "Keep value in the country of origin",
-        "Create local jobs (100+ positions)",
-        "Reduce shipping weight by 25% (shells removed)",
-        "Premium pricing for processed kernels"
-      ]
+    "iso": {
+      "title": "ISO 22000",
+      "description": "Food safety management systems will be implemented during facility construction.",
+      "status": "planned",
+      "targetDate": "2030",
+      "issuer": "International Organization for Standardization"
     },
-    "cnslRecovery": {
-      "title": "CNSL Recovery & Reuse",
-      "description": "The liquid from cashew shells (CNSL) is recovered during processing and used for biofuels, industrial lubricants, and polymer production. This creates an additional revenue stream and reduces waste.",
-      "uses": {
-        "biofuels": "Biofuels",
-        "lubricants": "Industrial Lubricants",
-        "polymers": "Polymers & Resins",
-        "revenue": "Additional Revenue"
-      }
+    "fairtrade": {
+      "title": "Fair Trade",
+      "description": "We will pursue Fair Trade certification once our outgrower program is established.",
+      "status": "planned",
+      "targetDate": "2030-2031",
+      "issuer": "Fair Trade International"
+    }
+  },
+  "sustainability": {
+    "title": "Sustainability Practices",
+    "description": "We design every stage of our processing to reduce waste, conserve resources, and use renewable energy.",
+    "water": {
+      "title": "Water Efficiency",
+      "description": "Closed-loop recycling to minimize water usage.",
+      "kpi": "Target: 30% recycling by 2030"
     },
+    "waste": {
+      "title": "Waste Management",
+      "description": "Shell byproducts repurposed as fuel and biomaterials.",
+      "kpi": "Target: 40% reuse by 2028"
+    },
+    "energy": {
+      "title": "Green Energy",
+      "description": "Solar and energy-efficient equipment.",
+      "kpi": "Target: 20% solar by 2030"
+    },
+    "kpis": {
+      "water": "Water Usage Reduction",
+      "waste": "Waste to Landfill Reduction",
+      "energy": "Energy from Renewable Sources"
+    }
+  },
+  "cta": {
+    "title": "Experience Farm OS-Tracked Quality",
+    "description": "Join us in revolutionizing African cashew processing with premium, certified, fully traceable products.",
+    "button": "Request Product Samples"
+  },
+  "breadcrumbs": {
+    "home": "Home",
+    "farm": "Farm",
+    "processing": "Processing",
+    "facilityFlowchart": "Facility Flowchart"
+  },
+  "whyProcessLocal": {
+    "title": "Why We Process Cashews in Ivory Coast",
+    "benefits": [
+      "Keep value in the country of origin — verified by export data",
+      "Create local jobs (100+ positions) — tracked in our HR system",
+      "Reduce shipping weight by 25% (shells removed at source)",
+      "Premium pricing for Farm OS-documented processed kernels"
+    ]
+  },
+  "cnslRecovery": {
+    "title": "CNSL Recovery: Turning Waste Into Revenue",
+    "description": "Cashew Nut Shell Liquid is a high-value byproduct. We track CNSL yield per batch in Farm OS — transforming a disposal cost into a documented profit center.",
+    "uses": {
+      "biofuels": "Biofuels",
+      "lubricants": "Industrial Lubricants",
+      "polymers": "Polymers & Resins",
+      "revenue": "Additional Revenue"
+    }
+  },
   "midCta": {
-  "title": "See the Facility Behind the Process",
-  "description": "Explore the layout of our future processing center — from raw nut intake to dispatch. Every zone designed for efficiency and certification compliance.",
-  "button": "View Facility Flowchart"
-},
+    "title": "See the Facility Behind the Process",
+    "description": "Explore the layout of our future processing center — every zone designed for efficiency, certification compliance, and Farm OS integration.",
+    "button": "View Facility Flowchart"
+  },
   "timeline": {
     "title": "Road to Production",
     "transition": "Transition & Scaling",
@@ -266,28 +230,28 @@
       "industrial": "Industrial Grade"
     }
   },
-    "chemicalFree": {
-      "title": "100% Chemical-Free Processing",
-      "description": "Unlike traditional methods that use chemicals to soften shells, our steaming process preserves organic integrity and ensures food safety.",
-      "traditional": {
-        "title": "Traditional Method",
-        "description": "Many processors soak cashew shells in chemicals (like sodium hydroxide or hydrochloric acid) to soften them for cutting. This leaves chemical residues, damages kernels, and creates hazardous waste.",
-        "point1": "Chemical residue on kernels",
-        "point2": "Hazardous waste disposal",
-        "point3": "Damages organic certification potential",
-        "point4": "Worker exposure to harmful substances"
-      },
-      "afrinuts": {
-        "title": "The AfriNuts Method",
-        "description": "We use steam roasting to naturally soften cashew shells. No chemicals — just heat and pressure. Cleaner kernels, safer workers, zero chemical waste.",
-        "point1": "100% chemical-free processing",
-        "point2": "Zero hazardous waste from shelling",
-        "point3": "Preserves organic certification eligibility",
-        "point4": "Safer working conditions for our team"
-      },
-      "bottomLine": {
-        "title": "Why It Matters for Buyers",
-        "description": "Chemical-free processing means our kernels meet the strictest EU organic import standards. For you, that means fewer rejected shipments, cleaner labels, and a product consumers trust."
-      }
+  "chemicalFree": {
+    "title": "100% Chemical-Free Processing. Farm OS Verified.",
+    "description": "Unlike traditional methods that use chemicals to soften shells, our steaming process preserves organic integrity — and every batch is documented to prove it.",
+    "traditional": {
+      "title": "Traditional Method",
+      "description": "Chemical soaking leaves residues, damages kernels, and creates hazardous waste — with paper records that are hard to verify.",
+      "point1": "Chemical residue on kernels",
+      "point2": "Hazardous waste disposal",
+      "point3": "Damages organic certification potential",
+      "point4": "Worker exposure to harmful substances"
+    },
+    "afrinuts": {
+      "title": "The AfriNuts Method",
+      "description": "Steam roasting. Zero chemicals. Every batch logged in Farm OS with temperature, duration, and operator ID.",
+      "point1": "100% chemical-free — verified per batch",
+      "point2": "Zero hazardous waste from shelling",
+      "point3": "Preserves organic certification eligibility",
+      "point4": "Safer conditions — documented in safety logs"
+    },
+    "bottomLine": {
+      "title": "Why It Matters for Buyers",
+      "description": "Chemical-free processing means our kernels meet the strictest EU organic import standards. And because it's tracked in Farm OS, you don't have to take our word for it — you can verify it yourself."
     }
+  }
 }

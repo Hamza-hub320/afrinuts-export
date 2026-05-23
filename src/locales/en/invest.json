@@ -6,7 +6,7 @@
   "hero": {
     "subtitle": "Investment Opportunity",
     "title": "Building Côte d'Ivoire's First Certified Cashew Processing Center",
-    "tagline": "$1,250,000 asset-backed investment · 25% equity · Shariah-compliant Mudarabah · Dividends from 2033",
+    "tagline": "$1,250,000 asset-backed investment · 25% equity · Shariah-compliant Mudarabah · Farm OS-powered transparency · Dividends from 2033",
     "downloadNda": "Download NDA",
     "scheduleCall": "Schedule a Call",
     "kpis": {
@@ -27,10 +27,10 @@
         "highlights": ["World's largest cashew producer", "Government incentives for processors", "Strategic port access to EU markets"]
       },
       "firstMover": {
-        "title": "First Mover Advantage",
-        "desc": "AfriNuts will be the first certified processing facility in northwestern Côte d'Ivoire, with land, farm, and supply chain already secured.",
+        "title": "Tech-Enabled First Mover",
+        "desc": "AfriNuts will be the first tech-enabled certified processing facility in northwestern Côte d'Ivoire, with Farm OS providing institutional-grade transparency that no competitor can match.",
         "stat": "First Mover",
-        "highlights": ["35-hectare farm operational", "200+ farmer cooperative secured", "10 hectares reserved for facility"]
+        "highlights": ["Custom Farm OS platform", "35-hectare farm operational", "200+ farmer cooperative secured"]
       },
       "margin": {
         "title": "5x Margin Expansion",
@@ -148,11 +148,11 @@
     "theirDisadvantage": "Their Disadvantage",
     "ourStrategy": "AfriNuts' Counter-Strategy",
     "uniqueValueTitle": "AfriNuts' Unique Competitive Edge",
-    "uniqueValueDesc": "Our vertical integration combined with local expertise and certification strategy allows us to offer what no other player can: premium, certified, traceable cashews from a transparent, socially responsible source in the heart of the world's largest producing region.",
+    "uniqueValueDesc": "Our vertical integration, local expertise, and custom Farm OS technology allow us to offer what no other player can: premium, certified, traceable cashews backed by real-time operational data — from a transparent, socially responsible source in the heart of the world's largest producing region.",
     "rows": [
-      { "competitor": "Large Asian Processors", "advantage": "Scale, established infrastructure, low-cost labor", "weakness": "Geographic disconnect from source, rising labor costs", "strategy": "Origin Story & Traceability: Single-Origin Ivory Coast traceability" },
-      { "competitor": "Local Ivorian Processors", "advantage": "Local presence, access to raw nuts", "weakness": "Lack scale, international certifications, market access", "strategy": "Certification & Quality: Meet highest international standards" },
-      { "competitor": "Western Brands", "advantage": "Strong consumer brands, market access", "weakness": "Reliant on imported kernels, disconnected from source", "strategy": "Vertical Integration: Control entire chain, ensure quality" }
+      { "competitor": "Large Asian Processors", "advantage": "Scale, established infrastructure, low-cost labor", "weakness": "Geographic disconnect from source, rising labor costs", "strategy": "Origin Story & Farm OS Traceability: Single-Origin Ivory Coast with digital verification they cannot match" },
+      { "competitor": "Local Ivorian Processors", "advantage": "Local presence, access to raw nuts", "weakness": "Lack scale, certifications, and technology infrastructure", "strategy": "Certification & Technology: Built for Organic, Halal, ISO 22000 — backed by Farm OS data" },
+      { "competitor": "Western Brands", "advantage": "Strong consumer brands, market access", "weakness": "Reliant on imported kernels, disconnected from source, no supply chain visibility", "strategy": "Vertical Integration + Technology: We own the chain and built the software to prove it" }
     ]
   },
   "shariah": {
@@ -193,12 +193,42 @@
     "subtitle": "Investors invest in people. Our team combines generations of cashew farming with expertise in finance, technology, operations, and international trade — all guided by Islamic ethical principles.",
     "viewAll": "Meet the full leadership team",
     "members": [
-      { "name": "Hamza Sangare", "position": "Founder & CEO", "bio": "3rd generation cashew farmer. Software engineering background. Leads strategy, investor relations, and project execution.", "imageKey": "ceo" },
-      { "name": "Sekou Hakim Peters", "position": "Co-Founder & CFO/COO", "bio": "Architects ethical financial systems at the convergence of profitability and prophetic principles. Leads Shariah-compliant structuring, operational strategy, and community reinvestment.", "imageKey": "cfo" },
-      { "name": "Mohamadue Kouyaté", "position": "Chief Commercial Officer", "bio": "12+ years in export compliance, logistics, and operations. Manages buyer relationships and trade documentation.", "imageKey": "cco" },
-      { "name": "Alassana Bah", "position": "Chief Technology Officer", "bio": "12+ years in software engineering and database management. Leads IoT infrastructure and farm management systems.", "imageKey": "ops" },
-      { "name": "Mohammed Beniken", "position": "Chief Administrative Officer", "bio": "10+ years in administrative leadership. Oversees HR, legal affairs, and information security protocols.", "imageKey": "admin" },
-      { "name": "Souleymane Sangare", "position": "Farm Operations Manager", "bio": "14+ years agricultural management. Deep community roots in Odienné. Leads daily farm operations and farmer relations.", "imageKey": "farm" }
+      {
+        "name": "Hamza Sangare",
+        "position": "Founder & CEO",
+        "bio": "Software engineer turned agribusiness founder. Built AfriNuts Farm OS — an offline-first Android platform with cloud sync for block-level tracking. 3rd generation cashew farmer. Leads strategy, technology architecture, and investor relations.",
+        "imageKey": "ceo"
+      },
+      {
+        "name": "Sekou Hakim Peters",
+        "position": "Co-Founder & CFO/COO",
+        "bio": "Architects ethical financial systems where profitability converges with prophetic principles. Leads Shariah-compliant structuring, operational strategy, and the transition from raw commodity exports to in-country processing.",
+        "imageKey": "cfo"
+      },
+      {
+        "name": "Mohamadue Kouyaté",
+        "position": "Chief Commercial Officer",
+        "bio": "12+ years in export compliance, logistics, and trade documentation. Manages buyer relationships across EU and Middle East markets with full Farm OS traceability backing every shipment.",
+        "imageKey": "cco"
+      },
+      {
+        "name": "Alassana Bah",
+        "position": "Chief Technology Officer & Early Investor",
+        "bio": "Started as an external investor. Joined full-time after seeing the technology platform firsthand. Now leads Farm OS development, IoT infrastructure, and data analytics — proving that the best investors become partners.",
+        "imageKey": "ops"
+      },
+      {
+        "name": "Mohammed Beniken",
+        "position": "Chief Administrative Officer",
+        "bio": "10+ years in administrative leadership. Oversees HR, legal compliance, and information security — ensuring Farm OS data integrity and corporate governance standards.",
+        "imageKey": "admin"
+      },
+      {
+        "name": "Souleymane Sangare",
+        "position": "Farm Operations Manager",
+        "bio": "14+ years agricultural management. The boots on the ground in Odienné. Leads daily farm operations, cooperative relationships, and ensures every data point in Farm OS reflects ground truth.",
+        "imageKey": "farm"
+      }
     ]
   },
   "cta": {
@@ -247,12 +277,23 @@
   },
   "socialProof": {
     "title": "From Investor to Co-Founder",
-    "description": "Alassana Bah first invested in our farm development phase. He saw the vision — and then he joined the team. Today, he is our Chief Technology Officer, leading IoT and farm management systems. His journey from external investor to co-founder and CTO is the strongest proof of AfriNuts' potential.",
-    "testimonial": "\"The farm is real. The team is capable. The vision is clear. That is why I didn't just invest — I joined.\"",
-    "attribution": "— Alassana Bah, CTO & Investor"
+    "description": "Alassana Bah first invested in our farm development phase. After seeing the technology, the team, and the execution firsthand, he didn't just write a check — he joined as Chief Technology Officer. His journey from external investor to CTO leading our Farm OS development is the strongest proof of AfriNuts' potential.",
+    "testimonial": "\"I invested first. Then I saw the technology they were building — a custom Android app with offline sync, real-time dashboards, block-level tracking. That's when I knew this wasn't just a farm. I joined as CTO because the technology platform alone is worth more than the farmland.\"",
+    "attribution": "— Alassana Bah, CTO & Early Investor"
   },
   "legalDisclaimer": {
     "text": "This information is for informational purposes only and does not constitute an offer to sell or a solicitation of an offer to buy securities. Any investment involves risk. Past performance does not guarantee future results. Projections are estimates only and may not be achieved. This investment opportunity is available only to qualified investors who can bear the risk of loss.",
     "ndaRequired": "Full details, including the complete business plan and financial model, are available only after signing the NDA."
+  },
+  "farmOs": {
+    "title": "Farm OS: The Technology Behind the Investment",
+    "body": "Most agribusiness investments rely on trust and quarterly PDFs. Ours runs on a custom-built operating system that gives investors real-time visibility into farm performance — trees alive, expenses per block, harvest volumes, and profit projections. The same dashboard our team uses daily is available to verified investors.",
+    "capabilities": [
+      "Block-level financial tracking — revenue and expenses per hectare",
+      "Real-time dashboard with KPIs, charts, and photo documentation",
+      "Task management and worker performance analytics",
+      "Batch traceability from harvest to export container"
+    ],
+    "cta": "This is the actual dashboard. Not a mockup. Not a promise."
   }
 }

@@ -1,41 +1,42 @@
 {
   "hero": {
-    "title": "Noix de Cajou Bio Premium de Côte d'Ivoire | Vente en Gros & Directe",
-    "subtitle": "Cultivées durablement sur notre ferme familiale de 35 hectares à Odienné. Noix de cajou bio certifiées pour acheteurs en gros, détaillants et distributeurs du monde entier. D'origine éthique, naturellement délicieuses.",
+    "title": "Pas Juste des Noix de Cajou | Des Noix de Cajou Traçables de Côte d'Ivoire.",
+    "subtitle": "Nous avons construit notre propre système d'exploitation agricole pour suivre chaque arbre, chaque bloc et chaque exportation. Directement de notre ferme de 35 hectares à Odienné, Côte d'Ivoire.",
     "ctaButtons": {
       "exploreProducts": "Découvrir Nos Produits",
       "learnMore": "En Savoir Plus"
     }
   },
   "aboutPreview": {
-    "title": "Enracinés dans la Tradition, Cultivons pour l'Avenir",
-    "description": "AfriNuts Export est une entreprise agroalimentaire familiale basée à Odienné, en Côte d'Ivoire. Avec plus de 35 hectares de terres agricoles de première qualité pour la culture de la noix de cajou, nous combinons le savoir-faire traditionnel avec des pratiques modernes et durables pour produire des noix de cajou de qualité supérieure destinées aux marchés internationaux. Découvrez comment nous cultivons des noix de cajou biologiques sans produits chimiques dans le blog de notre ferme.",
+    "title": "Une Ferme Axée sur la Technologie, Enracinée dans Trois Générations",
+    "description": "La plupart des fermes ouest-africaines fonctionnent sur papier. La nôtre fonctionne sur un système d'exploitation sur mesure — conçu par notre fondateur pour apporter une transparence de niveau institutionnel à la production de noix de cajou. Depuis notre ferme de 35 hectares à Odienné, nous prouvons que l'agro-industrie africaine peut montrer la voie avec la technologie.",
     "ctaButton": "Lire l'Histoire de Notre Ferme",
     "blogButton": "Lire Notre Blog",
-    "blogLink": "/blog"
+    "blogLink": "/blog",
+    "wholesaleButton": "Demande de Gros"
   },
   "products": {
     "title": "Produits de Cajou Premium pour la Vente en Gros et au Détail",
-    "subtitle": "De notre ferme à Odienné aux acheteurs du monde entier. Découvrez notre gamme de produits et demandez un devis.",
+    "subtitle": "Traçable de l'arbre au conteneur. Explorez notre gamme de produits appuyée par la documentation Farm OS que la plupart des fournisseurs ne peuvent pas fournir.",
     "ctaButton": "Voir Tous les Produits",
     "items": [
       {
         "name": "Noix de Cajou Brutes (W320 / W240)",
-        "description": "Noix de cajou brutes de qualité supérieure, soigneusement triées à la main et emballées pour l'exportation. Idéales pour la torréfaction, la transformation ou la consommation directe. Demandez nos prix de gros et nos spécifications.",
+        "description": "Noix de cajou brutes de qualité supérieure, soigneusement triées à la main et emballées pour l'exportation. Chaque lot est traçable jusqu'au bloc exact et à la date de récolte.",
         "icon": "raw-cashews",
-        "features": ["Directement de la ferme", "Qualité W320 / W240", "Quantité minimum 1 tonne", "Prêtes à l'export"],
+        "features": ["Traçable via Farm OS", "Qualité W320 / W240", "Quantité minimum 1 tonne", "Prêtes à l'export"],
         "available": true
       },
       {
         "name": "Noix de Cajou Bio",
-        "description": "Noix de cajou certifiées biologiques, cultivées sans pesticides ni engrais synthétiques. Parfaites pour les marques soucieuses de la santé et les acheteurs certifiés bio.",
+        "description": "Noix de cajou certifiées biologiques cultivées sans pesticides ni engrais synthétiques. Dossier numérique complet du sol à l'expédition.",
         "icon": "organic-cashews",
-        "features": ["Certifiées biologiques", "Sans produits chimiques", "Qualité supérieure", "Traçables"],
+        "features": ["Certifiées biologiques", "Documentées via Farm OS", "Qualité supérieure", "Traçabilité complète"],
         "available": false
       },
       {
         "name": "Produits à Valeur Ajoutée",
-        "description": "Noix de cajou grillées, beurre de cajou et poudre de lait de cajou. Lancement au T1 2025. Rejoignez notre liste d'attente pour un accès anticipé et des prix de gros.",
+        "description": "Noix de cajou grillées, beurre de cajou et poudre de lait de cajou. Lancement au T1 2025. Rejoignez notre liste d'attente pour un accès anticipé.",
         "icon": "value-added",
         "features": ["Bientôt disponible", "Rejoignez la liste d'attente", "Prix de gros disponibles"],
         "available": false,
@@ -45,31 +46,31 @@
   },
   "traceability": {
     "title": "Traçable de l'Arbre au Conteneur",
-    "description": "Notre Farm OS suit chaque noix de cajou, du bloc où elle a été récoltée jusqu'au conteneur d'expédition. Acheteurs et investisseurs bénéficient d'une visibilité en temps réel sur l'origine, la qualité et la manutention.",
-    "cta": "Découvrir Notre Traçabilité"
+    "description": "Notre Farm OS sur mesure suit chaque noix de cajou, du bloc où elle a été récoltée jusqu'au conteneur dans lequel elle est expédiée. Les acheteurs et les investisseurs obtiennent une visibilité en temps réel sur l'origine, la qualité et la manutention — pas seulement une trace papier.",
+    "cta": "Voir Comment Fonctionne la Traçabilité"
   },
   "farm": {
-    "title": "Notre Ferme Bio de Noix de Cajou de 35 Hectares à Odienné",
-    "description": "Située au cœur de la ceinture de cajou en Côte d'Ivoire, notre ferme familiale s'étend sur 35 hectares avec plus de 3 500 anacardiers plantés. Nous combinons les connaissances traditionnelles transmises de génération en génération avec des pratiques modernes d'agriculture biologique. Chaque arbre est entretenu à la main. Chaque récolte est suivie. Du défrichage à votre table, nous maîtrisons l'ensemble du processus.",
+    "title": "35 Hectares. 3 500 Arbres. Un Seul Système d'Exploitation.",
+    "description": "Située au cœur de la ceinture de cajou de la Côte d'Ivoire, notre ferme familiale est gérée via Farm OS — une plateforme sur mesure qui suit chaque arbre, chaque dépense et chaque récolte. Nous combinons trois générations de savoir agricole avec la technologie moderne pour produire des noix de cajou premium avec une traçabilité complète.",
     "imageAlt": "Ferme AfriNuts",
     "location": "Odienné, Côte d'Ivoire",
     "ctaButton": "Visitez Notre Ferme",
     "highlights": [
       {
-        "title": "Pratiques Durables",
-        "description": "Méthodes d'agriculture biologique qui protègent l'environnement",
+        "title": "Propulsé par Farm OS",
+        "description": "Suivi par bloc, enregistrements numériques, tableau de bord en temps réel",
         "icon": "FaLeaf"
       },
       {
         "title": "Engagement Communautaire",
-        "description": "Soutenir les agriculteurs locaux et créer des emplois",
+        "description": "Plus de 200 agriculteurs dans notre coopérative, prix équitables",
         "icon": "FaGlobeAfrica"
       }
     ]
   },
   "sustainability": {
-    "title": "Bio. Éthique. Traçable. Notre Engagement pour la Durabilité.",
-    "description": "Chez AfriNuts Export, nous croyons que les bonnes noix de cajou proviennent de terres saines et de personnes heureuses. C'est pourquoi chaque décision que nous prenons prend en compte l'environnement, nos travailleurs et la communauté. Notre ferme est en voie d'obtenir la certification biologique en 2026, et nous payons des salaires équitables supérieurs aux normes régionales.",
+    "title": "Biologique. Éthique. Piloté par la Technologie.",
+    "description": "Chez AfriNuts Export, la durabilité est mesurable — pas seulement une promesse. Notre Farm OS suit notre impact environnemental en même temps que nos données de production. Les pratiques agricoles biologiques, les salaires équitables et la transformation zéro déchet sont documentés, pas seulement revendiqués.",
     "ctaButton": "Lire Notre Engagement pour la Durabilité",
     "features": [
       {
@@ -91,16 +92,17 @@
   },
   "news": {
     "title": "Actualités de l'Industrie de la Cajou et de Notre Ferme",
-    "subtitle": "Histoires de notre ferme, conseils d'agriculture biologique et actualités du marché mondial de la noix de cajou.",
-    "ctaButton": "Voir Toutes les Actualités"
+    "subtitle": "Histoires de notre ferme axée sur la technologie, conseils d'agriculture biologique et actualités du marché mondial de la noix de cajou.",
+    "ctaButton": "Voir Toutes les Actualités",
+    "noUpdates": "Aucune Actualité Trouvée"
   },
   "newsCard": {
     "readMore": "Lire la suite"
   },
   "contact": {
-    "title": "Prêt à Vous Approvisionner en Noix de Cajou Premium de Côte d'Ivoire ?",
-    "subtitle": "Acheteurs en gros : Demandez un devis, un échantillon ou la documentation d'exportation. Détaillants : Renseignez-vous sur les prix de gros et l'étiquetage privé. Consommateurs : Achetez nos produits ou posez-nous vos questions.",
-    "ctaButton": "Contacter Notre Équipe Commerciale"
+    "title": "Prêt à Vous Approvisionner en Noix de Cajou Traçables de Côte d'Ivoire ?",
+    "subtitle": "Acheteurs en gros : Demandez un devis avec documentation complète de traçabilité. Investisseurs : Explorez notre modèle agroalimentaire axé sur la technologie. Partenaires : Rejoignez-nous pour construire l'avenir agritech de l'Afrique de l'Ouest.",
+    "ctaButton": "Contacter Notre Équipe"
   },
   "loading": {
     "about": "Chargement de l'aperçu...",

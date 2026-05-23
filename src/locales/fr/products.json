@@ -5,8 +5,8 @@
     "download": "Télécharger le Catalogue Produits"
   },
   "hero": {
-    "title": "Produits de Cajou Premium de Côte d'Ivoire | Vente en Gros et Export",
-    "subtitle": "Approvisionnés de manière éthique depuis notre ferme familiale à Odienné. Disponibles pour la vente en gros, l'exportation en vrac et la marque de distributeur. Noix brutes, amandes, beurre et plus encore."
+    "title": "Produits de Cajou Premium | Traçables de la Ferme à l'Exportation",
+    "subtitle": "Origine unique de notre ferme de 35 hectares à Odienné, Côte d'Ivoire. Options biologiques et conventionnelles. Traçabilité au niveau du bloc. Documentation prête à l'exportation."
   },
   "productCard": {
     "comingSoon": "Bientôt Disponible",
@@ -55,57 +55,60 @@
     "reset": "Réinitialiser Tous les Filtres",
     "results": "{count} produits"
   },
+  "relatedReading": {
+    "rawVsRoasted": "Vous hésitez ? Lisez : Noix de Cajou Brutes vs Grillées — Quelle est la Différence"
+  },
   "featured": {
-    "title": "Produits Phares",
-    "subtitle": "Découvrez nos offres signature de noix de cajou de Côte d'Ivoire"
+    "title": "Notre Gamme de Produits",
+    "subtitle": "Des noix brutes aux produits à valeur ajoutée — chaque produit soutenu par la traçabilité Farm OS"
   },
   "fullRange": {
-    "title": "Notre Gamme Complète de Produits",
-    "subtitle": "Des noix brutes aux produits transformés à valeur ajoutée"
+    "title": "Gamme Complète de Produits",
+    "subtitle": "Noix brutes disponibles aujourd'hui. Produits transformés disponibles en précommande avec des délais de livraison certifiés."
   },
   "products": {
     "noResults": "Aucun produit trouvé",
     "tryDifferentFilters": "Essayez d'ajuster votre recherche ou vos filtres",
     "quality": {
-      "title": "Assurance Qualité",
-      "description": "Notre processus rigoureux de contrôle qualité garantit des produits premium",
+      "title": "Une Qualité Que Vous Pouvez Vérifier",
+      "description": "Chaque produit répond aux spécifications de qualité export, appuyées par une documentation numérique — pas des promesses.",
       "bullets": [
-        "Ingrédients 100 % naturels",
-        "Sans conservateurs artificiels",
-        "Inspections qualité régulières"
+        "Origine unique de notre ferme — pas de lots mélangés",
+        "Traçabilité au niveau du bloc via Farm OS",
+        "Tests réguliers d'aflatoxine et d'humidité"
       ]
     }
   },
   "process": {
-    "title": "Notre Processus de Production",
-    "subtitle": "L'agriculture durable rencontre la transformation de précision",
+    "title": "De Notre Ferme à Votre Conteneur",
+    "subtitle": "L'intégration verticale signifie que nous contrôlons la qualité à chaque étape",
     "steps": [
       {
-        "title": "Agriculture Durable",
-        "description": "Nos noix de cajou sont cultivées selon des méthodes biologiques sur notre ferme familiale de 35 hectares à Odienné. Nous commençons la plantation en 2026, avec une première récolte prévue en 2029."
+        "title": "Culture",
+        "description": "3 500 anacardiers sur 35 hectares à Odienné. Agroforesterie biologique. Aucun produit chimique synthétique. Farm OS suit chaque bloc."
       },
       {
-        "title": "Contrôle Qualité",
-        "description": "Chaque lot est soumis à des contrôles de qualité rigoureux pour répondre aux normes internationales de taille, de couleur et de goût."
+        "title": "Transformation",
+        "description": "Installation pilote Phase 1 (1 000-2 000 TM/an). Décorticage sans produits chimiques. Calibrage et emballage sous vide de qualité export."
       },
       {
-        "title": "Distribution Efficace",
-        "description": "L'emballage sous vide scellé garantit la fraîcheur de nos produits durant leur transport de la Côte d'Ivoire vers les marchés mondiaux."
+        "title": "Exportation",
+        "description": "FOB Abidjan. Dossier documentaire complet : COO, SGS, Phyto, certificats Bio + Halal. Direct vers l'UE, le Moyen-Orient et l'Amérique du Nord."
       }
     ]
   },
   "quality": {
-    "title": "Assurance Qualité",
-    "description": "Nous mettons en œuvre des mesures strictes de contrôle qualité à chaque étape de la production pour garantir que nos noix de cajou répondent aux normes internationales les plus élevées.",
+    "title": "Spécifications de Qualité",
+    "description": "Chaque expédition répond aux normes de qualité export. La teneur en humidité, les taux de défauts et les niveaux d'aflatoxine sont mesurés et documentés par lot.",
     "bullets": [
-      "Noix de cajou de qualité supérieure avec calibrage constant (W320, W240, W180)",
-      "Traçables jusqu'aux fermes spécifiques de notre réseau",
-      "Tests réguliers en laboratoire pour les aflatoxines et les contaminants"
+      "Noix de cajou Grade A avec calibrage constant (W320, W240, W180)",
+      "Traçabilité complète jusqu'aux blocs spécifiques de la ferme via Farm OS",
+      "Tests en laboratoire pour les aflatoxines, l'humidité et les contaminants"
     ]
   },
   "certifications": {
-    "title": "Nos Certifications",
-    "subtitle": "Respecter les normes mondiales de qualité et de durabilité",
+    "title": "Feuille de Route des Certifications",
+    "subtitle": "Construit dès le départ pour répondre aux normes internationales — débloquant des prix premium sur les marchés mondiaux.",
     "organic": {
       "title": "Certification Biologique",
       "targetDate": "2029 (Ferme) / 2030 (Transformation)"
@@ -129,18 +132,18 @@
   },
   "cta": {
     "title": "Prêt à Vous Approvisionner en Noix de Cajou Premium ?",
-    "subtitle": "Contactez-nous pour des demandes de vente en gros, des échantillons de produits ou pour discuter de la disponibilité future",
-    "contact": "Contactez-Nous",
+    "subtitle": "Demandez les prix, des échantillons de produits ou discutez des conditions contractuelles. Nous répondons aux demandes de gros dans les 24 heures.",
+    "contact": "Demander les Prix",
     "viewAll": "Voir Tous les Produits"
   },
   "midCta": {
-    "title": "Intéressé par Nos Produits ?",
-    "button": "Demander les Prix"
+    "title": "Vous Cherchez un Approvisionnement en Gros ?",
+    "button": "Visiter la Page Vente en Gros"
   },
   "processCta": {
-    "title": "Découvrez Comment Nous Transformons Nos Noix de Cajou",
-    "description": "De la récolte à l'emballage — visitez notre installation de transformation de pointe et découvrez comment nous maintenons la qualité à chaque étape.",
-    "button": "Visiter l'Installation de Transformation"
+    "title": "Découvrez Comment Nous Transformons les Noix de Cajou",
+    "description": "De la récolte à l'exportation — découvrez notre approche de transformation sans produits chimiques et nos systèmes de contrôle qualité.",
+    "button": "Voir l'Aperçu de la Transformation"
   },
   "offlinePayment": {
     "title": "Instructions de Paiement Hors Ligne",
@@ -163,18 +166,8 @@
       "backgroundImage": "raw-cashew.jpg",
       "icon": "FaSeedling",
       "certifications": ["Biologique", "Halal", "ISO 22000", "Commerce Équitable"],
-      "variants": [
-        {
-          "name": "Qualité Standard Biologique",
-          "priceRange": "1 200 $ - 1 500 $/tonne"
-        }
-      ],
-      "conventionalVariants": [
-        {
-          "name": "Qualité Standard Conventionnelle",
-          "priceRange": "800 $ - 1 100 $/tonne"
-        }
-      ]
+      "variants": [{ "name": "Qualité Standard Biologique", "priceRange": "1 200 $ - 1 500 $/tonne" }],
+      "conventionalVariants": [{ "name": "Qualité Standard Conventionnelle", "priceRange": "800 $ - 1 100 $/tonne" }]
     },
     {
       "name": "Amandes de Cajou",
@@ -193,24 +186,12 @@
       "icon": "FaWeightHanging",
       "certifications": ["Biologique", "Halal", "ISO 22000", "Commerce Équitable"],
       "variants": [
-        {
-          "name": "Amandes Entières Biologiques",
-          "priceRange": "6 500 $ - 8 000 $/tonne"
-        },
-        {
-          "name": "Brisures et Morceaux Biologiques",
-          "priceRange": "4 000 $ - 5 500 $/tonne"
-        }
+        { "name": "Amandes Entières Biologiques", "priceRange": "6 500 $ - 8 000 $/tonne" },
+        { "name": "Brisures et Morceaux Biologiques", "priceRange": "4 000 $ - 5 500 $/tonne" }
       ],
       "conventionalVariants": [
-        {
-          "name": "Amandes Entières Conventionnelles",
-          "priceRange": "4 500 $ - 6 000 $/tonne"
-        },
-        {
-          "name": "Brisures et Morceaux Conventionnels",
-          "priceRange": "2 800 $ - 3 800 $/tonne"
-        }
+        { "name": "Amandes Entières Conventionnelles", "priceRange": "4 500 $ - 6 000 $/tonne" },
+        { "name": "Brisures et Morceaux Conventionnels", "priceRange": "2 800 $ - 3 800 $/tonne" }
       ]
     },
     {
@@ -229,14 +210,8 @@
       "icon": "FaIndustry",
       "certifications": ["Biologique", "Halal", "ISO 22000", "Commerce Équitable"],
       "variants": [
-        {
-          "name": "Onctueux Biologique",
-          "priceRange": "8 $ - 12 $/kg"
-        },
-        {
-          "name": "Croustillant Biologique",
-          "priceRange": "8 $ - 12 $/kg"
-        }
+        { "name": "Onctueux Biologique", "priceRange": "8 $ - 12 $/kg" },
+        { "name": "Croustillant Biologique", "priceRange": "8 $ - 12 $/kg" }
       ]
     },
     {
@@ -255,24 +230,12 @@
       "icon": "FaLeaf",
       "certifications": ["Biologique", "Halal", "ISO 22000", "Commerce Équitable"],
       "variants": [
-        {
-          "name": "Nature Biologique",
-          "priceRange": "10 $ - 15 $/kg"
-        },
-        {
-          "name": "Salée Biologique",
-          "priceRange": "10 $ - 15 $/kg"
-        }
+        { "name": "Nature Biologique", "priceRange": "10 $ - 15 $/kg" },
+        { "name": "Salée Biologique", "priceRange": "10 $ - 15 $/kg" }
       ],
       "conventionalVariants": [
-        {
-          "name": "Nature Conventionnelle",
-          "priceRange": "6 $ - 9 $/kg"
-        },
-        {
-          "name": "Salée Conventionnelle",
-          "priceRange": "6 $ - 9 $/kg"
-        }
+        { "name": "Nature Conventionnelle", "priceRange": "6 $ - 9 $/kg" },
+        { "name": "Salée Conventionnelle", "priceRange": "6 $ - 9 $/kg" }
       ]
     },
     {
@@ -291,12 +254,7 @@
       "backgroundImage": "cashew-nut-shell-liquid.jpg",
       "icon": "FaLeaf",
       "certifications": ["Commerce Équitable"],
-      "variants": [
-        {
-          "name": "Qualité Technique",
-          "priceRange": "300 $ - 600 $/tonne"
-        }
-      ]
+      "variants": [{ "name": "Qualité Technique", "priceRange": "300 $ - 600 $/tonne" }]
     },
     {
       "name": "Lait de Cajou",
@@ -312,45 +270,34 @@
       "waitlist": true,
       "backgroundImage": "cashew-milk.jpg",
       "icon": "FaLeaf",
-      "certifications": [
-        "Biologique",
-        "Halal",
-        "ISO 22000",
-        "Commerce Équitable"
-      ],
+      "certifications": ["Biologique", "Halal", "ISO 22000", "Commerce Équitable"],
       "variants": [
-        {
-          "name": "Original Biologique",
-          "priceRange": "2 $ - 3 $/litre"
-        },
-        {
-          "name": "Non Sucré Biologique",
-          "priceRange": "2 $ - 3 $/litre"
-        }
+        { "name": "Original Biologique", "priceRange": "2 $ - 3 $/litre" },
+        { "name": "Non Sucré Biologique", "priceRange": "2 $ - 3 $/litre" }
       ]
     }
   ],
   "timeline": {
     "badge": "Feuille de Route de Production",
     "title": "Quand Pouvez-Vous Commander ?",
-    "subtitle": "Notre croissance stratégique, du pilote à l'échelle industrielle",
+    "subtitle": "Déploiement progressif, du pilote à l'échelle industrielle — aligné sur la maturation de notre ferme et le calendrier des certifications.",
     "overallProgress": "Progrès Global",
     "products": "produits",
     "available": "disponible",
     "productsTba": "Produits à Venir",
     "pilot": "Production Pilote",
-    "pilotDesc": "Production initiale et test de marché",
+    "pilotDesc": "Production initiale et validation du marché",
     "scale": "Montée en Échelle",
     "scaleDesc": "Expansion de la capacité de transformation",
     "industrial": "Échelle Industrielle",
-    "industrialDesc": "Production industrielle à pleine échelle",
+    "industrialDesc": "Production à pleine échelle",
     "availableNow": "Disponible Maintenant",
-    "availableDesc": "Produits prêts pour commande immédiate",
+    "availableDesc": "Prêt pour commande immédiate",
     "soon": "Bientôt Disponible",
     "inProgress": "En Développement",
-    "inProgressDesc": "Produits actuellement en développement",
+    "inProgressDesc": "Actuellement en développement",
     "future": "Futur",
-    "futureDesc": "Expansion de notre gamme de produits",
+    "futureDesc": "Expansion prévue de la gamme de produits",
     "planned": "Planifié",
     "plannedDesc": "Produits dans notre feuille de route future",
     "phase1": "Phase Future 1",
@@ -361,8 +308,5 @@
       "inProgress": "En Développement",
       "upcoming": "Bientôt Disponible"
     }
-  },
-  "relatedReading": {
-    "rawVsRoasted": "Vous hésitez ? Lisez : Noix de cajou crues vs grillées — Quelle est la différence"
   }
 }

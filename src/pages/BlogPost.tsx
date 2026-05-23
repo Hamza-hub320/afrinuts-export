@@ -212,15 +212,19 @@ const BlogPost: React.FC = () => {
             {/* SEO Metadata */}
             <Helmet>
                 <title>{post.metaTitle ? `${post.metaTitle} | AfriNuts Export` : `${post.title} | AfriNuts Export`}</title>
-                <meta name="description" content={post.metaDescription || post.excerpt || `Learn about ${post.title} from AfriNuts Export's cashew farm in Ivory Coast.`} />
+                <meta name="description" content={post.metaDescription || post.excerpt || `Read "${post.title}" — expert insights on cashew farming, sustainable agriculture, and the West African nut industry from AfriNuts Export's farm in Odienné, Côte d'Ivoire.`} />
                 <link rel="canonical" href={`https://www.afrinutsexport.com/blog/${post.slug}`} />
                 <meta property="og:title" content={post.title} />
-                <meta property="og:description" content={post.excerpt} />
+                <meta property="og:description" content={post.excerpt || post.metaDescription} />
                 <meta property="og:image" content={post.featuredImage} />
                 <meta property="og:type" content="article" />
                 <meta property="article:published_time" content={post.publishedDate} />
                 <meta property="article:author" content={post.author} />
+                <meta property="article:section" content={post.category} />
                 <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content={post.title} />
+                <meta name="twitter:description" content={post.excerpt} />
+                <meta name="twitter:image" content={post.featuredImage} />
             </Helmet>
 
             {/* JSON-LD Structured Data */}

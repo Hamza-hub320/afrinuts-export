@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaWhatsapp, FaPhone, FaComment } from 'react-icons/fa';
+import { FaWhatsapp, FaComment } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { trackOutboundClick, trackCtaClick } from '@/utils/analytics';
@@ -16,7 +16,7 @@ const FloatingButtons: React.FC<FloatingButtonsProps> = ({ className = '' }) => 
         <div className={`fixed bottom-36 left-4 z-30 flex flex-col items-end space-y-2 ${className}`}>
             {/* WhatsApp Button */}
             <motion.button
-                className="flex items-center px-3 py-2 rounded-full bg-gradient-to-r from-primary to-accent text-white shadow-xl transform-gpu group relative"
+                className="flex items-center px-3 py-2 rounded-full border-green-400 text-green-600 hover:bg-green-50 shadow-xl bg-white/50 transform-gpu group relative"
                 style={{
                     transformStyle: 'preserve-3d',
                 }}
@@ -78,9 +78,8 @@ const FloatingButtons: React.FC<FloatingButtonsProps> = ({ className = '' }) => 
                 <Link
                     to="/contact"
                     onClick={() => trackCtaClick('contact_us', 'floating_button')}
-                    className="flex items-center px-3 py-2 rounded-full text-white shadow-xl transform-gpu group relative"
+                    className="flex items-center px-3 py-2 rounded-full bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white shadow-xl transform-gpu group relative"
                     style={{
-                        background: 'linear-gradient(135deg, rgba(90, 116, 17, 0.9) 0%, rgba(160, 200, 0, 0.9) 100%)',
                         transformStyle: 'preserve-3d',
                     }}
                     aria-label="Go to Contact Page"

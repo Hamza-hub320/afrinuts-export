@@ -1,12 +1,27 @@
 {
+  "seo": {
+    "title": "Our Vision | Building Africa's Premier Ethical Cashew Brand | AfriNuts Export",
+    "description": "AfriNuts Export's vision to transform West African agriculture through vertical integration, Farm OS technology, ethical finance, and community reinvestment. Building Côte d'Ivoire's first certified cashew processing center."
+  },
   "hero": {
     "title": "Building Africa's Premier Ethical Cashew Brand",
     "subtitle": "From our family farm in Odienné, Ivory Coast to global markets — sustainable, traceable, and faith-aligned cashews."
   },
   "intro": {
     "title": "Transforming West Africa's Cashew Industry",
-    "content": ["Ivory Coast produces 45% of the world's cashews, yet less than 10% are processed locally. Most farmers live below the poverty line while the value is captured overseas. At AfriNuts Export, we are changing that.",
-                "We are building a vertically integrated, ethical cashew brand that keeps value in Africa. From our 35-hectare farm in Odienné to our future processing center, every step is owned and operated by us. No middlemen. No extraction. Just fair, transparent, faith-aligned agribusiness."]
+    "content": [
+      "Côte d'Ivoire produces over 45% of the world's cashews, yet less than 15% is processed locally. Billions in value is captured overseas while farmers remain in poverty. At AfriNuts Export, we are changing that.",
+      "We are building a vertically integrated, tech-enabled cashew brand that keeps value in Africa. From our 35-hectare farm in Odienné to our future processing center, every step is owned and operated by us — powered by our custom Farm OS, guided by ethical finance, and built for global markets."
+    ]
+  },
+  "traction": {
+    "title": "Where We Are Today",
+    "items": [
+      { "stat": "35 ha", "label": "Farm Operational", "desc": "3,500 cashew trees planted" },
+      { "stat": "200+", "label": "Farmers in Cooperative", "desc": "Exclusive sourcing agreement signed" },
+      { "stat": "Farm OS", "label": "Technology Deployed", "desc": "Custom Android app with cloud sync" },
+      { "stat": "$1.25M", "label": "Processing Center", "desc": "Investment round open" }
+    ]
   },
   "sustainability": {
     "title": "Sustainability & Stewardship",
@@ -30,13 +45,13 @@
     "subtitle": "Our farm is more than a business — it's a community uplift project",
     "items": [
       {
-        "title": "Farmer Training & Outgrower Program",
-        "content": "We train local farmers in organic cashew production and provide fair, guaranteed contracts. Goal: 20+ outgrowers supplying 10% of our volume by 2028.",
+        "title": "Farmer Training & Cooperative Network",
+        "content": "We lead the Coopérative Agricole AfriNuts with 200+ local farmers, providing training in organic cashew production and fair, guaranteed contracts.",
         "icon": "FaUsers"
       },
       {
         "title": "10% Community Reinvestment",
-        "content": "We allocate 10% of annual net profits to community projects: water wells, schools, mosques, and farmer training. First well planned for 2026.",
+        "content": "We allocate 10% of annual net profits to community projects: water wells, schools, mosques, and farmer training. First community projects underway.",
         "icon": "FaWater"
       },
       {
@@ -78,8 +93,8 @@
     ]
   },
   "innovation": {
-    "title": "Innovation & Transformation",
-    "subtitle": "Building the first locally owned, export-grade cashew brand from northwestern Côte d'Ivoire",
+    "title": "Farm OS — Built & Deployed",
+    "subtitle": "Custom Android app with offline-first architecture. Block-level tracking, photo documentation, task management, and financial reporting — already operational across our 35-hectare farm.",
     "items": [
       {
         "title": "Digital Traceability (2028+)",

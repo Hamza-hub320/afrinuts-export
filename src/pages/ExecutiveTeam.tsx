@@ -18,6 +18,7 @@ import opsImage from '@/assets/images/ops-manager.webp';
 import adminImage from '@/assets/images/admin-manager.webp';
 import farmImage from '@/assets/images/farm-manager.webp';
 import JsonLd from "@/components/Seo/JsonLd";
+import {Helmet} from "react-helmet-async";
 
 interface Executive {
     id: number;
@@ -171,6 +172,11 @@ const ExecutiveTeam: React.FC = () => {
 
     return (
         <main className="text-text-dark font-sans">
+            <Helmet>
+                <title>Executive Team | AfriNuts Export | Leadership in Cashew Agribusiness</title>
+                <meta name="description" content="Meet the leadership team behind AfriNuts Export — from software engineering to agribusiness, our executives bring decades of experience in finance, technology, operations, and sustainable farming in Côte d'Ivoire." />
+                <link rel="canonical" href="https://www.afrinutsexport.com/executive-team" />
+            </Helmet>
             <JsonLd data={{
                 "@context": "https://schema.org",
                 "@type": "WebPage",

@@ -1,23 +1,22 @@
 {
   "hero": {
     "subtitle": "Notre Parcours",
-    "title": "Notre Histoire : Trois Générations de Culture de Noix de Cajou à Odienné, Côte d'Ivoire",
-    "quote": "Une seule graine porte la promesse des générations. Notre histoire commence à Odienné, une terre d'héritage, de culture et de résilience.",
-    "backToExecutive": "Retour à l'Équipe de Direction"
+    "title": "Trois Générations d'Agriculture. Un Seul Système d'Exploitation.",
+    "quote": "Une seule graine porte la promesse des générations. Notre histoire commence à Odienné — là où la sagesse ancestrale rencontre la technologie sur mesure."
   },
   "breadcrumbs": {
     "home": "Accueil",
-    "about": "À Propos",
+    "about": "Présentation",
     "executiveTeam": "Équipe de Direction",
     "ourStory": "Notre Histoire"
   },
   "intro": {
-    "title": "De la Ferme Familiale à la Vision Mondiale",
-    "description": "AfriNuts Export combine trois générations d'héritage dans la culture de la noix de cajou avec la technologie moderne et les principes éthiques islamiques. Nous construisons une opération verticalement intégrée — de la graine à la récolte jusqu'à l'exportation — qui autonomise les communautés locales, protège la terre et fournit des noix de cajou bio premium au monde entier."
+    "title": "De la Ferme Familiale à l'Entreprise Agroalimentaire Technologique",
+    "description": "AfriNuts Export combine trois générations d'héritage dans la culture de la noix de cajou avec un système d'exploitation sur mesure — Farm OS — et les principes éthiques islamiques. Nous construisons une opération verticalement intégrée où chaque arbre, chaque dépense et chaque récolte est suivi numériquement. De la graine à l'exportation, nous ne nous contentons pas de cultiver des noix de cajou. Nous prouvons comment elles ont été cultivées."
   },
   "timeline": {
     "title": "Notre Chemin vers l'Impact",
-    "subtitle": "Des débuts modestes à une vision pour l'avenir agricole de l'Afrique de l'Ouest"
+    "subtitle": "Des débuts modestes à une vision technologique pour l'avenir agricole de l'Afrique de l'Ouest"
   },
   "sections": {
     "heritage": {
@@ -29,19 +28,19 @@
       ]
     },
     "tradition": {
-      "title": "La Tradition Rencontre le Savoir-Faire",
-      "alt": "Tradition de culture de la noix de cajou",
+      "title": "La Tradition Rencontre la Technologie",
+      "alt": "La tradition agricole du cajou rencontre Farm OS",
       "content": [
         "Les noix de cajou sont plus qu'une culture ; elles sont notre fondation. Elles représentent un lien entre la terre et son peuple.",
-        "Mais la tradition seule ne garantit pas l'avenir. Pour répondre aux exigences des marchés mondiaux, nous devons innover tout en protégeant la terre qui nous nourrit."
+        "Mais la tradition seule ne garantit pas l'avenir. Alors nous avons fait quelque chose d'inhabituel pour une ferme ouest-africaine : nous avons construit notre propre logiciel. Farm OS — une application Android hors ligne qui suit chaque bloc, chaque arbre et chaque récolte. Pas parce que c'était facile. Parce que la transparence l'exigeait."
       ]
     },
     "innovation": {
-      "title": "Innovation Durable",
-      "alt": "Innovation agricole durable",
+      "title": "Innovation Durable, Alimentée par les Données",
+      "alt": "Innovation agricole durable avec Farm OS",
       "content": [
-        "Chez AfriNuts Export, la durabilité n'est pas un slogan ; c'est une promesse. Nous investissons dans des pratiques biologiques, une irrigation économe en eau et des technologies innovantes comme les drones et les capteurs de sol.",
-        "Chaque noix de cajou que nous récoltons symbolisera la qualité, le soin et la responsabilité envers la terre. D'ici 2031, notre installation de transformation de pointe apportera une transformation à valeur ajoutée à notre région."
+        "Chez AfriNuts Export, la durabilité n'est pas un slogan ; elle est mesurée. Notre Farm OS suit les intrants biologiques, la consommation d'eau et les indicateurs de santé des sols par bloc — afin que nous puissions prouver nos affirmations environnementales, pas seulement les énoncer.",
+        "Chaque noix de cajou que nous récoltons est enregistrée avec des coordonnées GPS, une date de récolte et des données de qualité. D'ici 2031, notre installation de transformation de pointe apportera une transformation à valeur ajoutée à notre région — avec chaque lot traçable de l'arbre au conteneur."
       ]
     },
     "community": {
@@ -53,17 +52,17 @@
       ]
     },
     "future": {
-      "title": "Un Avenir en Plein Essor",
+      "title": "Un Avenir Axé sur la Technologie",
       "alt": "Vision future pour AfriNuts",
       "content": [
-        "Nous plantons des graines de changement. Avec chaque emploi créé et chaque récolte améliorée, nous cultivons un avenir plus fort et plus résilient pour nos communautés.",
-        "L'Afrique, en particulier l'Afrique de l'Ouest, est la terre promise pour ceux qui recherchent des opportunités d'affaires authentiques et à long terme. AfriNuts Export est cette porte de confiance — enracinée dans la terre, respectée par le peuple et alignée sur les normes mondiales."
+        "Nous plantons des graines de changement. Avec chaque emploi créé, chaque récolte améliorée et chaque ligne de code écrite pour Farm OS, nous cultivons un avenir plus fort et plus résilient pour nos communautés.",
+        "L'Afrique, en particulier l'Afrique de l'Ouest, est la terre promise pour ceux qui recherchent des opportunités d'affaires authentiques et à long terme. AfriNuts Export est cette porte de confiance — enracinée dans la terre, respectée par le peuple, propulsée par la technologie et alignée sur les normes mondiales."
       ]
     }
   },
   "cta": {
     "title": "Rejoignez Notre Histoire",
-    "subtitle": "Lorsque vous choisissez AfriNuts Export, vous choisissez un but. Vous choisissez l'héritage. Vous décidez d'investir dans une histoire qui redéfinit l'agriculture en Afrique de l'Ouest.",
+    "subtitle": "Lorsque vous choisissez AfriNuts Export, vous choisissez un but. Vous choisissez l'héritage. Vous choisissez une entreprise agroalimentaire technologique qui prouve ce qu'elle promet.",
     "button": "Contacter Notre Équipe"
   }
 }

@@ -6,7 +6,7 @@
   "hero": {
     "subtitle": "Opportunité d'Investissement",
     "title": "Construction du Premier Centre de Transformation de Noix de Cajou Certifié de Côte d'Ivoire",
-    "tagline": "Investissement de 1 250 000 $ adossé à des actifs · 25 % de participation · Moudaraba conforme à la Charia · Dividendes à partir de 2033",
+    "tagline": "Investissement de 1 250 000 $ adossé à des actifs · 25 % de participation · Moudaraba conforme à la Charia · Transparence alimentée par Farm OS · Dividendes à partir de 2033",
     "downloadNda": "Télécharger la NDA",
     "scheduleCall": "Planifier un Appel",
     "kpis": {
@@ -27,10 +27,10 @@
         "highlights": ["Plus grand producteur mondial de cajou", "Incitations gouvernementales pour les transformateurs", "Accès portuaire stratégique aux marchés de l'UE"]
       },
       "firstMover": {
-        "title": "Avantage du Premier Entrant",
-        "desc": "AfriNuts sera la première installation de transformation certifiée dans le nord-ouest de la Côte d'Ivoire, avec des terres, une ferme et une chaîne d'approvisionnement déjà sécurisées.",
+        "title": "Premier Entrant Technologique",
+        "desc": "AfriNuts sera la première installation de transformation certifiée et axée sur la technologie dans le nord-ouest de la Côte d'Ivoire, avec Farm OS offrant une transparence de niveau institutionnel qu'aucun concurrent ne peut égaler.",
         "stat": "Premier Entrant",
-        "highlights": ["Ferme de 35 hectares opérationnelle", "Coopérative de 200+ agriculteurs sécurisée", "10 hectares réservés pour l'installation"]
+        "highlights": ["Plateforme Farm OS sur mesure", "Ferme de 35 hectares opérationnelle", "Coopérative de 200+ agriculteurs sécurisée"]
       },
       "margin": {
         "title": "Expansion de Marge x5",
@@ -99,7 +99,7 @@
       "growingTo": "Atteignant 93 750 $ d'ici 2037"
     },
     "dividendTable": {
-      "title": "Projection des Dividendendes (Scénario de Base)",
+      "title": "Projection des Dividendes (Scénario de Base)",
       "year": "Année",
       "netProfit": "Bénéfice Net",
       "dividendPool": "Pool de Dividendes (50 %)",
@@ -148,11 +148,11 @@
     "theirDisadvantage": "Leur Désavantage",
     "ourStrategy": "Contre-Stratégie d'AfriNuts",
     "uniqueValueTitle": "L'Avantage Concurrentiel Unique d'AfriNuts",
-    "uniqueValueDesc": "Notre intégration verticale combinée à l'expertise locale et à la stratégie de certification nous permet d'offrir ce qu'aucun autre acteur ne peut : des noix de cajou premium, certifiées et traçables provenant d'une source transparente et socialement responsable au cœur de la plus grande région productrice mondiale.",
+    "uniqueValueDesc": "Notre intégration verticale, notre expertise locale et notre technologie Farm OS sur mesure nous permettent d'offrir ce qu'aucun autre acteur ne peut : des noix de cajou premium, certifiées et traçables, soutenues par des données opérationnelles en temps réel — provenant d'une source transparente et socialement responsable au cœur de la plus grande région productrice mondiale.",
     "rows": [
-      { "competitor": "Grands Transformateurs Asiatiques", "advantage": "Échelle, infrastructure établie, main-d'œuvre à faible coût", "weakness": "Déconnexion géographique de la source, hausse des coûts de main-d'œuvre", "strategy": "Histoire d'Origine et Traçabilité : Traçabilité d'origine unique de Côte d'Ivoire" },
-      { "competitor": "Transformateurs Locaux Ivoiriens", "advantage": "Présence locale, accès aux noix brutes", "weakness": "Manquent d'échelle, de certifications internationales, d'accès au marché", "strategy": "Certification et Qualité : Respecter les normes internationales les plus élevées" },
-      { "competitor": "Marques Occidentales", "advantage": "Marques grand public fortes, accès au marché", "weakness": "Dépendantes des amandes importées, déconnectées de la source", "strategy": "Intégration Verticale : Contrôler toute la chaîne, garantir la qualité" }
+      { "competitor": "Grands Transformateurs Asiatiques", "advantage": "Échelle, infrastructure établie, main-d'œuvre à faible coût", "weakness": "Déconnexion géographique de la source, hausse des coûts de main-d'œuvre", "strategy": "Histoire d'Origine et Traçabilité Farm OS : Origine unique de Côte d'Ivoire avec vérification numérique qu'ils ne peuvent égaler" },
+      { "competitor": "Transformateurs Locaux Ivoiriens", "advantage": "Présence locale, accès aux noix brutes", "weakness": "Manquent d'échelle, de certifications et d'infrastructure technologique", "strategy": "Certification et Technologie : Construit pour Biologique, Halal, ISO 22000 — soutenu par les données Farm OS" },
+      { "competitor": "Marques Occidentales", "advantage": "Marques grand public fortes, accès au marché", "weakness": "Dépendantes des amandes importées, déconnectées de la source, sans visibilité sur la chaîne d'approvisionnement", "strategy": "Intégration Verticale + Technologie : Nous possédons la chaîne et avons construit le logiciel pour le prouver" }
     ]
   },
   "shariah": {
@@ -193,12 +193,42 @@
     "subtitle": "Les investisseurs investissent dans les personnes. Notre équipe combine des générations de culture de noix de cajou avec une expertise en finance, technologie, opérations et commerce international — le tout guidé par les principes éthiques islamiques.",
     "viewAll": "Rencontrer toute l'équipe de direction",
     "members": [
-      { "name": "Hamza Sangare", "position": "Fondateur et PDG", "bio": "Producteur de cajou de 3e génération. Formation en génie logiciel. Dirige la stratégie, les relations investisseurs et l'exécution des projets.", "imageKey": "ceo" },
-      {"name": "Sekou Hakim Peters", "position": "Co-Fondateur & CFO/COO", "bio": "Conçoit des systèmes financiers éthiques à la convergence de la rentabilité et des principes prophétiques. Dirige la structuration conforme à la Charia, la stratégie opérationnelle et le réinvestissement communautaire.", "imageKey": "cfo"},
-      { "name": "Mohamadue Kouyaté", "position": "Directeur Commercial", "bio": "Plus de 12 ans en conformité export, logistique et opérations. Gère les relations acheteurs et la documentation commerciale.", "imageKey": "cco" },
-      { "name": "Alassana Bah", "position": "Directeur de la Technologie", "bio": "Plus de 12 ans en génie logiciel et gestion de bases de données. Dirige l'infrastructure IoT et les systèmes de gestion agricole.", "imageKey": "ops" },
-      { "name": "Mohammed Beniken", "position": "Directeur Administratif", "bio": "Plus de 10 ans en leadership administratif. Supervise les RH, les affaires juridiques et les protocoles de sécurité de l'information.", "imageKey": "admin" },
-      { "name": "Souleymane Sangare", "position": "Responsable des Opérations Agricoles", "bio": "Plus de 14 ans en gestion agricole. Racines communautaires profondes à Odienné. Dirige les opérations quotidiennes de la ferme et les relations avec les agriculteurs.", "imageKey": "farm" }
+      {
+        "name": "Hamza Sangare",
+        "position": "Fondateur et PDG",
+        "bio": "Ingénieur logiciel devenu fondateur agroalimentaire. A construit AfriNuts Farm OS — une plateforme Android hors ligne avec synchronisation cloud pour le suivi par bloc. Producteur de cajou de 3e génération. Dirige la stratégie, l'architecture technologique et les relations investisseurs.",
+        "imageKey": "ceo"
+      },
+      {
+        "name": "Sekou Hakim Peters",
+        "position": "Co-Fondateur et CFO/COO",
+        "bio": "Conçoit des systèmes financiers éthiques où la rentabilité converge avec les principes prophétiques. Dirige la structuration conforme à la Charia, la stratégie opérationnelle et la transition des exportations de matières premières vers la transformation locale.",
+        "imageKey": "cfo"
+      },
+      {
+        "name": "Mohamadue Kouyaté",
+        "position": "Directeur Commercial",
+        "bio": "Plus de 12 ans en conformité export, logistique et documentation commerciale. Gère les relations acheteurs sur les marchés de l'UE et du Moyen-Orient avec la traçabilité complète de Farm OS soutenant chaque expédition.",
+        "imageKey": "cco"
+      },
+      {
+        "name": "Alassana Bah",
+        "position": "Directeur de la Technologie et Investisseur Précoce",
+        "bio": "A commencé comme investisseur externe. A rejoint l'équipe à plein temps après avoir vu la plateforme technologique de ses propres yeux. Dirige maintenant le développement de Farm OS, l'infrastructure IoT et l'analyse de données — prouvant que les meilleurs investisseurs deviennent des partenaires.",
+        "imageKey": "ops"
+      },
+      {
+        "name": "Mohammed Beniken",
+        "position": "Directeur Administratif",
+        "bio": "Plus de 10 ans en leadership administratif. Supervise les RH, la conformité juridique et la sécurité de l'information — garantissant l'intégrité des données Farm OS et les normes de gouvernance d'entreprise.",
+        "imageKey": "admin"
+      },
+      {
+        "name": "Souleymane Sangare",
+        "position": "Responsable des Opérations Agricoles",
+        "bio": "Plus de 14 ans en gestion agricole. L'homme de terrain à Odienné. Dirige les opérations quotidiennes de la ferme, les relations coopératives et garantit que chaque point de données dans Farm OS reflète la réalité du terrain.",
+        "imageKey": "farm"
+      }
     ]
   },
   "cta": {
@@ -210,18 +240,9 @@
   "marketSize": {
     "title": "Marché Total Adressable",
     "subtitle": "Une opportunité de plusieurs milliards de dollars dans un marché mondial en croissance",
-    "globalMarket": {
-      "title": "Marché Mondial des Amandes de Cajou",
-      "growth": "TCAC de 4-5 % jusqu'en 2030"
-    },
-    "ivoryCoast": {
-      "title": "Production de la Côte d'Ivoire",
-      "gap": "<15 % transformé localement"
-    },
-    "ourTarget": {
-      "title": "Notre Marché Cible",
-      "description": "Importations d'amandes certifiées premium vers l'UE, le Moyen-Orient et l'Amérique du Nord"
-    },
+    "globalMarket": { "title": "Marché Mondial des Amandes de Cajou", "growth": "TCAC de 4-5 % jusqu'en 2030" },
+    "ivoryCoast": { "title": "Production de la Côte d'Ivoire", "gap": "<15 % transformé localement" },
+    "ourTarget": { "title": "Notre Marché Cible", "description": "Importations d'amandes certifiées premium vers l'UE, le Moyen-Orient et l'Amérique du Nord" },
     "growthRate": "Taux de Croissance Annuel",
     "growthDesc": "Porté par les tendances santé et les régimes à base de plantes",
     "driversTitle": "Moteurs de Croissance du Marché",
@@ -235,22 +256,10 @@
     "title": "Stratégie de Sortie et Protections des Investisseurs",
     "subtitle": "Des voies claires vers la liquidité avec des protections solides pour les actionnaires",
     "options": [
-      {
-        "title": "Vente de l'Entreprise / Fusion / IPO",
-        "description": "En cas de Sortie, l'Investisseur reçoit 25 % du produit net distribué aux actionnaires, proportionnellement à sa participation."
-      },
-      {
-        "title": "Droit de Sortie Conjointe (Drag-Along)",
-        "description": "Si les actionnaires majoritaires approuvent une vente, l'Investisseur accepte de vendre aux mêmes conditions — garantissant une sortie propre et unifiée pour toutes les parties."
-      },
-      {
-        "title": "Droit de Cession Conjointe (Tag-Along)",
-        "description": "Si un fondateur ou un actionnaire majoritaire vend ses parts, l'Investisseur peut se joindre à la transaction et vendre un montant proportionnel aux mêmes conditions — le protégeant contre la détention d'actions illiquides."
-      },
-      {
-        "title": "Option de Rachat Mutuel (2031)",
-        "description": "L'une ou l'autre partie peut déclencher un rachat. Évaluation basée sur : 2× l'investissement initial, 5× le revenu brut, ou une évaluation indépendante. Paiements différés autorisés — sans riba, sans coercition."
-      }
+      { "title": "Vente de l'Entreprise / Fusion / IPO", "description": "En cas de Sortie, l'Investisseur reçoit 25 % du produit net distribué aux actionnaires, proportionnellement à sa participation." },
+      { "title": "Droit de Sortie Conjointe (Drag-Along)", "description": "Si les actionnaires majoritaires approuvent une vente, l'Investisseur accepte de vendre aux mêmes conditions — garantissant une sortie propre et unifiée pour toutes les parties." },
+      { "title": "Droit de Cession Conjointe (Tag-Along)", "description": "Si un fondateur ou un actionnaire majoritaire vend ses parts, l'Investisseur peut se joindre à la transaction et vendre un montant proportionnel aux mêmes conditions — le protégeant contre la détention d'actions illiquides." },
+      { "title": "Option de Rachat Mutuel (2031)", "description": "L'une ou l'autre partie peut déclencher un rachat. Évaluation basée sur : 2× l'investissement initial, 5× le revenu brut, ou une évaluation indépendante. Paiements différés autorisés — sans riba, sans coercition." }
     ],
     "liquidation": "En cas de force majeure ou d'échec commercial, l'Investisseur reçoit une part des actifs restants après les dettes — proportionnelle à sa participation."
   },
@@ -268,12 +277,23 @@
   },
   "socialProof": {
     "title": "D'Investisseur à Co-Fondateur",
-    "description": "Alassana Bah a d'abord investi dans notre phase de développement agricole. Il a vu la vision — puis il a rejoint l'équipe. Aujourd'hui, il est notre Directeur de la Technologie, dirigeant l'IoT et les systèmes de gestion agricole. Son parcours d'investisseur externe à co-fondateur et CTO est la plus forte preuve du potentiel d'AfriNuts.",
-    "testimonial": "\"La ferme est réelle. L'équipe est compétente. La vision est claire. C'est pourquoi je n'ai pas seulement investi — j'ai rejoint l'équipe.\"",
-    "attribution": "— Alassana Bah, CTO et Investisseur"
+    "description": "Alassana Bah a d'abord investi dans notre phase de développement agricole. Après avoir vu la technologie, l'équipe et l'exécution de ses propres yeux, il n'a pas seulement signé un chèque — il a rejoint l'équipe en tant que Directeur de la Technologie. Son parcours d'investisseur externe à CTO dirigeant le développement de notre Farm OS est la plus forte preuve du potentiel d'AfriNuts.",
+    "testimonial": "\"J'ai d'abord investi. Puis j'ai vu la technologie qu'ils construisaient — une application Android personnalisée avec synchronisation hors ligne, des tableaux de bord en temps réel, un suivi par bloc. C'est là que j'ai su que ce n'était pas qu'une simple ferme. J'ai rejoint en tant que CTO parce que la plateforme technologique à elle seule vaut plus que les terres agricoles.\"",
+    "attribution": "— Alassana Bah, CTO et Investisseur Précoce"
   },
   "legalDisclaimer": {
     "text": "Ces informations sont fournies à titre informatif uniquement et ne constituent pas une offre de vente ni une sollicitation d'offre d'achat de titres. Tout investissement comporte des risques. Les performances passées ne garantissent pas les résultats futurs. Les projections ne sont que des estimations et peuvent ne pas être atteintes. Cette opportunité d'investissement est disponible uniquement pour les investisseurs qualifiés capables de supporter le risque de perte.",
     "ndaRequired": "Les détails complets, y compris le plan d'affaires complet et le modèle financier, sont disponibles uniquement après la signature de la NDA."
+  },
+  "farmOs": {
+    "title": "Farm OS : La Technologie Derrière l'Investissement",
+    "body": "La plupart des investissements agroalimentaires reposent sur la confiance et des PDF trimestriels. Le nôtre fonctionne sur un système d'exploitation sur mesure qui donne aux investisseurs une visibilité en temps réel sur les performances de la ferme — arbres vivants, dépenses par bloc, volumes de récolte et projections de bénéfices. Le même tableau de bord que notre équipe utilise quotidiennement est disponible pour les investisseurs vérifiés.",
+    "capabilities": [
+      "Suivi financier par bloc — revenus et dépenses par hectare",
+      "Tableau de bord en temps réel avec KPI, graphiques et documentation photo",
+      "Gestion des tâches et analyses de performance des travailleurs",
+      "Traçabilité des lots de la récolte au conteneur d'exportation"
+    ],
+    "cta": "Ceci est le tableau de bord réel. Pas une maquette. Pas une promesse."
   }
 }

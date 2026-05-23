@@ -16,7 +16,7 @@ import {
     FaUsers,
     FaVenus,
     FaChartLine,
-    FaGlobe, FaCircle
+    FaGlobe
 } from "react-icons/fa";
 
 import Section from '@/components/Section/Section';
@@ -27,6 +27,8 @@ import sustainabilityHeroImage from '@/assets/images/sustainability-hero.webp';
 import agroforestryImage from '@/assets/images/agroforestry.webp';
 import farmersImage from '@/assets/images/farmers.webp';
 import { IconType } from 'react-icons';
+import JsonLd from "@/components/Seo/JsonLd";
+import { Helmet } from 'react-helmet-async';
 
 const Sustainability: React.FC = () => {
     const { t } = useTranslation('sustainability');
@@ -54,6 +56,40 @@ const Sustainability: React.FC = () => {
 
     return (
         <main>
+            <Helmet>
+                <title>Sustainable & Organic Cashew Farming in Ivory Coast | AfriNuts Export</title>
+                <meta name="description" content="How AfriNuts Export practices organic farming, water conservation, zero-waste processing, and fair labor on our 35-hectare cashew farm in Odienné, Côte d'Ivoire. Carbon-neutral by 2028." />
+                <link rel="canonical" href="https://www.afrinutsexport.com/sustainability" />
+                <meta property="og:title" content="Sustainable & Organic Cashew Farming in Ivory Coast | AfriNuts Export" />
+                <meta property="og:description" content="Organic farming, zero-waste processing, fair labor, and community reinvestment on our 35-hectare farm in Odienné. Carbon-neutral by 2028." />
+                <meta property="og:type" content="website" />
+                <meta name="twitter:card" content="summary_large_image" />
+            </Helmet>
+
+            <JsonLd data={{
+                "@context": "https://schema.org",
+                "@type": "WebPage",
+                "name": "Sustainable & Organic Cashew Farming | AfriNuts Export",
+                "description": "Organic farming, water conservation, zero-waste processing, and fair labor practices at our 35-hectare cashew farm in Odienné, Côte d'Ivoire.",
+                "about": {
+                    "@type": "Organization",
+                    "name": "AfriNuts Export",
+                    "description": "Sustainable cashew farming with organic practices, zero-waste processing, and community reinvestment in Odienné, Côte d'Ivoire.",
+                    "knowsAbout": [
+                        "Organic Cashew Farming",
+                        "Water Conservation",
+                        "Zero-Waste Processing",
+                        "Agroforestry",
+                        "Fair Labor Practices",
+                        "Carbon-Neutral Supply Chain"
+                    ]
+                },
+                "publisher": {
+                    "@type": "Organization",
+                    "name": "AfriNuts Export",
+                    "url": "https://www.afrinutsexport.com"
+                }
+            }} />
             {/* Hero Section */}
             <Section
                 fullHeight={false}

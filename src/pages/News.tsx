@@ -11,6 +11,8 @@ import newsConfig from '@/data/newsConfig.json';
 import newsFeeds from '@/data/newsFeeds.json';
 import newsImage from '@/assets/images/news.webp';
 import { trackCtaClick, trackOutboundClick } from '@/utils/analytics';
+import JsonLd from "@/components/Seo/JsonLd";
+import {Helmet} from "react-helmet-async";
 
 interface RSSItem {
     title: string;
@@ -380,6 +382,24 @@ const News: React.FC = () => {
 
     return (
         <main>
+            <Helmet>
+                <title>AfriNuts News & Updates | Cashew Industry News & Farm Updates</title>
+                <meta name="description" content="Latest updates from AfriNuts Export — farm progress, industry news, processing center developments, and community impact stories from Odienné, Côte d'Ivoire." />
+                <link rel="canonical" href="https://www.afrinutsexport.com/news" />
+            </Helmet>
+
+            <JsonLd data={{
+                "@context": "https://schema.org",
+                "@type": "CollectionPage",
+                "name": "AfriNuts News & Updates",
+                "description": "Latest updates from AfriNuts Export — farm progress, industry news, and community impact stories.",
+                "url": "https://www.afrinutsexport.com/news",
+                "publisher": {
+                    "@type": "Organization",
+                    "name": "AfriNuts Export",
+                    "url": "https://www.afrinutsexport.com"
+                }
+            }} />
             {/* Hero */}
             <Section fullHeight={false} className="flex items-center justify-center text-center min-h-[40vh]">
                 <motion.div className="max-w-4xl px-6 sm:px-8 py-12" initial="hidden" animate="visible" variants={staggerContainer}>

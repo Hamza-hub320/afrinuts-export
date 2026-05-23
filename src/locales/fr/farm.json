@@ -1,120 +1,120 @@
 {
   "hero": {
-    "title": "Notre Ferme de Noix de Cajou Bio de 35 Hectares à Odienné, Côte d'Ivoire",
-    "subtitle": "Familiale. Cultivée durablement. Nous cultivons les meilleures noix de cajou d'Afrique de l'Ouest grâce à l'agriculture régénératrice et aux pratiques biologiques."
+    "title": "La Ferme Qui a Construit Son Propre Système d'Exploitation",
+    "subtitle": "35 hectares à Odienné, Côte d'Ivoire. 3 500 arbres. Un Farm OS sur mesure qui suit chaque bloc, chaque arbre, chaque récolte. C'est ici que notre technologie rencontre le sol."
   },
   "overview": {
-    "heading": "35 Hectares de Production Premium de Noix de Cajou",
-    "description": "Nichée à Odienné, l'épicentre de la production de noix de cajou en Côte d'Ivoire, notre plantation familiale est développée selon des techniques agricoles climato-intelligentes pour produire des noix de cajou brutes de qualité supérieure avec une traçabilité complète, du sol à l'expédition."
+    "heading": "35 Hectares. Un Système. Visibilité Totale.",
+    "description": "Notre plantation familiale à Odienné est gérée via Farm OS — une plateforme sur mesure qui suit chaque bloc par coordonnées GPS, taux de survie, date de plantation et historique de récolte. Ce qui se passe sur cette ferme ne reste pas dans un registre papier. Cela alimente des tableaux de bord que les acheteurs et les investisseurs peuvent consulter."
   },
   "stats": {
     "area": "35 hectares",
-    "areaLabel": "Superficie Totale de la Plantation – Nos terres familiales dédiées à la culture de la noix de cajou",
+    "areaLabel": "Superficie Totale de la Plantation — Chaque hectare cartographié et suivi dans Farm OS",
     "location": "Odienné",
-    "locationLabel": "Localisation – Au cœur de la ceinture de cajou de Côte d'Ivoire pour une croissance optimale",
+    "locationLabel": "Localisation — Vérifiée par GPS au cœur de la ceinture de cajou de Côte d'Ivoire",
     "phase": "Phase 1",
-    "phaseLabel": "Phase de Développement – Défrichage, cartographie des sols et opérations de plantation en cours",
+    "phaseLabel": "Phase de Développement — Progrès enregistrés par bloc avec documentation photo",
     "practices": "Biologique",
-    "practicesLabel": "Pratiques Agricoles – Méthodes climato-intelligentes et biologiques pour une production durable"
+    "practicesLabel": "Pratiques Agricoles — Méthodes sans produits chimiques vérifiées par le suivi numérique des intrants"
   },
   "relatedReading": {
-    "growingGuide": "Lisez notre guide complet : Comment cultiver des anacardiers en Afrique de l'Ouest"
+    "growingGuide": "Notre Guide Complet : Comment Cultiver des Anacardiers en Afrique de l'Ouest"
   },
   "features": {
-    "title": "Caractéristiques Clés de la Plantation",
+    "title": "Ce Qui Rend Cette Ferme Différente",
     "family": {
-      "title": "Terres Familiales",
-      "description": "70 hectares de terres familiales avec pleins droits de développement"
+      "title": "Familiale. Gérée par la Technologie.",
+      "description": "70 hectares de terres familiales. 35 en culture. Chaque bloc cartographié, chaque arbre compté, chaque dépense allouée dans Farm OS."
     },
     "irrigation": {
       "title": "Irrigation Intelligente",
-      "description": "Systèmes économes en eau pour une croissance optimale en toutes saisons"
+      "description": "Systèmes économes en eau avec consommation suivie dans Farm OS pour une optimisation continue."
     },
     "processing": {
       "title": "Transformation Future",
-      "description": "Installation de transformation sur site prévue pour 2031"
+      "description": "Installation sur site prévue pour 2031 — conçue pour s'intégrer directement à Farm OS pour une traçabilité de bout en bout."
     },
     "harvest": {
       "title": "Première Récolte",
-      "description": "Première récolte commerciale prévue pour 2028 (Année 4 de maturité des arbres), avec pleine production d'ici 2030."
+      "description": "Première récolte commerciale prévue pour 2028. Chaque kilogramme sera enregistré par bloc, date et niveau de qualité dans Farm OS."
     }
   },
   "timeline": {
-    "title": "Phases de Développement Stratégique",
+    "title": "Chronologie du Développement de la Ferme",
     "scrollIndicator": "Faites défiler pour voir la chronologie",
     "land": {
       "year": "2025",
       "title": "Aménagement du Terrain",
-      "description": "Cartographie complète des sols, défrichage sélectif et installation d'infrastructures d'irrigation de précision"
+      "description": "Cartographie des sols, défrichage et irrigation — chaque activité documentée avec photos et données GPS dans Farm OS."
     },
     "planting": {
       "year": "2026",
       "title": "Opérations de Plantation",
-      "description": "Plantation systématique de cultivars de cajou à haut rendement sur 35 hectares avec un espacement optimal pour la croissance"
+      "description": "3 500 arbres plantés sur 35 blocs. Chaque arbre assigné à un bloc. Chaque bloc suivi pour le taux de survie, le stade de croissance et l'entretien."
     },
     "harvest": {
       "year": "2028",
       "title": "Première Récolte Commerciale",
-      "description": "Rendement initial prévu de 0,5 à 1 tonne par hectare pour les jeunes arbres, passant à la pleine production d'ici 2030"
+      "description": "Rendement initial suivi par bloc. Indicateurs de qualité enregistrés. La base de données pour notre centre de transformation commence ici."
     }
   },
   "gallery": {
-    "title": "Progrès de la Plantation",
+    "title": "Progrès de la Ferme — Documenté",
     "alt1": "Verger de cajou en développement avec de jeunes arbres",
-    "caption1": "Phase initiale de plantation sur notre propriété de 35 hectares",
+    "caption1": "Chaque étape de développement photographiée et enregistrée dans Farm OS",
     "alt2": "Techniques durables de préparation du terrain",
-    "caption2": "Méthodes de défrichage écologiques",
+    "caption2": "Défrichage écologique — méthodes documentées pour la certification biologique",
     "alt3": "Installation du système d'irrigation",
-    "caption3": "Systèmes de distribution d'eau de précision",
+    "caption3": "Infrastructure hydrique cartographiée et surveillée",
     "alt4": "Jeunes anacardiers",
-    "caption4": "Cultivars à haut rendement à 6 mois de croissance"
+    "caption4": "Croissance des arbres suivie par bloc avec surveillance du taux de survie"
   },
   "sustainability": {
-    "title": "Traçabilité de la Ferme à l'Exportation",
-    "description": "Suivi prêt pour la blockchain, de l'arbre au conteneur. Chaque récolte est enregistrée, chaque lot est traçable.",
+    "title": "Une Durabilité Que Vous Pouvez Vérifier",
+    "description": "Notre Farm OS ne suit pas seulement la production. Il suit notre empreinte environnementale : consommation d'eau, intrants biologiques et santé des sols par bloc. Les promesses de durabilité sont faciles. La durabilité fondée sur les données est rare.",
     "organic": {
       "title": "Culture Biologique",
-      "description": "Gestion intégrée des ravageurs et engrais organiques pour maintenir l'équilibre de l'écosystème"
+      "description": "Chaque intrant enregistré. Chaque application enregistrée par bloc, par date. Prêt pour l'audit de certification ECOCERT."
     },
     "water": {
       "title": "Gestion de l'Eau",
-      "description": "Systèmes d'irrigation goutte à goutte réduisant la consommation d'eau de 40 % par rapport aux méthodes traditionnelles"
+      "description": "Irrigation goutte à goutte réduisant la consommation d'eau de 40 %. Consommation suivie mensuellement dans Farm OS pour une amélioration continue."
     },
     "community": {
       "title": "Autonomisation Communautaire",
-      "description": "Programmes de formation pour les agriculteurs locaux aux techniques durables"
+      "description": "Plus de 200 agriculteurs dans notre coopérative. Programmes de formation suivis. Prix équitables documentés. Impact mesuré, pas seulement revendiqué."
     }
   },
   "impact": {
-    "title": "Notre Impact",
+    "title": "Un Impact Que Vous Pouvez Mesurer",
     "hectares": {
       "label": "Hectares en Culture",
-      "description": "35 hectares dédiés à la production durable de noix de cajou, soutenant l'équilibre écologique à long terme."
+      "description": "35 hectares suivis bloc par bloc dans Farm OS — chaque arbre, chaque intrant, chaque résultat enregistré."
     },
     "jobs": {
       "label": "Emplois Créés",
-      "description": "Opportunités d'emploi local générées par l'agriculture, la transformation et les activités de soutien communautaire."
+      "description": "Données d'emploi suivies. Conformité des salaires équitables surveillée. Pas des estimations — des données de paie réelles."
     },
     "farmers": {
       "label": "Revenus des Agriculteurs",
-      "description": "Programmes de partenariat conçus pour améliorer les moyens de subsistance des agriculteurs locaux grâce à des prix équitables et à la formation."
+      "description": "Prix et volumes de la coopérative suivis. Paiements aux agriculteurs documentés. Transparent pour les investisseurs et les partenaires."
     },
     "profits": {
       "label": "Réinvestissement Communautaire",
-      "description": "10 % des bénéfices réinvestis dans l'éducation, la santé et les infrastructures pour les communautés environnantes."
+      "description": "10 % des bénéfices réinvestis. Projets suivis avec budgets et état d'avancement dans Farm OS."
     }
   },
   "cta": {
-    "title": "Devenez Partenaire",
-    "description": "Que vous soyez un acheteur en gros, un investisseur ou un partenaire de distribution, nous serions ravis d'échanger avec vous.",
-    "button": "Demander des Informations sur la Vente en Gros"
+    "title": "Découvrez le Système Derrière la Ferme",
+    "description": "Que vous soyez un acheteur en gros, un investisseur ou un partenaire de distribution — nous pouvons vous montrer les données, pas seulement vous raconter l'histoire.",
+    "button": "Demander des Infos Vente en Gros"
   },
   "farm": {
     "map": {
-      "title": "Localisation de Notre Ferme",
-      "description": "Explorez notre ferme familiale de noix de cajou de 35 hectares au cœur de la ceinture de cajou de la Côte d'Ivoire. La propriété s'étend sur 70 hectares au total, dont 35 actuellement en culture et le reste réservé aux futures installations de transformation et au développement communautaire.",
+      "title": "Notre Ferme — Cartographiée par GPS",
+      "description": "Explorez notre ferme de 35 hectares à Odienné. Chaque bloc est cartographié par GPS dans Farm OS avec les dates de plantation, les taux de survie et l'historique des récoltes. Cliquez sur n'importe quel bloc pour voir ses données.",
       "location": "Odienné, Côte d'Ivoire",
-      "locationDescription": "Notre ferme familiale de 70 hectares est située au cœur de la ceinture de cajou de la Côte d'Ivoire, avec des conditions de croissance optimales pour des noix de cajou de qualité supérieure."
+      "locationDescription": "Coordonnées vérifiées par GPS. Pas un emplacement revendiqué — un emplacement vérifiable."
     }
   },
   "map": {
@@ -134,7 +134,7 @@
     "legendFacilities": "Installations de Stockage"
   },
   "midCta": {
-    "title": "Comment Nous Transformons les Parcelles en Unités Commerciales",
+    "title": "Comment Nous Transformons les Blocs en Unités Commerciales",
     "description": "Chaque hectare est suivi, chaque arbre compté, chaque dépense allouée. Découvrez comment notre modèle opérationnel crée de la transparence pour les investisseurs et les partenaires.",
     "button": "Explorer Notre Vision"
   },

@@ -1,8 +1,8 @@
 {
   "executives": {
     "subtitle": "Executive Leadership",
-    "title": "Meet the Team Building a New Standard for Ethical Agribusiness",
-    "description": "Guided by the Islamic values of Amanah (sacred trust) and Ihsan (operational excellence), our leadership team brings together decades of experience in agribusiness, finance, technology, and community development. We are not just building a company — we are building a legacy of integrity, transparency, and shared prosperity.",
+    "title": "The Team Behind the Technology and the Trees",
+    "description": "We are software engineers, financial architects, agronomists, and trade compliance specialists — united by a shared conviction that African agriculture deserves better systems. Our Farm OS platform didn't come from a vendor. It was built here, by our team, for our farm.",
     "backToAbout": "Back to About Us",
     "ctaTitle": "Ready to Work With Us?",
     "ctaDescription": "Our leadership team is committed to building Africa's most trusted cashew export company. Reach out to discuss partnerships, investment, or procurement.",
@@ -15,17 +15,17 @@
       "certifications": "Certifications & Expertise"
     },
     "ceo": {
-      "title": "Chief Executive Officer",
+      "title": "Founder & Chief Executive Officer",
       "role": "Software Engineer Turned Agribusiness Founder",
       "alt": "Hamza S. Ralsan Sangare, Founder & CEO of AfriNuts Export",
       "email": "hamza@afrinutsexport.com",
       "linkedin": "https://www.linkedin.com/in/hamza-sangare-827a8a130/",
       "bio": [
-        "Hamza S. Ralsan Sangare is the Founder and CEO of AfriNuts Export — a tech-enabled West African cashew platform built on three generations of family farming in Odienné, Côte d'Ivoire. His unconventional path from software engineering to agribusiness leadership is what defines AfriNuts' competitive edge.",
+        "Hamza S. Ralsan Sangare is the Founder and CEO of AfriNuts Export — a tech-enabled West African cashew platform built on three generations of family farming in Odienné, Côte d'Ivoire. His path from software engineering to agribusiness is not a career change. It is the company's competitive advantage.",
 
         "Hamza architected and built AfriNuts Farm OS — an offline-first Android application with cloud synchronization that tracks every block, every tree, every expense, and every harvest cycle in real time. This system gives buyers and investors institutional-grade visibility into farm operations — a level of transparency almost unheard of in West African agriculture. He holds AWS Cloud Practitioner, ITIL® 4, and CompTIA Project+ certifications, and is completing a Master's in AI Engineering.",
 
-        "Under his leadership, AfriNuts has transformed family land into a 35-hectare organic cashew farm with a 200+ farmer cooperative, a secure supply chain, and a clear roadmap to building Côte d'Ivoire's first locally-owned certified processing center. Every system — from the farm management dashboard to the investor portal — was designed to scale African agricultural exports without sacrificing ethics, transparency, or community impact."
+        "Under his leadership, AfriNuts has transformed family land into a 35-hectare organic cashew farm with a 200+ farmer cooperative, a secure supply chain, and a clear roadmap to building Côte d'Ivoire's first locally-owned certified processing center. Every system — from the farm management dashboard to the investor portal — was built in-house to scale African agricultural exports without sacrificing ethics, transparency, or community impact."
       ],
       "experience": "Software engineer turned agribusiness founder. 5+ years leading technology-enabled agricultural operations, Farm OS development, and ethical supply chain architecture.",
       "education": [
@@ -40,9 +40,9 @@
       "email": "sekou@afrinutsexport.com",
       "linkedin": "https://www.linkedin.com/in/sekou-peters",
       "bio": [
-        "Sekou Hakim Peters helps architect ethical financial and operational systems where profitability aligns with prophetic principles and long-term community impact. His approach emphasizes Sharia-compliant business frameworks that move beyond extractive economic models by reinvesting into sustainable development initiatives such as wells, mosques, farmer support, and educational programs.",
-        "As Co-Founder and Operational Strategy Lead of AfriNuts Export, Sekou contributes to the development of the company's monetization and operational structure across the cashew value chain, from cultivation and sourcing to processing and export strategy. He has played a key role in advancing the vision of transitioning from raw commodity exports toward in-country processing and value-added production within Côte d'Ivoire.",
-        "His leadership focuses on balancing operational discipline with social responsibility through transparent business practices, fair farmer partnerships, ethical profit-sharing principles, and sustainable growth strategies designed to benefit both investors and local communities."
+        "Sekou Hakim Peters architects ethical financial systems where profitability converges with prophetic principles. He designed the Mudarabah profit-sharing structure that governs our investor relationships — ensuring every financial decision is Shariah-compliant and every investor has full transparency into how their capital is deployed.",
+        "As Co-Founder and Operational Strategy Lead, Sekou oversees the financial architecture of our entire cashew value chain — from farm-level expense tracking in Farm OS to export pricing and dividend distribution. He has been instrumental in transitioning the company's strategy from raw commodity exports toward in-country processing and value-added production within Côte d'Ivoire.",
+        "His leadership bridges operational discipline with social responsibility: fair farmer partnerships, transparent profit-sharing, and sustainable growth strategies designed to benefit both investors and the communities we serve."
       ],
       "experience": "Years of leadership experience in operations, organizational management, nonprofit administration, and business development",
       "education": [
@@ -54,29 +54,31 @@
     },
     "cco": {
       "title": "Chief Commercial Officer",
-      "role": "Global market expansion & trade compliance",
+      "role": "Global Market Expansion & Trade Compliance",
       "alt": "Portrait of Mohamadue Kouyaté, Chief Commercial Officer",
       "bio": [
-        "Muhamadue Kouyaté leads global commercial operations with a focus on ethical, interest-free business practices and strategic market expansion. Drawing on over a decade of experience in compliance, logistics, and operations, he builds sustainable trade partnerships and scalable processes rooted in transparency and integrity.",
-        "He oversees all export documentation, trade compliance, and buyer relationships — ensuring that every shipment meets international quality standards while adhering to Islamic finance principles. His logistics framework minimizes waste, maximizes efficiency, and guarantees traceability from farm to port."
+        "Mohamadue Kouyaté leads global commercial operations — ensuring that every buyer relationship is built on trust, transparency, and the data to back it up. With over a decade of experience in compliance, logistics, and trade documentation, he transforms complex export requirements into seamless buyer experiences.",
+        "He oversees all export documentation, trade compliance, and buyer relationships. Every shipment is backed by Farm OS traceability data — not just paperwork, but verifiable digital records from block to container. His logistics framework minimizes waste, maximizes efficiency, and guarantees that what we promise is what gets delivered."
       ],
       "experience": "12+ years in operations management, supply chain logistics, and regulatory compliance.",
       "education": [
-        "Bachelor’s in Political Science",
+        "Bachelor's in Political Science",
         "MBA (in progress)",
         "Associate of Applied Science in Aviation Operations"
       ],
       "certifications": ["Export & Trade Compliance", "Supply Chain and Logistics Management", "Process Improvement & Lean Practices"]
     },
     "ops": {
-      "title": "Chief Technology Officer",
-      "role": "Farm technology systems, IoT infrastructure, and data analytics",
-      "alt": "Portrait of Alassana Bah, Operations Manager",
+      "title": "Chief Technology Officer & Early Investor",
+      "role": "Farm OS Development, IoT Infrastructure & Data Analytics",
+      "alt": "Portrait of Alassana Bah, Chief Technology Officer",
       "linkedin": "https://linkedin.com/in/example",
       "bio": [
-        "Alassana Bah leads our technology infrastructure, implementing IoT sensors, farm management software, and data analytics to optimize cultivation and processing. Grounded in the Islamic principle of Ihsan (perfection in work), he ensures every system operates with precision and integrity."
+        "Alassana Bah's journey with AfriNuts began as an external investor in our farm development phase. After seeing the technology platform firsthand — a custom Android app with offline sync, real-time dashboards, and block-level tracking — he didn't just maintain his investment. He joined the team full-time as Chief Technology Officer.",
+        "Today, Alassana leads the development of Farm OS, our IoT sensor infrastructure, and data analytics pipeline. His work ensures that every data point — from soil moisture to harvest yield to export documentation — is captured, verified, and accessible to buyers and investors in real time. Grounded in the Islamic principle of Ihsan (perfection in work), he ensures every system operates with precision and integrity.",
+        "His transition from external investor to CTO is the strongest proof of AfriNuts' potential — when someone writes a check and then decides to dedicate their career to building the platform, it says more than any pitch deck ever could."
       ],
-      "experience": "12+ years in software engineering, database management, and farm management information systems",
+      "experience": "12+ years in software engineering, database management, and farm management information systems. Investor turned CTO.",
       "education": [
         "B.Sc. in Computer Science or Information Technology",
         "M.Sc. in Data Science or Agricultural Technology (in progress)"
@@ -89,10 +91,10 @@
     },
     "admin": {
       "title": "Chief Administrative Officer",
-      "role": "Corporate governance, legal affairs, and human resources",
+      "role": "Corporate Governance, Legal Affairs & Human Resources",
       "alt": "Portrait of Mohammed Beniken, Administrative Manager",
       "bio": [
-        "Mohammed Beniken ensures organizational compliance with the Prophetic mandate for equitable labor practices, overseeing human resources, legal affairs, and information security protocols."
+        "Mohammed Beniken ensures organizational compliance with the Prophetic mandate for equitable labor practices. He oversees human resources, legal affairs, and information security protocols — ensuring that Farm OS data integrity meets both corporate governance standards and Islamic ethical principles."
       ],
       "experience": "10+ years in administrative leadership",
       "education": "BA in Business Administration",
@@ -100,11 +102,11 @@
     },
     "farm": {
       "title": "Agricultural Operations Manager",
-      "role": "Agronomic management & community relations",
+      "role": "Agronomic Management & Community Relations",
       "alt": "Portrait of Souleymane Sangare, Farm Operations Manager",
       "bio": [
-        "Souleymane Sangare is the boots on the ground in Odienné. He manages daily farm operations, from land preparation and planting to irrigation and harvest. With 14 years of agricultural experience and deep roots in the local community, he serves as both cultivation specialist and primary liaison to local farmers, elders, and authorities.",
-        "He integrates traditional agricultural wisdom with modern organic farming techniques, ensuring our 35-hectare farm operates efficiently, ethically, and in harmony with the land. He also leads our community engagement efforts, including farmer training programs and the outgrower initiative that brings local smallholders into the AfriNuts supply chain."
+        "Souleymane Sangare is the boots on the ground in Odienné — and the human link between Farm OS data and ground truth. He manages daily farm operations across all 35 blocks, from land preparation and planting to irrigation and harvest. With 14 years of agricultural experience and deep roots in the local community, he serves as both cultivation specialist and primary liaison to local farmers, elders, and authorities.",
+        "Every data point in Farm OS — planting dates, survival rates, harvest volumes — originates from Souleymane's team. His intimate knowledge of the land ensures that what our software reports is what is actually happening in the field. He also leads our community engagement efforts, including farmer training programs and the outgrower initiative that brings local smallholders into the AfriNuts supply chain."
       ],
       "experience": "14+ years in agricultural management",
       "education": "BS in Agricultural Science",

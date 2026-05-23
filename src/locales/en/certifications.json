@@ -1,8 +1,8 @@
 {
   "hero": {
-    "subtitle": "Quality Assurance & Compliance Roadmap",
-    "title": "Our Certification Journey: Premium Cashews from Ivory Coast",
-    "description": "AfriNuts Export is pursuing internationally recognized certifications including Organic, Fair Trade, ISO 22000, Halal, and Rainforest Alliance. Learn about our commitment to quality, sustainability, and ethical sourcing from our farm in Odienné, Ivory Coast."
+    "subtitle": "Quality Assurance & Compliance",
+    "title": "Certifications You Can Verify. Not Just Logos on a Page.",
+    "description": "Every certification we pursue is backed by Farm OS documentation — digital audit trails, batch-level tracking, and verifiable records. When certifiers arrive, our data is already organized. When buyers ask for proof, we show them the system — not just a certificate."
   },
   "filters": {
     "all": "All Certifications",
@@ -16,127 +16,107 @@
       "achieved": "Certified",
       "upcoming": "In Progress"
     },
-    "certifications": {
-      "title": "Explore Our Certifications",
-      "description": "Browse through our achieved and upcoming certifications to see how AfriNuts aligns with the highest global standards in quality, sustainability, and responsibility.",
-      "organic": {
-        "title": "Organic Certification",
-        "issuer": "ECOCERT",
-        "description": "Working towards organic certification for our cashew production and processing.",
-        "benefits": [
-          "100% organic product verification",
-          "Internationally recognized standard",
-          "Premium market access"
-        ],
-        "validity": "Target completion: 2027-2028"
-      },
-      "fairtrade": {
-        "title": "Fair Trade",
-        "issuer": "Fair Trade International (Target)",
-        "description": "Building systems to ensure fair compensation and ethical sourcing.",
-        "benefits": [
-          "Fair compensation for farmers",
-          "Ethical sourcing standards",
-          "Third-party verification"
-        ],
-        "validity": "Target completion: 2027"
-      },
-      "iso22000": {
-        "title": "ISO 22000",
-        "issuer": "International Organization for Standardization",
-        "description": "Developing food safety management systems for future processing facility.",
-        "benefits": [
-          "Structured food safety management",
-          "Hazard prevention in processing",
-          "Global compliance readiness"
-        ],
-        "validity": "Target completion: 2028 (with processing center)"
-      },
-      "halal": {
-        "title": "Halal Certification",
-        "issuer": "Halal Certification Authority (Target)",
-        "description": "Preparing processes to meet Halal standards for Muslim-majority markets.",
-        "benefits": [
-          "Compliance with Halal guidelines",
-          "Access to MENA markets",
-          "Verified by authorized bodies"
-        ],
-        "validity": "Target completion: 2027"
-      },
-      "rainforest": {
-        "title": "Rainforest Alliance",
-        "issuer": "Rainforest Alliance (Target)",
-        "description": "Aligning farming practices with sustainability and fair labor standards.",
-        "benefits": [
-          "Environmentally responsible practices",
-          "Fair labor standards",
-          "Eco-conscious brand positioning"
-        ],
-        "validity": "Target completion: 2028"
-      }
+  "certifications": {
+    "title": "Explore Our Certifications",
+    "description": "Each certification is backed by Farm OS documentation — making audits faster, verification easier, and compliance continuous.",
+    "organic": {
+      "title": "Organic Certification",
+      "issuer": "ECOCERT",
+      "description": "3-year transition tracked in Farm OS — every input, every application, every inspection logged per block.",
+      "benefits": ["Digital input tracking per block", "Audit-ready records", "Premium market access"],
+      "validity": "Target: 2027-2028"
     },
+    "fairtrade": {
+      "title": "Fair Trade",
+      "issuer": "Fair Trade International",
+      "description": "Worker wages, hours, and conditions documented digitally — not in paper ledgers.",
+      "benefits": ["Digital payroll records", "Transparent pricing for farmers", "Third-party verification ready"],
+      "validity": "Target: 2027"
+    },
+    "iso22000": {
+      "title": "ISO 22000",
+      "issuer": "International Organization for Standardization",
+      "description": "Food safety management built into Farm OS — HACCP documentation, batch tracking, and recall readiness.",
+      "benefits": ["Digital HACCP records", "Batch-level traceability", "Global compliance readiness"],
+      "validity": "Target: 2028"
+    },
+    "halal": {
+      "title": "Halal Certification",
+      "issuer": "Halal Certification Authority",
+      "description": "Processing workflows designed for Halal compliance — documented in Farm OS for auditor verification.",
+      "benefits": ["Segregated processing records", "MENA market access", "Verified by authorized bodies"],
+      "validity": "Target: 2027"
+    },
+    "rainforest": {
+      "title": "Rainforest Alliance",
+      "issuer": "Rainforest Alliance",
+      "description": "Environmental metrics tracked alongside production data — biodiversity, water, soil health.",
+      "benefits": ["Environmental data per block", "Fair labor documentation", "Eco-conscious positioning"],
+      "validity": "Target: 2028"
+    }
+  },
     "actions": {
       "learnMore": "Learn more",
       "downloadCertificate": "Download Certificate PDF"
     },
     "backToProducts": "Back to Products",
-    "introduction": {
-      "title": "Commitment to Excellence",
-      "description": "Our certifications demonstrate our unwavering commitment to quality, sustainability, and ethical business practices. Each certification represents our dedication to meeting the highest international standards."
+  "introduction": {
+    "title": "Commitment to Excellence — Backed by Data",
+    "description": "Most companies display certification logos. We built a digital infrastructure that makes compliance verifiable. Our Farm OS tracks organic inputs, logs worker wages for Fair Trade audits, and maintains batch-level traceability for ISO 22000 — so certification is not a goal to reach, but a standard we document every day."
+  },
+  "values": {
+    "quality": {
+      "title": "Data-Backed Quality",
+      "description": "Quality metrics logged per batch in Farm OS — moisture content, nut count, defective rate. Not estimated. Measured."
     },
-    "values": {
-      "quality": {
-        "title": "Premium Quality",
-        "description": "Rigorous quality control processes ensure every cashew meets exceptional standards."
-      },
-      "trust": {
-        "title": "Trust & Transparency",
-        "description": "Third-party verified certifications build confidence with buyers and consumers."
-      },
-      "global": {
-        "title": "Global Standards",
-        "description": "Compliance with international requirements for export markets worldwide."
-      }
+    "trust": {
+      "title": "Verifiable Trust",
+      "description": "Third-party certifications backed by first-party data. Auditors don't search for records — we generate them automatically."
     },
-    "framework": {
-      "title": "Integrated Compliance Framework",
-      "description": "Our comprehensive approach ensures all certifications work together seamlessly.",
-      "quality": {
-        "title": "Quality Management",
-        "features": [
-          "Regular internal audits and inspections",
-          "Continuous improvement processes",
-          "Supplier quality assurance programs",
-          "Documented standard operating procedures"
-        ]
-      },
-      "compliance": {
-        "title": "Compliance Systems",
-        "features": [
-          "Dedicated compliance officer",
-          "Regular third-party audits",
-          "Training and capacity building",
-          "Transparent record-keeping"
-        ]
-      }
+    "global": {
+      "title": "Export-Ready Compliance",
+      "description": "EU, Middle East, and North American import standards met — with digital documentation to prove it at customs."
+    }
+  },
+  "framework": {
+    "title": "Integrated Compliance — Powered by Farm OS",
+    "description": "Instead of managing five separate certification processes, our Farm OS integrates compliance data into daily operations. One system. Every standard. Always audit-ready.",
+    "quality": {
+      "title": "Quality Management",
+      "features": [
+        "Digital internal audit logs — no paper checklists",
+        "Continuous improvement tracked with real metrics",
+        "Supplier quality data integrated into batch records",
+        "SOPs documented and version-controlled in Farm OS"
+      ]
     },
-    "cta": {
-      "title": "Ready to Learn More?",
-      "description": "Contact us for detailed certification information or download our compliance documentation.",
-      "contactButton": "Contact Our Team",
-      "downloadButton": "Download Compliance Pack"
-    },
+    "compliance": {
+      "title": "Compliance Systems",
+      "features": [
+        "Dedicated compliance officer with digital dashboard",
+        "Third-party audit records stored and searchable",
+        "Staff training logs maintained digitally",
+        "Full traceability from input to export"
+      ]
+    }
+  },
+  "cta": {
+    "title": "Certifications Backed by Technology",
+    "description": "Contact us for detailed certification documentation — or explore our Farm OS traceability system to see how we verify every claim we make.",
+    "contactButton": "Contact Our Team",
+    "downloadButton": "Download Compliance Pack"
+  },
   "whyCertifications": {
     "title": "Why These Certifications Matter",
-    "subtitle": "Certifications are more than badges — they are our promise to stakeholders at every level.",
+    "subtitle": "Certifications backed by Farm OS data are more than promises — they're verifiable proof for every stakeholder.",
     "items": [
       {
         "title": "For Buyers",
         "icon": "FaShoppingCart",
         "points": [
-          "Guaranteed quality and food safety",
-          "Fully traceable supply chain from tree to container",
-          "Ethical sourcing verification for your own compliance"
+          "Batch-level quality data — not generic certificates",
+          "Full traceability from tree to container in Farm OS",
+          "Documentation that clears customs faster"
         ],
         "ctaText": "Request Certification Documentation",
         "ctaLink": "/contact"
@@ -145,9 +125,9 @@
         "title": "For Investors",
         "icon": "FaChartLine",
         "points": [
-          "Premium pricing power in organic and fair trade markets",
-          "Market access advantages to Europe, MENA, and North America",
-          "ESG compliance for institutional and impact investors"
+          "Audit-ready compliance records — no last-minute scrambling",
+          "Premium pricing unlocked by verified certifications",
+          "ESG metrics tracked alongside financial data in Farm OS"
         ],
         "ctaText": "View Investor ESG Report",
         "ctaLink": "/sustainability"
@@ -156,15 +136,15 @@
         "title": "For Communities",
         "icon": "FaHandsHelping",
         "points": [
-          "Fair wages and safe working conditions for farm workers",
-          "Environmental protection through organic and sustainable practices",
-          "Long-term community development through our 10% profit reinvestment"
+          "Fair wages verified by digital payroll records",
+          "Environmental practices tracked per block, per season",
+          "10% profit reinvestment — documented, not just promised"
         ],
         "ctaText": "See Our Community Impact",
         "ctaLink": "/about"
       }
     ],
-    "note": "All certifications are actively in progress. Target completion dates available in our Certification Roadmap."
+    "note": "All certifications are actively in progress. Farm OS maintains audit trails so that when certifiers arrive, the data is ready — not being created retroactively."
   },
   "competitiveLandscape": {
     "title": "Our Competitive Advantage",

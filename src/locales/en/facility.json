@@ -1,36 +1,34 @@
 {
   "hero": {
     "subtitle": "Facility Design & Layout",
-    "title": "Our State-of-the-Art Processing Facility",
-    "description": "Discover our meticulously designed processing center built for efficiency, hygiene, and scalability"
+    "title": "A Processing Facility Built for Transparency",
+    "description": "Every zone, every process, every compliance checkpoint — designed for efficiency and documented in Farm OS. This isn't just a building. It's the physical infrastructure of a tech-enabled cashew platform."
   },
 
-  "backToProcessing": "Back to Processing",
-
   "introduction": {
-    "title": "Optimized Facility Layout",
-    "description": "Our facility is strategically designed to ensure seamless workflow, maximum hygiene, and compliance with international standards while supporting our growth ambitions."
+    "title": "Designed for Data, Built for Scale",
+    "description": "Our facility layout isn't just about workflow — it's about data capture. Every zone feeds information into Farm OS: intake weights, processing yields, quality metrics, and compliance documentation. When a buyer asks for traceability, the data is already there."
   },
 
   "features": {
     "hygiene": {
-      "title": "Hygiene Zones",
-      "description": "Separate dirty and clean zones prevent cross-contamination"
+      "title": "Digitally Monitored Hygiene Zones",
+      "description": "Separate dirty and clean zones with Farm OS-logged sanitation schedules and ATP swab test results"
     },
     "efficiency": {
-      "title": "Efficient Workflow",
-      "description": "Linear production flow minimizes handling and maximizes efficiency"
+      "title": "Data-Driven Workflow",
+      "description": "Linear production flow with every stage feeding metrics into Farm OS for continuous optimization"
     },
     "sustainability": {
-      "title": "Sustainable Design",
-      "description": "Energy-efficient systems and waste management integration"
+      "title": "Measurable Sustainability",
+      "description": "Energy and water usage tracked in Farm OS — not estimated, verified"
     }
   },
 
   "flowchart": {
     "title": "Facility Flowchart",
-    "description": "Interactive overview of our processing facility layout and workflow",
-    "instructions": "Click on any area to learn more about its function and features"
+    "description": "Interactive overview of our processing facility — every zone connected to Farm OS for real-time monitoring and traceability",
+    "instructions": "Click on any area to learn more about its function and how data flows to Farm OS"
   },
 
   "legend": {
@@ -41,161 +39,160 @@
 
   "zones": {
     "reception": {
-      "description": "Initial receiving area for raw cashew nuts with quality assessment and weighing",
+      "description": "Initial receiving area where raw nuts enter our Farm OS tracking system",
       "features": [
-        "Digital weighbridge for accurate measurement",
-        "Quality sampling and moisture testing station",
-        "Temporary holding area before transfer to storage",
-        "Supplier documentation processing"
+        "Digital weighbridge — weight automatically logged to batch record",
+        "Quality sampling and moisture testing — results stored in Farm OS",
+        "Supplier batch ID assigned and linked to internal tracking",
+        "Documentation scanned and attached to digital batch file"
       ]
     },
     "storage": {
-      "description": "Climate-controlled storage for raw cashew nuts before processing",
+      "description": "Climate-controlled storage with Farm OS inventory management",
       "features": [
-        "Ventilated warehouses with humidity control",
-        "Raised wooden pallets to prevent moisture contamination",
-        "Capacity for 500+ metric tons of raw nuts",
-        "Pest control systems and regular monitoring"
+        "Ventilated warehouses with humidity sensors feeding data to Farm OS",
+        "FIFO inventory tracking — age and location of every batch known",
+        "Capacity for 500+ metric tons with digital stock levels",
+        "Pest control logs and monitoring schedules managed in Farm OS"
       ]
     },
     "dirtyZone": {
-      "description": "Initial processing area where raw nuts are cleaned and prepared",
+      "description": "Initial processing — where raw nuts begin their documented journey",
       "features": [
-        "Dedicated area for initial cleaning and sorting",
-        "Dust extraction and ventilation systems",
-        "Protective equipment stations for workers",
-        "Separate entry/exit to maintain zone integrity"
+        "Dedicated cleaning and sorting zone with task tracking in Farm OS",
+        "Dust extraction systems with maintenance logs",
+        "Worker PPE compliance checks recorded digitally",
+        "Separate entry/exit to maintain zone integrity — access logged"
       ]
     },
     "cleanZone": {
-      "description": "Main processing area where shelling, peeling, and grading occurs",
+      "description": "Main processing area — the heart of our Farm OS-tracked operation",
       "features": [
-        "Positive air pressure to prevent contamination",
-        "Hygiene stations at all entry points",
-        "Food-grade stainless steel equipment",
-        "Temperature and humidity control"
+        "Positive air pressure monitored by sensors — data logged continuously",
+        "Hygiene stations with digital compliance check-ins",
+        "Food-grade stainless steel equipment with maintenance schedules in Farm OS",
+        "Temperature and humidity tracked per shift for quality assurance"
       ]
     },
     "grading": {
-      "description": "Quality control area where kernels are sorted and graded",
+      "description": "Quality control zone where kernel data is captured and analyzed",
       "features": [
-        "Electronic color sorters and size graders",
-        "Metal detection and quality assurance stations",
-        "Natural lighting for accurate color assessment",
-        "Quality control documentation area"
+        "Electronic color sorters and size graders — results fed to Farm OS",
+        "Metal detection with automatic reject logging",
+        "Quality metrics per batch: grade distribution, defect rate, size profile",
+        "QC documentation auto-generated from Farm OS data"
       ]
     },
     "finished": {
-      "description": "Storage for processed and packaged cashew kernels",
+      "description": "Climate-controlled finished goods storage with full inventory tracking",
       "features": [
-        "Climate-controlled environment (15-18°C, 50-60% RH)",
-        "FIFO (First In, First Out) inventory system",
-        "Secure access with inventory control",
-        "Pest-proof packaging and storage"
+        "Environment monitored 24/7 (15-18°C, 50-60% RH) — alerts in Farm OS",
+        "FIFO system with barcode scanning linked to batch records",
+        "Secure access with digital entry logs",
+        "Inventory levels visible in real-time on Farm OS dashboard"
       ]
     },
     "dispatch": {
-      "description": "Shipping and export preparation area",
+      "description": "Export preparation — where batch data becomes shipping documentation",
       "features": [
-        "Loading bays for container trucks",
-        "Export documentation processing station",
-        "Quality control final check point",
-        "Secure area for valuable shipments"
+        "Loading bay with container tracking in Farm OS",
+        "Export documentation auto-generated from batch data",
+        "Final QC checkpoint with digital sign-off",
+        "Container seal numbers recorded and linked to batch ID"
       ]
     },
     "locker": {
-      "description": "Staff hygiene and changing facilities",
+      "description": "Staff hygiene and changing facilities with compliance tracking",
       "features": [
-        "Separate male/female changing rooms",
-        "Personal locker storage",
-        "Shower facilities for staff",
-        "Uniform distribution and laundry service"
+        "Separate male/female changing rooms with digital access",
+        "Personal locker allocation managed in HR system",
+        "Uniform distribution tracked per employee",
+        "Sanitation schedule logged in Farm OS"
       ]
     },
     "prayer": {
-      "description": "Dedicated space for prayer and quiet reflection",
+      "description": "Dedicated prayer space — part of our commitment to worker dignity",
       "features": [
         "Separate prayer rooms for men and women",
         "Ablution facilities with running water",
         "Qibla direction clearly marked",
-        "Quiet, clean environment for contemplation"
+        "Quiet, clean environment — maintained on digital cleaning schedule"
       ]
     },
     "training": {
-      "description": "Multi-purpose room for staff training and meetings",
+      "description": "Where our team learns to use Farm OS and processing equipment",
       "features": [
-        "Audio-visual equipment for presentations",
+        "Audio-visual equipment for Farm OS training sessions",
         "Capacity for 30+ people",
-        "Training materials and library",
-        "Flexible seating arrangements"
+        "Training records tracked per employee in HR system",
+        "Certification tracking for food safety and equipment operation"
       ]
     },
     "canteen": {
-      "description": "Staff dining and break area",
+      "description": "Staff dining area with hygiene monitoring",
       "features": [
-        "Hygienic food preparation area",
+        "Hygienic food preparation area with digital temperature logs",
         "Seating for 50+ staff members",
-        "Refreshment facilities",
+        "Cleaning schedule managed in Farm OS",
         "Outdoor seating area"
       ]
     },
     "water": {
-      "description": "Water treatment and management systems",
+      "description": "Water management — usage tracked for sustainability reporting",
       "features": [
-        "Reverse osmosis water purification",
-        "Water recycling and reuse systems",
-        "Borehole with backup supply",
-        "Water quality monitoring station"
+        "Reverse osmosis purification with flow meters feeding Farm OS",
+        "Water recycling metrics tracked for ESG reporting",
+        "Borehole with backup supply — levels monitored",
+        "Water quality testing results stored digitally"
       ]
     },
     "energy": {
-      "description": "Sustainable energy generation and management",
+      "description": "Energy systems — where sustainability meets data",
       "features": [
-        "Biomass boiler using cashew shells as fuel",
-        "Solar PV system for auxiliary power",
-        "Backup generator for uninterrupted operation",
-        "Energy consumption monitoring"
+        "Biomass boiler using cashew shells — fuel consumption tracked",
+        "Solar PV output monitored in real-time on Farm OS dashboard",
+        "Backup generator with automated test schedules",
+        "Energy consumption per batch calculated for cost analysis"
       ]
     },
     "expansion": {
-      "description": "Reserved area for future facility expansion",
+      "description": "Future growth area — infrastructure ready for Farm OS scaling",
       "features": [
-        "Pre-planned infrastructure connections",
-        "Space for additional processing lines",
-        "Future cold storage development area",
-        "Scalable utility connections"
+        "Pre-planned utility connections for additional processing lines",
+        "Space allocated for cold storage — monitoring infrastructure pre-wired",
+        "Scalable network and sensor infrastructure",
+        "Designed to double capacity without disrupting operations"
       ]
     }
   },
-
   "compliance": {
-    "title": "Compliance & Standards",
-    "description": "Our processing facility is designed to meet international food safety and quality standards from day one.",
+    "title": "Compliance & Standards — Digitally Documented",
+    "description": "Our processing facility is designed to meet international standards — and Farm OS creates the audit trail to prove it.",
     "hygiene": {
       "title": "Hygiene & Sanitation Protocols",
       "features": [
-        "SSOPs aligned with Codex Alimentarius guidelines",
-        "Automated hand-washing and boot-sanitizing stations at all entry points",
-        "Drainage with 2% slope and rodent-proof gratings throughout the facility",
-        "Separate raw material and finished goods zones",
-        "Daily ATP swab testing on food-contact surfaces"
+        "SSOPs aligned with Codex Alimentarius — checklists managed in Farm OS",
+        "Automated hand-washing and boot-sanitizing stations — usage logged",
+        "Drainage with 2% slope and rodent-proof gratings — inspection records digital",
+        "Separate raw material and finished goods zones — access controlled and logged",
+        "Daily ATP swab testing — results stored in Farm OS for auditor review"
       ]
     },
     "certifications": {
       "title": "Certifications In Progress",
-      "description": "We are actively pursuing the following international certifications. Timelines are subject to audit schedules and regulatory approval.",
+      "description": "Every certification requires an audit trail. Farm OS builds that trail automatically.",
       "standards": [
-        "ISO 22000 Food Safety Management — Application submitted, targeting 2029",
-        "Halal Compliance and Certification — Documentation in preparation, targeting 2028",
-        "Organic Processing Standards (ECOCERT) — 3-year transition started 2027, targeting 2030",
-        "Fair Trade and Rainforest Alliance — Feasibility assessment underway"
+        "ISO 22000 Food Safety Management — digital HACCP records, targeting 2029",
+        "Halal Compliance — documented ingredient sourcing and process segregation, targeting 2028",
+        "Organic Processing (ECOCERT) — 3-year input tracking in Farm OS, targeting 2030",
+        "Fair Trade and Rainforest Alliance — digital labor and environmental records"
       ]
     }
   },
 
   "cta": {
-    "title": "Want to Learn More?",
-    "description": "Contact us for a detailed facility tour or technical specifications",
+    "title": "Want to See the Data Behind the Design?",
+    "description": "Contact us for a detailed facility tour or to discuss how Farm OS integration delivers traceability from intake to export.",
     "button": "Schedule a Facility Tour",
     "backToFarm": "Back to Farm"
   },
@@ -230,8 +227,8 @@
     ]
   },
   "qualityLab": {
-    "title": "In-House Quality Control Lab",
-    "subtitle": "Testing capabilities for export-grade certification",
+    "title": "In-House Quality Control Lab — Data, Not Opinions",
+    "subtitle": "Every test result logged in Farm OS for batch-level traceability",
     "method": "Method",
     "standard": "Standard",
     "capabilities": [
@@ -240,25 +237,25 @@
       { "test": "Kernel Out-Turn", "method": "Manual sampling", "standard": "52-55 lbs/kernel count" },
       { "test": "Microbiological", "method": "Petri film culture", "standard": "ISO 22000" },
       { "test": "Foreign Material", "method": "Visual + electronic sorting", "standard": "0% foreign matter" },
-      { "test": "Traceability", "method": "Batch-level ERP tracking", "standard": "Farm to fork" }
+      { "test": "Traceability", "method": "Farm OS batch-level tracking", "standard": "Farm to container" }
     ],
-    "note": "All tests documented for traceability and export compliance"
+    "note": "All test results stored in Farm OS and available per batch for buyer verification"
   },
   "workerWelfare": {
-    "title": "Worker Safety & Welfare",
-    "subtitle": "Our team is our greatest asset",
+    "title": "Worker Safety & Welfare — Tracked, Not Just Promised",
+    "subtitle": "Our team is our greatest asset — and their safety is documented",
     "features": [
-      { "area": "PPE & Safety Gear", "details": "Gloves, aprons, safety glasses, dust masks provided for all processing staff", "icon": "FaShieldAlt" },
-      { "area": "Hygiene Protocols", "details": "Mandatory hand washing before entry, hair nets, shoe sanitizing stations", "icon": "FaShower" },
-      { "area": "Ergonomic Workstations", "details": "Designed to reduce repetitive strain injuries with adjustable heights", "icon": "FaCogs" },
-      { "area": "First Aid & Medical", "details": "On-site first aid kit, trained first responders, health insurance coverage", "icon": "FaInfoCircle" },
-      { "area": "Fair Wages", "details": "Above minimum wage with regular pay cycles and overtime compensation", "icon": "FaUsers" },
-      { "area": "Training & Development", "details": "Ongoing skills training and career progression pathways", "icon": "FaChalkboardTeacher" }
+      { "area": "PPE & Safety Gear", "details": "Gloves, aprons, safety glasses, dust masks — distribution tracked per employee", "icon": "FaShieldAlt" },
+      { "area": "Hygiene Protocols", "details": "Digital check-in at sanitation stations, compliance monitored per shift", "icon": "FaShower" },
+      { "area": "Ergonomic Workstations", "details": "Designed to reduce strain — workstation assessments documented", "icon": "FaCogs" },
+      { "area": "First Aid & Medical", "details": "On-site first aid, trained responders, incident reports logged digitally", "icon": "FaInfoCircle" },
+      { "area": "Fair Wages", "details": "Above minimum wage, digital payroll, overtime tracked in HR system", "icon": "FaUsers" },
+      { "area": "Training & Development", "details": "Farm OS and equipment training — completion tracked per employee", "icon": "FaChalkboardTeacher" }
     ]
   },
   "projectTimeline": {
     "title": "Project Timeline",
-    "description": "Key milestones for facility development",
+    "description": "Key milestones — tracked and updated as we progress",
     "milestones": [
       { "phase": "2026-2027", "milestone": "Fundraising & Site Preparation", "status": "In Progress", "icon": "FaChartLine" },
       { "phase": "2027-2028", "milestone": "Construction & Equipment", "status": "Planned", "icon": "FaIndustry" },

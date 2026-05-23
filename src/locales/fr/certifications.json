@@ -1,8 +1,8 @@
 {
   "hero": {
-    "subtitle": "Feuille de Route Assurance Qualité & Conformité",
-    "title": "Notre Parcours de Certification : Noix de Cajou Premium de Côte d'Ivoire",
-    "description": "AfriNuts Export poursuit des certifications internationalement reconnues, notamment Biologique, Commerce Équitable, ISO 22000, Halal et Rainforest Alliance. Découvrez notre engagement envers la qualité, la durabilité et l'approvisionnement éthique depuis notre ferme à Odienné, Côte d'Ivoire."
+    "subtitle": "Assurance Qualité & Conformité",
+    "title": "Des Certifications Que Vous Pouvez Vérifier. Pas Juste des Logos sur une Page.",
+    "description": "Chaque certification que nous poursuivons est soutenue par la documentation Farm OS — pistes d'audit numériques, suivi au niveau du lot et enregistrements vérifiables. Lorsque les certificateurs arrivent, nos données sont déjà organisées. Lorsque les acheteurs demandent des preuves, nous leur montrons le système — pas seulement un certificat."
   },
   "filters": {
     "all": "Toutes les Certifications",
@@ -18,61 +18,41 @@
   },
   "certifications": {
     "title": "Explorez Nos Certifications",
-    "description": "Parcourez nos certifications obtenues et en cours pour voir comment AfriNuts s'aligne sur les normes mondiales les plus élevées en matière de qualité, de durabilité et de responsabilité.",
+    "description": "Chaque certification est soutenue par la documentation Farm OS — rendant les audits plus rapides, la vérification plus facile et la conformité continue.",
     "organic": {
       "title": "Certification Biologique",
       "issuer": "ECOCERT",
-      "description": "En voie d'obtention de la certification biologique pour notre production et transformation de noix de cajou.",
-      "benefits": [
-        "Vérification du produit 100 % biologique",
-        "Norme internationalement reconnue",
-        "Accès au marché premium"
-      ],
-      "validity": "Achèvement prévu : 2027-2028"
+      "description": "Transition de 3 ans suivie dans Farm OS — chaque intrant, chaque application, chaque inspection enregistrés par bloc.",
+      "benefits": ["Suivi numérique des intrants par bloc", "Enregistrements prêts pour l'audit", "Accès au marché premium"],
+      "validity": "Objectif : 2027-2028"
     },
     "fairtrade": {
       "title": "Commerce Équitable",
-      "issuer": "Fair Trade International (Cible)",
-      "description": "Mise en place de systèmes pour garantir une rémunération équitable et un approvisionnement éthique.",
-      "benefits": [
-        "Rémunération équitable pour les agriculteurs",
-        "Normes d'approvisionnement éthique",
-        "Vérification par tierce partie"
-      ],
-      "validity": "Achèvement prévu : 2027"
+      "issuer": "Fair Trade International",
+      "description": "Salaires, heures et conditions des travailleurs documentés numériquement — pas dans des registres papier.",
+      "benefits": ["Registres de paie numériques", "Prix transparents pour les agriculteurs", "Vérification par tierce partie prête"],
+      "validity": "Objectif : 2027"
     },
     "iso22000": {
       "title": "ISO 22000",
       "issuer": "Organisation Internationale de Normalisation",
-      "description": "Développement de systèmes de gestion de la sécurité alimentaire pour la future installation de transformation.",
-      "benefits": [
-        "Gestion structurée de la sécurité alimentaire",
-        "Prévention des dangers dans la transformation",
-        "Préparation à la conformité mondiale"
-      ],
-      "validity": "Achèvement prévu : 2028 (avec le centre de transformation)"
+      "description": "Gestion de la sécurité alimentaire intégrée dans Farm OS — documentation HACCP, suivi des lots et préparation aux rappels.",
+      "benefits": ["Registres HACCP numériques", "Traçabilité au niveau du lot", "Préparation à la conformité mondiale"],
+      "validity": "Objectif : 2028"
     },
     "halal": {
       "title": "Certification Halal",
-      "issuer": "Autorité de Certification Halal (Cible)",
-      "description": "Préparation des processus pour répondre aux normes Halal pour les marchés à majorité musulmane.",
-      "benefits": [
-        "Conformité aux directives Halal",
-        "Accès aux marchés MENA",
-        "Vérifié par des organismes autorisés"
-      ],
-      "validity": "Achèvement prévu : 2027"
+      "issuer": "Autorité de Certification Halal",
+      "description": "Flux de transformation conçus pour la conformité Halal — documentés dans Farm OS pour vérification par l'auditeur.",
+      "benefits": ["Registres de transformation séparés", "Accès au marché MENA", "Vérifié par des organismes autorisés"],
+      "validity": "Objectif : 2027"
     },
     "rainforest": {
       "title": "Rainforest Alliance",
-      "issuer": "Rainforest Alliance (Cible)",
-      "description": "Alignement des pratiques agricoles avec les normes de durabilité et de travail équitable.",
-      "benefits": [
-        "Pratiques écologiquement responsables",
-        "Normes de travail équitables",
-        "Positionnement de marque éco-responsable"
-      ],
-      "validity": "Achèvement prévu : 2028"
+      "issuer": "Rainforest Alliance",
+      "description": "Indicateurs environnementaux suivis avec les données de production — biodiversité, eau, santé des sols.",
+      "benefits": ["Données environnementales par bloc", "Documentation du travail équitable", "Positionnement éco-responsable"],
+      "validity": "Objectif : 2028"
     }
   },
   "actions": {
@@ -81,62 +61,62 @@
   },
   "backToProducts": "Retour aux Produits",
   "introduction": {
-    "title": "Engagement envers l'Excellence",
-    "description": "Nos certifications démontrent notre engagement indéfectible envers la qualité, la durabilité et les pratiques commerciales éthiques. Chaque certification représente notre dévouement à respecter les normes internationales les plus élevées."
+    "title": "Engagement envers l'Excellence — Soutenu par les Données",
+    "description": "La plupart des entreprises affichent des logos de certification. Nous avons construit une infrastructure numérique qui rend la conformité vérifiable. Notre Farm OS suit les intrants biologiques, enregistre les salaires des travailleurs pour les audits Commerce Équitable et maintient la traçabilité au niveau du lot pour ISO 22000 — ainsi la certification n'est pas un objectif à atteindre, mais une norme que nous documentons chaque jour."
   },
   "values": {
     "quality": {
-      "title": "Qualité Premium",
-      "description": "Des processus rigoureux de contrôle qualité garantissent que chaque noix de cajou répond à des normes exceptionnelles."
+      "title": "Qualité Soutenue par les Données",
+      "description": "Indicateurs de qualité enregistrés par lot dans Farm OS — teneur en humidité, nombre de noix, taux de défauts. Pas estimé. Mesuré."
     },
     "trust": {
-      "title": "Confiance & Transparence",
-      "description": "Les certifications vérifiées par des tiers renforcent la confiance des acheteurs et des consommateurs."
+      "title": "Confiance Vérifiable",
+      "description": "Certifications tierces soutenues par des données de première main. Les auditeurs ne cherchent pas des registres — nous les générons automatiquement."
     },
     "global": {
-      "title": "Normes Mondiales",
-      "description": "Conformité aux exigences internationales pour les marchés d'exportation du monde entier."
+      "title": "Conformité Prête à l'Exportation",
+      "description": "Normes d'importation de l'UE, du Moyen-Orient et de l'Amérique du Nord respectées — avec une documentation numérique pour le prouver aux douanes."
     }
   },
   "framework": {
-    "title": "Cadre de Conformité Intégré",
-    "description": "Notre approche globale garantit que toutes les certifications fonctionnent ensemble de manière harmonieuse.",
+    "title": "Conformité Intégrée — Propulsée par Farm OS",
+    "description": "Au lieu de gérer cinq processus de certification distincts, notre Farm OS intègre les données de conformité dans les opérations quotidiennes. Un seul système. Chaque norme. Toujours prêt pour l'audit.",
     "quality": {
       "title": "Gestion de la Qualité",
       "features": [
-        "Audits et inspections internes réguliers",
-        "Processus d'amélioration continue",
-        "Programmes d'assurance qualité des fournisseurs",
-        "Procédures opérationnelles standard documentées"
+        "Journaux d'audit interne numériques — pas de listes de contrôle papier",
+        "Amélioration continue suivie avec des indicateurs réels",
+        "Données qualité des fournisseurs intégrées dans les registres de lot",
+        "SOPs documentées et versionnées dans Farm OS"
       ]
     },
     "compliance": {
       "title": "Systèmes de Conformité",
       "features": [
-        "Responsable conformité dédié",
-        "Audits réguliers par des tiers",
-        "Formation et renforcement des capacités",
-        "Tenue de registres transparente"
+        "Responsable conformité dédié avec tableau de bord numérique",
+        "Registres d'audit tiers stockés et consultables",
+        "Journaux de formation du personnel tenus numériquement",
+        "Traçabilité complète de l'intrant à l'exportation"
       ]
     }
   },
   "cta": {
-    "title": "Prêt à en Savoir Plus ?",
-    "description": "Contactez-nous pour des informations détaillées sur les certifications ou téléchargez notre documentation de conformité.",
+    "title": "Certifications Soutenues par la Technologie",
+    "description": "Contactez-nous pour une documentation détaillée des certifications — ou explorez notre système de traçabilité Farm OS pour voir comment nous vérifions chaque affirmation que nous faisons.",
     "contactButton": "Contacter Notre Équipe",
     "downloadButton": "Télécharger le Dossier de Conformité"
   },
   "whyCertifications": {
     "title": "Pourquoi Ces Certifications Sont Importantes",
-    "subtitle": "Les certifications sont plus que des badges — elles sont notre promesse envers les parties prenantes à tous les niveaux.",
+    "subtitle": "Les certifications soutenues par les données Farm OS sont plus que des promesses — elles sont une preuve vérifiable pour chaque partie prenante.",
     "items": [
       {
         "title": "Pour les Acheteurs",
         "icon": "FaShoppingCart",
         "points": [
-          "Qualité et sécurité alimentaire garanties",
-          "Chaîne d'approvisionnement entièrement traçable de l'arbre au conteneur",
-          "Vérification de l'approvisionnement éthique pour votre propre conformité"
+          "Données de qualité au niveau du lot — pas des certificats génériques",
+          "Traçabilité complète de l'arbre au conteneur dans Farm OS",
+          "Documentation qui dédouane plus rapidement"
         ],
         "ctaText": "Demander la Documentation de Certification",
         "ctaLink": "/contact"
@@ -145,9 +125,9 @@
         "title": "Pour les Investisseurs",
         "icon": "FaChartLine",
         "points": [
-          "Pouvoir de tarification premium sur les marchés biologiques et équitables",
-          "Avantages d'accès aux marchés vers l'Europe, le MENA et l'Amérique du Nord",
-          "Conformité ESG pour les investisseurs institutionnels et d'impact"
+          "Registres de conformité prêts pour l'audit — pas de précipitation de dernière minute",
+          "Prix premium débloqués par des certifications vérifiées",
+          "Indicateurs ESG suivis avec les données financières dans Farm OS"
         ],
         "ctaText": "Voir le Rapport ESG Investisseur",
         "ctaLink": "/sustainability"
@@ -156,15 +136,15 @@
         "title": "Pour les Communautés",
         "icon": "FaHandsHelping",
         "points": [
-          "Salaires équitables et conditions de travail sûres pour les ouvriers agricoles",
-          "Protection de l'environnement par des pratiques biologiques et durables",
-          "Développement communautaire à long terme via notre réinvestissement de 10 % des bénéfices"
+          "Salaires équitables vérifiés par des registres de paie numériques",
+          "Pratiques environnementales suivies par bloc, par saison",
+          "10 % de réinvestissement des bénéfices — documenté, pas seulement promis"
         ],
         "ctaText": "Voir Notre Impact Communautaire",
         "ctaLink": "/about"
       }
     ],
-    "note": "Toutes les certifications sont activement en cours. Les dates d'achèvement prévues sont disponibles dans notre Feuille de Route des Certifications."
+    "note": "Toutes les certifications sont activement en cours. Farm OS maintient des pistes d'audit pour que lorsque les certificateurs arrivent, les données soient prêtes — pas créées rétroactivement."
   },
   "competitiveLandscape": {
     "title": "Notre Avantage Concurrentiel",
@@ -193,11 +173,11 @@
     "asianProcessors": "Grands Transformateurs Asiatiques",
     "asianAdvantage": "Échelle, infrastructure établie, main-d'œuvre à faible coût",
     "asianDisadvantage": "Déconnexion géographique de la source, hausse des coûts de main-d'œuvre",
-    "asianStrategy": "Histoire d'Origine & Traçabilité : Traçabilité d'origine unique de Côte d'Ivoire",
+    "asianStrategy": "Histoire d'Origine et Traçabilité : Traçabilité d'origine unique de Côte d'Ivoire",
     "localProcessors": "Transformateurs Locaux Ivoiriens",
     "localAdvantage": "Présence locale, accès aux noix brutes",
     "localDisadvantage": "Manquent d'échelle, de certifications internationales, d'accès au marché",
-    "localStrategy": "Certification & Qualité : Respecter les normes internationales les plus élevées",
+    "localStrategy": "Certification et Qualité : Respecter les normes internationales les plus élevées",
     "westernBrands": "Marques Occidentales",
     "westernAdvantage": "Marques grand public fortes, accès au marché",
     "westernDisadvantage": "Dépendantes des amandes importées, déconnectées de la source",

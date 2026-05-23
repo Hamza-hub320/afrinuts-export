@@ -39,6 +39,7 @@ import { AvailabilityFilter } from '@/types/filters';
 import JsonLd from "@/components/Seo/JsonLd";
 import {CertificationsCard} from "@/components/CertificationsCard/CertificationsCard";
 import ProductTimeline from "@/components/ProductTimeline/ProductTimeline";
+import {Helmet} from "react-helmet-async";
 
 type AvailabilityFilter = 'all' | 'available' | 'coming-soon';
 type CertificationFilter = 'Organic' | 'Halal' | 'Fair Trade' | 'ISO 22000' | '';
@@ -149,6 +150,15 @@ const Products: React.FC = () => {
 
     return (
         <main>
+            <Helmet>
+                <title>Premium Cashew Products | Organic & Conventional | AfriNuts Export</title>
+                <meta name="description" content="Explore AfriNuts Export's premium cashew products — raw nuts, kernels, butter, roasted cashews, and CNSL. Organic and conventional options available for wholesale buyers." />
+                <link rel="canonical" href="https://www.afrinutsexport.com/products" />
+                <meta property="og:title" content="Premium Cashew Products | AfriNuts Export" />
+                <meta property="og:description" content="Raw nuts, kernels, butter, roasted cashews, and CNSL — organic and conventional options from our farm in Odienné, Côte d'Ivoire." />
+                <meta property="og:type" content="website" />
+                <meta name="twitter:card" content="summary_large_image" />
+            </Helmet>
             <JsonLd data={{
                 "@context": "https://schema.org",
                 "@type": "WebPage",
@@ -552,7 +562,7 @@ const Products: React.FC = () => {
                             <motion.button
                                 onClick={() => {
                                     trackCtaClick('contact_inquiry', 'products_page');
-                                    navigate('/contact');
+                                    navigate('/wholesale');
                                 }}
                                 className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-3 rounded-full transform-gpu group/btn overflow-hidden font-medium shadow-md"
                                 whileHover={{ y: -2, scale: 1.03 }}
@@ -589,7 +599,6 @@ const Products: React.FC = () => {
                     </Section>
 
                     {/* Unified Offline Payment & Catalogue Section */}
-
                     <div className="flex flex-col lg:flex-row items-stretch justify-center gap-8 lg:gap-12">
                         {/* Offline Payment motion div */}
                         <motion.div

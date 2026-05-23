@@ -1,8 +1,8 @@
 {
   "hero": {
     "title": "Frequently Asked Questions About AfriNuts Export",
-    "subtitle": "Organic Cashews, Sustainable Farming, and Ethical Investment",
-    "description": "Get clear, straightforward answers about our organic cashew farm in Odienné, Ivory Coast. Learn about our sustainability practices, processing center plans, community impact, and how to partner with us."
+    "subtitle": "Organic Cashews, Farm OS Technology, and Ethical Investment",
+    "description": "Get clear answers about our tech-enabled cashew farm in Odienné, Ivory Coast. Learn about Farm OS traceability, organic practices, processing plans, community impact, and how to partner with us."
   },
   "audience": {
     "all": "All Users",
@@ -27,12 +27,12 @@
     "questions": [
       {
         "question": "What is AfriNuts Export?",
-        "answer": "AfriNuts Export is a family-owned cashew farm and future processing company based in Odienné, Ivory Coast. We grow organic cashews, plan to build a local processing facility, and reinvest 10% of our profits into community development like schools, water wells, and mosques.",
+        "answer": "AfriNuts Export is a tech-enabled cashew farm and future processing company based in Odienné, Ivory Coast. We grow organic cashews on our 35-hectare farm, manage operations through our custom-built Farm OS platform, and reinvest 10% of profits into community development like schools, water wells, and mosques.",
         "audience": ["all", "customers"]
       },
       {
         "question": "Where is your farm located?",
-        "answer": "Our cashew farm is located on a 35-hectare plot in Odienné, a region in northwestern Ivory Coast. 35 hectares are dedicated to cashew trees, and we plan to build a processing center on-site in the future.",
+        "answer": "Our 35-hectare cashew farm is in Odienné, northwestern Ivory Coast. Every block is GPS-mapped in our Farm OS — we can tell you exactly which row and column your cashews came from.",
         "audience": ["all", "customers", "b2b"]
       },
       {
@@ -47,18 +47,12 @@
     "questions": [
       {
         "question": "How do you grow your cashews?",
-        "answer": "We plant directly into the ground using high-quality seeds, which is the local standard and cost-effective method. Our planting density is 100 trees per hectare. We also maintain a reserve of 500 seedlings in a nursery to replace any that fail during early growth.",
-        "audience": ["all", "b2b"],
-        "visualAid": {
-          "type": "image",
-          "src": "/assets/images/farm-hero.webp",
-          "alt": "Cashew farming process",
-          "caption": "Our sustainable cashew farming practices"
-        }
+        "answer": "We plant 100 trees per hectare across 35 individually tracked blocks. Our Farm OS logs planting dates, survival rates, and maintenance activities per block — not per farm. We also maintain a nursery reserve of 500 seedlings for replacement.",
+        "audience": ["all", "b2b"]
       },
       {
         "question": "When is your harvest season?",
-        "answer": "Cashew trees typically begin producing in year 3, reach early commercial yields in year 4-5, and reach full maturity in year 7+. Our first trees were planted in 2026. We expect our first small harvest in 2029, with increasing volumes each season. Peak production is expected by 2031.",
+        "answer": "Our first trees were planted in 2026. First small harvest expected 2029, with peak production by 2031. Every harvest is logged in Farm OS by block, date, and volume — buyers receive this data with their shipment.",
         "audience": ["all", "b2b"]
       },
       {
@@ -138,20 +132,17 @@
     ]
   },
   "quality": {
-    "title": "Quality",
+    "title": "Quality & Traceability",
     "questions": [
       {
         "question": "How do you ensure the quality of your cashews?",
-        "answer": "We implement strict on-farm quality controls, from seed selection to harvest timing and post-harvest handling. Our future processing center will be equipped with modern sorting and grading technology to ensure premium quality.",
+        "answer": "Quality control starts in the field. Our Farm OS tracks moisture content, nut count, and defect rates per batch. When you receive a shipment, you receive the data — not just the nuts.",
         "audience": ["all", "b2b"]
       },
       {
         "question": "Are your products traceable?",
-        "answer": "Yes. We use transparent record-keeping and batch tracking, allowing customers to trace products back to the farm and harvest season.",
-        "audience": ["all", "b2b"],
-        "actions": {
-          "download": "/documents/traceability-protocol.pdf"
-        }
+        "answer": "Yes — and we mean that differently than most suppliers. Our Farm OS provides block-level traceability: GPS coordinates, harvest date, processing batch, and quality metrics. Enter your batch ID on our Trace page and see the full journey yourself. No login required.",
+        "audience": ["all", "b2b"]
       }
     ]
   },
@@ -159,8 +150,8 @@
     "title": "B2B & Wholesale",
     "questions": [
       {
-        "question": "What is your Minimum Order Quantity (MOQ)?",
-        "answer": "Our MOQ for wholesale orders is 1 metric ton. For smaller trial orders, we can accommodate requests on a case-by-case basis.",
+        "question": "What logistics options do you offer?",
+        "answer": "We ship from the Port of Abidjan — one of West Africa's most efficient deep-water ports. Current lead times: 4-6 weeks to Europe, 6-8 weeks to North America, 3-4 weeks to Middle East. Every shipment includes Farm OS traceability documentation.",
         "audience": ["b2b", "partners"],
         "actions": {
           "contact": true
@@ -194,7 +185,7 @@
     "questions": [
       {
         "question": "Can I invest in AfriNuts Export?",
-        "answer": "Yes. We welcome ethical investors aligned with our mission and values. Investment opportunities are structured to comply with both international and Islamic ethical standards.",
+        "answer": "Yes. We welcome ethical investors aligned with our mission. Our investor dashboard provides real-time visibility into farm performance — trees alive, expenses per block, revenue by quality grade. This is the same data we use to run the business. Start by downloading our NDA on the Invest page.",
         "audience": ["all", "investors"],
         "actions": {
           "request": "investor-package"
@@ -212,7 +203,7 @@
       },
       {
         "question": "Do you provide sustainability audits?",
-        "answer": "Yes, we conduct annual sustainability audits and make summary reports available to investors and partners.",
+        "answer": "Yes. Our Farm OS tracks environmental metrics alongside production data — water usage, organic inputs, waste diversion. We provide summary reports to investors with data pulled directly from our operating system, not estimates.",
         "audience": ["investors"],
         "actions": {
           "download": "/documents/sustainability-report.pdf"
@@ -248,7 +239,7 @@
     "questions": [
       {
         "question": "Who leads AfriNuts Export?",
-        "answer": "AfriNuts Export is led by a team with experience in agriculture, business, and community development, committed to ethical leadership and rural empowerment.",
+        "answer": "AfriNuts is led by Hamza Sangare (CEO) — a software engineer who built Farm OS himself — alongside a team with expertise in finance, agriculture, technology, and community development. Our founder's dual background in tech and farming is what makes our operating model possible.",
         "audience": ["all", "investors"]
       },
       {

@@ -1,13 +1,13 @@
 {
   "hero": {
-    "title": "Sustainable & Organic Cashew Farming in Ivory Coast",
-    "subtitle": "Cultivating premium cashews while protecting our planet and empowering our community"
+    "title": "Sustainability You Can Verify. Not Just Claims.",
+    "subtitle": "Our Farm OS tracks environmental metrics alongside production data. Organic practices, water conservation, and zero-waste processing — documented, measured, and publicly verifiable."
   },
   "intro": {
     "title": "Why Sustainable Cashew Farming Matters for West Africa",
     "content": [
-      "Ivory Coast is the world's largest cashew producer, but conventional farming methods often come at a cost – deforestation, water depletion, and low farmer incomes. At AfriNuts Export, we are proving that cashews can be grown differently.",
-      "Our approach combines organic farming, fair labor practices, and community reinvestment. We protect ecosystems while ensuring farmers earn a dignified living. This is not just sustainability – this is the future of Ivorian agriculture."
+      "Ivory Coast is the world's largest cashew producer, but conventional farming methods often come at a cost – deforestation, water depletion, and low farmer incomes. At AfriNuts Export, we are proving that cashews can be grown differently — and we can prove it with data.",
+      "Our Farm OS doesn't just track production. It tracks our environmental footprint: water usage, organic inputs, waste diversion, and soil health metrics. This is not just sustainability — this is verifiable, tech-enabled agriculture."
     ]
   },
   "environment": {
@@ -39,26 +39,26 @@
       ]
     },
     "solutions": {
-      "title": "How AfriNuts Is Solving These Problems",
+      "title": "How AfriNuts Is Solving These Problems — With Data to Prove It",
       "items": [
         {
           "title": "Agroforestry & Biodiversity",
-          "content": "We intercrop cashews with native trees on our 35-hectare farm, creating habitat for local species and improving soil carbon.",
+          "content": "We intercrop cashews with native trees on our 35-hectare farm, creating habitat for local species. Every tree is mapped in Farm OS with GPS coordinates.",
           "icon": "FaSeedling"
         },
         {
           "title": "Water Conservation",
-          "content": "Drip irrigation and rainwater harvesting reduce water use by up to 60% compared to conventional methods.",
+          "content": "Drip irrigation and rainwater harvesting reduce water use by up to 60%. Water metrics are logged in Farm OS for continuous improvement.",
           "icon": "FaTint"
         },
         {
           "title": "100% Organic Methods",
-          "content": "No synthetic pesticides or fertilizers. We use compost, natural pest predators, and crop rotation.",
+          "content": "No synthetic pesticides or fertilizers — verified by our digital input tracking. Every application is recorded per block, per date.",
           "icon": "FaBug"
         },
         {
           "title": "Zero-Waste Processing",
-          "content": "Cashew shells become biofuel for our processing center. Cashew apples become juice, vinegar, and animal feed.",
+          "content": "Cashew shells become biofuel for our processing center. Cashew apples become juice, vinegar, and animal feed. Waste diversion tracked monthly.",
           "icon": "FaRecycle"
         }
       ]
@@ -89,17 +89,17 @@
     }
   },
   "future": {
-    "title": "Our 2031 Sustainability Roadmap",
+    "title": "Our 2031 Sustainability Roadmap — Tracked in Farm OS",
     "content": [
-      "By 2028: Achieve carbon-neutral status across our entire supply chain (farm to port).",
-      "By 2031: Achieve zero-waste processing at our facility (shells → biofuel, apples → value-added products).",
-      "By 2031: Implement blockchain traceability so buyers can track every cashew from tree to export."
+      "By 2028: Achieve carbon-neutral status across our entire supply chain (farm to port) — progress tracked quarterly.",
+      "By 2031: Achieve zero-waste processing at our facility (shells → biofuel, apples → value-added products) — waste diversion metrics published.",
+      "By 2031: Implement blockchain traceability so buyers can track every cashew from tree to export — built on our existing Farm OS infrastructure."
     ],
     "cta": "Learn about our 2031 Sustainability Roadmap"
   },
   "endCta": {
-    "title": "See Sustainability in Action",
-    "content": "Our sustainability practices are part of a larger vision. Explore how we're building a vertically integrated, ethical cashew business from farm to global markets.",
+    "title": "Sustainability Backed by Technology",
+    "content": "Our sustainability practices aren't just promises — they're tracked in Farm OS, verified by third-party auditors, and visible to buyers and investors. Explore how we're building a vertically integrated, ethical cashew business from farm to global markets.",
     "visionButton": "Our Vision",
     "productsButton": "View Products"
   }

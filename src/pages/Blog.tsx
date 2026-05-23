@@ -7,6 +7,8 @@ import { trackCtaClick, trackBlogRead } from '@/utils/analytics';
 import Section from '@/components/Section/Section';
 import { fadeIn, staggerContainer } from '@/utils/animations';
 import { useNavigate } from 'react-router-dom';
+import {Helmet} from "react-helmet-async";
+import JsonLd from "@/components/Seo/JsonLd";
 
 interface BlogPost {
     id: string;
@@ -101,6 +103,25 @@ const Blog: React.FC = () => {
 
     return (
         <div className="min-h-screen relative overflow-hidden pt-[72px]">
+            <Helmet>
+                <title>AfriNuts Blog | Cashew Farming, Industry Insights & Sustainability</title>
+                <meta name="description" content="Expert insights on cashew farming, sustainable agriculture, and the West African nut industry. Articles on organic farming, market trends, and behind-the-scenes at our Odienné farm." />
+                <link rel="canonical" href="https://www.afrinutsexport.com/blog" />
+            </Helmet>
+
+            <JsonLd data={{
+                "@context": "https://schema.org",
+                "@type": "Blog",
+                "name": "AfriNuts Export Blog",
+                "description": "Expert insights on cashew farming, sustainable agriculture, and the West African nut industry.",
+                "url": "https://www.afrinutsexport.com/blog",
+                "publisher": {
+                    "@type": "Organization",
+                    "name": "AfriNuts Export",
+                    "url": "https://www.afrinutsexport.com"
+                }
+            }} />
+
             {/* Hero */}
             <Section className="flex items-center justify-center text-center min-h-[40vh]">
                 <motion.div

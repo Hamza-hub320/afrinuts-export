@@ -18,6 +18,7 @@ import { ContactInfoCard } from '../components/ContactInfoCard/ContactInfoCard';
 import { InfoCard } from '@/components/InfoCard/InfoCard';
 import { FormCard } from '@/components/FormCard/FormCard';
 import JsonLd from "@/components/Seo/JsonLd";
+import {Helmet} from "react-helmet-async";
 
 interface FormData {
   name: string;
@@ -189,6 +190,11 @@ const Contact: React.FC = () => {
 
   return (
       <div className="contact-page overflow-x-hidden">
+        <Helmet>
+          <title>Contact AfriNuts Export | Wholesale Cashew Inquiries & Investment</title>
+          <meta name="description" content="Get in touch with AfriNuts Export for wholesale cashew pricing, investment opportunities, partnership inquiries, or farm visits. Based in Odienné, Côte d'Ivoire. Response within 24 hours." />
+          <link rel="canonical" href="https://www.afrinutsexport.com/contact" />
+        </Helmet>
         <JsonLd data={{
           "@context": "https://schema.org",
           "@type": "WebPage",

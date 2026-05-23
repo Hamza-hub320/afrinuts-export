@@ -1,9 +1,8 @@
 {
   "hero": {
     "subtitle": "Our Journey",
-    "title": "Our Story: Three Generations of Cashew Farming in Odienné, Ivory Coast",
-    "quote": "A single seed holds the promise of generations. Our story begins in Odienné, a land of heritage, cultivation, and resilience.",
-    "backToExecutive": "Back To The Executive Team"
+    "title": "Three Generations of Farming. One Operating System.",
+    "quote": "A single seed holds the promise of generations. Our story begins in Odienné — where ancestral wisdom meets custom-built technology."
   },
   "breadcrumbs": {
     "home": "Home",
@@ -12,12 +11,12 @@
     "ourStory": "Our Story"
   },
   "intro": {
-    "title": "From Family Farm to Global Vision",
-    "description": "AfriNuts Export combines three generations of cashew farming heritage with modern technology and Islamic ethical principles. We are building a vertically integrated operation — from seed to harvest to export — that empowers local communities, protects the land, and delivers premium organic cashews to the world."
+    "title": "From Family Farm to Tech-Enabled Agribusiness",
+    "description": "AfriNuts Export combines three generations of cashew farming heritage with a custom-built operating system — Farm OS — and Islamic ethical principles. We are building a vertically integrated operation where every tree, every expense, and every harvest is tracked digitally. From seed to export, we don't just grow cashews. We prove how they were grown."
   },
   "timeline": {
     "title": "Our Path to Impact",
-    "subtitle": "From humble beginnings to a vision for West Africa's agricultural future"
+    "subtitle": "From humble beginnings to a tech-enabled vision for West Africa's agricultural future"
   },
   "sections": {
     "heritage": {
@@ -29,19 +28,19 @@
       ]
     },
     "tradition": {
-      "title": "Tradition Meets Craft",
-      "alt": "Cashew farming tradition",
+      "title": "Tradition Meets Technology",
+      "alt": "Cashew farming tradition meets Farm OS",
       "content": [
         "Cashews are more than a crop; they are our foundation. They represent a bond between the land and its people.",
-        "But tradition alone does not secure the future. To meet the demands of global markets, we must innovate while protecting the land that sustains us."
+        "But tradition alone does not secure the future. So we did something unusual for a West African farm: we built our own software. Farm OS — an offline-first Android application that tracks every block, every tree, and every harvest. Not because it was easy. Because transparency demanded it."
       ]
     },
     "innovation": {
-      "title": "Sustainable Innovation",
-      "alt": "Sustainable farming innovation",
+      "title": "Sustainable Innovation, Powered by Data",
+      "alt": "Sustainable farming innovation with Farm OS",
       "content": [
-        "At AfriNuts Export, sustainability is not a slogan; it's a promise. We're investing in organic practices, water-efficient irrigation, and innovative technologies like drones and soil sensors.",
-        "Every cashew we harvest will symbolize quality, care, and responsibility to the earth. By 2031, our state-of-the-art processing facility will bring value-added transformation to our region."
+        "At AfriNuts Export, sustainability is not a slogan; it's measured. Our Farm OS tracks organic inputs, water usage, and soil health metrics per block — so we can prove our environmental claims, not just state them.",
+        "Every cashew we harvest is logged with GPS coordinates, harvest date, and quality data. By 2031, our state-of-the-art processing facility will bring value-added transformation to our region — with every batch traceable from tree to container."
       ]
     },
     "community": {
@@ -49,21 +48,21 @@
       "alt": "Community empowerment",
       "content": [
         "AfriNuts Export goes beyond business. It is about empowerment. Our mission is tied to the success of the people we serve.",
-        "Guided by our Islamic values, we reinvest 10% of profits into the local Muslim community—building wells, a masajid, and a madrassa rooted in Qur'an and Sunnah. This is not branding—it's an obligation."
+        "Guided by our Islamic values, we reinvest 10% of profits into the local Muslim community — building wells, a masajid, and a madrassa rooted in Qur'an and Sunnah. This is not branding — it's an obligation."
       ]
     },
     "future": {
-      "title": "A Rising Future",
+      "title": "A Tech-Enabled Future",
       "alt": "Future vision for AfriNuts",
       "content": [
-        "We are planting seeds of change. With every job created and every harvest improved, we are cultivating a stronger, more resilient future for our communities.",
-        "Africa, especially West Africa, is the promised land for those seeking genuine, long-term business opportunities. AfriNuts Export is that trusted door—rooted in the land, respected by the people, and aligned with global standards."
+        "We are planting seeds of change. With every job created, every harvest improved, and every line of code written for Farm OS, we are cultivating a stronger, more resilient future for our communities.",
+        "Africa, especially West Africa, is the promised land for those seeking genuine, long-term business opportunities. AfriNuts Export is that trusted door — rooted in the land, respected by the people, powered by technology, and aligned with global standards."
       ]
     }
   },
   "cta": {
     "title": "Join Our Story",
-    "subtitle": "When you choose AfriNuts Export, you select a purpose. You choose legacy. You decide to invest in a story that redefines agriculture in West Africa.",
+    "subtitle": "When you choose AfriNuts Export, you choose a purpose. You choose legacy. You choose a tech-enabled agribusiness that proves what it promises.",
     "button": "Contact Our Team"
   }
 }

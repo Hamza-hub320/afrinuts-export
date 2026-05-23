@@ -20,6 +20,7 @@ import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import { BLOCKS, MARKS } from '@contentful/rich-text-types';
 import {staggerContainer} from "@/utils/animations";
 import { trackCtaClick } from '@/utils/analytics';
+import JsonLd from "@/components/Seo/JsonLd";
 
 interface NewsUpdateType {
     id: string;
@@ -157,13 +158,37 @@ const NewsPost: React.FC = () => {
         <div className="min-h-screen pt-[72px]">
             <Helmet>
                 <title>{post.title} | AfriNuts Export News</title>
-                <meta name="description" content={post.excerpt} />
+                <meta name="description" content={post.excerpt || `Read "${post.title}" — the latest update from AfriNuts Export's cashew farm and processing operations in Odienné, Côte d'Ivoire.`} />
                 <link rel="canonical" href={`https://www.afrinutsexport.com/news/${post.slug}`} />
                 <meta property="og:title" content={post.title} />
                 <meta property="og:description" content={post.excerpt} />
                 <meta property="og:image" content={post.image} />
                 <meta property="og:type" content="article" />
+                <meta property="article:published_time" content={post.publishedDate} />
+                <meta property="article:author" content={post.author || 'AfriNuts Export'} />
+                <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content={post.title} />
+                <meta name="twitter:description" content={post.excerpt} />
+                <meta name="twitter:image" content={post.image} />
             </Helmet>
+
+            <JsonLd data={{
+                "@context": "https://schema.org",
+                "@type": "NewsArticle",
+                "headline": post.title,
+                "description": post.excerpt,
+                "image": post.image,
+                "datePublished": post.publishedDate,
+                "author": {
+                    "@type": "Person",
+                    "name": post.author || 'AfriNuts Export'
+                },
+                "publisher": {
+                    "@type": "Organization",
+                    "name": "AfriNuts Export",
+                    "url": "https://www.afrinutsexport.com"
+                }
+            }} />
 
             <Section className="py-8">
                 <div className="max-w-3xl mx-auto px-4 sm:px-6">
