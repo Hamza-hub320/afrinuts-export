@@ -59,7 +59,7 @@ export default defineConfig({
     define: {
         'process.env': {}
     },
-    assetsInclude: ['**/*.jpg', '**/*.JPG', '**/*.png', '**/*.svg', '**/*.webp'],
+    assetsInclude: ['**/*.jpg', '**/*.JPG', '**/*.png', '**/*.svg', '**/*.webp', '**/*.mp4'],
     resolve: {
         alias: {
             '@': path.resolve(__dirname, './src'),

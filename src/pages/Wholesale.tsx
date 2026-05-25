@@ -24,7 +24,7 @@ import {
     FaWhatsapp,
     FaTh,
     FaSeedling,
-    FaTint, FaCheck
+    FaTint, FaCheck, FaHeadset
 } from 'react-icons/fa';
 import Section from '@/components/Section/Section';
 import { Typography } from '@/components/Typography/Typography';
@@ -95,12 +95,16 @@ const Wholesale: React.FC = () => {
                             <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-green-50 text-green-700 text-xs rounded-full font-medium">
                     <FaCheckCircle className="text-[10px]" /> {t('hero.available')}
                 </span>
+                            {/* NEW */}
+                            <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-amber-50 text-amber-700 text-sm rounded-full font-medium">
+                    <FaFlask className="text-xs" /> {t('hero.samples')}
+                </span>
                         </div>
                         <motion.div variants={fadeIn} className="flex flex-wrap gap-2.5 justify-center lg:justify-start">
                             <motion.button onClick={() => {
-    trackCtaClick('request_wholesale_pricing', 'wholesale_cta');
-    navigate('/contact?type=wholesale');
-}}className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-5 py-2.5 rounded-full text-sm font-medium shadow-md inline-flex items-center gap-1.5" whileHover={{ y: -1 }}>
+                                        trackCtaClick('request_wholesale_pricing', 'wholesale_cta');
+                                        navigate('/contact?type=wholesale');
+                                        }}className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-5 py-2.5 rounded-full text-sm font-medium shadow-md inline-flex items-center gap-1.5" whileHover={{ y: -1 }}>
                                 <FaEnvelope className="text-xs" />{t('hero.requestPricing')}
                             </motion.button>
                             <a
@@ -119,7 +123,7 @@ const Wholesale: React.FC = () => {
                     </motion.div>
 
                     {/* Right: Product Image */}
-                    <motion.div className="relative w-72 h-72 sm:w-80 sm:h-80 lg:w-96 lg:h-96 rounded-[2rem] overflow-hidden shadow-2xl border-2 border-white/40 transform-gpu group"
+                    <motion.div className="relative w-96 h-96 sm:w-80 sm:h-80 lg:w-96 lg:h-96 rounded-[2rem] overflow-hidden shadow-2xl border-2 border-white/40 transform-gpu group"
                                 style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
                                 whileHover={{ scale: 1.03, rotateY: 2, transition: { duration: 0.3 } }}>
                             <div className="absolute inset-0 rounded-[2rem] border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
@@ -132,6 +136,42 @@ const Wholesale: React.FC = () => {
 
                 </motion.div>
             </Section>
+
+            {/* Floating Quote Button — Fixed Bottom Right */}
+            <motion.div
+                className="fixed bottom-36 right-6 z-30 group/tip"
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.5 }}
+            >
+                {/* Tooltip */}
+                <motion.div
+                    className="absolute bottom-full right-0 mb-3 bg-white/90 backdrop-blur-md rounded-lg px-3 py-1.5 shadow-lg border border-white/40 text-xs text-gray-600 opacity-0 group-hover/tip:opacity-100 transition-opacity whitespace-nowrap"
+                    initial={false}
+                >
+                    {t('hero.quotePromise', 'We respond within 24 hours')}
+                </motion.div>
+
+                {/* Button */}
+                <motion.button
+                    onClick={() => navigate('/contact?type=wholesale')}
+                    className="relative rounded-full bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-5 py-3 shadow-2xl transform-gpu overflow-hidden font-medium inline-flex items-center gap-2 text-sm"
+                    whileHover={{ scale: 1.05, y: -2 }}
+                    whileTap={{ scale: 0.95 }}
+                >
+                    {/* Glassy overlay */}
+                    <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50" />
+                    {/* Inner glow */}
+                    <div className="absolute inset-0 rounded-full shadow-[inset_0_2px_8px_rgba(255,255,255,0.3)]" />
+                    {/* Pulse ring */}
+                    <span className="absolute inset-0 rounded-full animate-ping opacity-15 bg-teal/30" />
+                    {/* Icon + Text */}
+                    <span className="relative z-10 flex items-center gap-2">
+            <FaHeadset className="text-sm" />
+                        {t('hero.requestPricing')}
+        </span>
+                </motion.button>
+            </motion.div>
 
 
             {/* Why Different */}
@@ -283,13 +323,21 @@ const Wholesale: React.FC = () => {
                         </div>
 
                         <div className="mt-4 text-center">
-                            <a href={productCataloguePdf} download className="text-accent hover:text-primary text-sm font-medium inline-flex items-center gap-1"><FaDownload className="text-xs" /> {t('products.downloadCatalogue')}</a>
+                            <a
+                                href="/documents/afrinuts-products-catalogue.pdf"
+                                download="AfriNuts-Products-Catalogue.pdf"
+                                rel="noopener"
+                                title="Download AfriNuts Export Product Catalogue (PDF)"
+                                className="text-accent hover:text-primary text-sm font-medium inline-flex items-center gap-1"
+                            >
+                                <FaDownload className="text-xs" /> {t('products.downloadCatalogue')}
+                            </a>
                         </div>
                         <div className="mt-3 text-center">
                             <motion.button onClick={() => {
-    trackCtaClick('request_sample_batch', 'wholesale_products');
-    navigate('/contact?type=sample');
-}}className="text-accent hover:text-primary text-sm font-medium inline-flex items-center gap-1" whileHover={{ x: 2 }}><FaFlask className="text-xs" /> {t('products.requestSample')}</motion.button>
+                                trackCtaClick('request_sample_batch', 'wholesale_products');
+                                navigate('/contact?type=sample');
+                            }}className="text-accent hover:text-primary text-sm font-medium inline-flex items-center gap-1" whileHover={{ x: 2 }}><FaFlask className="text-xs" /> {t('products.requestSample')}</motion.button>
                         </div>
                     </InfoCard>
                 </motion.div>
@@ -336,6 +384,15 @@ const Wholesale: React.FC = () => {
                                     </div>
                                 );
                             })}</div>
+                            <div className="mt-3 p-3 bg-primary/5 rounded-lg text-xs text-gray-600 space-y-1.5">
+                                <div className="font-medium text-primary text-sm mb-2">{t('payment.title')}</div>
+                                {(t('payment.terms', { returnObjects: true }) as any[]).map((item: any, idx: number) => (
+                                    <div key={idx} className="flex justify-between">
+                                        <span>{item.label}</span>
+                                        <span className="font-medium">{item.value}</span>
+                                    </div>
+                                ))}
+                            </div>
                             <div className="mt-3 p-3 bg-primary/5 rounded-lg text-xs text-gray-600">{t('logistics.documentation')}</div>
                         </InfoCard>
                     </motion.div>
@@ -403,7 +460,10 @@ const Wholesale: React.FC = () => {
 };
 
 // Foldable FAQ Component
-const WholesaleFAQ: React.FC<{ items: any[]; viewAllLabel: string }> = ({ items, viewAllLabel }) => {
+const WholesaleFAQ: React.FC<{
+    items: { q: string; a: string; cta?: { text: string; link: string } }[];
+    viewAllLabel: string
+}> = ({ items, viewAllLabel }) => {
     const [openItems, setOpenItems] = useState<Record<number, boolean>>({});
     const toggleItem = (idx: number) => setOpenItems(prev => ({ ...prev, [idx]: !prev[idx] }));
 
@@ -426,7 +486,14 @@ const WholesaleFAQ: React.FC<{ items: any[]; viewAllLabel: string }> = ({ items,
                             </button>
                             {openItems[idx] && (
                                 <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} transition={{ duration: 0.2 }} className="overflow-hidden">
-                                    <div className="px-4 pb-4"><Typography variant="body" className="text-gray-600">{item.a}</Typography></div>
+                                    <div className="px-4 pb-4">
+                                        <Typography variant="body" className="text-gray-600">{item.a}</Typography>
+                                        {item.cta && (
+                                            <Link to={item.cta.link} className="inline-flex items-center gap-1 text-accent hover:text-primary text-xs font-medium mt-2">
+                                                {item.cta.text} <FaArrowRight className="text-[10px]" />
+                                            </Link>
+                                        )}
+                                    </div>
                                 </motion.div>
                             )}
                         </div>

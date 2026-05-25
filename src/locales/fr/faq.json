@@ -2,7 +2,7 @@
   "hero": {
     "title": "Foire Aux Questions sur AfriNuts Export",
     "subtitle": "Noix de Cajou Bio, Technologie Farm OS et Investissement Éthique",
-    "description": "Obtenez des réponses claires sur notre ferme de noix de cajou axée sur la technologie à Odienné, Côte d'Ivoire. Découvrez la traçabilité Farm OS, les pratiques biologiques, les plans de transformation, l'impact communautaire et comment collaborer avec nous."
+    "description": "Obtenez des réponses claires sur notre ferme de noix de cajou technologique à Odienné, Côte d'Ivoire. Découvrez la traçabilité Farm OS, les pratiques biologiques, les plans de transformation, l'impact communautaire et comment collaborer avec nous."
   },
   "audience": {
     "all": "Tous les Utilisateurs",
@@ -26,13 +26,18 @@
     "title": "Général",
     "questions": [
       {
+        "question": "Qu'est-ce que Farm OS ?",
+        "answer": "Farm OS est notre plateforme de gestion agricole sur mesure — une application Android hors ligne avec synchronisation cloud. Elle suit chaque bloc, chaque arbre, chaque dépense et chaque récolte. Les acheteurs reçoivent les données de traçabilité. Les investisseurs accèdent à des tableaux de bord en temps réel. Les partenaires peuvent l'utiliser sous licence. C'est l'épine dorsale technologique de tout ce que nous faisons.",
+        "audience": ["all", "investors", "partners"]
+      },
+      {
         "question": "Qu'est-ce qu'AfriNuts Export ?",
-        "answer": "AfriNuts Export est une ferme de noix de cajou axée sur la technologie et une future entreprise de transformation basée à Odienné, Côte d'Ivoire. Nous cultivons des noix de cajou biologiques sur notre ferme de 35 hectares, gérons les opérations via notre plateforme Farm OS sur mesure et réinvestissons 10 % des bénéfices dans le développement communautaire comme les écoles, les puits d'eau et les mosquées.",
+        "answer": "AfriNuts Export est une ferme de noix de cajou technologique et une future entreprise de transformation basée à Odienné, en Côte d'Ivoire. Nous cultivons des noix de cajou biologiques sur notre ferme de 35 hectares, gérons les opérations via notre plateforme Farm OS sur mesure et réinvestissons 10 % des bénéfices dans le développement communautaire comme les écoles, les puits d'eau et les mosquées.",
         "audience": ["all", "customers"]
       },
       {
         "question": "Où se trouve votre ferme ?",
-        "answer": "Notre ferme de noix de cajou de 35 hectares se trouve à Odienné, dans le nord-ouest de la Côte d'Ivoire. Chaque bloc est cartographié par GPS dans notre Farm OS — nous pouvons vous dire exactement de quelle rangée et colonne proviennent vos noix de cajou.",
+        "answer": "Notre ferme de noix de cajou de 35 hectares est à Odienné, dans le nord-ouest de la Côte d'Ivoire. Chaque bloc est cartographié par GPS dans notre Farm OS — nous pouvons vous dire exactement de quelle rangée et colonne proviennent vos noix de cajou.",
         "audience": ["all", "customers", "b2b"]
       },
       {
@@ -136,12 +141,12 @@
     "questions": [
       {
         "question": "Comment assurez-vous la qualité de vos noix de cajou ?",
-        "answer": "Le contrôle qualité commence au champ. Notre Farm OS suit la teneur en humidité, le nombre de noix et les taux de défauts par lot. Lorsque vous recevez une expédition, vous recevez les données — pas seulement les noix.",
+        "answer": "Le contrôle qualité commence dans le champ. Notre Farm OS suit la teneur en humidité, le nombre de noix et les taux de défauts par lot. Lorsque vous recevez une expédition, vous recevez les données — pas seulement les noix.",
         "audience": ["all", "b2b"]
       },
       {
         "question": "Vos produits sont-ils traçables ?",
-        "answer": "Oui — et nous le pensons différemment de la plupart des fournisseurs. Notre Farm OS fournit une traçabilité au niveau du bloc : coordonnées GPS, date de récolte, lot de transformation et indicateurs de qualité. Entrez votre ID de lot sur notre page Trace et voyez le parcours complet par vous-même. Aucune connexion requise.",
+        "answer": "Oui — et nous le pensons différemment de la plupart des fournisseurs. Notre Farm OS fournit une traçabilité au niveau du bloc : coordonnées GPS, date de récolte, lot de transformation et indicateurs de qualité. Entrez votre ID de lot sur notre page Trace et voyez le parcours complet vous-même. Aucune connexion requise.",
         "audience": ["all", "b2b"]
       }
     ]
@@ -172,11 +177,6 @@
         "actions": {
           "download": "/documents/certifications.pdf"
         }
-      },
-      {
-        "question": "Quelles options logistiques proposez-vous ?",
-        "answer": "Nous expédions depuis le Port d'Abidjan, l'un des ports les plus efficaces d'Afrique de l'Ouest. Délais actuels : 4-6 semaines vers l'Europe, 6-8 semaines vers l'Amérique du Nord, 3-4 semaines vers le Moyen-Orient. Nous proposons FOB Abidjan et pouvons organiser CIF pour les acheteurs qualifiés. Solutions logistiques personnalisées disponibles pour les grands volumes.",
-        "audience": ["b2b", "partners"]
       }
     ]
   },
@@ -185,7 +185,7 @@
     "questions": [
       {
         "question": "Puis-je investir dans AfriNuts Export ?",
-        "answer": "Oui. Nous accueillons les investisseurs éthiques alignés sur notre mission. Notre tableau de bord investisseur offre une visibilité en temps réel sur les performances de la ferme — arbres vivants, dépenses par bloc, revenus par niveau de qualité. Ce sont les mêmes données que nous utilisons pour gérer l'entreprise. Commencez par télécharger notre NDA sur la page Investir.",
+        "answer": "Oui. Nous accueillons les investisseurs éthiques alignés sur notre mission. Notre tableau de bord investisseur offre une visibilité en temps réel sur les performances de la ferme — arbres vivants, dépenses par bloc, revenus par niveau de qualité. Ce sont les mêmes données que nous utilisons pour gérer l'entreprise. Commencez par télécharger notre NDA sur la page Invest.",
         "audience": ["all", "investors"],
         "actions": {
           "request": "dossier-investisseur"
@@ -231,6 +231,28 @@
         "question": "Quel soutien fournissez-vous aux partenaires ?",
         "answer": "Nous fournissons du matériel marketing, des formations sur les produits et des opportunités promotionnelles conjointes à nos partenaires pour assurer un succès mutuel.",
         "audience": ["partners"]
+      },
+      {
+        "question": "Quels modèles de partenariat proposez-vous ?",
+        "answer": "Nous proposons quatre modèles : (1) Coopérative de Producteurs — élargir notre réseau d'agriculteurs, (2) Marque Blanche/Co-Packing — nous transformons sous votre marque, (3) Licence Farm OS — déployez notre plateforme sur votre ferme, (4) Co-entreprise de Transformation — construisons des centres de transformation ensemble. Visitez notre page Partenaires pour plus de détails.",
+        "audience": ["partners"]
+      },
+      {
+        "question": "Farm OS est-il disponible sous licence ?",
+        "answer": "Oui. Nous proposons des licences Farm OS pour les grandes exploitations, les entreprises agroalimentaires et les programmes gouvernementaux. La plateforme est indépendante des cultures — actuellement conçue pour la noix de cajou mais adaptable au cacao, au karité, au café et à d'autres cultures. Contactez-nous pour discuter du déploiement.",
+        "audience": ["partners"]
+      },
+      {
+        "question": "Puis-je visiter la ferme avant de devenir partenaire ?",
+        "answer": "Absolument. Nous encourageons les partenaires sérieux à visiter notre ferme de 35 hectares à Odienné et à voir Farm OS en action. Rien ne remplace une visite sur place. Les visites sont organisées sur demande.",
+        "audience": ["partners"],
+        "actions": { "contact": true }
+      },
+      {
+        "question": "Quel est l'engagement minimum pour un partenariat ?",
+        "answer": "Nous concevons des projets pilotes à petite échelle avec des indicateurs clairs avant de passer à l'échelle. Les volumes minimums dépendent du modèle de partenariat. Contactez notre équipe partenariats pour discuter de vos besoins spécifiques.",
+        "audience": ["partners"],
+        "actions": { "contact": true }
       }
     ]
   },
@@ -239,7 +261,7 @@
     "questions": [
       {
         "question": "Qui dirige AfriNuts Export ?",
-        "answer": "AfriNuts est dirigée par Hamza Sangare (PDG) — un ingénieur logiciel qui a construit Farm OS lui-même — aux côtés d'une équipe experte en finance, agriculture, technologie et développement communautaire. La double formation de notre fondateur en technologie et en agriculture est ce qui rend notre modèle opérationnel possible.",
+        "answer": "AfriNuts est dirigée par Hamza Sangare (PDG) — un ingénieur logiciel qui a construit Farm OS lui-même — aux côtés d'une équipe experte en finance, agriculture, technologie et développement communautaire. La double expérience de notre fondateur en technologie et en agriculture est ce qui rend notre modèle opérationnel possible.",
         "audience": ["all", "investors"]
       },
       {
@@ -265,7 +287,7 @@
     ]
   },
   "cta": {
-    "requestInfo": "Demander des Infos",
+    "requestInfo": "Demander des Informations",
     "requestPartnership": "Demander des Infos Partenariat",
     "requestQuote": "Demander un Devis",
     "requestPricing": "Demander des Infos sur les Prix",

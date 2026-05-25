@@ -10,7 +10,8 @@
     "subtext": "Directement de notre ferme de 35 hectares à Odienné, Côte d'Ivoire. Origine unique. Entièrement traçable. Prêt à l'exportation.",
     "moq": "Quantité minimum : 1 tonne (20 sacs)",
     "available": "Disponible Maintenant",
-    "requestPricing": "Demander les Prix de Gros",
+    "samples": "Échantillons Disponibles",
+    "requestPricing": "Obtenir un Devis",
     "downloadCatalogue": "Télécharger le Catalogue Produits",
     "whatsapp": "WhatsApp"
   },
@@ -18,21 +19,9 @@
     "title": "Pourquoi Nos Noix de Cajou Sont Différentes",
     "body": "La plupart des fournisseurs de noix de cajou sont des négociants — ils achètent à ceux qui ont des noix et revendent à ceux qui en ont besoin. Nous cultivons ce que nous vendons sur notre propre ferme, suivons chaque lot avec notre propre logiciel et fournissons une documentation que la plupart des fournisseurs ne peuvent pas fournir.",
     "cards": {
-      "traceability": {
-        "title": "Traçabilité Complète",
-        "desc": "Chaque lot est tracé jusqu'au bloc exact et à la date de récolte. Notre Farm OS vous donne des données que la plupart des fournisseurs ne peuvent pas fournir — pas seulement une trace papier, mais un enregistrement numérique.",
-        "stat": "Niveau Bloc"
-      },
-      "consistency": {
-        "title": "Cohérence d'Origine Unique",
-        "desc": "Pas de lots mélangés. Pas d'intermédiaires. Chaque expédition provient de notre ferme de 35 hectares à Odienné — même sol, mêmes arbres, mêmes normes de qualité.",
-        "stat": "Une Ferme"
-      },
-      "documentation": {
-        "title": "Documentation Prête à l'Exportation",
-        "desc": "Dossier d'exportation complet : COO, SGS, Phyto, certificats Biologique et Halal (selon obtention). Votre courtier en douane aura tout ce dont il a besoin.",
-        "stat": "Complet"
-      }
+      "traceability": { "title": "Traçabilité Complète", "desc": "Chaque lot est tracé jusqu'au bloc exact et à la date de récolte. Notre Farm OS vous donne des données que la plupart des fournisseurs ne peuvent pas fournir — pas seulement une trace papier, mais un enregistrement numérique.", "stat": "Niveau Bloc" },
+      "consistency": { "title": "Cohérence d'Origine Unique", "desc": "Pas de lots mélangés. Pas d'intermédiaires. Chaque expédition provient de notre ferme de 35 hectares à Odienné — même sol, mêmes arbres, mêmes normes de qualité.", "stat": "Une Ferme" },
+      "documentation": { "title": "Documentation Prête à l'Exportation", "desc": "Dossier d'exportation complet : COO, SGS, Phyto, certificats Biologique et Halal (selon obtention). Votre courtier en douane aura tout ce dont il a besoin.", "stat": "Complet" }
     }
   },
   "blockTracking": {
@@ -87,12 +76,20 @@
   "logistics": {
     "title": "Logistique d'Exportation",
     "description": "Nous expédions depuis le Port d'Abidjan — l'un des ports en eau profonde les plus efficaces et modernes d'Afrique de l'Ouest. Des lignes maritimes directes vers l'Europe, le Moyen-Orient et l'Amérique du Nord signifient que votre cargaison circule rapidement, avec moins de transbordements et un risque réduit de retard.",
-    "documentation": "Documentation : Certificat d'Origine, Inspection SGS, Certificat Phytosanitaire, certificats Biologique + Halal (selon obtention).",
+    "documentation": "Documentation : Certificat d'Origine, Inspection SGS, Certificat Phytosanitaire. Certifications Biologique (objectif 2027) et Halal (objectif 2029) en cours — installation construite selon les normes de conformité dès le premier jour.",
     "items": [
       { "icon": "FaTruck", "label": "Port", "value": "Abidjan, Côte d'Ivoire" },
       { "icon": "FaGlobeAfrica", "label": "Transit UE", "value": "4-6 semaines" },
       { "icon": "FaGlobeAfrica", "label": "Amérique du Nord", "value": "6-8 semaines" },
       { "icon": "FaFileContract", "label": "Conditions", "value": "FOB Abidjan, CIF disponible" }
+    ]
+  },
+  "payment": {
+    "title": "Conditions de Paiement",
+    "terms": [
+      { "label": "Standard", "value": "30 % d'acompte, 70 % contre copie du Connaissement" },
+      { "label": "Lettre de Crédit", "value": "Disponible pour les acheteurs qualifiés" },
+      { "label": "Devise", "value": "USD ou EUR" }
     ]
   },
   "process": {
@@ -123,14 +120,18 @@
     "items": [
       { "q": "Expédiez-vous vers mon pays ?", "a": "Oui. Nous exportons vers l'Union Européenne, le Moyen-Orient et l'Amérique du Nord. Notre port de départ est Abidjan — l'un des ports à conteneurs les plus efficaces d'Afrique de l'Ouest. Délais de transit : 4-6 semaines vers l'UE, 6-8 semaines vers l'Amérique du Nord." },
       { "q": "Puis-je visiter la ferme ?", "a": "Absolument. Nous encourageons les acheteurs qualifiés à visiter notre ferme de 35 hectares à Odienné, Côte d'Ivoire. Voir l'opération de ses propres yeux construit la confiance que la documentation seule ne peut pas établir. Les visites sont organisées sur demande." },
-      { "q": "Quelles certifications avez-vous ?", "a": "Nous poursuivons activement les certifications Biologique (ECOCERT), Halal, ISO 22000 et Commerce Équitable. Notre ferme est sans produits chimiques depuis sa création. Consultez notre feuille de route complète des certifications pour les délais et le statut actuel." },
+      {
+        "q": "Quelles certifications avez-vous ?",
+        "a": "Nous poursuivons activement les certifications Biologique (ECOCERT), Halal, ISO 22000 et Commerce Équitable. Notre ferme est sans produits chimiques depuis sa création.",
+        "cta": { "text": "Voir la Feuille de Route des Certifications", "link": "/certifications" }
+      },
       { "q": "Quelle est votre quantité minimum de commande ?", "a": "Notre quantité minimum standard est de 1 tonne métrique (environ 20 sacs de jute) pour les noix de cajou brutes. Pour les amandes transformées et les produits spécialisés, les quantités minimums varient — contactez-nous pour plus de détails." },
       { "q": "Comment assurez-vous une qualité constante ?", "a": "Chaque expédition provient de notre ferme d'origine unique — même sol, mêmes arbres, mêmes normes de transformation. Nous ne mélangeons pas les lots de différentes sources. Notre Farm OS suit les indicateurs de qualité par lot, et nous fournissons la documentation avec chaque expédition." }
     ]
   },
   "cta": {
     "title": "Prêt à Vous Approvisionner en Toute Confiance ?",
-    "body": "Demandez les prix, téléchargez notre catalogue produits ou consultez notre documentation de conformité. Nous répondons aux demandes de gros dans les 24 heures.",
+    "body": "Demandez les prix, téléchargez notre catalogue produits ou consultez notre documentation de conformité. Nous répondons aux demandes de gros dans les 24 heures. Une fois votre demande soumise, nous planifierons un appel pour discuter de vos exigences de volume et de qualité.",
     "requestPricing": "Demander les Prix de Gros",
     "viewCertifications": "Voir la Feuille de Route des Certifications"
   }

@@ -312,11 +312,11 @@ const Home: React.FC = () => {
 
                                     {/* Two Button Row — Now Three */}
                                     <div className="flex flex-col sm:flex-row gap-4">
-                                        {/* Farm Story Button */}
+                                        {/* Farm Story Button — Primary Green */}
                                         <motion.button
-                                            whileHover={{ scale: 1.08, y: -2, boxShadow: '0 10px 25px -5px rgba(165, 105, 66, 0.4)' }}
+                                            whileHover={{ scale: 1.08, y: -2, boxShadow: '0 10px 25px -5px rgba(90, 116, 17, 0.4)' }}
                                             whileTap={{ scale: 0.96 }}
-                                            className="group relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-6 py-2 md:px-8 md:py-3 rounded-full transition-all duration-300 inline-flex items-center justify-center text-sm md:text-base"
+                                            className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-5 py-2.5 rounded-full text-sm font-medium shadow-md inline-flex items-center gap-1.5"
                                             onClick={() => navigate('/about')}
                                             aria-label={t('aboutPreview.ctaButton')}
                                         >
@@ -325,11 +325,11 @@ const Home: React.FC = () => {
                                             <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
                                         </motion.button>
 
-                                        {/* Blog Button */}
+                                        {/* Blog Button — Accent Orange */}
                                         <motion.button
-                                            whileHover={{ scale: 1.08, y: -2, boxShadow: '0 10px 25px -5px rgba(160, 200, 0, 0.4)' }}
+                                            whileHover={{ scale: 1.08, y: -2, boxShadow: '0 10px 25px -5px rgba(224, 78, 0, 0.4)' }}
                                             whileTap={{ scale: 0.96 }}
-                                            className="group relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-6 py-2 md:px-8 md:py-3 rounded-full transition-all duration-300 inline-flex items-center justify-center text-sm md:text-base"
+                                            className="relative border border-primary/40 text-primary hover:bg-primary/5 px-5 py-2.5 rounded-full text-sm font-medium inline-flex items-center gap-1.5 bg-white/50 backdrop-blur-sm"
                                             onClick={() => navigate('/blog')}
                                             aria-label="Visit our blog"
                                         >
@@ -338,11 +338,11 @@ const Home: React.FC = () => {
                                             <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
                                         </motion.button>
 
-                                        {/* Wholesale Button */}
+                                        {/* Wholesale Button — Navy/Teal */}
                                         <motion.button
-                                            whileHover={{ scale: 1.08, y: -2, boxShadow: '0 10px 25px -5px rgba(165, 105, 66, 0.4)' }}
+                                            whileHover={{ scale: 1.08, y: -2, boxShadow: '0 10px 25px -5px rgba(37, 55, 70, 0.4)' }}
                                             whileTap={{ scale: 0.96 }}
-                                            className="group relative bg-gradient-to-r from-accent to-dark-orange hover:from-dark-orange hover:to-accent text-white px-6 py-2 md:px-8 md:py-3 rounded-full transition-all duration-300 inline-flex items-center justify-center text-sm md:text-base"
+                                            className="relative border border-accent/40 text-accent hover:bg-accent/5 px-5 py-2.5 rounded-full text-sm font-medium inline-flex items-center gap-1.5 bg-white/50 backdrop-blur-sm"
                                             onClick={() => navigate('/wholesale')}
                                             aria-label={t('aboutPreview.wholesaleButton', 'Wholesale Inquiry')}
                                         >

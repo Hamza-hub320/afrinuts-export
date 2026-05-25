@@ -10,7 +10,8 @@
     "subtext": "Direct from our 35-hectare farm in Odienné, Côte d'Ivoire. Single-origin. Fully traceable. Export-ready.",
     "moq": "MOQ: 1 ton (20 bags)",
     "available": "Available Now",
-    "requestPricing": "Request Wholesale Pricing",
+    "samples": "Samples Available",
+    "requestPricing": "Get a Quote",
     "downloadCatalogue": "Download Product Catalogue",
     "whatsapp": "WhatsApp"
   },
@@ -75,12 +76,20 @@
   "logistics": {
     "title": "Export Logistics",
     "description": "We ship from the Port of Abidjan — one of West Africa's most efficient and modern deep-water ports. Direct shipping lines to Europe, the Middle East, and North America mean your cargo moves fast, with fewer transshipments and lower risk of delay.",
-    "documentation": "Documentation: Certificate of Origin, SGS Inspection, Phytosanitary Certificate, Organic + Halal certs (as achieved).",
+    "documentation": "Documentation: Certificate of Origin, SGS Inspection, Phytosanitary Certificate. Organic (target 2027) and Halal (target 2029) certifications in progress — facility built to compliance standards from day one.",
     "items": [
       { "icon": "FaTruck", "label": "Port", "value": "Abidjan, Côte d'Ivoire" },
       { "icon": "FaGlobeAfrica", "label": "EU Transit", "value": "4-6 weeks" },
       { "icon": "FaGlobeAfrica", "label": "North America", "value": "6-8 weeks" },
       { "icon": "FaFileContract", "label": "Terms", "value": "FOB Abidjan, CIF available" }
+    ]
+  },
+  "payment": {
+    "title": "Payment Terms",
+    "terms": [
+      { "label": "Standard", "value": "30% deposit, 70% against copy of Bill of Lading" },
+      { "label": "Letter of Credit", "value": "Available for qualified buyers" },
+      { "label": "Currency", "value": "USD or EUR" }
     ]
   },
   "process": {
@@ -111,14 +120,18 @@
     "items": [
       { "q": "Do you ship to my country?", "a": "Yes. We export to the European Union, the Middle East, and North America. Our port of departure is Abidjan — one of West Africa's most efficient container ports. Transit times: 4-6 weeks to EU, 6-8 weeks to North America." },
       { "q": "Can I visit the farm?", "a": "Absolutely. We encourage qualified buyers to visit our 35-hectare farm in Odienné, Côte d'Ivoire. Seeing the operation firsthand builds the trust that documentation alone cannot. Visits are arranged on request." },
-      { "q": "What certifications do you have?", "a": "We are actively pursuing Organic (ECOCERT), Halal, ISO 22000, and Fair Trade certifications. Our farm has been chemical-free since inception. See our full certification roadmap for timelines and current status." },
+      {
+        "q": "What certifications do you have?",
+        "a": "We are actively pursuing Organic (ECOCERT), Halal, ISO 22000, and Fair Trade certifications. Our farm has been chemical-free since inception.",
+        "cta": { "text": "View Certification Roadmap", "link": "/certifications" }
+      },
       { "q": "What is your minimum order quantity?", "a": "Our standard MOQ is 1 metric ton (approximately 20 jute bags) for raw cashew nuts. For processed kernels and specialty products, MOQs vary — contact us for details." },
       { "q": "How do you ensure consistent quality?", "a": "Every shipment comes from our single-origin farm — same soil, same trees, same processing standards. We don't mix lots from different sources. Our Farm OS tracks quality metrics per batch, and we provide documentation with every shipment." }
     ]
   },
   "cta": {
     "title": "Ready to Source With Confidence?",
-    "body": "Request pricing, download our product catalogue, or review our compliance documentation. We respond to wholesale inquiries within 24 hours.",
+    "body": "Request pricing, download our product catalogue, or review our compliance documentation. We respond to wholesale inquiries within 24 hours. Once you submit, we will schedule a call to discuss your volume and quality requirements.",
     "requestPricing": "Request Wholesale Pricing",
     "viewCertifications": "View Certification Roadmap"
   }

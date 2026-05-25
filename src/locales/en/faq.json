@@ -26,6 +26,11 @@
     "title": "General",
     "questions": [
       {
+        "question": "What is Farm OS?",
+        "answer": "Farm OS is our custom-built farm management platform — an offline-first Android application with cloud synchronization. It tracks every block, every tree, every expense, and every harvest. Buyers get traceability data. Investors get real-time dashboards. Partners can license it. It is the technology backbone of everything we do.",
+        "audience": ["all", "investors", "partners"]
+      },
+      {
         "question": "What is AfriNuts Export?",
         "answer": "AfriNuts Export is a tech-enabled cashew farm and future processing company based in Odienné, Ivory Coast. We grow organic cashews on our 35-hectare farm, manage operations through our custom-built Farm OS platform, and reinvest 10% of profits into community development like schools, water wells, and mosques.",
         "audience": ["all", "customers"]
@@ -231,6 +236,33 @@
         "question": "What support do you provide to partners?",
         "answer": "We provide marketing materials, product training, and joint promotional opportunities to our partners to ensure mutual success.",
         "audience": ["partners"]
+      },
+      {
+        "question": "What partnership models do you offer?",
+        "answer": "We offer four models: (1) Outgrower Cooperative — expand our farmer network, (2) White-Label/Co-Packing — we process under your brand, (3) Farm OS Licensing — deploy our platform on your farm, (4) Joint Venture Processing — build processing centers together. Visit our Partners page for details.",
+        "audience": ["partners"]
+      },
+      {
+        "question": "Is Farm OS available for licensing?",
+        "answer": "Yes. We offer Farm OS licensing for large-scale farms, agribusinesses, and government programs. The platform is crop-agnostic — currently built for cashew but adaptable to cocoa, shea, coffee, and other crops. Contact us to discuss deployment.",
+        "audience": ["partners"]
+      },
+      {
+        "question": "Can I visit the farm before partnering?",
+        "answer": "Absolutely. We encourage serious partners to visit our 35-hectare farm in Odienné and see Farm OS in action. There is no substitute for seeing the operation firsthand. Visits are arranged on request.",
+        "audience": ["partners"],
+        "actions": { "contact": true }
+      },
+      {
+        "question": "Do you offer white-label or private label options?",
+        "answer": "Yes. We offer white-label processing and packaging for qualified partners with sufficient volume. Your brand, our Farm OS traceability, and our certified supply chain.",
+        "audience": ["partners"]
+      },
+      {
+        "question": "What is the minimum commitment for a partnership?",
+        "answer": "We design pilot projects with small scope and clear metrics before scaling. Minimum volumes depend on the partnership model. Contact our partnership team to discuss your specific needs.",
+        "audience": ["partners"],
+        "actions": { "contact": true }
       }
     ]
   },

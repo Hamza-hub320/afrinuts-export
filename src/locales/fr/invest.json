@@ -6,15 +6,21 @@
   "hero": {
     "subtitle": "Opportunité d'Investissement",
     "title": "Construction du Premier Centre de Transformation de Noix de Cajou Certifié de Côte d'Ivoire",
-    "tagline": "Investissement de 1 250 000 $ adossé à des actifs · 25 % de participation · Moudaraba conforme à la Charia · Transparence alimentée par Farm OS · Dividendes à partir de 2033",
+    "tagline": "Levée totale de 1 250 000 $ · 25 % de participation (5 M$ post-money) · Investissement minimum : 250 000 $ · Moudaraba conforme à la Charia · Transparence alimentée par Farm OS · Dividendes à partir de 2033",
+    "interimNote": "Avant le début de la transformation en 2031, notre ferme opérationnelle génère des revenus grâce à la vente de noix de cajou brutes — compensant les coûts et créant de la valeur dès le premier jour.",
     "downloadNda": "Télécharger la NDA",
     "scheduleCall": "Planifier un Appel",
+    "imageOverlay": "1,25 M$ · 25 % de Participation · Conforme à la Charia",
     "kpis": {
       "targetRaise": "Objectif de Levée",
       "equityOffered": "Participation Offerte",
       "postMoneyVal": "Val. Post-Money",
       "dividendsStart": "Début des Dividendes"
     }
+  },
+  "impactSummary": {
+    "title": "Conçu pour les Investisseurs d'Impact",
+    "body": "Votre capital construit le premier centre de transformation certifié dans le nord-ouest de la Côte d'Ivoire. Vous obtenez 25 % de participation, une conformité totale à la Charia et un tableau de bord Farm OS pour suivre votre investissement en temps réel. Les dividendes commencent en 2033."
   },
   "opportunity": {
     "title": "L'Opportunité",
@@ -206,7 +212,7 @@
         "imageKey": "cfo"
       },
       {
-        "name": "Mohamadue Kouyaté",
+        "name": "Muhamadue Kouyaté",
         "position": "Directeur Commercial",
         "bio": "Plus de 12 ans en conformité export, logistique et documentation commerciale. Gère les relations acheteurs sur les marchés de l'UE et du Moyen-Orient avec la traçabilité complète de Farm OS soutenant chaque expédition.",
         "imageKey": "cco"
@@ -218,7 +224,7 @@
         "imageKey": "ops"
       },
       {
-        "name": "Mohammed Beniken",
+        "name": "Mohamed Beniken",
         "position": "Directeur Administratif",
         "bio": "Plus de 10 ans en leadership administratif. Supervise les RH, la conformité juridique et la sécurité de l'information — garantissant l'intégrité des données Farm OS et les normes de gouvernance d'entreprise.",
         "imageKey": "admin"
@@ -250,6 +256,43 @@
       "Santé et Bien-être : Les noix de cajou sont riches en graisses saines, protéines et minéraux",
       "Révolution Végétale : Demande croissante pour le lait, le beurre, le fromage et la crème de cajou",
       "Premiumisation : Les consommateurs paient plus pour des produits biologiques, équitables, durables et traçables"
+    ]
+  },
+  "timeline": {
+    "title": "Votre Parcours d'Investissement",
+    "subtitle": "De la ferme opérationnelle aujourd'hui aux dividendes en 2033 — chaque phase est dérisquée avec des actifs existants et une exécution éprouvée.",
+    "scrollHint": "Faites glisser pour explorer",
+    "items": [
+      {
+        "year": "Maintenant",
+        "title": "Ferme Opérationnelle",
+        "desc": "3 500 arbres en croissance. Les revenus des ventes de noix brutes compensent les coûts et créent de la valeur dès le premier jour.",
+        "status": "complete"
+      },
+      {
+        "year": "2027-28",
+        "title": "Construction",
+        "desc": "Centre de transformation construit. Équipement installé. Certifications demandées. Farm OS suit chaque étape.",
+        "status": "active"
+      },
+      {
+        "year": "2029",
+        "title": "Première Récolte",
+        "desc": "La ferme atteint un rendement commercial. Lots d'échantillons produits pour les acheteurs internationaux. LOI sécurisées.",
+        "status": "upcoming"
+      },
+      {
+        "year": "2031",
+        "title": "Lancement de la Transformation",
+        "desc": "Les opérations de Phase 1 commencent. Premières exportations certifiées vers les marchés de l'UE et du Moyen-Orient.",
+        "status": "upcoming"
+      },
+      {
+        "year": "2033",
+        "title": "Début des Dividendes",
+        "desc": "50 % des bénéfices nets distribués. Votre rendement commence — dividende annuel projeté de 56 250 $ d'ici 2035.",
+        "status": "upcoming"
+      }
     ]
   },
   "exitStrategy": {

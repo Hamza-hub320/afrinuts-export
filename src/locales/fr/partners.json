@@ -1,0 +1,105 @@
+{
+  "seo": {
+    "title": "Partenariats Agroalimentaires | Licence Farm OS | Cajou en Marque Blanche | AfriNuts Export",
+    "description": "Devenez partenaire d'AfriNuts Export : Coopératives de producteurs, transformation en marque blanche, licence Farm OS et transformation en coentreprise. Construisons ensemble l'avenir de l'agroalimentaire ouest-africain."
+  },
+  "hero": {
+    "subtitle": "Opportunités de Partenariat",
+    "title": "Construisons Ensemble l'Avenir de<br/>l'Agroalimentaire Africain",
+    "lead": "Vous apportez la distribution, le capital ou l'échelle opérationnelle. Nous apportons Farm OS, la traçabilité et une preuve de concept de 35 hectares. Les partenariats ne sont pas une réflexion après coup — ils sont notre stratégie de croissance.",
+    "becomePartner": "Devenir Partenaire",
+    "email": "partners@afrinutsexport.com",
+    "imageAlt": "Partenariat Agroalimentaire",
+    "imageLabel": "Grandir Ensemble",
+    "badges": [
+      { "icon": "FaMobile", "label": "Technologie Farm OS", "bg": "bg-primary/10", "text": "text-primary" },
+      { "icon": "FaCheckCircle", "label": "4 Modèles de Partenariat", "bg": "bg-green-50", "text": "text-green-700" },
+      { "icon": "FaUsers", "label": "200+ Agriculteurs", "bg": "bg-amber-50", "text": "text-amber-700" }
+    ]
+  },
+  "whyPartner": {
+    "title": "Pourquoi Devenir Partenaire d'AfriNuts",
+    "body": "Nous ne sommes pas un bureau de négoce. Nous sommes une plateforme agroalimentaire axée sur la technologie avec des actifs opérationnels, un logiciel propriétaire et une feuille de route de certification claire.",
+    "items": [
+      { "icon": "FaMobile", "title": "Technologie Farm OS", "desc": "Notre système d'exploitation sur mesure suit chaque arbre, chaque bloc et chaque exportation. Les partenaires obtiennent une visibilité en temps réel sur la production, la qualité et la traçabilité — pas des PDF trimestriels.", "stat": "Propriétaire" },
+      { "icon": "FaLeaf", "title": "Ferme Opérationnelle", "desc": "Nous ne sommes pas un bureau de négoce. Nous possédons et exploitons une ferme de 35 hectares avec 3 500 arbres. Nous avons des intérêts en jeu — et les données pour le prouver.", "stat": "35 Hectares" },
+      { "icon": "FaCertificate", "title": "Chaîne d'Approvisionnement Certifiée", "desc": "Les certifications Biologique, Halal, ISO 22000 et Commerce Équitable (en cours) ouvrent les portes des marchés premium que les fournisseurs de matières premières ne peuvent pas atteindre.", "stat": "4 Certifications" },
+      { "icon": "FaUsers", "title": "Racines Communautaires", "desc": "Plus de 200 agriculteurs dans notre coopérative. 10 % des bénéfices réinvestis localement. Un partenariat avec nous est un partenariat avec Odienné.", "stat": "200+ Agriculteurs" }
+    ]
+  },
+  "models": {
+    "title": "Modèles de Partenariat",
+    "body": "Quatre voies claires pour collaborer avec nous. Chaque modèle est conçu pour un type spécifique d'organisation avec un échange de valeur spécifique.",
+    "idealFor": "Idéal Pour",
+    "weOffer": "Ce Que Nous Offrons",
+    "youBring": "Ce Que Vous Apportez",
+    "items": [
+      {
+        "icon": "FaUsers", "title": "Coopérative de Producteurs", "tag": "Élargir l'Approvisionnement",
+        "idealFor": "ONG, programmes de développement agricole, investisseurs d'impact",
+        "weOffer": ["Formation technique", "Prix équitables et achat garanti", "Normes de qualité et suivi"],
+        "partnerOffers": ["Sensibilisation des agriculteurs", "Financement", "Soutien opérationnel"]
+      },
+      {
+        "icon": "FaBox", "title": "Marque Blanche / Co-Conditionnement", "tag": "Construisez Votre Marque",
+        "idealFor": "Marques alimentaires, détaillants, distributeurs",
+        "weOffer": ["Transformation et emballage", "Contrôle qualité", "Traçabilité Farm OS pour votre marque"],
+        "partnerOffers": ["Image de marque et marketing", "Canaux de vente", "Engagement de volume"]
+      },
+      {
+        "icon": "FaMobile", "title": "Licence Farm OS", "tag": "Déployer la Technologie",
+        "idealFor": "Grandes exploitations agricoles, entreprises agroalimentaires, programmes gouvernementaux",
+        "weOffer": ["Licence logicielle", "Formation et intégration", "Support continu et mises à jour"],
+        "partnerOffers": ["Frais de licence", "Équipe de déploiement", "Retour d'expérience pour la feuille de route"]
+      },
+      {
+        "icon": "FaIndustry", "title": "Transformation en Coentreprise", "tag": "Évoluer Ensemble",
+        "idealFor": "Investisseurs, financement du développement, groupes agroalimentaires",
+        "weOffer": ["Expertise opérationnelle", "Intégration Farm OS", "Feuille de route de certification"],
+        "partnerOffers": ["Capital", "Accès au marché local", "Navigation réglementaire"]
+      }
+    ]
+  },
+  "currentPartners": {
+    "title": "Nos Premiers Partenaires : Plus de 200 Agriculteurs",
+    "body": "Notre coopérative à Odienné est la preuve que le modèle de partenariat fonctionne.",
+    "cardTitle": "Voir le Partenariat en Action",
+    "description": "Nous fournissons la formation, des prix équitables et un achat garanti. Ils fournissent la récolte. Ensemble, nous construisons une chaîne d'approvisionnement qui profite à tous — pas seulement à l'intermédiaire.",
+    "tags": ["200+ Agriculteurs", "Prix Équitables", "Formation Technique", "Achat Garanti"]
+  },
+  "process": {
+    "title": "Comment Devenir Partenaire",
+    "body": "Un processus simple en quatre étapes conçu pour les partenaires sérieux.",
+    "stepLabel": "Étape",
+    "steps": [
+      { "step": "1", "title": "Indiquez Votre Modèle", "desc": "Quel type de partenariat correspond à votre organisation ?" },
+      { "step": "2", "title": "Signez un NDA", "desc": "Nous partageons les données opérationnelles, les feuilles de route de certification et l'accès à la démo Farm OS." },
+      { "step": "3", "title": "Projet Pilote", "desc": "Commencez petit — une coopérative, une ligne de produits, une licence." },
+      { "step": "4", "title": "Évoluez Ensemble", "desc": "Développez-vous sur la base de résultats prouvés et d'une confiance mutuelle." }
+    ]
+  },
+  "faq": {
+    "title": "Foire Aux Questions",
+    "viewAll": "Voir toutes les FAQ",
+    "items": [
+      { "q": "Offrez-vous l'exclusivité ?", "a": "Au cas par cas selon le territoire, l'engagement de volume et le modèle de partenariat. Discutons de ce qui fonctionne pour les deux parties." },
+      { "q": "Puis-je visiter la ferme ?", "a": "Oui. Nous accueillons les partenaires sérieux pour visiter Odienné et voir Farm OS en action. Rien ne remplace l'observation directe des opérations." },
+      { "q": "Quel est le volume minimum pour la marque blanche ?", "a": "Nous acceptons les essais pilotes pour tester la relation. Contactez-nous pour discuter de vos besoins spécifiques et de votre calendrier." },
+      { "q": "Farm OS est-il disponible pour d'autres cultures ?", "a": "Farm OS est actuellement conçu pour la noix de cajou, mais la plateforme est indépendante des cultures. Nous sommes ouverts aux partenariats d'adaptation pour le cacao, le karité, le café et d'autres cultures ouest-africaines." },
+      { "q": "Quelles certifications avez-vous ?", "a": "Consultez notre feuille de route de certification. Biologique (2027), Halal (2029), ISO 22000 (2029), Commerce Équitable (2030). Notre ferme est sans produits chimiques depuis sa création." },
+      {
+        "q": "Comment Farm OS me profite-t-il en tant que partenaire ?",
+        "a": "Farm OS donne aux partenaires une visibilité en temps réel sur la chaîne d'approvisionnement. Si vous faites de la marque blanche, vous voyez exactement de quel lot provient votre produit. Si vous prenez une licence, vous obtenez une plateforme testée sur le terrain sans construire à partir de zéro. Chaque partenaire a accès aux données pertinentes pour son modèle."
+      },
+      {
+        "q": "Quel est le processus de partenariat après ma prise de contact ?",
+        "a": "1) Nous planifions un appel pour comprendre vos besoins. 2) Vous signez un NDA. 3) Nous partageons les données opérationnelles pertinentes et l'accès à la démo Farm OS. 4) Nous concevons un projet pilote ensemble — portée réduite, indicateurs clairs. 5) Si le pilote réussit, nous développons le partenariat."
+      }
+    ]
+  },
+  "cta": {
+    "title": "Prêt à Construire ?",
+    "body": "Dites-nous quel modèle de partenariat correspond à votre organisation. Nous vous enverrons une brochure de partenariat et planifierons un appel pour explorer les détails.",
+    "becomePartner": "Devenir Partenaire"
+  }
+}

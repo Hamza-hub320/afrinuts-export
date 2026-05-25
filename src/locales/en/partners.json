@@ -1,0 +1,105 @@
+{
+  "seo": {
+    "title": "Agribusiness Partnerships | Farm OS Licensing | White-Label Cashews | AfriNuts Export",
+    "description": "Partner with AfriNuts Export: Outgrower cooperatives, white-label processing, Farm OS licensing, and joint venture processing. Let's build the future of West African agribusiness together."
+  },
+  "hero": {
+    "subtitle": "Partnership Opportunities",
+    "title": "Let's Build the Future of<br/>African Agribusiness Together",
+    "lead": "You bring distribution, capital, or operational scale. We bring Farm OS, traceability, and a 35-hectare proof of concept. Partnerships are not an afterthought — they are how we scale.",
+    "becomePartner": "Become a Partner",
+    "email": "partners@afrinutsexport.com",
+    "imageAlt": "Agribusiness Partnership",
+    "imageLabel": "Grow Together",
+    "badges": [
+      { "icon": "FaMobile", "label": "Farm OS Technology", "bg": "bg-primary/10", "text": "text-primary" },
+      { "icon": "FaCheckCircle", "label": "4 Partnership Models", "bg": "bg-green-50", "text": "text-green-700" },
+      { "icon": "FaUsers", "label": "200+ Farmers", "bg": "bg-amber-50", "text": "text-amber-700" }
+    ]
+  },
+  "whyPartner": {
+    "title": "Why Partner with AfriNuts",
+    "body": "We're not a trading desk. We're a tech-enabled agribusiness platform with operational assets, proprietary software, and a clear certification roadmap.",
+    "items": [
+      { "icon": "FaMobile", "title": "Farm OS Technology", "desc": "Our custom-built operating system tracks every tree, every block, and every export. Partners get real-time visibility into production, quality, and traceability — not quarterly PDFs.", "stat": "Proprietary" },
+      { "icon": "FaLeaf", "title": "Operational Farm", "desc": "We are not a trading desk. We own and operate a 35-hectare farm with 3,500 trees. We have skin in the game — and the data to prove it.", "stat": "35 Hectares" },
+      { "icon": "FaCertificate", "title": "Certified Supply Chain", "desc": "Organic, Halal, ISO 22000, and Fair Trade certifications (in progress) open doors to premium markets that commodity suppliers cannot access.", "stat": "4 Certs" },
+      { "icon": "FaUsers", "title": "Community Roots", "desc": "200+ farmers in our cooperative. 10% of profits reinvested locally. Partnership with us is partnership with Odienné.", "stat": "200+ Farmers" }
+    ]
+  },
+  "models": {
+    "title": "Partnership Models",
+    "body": "Four clear paths to partner with us. Each model is designed for a specific type of organization with specific value exchange.",
+    "idealFor": "Ideal For",
+    "weOffer": "What We Offer",
+    "youBring": "What You Bring",
+    "items": [
+      {
+        "icon": "FaUsers", "title": "Outgrower Cooperative", "tag": "Expand Supply",
+        "idealFor": "NGOs, agricultural development programs, impact investors",
+        "weOffer": ["Technical training", "Fair pricing & guaranteed off-take", "Quality standards & monitoring"],
+        "partnerOffers": ["Farmer outreach", "Financing", "Operational support"]
+      },
+      {
+        "icon": "FaBox", "title": "White-Label / Co-Packing", "tag": "Build Your Brand",
+        "idealFor": "Food brands, retailers, distributors",
+        "weOffer": ["Processing & packaging", "Quality control", "Farm OS traceability for your brand"],
+        "partnerOffers": ["Branding & marketing", "Sales channels", "Volume commitment"]
+      },
+      {
+        "icon": "FaMobile", "title": "Farm OS Licensing", "tag": "Deploy Technology",
+        "idealFor": "Large-scale farms, agribusinesses, government programs",
+        "weOffer": ["Software license", "Training & onboarding", "Ongoing support & updates"],
+        "partnerOffers": ["Licensing fee", "Deployment team", "Feedback for roadmap"]
+      },
+      {
+        "icon": "FaIndustry", "title": "Joint Venture Processing", "tag": "Scale Together",
+        "idealFor": "Investors, development finance, agribusiness groups",
+        "weOffer": ["Operational expertise", "Farm OS integration", "Certification roadmap"],
+        "partnerOffers": ["Capital", "Local market access", "Regulatory navigation"]
+      }
+    ]
+  },
+  "currentPartners": {
+    "title": "Our First Partners: 200+ Farmers",
+    "body": "Our cooperative in Odienné is proof that the partnership model works.",
+    "cardTitle": "See the Partnership in Action",
+    "description": "We provide training, fair pricing, and guaranteed off-take. They provide the harvest. Together, we're building a supply chain that benefits everyone — not just the middleman.",
+    "tags": ["200+ Farmers", "Fair Pricing", "Technical Training", "Guaranteed Off-Take"]
+  },
+  "process": {
+    "title": "How to Partner",
+    "body": "A simple four-step process designed for serious partners.",
+    "stepLabel": "Step",
+    "steps": [
+      { "step": "1", "title": "Tell Us Your Model", "desc": "Which partnership type fits your organization?" },
+      { "step": "2", "title": "Sign an NDA", "desc": "We share operational data, certification roadmaps, and Farm OS demo access." },
+      { "step": "3", "title": "Pilot Project", "desc": "Start small — one cooperative, one product line, one license." },
+      { "step": "4", "title": "Scale Together", "desc": "Expand based on proven results and mutual trust." }
+    ]
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "viewAll": "View all FAQs",
+    "items": [
+      { "q": "Do you offer exclusivity?", "a": "On a case-by-case basis depending on territory, volume commitment, and partnership model. Let's discuss what works for both parties." },
+      { "q": "Can I visit the farm?", "a": "Yes. We welcome serious partners to visit Odienné and see Farm OS in action. There is no substitute for seeing the operation firsthand." },
+      { "q": "What is the minimum volume for white-label?", "a": "We accommodate pilot runs to test the relationship. Contact us to discuss your specific needs and timeline." },
+      { "q": "Is Farm OS available for other crops?", "a": "Farm OS is currently built for cashew, but the platform is crop-agnostic. We are open to adaptation partnerships for cocoa, shea, coffee, and other West African crops." },
+      { "q": "What certifications do you have?", "a": "See our certification roadmap. Organic (2027), Halal (2029), ISO 22000 (2029), Fair Trade (2030). Our farm has been chemical-free since inception." },
+      {
+        "q": "How does Farm OS benefit me as a partner?",
+        "a": "Farm OS gives partners real-time visibility into the supply chain. If you're white-labeling, you see exactly which batch your product came from. If you're licensing, you get a field-tested platform without building from scratch. Every partner gets access to the data that matters to their model."
+      },
+      {
+        "q": "What does the partnership process look like after I reach out?",
+        "a": "1) We schedule a call to understand your needs. 2) You sign an NDA. 3) We share relevant operational data and Farm OS demo access. 4) We design a pilot project together — small scope, clear metrics. 5) If the pilot succeeds, we scale the partnership."
+      }
+    ]
+  },
+  "cta": {
+    "title": "Ready to Build?",
+    "body": "Tell us which partnership model fits your organization. We'll send you a partnership brochure and schedule a call to explore the details.",
+    "becomePartner": "Become a Partner"
+  }
+}

@@ -6,7 +6,7 @@ import {
     FaChartLine, FaIndustry, FaLeaf, FaShieldAlt, FaUsers,
     FaArrowRight, FaDownload, FaHandshake, FaCalendarAlt, FaFileContract, FaCheckCircle,
     FaHeart, FaSolarPanel, FaGlobeAfrica, FaChartPie,
-    FaMoneyBillWave, FaBuilding, FaSeedling, FaInfoCircle, FaChartBar, FaCrown, FaRecycle, FaMobile
+    FaMoneyBillWave, FaBuilding, FaSeedling, FaInfoCircle, FaChartBar, FaCrown, FaRecycle, FaMobile, FaTree
 } from 'react-icons/fa';
 import {
     BarChart, Bar, XAxis, YAxis, CartesianGrid,
@@ -21,6 +21,7 @@ import { fadeIn, staggerContainer } from '@/utils/animations';
 import JsonLd from '@/components/Seo/JsonLd';
 import { Helmet } from 'react-helmet-async';
 import ndaPDF from '@/assets/documents/nda-afrinuts.pdf';
+import investHeroImage from '@/assets/images/invest-hero.webp';
 import ceoImage from '@/assets/images/ceo.webp';
 import cfoImage from '@/assets/images/cfo.webp';
 import ccoImage from '@/assets/images/cco.webp';
@@ -28,6 +29,7 @@ import opsImage from '@/assets/images/ops-manager.webp';
 import adminImage from '@/assets/images/admin-manager.webp';
 import farmManagerImage from '@/assets/images/farm-manager.webp';
 import {trackCtaClick} from "@/utils/analytics";
+
 
 const Invest: React.FC = () => {
     const { t } = useTranslation('invest');
@@ -112,34 +114,73 @@ const Invest: React.FC = () => {
 
             {/* Hero */}
             <Section className="flex items-center justify-center text-center min-h-[50vh]">
-                <motion.div className="max-w-4xl px-6 sm:px-8 py-12" initial="hidden" animate="visible" variants={staggerContainer}>
-                    <motion.div variants={fadeIn}>
-                        <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-4">
-                            <FaChartPie className="inline mr-3 text-accent" />{t('hero.subtitle')}
+                <motion.div className="max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 flex flex-col lg:flex-row items-center gap-6 lg:gap-16" initial="hidden" animate="visible" variants={staggerContainer}>
+
+                    {/* Left: Text Content */}
+                    <motion.div className="flex-1 max-w-none lg:max-w-xl text-center lg:text-left" variants={fadeIn}>
+                        <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-3">
+                            <FaChartPie className="inline mr-2 text-accent" />{t('hero.subtitle')}
                         </Typography>
+                        <motion.h1 className="font-display text-3xl md:text-4xl lg:text-5xl text-text-dark mb-4 leading-tight" variants={fadeIn} style={{ letterSpacing: '-0.03em' }}>{t('hero.title')}</motion.h1>
+                        <Typography variant="lead" className="text-text-dark mb-3 text-base lg:text-lg">{t('hero.tagline')}</Typography>
+                        <div className="inline-block bg-primary/5 border border-primary/10 rounded-xl px-4 py-2 mb-4">
+                            <Typography variant="small" className="text-primary text-sm">
+                                <FaSeedling className="inline mr-1.5 text-accent" />
+                                {t('hero.interimNote')}
+                            </Typography>
+                        </div>
+                        <div className="grid grid-cols-2 gap-3 mb-6">
+                            {heroKPIs.map((kpi, idx) => (
+                                <motion.div key={idx} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 + idx * 0.1 }}>
+                                    <InfoCard icon={kpi.icon} title={kpi.value} subtitle={kpi.label} iconColor="text-accent" showInfoBadge={false} className="h-full text-center" />
+                                </motion.div>
+                            ))}
+                        </div>
+                        <motion.div variants={fadeIn} className="flex flex-wrap gap-2.5 justify-center lg:justify-start">
+                            <a href={ndaPDF} download className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-5 py-2.5 rounded-full text-sm font-medium shadow-md inline-flex items-center gap-1.5">
+                                <FaDownload className="text-xs" />{t('hero.downloadNda')}
+                            </a>
+                            <motion.button onClick={() => { trackCtaClick('schedule_call', 'invest_hero'); navigate('/contact'); }}
+                                           className="relative border border-primary/40 text-primary hover:bg-primary/5 px-5 py-2.5 rounded-full text-sm font-medium inline-flex items-center gap-1.5 bg-white/50 backdrop-blur-sm" whileHover={{ y: -1 }}>
+                                <FaHandshake className="text-xs" />{t('hero.scheduleCall')}
+                            </motion.button>
+                        </motion.div>
                     </motion.div>
-                    <motion.h1 className="font-display text-4xl md:text-5xl lg:text-6xl text-text-dark mb-6 leading-tight" variants={fadeIn} style={{ letterSpacing: '-0.03em' }}>{t('hero.title')}</motion.h1>
-                    <motion.div variants={fadeIn}><Typography variant="lead" className="text-text-dark max-w-3xl mx-auto mb-8">{t('hero.tagline')}</Typography></motion.div>
-                    <motion.div variants={fadeIn} className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto mb-8">
-                        {heroKPIs.map((kpi, idx) => (
-                            <motion.div key={idx} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 + idx * 0.1 }}>
-                                <InfoCard icon={kpi.icon} title={kpi.value} subtitle={kpi.label} iconColor="text-accent" showInfoBadge={false} className="h-full text-center" />
-                            </motion.div>
-                        ))}
+
+                    {/* Right: Invest Image */}
+                    <motion.div className="flex-shrink-0 lg:ml-auto" variants={fadeIn} transition={{ delay: 0.2 }}>
+                        <motion.div className="relative w-96 h-96 sm:w-80 sm:h-80 lg:w-[420px]  lg:h-[640px] rounded-[2rem] overflow-hidden shadow-2xl border-2 border-white/40 transform-gpu group"
+                                    style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
+                                    whileHover={{ scale: 1.03, rotateY: 2, transition: { duration: 0.3 } }}>
+                            <div className="absolute inset-0 rounded-[2rem] border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
+                            <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-b from-white/15 to-transparent opacity-40" />
+                            <img src={investHeroImage} alt="Investment Opportunity" className="w-full h-full object-cover" />
+                            <div className="absolute bottom-3 left-3 right-3 bg-white/80 backdrop-blur-sm rounded-full px-3 py-1 text-center">
+                                <span className="text-primary text-[11px] font-semibold">{t('hero.imageOverlay')}</span>
+                            </div>
+                        </motion.div>
                     </motion.div>
-                    <motion.div variants={fadeIn} className="flex flex-col sm:flex-row gap-4 justify-center">
-                        <a href={ndaPDF} download className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-4 rounded-full transform-gpu group/btn overflow-hidden font-medium shadow-lg inline-flex items-center gap-2">
-                            <div className="absolute inset-0 rounded-full border-2 border-white/30" /><div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50" />
-                            <FaDownload className="relative z-10" /><span className="relative z-10">{t('hero.downloadNda')}</span>
-                        </a>
-                        <motion.button onClick={() => {
-                            trackCtaClick('schedule_call', 'invest_hero');
-                            navigate('/contact');
-                        }} className="relative border-2 border-primary/50 text-primary hover:bg-primary hover:text-white px-8 py-4 rounded-full transform-gpu font-medium inline-flex items-center gap-2 bg-white/30 backdrop-blur-sm" whileHover={{ y: -2 }}>
-                            <FaHandshake />{t('hero.scheduleCall')}
-                        </motion.button>
-                    </motion.div>
+
                 </motion.div>
+            </Section>
+
+            {/* Why This Investment is Different */}
+            <Section className="py-6">
+                <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
+                    <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
+                        <InfoCard
+                            icon={FaHeart}
+                            title={t('impactSummary.title', 'Built for Impact Investors')}
+                            variant="accent"
+                            showInfoBadge={false}
+                            className="text-center"
+                        >
+                            <Typography variant="body" className="text-gray-700">
+                                {t('impactSummary.body', 'Your capital builds the first certified processing center in northwestern Côte d\'Ivoire. You get 25% equity, full Shariah compliance, and a Farm OS dashboard to monitor your investment in real time. Dividends begin in 2033.')}
+                            </Typography>
+                        </InfoCard>
+                    </motion.div>
+                </div>
             </Section>
 
             {/* Opportunity */}
@@ -254,25 +295,72 @@ const Invest: React.FC = () => {
                             </InfoCard>
                         </motion.div>
 
-                        {/* Visual / Dashboard Preview */}
-                            <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} transition={{ delay: 0.1 }}>
-                        <InfoCard
-                            icon={FaChartLine}
-                            title="Live Dashboard Access"
-                            variant="accent"
-                            showInfoBadge={false}
-                            className="h-full text-center"
-                        >
-                            <div className="flex flex-col items-center justify-center min-h-[180px]">
-                                <Typography variant="small" className="text-gray-600 mb-4">
-                                    Block-level P&L · Tree survival rates · Harvest projections · Task completion · Photo documentation
-                                </Typography>
+                        {/* Dashboard Visual Representation */}
+                        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} transition={{ delay: 0.1 }}>
+                            <InfoCard icon={FaChartLine} title="Live Dashboard Access" variant="accent" showInfoBadge={false} className="h-full text-center">
+                                {/* Styled Dashboard Graphic — Not Real Data */}
+                                <div className="bg-white/80 backdrop-blur-sm rounded-xl p-4 border border-white/40 shadow-inner mb-4">
+                                    {/* Dashboard Header Bar */}
+                                    <div className="flex items-center justify-between mb-4 pb-3 border-b border-gray-200">
+                                        <div className="flex items-center gap-2">
+                                            <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                                            <div className="w-16 h-2 bg-gray-300 rounded-full"></div>
+                                        </div>
+                                        <div className="flex gap-1.5">
+                                            <div className="w-6 h-1.5 bg-gray-200 rounded-full"></div>
+                                            <div className="w-6 h-1.5 bg-gray-200 rounded-full"></div>
+                                            <div className="w-6 h-1.5 bg-gray-200 rounded-full"></div>
+                                        </div>
+                                    </div>
+
+                                    {/* KPI Cards Row */}
+                                    <div className="grid grid-cols-3 gap-2 mb-3">
+                                        {['#5A7411', '#E04E00', '#A0C800'].map((color, i) => (
+                                            <div key={i} className="rounded-lg p-2" style={{ backgroundColor: `${color}15` }}>
+                                                <div className="w-8 h-1.5 rounded-full mb-1.5" style={{ backgroundColor: `${color}40` }}></div>
+                                                <div className="w-12 h-3 rounded mb-1" style={{ backgroundColor: `${color}60` }}></div>
+                                                <div className="w-16 h-1 rounded-full" style={{ backgroundColor: `${color}30` }}></div>
+                                            </div>
+                                        ))}
+                                    </div>
+
+                                    {/* Chart Area */}
+                                    <div className="bg-gray-100/50 rounded-lg p-3 mb-3">
+                                        <div className="flex items-end gap-1 h-16">
+                                            {[40, 65, 45, 80, 55, 90, 60, 75, 50, 85, 45, 70].map((h, i) => (
+                                                <div key={i} className="flex-1 rounded-t" style={{
+                                                    height: `${h}%`,
+                                                    backgroundColor: i % 2 === 0 ? '#5A7411' : '#E04E00',
+                                                    opacity: 0.6
+                                                }}></div>
+                                            ))}
+                                        </div>
+                                        <div className="flex justify-between mt-1">
+                                            <div className="w-4 h-1 bg-gray-300 rounded-full"></div>
+                                            <div className="w-4 h-1 bg-gray-300 rounded-full"></div>
+                                            <div className="w-4 h-1 bg-gray-300 rounded-full"></div>
+                                            <div className="w-4 h-1 bg-gray-300 rounded-full"></div>
+                                        </div>
+                                    </div>
+
+                                    {/* Bottom Row */}
+                                    <div className="grid grid-cols-2 gap-2">
+                                        <div className="bg-gray-100/50 rounded-lg p-2">
+                                            <div className="w-12 h-1.5 bg-gray-300 rounded-full mb-1.5"></div>
+                                            <div className="w-16 h-2.5 bg-primary/40 rounded"></div>
+                                        </div>
+                                        <div className="bg-gray-100/50 rounded-lg p-2">
+                                            <div className="w-12 h-1.5 bg-gray-300 rounded-full mb-1.5"></div>
+                                            <div className="w-16 h-2.5 bg-accent/40 rounded"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
                                 <div className="inline-block bg-accent/10 text-accent text-xs font-medium px-4 py-2 rounded-full">
                                     {t('farmOs.cta')}
                                 </div>
-                            </div>
-                        </InfoCard>
-                    </motion.div>
+                            </InfoCard>
+                        </motion.div>
                     </div>
                 </div>
             </Section>
@@ -416,6 +504,73 @@ const Invest: React.FC = () => {
                 </div>
                 <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} className="mt-6 bg-amber-50/80 border border-amber-200 rounded-xl p-3 text-center max-w-2xl mx-auto"><Typography variant="small" className="text-amber-700 text-xs">{t('returns.disclaimer')}</Typography></motion.div>
             </div></Section>
+
+            {/* Investment Journey Timeline — Glassy 3D Style */}
+            <Section className="py-10 sm:py-12">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6">
+                    <motion.div className="text-center mb-8 md:mb-12" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
+                        <Typography variant="h2" className="text-primary mb-4">{t('timeline.title')}</Typography>
+                        <Typography variant="body" className="text-gray-600 max-w-2xl mx-auto">{t('timeline.subtitle')}</Typography>
+                    </motion.div>
+
+                    <div className="relative">
+                        <div className="hidden md:block absolute left-0 right-0 top-1/2 h-1 bg-accent/30 transform -translate-y-1/2 z-0"></div>
+                        <div className="md:hidden text-center text-sm text-primary mb-4">↓ {t('timeline.scrollHint')} ↓</div>
+
+                        <div className="flex md:flex-row flex-nowrap overflow-x-auto pb-4 md:pb-0 md:overflow-visible gap-6 md:gap-0 relative scrollbar-thin scrollbar-thumb-rounded-full scrollbar-thumb-accent/30 scroll-snap-x">
+                            {(t('timeline.items', { returnObjects: true }) as any[]).map((item, idx) => (
+                                <motion.div
+                                    key={idx}
+                                    className="flex flex-col items-center w-[220px] sm:w-[240px] flex-shrink-0 md:w-1/5 px-0 md:px-3 scroll-snap-align-start transform-gpu group"
+                                    initial="hidden"
+                                    whileInView="visible"
+                                    variants={fadeIn}
+                                    viewport={{ once: true }}
+                                    style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
+                                >
+                                    <motion.div
+                                        className={`w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center font-display text-lg md:text-xl font-bold border-4 shadow-lg mb-4 z-10 transition-all duration-500 transform-gpu relative mt-0 md:mt-8 ${
+                                            item.status === 'complete' ? 'bg-gradient-to-br from-green-50 to-green-100 text-green-700 border-green-400' :
+                                                item.status === 'active' ? 'bg-gradient-to-br from-primary/5 to-accent/5 text-primary border-accent' :
+                                                    'bg-gradient-to-br from-gray-50 to-gray-100 text-gray-400 border-gray-300'
+                                        }`}
+                                        whileHover={{ scale: 1.15, rotateY: 5, boxShadow: '0 10px 25px -5px rgba(0,0,0,0.2)' }}
+                                    >
+                                        <div className="absolute inset-0 rounded-full border-2 border-white/20 transform-gpu translate-z-[-4px] group-hover:translate-z-[-6px] transition-all duration-500" />
+                                        <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+                                        <span className="relative z-10 text-sm md:text-base">{item.year}</span>
+                                    </motion.div>
+
+                                    <motion.div
+                                        className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-500 p-4 md:p-5 rounded-2xl shadow-lg w-full transform-gpu group/card"
+                                        style={{ transformStyle: 'preserve-3d' }}
+                                        whileHover={{ y: -8, scale: 1.03, rotateY: 3, boxShadow: '0 20px 35px -10px rgba(0,0,0,0.2)', transition: { duration: 0.3 } }}
+                                    >
+                                        <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover/card:translate-z-[-10px] transition-all duration-500" />
+                                        <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover/card:opacity-60 transition-opacity duration-500" />
+                                        <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] group-hover/card:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
+                                        <div className="absolute inset-0 rounded-2xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
+
+                                        <div className="relative z-10">
+                                            <div className="flex items-center gap-2 mb-2 md:mb-3">
+                                                <motion.div
+                                                    className="text-accent text-lg bg-accent/20 p-2 rounded-full transform-gpu group-hover/card:scale-110 transition-transform duration-300"
+                                                    whileHover={{ scale: 1.2, rotate: 5 }}
+                                                    transition={{ type: 'spring', stiffness: 300 }}
+                                                >
+                                                    {item.status === 'complete' ? <FaCheckCircle /> : item.status === 'active' ? <FaIndustry /> : <FaCalendarAlt />}
+                                                </motion.div>
+                                                <Typography variant="h4" className="text-primary text-base md:text-lg">{item.title}</Typography>
+                                            </div>
+                                            <Typography variant="small" className="text-gray-600 text-xs md:text-sm">{item.desc}</Typography>
+                                        </div>
+                                    </motion.div>
+                                </motion.div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            </Section>
 
             {/* Exit Strategy */}
             <Section className="py-10">

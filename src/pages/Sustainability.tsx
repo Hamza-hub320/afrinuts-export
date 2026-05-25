@@ -187,7 +187,7 @@ const Sustainability: React.FC = () => {
                             className="mb-20"
                             variants={fadeIn}
                         >
-                            <Typography variant="h3" className="mb-8 text-center">
+                            <Typography variant="h5" className="mb-8 text-center">
                                 {t('environment.challenges.title')}
                             </Typography>
                             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -236,7 +236,7 @@ const Sustainability: React.FC = () => {
                                 </div>
                             </div>
                             <div className="lg:w-1/2">
-                                <Typography variant="h3" className="mb-8">
+                                <Typography variant="h5" className="mb-8">
                                     {t('environment.solutions.title')}
                                 </Typography>
                                 <div className="grid md:grid-cols-2 gap-6">

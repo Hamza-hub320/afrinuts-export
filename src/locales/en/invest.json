@@ -6,15 +6,21 @@
   "hero": {
     "subtitle": "Investment Opportunity",
     "title": "Building Côte d'Ivoire's First Certified Cashew Processing Center",
-    "tagline": "$1,250,000 asset-backed investment · 25% equity · Shariah-compliant Mudarabah · Farm OS-powered transparency · Dividends from 2033",
+    "tagline": "$1,250,000 total raise · 25% equity ($5M post-money) · Minimum investment: $250,000 · Shariah-compliant Mudarabah · Farm OS-powered transparency · Dividends from 2033",
+    "interimNote": "Before processing begins in 2031, our operational farm generates revenue from raw cashew sales — offsetting costs and building value from day one.",
     "downloadNda": "Download NDA",
     "scheduleCall": "Schedule a Call",
+    "imageOverlay": "$1.25M · 25% Equity · Shariah-Compliant",
     "kpis": {
       "targetRaise": "Target Raise",
       "equityOffered": "Equity Offered",
       "postMoneyVal": "Post-Money Val.",
       "dividendsStart": "Dividends Start"
     }
+  },
+  "impactSummary": {
+    "title": "Built for Impact Investors",
+    "body": "Your capital builds the first certified processing center in northwestern Côte d'Ivoire. You get 25% equity, full Shariah compliance, and a Farm OS dashboard to monitor your investment in real time. Dividends begin in 2033."
   },
   "opportunity": {
     "title": "The Opportunity",
@@ -206,7 +212,7 @@
         "imageKey": "cfo"
       },
       {
-        "name": "Mohamadue Kouyaté",
+        "name": "Muhamadue Kouyaté",
         "position": "Chief Commercial Officer",
         "bio": "12+ years in export compliance, logistics, and trade documentation. Manages buyer relationships across EU and Middle East markets with full Farm OS traceability backing every shipment.",
         "imageKey": "cco"
@@ -218,7 +224,7 @@
         "imageKey": "ops"
       },
       {
-        "name": "Mohammed Beniken",
+        "name": "Mohamed Beniken",
         "position": "Chief Administrative Officer",
         "bio": "10+ years in administrative leadership. Oversees HR, legal compliance, and information security — ensuring Farm OS data integrity and corporate governance standards.",
         "imageKey": "admin"
@@ -250,6 +256,43 @@
       "Health & Wellness: Cashews are rich in healthy fats, protein, and minerals",
       "Plant-Based Revolution: Surging demand for cashew milk, butter, cheese, and cream",
       "Premiumization: Consumers pay more for organic, fair trade, sustainable, traceable products"
+    ]
+  },
+  "timeline": {
+    "title": "Your Investment Journey",
+    "subtitle": "From operational farm today to dividends in 2033 — every phase is de-risked with existing assets and proven execution.",
+    "scrollHint": "Swipe to explore",
+    "items": [
+      {
+        "year": "Now",
+        "title": "Farm Operational",
+        "desc": "3,500 trees growing. Revenue from raw cashew sales offsets costs and builds value from day one.",
+        "status": "complete"
+      },
+      {
+        "year": "2027-28",
+        "title": "Construction",
+        "desc": "Processing center built. Equipment installed. Certifications applied. Farm OS tracks every milestone.",
+        "status": "active"
+      },
+      {
+        "year": "2029",
+        "title": "First Harvest",
+        "desc": "Farm reaches commercial yield. Sample batches produced for international buyers. LOIs secured.",
+        "status": "upcoming"
+      },
+      {
+        "year": "2031",
+        "title": "Processing Launch",
+        "desc": "Phase 1 operations begin. First certified exports to EU and Middle East markets.",
+        "status": "upcoming"
+      },
+      {
+        "year": "2033",
+        "title": "Dividends Begin",
+        "desc": "50% of net profits distributed. Your return starts — projected $56,250 annual dividend by 2035.",
+        "status": "upcoming"
+      }
     ]
   },
   "exitStrategy": {

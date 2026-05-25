@@ -77,7 +77,7 @@ const ExecutiveTeam: React.FC = () => {
         },
         {
             id: 3,
-            name: "Mohamadue A. Kouyaté",
+            name: "Muhamadue Aly Kouyate",
             title: t('executives.cco.title'),
             role: t('executives.cco.role'),
             image: ccoImage,

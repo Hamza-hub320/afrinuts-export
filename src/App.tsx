@@ -20,6 +20,7 @@ import BlogPost from '@/pages/BlogPost';
 import NewsPost from '@/pages/NewsPost';
 
 // Lazy load heavy pages
+const Partners = React.lazy(() => import('@/pages/Partners'));
 const Wholesale = React.lazy(() => import('@/pages/Wholesale'));
 const Invest = React.lazy(() => import('@/pages/Invest'));
 const Products = React.lazy(() => import('./pages/Products'));
@@ -98,6 +99,7 @@ function App(): ReactElement {
                                     <Route path="login" element={<Login />} />
                                     <Route path="invest" element={<Invest />} />
                                     <Route path="wholesale" element={<Wholesale />} />
+                                    <Route path="partners" element={<Partners />} />
                                 </Route>
 
                                 <Route path="dashboard" element={

@@ -167,6 +167,7 @@ const Navbar: React.FC = () => {
       ]
     },
     { path: '/invest', label: t('navbar.invest', 'Invest') },
+    { path: '/partners', label: t('navbar.partners', 'Partners') },
     { path: '/contact', label: t('navbar.contact') },
     {
       path: '/news',
@@ -296,7 +297,7 @@ const Navbar: React.FC = () => {
                         <div key={index} className="relative" ref={aboutDropdownRef}>
                           <button type="button"
                                   onClick={toggleAboutDropdown}
-                                  className={`px-4 py-2 rounded-lg text-lg font-medium. transition-all duration-300 flex items-center ${
+                                  className={`px-2.5 py-2 rounded-lg text-lg font-medium. transition-all duration-300 flex items-center ${
                                       isActive(item.path)
                                           ? 'bg-primary text-white shadow-md'
                                           : 'text-gray-700 hover:bg-gray-50 hover:text-primary hover:shadow-sm'
@@ -319,7 +320,7 @@ const Navbar: React.FC = () => {
                                           e.stopPropagation();
                                           setAboutDropdownOpen(false);
                                         }}
-                                        className={`block px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors duration-200 ${
+                                        className={`block px-2.5 py-2 text-gray-700 hover:bg-gray-100 transition-colors duration-200 ${
                                             isActive(dropdownItem.path) ? 'bg-gray-100 font-medium' : ''
                                         }`}
                                     >
@@ -336,7 +337,7 @@ const Navbar: React.FC = () => {
                         <div key={index} className="relative" ref={productsDropdownRef}>
                           <button type="button"
                                   onClick={toggleProductsDropdown}
-                                  className={`px-4 py-2 rounded-lg text-lg font-medium. transition-all duration-300 flex items-center ${
+                                  className={`px-2.5 py-2 rounded-lg text-lg font-medium. transition-all duration-300 flex items-center ${
                                       isActive(item.path)
                                           ? 'bg-primary text-white shadow-md'
                                           : 'text-gray-700 hover:bg-gray-50 hover:text-primary hover:shadow-sm'
@@ -359,7 +360,7 @@ const Navbar: React.FC = () => {
                                           e.stopPropagation();
                                           setProductsDropdownOpen(false);
                                         }}
-                                        className={`block px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors duration-200 ${
+                                        className={`block px-2.5 py-2 text-gray-700 hover:bg-gray-100 transition-colors duration-200 ${
                                             isActive(dropdownItem.path) ? 'bg-gray-100 font-medium' : ''
                                         }`}
                                     >
@@ -376,7 +377,7 @@ const Navbar: React.FC = () => {
                         <div key={index} className="relative" ref={farmDropdownRef}>
                           <button type="button"
                                   onClick={toggleFarmDropdown}
-                                  className={`px-4 py-2 rounded-lg text-lg font-medium. transition-all duration-300 flex items-center ${
+                                  className={`px-2.5 py-2 rounded-lg text-lg font-medium. transition-all duration-300 flex items-center ${
                                       isActive(item.path)
                                           ? 'bg-primary text-white shadow-md'
                                           : 'text-gray-700 hover:bg-gray-50 hover:text-primary hover:shadow-sm'
@@ -399,7 +400,7 @@ const Navbar: React.FC = () => {
                                           e.stopPropagation();
                                           setFarmDropdownOpen(false);
                                         }}
-                                        className={`block px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors duration-200 ${
+                                        className={`block px-2.5 py-2 text-gray-700 hover:bg-gray-100 transition-colors duration-200 ${
                                             isActive(dropdownItem.path) ? 'bg-gray-100 font-medium' : ''
                                         }`}
                                     >
@@ -417,7 +418,7 @@ const Navbar: React.FC = () => {
                         <div key={index} className="relative" ref={newsDropdownRef}>
                           <button type="button"
                                   onClick={toggleNewsDropdown}
-                                  className={`px-4 py-2 rounded-lg text-lg font-medium transition-all duration-300 flex items-center ${
+                                  className={`px-2.5 py-2 rounded-lg text-lg font-medium transition-all duration-300 flex items-center ${
                                       isActive(item.path)
                                           ? 'bg-primary text-white shadow-md'
                                           : 'text-gray-700 hover:bg-gray-50 hover:text-primary hover:shadow-sm'
@@ -440,7 +441,7 @@ const Navbar: React.FC = () => {
                                           e.stopPropagation();
                                           setNewsDropdownOpen(false);
                                         }}
-                                        className={`block px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors duration-200 ${
+                                        className={`block px-2.5 py-2 text-gray-700 hover:bg-gray-100 transition-colors duration-200 ${
                                             location.pathname === dropdownItem.path ||
                                             (dropdownItem.path === '/blog' && location.pathname.startsWith('/blog'))
                                                 ? 'bg-gray-100 font-medium' : ''
@@ -462,7 +463,7 @@ const Navbar: React.FC = () => {
                     <Link
                         key={index}
                         to={item.path}
-                        className={`px-4 py-2 rounded-lg text-lg font-medium. transition-all duration-300 ${
+                        className={`px-2.5 py-2 rounded-lg text-lg font-medium. transition-all duration-300 ${
                             isActive(item.path)
                                 ? 'bg-primary text-white shadow-md'
                                 : 'text-gray-700 hover:bg-gray-50 hover:text-primary hover:shadow-sm'
@@ -479,7 +480,7 @@ const Navbar: React.FC = () => {
               })}
 
               {/* Language Dropdown */}
-              <div className="relative ml-2" ref={desktopLanguageDropdownRef}>
+              <div className="relative ml-0.5" ref={desktopLanguageDropdownRef}>
                 <button
                     onClick={toggleLanguageDropdown}
                     className="flex items-center text-gray-700 hover:text-primary p-2 rounded-lg hover:bg-gray-100 transition-colors duration-300 group"
@@ -507,7 +508,7 @@ const Navbar: React.FC = () => {
                                 e.stopPropagation();
                                 changeLanguage(lang.code);
                               }}
-                              className={`block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors duration-200 ${
+                              className={`block w-full text-left px-2.5 py-2 text-gray-700 hover:bg-gray-100 transition-colors duration-200 ${
                                   i18n.language === lang.code ? 'bg-gray-100 font-medium' : ''
                               }`}
                           >
@@ -522,7 +523,7 @@ const Navbar: React.FC = () => {
               {user ? (
                   <button
                       onClick={() => logout()}
-                      className="flex items-center text-gray-700 hover:text-red-500 p-2 rounded-lg hover:bg-gray-100 transition-colors duration-300 ml-1"
+                      className="flex items-center text-gray-700 hover:text-red-500 p-2 rounded-lg hover:bg-gray-100 transition-colors duration-300 ml-0.5"
                       title="Logout"
                   >
                     <FaSignOutAlt size={18} />
@@ -530,7 +531,7 @@ const Navbar: React.FC = () => {
               ) : (
                   <Link
                       to="/login"
-                      className="flex items-center text-gray-700 hover:text-primary p-2 rounded-lg hover:bg-gray-100 transition-colors duration-300 ml-1"
+                      className="flex items-center text-gray-700 hover:text-primary p-2 rounded-lg hover:bg-gray-100 transition-colors duration-300 ml-0.5"
                       title="Login"
                   >
                     <FaUserCircle size={20} />
@@ -569,7 +570,7 @@ const Navbar: React.FC = () => {
                                 e.stopPropagation();
                                 changeLanguage(lang.code);
                               }}
-                              className={`block w-full text-left px-4 py-2 text-text-dark hover:bg-gray-100 transition-colors duration-200 ${
+                              className={`block w-full text-left px-2.5 py-2 text-text-dark hover:bg-gray-100 transition-colors duration-200 ${
                                   i18n.language === lang.code ? 'bg-gray-100 font-medium' : ''
                               }`}
                           >
