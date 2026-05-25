@@ -1,8 +1,10 @@
 {
   "hero": {
-    "title": "AfriNuts News Hub",
-    "subtitle": "Cashew Agriculture Updates from Ivory Coast & Beyond",
-    "description": "Stay updated with AfriNuts Export — company milestones, farm developments, industry trends, and insights from the heart of West Africa's cashew belt."
+    "title": "The AfriNuts News Hub",
+    "subtitle": "Cashew Farming Updates from Côte d'Ivoire & Beyond",
+    "description": "Stay informed with AfriNuts Export — company milestones, farm developments, industry trends, and insights from the heart of West Africa's cashew belt. Powered by Farm OS data and boots-on-the-ground reporting.",
+    "cta": "Subscribe for Updates",
+    "ctaSecondary": "Explore Our Blog"
   },
   "tabs": {
     "all": "All News",

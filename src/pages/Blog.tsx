@@ -1,7 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import {FaCalendarAlt, FaUser, FaSearch, FaChevronDown, FaPenFancy, FaBookOpen} from 'react-icons/fa';
+import {
+    FaCalendarAlt,
+    FaUser,
+    FaSearch,
+    FaChevronDown,
+    FaPenFancy,
+    FaBookOpen,
+    FaQuestionCircle,
+    FaNewspaper, FaLeaf
+} from 'react-icons/fa';
 import { Typography } from '@/components/Typography/Typography';
 import { trackCtaClick, trackBlogRead } from '@/utils/analytics';
 import Section from '@/components/Section/Section';
@@ -9,6 +18,8 @@ import { fadeIn, staggerContainer } from '@/utils/animations';
 import { useNavigate } from 'react-router-dom';
 import {Helmet} from "react-helmet-async";
 import JsonLd from "@/components/Seo/JsonLd";
+import blogHeroImage from '@/assets/images/blog-hero.webp';
+import { InfoCard } from '@/components/InfoCard/InfoCard';
 
 interface BlogPost {
     id: string;
@@ -123,31 +134,61 @@ const Blog: React.FC = () => {
             }} />
 
             {/* Hero */}
-            <Section className="flex items-center justify-center text-center min-h-[40vh]">
-                <motion.div
-                    className="max-w-4xl px-6 sm:px-8 py-12"
-                    initial="hidden"
-                    animate="visible"
-                    variants={staggerContainer}
-                >
-                    <motion.div variants={fadeIn}>
-                        <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-4">
-                            <FaPenFancy className="inline mr-3 text-accent" />Insights from Our Cashew Farm in Odienné
+            <Section className="flex items-center justify-center text-center min-h-[50vh]">
+                <motion.div className="max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 flex flex-col lg:flex-row items-center gap-6 lg:gap-20" initial="hidden" animate="visible" variants={staggerContainer}>
+
+                    {/* Left: Text Content */}
+                    <motion.div className="flex-1 max-w-none lg:max-w-xl text-center lg:text-left" variants={fadeIn}>
+                        <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-3">
+                            <FaPenFancy className="inline mr-2 text-accent" />Insights from Our Cashew Farm in Odienné
                         </Typography>
-                    </motion.div>
-                    <motion.h1
-                        className="font-display text-4xl md:text-5xl lg:text-6xl text-text-dark mb-6 leading-tight"
-                        variants={fadeIn}
-                        style={{ letterSpacing: '-0.03em' }}
-                    >
-                        The AfriNuts Blog: <br className="hidden sm:block" />
-                        Organic Cashews, Sustainable Farming & West African Agriculture
-                    </motion.h1>
-                    <motion.div variants={fadeIn}>
-                        <Typography variant="lead" className="text-text-dark max-w-3xl mx-auto">
+                        <motion.h1 className="font-display text-3xl md:text-4xl lg:text-5xl text-text-dark mb-4 leading-tight" variants={fadeIn} style={{ letterSpacing: '-0.03em' }}>
+                            The AfriNuts Blog
+                        </motion.h1>
+                        <Typography variant="lead" className="text-text-dark mb-5 text-base lg:text-lg">
                             Expert advice on growing organic cashews, sustainable farm management, market trends, and building a vertically integrated agribusiness — straight from our 35-hectare family farm in Ivory Coast.
                         </Typography>
+
+                        {/* Blog Intro Card */}
+                        <motion.div variants={fadeIn} className="mb-5">
+                            <InfoCard
+                                icon={FaLeaf}
+                                title="What You'll Find Here"
+                                variant="accent"
+                                showInfoBadge={false}
+                            >
+                                <Typography variant="small" className="text-gray-600">
+                                    Practical farming guides, industry analysis, behind-the-scenes stories, and data-backed insights from our tech-enabled cashew operation. Updated regularly by our team in Odienné.
+                                </Typography>
+                            </InfoCard>
+                        </motion.div>
+
+                        <motion.div variants={fadeIn} className="flex flex-wrap gap-2.5 justify-center lg:justify-start">
+                            <Link to="/news"
+                                  className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-5 py-2.5 rounded-full text-sm font-medium shadow-md inline-flex items-center gap-1.5">
+                                <FaNewspaper className="text-xs" />Industry News
+                            </Link>
+                            <Link to="/faq"
+                                  className="relative border border-primary/40 text-primary hover:bg-primary/5 px-5 py-2.5 rounded-full text-sm font-medium inline-flex items-center gap-1.5 bg-white/50 backdrop-blur-sm">
+                                <FaQuestionCircle className="text-xs" />Frequently Asked Questions
+                            </Link>
+                        </motion.div>
                     </motion.div>
+
+                    {/* Right: Blog Image */}
+                    <motion.div className="flex-shrink-0 lg:ml-auto" variants={fadeIn} transition={{ delay: 0.2 }}>
+                        <motion.div className="relative w-96 h-96 sm:w-80 sm:h-80 lg:w-[28rem] lg:h-[38rem] rounded-[2rem] overflow-hidden shadow-2xl border-2 border-white/40 transform-gpu group"
+                                    style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
+                                    whileHover={{ scale: 1.03, rotateY: 2, transition: { duration: 0.3 } }}>
+                            <div className="absolute inset-0 rounded-[2rem] border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
+                            <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-b from-white/15 to-transparent opacity-40" />
+                            <img src={blogHeroImage} alt="AfriNuts Blog" className="w-full h-full object-cover" />
+                            <div className="absolute bottom-3 left-3 right-3 bg-white/80 backdrop-blur-sm rounded-full px-3 py-1 text-center">
+                                <span className="text-primary text-[11px] font-semibold">Farm Insights & Stories</span>
+                            </div>
+                        </motion.div>
+                    </motion.div>
+
                 </motion.div>
             </Section>
 

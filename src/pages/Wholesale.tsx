@@ -87,7 +87,21 @@ const Wholesale: React.FC = () => {
                             {t('hero.title')}
                         </motion.h1>
                         <Typography variant="lead" className="text-text-dark mb-3 text-base lg:text-lg">{t('hero.lead')}</Typography>
-                        <Typography variant="body" className="text-gray-600 mb-2 text-sm">{t('hero.subtext')}</Typography>
+
+                        {/* Wholesale Intro Card */}
+                        <motion.div variants={fadeIn} className="mb-5">
+                            <InfoCard
+                                icon={FaShieldAlt}
+                                title={t('hero.introTitle', 'What Makes Our Wholesale Different')}
+                                variant="accent"
+                                showInfoBadge={false}
+                            >
+                                <Typography variant="small" className="text-gray-600">
+                                    {t('hero.introBody', 'Single-origin from our 35-hectare farm. Farm OS traceability on every shipment. Export-ready documentation. No middlemen — just direct, transparent sourcing from Odienné to your container.')}
+                                </Typography>
+                            </InfoCard>
+                        </motion.div>
+
                         <div className="flex flex-wrap justify-center lg:justify-start gap-2 mb-5">
                 <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-primary/10 text-primary text-xs rounded-full font-medium">
                     <FaBox className="text-[10px]" /> {t('hero.moq')}
@@ -95,26 +109,21 @@ const Wholesale: React.FC = () => {
                             <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-green-50 text-green-700 text-xs rounded-full font-medium">
                     <FaCheckCircle className="text-[10px]" /> {t('hero.available')}
                 </span>
-                            {/* NEW */}
                             <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-amber-50 text-amber-700 text-sm rounded-full font-medium">
                     <FaFlask className="text-xs" /> {t('hero.samples')}
                 </span>
                         </div>
                         <motion.div variants={fadeIn} className="flex flex-wrap gap-2.5 justify-center lg:justify-start">
                             <motion.button onClick={() => {
-                                        trackCtaClick('request_wholesale_pricing', 'wholesale_cta');
-                                        navigate('/contact?type=wholesale');
-                                        }}className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-5 py-2.5 rounded-full text-sm font-medium shadow-md inline-flex items-center gap-1.5" whileHover={{ y: -1 }}>
+                                trackCtaClick('request_wholesale_pricing', 'wholesale_cta');
+                                navigate('/contact?type=wholesale');
+                            }} className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-5 py-2.5 rounded-full text-sm font-medium shadow-md inline-flex items-center gap-1.5" whileHover={{ y: -1 }}>
                                 <FaEnvelope className="text-xs" />{t('hero.requestPricing')}
                             </motion.button>
-                            <a
-                                href="/documents/afrinuts-products-catalogue.pdf"
-                                download="AfriNuts-Products-Catalogue.pdf"
-                                rel="noopener"
-                                className="relative border border-primary/40 text-primary hover:bg-primary/5 px-5 py-2.5 rounded-full text-sm font-medium inline-flex items-center gap-1.5 bg-white/50 backdrop-blur-sm"
-                                title="Download AfriNuts Export Product Catalogue (PDF)">
-                                <FaDownload className="text-xs" />
-                                {t('hero.downloadCatalogue')}
+                            <a href="/documents/afrinuts-products-catalogue.pdf" download="AfriNuts-Products-Catalogue.pdf" rel="noopener"
+                               className="relative border border-primary/40 text-primary hover:bg-primary/5 px-5 py-2.5 rounded-full text-sm font-medium inline-flex items-center gap-1.5 bg-white/50 backdrop-blur-sm"
+                               title="Download AfriNuts Export Product Catalogue (PDF)">
+                                <FaDownload className="text-xs" />{t('hero.downloadCatalogue')}
                             </a>
                             <a href="https://wa.me/+13854577473" target="_blank" rel="noopener noreferrer" className="relative border border-green-400 text-green-600 hover:bg-green-50 px-5 py-2.5 rounded-full text-sm font-medium inline-flex items-center gap-1.5 bg-white/50 backdrop-blur-sm">
                                 <FaWhatsapp className="text-xs" />{t('hero.whatsapp')}
@@ -123,15 +132,15 @@ const Wholesale: React.FC = () => {
                     </motion.div>
 
                     {/* Right: Product Image */}
-                    <motion.div className="relative w-96 h-96 sm:w-80 sm:h-80 lg:w-96 lg:h-96 rounded-[2rem] overflow-hidden shadow-2xl border-2 border-white/40 transform-gpu group"
+                    <motion.div className="relative w-96 h-96 sm:w-80 sm:h-80 lg:w-[28rem] lg:h-[38rem] rounded-[2rem] overflow-hidden shadow-2xl border-2 border-white/40 transform-gpu group"
                                 style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
                                 whileHover={{ scale: 1.03, rotateY: 2, transition: { duration: 0.3 } }}>
-                            <div className="absolute inset-0 rounded-[2rem] border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
-                            <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-b from-white/15 to-transparent opacity-40" />
-                            <img src={cashewKernelsImage} alt="Premium Cashew Kernels" className="w-full h-full object-cover" />
-                            <div className="absolute bottom-3 left-3 right-3 bg-white/80 backdrop-blur-sm rounded-full px-3 py-1 text-center">
-                                <span className="text-primary text-[11px] font-semibold">Premium Cashew Kernels</span>
-                            </div>
+                        <div className="absolute inset-0 rounded-[2rem] border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
+                        <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-b from-white/15 to-transparent opacity-40" />
+                        <img src={cashewKernelsImage} alt="Premium Cashew Kernels" className="w-full h-full object-cover" />
+                        <div className="absolute bottom-3 left-3 right-3 bg-white/80 backdrop-blur-sm rounded-full px-3 py-1 text-center">
+                            <span className="text-primary text-[11px] font-semibold">Premium Cashew Kernels</span>
+                        </div>
                     </motion.div>
 
                 </motion.div>

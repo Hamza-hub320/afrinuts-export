@@ -58,11 +58,26 @@ const Partners: React.FC = () => {
                         </Typography>
                         <motion.h1 className="font-display text-3xl md:text-4xl lg:text-5xl text-text-dark mb-4 leading-tight" variants={fadeIn} style={{ letterSpacing: '-0.03em' }} dangerouslySetInnerHTML={{ __html: t('hero.title') }} />
                         <Typography variant="lead" className="text-text-dark mb-3 text-base lg:text-lg">{t('hero.lead')}</Typography>
+
+                        {/* Partners Intro Card */}
+                        <motion.div variants={fadeIn} className="mb-5">
+                            <InfoCard
+                                icon={FaUsers}
+                                title={t('hero.introTitle', 'How We Partner')}
+                                variant="accent"
+                                showInfoBadge={false}
+                            >
+                                <Typography variant="small" className="text-gray-600">
+                                    {t('hero.introBody', 'Four partnership models designed for different organizations. From outgrower cooperatives to Farm OS licensing — we have a path for you. Every partnership is backed by our operational farm, proprietary technology, and commitment to transparency.')}
+                                </Typography>
+                            </InfoCard>
+                        </motion.div>
+
                         <div className="flex flex-wrap justify-center lg:justify-start gap-2 mb-5">
                             {(t('hero.badges', { returnObjects: true }) as any[]).map((badge, idx) => (
                                 <span key={idx} className={`inline-flex items-center gap-1 px-2.5 py-1 ${badge.bg} ${badge.text} text-xs rounded-full font-medium`}>
-                                    {React.createElement(whyPartnerIcons[badge.icon] || FaCheckCircle, { className: "text-[10px]" })} {badge.label}
-                                </span>
+                        {React.createElement(whyPartnerIcons[badge.icon] || FaCheckCircle, { className: "text-[10px]" })} {badge.label}
+                    </span>
                             ))}
                         </div>
                         <motion.div variants={fadeIn} className="flex flex-wrap gap-2.5 justify-center lg:justify-start">
@@ -76,7 +91,7 @@ const Partners: React.FC = () => {
                     </motion.div>
                     {/* Right: Partner Image */}
                     <motion.div className="flex-shrink-0 lg:ml-auto" variants={fadeIn} transition={{ delay: 0.2 }}>
-                        <motion.div className="relative w-96 h-96 sm:w-80 sm:h-80 lg:w-96 lg:h-96 rounded-[2rem] overflow-hidden shadow-2xl border-2 border-white/40 transform-gpu group"
+                        <motion.div className="relative w-96 h-96 sm:w-80 sm:h-80 lg:w-[28rem] lg:h-[38rem] rounded-[2rem] overflow-hidden shadow-2xl border-2 border-white/40 transform-gpu group"
                                     style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
                                     whileHover={{ scale: 1.03, rotateY: 2, transition: { duration: 0.3 } }}>
                             <div className="absolute inset-0 rounded-[2rem] border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />

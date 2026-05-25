@@ -1,8 +1,10 @@
 {
   "hero": {
     "title": "Le Hub d'Actualités AfriNuts",
-    "subtitle": "Actualités de la Culture de la Noix de Cajou en Côte d'Ivoire et Ailleurs",
-    "description": "Restez informé avec AfriNuts Export — jalons de l'entreprise, développements de la ferme, tendances de l'industrie et perspectives du cœur de la ceinture de cajou de l'Afrique de l'Ouest."
+    "subtitle": "Actualités de la Culture de la Noix de Cajou de Côte d'Ivoire et Ailleurs",
+    "description": "Restez informé avec AfriNuts Export — jalons de l'entreprise, développements de la ferme, tendances de l'industrie et perspectives du cœur de la ceinture de cajou de l'Afrique de l'Ouest. Alimenté par les données Farm OS et les reportages de terrain.",
+    "cta": "S'abonner aux Mises à Jour",
+    "ctaSecondary": "Explorer Notre Blog"
   },
   "tabs": {
     "all": "Toutes les Actualités",

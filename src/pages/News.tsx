@@ -2,8 +2,17 @@ import React, { useEffect, useState, Fragment, useRef } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
-import {FaNewspaper, FaGlobe, FaBullhorn, FaSearch, FaShareSquare, FaSadTear, FaGlobeAfrica} from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import {
+    FaNewspaper,
+    FaGlobe,
+    FaBullhorn,
+    FaSearch,
+    FaShareSquare,
+    FaSadTear,
+    FaGlobeAfrica,
+    FaEnvelope
+} from 'react-icons/fa';
+import {Link, useNavigate} from 'react-router-dom';
 import Section from '@/components/Section/Section';
 import { fadeIn, staggerContainer } from '@/utils/animations';
 import { Typography } from '@/components/Typography/Typography';
@@ -13,6 +22,8 @@ import newsImage from '@/assets/images/news.webp';
 import { trackCtaClick, trackOutboundClick } from '@/utils/analytics';
 import JsonLd from "@/components/Seo/JsonLd";
 import {Helmet} from "react-helmet-async";
+import {navigate} from "next/dist/client/components/segment-cache";
+import { InfoCard } from '@/components/InfoCard/InfoCard';
 
 interface RSSItem {
     title: string;
@@ -57,6 +68,7 @@ const News: React.FC = () => {
     const [afrinutsUpdates, setAfrinutsUpdates] = useState<AfriNutsUpdate[]>([]);
     const [selectedArticle, setSelectedArticle] = useState<RSSItem | null>(null);
     const articleDialogRef = useRef<HTMLDivElement>(null);
+    const navigate = useNavigate();
 
     const { sections: { tabs } } = newsConfig.page;
     const rssFeeds: NewsFeed[] = newsFeeds.feeds;
@@ -218,18 +230,6 @@ const News: React.FC = () => {
                                     <div className="absolute inset-0 rounded-3xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)]" />
                                     <div className="absolute inset-0 rounded-3xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
 
-                                    <div className="relative h-64 overflow-hidden z-10 rounded-t-3xl rounded-bl-3xl rounded-br-[80px]">
-                                        <motion.img
-                                            src={update.image || newsImage}
-                                            alt={update.title}
-                                            className="w-full h-full object-cover"
-                                            loading="lazy"
-                                            whileHover={{ scale: 1.1 }}
-                                            transition={{ duration: 0.5 }}
-                                        />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black/15 to-transparent" />
-                                    </div>
-
                                     {/* Share button - top right corner */}
                                     <button
                                         className="absolute top-4 right-4 z-20 w-9 h-9 rounded-full bg-white/70 backdrop-blur-md border border-white/40 shadow-md flex items-center justify-center text-primary hover:text-accent hover:bg-white/90 transition-all transform-gpu hover:scale-110"
@@ -249,17 +249,22 @@ const News: React.FC = () => {
                                     </button>
 
                                     <div className="p-6 relative z-10">
+                                        <div className="flex items-center gap-2 mb-3">
+                                            <div className="bg-accent/20 p-2 rounded-full">
+                                                <FaBullhorn className="text-accent text-sm" />
+                                            </div>
+                                            <Typography variant="caption" className="text-gray-400">
+                                                {new Date(update.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                                            </Typography>
+                                        </div>
                                         <Typography variant="h4" className="mb-3 text-primary">{highlightText(update.title, debouncedSearch)}</Typography>
-                                        <Typography variant="body" className="text-gray-600 mb-4 whitespace-pre-line">{highlightText(update.excerpt, debouncedSearch)}</Typography>
-                                        <div className="flex flex-wrap gap-2 mb-2">
+                                        <Typography variant="body" className="text-gray-600 mb-4">{highlightText(update.excerpt, debouncedSearch)}</Typography>
+                                        <div className="flex flex-wrap gap-2 mb-3">
                                             {update.tags?.map(tag => <span key={tag} className="inline-block bg-accent/10 text-accent px-3 py-1 text-xs rounded-full font-medium">{t(`categories.${tag}`)}</span>)}
                                         </div>
-                                        <div className="flex justify-between items-center mt-4">
+                                        <div className="flex items-center justify-between">
                                             <Typography variant="caption" className="text-gray-400">{update.author || 'AfriNuts'}</Typography>
-                                            <Typography variant="caption" className="text-gray-400">{new Date(update.date).toLocaleDateString()}</Typography>
-                                        </div>
-                                        <div className="mt-4">
-                                            <span className="text-accent hover:underline text-sm">{t('sections.readMore')}</span>
+                                            <span className="text-accent hover:underline text-sm font-medium">{t('sections.readMore')}</span>
                                         </div>
                                     </div>
                                 </motion.div>
@@ -401,25 +406,64 @@ const News: React.FC = () => {
                 }
             }} />
             {/* Hero */}
-            <Section fullHeight={false} className="flex items-center justify-center text-center min-h-[40vh]">
-                <motion.div className="max-w-4xl px-6 sm:px-8 py-12" initial="hidden" animate="visible" variants={staggerContainer}>
-                    <motion.div variants={fadeIn}><Typography variant="subhead" className="uppercase tracking-widest text-primary mb-4"><FaGlobeAfrica className="inline mr-3 text-accent" />{t('hero.subtitle')}</Typography></motion.div>
-                    <motion.h1 className="font-display text-4xl md:text-5xl lg:text-6xl text-text-dark mb-6 leading-tight" variants={fadeIn} style={{ letterSpacing: '-0.03em' }}>{t('hero.title')}</motion.h1>
-                    <motion.div variants={fadeIn}><Typography variant="lead" className="text-text-dark max-w-3xl mx-auto">{t('hero.description')}</Typography></motion.div>
-                </motion.div>
-            </Section>
+            <Section className="flex items-center justify-center text-center min-h-[50vh]">
+                <motion.div className="max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 flex flex-col lg:flex-row items-center gap-6 lg:gap-20" initial="hidden" animate="visible" variants={staggerContainer}>
 
-            {/* News Intro */}
-            <Section className="py-12 text-center">
-                <div className="w-full max-w-3xl mx-auto px-4 sm:px-6">
-                    <motion.div className="relative bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl border-2 border-primary/20 p-8 transform-gpu" style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
-                                whileHover={{ y: -4, scale: 1.02, rotateY: 1, boxShadow: '0 15px 30px -5px rgba(0,0,0,0.15)', transition: { duration: 0.3 } }}>
-                        <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-4px]" />
-                        <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-30" />
-                        <Typography variant="h2" className="mb-4 relative z-10">{t('sections.newsIntro.title')}</Typography>
-                        <Typography variant="lead" className="mb-2 relative z-10">{t('sections.newsIntro.description')}</Typography>
+                    {/* Left: Text Content */}
+                    <motion.div className="flex-1 max-w-none lg:max-w-xl text-center lg:text-left" variants={fadeIn}>
+                        <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-3">
+                            <FaGlobeAfrica className="inline mr-2 text-accent" />{t('hero.subtitle')}
+                        </Typography>
+                        <motion.h1 className="font-display text-3xl md:text-4xl lg:text-5xl text-text-dark mb-4 leading-tight" variants={fadeIn} style={{ letterSpacing: '-0.03em' }}>
+                            {t('hero.title')}
+                        </motion.h1>
+                        <Typography variant="lead" className="text-text-dark mb-5 text-base lg:text-lg">{t('hero.description')}</Typography>
+
+                        {/* News Intro Card — Inside Hero */}
+                        <motion.div variants={fadeIn} className="mb-5">
+                            <InfoCard
+                                icon={FaBullhorn}
+                                title={t('sections.newsIntro.title')}
+                                variant="accent"
+                                showInfoBadge={false}
+                            >
+                                <Typography variant="small" className="text-gray-600">
+                                    {t('sections.newsIntro.description')}
+                                </Typography>
+                            </InfoCard>
+                        </motion.div>
+
+                        <motion.div variants={fadeIn} className="flex flex-wrap gap-2.5 justify-center lg:justify-start">
+                            <button
+                                onClick={() => {
+                                    const newsletterSection = document.getElementById('newsletter-section');
+                                    newsletterSection?.scrollIntoView({ behavior: 'smooth' });
+                                }}
+                                className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-5 py-2.5 rounded-full text-sm font-medium shadow-md inline-flex items-center gap-1.5">
+                                <FaEnvelope className="text-xs" />{t('hero.cta')}
+                            </button>
+                            <Link to="/blog"
+                                  className="relative border border-primary/40 text-primary hover:bg-primary/5 px-5 py-2.5 rounded-full text-sm font-medium inline-flex items-center gap-1.5 bg-white/50 backdrop-blur-sm">
+                                <FaNewspaper className="text-xs" />{t('hero.ctaSecondary')}
+                            </Link>
+                        </motion.div>
                     </motion.div>
-                </div>
+
+                    {/* Right: News Image */}
+                    <motion.div className="flex-shrink-0 lg:ml-auto" variants={fadeIn} transition={{ delay: 0.2 }}>
+                        <motion.div className="relative w-96 h-96 sm:w-80 sm:h-80 lg:w-[28rem] lg:h-[38rem] rounded-[2rem] overflow-hidden shadow-2xl border-2 border-white/40 transform-gpu group"
+                                    style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
+                                    whileHover={{ scale: 1.03, rotateY: 2, transition: { duration: 0.3 } }}>
+                            <div className="absolute inset-0 rounded-[2rem] border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
+                            <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-b from-white/15 to-transparent opacity-40" />
+                            <img src={newsImage} alt="AfriNuts News & Updates" className="w-full h-full object-cover" />
+                            <div className="absolute bottom-3 left-3 right-3 bg-white/80 backdrop-blur-sm rounded-full px-3 py-1 text-center">
+                                <span className="text-primary text-[11px] font-semibold">Latest Updates</span>
+                            </div>
+                        </motion.div>
+                    </motion.div>
+
+                </motion.div>
             </Section>
 
             {/* News Content */}
@@ -491,7 +535,7 @@ const News: React.FC = () => {
             </Section>
 
             {/* Newsletter */}
-            <Section className="py-16">
+            <Section className="py-16" id="newsletter-section">
                 <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 text-center">
                     <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
                         <motion.div className="relative bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl border-2 border-primary/20 p-8 transform-gpu" style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
