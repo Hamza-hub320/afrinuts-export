@@ -18,12 +18,6 @@ import { Link } from 'react-router-dom';
 import partnerHeroImage from '@/assets/images/partner-hero.webp';
 import partnerVideo from '@/assets/videos/current-partners.mp4';
 
-function WholesaleFAQ(props: {
-    items: any[],
-    viewAllLabel: TFunctionReturnOptionalDetails<TFunctionProcessReturnValue<$NoInfer<TFunctionReturn<Ns, AppendKeyPrefix<ParseKeys<Ns, TOptions, EffectiveKPrefix<KPrefix, TOptions>> | TemplateStringsArray, EffectiveKPrefix<KPrefix, TOptions>>, TOptions>>, never>, TOptions>
-}) {
-    return null;
-}
 
 const Partners: React.FC = () => {
     const { t } = useTranslation('partners');
@@ -80,8 +74,9 @@ const Partners: React.FC = () => {
                             </a>
                         </motion.div>
                     </motion.div>
+                    {/* Right: Partner Image */}
                     <motion.div className="flex-shrink-0 lg:ml-auto" variants={fadeIn} transition={{ delay: 0.2 }}>
-                        <motion.div className="relative w-56 h-56 sm:w-72 sm:h-72 lg:w-96 lg:h-96 rounded-[2rem] overflow-hidden shadow-2xl border-2 border-white/40 transform-gpu group"
+                        <motion.div className="relative w-96 h-96 sm:w-80 sm:h-80 lg:w-96 lg:h-96 rounded-[2rem] overflow-hidden shadow-2xl border-2 border-white/40 transform-gpu group"
                                     style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
                                     whileHover={{ scale: 1.03, rotateY: 2, transition: { duration: 0.3 } }}>
                             <div className="absolute inset-0 rounded-[2rem] border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
