@@ -98,5 +98,16 @@
     "message": "Please include a detailed message",
     "requestType": "Please select a request type",
     "submit": "We encountered an error. Please email us directly at contact@afrinutsexport.com"
+  },
+  "weather": {
+    "loading": "Loading weather data...",
+    "error": "Unable to load weather data",
+    "currentWeather": "{{location}} Right Now",
+    "feelsLike": "Feels like {{temp}}°C",
+    "highTemp": "High: {{temp}}°C",
+    "lowTemp": "Low: {{temp}}°C",
+    "wind": "Wind: {{speed}} kph",
+    "humidity": "Humidity: {{percent}}%",
+    "notAvailable": "N/A"
   }
 }

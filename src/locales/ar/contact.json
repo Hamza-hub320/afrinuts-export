@@ -98,5 +98,16 @@
     "message": "يرجى تضمين رسالة مفصلة",
     "requestType": "يرجى اختيار نوع الطلب",
     "submit": "واجهنا خطأ. يرجى مراسلتنا مباشرة على contact@afrinutsexport.com"
+  },
+  "weather": {
+    "loading": "جاري تحميل بيانات الطقس...",
+    "error": "تعذر تحميل بيانات الطقس",
+    "currentWeather": "{{location}} الآن",
+    "feelsLike": "يبدو مثل {{temp}}°C",
+    "highTemp": "العظمى: {{temp}}°C",
+    "lowTemp": "الصغرى: {{temp}}°C",
+    "wind": "الرياح: {{speed}} كم/س",
+    "humidity": "الرطوبة: {{percent}}%",
+    "notAvailable": "غير متوفر"
   }
 }
