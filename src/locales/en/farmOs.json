@@ -1,0 +1,155 @@
+{
+  "seo": {
+    "title": "Farm OS | The Operating System Behind AfriNuts Export | Custom Agritech",
+    "description": "Farm OS is the custom-built operating system powering AfriNuts Export — offline-first Android app, real-time dashboards, block-level traceability, and institutional-grade reporting. Built for West African agriculture."
+  },
+  "hero": {
+    "subtitle": "Proprietary Technology",
+    "title": "Farm OS<br/>The Operating System Behind AfriNuts Export",
+    "lead": "Every cashew we ship is tracked by software we built ourselves. An offline-first Android application with cloud synchronization, real-time dashboards, and institutional-grade reporting. This is not a farm management app we bought. This is the platform we engineered to prove what we do.",
+    "cardTitle": "Not an App We Bought. A Platform We Built.",
+    "cardBody": "An offline-first Android application with cloud synchronization, real-time dashboards, and institutional-grade reporting. Every cashew we ship is tracked by software we engineered ourselves — because off-the-shelf farm software couldn't do what our buyers and investors needed.",
+    "badgeTech": "Proprietary Technology",
+    "imageLabel": "Powered by Farm OS",
+    "badgeVersion": "v1.0 — Live in Production",
+    "stats": [
+      { "label": "35 Blocks Tracked", "icon": "FaMapMarkerAlt" },
+      { "label": "Offline-First", "icon": "FaWifi" },
+      { "label": "Android + Cloud", "icon": "FaAndroid" }
+    ],
+    "ctaDemo": "See Farm OS in Action",
+    "ctaInvest": "For Investors"
+  },
+  "whyBuilt": {
+    "title": "Why We Built Farm OS",
+    "oldPrefix": "Old way:",
+    "subtitle": "Most West African farms track production on paper or in WhatsApp messages. That wasn't good enough for our buyers or our investors. So we built the solution.",
+    "cards": [
+      { "old": "Paper logs lost in the rain", "new": "Digital records synced to the cloud automatically", "icon": "FaCloud" },
+      { "old": "WhatsApp updates to investors", "new": "Real-time dashboard with KPIs, photos, and financials", "icon": "FaChartLine" },
+      { "old": "\"Trust me\" traceability", "new": "Block-level GPS coordinates, harvest dates, quality metrics", "icon": "FaMapMarkerAlt" }
+    ]
+  },
+  "howItWorks": {
+    "title": "How Farm OS Works",
+    "stepPrefix": "Step",
+    "steps": [
+      { "step": "1", "title": "Field", "desc": "Worker logs task on Android app. Works offline — no internet required.", "icon": "FaAndroid" },
+      { "step": "2", "title": "Cloud Sync", "desc": "Data syncs automatically when connectivity returns. Encrypted and backed up.", "icon": "FaCloud" },
+      { "step": "3", "title": "Dashboard", "desc": "Farm managers view real-time operations, financials, and KPIs.", "icon": "FaChartLine" },
+      { "step": "4", "title": "Stakeholders", "desc": "Investors and buyers access verified reports and traceability data.", "icon": "FaUsers" }
+    ]
+  },
+  "capabilities": {
+    "title": "Current Capabilities — Live Today",
+    "categories": [
+      {
+        "name": "Farm Operations",
+        "items": [
+          { "icon": "FaMapMarkerAlt", "title": "Block-Level Tracking", "desc": "35 blocks mapped by row, column, GPS coordinates, survival rate, and planting date. Every tree accounted for." },
+          { "icon": "FaTasks", "title": "Task Management", "desc": "Assign, track, and verify farm tasks. Workers log completion on Android devices — online or offline." },
+          { "icon": "FaCamera", "title": "Photo Documentation", "desc": "Field photos attached to blocks, tasks, and expenses. Visual verification of every operation." }
+        ]
+      },
+      {
+        "name": "Financial Intelligence",
+        "items": [
+          { "icon": "FaFileInvoiceDollar", "title": "Expense Tracking", "desc": "Log expenses per block or farm-wide with digital receipt capture. Know exactly where every FCFA goes." },
+          { "icon": "FaChartBar", "title": "Revenue Tracking", "desc": "Record sales by batch, quality grade, and buyer. Real-time P&L per hectare." },
+          { "icon": "FaChartLine", "title": "Investor Dashboard", "desc": "Live KPIs, profit projections, and dividend tracking. The same data our team uses — not a quarterly PDF." }
+        ]
+      },
+      {
+        "name": "Supply Chain Trust",
+        "items": [
+          { "icon": "FaSearch", "title": "Batch Traceability", "desc": "Every shipment linked to a unique batch ID with full harvest-to-container documentation." },
+          { "icon": "FaShieldAlt", "title": "Certification Audit Trail", "desc": "Digital records of every input, inspection, and compliance check — audit-ready on demand." },
+          { "icon": "FaCloud", "title": "Offline-First Sync", "desc": "Works without internet. Data syncs automatically when connectivity returns. Built for rural West Africa." }
+        ]
+      }
+    ]
+  },
+  "comparison": {
+    "title": "Why We Built Farm OS Instead of Buying",
+    "colProblem": "Off-the-Shelf Farm Management",
+    "colSolution": "Farm OS",
+    "subtitle": "We evaluated off-the-shelf farm management software. None of them solved our actual problems. So we built the solution ourselves.",
+    "tableTitle": "Farm OS vs. Off-the-Shelf Software",
+    "rows": [
+      { "problem": "Requires constant internet — useless in rural Odienné", "solution": "Offline-first — works in remote fields, syncs when connected" },
+      { "problem": "Designed for large Western farms with different needs", "solution": "Built specifically for our 35-hectare West African operation" },
+      { "problem": "Expensive monthly subscriptions per user", "solution": "Built in-house — zero marginal cost per user" },
+      { "problem": "Generic reporting templates", "solution": "Custom dashboards for investors, buyers, and farm managers" },
+      { "problem": "No batch traceability from harvest to container", "solution": "End-to-end traceability — every batch tracked from field to export" }
+    ],
+    "footer": "And one more thing: we own the code. No vendor lock-in. No price increases. Full control."
+  },
+  "builtForAfrica": {
+    "title": "Built for West Africa. Not Adapted for It.",
+    "body": "Farm OS was built for the reality of rural Côte d'Ivoire — works offline, syncs automatically when connectivity returns, optimized for low-bandwidth environments, and runs on affordable Android devices. This is not Silicon Valley software retrofitted for Africa. This is African software built for African conditions.",
+    "tags": [
+      { "label": "Offline-First", "icon": "FaWifi" },
+      { "label": "Low Power", "icon": "FaBatteryFull" },
+      { "label": "Android", "icon": "FaAndroid" },
+      { "label": "Auto-Sync", "icon": "FaCloud" }
+    ]
+  },
+  "forBuyers": {
+    "title": "For Wholesale Buyers",
+    "quote": "Most suppliers send a certificate. We send the data that generated it.",
+    "body": "When you order from AfriNuts, the traceability report is pulled directly from Farm OS — not created after the fact by someone in an office. Same system our farm managers use. Same data our investors see.",
+    "cta": "Explore Wholesale"
+  },
+  "forInvestors": {
+    "title": "For Investors",
+    "quote": "Institutional-grade reporting from a 35-hectare farm.",
+    "body": "Farm OS provides real-time visibility: trees alive, expenses per hectare, revenue by quality, profit projections. This is the same dashboard our team uses daily — not a quarterly PDF written for fundraising.",
+    "cta": "Investor Information"
+  },
+  "roadmap": {
+    "title": "What's Coming: Farm OS v2",
+    "subtitle": "Our roadmap is driven by buyer demand, investor requirements, and operational needs. Each phase builds on the previous one.",
+    "phases": [
+      {
+        "label": "Intelligence Layer",
+        "status": "In Development",
+        "statusClass": "bg-amber-50 border-amber-200 text-amber-700",
+        "items": [
+          { "icon": "FaChartLine", "title": "Quality Metrics Dashboard", "desc": "Moisture content, nut count, defective rate, kernel ratio per batch — automated from processing data." },
+          { "icon": "FaShieldAlt", "title": "Certification Compliance Tracker", "desc": "Digital audit trail for Organic, Halal, ISO 22000 — logs every input, every inspection date." },
+          { "icon": "FaLeaf", "title": "Sustainability Metrics", "desc": "Water usage, organic inputs, waste diversion, carbon footprint per harvest — measured, not estimated." },
+          { "icon": "FaQrcode", "title": "Automated Batch QR Codes", "desc": "Each shipment gets a unique QR code linking to its full traceability record — scannable by any buyer." },
+          { "icon": "FaUsers", "title": "Supplier Traceability", "desc": "Track which cooperative farmer supplied which batch — full supply chain visibility." }
+        ]
+      },
+      {
+        "label": "Processing Integration",
+        "status": "Planned",
+        "statusClass": "bg-blue-50 border-blue-200 text-blue-700",
+        "items": [
+          { "icon": "FaIndustry", "title": "Processing Line Monitoring", "desc": "Roasting temperature, shelling yield, grading results — every machine, every batch." },
+          { "icon": "FaBox", "title": "Inventory Management", "desc": "Raw nuts, WIP, finished goods by batch, location, and age — FIFO tracking automated." },
+          { "icon": "FaFileContract", "title": "Export Documentation Generator", "desc": "Auto-generate COO, Phyto, SGS, and invoice from batch data — hours saved per shipment." },
+          { "icon": "FaUsers", "title": "Buyer Portal", "desc": "Clients log in to view their order's full traceability, documents, and quality reports." }
+        ]
+      },
+      {
+        "label": "Platform Expansion",
+        "status": "Future",
+        "statusClass": "bg-gray-50 border-gray-200 text-gray-600",
+        "items": [
+          { "icon": "FaGlobeAfrica", "title": "Multi-Farm Support", "desc": "Extend Farm OS to partner cooperatives — one platform, multiple farms." },
+          { "icon": "FaChartLine", "title": "Real-Time Pricing Engine", "desc": "Track RCN market prices plus processing costs to calculate margins per batch." },
+          { "icon": "FaSatelliteDish", "title": "IoT Sensor Integration", "desc": "Soil moisture, weather stations, automated irrigation alerts — precision agriculture." }
+        ]
+      }
+    ]
+  },
+  "cta": {
+    "title": "Want to See Farm OS in Action?",
+    "body": "Explore our live traceability system or request a demo for investors and partners. See the data behind every cashew we ship.",
+    "betaNote": "Farm OS v2 capabilities are in development. Contact us for early access or to discuss licensing partnerships.",
+    "buttonTrace": "Explore Traceability",
+    "buttonBeta": "Request Beta Access"
+  }
+}

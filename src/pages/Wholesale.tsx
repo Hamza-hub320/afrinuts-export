@@ -76,7 +76,7 @@ const Wholesale: React.FC = () => {
 
             {/* Hero */}
             <Section className="flex items-center justify-center text-center min-h-[50vh]">
-                <motion.div className="max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 flex flex-col lg:flex-row items-center gap-6 lg:gap-20" initial="hidden" animate="visible" variants={staggerContainer}>
+                <motion.div className="max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 flex flex-col lg:flex-row items-center gap-6 lg:gap-28" initial="hidden" animate="visible" variants={staggerContainer}>
 
                     {/* Left: Text Content */}
                     <motion.div className="flex-1 max-w-none lg:max-w-xl text-center lg:text-left" variants={fadeIn}>
@@ -132,15 +132,17 @@ const Wholesale: React.FC = () => {
                     </motion.div>
 
                     {/* Right: Product Image */}
-                    <motion.div className="relative w-96 h-96 sm:w-80 sm:h-80 lg:w-[28rem] lg:h-[38rem] rounded-[2rem] overflow-hidden shadow-2xl border-2 border-white/40 transform-gpu group"
+                    <motion.div className="flex-shrink-0 lg:ml-auto lg:-mr-16" variants={fadeIn} transition={{ delay: 0.2 }}>
+                    <motion.div className="relative w-96 h-96 sm:w-80 sm:h-80 lg:w-[450px] lg:h-[640px] rounded-[2rem] overflow-hidden shadow-2xl border-2 border-white/40 transform-gpu group"
                                 style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
                                 whileHover={{ scale: 1.03, rotateY: 2, transition: { duration: 0.3 } }}>
                         <div className="absolute inset-0 rounded-[2rem] border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
                         <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-b from-white/15 to-transparent opacity-40" />
                         <img src={cashewKernelsImage} alt="Premium Cashew Kernels" className="w-full h-full object-cover" />
                         <div className="absolute bottom-3 left-3 right-3 bg-white/80 backdrop-blur-sm rounded-full px-3 py-1 text-center">
-                            <span className="text-primary text-[11px] font-semibold">Premium Cashew Kernels</span>
+                            <span className="text-primary text-[11px] font-semibold">{t('hero.imageLabel')}</span>
                         </div>
+                    </motion.div>
                     </motion.div>
 
                 </motion.div>
@@ -260,9 +262,9 @@ const Wholesale: React.FC = () => {
 
                     {/* CTA */}
                     <motion.div className="text-center mt-4" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
-                        <Link to="/trace" className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-5 py-2 rounded-full transform-gpu transition-all duration-300 inline-flex items-center gap-1.5 text-sm font-medium shadow-md">
+                        <Link to="/farm-os" className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-5 py-2 rounded-full transform-gpu transition-all duration-300 inline-flex items-center gap-1.5 text-sm font-medium shadow-md">
                             <FaSearch className="text-xs" />
-                            {t('blockTracking.viewLiveExample', 'See a live traceability example')}
+                            {t('blockTracking.viewLiveExample', 'Learn more about Farm OS')}
                             <FaArrowRight className="text-xs" />
                         </Link>
                     </motion.div>

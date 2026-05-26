@@ -16,7 +16,7 @@ import {
     FaUsers,
     FaVenus,
     FaChartLine,
-    FaGlobe
+    FaGlobe, FaArrowDown, FaMobile, FaCheckCircle
 } from "react-icons/fa";
 
 import Section from '@/components/Section/Section';
@@ -90,56 +90,81 @@ const Sustainability: React.FC = () => {
                     "url": "https://www.afrinutsexport.com"
                 }
             }} />
-            {/* Hero Section */}
-            <Section
-                fullHeight={false}
-                bgImage={sustainabilityHeroImage}
-                className="flex items-end justify-start text-center min-h-[50vh] md:min-h-[50vh] pb-24 pr-16 mx-6 sm:mx-12 lg:mx-32 xl:mx-48 mt-32 pt-24 rounded-[2rem] shadow-2xl overflow-hidden border border-white/40"
-            >
-                <motion.div
-                    className="max-w-2xl px-8 sm:px-12 py-10 relative overflow-hidden rounded-2xl backdrop-blur-md transition-all duration-500 group"
-                    style={{
-                        background: 'linear-gradient(135deg, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0.6) 100%)',
-                        border: '1px solid rgba(255,255,255,0.5)',
-                        boxShadow: '0 8px 32px rgba(165, 105, 66, 0.12), inset 0 1px 0 rgba(255,255,255,0.6), inset 0 -1px 0 rgba(0,0,0,0.05)'
-                    }}
-                    initial="hidden"
-                    animate="visible"
-                    variants={staggerContainer}
-                >
-                    {/* Subtle animated gradient blob behind the glass */}
-                    <div
-                        className="absolute -top-20 -right-20 w-40 h-40 rounded-full opacity-20 blur-3xl animate-pulse"
-                        style={{ background: 'radial-gradient(circle, rgba(165,105,66,0.3) 0%, transparent 70%)' }}
-                    />
-                    <div
-                        className="absolute -bottom-16 -left-16 w-36 h-36 rounded-full opacity-15 blur-3xl"
-                        style={{
-                            background: 'radial-gradient(circle, rgba(210,125,45,0.3) 0%, transparent 70%)',
-                            animation: 'float 6s ease-in-out infinite'
-                        }}
-                    />
+            {/* Hero */}
+            <Section className="flex items-center justify-center text-center min-h-[50vh]">
+                <motion.div className="max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 flex flex-col lg:flex-row items-center gap-6 lg:gap-28" initial="hidden" animate="visible" variants={staggerContainer}>
 
-                    {/* Content wrapper with relative z-index */}
-                    <div className="relative z-10">
-                        <motion.h1
-                            className="font-display text-4xl md:text-5xl lg:text-6xl text-primary mb-4 leading-tight"
-                            variants={fadeIn}
-                            style={{ letterSpacing: '-0.03em' }}
-                        >
+                    {/* Left: Text Content */}
+                    <motion.div className="flex-1 max-w-none lg:max-w-xl text-center lg:text-left" variants={fadeIn}>
+                        <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-3">
+                            <FaLeaf className="inline mr-2 text-accent" />{t('hero.subtitle', 'Our Sustainability Commitment')}
+                        </Typography>
+                        <motion.h1 className="font-display text-3xl md:text-4xl lg:text-5xl text-text-dark mb-4 leading-tight" variants={fadeIn} style={{ letterSpacing: '-0.03em' }}>
                             {t('hero.title')}
                         </motion.h1>
-                        <motion.div variants={fadeIn}>
-                            <Typography variant="subtitle" className="text-primary/90">
-                                {t('hero.subtitle')}
-                            </Typography>
+
+                        {/* Lead Text */}
+                        <Typography variant="lead" className="text-text-dark mb-5 text-base lg:text-lg">
+                            {t('hero.lead', 'Most farms claim to be sustainable. We track it. Our Farm OS logs water usage, organic inputs, waste diversion, and soil health — so buyers and investors can verify our claims instead of trusting them.')}
+                        </Typography>
+
+                        {/* Sustainability Intro Card */}
+                        <motion.div variants={fadeIn} className="mb-5">
+                            <InfoCard
+                                icon={FaChartLine}
+                                title={t('hero.introTitle', 'Measured. Not Marketed.')}
+                                variant="accent"
+                                showInfoBadge={false}
+                            >
+                                <Typography variant="small" className="text-gray-600">
+                                    {t('hero.introBody', 'Our Farm OS doesn\'t just track production. It tracks our environmental footprint — water usage, organic inputs, waste diversion, and soil health metrics. This is not just sustainability — this is verifiable, tech-enabled agriculture.')}
+                                </Typography>
+                            </InfoCard>
                         </motion.div>
-                    </div>
+
+                        <div className="flex flex-wrap justify-center lg:justify-start gap-2 mb-5">
+                <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-primary/10 text-primary text-xs rounded-full font-medium">
+                    <FaCheckCircle className="text-[10px]" /> {t('hero.badgeOrganic', 'Organic Methods')}
+                </span>
+                            <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-green-50 text-green-700 text-xs rounded-full font-medium">
+                    <FaChartLine className="text-[10px]" /> {t('hero.badgeTracked', 'Farm OS Tracked')}
+                </span>
+                            <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-amber-50 text-amber-700 text-xs rounded-full font-medium">
+                    <FaRecycle className="text-[10px]" /> {t('hero.badgeZeroWaste', 'Zero-Waste Target')}
+                </span>
+                        </div>
+
+                        <motion.div variants={fadeIn} className="flex flex-wrap gap-2.5 justify-center lg:justify-start">
+                            <button
+                                onClick={() => document.getElementById('sustainability-content')?.scrollIntoView({ behavior: 'smooth' })}
+                                className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-5 py-2.5 rounded-full text-sm font-medium shadow-md inline-flex items-center gap-1.5">
+                                <FaArrowDown className="text-xs" />{t('hero.ctaExplore', 'Explore Our Practices')}
+                            </button>
+                            <Link to="/farm-os" className="relative border border-primary/40 text-primary hover:bg-primary/5 px-5 py-2.5 rounded-full text-sm font-medium inline-flex items-center gap-1.5 bg-white/50 backdrop-blur-sm">
+                                <FaMobile className="text-xs" />{t('hero.ctaFarmOS', 'See Farm OS')}
+                            </Link>
+                        </motion.div>
+                    </motion.div>
+
+                    {/* Right: Sustainability Image */}
+                    <motion.div className="flex-shrink-0 lg:ml-auto lg:-mr-16" variants={fadeIn} transition={{ delay: 0.2 }}>
+                        <motion.div className="relative w-96 h-96 sm:w-80 sm:h-80 lg:w-[450px] lg:h-[640px] rounded-[2rem] overflow-hidden shadow-2xl border-2 border-white/40 transform-gpu group"
+                                    style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
+                                    whileHover={{ scale: 1.03, rotateY: 2, transition: { duration: 0.3 } }}>
+                            <div className="absolute inset-0 rounded-[2rem] border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
+                            <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-b from-white/15 to-transparent opacity-40" />
+                            <img src={sustainabilityHeroImage} alt="Sustainable Cashew Farming" className="w-full h-full object-cover" />
+                            <div className="absolute bottom-3 left-3 right-3 bg-white/80 backdrop-blur-sm rounded-full px-3 py-1 text-center">
+                                <span className="text-primary text-[11px] font-semibold">{t('hero.imageLabel', 'Farm OS Verified')}</span>
+                            </div>
+                        </motion.div>
+                    </motion.div>
+
                 </motion.div>
             </Section>
 
             {/* Sustainability Introduction Section */}
-            <Section className="py-0 md:py-6">
+            <Section className="py-0 md:py-6" id="sustainability-content">
                 <div className="w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                     <motion.div
                         initial="hidden"

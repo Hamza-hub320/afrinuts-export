@@ -5,12 +5,13 @@
   },
   "hero": {
     "subtitle": "Wholesale Supply",
-    "title": "Source With Confidence. Ship With Proof",
+    "title": "Source With Confidence. Ship With Proof.",
     "lead": "Most suppliers send you a price list. We send you the farm data — block-level tracking, harvest dates, moisture readings, and container-ready documentation.",
     "subtext": "Direct from our 35-hectare farm in Odienné, Côte d'Ivoire. Single-origin. Fully traceable. Export-ready.",
     "moq": "MOQ: 1 ton (20 bags)",
     "available": "Available Now",
     "samples": "Samples Available",
+    "imageLabel": "Premium Cashew Kernels",
     "introTitle": "What Makes Our Wholesale Different",
     "introBody": "Single-origin from our 35-hectare farm. Farm OS traceability on every shipment. Export-ready documentation. No middlemen — just direct, transparent sourcing from Odienné to your container.",
     "requestPricing": "Get a Quote",
@@ -31,7 +32,7 @@
     "description": "Our Farm OS maps every block by row, column, survival rate, and GPS coordinates. Each block has its own planting date, tree count, and harvest history. When you ask for traceability, we show you the actual data — not a promise.",
     "gridLabel": "5×7 block grid — 35 hectares",
     "tags": ["Row A-E", "Column 1-7", "Survival Rate", "GPS Mapped", "Planting Date", "Harvest Log"],
-    "viewLiveExample": "See a live traceability example",
+    "viewLiveExample": "Learn more about Farm OS",
     "legend": {
       "planted": "Planted",
       "harvested": "Harvested",

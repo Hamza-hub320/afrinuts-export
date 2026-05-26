@@ -1,8 +1,13 @@
 {
   "hero": {
     "subtitle": "Notre Parcours",
-    "title": "Trois Générations d'Agriculture. Un Seul Système d'Exploitation.",
-    "quote": "Une seule graine porte la promesse des générations. Notre histoire commence à Odienné — là où la sagesse ancestrale rencontre la technologie sur mesure."
+    "title": "Trois Générations d'Agriculture. Un Système d'Exploitation.",
+    "quote": "Une seule graine porte la promesse des générations. Notre histoire commence à Odienné — là où la sagesse ancestrale rencontre la technologie sur mesure.",
+    "badgeGenerations": "3 Générations",
+    "badgeFarmOS": "Propulsé par Farm OS",
+    "badgeLocation": "Odienné, CI",
+    "ctaAbout": "À Propos d'AfriNuts",
+    "ctaFarm": "Explorer la Ferme"
   },
   "breadcrumbs": {
     "home": "Accueil",

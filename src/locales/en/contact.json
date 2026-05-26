@@ -1,20 +1,30 @@
 {
+  "seo": {
+    "title": "Contact AfriNuts Export | Wholesale Cashew Inquiries & Investment",
+    "description": "Get in touch with AfriNuts Export for wholesale cashew pricing, investment opportunities, partnership inquiries, or farm visits. Based in Odienné, Côte d'Ivoire. Response within 24 hours."
+  },
   "hero": {
     "title": "Let's Talk Cashews — With Data to Back It Up",
-    "subtitle": "Whether you're a wholesale buyer seeking traceable supply, an investor evaluating our tech-enabled platform, or a partner interested in West African agritech — start the conversation here."
+    "subtitle": "Wholesale inquiries, investment discussions, partnership proposals, or just a question about our farm.",
+    "description": "Whether you're a wholesale buyer seeking traceable supply, an investor evaluating our tech-enabled platform, or a partner interested in West African agritech — start the conversation here.",
+    "introTitle": "We Read Every Message",
+    "badgeResponse": "24hr Response",
+    "badgeLanguages": "EN · FR · AR",
+    "weatherTitle": "Odienné Right Now",
+    "weatherNote": "GMT timezone. Business hours: Mon-Fri 8am-5pm, Sat 9am-1pm."
   },
   "form": {
-    "title": "Contact Our Team",
+    "title": "Send Us a Message",
     "privacy": "Your information is secure and will never be shared.",
-    "name": "Full Name*",
-    "email": "Business Email*",
+    "name": "Full Name",
+    "email": "Business Email",
     "phone": "Phone Number",
-    "subject": "Subject*",
-    "message": "Your Message*",
+    "subject": "Subject",
+    "message": "Your Message",
     "submit": "Submit Inquiry",
-    "sending": "Processing Your Request...",
+    "sending": "Processing...",
     "requestType": "Request Type",
-    "requestTypePlaceholder": "Select a request",
+    "requestTypePlaceholder": "Select a request type",
     "productInterest": "Product Interest",
     "productInterestPlaceholder": "Select a product",
     "productInterestOptions": {
@@ -29,36 +39,47 @@
     "shipping": "Shipping Preference",
     "shippingPlaceholder": "Select preference",
     "shippingOptions": {
-      "cif": "CIF (Cost, Insurance, and Freight)",
       "fob": "FOB (Free on Board)",
       "exw": "EXW (Ex Works)",
-      "ddp": "DDP – Delivered Duty Paid to your door",
-      "other": "Other – please specify"
+      "cif": "CIF (Cost, Insurance, Freight)",
+      "other": "Other"
     },
     "requestTypes": {
-      "information": "Request for Information",
       "quote": "Request for Wholesale Quote",
       "partnership": "Partnership Opportunity",
       "investment": "Investment Inquiry",
+      "information": "Request for Information",
       "other": "Other Request"
     },
-    "checkFaq": "Have questions? Check our FAQ before contacting us.",
-    "faqLink": "Go to FAQ"
+    "faqLink": "View Frequently Asked Questions"
   },
   "info": {
-    "title": "Corporate Headquarters",
-    "headquarters": "AfriNuts Headquarters",
-    "address": "Odienné, Ivory Coast",
-    "zipCode": "Zip Code: 00225",
-    "phone": "Phone",
-    "phoneNumber": "+225 (077) 919 - 1460",
     "email": "Email",
     "emailPrimary": "contact@afrinutsexport.com",
     "emailSecondary": "sales@afrinutsexport.com",
-    "hours": "Monday-Friday: 8:00 AM - 5:00 PM GMT",
-    "businessHours": "Office Hours",
-    "weekdays": "Monday - Friday: 8:00 - 17:00",
-    "saturday": "Saturday: 9:00 - 13:00"
+    "phone": "Phone",
+    "phoneNumber": "+225 07 79 19 14 60",
+    "hours": "Mon-Fri 8am-5pm GMT",
+    "headquarters": "Headquarters",
+    "address": "Odienné, Côte d'Ivoire",
+    "zipCode": "00225"
+  },
+  "shippingGuidance": {
+    "title": "Shipping Options",
+    "fob": {
+      "title": "FOB (Free on Board)",
+      "description": "We handle export clearance. You arrange shipping from Abidjan."
+    },
+    "exw": {
+      "title": "EXW (Ex Works)",
+      "description": "Pick up from our warehouse. Buyer handles all transport."
+    },
+    "helpText": "Not sure which option fits? Our team will guide you after you submit your inquiry."
+  },
+  "offlinePayment": {
+    "title": "Payment Options",
+    "description": "For bulk orders, payments are handled via bank transfer. Our sales team provides an invoice after your inquiry.",
+    "methods": ["Bank Transfer", "Wire Payment"]
   },
   "map": {
     "title": "Our Operational Headquarters",
@@ -67,8 +88,7 @@
   "success": {
     "title": "Thank You for Contacting AfriNuts Export",
     "message": "Your inquiry has been received. Our team will respond within 2 business days.",
-    "close": "Return to Site",
-    "extraCelebration": "We’re excited to connect with you!"
+    "close": "Return to Site"
   },
   "errors": {
     "name": "Please enter your full name",
@@ -76,57 +96,7 @@
     "emailInvalid": "Please enter a properly formatted email address",
     "subject": "Please specify the subject of your inquiry",
     "message": "Please include a detailed message",
-    "fileSize": "Maximum file size exceeded (5MB limit)",
-    "submit": "We encountered an error. Please email us directly at contact@afrinutsexport.com",
-    "requestType": "Please select a request type"
-  },
-  "weather": {
-    "currentWeather": "Current weather in {{location}}",
-    "feelsLike": "Feels like: {{temp}}°C",
-    "highTemp": "High: {{temp}}°C",
-    "lowTemp": "Low: {{temp}}°C",
-    "wind": "Wind: {{speed}} km/h",
-    "humidity": "Humidity: {{percent}}%",
-    "loading": "Loading weather data...",
-    "error": "Weather information currently unavailable",
-    "notAvailable": "N/A"
-  },
-  "offlinePayment": {
-    "title": "Offline Payment Instructions",
-    "description": "For bulk orders, all payments are handled directly via bank transfer. After submitting your inquiry, our sales team will provide an invoice and payment instructions.",
-    "button": "Contact Sales",
-    "methods": ["Bank Transfer", "Wire Payment", "Check"]
-  },
-  "shippingGuidance": {
-    "title": "Shipping Options",
-    "intro": "We ship from the Port of Abidjan — one of West Africa's most efficient deep-water ports. Every shipment includes Farm OS traceability documentation.",
-    "currentlyAvailable": "Currently Available",
-    "fob": {
-      "title": "FOB (Free on Board)",
-      "description": "We handle export clearance. You arrange shipping from Abidjan. Full documentation included."
-    },
-    "exw": {
-      "title": "EXW (Ex Works)",
-      "description": "Pick up goods from our warehouse; buyer handles all transport and logistics. Perfect for local buyers or those with established logistics."
-    },
-    "comingSoon": "Coming Soon",
-    "cif": {
-      "title": "CIF (Cost, Insurance, and Freight)",
-      "description": "We handle shipping, insurance, and delivery to your port of destination. We'll handle everything to your destination port."
-    },
-    "ddp": {
-      "title": "DDP (Delivered Duty Paid)",
-      "description": "Seller takes full responsibility including import duties and taxes, delivered to buyer’s location. Full door-to-door service with all costs included."
-    },
-    "other": {
-      "title": "Other / Custom Arrangement",
-      "description": "Some clients may want a specific logistic solution (charter ship, container consolidation, etc.). Tailored solutions for unique requirements."
-    },
-    "helpText": "Not sure which option fits your needs? Our team will guide you after you submit your inquiry."
-},
-  "title": "Contact Us",
-  "description": "Send us a message and we'll get back to you promptly.",
-  "buttonLabel": "Open Contact Form",
-  "buttonText": "Contact Us",
-  "close": "Close"
+    "requestType": "Please select a request type",
+    "submit": "We encountered an error. Please email us directly at contact@afrinutsexport.com"
+  }
 }

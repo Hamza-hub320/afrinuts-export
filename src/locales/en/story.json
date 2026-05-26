@@ -2,7 +2,12 @@
   "hero": {
     "subtitle": "Our Journey",
     "title": "Three Generations of Farming. One Operating System.",
-    "quote": "A single seed holds the promise of generations. Our story begins in Odienné — where ancestral wisdom meets custom-built technology."
+    "quote": "A single seed holds the promise of generations. Our story begins in Odienné — where ancestral wisdom meets custom-built technology.",
+    "badgeGenerations": "3 Generations",
+    "badgeFarmOS": "Farm OS Powered",
+    "badgeLocation": "Odienné, CI",
+    "ctaAbout": "About AfriNuts",
+    "ctaFarm": "Explore the Farm"
   },
   "breadcrumbs": {
     "home": "Home",

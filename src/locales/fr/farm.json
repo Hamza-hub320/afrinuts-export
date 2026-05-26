@@ -1,7 +1,16 @@
 {
   "hero": {
+    "subtitle_tag": "Notre Ferme",
     "title": "La Ferme Qui a Construit Son Propre Système d'Exploitation",
-    "subtitle": "35 hectares à Odienné, Côte d'Ivoire. 3 500 arbres. Un Farm OS sur mesure qui suit chaque bloc, chaque arbre, chaque récolte. C'est ici que notre technologie rencontre le sol."
+    "lead": "35 hectares. 3 500 arbres. Un Farm OS sur mesure qui suit chaque bloc, chaque récolte, chaque dépense. Ce n'est pas juste une ferme — c'est là que notre technologie rencontre le sol.",
+    "introTitle": "Propulsé par Farm OS",
+    "introBody": "Chaque arbre est cartographié. Chaque bloc est suivi. Chaque dépense est enregistrée. Notre ferme fonctionne sur le même système d'exploitation que nous avons construit pour la traçabilité — pas de papier, pas de tableurs, pas d'approximations.",
+    "badgeLocation": "Odienné, CI",
+    "badgeTrees": "3 500 Arbres",
+    "badgeFarmOS": "Suivi Farm OS",
+    "ctaTrace": "Voir la Traçabilité",
+    "ctaWholesale": "Demandes de Gros",
+    "imageLabel": "35 Hectares — Odienné"
   },
   "overview": {
     "heading": "35 Hectares. Un Système. Visibilité Totale.",

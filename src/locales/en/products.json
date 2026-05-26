@@ -6,7 +6,15 @@
   },
   "hero": {
     "title": "Premium Cashew Products | Traceable from Farm to Export",
-    "subtitle": "Single-origin from our 35-hectare farm in Odienné, Côte d'Ivoire. Organic and conventional options. Block-level traceability. Export-ready documentation."
+    "subtitle": "Premium Cashew Products",
+    "lead": "Single-origin from our 35-hectare farm in Odienné, Côte d'Ivoire. Organic and conventional options. Block-level traceability. Export-ready documentation.",
+    "introTitle": "Not Just Products. Verified Products.",
+    "introBody": "Every product in our catalogue is backed by Farm OS data — block-level tracking, harvest dates, quality metrics, and certification verification. Filter by organic or conventional, check availability, and request pricing with full traceability documentation.",
+    "badgeOrganic": "Organic & Conventional",
+    "badgeTraceable": "Farm OS Traceable",
+    "badgeExport": "Export Ready",
+    "ctaExplore": "Explore Products",
+    "ctaWholesale": "Wholesale Pricing"
   },
   "productCard": {
     "comingSoon": "Coming Soon",
@@ -384,5 +392,8 @@
       "inProgress": "In Development",
       "upcoming": "Coming Soon"
     }
+  },
+  "internalLinks": {
+    "wholesale": "Wholesale Inquiries"
   }
 }

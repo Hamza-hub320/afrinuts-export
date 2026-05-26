@@ -6,7 +6,15 @@
   },
   "hero": {
     "title": "Produits de Cajou Premium | Traçables de la Ferme à l'Exportation",
-    "subtitle": "Origine unique de notre ferme de 35 hectares à Odienné, Côte d'Ivoire. Options biologiques et conventionnelles. Traçabilité au niveau du bloc. Documentation prête à l'exportation."
+    "subtitle": "Produits de Cajou Premium",
+    "lead": "Origine unique de notre ferme de 35 hectares à Odienné, Côte d'Ivoire. Options biologiques et conventionnelles. Traçabilité au niveau du bloc. Documentation prête à l'exportation.",
+    "introTitle": "Pas Juste des Produits. Des Produits Vérifiés.",
+    "introBody": "Chaque produit de notre catalogue est soutenu par les données Farm OS — suivi par bloc, dates de récolte, indicateurs de qualité et vérification des certifications. Filtrez par biologique ou conventionnel, vérifiez la disponibilité et demandez les prix avec une documentation de traçabilité complète.",
+    "badgeOrganic": "Bio & Conventionnel",
+    "badgeTraceable": "Traçable via Farm OS",
+    "badgeExport": "Prêt à l'Export",
+    "ctaExplore": "Explorer les Produits",
+    "ctaWholesale": "Prix de Gros"
   },
   "productCard": {
     "comingSoon": "Bientôt Disponible",
@@ -308,5 +316,8 @@
       "inProgress": "En Développement",
       "upcoming": "Bientôt Disponible"
     }
+  },
+  "internalLinks": {
+    "wholesale": "Demandes de Gros"
   }
 }

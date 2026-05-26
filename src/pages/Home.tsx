@@ -475,6 +475,17 @@ const Home: React.FC = () => {
                     </motion.div>
                 </div>
             </Section>
+            {/* Wholesale CTA */}
+            <div className="flex flex-wrap gap-3 justify-center mt-3">
+                <Link to="/wholesale"  className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-primary/10 hover:bg-primary/20 text-primary rounded-full text-sm font-medium transition-colors">
+                    <FaBox className="text-xs" />
+                    {t('internalLinks.wholesale')}
+                    <FaArrowRight className="text-xs" />
+                </Link>
+                <Link to="/farm-os" className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-accent/10 hover:bg-accent/20 text-accent rounded-full text-sm font-medium transition-colors">
+                    {t('internalLinks.farmosLink"', 'Powered by Farm OS')} <FaArrowRight className="text-[10px]" />
+                </Link>
+            </div>
 
             {/* Traceability Teaser */}
             <Section className="py-10">

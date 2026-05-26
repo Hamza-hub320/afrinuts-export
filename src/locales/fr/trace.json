@@ -53,6 +53,9 @@
     "description": "Chaque commande en gros AfriNuts Export inclut la traçabilité Farm OS. Contactez-nous pour passer votre première commande et découvrez une transparence de la chaîne d'approvisionnement que la plupart des fournisseurs ouest-africains ne peuvent pas offrir.",
     "button": "Demander un Devis Traçable"
   },
+  "internalLinks": {
+    "farmOs": "Découvrez la commande en gros avec la traçabilité Farm OS"
+  },
   "batch": {
     "harvestDate": "Date de Récolte",
     "farmLocation": "Localisation de la Ferme (Vérifié par GPS)",

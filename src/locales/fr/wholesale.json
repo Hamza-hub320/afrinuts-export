@@ -10,6 +10,7 @@
     "subtext": "Directement de notre ferme de 35 hectares à Odienné, Côte d'Ivoire. Origine unique. Entièrement traçable. Prêt à l'exportation.",
     "moq": "Quantité minimum : 1 tonne (20 sacs)",
     "available": "Disponible Maintenant",
+    "imageLabel": "Amandes de Cajou Premium",
     "introTitle": "Ce Qui Rend Notre Vente en Gros Différente",
     "introBody": "Origine unique de notre ferme de 35 hectares. Traçabilité Farm OS sur chaque expédition. Documentation prête à l'exportation. Pas d'intermédiaires — juste un approvisionnement direct et transparent, d'Odienné à votre conteneur.",
     "samples": "Échantillons Disponibles",
@@ -31,7 +32,7 @@
     "description": "Notre Farm OS cartographie chaque bloc par rangée, colonne, taux de survie et coordonnées GPS. Chaque bloc a sa propre date de plantation, son nombre d'arbres et son historique de récolte. Lorsque vous demandez la traçabilité, nous vous montrons les données réelles — pas une promesse.",
     "gridLabel": "Grille de 5×7 blocs — 35 hectares",
     "tags": ["Rangée A-E", "Colonne 1-7", "Taux de Survie", "Cartographié GPS", "Date de Plantation", "Journal de Récolte"],
-    "viewLiveExample": "Voir un exemple de traçabilité en direct",
+    "viewLiveExample": "En savoir plus sur Farm OS",
     "legend": {
       "planted": "Planté",
       "harvested": "Récolté",

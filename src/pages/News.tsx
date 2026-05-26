@@ -451,7 +451,7 @@ const News: React.FC = () => {
 
                     {/* Right: News Image */}
                     <motion.div className="flex-shrink-0 lg:ml-auto" variants={fadeIn} transition={{ delay: 0.2 }}>
-                        <motion.div className="relative w-96 h-96 sm:w-80 sm:h-80 lg:w-[28rem] lg:h-[38rem] rounded-[2rem] overflow-hidden shadow-2xl border-2 border-white/40 transform-gpu group"
+                        <motion.div className="relative w-96 h-96 sm:w-80 sm:h-80 lg:w-[420px] lg:h-[640px] rounded-[2rem] overflow-hidden shadow-2xl border-2 border-white/40 transform-gpu group"
                                     style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
                                     whileHover={{ scale: 1.03, rotateY: 2, transition: { duration: 0.3 } }}>
                             <div className="absolute inset-0 rounded-[2rem] border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />

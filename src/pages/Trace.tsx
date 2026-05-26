@@ -251,6 +251,10 @@ const TracePage: React.FC = () => {
                                     </div>
                                 ))}
                             </div>
+                            <Link to="/wholesale" className="inline-flex items-center gap-2 mt-4 px-4 py-2 bg-accent/10 hover:bg-accent/20 text-accent rounded-full text-sm font-medium transition-colors">
+                                <FaBox className="text-sm" />
+                                {t('internalLinks.farmOs', 'Learn about wholesale ordering with Farm OS traceability')}
+                            </Link>
                         </InfoCard>
                     </div>
                 </Section>

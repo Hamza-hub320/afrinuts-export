@@ -1,8 +1,15 @@
 {
   "hero": {
-    "subtitle": "Assurance Qualité & Conformité",
+    "subtitle": "Assurance Qualité et Conformité",
     "title": "Des Certifications Que Vous Pouvez Vérifier. Pas Juste des Logos sur une Page.",
-    "description": "Chaque certification que nous poursuivons est soutenue par la documentation Farm OS — pistes d'audit numériques, suivi au niveau du lot et enregistrements vérifiables. Lorsque les certificateurs arrivent, nos données sont déjà organisées. Lorsque les acheteurs demandent des preuves, nous leur montrons le système — pas seulement un certificat."
+    "lead": "La plupart des fournisseurs vous montrent des logos. Nous vous montrons la piste d'audit derrière eux — enregistrements numériques, suivi au niveau du lot et données de conformité vérifiables. Parce qu'un certificat sans documentation n'est qu'une promesse.",
+    "introTitle": "Prêt pour l'Audit. Pas Préparé pour l'Audit.",
+    "description": "Chaque certification que nous poursuivons est soutenue par la documentation Farm OS — pistes d'audit numériques, suivi au niveau du lot et enregistrements vérifiables. Lorsque les certificateurs arrivent, nos données sont déjà organisées. Lorsque les acheteurs demandent des preuves, nous leur montrons le système — pas seulement un certificat.",
+    "badgeOrganic": "Biologique (2027)",
+    "badgeHalal": "Halal (2029)",
+    "badgeISO": "ISO 22000 (2029)",
+    "ctaView": "Voir les Certifications",
+    "ctaWholesale": "Pour les Acheteurs"
   },
   "filters": {
     "all": "Toutes les Certifications",

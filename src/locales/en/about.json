@@ -1,7 +1,18 @@
 {
   "hero": {
     "title": "Three Generations of Farming. One Custom-Built Operating System.",
-    "subtitle": "From our family farm in Odienné, Côte d'Ivoire — a tech-enabled cashew platform where ancestral knowledge meets modern engineering. Farm OS tracks every tree, every block, and every export."
+    "subtitle": "About AfriNuts",
+    "introTitle": "Three Generations. One Mission.",
+    "introBody": "From our grandfather's fields to our custom-built Farm OS — AfriNuts Export is a tech-enabled agribusiness rooted in family, faith, and the soil of Odienné, Côte d'Ivoire.",
+    "imageAlt": "AfriNuts Farm in Odienné",
+    "imageLabel": "Odienné, Côte d'Ivoire",
+    "ctaTeam": "Meet Our Team",
+    "ctaStory": "Read Our Full Story",
+    "badges": [
+      { "icon": "FaLeaf", "label": "35 Hectares", "bg": "bg-primary/10", "text": "text-primary" },
+      { "icon": "FaCheckCircle", "label": "3,500 Trees", "bg": "bg-green-50", "text": "text-green-700" },
+      { "icon": "FaUsers", "label": "200+ Farmers", "bg": "bg-amber-50", "text": "text-amber-700" }
+    ]
   },
   "leadership": {
     "title": "Guiding AfriNuts Forward",

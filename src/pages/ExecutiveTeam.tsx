@@ -4,7 +4,16 @@ import { motion } from 'framer-motion';
 import { fadeIn, staggerContainer } from '@/utils/animations';
 import { Typography } from "@/components/Typography/Typography";
 import Section from '@/components/Section/Section';
-import {FaTimes, FaEnvelope, FaLinkedin, FaUserTie} from 'react-icons/fa';
+import {
+    FaTimes,
+    FaEnvelope,
+    FaLinkedin,
+    FaUserTie,
+    FaArrowLeft,
+    FaUsers,
+    FaCheckCircle,
+    FaGlobeAfrica, FaHandshake, FaMobile
+} from 'react-icons/fa';
 import {Link, useNavigate} from 'react-router-dom';
 import {Dialog, Transition} from '@headlessui/react';
 import { ProfileCard } from '@/components/ProfileCard/ProfileCard';
@@ -17,8 +26,10 @@ import ccoImage from '@/assets/images/cco.webp';
 import opsImage from '@/assets/images/ops-manager.webp';
 import adminImage from '@/assets/images/admin-manager.webp';
 import farmImage from '@/assets/images/farm-manager.webp';
+import executiveHeroImage from '@/assets/images/executive.webp';
 import JsonLd from "@/components/Seo/JsonLd";
 import {Helmet} from "react-helmet-async";
+import { InfoCard } from '@/components/InfoCard/InfoCard';
 
 interface Executive {
     id: number;
@@ -233,41 +244,114 @@ const ExecutiveTeam: React.FC = () => {
                 <span className="text-primary font-medium">{t('breadcrumbs.executiveTeam', 'Executive Team')}</span>
             </div>
             </div>
-            {/* Hero Section */}
-            <Section
-                fullHeight={false}
-                className="flex items-center justify-center text-center min-h-[40vh]"
-            >
-                <motion.div
-                    className="max-w-4xl px-6 sm:px-8 py-12"
-                    initial="hidden"
-                    animate="visible"
-                    variants={staggerContainer}
-                >
-                    <motion.div variants={fadeIn}>
-                        <Typography
-                            variant="subhead"
-                            className="uppercase tracking-widest text-primary mb-4"
-                        >
-                            <FaUserTie className="inline mr-3 text-accent" />{t('executives.subtitle')}
+            {/* Hero */}
+            <Section className="flex items-center justify-center text-center min-h-[50vh]">
+                <motion.div className="max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 flex flex-col lg:flex-row items-center gap-6 lg:gap-28" initial="hidden" animate="visible" variants={staggerContainer}>
+
+                    {/* Left: Text Content */}
+                    <motion.div className="flex-1 max-w-none lg:max-w-xl text-center lg:text-left" variants={fadeIn}>
+                        <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-3">
+                            <FaUserTie className="inline mr-2 text-accent" />{t('executives.subtitle')}
                         </Typography>
-                    </motion.div>
-                    <motion.h1
-                        className="font-display text-4xl md:text-5xl lg:text-6xl text-text-dark mb-6 leading-tight"
-                        variants={fadeIn}
-                        style={{ letterSpacing: '-0.03em' }}
-                    >
-                        {t('executives.title')}
-                    </motion.h1>
-                    <motion.div variants={fadeIn}>
-                        <Typography
-                            variant="lead"
-                            className="text-text-dark max-w-3xl mx-auto"
-                        >
-                            {t('executives.description')}
+                        <motion.h1 className="font-display text-3xl md:text-4xl lg:text-5xl text-text-dark mb-4 leading-tight" variants={fadeIn} style={{ letterSpacing: '-0.03em' }}>
+                            {t('executives.title')}
+                        </motion.h1>
+
+                        {/* Lead Text */}
+                        <Typography variant="lead" className="text-text-dark mb-5 text-base lg:text-lg">
+                            {t('executives.lead', 'Most agribusiness teams are farmers who learned business. Ours is a software engineer who built a farm operating system, a financial architect who structures Shariah-compliant investments, and a trade compliance specialist who knows every document your shipment needs. We didn\'t assemble a team — we built a platform.')}
                         </Typography>
+
+                        {/* Executive Intro Card */}
+                        <motion.div variants={fadeIn} className="mb-5">
+                            <InfoCard
+                                icon={FaUsers}
+                                title={t('executives.introTitle', 'Built Here. Not Bought.')}
+                                variant="accent"
+                                showInfoBadge={false}
+                            >
+                                <Typography variant="small" className="text-gray-600">
+                                    {t('executives.description')}
+                                </Typography>
+                            </InfoCard>
+                        </motion.div>
+
+                        <div className="flex flex-wrap justify-center lg:justify-start gap-2 mb-5">
+                <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-primary/10 text-primary text-xs rounded-full font-medium">
+                    <FaUserTie className="text-[10px]" /> {t('executives.badgeTeam', '6 Leaders')}
+                </span>
+                            <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-green-50 text-green-700 text-xs rounded-full font-medium">
+                    <FaCheckCircle className="text-[10px]" /> {t('executives.badgeGlobal', '3 Continents')}
+                </span>
+                            <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-amber-50 text-amber-700 text-xs rounded-full font-medium">
+                    <FaGlobeAfrica className="text-[10px]" /> {t('executives.badgeHQ', 'Odienné, CI')}
+                </span>
+                        </div>
+
+                        <motion.div variants={fadeIn} className="flex flex-wrap gap-2.5 justify-center lg:justify-start">
+                            <button
+                                onClick={() => document.getElementById('team-grid')?.scrollIntoView({ behavior: 'smooth' })}
+                                className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-5 py-2.5 rounded-full text-sm font-medium shadow-md inline-flex items-center gap-1.5">
+                                <FaUsers className="text-xs" />{t('executives.ctaMeet', 'Meet the Team')}
+                            </button>
+                            <Link to="/about" className="relative border border-primary/40 text-primary hover:bg-primary/5 px-5 py-2.5 rounded-full text-sm font-medium inline-flex items-center gap-1.5 bg-white/50 backdrop-blur-sm">
+                                <FaArrowLeft className="text-xs" />{t('executives.backToAbout', 'About AfriNuts')}
+                            </Link>
+                        </motion.div>
                     </motion.div>
+
+                    {/* Right: Team Image */}
+                    <motion.div className="flex-shrink-0 lg:ml-auto lg:-mr-16" variants={fadeIn} transition={{ delay: 0.2 }}>
+                        <motion.div className="relative w-96 h-96 sm:w-80 sm:h-80 lg:w-[450px] lg:h-[650px] rounded-[2rem] overflow-hidden shadow-2xl border-2 border-white/40 transform-gpu group"
+                                    style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
+                                    whileHover={{ scale: 1.03, rotateY: 2, transition: { duration: 0.3 } }}>
+                            <div className="absolute inset-0 rounded-[2rem] border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
+                            <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-b from-white/15 to-transparent opacity-40" />
+                            <img src={executiveHeroImage} alt="AfriNuts Executive Team" className="w-full h-full object-cover" />
+                            <div className="absolute bottom-3 left-3 right-3 bg-white/80 backdrop-blur-sm rounded-full px-3 py-1 text-center">
+                                <span className="text-primary text-[11px] font-semibold">{t('executives.imageLabel')}</span>
+                            </div>
+                        </motion.div>
+                    </motion.div>
+
                 </motion.div>
+            </Section>
+
+            {/* Why Our Team Is Different */}
+            <Section className="py-6">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6">
+                    <motion.div className="text-center mb-8" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
+                        <Typography variant="h2" className="mb-4">{t('executives.whyDifferentTitle', 'Why Our Team Is Different')}</Typography>
+                        <Typography variant="body" className="text-gray-600 max-w-2xl mx-auto">
+                            {t('executives.whyDifferentBody', 'Most agribusiness teams look the same: farmers and traders. Ours includes the software engineer who built our operating system, the financial architect who structured our Shariah-compliant investment model, and the trade compliance specialist who ensures every shipment meets EU standards.')}
+                        </Typography>
+                    </motion.div>
+                    <div className="grid md:grid-cols-3 gap-4">
+                        {[
+                            {
+                                icon: FaMobile,
+                                title: t('executives.tech', 'Technology Built In-House'),
+                                desc: t('executives.techDesc', 'Farm OS was not purchased. It was architected and coded by our CEO, running on devices our CTO configured. Every line of code is ours.')
+                            },
+                            {
+                                icon: FaHandshake,
+                                title: t('executives.finance', 'Shariah-Compliant by Design'),
+                                desc: t('executives.financeDesc', 'Our CFO structured our Mudarabah investment model — not a consultant. Islamic finance isn\'t a checkbox. It\'s how we\'re built.')
+                            },
+                            {
+                                icon: FaGlobeAfrica,
+                                title: t('executives.operations', 'Boots on the Ground + Global Reach'),
+                                desc: t('executives.operationsDesc', 'Our farm manager lives in Odienné. Our commercial officer manages EU and Middle East buyer relationships. We span continents from day one.')
+                            },
+                        ].map((item, idx) => (
+                            <motion.div key={idx} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} transition={{ delay: idx * 0.1 }}>
+                                <InfoCard icon={item.icon} title={item.title} iconColor="text-accent" showInfoBadge={false} className="h-full">
+                                    <Typography variant="small" className="text-gray-600">{item.desc}</Typography>
+                                </InfoCard>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
             </Section>
 
             {/* Executive Team Grid using ProfileCard */}

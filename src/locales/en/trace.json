@@ -53,6 +53,9 @@
     "description": "Every AfriNuts Export wholesale order includes Farm OS traceability. Contact us to place your first order and experience supply chain transparency that most West African suppliers cannot provide.",
     "button": "Request a Traceable Quote"
   },
+  "internalLinks": {
+    "farmOs": "Learn about wholesale ordering with Farm OS traceability"
+  },
   "batch": {
     "harvestDate": "Harvest Date",
     "farmLocation": "Farm Location (GPS Verified)",

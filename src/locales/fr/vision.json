@@ -4,8 +4,17 @@
     "description": "La vision d'AfriNuts Export pour transformer l'agriculture ouest-africaine par l'intégration verticale, la technologie Farm OS, la finance éthique et le réinvestissement communautaire. Construction du premier centre de transformation de cajou certifié de Côte d'Ivoire."
   },
   "hero": {
-    "title": "Construire la Première Marque de Cajou Éthique d'Afrique",
-    "subtitle": "De notre ferme familiale à Odienné, Côte d'Ivoire, aux marchés mondiaux — des noix de cajou durables, traçables et alignées sur la foi."
+    "title": "Une Durabilité Que Vous Pouvez Vérifier. Pas Juste Des Promesses.",
+    "subtitle": "Notre Engagement Durable",
+    "lead": "La plupart des fermes prétendent être durables. Nous le suivons. Notre Farm OS enregistre la consommation d'eau, les intrants biologiques, le détournement des déchets et la santé des sols — pour que les acheteurs et les investisseurs puissent vérifier nos affirmations au lieu de leur faire confiance.",
+    "introTitle": "Mesuré. Pas Marketé.",
+    "introBody": "Notre Farm OS ne suit pas seulement la production. Il suit notre empreinte environnementale — consommation d'eau, intrants biologiques, détournement des déchets et indicateurs de santé des sols. Ce n'est pas seulement de la durabilité — c'est une agriculture vérifiable, axée sur la technologie.",
+    "badgeOrganic": "Méthodes Biologiques",
+    "badgeTracked": "Suivi Farm OS",
+    "badgeZeroWaste": "Objectif Zéro Déchet",
+    "ctaExplore": "Devenez Partenaire",
+    "ctaFarmOS": "Voir Farm OS",
+    "imageLabel": "Vérifié par Farm OS"
   },
   "intro": {
     "title": "Transformer l'Industrie de la Noix de Cajou en Afrique de l'Ouest",

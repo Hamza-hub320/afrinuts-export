@@ -29,6 +29,7 @@ import accessibilityEN from './locales/en/accessibility.json';
 import investEN from './locales/en//invest.json';
 import wholesaleEN from './locales/en//wholesale.json';
 import partnersEN from './locales/en/partners.json';
+import farmOsEN from './locales/en/farmOs.json'
 
 // French translations
 import homeFR from './locales/fr/home.json';
@@ -57,6 +58,7 @@ import accessibilityFR from './locales/fr/accessibility.json';
 import investFR from './locales/fr//invest.json';
 import wholesaleFR from './locales/fr/wholesale.json';
 import partnersFR from './locales/fr/partners.json';
+import farmOsFR from './locales/fr/farmOs.json';
 
 // Arabic translations
 import homeAR from './locales/ar/home.json';
@@ -85,6 +87,7 @@ import accessibilityAR from './locales/ar/accessibility.json';
 import investAR from './locales/ar/invest.json';
 import wholesaleAR from './locales/ar/wholesale.json';
 import partnersAR from './locales/ar/partners.json';
+import farmOsAR from './locales/ar/farmOs.json';
 
 
 // Type definitions
@@ -117,6 +120,7 @@ interface TranslationResources {
     invest: typeof investEN;
     wholesale: typeof wholesaleEN;
     partnersEN: typeof partnersEN;
+    farmOs: typeof farmOsEN
 }
 
 interface I18nOptions {
@@ -166,6 +170,7 @@ const resources: Record<SupportedLanguages, TranslationResources> = {
         invest: investEN,
         wholesale: wholesaleEN,
         partners: partnersEN,
+        farmOs: farmOsEN
     },
     fr: {
         home: homeFR,
@@ -193,7 +198,8 @@ const resources: Record<SupportedLanguages, TranslationResources> = {
         accessibility: accessibilityFR,
         invest: investFR,
         wholesale: wholesaleFR,
-        partners: partnersFR
+        partners: partnersFR,
+        farmOs: farmOsFR
     },
     ar: {
         home: homeAR,
@@ -221,7 +227,8 @@ const resources: Record<SupportedLanguages, TranslationResources> = {
         accessibility: accessibilityAR,
         invest: investAR,
         wholesale: wholesaleAR,
-        partners: partnersAR
+        partners: partnersAR,
+        farmOs: farmOsAR
     }
 };
 
@@ -229,7 +236,7 @@ const options: I18nOptions = {
     fallbackLng: 'en',
     debug: process.env.NODE_ENV === 'development',
     supportedLngs: ['en', 'fr', 'ar'],
-    ns: ['home', 'common', 'about', 'products', 'farm', 'contact', 'footer', 'sustainability', 'vision', 'privacy', 'terms', 'cookies', 'cookiePolicy', 'news', 'faq', 'chatbot', 'executive', 'story','trace', 'processing', 'facility', 'certifications', 'accessibility', 'invest', 'wholesale', 'partners'],
+    ns: ['home', 'common', 'about', 'products', 'farm', 'contact', 'footer', 'sustainability', 'vision', 'privacy', 'terms', 'cookies', 'cookiePolicy', 'news', 'faq', 'chatbot', 'executive', 'story','trace', 'processing', 'facility', 'certifications', 'accessibility', 'invest', 'wholesale', 'partners', 'farmOs'],
     defaultNS: 'common',
     resources,
     interpolation: {

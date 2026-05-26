@@ -1,0 +1,155 @@
+{
+  "seo": {
+    "title": "Farm OS | Le Système d'Exploitation Derrière AfriNuts Export | Agritech Sur Mesure",
+    "description": "Farm OS est le système d'exploitation sur mesure qui alimente AfriNuts Export — application Android hors ligne, tableaux de bord en temps réel, traçabilité au niveau du bloc et rapports de niveau institutionnel. Construit pour l'agriculture ouest-africaine."
+  },
+  "hero": {
+    "subtitle": "Technologie Propriétaire",
+    "title": "Farm OS<br/>Le Système d'Exploitation Derrière AfriNuts Export",
+    "lead": "Chaque noix de cajou que nous expédions est suivie par un logiciel que nous avons construit nous-mêmes. Une application Android hors ligne avec synchronisation cloud, des tableaux de bord en temps réel et des rapports de niveau institutionnel. Ce n'est pas une application de gestion agricole que nous avons achetée. C'est la plateforme que nous avons conçue pour prouver ce que nous faisons.",
+    "cardTitle": "Pas une Application Achetée. Une Plateforme Que Nous Avons Construite.",
+    "cardBody": "Une application Android hors ligne avec synchronisation cloud, des tableaux de bord en temps réel et des rapports de niveau institutionnel. Chaque noix de cajou que nous expédions est suivie par un logiciel que nous avons conçu — parce que les logiciels agricoles standard ne pouvaient pas faire ce dont nos acheteurs et investisseurs avaient besoin.",
+    "badgeTech": "Technologie Propriétaire",
+    "imageLabel": "Propulsé par Farm OS",
+    "badgeVersion": "v1.0 — En Production",
+    "stats": [
+      { "label": "35 Blocs Suivis", "icon": "FaMapMarkerAlt" },
+      { "label": "Hors Ligne d'Abord", "icon": "FaWifi" },
+      { "label": "Android + Cloud", "icon": "FaAndroid" }
+    ],
+    "ctaDemo": "Voir Farm OS en Action",
+    "ctaInvest": "Pour les Investisseurs"
+  },
+  "whyBuilt": {
+    "title": "Pourquoi Nous Avons Construit Farm OS",
+    "oldPrefix": "Ancienne méthode :",
+    "subtitle": "La plupart des fermes ouest-africaines suivent la production sur papier ou par messages WhatsApp. Ce n'était pas assez bien pour nos acheteurs ni pour nos investisseurs. Alors nous avons construit la solution.",
+    "cards": [
+      { "old": "Journaux papier perdus sous la pluie", "new": "Enregistrements numériques synchronisés automatiquement dans le cloud", "icon": "FaCloud" },
+      { "old": "Mises à jour WhatsApp aux investisseurs", "new": "Tableau de bord en temps réel avec KPI, photos et données financières", "icon": "FaChartLine" },
+      { "old": "Traçabilité \"Faites-moi confiance\"", "new": "Coordonnées GPS par bloc, dates de récolte, indicateurs de qualité", "icon": "FaMapMarkerAlt" }
+    ]
+  },
+  "howItWorks": {
+    "title": "Comment Farm OS Fonctionne",
+    "stepPrefix": "Étape",
+    "steps": [
+      { "step": "1", "title": "Terrain", "desc": "L'ouvrier enregistre la tâche sur l'application Android. Fonctionne hors ligne — pas d'internet requis.", "icon": "FaAndroid" },
+      { "step": "2", "title": "Synchro Cloud", "desc": "Les données se synchronisent automatiquement lorsque la connexion revient. Chiffrées et sauvegardées.", "icon": "FaCloud" },
+      { "step": "3", "title": "Tableau de Bord", "desc": "Les gestionnaires agricoles voient les opérations, les finances et les KPI en temps réel.", "icon": "FaChartLine" },
+      { "step": "4", "title": "Parties Prenantes", "desc": "Les investisseurs et acheteurs accèdent aux rapports vérifiés et aux données de traçabilité.", "icon": "FaUsers" }
+    ]
+  },
+  "capabilities": {
+    "title": "Capacités Actuelles — En Direct Aujourd'hui",
+    "categories": [
+      {
+        "name": "Opérations Agricoles",
+        "items": [
+          { "icon": "FaMapMarkerAlt", "title": "Suivi par Bloc", "desc": "35 blocs cartographiés par rangée, colonne, coordonnées GPS, taux de survie et date de plantation. Chaque arbre comptabilisé." },
+          { "icon": "FaTasks", "title": "Gestion des Tâches", "desc": "Attribuez, suivez et vérifiez les tâches agricoles. Les ouvriers enregistrent l'achèvement sur des appareils Android — en ligne ou hors ligne." },
+          { "icon": "FaCamera", "title": "Documentation Photo", "desc": "Photos de terrain attachées aux blocs, tâches et dépenses. Vérification visuelle de chaque opération." }
+        ]
+      },
+      {
+        "name": "Intelligence Financière",
+        "items": [
+          { "icon": "FaFileInvoiceDollar", "title": "Suivi des Dépenses", "desc": "Enregistrez les dépenses par bloc ou à l'échelle de la ferme avec capture numérique des reçus. Sachez exactement où va chaque FCFA." },
+          { "icon": "FaChartBar", "title": "Suivi des Revenus", "desc": "Enregistrez les ventes par lot, niveau de qualité et acheteur. P&L en temps réel par hectare." },
+          { "icon": "FaChartLine", "title": "Tableau de Bord Investisseur", "desc": "KPI en direct, projections de bénéfices et suivi des dividendes. Les mêmes données que notre équipe utilise — pas un PDF trimestriel." }
+        ]
+      },
+      {
+        "name": "Confiance dans la Chaîne d'Approvisionnement",
+        "items": [
+          { "icon": "FaSearch", "title": "Traçabilité des Lots", "desc": "Chaque expédition liée à un ID de lot unique avec documentation complète de la récolte au conteneur." },
+          { "icon": "FaShieldAlt", "title": "Piste d'Audit de Certification", "desc": "Enregistrements numériques de chaque intrant, inspection et contrôle de conformité — prêts pour l'audit sur demande." },
+          { "icon": "FaCloud", "title": "Synchro Hors Ligne d'Abord", "desc": "Fonctionne sans internet. Les données se synchronisent automatiquement lorsque la connexion revient. Construit pour l'Afrique de l'Ouest rurale." }
+        ]
+      }
+    ]
+  },
+  "comparison": {
+    "title": "Pourquoi Nous Avons Construit Farm OS Au Lieu d'Acheter",
+    "colProblem": "Logiciel Agricole Standard",
+    "colSolution": "Farm OS",
+    "subtitle": "Nous avons évalué les logiciels de gestion agricole standard. Aucun ne résolvait nos vrais problèmes. Alors nous avons construit la solution nous-mêmes.",
+    "tableTitle": "Farm OS vs Logiciel Standard",
+    "rows": [
+      { "problem": "Nécessite internet constant — inutile dans l'Odienné rural", "solution": "Hors ligne d'abord — fonctionne dans les champs isolés, se synchronise une fois connecté" },
+      { "problem": "Conçu pour les grandes fermes occidentales avec des besoins différents", "solution": "Construit spécifiquement pour notre exploitation ouest-africaine de 35 hectares" },
+      { "problem": "Abonnements mensuels coûteux par utilisateur", "solution": "Construit en interne — coût marginal zéro par utilisateur" },
+      { "problem": "Modèles de rapports génériques", "solution": "Tableaux de bord personnalisés pour les investisseurs, les acheteurs et les gestionnaires agricoles" },
+      { "problem": "Pas de traçabilité des lots de la récolte au conteneur", "solution": "Traçabilité de bout en bout — chaque lot suivi du champ à l'exportation" }
+    ],
+    "footer": "Et une chose de plus : nous possédons le code. Pas de dépendance envers un fournisseur. Pas d'augmentation de prix. Contrôle total."
+  },
+  "builtForAfrica": {
+    "title": "Construit pour l'Afrique de l'Ouest. Pas Adapté pour Elle.",
+    "body": "Farm OS a été construit pour la réalité de la Côte d'Ivoire rurale — fonctionne hors ligne, se synchronise automatiquement lorsque la connexion revient, optimisé pour les environnements à faible bande passante, et fonctionne sur des appareils Android abordables. Ce n'est pas un logiciel de la Silicon Valley adapté à l'Afrique. C'est un logiciel africain construit pour les conditions africaines.",
+    "tags": [
+      { "label": "Hors Ligne d'Abord", "icon": "FaWifi" },
+      { "label": "Basse Consommation", "icon": "FaBatteryFull" },
+      { "label": "Android", "icon": "FaAndroid" },
+      { "label": "Synchro Auto", "icon": "FaCloud" }
+    ]
+  },
+  "forBuyers": {
+    "title": "Pour les Acheteurs en Gros",
+    "quote": "La plupart des fournisseurs envoient un certificat. Nous envoyons les données qui l'ont généré.",
+    "body": "Lorsque vous commandez chez AfriNuts, le rapport de traçabilité est extrait directement de Farm OS — pas créé après coup par quelqu'un dans un bureau. Le même système que nos gestionnaires agricoles utilisent. Les mêmes données que nos investisseurs voient.",
+    "cta": "Explorer la Vente en Gros"
+  },
+  "forInvestors": {
+    "title": "Pour les Investisseurs",
+    "quote": "Des rapports de niveau institutionnel depuis une ferme de 35 hectares.",
+    "body": "Farm OS fournit une visibilité en temps réel : arbres vivants, dépenses par hectare, revenus par qualité, projections de bénéfices. C'est le même tableau de bord que notre équipe utilise quotidiennement — pas un PDF trimestriel écrit pour la levée de fonds.",
+    "cta": "Informations pour Investisseurs"
+  },
+  "roadmap": {
+    "title": "À Venir : Farm OS v2",
+    "subtitle": "Notre feuille de route est guidée par la demande des acheteurs, les exigences des investisseurs et les besoins opérationnels. Chaque phase s'appuie sur la précédente.",
+    "phases": [
+      {
+        "label": "Couche d'Intelligence",
+        "status": "En Développement",
+        "statusClass": "bg-amber-50 border-amber-200 text-amber-700",
+        "items": [
+          { "icon": "FaChartLine", "title": "Tableau de Bord des Indicateurs Qualité", "desc": "Teneur en humidité, nombre de noix, taux de défauts, ratio d'amandes par lot — automatisé à partir des données de transformation." },
+          { "icon": "FaShieldAlt", "title": "Suivi de Conformité des Certifications", "desc": "Piste d'audit numérique pour Biologique, Halal, ISO 22000 — enregistre chaque intrant, chaque date d'inspection." },
+          { "icon": "FaLeaf", "title": "Indicateurs de Durabilité", "desc": "Consommation d'eau, intrants biologiques, détournement des déchets, empreinte carbone par récolte — mesurés, pas estimés." },
+          { "icon": "FaQrcode", "title": "QR Codes de Lot Automatisés", "desc": "Chaque expédition reçoit un QR code unique lié à son dossier de traçabilité complet — scannable par tout acheteur." },
+          { "icon": "FaUsers", "title": "Traçabilité des Fournisseurs", "desc": "Suivez quel agriculteur coopératif a fourni quel lot — visibilité complète de la chaîne d'approvisionnement." }
+        ]
+      },
+      {
+        "label": "Intégration de la Transformation",
+        "status": "Planifié",
+        "statusClass": "bg-blue-50 border-blue-200 text-blue-700",
+        "items": [
+          { "icon": "FaIndustry", "title": "Surveillance de la Ligne de Transformation", "desc": "Température de torréfaction, rendement de décorticage, résultats de calibrage — chaque machine, chaque lot." },
+          { "icon": "FaBox", "title": "Gestion des Stocks", "desc": "Noix brutes, en-cours, produits finis par lot, emplacement et âge — suivi FIFO automatisé." },
+          { "icon": "FaFileContract", "title": "Générateur de Documentation d'Exportation", "desc": "Génération automatique du COO, Phyto, SGS et facture à partir des données de lot — des heures gagnées par expédition." },
+          { "icon": "FaUsers", "title": "Portail Acheteur", "desc": "Les clients se connectent pour voir la traçabilité complète de leur commande, les documents et les rapports de qualité." }
+        ]
+      },
+      {
+        "label": "Expansion de la Plateforme",
+        "status": "Futur",
+        "statusClass": "bg-gray-50 border-gray-200 text-gray-600",
+        "items": [
+          { "icon": "FaGlobeAfrica", "title": "Support Multi-Fermes", "desc": "Étendre Farm OS aux coopératives partenaires — une plateforme, plusieurs fermes." },
+          { "icon": "FaChartLine", "title": "Moteur de Tarification en Temps Réel", "desc": "Suivre les prix du marché RCN plus les coûts de transformation pour calculer les marges par lot." },
+          { "icon": "FaSatelliteDish", "title": "Intégration de Capteurs IoT", "desc": "Humidité du sol, stations météo, alertes d'irrigation automatisées — agriculture de précision." }
+        ]
+      }
+    ]
+  },
+  "cta": {
+    "title": "Vous Voulez Voir Farm OS en Action ?",
+    "body": "Explorez notre système de traçabilité en direct ou demandez une démo pour les investisseurs et partenaires. Voyez les données derrière chaque noix de cajou que nous expédions.",
+    "betaNote": "Les capacités de Farm OS v2 sont en développement. Contactez-nous pour un accès anticipé ou pour discuter des partenariats de licence.",
+    "buttonTrace": "Explorer la Traçabilité",
+    "buttonBeta": "Demander un Accès Bêta"
+  }
+}

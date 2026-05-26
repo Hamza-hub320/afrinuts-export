@@ -1,7 +1,16 @@
 {
   "hero": {
+    "subtitle_tag": "Our Farm",
     "title": "The Farm That Built Its Own Operating System",
-    "subtitle": "35 hectares in Odienné, Côte d'Ivoire. 3,500 trees. One custom-built Farm OS tracking every block, every tree, every harvest. This is where our technology meets the soil."
+    "lead": "35 hectares. 3,500 trees. One custom-built Farm OS tracking every block, every harvest, every expense. This is not just a farm — this is where our technology meets the soil.",
+    "introTitle": "Farm OS Powered",
+    "introBody": "Every tree is mapped. Every block is tracked. Every expense is logged. Our farm runs on the same operating system we built for traceability — not paper, not spreadsheets, not guesswork.",
+    "badgeLocation": "Odienné, CI",
+    "badgeTrees": "3,500 Trees",
+    "badgeFarmOS": "Farm OS Tracked",
+    "ctaTrace": "See Traceability",
+    "ctaWholesale": "Wholesale Inquiries",
+    "imageLabel": "35 Hectares — Odienné"
   },
   "overview": {
     "heading": "35 Hectares. One System. Complete Visibility.",

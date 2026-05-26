@@ -126,5 +126,9 @@
     "on": "Activé",
     "reset": "Réinitialiser Tous les Paramètres",
     "statement": "Déclaration d'Accessibilité"
+  },
+  "internalLinks": {
+    "wholesale": "Demandes de Gros",
+    "farmosLink": "Propulsé par Farm OS"
   }
 }

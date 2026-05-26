@@ -51,7 +51,7 @@ const Partners: React.FC = () => {
 
             {/* Hero */}
             <Section className="flex items-center justify-center text-center min-h-[50vh]">
-                <motion.div className="max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 flex flex-col lg:flex-row items-center gap-6 lg:gap-20" initial="hidden" animate="visible" variants={staggerContainer}>
+                <motion.div className="max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 flex flex-col lg:flex-row items-center gap-6 lg:gap-28" initial="hidden" animate="visible" variants={staggerContainer}>
                     <motion.div className="flex-1 max-w-none lg:max-w-xl text-center lg:text-left" variants={fadeIn}>
                         <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-3">
                             <FaHandshake className="inline mr-2 text-accent" />{t('hero.subtitle')}
@@ -90,8 +90,9 @@ const Partners: React.FC = () => {
                         </motion.div>
                     </motion.div>
                     {/* Right: Partner Image */}
+                    <motion.div className="flex-shrink-0 lg:ml-auto lg:-mr-16" variants={fadeIn} transition={{ delay: 0.2 }}>
                     <motion.div className="flex-shrink-0 lg:ml-auto" variants={fadeIn} transition={{ delay: 0.2 }}>
-                        <motion.div className="relative w-96 h-96 sm:w-80 sm:h-80 lg:w-[28rem] lg:h-[38rem] rounded-[2rem] overflow-hidden shadow-2xl border-2 border-white/40 transform-gpu group"
+                        <motion.div className="relative w-96 h-96 sm:w-80 sm:h-80 lg:w-[450px] lg:h-[640px] rounded-[2rem] overflow-hidden shadow-2xl border-2 border-white/40 transform-gpu group"
                                     style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
                                     whileHover={{ scale: 1.03, rotateY: 2, transition: { duration: 0.3 } }}>
                             <div className="absolute inset-0 rounded-[2rem] border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
@@ -102,26 +103,38 @@ const Partners: React.FC = () => {
                             </div>
                         </motion.div>
                     </motion.div>
+                    </motion.div>
                 </motion.div>
             </Section>
 
             {/* Why Partner */}
-            <Section className="py-10"><div className="max-w-6xl mx-auto px-4 sm:px-6">
-                <motion.div className="text-center mb-10" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
-                    <Typography variant="h2" className="mb-4">{t('whyPartner.title')}</Typography>
-                    <Typography variant="body" className="text-gray-600 max-w-2xl mx-auto">{t('whyPartner.body')}</Typography>
-                </motion.div>
-                <div className="grid md:grid-cols-4 gap-4">
-                    {whyPartner.map((item, idx) => (
-                        <motion.div key={idx} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} transition={{ delay: idx * 0.1 }}>
-                            <InfoCard icon={item.icon} title={item.title} iconColor="text-accent" showInfoBadge={false} className="h-full">
-                                <Typography variant="small" className="text-gray-600 mb-3">{item.desc}</Typography>
-                                <span className="inline-block px-3 py-1 bg-accent/10 text-accent text-xs rounded-full font-bold">{item.stat}</span>
-                            </InfoCard>
-                        </motion.div>
-                    ))}
+            <Section className="py-10">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6">
+                    <motion.div className="text-center mb-10" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
+                        <Typography variant="h2" className="mb-4">{t('whyPartner.title')}</Typography>
+                        <Typography variant="body" className="text-gray-600 max-w-2xl mx-auto">{t('whyPartner.body')}</Typography>
+                    </motion.div>
+
+                    {/* Four Cards Grid */}
+                    <div className="grid md:grid-cols-4 gap-4 mb-6">
+                        {whyPartner.map((item, idx) => (
+                            <motion.div key={idx} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} transition={{ delay: idx * 0.1 }}>
+                                <InfoCard icon={item.icon} title={item.title} iconColor="text-accent" showInfoBadge={false} className="h-full">
+                                    <Typography variant="small" className="text-gray-600 mb-3">{item.desc}</Typography>
+                                    <span className="inline-block px-3 py-1 bg-accent/10 text-accent text-xs rounded-full font-bold">{item.stat}</span>
+                                </InfoCard>
+                            </motion.div>
+                        ))}
+                    </div>
+
+                    {/* Centered Link Below Cards */}
+                    <div className="text-center">
+                        <Link to="/farm-os" className="text-accent hover:text-primary text-sm font-medium inline-flex items-center gap-1 transition-colors">
+                            {t('whyPartner.farmosLink', 'Explore Farm OS')} <FaArrowRight className="text-xs" />
+                        </Link>
+                    </div>
                 </div>
-            </div></Section>
+            </Section>
 
             {/* Partnership Models */}
             <Section className="py-10"><div className="max-w-6xl mx-auto px-4 sm:px-6">

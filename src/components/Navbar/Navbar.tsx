@@ -111,7 +111,7 @@ const Navbar: React.FC = () => {
 
     // Treat About link as active for any of its subpages including Executive Team or History
     if (path === '/about') {
-      return ['/about', '/executive-team', '/about/our-story', '/sustainability', '/vision']
+      return ['/about', '/executive-team', '/about/our-story', '/sustainability', '/vision', '/farm-os']
           .some(p => location.pathname === p);
     }
 
@@ -145,6 +145,7 @@ const Navbar: React.FC = () => {
         { path: '/about/our-story', label: t('navbar.our_story') },
         { path: '/sustainability', label: t('navbar.sustainability') },
         { path: '/vision', label: t('navbar.vision') },
+        { path: '/farm-os', label: 'Farm OS' },
       ]
     },
     { path: '/wholesale', label: t('navbar.wholesale', 'Wholesale') },
@@ -598,7 +599,7 @@ const Navbar: React.FC = () => {
           </div>
 
           {/* Mobile Menu - Flat Layout */}
-          <div className={`${click ? 'block' : 'hidden'} md:hidden pb-3 px-4`}>
+          <div className={`${click ? 'block' : 'hidden'} md:hidden pb-3 px-4 overflow-y-auto max-h-[80vh]`}>
             <div className="space-y-1">
               {navItems.map((item) => (
                   <React.Fragment key={item.path}>

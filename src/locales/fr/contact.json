@@ -1,20 +1,30 @@
 {
+  "seo": {
+    "title": "Contacter AfriNuts Export | Demandes de Gros de Noix de Cajou et Investissement",
+    "description": "Contactez AfriNuts Export pour les prix de gros des noix de cajou, les opportunités d'investissement, les demandes de partenariat ou les visites de ferme. Basé à Odienné, Côte d'Ivoire. Réponse sous 24 heures."
+  },
   "hero": {
     "title": "Parlons Noix de Cajou — Avec des Données à l'Appui",
-    "subtitle": "Que vous soyez un acheteur en gros recherchant un approvisionnement traçable, un investisseur évaluant notre plateforme technologique, ou un partenaire intéressé par l'agritech ouest-africaine — commencez la conversation ici."
+    "subtitle": "Demandes de gros, discussions d'investissement, propositions de partenariat, ou simplement une question sur notre ferme.",
+    "description": "Que vous soyez un acheteur en gros recherchant un approvisionnement traçable, un investisseur évaluant notre plateforme technologique, ou un partenaire intéressé par l'agritech ouest-africaine — commencez la conversation ici.",
+    "introTitle": "Nous Lisons Chaque Message",
+    "badgeResponse": "Réponse 24h",
+    "badgeLanguages": "EN · FR · AR",
+    "weatherTitle": "Odienné en ce Moment",
+    "weatherNote": "Fuseau horaire GMT. Heures de bureau : Lun-Ven 8h-17h, Sam 9h-13h."
   },
   "form": {
-    "title": "Contacter Notre Équipe",
+    "title": "Envoyez-Nous un Message",
     "privacy": "Vos informations sont sécurisées et ne seront jamais partagées.",
-    "name": "Nom Complet*",
-    "email": "Email Professionnel*",
+    "name": "Nom Complet",
+    "email": "Email Professionnel",
     "phone": "Numéro de Téléphone",
-    "subject": "Sujet*",
-    "message": "Votre Message*",
+    "subject": "Sujet",
+    "message": "Votre Message",
     "submit": "Envoyer la Demande",
-    "sending": "Traitement de Votre Demande...",
+    "sending": "Traitement en cours...",
     "requestType": "Type de Demande",
-    "requestTypePlaceholder": "Sélectionnez une demande",
+    "requestTypePlaceholder": "Sélectionnez un type de demande",
     "productInterest": "Produit d'Intérêt",
     "productInterestPlaceholder": "Sélectionnez un produit",
     "productInterestOptions": {
@@ -29,36 +39,47 @@
     "shipping": "Préférence d'Expédition",
     "shippingPlaceholder": "Sélectionnez la préférence",
     "shippingOptions": {
-      "cif": "CIF (Coût, Assurance et Fret)",
       "fob": "FOB (Franco à Bord)",
       "exw": "EXW (Départ Usine)",
-      "ddp": "DDP – Rendu Droits Acquittés jusqu'à votre porte",
-      "other": "Autre – veuillez préciser"
+      "cif": "CIF (Coût, Assurance, Fret)",
+      "other": "Autre"
     },
     "requestTypes": {
-      "information": "Demande d'Information",
       "quote": "Demande de Devis en Gros",
       "partnership": "Opportunité de Partenariat",
       "investment": "Demande d'Investissement",
+      "information": "Demande d'Information",
       "other": "Autre Demande"
     },
-    "checkFaq": "Vous avez des questions ? Consultez notre FAQ avant de nous contacter.",
-    "faqLink": "Aller à la FAQ"
+    "faqLink": "Voir la Foire Aux Questions"
   },
   "info": {
-    "title": "Siège Social de l'Entreprise",
-    "headquarters": "Siège d'AfriNuts",
-    "address": "Odienné, Côte d'Ivoire",
-    "zipCode": "Code Postal : 00225",
-    "phone": "Téléphone",
-    "phoneNumber": "+225 (077) 919 - 1460",
     "email": "Email",
     "emailPrimary": "contact@afrinutsexport.com",
     "emailSecondary": "sales@afrinutsexport.com",
-    "hours": "Lundi-Vendredi : 8h00 - 17h00 GMT",
-    "businessHours": "Heures de Bureau",
-    "weekdays": "Lundi - Vendredi : 8h00 - 17h00",
-    "saturday": "Samedi : 9h00 - 13h00"
+    "phone": "Téléphone",
+    "phoneNumber": "+225 07 79 19 14 60",
+    "hours": "Lun-Ven 8h-17h GMT",
+    "headquarters": "Siège Social",
+    "address": "Odienné, Côte d'Ivoire",
+    "zipCode": "00225"
+  },
+  "shippingGuidance": {
+    "title": "Options d'Expédition",
+    "fob": {
+      "title": "FOB (Franco à Bord)",
+      "description": "Nous gérons le dédouanement à l'exportation. Vous organisez l'expédition depuis Abidjan."
+    },
+    "exw": {
+      "title": "EXW (Départ Usine)",
+      "description": "Retirez de notre entrepôt. L'acheteur gère tout le transport."
+    },
+    "helpText": "Vous n'êtes pas sûr de l'option qui convient ? Notre équipe vous guidera après votre demande."
+  },
+  "offlinePayment": {
+    "title": "Options de Paiement",
+    "description": "Pour les commandes en gros, les paiements sont traités par virement bancaire. Notre équipe commerciale fournit une facture après votre demande.",
+    "methods": ["Virement Bancaire", "Paiement par Virement"]
   },
   "map": {
     "title": "Notre Quartier Général Opérationnel",
@@ -67,8 +88,7 @@
   "success": {
     "title": "Merci d'Avoir Contacté AfriNuts Export",
     "message": "Votre demande a bien été reçue. Notre équipe vous répondra sous 2 jours ouvrables.",
-    "close": "Retour au Site",
-    "extraCelebration": "Nous sommes ravis d'échanger avec vous !"
+    "close": "Retour au Site"
   },
   "errors": {
     "name": "Veuillez entrer votre nom complet",
@@ -76,57 +96,7 @@
     "emailInvalid": "Veuillez entrer une adresse email correctement formatée",
     "subject": "Veuillez préciser le sujet de votre demande",
     "message": "Veuillez inclure un message détaillé",
-    "fileSize": "Taille maximale du fichier dépassée (limite de 5 Mo)",
-    "submit": "Nous avons rencontré une erreur. Veuillez nous envoyer un email directement à contact@afrinutsexport.com",
-    "requestType": "Veuillez sélectionner un type de demande"
-  },
-  "weather": {
-    "currentWeather": "Météo actuelle à {{location}}",
-    "feelsLike": "Ressenti : {{temp}}°C",
-    "highTemp": "Max : {{temp}}°C",
-    "lowTemp": "Min : {{temp}}°C",
-    "wind": "Vent : {{speed}} km/h",
-    "humidity": "Humidité : {{percent}}%",
-    "loading": "Chargement des données météo...",
-    "error": "Informations météo actuellement indisponibles",
-    "notAvailable": "N/D"
-  },
-  "offlinePayment": {
-    "title": "Instructions de Paiement Hors Ligne",
-    "description": "Pour les commandes en gros, tous les paiements sont traités directement par virement bancaire. Après avoir soumis votre demande, notre équipe commerciale vous fournira une facture et les instructions de paiement.",
-    "button": "Contacter les Ventes",
-    "methods": ["Virement Bancaire", "Paiement par Virement", "Chèque"]
-  },
-  "shippingGuidance": {
-    "title": "Options d'Expédition",
-    "intro": "Nous expédions depuis le Port d'Abidjan — l'un des ports en eau profonde les plus efficaces d'Afrique de l'Ouest. Chaque expédition comprend la documentation de traçabilité Farm OS.",
-    "currentlyAvailable": "Actuellement Disponible",
-    "fob": {
-      "title": "FOB (Franco à Bord)",
-      "description": "Nous gérons le dédouanement à l'exportation. Vous organisez l'expédition depuis Abidjan. Documentation complète incluse."
-    },
-    "exw": {
-      "title": "EXW (Départ Usine)",
-      "description": "Retirez les marchandises de notre entrepôt ; l'acheteur gère tout le transport et la logistique. Parfait pour les acheteurs locaux ou ceux disposant d'une logistique établie."
-    },
-    "comingSoon": "Bientôt Disponible",
-    "cif": {
-      "title": "CIF (Coût, Assurance et Fret)",
-      "description": "Nous gérons l'expédition, l'assurance et la livraison jusqu'à votre port de destination. Nous nous occupons de tout jusqu'à votre port de destination."
-    },
-    "ddp": {
-      "title": "DDP (Rendu Droits Acquittés)",
-      "description": "Le vendeur assume l'entière responsabilité, y compris les droits et taxes d'importation, livré au lieu de l'acheteur. Service porte-à-porte complet avec tous les coûts inclus."
-    },
-    "other": {
-      "title": "Autre / Arrangement Personnalisé",
-      "description": "Certains clients peuvent vouloir une solution logistique spécifique (navire affrété, groupage de conteneurs, etc.). Solutions sur mesure pour des besoins uniques."
-    },
-    "helpText": "Vous n'êtes pas sûr de l'option qui correspond à vos besoins ? Notre équipe vous guidera après votre demande."
-  },
-  "title": "Contactez-Nous",
-  "description": "Envoyez-nous un message et nous vous répondrons rapidement.",
-  "buttonLabel": "Ouvrir le Formulaire de Contact",
-  "buttonText": "Contactez-Nous",
-  "close": "Fermer"
+    "requestType": "Veuillez sélectionner un type de demande",
+    "submit": "Nous avons rencontré une erreur. Veuillez nous envoyer un email directement à contact@afrinutsexport.com"
+  }
 }

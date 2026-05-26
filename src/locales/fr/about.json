@@ -1,7 +1,18 @@
 {
   "hero": {
     "title": "Trois Générations d'Agriculture. Un Système d'Exploitation Sur Mesure.",
-    "subtitle": "De notre ferme familiale à Odienné, Côte d'Ivoire — une plateforme de cajou axée sur la technologie où le savoir ancestral rencontre l'ingénierie moderne. Farm OS suit chaque arbre, chaque bloc et chaque exportation."
+    "subtitle": "À Propos d'AfriNuts",
+    "introTitle": "Trois Générations. Une Mission.",
+    "introBody": "Des champs de notre grand-père à notre Farm OS sur mesure — AfriNuts Export est une entreprise agroalimentaire technologique enracinée dans la famille, la foi et le sol d'Odienné, Côte d'Ivoire.",
+    "imageAlt": "Ferme AfriNuts à Odienné",
+    "imageLabel": "Odienné, Côte d'Ivoire",
+    "ctaTeam": "Rencontrer Notre Équipe",
+    "ctaStory": "Lire Notre Histoire Complète",
+    "badges": [
+      { "icon": "FaLeaf", "label": "35 Hectares", "bg": "bg-primary/10", "text": "text-primary" },
+      { "icon": "FaCheckCircle", "label": "3 500 Arbres", "bg": "bg-green-50", "text": "text-green-700" },
+      { "icon": "FaUsers", "label": "200+ Agriculteurs", "bg": "bg-amber-50", "text": "text-amber-700" }
+    ]
   },
   "leadership": {
     "title": "Guider AfriNuts vers l'Avenir",

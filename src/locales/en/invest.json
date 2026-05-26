@@ -330,6 +330,7 @@
   },
   "farmOs": {
     "title": "Farm OS: The Technology Behind the Investment",
+    "linkText": "See full Farm OS capabilities",
     "body": "Most agribusiness investments rely on trust and quarterly PDFs. Ours runs on a custom-built operating system that gives investors real-time visibility into farm performance — trees alive, expenses per block, harvest volumes, and profit projections. The same dashboard our team uses daily is available to verified investors.",
     "capabilities": [
       "Block-level financial tracking — revenue and expenses per hectare",

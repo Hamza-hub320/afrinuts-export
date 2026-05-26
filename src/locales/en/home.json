@@ -126,5 +126,9 @@
     "on": "On",
     "reset": "Reset All Settings",
     "statement": "Accessibility Statement"
+  },
+  "internalLinks": {
+    "wholesale": "Wholesale Inquiries",
+    "farmosLink": "Powered by Farm OS"
   }
 }

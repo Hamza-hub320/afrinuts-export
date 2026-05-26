@@ -1,7 +1,16 @@
 {
   "hero": {
     "title": "Sustainability You Can Verify. Not Just Claims.",
-    "subtitle": "Our Farm OS tracks environmental metrics alongside production data. Organic practices, water conservation, and zero-waste processing — documented, measured, and publicly verifiable."
+    "subtitle": "Our Sustainability Commitment",
+    "lead": "Most farms claim to be sustainable. We track it. Our Farm OS logs water usage, organic inputs, waste diversion, and soil health — so buyers and investors can verify our claims instead of trusting them.",
+    "introTitle": "Measured. Not Marketed.",
+    "introBody": "Our Farm OS doesn't just track production. It tracks our environmental footprint — water usage, organic inputs, waste diversion, and soil health metrics. This is not just sustainability — this is verifiable, tech-enabled agriculture.",
+    "badgeOrganic": "Organic Methods",
+    "badgeTracked": "Farm OS Tracked",
+    "badgeZeroWaste": "Zero-Waste Target",
+    "ctaExplore": "Explore Our Practices",
+    "ctaFarmOS": "See Farm OS",
+    "imageLabel": "Farm OS Verified"
   },
   "intro": {
     "title": "Why Sustainable Cashew Farming Matters for West Africa",

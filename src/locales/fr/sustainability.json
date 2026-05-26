@@ -1,7 +1,16 @@
 {
   "hero": {
     "title": "Une Durabilité Que Vous Pouvez Vérifier. Pas Juste Des Promesses.",
-    "subtitle": "Notre Farm OS suit les indicateurs environnementaux en même temps que les données de production. Pratiques biologiques, conservation de l'eau et transformation zéro déchet — documentées, mesurées et vérifiables publiquement."
+    "subtitle": "Notre Engagement Durable",
+    "lead": "La plupart des fermes prétendent être durables. Nous le suivons. Notre Farm OS enregistre la consommation d'eau, les intrants biologiques, le détournement des déchets et la santé des sols — pour que les acheteurs et les investisseurs puissent vérifier nos affirmations au lieu de leur faire confiance.",
+    "introTitle": "Mesuré. Pas Marketé.",
+    "introBody": "Notre Farm OS ne suit pas seulement la production. Il suit notre empreinte environnementale — consommation d'eau, intrants biologiques, détournement des déchets et indicateurs de santé des sols. Ce n'est pas seulement de la durabilité — c'est une agriculture vérifiable, axée sur la technologie.",
+    "badgeOrganic": "Méthodes Biologiques",
+    "badgeTracked": "Suivi Farm OS",
+    "badgeZeroWaste": "Objectif Zéro Déchet",
+    "ctaExplore": "Explorer Nos Pratiques",
+    "ctaFarmOS": "Voir Farm OS",
+    "imageLabel": "Vérifié par Farm OS"
   },
   "intro": {
     "title": "Pourquoi la Culture Durable de la Noix de Cajou est Importante pour l'Afrique de l'Ouest",

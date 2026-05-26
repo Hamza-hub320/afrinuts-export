@@ -5,7 +5,16 @@
   },
   "hero": {
     "title": "Building Africa's Premier Ethical Cashew Brand",
-    "subtitle": "From our family farm in Odienné, Ivory Coast to global markets — sustainable, traceable, and faith-aligned cashews."
+    "subtitle": "Our Vision",
+    "lead": "Not just a farm. Not just a processing center. A tech-enabled platform proving that African agribusiness can lead with transparency, ethics, and innovation — from Odienné to the world.",
+    "cardTitle": "The Future We're Building",
+    "description": "From our family farm in Odienné, Ivory Coast to global markets — sustainable, traceable, and faith-aligned cashews. Every step owned. Every batch tracked. Every promise verifiable.",
+    "badgeOrigin": "Single Origin",
+    "badgeTraceable": "Farm OS Tracked",
+    "badgeEthical": "Shariah-Compliant",
+    "ctaExplore": "Partner With Us",
+    "ctaInvest": "Investment Opportunity",
+    "imageLabel": "From Odienné to the World"
   },
   "intro": {
     "title": "Transforming West Africa's Cashew Industry",
