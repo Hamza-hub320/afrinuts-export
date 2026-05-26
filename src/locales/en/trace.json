@@ -9,8 +9,13 @@
 },
   "promo": {
     "heading": "Not Just a Paper Trail. Farm OS Verified.",
-    "subheading": "Every AfriNuts shipment comes with a unique traceability code linked to our Farm OS. Scan your QR code or enter your batch ID to see the full digital record — from the exact block in Odienné to your container. Most suppliers send paperwork. We send proof."
-},
+    "lead": "Enter a batch ID to see harvest dates, GPS coordinates, quality metrics, and certification records — all pulled directly from our Farm OS. The same data our farm managers use. The same dashboard our investors see. No marketing fluff. No paperwork generated after the fact.",
+    "subheading": "Every AfriNuts shipment comes with a unique traceability code linked to our Farm OS. Scan your QR code or enter your batch ID to see the full digital record — from the exact block in Odienné to your container. Most suppliers send paperwork. We send proof.",
+    "introTitle": "Powered by Farm OS",
+    "badgeQr": "QR Code",
+    "badgeVerified": "Farm OS Verified",
+    "badgePublic": "Publicly Verifiable"
+  },
   "search": {
     "placeholder": "Enter your Batch ID...",
     "button": "Trace",

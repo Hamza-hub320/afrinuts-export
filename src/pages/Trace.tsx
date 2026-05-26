@@ -11,10 +11,13 @@ import {
     FaGlobe, FaShieldAlt, FaCalendarAlt, FaFlask, FaEnvelope, FaArrowRight, FaQrcode,
     FaFileAlt, FaGlobeEurope, FaGlobeAmericas, FaGlobeAsia, FaCopy,
     FaWhatsapp, FaTwitter, FaLinkedin, FaPrint,
-    FaArrowLeft, FaShare, FaChartBar, FaDownload, FaLeaf, FaBox
+    FaArrowLeft, FaShare, FaChartBar, FaDownload, FaLeaf, FaBox,
+    FaMobile,
+    FaGlobeAfrica
 } from "react-icons/fa";
-import { fadeIn } from "@/utils/animations";
+import {fadeIn, staggerContainer} from "@/utils/animations";
 import {Helmet} from "react-helmet-async";
+import traceHeroImage from '@/assets/images/trace-hero.webp';
 import JsonLd from "@/components/Seo/JsonLd";
 import {trackCtaClick, trackEvent, trackOutboundClick} from "@/utils/analytics";
 
@@ -154,7 +157,7 @@ const TracePage: React.FC = () => {
     // ========== PROMO PAGE (no batch found) ==========
     if (!batch && !loading) {
         return (
-            <main className="text-text-dark font-sans pt-[72px]">
+            <main className="text-text-dark font-sans">
                 <div className="max-w-4xl mx-auto px-6 sm:px-8 pt-[88px] pb-2">
                     <div className="text-sm text-gray-400 mb-4 flex items-center gap-1 flex-wrap">
                         <Link to="/" className="hover:text-primary transition-colors">{t('breadcrumbs.home', 'Home')}</Link>
@@ -168,22 +171,101 @@ const TracePage: React.FC = () => {
                         <span className="text-primary font-medium">{t('breadcrumbs.batchTraceability', 'Batch Traceability')}</span>
                     </div>
                 </div>
-                <Section className="flex items-center justify-center text-center min-h-[40vh]">
-                    <motion.div className="max-w-3xl px-6 sm:px-8 py-12" variants={fadeIn} initial="hidden" animate="visible">
-                        <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-4">
-                            <FaQrcode className="inline mr-3 text-accent" />{t('page.title')}
-                        </Typography>
-                        <Typography variant="h1" className="text-4xl md:text-5xl lg:text-6xl font-display text-text-dark mb-6">
-                            {t('promo.heading', 'Audit-Ready Traceability for Serious Importers')}
-                        </Typography>
-                        <Typography variant="lead" className="text-text-dark max-w-2xl mx-auto">
-                            {t('promo.subheading', 'Every AfriNuts shipment comes with a unique traceability code. Scan your QR code or enter your batch ID to see the full journey.')}
-                        </Typography>
+                {/* Hero */}
+                <Section className="flex items-center justify-center text-center min-h-[50vh]">
+                    <motion.div className="max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 flex flex-col lg:flex-row items-center gap-6 lg:gap-28" initial="hidden" animate="visible" variants={staggerContainer}>
+
+                        {/* Left: Text Content */}
+                        <motion.div className="flex-1 max-w-none lg:max-w-xl text-center lg:text-left" variants={fadeIn}>
+                            <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-3">
+                                <FaSearch className="inline mr-2 text-accent" />{t('page.title')}
+                            </Typography>
+                            <motion.h1 className="font-display text-3xl md:text-4xl lg:text-5xl text-text-dark mb-4 leading-tight" variants={fadeIn} style={{ letterSpacing: '-0.03em' }}>
+                                {t('promo.heading')}
+                            </motion.h1>
+
+                            {/* Lead Text */}
+                            <Typography variant="lead" className="text-text-dark mb-5 text-base lg:text-lg">
+                                {t('promo.lead', 'Enter a batch ID to see harvest dates, GPS coordinates, quality metrics, and certification records — all pulled directly from our Farm OS. The same data our farm managers use. The same dashboard our investors see. No marketing fluff. No paperwork generated after the fact.')}
+                            </Typography>
+
+                            {/* Trace Intro Card */}
+                            <motion.div variants={fadeIn} className="mb-5">
+                                <InfoCard
+                                    icon={FaMobile}
+                                    title={t('promo.introTitle', 'Powered by Farm OS')}
+                                    variant="accent"
+                                    showInfoBadge={false}
+                                >
+                                    <Typography variant="small" className="text-gray-600">
+                                        {t('promo.subheading')}
+                                    </Typography>
+                                </InfoCard>
+                            </motion.div>
+
+                            <div className="flex flex-wrap justify-center lg:justify-start gap-2 mb-5">
+                <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-primary/10 text-primary text-xs rounded-full font-medium">
+                    <FaQrcode className="text-[10px]" /> {t('promo.badgeQr', 'QR Code')}
+                </span>
+                                <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-green-50 text-green-700 text-xs rounded-full font-medium">
+                    <FaCheckCircle className="text-[10px]" /> {t('promo.badgeVerified', 'Farm OS Verified')}
+                </span>
+                                <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-amber-50 text-amber-700 text-xs rounded-full font-medium">
+                    <FaGlobeAfrica className="text-[10px]" /> {t('promo.badgePublic', 'Publicly Verifiable')}
+                </span>
+                            </div>
+
+                            <motion.div variants={fadeIn} className="flex flex-wrap gap-2.5 justify-center lg:justify-start">
+                                <div className="relative bg-white/50 backdrop-blur-sm border border-gray-300 rounded-full flex items-center">
+                                    <FaSearch className="absolute left-3 text-gray-400 text-xs" />
+                                    <input
+                                        type="text"
+                                        placeholder={t('search.placeholder', 'Enter your Batch ID...')}
+                                        className="pl-9 pr-20 py-2.5 bg-transparent text-sm focus:outline-none rounded-full w-56"
+                                        onKeyDown={(e) => {
+                                            if (e.key === 'Enter') {
+                                                const input = e.currentTarget.value.trim();
+                                                if (input) window.location.href = `/trace?batchId=${encodeURIComponent(input)}`;
+                                            }
+                                        }}
+                                    />
+                                    <button
+                                        onClick={() => {
+                                            const input = document.querySelector<HTMLInputElement>('.batch-search-input');
+                                            const value = input?.value?.trim();
+                                            if (value) window.location.href = `/trace?batchId=${encodeURIComponent(value)}`;
+                                        }}
+                                        className="absolute right-1 top-1 bottom-1 bg-primary text-white px-4 rounded-full text-xs font-medium hover:bg-dark-orange transition-colors">
+                                        {t('search.button', 'Trace')}
+                                    </button>
+                                </div>
+                                <button
+                                    onClick={() => window.location.href = '/trace?batchId=AFN-2026-001'}
+                                    className="relative border border-primary/40 text-primary hover:bg-primary/5 px-5 py-2.5 rounded-full text-sm font-medium inline-flex items-center gap-1.5 bg-white/50 backdrop-blur-sm">
+                                    <FaFlask className="text-xs" />{t('demo.button', 'View Sample Batch')}
+                                </button>
+                            </motion.div>
+                        </motion.div>
+
+                        {/* Right: Trace Image */}
+                        <motion.div className="flex-shrink-0 lg:ml-auto lg:-mr-16" variants={fadeIn} transition={{ delay: 0.2 }}>
+                            <motion.div className="relative w-96 h-96 sm:w-80 sm:h-80 lg:w-[450px] lg:h-[640px] rounded-[2rem] overflow-hidden shadow-2xl border-2 border-white/40 transform-gpu group"
+                                        style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
+                                        whileHover={{ scale: 1.03, rotateY: 2, transition: { duration: 0.3 } }}>
+                                <div className="absolute inset-0 rounded-[2rem] border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
+                                <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-b from-white/15 to-transparent opacity-40" />
+                                <img src={traceHeroImage} alt="Farm OS Traceability" className="w-full h-full object-cover" />
+                                <div className="absolute bottom-3 left-3 right-3 bg-white/80 backdrop-blur-sm rounded-full px-3 py-1 text-center">
+                                    <span className="text-primary text-[11px] font-semibold">Farm OS Verified</span>
+                                </div>
+                            </motion.div>
+                        </motion.div>
+
                     </motion.div>
                 </Section>
 
                 <Section className="py-8">
-                    <div className="max-w-xl mx-auto px-4 sm:px-6">
+                    <div className="max-w-xl mx-auto px-4 sm:px-6 batch-search-input">
                         <form onSubmit={handleSearch} className="relative">
                             <FaSearch className="absolute left-4 top-3.5 text-gray-400" />
                             <input type="text" placeholder={t('search.placeholder', 'Enter your Batch ID...')} value={searchInput} onChange={(e) => setSearchInput(e.target.value)}

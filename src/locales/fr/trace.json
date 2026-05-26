@@ -9,7 +9,12 @@
   },
   "promo": {
     "heading": "Pas Juste une Trace Papier. Vérifié par Farm OS.",
-    "subheading": "Chaque expédition AfriNuts est accompagnée d'un code de traçabilité unique lié à notre Farm OS. Scannez votre QR code ou saisissez votre ID de lot pour voir l'enregistrement numérique complet — du bloc exact à Odienné jusqu'à votre conteneur. La plupart des fournisseurs envoient des documents. Nous envoyons des preuves."
+    "lead": "Saisissez un ID de lot pour voir les dates de récolte, les coordonnées GPS, les indicateurs de qualité et les enregistrements de certification — tous extraits directement de notre Farm OS. Les mêmes données que nos gestionnaires agricoles utilisent. Le même tableau de bord que nos investisseurs voient. Pas de baratin marketing. Pas de paperasse générée après coup.",
+    "subheading": "Chaque expédition AfriNuts est accompagnée d'un code de traçabilité unique lié à notre Farm OS. Scannez votre QR code ou saisissez votre ID de lot pour voir l'enregistrement numérique complet — du bloc exact à Odienné jusqu'à votre conteneur. La plupart des fournisseurs envoient de la paperasse. Nous envoyons des preuves.",
+    "introTitle": "Propulsé par Farm OS",
+    "badgeQr": "QR Code",
+    "badgeVerified": "Vérifié Farm OS",
+    "badgePublic": "Vérifiable Publiquement"
   },
   "search": {
     "placeholder": "Entrez votre ID de lot...",

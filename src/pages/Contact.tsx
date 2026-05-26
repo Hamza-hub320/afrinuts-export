@@ -26,6 +26,7 @@ import { FormCard } from '@/components/FormCard/FormCard';
 import JsonLd from "@/components/Seo/JsonLd";
 import { Helmet } from "react-helmet-async";
 import DashboardWeatherWidget from "@/components/DashboardWeatherWidget";
+import WeatherDisplay from "@/components/WeatherDisplay/WeatherDisplay";
 
 interface FormData {
   name: string;
@@ -168,7 +169,7 @@ const Contact: React.FC = () => {
 
         {/* Hero — Text + Weather Widget */}
         <Section className="flex items-center justify-center text-center min-h-[40vh]">
-          <motion.div className="max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 flex flex-col lg:flex-row items-center gap-6 lg:gap-20" initial="hidden" animate="visible" variants={staggerContainer}>
+          <motion.div className="max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 flex flex-col lg:flex-row items-center gap-6 lg:gap-28" initial="hidden" animate="visible" variants={staggerContainer}>
 
             {/* Left: Text Content */}
             <motion.div className="flex-1 max-w-none lg:max-w-xl text-center lg:text-left" variants={fadeIn}>
@@ -202,21 +203,12 @@ const Contact: React.FC = () => {
             </motion.div>
 
             {/* Right: Weather Widget */}
-            <motion.div className="flex-shrink-0 lg:ml-auto w-full max-w-sm" variants={fadeIn} transition={{ delay: 0.2 }}>
-              <InfoCard
-                  icon={FaCloudSun}
-                  title={t('hero.weatherTitle', 'Odienné Right Now')}
-                  variant="accent"
-                  showInfoBadge={false}
-                  className="text-center"
-              >
-                <DashboardWeatherWidget location="Odienne" compact />
-                <Typography variant="small" className="text-gray-500 text-xs mt-2">
-                  {t('hero.weatherNote', 'We\'re in the GMT timezone. Business hours: Mon-Fri 8am-5pm, Sat 9am-1pm.')}
-                </Typography>
-              </InfoCard>
+            <motion.div className="flex-shrink-0 lg:ml-auto w-full max-w-sm lg:max-w-md" variants={fadeIn} transition={{ delay: 0.2 }}>
+              <WeatherDisplay location="Odienne" />
+              <Typography variant="small" className="text-gray-500 text-xs text-center mt-3">
+                {t('hero.weatherNote', "We're in the GMT timezone. Business hours: Mon-Fri 8am-5pm, Sat 9am-1pm.")}
+              </Typography>
             </motion.div>
-
           </motion.div>
         </Section>
 
