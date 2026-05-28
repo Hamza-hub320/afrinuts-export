@@ -4,15 +4,16 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
     FaCheckCircle,
     FaHourglassHalf,
-    FaIndustry,
-    FaCalendarAlt,
     FaRocket,
+    FaCalendarAlt,
     FaClock,
     FaChevronLeft,
     FaChevronRight,
-    FaCircle
+    FaBox
 } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
+import Typography from '../Typography/Typography';
+import {InfoCard} from "@/components/InfoCard/InfoCard";
 
 interface Product {
     name: string;
@@ -56,68 +57,33 @@ export const ProductTimeline: React.FC<ProductTimelineProps> = ({
     const { t } = useTranslation('products');
     const [activeIndex, setActiveIndex] = useState(0);
     const [isMobile, setIsMobile] = useState(false);
-    const [touchStart, setTouchStart] = useState(0);
-    const [touchEnd, setTouchEnd] = useState(0);
 
-    // Check if mobile on mount and resize
     useEffect(() => {
-        const checkMobile = () => {
-            setIsMobile(window.innerWidth < 768);
-        };
-
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
         checkMobile();
         window.addEventListener('resize', checkMobile);
         return () => window.removeEventListener('resize', checkMobile);
     }, []);
 
-    // Dynamically generate phases based on actual product data
     const phases = useMemo(() => {
         if (!Array.isArray(products) || products.length === 0) {
-            // Fallback to default phases if no products provided
             return [
-                {
-                    year: '2026',
-                    label: t('timeline.pilot', 'Pilot Production'),
-                    description: t('timeline.pilotDesc', 'Initial production and market testing'),
-                    products: ['Raw Cashew Nuts'],
-                    status: 'available' as const,
-                    productCount: 1,
-                    availableCount: 1
-                },
-                {
-                    year: '2030',
-                    label: t('timeline.scale', 'Scale Up'),
-                    description: t('timeline.scaleDesc', 'Expanding processing capacity'),
-                    products: ['Cashew Kernels', 'CNSL'],
-                    status: 'in-progress' as const,
-                    productCount: 2,
-                    availableCount: 0
-                },
-                {
-                    year: '2033+',
-                    label: t('timeline.industrial', 'Industrial Scale'),
-                    description: t('timeline.industrialDesc', 'Full-scale industrial production'),
-                    products: ['Cashew Butter', 'Roasted Cashews', 'Cashew Milk'],
-                    status: 'upcoming' as const,
-                    productCount: 3,
-                    availableCount: 0
-                }
+                { year: '2026', label: t('timeline.pilot', 'Pilot Production'), description: t('timeline.pilotDesc', 'Initial production and market testing'), products: ['Raw Cashew Nuts'], status: 'available' as const, productCount: 1, availableCount: 1 },
+                { year: '2030', label: t('timeline.scale', 'Scale Up'), description: t('timeline.scaleDesc', 'Expanding processing capacity'), products: ['Cashew Kernels', 'CNSL'], status: 'in-progress' as const, productCount: 2, availableCount: 0 },
+                { year: '2033+', label: t('timeline.industrial', 'Industrial Scale'), description: t('timeline.industrialDesc', 'Full-scale industrial production'), products: ['Cashew Butter', 'Roasted Cashews', 'Cashew Milk'], status: 'upcoming' as const, productCount: 3, availableCount: 0 }
             ];
         }
 
-        // Separate products by availability
         const availableProducts = products.filter(p => p.available);
         const comingSoonProducts = products.filter(p => !p.available && p.comingSoon);
         const upcomingProducts = products.filter(p => !p.available && !p.comingSoon);
-
         const phases: TimelinePhase[] = [];
 
-        // Phase 1: Currently Available
         if (availableProducts.length > 0) {
             phases.push({
                 year: new Date().getFullYear().toString(),
                 label: t('timeline.available', 'Available Now'),
-                description: t('timeline.availableDesc', 'Products ready for immediate order'),
+                description: t('timeline.availableDesc', 'Ready for immediate order'),
                 products: availableProducts.map(p => p.name),
                 status: 'available',
                 productCount: availableProducts.length,
@@ -125,21 +91,13 @@ export const ProductTimeline: React.FC<ProductTimelineProps> = ({
             });
         }
 
-        // Phase 2: Coming Soon / In Progress
         if (comingSoonProducts.length > 0) {
-            const comingSoonYears = comingSoonProducts
-                .map(p => p.comingSoon)
-                .filter(Boolean)
-                .sort();
-
-            const yearRange = comingSoonYears.length > 1
-                ? `${comingSoonYears[0]}-${comingSoonYears[comingSoonYears.length - 1]}`
-                : comingSoonYears[0] || t('timeline.soon', 'Coming Soon');
-
+            const comingSoonYears = comingSoonProducts.map(p => p.comingSoon).filter(Boolean).sort();
+            const yearRange = comingSoonYears.length > 1 ? `${comingSoonYears[0]}-${comingSoonYears[comingSoonYears.length - 1]}` : comingSoonYears[0] || t('timeline.soon', 'Coming Soon');
             phases.push({
                 year: yearRange,
                 label: t('timeline.inProgress', 'In Development'),
-                description: t('timeline.inProgressDesc', 'Products currently in development'),
+                description: t('timeline.inProgressDesc', 'Currently in development'),
                 products: comingSoonProducts.map(p => p.name),
                 status: 'in-progress',
                 productCount: comingSoonProducts.length,
@@ -147,12 +105,11 @@ export const ProductTimeline: React.FC<ProductTimelineProps> = ({
             });
         }
 
-        // Phase 3: Future/Upcoming
         if (upcomingProducts.length > 0) {
             phases.push({
                 year: t('timeline.future', 'Future'),
                 label: t('timeline.planned', 'Planned'),
-                description: t('timeline.plannedDesc', 'Products in our future roadmap'),
+                description: t('timeline.plannedDesc', 'On our future roadmap'),
                 products: upcomingProducts.map(p => p.name),
                 status: 'upcoming',
                 productCount: upcomingProducts.length,
@@ -160,451 +117,186 @@ export const ProductTimeline: React.FC<ProductTimelineProps> = ({
             });
         }
 
-        // If we have fewer than 3 phases, add generic future phases
-        while (phases.length < maxPhases) {
-            phases.push({
-                year: `${new Date().getFullYear() + phases.length}+`,
-                label: t(`timeline.phase${phases.length + 1}`, `Future Phase ${phases.length}`),
-                description: t('timeline.futureDesc', 'Expanding our product line'),
-                products: [],
-                status: 'upcoming' as const,
-                productCount: 0,
-                availableCount: 0
-            });
-        }
-
         return phases.slice(0, maxPhases);
     }, [products, t, maxPhases]);
 
-    // Calculate overall progress
     const timelineProgress = useMemo(() => {
         const totalProducts = phases.reduce((sum, phase) => sum + phase.productCount, 0);
-        const availableProducts = phases.reduce((sum, phase) => sum + phase.availableCount, 0);
-
         if (totalProducts === 0) return 0;
-
-        // Weight the progress: available = 100%, in-progress = 50%, upcoming = 0%
         const weightedProgress = phases.reduce((sum, phase) => {
             if (phase.status === 'available') return sum + (phase.productCount * 1);
             if (phase.status === 'in-progress') return sum + (phase.productCount * 0.5);
             return sum;
         }, 0);
-
         return Math.min((weightedProgress / totalProducts) * 100, 100);
     }, [phases]);
 
-    // Mobile navigation
-    const nextPhase = useCallback(() => {
-        setActiveIndex(prev => Math.min(prev + 1, phases.length - 1));
-    }, [phases.length]);
+    const nextPhase = useCallback(() => setActiveIndex(prev => Math.min(prev + 1, phases.length - 1)), [phases.length]);
+    const prevPhase = useCallback(() => setActiveIndex(prev => Math.max(prev - 1, 0)), []);
 
-    const prevPhase = useCallback(() => {
-        setActiveIndex(prev => Math.max(prev - 1, 0));
-    }, []);
-
-    // Touch handlers for swipe
-    const handleTouchStart = (e: React.TouchEvent) => {
-        setTouchStart(e.targetTouches[0].clientX);
-    };
-
-    const handleTouchMove = (e: React.TouchEvent) => {
-        setTouchEnd(e.targetTouches[0].clientX);
-    };
-
-    const handleTouchEnd = () => {
-        if (!touchStart || !touchEnd) return;
-
-        const distance = touchStart - touchEnd;
-        const isLeftSwipe = distance > 50;
-        const isRightSwipe = distance < -50;
-
-        if (isLeftSwipe) {
-            nextPhase();
-        }
-        if (isRightSwipe) {
-            prevPhase();
-        }
-
-        setTouchStart(0);
-        setTouchEnd(0);
-    };
-
+    // Brand-aligned status config
     const statusConfig = {
         'available': {
             icon: FaCheckCircle,
-            color: 'text-emerald-600',
-            bg: 'bg-emerald-50/60',
-            border: 'border-emerald-300/40',
-            dot: 'bg-emerald-500',
-            badge: 'bg-emerald-100 text-emerald-700',
-            glow: 'shadow-emerald-200/50',
-            lineGlow: 'shadow-emerald-400/30',
+            color: 'text-primary',
+            bg: 'bg-primary/5',
+            border: 'border-primary/30',
+            dot: 'bg-primary',
+            badge: 'bg-primary/10 text-primary',
             label: t('timeline.status.available', 'Available Now')
         },
         'in-progress': {
             icon: FaHourglassHalf,
-            color: 'text-amber-600',
-            bg: 'bg-amber-50/60',
-            border: 'border-amber-300/40',
-            dot: 'bg-amber-500',
-            badge: 'bg-amber-100 text-amber-700',
-            glow: 'shadow-amber-200/50',
-            lineGlow: 'shadow-amber-400/30',
+            color: 'text-accent',
+            bg: 'bg-accent/5',
+            border: 'border-accent/30',
+            dot: 'bg-accent',
+            badge: 'bg-accent/10 text-accent',
             label: t('timeline.status.inProgress', 'In Development')
         },
         'upcoming': {
             icon: FaRocket,
-            color: 'text-blue-600',
-            bg: 'bg-blue-50/60',
-            border: 'border-blue-300/40',
-            dot: 'bg-blue-500',
-            badge: 'bg-blue-100 text-blue-700',
-            glow: 'shadow-blue-200/50',
-            lineGlow: 'shadow-blue-400/30',
-            label: t('timeline.status.upcoming', 'Coming Soon')
+            color: 'text-gray-500',
+            bg: 'bg-gray-50',
+            border: 'border-gray-200',
+            dot: 'bg-gray-400',
+            badge: 'bg-gray-100 text-gray-600',
+            label: t('timeline.status.upcoming', 'Planned')
         }
     };
 
-    if (phases.length === 0) {
-        return null;
-    }
+    if (phases.length === 0) return null;
 
     const PhaseCard = ({ phase, index, isActive }: { phase: TimelinePhase; index: number; isActive: boolean }) => {
         const config = statusConfig[phase.status];
         const StatusIcon = config.icon;
-        const isEmpty = phase.productCount === 0;
 
         return (
             <motion.div
-                className={`relative ${isMobile ? 'w-full flex-shrink-0' : ''}`}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.2, duration: 0.5 }}
+                transition={{ delay: index * 0.15 }}
             >
-                {/* Timeline node */}
-                <div className="flex justify-center mb-6 relative z-20">
-                    <motion.div
-                        className="relative cursor-pointer"
-                        whileHover={{ scale: 1.1 }}
-                        onClick={() => {
-                            setActiveIndex(index);
-                            onPhaseClick?.(phase);
-                        }}
-                    >
-                        {/* Outer ring with glass morphism */}
-                        <div className={`relative w-12 h-12 md:w-16 md:h-16 rounded-full border-2 ${config.border} ${config.bg} backdrop-blur-sm flex items-center justify-center shadow-lg ${config.glow} transform-gpu ${isEmpty ? 'opacity-50' : ''} ${isActive ? 'ring-2 ring-primary/30 ring-offset-2' : ''}`}
-                             style={{ transformStyle: 'preserve-3d' }}
-                        >
-                            {/* 3D edge for node */}
-                            <div className="absolute inset-0 rounded-full border border-white/30 transform-gpu translate-z-[-2px]" />
-
-                            {/* Glassy overlay for node */}
-                            <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50" />
-
-                            {/* Product count or icon */}
-                            <div className="relative z-10 flex flex-col items-center">
-                                {phase.productCount > 0 ? (
-                                    <>
-                                        <span className="text-sm md:text-lg font-bold text-gray-700 leading-none">
-                                            {phase.productCount}
-                                        </span>
-                                        <span className="text-[8px] md:text-[10px] text-gray-500 leading-tight">
-                                            {t('timeline.products', 'products')}
-                                        </span>
-                                    </>
-                                ) : (
-                                    <StatusIcon className={`text-base md:text-xl ${config.color} opacity-50`} />
-                                )}
-                            </div>
-                        </div>
-                    </motion.div>
-                </div>
-
-                {/* Content card with glass morphism */}
-                <motion.div
-                    className={`relative rounded-xl border ${config.border} ${config.bg} backdrop-blur-sm p-3 shadow-sm hover:shadow-md transition-all duration-300 transform-gpu group/card ${isEmpty ? 'opacity-60' : ''}`}
-                    style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
-                    whileHover={{
-                        y: -5,
-                        scale: 1.02,
-                        transition: { duration: 0.3 }
-                    }}
-                    onClick={() => onPhaseClick?.(phase)}
+                <InfoCard
+                    icon={StatusIcon}
+                    title={phase.label}
+                    subtitle={phase.year}
+                    iconColor={config.color}
+                    variant={phase.status === 'available' ? 'primary' : phase.status === 'in-progress' ? 'accent' : 'secondary'}
+                    showInfoBadge={false}
+                    className="h-full cursor-pointer"
                 >
-                    {/* Card 3D edge */}
-                    <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-4px] group-hover/card:translate-z-[-6px] transition-all duration-500" />
+                    <Typography variant="small" className="text-gray-600 mb-3">{phase.description}</Typography>
 
-                    {/* Card glassy overlay */}
-                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/10 to-transparent opacity-30 group-hover/card:opacity-50 transition-opacity duration-500" />
-
-                    {/* Card inner shadow */}
-                    <div className="absolute inset-0 rounded-2xl shadow-[inset_0_1px_8px_rgba(0,0,0,0.06)] group-hover/card:shadow-[inset_0_2px_12px_rgba(0,0,0,0.1)] transition-shadow duration-500" />
-
-                    <div className="relative z-10">
-                        {/* Year badge */}
-                        <div className="flex items-center justify-between mb-3 md:mb-4">
-                            <span className={`px-2 md:px-3 py-1 rounded-full text-[10px] md:text-xs font-bold ${config.badge} backdrop-blur-sm`}>
-                                {phase.year}
-                            </span>
-                            <div className="flex items-center gap-1 md:gap-2">
-                                {phase.availableCount > 0 && (
-                                    <span className="text-[8px] md:text-[10px] font-medium text-emerald-600 bg-emerald-100/50 px-1.5 md:px-2 py-0.5 rounded-full backdrop-blur-sm hidden sm:inline-block">
-                                        {phase.availableCount} {t('timeline.available', 'available')}
-                                    </span>
-                                )}
-                                <StatusIcon className={`text-sm md:text-lg ${config.color} ${isEmpty ? 'opacity-50' : ''}`} />
-                            </div>
+                    {/* Products list */}
+                    {phase.products.length > 0 ? (
+                        <div className="space-y-1.5">
+                            {phase.products.slice(0, 4).map((product, pIndex) => (
+                                <div key={product} className="flex items-center gap-2 text-xs text-gray-700">
+                                    <FaBox className={`text-[10px] ${config.color} flex-shrink-0`} />
+                                    <span className="truncate">{product}</span>
+                                </div>
+                            ))}
+                            {phase.products.length > 4 && (
+                                <p className="text-xs text-gray-400 pl-4">+{phase.products.length - 4} more</p>
+                            )}
                         </div>
-
-                        {/* Title */}
-                        <h4 className="text-sm md:text-lg font-bold text-gray-900 mb-1 md:mb-2">
-                            {phase.label}
-                        </h4>
-
-                        {/* Description */}
-                        <p className="text-gray-600 text-xs md:text-sm mb-3 md:mb-4 line-clamp-2">
-                            {phase.description}
-                        </p>
-
-                        {/* Products */}
-                        {phase.products.length > 0 ? (
-                            <div className="space-y-1.5 md:space-y-2 mb-3 md:mb-4">
-                                {phase.products.slice(0, isMobile ? 2 : 3).map((product, pIndex) => (
-                                    <motion.div
-                                        key={product}
-                                        className="flex items-center gap-1.5 md:gap-2 bg-white/40 backdrop-blur-sm rounded-lg px-2 md:px-3 py-1.5 md:py-2 border border-white/50"
-                                        initial={{ opacity: 0, x: -10 }}
-                                        whileInView={{ opacity: 1, x: 0 }}
-                                        viewport={{ once: true }}
-                                        transition={{ delay: index * 0.2 + pIndex * 0.1 }}
-                                    >
-                                        <FaIndustry className={`text-[10px] md:text-xs ${config.color} opacity-70 flex-shrink-0`} />
-                                        <span className="text-[10px] md:text-xs font-medium text-gray-700 truncate">
-                                            {product}
-                                        </span>
-                                    </motion.div>
-                                ))}
-                                {phase.products.length > 3 && (
-                                    <div className="text-[10px] md:text-xs text-gray-500 text-center">
-                                        +{phase.products.length - 3} more
-                                    </div>
-                                )}
-                            </div>
-                        ) : (
-                            <div className="mb-3 md:mb-4 p-2 md:p-3 bg-white/30 rounded-lg border border-dashed border-gray-300 text-center">
-                                <FaClock className="mx-auto text-gray-400 mb-1 text-xs md:text-sm" />
-                                <p className="text-[10px] md:text-xs text-gray-500">
-                                    {t('timeline.productsTba', 'Products TBA')}
-                                </p>
-                            </div>
-                        )}
-
-                        {/* Status indicator */}
-                        <div className="flex items-center gap-1.5 md:gap-2 pt-2 md:pt-3 border-t border-white/30">
-                            <span className={`w-1.5 h-1.5 md:w-2 md:h-2 rounded-full ${config.dot} ${
-                                phase.status === 'in-progress' ? 'animate-pulse' : ''
-                            } ${isEmpty ? 'opacity-50' : ''}`} />
-                            <span className={`text-[10px] md:text-xs font-semibold ${config.color} ${isEmpty ? 'opacity-50' : ''}`}>
-                                {config.label}
-                            </span>
+                    ) : (
+                        <div className="flex items-center gap-2 text-xs text-gray-400">
+                            <FaClock className="text-[10px]" />
+                            <span>{t('timeline.productsTba', 'Products to be announced')}</span>
                         </div>
+                    )}
 
-                        {/* Progress bar for in-progress */}
-                        {phase.status === 'in-progress' && phase.productCount > 0 && (
-                            <div className="mt-2 md:mt-3 bg-white/50 rounded-full h-1 md:h-1.5 overflow-hidden backdrop-blur-sm">
-                                <motion.div
-                                    className="h-full rounded-full bg-gradient-to-r from-amber-400 to-amber-300"
-                                    initial={{ width: 0 }}
-                                    whileInView={{ width: '65%' }}
-                                    viewport={{ once: true }}
-                                    transition={{ delay: index * 0.2 + 0.5, duration: 1 }}
-                                />
-                            </div>
-                        )}
-                    </div>
-                </motion.div>
+                    {/* Progress bar for in-progress */}
+                    {phase.status === 'in-progress' && (
+                        <div className="mt-3 bg-gray-200 rounded-full h-1.5 overflow-hidden">
+                            <motion.div
+                                className="h-full rounded-full bg-gradient-to-r from-accent to-dark-orange"
+                                initial={{ width: 0 }}
+                                whileInView={{ width: '65%' }}
+                                viewport={{ once: true }}
+                                transition={{ delay: 0.5, duration: 1 }}
+                            />
+                        </div>
+                    )}
+                </InfoCard>
             </motion.div>
         );
     };
 
     return (
         <motion.div
-            className={`relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 rounded-2xl shadow-xl p-3 md:p-6 lg:p-8 transform-gpu group ${className}`}
+            className={`relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl shadow-xl p-4 md:p-6 lg:p-8 transform-gpu ${className}`}
             style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            whileHover={{
-                y: -2,
-                boxShadow: '0 20px 35px -10px rgba(0, 0, 0, 0.15)',
-                transition: { duration: 0.3 }
-            }}
+            whileHover={{ y: -4, scale: 1.01, boxShadow: '0 15px 30px -8px rgba(165,105,66,0.15)', transition: { duration: 0.3 } }}
         >
-            {/* 3D edge effect */}
-            <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-8px] transition-all duration-500" />
-
-            {/* Glassy overlay */}
-            <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
-
-            {/* Inner shadow effect */}
-            <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] group-hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
-
-            {/* Subtle background pattern */}
-            <div className="absolute inset-0 rounded-2xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
+            <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px]" />
+            <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40" />
 
             <div className="relative z-10">
                 {/* Header */}
                 {showHeader && (
-                    <motion.div
-                        className="text-center mb-6 md:mb-8 lg:mb-12"
-                        initial={{ opacity: 0, y: -20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.2 }}
-                    >
-                        <span className="inline-block px-3 md:px-4 py-1 md:py-1.5 bg-primary/10 text-primary rounded-full text-xs md:text-sm font-semibold mb-3 md:mb-4 backdrop-blur-sm">
-                            <FaCalendarAlt className="inline-block mr-1.5 md:mr-2 text-xs md:text-sm" />
-                            {t('timeline.badge', 'Production Roadmap')}
+                    <motion.div className="text-center mb-8" initial={{ opacity: 0, y: -20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+                        <span className="inline-block px-3 py-1 bg-primary/10 text-primary text-xs rounded-full font-semibold mb-3">
+                            <FaCalendarAlt className="inline mr-1.5 text-xs" />{t('timeline.badge', 'Production Roadmap')}
                         </span>
-                        <h3 className="text-xl md:text-2xl lg:text-3xl font-bold text-primary mb-1 md:mb-2">
-                            {t('timeline.title', 'When Can You Order?')}
-                        </h3>
-                        <p className="text-gray-600 max-w-2xl mx-auto text-xs md:text-sm">
-                            {t('timeline.subtitle', 'Our strategic growth from pilot to industrial scale')}
-                        </p>
-
-                        {/* Overall Progress */}
-                        <div className="mt-3 md:mt-4 max-w-md mx-auto px-4">
-                            <div className="flex justify-between text-[10px] md:text-xs text-gray-500 mb-1">
-                                <span>{t('timeline.overallProgress', 'Overall Progress')}</span>
-                                <span>{Math.round(timelineProgress)}%</span>
-                            </div>
-                            <div className="bg-white/50 rounded-full h-1.5 md:h-2 overflow-hidden backdrop-blur-sm">
-                                <motion.div
-                                    className="h-full rounded-full bg-gradient-to-r from-emerald-400 via-amber-400 to-blue-400"
-                                    initial={{ width: 0 }}
-                                    whileInView={{ width: `${timelineProgress}%` }}
-                                    viewport={{ once: true }}
-                                    transition={{ delay: 0.5, duration: 1.5, ease: "easeInOut" }}
-                                />
-                            </div>
-                        </div>
+                        <Typography variant="h2" className="mb-2">{t('timeline.title', 'When Can You Order?')}</Typography>
+                        <Typography variant="body" className="text-gray-600 max-w-xl mx-auto text-sm">{t('timeline.subtitle', 'From pilot production to industrial scale')}</Typography>
                     </motion.div>
                 )}
 
-                {/* Mobile View - Swipeable Carousel */}
+                {/* Mobile: Carousel */}
                 {isMobile ? (
-                    <div className="relative">
-                        {/* Navigation Arrows */}
-                        <div className="flex items-center justify-between px-2 mb-3">
-                            <motion.button
-                                onClick={prevPhase}
-                                className={`w-8 h-8 rounded-full bg-white/80 backdrop-blur-sm shadow-md flex items-center justify-center border border-white/50 ${activeIndex === 0 ? 'opacity-30' : 'hover:bg-white'}`}
-                                whileHover={activeIndex > 0 ? { scale: 1.1 } : {}}
-                                whileTap={activeIndex > 0 ? { scale: 0.9 } : {}}
-                                disabled={activeIndex === 0}
-                            >
+                    <div>
+                        <div className="flex items-center justify-between mb-3">
+                            <button onClick={prevPhase} disabled={activeIndex === 0}
+                                    className={`w-8 h-8 rounded-full bg-white/80 shadow flex items-center justify-center ${activeIndex === 0 ? 'opacity-30' : ''}`}>
                                 <FaChevronLeft className="text-gray-600 text-sm" />
-                            </motion.button>
-                            <span className="text-xs font-medium text-gray-500">
-                                {activeIndex + 1} / {phases.length}
-                            </span>
-                            <motion.button
-                                onClick={nextPhase}
-                                className={`w-8 h-8 rounded-full bg-white/80 backdrop-blur-sm shadow-md flex items-center justify-center border border-white/50 ${activeIndex === phases.length - 1 ? 'opacity-30' : 'hover:bg-white'}`}
-                                whileHover={activeIndex < phases.length - 1 ? { scale: 1.1 } : {}}
-                                whileTap={activeIndex < phases.length - 1 ? { scale: 0.9 } : {}}
-                                disabled={activeIndex === phases.length - 1}
-                            >
+                            </button>
+                            <span className="text-xs font-medium text-gray-500">{activeIndex + 1} / {phases.length}</span>
+                            <button onClick={nextPhase} disabled={activeIndex === phases.length - 1}
+                                    className={`w-8 h-8 rounded-full bg-white/80 shadow flex items-center justify-center ${activeIndex === phases.length - 1 ? 'opacity-30' : ''}`}>
                                 <FaChevronRight className="text-gray-600 text-sm" />
-                            </motion.button>
+                            </button>
                         </div>
-
-                        {/* Carousel Container */}
-                        <div
-                            className="overflow-hidden px-4"
-                            onTouchStart={handleTouchStart}
-                            onTouchMove={handleTouchMove}
-                            onTouchEnd={handleTouchEnd}
-                        >
-
-                        <motion.div
-                                className="flex"
-                                animate={{ x: `-${activeIndex * 100}%` }}
-                                transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                            >
-                                {phases.map((phase, index) => (
-                                    <div key={`${phase.status}-${index}`} className="w-full flex-shrink-0 px-2">
-                                        <PhaseCard phase={phase} index={index} isActive={index === activeIndex} />
-                                    </div>
-                                ))}
-                            </motion.div>
-                        </div>
-
-                        {/* Dot Indicators */}
+                        <PhaseCard phase={phases[activeIndex]} index={activeIndex} isActive={true} />
                         <div className="flex justify-center gap-2 mt-4">
-                            {phases.map((_, index) => (
-                                <motion.button
-                                    onClick={() => setActiveIndex(index)}
-                                    className={`w-3 h-3 rounded-full transition-all ${
-                                        index === activeIndex
-                                            ? 'bg-primary scale-125'
-                                            : 'bg-gray-300 hover:bg-gray-400'
-                                    }`}
-                                    whileHover={{ scale: 1.3 }}
-                                    whileTap={{ scale: 0.9 }}
-                                    aria-label={`Go to phase ${index + 1}`}
-                                />
+                            {phases.map((_, idx) => (
+                                <button key={idx} onClick={() => setActiveIndex(idx)}
+                                        className={`w-2.5 h-2.5 rounded-full transition-all ${idx === activeIndex ? 'bg-primary scale-125' : 'bg-gray-300'}`} />
                             ))}
                         </div>
                     </div>
                 ) : (
-                    /* Desktop View - Horizontal Timeline */
-                    <div className="relative max-w-5xl mx-auto">
-                        {/* Connecting line */}
-                        <div className="absolute top-8 left-0 right-0 h-0.5 bg-gradient-to-r from-emerald-400 via-amber-400 to-blue-400 rounded-full opacity-30" />
-
-                        {/* Animated progress line */}
-                        <motion.div
-                            className="absolute top-8 left-0 h-0.5 bg-gradient-to-r from-emerald-400 via-amber-400 to-transparent rounded-full"
-                            initial={{ width: 0 }}
-                            whileInView={{ width: `${timelineProgress}%` }}
-                            viewport={{ once: true }}
-                            transition={{ delay: 0.5, duration: 1.5, ease: "easeInOut" }}
-                        />
-
-                        <div className="grid grid-cols-3 gap-4 lg:gap-8">
-                            {phases.map((phase, index) => (
-                                <div key={`${phase.year}-${phase.status}-${index}`} className="w-full flex-shrink-0 px-2">
-                                    <PhaseCard phase={phase} index={index} isActive={index === activeIndex} />
-                                </div>
-                            ))}
-                        </div>
+                    /* Desktop: Grid */
+                    <div className="grid grid-cols-3 gap-6">
+                        {phases.map((phase, index) => (
+                            <PhaseCard key={index} phase={phase} index={index} isActive={index === activeIndex} />
+                        ))}
                     </div>
                 )}
 
-                {/* Legend with glass morphism */}
-                <motion.div
-                    className="flex flex-wrap justify-center gap-2 md:gap-4 mt-6 md:mt-8 lg:mt-10 pt-4 md:pt-6 border-t border-white/20"
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.8 }}
-                >
-                    {Object.entries(statusConfig).map(([status, config]) => (
-                        <div
-                            key={status}
-                            className="flex items-center gap-1.5 md:gap-2 bg-white/30 backdrop-blur-sm rounded-full px-3 md:px-4 py-1 md:py-1.5 border border-white/40"
-                        >
-                            <span className={`w-2 h-2 md:w-3 md:h-3 rounded-full ${config.dot}`} />
-                            <span className="text-[10px] md:text-xs font-medium text-gray-600">
-                                {config.label}
-                            </span>
-                        </div>
-                    ))}
-                </motion.div>
+                {/* Overall Progress */}
+                <div className="mt-6 max-w-md mx-auto">
+                    <div className="flex justify-between text-xs text-gray-500 mb-1">
+                        <span>{t('timeline.overallProgress', 'Overall Progress')}</span>
+                        <span>{Math.round(timelineProgress)}%</span>
+                    </div>
+                    <div className="bg-gray-200 rounded-full h-2 overflow-hidden">
+                        <motion.div
+                            className="h-full rounded-full bg-gradient-to-r from-primary to-accent"
+                            initial={{ width: 0 }}
+                            whileInView={{ width: `${timelineProgress}%` }}
+                            viewport={{ once: true }}
+                            transition={{ delay: 0.3, duration: 1 }}
+                        />
+                    </div>
+                </div>
             </div>
         </motion.div>
     );

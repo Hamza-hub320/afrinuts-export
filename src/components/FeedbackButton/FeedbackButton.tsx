@@ -40,7 +40,7 @@ const FeedbackButton: React.FC = () => {
         <>
             {/* Floating Toggle Button */}
             <motion.button
-                className="fixed right-0 top-[calc(30%+56px)] z-[9999] w-12 h-12 flex items-center justify-center bg-gradient-to-br from-accent to-dark-orange text-white rounded-l-lg shadow-xl transform-gpu focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 border-2 border-white/20"
+                className="fixed right-0 top-[calc(30%+52px)] z-[9999] w-10 h-10 flex items-center justify-center bg-gradient-to-br from-accent to-dark-orange text-white rounded-l-lg shadow-xl transform-gpu focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 border-2 border-white/20"
                 style={{ transformStyle: 'preserve-3d' }}
                 onClick={() => setIsOpen(!isOpen)}
                 aria-label={t('toggle')}
@@ -58,7 +58,7 @@ const FeedbackButton: React.FC = () => {
             <AnimatePresence>
                 {isOpen && (
                     <motion.div
-                        className="fixed right-0 top-[calc(30%+112px)] z-[9998] w-56 bg-gradient-to-br from-white/95 to-gray-50/95 backdrop-blur-xl rounded-l-lg shadow-2xl border-2 border-white/20 transform-gpu overflow-hidden"
+                        className="fixed right-0 top-[calc(30%+100px)] z-[9998] w-56 bg-gradient-to-br from-white/95 to-gray-50/95 backdrop-blur-xl rounded-l-lg shadow-2xl border-2 border-white/20 transform-gpu overflow-hidden"
                         style={{ transformStyle: 'preserve-3d' }}
                         initial={{ x: '100%', opacity: 0 }}
                         animate={{ x: 0, opacity: 1 }}

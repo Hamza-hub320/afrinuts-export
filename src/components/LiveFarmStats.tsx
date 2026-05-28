@@ -80,29 +80,25 @@ const LiveFarmStats: React.FC = () => {
     const statsCards = [
         {
             icon: FaTree,
-            title: t('liveStats.cards.treesPlanted', 'Trees Planted'),
-            value: `${Math.round(stats.totalTrees).toLocaleString()}`,
+            title: `${Math.round(stats.totalTrees).toLocaleString()}`,
             subtitle: t('liveStats.cards.blocksPlanted', '{{planted}}/{{total}} blocks planted', { planted: stats.plantedBlocks, total: stats.totalBlocks }),
             iconColor: 'text-accent',
         },
         {
             icon: FaChartLine,
-            title: t('liveStats.cards.survivalRate', 'Survival Rate'),
-            value: `${Math.round(stats.survivalRate)}%`,
+            title: `${Math.round(stats.survivalRate)}%`,
             subtitle: t('liveStats.cards.treesEstablished', 'Trees successfully established'),
             iconColor: 'text-accent',
         },
         {
             icon: FaSeedling,
-            title: t('liveStats.cards.farmProgress', 'Farm Progress'),
-            value: `${Math.round((stats.plantedBlocks / stats.totalBlocks) * 100)}%`,
+            title: `${Math.round((stats.plantedBlocks / stats.totalBlocks) * 100)}%`,
             subtitle: t('liveStats.cards.blocksProgress', '{{planted}} of {{total}} blocks planted', { planted: stats.plantedBlocks, total: stats.totalBlocks }),
             iconColor: 'text-accent',
         },
         {
             icon: FaTractor,
-            title: t('liveStats.cards.activeFarm', 'Active Farm'),
-            value: t('liveStats.cards.totalArea', '35 ha'),
+            title: t('liveStats.cards.totalArea', '35 ha'),
             subtitle: t('liveStats.cards.cultivatedArea', 'Total cultivated area'),
             iconColor: 'text-accent',
         },
@@ -130,16 +126,12 @@ const LiveFarmStats: React.FC = () => {
                     <InfoCard
                         key={index}
                         icon={card.icon}
-                        title={card.value}
+                        title={card.title}
                         subtitle={card.subtitle}
                         iconColor={card.iconColor}
                         className="text-center"
                         showInfoBadge={false}
-                    >
-                        <div className="text-3xl font-bold text-primary">
-                            {card.value}
-                        </div>
-                    </InfoCard>
+                    />
                 ))}
             </div>
 
