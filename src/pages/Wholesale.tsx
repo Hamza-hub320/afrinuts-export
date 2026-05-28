@@ -148,43 +148,6 @@ const Wholesale: React.FC = () => {
                 </motion.div>
             </Section>
 
-            {/* Floating Quote Button — Fixed Bottom Right */}
-            <motion.div
-                className="fixed bottom-36 right-6 z-30 group/tip"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5 }}
-            >
-                {/* Tooltip */}
-                <motion.div
-                    className="absolute bottom-full right-0 mb-3 bg-white/90 backdrop-blur-md rounded-lg px-3 py-1.5 shadow-lg border border-white/40 text-xs text-gray-600 opacity-0 group-hover/tip:opacity-100 transition-opacity whitespace-nowrap"
-                    initial={false}
-                >
-                    {t('hero.quotePromise', 'We respond within 24 hours')}
-                </motion.div>
-
-                {/* Button */}
-                <motion.button
-                    onClick={() => navigate('/contact?type=wholesale')}
-                    className="relative rounded-full bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-5 py-3 shadow-2xl transform-gpu overflow-hidden font-medium inline-flex items-center gap-2 text-sm"
-                    whileHover={{ scale: 1.05, y: -2 }}
-                    whileTap={{ scale: 0.95 }}
-                >
-                    {/* Glassy overlay */}
-                    <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50" />
-                    {/* Inner glow */}
-                    <div className="absolute inset-0 rounded-full shadow-[inset_0_2px_8px_rgba(255,255,255,0.3)]" />
-                    {/* Pulse ring */}
-                    <span className="absolute inset-0 rounded-full animate-ping opacity-15 bg-teal/30" />
-                    {/* Icon + Text */}
-                    <span className="relative z-10 flex items-center gap-2">
-            <FaHeadset className="text-sm" />
-                        {t('hero.requestPricing')}
-        </span>
-                </motion.button>
-            </motion.div>
-
-
             {/* Why Different */}
             <Section className="py-10"><div className="max-w-6xl mx-auto px-4 sm:px-6">
                 <motion.div className="text-center mb-10" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>

@@ -167,6 +167,11 @@ const About: React.FC = () => {
                 {t('hero.title')}
               </motion.h1>
 
+              {/* Lead text */}
+              <Typography variant="lead" className="text-text-dark mb-5 text-base lg:text-lg">
+                {t('hero.lead')}
+              </Typography>
+
               {/* Hero Intro Card */}
               <motion.div variants={fadeIn} className="mb-5">
                 <InfoCard

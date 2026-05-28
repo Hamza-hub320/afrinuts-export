@@ -2,7 +2,15 @@
   "hero": {
     "title": "Foire Aux Questions sur AfriNuts Export",
     "subtitle": "Noix de Cajou Bio, Technologie Farm OS et Investissement Éthique",
-    "description": "Obtenez des réponses claires sur notre ferme de noix de cajou technologique à Odienné, Côte d'Ivoire. Découvrez la traçabilité Farm OS, les pratiques biologiques, les plans de transformation, l'impact communautaire et comment collaborer avec nous."
+    "lead": "De la technologie Farm OS aux délais de certification biologique — trouvez des réponses claires sur la façon dont nous cultivons, suivons et exportons les noix de cajou d'Odienné, Côte d'Ivoire.",
+    "description": "Obtenez des réponses claires sur notre ferme de noix de cajou technologique à Odienné, Côte d'Ivoire. Découvrez la traçabilité Farm OS, les pratiques biologiques, les plans de transformation, l'impact communautaire et comment collaborer avec nous.",
+    "introTitle": "Tout Ce Que Vous Devez Savoir",
+    "badgeFarm": "Ferme et Production",
+    "badgeTech": "Farm OS",
+    "badgeInvest": "Investissement",
+    "badgePartner": "Partenariats",
+    "ctaBrowse": "Parcourir les Questions",
+    "ctaContact": "Encore des Questions ?"
   },
   "audience": {
     "all": "Tous les Utilisateurs",

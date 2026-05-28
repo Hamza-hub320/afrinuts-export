@@ -179,6 +179,12 @@ const Contact: React.FC = () => {
               <motion.h1 className="font-display text-3xl md:text-4xl lg:text-5xl text-text-dark mb-4 leading-tight" variants={fadeIn} style={{ letterSpacing: '-0.03em' }}>
                 {t('hero.title', "Let's Talk Cashews")}
               </motion.h1>
+
+              {/* Lead text */}
+              <Typography variant="lead" className="text-text-dark mb-5 text-base lg:text-lg">
+                {t('hero.lead', 'Wholesale buyers, investors, partners, or just curious — choose your path and we\'ll get you to the right person.')}
+              </Typography>
+
               {/* Hero Intro Card */}
               <motion.div variants={fadeIn} className="mb-5">
                 <InfoCard

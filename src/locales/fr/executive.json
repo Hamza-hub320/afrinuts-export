@@ -19,9 +19,6 @@
     "financeDesc": "Notre CFO a structuré notre modèle d'investissement Moudaraba — pas un consultant. La finance islamique n'est pas une case à cocher. C'est ainsi que nous sommes construits.",
     "operations": "Bottes sur le Terrain + Portée Mondiale",
     "operationsDesc": "Notre responsable agricole vit à Odienné. Notre directeur commercial gère les relations avec les acheteurs de l'UE et du Moyen-Orient. Nous couvrons les continents dès le premier jour.",
-    "ctaTitle": "Prêt à Travailler Avec Nous ?",
-    "ctaDescription": "Notre équipe de direction s'engage à bâtir l'entreprise d'exportation de noix de cajou la plus fiable d'Afrique. Contactez-nous pour discuter de partenariats, d'investissement ou d'approvisionnement.",
-    "ctaButton": "Contactez-Nous",
     "labels": {
       "readMore": "Lire Plus",
       "close": "Fermer",
@@ -126,7 +123,11 @@
       "experience": "Plus de 14 ans en gestion agricole",
       "education": "Licence en Sciences Agricoles",
       "certifications": ["Agriculture Durable", "Développement Communautaire"]
-    }
+    },
+    "ctaTitle": "Prêt à Travailler Avec Nous ?",
+    "ctaDescription": "Derrière chaque expédition de noix de cajou traçables se trouve cette équipe — qui construit la technologie, gère la ferme, structure les finances et assure la conformité. Que vous soyez acheteur, investisseur ou partenaire — commençons la conversation.",
+    "ctaButton": "Commencer une Conversation",
+    "ctaInvest": "Informations pour Investisseurs"
   },
   "breadcrumbs": {
     "home": "Accueil",

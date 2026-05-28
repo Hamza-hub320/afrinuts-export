@@ -123,7 +123,11 @@
       "experience": "14+ years in agricultural management",
       "education": "BS in Agricultural Science",
       "certifications": ["Sustainable Agriculture", "Community Development"]
-    }
+    },
+    "ctaTitle": "Ready to Work With Us?",
+    "ctaDescription": "Behind every shipment of traceable cashews is this team — building the technology, managing the farm, structuring the finance, and ensuring compliance. Whether you're a buyer, investor, or partner — let's start the conversation.",
+    "ctaButton": "Start a Conversation",
+    "ctaInvest": "Investor Information"
   },
   "breadcrumbs": {
     "home": "Home",

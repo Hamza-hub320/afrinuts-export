@@ -6,6 +6,8 @@ import { I18nextProvider } from 'react-i18next';
 import { AuthProvider } from './contexts/AuthContext';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import AccessibilityToolbar from './components/AccessibilityToolbar/AccessibilityToolbar';
+import FeedbackButton from './components/FeedbackButton/FeedbackButton';
+
 import i18n from './i18n';
 import './index.css';
 
@@ -69,6 +71,10 @@ function App(): ReactElement {
                 <div className="min-h-screen font-sans bg-[var(--background)] text-[var(--text-dark)]">
                     <BrowserRouter basename='/'>
                         <ScrollToTop />
+                        <div className="fixed right-0 top-[30%] z-[9999] flex flex-col">
+                            <AccessibilityToolbar />
+                            <FeedbackButton />
+                        </div>
                         <div className="fixed bottom-8 right-8 z-[9999] flex flex-col items-end space-y-3">
                             <AccessibilityToolbar />
                         </div>

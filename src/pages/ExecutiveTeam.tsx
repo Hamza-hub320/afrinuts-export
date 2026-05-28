@@ -12,7 +12,7 @@ import {
     FaArrowLeft,
     FaUsers,
     FaCheckCircle,
-    FaGlobeAfrica, FaHandshake, FaMobile
+    FaGlobeAfrica, FaHandshake, FaMobile, FaChartLine
 } from 'react-icons/fa';
 import {Link, useNavigate} from 'react-router-dom';
 import {Dialog, Transition} from '@headlessui/react';
@@ -355,7 +355,7 @@ const ExecutiveTeam: React.FC = () => {
             </Section>
 
             {/* Executive Team Grid using ProfileCard */}
-            <Section className="py-16">
+            <Section className="py-16" id="team-grid">
                 <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <motion.div
                         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
@@ -535,66 +535,39 @@ const ExecutiveTeam: React.FC = () => {
                 </Transition.Root>
             </Section>
 
-            {/* CTA Section - Enhanced with Glassy 3D */}
-            <Section className="py-16 text-center">
-                <div className="max-w-4xl mx-auto px-6">
+            {/* CTA Section */}
+            <Section className="py-16">
+                <div className="max-w-4xl mx-auto px-6 text-center">
                     <motion.div
-                        className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-3xl shadow-xl p-8 md:p-12 transform-gpu"
-                        style={{
-                            transformStyle: 'preserve-3d',
-                        }}
                         initial="hidden"
                         whileInView="visible"
                         viewport={{ once: true }}
-                        variants={fadeIn}
-                        whileHover={{
-                            y: -5,
-                            rotateY: 2,
-                            transition: { duration: 0.3 }
-                        }}
+                        variants={staggerContainer}
                     >
-                        {/* 3D edge effect */}
-                        <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px] hover:translate-z-[-10px] transition-all duration-500" />
-
-                        {/* Glassy overlay */}
-                        <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40 hover:opacity-60 transition-opacity duration-500" />
-
-                        {/* Inner shadow effect */}
-                        <div className="absolute inset-0 rounded-3xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
-
-                        {/* Subtle background pattern */}
-                        <div className="absolute inset-0 rounded-3xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
-
-                        <div className="relative z-10">
-                            <Typography variant="h2" className="text-3xl md:text-4xl font-bold text-primary mb-4">
-                                {t('executives.ctaTitle')}
+                        <InfoCard
+                            icon={FaUsers}
+                            title={t('executives.ctaTitle', 'Ready to Work With Us?')}
+                            variant="primary"
+                            showInfoBadge={false}
+                            className="text-center"
+                        >
+                            <Typography variant="body" className="text-gray-600 mb-6 max-w-2xl mx-auto">
+                                {t('executives.ctaDescription', 'Behind every shipment of traceable cashews is this team — building the technology, managing the farm, structuring the finance, and ensuring compliance. Whether you\'re a buyer, investor, or partner — let\'s start the conversation.')}
                             </Typography>
-                            <Typography variant="lead" className="text-text-dark mb-8 max-w-3xl mx-auto">
-                                {t('executives.ctaDescription')}
-                            </Typography>
-                            <motion.div
-                                whileHover={{ scale: 1.05 }}
-                                transition={{ duration: 0.2 }}
-                            >
-                                <Link
-                                    to="/contact"
-                                    className="inline-block bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-4 rounded-full transition-all duration-300 font-medium shadow-lg transform-gpu hover:scale-105 relative group"
-                                >
-                                    {/* Button 3D effect */}
-                                    <div className="absolute inset-0 rounded-full border-2 border-white/30 transform-gpu translate-z-[-4px] group-hover:translate-z-[-6px] transition-all duration-300" />
-
-                                    {/* Button glassy overlay */}
-                                    <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50 group-hover:opacity-70 transition-opacity duration-300" />
-
-                                    {/* Button inner glow */}
-                                    <div className="absolute inset-0 rounded-full shadow-[inset_0_2px_8px_rgba(255,255,255,0.3)]" />
-
-                                    <span className="relative z-10">
-                            {t('executives.ctaButton')}
-                        </span>
+                            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                                <Link to="/contact"
+                                      className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-4 rounded-full transform-gpu group/btn overflow-hidden font-medium shadow-lg inline-flex items-center gap-2">
+                                    <div className="absolute inset-0 rounded-full border-2 border-white/30" />
+                                    <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50" />
+                                    <FaEnvelope className="relative z-10" />
+                                    <span className="relative z-10">{t('executives.ctaButton', 'Start a Conversation')}</span>
                                 </Link>
-                            </motion.div>
-                        </div>
+                                <Link to="/invest"
+                                      className="relative border-2 border-primary/50 text-primary hover:bg-primary hover:text-white px-8 py-4 rounded-full transform-gpu font-medium inline-flex items-center gap-2 bg-white/30 backdrop-blur-sm">
+                                    <FaChartLine /> {t('executives.ctaInvest', 'Investor Information')}
+                                </Link>
+                            </div>
+                        </InfoCard>
                     </motion.div>
                 </div>
             </Section>

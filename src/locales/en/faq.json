@@ -2,7 +2,15 @@
   "hero": {
     "title": "Frequently Asked Questions About AfriNuts Export",
     "subtitle": "Organic Cashews, Farm OS Technology, and Ethical Investment",
-    "description": "Get clear answers about our tech-enabled cashew farm in Odienné, Ivory Coast. Learn about Farm OS traceability, organic practices, processing plans, community impact, and how to partner with us."
+    "lead": "From Farm OS technology to organic certification timelines — find clear answers about how we grow, track, and export cashews from Odienné, Côte d'Ivoire.",
+    "description": "Get clear answers about our tech-enabled cashew farm in Odienné, Ivory Coast. Learn about Farm OS traceability, organic practices, processing plans, community impact, and how to partner with us.",
+    "introTitle": "Everything You Need to Know",
+    "badgeFarm": "Farm & Production",
+    "badgeTech": "Farm OS",
+    "badgeInvest": "Investment",
+    "badgePartner": "Partnerships",
+    "ctaBrowse": "Browse Questions",
+    "ctaContact": "Still Have Questions?"
   },
   "audience": {
     "all": "All Users",

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import {
     FaChevronDown,
     FaChevronUp,
@@ -20,7 +20,7 @@ import {
     FaRecycle,
     FaShieldAlt,
     FaHandHoldingUsd,
-    FaUsers, FaQuestionCircle
+    FaUsers, FaQuestionCircle, FaMobile, FaArrowDown, FaEnvelope
 } from 'react-icons/fa';
 import { motion, LazyMotion, domAnimation } from 'framer-motion';
 import Section from '@/components/Section/Section';
@@ -30,8 +30,10 @@ import { trackCtaClick, trackDownload, trackFormSubmission } from '@/utils/analy
 import investorProspectus from '@/assets/documents/investor-prospectus.pdf';
 import wholesalePriceList from '@/assets/documents/wholesale-price-list.pdf';
 import certificationRoadmap from '@/assets/documents/certification-roadmap.pdf';
+import faqHeroImage from '@/assets/images/faq-hero.webp';
 import JsonLd from "@/components/Seo/JsonLd";
 import { Helmet } from 'react-helmet-async';
+import { InfoCard } from '@/components/InfoCard/InfoCard';
 
 interface FAQItem {
     question: string;
@@ -182,11 +184,71 @@ const Faq: React.FC = () => {
                 }]
             }} />
             {/* Hero */}
-            <Section className="flex items-center justify-center text-center min-h-[40vh]">
-                <motion.div className="max-w-4xl px-6 sm:px-8 py-12" initial="hidden" animate="visible" variants={staggerContainer}>
-                    <motion.div variants={fadeIn}><Typography variant="subhead" className="uppercase tracking-widest text-primary mb-4"><FaQuestionCircle className="inline mr-3 text-accent" />{t('hero.subtitle')}</Typography></motion.div>
-                    <motion.h1 className="font-display text-4xl md:text-5xl lg:text-6xl text-text-dark mb-6 leading-tight" variants={fadeIn} style={{ letterSpacing: '-0.03em' }}>{t('hero.title')}</motion.h1>
-                    <motion.div variants={fadeIn}><Typography variant="lead" className="text-text-dark max-w-3xl mx-auto">{t('hero.description')}</Typography></motion.div>
+            <Section className="flex items-center justify-center text-center min-h-[50vh]">
+                <motion.div className="max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 flex flex-col lg:flex-row items-center gap-6 lg:gap-28" initial="hidden" animate="visible" variants={staggerContainer}>
+
+                    {/* Left: Text Content */}
+                    <motion.div className="flex-1 max-w-none lg:max-w-xl text-center lg:text-left" variants={fadeIn}>
+                        <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-3">
+                            <FaQuestionCircle className="inline mr-2 text-accent" />{t('hero.subtitle')}
+                        </Typography>
+                        <motion.h1 className="font-display text-3xl md:text-4xl lg:text-5xl text-text-dark mb-4 leading-tight" variants={fadeIn} style={{ letterSpacing: '-0.03em' }}>
+                            {t('hero.title')}
+                        </motion.h1>
+
+                        <Typography variant="lead" className="text-text-dark mb-5 text-base lg:text-lg">
+                            {t('hero.lead')}
+                        </Typography>
+
+                        <motion.div variants={fadeIn} className="mb-5">
+                            <InfoCard icon={FaQuestionCircle} title={t('hero.introTitle')} variant="accent" showInfoBadge={false}>
+                                <Typography variant="small" className="text-gray-600">{t('hero.description')}</Typography>
+                            </InfoCard>
+                        </motion.div>
+
+                        <div className="flex flex-wrap justify-center lg:justify-start gap-2 mb-5">
+                            {[
+                                { label: t('hero.badgeFarm'), icon: FaSeedling },
+                                { label: t('hero.badgeTech'), icon: FaMobile },
+                                { label: t('hero.badgeInvest'), icon: FaChartLine },
+                                { label: t('hero.badgePartner'), icon: FaHandshake },
+                            ].map((badge, idx) => (
+                                <span key={idx} className="inline-flex items-center gap-1 px-2.5 py-1 bg-primary/10 text-primary text-xs rounded-full font-medium">
+                                    <badge.icon className="text-[10px]" /> {badge.label}
+                                </span>
+                            ))}
+                        </div>
+
+                        {/* CTA Buttons */}
+                        <motion.div variants={fadeIn} className="flex flex-wrap gap-2.5 justify-center lg:justify-start">
+                            <button
+                                onClick={() => {
+                                    const firstTopic = document.querySelector('[class*="space-y-4"]');
+                                    firstTopic?.scrollIntoView({ behavior: 'smooth' });
+                                }}
+                                className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-5 py-2.5 rounded-full text-sm font-medium shadow-md inline-flex items-center gap-1.5">
+                                <FaArrowDown className="text-xs" />{t('hero.ctaBrowse', 'Browse Questions')}
+                            </button>
+                            <Link to="/contact" className="relative border border-primary/40 text-primary hover:bg-primary/5 px-5 py-2.5 rounded-full text-sm font-medium inline-flex items-center gap-1.5 bg-white/50 backdrop-blur-sm">
+                                <FaEnvelope className="text-xs" />{t('hero.ctaContact', 'Still Have Questions?')}
+                            </Link>
+                        </motion.div>
+                    </motion.div>
+
+                    {/* Right: FAQ Image */}
+                    <motion.div className="flex-shrink-0 lg:ml-auto lg:-mr-16" variants={fadeIn} transition={{ delay: 0.2 }}>
+                        <motion.div className="relative w-96 h-96 sm:w-80 sm:h-80 lg:w-[450px] lg:h-[640px] rounded-[2rem] overflow-hidden shadow-2xl border-2 border-white/40 transform-gpu group"
+                                    style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
+                                    whileHover={{ scale: 1.03, rotateY: 2, transition: { duration: 0.3 } }}>
+                            <div className="absolute inset-0 rounded-[2rem] border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
+                            <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-b from-white/15 to-transparent opacity-40" />
+                            <img src={faqHeroImage} alt="Frequently Asked Questions" className="w-full h-full object-cover" />
+                            <div className="absolute bottom-3 left-3 right-3 bg-white/80 backdrop-blur-sm rounded-full px-3 py-1 text-center">
+                                <span className="text-primary text-[11px] font-semibold">Got Questions?</span>
+                            </div>
+                        </motion.div>
+                    </motion.div>
+
                 </motion.div>
             </Section>
 
