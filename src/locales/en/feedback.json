@@ -1,0 +1,10 @@
+{
+  "toggle": "Share feedback",
+  "title": "Rate Your Experience",
+  "question": "How satisfied are you with our website?",
+  "notSatisfied": "Not satisfied",
+  "verySatisfied": "Very satisfied",
+  "thankYou": "Thank You!",
+  "appreciation": "We appreciate your feedback!",
+  "close": "Close feedback panel"
+}

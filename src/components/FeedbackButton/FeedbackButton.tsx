@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import { FaStar, FaTimes, FaSmile } from 'react-icons/fa';
 import emailjs from '@emailjs/browser';
 
 const FeedbackButton: React.FC = () => {
+    const { t } = useTranslation('feedback');
     const [isOpen, setIsOpen] = useState(false);
     const [rating, setRating] = useState<number | null>(null);
     const [submitted, setSubmitted] = useState(false);
@@ -12,11 +14,10 @@ const FeedbackButton: React.FC = () => {
         setRating(value);
         setSubmitted(true);
 
-        // Send feedback via EmailJS
         try {
             await emailjs.send(
                 'service_qftryeh',
-                'template_feedback', // Create this template in EmailJS
+                'template_feedback',
                 {
                     rating: value,
                     page: window.location.pathname,
@@ -28,7 +29,6 @@ const FeedbackButton: React.FC = () => {
             console.error('Failed to send feedback:', error);
         }
 
-        // Auto-close after 2 seconds
         setTimeout(() => {
             setIsOpen(false);
             setRating(null);
@@ -43,7 +43,7 @@ const FeedbackButton: React.FC = () => {
                 className="fixed right-0 top-[calc(30%+56px)] z-[9999] w-12 h-12 flex items-center justify-center bg-gradient-to-br from-accent to-dark-orange text-white rounded-l-lg shadow-xl transform-gpu focus:outline-none focus:ring-2 focus:ring-accent focus:ring-offset-2 border-2 border-white/20"
                 style={{ transformStyle: 'preserve-3d' }}
                 onClick={() => setIsOpen(!isOpen)}
-                aria-label="Share feedback"
+                aria-label={t('toggle')}
                 initial={{ x: 0 }}
                 animate={{ x: 0 }}
                 whileHover={{ scale: 1.08, boxShadow: '0 6px 20px rgba(0, 0, 0, 0.2)' }}
@@ -73,18 +73,16 @@ const FeedbackButton: React.FC = () => {
                             {/* Header */}
                             <div className="flex justify-between items-center mb-3">
                                 <h3 className="text-sm font-bold text-gray-800">
-                                    {submitted ? 'Thank You!' : 'Rate Your Experience'}
+                                    {submitted ? t('thankYou') : t('title')}
                                 </h3>
-                                <button onClick={() => setIsOpen(false)} className="text-gray-400 hover:text-gray-600">
+                                <button onClick={() => setIsOpen(false)} className="text-gray-400 hover:text-gray-600" aria-label={t('close')}>
                                     <FaTimes className="text-xs" />
                                 </button>
                             </div>
 
                             {!submitted ? (
                                 <>
-                                    <p className="text-xs text-gray-600 mb-3">
-                                        How satisfied are you with our website?
-                                    </p>
+                                    <p className="text-xs text-gray-600 mb-3">{t('question')}</p>
                                     <div className="flex justify-between gap-1">
                                         {[1, 2, 3, 4, 5].map((value) => (
                                             <motion.button
@@ -103,8 +101,8 @@ const FeedbackButton: React.FC = () => {
                                         ))}
                                     </div>
                                     <div className="flex justify-between text-[10px] text-gray-400 mt-1 px-1">
-                                        <span>Not satisfied</span>
-                                        <span>Very satisfied</span>
+                                        <span>{t('notSatisfied')}</span>
+                                        <span>{t('verySatisfied')}</span>
                                     </div>
                                 </>
                             ) : (
@@ -122,7 +120,7 @@ const FeedbackButton: React.FC = () => {
                                             />
                                         ))}
                                     </div>
-                                    <p className="text-xs text-gray-600">We appreciate your feedback!</p>
+                                    <p className="text-xs text-gray-600">{t('appreciation')}</p>
                                 </motion.div>
                             )}
                         </div>
