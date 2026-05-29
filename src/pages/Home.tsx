@@ -137,33 +137,64 @@ const Home: React.FC = () => {
     return (
         <div className="min-h-[80vh] md:min-h-screen overflow-hidden text-balance">
             <Helmet>
-                <title>AfriNuts Export | Traceable Cashews from Côte d'Ivoire | Wholesale & Investment</title>
-                <meta name="description" content="Traceable cashews from our 35-hectare farm in Odienné, Côte d'Ivoire. Block-level tracking, export-ready documentation, and custom Farm OS technology. Wholesale, investment, and partnership inquiries welcome." />
+                <title>Farm OS: Traceable Cashews from Côte d'Ivoire | AfriNuts Export</title>
+                <meta name="description" content="Official website of AfriNuts Export. Farm OS-powered traceability from our 35-hectare farm in Odienné, Côte d'Ivoire. Offline-first Android app, block-level tracking, and export-ready documentation. Wholesale, investment, and partnership inquiries." />
                 <link rel="canonical" href="https://www.afrinutsexport.com" />
-                <meta property="og:title" content="AfriNuts Export | Traceable Cashews from Côte d'Ivoire" />
-                <meta property="og:description" content="Block-level tracking, Farm OS technology, and export-ready documentation. Direct from our 35-hectare farm in Odienné." />
+                <meta property="og:title" content="AfriNuts Export | Farm OS: Traceable Cashews from Côte d'Ivoire" />
+                <meta property="og:description" content="Official site. Farm OS — an offline-first Android platform — tracks every tree, every block, and every export. Built by our software engineer founder. Direct from our 35-hectare farm." />
                 <meta property="og:image" content="https://www.afrinutsexport.com/logo192.png" />
                 <meta property="og:url" content="https://www.afrinutsexport.com" />
+                <meta property="og:type" content="website" />
                 <meta name="twitter:card" content="summary_large_image" />
+                <meta name="twitter:title" content="AfriNuts Export | Farm OS: Traceable Cashews from Côte d'Ivoire" />
+                <meta name="twitter:description" content="Official site. Farm OS-powered traceability from our 35-hectare farm. Built by a software engineer. Offline-first. Cloud-synced." />
             </Helmet>
             <JsonLd data={{
                 "@context": "https://schema.org",
-                "@type": "WebPage",
-                "name": "Premium Organic Cashews from Ivory Coast | AfriNuts Export",
-                "description": "Sustainably grown on our 35-hectare family farm in Odienné. Certified organic cashews for wholesale buyers, retailers, and distributors worldwide.",
+                "@type": "WebSite",
+                "name": "AfriNuts Export",
+                "url": "https://www.afrinutsexport.com",
+                "alternateName": "AfriNuts Export Official Website",
+                "description": "Farm OS: Traceable cashews from Côte d'Ivoire. Offline-first Android platform for block-level farm management, export documentation, and supply chain transparency.",
+                "potentialAction": {
+                    "@type": "SearchAction",
+                    "target": "https://www.afrinutsexport.com/search?q={search_term_string}",
+                    "query-input": "required name=search_term_string"
+                },
+                "sameAs": [
+                    "https://www.linkedin.com/company/afrinuts-export",
+                    "https://www.instagram.com/afrinutsexport",
+                    "https://www.facebook.com/afrinutsexport"
+                ],
                 "mainEntity": {
                     "@type": "Organization",
                     "name": "AfriNuts Export",
+                    "legalName": "AfriNuts Export SARL",
                     "foundingDate": "2023",
                     "founders": [
-                        {"@type": "Person", "name": "Hamza S. Ralsan Sangare"},
-                        {"@type": "Person", "name": "Sekou Hakim Peters"}
+                        {"@type": "Person", "name": "Hamza S. Ralsan Sangare", "jobTitle": "Founder & CEO"},
+                        {"@type": "Person", "name": "Sekou Hakim Peters", "jobTitle": "Co-Founder & CFO/COO"}
                     ],
-                    "knowsAbout": ["Organic Cashew Farming", "Wholesale Cashew Export", "Sustainable Agriculture", "Islamic Finance"],
+                    "knowsAbout": [
+                        "Farm OS",
+                        "Offline-first Android app",
+                        "Block-level traceability",
+                        "Organic Cashew Farming",
+                        "Wholesale Cashew Export",
+                        "Sustainable Agriculture",
+                        "Islamic Finance (Mudarabah)"
+                    ],
                     "address": {
                         "@type": "PostalAddress",
                         "addressLocality": "Odienné",
+                        "addressRegion": "Denguélé",
                         "addressCountry": "CI"
+                    },
+                    "contactPoint": {
+                        "@type": "ContactPoint",
+                        "contactType": "customer service",
+                        "email": "contact@afrinutsexport.com",
+                        "availableLanguage": ["English", "French", "Arabic"]
                     }
                 }
             }} />

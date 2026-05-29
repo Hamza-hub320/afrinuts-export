@@ -282,7 +282,7 @@ const About: React.FC = () => {
 
           {/* Origin Story Link */}
           <div className="text-center mt-6">
-            <Link to="/blog/afrinuts-export-origin-story-heritage-sustainability-community" className="text-accent hover:text-primary text-sm font-medium flex items-center justify-center gap-1">
+            <Link to="/blog/afrinuts-export-origin-story-heritage-sustainability-community" className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-accent/10 hover:bg-accent/20 text-accent rounded-full text-sm font-medium transition-colors">
               <FaBookOpen className="text-xs" />
               {t('relatedReading.originStory')}
               <FaArrowRight className="text-xs" />
