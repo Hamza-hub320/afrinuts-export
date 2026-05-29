@@ -68,5 +68,9 @@
     "community": "المجتمع",
     "farmers": "المزارعون",
     "agriculture": "الزراعة"
+  },
+  "breadcrumbs": {
+    "home": "الرئيسية",
+    "news": "أخبار القطاع"
   }
 }

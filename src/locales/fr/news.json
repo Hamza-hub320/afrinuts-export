@@ -68,5 +68,9 @@
     "community": "Communauté",
     "farmers": "Agriculteurs",
     "agriculture": "Agriculture"
+  },
+  "breadcrumbs": {
+    "home": "Accueil",
+    "news": "Actualités du Secteur"
   }
 }

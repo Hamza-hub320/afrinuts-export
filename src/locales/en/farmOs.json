@@ -151,5 +151,12 @@
     "betaNote": "Farm OS v2 capabilities are in development. Contact us for early access or to discuss licensing partnerships.",
     "buttonTrace": "Explore Traceability",
     "buttonBeta": "Request Beta Access"
+  },
+  "breadcrumbs": {
+    "home": "Home",
+    "about": "About",
+    "sustainability": "Sustainability",
+    "vision": "Vision",
+    "farmOs": "Farm OS"
   }
 }

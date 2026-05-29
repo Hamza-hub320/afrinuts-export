@@ -15,7 +15,7 @@ import {
     FaShareSquare,
     FaSadTear,
     FaSearch,
-    FaBox, FaPenFancy, FaMapSigns,
+    FaBox, FaPenFancy, FaMapSigns, FaChartLine, FaHandshake, FaIndustry, FaNewspaper, FaUsers, FaMobile,
 } from 'react-icons/fa';
 import {
     fadeIn,
@@ -135,7 +135,7 @@ const Home: React.FC = () => {
     }, []);
 
     return (
-        <div className="min-h-[80vh] md:min-h-screen overflow-hidden text-balance">
+        <div className="text-text-dark font-sans">
             <Helmet>
                 <title>Farm OS: Traceable Cashews from Côte d'Ivoire | AfriNuts Export</title>
                 <meta name="description" content="Official website of AfriNuts Export. Farm OS-powered traceability from our 35-hectare farm in Odienné, Côte d'Ivoire. Offline-first Android app, block-level tracking, and export-ready documentation. Wholesale, investment, and partnership inquiries." />
@@ -506,6 +506,7 @@ const Home: React.FC = () => {
                     </motion.div>
                 </div>
             </Section>
+
             {/* Wholesale CTA */}
             <div className="flex flex-wrap gap-3 justify-center mt-3">
                 <Link to="/wholesale"  className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-primary/10 hover:bg-primary/20 text-primary rounded-full text-sm font-medium transition-colors">
@@ -552,6 +553,72 @@ const Home: React.FC = () => {
                     </motion.div>
                 </div>
             </Section>
+
+            {/* Farm OS Teaser — After Products CTA, before Traceability */}
+            <Section className="py-8">
+                <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
+                    <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
+                        <InfoCard
+                            icon={FaMobile}
+                            title={t('farmOsTeaser.title', 'Powered by Farm OS — Our Custom Operating System')}
+                            variant="accent"
+                            showInfoBadge={false}
+                            className="text-center"
+                        >
+                            <Typography variant="body" className="text-gray-600 mb-5 max-w-xl mx-auto">
+                                {t('farmOsTeaser.description', 'Most farms run on paper. Ours runs on software we built — an offline-first Android app with cloud sync, real-time dashboards, and block-level tracking. The same system our farm managers use. The same data our investors see.')}
+                            </Typography>
+                            <Link to="/farm-os" className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-6 py-2.5 rounded-full transform-gpu transition-all duration-300 inline-flex items-center gap-2 text-sm font-medium shadow-md">
+                                <span>Explore Farm OS</span>
+                                <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
+                            </Link>
+                        </InfoCard>
+                    </motion.div>
+                </div>
+            </Section>
+
+            {/* Explore AfriNuts — Page Directory */}
+            <Section className="py-10">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6">
+                    <motion.div className="text-center mb-10" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
+                        <Typography variant="h2" className="mb-4">{t('explore.title', 'Explore AfriNuts')}</Typography>
+                        <Typography variant="body" className="max-w-2xl mx-auto">
+                            {t('explore.subtitle', 'From our tech-enabled farm to your supply chain. Every part of AfriNuts is built for transparency.')}
+                        </Typography>
+                    </motion.div>
+
+                    <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        {[
+                            { icon: FaLeaf, title: t('explore.farm.title', 'Our Farm'), desc: t('explore.farm.desc', '35 hectares, 3,500 trees, Farm OS-tracked'), link: '/farm' },
+                            { icon: FaBox, title: t('explore.wholesale.title', 'Wholesale'), desc: t('explore.wholesale.desc', 'Bulk cashews with full traceability'), link: '/wholesale' },
+                            { icon: FaChartLine, title: t('explore.invest.title', 'Invest'), desc: t('explore.invest.desc', 'Asset-backed, Shariah-compliant opportunity'), link: '/invest' },
+                            { icon: FaHandshake, title: t('explore.partners.title', 'Partner'), desc: t('explore.partners.desc', 'Outgrower, white-label, Farm OS licensing'), link: '/partners' },
+                            { icon: FaIndustry, title: t('explore.processing.title', 'Processing'), desc: t('explore.processing.desc', 'Chemical-free, certification-ready facility'), link: '/processing' },
+                            { icon: FaSearch, title: t('explore.trace.title', 'Traceability'), desc: t('explore.trace.desc', 'Track any batch with Farm OS data'), link: '/trace' },
+                            { icon: FaNewspaper, title: t('explore.news.title', 'News & Blog'), desc: t('explore.news.desc', 'Farm updates, industry insights, guides'), link: '/news' },
+                            { icon: FaUsers, title: t('explore.team.title', 'Our Team'), desc: t('explore.team.desc', 'Software engineers, farmers, finance experts'), link: '/executive-team' },
+                        ].map((item, idx) => (
+                            <motion.div key={idx} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} transition={{ delay: idx * 0.05 }}>
+                                <Link to={item.link} className="block h-full">
+                                    <InfoCard
+                                        icon={item.icon}
+                                        title={item.title}
+                                        iconColor="text-accent"
+                                        showInfoBadge={false}
+                                        className="h-full"
+                                    >
+                                        <Typography variant="small" className="text-sm mb-2">{item.desc}</Typography>
+                                        <div className="flex items-center gap-1 text-xs font-medium text-primary group-hover:text-accent transition-colors">
+                                            {t('explore.learnMore', 'Explore')} <FaArrowRight className="text-[10px]" />
+                                        </div>
+                                    </InfoCard>
+                                </Link>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+            </Section>
+
 
             {/* 4. Farm Story */}
             <Section className="py-10 bg-gradient-to-r from-primary/30 via-white/30
@@ -782,6 +849,31 @@ const Home: React.FC = () => {
                             </div>
                         </div>
                     </motion.div>
+                </div>
+            </Section>
+
+            {/* Trust Bar */}
+            <Section className="py-6">
+                <div className="max-w-4xl mx-auto px-4 sm:px-6">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        {[
+                            { icon: FaLeaf, value: '35 ha', label: t('trust.farm', 'Operating Farm') },
+                            { icon: FaUsers, value: '200+', label: t('trust.farmers', 'Cooperative Farmers') },
+                            { icon: FaChartLine, value: '1', label: t('trust.investor', 'Active Investor') },
+                            { icon: FaMobile, value: 'Farm OS', label: t('trust.tech', 'Proprietary Tech') },
+                        ].map((item, idx) => (
+                            <motion.div key={idx} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} transition={{ delay: idx * 0.1 }}>
+                                <InfoCard
+                                    icon={item.icon}
+                                    title={item.value}
+                                    subtitle={item.label}
+                                    iconColor="text-accent"
+                                    showInfoBadge={false}
+                                    className="h-full text-center"
+                                />
+                            </motion.div>
+                        ))}
+                    </div>
                 </div>
             </Section>
 

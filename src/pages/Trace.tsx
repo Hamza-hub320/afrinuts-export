@@ -158,7 +158,7 @@ const TracePage: React.FC = () => {
     if (!batch && !loading) {
         return (
             <main className="text-text-dark font-sans">
-                <div className="max-w-4xl mx-auto px-6 sm:px-8 pt-[88px] pb-2">
+                <div className="max-w-4xl mx-auto px-6 sm:px-8 pt-[80px] pb-1">
                     <div className="text-sm text-gray-400 mb-4 flex items-center gap-1 flex-wrap">
                         <Link to="/" className="hover:text-primary transition-colors">{t('breadcrumbs.home', 'Home')}</Link>
                         <span>/</span>
@@ -172,7 +172,7 @@ const TracePage: React.FC = () => {
                     </div>
                 </div>
                 {/* Hero */}
-                <Section className="flex items-center justify-center text-center min-h-[50vh]">
+                <Section className="flex items-center justify-center text-center pt-2 pb-8 lg:pb-12">
                     <motion.div className="max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 flex flex-col lg:flex-row items-center gap-6 lg:gap-28" initial="hidden" animate="visible" variants={staggerContainer}>
 
                         {/* Left: Text Content */}
@@ -249,7 +249,7 @@ const TracePage: React.FC = () => {
 
                         {/* Right: Trace Image */}
                         <motion.div className="flex-shrink-0 lg:ml-auto lg:-mr-16" variants={fadeIn} transition={{ delay: 0.2 }}>
-                            <motion.div className="relative w-96 h-96 sm:w-80 sm:h-80 lg:w-[450px] lg:h-[640px] rounded-[2rem] overflow-hidden shadow-2xl border-2 border-white/40 transform-gpu group"
+                            <motion.div className="relative w-96 h-96 sm:w-80 sm:h-80 lg:w-[450px] lg:h-[690px] rounded-[2rem] overflow-hidden shadow-2xl border-2 border-white/40 transform-gpu group"
                                         style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
                                         whileHover={{ scale: 1.03, rotateY: 2, transition: { duration: 0.3 } }}>
                                 <div className="absolute inset-0 rounded-[2rem] border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
@@ -377,7 +377,7 @@ const TracePage: React.FC = () => {
                     "description": "Offline-first Android application with cloud synchronization for block-level cashew tracking, quality documentation, and export verification."
                 }
             }} />
-            <div className="max-w-4xl mx-auto px-6 sm:px-8 pt-[88px] pb-2">
+            <div className="max-w-4xl mx-auto px-6 sm:px-8 pt-[80px] pb-1">
                 <div className="text-sm text-gray-400 mb-4 flex items-center gap-1 flex-wrap">
                     <Link to="/" className="hover:text-primary transition-colors">{t('breadcrumbs.home', 'Home')}</Link>
                     <span>/</span>
@@ -391,7 +391,7 @@ const TracePage: React.FC = () => {
                 </div>
             </div>
             {/* Hero */}
-            <Section className="flex items-center justify-center text-center min-h-[40vh]">
+            <Section className="flex items-center justify-center text-center pt-2 pb-8 lg:pb-12">
                 <motion.div className="max-w-3xl px-6 sm:px-8 py-12" variants={fadeIn} initial="hidden" animate="visible">
                     <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-4"><FaQrcode className="inline mr-3 text-accent" />{t('page.title')}</Typography>
                     <Typography variant="h1" className="text-4xl md:text-5xl lg:text-6xl font-display text-text-dark mb-6">{batch?.batchId}</Typography>

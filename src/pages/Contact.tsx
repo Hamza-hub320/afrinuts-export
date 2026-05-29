@@ -1,16 +1,13 @@
 import {
   FaCheckCircle,
-  FaRegSmile,
   FaShieldAlt,
   FaEnvelope,
   FaPhone,
   FaMapMarkerAlt,
-  FaClock,
   FaTruck,
   FaGlobeAfrica,
   FaBuilding,
-  FaArrowRight,
-  FaCloudSun
+  FaArrowRight
 } from 'react-icons/fa';
 import emailjs from '@emailjs/browser';
 import React, { useState, useRef, FormEvent, ChangeEvent } from 'react';
@@ -25,7 +22,6 @@ import { InfoCard } from '@/components/InfoCard/InfoCard';
 import { FormCard } from '@/components/FormCard/FormCard';
 import JsonLd from "@/components/Seo/JsonLd";
 import { Helmet } from "react-helmet-async";
-import DashboardWeatherWidget from "@/components/DashboardWeatherWidget";
 import WeatherDisplay from "@/components/WeatherDisplay/WeatherDisplay";
 
 interface FormData {
@@ -168,7 +164,7 @@ const Contact: React.FC = () => {
         )}
 
         {/* Hero — Text + Weather Widget */}
-        <Section className="flex items-center justify-center text-center min-h-[40vh]">
+        <Section className="flex items-center justify-center text-center min-h-[50vh]">
           <motion.div className="max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 flex flex-col lg:flex-row items-center gap-6 lg:gap-28" initial="hidden" animate="visible" variants={staggerContainer}>
 
             {/* Left: Text Content */}

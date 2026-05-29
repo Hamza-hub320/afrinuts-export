@@ -178,5 +178,9 @@
     "title": "AfriNuts Farm OS — Access for team members",
     "description": "Founders, managers, and investors can log in to manage farm operations, track tasks, and view financial reports.",
     "button": "Login to Farm Operations Center"
+  },
+  "breadcrumbs": {
+    "home": "Home",
+    "farm": "Farm"
   }
 }

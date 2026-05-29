@@ -42,8 +42,13 @@
         "available": false,
         "comingSoon": "Available Q1 2025"
       }
-    ]
-  },
+    ],
+    "cta": {
+      "heading": "Find the Right Cashew Product for Your Business",
+      "description": "Browse our full catalog with organic and conventional options, pricing details, certifications, and availability timelines.",
+      "button": "Explore All Products"
+    }
+    },
   "traceability": {
     "title": "Traceable from Tree to Container",
     "description": "Our custom Farm OS tracks every cashew from the block it was harvested to the container it ships in. Buyers and investors get real-time visibility into origin, quality, and handling — not just a paper trail.",
@@ -130,5 +135,29 @@
   "internalLinks": {
     "wholesale": "Wholesale Inquiries",
     "farmosLink": "Powered by Farm OS"
+  },
+  "explore": {
+    "title": "Explore AfriNuts",
+    "subtitle": "From our tech-enabled farm to your supply chain. Every part of AfriNuts is built for transparency.",
+    "learnMore": "Explore",
+    "farm": { "title": "Our Farm", "desc": "35 hectares, 3,500 trees, Farm OS-tracked" },
+    "wholesale": { "title": "Wholesale", "desc": "Bulk cashews with full traceability" },
+    "invest": { "title": "Invest", "desc": "Asset-backed, Shariah-compliant opportunity" },
+    "partners": { "title": "Partner", "desc": "Outgrower, white-label, Farm OS licensing" },
+    "processing": { "title": "Processing", "desc": "Chemical-free, certification-ready facility" },
+    "trace": { "title": "Traceability", "desc": "Track any batch with Farm OS data" },
+    "news": { "title": "News & Blog", "desc": "Farm updates, industry insights, guides" },
+    "team": { "title": "Our Team", "desc": "Software engineers, farmers, finance experts" }
+  },
+  "farmOsTeaser": {
+    "title": "Powered by Farm OS — Our Custom Operating System",
+    "description": "Most farms run on paper. Ours runs on software we built — an offline-first Android app with cloud sync, real-time dashboards, and block-level tracking. The same system our farm managers use. The same data our investors see.",
+    "cta": "Explore Farm OS"
+  },
+  "trust": {
+    "farm": "Operating Farm",
+    "farmers": "Cooperative Farmers",
+    "investor": "Active Investor",
+    "tech": "Proprietary Tech"
   }
 }

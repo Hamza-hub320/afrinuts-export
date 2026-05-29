@@ -91,10 +91,10 @@ const Footer = () => {
                 </p>
                 <div className="flex space-x-5 text-xl mt-4">
                   {[
-                    { icon: <FaFacebook />, url: "https://facebook.com", ariaLabel: "Follow us on Facebook" },
-                    { icon: <FaTwitter />, url: "https://twitter.com", ariaLabel: "Follow us on Twitter" },
+                   // { icon: <FaFacebook />, url: "https://facebook.com", ariaLabel: "Follow us on Facebook" },
+                      // { icon: <FaTwitter />, url: "https://twitter.com", ariaLabel: "Follow us on Twitter" },
                     { icon: <FaLinkedin />, url: "https://www.linkedin.com/company/afrinuts-export", ariaLabel: "Follow us on LinkedIn" },
-                    { icon: <FaInstagram />, url: "https://instagram.com", ariaLabel: "Follow us on Instagram" }
+                    //{ icon: <FaInstagram />, url: "https://instagram.com", ariaLabel: "Follow us on Instagram" }
                   ].map((social, index) => (
                       <motion.a
                           key={index}
@@ -189,10 +189,10 @@ const Footer = () => {
                 <p className="text-sm mb-4">{t('company.description')}</p>
                 <div className="flex space-x-3">
                   {[
-                    { icon: <FaFacebook />, url: "https://facebook.com", ariaLabel: "Facebook" },
-                    { icon: <FaTwitter />, url: "https://twitter.com", ariaLabel: "Twitter" },
+                    //{ icon: <FaFacebook />, url: "https://facebook.com", ariaLabel: "Facebook" },
+                    //{ icon: <FaTwitter />, url: "https://twitter.com", ariaLabel: "Twitter" },
                     { icon: <FaLinkedin />, url: "https://linkedin.com", ariaLabel: "LinkedIn" },
-                    { icon: <FaInstagram />, url: "https://instagram.com", ariaLabel: "Instagram" }
+                    //{ icon: <FaInstagram />, url: "https://instagram.com", ariaLabel: "Instagram" }
                   ].map((social, index) => (
                       <motion.a
                           key={index}

@@ -111,5 +111,12 @@
     "content": "Nos pratiques de durabilité ne sont pas que des promesses — elles sont suivies dans Farm OS, vérifiées par des auditeurs tiers et visibles pour les acheteurs et les investisseurs. Découvrez comment nous construisons une entreprise de noix de cajou éthique et verticalement intégrée, de la ferme aux marchés mondiaux.",
     "visionButton": "Notre Vision",
     "productsButton": "Voir les Produits"
+  },
+  "breadcrumbs": {
+    "home": "Accueil",
+    "about": "À Propos",
+    "sustainability": "Durabilité",
+    "vision": "Vision",
+    "farmOs": "Farm OS"
   }
 }

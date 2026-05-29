@@ -319,5 +319,9 @@
   },
   "internalLinks": {
     "wholesale": "Demandes de Gros"
+  },
+  "breadcrumbs": {
+    "home": "Accueil",
+    "products": "Produits"
   }
 }

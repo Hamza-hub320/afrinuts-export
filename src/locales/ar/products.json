@@ -319,5 +319,9 @@
   },
   "internalLinks": {
     "wholesale": "استفسارات البيع بالجملة"
+  },
+  "breadcrumbs": {
+    "home": "الرئيسية",
+    "products": "المنتجات"
   }
 }

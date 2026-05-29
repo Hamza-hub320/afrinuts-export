@@ -151,5 +151,12 @@
     "betaNote": "Les capacités de Farm OS v2 sont en développement. Contactez-nous pour un accès anticipé ou pour discuter des partenariats de licence.",
     "buttonTrace": "Explorer la Traçabilité",
     "buttonBeta": "Demander un Accès Bêta"
+  },
+  "breadcrumbs": {
+    "home": "Accueil",
+    "about": "À Propos",
+    "sustainability": "Durabilité",
+    "vision": "Vision",
+    "farmOs": "Farm OS"
   }
 }

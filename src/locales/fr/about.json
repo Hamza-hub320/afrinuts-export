@@ -179,5 +179,12 @@
       "title": "Vision Stratégique 2031",
       "text": "Positionner AfriNuts comme l'exportateur de cajou le plus fiable d'Afrique de l'Ouest — où chaque acheteur, chaque investisseur et chaque partenaire peut vérifier la qualité par la technologie, pas seulement par la confiance."
     }
-  }
+  },
+    "breadcrumbs": {
+      "home": "Accueil",
+      "about": "À Propos",
+      "sustainability": "Durabilité",
+      "vision": "Vision",
+      "farmOs": "Farm OS"
+    }
 }

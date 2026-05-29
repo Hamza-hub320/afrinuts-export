@@ -151,5 +151,12 @@
     "betaNote": "قدرات Farm OS v2 قيد التطوير. اتصل بنا للوصول المبكر أو لمناقشة شراكات الترخيص.",
     "buttonTrace": "استكشف التتبع",
     "buttonBeta": "طلب وصول تجريبي"
+  },
+  "breadcrumbs": {
+    "home": "الرئيسية",
+    "about": "من نحن",
+    "sustainability": "الاستدامة",
+    "vision": "الرؤية",
+    "farmOs": "Farm OS"
   }
 }

@@ -149,5 +149,12 @@
     ],
     "cta": "Investisseurs et partenaires gouvernementaux : rejoignez-nous pour construire l'avenir agritech de l'Afrique de l'Ouest.",
     "ctaButton": "Devenir Partenaire"
+  },
+  "breadcrumbs": {
+    "home": "Accueil",
+    "about": "À Propos",
+    "sustainability": "Durabilité",
+    "vision": "Vision",
+    "farmOs": "Farm OS"
   }
 }

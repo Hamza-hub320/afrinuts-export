@@ -231,7 +231,7 @@ const FacilityFlowchart: React.FC = () => {
                     }
                 }
             }} />
-            <div className="max-w-4xl mx-auto px-6 sm:px-8 pt-[88px] pb-2">
+            <div className="max-w-4xl mx-auto px-6 sm:px-8 pt-[80px] pb-1">
             <div className="text-sm text-gray-400 mb-4 flex items-center gap-1 flex-wrap">
                 <Link to="/" className="hover:text-primary transition-colors">{t('breadcrumbs.home', 'Home')}</Link>
                 <span>/</span>
@@ -243,7 +243,7 @@ const FacilityFlowchart: React.FC = () => {
             </div>
             </div>
             {/* Hero Section */}
-            <Section  fullHeight={false} className="flex items-center justify-center text-center min-h-[40vh]">
+            <Section  fullHeight={false} className="flex items-center justify-center text-center pt-2 pb-8 lg:pb-12">
                 <motion.div
                     className="max-w-4xl px-6 sm:px-8 py-12"
                     initial="hidden"

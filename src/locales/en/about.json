@@ -179,5 +179,12 @@
       "title": "2031 Strategic Vision",
       "text": "Positioning AfriNuts as West Africa's most trusted cashew exporter — where every buyer, every investor, and every partner can verify quality through technology, not just trust."
     }
-  }
+  },
+    "breadcrumbs": {
+      "home": "Home",
+      "about": "About",
+      "sustainability": "Sustainability",
+      "vision": "Vision",
+      "farmOs": "Farm OS"
+    }
 }

@@ -42,7 +42,14 @@
         "available": false,
         "comingSoon": "Disponible au T1 2025"
       }
-    ]
+    ],
+    "products": {
+      "cta": {
+        "heading": "Trouvez le Bon Produit de Cajou pour Votre Entreprise",
+        "description": "Parcourez notre catalogue complet avec des options biologiques et conventionnelles, des détails de prix, des certifications et des délais de disponibilité.",
+        "button": "Explorer Tous les Produits"
+      }
+    }
   },
   "traceability": {
     "title": "Traçable de l'Arbre au Conteneur",
@@ -130,5 +137,29 @@
   "internalLinks": {
     "wholesale": "Demandes de Gros",
     "farmosLink": "Propulsé par Farm OS"
+  },
+  "explore": {
+    "title": "Explorez AfriNuts",
+    "subtitle": "De notre ferme technologique à votre chaîne d'approvisionnement. Chaque partie d'AfriNuts est conçue pour la transparence.",
+    "learnMore": "Explorer",
+    "farm": { "title": "Notre Ferme", "desc": "35 hectares, 3 500 arbres, suivi Farm OS" },
+    "wholesale": { "title": "Vente en Gros", "desc": "Noix de cajou en vrac avec traçabilité complète" },
+    "invest": { "title": "Investir", "desc": "Opportunité adossée à des actifs, conforme à la Charia" },
+    "partners": { "title": "Partenaires", "desc": "Producteurs, marque blanche, licence Farm OS" },
+    "processing": { "title": "Transformation", "desc": "Installation sans produits chimiques, prête pour les certifications" },
+    "trace": { "title": "Traçabilité", "desc": "Suivez chaque lot avec les données Farm OS" },
+    "news": { "title": "Actualités et Blog", "desc": "Mises à jour de la ferme, perspectives du secteur, guides" },
+    "team": { "title": "Notre Équipe", "desc": "Ingénieurs logiciels, agriculteurs, experts financiers" }
+  },
+  "farmOsTeaser": {
+    "title": "Propulsé par Farm OS — Notre Système d'Exploitation Sur Mesure",
+    "description": "La plupart des fermes fonctionnent sur papier. La nôtre fonctionne sur un logiciel que nous avons construit — une application Android hors ligne avec synchronisation cloud, des tableaux de bord en temps réel et un suivi par bloc. Le même système que nos gestionnaires agricoles utilisent. Les mêmes données que nos investisseurs voient.",
+    "cta": "Explorer Farm OS"
+  },
+  "trust": {
+    "farm": "Ferme Opérationnelle",
+    "farmers": "Agriculteurs Coopératifs",
+    "investor": "Investisseur Actif",
+    "tech": "Technologie Propriétaire"
   }
 }

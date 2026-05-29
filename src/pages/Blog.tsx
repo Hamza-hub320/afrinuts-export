@@ -113,7 +113,7 @@ const Blog: React.FC = () => {
     }
 
     return (
-        <div className="min-h-screen relative overflow-hidden pt-[72px]">
+        <div className="text-text-dark font-sans">
             <Helmet>
                 <title>AfriNuts Blog | Cashew Farming, Industry Insights & Sustainability</title>
                 <meta name="description" content="Expert insights on cashew farming, sustainable agriculture, and the West African nut industry. Articles on organic farming, market trends, and behind-the-scenes at our Odienné farm." />
@@ -133,8 +133,17 @@ const Blog: React.FC = () => {
                 }
             }} />
 
+            <div className="max-w-4xl mx-auto px-6 sm:px-8 pt-[80px] pb-1">
+                <div className="text-sm text-text-dark mb-2 flex items-center gap-1 flex-wrap">
+                    <Link to="/" className="hover:text-primary transition-colors">Home</Link>
+                    <span>/</span>
+                    <Link to="/news" className="hover:text-primary transition-colors">News</Link>
+                    <span>/</span>
+                    <span className="text-primary font-medium">Blog</span>
+                </div>
+            </div>
             {/* Hero */}
-            <Section className="flex items-center justify-center text-center min-h-[50vh]">
+            <Section className="flex items-center justify-center text-center pt-2 pb-8 lg:pb-12">
                 <motion.div className="max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 flex flex-col lg:flex-row items-center gap-6 lg:gap-20" initial="hidden" animate="visible" variants={staggerContainer}>
 
                     {/* Left: Text Content */}
@@ -177,7 +186,7 @@ const Blog: React.FC = () => {
 
                     {/* Right: Blog Image */}
                     <motion.div className="flex-shrink-0 lg:ml-auto" variants={fadeIn} transition={{ delay: 0.2 }}>
-                        <motion.div className="relative w-96 h-96 sm:w-80 sm:h-80 lg:w-[420px] lg:h-[640px] rounded-[2rem] overflow-hidden shadow-2xl border-2 border-white/40 transform-gpu group"
+                        <motion.div className="relative w-96 h-96 sm:w-80 sm:h-80 lg:w-[420px] lg:h-[690px] rounded-[2rem] overflow-hidden shadow-2xl border-2 border-white/40 transform-gpu group"
                                     style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
                                     whileHover={{ scale: 1.03, rotateY: 2, transition: { duration: 0.3 } }}>
                             <div className="absolute inset-0 rounded-[2rem] border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />

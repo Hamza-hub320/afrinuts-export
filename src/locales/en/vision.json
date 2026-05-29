@@ -273,5 +273,12 @@
     ],
     "cta": "Investors and government partners: join us in building the agritech future of West Africa.",
     "ctaButton": "Partner With Us"
+  },
+  "breadcrumbs": {
+    "home": "Home",
+    "about": "About",
+    "sustainability": "Sustainability",
+    "vision": "Vision",
+    "farmOs": "Farm OS"
   }
 }

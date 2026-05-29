@@ -68,5 +68,9 @@
     "community": "Community",
     "farmers": "Farmers",
     "agriculture": "Agriculture"
+  },
+  "breadcrumbs": {
+    "home": "Home",
+    "news": "Industry News"
   }
 }
