@@ -159,8 +159,8 @@ const News: React.FC = () => {
                 })
             );
 
-            const thirtyDaysAgo = new Date();
-            thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+            const threeDaysAgo = new Date();
+            threeDaysAgo.setDate(threeDaysAgo.getDate() - 3);
 
             const keywords = [
                 'cashew', 'ivory coast', "côte d'ivoire", 'anacardium', 'nut', 'export',
@@ -172,7 +172,7 @@ const News: React.FC = () => {
                 .filter(article => {
                     const content = `${article.title} ${article.contentSnippet}`.toLowerCase();
                     const articleDate = new Date(article.pubDate);
-                    return articleDate >= thirtyDaysAgo && keywords.some(kw => content.includes(kw));
+                    return articleDate >= threeDaysAgo && keywords.some(kw => content.includes(kw));
                 })
                 .sort((a, b) => (b.searchBoost - a.searchBoost) || (new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime()))
                 .slice(0, rssLimit);
@@ -306,7 +306,7 @@ const News: React.FC = () => {
                     <motion.button className="px-6 py-2 rounded-full bg-primary text-white hover:bg-dark-orange transition-colors transform-gpu hover:scale-105" onClick={() => {
                         trackCtaClick('load_more_updates', 'news_page');
                         setUpdatesPage(p => p + 1);
-                    }} whileHover={{ y: -2 }} whileTap={{ scale: 0.95 }}>{t('sections.loadMore')}</motion.button>
+                    }} whileHover={{ y: -2 }} whileTap={{ scale: 0.95 }}>Load More</motion.button>
                 </div>
             )}
         </motion.div>
