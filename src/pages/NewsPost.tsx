@@ -155,7 +155,7 @@ const NewsPost: React.FC = () => {
     const readTime = calculateReadTime(post.content);
 
     return (
-        <div className="min-h-screen pt-[72px]">
+        <div className="min-h-screen pt-[90px]">
             <Helmet>
                 <title>{post.title} | AfriNuts Export News</title>
                 <meta name="description" content={post.excerpt || `Read "${post.title}" — the latest update from AfriNuts Export's cashew farm and processing operations in Odienné, Côte d'Ivoire.`} />

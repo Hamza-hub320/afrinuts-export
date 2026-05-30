@@ -7,7 +7,7 @@
     "subtitle": "Opportunité d'Investissement",
     "title": "Construction du Premier Centre de Transformation de Noix de Cajou Certifié de Côte d'Ivoire",
     "tagline": "Levée totale de 1 250 000 $ · 25 % de participation (5 M$ post-money) · Investissement minimum : 250 000 $ · Moudaraba conforme à la Charia · Transparence alimentée par Farm OS · Dividendes à partir de 2033",
-    "interimNote": "Avant le début de la transformation en 2031, notre ferme opérationnelle génère des revenus grâce à la vente de noix de cajou brutes — compensant les coûts et créant de la valeur dès le premier jour.",
+    "interimNote": "Pendant la construction du centre de transformation, nous générons des revenus grâce au négoce de noix de cajou brutes — en nous approvisionnant auprès de notre coopérative de plus de 200 agriculteurs et en revendant à des acheteurs établis. Cela compense les coûts opérationnels et établit des relations commerciales avant notre première récolte agricole en 2029.",
     "downloadNda": "Télécharger la NDA",
     "scheduleCall": "Planifier un Appel",
     "imageOverlay": "1,25 M$ · 25 % de Participation · Conforme à la Charia",
@@ -261,25 +261,25 @@
   },
   "timeline": {
     "title": "Votre Parcours d'Investissement",
-    "subtitle": "De la ferme opérationnelle aujourd'hui aux dividendes en 2033 — chaque phase est dérisquée avec des actifs existants et une exécution éprouvée.",
+    "subtitle": "D'une ferme opérationnelle et des revenus de négoce aujourd'hui aux dividendes de transformation en 2033 — chaque phase est dérisquée avec des actifs existants et une exécution éprouvée.",
     "scrollHint": "Faites glisser pour explorer",
     "items": [
       {
         "year": "Maintenant",
-        "title": "Ferme Opérationnelle",
-        "desc": "3 500 arbres en croissance. Les revenus des ventes de noix brutes compensent les coûts et créent de la valeur dès le premier jour.",
+        "title": "Ferme Opérationnelle + Revenus de Négoce",
+        "desc": "3 500 arbres en croissance. Le négoce de noix de cajou brutes de notre coopérative de plus de 200 agriculteurs génère des revenus et établit des relations avec les acheteurs.",
         "status": "complete"
       },
       {
         "year": "2027-28",
         "title": "Construction",
-        "desc": "Centre de transformation construit. Équipement installé. Certifications demandées. Farm OS suit chaque étape.",
+        "desc": "Centre de transformation construit. Équipement installé. Certifications demandées. Farm OS suit chaque jalon.",
         "status": "active"
       },
       {
         "year": "2029",
-        "title": "Première Récolte",
-        "desc": "La ferme atteint un rendement commercial. Lots d'échantillons produits pour les acheteurs internationaux. LOI sécurisées.",
+        "title": "Première Récolte Agricole",
+        "desc": "Notre ferme de 35 hectares atteint un rendement commercial. Lots d'échantillons produits pour les acheteurs internationaux. LOI sécurisées.",
         "status": "upcoming"
       },
       {

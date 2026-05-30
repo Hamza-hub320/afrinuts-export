@@ -257,7 +257,7 @@ const BlogPost: React.FC = () => {
     const readTime = calculateReadTime(post.content);
 
     return (
-        <div className="min-h-screen pt-[72px]">
+        <div className="min-h-screen pt-[90px]">
             {/* SEO Metadata */}
             <Helmet>
                 <title>{post.metaTitle ? `${post.metaTitle} | AfriNuts Export` : `${post.title} | AfriNuts Export`}</title>

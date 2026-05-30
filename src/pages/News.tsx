@@ -53,7 +53,7 @@ interface AfriNutsUpdate {
 interface NewsFeed {
     url: string;
     name: string;
-    icon: string;
+    icon?: string;
     category: string;
     defaultEnabled?: boolean;
 }
@@ -106,30 +106,45 @@ const News: React.FC = () => {
         }
     };
 
-    // Fetch RSS feeds
     const loadFeeds = async () => {
         setLoading(true);
         try {
             const enabledFeeds = rssFeeds.filter(feed => feed.defaultEnabled !== false);
-            const feedsToUse = enabledFeeds.length > 0 ? enabledFeeds : [
-                { url: 'https://www.commodafrica.com/rss.xml', name: 'CommodAfrica', category: 'cashew', icon: 'FaGlobe' },
-                { url: 'https://www.foodnavigator-africa.com/feeds/news.rss', name: 'Food Navigator Africa', category: 'agriculture', icon: 'FaLeaf' },
-            ];
+
+            if (enabledFeeds.length === 0) {
+                setArticles([]);
+                setLoading(false);
+                return;
+            }
 
             const allArticles = await Promise.all(
-                feedsToUse.map(async (feed) => {
+                enabledFeeds.map(async (feed) => {
                     try {
-                        const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feed.url)}`);
+                        const res = await fetch(
+                            `/.netlify/functions/rss?url=${encodeURIComponent(feed.url)}&name=${encodeURIComponent(feed.name)}`
+                        );
+
+                        if (!res.ok) {
+                            console.warn(`[${feed.name}] RSS function returned ${res.status}`);
+                            return [];
+                        }
+
                         const data = await res.json();
-                        if (!data.items) return [];
+                        if (!data.items?.length) {
+                            console.warn(`[${feed.name}] No items`);
+                            return [];
+                        }
+
+                        console.log(`[${feed.name}] Loaded ${data.items.length} items via Netlify Function`);
+
                         return data.items.map((item: any): RSSItem => {
                             const content = `${item.title} ${item.contentSnippet || ''}`.toLowerCase();
                             return {
                                 title: item.title,
                                 link: item.link || '#',
                                 pubDate: item.pubDate || new Date().toISOString(),
-                                contentSnippet: item.contentSnippet?.substring(0, 200) || item.description?.substring(0, 200) || '',
-                                creator: item.author || feed.name,
+                                contentSnippet: (item.contentSnippet || '').substring(0, 200),
+                                creator: item.creator || feed.name,
                                 source: feed.name,
                                 category: feed.category,
                                 searchBoost: (content.includes('cashew') || content.includes('ivory coast') || content.includes("côte d'ivoire")) ? 2 : 1,
@@ -137,24 +152,37 @@ const News: React.FC = () => {
                                 isoDate: item.isoDate,
                             };
                         });
-                    } catch { return []; }
+                    } catch (err) {
+                        console.warn(`[${feed.name}] Failed:`, err);
+                        return [];
+                    }
                 })
             );
+
+            const thirtyDaysAgo = new Date();
+            thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+            const keywords = [
+                'cashew', 'ivory coast', "côte d'ivoire", 'anacardium', 'nut', 'export',
+                'farmer', 'crop', 'agribusiness', 'noix de cajou', 'agriculture', 'ferme',
+                'cultures', 'exportation', 'africa', 'west africa', 'processing', 'anacarde'
+            ];
 
             const processedArticles = allArticles.flat()
                 .filter(article => {
                     const content = `${article.title} ${article.contentSnippet}`.toLowerCase();
                     const articleDate = new Date(article.pubDate);
-                    const sevenDaysAgo = new Date(); sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-                    const keywords = ['cashew', 'ivory coast', "côte d'ivoire", 'anacardium', 'nut', 'export', 'farmer', 'crop', 'agribusiness', 'noix de cajou', 'agriculture', 'ferme', 'cultures', 'exportation'];
-                    return articleDate >= sevenDaysAgo && keywords.some(kw => content.includes(kw));
+                    return articleDate >= thirtyDaysAgo && keywords.some(kw => content.includes(kw));
                 })
                 .sort((a, b) => (b.searchBoost - a.searchBoost) || (new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime()))
                 .slice(0, rssLimit);
 
             setArticles(processedArticles);
-        } catch { /* silently fail */ }
-        finally { setLoading(false); }
+        } catch (err) {
+            console.error('News fetch failed:', err);
+        } finally {
+            setLoading(false);
+        }
     };
 
     useEffect(() => {
@@ -289,10 +317,26 @@ const News: React.FC = () => {
         <motion.div initial="hidden" whileInView="visible" animate="visible" viewport={{ once: true, margin: "-50px" }} variants={staggerContainer} className="mb-16">
             <Typography variant="h3" className="flex items-center gap-2 mb-6"><FaGlobe className="text-accent" />{t('sections.industryNews')}</Typography>
             {paginatedArticles.length === 0 ? (
-                <div className="text-center py-10">
-                    <Typography variant="h4" className="text-gray-500 mb-4">{t('emptyState.noArticles.title')}</Typography>
-                    <Typography variant="body" className="mb-6">{t('emptyState.noArticles.description')}</Typography>
-                    <button onClick={() => setSearchQuery('')} className="text-accent hover:underline">{t('emptyState.noArticles.resetFilters')}</button>
+                <div className="text-center py-12">
+                    <FaGlobeAfrica className="text-5xl text-gray-300 mx-auto mb-4" />
+                    <Typography variant="h4" className="text-gray-500 mb-3">{t('emptyState.noArticles.title')}</Typography>
+                    <Typography variant="body" className="text-gray-400 mb-6 max-w-md mx-auto">
+                        {t('emptyState.noArticles.description')}
+                    </Typography>
+                    <div className="flex flex-wrap justify-center gap-2 mb-4">
+                        {['cashew', 'Ivory Coast', 'agriculture', 'export'].map(tag => (
+                            <button
+                                key={tag}
+                                onClick={() => setSearchQuery(tag)}
+                                className="px-3 py-1 bg-primary/10 text-primary text-xs rounded-full hover:bg-primary/20 transition-colors"
+                            >
+                                {tag}
+                            </button>
+                        ))}
+                    </div>
+                    <button onClick={() => setSearchQuery('')} className="text-accent hover:underline text-sm">
+                        {t('emptyState.noArticles.resetFilters')}
+                    </button>
                 </div>
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

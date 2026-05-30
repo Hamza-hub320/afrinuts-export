@@ -7,7 +7,7 @@
     "subtitle": "Investment Opportunity",
     "title": "Building Côte d'Ivoire's First Certified Cashew Processing Center",
     "tagline": "$1,250,000 total raise · 25% equity ($5M post-money) · Minimum investment: $250,000 · Shariah-compliant Mudarabah · Farm OS-powered transparency · Dividends from 2033",
-    "interimNote": "Before processing begins in 2031, our operational farm generates revenue from raw cashew sales — offsetting costs and building value from day one.",
+    "interimNote": "While the processing center is being built, we generate revenue through raw cashew trading — sourcing from our 200+ farmer cooperative and reselling to established buyers. This offsets operational costs and builds market relationships before our first farm harvest in 2029.",
     "downloadNda": "Download NDA",
     "scheduleCall": "Schedule a Call",
     "imageOverlay": "$1.25M · 25% Equity · Shariah-Compliant",
@@ -261,13 +261,13 @@
   },
   "timeline": {
     "title": "Your Investment Journey",
-    "subtitle": "From operational farm today to dividends in 2033 — every phase is de-risked with existing assets and proven execution.",
+    "subtitle": "From operational farm and trading revenue today to processing dividends in 2033 — every phase is de-risked with existing assets and proven execution.",
     "scrollHint": "Swipe to explore",
     "items": [
       {
         "year": "Now",
-        "title": "Farm Operational",
-        "desc": "3,500 trees growing. Revenue from raw cashew sales offsets costs and builds value from day one.",
+        "title": "Farm Operational + Trading Revenue",
+        "desc": "3,500 trees growing. Raw cashew trading from our 200+ farmer cooperative generates revenue and builds buyer relationships.",
         "status": "complete"
       },
       {
@@ -278,8 +278,8 @@
       },
       {
         "year": "2029",
-        "title": "First Harvest",
-        "desc": "Farm reaches commercial yield. Sample batches produced for international buyers. LOIs secured.",
+        "title": "First Farm Harvest",
+        "desc": "Our 35-hectare farm reaches commercial yield. Sample batches produced for international buyers. LOIs secured.",
         "status": "upcoming"
       },
       {

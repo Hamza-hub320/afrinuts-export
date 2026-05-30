@@ -239,7 +239,6 @@ const Blog: React.FC = () => {
                             </motion.button>
                         ))}
                     </div>
-
                     {/* Posts Grid */}
                     {filteredPosts.length === 0 ? (
                         <div className="text-center py-16">
