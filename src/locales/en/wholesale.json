@@ -109,6 +109,7 @@
   "trust": {
     "title": "Trusted by Farmers, Backed by Investors",
     "body": "We're not a trading desk. We own the farm, manage the cooperative, and operate with full transparency.",
+    "community": "When you buy from us, you fund a well",
     "items": [
       { "icon": "FaUsers", "value": "200+", "label": "Farmers in Cooperative", "desc": "Direct partnership with local growers" },
       { "icon": "FaLeaf", "value": "35 ha", "label": "Owned Farm", "desc": "Not a trading desk — we grow what we sell" },

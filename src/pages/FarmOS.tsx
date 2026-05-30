@@ -50,18 +50,8 @@ const FarmOS: React.FC = () => {
                 "description": t('seo.description'),
                 "offers": { "@type": "Offer", "availability": "https://schema.org/InStock" }
             }} />
-
-            <div className="max-w-4xl mx-auto px-6 sm:px-8 pt-[80px] pb-1">
-                <div className="text-sm text-text-dark mb-2 flex items-center gap-1 flex-wrap">
-                    <Link to="/" className="hover:text-primary transition-colors">{t('breadcrumbs.home', 'Home')}</Link>
-                    <span>/</span>
-                    <Link to="/about" className="hover:text-primary transition-colors">{t('breadcrumbs.about', 'About')}</Link>
-                    <span>/</span>
-                    <span className="text-primary font-medium">{t('breadcrumbs.farmOs', 'Farm OS')}</span>
-                </div>
-            </div>
             {/* Hero */}
-            <Section className="flex items-center justify-center text-center pt-2 pb-8 lg:pb-12">
+            <Section className="flex items-center justify-center text-center min-h-[90vh]">
                 <motion.div className="max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 flex flex-col lg:flex-row items-center gap-6 lg:gap-20" initial="hidden" animate="visible" variants={staggerContainer}>
                     <motion.div className="flex-1 max-w-none lg:max-w-xl text-center lg:text-left" variants={fadeIn}>
                         <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-3">

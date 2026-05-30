@@ -1,0 +1,75 @@
+{
+  "seo": {
+    "title": "Impact Communautaire | 10 % Réinvestis | AfriNuts Export",
+    "description": "10 % des bénéfices d'AfriNuts Export sont réinvestis dans les communautés d'Odienné — puits d'eau, écoles, mosquées et moyens de subsistance des agriculteurs. La Sadaqah Jariyah en action."
+  },
+  "hero": {
+    "subtitle": "Impact Communautaire",
+    "title": "Plus Que des Noix de Cajou.<br/>Un Mouvement.",
+    "body": "Notre ferme à Odienné n'est pas seulement une entreprise — c'est une plateforme de transformation communautaire. Chaque récolte construit des puits. Chaque expédition soutient des écoles. Chaque partenariat élève des familles.",
+    "introTitle": "10 % de Chaque Récolte Retourne à la Communauté",
+    "introBody": "Notre modèle de partage des bénéfices est simple : 10 % des bénéfices nets sont réinvestis directement dans des projets communautaires choisis par la communauté. Pas d'intermédiaires. Pas de frais généraux. Juste un impact direct.",
+    "badges": [
+      { "label": "10 % Réinvestis", "icon": "FaChartLine", "bg": "bg-primary/10", "text": "text-primary" },
+      { "label": "200+ Agriculteurs", "icon": "FaUsers", "bg": "bg-green-50", "text": "text-green-700" },
+      { "label": "Sadaqah Jariyah", "icon": "FaStar", "bg": "bg-amber-50", "text": "text-amber-700" }
+    ],
+    "ctaSource": "S'Approvisionner Avec Impact",
+    "ctaInvest": "Investir Avec un But",
+    "imageAlt": "Communauté AfriNuts à Odienné",
+    "imageLabel": "Odienné, Côte d'Ivoire"
+  },
+  "howItWorks": {
+    "title": "Comment Fonctionne le Réinvestissement Communautaire",
+    "body": "10 % n'est pas un don. C'est un engagement structurel — intégré dans notre accord d'exploitation depuis le premier jour.",
+    "stepLabel": "Étape",
+    "steps": [
+      { "step": "1", "title": "Récolte et Revenus", "desc": "Chaque récolte de noix de cajou génère des revenus de notre ferme et de notre coopérative." },
+      { "step": "2", "title": "10 % Alloués", "desc": "10 % des bénéfices nets sont automatiquement alloués au fonds communautaire — intégré dans notre structure, pas une réflexion après coup." },
+      { "step": "3", "title": "La Communauté Décide", "desc": "Les anciens du village, les dirigeants de la coopérative et les membres de la communauté priorisent les projets à financer." },
+      { "step": "4", "title": "Impact Direct", "desc": "Les fonds vont directement aux projets. Pas d'intermédiaires. Pas de frais généraux. Des puits, des écoles et des mosquées construits depuis la base." }
+    ]
+  },
+  "impactAreas": {
+    "title": "Où Vont les 10 %",
+    "body": "Quatre piliers d'investissement communautaire — chacun choisi par la communauté, financé par la récolte.",
+    "items": [
+      { "icon": "FaWater", "title": "Puits d'Eau et Accès Propre", "desc": "L'accès à l'eau propre change tout. Nous forons des puits à Odienné pour que les familles ne marchent pas des kilomètres pour l'eau potable. Chaque puits dessert des centaines de personnes pendant des générations.", "stat": "Vital", "color": "text-blue-600", "bg": "bg-blue-50" },
+      { "icon": "FaBookOpen", "title": "Écoles et Éducation", "desc": "Nous soutenons les écoles locales et les médersas. Quand un enfant apprend à lire, une génération s'élève. L'éducation est l'investissement le plus puissant qu'une communauté puisse faire.", "stat": "Générationnel", "color": "text-green-600", "bg": "bg-green-50" },
+      { "icon": "FaMosque", "title": "Mosquées et Espaces Sacrés", "desc": "Les lieux de culte sont le cœur de notre communauté. Nous contribuons à la construction et à l'entretien des mosquées — des espaces où les gens se rassemblent, prient et trouvent la paix.", "stat": "Spirituel", "color": "text-amber-600", "bg": "bg-amber-50" },
+      { "icon": "FaUsers", "title": "Moyens de Subsistance des Agriculteurs", "desc": "Plus de 200 agriculteurs de notre coopérative reçoivent une formation, des prix équitables supérieurs au marché et un écoulement garanti. La dignité par un travail digne — pas la charité, mais le partenariat.", "stat": "Dignité", "color": "text-purple-600", "bg": "bg-purple-50" }
+    ]
+  },
+  "cooperative": {
+    "title": "Plus de 200 Familles. Une Coopérative.",
+    "body": "Notre coopérative à Odienné n'est pas une relation fournisseur — c'est un partenariat. Regardez notre première réunion de coopérative.",
+    "cardTitle": "Voir le Partenariat en Action",
+    "description": "Nous fournissons une formation, des prix équitables supérieurs au marché et un écoulement garanti. Les agriculteurs fournissent la récolte. Ensemble, nous prouvons que les chaînes d'approvisionnement éthiques fonctionnent — et que le partenariat communautaire est une bonne affaire.",
+    "tags": ["200+ Agriculteurs", "Prix Équitables", "Formation Technique", "Écoulement Garanti"]
+  },
+  "sadaqah": {
+    "title": "Sadaqah Jariyah : Une Charité Qui Continue",
+    "body": "En Islam, la sadaqah jariyah est une charité qui profite aux gens longtemps après le départ du donateur. Un puits qui fournit de l'eau pendant des générations. Une école qui éduque des milliers de personnes. Un arbre qui porte des fruits pendant des décennies.",
+    "cardTitle": "Notre Engagement de 10 %",
+    "body2": "Notre réinvestissement de 10 % est structuré comme une sadaqah jariyah — une charité continue qui se multiplie. Chaque puits foré. Chaque salle de classe construite. Chaque agriculteur formé. La récompense continue.",
+    "hadith": "\"Lorsque le fils d'Adam meurt, ses œuvres s'arrêtent sauf trois : une aumône continue (sadaqah jariyah), un savoir dont on tire profit, ou un enfant pieux qui prie pour lui.\"",
+    "hadithSource": "— Sahih Muslim"
+  },
+  "forBuyers": {
+    "title": "Quand Vous Achetez, Vous Financez un Puits",
+    "body": "Chaque commande en gros contribue à notre fonds communautaire de 10 %. Votre achat n'est pas seulement une transaction — il fait partie d'une chaîne d'approvisionnement qui construit des écoles, fore des puits et soutient plus de 200 familles d'agriculteurs en Côte d'Ivoire.",
+    "cta": "S'Approvisionner Avec Impact"
+  },
+  "forInvestors": {
+    "title": "Des Rendements Dans Cette Vie et la Suivante",
+    "body": "Votre investissement génère des dividendes. Il génère aussi une sadaqah jariyah — une charité continue de chaque puits construit, chaque élève instruit, chaque agriculteur soutenu. Rendements financiers et rendements spirituels, ensemble.",
+    "cta": "Investir Avec un But"
+  },
+  "cta": {
+    "title": "Faites Partie de la Mission",
+    "body": "Que vous achetiez des noix de cajou, investissiez dans notre centre de transformation ou deveniez partenaire de notre coopérative — vous financez un impact réel à Odienné.",
+    "source": "S'Approvisionner Avec Impact",
+    "invest": "Investir Avec un But",
+    "partner": "Devenir Partenaire"
+  }
+}

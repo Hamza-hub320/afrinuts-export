@@ -184,7 +184,7 @@ const Faq: React.FC = () => {
                 }]
             }} />
             {/* Hero */}
-            <Section className="flex items-center justify-center text-center min-h-[50vh]">
+            <Section className="flex items-center justify-center text-center min-h-[90vh]">
                 <motion.div className="max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 flex flex-col lg:flex-row items-center gap-6 lg:gap-28" initial="hidden" animate="visible" variants={staggerContainer}>
 
                     {/* Left: Text Content */}

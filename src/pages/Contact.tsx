@@ -126,7 +126,7 @@ const Contact: React.FC = () => {
   };
 
   return (
-      <div className="contact-page overflow-x-hidden">
+      <div className="text-text-dark font-sans">
         <Helmet>
           <title>Contact AfriNuts Export | Wholesale Cashew Inquiries & Investment</title>
           <meta name="description" content="Get in touch with AfriNuts Export for wholesale cashew pricing, investment opportunities, partnership inquiries, or farm visits. Based in Odienné, Côte d'Ivoire. Response within 24 hours." />
@@ -164,7 +164,7 @@ const Contact: React.FC = () => {
         )}
 
         {/* Hero — Text + Weather Widget */}
-        <Section className="flex items-center justify-center text-center min-h-[50vh]">
+        <Section className="flex items-center justify-center text-center min-h-[65vh]">
           <motion.div className="max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 flex flex-col lg:flex-row items-center gap-6 lg:gap-28" initial="hidden" animate="visible" variants={staggerContainer}>
 
             {/* Left: Text Content */}

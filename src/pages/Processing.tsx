@@ -206,19 +206,8 @@ const Processing: React.FC = () => {
                     }
                 }
             }} />
-
-            <div className="max-w-4xl mx-auto px-6 sm:px-8 pt-[80px] pb-1">
-                <div className="text-sm text-text-dark mb-4 flex items-center gap-1 flex-wrap">
-                    <Link to="/" className="hover:text-primary transition-colors">{t('breadcrumbs.home', 'Home')}</Link>
-                    <span>/</span>
-                    <Link to="/farm" className="hover:text-primary transition-colors">{t('breadcrumbs.farm', 'Farm')}</Link>
-                    <span>/</span>
-                    <span className="text-primary font-medium">{t('breadcrumbs.processing', 'Processing')}</span>
-                </div>
-            </div>
-
             {/* Hero */}
-            <Section fullHeight={false} className="flex items-center justify-center text-center pt-2 pb-8 lg:pb-12">
+            <Section fullHeight={false} className="flex items-center justify-center text-center min-h-[50vh]">
                 <motion.div className="max-w-4xl px-6 sm:px-8 py-12" initial="hidden" animate="visible" variants={staggerContainer}>
                     <motion.div variants={fadeIn}><Typography variant="subhead" className="uppercase tracking-widest text-primary mb-4"><FaCogs className="inline mr-3 text-accent" />{t('hero.subtitle')}</Typography></motion.div>
                     <motion.h1 className="font-display text-4xl md:text-5xl lg:text-6xl text-text-dark mb-6 leading-tight" variants={fadeIn} style={{ letterSpacing: '-0.03em' }}>{t('hero.title')}</motion.h1>

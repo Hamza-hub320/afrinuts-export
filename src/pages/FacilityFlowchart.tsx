@@ -231,19 +231,8 @@ const FacilityFlowchart: React.FC = () => {
                     }
                 }
             }} />
-            <div className="max-w-4xl mx-auto px-6 sm:px-8 pt-[80px] pb-1">
-            <div className="text-sm text-gray-400 mb-4 flex items-center gap-1 flex-wrap">
-                <Link to="/" className="hover:text-primary transition-colors">{t('breadcrumbs.home', 'Home')}</Link>
-                <span>/</span>
-                <Link to="/farm" className="hover:text-primary transition-colors">{t('breadcrumbs.farm', 'Farm')}</Link>
-                <span>/</span>
-                <Link to="/processing" className="hover:text-primary transition-colors">{t('breadcrumbs.processing', 'Processing')}</Link>
-                <span>/</span>
-                <span className="text-primary font-medium">{t('breadcrumbs.facilityFlowchart', 'Facility Flowchart')}</span>
-            </div>
-            </div>
             {/* Hero Section */}
-            <Section  fullHeight={false} className="flex items-center justify-center text-center pt-2 pb-8 lg:pb-12">
+            <Section  fullHeight={false} className="flex items-center justify-center text-center min-h-[50vh]">
                 <motion.div
                     className="max-w-4xl px-6 sm:px-8 py-12"
                     initial="hidden"

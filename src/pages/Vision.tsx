@@ -84,7 +84,8 @@ const Vision: React.FC = () => {
                     "description": "Building a vertically integrated, ethical cashew value chain rooted in Côte d'Ivoire."
                 }
             }} />
-            <div className="max-w-4xl mx-auto px-6 sm:px-8 pt-[80px] pb-1">
+
+            <div className="max-w-4xl mx-auto px-6 sm:px-8 pt-[100px] pb-1">
                 <div className="text-sm text-text-dark mb-2 flex items-center gap-1 flex-wrap">
                     <Link to="/" className="hover:text-primary transition-colors">{t('breadcrumbs.home', 'Home')}</Link>
                     <span>/</span>
@@ -93,6 +94,7 @@ const Vision: React.FC = () => {
                     <span className="text-primary font-medium">{t('breadcrumbs.vision', 'Vision')}</span>
                 </div>
             </div>
+
             {/* Hero */}
             <Section className="flex items-center justify-center text-center pt-2 pb-8 lg:pb-12">
                 <motion.div className="max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 flex flex-col lg:flex-row items-center gap-6 lg:gap-28" initial="hidden" animate="visible" variants={staggerContainer}>

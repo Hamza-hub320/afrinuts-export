@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { FaGlobe, FaBars, FaTimes, FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import { FaGlobe, FaBars, FaTimes, FaChevronDown, FaChevronUp, FaMobile, FaSearch, FaBox, FaCertificate, FaIndustry, FaLeaf, FaBookOpen, FaQuestionCircle } from 'react-icons/fa';
 import logo from '@/assets/images/afrinuts-export-official-logo.webp';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
 import { FaUserCircle, FaSignOutAlt } from 'react-icons/fa';
 
-// Type for language configuration
 type LanguageConfig = {
   code: string;
   label: string;
@@ -32,63 +31,37 @@ const Navbar: React.FC = () => {
   const productsDropdownRef = useRef<HTMLDivElement>(null);
   const { user, logout } = useAuth();
 
-  // Language configuration
   const languages: LanguageConfig[] = [
     { code: 'en', label: 'English', dir: 'ltr' },
     { code: 'fr', label: 'Français', dir: 'ltr' },
     { code: 'ar', label: 'العربية', dir: 'rtl' }
   ];
 
-  // Close dropdowns when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-          languageDropdownRef.current &&
-          !languageDropdownRef.current.contains(event.target as Node) &&
-          desktopLanguageDropdownRef.current &&
-          !desktopLanguageDropdownRef.current.contains(event.target as Node)
-      ) {
+      if (languageDropdownRef.current && !languageDropdownRef.current.contains(event.target as Node) &&
+          desktopLanguageDropdownRef.current && !desktopLanguageDropdownRef.current.contains(event.target as Node)) {
         setLanguageDropdownOpen(false);
       }
-
-      if (
-          aboutDropdownRef.current &&
-          !aboutDropdownRef.current.contains(event.target as Node)
-      ) {
+      if (aboutDropdownRef.current && !aboutDropdownRef.current.contains(event.target as Node)) {
         setAboutDropdownOpen(false);
       }
-
-      if (
-          farmDropdownRef.current &&
-          !farmDropdownRef.current.contains(event.target as Node)
-      ) {
+      if (farmDropdownRef.current && !farmDropdownRef.current.contains(event.target as Node)) {
         setFarmDropdownOpen(false);
       }
-
-      if (
-          productsDropdownRef.current &&
-          !productsDropdownRef.current.contains(event.target as Node)
-      ) {
+      if (productsDropdownRef.current && !productsDropdownRef.current.contains(event.target as Node)) {
         setProductsDropdownOpen(false);
       }
-      if (
-          newsDropdownRef.current &&
-          !newsDropdownRef.current.contains(event.target as Node)
-      ) {
+      if (newsDropdownRef.current && !newsDropdownRef.current.contains(event.target as Node)) {
         setNewsDropdownOpen(false);
       }
     };
-
     document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > 10);
-    };
+    const handleScroll = () => setScrolled(window.scrollY > 10);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -106,36 +79,20 @@ const Navbar: React.FC = () => {
   };
 
   const isActive = (path: string): boolean => {
-    // Exact match for home
     if (path === '/') return location.pathname === '/';
 
-    // Treat About link as active for any of its subpages including Executive Team or History
+    // About dropdown still exists — highlight for all subpages
     if (path === '/about') {
-      return ['/about', '/executive-team', '/about/our-story', '/sustainability', '/vision', '/farm-os']
+      return ['/about', '/executive-team', '/about/our-story', '/sustainability', '/vision']
           .some(p => location.pathname === p);
     }
 
-    // Treat Products link as active for any of its subpages including Certifications
-    if (path === '/products') {
-      return ['/products', '/certifications']
-          .some(p => location.pathname === p);
-    }
-
-    // Farm and its subpages — ADD THIS BLOCK
-    if (path === '/farm') {
-      return ['/farm', '/processing', '/processing/facility-flowchart', '/trace']
-          .some(p => location.pathname === p);
-    }
-
-    if (path === '/news') {
-      return ['/news', '/blog'].some(p => location.pathname.startsWith(p));
-    }
-
-    // Default: highlight if the current path starts with the link path
+    // Everything else — exact match (standalone pages)
     return location.pathname === path;
   };
 
-  const navItems: { path: string; label: string; dropdown?: { path: string; label: string }[] }[] = [
+  // Primary Nav (Audience)
+  const primaryNavItems = [
     {
       path: '/about',
       label: t('navbar.about'),
@@ -145,48 +102,30 @@ const Navbar: React.FC = () => {
         { path: '/about/our-story', label: t('navbar.our_story') },
         { path: '/sustainability', label: t('navbar.sustainability') },
         { path: '/vision', label: t('navbar.vision') },
-        { path: '/farm-os', label: 'Farm OS' },
       ]
     },
     { path: '/wholesale', label: t('navbar.wholesale', 'Wholesale') },
-    {
-      path: '/products',
-      label: t('navbar.products'),
-      dropdown: [
-        { path: '/products', label: t('navbar.products_overview') },
-        { path: '/certifications', label: t('navbar.certifications') }
-      ]
-    },
-    {
-      path: '/farm',
-      label: t('navbar.farm'),
-      dropdown: [
-        { path: '/farm', label: t('navbar.farm') },
-        { path: '/processing', label: t('navbar.processing') },
-        { path: '/processing/facility-flowchart', label: t('navbar.facility_flowchart') },
-        { path: '/trace', label: t('navbar.trace') }
-      ]
-    },
     { path: '/invest', label: t('navbar.invest', 'Invest') },
     { path: '/partners', label: t('navbar.partners', 'Partners') },
+    { path: '/community', label: t('navbar.community', 'Community') },
     { path: '/contact', label: t('navbar.contact') },
-    {
-      path: '/news',
-      label: t('navbar.news'),
-      dropdown: [
-        { path: '/news', label: t('navbar.news_overview') },
-        { path: '/blog', label: t('navbar.blog') }
-      ]
-    },
-    { path: '/faq', label: t('navbar.faq') },
   ];
 
-  const handleClick = (): void => {
-    setClick(!click);
-    document.body.classList.toggle('overflow-hidden', !click);
-  };
+  // Secondary Nav (Capability)
+  const secondaryNavItems = [
+    { path: '/farm-os', label: t('navbar.farmOs', 'Farm OS'), icon: FaMobile },
+    { path: '/trace', label: t('navbar.trace', 'Trace'), icon: FaSearch },
+    { path: '/products', label: t('navbar.products', 'Products'), icon: FaBox },
+    { path: '/certifications', label: t('navbar.certifications', 'Certs'), icon: FaCertificate },
+    { path: '/processing', label: t('navbar.processing', 'Processing'), icon: FaIndustry },
+    { path: '/processing/facility-flowchart', label: t('navbar.facility_flowchart', 'Facility'), icon: FaIndustry },
+    { path: '/farm', label: t('navbar.farm', 'Farm'), icon: FaLeaf },
+    { path: '/blog', label: t('navbar.blog', 'Blog'), icon: FaBookOpen },
+    { path: '/news', label: t('navbar.news', 'News'), icon: FaBookOpen },
+    { path: '/faq', label: t('navbar.faq', 'FAQ'), icon: FaQuestionCircle },
+  ];
 
-  const closeMobileMenu = (): void => {
+  const closeMobileMenu = () => {
     setClick(false);
     setAboutDropdownOpen(false);
     setFarmDropdownOpen(false);
@@ -211,308 +150,73 @@ const Navbar: React.FC = () => {
     setProductsDropdownOpen(false);
   };
 
-  const toggleProductsDropdown = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setProductsDropdownOpen(!productsDropdownOpen);
-    setLanguageDropdownOpen(false);
-    setAboutDropdownOpen(false);
-    setFarmDropdownOpen(false);
-  };
-
-  const toggleFarmDropdown = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setFarmDropdownOpen(!farmDropdownOpen);
-    setLanguageDropdownOpen(false);
-    setAboutDropdownOpen(false);
-    setProductsDropdownOpen(false);
-  };
-
-  const toggleNewsDropdown = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    setNewsDropdownOpen(!newsDropdownOpen);
-    setLanguageDropdownOpen(false);
-    setAboutDropdownOpen(false);
-    setFarmDropdownOpen(false);
-    setProductsDropdownOpen(false);
-  };
-
-  const handleAboutClick = (e: React.MouseEvent, path: string) => {
-    e.preventDefault();
-    setAboutDropdownOpen(false);
-    navigate(path);
-    closeMobileMenu();
-  };
-
-  const handleProductsClick = (e: React.MouseEvent, path: string) => {
-    e.preventDefault();
-    setProductsDropdownOpen(false);
-    navigate(path);
-    closeMobileMenu();
-  };
-
-  const handleFarmClick = (e: React.MouseEvent, path: string) => {
-    e.preventDefault();
-    setFarmDropdownOpen(false);
-    navigate(path);
-    closeMobileMenu();
-  };
-
   const currentLanguage = languages.find(lang => lang.code === i18n.language) || languages[0];
-
   const navRef = useRef<HTMLElement>(null);
 
   return (
-      <nav ref={navRef} className={`fixed top-4 left-3 right-3 z-50 transition-all duration-300 ${scrolled ? 'scale-[0.98]' : ''}`}>
-        <div className={`relative bg-white/60 backdrop-blur-md border-2 border-white/40 rounded-2xl shadow-lg mx-auto max-w-7xl transition-all duration-300 ${scrolled ? 'shadow-xl bg-white/80 backdrop-blur-lg' : ''}`}>
-          <div className="flex justify-between items-center h-15 px-3 sm:px-4 lg:px-6">
-
-            {/* Logo Section */}
+      <nav ref={navRef} className={`fixed top-2 left-2 right-2 z-50 transition-all duration-300 ${scrolled ? 'scale-[0.98]' : ''}`}>
+        {/* Primary Navbar */}
+        <div className={`relative z-30 bg-white/70 backdrop-blur-md border-2 border-white/40 rounded-2xl shadow-lg mx-auto max-w-7xl transition-all duration-300 ${scrolled ? 'shadow-xl bg-white/85 backdrop-blur-lg' : ''}`}>
+          <div className="flex justify-between items-center h-14 px-3 sm:px-4 lg:px-5">
+            {/* Logo */}
             <div className="flex-shrink-0 flex items-center">
-              <Link
-                  to="/"
-                  className="flex items-center group"
-                  onClick={closeMobileMenu}
-              >
-                <img
-                    src={logo}
-                    alt="AfriNuts Export Logo"
-                    width={102}
-                    height={102}
-                    className="h-12 w-auto md:h-16 transition-transform duration-300 group-hover:scale-105"
-                    loading="eager"
-                    decoding="sync"
-                />
-                <span className="ml-2 text-2xl font-bold text-primary group-hover:text-dark-orange transition-colors duration-300">
-                AfriNuts
-              </span>
+              <Link to="/" className="flex items-center group" onClick={closeMobileMenu}>
+                <img src={logo} alt="AfriNuts Export Logo" width={102} height={102}
+                     className="h-10 w-auto md:h-12 transition-transform duration-300 group-hover:scale-105"
+                     loading="eager" decoding="sync" />
+                <span className="ml-2 text-xl font-bold text-primary group-hover:text-dark-orange transition-colors duration-300">AfriNuts</span>
               </Link>
             </div>
 
-            {/* Desktop Navigation and Language Toggle */}
-            <div className="hidden md:flex items-center gap-0">
-              {/* Navigation Links */}
-              {navItems.map((item, index) => {
+            {/* Primary Nav Links */}
+            <div className="hidden md:flex items-center gap-0.5">
+              {primaryNavItems.map((item, index) => {
                 if (item.dropdown) {
-                  if (item.path === '/about') {
-                    return (
-                        <div key={index} className="relative" ref={aboutDropdownRef}>
-                          <button type="button"
-                                  onClick={toggleAboutDropdown}
-                                  className={`px-2.5 py-2 rounded-lg text-lg font-medium. transition-all duration-300 flex items-center ${
-                                      isActive(item.path)
-                                          ? 'bg-primary text-white shadow-md'
-                                          : 'text-gray-700 hover:bg-gray-50 hover:text-primary hover:shadow-sm'
-                                  }`}
-                          >
-                            {item.label}
-                            {aboutDropdownOpen ? (
-                                <FaChevronUp className="ml-1" />
-                            ) : (
-                                <FaChevronDown className="ml-1" />
-                            )}
-                          </button>
-                          {aboutDropdownOpen && (
-                              <div className="absolute left-0 mt-2 w-48 bg-white rounded-lg shadow-lg z-50 border border-gray-200">
-                                {item.dropdown.map((dropdownItem, idx) => (
-                                    <Link
-                                        key={idx}
-                                        to={dropdownItem.path}
-                                        onClick={(e) => {
-                                          e.stopPropagation();
-                                          setAboutDropdownOpen(false);
-                                        }}
-                                        className={`block px-2.5 py-2 text-gray-700 hover:bg-gray-100 transition-colors duration-200 ${
-                                            isActive(dropdownItem.path) ? 'bg-gray-100 font-medium' : ''
-                                        }`}
-                                    >
-                                      {dropdownItem.label}
-                                    </Link>
-                                ))}
-                              </div>
-                          )}
-                        </div>
-                    );
-                  }
-                  if (item.path === '/products') {
-                    return (
-                        <div key={index} className="relative" ref={productsDropdownRef}>
-                          <button type="button"
-                                  onClick={toggleProductsDropdown}
-                                  className={`px-2.5 py-2 rounded-lg text-lg font-medium. transition-all duration-300 flex items-center ${
-                                      isActive(item.path)
-                                          ? 'bg-primary text-white shadow-md'
-                                          : 'text-gray-700 hover:bg-gray-50 hover:text-primary hover:shadow-sm'
-                                  }`}
-                          >
-                            {item.label}
-                            {productsDropdownOpen ? (
-                                <FaChevronUp className="ml-1" />
-                            ) : (
-                                <FaChevronDown className="ml-1" />
-                            )}
-                          </button>
-                          {productsDropdownOpen && (
-                              <div className="absolute left-0 mt-2 w-48 bg-white rounded-lg shadow-lg z-50 border border-gray-200">
-                                {item.dropdown.map((dropdownItem, idx) => (
-                                    <Link
-                                        key={idx}
-                                        to={dropdownItem.path}
-                                        onClick={(e) => {
-                                          e.stopPropagation();
-                                          setProductsDropdownOpen(false);
-                                        }}
-                                        className={`block px-2.5 py-2 text-gray-700 hover:bg-gray-100 transition-colors duration-200 ${
-                                            isActive(dropdownItem.path) ? 'bg-gray-100 font-medium' : ''
-                                        }`}
-                                    >
-                                      {dropdownItem.label}
-                                    </Link>
-                                ))}
-                              </div>
-                          )}
-                        </div>
-                    );
-                  }
-                  if (item.path === '/farm') {
-                    return (
-                        <div key={index} className="relative" ref={farmDropdownRef}>
-                          <button type="button"
-                                  onClick={toggleFarmDropdown}
-                                  className={`px-2.5 py-2 rounded-lg text-lg font-medium. transition-all duration-300 flex items-center ${
-                                      isActive(item.path)
-                                          ? 'bg-primary text-white shadow-md'
-                                          : 'text-gray-700 hover:bg-gray-50 hover:text-primary hover:shadow-sm'
-                                  }`}
-                          >
-                            {item.label}
-                            {farmDropdownOpen ? (
-                                <FaChevronUp className="ml-1" />
-                            ) : (
-                                <FaChevronDown className="ml-1" />
-                            )}
-                          </button>
-                          {farmDropdownOpen && (
-                              <div className="absolute left-0 mt-2 w-48 bg-white rounded-lg shadow-lg z-50 border border-gray-200">
-                                {item.dropdown.map((dropdownItem, idx) => (
-                                    <Link
-                                        key={idx}
-                                        to={dropdownItem.path}
-                                        onClick={(e) => {
-                                          e.stopPropagation();
-                                          setFarmDropdownOpen(false);
-                                        }}
-                                        className={`block px-2.5 py-2 text-gray-700 hover:bg-gray-100 transition-colors duration-200 ${
-                                            isActive(dropdownItem.path) ? 'bg-gray-100 font-medium' : ''
-                                        }`}
-                                    >
-                                      {dropdownItem.label}
-                                    </Link>
-                                ))}
-                              </div>
-                          )}
-                        </div>
-                    );
-                  }
-
-                  if (item.path === '/news') {
-                    return (
-                        <div key={index} className="relative" ref={newsDropdownRef}>
-                          <button type="button"
-                                  onClick={toggleNewsDropdown}
-                                  className={`px-2.5 py-2 rounded-lg text-lg font-medium transition-all duration-300 flex items-center ${
-                                      isActive(item.path)
-                                          ? 'bg-primary text-white shadow-md'
-                                          : 'text-gray-700 hover:bg-gray-50 hover:text-primary hover:shadow-sm'
-                                  }`}
-                          >
-                            {item.label}
-                            {newsDropdownOpen ? (
-                                <FaChevronUp className="ml-1" />
-                            ) : (
-                                <FaChevronDown className="ml-1" />
-                            )}
-                          </button>
-                          {newsDropdownOpen && (
-                              <div className="absolute left-0 mt-2 w-48 bg-white rounded-lg shadow-lg z-50 border border-gray-200">
-                                {item.dropdown.map((dropdownItem, idx) => (
-                                    <Link
-                                        key={idx}
-                                        to={dropdownItem.path}
-                                        onClick={(e) => {
-                                          e.stopPropagation();
-                                          setNewsDropdownOpen(false);
-                                        }}
-                                        className={`block px-2.5 py-2 text-gray-700 hover:bg-gray-100 transition-colors duration-200 ${
-                                            location.pathname === dropdownItem.path ||
-                                            (dropdownItem.path === '/blog' && location.pathname.startsWith('/blog'))
-                                                ? 'bg-gray-100 font-medium' : ''
-                                        }`}
-                                    >
-                                      {dropdownItem.label}
-                                    </Link>
-                                ))}
-                              </div>
-                          )}
-                        </div>
-                    );
-                  }
-                  // fallback for other dropdowns if any
-                  return null;
+                  return (
+                      <div key={index} className="relative" ref={aboutDropdownRef}>
+                        <button type="button" onClick={toggleAboutDropdown}
+                                className={`px-2 py-1.5 rounded-lg text-sm font-medium transition-all duration-300 flex items-center ${
+                                    isActive(item.path) ? 'bg-primary text-white shadow-md' : 'text-gray-700 hover:bg-gray-50 hover:text-primary'}`}>
+                          {item.label}
+                          {aboutDropdownOpen ? <FaChevronUp className="ml-1 text-xs" /> : <FaChevronDown className="ml-1 text-xs" />}
+                        </button>
+                        {aboutDropdownOpen && (
+                            <div className="absolute left-0 mt-1.5 w-44 bg-white/95 backdrop-blur-md rounded-xl shadow-2xl z-[100] border border-white/30 overflow-hidden">
+                              {item.dropdown.map((dropdownItem, idx) => (
+                                  <Link key={idx} to={dropdownItem.path} onClick={(e) => { e.stopPropagation(); setAboutDropdownOpen(false); }}
+                                        className={`block px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors ${isActive(dropdownItem.path) ? 'bg-gray-100 font-medium' : ''}`}>
+                                    {dropdownItem.label}
+                                  </Link>
+                              ))}
+                            </div>
+                        )}
+                      </div>
+                  );
                 }
-                // Not a dropdown
                 return (
-                    <Link
-                        key={index}
-                        to={item.path}
-                        className={`px-2.5 py-2 rounded-lg text-lg font-medium. transition-all duration-300 ${
-                            isActive(item.path)
-                                ? 'bg-primary text-white shadow-md'
-                                : 'text-gray-700 hover:bg-gray-50 hover:text-primary hover:shadow-sm'
-                        }`}
-                        onClick={() => {
-                          if (isActive(item.path)) {
-                            window.scrollTo({ top: 0, behavior: 'smooth' });
-                          }
-                        }}
-                    >
+                    <Link key={index} to={item.path}
+                          className={`px-2 py-1.5 rounded-lg text-sm font-medium transition-all duration-300 ${
+                              isActive(item.path) ? 'bg-primary text-white shadow-md' : 'text-gray-700 hover:bg-gray-50 hover:text-primary'}`}
+                          onClick={() => { if (isActive(item.path)) window.scrollTo({ top: 0, behavior: 'smooth' }); }}>
                       {item.label}
                     </Link>
                 );
               })}
 
-              {/* Language Dropdown */}
-              <div className="relative ml-0.5" ref={desktopLanguageDropdownRef}>
-                <button
-                    onClick={toggleLanguageDropdown}
-                    className="flex items-center text-gray-700 hover:text-primary p-2 rounded-lg hover:bg-gray-100 transition-colors duration-300 group"
-                    aria-label="Language selection"
-                    aria-expanded={languageDropdownOpen}
-                >
-                  <FaGlobe className="mr-2 group-hover:rotate-12 transition-transform duration-300" />
-                  <span className="font-medium">{currentLanguage.code.toUpperCase()}</span>
-                  {languageDropdownOpen ? (
-                      <FaChevronUp className="ml-1" />
-                  ) : (
-                      <FaChevronDown className="ml-1" />
-                  )}
+              {/* Language + Login */}
+              <div className="relative ml-1" ref={desktopLanguageDropdownRef}>
+                <button onClick={toggleLanguageDropdown}
+                        className="flex items-center text-gray-700 hover:text-primary p-1.5 rounded-lg hover:bg-gray-100 transition-colors"
+                        aria-label="Language selection" aria-expanded={languageDropdownOpen}>
+                  <FaGlobe className="mr-1 text-xs" />
+                  <span className="font-medium text-sm">{currentLanguage.code.toUpperCase()}</span>
+                  {languageDropdownOpen ? <FaChevronUp className="ml-0.5 text-xs" /> : <FaChevronDown className="ml-0.5 text-xs" />}
                 </button>
-
-                {/* Dropdown Menu */}
                 {languageDropdownOpen && (
-                    <div className={`absolute ${
-                        i18n.language === 'ar' ? 'left-0' : 'right-0'
-                    } mt-2 w-48 bg-white rounded-lg shadow-lg z-50 border border-gray-200`}>
+                    <div className={`absolute ${i18n.language === 'ar' ? 'left-0' : 'right-0'} mt-1.5 w-36 bg-white/95 backdrop-blur-md rounded-xl shadow-2xl z-[100] border border-white/30 overflow-hidden`}>
                       {languages.map((lang) => (
-                          <button
-                              key={lang.code}
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                changeLanguage(lang.code);
-                              }}
-                              className={`block w-full text-left px-2.5 py-2 text-gray-700 hover:bg-gray-100 transition-colors duration-200 ${
-                                  i18n.language === lang.code ? 'bg-gray-100 font-medium' : ''
-                              }`}
-                          >
+                          <button key={lang.code} onClick={(e) => { e.stopPropagation(); changeLanguage(lang.code); }}
+                                  className={`block w-full text-left px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors ${i18n.language === lang.code ? 'bg-gray-100 font-medium' : ''}`}>
                             {lang.label}
                           </button>
                       ))}
@@ -520,137 +224,84 @@ const Navbar: React.FC = () => {
                 )}
               </div>
 
-              {/* Login/Logout Button — OUTSIDE the language div */}
               {user ? (
-                  <button
-                      onClick={() => logout()}
-                      className="flex items-center text-gray-700 hover:text-red-500 p-2 rounded-lg hover:bg-gray-100 transition-colors duration-300 ml-0.5"
-                      title="Logout"
-                  >
-                    <FaSignOutAlt size={18} />
+                  <button onClick={() => logout()} className="flex items-center text-gray-700 hover:text-red-500 p-1.5 rounded-lg hover:bg-gray-100 transition-colors ml-0.5" title="Logout">
+                    <FaSignOutAlt size={16} />
                   </button>
               ) : (
-                  <Link
-                      to="/login"
-                      className="flex items-center text-gray-700 hover:text-primary p-2 rounded-lg hover:bg-gray-100 transition-colors duration-300 ml-0.5"
-                      title="Login"
-                  >
-                    <FaUserCircle size={20} />
+                  <Link to="/login" className="flex items-center text-gray-700 hover:text-primary p-1.5 rounded-lg hover:bg-gray-100 transition-colors ml-0.5" title="Login">
+                    <FaUserCircle size={16} />
                   </Link>
               )}
             </div>
 
-            {/* Mobile Menu Button */}
-            <div className="md:hidden flex items-center space-x-4">
-              {/* Language Toggle Button (visible on mobile) */}
+            {/* Mobile Toggle */}
+            <div className="md:hidden flex items-center space-x-3">
               <div className="relative" ref={languageDropdownRef}>
-                <button
-                    onClick={toggleLanguageDropdown}
-                    className="flex items-center text-gray-700 p-2 rounded-lg transition-colors duration-300"
-                    aria-label="Language selection"
-                    aria-expanded={languageDropdownOpen}
-                >
-                  <FaGlobe className="mr-1" />
-                  <span className="font-medium">{currentLanguage.code.toUpperCase()}</span>
-                  {languageDropdownOpen ? (
-                      <FaChevronUp className="ml-1" />
-                  ) : (
-                      <FaChevronDown className="ml-1" />
-                  )}
+                <button onClick={toggleLanguageDropdown} className="flex items-center text-gray-700 p-1.5 rounded-lg transition-colors"
+                        aria-label="Language selection" aria-expanded={languageDropdownOpen}>
+                  <FaGlobe className="mr-1 text-sm" /><span className="font-medium text-sm">{currentLanguage.code.toUpperCase()}</span>
                 </button>
-
-                {/* Dropdown Menu for Mobile */}
                 {languageDropdownOpen && (
-                    <div className={`absolute ${
-                        i18n.language === 'ar' ? 'left-0' : 'right-0'
-                    } mt-2 w-48 bg-white rounded-lg shadow-lg z-50 border border-gray-200`}>
+                    <div className={`absolute ${i18n.language === 'ar' ? 'left-0' : 'right-0'} mt-1.5 w-36 bg-white rounded-xl shadow-lg z-50 border border-gray-200`}>
                       {languages.map((lang) => (
-                          <button
-                              key={lang.code}
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                changeLanguage(lang.code);
-                              }}
-                              className={`block w-full text-left px-2.5 py-2 text-text-dark hover:bg-gray-100 transition-colors duration-200 ${
-                                  i18n.language === lang.code ? 'bg-gray-100 font-medium' : ''
-                              }`}
-                          >
+                          <button key={lang.code} onClick={(e) => { e.stopPropagation(); changeLanguage(lang.code); }}
+                                  className={`block w-full text-left px-3 py-2 text-sm text-text-dark hover:bg-gray-100 ${i18n.language === lang.code ? 'bg-gray-100 font-medium' : ''}`}>
                             {lang.label}
                           </button>
                       ))}
                     </div>
                 )}
               </div>
-
-              {/* Mobile Menu Toggle */}
-              <button
-                  onClick={handleClick}
-                  className="inline-flex items-center justify-center p-2 rounded-lg text-gray-700 hover:text-primary hover:bg-gray-100 focus:outline-none transition-colors duration-300"
-                  aria-expanded={click}
-                  aria-label={click ? "Close menu" : "Open menu"}
-              >
-                {click ? (
-                    <FaTimes className="block h-6 w-6" />
-                ) : (
-                    <FaBars className="block h-6 w-6" />
-                )}
+              <button onClick={() => { setClick(!click); document.body.classList.toggle('overflow-hidden', !click); }}
+                      className="inline-flex items-center justify-center p-1.5 rounded-lg text-gray-700 hover:text-primary hover:bg-gray-100 transition-colors"
+                      aria-expanded={click} aria-label={click ? "Close menu" : "Open menu"}>
+                {click ? <FaTimes className="block h-5 w-5" /> : <FaBars className="block h-5 w-5" />}
               </button>
             </div>
           </div>
 
-          {/* Mobile Menu - Flat Layout */}
-          <div className={`${click ? 'block' : 'hidden'} md:hidden pb-3 px-4 overflow-y-auto max-h-[80vh]`}>
-            <div className="space-y-1">
-              {navItems.map((item) => (
+          {/* Mobile Menu */}
+          <div className={`${click ? 'block' : 'hidden'} md:hidden pb-3 px-4 overflow-y-auto max-h-[70vh]`}>
+            <div className="space-y-0.5">
+              {[...primaryNavItems, ...secondaryNavItems].map((item: any) => (
                   <React.Fragment key={item.path}>
                     {!item.dropdown ? (
-                        <Link
-                            to={item.path}
-                            onClick={closeMobileMenu}
-                            className={`block px-3 py-3 rounded-lg text-base font-medium ${
-                                location.pathname === item.path ? 'bg-primary text-white font-bold' : 'text-gray-700'
-                            }`}
-                        >
-                          {item.label}
+                        <Link to={item.path} onClick={closeMobileMenu}
+                              className={`block px-3 py-2.5 rounded-lg text-sm font-medium ${location.pathname === item.path ? 'bg-primary text-white font-bold' : 'text-gray-700'}`}>
+                          {item.icon && <item.icon className="inline mr-2 text-xs" />}{item.label}
                         </Link>
                     ) : (
-                        <>
-                          {item.dropdown.map((subItem) => (
-                              <Link
-                                  key={subItem.path}
-                                  to={subItem.path}
-                                  onClick={closeMobileMenu}
-                                  className={`block px-5 py-2 rounded-lg text-base font-medium ${
-                                      location.pathname === subItem.path ||
-                                      (subItem.path === '/blog' && location.pathname.startsWith('/blog'))
-                                          ? 'bg-primary text-white font-bold'
-                                          : 'text-gray-700'
-                                  }`}
-                              >
-                                {subItem.label}
-                              </Link>
-                          ))}
-                        </>
+                        item.dropdown.map((subItem: any) => (
+                            <Link key={subItem.path} to={subItem.path} onClick={closeMobileMenu}
+                                  className={`block px-5 py-2 rounded-lg text-sm font-medium ${location.pathname === subItem.path ? 'bg-primary text-white font-bold' : 'text-gray-700'}`}>
+                              {subItem.label}
+                            </Link>
+                        ))
                     )}
                   </React.Fragment>
               ))}
               {user ? (
-                  <button
-                      onClick={() => { logout(); closeMobileMenu(); }}
-                      className="block px-3 py-3 rounded-lg text-base font-medium text-red-500 w-full text-left"
-                  >
-                    Logout
-                  </button>
+                  <button onClick={() => { logout(); closeMobileMenu(); }}
+                          className="block px-3 py-2.5 rounded-lg text-sm font-medium text-red-500 w-full text-left">Logout</button>
               ) : (
-                  <Link
-                      to="/login"
-                      onClick={closeMobileMenu}
-                      className="block px-3 py-3 rounded-lg text-base font-medium text-gray-700"
-                  >
-                    Login
-                  </Link>
+                  <Link to="/login" onClick={closeMobileMenu} className="block px-3 py-2.5 rounded-lg text-sm font-medium text-gray-700">Login</Link>
               )}
             </div>
+          </div>
+        </div>
+
+        {/* Secondary Navbar - Capability Focused */}
+        <div className="hidden md:block relative mx-auto max-w-7xl mt-1.5">
+          <div className="bg-white/50 backdrop-blur-md border border-white/30 rounded-xl shadow-sm px-3 py-1.5 flex items-center justify-center gap-1 flex-wrap">
+            {secondaryNavItems.map((item, idx) => (
+                <Link key={idx} to={item.path}
+                      className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium transition-all duration-300 ${
+                          isActive(item.path) ? 'bg-primary text-white shadow-sm' : 'text-gray-600 hover:bg-white/60 hover:text-primary'}`}>
+                  <item.icon className="text-[10px]" />
+                  {item.label}
+                </Link>
+            ))}
           </div>
         </div>
       </nav>

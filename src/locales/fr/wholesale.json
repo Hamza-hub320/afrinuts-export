@@ -109,6 +109,7 @@
   "trust": {
     "title": "Approuvé par les Agriculteurs, Soutenu par les Investisseurs",
     "body": "Nous ne sommes pas un bureau de négoce. Nous possédons la ferme, gérons la coopérative et opérons en toute transparence.",
+    "community": "Quand vous achetez chez nous, vous financez un puits",
     "items": [
       { "icon": "FaUsers", "value": "200+", "label": "Agriculteurs dans la Coopérative", "desc": "Partenariat direct avec les producteurs locaux" },
       { "icon": "FaLeaf", "value": "35 ha", "label": "Ferme Possédée", "desc": "Pas un bureau de négoce — nous cultivons ce que nous vendons" },

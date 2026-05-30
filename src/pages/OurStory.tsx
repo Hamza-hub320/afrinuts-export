@@ -182,9 +182,8 @@ const OurStory: React.FC = () => {
                     "knowsAbout": ["Organic Cashew Farming", "Islamic Finance", "Community Development", "Sustainable Agriculture"]
                 }
             }} />
-
             {/* Breadcrumbs */}
-            <div className="max-w-4xl mx-auto px-6 sm:px-8 pt-[80px] pb-1">
+            <div className="max-w-4xl mx-auto px-6 sm:px-8 pt-[100px] pb-1">
                 <div className="text-sm text-text-dark flex items-center gap-1 flex-wrap">
                     <Link to="/" className="hover:text-primary transition-colors">{t('breadcrumbs.home', 'Home')}</Link>
                     <span>/</span>

@@ -24,7 +24,7 @@ import {
     FaWhatsapp,
     FaTh,
     FaSeedling,
-    FaTint, FaCheck, FaHeadset
+    FaTint, FaCheck, FaHeadset, FaHeart
 } from 'react-icons/fa';
 import Section from '@/components/Section/Section';
 import { Typography } from '@/components/Typography/Typography';
@@ -75,7 +75,7 @@ const Wholesale: React.FC = () => {
             <JsonLd data={{ "@context": "https://schema.org", "@type": "WebPage", "name": t('seo.title'), "description": t('seo.description') }} />
 
             {/* Hero */}
-            <Section className="flex items-center justify-center text-center min-h-[50vh]">
+            <Section className="flex items-center justify-center text-center min-h-[90vh]">
                 <motion.div className="max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 flex flex-col lg:flex-row items-center gap-6 lg:gap-28" initial="hidden" animate="visible" variants={staggerContainer}>
 
                     {/* Left: Text Content */}
@@ -389,7 +389,7 @@ const Wholesale: React.FC = () => {
                     <Typography variant="body" className="text-gray-600 max-w-xl mx-auto">{t('trust.body')}</Typography>
                 </motion.div>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4">{trustSignals.map((item, idx) => {
-    const IconComponent = iconMap[item.icon] || FaUsers;
+                    const IconComponent = iconMap[item.icon] || FaUsers;
     return (
         <motion.div key={idx} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} transition={{ delay: idx * 0.1 }}>
             <InfoCard icon={IconComponent as any} title={item.value} subtitle={item.label} iconColor="text-accent" showInfoBadge={false} className="h-full text-center">
@@ -398,7 +398,14 @@ const Wholesale: React.FC = () => {
         </motion.div>
     );
 })}</div>
-            </div></Section>
+            </div>
+                <div className="text-center mt-6">
+                    <Link to="/community" className="text-accent hover:text-primary text-sm font-medium inline-flex items-center gap-1">
+                        <FaHeart className="text-xs" />
+                        {t('trust.community')}
+                        <FaArrowRight className="text-xs" />
+                    </Link>
+                </div></Section>
 
             {/* FAQ */}
             <Section className="py-10"><div className="max-w-3xl mx-auto px-4 sm:px-6">

@@ -31,6 +31,7 @@ import wholesaleEN from './locales/en//wholesale.json';
 import partnersEN from './locales/en/partners.json';
 import farmOsEN from './locales/en/farmOs.json'
 import feedbackEN from './locales/en/feedback.json'
+import communityEN from './locales/en/community.json'
 
 // French translations
 import homeFR from './locales/fr/home.json';
@@ -61,6 +62,7 @@ import wholesaleFR from './locales/fr/wholesale.json';
 import partnersFR from './locales/fr/partners.json';
 import farmOsFR from './locales/fr/farmOs.json';
 import feedbackFR from './locales/fr/feedback.json';
+import communityFR from './locales/fr/community.json';
 
 // Arabic translations
 import homeAR from './locales/ar/home.json';
@@ -91,6 +93,8 @@ import wholesaleAR from './locales/ar/wholesale.json';
 import partnersAR from './locales/ar/partners.json';
 import farmOsAR from './locales/ar/farmOs.json';
 import feedbackAR from './locales/ar/feedback.json';
+import communityAR from './locales/ar/community.json';
+
 
 
 // Type definitions
@@ -124,7 +128,8 @@ interface TranslationResources {
     wholesale: typeof wholesaleEN;
     partnersEN: typeof partnersEN;
     farmOs: typeof farmOsEN,
-    feedback: typeof feedbackEN
+    feedback: typeof feedbackEN,
+    community: typeof communityEN
 }
 
 interface I18nOptions {
@@ -175,7 +180,8 @@ const resources: Record<SupportedLanguages, TranslationResources> = {
         wholesale: wholesaleEN,
         partners: partnersEN,
         farmOs: farmOsEN,
-        feedback: feedbackEN
+        feedback: feedbackEN,
+        community: communityEN
     },
     fr: {
         home: homeFR,
@@ -205,7 +211,8 @@ const resources: Record<SupportedLanguages, TranslationResources> = {
         wholesale: wholesaleFR,
         partners: partnersFR,
         farmOs: farmOsFR,
-        feedback: feedbackFR
+        feedback: feedbackFR,
+        community: communityFR
     },
     ar: {
         home: homeAR,
@@ -235,7 +242,8 @@ const resources: Record<SupportedLanguages, TranslationResources> = {
         wholesale: wholesaleAR,
         partners: partnersAR,
         farmOs: farmOsAR,
-        feedback: feedbackAR
+        feedback: feedbackAR,
+        community: communityAR
     }
 };
 
@@ -243,7 +251,9 @@ const options: I18nOptions = {
     fallbackLng: 'en',
     debug: process.env.NODE_ENV === 'development',
     supportedLngs: ['en', 'fr', 'ar'],
-    ns: ['home', 'common', 'about', 'products', 'farm', 'contact', 'footer', 'sustainability', 'vision', 'privacy', 'terms', 'cookies', 'cookiePolicy', 'news', 'faq', 'chatbot', 'executive', 'story','trace', 'processing', 'facility', 'certifications', 'accessibility', 'invest', 'wholesale', 'partners', 'farmOs', 'feedback'],
+    ns: ['home', 'common', 'about', 'products', 'farm', 'contact', 'footer', 'sustainability', 'vision', 'privacy', 'terms', 'cookies',
+        'cookiePolicy', 'news', 'faq', 'chatbot', 'executive', 'story','trace', 'processing', 'facility',
+        'certifications', 'accessibility', 'invest', 'wholesale', 'partners', 'farmOs', 'feedback', 'community'],
     defaultNS: 'common',
     resources,
     interpolation: {

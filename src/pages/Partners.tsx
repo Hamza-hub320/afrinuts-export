@@ -41,7 +41,7 @@ const Partners: React.FC = () => {
     const faqItems = t('faq.items', { returnObjects: true }) as any[];
 
     return (
-        <div className="min-h-screen pt-[72px] font-sans bg-[var(--background)] text-[var(--text-dark)]">
+        <div className="text-text-dark font-sans">
             <Helmet>
                 <title>{t('seo.title')}</title>
                 <meta name="description" content={t('seo.description')} />
@@ -50,7 +50,7 @@ const Partners: React.FC = () => {
             <JsonLd data={{ "@context": "https://schema.org", "@type": "WebPage", "name": t('seo.title'), "description": t('seo.description') }} />
 
             {/* Hero */}
-            <Section className="flex items-center justify-center text-center pt-2 pb-8 lg:pb-12">
+            <Section className="flex items-center justify-center text-center min-h-[90vh]">
                 <motion.div className="max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 flex flex-col lg:flex-row items-center gap-6 lg:gap-28" initial="hidden" animate="visible" variants={staggerContainer}>
                     <motion.div className="flex-1 max-w-none lg:max-w-xl text-center lg:text-left" variants={fadeIn}>
                         <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-3">

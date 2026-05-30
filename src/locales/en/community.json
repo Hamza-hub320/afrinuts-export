@@ -1,0 +1,75 @@
+{
+  "seo": {
+    "title": "Community Impact | 10% Reinvested | AfriNuts Export",
+    "description": "10% of AfriNuts Export profits are reinvested into Odienné communities — water wells, schools, mosques, and farmer livelihoods. Sadaqah Jariyah in action."
+  },
+  "hero": {
+    "subtitle": "Community Impact",
+    "title": "More Than Cashews.<br/>A Movement.",
+    "body": "Our farm in Odienné is not just a business — it's a platform for community transformation. Every harvest builds wells. Every shipment supports schools. Every partnership lifts families.",
+    "introTitle": "10% of Every Harvest Goes Back",
+    "introBody": "Our profit-sharing model is simple: 10% of net profits are reinvested directly into community projects chosen by the community. No middlemen. No overhead. Just direct impact.",
+    "badges": [
+      { "label": "10% Reinvested", "icon": "FaChartLine", "bg": "bg-primary/10", "text": "text-primary" },
+      { "label": "200+ Farmers", "icon": "FaUsers", "bg": "bg-green-50", "text": "text-green-700" },
+      { "label": "Sadaqah Jariyah", "icon": "FaStar", "bg": "bg-amber-50", "text": "text-amber-700" }
+    ],
+    "ctaSource": "Source With Impact",
+    "ctaInvest": "Invest With Purpose",
+    "imageAlt": "AfriNuts Community in Odienné",
+    "imageLabel": "Odienné, Côte d'Ivoire"
+  },
+  "howItWorks": {
+    "title": "How Community Reinvestment Works",
+    "body": "10% is not a donation. It's a structural commitment — built into our operating agreement from day one.",
+    "stepLabel": "Step",
+    "steps": [
+      { "step": "1", "title": "Harvest & Revenue", "desc": "Every cashew harvest generates revenue from our farm and cooperative." },
+      { "step": "2", "title": "10% Allocated", "desc": "10% of net profits are automatically allocated to the community fund — built into our structure, not an afterthought." },
+      { "step": "3", "title": "Community Decides", "desc": "Village elders, cooperative leaders, and community members prioritize which projects to fund." },
+      { "step": "4", "title": "Direct Impact", "desc": "Funds go directly to projects. No middlemen. No overhead. Wells, schools, and mosques built from the ground up." }
+    ]
+  },
+  "impactAreas": {
+    "title": "Where the 10% Goes",
+    "body": "Four pillars of community investment — each chosen by the community, funded by the harvest.",
+    "items": [
+      { "icon": "FaWater", "title": "Water Wells & Clean Access", "desc": "Access to clean water changes everything. We're drilling wells in Odienné so families don't walk miles for drinking water. Every well serves hundreds of people for generations.", "stat": "Lifesaving", "color": "text-blue-600", "bg": "bg-blue-50" },
+      { "icon": "FaBookOpen", "title": "Schools & Education", "desc": "We support local schools and madrasas. When a child learns to read, a generation rises. Education is the most powerful investment a community can make.", "stat": "Generational", "color": "text-green-600", "bg": "bg-green-50" },
+      { "icon": "FaMosque", "title": "Mosques & Sacred Spaces", "desc": "Places of worship are the heart of our community. We contribute to building and maintaining mosques — spaces where people gather, pray, and find peace.", "stat": "Spiritual", "color": "text-amber-600", "bg": "bg-amber-50" },
+      { "icon": "FaUsers", "title": "Farmer Livelihoods", "desc": "200+ farmers in our cooperative receive training, fair pricing above market rates, and guaranteed off-take. Dignity through dignified work — not charity, but partnership.", "stat": "Dignity", "color": "text-purple-600", "bg": "bg-purple-50" }
+    ]
+  },
+  "cooperative": {
+    "title": "200+ Families. One Cooperative.",
+    "body": "Our cooperative in Odienné is not a supplier relationship — it's a partnership. Watch our first cooperative meeting.",
+    "cardTitle": "See the Partnership in Action",
+    "description": "We provide training, fair pricing above market rates, and guaranteed off-take. Farmers provide the harvest. Together, we're proving that ethical supply chains work — and that community partnership is good business.",
+    "tags": ["200+ Farmers", "Fair Pricing", "Technical Training", "Guaranteed Off-Take"]
+  },
+  "sadaqah": {
+    "title": "Sadaqah Jariyah: Charity That Continues",
+    "body": "In Islam, sadaqah jariyah is charity that benefits people long after the giver is gone. A well that provides water for generations. A school that educates thousands. A tree that bears fruit for decades.",
+    "cardTitle": "Our 10% Commitment",
+    "body2": "Our 10% reinvestment is structured as sadaqah jariyah — ongoing charity that compounds. Every well drilled. Every classroom built. Every farmer trained. The reward continues.",
+    "hadith": "\"When a person dies, their deeds come to an end except for three: ongoing charity (sadaqah jariyah), beneficial knowledge, or a righteous child who prays for them.\"",
+    "hadithSource": "— Sahih Muslim"
+  },
+  "forBuyers": {
+    "title": "When You Buy, You Fund a Well",
+    "body": "Every wholesale order contributes to our 10% community fund. Your purchase is not just a transaction — it's part of a supply chain that builds schools, drills wells, and supports 200+ farming families in Côte d'Ivoire.",
+    "cta": "Source With Impact"
+  },
+  "forInvestors": {
+    "title": "Returns in This Life and the Next",
+    "body": "Your investment earns dividends. It also earns sadaqah jariyah — ongoing charity from every well built, every student taught, every farmer supported. Financial returns and spiritual returns, together.",
+    "cta": "Invest With Purpose"
+  },
+  "cta": {
+    "title": "Be Part of the Mission",
+    "body": "Whether you're buying cashews, investing in our processing center, or partnering with our cooperative — you're funding real impact in Odienné.",
+    "source": "Source With Impact",
+    "invest": "Invest With Purpose",
+    "partner": "Partner With Us"
+  }
+}

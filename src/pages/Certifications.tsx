@@ -156,18 +156,8 @@ const Certifications: React.FC = () => {
                     "description": "Premium organic cashew exporter pursuing international certifications for farm-to-export traceability."
                 }
             }} />
-
-            <div className="max-w-4xl mx-auto px-6 sm:px-8 pt-[80px] pb-1">
-            <div className="text-sm text-text-darkmb-4 flex items-center gap-1 flex-wrap">
-                <Link to="/" className="hover:text-primary transition-colors">{t('breadcrumbs.home', 'Home')}</Link>
-                <span>/</span>
-                <Link to="/products" className="hover:text-primary transition-colors">{t('breadcrumbs.products', 'Products')}</Link>
-                <span>/</span>
-                <span className="text-primary font-medium">{t('breadcrumbs.certifications', 'Certification & Quality')}</span>
-            </div>
-            </div>
             {/* Hero */}
-            <Section className="flex items-center justify-center text-center pt-2 pb-8 lg:pb-12">
+            <Section className="flex items-center justify-center text-center min-h-[90vh]">
                 <motion.div className="max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 flex flex-col lg:flex-row items-center gap-6 lg:gap-28" initial="hidden" animate="visible" variants={staggerContainer}>
 
                     {/* Left: Text Content */}

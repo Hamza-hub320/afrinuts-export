@@ -175,16 +175,9 @@ const Farm = () => {
                     }
                 }
             }} />
-            <div className="max-w-4xl mx-auto px-6 sm:px-8 pt-[80px] pb-1">
-                <div className="text-sm text-text-dark mb-4 flex items-center gap-1 flex-wrap">
-                    <Link to="/" className="hover:text-primary transition-colors">{t('breadcrumbs.home', 'Home')}</Link>
-                    <span>/</span>
-                    <span className="text-primary font-medium">{t('breadcrumbs.farm', 'Farm')}</span>
-                </div>
-            </div>
             <div className="text-text-dark font-sans leading-relaxed">
                 {/* Hero */}
-                <Section className="flex items-center justify-center text-center pt-2 pb-8 lg:pb-12">
+                <Section className="flex items-center justify-center text-center min-h-[90vh]">
                     <motion.div className="max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 flex flex-col lg:flex-row items-center gap-6 lg:gap-28" initial="hidden" animate="visible" variants={staggerContainer}>
 
                         {/* Left: Text Content */}

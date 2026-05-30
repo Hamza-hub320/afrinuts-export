@@ -93,6 +93,7 @@
   },
   "returns": {
     "title": "Projected Investor Returns (Base Case)",
+    "community": "Returns in this life and the next",
     "subtitle": "25% equity stake with growing dividends starting Year 3 of operations (2033). 50% of net profits distributed; 50% reinvested for Phase 2 expansion.",
     "kpis": {
       "investment": "Investment",

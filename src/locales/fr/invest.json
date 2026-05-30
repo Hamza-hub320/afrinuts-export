@@ -93,6 +93,7 @@
   },
   "returns": {
     "title": "Rendements Projetés pour l'Investisseur (Scénario de Base)",
+    "community": "Des rendements dans cette vie et la suivante",
     "subtitle": "Participation de 25 % avec dividendes croissants à partir de l'Année 3 d'exploitation (2033). 50 % des bénéfices nets distribués ; 50 % réinvestis pour l'expansion Phase 2.",
     "kpis": {
       "investment": "Investissement",

@@ -22,6 +22,7 @@ import BlogPost from '@/pages/BlogPost';
 import NewsPost from '@/pages/NewsPost';
 
 // Lazy load heavy pages
+const Community = React.lazy(() => import('@/pages/Community'));
 const FarmOS = React.lazy(() => import('@/pages/FarmOS'));
 const Partners = React.lazy(() => import('@/pages/Partners'));
 const Wholesale = React.lazy(() => import('@/pages/Wholesale'));
@@ -108,6 +109,7 @@ function App(): ReactElement {
                                     <Route path="wholesale" element={<Wholesale />} />
                                     <Route path="partners" element={<Partners />} />
                                     <Route path="farm-os" element={<FarmOS />} />
+                                    <Route path="community" element={<Community />} />
                                 </Route>
 
                                 <Route path="dashboard" element={

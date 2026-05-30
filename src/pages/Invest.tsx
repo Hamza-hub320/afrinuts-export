@@ -6,7 +6,7 @@ import {
     FaChartLine, FaIndustry, FaLeaf, FaShieldAlt, FaUsers,
     FaArrowRight, FaDownload, FaHandshake, FaCalendarAlt, FaFileContract, FaCheckCircle,
     FaHeart, FaSolarPanel, FaGlobeAfrica, FaChartPie,
-    FaMoneyBillWave, FaBuilding, FaSeedling, FaInfoCircle, FaChartBar, FaCrown, FaRecycle, FaMobile, FaTree
+    FaMoneyBillWave, FaBuilding, FaSeedling, FaInfoCircle, FaChartBar, FaCrown, FaRecycle, FaMobile, FaTree, FaStar
 } from 'react-icons/fa';
 import {
     BarChart, Bar, XAxis, YAxis, CartesianGrid,
@@ -113,7 +113,7 @@ const Invest: React.FC = () => {
             <JsonLd data={{ "@context": "https://schema.org", "@type": "WebPage", "name": t('seo.title'), "description": t('seo.description') }} />
 
             {/* Hero */}
-            <Section className="flex items-center justify-center text-center min-h-[50vh]">
+            <Section className="flex items-center justify-center text-center min-h-[90vh]">
                 <motion.div className="max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 flex flex-col lg:flex-row items-center gap-6 lg:gap-16" initial="hidden" animate="visible" variants={staggerContainer}>
 
                     {/* Left: Text Content */}
@@ -506,7 +506,14 @@ const Invest: React.FC = () => {
                     ))}
                 </div>
                 <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} className="mt-6 bg-amber-50/80 border border-amber-200 rounded-xl p-3 text-center max-w-2xl mx-auto"><Typography variant="small" className="text-amber-700 text-xs">{t('returns.disclaimer')}</Typography></motion.div>
-            </div></Section>
+            </div>
+                <div className="text-center mt-4">
+                    <Link to="/community" className="text-accent hover:text-primary text-sm font-medium inline-flex items-center gap-1">
+                        <FaStar className="text-xs" />
+                        {t('returns.community')}
+                        <FaArrowRight className="text-xs" />
+                    </Link>
+                </div></Section>
 
             {/* Investment Journey Timeline — Glassy 3D Style */}
             <Section className="py-10 sm:py-12">
