@@ -45,6 +45,16 @@ let pendingAlt: string | null = null;
 
 const options = {
     renderNode: {
+        [INLINES.HYPERLINK]: (node: any, children: any) => (
+            <a
+                href={node.data.uri}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-accent hover:text-primary underline decoration-accent/30 hover:decoration-primary transition-colors font-medium"
+            >
+                {children}
+            </a>
+        ),
         [BLOCKS.EMBEDDED_ASSET]: (node: any) => {
             try {
                 const target = node?.data?.target;
@@ -99,6 +109,10 @@ const options = {
         [BLOCKS.TABLE_HEADER_CELL]: (node: any, children: any) => (
             <th className="px-4 py-3 text-sm font-semibold text-primary bg-primary/5 border-r border-gray-200 last:border-r-0 text-left">{children}</th>
         ),
+        renderMark: {
+            [MARKS.BOLD]: (text: any) => <strong className="font-bold text-text-dark">{text}</strong>,
+            [MARKS.ITALIC]: (text: any) => <em className="italic">{text}</em>,
+        }
     },
 };
 

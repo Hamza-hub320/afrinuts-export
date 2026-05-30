@@ -32,7 +32,7 @@ interface BlogPost {
     featuredImage?: string;
 }
 
-const CATEGORIES = ['All', 'Farming & Agriculture', 'Cashew Industry', 'Sustainability', 'Behind the Scenes', 'Health & Nutrition'];
+const CATEGORIES = ['All', 'Farming & Agriculture', 'Cashew Industry', 'Sustainability', 'Behind the Scenes', 'Health & Nutrition', 'Education'];
 
 const Blog: React.FC = () => {
     const [posts, setPosts] = useState<BlogPost[]>([]);
