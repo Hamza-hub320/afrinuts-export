@@ -19,6 +19,12 @@ import { Helmet } from 'react-helmet-async';
 import { BLOCKS, INLINES, MARKS } from '@contentful/rich-text-types';
 import {staggerContainer} from "@/utils/animations";
 import { trackCtaClick } from '@/utils/analytics';
+import ceoImage from '@/assets/images/ceo.webp';
+import cfoImage from '@/assets/images/cfo.webp';
+import ccoImage from '@/assets/images/cco.webp';
+import opsImage from '@/assets/images/ops-manager.webp';
+import adminImage from '@/assets/images/admin-manager.webp';
+import farmManagerImage from '@/assets/images/farm-manager.webp';
 interface BlogPostType {
     slug: string;
     title: string;
@@ -63,11 +69,11 @@ const options = {
                 const imageUrl = `https:${target.fields.file.url}`;
                 const altText = target.fields.description || target.fields.title || 'Blog post image';
 
-                // First image: store it and wait
+                // First image: store it and return null (wait for potential pair)
                 if (!pendingImage) {
                     pendingImage = imageUrl;
                     pendingAlt = altText;
-                    return null; // Don't render yet
+                    return null;
                 }
 
                 // Second image: render both side by side
@@ -82,7 +88,7 @@ const options = {
                             <img
                                 src={firstImage}
                                 alt={firstAlt || ''}
-                                className="w-full rounded-2xl shadow-lg border-2 border-white/20 max-h-[400px] object-contain"
+                                className="w-full rounded-2xl shadow-lg border-2 border-white/20 max-h-[400px] object-cover"
                                 loading="lazy"
                             />
                         </div>
@@ -90,7 +96,7 @@ const options = {
                             <img
                                 src={imageUrl}
                                 alt={altText || ''}
-                                className="w-full rounded-2xl shadow-lg border-2 border-white/20 max-h-[400px] object-contain"
+                                className="w-full rounded-2xl shadow-lg border-2 border-white/20 max-h-[400px] object-cover"
                                 loading="lazy"
                             />
                         </div>
@@ -109,21 +115,50 @@ const options = {
         [BLOCKS.TABLE_HEADER_CELL]: (node: any, children: any) => (
             <th className="px-4 py-3 text-sm font-semibold text-primary bg-primary/5 border-r border-gray-200 last:border-r-0 text-left">{children}</th>
         ),
-        renderMark: {
-            [MARKS.BOLD]: (text: any) => <strong className="font-bold text-text-dark">{text}</strong>,
-            [MARKS.ITALIC]: (text: any) => <em className="italic">{text}</em>,
-        }
     },
+    renderMark: {
+        [MARKS.BOLD]: (text: any) => <strong className="font-bold text-text-dark">{text}</strong>,
+        [MARKS.ITALIC]: (text: any) => <em className="italic">{text}</em>,
+    }
+};
+
+const getAuthorImage = (author: string): string => {
+    if (author.includes('Hamza Sangare')) return ceoImage;
+    if (author.includes('Sekou')) return cfoImage;
+    if (author.includes('Muhamadue') || author.includes('Kouyaté')) return ccoImage;
+    if (author.includes('Alassana')) return opsImage;
+    if (author.includes('Mohamed Beniken')) return adminImage;
+    if (author.includes('Souleymane')) return farmManagerImage;
+    return ceoImage; // fallback
+};
+
+const getAuthorRole = (author: string): string => {
+    if (author.includes('Hamza Sangare')) return 'Founder & CEO';
+    if (author.includes('Sekou')) return 'Co-Founder & CFO/COO';
+    if (author.includes('Muhamadue') || author.includes('Kouyaté')) return 'Chief Commercial Officer';
+    if (author.includes('Alassana')) return 'Chief Technology Officer';
+    if (author.includes('Mohamed Beniken')) return 'Chief Administrative Officer';
+    if (author.includes('Souleymane')) return 'Farm Operations Manager';
+    return 'AfriNuts Export Team';
 };
 
 const getAuthorBio = (author: string): string => {
-    if (author.includes('Hamza Sangare')) {
-        return 'Founder & CEO of AfriNuts Export, a family-owned organic cashew farm in Odienné, Ivory Coast. Hamza combines three generations of farming heritage with modern agribusiness practices.';
+    const teamMembers: Record<string, string> = {
+        'Hamza Sangare': 'Founder & CEO of AfriNuts Export. Built Farm OS, the custom operating system powering our farm. Third-generation cashew farmer writing from Odienné — covering strategy, technology, farming, and the future of West African agribusiness.',
+        'Sekou Hakim': 'Co-Founder & CFO/COO at AfriNuts Export. Writes about ethical finance, Shariah-compliant investment structures, and the economics of building a vertically integrated cashew business in Côte d\'Ivoire.',
+        'Muhamadue Kouyate': 'Chief Commercial Officer at AfriNuts Export. 12+ years in export compliance and trade. Writes about global cashew markets, buyer relationships, logistics, and what importers actually look for.',
+        'Alassana Bah': 'Chief Technology Officer at AfriNuts Export. Former investor turned CTO. Writes about agritech, building Farm OS, IoT in farming, and why technology is the missing layer in African agriculture.',
+        'Mohamed Beniken': 'Chief Administrative Officer at AfriNuts Export. Writes about corporate governance, compliance frameworks, and what it takes to build an ethical, audit-ready organization in emerging markets.',
+        'Souleymane Sangare': 'Farm Operations Manager at AfriNuts Export. 14+ years working the land in Odienné. Writes about organic farming techniques, harvest cycles, tree care, and the daily realities of managing a cashew plantation.',
+    };
+
+    for (const [key, bio] of Object.entries(teamMembers)) {
+        if (author.includes(key)) {
+            return bio;
+        }
     }
-    if (author.includes('Sekou')) {
-        return 'Co-founder & CFO/COO at AfriNuts Export, overseeing financial strategy and operations across the 35-hectare organic cashew farm.';
-    }
-    return 'Cashew farming expert at AfriNuts Export, sharing practical insights from our 35-hectare farm in West Africa.';
+
+    return 'Member of the AfriNuts Export team, sharing insights from our farm in Odienné, Côte d\'Ivoire.';
 };
 
 const BlogPost: React.FC = () => {
@@ -364,23 +399,45 @@ const BlogPost: React.FC = () => {
                         </article>
                     </motion.div>
 
-                    {/* Author Bio */}
+                    {/* Author Bio — Matching Invest Team Card Style */}
                     <motion.div
-                        className="mt-10 p-5 bg-gradient-to-br from-primary/5 to-accent/5 rounded-2xl border border-primary/20"
+                        className="mt-10 group relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl shadow-lg p-5 transform-gpu overflow-hidden max-w-md"
+                        style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.2 }}
+                        whileHover={{ y: -4, scale: 1.02, boxShadow: '0 15px 30px -8px rgba(0,0,0,0.1)', transition: { duration: 0.3 } }}
                     >
-                        <div className="flex items-start gap-4">
-                            <div className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center flex-shrink-0">
-                                <FaUser className="text-accent" />
+                        {/* 3D edge effect */}
+                        <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
+                        {/* Glassy overlay */}
+                        <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+                        {/* Inner shadow */}
+                        <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.05)]" />
+                        {/* Background pattern */}
+                        <div className="absolute inset-0 rounded-2xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
+
+                        <div className="relative z-10 flex flex-col items-center text-center">
+                            {/* Author Avatar */}
+                            <div className="relative mb-4">
+                                <img
+                                    src={getAuthorImage(post.author)}
+                                    alt={post.author}
+                                    className="w-20 h-20 rounded-full object-cover border-2 border-white/40 shadow-md"
+                                />
+                                <div className="absolute -bottom-1 -right-1 bg-accent text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold border-2 border-white">
+                                    {post.author.charAt(0)}
+                                </div>
                             </div>
-                            <div>
-                                <Typography variant="h5" className="mb-1">About {post.author.split(',')[0]}</Typography>
-                                <Typography variant="small" className="text-gray-600">
-                                    {getAuthorBio(post.author)}
-                                </Typography>
-                            </div>
+                            <Typography variant="h4" className="text-primary">
+                                {post.author.split(',')[0]}
+                            </Typography>
+                            <Typography variant="small" className="text-accent text-xs font-medium mt-0.5 mb-2">
+                                {getAuthorRole(post.author)}
+                            </Typography>
+                            <Typography variant="small" className="text-gray-600 text-xs leading-relaxed">
+                                {getAuthorBio(post.author)}
+                            </Typography>
                         </div>
                     </motion.div>
 

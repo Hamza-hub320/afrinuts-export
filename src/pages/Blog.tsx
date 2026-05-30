@@ -32,7 +32,7 @@ interface BlogPost {
     featuredImage?: string;
 }
 
-const CATEGORIES = ['All', 'Farming & Agriculture', 'Cashew Industry', 'Sustainability', 'Behind the Scenes', 'Health & Nutrition', 'Education'];
+const CATEGORIES = ['All', 'Farming & Agriculture', 'Cashew Industry', 'Sustainability', 'Behind the Scenes', 'Health & Nutrition', 'Cashew Education', 'Ivory Coast', 'Technology', 'Governance', 'Investment'];
 
 const Blog: React.FC = () => {
     const [posts, setPosts] = useState<BlogPost[]>([]);
@@ -292,7 +292,7 @@ const Blog: React.FC = () => {
                                                 <Typography variant="h4" className="mb-2 text-primary group-hover:text-accent transition-colors line-clamp-2">
                                                     {post.title}
                                                 </Typography>
-                                                <Typography variant="small" className="text-gray-600 mb-4 line-clamp-2 flex-grow">
+                                                <Typography variant="small" className="text-gray-600 mb-4 line-clamp-3 flex-grow">
                                                     {post.excerpt}
                                                 </Typography>
                                                 <div className="flex items-center justify-between text-xs text-gray-400 pt-3 border-t border-gray-100/50 mt-auto">
