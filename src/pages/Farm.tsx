@@ -19,7 +19,7 @@ import farmImage1 from '@/assets/images/farm-1.webp';
 import farmImage2 from '@/assets/images/farm-2.webp';
 import farmImage3 from '@/assets/images/farm-3.webp';
 import farmImage4 from '@/assets/images/farm-4.webp';
-import farmHeroImage from '@/assets/images/ops-manager.webp';
+import farmHeroImage from '@/assets/images/farm-hero.webp';
 import { useAuth } from '../contexts/AuthContext';
 import LiveFarmStats from '@/components/LiveFarmStats';
 import { motion } from 'framer-motion';
