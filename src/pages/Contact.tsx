@@ -186,7 +186,7 @@ const Contact: React.FC = () => {
                 <InfoCard
                     icon={FaEnvelope}
                     title={t('hero.introTitle', 'We Read Every Message')}
-                    variant="accent"
+                    variant="secondary"
                     showInfoBadge={false}
                 >
                   <Typography variant="small" className="text-gray-600">
@@ -218,15 +218,15 @@ const Contact: React.FC = () => {
         <Section className="py-6">
           <div className="max-w-6xl mx-auto px-4 sm:px-6">
             <div className="grid md:grid-cols-3 gap-4">
-              <InfoCard icon={FaEnvelope} title={t('info.email')} iconColor="text-accent" showInfoBadge={false} className="text-center">
+              <InfoCard icon={FaEnvelope} title={t('info.email')} iconColor="text-accent" variant="secondary" showInfoBadge={false} className="text-center">
                 <Typography variant="small" className="text-gray-600">{t('info.emailPrimary')}</Typography>
                 <Typography variant="small" className="text-gray-500 text-xs">{t('info.emailSecondary')}</Typography>
               </InfoCard>
-              <InfoCard icon={FaPhone} title={t('info.phone')} iconColor="text-accent" showInfoBadge={false} className="text-center">
+              <InfoCard icon={FaPhone} title={t('info.phone')} iconColor="text-accent" variant="secondary" showInfoBadge={false} className="text-center">
                 <Typography variant="small" className="text-gray-600">{t('info.phoneNumber')}</Typography>
                 <Typography variant="small" className="text-gray-500 text-xs">{t('info.hours')}</Typography>
               </InfoCard>
-              <InfoCard icon={FaMapMarkerAlt} title={t('info.headquarters')} iconColor="text-accent" showInfoBadge={false} className="text-center">
+              <InfoCard icon={FaMapMarkerAlt} title={t('info.headquarters')} iconColor="text-accent" variant="secondary" showInfoBadge={false} className="text-center">
                 <Typography variant="small" className="text-gray-600">{t('info.address')}</Typography>
                 <Typography variant="small" className="text-gray-500 text-xs">{t('info.zipCode')}</Typography>
               </InfoCard>
@@ -241,7 +241,7 @@ const Contact: React.FC = () => {
 
               {/* Form — Takes 2/3 on desktop */}
               <div className="lg:col-span-2">
-                <FormCard title={t('form.title')} variant="primary" className="w-full">
+                <FormCard title={t('form.title')} variant="secondary" className="w-full">
                   {errors.submit && (
                       <div className="bg-red-50 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded">
                         <Typography variant="body">{errors.submit}</Typography>
@@ -339,7 +339,7 @@ const Contact: React.FC = () => {
               {/* Sidebar — Shipping, Payment, FAQ */}
               <div className="space-y-5">
                 {/* Shipping Options */}
-                <InfoCard icon={FaTruck} title={t('shippingGuidance.title')} variant="primary" showInfoBadge={false}>
+                <InfoCard icon={FaTruck} title={t('shippingGuidance.title')} variant="secondary" showInfoBadge={false}>
                   <div className="space-y-3 text-sm">
                     <div className="flex items-start gap-2">
                       <FaCheckCircle className="text-green-500 mt-0.5 flex-shrink-0 text-xs" />
@@ -360,7 +360,7 @@ const Contact: React.FC = () => {
                 </InfoCard>
 
                 {/* Offline Payment */}
-                <InfoCard icon={FaBuilding} title={t('offlinePayment.title')} variant="accent" showInfoBadge={false}>
+                <InfoCard icon={FaBuilding} title={t('offlinePayment.title')} variant="secondary" showInfoBadge={false}>
                   <Typography variant="small" className="text-gray-600 mb-3">{t('offlinePayment.description')}</Typography>
                   <div className="flex flex-wrap gap-1.5">
                     {(t('offlinePayment.methods', { returnObjects: true }) as string[]).map((method, idx) => (

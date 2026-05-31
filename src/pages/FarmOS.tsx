@@ -72,7 +72,7 @@ const FarmOS: React.FC = () => {
                             <InfoCard
                                 icon={getIcon('FaMobile')}
                                 title={t('hero.cardTitle')}
-                                variant="accent"
+                                variant="secondary"
                                 showInfoBadge={false}
                             >
                                 <Typography variant="small" className="text-gray-600">

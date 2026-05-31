@@ -561,7 +561,7 @@ const Home: React.FC = () => {
                         <InfoCard
                             icon={FaMobile}
                             title={t('farmOsTeaser.title', 'Powered by Farm OS — Our Custom Operating System')}
-                            variant="accent"
+                            variant={"secondary"}
                             showInfoBadge={false}
                             className="text-center"
                         >

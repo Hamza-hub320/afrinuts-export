@@ -199,7 +199,7 @@ const Farm = () => {
                                 <InfoCard
                                     icon={FaMobile}
                                     title={t('hero.introTitle', 'Farm OS Powered')}
-                                    variant="accent"
+                                    variant="secondary"
                                     showInfoBadge={false}
                                 >
                                     <Typography variant="small" className="text-gray-600">

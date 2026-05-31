@@ -591,6 +591,7 @@ const Processing: React.FC = () => {
                             icon={FaShieldAlt}
                             title={t('differentiators.quality.title')}
                             showInfoBadge={false}
+                            variant="secondary"
                             iconColor="text-accent"
                         >
                             {t('differentiators.quality.description')}
@@ -599,6 +600,7 @@ const Processing: React.FC = () => {
                             icon={FaRecycle}
                             title={t('differentiators.sustainability.title')}
                             showInfoBadge={false}
+                            variant="secondary"
                             iconColor="text-accent"
                         >
                             {t('differentiators.sustainability.description')}
@@ -607,6 +609,7 @@ const Processing: React.FC = () => {
                             icon={FaCertificate}
                             title={t('differentiators.certifications.title')}
                             showInfoBadge={false}
+                            variant="secondary"
                             iconColor="text-accent"
                         >
                             {t('differentiators.certifications.description')}

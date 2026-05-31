@@ -215,7 +215,7 @@ const OurStory: React.FC = () => {
                             <InfoCard
                                 icon={FaTree}
                                 title={t('intro.title')}
-                                variant="accent"
+                                variant="secondary"
                                 showInfoBadge={false}
                             >
                                 <Typography variant="small" className="text-gray-600">
@@ -324,6 +324,7 @@ const OurStory: React.FC = () => {
                                                 <InfoCard
                                                     title={section.title}
                                                     image={section.image}
+                                                    variant="secondary"
                                                     icon={section.icon}
                                                     alt={t(section.altKey)}
                                                     color={section.color}

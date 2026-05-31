@@ -268,7 +268,7 @@ const ExecutiveTeam: React.FC = () => {
                             <InfoCard
                                 icon={FaUsers}
                                 title={t('executives.introTitle', 'Built Here. Not Bought.')}
-                                variant="accent"
+                                variant="secondary"
                                 showInfoBadge={false}
                             >
                                 <Typography variant="small" className="text-gray-600">

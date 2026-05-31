@@ -25,6 +25,7 @@ interface ProductCardProps {
         title?: string;
     };
     productionTypeFilter?: 'all' | 'organic' | 'conventional';
+    variant?: 'primary' | 'accent' | 'secondary';
     compact?: boolean;
     handleContactClick: () => void;
     handlePreorderClick?: () => void;
@@ -38,12 +39,29 @@ interface ProductCardProps {
 }
 
 export const ProductCard: React.FC<ProductCardProps> = ({
-                                                            product, productionTypeFilter = 'all', compact = false,
+                                                            product, productionTypeFilter = 'all', variant = 'secondary', compact = false,
                                                             handleContactClick, handlePreorderClick, handleWaitlistClick,
                                                             productImageMap, iconMap, className = '', imageAlt, renderSocialShare,
                                                         }) => {
     const { t } = useTranslation('products');
     const imageSrc = productImageMap[product.backgroundImage];
+
+    const variantStyles = {
+        primary: {
+            bg: 'from-primary/5 to-accent/5',
+            border: 'border-primary/20 hover:border-accent/30',
+        },
+        accent: {
+            bg: 'from-accent/5 to-primary/5',
+            border: 'border-accent/20 hover:border-primary/30',
+        },
+        secondary: {
+            bg: 'from-secondary/5 to-primary/5',
+            border: 'border-secondary/20 hover:border-primary/30',
+        },
+    };
+
+    const currentVariant = variantStyles[variant];
 
     const getProductStatus = () => {
         if (product.available) return 'available';
@@ -78,10 +96,19 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
     return (
         <motion.div
-            className={`group relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 rounded-2xl shadow-xl overflow-hidden flex flex-col transform-gpu transition-all duration-500 ${className}`}
-            style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
-            whileHover={{ y: -8, scale: 1.02, rotateY: 3, boxShadow: '0 20px 35px -10px rgba(0,0,0,0.2)', transition: { duration: 0.3 } }}
-            whileTap={{ y: -2, scale: 0.97 }}
+            className={`group relative bg-gradient-to-br ${currentVariant.bg} border-2 ${currentVariant.border} rounded-2xl shadow-xl overflow-hidden flex flex-col transform-gpu transition-all duration-500 ${className}`} style={{
+            transformStyle: 'preserve-3d',
+            perspective: '1000px',
+        }}
+            whileHover={{
+                y: -8,
+                scale: 1.02,
+                rotateY: 3,
+                transition: { duration: 0.3 },
+                boxShadow: '0 20px 35px -10px rgba(0, 0, 0, 0.2)',
+            }}
+            whileTap={{ scale: 0.97 }}
+            role="region"
         >
             {/* 3D edge effect */}
             <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />

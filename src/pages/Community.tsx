@@ -62,7 +62,7 @@ const Community: React.FC = () => {
                         <Typography variant="lead" className="text-text-dark mb-3 text-base lg:text-lg">{t('hero.body')}</Typography>
 
                         <motion.div variants={fadeIn} className="mb-5">
-                            <InfoCard icon={FaHeart} title={t('hero.introTitle')} variant="accent" showInfoBadge={false}>
+                            <InfoCard icon={FaHeart} title={t('hero.introTitle')} variant="secondary" showInfoBadge={false}>
                                 <Typography variant="small" className="text-gray-600">{t('hero.introBody')}</Typography>
                             </InfoCard>
                         </motion.div>

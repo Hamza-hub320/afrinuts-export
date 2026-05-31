@@ -122,7 +122,7 @@ const Sustainability: React.FC = () => {
                             <InfoCard
                                 icon={FaChartLine}
                                 title={t('hero.introTitle', 'Measured. Not Marketed.')}
-                                variant="accent"
+                                variant="secondary"
                                 showInfoBadge={false}
                             >
                                 <Typography variant="small" className="text-gray-600">

@@ -468,7 +468,7 @@ const News: React.FC = () => {
                             <InfoCard
                                 icon={FaBullhorn}
                                 title={t('sections.newsIntro.title')}
-                                variant="accent"
+                                variant="secondary"
                                 showInfoBadge={false}
                             >
                                 <Typography variant="small" className="text-gray-600">

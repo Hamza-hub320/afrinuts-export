@@ -118,7 +118,7 @@ const Vision: React.FC = () => {
                             <InfoCard
                                 icon={FaLeaf}
                                 title={t('hero.cardTitle', 'The Future We\'re Building')}
-                                variant="accent"
+                                variant="secondary"
                                 showInfoBadge={false}
                             >
                                 <Typography variant="small" className="text-gray-600">

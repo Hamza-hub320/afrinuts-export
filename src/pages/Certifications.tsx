@@ -179,7 +179,7 @@ const Certifications: React.FC = () => {
                             <InfoCard
                                 icon={FaShieldAlt}
                                 title={t('hero.introTitle', 'Audit-Ready. Not Audit-Prepared.')}
-                                variant="accent"
+                                variant="secondary"
                                 showInfoBadge={false}
                             >
                                 <Typography variant="small" className="text-gray-600">

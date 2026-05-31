@@ -9,7 +9,7 @@ import {
     FaLock,
     FaEye,
     FaEyeSlash,
-    FaArrowRight
+    FaArrowRight, FaShieldAlt
 } from 'react-icons/fa';
 import { Typography } from '@/components/Typography/Typography';
 import logo from '@/assets/images/afrinuts-export-official-logo.webp';
@@ -33,7 +33,16 @@ const Login: React.FC = () => {
             trackCtaClick('login', 'login_page');
             navigate('/dashboard');
         } catch (err: any) {
-            setError(err.message || 'Login failed. Please check your credentials.');
+            const message = err.message || '';
+            if (message.includes('user-not-found') || message.includes('invalid-email')) {
+                setError('No account found with this email address. If you are a new investor, please sign the NDA first.');
+            } else if (message.includes('wrong-password')) {
+                setError('Incorrect password. Please try again or use the forgot password link.');
+            } else if (message.includes('too-many-requests')) {
+                setError('Too many login attempts. Please wait a moment and try again.');
+            } else {
+                setError('Login failed. Please check your credentials and try again.');
+            }
         } finally {
             setIsLoading(false);
         }
@@ -78,7 +87,7 @@ const Login: React.FC = () => {
                             <img
                                 src={logo}
                                 alt="AfriNuts Export Logo"
-                                className="h-20 w-auto drop-shadow-lg"
+                                className="h-32 w-auto drop-shadow-lg"
                             />
                         </motion.div>
                         <Typography variant="h2" className="text-primary mb-2">
@@ -149,16 +158,14 @@ const Login: React.FC = () => {
                                             value={email}
                                             onChange={(e) => setEmail(e.target.value)}
                                             className="block w-full pl-10 pr-3 py-3 bg-white/60 backdrop-blur-sm border border-white/40 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all placeholder:text-gray-400"
-                                            placeholder="you@afrinuts.com"
+                                            placeholder="you@afrinutsexport.com"
                                         />
                                     </div>
                                 </div>
 
                                 {/* Password Field */}
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                                        Password
-                                    </label>
+                                    <label className="block text-sm font-medium text-gray-700 mb-2">Password</label>
                                     <div className="relative">
                                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                             <FaLock className="h-5 w-5 text-gray-400" />
@@ -181,6 +188,15 @@ const Login: React.FC = () => {
                                             ) : (
                                                 <FaEye className="h-5 w-5 text-gray-400 hover:text-gray-600" />
                                             )}
+                                        </button>
+                                    </div>
+                                    <div className="flex justify-end mt-1">
+                                        <button
+                                            type="button"
+                                            onClick={() => navigate('/contact?subject=Password%20Reset')}
+                                            className="text-xs text-primary/60 hover:text-primary transition-colors"
+                                        >
+                                            Forgot password?
                                         </button>
                                     </div>
                                 </div>
@@ -224,19 +240,34 @@ const Login: React.FC = () => {
                                 </motion.button>
                             </form>
 
-                            {/* Credentials Info */}
-                            <div className="mt-6 pt-6 border-t border-gray-200/50">
-                                <p className="text-xs text-center text-gray-500">
-                                   Credentials available upon request
-                                </p>
+                            {/* Access Information */}
+                            <div className="mt-6 pt-6 border-t border-gray-200/50 space-y-2">
+                                <div className="flex items-start gap-2">
+                                    <FaLock className="text-primary/40 text-xs mt-0.5 flex-shrink-0" />
+                                    <p className="text-xs text-gray-500">
+                                        <strong>Farm owners, managers, and verified investors only.</strong> New investors receive credentials after signing the NDA.
+                                    </p>
+                                </div>
+                                <div className="flex items-start gap-2">
+                                    <FaEnvelope className="text-primary/40 text-xs mt-0.5 flex-shrink-0" />
+                                    <p className="text-xs text-gray-500">
+                                        Don't have access? <Link to="/invest" className="text-primary hover:underline">Become an investor</Link> or <Link to="/contact" className="text-primary hover:underline">request credentials</Link>.
+                                    </p>
+                                </div>
+                                <div className="flex items-start gap-2">
+                                    <FaShieldAlt className="text-primary/40 text-xs mt-0.5 flex-shrink-0" />
+                                    <p className="text-xs text-gray-400">
+                                        All credentials are encrypted. Your Farm OS dashboard data is private and secure.
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     </motion.div>
 
-                    {/* Back to Home Link */}
+                    {/* Back Link */}
                     <div className="text-center mt-6">
-                        <Link to="/farm" className="text-primary/70 hover:text-primary transition-colors text-sm inline-flex items-center gap-1 group">
-                            ← Back to Farm
+                        <Link to="/" className="text-primary/70 hover:text-primary transition-colors text-sm inline-flex items-center gap-1 group">
+                            ← Back to Home
                         </Link>
                     </div>
                 </motion.div>

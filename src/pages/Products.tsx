@@ -254,7 +254,7 @@ const Products: React.FC = () => {
                             <InfoCard
                                 icon={FaLeaf}
                                 title={t('hero.introTitle', 'Not Just Products. Verified Products.')}
-                                variant="accent"
+                                variant="secondary"
                                 showInfoBadge={false}
                             >
                                 <Typography variant="small" className="text-gray-600">
@@ -513,6 +513,7 @@ const Products: React.FC = () => {
                                 >
                                     <ProductCard
                                         product={product}
+                                        variant="secondary"
                                         className="h-full"
                                         productionTypeFilter={productionType}
                                         handleContactClick={() => {
@@ -537,9 +538,11 @@ const Products: React.FC = () => {
                         <motion.div
                             className="text-center py-12"
                             whileHover={{
-                                scale: 1.025,
-                                boxShadow: '0 8px 24px -6px rgba(255, 140, 0, 0.10)',
-                                transition: { duration: 0.2 }
+                                y: -8,
+                                scale: 1.02,
+                                rotateY: 3,
+                                transition: { duration: 0.3 },
+                                boxShadow: '0 20px 35px -10px rgba(0, 0, 0, 0.2)',
                             }}
                         >
                             <h3 className="text-xl font-medium text-gray-700 mb-2">

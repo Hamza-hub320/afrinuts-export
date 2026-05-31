@@ -201,7 +201,7 @@ const Faq: React.FC = () => {
                         </Typography>
 
                         <motion.div variants={fadeIn} className="mb-5">
-                            <InfoCard icon={FaQuestionCircle} title={t('hero.introTitle')} variant="accent" showInfoBadge={false}>
+                            <InfoCard icon={FaQuestionCircle} title={t('hero.introTitle')} variant="secondary" showInfoBadge={false}>
                                 <Typography variant="small" className="text-gray-600">{t('hero.description')}</Typography>
                             </InfoCard>
                         </motion.div>

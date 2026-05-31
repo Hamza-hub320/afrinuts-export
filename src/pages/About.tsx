@@ -177,7 +177,7 @@ const About: React.FC = () => {
                 <InfoCard
                     icon={FaLeaf}
                     title={t('hero.introTitle')}
-                    variant="accent"
+                    variant="secondary"
                     showInfoBadge={false}
                 >
                   <Typography variant="small" className="text-gray-600">

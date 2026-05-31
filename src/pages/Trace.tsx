@@ -181,7 +181,7 @@ const TracePage: React.FC = () => {
                                 <InfoCard
                                     icon={FaMobile}
                                     title={t('promo.introTitle', 'Powered by Farm OS')}
-                                    variant="accent"
+                                    variant="secondary"
                                     showInfoBadge={false}
                                 >
                                     <Typography variant="small" className="text-gray-600">

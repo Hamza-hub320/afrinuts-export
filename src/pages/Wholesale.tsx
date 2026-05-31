@@ -93,7 +93,7 @@ const Wholesale: React.FC = () => {
                             <InfoCard
                                 icon={FaShieldAlt}
                                 title={t('hero.introTitle', 'What Makes Our Wholesale Different')}
-                                variant="accent"
+                                variant="secondary"
                                 showInfoBadge={false}
                             >
                                 <Typography variant="small" className="text-gray-600">
@@ -180,7 +180,7 @@ const Wholesale: React.FC = () => {
                         <InfoCard
                             icon={FaTh}
                             title={t('blockTracking.gridLabel', '5×7 block grid — 35 hectares')}
-                            variant="accent"
+                            variant="secondary"
                             showInfoBadge={false}
                             className="text-center"
                         >

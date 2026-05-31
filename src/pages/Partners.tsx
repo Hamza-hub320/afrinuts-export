@@ -64,7 +64,7 @@ const Partners: React.FC = () => {
                             <InfoCard
                                 icon={FaUsers}
                                 title={t('hero.introTitle', 'How We Partner')}
-                                variant="accent"
+                                variant="secondary"
                                 showInfoBadge={false}
                             >
                                 <Typography variant="small" className="text-gray-600">

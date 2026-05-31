@@ -153,7 +153,7 @@ const Blog: React.FC = () => {
                             <InfoCard
                                 icon={FaLeaf}
                                 title="What You'll Find Here"
-                                variant="accent"
+                                variant="secondary"
                                 showInfoBadge={false}
                             >
                                 <Typography variant="small" className="text-gray-600">

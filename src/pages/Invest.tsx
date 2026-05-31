@@ -132,7 +132,7 @@ const Invest: React.FC = () => {
                         <div className="grid grid-cols-2 gap-3 mb-6">
                             {heroKPIs.map((kpi, idx) => (
                                 <motion.div key={idx} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 + idx * 0.1 }}>
-                                    <InfoCard icon={kpi.icon} title={kpi.value} subtitle={kpi.label} iconColor="text-accent" showInfoBadge={false} className="h-full text-center" />
+                                    <InfoCard icon={kpi.icon} title={kpi.value} subtitle={kpi.label} iconColor="text-accent" variant="primary" showInfoBadge={false} className="h-full text-center" />
                                 </motion.div>
                             ))}
                         </div>
@@ -171,7 +171,7 @@ const Invest: React.FC = () => {
                         <InfoCard
                             icon={FaHeart}
                             title={t('impactSummary.title', 'Built for Impact Investors')}
-                            variant="accent"
+                            variant="secondary"
                             showInfoBadge={false}
                             className="text-center"
                         >
