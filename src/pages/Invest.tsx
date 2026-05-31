@@ -283,7 +283,7 @@ const Invest: React.FC = () => {
                     <div className="grid md:grid-cols-2 gap-8">
                         {/* Capabilities */}
                         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
-                            <InfoCard icon={FaMobile} title="Investor-Grade Technology" variant="primary" showInfoBadge={false}>
+                            <InfoCard icon={FaMobile} title="Investor-Grade Technology" variant="secondary" showInfoBadge={false}>
                                 <ul className="space-y-2 text-sm">
                                     {(t('farmOs.capabilities', { returnObjects: true }) as string[]).map((item, idx) => (
                                         <li key={idx} className="flex items-start gap-2">
@@ -297,7 +297,7 @@ const Invest: React.FC = () => {
 
                         {/* Dashboard Visual Representation */}
                         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} transition={{ delay: 0.1 }}>
-                            <InfoCard icon={FaChartLine} title="Live Dashboard Access" variant="accent" showInfoBadge={false} className="h-full text-center">
+                            <InfoCard icon={FaChartLine} title="Live Dashboard Access" variant="primary" showInfoBadge={false} className="h-full text-center">
                                 {/* Styled Dashboard Graphic — Not Real Data */}
                                 <div className="bg-white/80 backdrop-blur-sm rounded-xl p-4 border border-white/40 shadow-inner mb-4">
                                     {/* Dashboard Header Bar */}
@@ -394,7 +394,7 @@ const Invest: React.FC = () => {
 
                         {/* Capital Allocation — Donut Chart */}
                         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
-                            <InfoCard icon={() => <FaChartPie className="text-primary text-xl" />} title={t('charts.capitalAllocation.title')} subtitle="$1,250,000 Total" iconColor="text-primary" variant="accent" className="h-full" showInfoBadge={false}>
+                            <InfoCard icon={() => <FaChartPie className="text-primary text-xl" />} title={t('charts.capitalAllocation.title')} subtitle="$1,250,000 Total" iconColor="text-primary" variant="primary" className="h-full" showInfoBadge={false}>
                                 <ResponsiveContainer width="100%" height={300}>
                                     <PieChart><Pie data={capitalAllocation} cx="50%" cy="50%" labelLine={true} label={({ name, percent }) => `${(name || 'Unknown').length > 12 ? (name || 'Unknown').substring(0, 12) + '…' : (name || 'Unknown')}: ${((percent ?? 0) * 100).toFixed(0)}%`} outerRadius={80} dataKey="value">{capitalAllocation.map((entry, index) => (<PieCell key={`cell-${index}`} fill={entry.color} />))}</Pie><Tooltip formatter={(value: any) => `$${Number(value).toLocaleString()}`} /><Legend /></PieChart>
                                 </ResponsiveContainer>

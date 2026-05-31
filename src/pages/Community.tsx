@@ -14,7 +14,7 @@ import { fadeIn, staggerContainer } from '@/utils/animations';
 import JsonLd from '@/components/Seo/JsonLd';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
-import communityHeroImage from '@/assets/images/farm-vision.webp';
+import communityHeroImage from '@/assets/images/community-hero.webp';
 import partnerVideo from '@/assets/videos/current-partners.mp4';
 
 const Community: React.FC = () => {

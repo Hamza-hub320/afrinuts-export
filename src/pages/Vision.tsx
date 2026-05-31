@@ -21,7 +21,7 @@ import { fadeIn, staggerContainer, slideInFromLeft, slideInFromRight } from '@/u
 import { Typography } from "@/components/Typography/Typography";
 import { InfoCard } from '@/components/InfoCard/InfoCard';
 import visionHeroImage from '@/assets/images/vision-hero.webp';
-import farmImage from '@/assets/images/farm-vision.webp';
+import farmImage from '@/assets/images/vision.webp';
 import processingImage from '@/assets/images/processing-vision.webp';
 import { IconType } from 'react-icons';
 import {TimelineCard} from "@/components/TimelineCard/TimelineCard";
