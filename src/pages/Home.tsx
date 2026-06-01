@@ -487,10 +487,10 @@ const Home: React.FC = () => {
                         variants={staggerContainer}
                     >
                         <Typography variant="h2" className="text-primary mb-3">
-                            {t('products.cta.heading', 'Find the Right Cashew Product for Your Business')}
+                            {t('products.cta.heading')}
                         </Typography>
                         <Typography variant="body" className="text-gray-600 mb-5 max-w-xl mx-auto">
-                            {t('products.cta.description', 'Browse our full catalog with organic and conventional options, pricing details, certifications, and availability timelines.')}
+                            {t('products.cta.description')}
                         </Typography>
                         <motion.button
                             onClick={() => navigate('/products')}
