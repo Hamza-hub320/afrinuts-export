@@ -141,7 +141,7 @@ const Certifications: React.FC = () => {
         <main className="text-text-dark font-sans">
             <Helmet>
                 <title>Certifications & Quality | Organic, Halal, ISO 22000 | AfriNuts Export</title>
-                <meta name="description" content="AfriNuts Export is pursuing Organic (ECOCERT), Halal, ISO 22000, Fair Trade, and Rainforest Alliance certifications. Our 35-hectare farm has been chemical-free since inception." />
+                <meta name="description" content="Five international certifications in progress: Organic (ECOCERT), Halal, ISO 22000, Fair Trade, and Rainforest Alliance. Each certification unlocks a specific premium market for AfriNuts Export cashews." />
                 <link rel="canonical" href="https://www.afrinutsexport.com/certifications" />
             </Helmet>
 

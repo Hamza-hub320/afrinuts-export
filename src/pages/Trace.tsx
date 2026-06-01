@@ -349,7 +349,7 @@ const TracePage: React.FC = () => {
         <main className="text-text-dark font-sans">
             <Helmet>
                 <title>{t('seo.title')}</title>
-                <meta name="description" content={t('seo.description')} />
+                <meta name="description" content="Enter your batch ID to see your cashew shipment's full journey — GPS coordinates, harvest date, quality metrics, and certification verification. Powered by AfriNuts Farm OS. Try AFN-2026-001." />
                 <link rel="canonical" href="https://www.afrinutsexport.com/trace" />
             </Helmet>
 

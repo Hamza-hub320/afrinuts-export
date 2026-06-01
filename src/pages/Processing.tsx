@@ -173,7 +173,7 @@ const Processing: React.FC = () => {
         <main className="text-text-dark font-sans">
             <Helmet>
                 <title>Cashew Processing Center | AfriNuts Export – Chemical-Free & Certified | Côte d'Ivoire</title>
-                <meta name="description" content="AfriNuts Export's two-phase cashew processing roadmap: from pilot facility (1,000-2,000 MT/year) to industrial scale (5,000+ MT/year). Chemical-free, organic, Halal, and ISO 22000 certified. Built in Odienné, Côte d'Ivoire." />
+                <meta name="description" content="Chemical-free cashew processing in two phases: pilot facility (1,000-2,000 MT/year) to industrial scale (5,000+ MT/year). Steam roasting, not chemical shelling. Farm OS documented at every stage." />
                 <link rel="canonical" href="https://www.afrinutsexport.com/processing" />
             </Helmet>
 

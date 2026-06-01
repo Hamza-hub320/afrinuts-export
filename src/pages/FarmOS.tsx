@@ -37,7 +37,7 @@ const FarmOS: React.FC = () => {
         <div className="text-text-dark font-sans">
             <Helmet>
                 <title>{t('seo.title')}</title>
-                <meta name="description" content={t('seo.description')} />
+                <meta name="description" content="Custom-built Android farm operating system with offline sync and cloud dashboard. Block-level tracking, task management, expense logging, and batch traceability. Built by our founder — not a third-party tool." />
                 <link rel="canonical" href="https://www.afrinutsexport.com/farm-os" />
             </Helmet>
 

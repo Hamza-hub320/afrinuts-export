@@ -126,7 +126,7 @@ const Farm = () => {
         <Suspense fallback={<div>Loading...</div>}>
             <Helmet>
                 <title>The AfriNuts Export Farm | 35-Hectare Cashew Plantation in Odienné, Côte d'Ivoire</title>
-                <meta name="description" content="Explore our 35-hectare organic cashew farm in Odienné, Côte d'Ivoire. Block-level tracking, sustainable agroforestry, 3,500 trees, and a 200+ farmer cooperative. First harvest expected 2029." />
+                <meta name="description" content="35 hectares. 3,500 cashew trees. 200+ cooperative farmers. Our farm in Odienné is the foundation of our traceable supply chain. Visit the land behind the data." />
                 <link rel="canonical" href="https://www.afrinutsexport.com/farm" />
             </Helmet>
             <JsonLd data={{

@@ -58,7 +58,7 @@ const Sustainability: React.FC = () => {
         <main>
             <Helmet>
                 <title>Sustainable & Organic Cashew Farming in Ivory Coast | AfriNuts Export</title>
-                <meta name="description" content="How AfriNuts Export practices organic farming, water conservation, zero-waste processing, and fair labor on our 35-hectare cashew farm in Odienné, Côte d'Ivoire. Carbon-neutral by 2028." />
+                <meta name="description" content="Zero-waste cashew processing, water conservation reducing usage by 60%, and agroforestry practices on 35 hectares. Carbon-neutral supply chain targeted by 2028. Measured. Verified. Real." />
                 <link rel="canonical" href="https://www.afrinutsexport.com/sustainability" />
                 <meta property="og:title" content="Sustainable & Organic Cashew Farming in Ivory Coast | AfriNuts Export" />
                 <meta property="og:description" content="Organic farming, zero-waste processing, fair labor, and community reinvestment on our 35-hectare farm in Odienné. Carbon-neutral by 2028." />
