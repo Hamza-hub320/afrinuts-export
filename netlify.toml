@@ -2,6 +2,14 @@
 publish = "dist"
 command = "npm run build"
 
+# Force www
+[[redirects]]
+from = "https://afrinutsexport.com/*"
+to = "https://www.afrinutsexport.com/:splat"
+status = 301
+force = true
+
+# SPA fallback
 [[redirects]]
 from = "/*"
 to = "/index.html"

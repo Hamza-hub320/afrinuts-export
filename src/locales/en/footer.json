@@ -1,26 +1,34 @@
 {
   "company": {
     "title": "AfriNuts Export",
-    "description": "Transforming the cashew value chain through sustainable farming and premium processing."
+    "description": "Tech-enabled cashew platform. Farm OS-powered traceability from our 35-hectare farm in Odienné, Côte d'Ivoire to global markets. Not just cashews — traceable cashews.",
+    "tagline": "Traceable Cashews from Côte d'Ivoire"
   },
   "links": {
     "title": "Quick Links",
     "about": "About Us",
-    "products": "Our Products",
+    "products": "Products",
+    "wholesale": "Wholesale",
     "farm": "Our Farm",
     "sustainability": "Sustainability",
+    "invest": "Invest",
+    "partners": "Partners",
+    "community": "Community",
+    "blog": "Blog",
     "faq": "FAQ",
-    "contact": "Contact Us"
+    "contact": "Contact"
   },
   "contact": {
     "title": "Contact Us"
   },
   "newsletter": {
     "title": "Newsletter",
-    "description": "Subscribe to our newsletter for updates and offers.",
+    "description": "Get traceability insights, farm updates, and cashew industry news from our tech-enabled farm.",
     "placeholder": "Your email address",
     "button": "Subscribe",
-    "success": "Check your email! We sent a confirmation link to complete your subscription.",
+    "label": "Email address",
+    "submitAriaLabel": "Subscribe to newsletter",
+    "success": "Successfully subscribed!",
     "alreadySubscribed": "You are already subscribed.",
     "invalidEmail": "Please enter a valid email address.",
     "error": "Something went wrong. Please try again."
@@ -30,9 +38,5 @@
     "privacy": "Privacy Policy",
     "terms": "Terms of Service",
     "cookie": "Cookie Preferences"
-  },
-  "faq": {
-    "description": "Find answers to common questions about AfriNuts Export.",
-    "linkText": "Go to FAQ"
   }
 }

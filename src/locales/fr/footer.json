@@ -1,38 +1,42 @@
 {
   "company": {
     "title": "AfriNuts Export",
-    "description": "Transformer la chaîne de valeur de la noix de cajou grâce à une agriculture durable et une transformation de qualité."
+    "description": "Plateforme de noix de cajou axée sur la technologie. Traçabilité alimentée par Farm OS, de notre ferme de 35 hectares à Odienné, Côte d'Ivoire, aux marchés mondiaux. Pas juste des noix de cajou — des noix de cajou traçables.",
+    "tagline": "Noix de Cajou Traçables de Côte d'Ivoire"
   },
   "links": {
-    "title": "Liens rapides",
-    "about": "À propos de nous",
-    "products": "Nos produits",
-    "farm": "Notre ferme",
+    "title": "Liens Rapides",
+    "about": "À Propos",
+    "products": "Produits",
+    "wholesale": "Vente en Gros",
+    "farm": "Notre Ferme",
     "sustainability": "Durabilité",
+    "invest": "Investir",
+    "partners": "Partenaires",
+    "community": "Communauté",
+    "blog": "Blog",
     "faq": "FAQ",
-    "contact": "Contactez-nous"
+    "contact": "Contact"
   },
   "contact": {
-    "title": "Contactez-nous"
+    "title": "Contactez-Nous"
   },
   "newsletter": {
     "title": "Newsletter",
-    "description": "Abonnez-vous à notre newsletter pour recevoir des actualités et offres.",
-    "placeholder": "Votre adresse e-mail",
+    "description": "Recevez des informations sur la traçabilité, des mises à jour de la ferme et des actualités de l'industrie de la noix de cajou de notre ferme technologique.",
+    "placeholder": "Votre adresse email",
     "button": "S'abonner",
-    "success": "Vérifiez votre boîte mail ! Nous vous avons envoyé un lien de confirmation pour finaliser votre abonnement.",
+    "label": "Adresse email",
+    "submitAriaLabel": "S'abonner à la newsletter",
+    "success": "Abonnement réussi !",
     "alreadySubscribed": "Vous êtes déjà abonné.",
-    "invalidEmail": "Veuillez entrer une adresse e-mail valide.",
+    "invalidEmail": "Veuillez entrer une adresse email valide.",
     "error": "Une erreur s'est produite. Veuillez réessayer."
   },
   "copyright": "Tous droits réservés.",
   "legal": {
-    "privacy": "Politique de confidentialité",
-    "terms": "Conditions d'utilisation",
-    "cookie": "Préférences des cookies"
-  },
-  "faq": {
-    "description": "Trouvez des réponses aux questions courantes sur AfriNuts Export.",
-    "linkText": "Aller à la FAQ"
+    "privacy": "Politique de Confidentialité",
+    "terms": "Conditions d'Utilisation",
+    "cookie": "Préférences de Cookies"
   }
 }

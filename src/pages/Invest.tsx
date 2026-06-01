@@ -113,7 +113,7 @@ const Invest: React.FC = () => {
             <JsonLd data={{ "@context": "https://schema.org", "@type": "WebPage", "name": t('seo.title'), "description": t('seo.description') }} />
 
             {/* Hero */}
-            <Section className="flex items-center justify-center text-center min-h-[95vh]">
+            <Section className="flex items-center justify-center text-center min-h-[100vh]">
                 <motion.div className="max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 flex flex-col lg:flex-row items-center gap-6 lg:gap-16" initial="hidden" animate="visible" variants={staggerContainer}>
 
                     {/* Left: Text Content */}
