@@ -290,7 +290,7 @@ const Tasks: React.FC = () => {
         }
     };
 
-    if (loading) {if (loading) {
+   if (loading) {
         return (
             <main>
                 <Section className="flex items-center justify-center min-h-[60vh]">
