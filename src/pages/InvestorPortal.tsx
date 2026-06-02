@@ -11,6 +11,7 @@ import { InfoCard } from '@/components/InfoCard/InfoCard';
 import { getMockData } from '../services/mockData';
 import { callApi } from '../services/api';
 import { auth } from '../services/firebase';
+import { GiFarmer } from 'react-icons/gi';
 import { onAuthStateChanged } from 'firebase/auth';
 import {
     XAxis, YAxis, CartesianGrid,
@@ -183,9 +184,17 @@ const InvestorPortal: React.FC = () => {
 
     if (loading) {
         return (
-            <div className="flex justify-center items-center min-h-[60vh]">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-            </div>
+            <main>
+                <Section className="flex items-center justify-center min-h-[60vh]">
+                    <div className="text-center">
+                        <div className="relative w-16 h-16 mx-auto mb-4">
+                            <div className="absolute inset-0 rounded-full border-b-2 border-primary animate-spin"></div>
+                            <div className="absolute inset-0 flex items-center justify-center">
+                                <GiFarmer className="text-primary text-xl" />
+                            </div>
+                        </div>
+                </Section>
+            </main>
         );
     }
 

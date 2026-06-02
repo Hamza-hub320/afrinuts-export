@@ -22,7 +22,7 @@ import newsImage from '@/assets/images/news.webp';
 import { trackCtaClick, trackOutboundClick } from '@/utils/analytics';
 import JsonLd from "@/components/Seo/JsonLd";
 import {Helmet} from "react-helmet-async";
-import {navigate} from "next/dist/client/components/segment-cache";
+import { GiFarmer } from 'react-icons/gi';
 import { InfoCard } from '@/components/InfoCard/InfoCard';
 
 interface RSSItem {
@@ -419,7 +419,12 @@ const News: React.FC = () => {
             <main>
                 <Section className="flex items-center justify-center min-h-[60vh]">
                     <div className="text-center">
-                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+                        <div className="relative w-16 h-16 mx-auto mb-4">
+                            <div className="absolute inset-0 rounded-full border-b-2 border-primary animate-spin"></div>
+                            <div className="absolute inset-0 flex items-center justify-center">
+                                <GiFarmer className="text-primary text-xl" />
+                            </div>
+                        </div>
                         <Typography variant="body" className="text-text-dark">
                             {t('loading', 'Loading latest news...')}
                         </Typography>

@@ -5,6 +5,7 @@ import logo from '@/assets/images/afrinuts-export-official-logo.webp';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
 import { FaUserCircle, FaSignOutAlt } from 'react-icons/fa';
+import { GiFarmer } from 'react-icons/gi';
 
 type LanguageConfig = {
   code: string;
@@ -119,7 +120,7 @@ const Navbar: React.FC = () => {
     { path: '/certifications', label: t('navbar.certifications', 'Certs'), icon: FaCertificate },
     { path: '/processing', label: t('navbar.processing', 'Processing'), icon: FaIndustry },
     { path: '/processing/facility-flowchart', label: t('navbar.facility_flowchart', 'Facility'), icon: FaIndustry },
-    { path: '/farm', label: t('navbar.farm', 'Farm'), icon: FaLeaf },
+    { path: '/farm', label: t('navbar.farm', 'Farm'), icon:  GiFarmer },
     { path: '/blog', label: t('navbar.blog', 'Blog'), icon: FaBookOpen },
     { path: '/news', label: t('navbar.news', 'News'), icon: FaBookOpen },
     { path: '/faq', label: t('navbar.faq', 'FAQ'), icon: FaQuestionCircle },
