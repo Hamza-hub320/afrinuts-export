@@ -11,6 +11,7 @@ import JsonLd from '@/components/Seo/JsonLd';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import farmOsHeroImage from '@/assets/images/farm-os-hero.webp';
+import {FaCheckCircle, FaLeaf, FaMobile} from "react-icons/fa";
 
 const getIcon = (iconName: string) => {
     const Icon = (Icons as any)[iconName];
@@ -21,7 +22,7 @@ const FarmOS: React.FC = () => {
     const { t } = useTranslation('farmOs');
     const navigate = useNavigate();
 
-    const heroStats = t('hero.stats', { returnObjects: true }) as { label: string; icon: string }[];
+    const heroStats = t('hero.stats', { returnObjects: true }) as { label: string; icon: string; bg: string; text: string }[];
     const whyBuiltCards = t('whyBuilt.cards', { returnObjects: true }) as { old: string; new: string; icon: string }[];
     const howItWorksSteps = t('howItWorks.steps', { returnObjects: true }) as { step: string; title: string; desc: string; icon: string }[];
     const capabilityCategories = t('capabilities.categories', { returnObjects: true }) as {
@@ -94,7 +95,7 @@ const FarmOS: React.FC = () => {
                             {heroStats.map((stat, idx) => {
                                 const StatIcon = getIcon(stat.icon);
                                 return (
-                                    <span key={idx} className="inline-flex items-center gap-1 px-2.5 py-1 bg-primary/10 text-primary text-xs rounded-full font-medium">
+                                    <span key={idx} className={`inline-flex items-center gap-1 px-2.5 py-1 ${stat.bg} ${stat.text} text-xs rounded-full font-medium`}>
                                         <StatIcon className="text-[10px]" /> {stat.label}
                                     </span>
                                 );
@@ -141,7 +142,7 @@ const FarmOS: React.FC = () => {
                             return (
                                 <motion.div key={idx} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} transition={{ delay: idx * 0.1 }}>
                                     <InfoCard icon={ItemIcon} title={item.new} iconColor="text-accent" showInfoBadge={false} className="h-full">
-                                        <div className="mb-2 px-2 py-0.5 bg-red-50 text-text-dark text-sm rounded-full inline-block">
+                                        <div className="mb-2 px-2 py-0.5 bg-amber-50  text-amber-700 text-sm rounded-full inline-block">
                                             {t('whyBuilt.oldPrefix')} {item.old}
                                         </div>
                                     </InfoCard>

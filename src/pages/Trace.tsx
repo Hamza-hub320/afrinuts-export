@@ -208,7 +208,7 @@ const TracePage: React.FC = () => {
                                     <input
                                         type="text"
                                         placeholder={t('search.placeholder', 'Enter your Batch ID...')}
-                                        className="pl-9 pr-20 py-2.5 bg-transparent text-sm focus:outline-none rounded-full w-56"
+                                        className="pl-9 pr-20 py-2.5 bg-transparent text-sm focus:outline-none rounded-full w-56 batch-search-input"
                                         onKeyDown={(e) => {
                                             if (e.key === 'Enter') {
                                                 const input = e.currentTarget.value.trim();

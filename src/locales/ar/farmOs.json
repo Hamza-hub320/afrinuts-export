@@ -13,9 +13,9 @@
     "imageLabel": "مدعوم من Farm OS",
     "badgeVersion": "v1.0 — قيد الإنتاج",
     "stats": [
-      { "label": "35 قطعة متتبعة", "icon": "FaMapMarkerAlt" },
-      { "label": "دون اتصال أولاً", "icon": "FaWifi" },
-      { "label": "أندرويد + سحابة", "icon": "FaAndroid" }
+      { "label": "35 قطعة متتبعة", "icon": "FaMapMarkerAlt", "bg": "bg-amber-50", "text": "text-amber-700" },
+      { "label": "دون اتصال أولاً",  "icon": "FaWifi", "bg": "bg-blue-50", "text": "text-blue-700" },
+      { "label": "أندرويد + سحابة", "icon": "FaAndroid", "bg": "bg-green-50", "text": "text-green-700" }
     ],
     "ctaDemo": "شاهد Farm OS قيد التشغيل",
     "ctaInvest": "للمستثمرين"

@@ -13,9 +13,9 @@
     "imageLabel": "Propulsé par Farm OS",
     "badgeVersion": "v1.0 — En Production",
     "stats": [
-      { "label": "35 Blocs Suivis", "icon": "FaMapMarkerAlt" },
-      { "label": "Hors Ligne d'Abord", "icon": "FaWifi" },
-      { "label": "Android + Cloud", "icon": "FaAndroid" }
+      { "label": "35 Blocs Suivis", "icon": "FaMapMarkerAlt", "bg": "bg-amber-50", "text": "text-amber-700" },
+      { "label": "Hors Ligne d'Abord", "icon": "FaWifi", "bg": "bg-blue-50", "text": "text-blue-700" },
+      { "label": "Android + Cloud", "icon": "FaAndroid", "bg": "bg-green-50", "text": "text-green-700" }
     ],
     "ctaDemo": "Voir Farm OS en Action",
     "ctaInvest": "Pour les Investisseurs"
