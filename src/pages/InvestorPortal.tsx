@@ -193,6 +193,7 @@ const InvestorPortal: React.FC = () => {
                                 <GiFarmer className="text-primary text-xl" />
                             </div>
                         </div>
+                        </div>
                 </Section>
             </main>
         );
