@@ -11,7 +11,7 @@ import JsonLd from '@/components/Seo/JsonLd';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import farmOsHeroImage from '@/assets/images/farm-os-hero.webp';
-import DashboardNavbar from "@components/DashboardNavbar/DashboardNavbar";
+import DashboardNavbar from "../components/DashboardNavbar/DashboardNavbar";
 import {FaChartLine, FaSatelliteDish, FaShieldAlt} from "react-icons/fa";
 
 const getIcon = (iconName: string) => {
