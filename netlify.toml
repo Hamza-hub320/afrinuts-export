@@ -2,7 +2,19 @@
 publish = "dist"
 command = "npm run build"
 
-# Force www
+# Force www + HTTPS
+[[redirects]]
+from = "http://afrinutsexport.com/*"
+to = "https://www.afrinutsexport.com/:splat"
+status = 301
+force = true
+
+[[redirects]]
+from = "http://www.afrinutsexport.com/*"
+to = "https://www.afrinutsexport.com/:splat"
+status = 301
+force = true
+
 [[redirects]]
 from = "https://afrinutsexport.com/*"
 to = "https://www.afrinutsexport.com/:splat"

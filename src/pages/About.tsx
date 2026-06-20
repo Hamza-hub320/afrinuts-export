@@ -560,11 +560,16 @@ const About: React.FC = () => {
 
               <div className="grid md:grid-cols-3 gap-8 mb-24">
                 <InfoCard
-                  icon={FaGlobe}
-                  title={t('vmv.vision.title')}
-                  iconColor="text-accent"
+                    icon={FaGlobe}
+                    title={t('vmv.vision.title')}
+                    iconColor="text-accent"
                 >
-                  {t('vmv.vision.text')}
+                  <Typography variant="body" className="text-gray-700 mb-3">
+                    {t('vmv.vision.text')}
+                  </Typography>
+                  <Link to="/vision" className="text-accent hover:text-primary text-sm font-medium inline-flex items-center gap-1 transition-colors">
+                    {t('vmv.vision.linkText', 'Explore Our Full Vision')} <FaArrowRight className="text-xs" />
+                  </Link>
                 </InfoCard>
                 <InfoCard
                   icon={FaRocket}

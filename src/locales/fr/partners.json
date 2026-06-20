@@ -62,12 +62,35 @@
       }
     ]
   },
-  "currentPartners": {
-    "title": "Nos Premiers Partenaires : Plus de 200 Agriculteurs",
-    "body": "Notre coopérative à Odienné est la preuve que le modèle de partenariat fonctionne.",
-    "cardTitle": "Voir le Partenariat en Action",
-    "description": "Nous fournissons la formation, des prix équitables et un achat garanti. Ils fournissent la récolte. Ensemble, nous construisons une chaîne d'approvisionnement qui profite à tous — pas seulement à l'intermédiaire.",
-    "tags": ["200+ Agriculteurs", "Prix Équitables", "Formation Technique", "Achat Garanti"]
+  "milestones": {
+    "title": "La Fondation Est Construite. Maintenant, Nous Passons à l'Échelle.",
+    "body": "Avant de chercher des partenaires, nous avons fait le travail. 70 hectares sécurisés. Société enregistrée. Relations gouvernementales établies. Confiance communautaire gagnée. Notre équipe de direction a passé deux semaines sur le terrain à Odienné — et est revenue avec tout le nécessaire pour lancer. Ce n'est pas un argumentaire. C'est une plateforme prête pour les partenaires.",
+    "land": {
+      "title": "70 Hectares Sécurisés",
+      "desc": "Terrain familial officiellement transféré. 35 hectares pour l'agriculture, 10 pour la transformation, 25 pour la communauté. Procédure de titre en cours avec l'Agent Foncier Rural.",
+      "stat": "Titre en Cours"
+    },
+    "corp": {
+      "title": "Société Enregistrée",
+      "desc": "Enregistrement SARL payé et accepté par le CEPICI. Certificat RCCM et numéro IDU imminents. Entité juridique établie sous le droit OHADA — prête pour les contrats, les partenariats et l'investissement.",
+      "stat": "Finalisation"
+    },
+    "gov": {
+      "title": "Partenariats Gouvernementaux",
+      "desc": "Relations établies avec la direction du CCAK (Conseil Coton Anacard et Karité). Réunion avec le Directeur et le Directeur Général programmée. Représentant régional déjà engagé.",
+      "stat": "Sécurisé"
+    },
+    "community": {
+      "title": "Confiance Communautaire Gagnée",
+      "desc": "Transfert de terrain familial effectué avec reconnaissance communautaire. Direction villageoise engagée. Des relations locales qui ont mis des générations à se construire — maintenant partie intégrante des fondations d'AfriNuts.",
+      "stat": "Établi"
+    },
+    "videoMain": "Le Voyage en Action",
+    "videoCcak": "Réunion avec le Représentant du CCAK",
+    "videoCcakDesc": "M. Ouattara, Représentant du CCAK pour Odienné-Madinani",
+    "landVideo": "Transfert de Terrain Familial — 70 Hectares",
+    "landVideoDesc": "Un membre de la famille transfère officiellement les 70 hectares à AfriNuts Export. Cette terre est dans la famille depuis des générations — elle devient maintenant la fondation d'une plateforme agroalimentaire technologique.",
+    "galleryTitle": "Moments du Voyage"
   },
   "process": {
     "title": "Comment Devenir Partenaire",

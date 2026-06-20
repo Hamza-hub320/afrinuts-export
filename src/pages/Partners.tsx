@@ -16,7 +16,13 @@ import JsonLd from '@/components/Seo/JsonLd';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import partnerHeroImage from '@/assets/images/partner-hero.webp';
-import partnerVideo from '@/assets/videos/current-partners.mp4';
+import ccakVideo from '@/assets/videos/ccak-meeting.mp4';
+import landTransferVideo from '@/assets/videos/land-transfer.mp4';
+import partnersTripVideo from '@/assets/videos/partners-trip.mp4';
+import tripPhoto1 from '@/assets/images/partners/trip-1.webp';
+import tripPhoto2 from '@/assets/images/partners/trip-2.webp';
+import tripPhoto3 from '@/assets/images/partners/trip-3.webp';
+import tripPhoto4 from '@/assets/images/partners/trip-4.webp';
 
 
 const Partners: React.FC = () => {
@@ -91,7 +97,6 @@ const Partners: React.FC = () => {
                     </motion.div>
                     {/* Right: Partner Image */}
                     <motion.div className="flex-shrink-0 lg:ml-auto lg:-mr-16" variants={fadeIn} transition={{ delay: 0.2 }}>
-                    <motion.div className="flex-shrink-0 lg:ml-auto" variants={fadeIn} transition={{ delay: 0.2 }}>
                         <motion.div className="relative w-96 h-100 sm:w-80 sm:h-80 lg:w-[450px] lg:h-[690px] rounded-[2rem] overflow-hidden shadow-2xl border-2 border-white/40 transform-gpu group"
                                     style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
                                     whileHover={{ scale: 1.03, rotateY: 2, transition: { duration: 0.3 } }}>
@@ -102,7 +107,6 @@ const Partners: React.FC = () => {
                                 <span className="text-primary text-[11px] font-semibold">{t('hero.imageLabel')}</span>
                             </div>
                         </motion.div>
-                    </motion.div>
                     </motion.div>
                 </motion.div>
             </Section>
@@ -169,28 +173,127 @@ const Partners: React.FC = () => {
                 </div>
             </div></Section>
 
-            {/* Current Partners */}
-            <Section className="py-10"><div className="max-w-6xl mx-auto px-4 sm:px-6">
-                <motion.div className="text-center mb-8" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
-                    <Typography variant="h2" className="mb-4">{t('currentPartners.title')}</Typography>
-                    <Typography variant="body" className="text-gray-600 max-w-2xl mx-auto">{t('currentPartners.body')}</Typography>
-                </motion.div>
-                <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
-                    <InfoCard icon={FaUsers} title={t('currentPartners.cardTitle')} variant="primary" showInfoBadge={false}>
-                        <div className="grid md:grid-cols-2 gap-6 items-center">
-                            <div className="rounded-xl overflow-hidden shadow-lg border-2 border-white/30">
-                                <video controls preload="metadata" className="w-full rounded-xl" style={{ minHeight: '280px', maxHeight: '360px', objectFit: 'cover' }}>
-                                    <source src={partnerVideo} type="video/mp4" />
-                                </video>
+            {/* Trip Milestones */}
+            <Section className="py-10">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6">
+                    <motion.div className="text-center mb-10" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
+                        <Typography variant="h2" className="mb-4">{t('milestones.title', 'June 2026: On the Ground in Côte d\'Ivoire')}</Typography>
+                        <Typography variant="body" className="text-gray-600 max-w-2xl mx-auto">
+                            {t('milestones.body', 'Our executive team spent two weeks securing the foundation of AfriNuts Export. 70 hectares of land acquired. Corporation registration submitted and accepted. Relationships built with government officials, community elders, and local partners. This is what execution looks like.')}
+                        </Typography>
+                    </motion.div>
+
+                    {/* Key Achievements */}
+                    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                        {[
+                            {
+                                icon: FaLeaf,
+                                title: t('milestones.land.title', '70 Hectares Secured'),
+                                desc: t('milestones.land.desc', 'Land title process underway. Family member officially transferred the 70 hectares — 35ha for farm, 10ha for processing, 25ha for community.'),
+                                stat: t('milestones.land.stat', 'Title in Process'),
+                                color: 'text-green-600',
+                                bg: 'bg-green-50'
+                            },
+                            {
+                                icon: FaCertificate,
+                                title: t('milestones.corp.title', 'Corporation Registered'),
+                                desc: t('milestones.corp.desc', 'SARL registration paid and processing. RCCM certificate, IDU number, and official company registration expected this week. Dossier N° 512502 accepted by CEPICI.'),
+                                stat: t('milestones.corp.stat', 'Finalizing'),
+                                color: 'text-primary',
+                                bg: 'bg-primary/10'
+                            },
+                            {
+                                icon: FaHandshake,
+                                title: t('milestones.gov.title', 'Government Partnerships'),
+                                desc: t('milestones.gov.desc', 'Upcoming meeting with Director of Conseil Coton Anacard et Karité (CCAK) and General Director. Representative in Odienné-Madinani already engaged.'),
+                                stat: t('milestones.gov.stat', 'Scheduled'),
+                                color: 'text-blue-600',
+                                bg: 'bg-blue-50'
+                            },
+                            {
+                                icon: FaUsers,
+                                title: t('milestones.community.title', 'Community & Family'),
+                                desc: t('milestones.community.desc', 'Family land transfer completed. Local community relationships strengthened. Meeting with village leadership and regional authorities.'),
+                                stat: t('milestones.community.stat', 'Established'),
+                                color: 'text-amber-600',
+                                bg: 'bg-amber-50'
+                            },
+                        ].map((item, idx) => (
+                            <motion.div key={idx} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} transition={{ delay: idx * 0.1 }}>
+                                <InfoCard icon={item.icon} title={item.title} iconColor={item.color} showInfoBadge={false} className="h-full">
+                                    <Typography variant="small" className="text-gray-600 mb-3">{item.desc}</Typography>
+                                    <span className={`inline-block px-3 py-1 ${item.bg} ${item.color} text-xs rounded-full font-bold`}>{item.stat}</span>
+                                </InfoCard>
+                            </motion.div>
+                        ))}
+                    </div>
+
+                    {/* Video Gallery */}
+                    <div className="grid md:grid-cols-2 gap-6 mb-8">
+                        {/* Main Trip Video */}
+                        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
+                            <InfoCard icon={FaUsers} title={t('milestones.videoMain', 'The Trip in Action')} variant="primary" showInfoBadge={false}>
+                                <div className="rounded-xl overflow-hidden shadow-lg border-2 border-white/30">
+                                    <video controls preload="metadata" className="w-full rounded-xl" style={{ minHeight: '280px', maxHeight: '360px', objectFit: 'cover' }}>
+                                        <source src={partnersTripVideo} type="video/mp4" />
+                                    </video>
+                                </div>
+                            </InfoCard>
+                        </motion.div>
+
+                        {/* CCAK Meeting Video */}
+                        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} transition={{ delay: 0.1 }}>
+                            <InfoCard icon={FaHandshake} title={t('milestones.videoCcak', 'Meeting with CCAK Representative')} variant="accent" showInfoBadge={false}>
+                                <div className="rounded-xl overflow-hidden shadow-lg border-2 border-white/30">
+                                    <video controls preload="metadata" className="w-full rounded-xl" style={{ minHeight: '280px', maxHeight: '360px', objectFit: 'cover' }}>
+                                        <source src={ccakVideo} type="video/mp4" />
+                                    </video>
+                                </div>
+                                <Typography variant="small" className="text-gray-600 mt-3 text-center">
+                                    {t('milestones.videoCcakDesc', 'Mr. Ouattara, CCAK Representative for Odienné-Madinani')}
+                                </Typography>
+                            </InfoCard>
+                        </motion.div>
+                    </div>
+
+                    {/* Land Transfer Video */}
+                    <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} className="mb-8">
+                        <InfoCard icon={FaLeaf} title={t('milestones.landVideo', 'Family Land Transfer — 70 Hectares')} variant="primary" showInfoBadge={false}>
+                            <div className="grid md:grid-cols-2 gap-4 items-center">
+                                <div className="rounded-xl overflow-hidden shadow-lg border-2 border-white/30">
+                                    <video
+                                        controls
+                                        preload="metadata"
+                                        className="w-full rounded-xl"
+                                        style={{ minHeight: '280px', maxHeight: '360px', objectFit: 'cover' }}
+                                    >
+                                        <source src={landTransferVideo} type="video/mp4" />
+                                    </video>
+                                </div>
+                                <div>
+                                    <Typography variant="body" className="text-gray-600">
+                                        {t('milestones.landVideoDesc', 'A family member officially transferring the 70 hectares to AfriNuts Export. This land has been in the family for generations — now it becomes the foundation of a tech-enabled agribusiness platform. The title process is underway with the Agent Foncier Rural.')}
+                                    </Typography>
+                                </div>
                             </div>
-                            <div>
-                                <Typography variant="body" className="text-gray-600 mb-4">{t('currentPartners.description')}</Typography>
-                                <div className="flex flex-wrap gap-2">{(t('currentPartners.tags', { returnObjects: true }) as string[]).map((tag, idx) => (<span key={idx} className="px-3 py-1 bg-primary/10 text-primary text-xs rounded-full font-medium">{tag}</span>))}</div>
+                        </InfoCard>
+                    </motion.div>
+
+                    {/* Photo Gallery */}
+                    <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
+                        <InfoCard icon={FaStar} title={t('milestones.galleryTitle', 'Moments from the Trip')} variant="accent" showInfoBadge={false}>
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                                {[tripPhoto1, tripPhoto2, tripPhoto3, tripPhoto4].map((photo, idx) => (
+                                    <motion.div key={idx} className="rounded-xl overflow-hidden shadow-md border-2 border-white/30 aspect-square"
+                                                whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}>
+                                        <img src={photo} alt={`Trip photo ${idx + 1}`} className="w-full h-full object-cover" loading="lazy" />
+                                    </motion.div>
+                                ))}
                             </div>
-                        </div>
-                    </InfoCard>
-                </motion.div>
-            </div></Section>
+                        </InfoCard>
+                    </motion.div>
+                </div>
+            </Section>
 
             {/* How to Partner */}
             <Section className="py-10"><div className="max-w-6xl mx-auto px-4 sm:px-6">
