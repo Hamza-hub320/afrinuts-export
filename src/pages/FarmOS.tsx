@@ -37,10 +37,25 @@ const FarmOS: React.FC = () => {
     return (
         <div className="text-text-dark font-sans">
             <Helmet>
-                <title>{t('seo.title')}</title>
-                <meta name="description" content="Custom-built Android farm operating system with offline sync and cloud dashboard. Block-level tracking, task management, expense logging, and batch traceability. Built by our founder — not a third-party tool." />
-                <link rel="canonical" href="https://www.afrinutsexport.com/farm-os" />
+                <title>Farm OS | Proprietary Farm Management Platform | AfriNuts Export</title>
+                <meta name="description" content="AfriNuts Farm OS is our proprietary farm management platform — offline-first Android with cloud sync, block-level tracking, and real-time dashboards. Access is restricted to verified investors and partners under NDA." />
+                <meta name="robots" content="noindex, nofollow" />
+                <link rel="canonical" href="https://www.afrinutsexport.com/invest" />
             </Helmet>
+
+            <JsonLd data={{
+                "@context": "https://schema.org",
+                "@type": "SoftwareApplication",
+                "name": "AfriNuts Farm OS",
+                "applicationCategory": "BusinessApplication",
+                "operatingSystem": "Android",
+                "description": "Proprietary farm management platform — access restricted to verified investors and partners under NDA.",
+                "offers": {
+                    "@type": "Offer",
+                    "availability": "https://schema.org/InStock",
+                    "description": "Access restricted to verified parties under NDA"
+                }
+            }} />
 
             <JsonLd data={{
                 "@context": "https://schema.org",

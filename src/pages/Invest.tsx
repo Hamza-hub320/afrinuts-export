@@ -3,10 +3,32 @@ import { useTranslation } from 'react-i18next';
 import {Link, useNavigate} from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
-    FaChartLine, FaIndustry, FaLeaf, FaShieldAlt, FaUsers,
-    FaArrowRight, FaDownload, FaHandshake, FaCalendarAlt, FaFileContract, FaCheckCircle,
-    FaHeart, FaSolarPanel, FaGlobeAfrica, FaChartPie,
-    FaMoneyBillWave, FaBuilding, FaSeedling, FaInfoCircle, FaChartBar, FaCrown, FaRecycle, FaMobile, FaTree, FaStar
+    FaChartLine,
+    FaIndustry,
+    FaLeaf,
+    FaShieldAlt,
+    FaUsers,
+    FaArrowRight,
+    FaDownload,
+    FaHandshake,
+    FaCalendarAlt,
+    FaFileContract,
+    FaCheckCircle,
+    FaHeart,
+    FaSolarPanel,
+    FaGlobeAfrica,
+    FaChartPie,
+    FaMoneyBillWave,
+    FaBuilding,
+    FaSeedling,
+    FaInfoCircle,
+    FaChartBar,
+    FaCrown,
+    FaRecycle,
+    FaMobile,
+    FaTree,
+    FaStar,
+    FaMapMarkerAlt, FaSearch
 } from 'react-icons/fa';
 import {
     BarChart, Bar, XAxis, YAxis, CartesianGrid,
@@ -359,12 +381,79 @@ const Invest: React.FC = () => {
                                 <div className="inline-block bg-accent/10 text-accent text-xs font-medium px-4 py-2 rounded-full">
                                     {t('farmOs.cta')}
                                 </div>
-                                <Link to="/farm-os" className="text-accent hover:text-primary text-xs font-medium inline-flex items-center gap-1 mt-3">
+                                <button
+                                    onClick={() => document.getElementById('farmos-gated')?.scrollIntoView({ behavior: 'smooth' })}
+                                    className="text-accent hover:text-primary text-xs font-medium inline-flex items-center gap-1 mt-3"
+                                >
                                     {t('farmOs.linkText', 'See full Farm OS capabilities')} <FaArrowRight className="text-[10px]" />
-                                </Link>
+                                </button>
                             </InfoCard>
                         </motion.div>
                     </div>
+                </div>
+            </Section>
+
+            {/* Farm OS — Gated Access */}
+            <Section className="py-10"  id="farmos-gated">
+                <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+                    <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}
+                                className="relative bg-gradient-to-br from-navy/90 to-navy/95 border-2 border-primary/30 rounded-3xl shadow-xl p-8 md:p-12 transform-gpu overflow-hidden"
+                                style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
+                                whileHover={{ y: -6, scale: 1.02, boxShadow: '0 25px 50px -12px rgba(0,0,0,0.3)', transition: { duration: 0.3 } }}>
+
+                        {/* Animated blobs */}
+                        <div className="absolute -top-20 -right-20 w-40 h-40 rounded-full opacity-10 blur-3xl animate-pulse"
+                             style={{ background: 'radial-gradient(circle, rgba(165,105,66,0.5) 0%, transparent 70%)' }} />
+                        <div className="absolute -bottom-16 -left-16 w-36 h-36 rounded-full opacity-8 blur-3xl"
+                             style={{ background: 'radial-gradient(circle, rgba(210,125,45,0.5) 0%, transparent 70%)', animation: 'float 6s ease-in-out infinite' }} />
+
+                        {/* Lock icon */}
+                        <div className="relative z-10">
+                            <motion.div
+                                className="bg-primary/20 p-4 rounded-full w-fit mx-auto mb-6 border-2 border-primary/40"
+                                whileHover={{ scale: 1.1, rotate: 5 }}
+                                transition={{ type: 'spring', stiffness: 300 }}
+                            >
+                                <FaMobile className="text-4xl text-white" />
+                            </motion.div>
+
+                            <Typography variant="h2" className="text-white mb-4">
+                                {t('farmOsGated.title', 'Want to See Farm OS in Action?')}
+                            </Typography>
+
+                            <Typography variant="body" className="text-white max-w-2xl mx-auto mb-6">
+                                {t('farmOsGated.body', 'Farm OS is our competitive advantage — a custom-built operating system that tracks every tree, every expense, and every export. We protect it carefully. Sign the NDA and we\'ll give you a live demo: real dashboards, block-level tracking, batch traceability, and financial reporting that most agribusinesses cannot match.')}
+                            </Typography>
+
+                            {/* What You'll See */}
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
+                                {[
+                                    { icon: FaChartLine, label: t('farmOsGated.preview.dashboard', 'Live Dashboard') },
+                                    { icon: FaMapMarkerAlt, label: t('farmOsGated.preview.blocks', 'Block-Level Data') },
+                                    { icon: FaSearch, label: t('farmOsGated.preview.trace', 'Batch Traceability') },
+                                    { icon: FaFileContract, label: t('farmOsGated.preview.reports', 'Financial Reports') },
+                                ].map((item, idx) => (
+                                    <div key={idx} className="bg-white/10 backdrop-blur-sm rounded-xl p-3 border border-white/10 text-center">
+                                        <item.icon className="text-accent text-xl mx-auto mb-1" />
+                                        <div className="text-white text-xs">{item.label}</div>
+                                    </div>
+                                ))}
+                            </div>
+
+                            {/* CTA */}
+                            <motion.div variants={fadeIn} className="flex flex-col sm:flex-row gap-4 justify-center">
+                                <a href={ndaPDF} download className="relative bg-gradient-to-r from-accent to-dark-orange hover:from-dark-orange hover:to-accent text-white px-8 py-4 rounded-full transform-gpu group/btn overflow-hidden font-medium shadow-lg inline-flex items-center gap-2">
+                                    <div className="absolute inset-0 rounded-full border-2 border-white/30" />
+                                    <FaFileContract className="relative z-10" />
+                                    <span className="relative z-10">{t('farmOsGated.signNda', 'Sign NDA for Farm OS Access')}</span>
+                                </a>
+                            </motion.div>
+
+                            <Typography variant="small" className="text-white mt-4 text-xs">
+                                {t('farmOsGated.note', 'Farm OS is proprietary technology. Access is granted only to verified investors and strategic partners under NDA.')}
+                            </Typography>
+                        </div>
+                    </motion.div>
                 </div>
             </Section>
 

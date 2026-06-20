@@ -4,7 +4,7 @@ import {
     FaBars,
     FaTimes,
     FaSignOutAlt,
-    FaTachometerAlt, FaBorderAll, FaClipboardList, FaChartPie, FaChartBar
+    FaTachometerAlt, FaBorderAll, FaClipboardList, FaChartPie, FaChartBar, FaMobile
 } from 'react-icons/fa';
 import { useAuth } from '../../contexts/AuthContext';
 
@@ -46,6 +46,7 @@ const DashboardNavbar: React.FC = () => {
         { path: '/dashboard/tasks', icon: FaClipboardList, label: 'Tasks', sub: 'Operations' },
         { path: '/dashboard/financials', icon: FaChartPie, label: 'Financials', sub: 'Reports' },
         { path: '/investor', icon: FaChartBar, label: 'Investor', sub: 'View Portal' },
+        { path: '/farm-os',  icon: FaMobile, label: 'Farm OS', sub: 'Farm Operating System' },
     ];
 
     return (
@@ -54,7 +55,7 @@ const DashboardNavbar: React.FC = () => {
             className="fixed left-1/2 -translate-x-1/2 z-40 transition-all duration-300 w-full max-w-full sm:max-w-[95vw] sm:w-auto px-3 sm:px-0"
             style={{ top: `${navbarTop}px` }}
         >
-            <div className={`relative bg-white/60 backdrop-blur-md border-2 border-white/40 shadow-lg mx-auto transition-all duration-300 rounded-2xl ${
+            <div className={`relative bg-white/50 backdrop-blur-md border-2 border-white/30 shadow-lg mx-auto transition-all duration-300 rounded-2xl ${
                 scrolled ? 'shadow-xl bg-white/80 backdrop-blur-lg scale-[0.97]' : ''
             }`}>
                 {/* Desktop: pill shape */}

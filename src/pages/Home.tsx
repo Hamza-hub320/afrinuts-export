@@ -568,8 +568,8 @@ const Home: React.FC = () => {
                             <Typography variant="body" className="text-gray-600 mb-5 max-w-xl mx-auto">
                                 {t('farmOsTeaser.description', 'Most farms run on paper. Ours runs on software we built — an offline-first Android app with cloud sync, real-time dashboards, and block-level tracking. The same system our farm managers use. The same data our investors see.')}
                             </Typography>
-                            <Link to="/farm-os" className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-6 py-2.5 rounded-full transform-gpu transition-all duration-300 inline-flex items-center gap-2 text-sm font-medium shadow-md">
-                                <span>Explore Farm OS</span>
+                            <Link to="/invest" className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-6 py-2.5 rounded-full transform-gpu transition-all duration-300 inline-flex items-center gap-2 text-sm font-medium shadow-md">
+                                <span>{t('farmOsTeaser.cta', 'Explore Farm OS (Under NDA)')}</span>
                                 <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
                             </Link>
                         </InfoCard>

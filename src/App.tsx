@@ -108,7 +108,6 @@ function App(): ReactElement {
                                     <Route path="invest" element={<Invest />} />
                                     <Route path="wholesale" element={<Wholesale />} />
                                     <Route path="partners" element={<Partners />} />
-                                    <Route path="farm-os" element={<FarmOS />} />
                                     <Route path="community" element={<Community />} />
                                 </Route>
 
@@ -135,6 +134,11 @@ function App(): ReactElement {
                                 <Route path="investor" element={
                                     <ProtectedRoute allowedRoles={['INVESTOR', 'OWNER', 'MANAGER']}>
                                         <InvestorPortal />
+                                    </ProtectedRoute>
+                                } />
+                                <Route path="farm-os" element={
+                                    <ProtectedRoute allowedRoles={['INVESTOR', 'OWNER', 'MANAGER']}>
+                                        <FarmOS />
                                     </ProtectedRoute>
                                 } />
                                 <Route path="*" element={<Home />} />

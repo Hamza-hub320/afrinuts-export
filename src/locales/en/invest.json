@@ -340,5 +340,17 @@
       "Batch traceability from harvest to export container"
     ],
     "cta": "This is the actual dashboard. Not a mockup. Not a promise."
+  },
+  "farmOsGated": {
+    "title": "Want to See Farm OS in Action?",
+    "body": "Farm OS is our competitive advantage — a custom-built operating system that tracks every tree, every expense, and every export. We protect it carefully. Sign the NDA and we'll give you a live demo: real dashboards, block-level tracking, batch traceability, and financial reporting that most agribusinesses cannot match.",
+    "preview": {
+      "dashboard": "Live Dashboard",
+      "blocks": "Block-Level Data",
+      "trace": "Batch Traceability",
+      "reports": "Financial Reports"
+    },
+    "signNda": "Sign NDA for Farm OS Access",
+    "note": "Farm OS is proprietary technology. Access is granted only to verified investors and strategic partners under NDA."
   }
 }

@@ -340,5 +340,17 @@
       "Traçabilité des lots de la récolte au conteneur d'exportation"
     ],
     "cta": "Ceci est le tableau de bord réel. Pas une maquette. Pas une promesse."
+  },
+  "farmOsGated": {
+    "title": "Vous Voulez Voir Farm OS en Action ?",
+    "body": "Farm OS est notre avantage concurrentiel — un système d'exploitation sur mesure qui suit chaque arbre, chaque dépense et chaque exportation. Nous le protégeons soigneusement. Signez la NDA et nous vous ferons une démonstration en direct : tableaux de bord réels, suivi par bloc, traçabilité des lots et rapports financiers que la plupart des entreprises agroalimentaires ne peuvent égaler.",
+    "preview": {
+      "dashboard": "Tableau de Bord en Direct",
+      "blocks": "Données par Bloc",
+      "trace": "Traçabilité des Lots",
+      "reports": "Rapports Financiers"
+    },
+    "signNda": "Signer la NDA pour Accéder à Farm OS",
+    "note": "Farm OS est une technologie propriétaire. L'accès est accordé uniquement aux investisseurs vérifiés et aux partenaires stratégiques sous NDA."
   }
 }

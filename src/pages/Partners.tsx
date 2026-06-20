@@ -133,8 +133,8 @@ const Partners: React.FC = () => {
 
                     {/* Centered Link Below Cards */}
                     <div className="text-center">
-                        <Link to="/farm-os" className="text-accent hover:text-primary text-sm font-medium inline-flex items-center gap-1 transition-colors">
-                            {t('whyPartner.farmosLink', 'Explore Farm OS')} <FaArrowRight className="text-xs" />
+                        <Link to="/invest" className="relative border border-primary/40 text-primary hover:bg-primary/5 px-5 py-2.5 rounded-full text-sm font-medium inline-flex items-center gap-1.5 bg-white/50 backdrop-blur-sm">
+                            <FaMobile className="text-xs" />{t('hero.ctaFarmOS', 'See Farm OS (Under NDA)')}
                         </Link>
                     </div>
                 </div>

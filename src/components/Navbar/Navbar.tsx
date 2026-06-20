@@ -114,7 +114,6 @@ const Navbar: React.FC = () => {
 
   // Secondary Nav (Capability)
   const secondaryNavItems = [
-    { path: '/farm-os', label: t('navbar.farmOs', 'Farm OS'), icon: FaMobile },
     { path: '/trace', label: t('navbar.trace', 'Trace'), icon: FaSearch },
     { path: '/products', label: t('navbar.products', 'Products'), icon: FaBox },
     { path: '/certifications', label: t('navbar.certifications', 'Certs'), icon: FaCertificate },
