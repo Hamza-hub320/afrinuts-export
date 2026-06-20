@@ -902,7 +902,7 @@ const Home: React.FC = () => {
                         </div>
                     ) : (
                         <motion.div
-                            className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12"
+                            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12"
                             variants={staggerContainer}
                             initial="hidden"
                             whileInView="visible"
@@ -910,72 +910,68 @@ const Home: React.FC = () => {
                         >
                             {homeUpdates.slice(0, newsToShow).map((update: AfriNutsUpdate, index: number) => (
                                 <motion.div key={update.id} variants={fadeIn}>
-                                    <Link to={`/news/${update.slug}`} className="block h-full">
+                                    <Link to={`/news/${update.slug}`} className="group block h-full">
                                         <motion.div
-                                            className="group relative bg-gradient-to-br from-primary/5 to-accent/5 rounded-3xl border-2 border-primary/20 hover:border-accent/30 shadow-lg overflow-hidden hover:shadow-xl transition-all duration-500 border-l-4 border-accent h-full transform-gpu"
+                                            className="group relative bg-gradient-to-br from-primary/5 to-accent/5 rounded-2xl border-2 border-primary/20 hover:border-accent/30 shadow-lg overflow-hidden transition-all duration-500 border-l-4 border-accent h-full transform-gpu"
                                             style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
-                                            whileHover={{ y: -8, scale: 1.03, rotateY: 2, boxShadow: '0 20px 35px -10px rgba(0,0,0,0.25)', transition: { duration: 0.3 } }}
+                                            whileHover={{ y: -4, scale: 1.01, boxShadow: '0 15px 30px -8px rgba(0,0,0,0.15)', transition: { duration: 0.3 } }}
                                         >
                                             {/* 3D edge effect */}
-                                            <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px]" />
+                                            <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-8px] transition-all duration-500" />
                                             {/* Glassy overlay */}
-                                            <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40" />
+                                            <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
                                             {/* Inner shadow */}
-                                            <div className="absolute inset-0 rounded-3xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)]" />
-                                            {/* Background pattern */}
-                                            <div className="absolute inset-0 rounded-3xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
+                                            <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.05)]" />
 
-                                            {/* Image with asymmetrical corners */}
-                                            <div className="relative h-64 overflow-hidden z-10 rounded-t-3xl rounded-bl-3xl rounded-br-[80px]">
+                                            {/* Image */}
+                                            <div className="relative h-44 overflow-hidden z-10">
                                                 <motion.img
                                                     src={update.image || newsImage}
                                                     alt={update.title}
                                                     className="w-full h-full object-cover"
                                                     loading="lazy"
-                                                    whileHover={{ scale: 1.1 }}
-                                                    transition={{ duration: 0.5 }}
+                                                    whileHover={{ scale: 1.05 }}
+                                                    transition={{ duration: 0.3 }}
                                                 />
-                                                <div className="absolute inset-0 bg-gradient-to-t from-black/15 to-transparent" />
+                                                {/* Share button */}
+                                                <button
+                                                    className="absolute top-3 right-3 z-20 w-7 h-7 rounded-full bg-white/70 backdrop-blur-md border border-white/40 shadow-sm flex items-center justify-center text-primary hover:text-accent hover:bg-white/90 transition-all"
+                                                    onClick={(e) => {
+                                                        e.preventDefault();
+                                                        e.stopPropagation();
+                                                        const url = `${window.location.origin}/news/${update.slug}`;
+                                                        if (navigator.share) {
+                                                            navigator.share({ title: update.title, url });
+                                                        } else {
+                                                            navigator.clipboard.writeText(url);
+                                                        }
+                                                    }}
+                                                    aria-label={t('newsCard.share', 'Share')}
+                                                >
+                                                    <FaShareSquare className="w-3 h-3" />
+                                                </button>
                                             </div>
 
-                                            {/* Share button - top right corner */}
-                                            <button
-                                                className="absolute top-4 right-4 z-20 w-9 h-9 rounded-full bg-white/70 backdrop-blur-md border border-white/40 shadow-md flex items-center justify-center text-primary hover:text-accent hover:bg-white/90 transition-all transform-gpu hover:scale-110"
-                                                onClick={(e) => {
-                                                    e.preventDefault();
-                                                    e.stopPropagation();
-                                                    const url = `${window.location.origin}/news/${update.slug}`;
-                                                    if (navigator.share) {
-                                                        navigator.share({ title: update.title, url });
-                                                    } else {
-                                                        navigator.clipboard.writeText(url);
-                                                    }
-                                                }}
-                                                aria-label={t('newsCard.share', 'Share')}
-                                            >
-                                                <FaShareSquare className="w-4 h-4" />
-                                            </button>
-
-                                            <div className="p-6 relative z-10">
-                                                <div className="flex items-center gap-2 mb-3">
-                                                    <div className="bg-accent/20 p-2 rounded-full">
-                                                        <FaBullhorn className="text-accent" />
+                                            {/* Content */}
+                                            <div className="p-4 relative z-10">
+                                                <div className="flex items-center gap-1.5 mb-2">
+                                                    <div className="bg-accent/20 p-1.5 rounded-full">
+                                                        <FaBullhorn className="text-accent text-[10px]" />
                                                     </div>
-                                                    <Typography variant="caption" className="text-gray-500">
-                                                        {new Date(update.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                                                    <Typography variant="caption" className="text-gray-400 text-xs">
+                                                        {new Date(update.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
                                                     </Typography>
                                                 </div>
-                                                <Typography variant="h3" className="mb-3">{update.title}</Typography>
-                                                <Typography variant="body" className="mb-4 text-gray-600">{update.excerpt}</Typography>
-                                                <div className="flex flex-wrap gap-2 mb-4">
-                                                    {update.tags?.map((tag: string) => (
-                                                        <span key={tag} className="px-3 py-1 text-sm font-medium bg-primary/10 text-primary rounded-full">{tag}</span>
-                                                    ))}
-                                                </div>
-                                                <span className="text-accent hover:text-primary font-medium flex items-center gap-1 transition-colors">
-                                        {t('newsCard.readMore')}
-                                                    <FaArrowRight className="text-sm" />
-                                    </span>
+                                                <Typography variant="h5" className="text-sm font-semibold text-gray-900 mb-2 line-clamp-2 group-hover:text-accent transition-colors">
+                                                    {update.title}
+                                                </Typography>
+                                                <Typography variant="small" className="text-gray-500 text-xs line-clamp-2 mb-3">
+                                                    {update.excerpt}
+                                                </Typography>
+                                                <span className="text-accent hover:text-primary text-xs font-medium inline-flex items-center gap-1 transition-colors">
+                                                {t('newsCard.readMore')}
+                                                    <FaArrowRight className="text-[10px]" />
+                                                </span>
                                             </div>
                                         </motion.div>
                                     </Link>
