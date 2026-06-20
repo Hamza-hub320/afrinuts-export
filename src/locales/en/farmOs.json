@@ -86,7 +86,7 @@
   },
   "builtForAfrica": {
     "title": "Built for West Africa. Not Adapted for It.",
-    "body": "Farm OS was built for the reality of rural Côte d'Ivoire — works offline, syncs automatically when connectivity returns, optimized for low-bandwidth environments, and runs on affordable Android devices. This is not Silicon Valley software retrofitted for Africa. This is African software built for African conditions.",
+    "body": "Offline-first architecture. Auto-syncs when connectivity returns. Runs on affordable Android devices. Optimized for low-bandwidth environments. This is not Silicon Valley software retrofitted for Africa — it was built here, for here.",
     "tags": [
       { "label": "Offline-First", "icon": "FaWifi" },
       { "label": "Low Power", "icon": "FaBatteryFull" },

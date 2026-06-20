@@ -46,17 +46,17 @@ const DashboardNavbar: React.FC = () => {
         { path: '/dashboard/tasks', icon: FaClipboardList, label: 'Tasks', sub: 'Operations' },
         { path: '/dashboard/financials', icon: FaChartPie, label: 'Financials', sub: 'Reports' },
         { path: '/investor', icon: FaChartBar, label: 'Investor', sub: 'View Portal' },
-        { path: '/farm-os',  icon: FaMobile, label: 'Farm OS', sub: 'Farm Operating System' },
+        { path: '/farm-os',  icon: FaMobile, label: 'FarmOS', sub: 'Farm Operating System' },
     ];
 
     return (
         <nav
             ref={menuRef}
-            className="fixed left-1/2 -translate-x-1/2 z-40 transition-all duration-300 w-full max-w-full sm:max-w-[95vw] sm:w-auto px-3 sm:px-0"
+            className="fixed left-1/2 -translate-x-1/2 z-40 transition-all duration-300 w-full max-w-full sm:max-w-[98vw] lg:max-w-7xl px-3 sm:px-0"
             style={{ top: `${navbarTop}px` }}
         >
-            <div className={`relative bg-white/50 backdrop-blur-md border-2 border-white/30 shadow-lg mx-auto transition-all duration-300 rounded-2xl ${
-                scrolled ? 'shadow-xl bg-white/80 backdrop-blur-lg scale-[0.97]' : ''
+            <div className={`relative bg-white/50 backdrop-blur-md border border-white/30 shadow-sm mx-auto transition-all duration-300 rounded-xl px-3 py-1.5 flex items-center justify-center gap-1 flex-wrap ${
+                scrolled ? 'shadow-md bg-white/80 backdrop-blur-lg scale-[0.97]' : ''
             }`}>
                 {/* Desktop: pill shape */}
                 <div className="hidden sm:flex justify-center items-center min-h-[48px] py-1 px-4 gap-1">

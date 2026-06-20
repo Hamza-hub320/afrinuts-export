@@ -86,7 +86,7 @@
   },
   "builtForAfrica": {
     "title": "Construit pour l'Afrique de l'Ouest. Pas Adapté pour Elle.",
-    "body": "Farm OS a été construit pour la réalité de la Côte d'Ivoire rurale — fonctionne hors ligne, se synchronise automatiquement lorsque la connexion revient, optimisé pour les environnements à faible bande passante, et fonctionne sur des appareils Android abordables. Ce n'est pas un logiciel de la Silicon Valley adapté à l'Afrique. C'est un logiciel africain construit pour les conditions africaines.",
+    "body": "Architecture hors ligne d'abord. Se synchronise automatiquement lorsque la connexion revient. Fonctionne sur des appareils Android abordables. Optimisé pour les environnements à faible bande passante. Ce n'est pas un logiciel de la Silicon Valley adapté à l'Afrique — il a été construit ici, pour ici.",
     "tags": [
       { "label": "Hors Ligne d'Abord", "icon": "FaWifi" },
       { "label": "Basse Consommation", "icon": "FaBatteryFull" },

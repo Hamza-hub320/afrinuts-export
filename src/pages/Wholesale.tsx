@@ -327,6 +327,28 @@ const Wholesale: React.FC = () => {
                 </motion.div>
             </div></Section>
 
+            {/* Farm OS Quote for Buyers */}
+            <Section className="py-8">
+                <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
+                    <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
+                        <InfoCard
+                            icon={FaBox}
+                            title={t('farmOsQuote.title', 'Most Suppliers Send a Certificate. We Send the Data That Generated It.')}
+                            variant="primary"
+                            showInfoBadge={false}
+                            className="text-center"
+                        >
+                            <Typography variant="body" className="text-gray-600 mb-4 max-w-xl mx-auto">
+                                {t('farmOsQuote.body', 'When you order from AfriNuts, the traceability report is pulled directly from Farm OS — not created after the fact by someone in an office. Same system our farm managers use. Same data our investors see.')}
+                            </Typography>
+                            <Link to="/trace" className="text-accent hover:text-primary text-sm font-medium inline-flex items-center gap-1">
+                                {t('farmOsQuote.cta', 'Try traceability with batch AFN-2026-001')} <FaArrowRight className="text-xs" />
+                            </Link>
+                        </InfoCard>
+                    </motion.div>
+                </div>
+            </Section>
+
             {/* Quality + Logistics */}
             <Section className="py-10"><div className="max-w-6xl mx-auto px-4 sm:px-6">
                 <motion.div className="text-center mb-10" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>

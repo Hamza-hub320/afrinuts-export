@@ -11,7 +11,8 @@ import JsonLd from '@/components/Seo/JsonLd';
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import farmOsHeroImage from '@/assets/images/farm-os-hero.webp';
-import {FaCheckCircle, FaLeaf, FaMobile} from "react-icons/fa";
+import DashboardNavbar from "@components/DashboardNavbar/DashboardNavbar";
+import {FaChartLine, FaSatelliteDish, FaShieldAlt} from "react-icons/fa";
 
 const getIcon = (iconName: string) => {
     const Icon = (Icons as any)[iconName];
@@ -35,6 +36,8 @@ const FarmOS: React.FC = () => {
     }[];
 
     return (
+        <div className="min-h-screen relative overflow-hidden pt-[72px]">
+            <DashboardNavbar />
         <div className="text-text-dark font-sans">
             <Helmet>
                 <title>Farm OS | Proprietary Farm Management Platform | AfriNuts Export</title>
@@ -141,6 +144,18 @@ const FarmOS: React.FC = () => {
                     </motion.div>
                 </motion.div>
             </Section>
+            {/* Confidential Notice */}
+            <Section className="py-4">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6">
+                    <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}
+                                className="bg-amber-50/80 border border-amber-200 rounded-xl p-4 text-center">
+                        <Typography variant="small" className="text-amber-700 flex items-center justify-center gap-2">
+                            <FaShieldAlt className="text-amber-500" />
+                            Confidential — For verified investors and strategic partners under NDA. Do not distribute.
+                        </Typography>
+                    </motion.div>
+                </div>
+            </Section>
 
             {/* The Problem We Solved */}
             <Section className="py-10">
@@ -220,6 +235,27 @@ const FarmOS: React.FC = () => {
                 </div>
             </Section>
 
+            {/* What This Means for You */}
+            <Section className="py-10">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6">
+                    <motion.div className="text-center mb-8" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
+                        <Typography variant="h2" className="mb-4">What Farm OS Means for Your Investment</Typography>
+                    </motion.div>
+                    <div className="grid md:grid-cols-2 gap-8">
+                        <InfoCard icon={FaChartLine} title="Real-Time Oversight" variant="primary" showInfoBadge={false}>
+                            <Typography variant="small" className="text-gray-600">
+                                The dashboard you see is the same dashboard our farm managers use. No curated PDFs. No delayed reports. Every tree, every expense, every harvest — live.
+                            </Typography>
+                        </InfoCard>
+                        <InfoCard icon={FaShieldAlt} title="Fraud-Proof Operations" variant="accent" showInfoBadge={false}>
+                            <Typography variant="small" className="text-gray-600">
+                                Every expense requires photo documentation. Every harvest is logged per block. Every task is assigned and verified. The system creates an audit trail that makes financial misconduct nearly impossible.
+                            </Typography>
+                        </InfoCard>
+                    </div>
+                </div>
+            </Section>
+
             {/* Why We Built Instead of Bought */}
             <Section className="py-10">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6">
@@ -260,67 +296,29 @@ const FarmOS: React.FC = () => {
             {/* Built for West Africa */}
             <Section className="py-10">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
-                    <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}
-                                className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl shadow-lg p-6 sm:p-8 transform-gpu overflow-hidden"
-                                style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
-                                whileHover={{ y: -4, scale: 1.01 }}>
-                        <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px]" />
-                        <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40" />
-                        <div className="relative z-10">
-                            <Icons.FaSatelliteDish className="text-4xl text-accent mx-auto mb-3" />
-                            <Typography variant="h3" className="text-primary mb-3">{t('builtForAfrica.title')}</Typography>
+                    <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
+                        <InfoCard
+                            icon={FaSatelliteDish}
+                            title={t('builtForAfrica.title', 'Built for West Africa. Not Adapted for It.')}
+                            variant="accent"
+                            showInfoBadge={false}
+                            className="text-center"
+                        >
                             <Typography variant="body" className="text-gray-600 max-w-2xl mx-auto mb-4">
-                                {t('builtForAfrica.body')}
+                                {t('builtForAfrica.body', 'Offline-first architecture. Auto-syncs when connectivity returns. Runs on affordable Android devices. Optimized for low-bandwidth environments. This is not Silicon Valley software retrofitted for Africa — it was built here, for here.')}
                             </Typography>
                             <div className="flex flex-wrap justify-center gap-2">
                                 {builtForAfricaTags.map((tag, idx) => {
                                     const TagIcon = getIcon(tag.icon);
                                     return (
                                         <span key={idx} className="inline-flex items-center gap-1 px-3 py-1 bg-primary/10 text-primary text-sm rounded-full font-medium">
-                                            <TagIcon className="text-[10px]" /> {tag.label}
-                                        </span>
+                                <TagIcon className="text-[10px]" /> {tag.label}
+                            </span>
                                     );
                                 })}
                             </div>
-                        </div>
+                        </InfoCard>
                     </motion.div>
-                </div>
-            </Section>
-
-            {/* Why This Matters */}
-            <Section className="py-10">
-                <div className="max-w-6xl mx-auto px-4 sm:px-6">
-                    <div className="grid md:grid-cols-2 gap-8">
-                        {/* For Buyers */}
-                        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
-                            <InfoCard icon={Icons.FaBox} title={t('forBuyers.title')} variant="primary" showInfoBadge={false}>
-                                <Typography variant="body" className="text-gray-700 italic mb-4">
-                                    "{t('forBuyers.quote')}"
-                                </Typography>
-                                <Typography variant="small" className="text-gray-600 mb-4">
-                                    {t('forBuyers.body')}
-                                </Typography>
-                                <Link to="/wholesale" className="text-accent hover:text-primary text-sm font-medium inline-flex items-center gap-1">
-                                    {t('forBuyers.cta')} <Icons.FaArrowRight className="text-xs" />
-                                </Link>
-                            </InfoCard>
-                        </motion.div>
-
-                        {/* For Investors */}
-                        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} transition={{ delay: 0.1 }}>
-                            <InfoCard icon={Icons.FaChartLine} title={t('forInvestors.title')} variant="accent" showInfoBadge={false}>
-                                <Typography variant="body" className="text-gray-700 italic mb-4">
-                                    "{t('forInvestors.quote')}"
-                                </Typography>
-                                <Typography variant="small" className="text-gray-600 mb-4">
-                                    {t('forInvestors.body')}
-                                </Typography>
-                                <Link to="/invest" className="text-accent hover:text-primary text-sm font-medium inline-flex items-center gap-1">
-                                    {t('forInvestors.cta')} <Icons.FaArrowRight className="text-xs" />
-                                </Link>
-                            </InfoCard>
-                        </motion.div>
-                    </div>
                 </div>
             </Section>
 
@@ -357,38 +355,7 @@ const FarmOS: React.FC = () => {
                     </div>
                 </div>
             </Section>
-
-            {/* Final CTA */}
-            <Section className="py-16">
-                <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
-                    <motion.div className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-3xl shadow-xl p-8 md:p-12 transform-gpu"
-                                style={{ transformStyle: 'preserve-3d' }}
-                                initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}
-                                whileHover={{ y: -6, scale: 1.02 }}>
-                        <div className="absolute inset-0 rounded-3xl border-2 border-white/20" />
-                        <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40" />
-                        <div className="relative z-10">
-                            <Typography variant="h2" className="mb-4 text-primary">{t('cta.title')}</Typography>
-                            <Typography variant="body" className="mb-3 text-gray-600 max-w-2xl mx-auto">
-                                {t('cta.body')}
-                            </Typography>
-                            <Typography variant="small" className="mb-6 text-accent font-medium">
-                                {t('cta.betaNote')}
-                            </Typography>
-                            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                                <Link to="/trace" className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-4 rounded-full transform-gpu group/btn overflow-hidden font-medium shadow-lg inline-flex items-center gap-2">
-                                    <div className="absolute inset-0 rounded-full border-2 border-white/30" />
-                                    <Icons.FaSearch className="relative z-10" />
-                                    <span className="relative z-10">{t('cta.buttonTrace')}</span>
-                                </Link>
-                                <Link to="/contact?type=farmos" className="relative border-2 border-primary/50 text-primary hover:bg-primary hover:text-white px-8 py-4 rounded-full transform-gpu font-medium inline-flex items-center gap-2 bg-white/30 backdrop-blur-sm">
-                                    <Icons.FaEnvelope /> {t('cta.buttonBeta')}
-                                </Link>
-                            </div>
-                        </div>
-                    </motion.div>
-                </div>
-            </Section>
+        </div>
         </div>
     );
 };

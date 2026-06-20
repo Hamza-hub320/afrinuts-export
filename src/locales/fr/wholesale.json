@@ -138,5 +138,10 @@
     "body": "Demandez les prix, téléchargez notre catalogue produits ou consultez notre documentation de conformité. Nous répondons aux demandes de gros dans les 24 heures. Une fois votre demande soumise, nous planifierons un appel pour discuter de vos exigences de volume et de qualité.",
     "requestPricing": "Demander les Prix de Gros",
     "viewCertifications": "Voir la Feuille de Route des Certifications"
+  },
+  "farmOsQuote": {
+    "title": "La Plupart des Fournisseurs Envoient un Certificat. Nous Envoyons les Données Qui l'Ont Généré.",
+    "body": "Lorsque vous commandez chez AfriNuts, le rapport de traçabilité est extrait directement de Farm OS — pas créé après coup par quelqu'un dans un bureau. Le même système que nos gestionnaires agricoles utilisent. Les mêmes données que nos investisseurs voient.",
+    "cta": "Essayez la traçabilité avec le lot AFN-2026-001"
   }
 }

@@ -138,5 +138,10 @@
     "body": "Request pricing, download our product catalogue, or review our compliance documentation. We respond to wholesale inquiries within 24 hours. Once you submit, we will schedule a call to discuss your volume and quality requirements.",
     "requestPricing": "Request Wholesale Pricing",
     "viewCertifications": "View Certification Roadmap"
+  },
+  "farmOsQuote": {
+    "title": "Most Suppliers Send a Certificate. We Send the Data That Generated It.",
+    "body": "When you order from AfriNuts, the traceability report is pulled directly from Farm OS — not created after the fact by someone in an office. Same system our farm managers use. Same data our investors see.",
+    "cta": "Try traceability with batch AFN-2026-001"
   }
 }
