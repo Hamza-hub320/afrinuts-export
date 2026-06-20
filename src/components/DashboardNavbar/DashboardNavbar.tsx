@@ -46,7 +46,7 @@ const DashboardNavbar: React.FC = () => {
         { path: '/dashboard/tasks', icon: FaClipboardList, label: 'Tasks', sub: 'Operations' },
         { path: '/dashboard/financials', icon: FaChartPie, label: 'Financials', sub: 'Reports' },
         { path: '/investor', icon: FaChartBar, label: 'Investor', sub: 'View Portal' },
-        { path: '/farm-os',  icon: FaMobile, label: 'FarmOS', sub: 'Farm Operating System' },
+        { path: '/farm-os',  icon: FaMobile, label: 'fOS', sub: 'Farm Operating System' },
     ];
 
     return (

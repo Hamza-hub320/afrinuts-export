@@ -27,7 +27,7 @@ import { fadeIn, staggerContainer } from '@/utils/animations';
 import ceoImage from '@/assets/images/ceo.webp';
 import cfoImage from '@/assets/images/cfo.webp';
 import farmImage from '@/assets/images/cashew-farm.webp';
-import aboutUsHeroImage from '@/assets/images/executive-hero.webp';
+import aboutUsHeroImage from '@/assets/images/about-us-hero.webp';
 import {Typography} from "@/components/Typography/Typography";
 import { InfoCard } from '@/components/InfoCard/InfoCard';
 import {Link, useNavigate} from "react-router-dom";
