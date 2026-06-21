@@ -252,10 +252,10 @@ const Dashboard: React.FC = () => {
             <main>
                 <Section className="flex items-center justify-center min-h-[60vh]">
                     <div className="text-center">
-                        <div className="relative w-16 h-16 mx-auto mb-4">
+                        <div className="relative w-24 h-24 mx-auto mb-4">
                             <div className="absolute inset-0 rounded-full border-b-2 border-primary animate-spin"></div>
                             <div className="absolute inset-0 flex items-center justify-center">
-                                <GiFarmer className="text-primary text-xl" />
+                                <GiFarmer className="text-primary text-3xl" />
                             </div>
                         </div>
                     </div>

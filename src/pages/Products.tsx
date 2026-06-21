@@ -40,6 +40,7 @@ import {CertificationsCard} from "@/components/CertificationsCard/Certifications
 import ProductTimeline from "@/components/ProductTimeline/ProductTimeline";
 import {Helmet} from "react-helmet-async";
 import {InfoCard} from "@/components/InfoCard/InfoCard";
+import {GiCardboardBox, GiPeanut, GiWheat} from "react-icons/gi";
 
 type AvailabilityFilter = 'all' | 'available' | 'coming-soon';
 type CertificationFilter = 'Organic' | 'Halal' | 'Fair Trade' | 'ISO 22000' | '';
@@ -238,7 +239,7 @@ const Products: React.FC = () => {
                     {/* Left: Text Content */}
                     <motion.div className="flex-1 max-w-none lg:max-w-xl text-center lg:text-left" variants={fadeIn}>
                         <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-3">
-                            <FaBox className="inline mr-2 text-accent" />{t('hero.subtitle', 'Premium Cashew Products')}
+                            <GiCardboardBox className="inline mr-2 text-accent" />{t('hero.subtitle', 'Premium Cashew Products')}
                         </Typography>
                         <motion.h1 className="font-display text-3xl md:text-4xl lg:text-5xl text-text-dark mb-4 leading-tight" variants={fadeIn} style={{ letterSpacing: '-0.03em' }}>
                             {t('hero.title')}
@@ -252,7 +253,7 @@ const Products: React.FC = () => {
                         {/* Products Intro Card */}
                         <motion.div variants={fadeIn} className="mb-5">
                             <InfoCard
-                                icon={FaLeaf}
+                                icon={GiPeanut}
                                 title={t('hero.introTitle', 'Not Just Products. Verified Products.')}
                                 variant="secondary"
                                 showInfoBadge={false}

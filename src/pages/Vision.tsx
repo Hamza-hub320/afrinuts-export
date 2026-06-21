@@ -13,7 +13,7 @@ import {
     FaSolarPanel,
     FaWater,
     FaTree,
-    FaSeedling, FaCheckCircle, FaArrowRight, FaMobile, FaGlobeAfrica
+    FaSeedling, FaCheckCircle, FaArrowRight, FaMobile, FaGlobeAfrica, FaRegLightbulb, FaRocket
 } from "react-icons/fa";
 
 import Section from '@/components/Section/Section';
@@ -27,6 +27,7 @@ import { IconType } from 'react-icons';
 import {TimelineCard} from "@/components/TimelineCard/TimelineCard";
 import {Helmet} from "react-helmet-async";
 import JsonLd from "@/components/Seo/JsonLd";
+import {GiTargetArrows} from "react-icons/gi";
 
 const Vision: React.FC = () => {
     const { t } = useTranslation('vision');
@@ -102,7 +103,7 @@ const Vision: React.FC = () => {
                     {/* Left: Text Content */}
                     <motion.div className="flex-1 max-w-none lg:max-w-xl text-center lg:text-left" variants={fadeIn}>
                         <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-3">
-                            <FaChartLine className="inline mr-2 text-accent" />{t('hero.subtitle', 'Our Vision')}
+                            <FaRegLightbulb className="inline mr-2 text-accent" />{t('hero.subtitle', 'Our Vision')}
                         </Typography>
                         <motion.h1 className="font-display text-3xl md:text-4xl lg:text-5xl text-text-dark mb-4 leading-tight" variants={fadeIn} style={{ letterSpacing: '-0.03em' }}>
                             {t('hero.title')}
@@ -116,7 +117,7 @@ const Vision: React.FC = () => {
                         {/* Vision Intro Card */}
                         <motion.div variants={fadeIn} className="mb-5">
                             <InfoCard
-                                icon={FaLeaf}
+                                icon={FaRocket}
                                 title={t('hero.cardTitle', 'The Future We\'re Building')}
                                 variant="secondary"
                                 showInfoBadge={false}

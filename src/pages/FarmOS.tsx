@@ -119,15 +119,6 @@ const FarmOS: React.FC = () => {
                                 );
                             })}
                         </div>
-
-                        <motion.div variants={fadeIn} className="flex flex-wrap gap-2.5 justify-center lg:justify-start">
-                            <Link to="/trace" className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-5 py-2.5 rounded-full text-sm font-medium shadow-md inline-flex items-center gap-1.5">
-                                <Icons.FaSearch className="text-xs" />{t('hero.ctaDemo')}
-                            </Link>
-                            <Link to="/invest" className="relative border border-primary/40 text-primary hover:bg-primary/5 px-5 py-2.5 rounded-full text-sm font-medium inline-flex items-center gap-1.5 bg-white/50 backdrop-blur-sm">
-                                <Icons.FaChartLine className="text-xs" />{t('hero.ctaInvest')}
-                            </Link>
-                        </motion.div>
                     </motion.div>
 
                     <motion.div className="flex-shrink-0 lg:ml-auto" variants={fadeIn} transition={{ delay: 0.2 }}>

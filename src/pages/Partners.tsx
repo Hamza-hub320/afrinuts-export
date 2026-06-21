@@ -23,14 +23,16 @@ import tripPhoto1 from '@/assets/images/partners/trip-1.webp';
 import tripPhoto2 from '@/assets/images/partners/trip-2.webp';
 import tripPhoto3 from '@/assets/images/partners/trip-3.webp';
 import tripPhoto4 from '@/assets/images/partners/trip-4.webp';
+import {GiCardboardBox, GiFactory, GiPublicSpeaker, GiSprout} from "react-icons/gi";
+
 
 
 const Partners: React.FC = () => {
     const { t } = useTranslation('partners');
     const navigate = useNavigate();
 
-    const whyPartnerIcons: Record<string, React.ComponentType> = { FaMobile, FaLeaf, FaCertificate, FaUsers };
-    const modelIcons: Record<string, React.ComponentType> = { FaUsers, FaBox, FaMobile, FaIndustry };
+    const whyPartnerIcons: Record<string, React.ComponentType> = { FaMobile, GiSprout, FaCertificate, FaUsers };
+    const modelIcons: Record<string, React.ComponentType> = { FaUsers, GiCardboardBox, FaMobile, GiFactory };
 
     const whyPartner = (t('whyPartner.items', { returnObjects: true }) as any[]).map(item => ({
         ...item,
@@ -187,7 +189,7 @@ const Partners: React.FC = () => {
                     <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                         {[
                             {
-                                icon: FaLeaf,
+                                icon: GiSprout,
                                 title: t('milestones.land.title', '70 Hectares Secured'),
                                 desc: t('milestones.land.desc', 'Land title process underway. Family member officially transferred the 70 hectares — 35ha for farm, 10ha for processing, 25ha for community.'),
                                 stat: t('milestones.land.stat', 'Title in Process'),
@@ -211,7 +213,7 @@ const Partners: React.FC = () => {
                                 bg: 'bg-blue-50'
                             },
                             {
-                                icon: FaUsers,
+                                icon: GiPublicSpeaker,
                                 title: t('milestones.community.title', 'Community & Family'),
                                 desc: t('milestones.community.desc', 'Family land transfer completed. Local community relationships strengthened. Meeting with village leadership and regional authorities.'),
                                 stat: t('milestones.community.stat', 'Established'),
@@ -232,7 +234,7 @@ const Partners: React.FC = () => {
                     <div className="grid md:grid-cols-2 gap-6 mb-8">
                         {/* Main Trip Video */}
                         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
-                            <InfoCard icon={FaUsers} title={t('milestones.videoMain', 'The Trip in Action')} variant="primary" showInfoBadge={false}>
+                            <InfoCard icon={GiPublicSpeaker} title={t('milestones.videoMain', 'The Trip in Action')} variant="primary" showInfoBadge={false}>
                                 <div className="rounded-xl overflow-hidden shadow-lg border-2 border-white/30">
                                     <video controls preload="metadata" className="w-full rounded-xl" style={{ minHeight: '280px', maxHeight: '360px', objectFit: 'cover' }}>
                                         <source src={partnersTripVideo} type="video/mp4" />
@@ -258,7 +260,7 @@ const Partners: React.FC = () => {
 
                     {/* Land Transfer Video */}
                     <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} className="mb-8">
-                        <InfoCard icon={FaLeaf} title={t('milestones.landVideo', 'Family Land Transfer — 70 Hectares')} variant="primary" showInfoBadge={false}>
+                        <InfoCard icon={GiSprout} title={t('milestones.landVideo', 'Family Land Transfer — 70 Hectares')} variant="primary" showInfoBadge={false}>
                             <div className="grid md:grid-cols-2 gap-4 items-center">
                                 <div className="rounded-xl overflow-hidden shadow-lg border-2 border-white/30">
                                     <video

@@ -1,11 +1,23 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { FaGlobe, FaBars, FaTimes, FaChevronDown, FaChevronUp, FaMobile, FaSearch, FaBox, FaCertificate, FaIndustry, FaLeaf, FaBookOpen, FaQuestionCircle } from 'react-icons/fa';
+import {
+  FaGlobe,
+  FaBars,
+  FaTimes,
+  FaChevronDown,
+  FaChevronUp,
+  FaSearch,
+  FaBox,
+  FaCertificate,
+  FaIndustry,
+  FaQuestionCircle,
+  FaPenFancy, FaGlobeAfrica, FaDrawPolygon
+} from 'react-icons/fa';
 import logo from '@/assets/images/afrinuts-export-official-logo.webp';
 import { useTranslation } from 'react-i18next';
 import { useAuth } from '../../contexts/AuthContext';
 import { FaUserCircle, FaSignOutAlt } from 'react-icons/fa';
-import { GiFarmer } from 'react-icons/gi';
+import {GiCardboardBox, GiEarthAfricaEurope, GiFactory, GiFarmer, GiFruitBowl} from 'react-icons/gi';
 
 type LanguageConfig = {
   code: string;
@@ -115,13 +127,13 @@ const Navbar: React.FC = () => {
   // Secondary Nav (Capability)
   const secondaryNavItems = [
     { path: '/trace', label: t('navbar.trace', 'Trace'), icon: FaSearch },
-    { path: '/products', label: t('navbar.products', 'Products'), icon: FaBox },
+    { path: '/products', label: t('navbar.products', 'Products'), icon: GiFruitBowl},
     { path: '/certifications', label: t('navbar.certifications', 'Certs'), icon: FaCertificate },
-    { path: '/processing', label: t('navbar.processing', 'Processing'), icon: FaIndustry },
-    { path: '/processing/facility-flowchart', label: t('navbar.facility_flowchart', 'Facility'), icon: FaIndustry },
+    { path: '/processing', label: t('navbar.processing', 'Processing'), icon: GiFactory },
+    { path: '/processing/facility-flowchart', label: t('navbar.facility_flowchart', 'Facility'), icon: FaDrawPolygon },
     { path: '/farm', label: t('navbar.farm', 'Farm'), icon:  GiFarmer },
-    { path: '/blog', label: t('navbar.blog', 'Blog'), icon: FaBookOpen },
-    { path: '/news', label: t('navbar.news', 'News'), icon: FaBookOpen },
+    { path: '/blog', label: t('navbar.blog', 'Blog'), icon: FaPenFancy },
+    { path: '/news', label: t('navbar.news', 'News'), icon: GiEarthAfricaEurope },
     { path: '/faq', label: t('navbar.faq', 'FAQ'), icon: FaQuestionCircle },
   ];
 

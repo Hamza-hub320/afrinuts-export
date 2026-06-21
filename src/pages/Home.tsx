@@ -908,7 +908,7 @@ const Home: React.FC = () => {
                             whileInView="visible"
                             viewport={{ once: true }}
                         >
-                            {homeUpdates.slice(0, newsToShow).map((update: AfriNutsUpdate, index: number) => (
+                            {homeUpdates.slice(0, 3).map((update: AfriNutsUpdate, index: number) => (
                                 <motion.div key={update.id} variants={fadeIn}>
                                     <Link to={`/news/${update.slug}`} className="group block h-full">
                                         <motion.div
@@ -979,24 +979,6 @@ const Home: React.FC = () => {
                             ))}
                         </motion.div>
                     )}
-
-                    <motion.div className="text-center" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
-                        {newsToShow < homeUpdates.length && (
-                            <button
-                                onClick={() => setNewsToShow(prev => Math.min(prev + 2, homeUpdates.length))}
-                                className="group border-2 border-primary text-primary hover:bg-accent hover:text-white hover:border-accent px-8 py-3 rounded-full transition-all duration-300 shadow-md inline-flex items-center mb-4 backdrop-blur-sm bg-white/80"
-                            >
-                                {t('news.loadMore')}
-                            </button>
-                        )}
-                        <Link
-                            to="/news"
-                            className="group border-2 relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-6 py-2 md:px-8 md:py-3 rounded-full transition-all duration-300 inline-flex items-center text-sm md:text-base"
-                        >
-                            {t('news.ctaButton')}
-                            <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
-                        </Link>
-                    </motion.div>
                 </div>
             </Section>
 

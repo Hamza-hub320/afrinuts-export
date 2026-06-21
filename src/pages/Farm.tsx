@@ -13,7 +13,16 @@ import {
     FaChartLine,
     FaSeedling, FaBookOpen, FaBox, FaSearch, FaMobile,
 } from 'react-icons/fa';
-import { GiFarmer, GiPlantWatering, GiFruitTree } from 'react-icons/gi';
+import {
+    GiFarmer,
+    GiPlantWatering,
+    GiFruitTree,
+    GiWheat,
+    GiSprout,
+    GiWaterDrop,
+    GiPublicSpeaker,
+    GiChart, GiFarmTractor
+} from 'react-icons/gi';
 import { MdPrecisionManufacturing } from 'react-icons/md';
 import farmImage1 from '@/assets/images/farm-1.webp';
 import farmImage2 from '@/assets/images/farm-2.webp';
@@ -40,10 +49,10 @@ const Farm = () => {
     const { user } = useAuth();
 
     const farmStats = [
-        { icon: FaTree, value: t('stats.area'), label: t('stats.areaLabel') },
+        { icon: GiWheat, value: t('stats.area'), label: t('stats.areaLabel') },
         { icon: FaMapMarkerAlt, value: t('stats.location'), label: t('stats.locationLabel') },
         { icon: FaCalendarAlt, value: t('stats.phase'), label: t('stats.phaseLabel') },
-        { icon: FaLeaf, value: t('stats.practices'), label: t('stats.practicesLabel') }
+        { icon: GiSprout, value: t('stats.practices'), label: t('stats.practicesLabel') }
     ];
 
     const keyFeatures = [
@@ -71,17 +80,17 @@ const Farm = () => {
 
     const sustainabilityPractices = [
         {
-            icon: FaSeedling,
+            icon: GiSprout,
             title: t('sustainability.organic.title'),
             description: t('sustainability.organic.description')
         },
         {
-            icon: FaTint,
+            icon: GiWaterDrop,
             title: t('sustainability.water.title'),
             description: t('sustainability.water.description')
         },
         {
-            icon: FaUsers,
+            icon: GiPublicSpeaker,
             title: t('sustainability.community.title'),
             description: t('sustainability.community.description')
         }
@@ -116,10 +125,10 @@ const Farm = () => {
     ];
 
     const impactStats = [
-        { icon: FaTree, value: 50, label: t('impact.hectares'), suffix: "+" },
+        { icon: GiFarmTractor, value: 35, label: t('impact.hectares'), suffix: "+" },
         { icon: FaUsers, value: 150, label: t('impact.jobs'), suffix: "+" },
         { icon: GiFarmer, value: 100, label: t('impact.farmers'), suffix: "%" },
-        { icon: FaChartLine, value: 10, label: t('impact.profits'), suffix: "%" }
+        { icon: GiChart, value: 10, label: t('impact.profits'), suffix: "%" }
     ];
 
     return (
@@ -183,7 +192,7 @@ const Farm = () => {
                         {/* Left: Text Content */}
                         <motion.div className="flex-1 max-w-none lg:max-w-xl text-center lg:text-left" variants={fadeIn}>
                             <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-3">
-                                <FaTree className="inline mr-2 text-accent" />{t('hero.subtitle_tag', 'Our Farm')}
+                                <GiFarmer className="inline mr-2 text-accent" />{t('hero.subtitle_tag', 'Our Farm')}
                             </Typography>
                             <motion.h1 className="font-display text-3xl md:text-4xl lg:text-5xl text-text-dark mb-4 leading-tight" variants={fadeIn} style={{ letterSpacing: '-0.03em' }}>
                                 {t('hero.title')}

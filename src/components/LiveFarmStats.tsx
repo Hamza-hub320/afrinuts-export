@@ -7,7 +7,7 @@ import { Typography } from '@/components/Typography/Typography';
 import { InfoCard } from '@/components/InfoCard/InfoCard';
 import { getMockData } from '../services/mockData';
 import { callApi } from '../services/api';
-import { GiFarmer } from 'react-icons/gi';
+import {GiChart, GiFarmer, GiFarmTractor, GiFruitTree, GiSprout} from 'react-icons/gi';
 import Section from './Section/Section';
 
 interface FarmStats {
@@ -64,10 +64,10 @@ const LiveFarmStats: React.FC = () => {
             <main>
                 <Section className="flex items-center justify-center min-h-[60vh]">
                     <div className="text-center">
-                        <div className="relative w-16 h-16 mx-auto mb-4">
+                        <div className="relative w-24 h-24 mx-auto mb-4">
                             <div className="absolute inset-0 rounded-full border-b-2 border-primary animate-spin"></div>
                             <div className="absolute inset-0 flex items-center justify-center">
-                                <GiFarmer className="text-primary text-xl" />
+                                <GiFarmer className="text-primary text-3xl" />
                             </div>
                         </div>
                     </div>
@@ -89,25 +89,25 @@ const LiveFarmStats: React.FC = () => {
 
     const statsCards = [
         {
-            icon: FaTree,
+            icon: GiFruitTree,
             title: `${Math.round(stats.totalTrees).toLocaleString()}`,
             subtitle: t('liveStats.cards.blocksPlanted', '{{planted}}/{{total}} blocks planted', { planted: stats.plantedBlocks, total: stats.totalBlocks }),
             iconColor: 'text-accent',
         },
         {
-            icon: FaChartLine,
+            icon: GiChart,
             title: `${Math.round(stats.survivalRate)}%`,
             subtitle: t('liveStats.cards.treesEstablished', 'Trees successfully established'),
             iconColor: 'text-accent',
         },
         {
-            icon: FaSeedling,
+            icon: GiSprout,
             title: `${Math.round((stats.plantedBlocks / stats.totalBlocks) * 100)}%`,
             subtitle: t('liveStats.cards.blocksProgress', '{{planted}} of {{total}} blocks planted', { planted: stats.plantedBlocks, total: stats.totalBlocks }),
             iconColor: 'text-accent',
         },
         {
-            icon: FaTractor,
+            icon: GiFarmTractor,
             title: t('liveStats.cards.totalArea', '35 ha'),
             subtitle: t('liveStats.cards.cultivatedArea', 'Total cultivated area'),
             iconColor: 'text-accent',

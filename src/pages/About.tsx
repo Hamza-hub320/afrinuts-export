@@ -34,6 +34,7 @@ import {Link, useNavigate} from "react-router-dom";
 import {ProfileCard} from "../components/ProfileCard/ProfileCard";
 import JsonLd from '@/components/Seo/JsonLd';
 import {Helmet} from "react-helmet-async";
+import {GiFamilyTree, GiFarmer} from "react-icons/gi";
 
 interface Executive {
   name: string;
@@ -175,7 +176,7 @@ const About: React.FC = () => {
               {/* Hero Intro Card */}
               <motion.div variants={fadeIn} className="mb-5">
                 <InfoCard
-                    icon={FaLeaf}
+                    icon={GiFamilyTree}
                     title={t('hero.introTitle')}
                     variant="secondary"
                     showInfoBadge={false}
@@ -448,6 +449,9 @@ const About: React.FC = () => {
                   viewport={{ once: true }}
                   variants={fadeIn}
               >
+                <div className="text-center mb-4">
+                  <GiFarmer className="text-8xl text-primary/20 mx-auto" />
+                </div>
                 <Typography variant="h2" className="mb-4">
                   {t('farmOs.title', 'Built Different: Farm OS')}
                 </Typography>
@@ -481,26 +485,6 @@ const About: React.FC = () => {
                     </motion.div>
                 ))}
               </div>
-
-              {/* Tech stack mention */}
-              <motion.div
-                  initial="hidden"
-                  whileInView="visible"
-                  viewport={{ once: true }}
-                  variants={fadeIn}
-                  className="bg-primary/5 rounded-xl p-5 text-center max-w-3xl mx-auto"
-              >
-                <Typography variant="small" className="text-gray-600">
-                  {t('farmOs.techStack', 'Built with React, TypeScript, Firebase, and Android. Offline-first architecture with cloud synchronization. No internet? No problem.')}
-                </Typography>
-                <div className="flex flex-wrap justify-center gap-2 mt-3">
-                  {['React', 'TypeScript', 'Firebase', 'Android', 'Offline-First', 'Cloud Sync'].map((tech) => (
-                      <span key={tech} className="px-3 py-1 bg-white/60 backdrop-blur-sm rounded-full text-xs font-medium text-primary border border-primary/10">
-                        {tech}
-                    </span>
-                  ))}
-                </div>
-              </motion.div>
             </div>
           </Section>
 
