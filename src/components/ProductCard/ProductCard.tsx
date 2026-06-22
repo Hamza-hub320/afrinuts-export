@@ -184,21 +184,29 @@ export const ProductCard: React.FC<ProductCardProps> = ({
                     </div>
                 )}
 
-                {/* Pricing — compact, inline style */}
+                {/* Pricing — Replace price ranges with Request Quote */}
                 <div className="space-y-1.5 mb-3 flex-shrink-0">
                     {showOrganic && product.variants && product.variants.length > 0 && (
                         <div className="flex items-center justify-between text-sm bg-green-50/50 rounded-lg px-3 py-1.5">
                             <span className="text-green-700 font-medium flex items-center gap-1"><FaLeaf className="text-[10px]" />{t('productCard.organicLabel', 'Organic')}</span>
-                            <span className="text-green-700 font-bold">{product.variants[0].priceRange}</span>
+                            <span className="text-green-700 font-medium text-xs">{t('productCard.inquireForPrice', 'Inquire for Price')}</span>
                         </div>
                     )}
                     {showConventional && product.conventionalVariants && product.conventionalVariants.length > 0 && (
                         <div className="flex items-center justify-between text-sm bg-gray-50/50 rounded-lg px-3 py-1.5">
                             <span className="text-gray-600 font-medium flex items-center gap-1"><FaIndustry className="text-[10px]" />{t('productCard.conventionalLabel', 'Conventional')}</span>
-                            <span className="text-gray-700 font-bold">{product.conventionalVariants[0].priceRange}</span>
+                            <span className="text-gray-700 font-medium text-xs">{t('productCard.inquireForPrice', 'Inquire for Price')}</span>
                         </div>
                     )}
                 </div>
+
+                {/* Variants available — show options without prices */}
+                {(product.variants?.length || product.conventionalVariants?.length) && (
+                    <p className="text-gray-500 text-[10px] mb-2 flex items-center gap-1">
+                        <FaStar className="text-[10px] flex-shrink-0" />
+                        {t('productCard.customPricing', 'Custom pricing based on volume, grade, and certifications')}
+                    </p>
+                )}
 
                 {/* Price disclaimer */}
                 {!product.available && (product.variants?.length || product.conventionalVariants?.length) && (

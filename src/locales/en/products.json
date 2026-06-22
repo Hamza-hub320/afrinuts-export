@@ -28,6 +28,8 @@
     "beNotified": "Be notified when available",
     "priceEstimate": "Estimated pricing — subject to change based on market conditions at launch.",
     "organic": "Organic",
+    "inquireForPrice": "Inquire for Price",
+    "customPricing": "Custom pricing based on volume, grade, and certifications",
     "organicLabel": "Organic",
     "conventionalLabel": "Conventional"
   },

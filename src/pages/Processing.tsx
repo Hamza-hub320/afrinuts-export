@@ -218,18 +218,47 @@ const Processing: React.FC = () => {
             {/* Roadmap */}
             <Section className="py-16">
                 <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
-                    <motion.div className="text-center mb-12" variants={fadeIn}><Typography variant="h2" className="mb-4">{t('roadmap.title')}</Typography><Typography variant="body" className="max-w-3xl mx-auto">{t('roadmap.description')}</Typography></motion.div>
-                    <div className="flex flex-col md:flex-row gap-8 justify-center items-stretch">
+                    <motion.div className="text-center mb-12" variants={fadeIn}>
+                        <Typography variant="h2" className="mb-4">{t('roadmap.title')}</Typography>
+                        <Typography variant="body" className="max-w-3xl mx-auto">{t('roadmap.description')}</Typography>
+                    </motion.div>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        {/* Phase 1 */}
                         <InfoCard icon={FaIndustry} title={t('roadmap.phase1.title')} iconColor="text-primary" showInfoBadge={false} className="flex-1">
-                            <Typography variant="body" className="mb-4">{t('roadmap.phase1.description')}</Typography>
-                            <ul className="list-disc pl-6 text-left text-base text-text-dark/80">
-                                <li>{t('roadmap.phase1.point1')}</li><li>{t('roadmap.phase1.point2')}</li><li>{t('roadmap.phase1.point3')}</li>
+                            <div className="text-xs text-primary font-semibold mb-3">{t('roadmap.phase1.dates')}</div>
+                            <Typography variant="small" className="text-gray-600 mb-3">{t('roadmap.phase1.description')}</Typography>
+                            <ul className="space-y-1.5 text-xs text-gray-600">
+                                {(t('roadmap.phase1.points', { returnObjects: true }) as string[]).map((point, i) => (
+                                    <li key={i} className="flex items-start gap-1.5">
+                                        <FaCheckCircle className="text-primary mt-0.5 flex-shrink-0 text-[10px]" />{point}
+                                    </li>
+                                ))}
                             </ul>
                         </InfoCard>
+
+                        {/* Phase 2 */}
                         <InfoCard icon={FaCogs} title={t('roadmap.phase2.title')} iconColor="text-accent" showInfoBadge={false} className="flex-1">
-                            <Typography variant="body" className="mb-4">{t('roadmap.phase2.description')}</Typography>
-                            <ul className="list-disc pl-6 text-left text-base text-text-dark/80">
-                                <li>{t('roadmap.phase2.point1')}</li><li>{t('roadmap.phase2.point2')}</li><li>{t('roadmap.phase2.point3')}</li>
+                            <div className="text-xs text-accent font-semibold mb-3">{t('roadmap.phase2.dates')}</div>
+                            <Typography variant="small" className="text-gray-600 mb-3">{t('roadmap.phase2.description')}</Typography>
+                            <ul className="space-y-1.5 text-xs text-gray-600">
+                                {(t('roadmap.phase2.points', { returnObjects: true }) as string[]).map((point, i) => (
+                                    <li key={i} className="flex items-start gap-1.5">
+                                        <FaCheckCircle className="text-accent mt-0.5 flex-shrink-0 text-[10px]" />{point}
+                                    </li>
+                                ))}
+                            </ul>
+                        </InfoCard>
+
+                        {/* Phase 3 */}
+                        <InfoCard icon={FaChartLine} title={t('roadmap.phase3.title')} iconColor="text-green-600" showInfoBadge={false} className="flex-1">
+                            <div className="text-xs text-green-600 font-semibold mb-3">{t('roadmap.phase3.dates')}</div>
+                            <Typography variant="small" className="text-gray-600 mb-3">{t('roadmap.phase3.description')}</Typography>
+                            <ul className="space-y-1.5 text-xs text-gray-600">
+                                {(t('roadmap.phase3.points', { returnObjects: true }) as string[]).map((point, i) => (
+                                    <li key={i} className="flex items-start gap-1.5">
+                                        <FaCheckCircle className="text-green-600 mt-0.5 flex-shrink-0 text-[10px]" />{point}
+                                    </li>
+                                ))}
                             </ul>
                         </InfoCard>
                     </div>
@@ -1051,16 +1080,8 @@ const Processing: React.FC = () => {
             {/* Production Timeline */}
             <Section className="py-10">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6">
-                    <motion.div
-                        className="text-center mb-8"
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={fadeIn}
-                    >
-                        <Typography variant="h2" className="text-primary">
-                            {t('timeline.title', 'Road to Production')}
-                        </Typography>
+                    <motion.div className="text-center mb-8" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
+                        <Typography variant="h2" className="text-primary">{t('timeline.title', 'Road to Production')}</Typography>
                     </motion.div>
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                         {[
@@ -1072,40 +1093,23 @@ const Processing: React.FC = () => {
                                 variant: 'primary' as const
                             },
                             {
-                                year: '2031-2032',
-                                label: t('timeline.transition', 'Transition & Scaling'),
-                                detail: t('timeline.transitionDetail', 'Certifications & Market Entry'),
+                                year: '2030-2033',
+                                label: t('roadmap.phase2.title', 'Industrial Expansion'),
+                                detail: '10,000-20,000 MT/yr',
                                 icon: FaCogs,
                                 variant: 'accent' as const
                             },
                             {
                                 year: '2033+',
-                                label: t('roadmap.phase2.title', 'Industrial / Automated'),
-                                detail: '5,000+ MT/yr',
+                                label: t('roadmap.phase3.title', 'Integrated Processing Hub'),
+                                detail: '70,000-100,000 MT/yr',
                                 icon: FaChartLine,
                                 variant: 'secondary' as const
                             },
                         ].map((item, i) => (
-                            <motion.div
-                                key={i}
-                                initial="hidden"
-                                whileInView="visible"
-                                viewport={{ once: true }}
-                                variants={fadeIn}
-                                transition={{ delay: i * 0.1 }}
-                            >
-                                <InfoCard
-                                    icon={item.icon}
-                                    title={item.year}
-                                    subtitle={item.label}
-                                    iconColor="text-accent"
-                                    variant={item.variant}
-                                    showInfoBadge={false}
-                                    className="h-full text-center"
-                                >
-                                    <Typography variant="small" className="text-accent font-medium mt-1">
-                                        {item.detail}
-                                    </Typography>
+                            <motion.div key={i} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} transition={{ delay: i * 0.1 }}>
+                                <InfoCard icon={item.icon} title={item.year} subtitle={item.label} iconColor="text-accent" variant={item.variant} showInfoBadge={false} className="h-full text-center">
+                                    <Typography variant="small" className="text-accent font-medium mt-1">{item.detail}</Typography>
                                 </InfoCard>
                             </motion.div>
                         ))}

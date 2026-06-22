@@ -7,22 +7,40 @@
   "backToFarm": "Back to the Farm",
   "roadmap": {
     "title": "Processing Roadmap",
-    "description": "Two phases, one operating system. Every stage documented in Farm OS for full traceability.",
+    "description": "Three phases, one operating system. Every stage documented in Farm OS for full traceability — from pilot to regional processing hub.",
     "phase1": {
-      "title": "Phase 1: Pilot / Semi-Automated",
+      "title": "Phase 1: Pilot",
       "dates": "2028–2030",
-      "description": "Small-batch, quality-first processing with Farm OS tracking at every stage. 1,000–2,000 MT/year.",
-      "point1": "Semi-automated operations with digital batch tracking",
-      "point2": "Staff training with Farm OS documentation protocols",
-      "point3": "1,000–2,000 MT/year capacity by 2030"
-  },
+      "description": "Small-batch, quality-first processing with Farm OS tracking at every stage.",
+      "points": [
+        "1,000–2,000 MT/year capacity",
+        "Farm OS integration at every step",
+        "Certification readiness (Organic, Halal, ISO)",
+        "Export market validation"
+      ]
+    },
     "phase2": {
-      "title": "Phase 2: Industrial / Automated",
+      "title": "Phase 2: Industrial Expansion",
+      "dates": "2030–2033",
+      "description": "Multi-line automated processing with regional supplier network and full certification compliance.",
+      "points": [
+        "10,000–20,000 MT/year capacity",
+        "Multi-line automated processing",
+        "Regional supplier network (200+ farmers)",
+        "Full Farm OS analytics integration"
+      ]
+    },
+    "phase3": {
+      "title": "Phase 3: Processing Hub",
       "dates": "2033+",
-      "description": "Full-scale processing with advanced automation, integrated Farm OS analytics, and global certifications.",
-      "point1": "Automated lines with real-time Farm OS monitoring",
-      "point2": "International certifications verified and tracked digitally",
-      "point3": "5,000 MT/year capacity by 2033+"
+      "description": "Large-scale integrated processing hub serving West Africa and global export markets with full vertical integration.",
+      "points": [
+        "70,000–100,000 MT/year capacity",
+        "Multiple processing lines",
+        "CNSL utilization at industrial scale",
+        "Export logistics center",
+        "Full Farm OS integration"
+      ]
     }
   },
   "phases": {

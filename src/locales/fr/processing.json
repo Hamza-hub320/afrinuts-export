@@ -7,22 +7,40 @@
   "backToFarm": "Retour à la Ferme",
   "roadmap": {
     "title": "Feuille de Route de la Transformation",
-    "description": "Deux phases, un seul système d'exploitation. Chaque étape documentée dans Farm OS pour une traçabilité complète.",
+    "description": "Trois phases, un seul système d'exploitation. Chaque étape documentée dans Farm OS pour une traçabilité complète — du pilote au pôle régional de transformation.",
     "phase1": {
-      "title": "Phase 1 : Pilote / Semi-Automatisée",
+      "title": "Phase 1 : Pilote",
       "dates": "2028–2030",
-      "description": "Transformation en petits lots, qualité d'abord, avec suivi Farm OS à chaque étape. 1 000–2 000 TM/an.",
-      "point1": "Opérations semi-automatisées avec suivi numérique des lots",
-      "point2": "Formation du personnel aux protocoles de documentation Farm OS",
-      "point3": "Capacité de 1 000–2 000 TM/an d'ici 2030"
+      "description": "Transformation en petits lots, qualité d'abord, avec suivi Farm OS à chaque étape.",
+      "points": [
+        "Capacité de 1 000–2 000 TM/an",
+        "Intégration Farm OS à chaque étape",
+        "Préparation aux certifications (Biologique, Halal, ISO)",
+        "Validation du marché d'exportation"
+      ]
     },
     "phase2": {
-      "title": "Phase 2 : Industrielle / Automatisée",
+      "title": "Phase 2 : Expansion Industrielle",
+      "dates": "2030–2033",
+      "description": "Transformation automatisée multi-lignes avec réseau de fournisseurs régional et conformité totale aux certifications.",
+      "points": [
+        "Capacité de 10 000–20 000 TM/an",
+        "Transformation automatisée multi-lignes",
+        "Réseau de fournisseurs régional (200+ agriculteurs)",
+        "Intégration complète des analyses Farm OS"
+      ]
+    },
+    "phase3": {
+      "title": "Phase 3 : Pôle de Transformation",
       "dates": "2033+",
-      "description": "Transformation à pleine échelle avec automatisation avancée, analyses Farm OS intégrées et certifications mondiales.",
-      "point1": "Lignes automatisées avec surveillance Farm OS en temps réel",
-      "point2": "Certifications internationales vérifiées et suivies numériquement",
-      "point3": "Capacité de 5 000 TM/an d'ici 2033+"
+      "description": "Pôle de transformation intégré à grande échelle desservant l'Afrique de l'Ouest et les marchés mondiaux d'exportation avec une intégration verticale complète.",
+      "points": [
+        "Capacité de 70 000–100 000 TM/an",
+        "Lignes de transformation multiples",
+        "Valorisation du CNSL à l'échelle industrielle",
+        "Centre logistique d'exportation",
+        "Intégration complète de Farm OS"
+      ]
     }
   },
   "phases": {
