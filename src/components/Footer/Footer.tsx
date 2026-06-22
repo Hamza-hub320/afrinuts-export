@@ -9,7 +9,7 @@ import {
     FaEnvelope,
     FaArrowRight,
     FaMobile,
-    FaLeaf
+    FaLeaf, FaCertificate
 } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 
@@ -184,6 +184,13 @@ const Footer = () => {
                                     <FaLinkedin />
                                 </motion.a>
                             </div>
+                            {/* Registration Badge */}
+                            <div className="mt-3 flex items-center gap-2">
+                                <FaCertificate className="text-accent text-xs" />
+                                <span className="text-[10px] text-gray-400">
+                                RCCM: CI-ABJ-03-2026-B12-04223
+                            </span>
+                            </div>
                         </div>
                     </motion.div>
 
@@ -311,32 +318,34 @@ const Footer = () => {
                     viewport={{ once: true }}
                     transition={{ duration: 0.5, delay: 0.4 }}
                 >
-                    <div className="relative z-10 p-6">
-                        <div className="flex flex-col md:flex-row justify-between items-center">
-                            <p className="text-sm mb-4 md:mb-0">
-                                © {new Date().getFullYear()} AfriNuts Export. {t('copyright')}
+                    <div className="relative z-10 px-5 py-3 flex flex-col md:flex-row justify-between items-center gap-2">
+                        <div className="flex flex-col md:flex-row items-center gap-2 md:gap-4">
+                            <p className="text-xs text-gray-400">
+                                © {new Date().getFullYear()} AfriNuts Export SARL
                             </p>
-                            <div className="flex space-x-6">
-                                {[
-                                    { path: "/privacy-policy", text: t('legal.privacy') },
-                                    { path: "/terms", text: t('legal.terms') },
-                                    { text: t('legal.cookie'), onClick: () => setShowCookiePrefs(true) }
-                                ].map((item, index) => (
-                                    <motion.div key={index} whileHover={{ y: -2 }} transition={{ duration: 0.2 }}>
-                                        {item.path ? (
-                                            <Link to={item.path} className="text-sm hover:text-accent transition-colors duration-300 flex items-center group">
-                                                <span className="w-1.5 h-1.5 bg-accent rounded-full mr-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-                                                {item.text}
-                                            </Link>
-                                        ) : (
-                                            <button onClick={item.onClick} className="text-sm hover:text-accent transition-colors duration-300 flex items-center group">
-                                                <span className="w-1.5 h-1.5 bg-accent rounded-full mr-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
-                                                {item.text}
-                                            </button>
-                                        )}
-                                    </motion.div>
-                                ))}
-                            </div>
+                            <span className="hidden md:block text-gray-600">·</span>
+                            <p className="text-[10px] text-gray-500">
+                                RCCM: CI-ABJ-03-2026-B12-04223 · IDU: CI-2026-0066959 J
+                            </p>
+                        </div>
+                        <div className="flex items-center gap-4">
+                            {[
+                                { path: "/privacy-policy", text: t('legal.privacy') },
+                                { path: "/terms", text: t('legal.terms') },
+                                { text: t('legal.cookie'), onClick: () => setShowCookiePrefs(true) }
+                            ].map((item, index) => (
+                                <motion.div key={index} whileHover={{ y: -1 }}>
+                                    {item.path ? (
+                                        <Link to={item.path} className="text-xs text-gray-400 hover:text-accent transition-colors duration-300">
+                                            {item.text}
+                                        </Link>
+                                    ) : (
+                                        <button onClick={item.onClick} className="text-xs text-gray-400 hover:text-accent transition-colors duration-300">
+                                            {item.text}
+                                        </button>
+                                    )}
+                                </motion.div>
+                            ))}
                         </div>
                     </div>
                 </motion.div>

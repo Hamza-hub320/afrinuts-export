@@ -64,21 +64,21 @@
   },
   "milestones": {
     "title": "The Foundation Is Built. Now We Scale.",
-    "body": "Before asking for partners, we did the work. 70 hectares secured. Corporation registered. Government relationships established. Community trust earned. Our executive team spent two weeks on the ground in Odienné — and came back with everything needed to launch. This is not a pitch. This is a platform ready for partners.",
+    "body": "Before asking for partners, we did the work. 70 hectares secured. Corporation legally registered with RCCM and IDU. Government relationships established. Community trust earned. This is not a pitch. This is a platform ready for partners.",
     "land": {
       "title": "70 Hectares Secured",
-      "desc": "Family land officially transferred. 35 hectares for farming, 10 for processing, 25 for community. Title process underway with the Agent Foncier Rural.",
+      "desc": "Family land officially transferred. 35ha for farm, 10ha for processing, 25ha for community. Title process underway with the Agent Foncier Rural.",
       "stat": "Title in Process"
     },
     "corp": {
       "title": "Corporation Registered",
-      "desc": "SARL registration paid and accepted by CEPICI. RCCM certificate and IDU number imminent. Legal entity established under OHADA law — ready for contracts, partnerships, and investment.",
-      "stat": "Finalizing"
+      "desc": "AfriNuts Export SARL is now a legally registered company. RCCM: CI-ABJ-03-2026-B12-04223. IDU: CI-2026-0066959 J. Dossier N° 512502 accepted by CEPICI.",
+      "stat": "Completed"
     },
     "gov": {
       "title": "Government Partnerships",
-      "desc": "Relationships established with CCAK (Conseil Coton Anacard et Karité) leadership. Meeting with the Director and General Director scheduled. Regional representative already engaged.",
-      "stat": "Secured"
+      "desc": "Meeting held with CCAK representative in Odienné-Madinani. Upcoming meeting with Director and General Director of Conseil Coton Anacard et Karité.",
+      "stat": "In Progress"
     },
     "community": {
       "title": "Community Trust Earned",

@@ -179,9 +179,9 @@ const Partners: React.FC = () => {
             <Section className="py-10">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6">
                     <motion.div className="text-center mb-10" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
-                        <Typography variant="h2" className="mb-4">{t('milestones.title', 'June 2026: On the Ground in Côte d\'Ivoire')}</Typography>
+                        <Typography variant="h2" className="mb-4">{t('milestones.title', 'The Foundation Is Built. Now We Scale.')}</Typography>
                         <Typography variant="body" className="text-gray-600 max-w-2xl mx-auto">
-                            {t('milestones.body', 'Our executive team spent two weeks securing the foundation of AfriNuts Export. 70 hectares of land acquired. Corporation registration submitted and accepted. Relationships built with government officials, community elders, and local partners. This is what execution looks like.')}
+                            {t('milestones.body', 'Before asking for partners, we did the work. 70 hectares secured. Corporation legally registered with RCCM and IDU. Government relationships established. Community trust earned. This is not a pitch. This is a platform ready for partners.')}
                         </Typography>
                     </motion.div>
 
@@ -191,7 +191,7 @@ const Partners: React.FC = () => {
                             {
                                 icon: GiSprout,
                                 title: t('milestones.land.title', '70 Hectares Secured'),
-                                desc: t('milestones.land.desc', 'Land title process underway. Family member officially transferred the 70 hectares — 35ha for farm, 10ha for processing, 25ha for community.'),
+                                desc: t('milestones.land.desc', 'Family land officially transferred. 35ha for farm, 10ha for processing, 25ha for community. Title process underway with the Agent Foncier Rural.'),
                                 stat: t('milestones.land.stat', 'Title in Process'),
                                 color: 'text-green-600',
                                 bg: 'bg-green-50'
@@ -199,23 +199,23 @@ const Partners: React.FC = () => {
                             {
                                 icon: FaCertificate,
                                 title: t('milestones.corp.title', 'Corporation Registered'),
-                                desc: t('milestones.corp.desc', 'SARL registration paid and processing. RCCM certificate, IDU number, and official company registration expected this week. Dossier N° 512502 accepted by CEPICI.'),
-                                stat: t('milestones.corp.stat', 'Finalizing'),
+                                desc: t('milestones.corp.desc', 'AfriNuts Export SARL is now a legally registered company. RCCM: CI-ABJ-03-2026-B12-04223. IDU: CI-2026-0066959 J. Dossier N° 512502 accepted by CEPICI.'),
+                                stat: t('milestones.corp.stat', 'Completed'),
                                 color: 'text-primary',
                                 bg: 'bg-primary/10'
                             },
                             {
                                 icon: FaHandshake,
                                 title: t('milestones.gov.title', 'Government Partnerships'),
-                                desc: t('milestones.gov.desc', 'Upcoming meeting with Director of Conseil Coton Anacard et Karité (CCAK) and General Director. Representative in Odienné-Madinani already engaged.'),
-                                stat: t('milestones.gov.stat', 'Scheduled'),
+                                desc: t('milestones.gov.desc', 'Meeting held with CCAK representative in Odienné-Madinani. Upcoming meeting with Director and General Director of Conseil Coton Anacard et Karité.'),
+                                stat: t('milestones.gov.stat', 'In Progress'),
                                 color: 'text-blue-600',
                                 bg: 'bg-blue-50'
                             },
                             {
                                 icon: GiPublicSpeaker,
-                                title: t('milestones.community.title', 'Community & Family'),
-                                desc: t('milestones.community.desc', 'Family land transfer completed. Local community relationships strengthened. Meeting with village leadership and regional authorities.'),
+                                title: t('milestones.community.title', 'Community Trust Earned'),
+                                desc: t('milestones.community.desc', 'Family land transfer completed with community recognition. Village leadership engaged. Local relationships that took generations to build — now part of AfriNuts\' foundation.'),
                                 stat: t('milestones.community.stat', 'Established'),
                                 color: 'text-amber-600',
                                 bg: 'bg-amber-50'

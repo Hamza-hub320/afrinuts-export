@@ -64,21 +64,21 @@
   },
   "milestones": {
     "title": "La Fondation Est Construite. Maintenant, Nous Passons à l'Échelle.",
-    "body": "Avant de chercher des partenaires, nous avons fait le travail. 70 hectares sécurisés. Société enregistrée. Relations gouvernementales établies. Confiance communautaire gagnée. Notre équipe de direction a passé deux semaines sur le terrain à Odienné — et est revenue avec tout le nécessaire pour lancer. Ce n'est pas un argumentaire. C'est une plateforme prête pour les partenaires.",
+    "body": "Avant de chercher des partenaires, nous avons fait le travail. 70 hectares sécurisés. Société légalement enregistrée avec RCCM et IDU. Relations gouvernementales établies. Confiance communautaire gagnée. Ce n'est pas un argumentaire. C'est une plateforme prête pour les partenaires.",
     "land": {
       "title": "70 Hectares Sécurisés",
-      "desc": "Terrain familial officiellement transféré. 35 hectares pour l'agriculture, 10 pour la transformation, 25 pour la communauté. Procédure de titre en cours avec l'Agent Foncier Rural.",
+      "desc": "Terrain familial officiellement transféré. 35 ha pour l'agriculture, 10 ha pour la transformation, 25 ha pour la communauté. Procédure de titre en cours avec l'Agent Foncier Rural.",
       "stat": "Titre en Cours"
     },
     "corp": {
       "title": "Société Enregistrée",
-      "desc": "Enregistrement SARL payé et accepté par le CEPICI. Certificat RCCM et numéro IDU imminents. Entité juridique établie sous le droit OHADA — prête pour les contrats, les partenariats et l'investissement.",
-      "stat": "Finalisation"
+      "desc": "AfriNuts Export SARL est désormais une société légalement enregistrée. RCCM : CI-ABJ-03-2026-B12-04223. IDU : CI-2026-0066959 J. Dossier N° 512502 accepté par le CEPICI.",
+      "stat": "Terminé"
     },
     "gov": {
       "title": "Partenariats Gouvernementaux",
-      "desc": "Relations établies avec la direction du CCAK (Conseil Coton Anacard et Karité). Réunion avec le Directeur et le Directeur Général programmée. Représentant régional déjà engagé.",
-      "stat": "Sécurisé"
+      "desc": "Réunion tenue avec le représentant du CCAK à Odienné-Madinani. Prochaine réunion avec le Directeur et le Directeur Général du Conseil Coton Anacard et Karité.",
+      "stat": "En Cours"
     },
     "community": {
       "title": "Confiance Communautaire Gagnée",
