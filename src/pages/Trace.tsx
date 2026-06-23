@@ -56,6 +56,15 @@ interface BatchData {
         insurance?: string | null;
         compliancePack?: string | null;
     };
+    farmer?: {
+        name: string;
+        role: string;
+        photo: string;
+        yearsFarming: string;
+        location: string;
+        bio: string;
+        quote?: string;
+    } | null;
 }
 
 function useQuery() {
@@ -482,6 +491,72 @@ const TracePage: React.FC = () => {
                     </motion.div>
                 </div>
             </Section>
+
+            {/* Farmer Profile */}
+            {batch?.farmer && (
+                <Section className="py-8">
+                    <div className="max-w-3xl mx-auto px-4 sm:px-6">
+                        <motion.div
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                            variants={fadeIn}
+                        >
+                            <InfoCard
+                                icon={GiFarmer}
+                                title={t('farmer.title', 'Meet the Farmer Behind This Batch')}
+                                variant="primary"
+                                showInfoBadge={false}
+                            >
+                                <div className="flex flex-col sm:flex-row items-center gap-6 mt-4">
+                                    {/* Farmer Photo */}
+                                    <div className="flex-shrink-0">
+                                        <div className="relative w-28 h-28 sm:w-32 sm:h-32 rounded-full overflow-hidden border-4 border-primary/20 shadow-lg flex items-center justify-center bg-primary/5">
+                                            {batch.farmer.photo ? (
+                                                <img
+                                                    src={batch.farmer.photo}
+                                                    alt={batch.farmer.name}
+                                                    className="w-full h-full object-cover"
+                                                />
+                                            ) : (
+                                                <GiFarmer className="text-5xl text-primary/40" />
+                                            )}
+                                        </div>
+                                    </div>
+
+                                    {/* Farmer Info */}
+                                    <div className="flex-1 text-center sm:text-left">
+                                        <Typography variant="h4" className="text-primary mb-1">
+                                            {batch.farmer.name}
+                                        </Typography>
+                                        <Typography variant="small" className="text-accent font-medium mb-2">
+                                            {batch.farmer.role} · {batch.farmer.yearsFarming}
+                                        </Typography>
+                                        <div className="flex items-center gap-1.5 justify-center sm:justify-start mb-3">
+                                            <FaMapMarkerAlt className="text-gray-400 text-xs" />
+                                            <Typography variant="small" className="text-gray-500">
+                                                {batch.farmer.location}
+                                            </Typography>
+                                        </div>
+                                        <Typography variant="body" className="text-gray-600 text-sm leading-relaxed">
+                                            {batch.farmer.bio}
+                                        </Typography>
+
+                                        {/* Farmer Quote */}
+                                        {batch.farmer.quote && (
+                                            <div className="mt-4 bg-primary/5 rounded-xl p-4 border-l-4 border-primary">
+                                                <Typography variant="body" className="text-primary-dark italic text-sm">
+                                                    "{batch.farmer.quote}"
+                                                </Typography>
+                                            </div>
+                                        )}
+                                    </div>
+                                </div>
+                            </InfoCard>
+                        </motion.div>
+                    </div>
+                </Section>
+            )}
 
             {/* Action Bar */}
             <div className="max-w-4xl mx-auto px-4 sm:px-6">

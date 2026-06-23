@@ -69,7 +69,16 @@ export const handler: Handler = async (event) => {
                 invoice: getAssetUrl(item.fields.commercialInvoice),
                 insurance: getAssetUrl(item.fields.insuranceCertificate),
                 compliancePack: getAssetUrl(item.fields.compliancePack),
-            }
+            },
+            farmer: item.fields.farmerName ? {
+                name: item.fields.farmerName,
+                role: item.fields.farmerRole || 'Farmer',
+                photo: getAssetUrl(item.fields.farmerPhoto) || null,
+                yearsFarming: item.fields.farmerYearsFarming || '',
+                location: item.fields.farmerLocation || 'Odienné, Côte d\'Ivoire',
+                bio: item.fields.farmerBio || '',
+                quote: item.fields.farmerQuote || '',
+            } : null,
         }));
 
         return {
