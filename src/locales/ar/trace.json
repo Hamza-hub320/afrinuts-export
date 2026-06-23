@@ -72,7 +72,8 @@
     "destinationLocation": "موقع الوجهة",
     "receivingCompany": "الشركة المستلمة",
     "previewAllBatches": "معاينة جميع الدفعات",
-    "previewNotice": "معاينة الدفعة الافتراضية (لم يتم تقديم معرف دفعة في الرابط)"
+    "previewNotice": "معاينة الدفعة الافتراضية (لم يتم تقديم معرف دفعة في الرابط)",
+    "sampleNotice": "دفعة نموذجية — عرض توضيحي لإمكانية تتبع Farm OS"
   },
   "batchInfo": {
     "verified": "موثق بنظام Farm OS"

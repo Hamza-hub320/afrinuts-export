@@ -34,6 +34,13 @@ export const handler: Handler = async (event) => {
             };
         }
 
+        // Helper function to resolve a media field to a URL
+        const getAssetUrl = (field: any): string | null => {
+            if (!field?.sys?.id) return null;
+            const asset = data.includes?.Asset?.find((a: any) => a.sys.id === field.sys.id);
+            return asset?.fields?.file?.url ? `https:${asset.fields.file.url}` : null;
+        };
+
         const batches = data.items.map((item: any) => ({
             id: item.sys.id,
             batchId: item.fields.batchId,
@@ -54,6 +61,15 @@ export const handler: Handler = async (event) => {
             defectiveRate: item.fields.defectiveRate,
             overallScore: item.fields.overallScore,
             labReportUrl: item.fields.labReportUrl,
+            documents: {
+                coo: getAssetUrl(item.fields.certificateOfOrigin),
+                phyto: getAssetUrl(item.fields.phytosanitaryCertificate),
+                billOfLading: getAssetUrl(item.fields.billOfLading),
+                packingList: getAssetUrl(item.fields.packingList),
+                invoice: getAssetUrl(item.fields.commercialInvoice),
+                insurance: getAssetUrl(item.fields.insuranceCertificate),
+                compliancePack: getAssetUrl(item.fields.compliancePack),
+            }
         }));
 
         return {

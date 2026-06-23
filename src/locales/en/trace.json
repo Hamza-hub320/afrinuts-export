@@ -72,7 +72,8 @@
     "destinationLocation": "Destination Location",
     "receivingCompany": "Receiving Company",
     "previewAllBatches": "Preview All Batches",
-    "previewNotice": "Default batch preview (no batchId provided in URL)"
+    "previewNotice": "Default batch preview (no batchId provided in URL)",
+    "sampleNotice": "Sample batch — demonstration of Farm OS traceability"
   },
   "batchInfo": {
     "verified": "Farm OS Verified"
@@ -136,10 +137,13 @@
     "packingList": "Packing List",
     "invoice": "Commercial Invoice",
     "insurance": "Insurance Certificate",
-    "available": "Available",
+    "available": "Available for Download",
+    "pending": "Available After Processing",
+    "download": "Download",
     "compliancePack": "Download Complete Compliance Pack",
     "compliancePackDesc": "All documents in one file for easy sharing with customs and regulators",
-    "downloadAll": "Download All"
+    "downloadAll": "Download All",
+    "compliancePackPending": "Compliance pack will be available once all documents are processed for this batch."
   },
   "breadcrumbs": {
     "home": "Home",

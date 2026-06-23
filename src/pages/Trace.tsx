@@ -9,9 +9,7 @@ import {
     GiFarmer,
     GiFruitTree,
     GiFactory,
-    GiLaurelCrown,
     GiCargoShip,
-    GiCastle, GiPaperTray
 } from 'react-icons/gi';
 import {
     FaTree, FaIndustry, FaCertificate, FaTruck, FaBuilding,
@@ -49,6 +47,15 @@ interface BatchData {
     defectiveRate?: number;
     overallScore?: number;
     labReportUrl?: string;
+    documents?: {
+        coo?: string | null;
+        phyto?: string | null;
+        billOfLading?: string | null;
+        packingList?: string | null;
+        invoice?: string | null;
+        insurance?: string | null;
+        compliancePack?: string | null;
+    };
 }
 
 function useQuery() {
@@ -466,7 +473,7 @@ const TracePage: React.FC = () => {
                                     <div className="bg-amber-50/60 backdrop-blur-sm border border-amber-200 rounded-full px-4 py-2 inline-block">
                                         <Typography variant="small" className="text-amber-700 text-xs flex items-center gap-1.5">
                                             <FaFlask className="text-[10px]" />
-                                            {t('batch.previewNotice', 'Sample batch — demonstration of Farm OS traceability')}
+                                            {t('batch.sampleNotice', 'Sample batch — demonstration of Farm OS traceability')}
                                         </Typography>
                                     </div>
                                 </motion.div>
@@ -612,10 +619,20 @@ const TracePage: React.FC = () => {
                                                 {i + 1}
                                             </div>
 
-                                            {/* Content */}
-                                            <Typography variant="small" className="font-bold text-primary leading-tight">{step.title}</Typography>
-                                            <Typography variant="small" className="text-gray-600 text-xs leading-tight mt-0.5 line-clamp-2">{step.detail}</Typography>
-                                            <Typography variant="small" className="text-gray-400 text-[10px] leading-tight line-clamp-1">{step.sub}</Typography>
+                                            {/* Content card with glass effect — Desktop */}
+                                            <div className="bg-white/40 backdrop-blur-sm rounded-xl p-3 w-full border border-white/30 shadow-sm mt-3">
+                                                <Typography variant="small" className="font-bold text-primary leading-tight text-sm">
+                                                    {step.title}
+                                                </Typography>
+                                                <Typography variant="small" className="text-gray-600 text-[11px] leading-tight mt-1 line-clamp-2">
+                                                    {step.detail}
+                                                </Typography>
+                                                {step.sub && (
+                                                    <Typography variant="small" className="text-gray-400 text-[10px] leading-tight mt-1 line-clamp-1">
+                                                        {step.sub}
+                                                    </Typography>
+                                                )}
+                                            </div>
                                         </motion.div>
                                     ))}
                                 </div>
@@ -940,48 +957,64 @@ const TracePage: React.FC = () => {
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {[
-                            { title: t('docs.coo'), icon: FaFileAlt, variant: 'primary' as const },
-                            { title: t('docs.phyto'), icon: FaLeaf, variant: 'accent' as const },
-                            { title: t('docs.billOfLading'), icon: FaTruck, variant: 'secondary' as const },
-                            { title: t('docs.packingList'), icon: FaBox, variant: 'primary' as const },
-                            { title: t('docs.invoice'), icon: FaFileAlt, variant: 'accent' as const },
-                            { title: t('docs.insurance'), icon: FaShieldAlt, variant: 'secondary' as const },
-                        ].map((doc, i) => (
-                            <motion.div key={i} initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }}>
-                                <InfoCard
-                                    icon={doc.icon}
-                                    title={doc.title}
-                                    subtitle={t('docs.available', 'Available')}
-                                    iconColor="text-accent"
-                                    variant={doc.variant}
-                                    showInfoBadge={false}
-                                    className="h-full"
-                                />
-                            </motion.div>
-                        ))}
+                            { title: t('docs.coo'), key: 'coo', icon: FaFileAlt },
+                            { title: t('docs.phyto'), key: 'phyto', icon: FaLeaf },
+                            { title: t('docs.billOfLading'), key: 'billOfLading', icon: FaTruck },
+                            { title: t('docs.packingList'), key: 'packingList', icon: FaBox },
+                            { title: t('docs.invoice'), key: 'invoice', icon: FaFileAlt },
+                            { title: t('docs.insurance'), key: 'insurance', icon: FaShieldAlt },
+                        ].map((doc, i) => {
+                            const docUrl = batch?.documents?.[doc.key as keyof typeof batch.documents];
+                            return (
+                                <motion.div key={i} initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }}>
+                                    <InfoCard
+                                        icon={doc.icon}
+                                        title={doc.title}
+                                        subtitle={docUrl ? t('docs.available') : t('docs.pending', 'Available after processing')}
+                                        iconColor={docUrl ? "text-green-500" : "text-gray-400"}
+                                        variant={docUrl ? "primary" : "secondary"}
+                                        showInfoBadge={false}
+                                        className="h-full"
+                                        cta={docUrl ? (
+                                            <a href={docUrl} target="_blank" rel="noopener noreferrer" className="text-accent hover:text-primary text-xs font-medium flex items-center gap-1">
+                                                <FaDownload className="text-[10px]" />{t('docs.download')}
+                                            </a>
+                                        ) : undefined}
+                                    />
+                                </motion.div>
+                            );
+                        })}
                     </div>
 
-                    {/* Compliance Pack CTA */}
-                    <Section className="py-10">
-                        <div className="max-w-2xl mx-auto px-4 sm:px-6 text-center">
-                            <InfoCard
-                                icon={FaFileAlt}
-                                title={t('docs.compliancePack', 'Download Complete Compliance Pack')}
-                                iconColor="text-accent"
-                                variant="primary"
-                                className="text-center"
-                            >
-                                <Typography variant="body" className="text-gray-600 mb-6">
-                                    {t('docs.compliancePackDesc', 'All documents in one file for easy sharing with customs and regulators')}
-                                </Typography>
-                                <a href="/documents/compliance-pack.pdf" target="_blank" rel="noopener noreferrer"
-                                   className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-3 rounded-full inline-flex items-center gap-2 font-medium shadow-md">
-                                    <FaDownload className="text-sm" />
-                                    {t('docs.downloadAll', 'Download All')}
-                                </a>
-                            </InfoCard>
+                    {/* Compliance Pack — only if available */}
+                    {batch?.documents?.compliancePack ? (
+                        <Section className="py-10">
+                            <div className="max-w-2xl mx-auto px-4 sm:px-6 text-center">
+                                <InfoCard
+                                    icon={FaFileAlt}
+                                    title={t('docs.compliancePack')}
+                                    iconColor="text-accent"
+                                    variant="primary"
+                                    className="text-center"
+                                >
+                                    <Typography variant="body" className="text-gray-600 mb-6">
+                                        {t('docs.compliancePackDesc')}
+                                    </Typography>
+                                    <a href={batch.documents.compliancePack} target="_blank" rel="noopener noreferrer"
+                                       className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-3 rounded-full inline-flex items-center gap-2 font-medium shadow-md">
+                                        <FaDownload className="text-sm" />
+                                        {t('docs.downloadAll')}
+                                    </a>
+                                </InfoCard>
+                            </div>
+                        </Section>
+                    ) : (
+                        <div className="text-center py-8">
+                            <Typography variant="body" className="text-gray-400">
+                                {t('docs.compliancePackPending', 'Compliance pack will be available once all documents are processed for this batch.')}
+                            </Typography>
                         </div>
-                    </Section>
+                    )}
                 </div>
             )}
 

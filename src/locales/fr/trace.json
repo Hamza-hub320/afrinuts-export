@@ -72,7 +72,8 @@
     "destinationLocation": "Localisation de Destination",
     "receivingCompany": "Entreprise Destinataire",
     "previewAllBatches": "Aperçu de Tous les Lots",
-    "previewNotice": "Aperçu du lot par défaut (aucun ID de lot fourni dans l'URL)"
+    "previewNotice": "Aperçu du lot par défaut (aucun ID de lot fourni dans l'URL)",
+    "sampleNotice": "Lot d'exemple — démonstration de la traçabilité Farm OS"
   },
   "batchInfo": {
     "verified": "Vérifié par Farm OS"
