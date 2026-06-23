@@ -364,7 +364,7 @@ const TracePage: React.FC = () => {
                 }
             }} />
             {/* Hero */}
-            <Section className="flex items-center justify-center text-center pt-2 pb-8 lg:pb-12">
+            <Section className="flex items-center justify-center text-center min-h-[50vh]">
                 <motion.div className="max-w-3xl px-6 sm:px-8 py-12" variants={fadeIn} initial="hidden" animate="visible">
                     <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-4"><FaQrcode className="inline mr-3 text-accent" />{t('page.title')}</Typography>
                     <Typography variant="h1" className="text-4xl md:text-5xl lg:text-6xl font-display text-text-dark mb-6">{batch?.batchId}</Typography>
