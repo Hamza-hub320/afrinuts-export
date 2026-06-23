@@ -46,12 +46,8 @@
     "batch": "IDs de lot uniques suivis dans Farm OS de la récolte à la livraison — pas un registre papier",
     "public": "Vérifiable publiquement — toute personne ayant l'ID de lot peut vérifier. Aucune connexion requise.",
     "certs": "Certifications vérifiées et affichées par lot — pas seulement des affirmations sur un site web",
-    "origin": "Origine Vérifiée par GPS",
-    "originDesc": "Coordonnées GPS enregistrées à la récolte depuis notre ferme à Odienné — vérifiable sur n'importe quelle carte",
-    "batchTitle": "Enregistrement de Lot Farm OS",
-    "batchDesc": "Chaque lot reçoit un ID numérique unique suivi à chaque étape dans notre système d'exploitation personnalisé",
-    "transparent": "Vérifiable Publiquement",
-    "transparentDesc": "Toute personne ayant l'ID de lot peut vérifier ces informations — acheteurs, douanes, investisseurs"
+    "ctaBody": "Chaque commande en gros inclut la traçabilité Farm OS sans frais supplémentaires. Vos acheteurs peuvent vérifier l'origine, la qualité et les certifications — exactement comme cette page.",
+    "ctaButton": "Explorer les Options de Gros"
   },
   "promoCta": {
     "title": "Vous Voulez Ce Niveau de Transparence Pour Vos Commandes ?",

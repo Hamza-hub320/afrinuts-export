@@ -29,15 +29,15 @@
     "title": "How Our Traceability Works",
     "scan": {
       "title": "1. Scan the QR Code",
-      "description": "Every bag or container includes a unique QR code linked to its batch."
+      "description": "Every bag includes a unique QR code linked to its batch in Farm OS — our custom-built operating system."
     },
     "trace": {
       "title": "2. Enter Your Batch ID",
-      "description": "Or type your batch ID above to access the full digital record — no paperwork required."
+      "description": "Or type your batch ID to access the full digital record — harvest dates, GPS coordinates, quality metrics."
     },
     "view": {
       "title": "3. View the Full Digital Journey",
-      "description": "See the exact block location, harvest date, processing details, quality metrics, certifications, and shipping documentation."
+      "description": "From the exact block in Odienné to your container. Every step documented in Farm OS — not generated after the fact."
     }
   },
   "trust": {
@@ -46,12 +46,8 @@
     "batch": "Unique batch IDs tracked in Farm OS from harvest to delivery — not a paper ledger",
     "public": "Publicly verifiable — anyone with the batch ID can check. No login required.",
     "certs": "Certifications verified and displayed per batch — not just claims on a website",
-    "origin": "GPS-Verified Origin",
-    "originDesc": "GPS coordinates recorded at harvest from our farm in Odienné — verifiable on any map",
-    "batchTitle": "Farm OS Batch Record",
-    "batchDesc": "Each batch receives a unique digital ID tracked at every stage in our custom operating system",
-    "transparent": "Publicly Verifiable",
-    "transparentDesc": "Anyone with the batch ID can verify this information — buyers, customs, investors"
+    "ctaBody": "Every wholesale order includes Farm OS traceability at no extra cost. Your buyers can verify origin, quality, and certifications — just like this page.",
+    "ctaButton": "Explore Wholesale Options"
   },
   "promoCta": {
     "title": "Want This Level of Transparency for Your Orders?",

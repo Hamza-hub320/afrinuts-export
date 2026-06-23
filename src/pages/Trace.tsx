@@ -5,7 +5,14 @@ import { motion } from "framer-motion";
 import Section from "@/components/Section/Section";
 import { Typography } from "@/components/Typography/Typography";
 import { InfoCard } from "@/components/InfoCard/InfoCard";
-import { GiFarmer } from 'react-icons/gi';
+import {
+    GiFarmer,
+    GiFruitTree,
+    GiFactory,
+    GiLaurelCrown,
+    GiCargoShip,
+    GiCastle, GiPaperTray
+} from 'react-icons/gi';
 import {
     FaTree, FaIndustry, FaCertificate, FaTruck, FaBuilding,
     FaCheckCircle, FaSearch, FaMapMarkerAlt, FaClipboardList,
@@ -166,6 +173,7 @@ const TracePage: React.FC = () => {
 
     // ========== PROMO PAGE (no batch found) ==========
     if (!batch && !loading) {
+        const promoBatchId = query.get("batchId");
         return (
             <main className="text-text-dark font-sans">
                 {/* Hero */}
@@ -201,46 +209,63 @@ const TracePage: React.FC = () => {
                             </motion.div>
 
                             <div className="flex flex-wrap justify-center lg:justify-start gap-2 mb-5">
-                <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-primary/10 text-primary text-xs rounded-full font-medium">
-                    <FaQrcode className="text-[10px]" /> {t('promo.badgeQr', 'QR Code')}
-                </span>
+                                <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-primary/10 text-primary text-xs rounded-full font-medium">
+                                    <FaQrcode className="text-[10px]" /> {t('promo.badgeQr', 'QR Code')}
+                                </span>
                                 <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-green-50 text-green-700 text-xs rounded-full font-medium">
-                    <FaCheckCircle className="text-[10px]" /> {t('promo.badgeVerified', 'Farm OS Verified')}
-                </span>
+                                    <FaCheckCircle className="text-[10px]" /> {t('promo.badgeVerified', 'Farm OS Verified')}
+                                </span>
                                 <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-amber-50 text-amber-700 text-xs rounded-full font-medium">
-                    <FaGlobeAfrica className="text-[10px]" /> {t('promo.badgePublic', 'Publicly Verifiable')}
-                </span>
+                                    <FaGlobeAfrica className="text-[10px]" /> {t('promo.badgePublic', 'Publicly Verifiable')}
+                                </span>
                             </div>
 
-                            <motion.div variants={fadeIn} className="flex flex-wrap gap-2.5 justify-center lg:justify-start">
-                                <div className="relative bg-white/50 backdrop-blur-sm border border-gray-300 rounded-full flex items-center">
-                                    <FaSearch className="absolute left-3 text-gray-400 text-xs" />
-                                    <input
-                                        type="text"
-                                        placeholder={t('search.placeholder', 'Enter your Batch ID...')}
-                                        className="pl-9 pr-20 py-2.5 bg-transparent text-sm focus:outline-none rounded-full w-56 batch-search-input"
-                                        onKeyDown={(e) => {
-                                            if (e.key === 'Enter') {
-                                                const input = e.currentTarget.value.trim();
-                                                if (input) window.location.href = `/trace?batchId=${encodeURIComponent(input)}`;
-                                            }
-                                        }}
-                                    />
+                            {/* Search Bar with Error Handling */}
+                            <motion.div variants={fadeIn} className="flex flex-col items-center lg:items-start gap-3">
+                                <div className="flex flex-wrap gap-2.5 justify-center lg:justify-start">
+                                    <div className="relative bg-white/50 backdrop-blur-sm border border-gray-300 rounded-full flex items-center">
+                                        <FaSearch className="absolute left-3 text-gray-400 text-xs" />
+                                        <input
+                                            type="text"
+                                            placeholder={t('search.placeholder', 'Enter your Batch ID...')}
+                                            className="pl-9 pr-20 py-2.5 bg-transparent text-sm focus:outline-none rounded-full w-56 batch-search-input"
+                                            onKeyDown={(e) => {
+                                                if (e.key === 'Enter') {
+                                                    const input = e.currentTarget.value.trim();
+                                                    if (input) window.location.href = `/trace?batchId=${encodeURIComponent(input)}`;
+                                                }
+                                            }}
+                                        />
+                                        <button
+                                            onClick={() => {
+                                                const input = document.querySelector<HTMLInputElement>('.batch-search-input');
+                                                const value = input?.value?.trim();
+                                                if (value) window.location.href = `/trace?batchId=${encodeURIComponent(value)}`;
+                                            }}
+                                            className="absolute right-1 top-1 bottom-1 bg-primary text-white px-4 rounded-full text-xs font-medium hover:bg-dark-orange transition-colors">
+                                            {t('search.button', 'Trace')}
+                                        </button>
+                                    </div>
                                     <button
-                                        onClick={() => {
-                                            const input = document.querySelector<HTMLInputElement>('.batch-search-input');
-                                            const value = input?.value?.trim();
-                                            if (value) window.location.href = `/trace?batchId=${encodeURIComponent(value)}`;
-                                        }}
-                                        className="absolute right-1 top-1 bottom-1 bg-primary text-white px-4 rounded-full text-xs font-medium hover:bg-dark-orange transition-colors">
-                                        {t('search.button', 'Trace')}
+                                        onClick={() => window.location.href = '/trace?batchId=AFN-2026-001'}
+                                        className="relative border border-primary/40 text-primary hover:bg-primary/5 px-5 py-2.5 rounded-full text-sm font-medium inline-flex items-center gap-1.5 bg-white/50 backdrop-blur-sm">
+                                        <FaFlask className="text-xs" />{t('demo.button', 'View Sample Batch')}
                                     </button>
                                 </div>
-                                <button
-                                    onClick={() => window.location.href = '/trace?batchId=AFN-2026-001'}
-                                    className="relative border border-primary/40 text-primary hover:bg-primary/5 px-5 py-2.5 rounded-full text-sm font-medium inline-flex items-center gap-1.5 bg-white/50 backdrop-blur-sm">
-                                    <FaFlask className="text-xs" />{t('demo.button', 'View Sample Batch')}
-                                </button>
+
+                                {/* Error message for wrong batch ID */}
+                                {promoBatchId && promoBatchId.trim() !== '' && (
+                                    <motion.div initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }} className="text-center lg:text-left">
+                                        <Typography variant="small" className="text-amber-600 bg-amber-50/80 px-4 py-2 rounded-full inline-block">
+                                            {t('search.notFound', 'Batch "{id}" not found. Please check and try again.', { id: promoBatchId })}
+                                        </Typography>
+                                        <button
+                                            onClick={() => window.location.href = '/trace?batchId=AFN-2026-001'}
+                                            className="block mt-2 text-accent hover:text-primary text-sm font-medium">
+                                            {t('search.trySample', 'Try our sample batch: AFN-2026-001')} →
+                                        </button>
+                                    </motion.div>
+                                )}
                             </motion.div>
                         </motion.div>
 
@@ -258,40 +283,6 @@ const TracePage: React.FC = () => {
                             </motion.div>
                         </motion.div>
 
-                    </motion.div>
-                </Section>
-
-                <Section className="py-8">
-                    <div className="max-w-xl mx-auto px-4 sm:px-6 batch-search-input">
-                        <form onSubmit={handleSearch} className="relative">
-                            <FaSearch className="absolute left-4 top-3.5 text-gray-400" />
-                            <input type="text" placeholder={t('search.placeholder', 'Enter your Batch ID...')} value={searchInput} onChange={(e) => setSearchInput(e.target.value)}
-                                   className="w-full pl-12 pr-20 py-3.5 rounded-full border border-gray-300 bg-white/70 backdrop-blur-md text-sm focus:outline-none focus:ring-2 focus:ring-primary shadow-sm" />
-                            <button type="submit" onClick={() => {
-                                trackEvent('site_search', { search_term: searchInput });
-                            }} className="absolute right-2 top-1/2 -translate-y-1/2 bg-primary text-white px-5 py-1.5 rounded-full text-sm font-medium hover:bg-dark-orange transition">
-                                {t('search.button', 'Trace')}
-                            </button>
-                        </form>
-                        {batchId && (
-                            <motion.div className="mt-4 text-center" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-                                <Typography variant="small" className="text-amber-600 bg-amber-50/80 px-4 py-2 rounded-full inline-block">
-                                    {t('search.notFound', 'Batch "{id}" not found.', { id: batchId })}
-                                </Typography>
-                            </motion.div>
-                        )}
-                    </div>
-                    <motion.div className="mt-8 text-center" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }}>
-                        <Typography variant="small" className="text-gray-500 mb-3">
-                            {t('demo.note', 'Try it yourself — enter AFN-2026-001 in the search box above')}
-                        </Typography>
-                        <button onClick={() => {
-                            trackCtaClick('view_sample_batch', 'trace_page');
-                            setSearchInput('AFN-2026-001');
-                            navigate('/trace?batchId=AFN-2026-001');
-                        }} className="relative border-2 border-primary/50 text-primary hover:bg-primary hover:text-white px-6 py-2.5 rounded-full inline-flex items-center gap-2 text-sm font-medium bg-white/30 backdrop-blur-sm transition-all">
-                            <FaSearch className="text-sm" />{t('demo.button', 'View Sample Batch')}
-                        </button>
                     </motion.div>
                 </Section>
 
@@ -314,9 +305,10 @@ const TracePage: React.FC = () => {
                     </div>
                 </Section>
 
+                {/* Why Trust Our Traceability + Wholesale CTA */}
                 <Section className="py-10">
                     <div className="max-w-3xl mx-auto px-4 sm:px-6">
-                        <InfoCard icon={FaShieldAlt} title={t('trust.title', 'Why You Can Trust Our Traceability')} iconColor="text-accent" variant="primary" showInfoBadge={false} className="text-center">
+                        <InfoCard icon={FaShieldAlt} title={t('trust.title')} iconColor="text-accent" variant="primary" showInfoBadge={false} className="text-center">
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-3">
                                 {[
                                     { icon: FaTree, text: t('trust.farm') },
@@ -330,21 +322,18 @@ const TracePage: React.FC = () => {
                                     </div>
                                 ))}
                             </div>
-                            <Link to="/wholesale" className="inline-flex items-center gap-2 mt-4 px-4 py-2 bg-accent/10 hover:bg-accent/20 text-accent rounded-full text-sm font-medium transition-colors">
-                                <FaBox className="text-sm" />
-                                {t('internalLinks.farmOs', 'Learn about wholesale ordering with Farm OS traceability')}
-                            </Link>
-                        </InfoCard>
-                    </div>
-                </Section>
 
-                <Section className="py-12">
-                    <div className="max-w-2xl mx-auto px-4 sm:px-6 text-center">
-                        <InfoCard icon={FaEnvelope} title={t('promoCta.title', 'Want This for Your Orders?')} iconColor="text-accent" variant="primary" showInfoBadge={false} className="text-center">
-                            <Typography variant="body" className="text-gray-600 mb-6">{t('promoCta.description')}</Typography>
-                            <Link to="/contact" className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-3 rounded-full inline-flex items-center gap-2 font-medium shadow-md">
-                                {t('promoCta.button', 'Request a Quote')}<FaArrowRight />
-                            </Link>
+                            {/* Single consolidated CTA */}
+                            <div className="mt-6 pt-4 border-t border-gray-200/50">
+                                <Typography variant="body" className="text-gray-600 mb-4">
+                                    {t('trust.ctaBody', 'Every wholesale order includes Farm OS traceability at no extra cost. Your buyers can verify origin, quality, and certifications — just like this page.')}
+                                </Typography>
+                                <Link to="/wholesale" className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-6 py-2.5 rounded-full inline-flex items-center gap-2 text-sm font-medium shadow-md">
+                                    <FaBox className="text-xs" />
+                                    {t('trust.ctaButton', 'Explore Wholesale Options')}
+                                    <FaArrowRight className="text-xs" />
+                                </Link>
+                            </div>
                         </InfoCard>
                     </div>
                 </Section>
@@ -374,19 +363,6 @@ const TracePage: React.FC = () => {
                     "description": "Offline-first Android application with cloud synchronization for block-level cashew tracking, quality documentation, and export verification."
                 }
             }} />
-            <div className="max-w-4xl mx-auto px-6 sm:px-8 pt-[80px] pb-1">
-                <div className="text-sm text-gray-400 mb-4 flex items-center gap-1 flex-wrap">
-                    <Link to="/" className="hover:text-primary transition-colors">{t('breadcrumbs.home', 'Home')}</Link>
-                    <span>/</span>
-                    <Link to="/farm" className="hover:text-primary transition-colors">{t('breadcrumbs.farm', 'Farm')}</Link>
-                    <span>/</span>
-                    <Link to="/processing" className="hover:text-primary transition-colors">{t('breadcrumbs.processing', 'Processing')}</Link>
-                    <span>/</span>
-                    <Link to="/processing/facility-flowchart" className="hover:text-primary transition-colors">{t('breadcrumbs.facility_flowchart', 'Facility Flowchart')}</Link>
-                    <span>/</span>
-                    <span className="text-primary font-medium">{t('breadcrumbs.batchTraceability', 'Batch Traceability')}</span>
-                </div>
-            </div>
             {/* Hero */}
             <Section className="flex items-center justify-center text-center pt-2 pb-8 lg:pb-12">
                 <motion.div className="max-w-3xl px-6 sm:px-8 py-12" variants={fadeIn} initial="hidden" animate="visible">
@@ -506,10 +482,9 @@ const TracePage: React.FC = () => {
                                         { icon: FaLinkedin, label: 'LinkedIn', action: () => handleShare('linkedin') },
                                         { icon: FaEnvelope, label: t('share.email', 'Email'), action: () => handleShare('email') },
                                     ].map((item, i) => (
-                                        <button key={i} onClick={() => {
-    trackOutboundClick(item.label.toLowerCase(), 'share_menu');
-    item.action();
-}} className="w-full px-4 py-2.5 text-left hover:bg-gray-50 flex items-center gap-3 text-sm transition">
+                                        <button key={i} onClick={() => {trackOutboundClick(item.label.toLowerCase(), 'share_menu');
+                                                                                            item.action();
+                                        }} className="w-full px-4 py-2.5 text-left hover:bg-gray-50 flex items-center gap-3 text-sm transition">
                                             <item.icon className="text-gray-500 text-xs" />{item.label}
                                         </button>
                                     ))}
@@ -579,10 +554,10 @@ const TracePage: React.FC = () => {
                                 {/* Desktop Grid */}
                                 <div className="grid grid-cols-6 gap-6 relative z-10">
                                     {[
-                                        { icon: FaTree, title: t('journey.farm', 'Farm'), detail: batch!.farmLocation, sub: batch!.block ? t('journey.farmDesc', { block: batch!.block, defaultValue: 'Block {block}' }) : '', color: 'primary', pos: 'md:mt-16' },
-                                        { icon: FaIndustry, title: t('journey.process', 'Process'), detail: batch!.processingInfo, sub: batch!.qualityGrade ? t('journey.processDesc', { grade: batch!.qualityGrade, defaultValue: 'Grade: {grade}' }) : '', color: 'accent', pos: 'md:mt-4' },
+                                        { icon: GiFruitTree, title: t('journey.farm', 'Farm'), detail: batch!.farmLocation, sub: batch!.block ? t('journey.farmDesc', { block: batch!.block, defaultValue: 'Block {block}' }) : '', color: 'primary', pos: 'md:mt-16' },
+                                        { icon: GiFactory, title: t('journey.process', 'Process'), detail: batch!.processingInfo, sub: batch!.qualityGrade ? t('journey.processDesc', { grade: batch!.qualityGrade, defaultValue: 'Grade: {grade}' }) : '', color: 'accent', pos: 'md:mt-4' },
                                         { icon: FaCertificate, title: t('journey.certify', 'Certify'), detail: batch!.certifications?.[0] || '', sub: t('journey.certifyDesc', { count: batch!.certifications?.length || 0, defaultValue: '{count} verified' }), color: 'primary', pos: 'md:mt-20' },
-                                        { icon: FaTruck, title: t('journey.ship', 'Ship'), detail: t('journey.shipDesc', 'Via Abidjan Port'), sub: batch!.destination, color: 'accent', pos: 'md:mt-2' },
+                                        { icon: GiCargoShip, title: t('journey.ship', 'Ship'), detail: t('journey.shipDesc', 'Via Abidjan Port'), sub: batch!.destination, color: 'accent', pos: 'md:mt-2' },
                                         { icon: FaBuilding, title: t('journey.deliver', 'Deliver'), detail: batch!.buyer || batch!.destination, sub: batch!.status === 'Delivered' ? '✓ Delivered' : 'In Transit', color: 'primary', pos: 'md:mt-14' },
                                         { icon: FaFileAlt, title: t('journey.docs', 'Docs'), detail: t('journey.docsDetail', 'Export Ready'), sub: t('journey.docsDesc', 'COO, Phyto, B/L'), color: 'accent', pos: 'md:mt-6' },
                                     ].map((step, i) => (
@@ -675,12 +650,12 @@ const TracePage: React.FC = () => {
                                     }}
                                 >
                                     {[
-                                        { icon: FaTree, title: t('journey.farm', 'Farm'), detail: batch!.farmLocation, sub: batch!.block ? t('journey.farmDesc', { block: batch!.block, defaultValue: 'Block {block}' }) : '', color: 'primary' },
-                                        { icon: FaIndustry, title: t('journey.process', 'Process'), detail: batch!.processingInfo, sub: batch!.qualityGrade ? t('journey.processDesc', { grade: batch!.qualityGrade, defaultValue: 'Grade: {grade}' }) : '', color: 'accent' },
-                                        { icon: FaCertificate, title: t('journey.certify', 'Certify'), detail: batch!.certifications?.[0] || '', sub: t('journey.certifyDesc', { count: batch!.certifications?.length || 0, defaultValue: '{count} verified' }), color: 'primary' },
-                                        { icon: FaTruck, title: t('journey.ship', 'Ship'), detail: t('journey.shipDesc', 'Via Abidjan Port'), sub: batch!.destination, color: 'accent' },
-                                        { icon: FaBuilding, title: t('journey.deliver', 'Deliver'), detail: batch!.buyer || batch!.destination, sub: batch!.status === 'Delivered' ? '✓ Delivered' : 'In Transit', color: 'primary' },
-                                        { icon: FaFileAlt, title: t('journey.docs', 'Docs'), detail: t('journey.docsDetail', 'Export Ready'), sub: t('journey.docsDesc', 'COO, Phyto, B/L'), color: 'accent' },
+                                        { icon: GiFruitTree, title: t('journey.farm', 'Farm'), detail: batch!.farmLocation, sub: batch!.block ? t('journey.farmDesc', { block: batch!.block, defaultValue: 'Block {block}' }) : '', color: 'primary', pos: 'md:mt-16' },
+                                        { icon: GiFactory, title: t('journey.process', 'Process'), detail: batch!.processingInfo, sub: batch!.qualityGrade ? t('journey.processDesc', { grade: batch!.qualityGrade, defaultValue: 'Grade: {grade}' }) : '', color: 'accent', pos: 'md:mt-4' },
+                                        { icon: FaCertificate, title: t('journey.certify', 'Certify'), detail: batch!.certifications?.[0] || '', sub: t('journey.certifyDesc', { count: batch!.certifications?.length || 0, defaultValue: '{count} verified' }), color: 'primary', pos: 'md:mt-20' },
+                                        { icon: GiCargoShip, title: t('journey.ship', 'Ship'), detail: t('journey.shipDesc', 'Via Abidjan Port'), sub: batch!.destination, color: 'accent', pos: 'md:mt-2' },
+                                        { icon: FaBuilding, title: t('journey.deliver', 'Deliver'), detail: batch!.buyer || batch!.destination, sub: batch!.status === 'Delivered' ? '✓ Delivered' : 'In Transit', color: 'primary', pos: 'md:mt-14' },
+                                        { icon: FaFileAlt, title: t('journey.docs', 'Docs'), detail: t('journey.docsDetail', 'Export Ready'), sub: t('journey.docsDesc', 'COO, Phyto, B/L'), color: 'accent', pos: 'md:mt-6' },
                                     ].map((step, i) => (
                                         <motion.div
                                             key={i}

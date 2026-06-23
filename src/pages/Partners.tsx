@@ -6,7 +6,7 @@ import {
     FaHandshake, FaMobile, FaUsers,
     FaCheckCircle, FaEnvelope,
     FaCertificate,
-    FaChevronUp, FaChevronDown, FaStar, FaArrowRight
+    FaChevronUp, FaChevronDown, FaStar, FaArrowRight, FaFileAlt
 } from 'react-icons/fa';
 import Section from '@/components/Section/Section';
 import { Typography } from '@/components/Typography/Typography';
@@ -23,7 +23,15 @@ import tripPhoto1 from '@/assets/images/partners/trip-1.webp';
 import tripPhoto2 from '@/assets/images/partners/trip-2.webp';
 import tripPhoto3 from '@/assets/images/partners/trip-3.webp';
 import tripPhoto4 from '@/assets/images/partners/trip-4.webp';
-import {GiCardboardBox, GiFactory, GiPublicSpeaker, GiSprout} from "react-icons/gi";
+import {
+    GiCardboardBox,
+    GiCargoShip,
+    GiCastle,
+    GiFactory,
+    GiLaurelCrown, GiPaperTray,
+    GiPublicSpeaker,
+    GiSprout
+} from "react-icons/gi";
 
 
 
