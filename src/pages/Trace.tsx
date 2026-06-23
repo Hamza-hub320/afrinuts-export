@@ -68,6 +68,7 @@ const TracePage: React.FC = () => {
     const [testimonials, setTestimonials] = useState<any[]>([]);
     const [showShareMenu, setShowShareMenu] = useState(false);
     const [copied, setCopied] = useState(false);
+    const isSampleBatch = batchId === 'AFN-2026-001';
     const [activeTab, setActiveTab] = useState<'journey' | 'quality' | 'documents'>('journey');
 
     const handleShare = async (platform?: string) => {
@@ -390,7 +391,7 @@ const TracePage: React.FC = () => {
             </Section>
 
             {/* Batch Information Card */}
-            <Section className="py-12">
+            <Section className="py-10">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
                     <motion.div className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-3xl shadow-xl p-8 transform-gpu overflow-hidden"
                                 style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
@@ -453,6 +454,23 @@ const TracePage: React.FC = () => {
                                             batch?.status === 'Processing' ? 'bg-amber-100 text-amber-700' : 'bg-gray-100 text-gray-600'
                                 }`}><FaCheckCircle className="text-xs" />{batch?.status}</span>
                             </motion.div>
+                            {/* Preview Notice — ADD HERE */}
+                            {isSampleBatch && (
+                                <motion.div
+                                    className="mt-4 pt-4 border-t border-gray-200/30 text-center"
+                                    initial={{ opacity: 0 }}
+                                    whileInView={{ opacity: 1 }}
+                                    viewport={{ once: true }}
+                                    transition={{ delay: 0.8 }}
+                                >
+                                    <div className="bg-amber-50/60 backdrop-blur-sm border border-amber-200 rounded-full px-4 py-2 inline-block">
+                                        <Typography variant="small" className="text-amber-700 text-xs flex items-center gap-1.5">
+                                            <FaFlask className="text-[10px]" />
+                                            {t('batch.previewNotice', 'Sample batch — demonstration of Farm OS traceability')}
+                                        </Typography>
+                                    </div>
+                                </motion.div>
+                            )}
                         </div>
                     </motion.div>
                 </div>
@@ -554,12 +572,12 @@ const TracePage: React.FC = () => {
                                 {/* Desktop Grid */}
                                 <div className="grid grid-cols-6 gap-6 relative z-10">
                                     {[
-                                        { icon: GiFruitTree, title: t('journey.farm', 'Farm'), detail: batch!.farmLocation, sub: batch!.block ? t('journey.farmDesc', { block: batch!.block, defaultValue: 'Block {block}' }) : '', color: 'primary', pos: 'md:mt-16' },
-                                        { icon: GiFactory, title: t('journey.process', 'Process'), detail: batch!.processingInfo, sub: batch!.qualityGrade ? t('journey.processDesc', { grade: batch!.qualityGrade, defaultValue: 'Grade: {grade}' }) : '', color: 'accent', pos: 'md:mt-4' },
-                                        { icon: FaCertificate, title: t('journey.certify', 'Certify'), detail: batch!.certifications?.[0] || '', sub: t('journey.certifyDesc', { count: batch!.certifications?.length || 0, defaultValue: '{count} verified' }), color: 'primary', pos: 'md:mt-20' },
-                                        { icon: GiCargoShip, title: t('journey.ship', 'Ship'), detail: t('journey.shipDesc', 'Via Abidjan Port'), sub: batch!.destination, color: 'accent', pos: 'md:mt-2' },
-                                        { icon: FaBuilding, title: t('journey.deliver', 'Deliver'), detail: batch!.buyer || batch!.destination, sub: batch!.status === 'Delivered' ? '✓ Delivered' : 'In Transit', color: 'primary', pos: 'md:mt-14' },
-                                        { icon: FaFileAlt, title: t('journey.docs', 'Docs'), detail: t('journey.docsDetail', 'Export Ready'), sub: t('journey.docsDesc', 'COO, Phyto, B/L'), color: 'accent', pos: 'md:mt-6' },
+                                        { icon: GiFruitTree, title: t('journey.farm', 'Farm'), detail: batch!.farmLocation, sub: batch?.block ? t('journey.farmDesc', { block: batch.block }) : '', color: 'primary', pos: 'md:mt-16' },
+                                        { icon: GiFactory, title: t('journey.process', 'Process'), detail: batch!.processingInfo, sub: batch?.qualityGrade ? t('journey.processDesc', { grade: batch.qualityGrade }) : '', color: 'accent', pos: 'md:mt-4' },
+                                        { icon: FaCertificate, title: t('journey.certify', 'Certify'), detail: batch!.certifications?.[0] || '', sub: t('journey.certifyDesc', { count: batch?.certifications?.length || 0 }), color: 'primary', pos: 'md:mt-20' },
+                                        { icon: GiCargoShip, title: t('journey.ship', 'Ship'), detail: t('journey.shipDesc', 'Via Abidjan Port'), sub: batch?.destination, color: 'accent', pos: 'md:mt-2' },
+                                        { icon: FaBuilding, title: t('journey.deliver', 'Deliver'), detail: batch!.buyer || batch!.destination, sub: batch?.status === 'Delivered' ? '✓ Delivered' : 'In Transit', color: 'primary', pos: 'md:mt-14' },
+                                        { icon: FaFileAlt, title: t('journey.docs', 'Docs'), detail: t('journey.docsDetail', 'Export Ready'), sub: t('journey.docsDesc'), color: 'accent', pos: 'md:mt-6' },
                                     ].map((step, i) => (
                                         <motion.div
                                             key={i}
