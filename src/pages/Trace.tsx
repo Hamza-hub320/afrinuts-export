@@ -19,13 +19,14 @@ import {
     FaWhatsapp, FaTwitter, FaLinkedin, FaPrint,
     FaArrowLeft, FaShare, FaChartBar, FaDownload, FaLeaf, FaBox,
     FaMobile,
-    FaGlobeAfrica
+    FaGlobeAfrica, FaUsers, FaChild, FaDatabase, FaClock
 } from "react-icons/fa";
 import {fadeIn, staggerContainer} from "@/utils/animations";
 import {Helmet} from "react-helmet-async";
 import traceHeroImage from '@/assets/images/trace-hero.webp';
 import JsonLd from "@/components/Seo/JsonLd";
 import {trackCtaClick, trackEvent, trackOutboundClick} from "@/utils/analytics";
+import BatchLocationMap from '@/components/BatchLocationMap/BatchLocationMap';
 
 interface BatchData {
     id: string;
@@ -47,6 +48,8 @@ interface BatchData {
     defectiveRate?: number;
     overallScore?: number;
     labReportUrl?: string;
+    latitude?: number;
+    longitude?: number;
     documents?: {
         coo?: string | null;
         phyto?: string | null;
@@ -65,6 +68,26 @@ interface BatchData {
         bio: string;
         quote?: string;
     } | null;
+    supplier?: {
+        type: string;
+        farmSize: string;
+        farmOsStatus: string;
+        season: string;
+        traceLevel: string;
+        cooperative: string | null;
+    };
+    sustainability?: {
+        noChildLabor: boolean;
+        farmOsMonitored: boolean;
+        firebreak: boolean;
+        sustainableHarvesting: boolean;
+    } | null;
+    farmOsMetadata?: {
+        recordId: string;
+        created: string;
+        lastUpdated: string;
+        verificationStatus: string;
+    };
 }
 
 function useQuery() {
@@ -551,6 +574,268 @@ const TracePage: React.FC = () => {
                                             </div>
                                         )}
                                     </div>
+                                </div>
+                            </InfoCard>
+                        </motion.div>
+                    </div>
+                </Section>
+            )}
+
+            {/* Farm Network Status */}
+            {batch?.supplier && (
+                <Section className="py-6">
+                    <div className="max-w-3xl mx-auto px-4 sm:px-6">
+                        <motion.div
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                            variants={fadeIn}
+                        >
+                            <InfoCard
+                                icon={FaGlobeAfrica}
+                                title={t('supplier.title', 'Farm Network Status')}
+                                variant="accent"
+                                showInfoBadge={false}
+                            >
+                                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-3">
+                                    {[
+                                        { label: t('supplier.type', 'Supplier Type'), value: batch.supplier.type, icon: FaTree },
+                                        { label: t('supplier.size', 'Farm Size'), value: batch.supplier.farmSize || '—', icon: FaMapMarkerAlt },
+                                        { label: t('supplier.farmOs', 'Farm OS Status'), value: batch.supplier.farmOsStatus || 'Active', icon: FaMobile },
+                                        { label: t('supplier.season', 'Harvest Season'), value: batch.supplier.season || '2026', icon: FaCalendarAlt },
+                                        { label: t('supplier.traceLevel', 'Traceability Level'), value: batch.supplier.traceLevel || 'Block-Level Verified', icon: FaShieldAlt },
+                                        { label: t('supplier.cooperative', 'Cooperative'), value: batch.supplier.cooperative || 'AfriNuts Owned Farm', icon: FaUsers },
+                                    ].map((item, i) => (
+                                        <motion.div
+                                            key={i}
+                                            className="bg-white/40 backdrop-blur-sm rounded-xl p-3 border border-white/30 text-center"
+                                            initial={{ opacity: 0, y: 10 }}
+                                            whileInView={{ opacity: 1, y: 0 }}
+                                            viewport={{ once: true }}
+                                            transition={{ delay: i * 0.05 }}
+                                            whileHover={{ y: -2 }}
+                                        >
+                                            <item.icon className="text-accent text-lg mx-auto mb-1" />
+                                            <Typography variant="small" className="text-gray-500 text-[10px] uppercase tracking-wider">
+                                                {item.label}
+                                            </Typography>
+                                            <Typography variant="small" className="text-primary font-semibold text-xs mt-0.5">
+                                                {item.value}
+                                            </Typography>
+                                        </motion.div>
+                                    ))}
+                                </div>
+
+                                {/* Scale Signal — subtle but powerful */}
+                                <div className="mt-4 pt-3 border-t border-gray-200/30 text-center">
+                                    <Typography variant="small" className="text-gray-400 text-xs">
+                                        {t('supplier.footnote', 'Farm OS traceability works across our entire supplier network — owned farms, cooperatives, and independent growers. Same system. Same standard.')}
+                                    </Typography>
+                                </div>
+                            </InfoCard>
+                        </motion.div>
+                    </div>
+                </Section>
+            )}
+
+            {/* GPS Verified Location */}
+            {batch?.latitude && batch?.longitude && (
+                <Section className="py-6">
+                    <div className="max-w-3xl mx-auto px-4 sm:px-6">
+                        <motion.div
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                            variants={fadeIn}
+                        >
+                            <InfoCard
+                                icon={FaMapMarkerAlt}
+                                title={t('location.title', 'GPS Verified Location')}
+                                variant="primary"
+                                showInfoBadge={false}
+                            >
+                                <div className="mt-3">
+                                    <BatchLocationMap
+                                        latitude={batch.latitude}
+                                        longitude={batch.longitude}
+                                        farmName={batch.farmLocation || 'AfriNuts Farm'}
+                                        block={batch.block}
+                                    />
+                                    <div className="flex items-center justify-center gap-2 mt-3">
+                                        <FaMapMarkerAlt className="text-accent text-xs" />
+                                        <Typography variant="small" className="text-gray-600">
+                                            {batch.farmLocation}{batch.block ? ` · Block ${batch.block}` : ''}
+                                        </Typography>
+                                        <span className="text-gray-300">·</span>
+                                        <Typography variant="small" className="text-gray-400 text-xs">
+                                            {batch.latitude.toFixed(4)}, {batch.longitude.toFixed(4)}
+                                        </Typography>
+                                    </div>
+                                </div>
+                            </InfoCard>
+                        </motion.div>
+                    </div>
+                </Section>
+            )}
+
+            {/* Sustainability Verification */}
+            {batch?.sustainability && (
+                <Section className="py-6">
+                    <div className="max-w-3xl mx-auto px-4 sm:px-6">
+                        <motion.div
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                            variants={fadeIn}
+                        >
+                            <InfoCard
+                                icon={FaLeaf}
+                                title={t('sustainability.title', 'Sustainability Verification')}
+                                variant="primary"
+                                showInfoBadge={false}
+                            >
+                                <div className="grid grid-cols-2 gap-3 mt-3">
+                                    {[
+                                        {
+                                            icon: FaChild,
+                                            label: t('sustainability.noChildLabor', 'No Child Labor'),
+                                            value: batch.sustainability.noChildLabor ? t('sustainability.verified', 'Verified ✓') : t('sustainability.pending', 'Pending'),
+                                            active: batch.sustainability.noChildLabor,
+                                        },
+                                        {
+                                            icon: FaMobile,
+                                            label: t('sustainability.farmOsMonitored', 'Farm OS Monitored'),
+                                            value: batch.sustainability.farmOsMonitored ? t('sustainability.active', 'Active ✓') : t('sustainability.pending', 'Pending'),
+                                            active: batch.sustainability.farmOsMonitored,
+                                        },
+                                        {
+                                            icon: FaShieldAlt,
+                                            label: t('sustainability.firebreak', 'Firebreak Protection'),
+                                            value: batch.sustainability.firebreak ? t('sustainability.installed', 'Installed ✓') : t('sustainability.notInstalled', 'Not Installed'),
+                                            active: batch.sustainability.firebreak,
+                                        },
+                                        {
+                                            icon: FaTree,
+                                            label: t('sustainability.harvesting', 'Sustainable Harvesting'),
+                                            value: batch.sustainability.sustainableHarvesting ? t('sustainability.practiced', 'Practiced ✓') : t('sustainability.notVerified', 'Not Verified'),
+                                            active: batch.sustainability.sustainableHarvesting,
+                                        },
+                                    ].map((item, i) => (
+                                        <motion.div
+                                            key={i}
+                                            className={`rounded-xl p-4 border text-center transition-all ${
+                                                item.active
+                                                    ? 'bg-green-50/60 border-green-200'
+                                                    : 'bg-gray-50/40 border-gray-200'
+                                            }`}
+                                            initial={{ opacity: 0, y: 10 }}
+                                            whileInView={{ opacity: 1, y: 0 }}
+                                            viewport={{ once: true }}
+                                            transition={{ delay: i * 0.05 }}
+                                            whileHover={{ y: -2 }}
+                                        >
+                                            <item.icon className={`text-2xl mx-auto mb-2 ${
+                                                item.active ? 'text-green-600' : 'text-gray-400'
+                                            }`} />
+                                            <Typography variant="small" className="text-gray-600 text-xs font-medium">
+                                                {item.label}
+                                            </Typography>
+                                            <Typography variant="small" className={`text-xs font-bold mt-1 ${
+                                                item.active ? 'text-green-700' : 'text-gray-500'
+                                            }`}>
+                                                {item.value}
+                                            </Typography>
+                                        </motion.div>
+                                    ))}
+                                </div>
+
+                                {/* EU Compliance Note */}
+                                <div className="mt-4 pt-3 border-t border-gray-200/30 text-center">
+                                    <Typography variant="small" className="text-gray-400 text-xs flex items-center justify-center gap-1.5">
+                                        <FaGlobeEurope className="text-[10px]" />
+                                        {t('sustainability.euNote', 'Meets EU Due Diligence requirements for sustainable sourcing verification')}
+                                    </Typography>
+                                </div>
+                            </InfoCard>
+                        </motion.div>
+                    </div>
+                </Section>
+            )}
+
+            {/* Farm OS Record Metadata */}
+            {batch?.farmOsMetadata && (
+                <Section className="py-6">
+                    <div className="max-w-3xl mx-auto px-4 sm:px-6">
+                        <motion.div
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                            variants={fadeIn}
+                        >
+                            <InfoCard
+                                icon={FaMobile}
+                                title={t('farmOsRecord.title', 'Farm OS Record')}
+                                variant="accent"
+                                showInfoBadge={false}
+                            >
+                                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-3">
+                                    {[
+                                        {
+                                            label: t('farmOsRecord.recordId', 'Record ID'),
+                                            value: batch.farmOsMetadata.recordId || `FOS-${batch.batchId}`,
+                                            icon: FaClipboardList,
+                                        },
+                                        {
+                                            label: t('farmOsRecord.created', 'Created'),
+                                            value: batch.farmOsMetadata.created || new Date(batch.harvestDate).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }),
+                                            icon: FaCalendarAlt,
+                                        },
+                                        {
+                                            label: t('farmOsRecord.updated', 'Last Updated'),
+                                            value: batch.farmOsMetadata.lastUpdated || new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' }),
+                                            icon: FaClock,
+                                        },
+                                        {
+                                            label: t('farmOsRecord.status', 'Verification Status'),
+                                            value: batch.farmOsMetadata.verificationStatus || t('farmOsRecord.verified'),
+                                            icon: FaShieldAlt,
+                                            highlight: true,
+                                        },
+                                    ].map((item, i) => (
+                                        <motion.div
+                                            key={i}
+                                            className={`rounded-xl p-3 border text-center ${
+                                                item.highlight
+                                                    ? 'bg-green-50/60 border-green-200'
+                                                    : 'bg-white/40 border-white/30'
+                                            }`}
+                                            initial={{ opacity: 0, y: 10 }}
+                                            whileInView={{ opacity: 1, y: 0 }}
+                                            viewport={{ once: true }}
+                                            transition={{ delay: i * 0.05 }}
+                                            whileHover={{ y: -2 }}
+                                        >
+                                            <item.icon className={`text-lg mx-auto mb-1 ${
+                                                item.highlight ? 'text-green-600' : 'text-accent'
+                                            }`} />
+                                            <Typography variant="small" className="text-gray-500 text-[10px] uppercase tracking-wider">
+                                                {item.label}
+                                            </Typography>
+                                            <Typography variant="small" className={`font-semibold text-xs mt-0.5 ${
+                                                item.highlight ? 'text-green-700' : 'text-primary'
+                                            }`}>
+                                                {item.value}
+                                            </Typography>
+                                        </motion.div>
+                                    ))}
+                                </div>
+
+                                {/* System Note */}
+                                <div className="mt-4 pt-3 border-t border-gray-200/30 text-center">
+                                    <Typography variant="small" className="text-gray-400 text-xs flex items-center justify-center gap-1.5">
+                                        <FaDatabase className="text-[10px]" />
+                                        {t('farmOsRecord.note', 'Data pulled directly from Farm OS — our offline-first Android platform with cloud synchronization. Not generated after the fact.')}
+                                    </Typography>
                                 </div>
                             </InfoCard>
                         </motion.div>

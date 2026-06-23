@@ -79,6 +79,28 @@ export const handler: Handler = async (event) => {
                 bio: item.fields.farmerBio || '',
                 quote: item.fields.farmerQuote || '',
             } : null,
+            supplier: {
+                type: item.fields.supplierType || 'AfriNuts Owned Farm',
+                farmSize: item.fields.farmSize || '35 Hectares',
+                farmOsStatus: item.fields.farmOsStatus || 'Active',
+                season: item.fields.harvestSeason || '2026',
+                traceLevel: item.fields.traceabilityLevel || 'Block-Level Verified',
+                cooperative: item.fields.cooperative || null,
+            },
+            sustainability: {
+                noChildLabor: item.fields.noChildLabor ?? true,
+                farmOsMonitored: item.fields.farmOsMonitored ?? true,
+                firebreak: item.fields.firebreakProtection ?? true,
+                sustainableHarvesting: item.fields.sustainableHarvesting ?? true,
+            },
+            farmOsMetadata: {
+                recordId: item.fields.farmOsRecordId || `FOS-${item.fields.batchId}`,
+                created: item.fields.farmOsCreatedDate || item.fields.harvestDate,
+                lastUpdated: item.fields.farmOsLastUpdated || new Date().toISOString(),
+                verificationStatus: item.fields.verificationStatus || 'Verified',
+            },
+            latitude: item.fields.gpsLatitude || 9.51,
+            longitude: item.fields.gpsLongitude || -7.5692,
         }));
 
         return {

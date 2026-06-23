@@ -151,5 +151,8 @@
     "processing": "Processing",
     "facilityFlowchart": "Facility Flowchart",
     "batchTraceability": "Batch Traceability"
+  },
+  "location": {
+    "title": "GPS Verified Location"
   }
 }
