@@ -1414,6 +1414,21 @@ const TracePage: React.FC = () => {
                     </InfoCard>
                 </div>
             </Section>
+            {/* Farm OS Footer Note */}
+            <div className="max-w-3xl mx-auto px-4 sm:px-6 pb-16 text-center border-t border-gray-200 pt-8">
+                <Typography variant="small" className="text-gray-400 text-xs">
+                    This document was generated from <strong>Farm OS</strong> — AfriNuts Export's proprietary traceability system. Data is verified and auditable.
+                </Typography>
+                <button
+                    onClick={() => {
+                        trackCtaClick('request_farmos_access', 'trace_footer');
+                        navigate('/contact?type=farmos');
+                    }}
+                    className="mt-2 text-accent hover:text-primary text-xs font-medium inline-flex items-center gap-1 transition-colors"
+                >
+                    Request Farm OS Access →
+                </button>
+            </div>
         </main>
     );
 };

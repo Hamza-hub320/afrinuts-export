@@ -99,8 +99,8 @@ export const handler: Handler = async (event) => {
                 lastUpdated: item.fields.farmOsLastUpdated || new Date().toISOString(),
                 verificationStatus: item.fields.verificationStatus || 'Verified',
             },
-            latitude: item.fields.gpsLatitude || 9.51,
-            longitude: item.fields.gpsLongitude || -7.5692,
+            latitude: item.fields.gpsLatitude || 9.78856,
+            longitude: item.fields.gpsLongitude || -6.83423,
         }));
 
         return {
