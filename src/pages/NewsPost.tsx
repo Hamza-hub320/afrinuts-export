@@ -359,6 +359,55 @@ const NewsPost: React.FC = () => {
                         </article>
                     </motion.div>
 
+                            {/* Related Updates */}
+                            {relatedPosts.length > 0 && (
+                                <Section className="py-10">
+                                    <div className="max-w-3xl mx-auto px-4 sm:px-6">
+                                        <Typography variant="h3" className="mb-6 text-center">Related Updates</Typography>
+                                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                                            {relatedPosts.map((related) => (
+                                                <Link to={`/news/${related.slug}`} key={related.id} className="group block h-full">
+                                                    <motion.div
+                                                        className="group relative bg-gradient-to-br from-primary/5 to-accent/5 rounded-2xl border-2 border-primary/20 hover:border-accent/30 shadow-lg overflow-hidden transition-all duration-500 border-l-4 border-accent h-full transform-gpu"
+                                                        style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
+                                                        whileHover={{ y: -4, scale: 1.01, boxShadow: '0 15px 30px -8px rgba(0,0,0,0.15)', transition: { duration: 0.3 } }}
+                                                    >
+                                                        {/* 3D edge effect */}
+                                                        <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-8px] transition-all duration-500" />
+                                                        {/* Glassy overlay */}
+                                                        <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+                                                        {/* Inner shadow */}
+                                                        <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.05)]" />
+
+                                                        {/* Image */}
+                                                        <div className="relative h-44 overflow-hidden z-10">
+                                                            <img
+                                                                src={related.image || newsImage}
+                                                                alt={related.title}
+                                                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                                                loading="lazy"
+                                                            />
+                                                        </div>
+
+                                                        {/* Content */}
+                                                        <div className="p-4 relative z-10">
+                                                            <div className="flex items-center gap-1.5 mb-2">
+                                                                <FaCalendarAlt className="text-accent text-[10px]" />
+                                                                <Typography variant="caption" className="text-gray-400 text-xs">
+                                                                    {new Date(related.publishedDate).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
+                                                                </Typography>
+                                                            </div>
+                                                            <Typography variant="h5" className="text-sm font-semibold text-gray-900 line-clamp-2 group-hover:text-accent transition-colors">
+                                                                {related.title}
+                                                            </Typography>
+                                                        </div>
+                                                    </motion.div>
+                                                </Link>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </Section>
+                            )}
 
                     {/* Post Footer CTA */}
                     <div className="mt-10 pt-8 border-t border-gray-200">
@@ -445,56 +494,6 @@ const NewsPost: React.FC = () => {
                     </div>
                 </div>
             </Section>
-
-            {/* Related Updates */}
-            {relatedPosts.length > 0 && (
-                <Section className="py-10">
-                    <div className="max-w-3xl mx-auto px-4 sm:px-6">
-                        <Typography variant="h3" className="mb-6 text-center">Related Updates</Typography>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {relatedPosts.map((related) => (
-                                <Link to={`/news/${related.slug}`} key={related.id} className="group block h-full">
-                                    <motion.div
-                                        className="group relative bg-gradient-to-br from-primary/5 to-accent/5 rounded-2xl border-2 border-primary/20 hover:border-accent/30 shadow-lg overflow-hidden transition-all duration-500 border-l-4 border-accent h-full transform-gpu"
-                                        style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
-                                        whileHover={{ y: -4, scale: 1.01, boxShadow: '0 15px 30px -8px rgba(0,0,0,0.15)', transition: { duration: 0.3 } }}
-                                    >
-                                        {/* 3D edge effect */}
-                                        <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-8px] transition-all duration-500" />
-                                        {/* Glassy overlay */}
-                                        <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
-                                        {/* Inner shadow */}
-                                        <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.05)]" />
-
-                                        {/* Image */}
-                                        <div className="relative h-44 overflow-hidden z-10">
-                                            <img
-                                                src={related.image || newsImage}
-                                                alt={related.title}
-                                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                                                loading="lazy"
-                                            />
-                                        </div>
-
-                                        {/* Content */}
-                                        <div className="p-4 relative z-10">
-                                            <div className="flex items-center gap-1.5 mb-2">
-                                                <FaCalendarAlt className="text-accent text-[10px]" />
-                                                <Typography variant="caption" className="text-gray-400 text-xs">
-                                                    {new Date(related.publishedDate).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
-                                                </Typography>
-                                            </div>
-                                            <Typography variant="h5" className="text-sm font-semibold text-gray-900 line-clamp-2 group-hover:text-accent transition-colors">
-                                                {related.title}
-                                            </Typography>
-                                        </div>
-                                    </motion.div>
-                                </Link>
-                            ))}
-                        </div>
-                    </div>
-                </Section>
-            )}
         </div>
     );
 };

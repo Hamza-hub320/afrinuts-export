@@ -27,6 +27,7 @@ import { InfoCard } from '@/components/InfoCard/InfoCard';
 import {CertificationsCard} from "@/components/CertificationsCard/CertificationsCard";
 import {Helmet} from "react-helmet-async";
 import JsonLd from "@/components/Seo/JsonLd";
+import {GiFactory} from "react-icons/gi";
 
 interface AnimatedProgressBarProps {
     label: string;
@@ -209,7 +210,7 @@ const Processing: React.FC = () => {
             {/* Hero */}
             <Section fullHeight={false} className="flex items-center justify-center text-center min-h-[50vh]">
                 <motion.div className="max-w-4xl px-6 sm:px-8 py-12" initial="hidden" animate="visible" variants={staggerContainer}>
-                    <motion.div variants={fadeIn}><Typography variant="subhead" className="uppercase tracking-widest text-primary mb-4"><FaCogs className="inline mr-3 text-accent" />{t('hero.subtitle')}</Typography></motion.div>
+                    <motion.div variants={fadeIn}><Typography variant="subhead" className="uppercase tracking-widest text-primary mb-4"><GiFactory className="inline mr-3 text-accent" />{t('hero.subtitle')}</Typography></motion.div>
                     <motion.h1 className="font-display text-4xl md:text-5xl lg:text-6xl text-text-dark mb-6 leading-tight" variants={fadeIn} style={{ letterSpacing: '-0.03em' }}>{t('hero.title')}</motion.h1>
                     <motion.div variants={fadeIn}><Typography variant="lead" className="text-text-dark max-w-3xl mx-auto">{t('hero.description')}</Typography></motion.div>
                 </motion.div>
@@ -224,7 +225,7 @@ const Processing: React.FC = () => {
                     </motion.div>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                         {/* Phase 1 */}
-                        <InfoCard icon={FaIndustry} title={t('roadmap.phase1.title')} iconColor="text-primary" showInfoBadge={false} className="flex-1">
+                        <InfoCard icon={GiFactory} title={t('roadmap.phase1.title')} iconColor="text-primary" showInfoBadge={false} className="flex-1">
                             <div className="text-xs text-primary font-semibold mb-3">{t('roadmap.phase1.dates')}</div>
                             <Typography variant="small" className="text-gray-600 mb-3">{t('roadmap.phase1.description')}</Typography>
                             <ul className="space-y-1.5 text-xs text-gray-600">

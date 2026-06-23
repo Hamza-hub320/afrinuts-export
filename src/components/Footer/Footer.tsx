@@ -106,6 +106,13 @@ const Footer = () => {
                                     <FaLinkedin />
                                 </motion.a>
                             </div>
+                            {/* Registration Badge */}
+                            <div className="mt-3 flex items-center gap-2">
+                                <FaCertificate className="text-accent text-xs" />
+                                <span className="text-[10px] text-gray-400">
+                                RCCM: CI-ABJ-03-2026-B12-04223
+                            </span>
+                            </div>
                         </div>
                     </motion.div>
 

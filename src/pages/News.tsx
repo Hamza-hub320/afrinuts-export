@@ -22,7 +22,7 @@ import newsImage from '@/assets/images/news.webp';
 import { trackCtaClick, trackOutboundClick } from '@/utils/analytics';
 import JsonLd from "@/components/Seo/JsonLd";
 import {Helmet} from "react-helmet-async";
-import { GiFarmer } from 'react-icons/gi';
+import {GiEarthAfricaEurope, GiFarmer} from 'react-icons/gi';
 import { InfoCard } from '@/components/InfoCard/InfoCard';
 
 interface RSSItem {
@@ -461,7 +461,7 @@ const News: React.FC = () => {
                     {/* Left: Text Content */}
                     <motion.div className="flex-1 max-w-none lg:max-w-xl text-center lg:text-left" variants={fadeIn}>
                         <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-3">
-                            <FaGlobeAfrica className="inline mr-2 text-accent" />{t('hero.subtitle')}
+                            <GiEarthAfricaEurope className="inline mr-2 text-accent" />{t('hero.subtitle')}
                         </Typography>
                         <motion.h1 className="font-display text-3xl md:text-4xl lg:text-5xl text-text-dark mb-4 leading-tight" variants={fadeIn} style={{ letterSpacing: '-0.03em' }}>
                             {t('hero.title')}

@@ -3,9 +3,9 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
-    FaHandshake, FaIndustry, FaMobile, FaLeaf, FaUsers,
+    FaHandshake, FaMobile, FaUsers,
     FaCheckCircle, FaEnvelope,
-    FaCertificate, FaBox,
+    FaCertificate,
     FaChevronUp, FaChevronDown, FaStar, FaArrowRight
 } from 'react-icons/fa';
 import Section from '@/components/Section/Section';

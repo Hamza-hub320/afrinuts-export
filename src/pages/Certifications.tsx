@@ -73,8 +73,8 @@ const Certifications: React.FC = () => {
             benefits: t('certifications.organic.benefits', { returnObjects: true }) as string[],
             validity: t('certifications.organic.validity'),
             issuer: 'ECOCERT',
-            color: 'from-green-500/20 to-emerald-400/20',
-            borderColor: 'border-green-400/30',
+            color: 'from-teal-500/20 to-green-400/20',
+            borderColor: 'border-teal-400/30',
             iconColor: 'text-green-600'
         },
         {
@@ -86,8 +86,8 @@ const Certifications: React.FC = () => {
             benefits: t('certifications.fairtrade.benefits', { returnObjects: true }) as string[],
             validity: t('certifications.fairtrade.validity'),
             issuer: 'Fair Trade International',
-            color: 'from-blue-500/20 to-cyan-400/20',
-            borderColor: 'border-blue-400/30',
+            color: 'from-teal-500/20 to-green-400/20',
+            borderColor: 'border-teal-400/30',
             iconColor: 'text-blue-600'
         },
         {
@@ -99,8 +99,8 @@ const Certifications: React.FC = () => {
             benefits: t('certifications.iso22000.benefits', { returnObjects: true }) as string[],
             validity: t('certifications.iso22000.validity'),
             issuer: 'International Organization for Standardization',
-            color: 'from-purple-500/20 to-indigo-400/20',
-            borderColor: 'border-purple-400/30',
+            color: 'from-teal-500/20 to-green-400/20',
+            borderColor: 'border-teal-400/30',
             iconColor: 'text-purple-600'
         },
         {
@@ -112,8 +112,8 @@ const Certifications: React.FC = () => {
             benefits: t('certifications.halal.benefits', { returnObjects: true }) as string[],
             validity: t('certifications.halal.validity'),
             issuer: 'Halal Certification Authority',
-            color: 'from-amber-500/20 to-yellow-400/20',
-            borderColor: 'border-amber-400/30',
+            color: 'from-teal-500/20 to-green-400/20',
+            borderColor: 'border-teal-400/30',
             iconColor: 'text-amber-600'
         },
         {
