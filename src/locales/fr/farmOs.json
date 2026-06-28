@@ -54,8 +54,8 @@
       {
         "name": "Intelligence Financière",
         "items": [
-          { "icon": "FaFileInvoiceDollar", "title": "Suivi des Dépenses", "desc": "Enregistrez les dépenses par bloc ou à l'échelle de la ferme avec capture numérique des reçus. Sachez exactement où va chaque FCFA." },
-          { "icon": "FaChartBar", "title": "Suivi des Revenus", "desc": "Enregistrez les ventes par lot, niveau de qualité et acheteur. P&L en temps réel par hectare." },
+          { "icon": "FaFileInvoiceDollar", "title": "Suivi des Dépenses", "desc": "Enregistrez les dépenses par bloc, fournisseur et lot avec capture numérique des reçus. Sachez exactement où va chaque FCFA." },
+          { "icon": "FaChartBar", "title": "Suivi des Revenus", "desc": "Enregistrez les ventes par lot, niveau de qualité, fournisseur et acheteur. P&L en temps réel par fournisseur et par hectare." },
           { "icon": "FaChartLine", "title": "Tableau de Bord Investisseur", "desc": "KPI en direct, projections de bénéfices et suivi des dividendes. Les mêmes données que notre équipe utilise — pas un PDF trimestriel." }
         ]
       },
@@ -65,6 +65,15 @@
           { "icon": "FaSearch", "title": "Traçabilité des Lots", "desc": "Chaque expédition liée à un ID de lot unique avec documentation complète de la récolte au conteneur." },
           { "icon": "FaShieldAlt", "title": "Piste d'Audit de Certification", "desc": "Enregistrements numériques de chaque intrant, inspection et contrôle de conformité — prêts pour l'audit sur demande." },
           { "icon": "FaCloud", "title": "Synchro Hors Ligne d'Abord", "desc": "Fonctionne sans internet. Les données se synchronisent automatiquement lorsque la connexion revient. Construit pour l'Afrique de l'Ouest rurale." }
+        ]
+      },
+      {
+        "name": "Réseau de Fournisseurs",
+        "items": [
+          { "icon": "FaUsers", "title": "Profils des Fournisseurs", "desc": "Chaque lot est lié à son agriculteur — nom, photo, années d'expérience, localisation et biographie personnelle. Sachez qui a cultivé vos noix de cajou." },
+          { "icon": "FaLeaf", "title": "Durabilité par Lot", "desc": "Pas de travail des enfants, protection coupe-feu, récolte durable — vérifié par lot avec horodatage et ID du vérificateur. Pas une promesse au niveau de l'entreprise, une vérification au niveau du lot." },
+          { "icon": "FaNetworkWired", "title": "Suivi par Type de Source", "desc": "Ferme Propriétaire · Coopérative · Indépendant · Fournisseur Régional. Même norme de traçabilité sur tout le réseau. Même Farm OS. Même vérification." },
+          { "icon": "FaChartPie", "title": "P&L par Fournisseur", "desc": "Revenus et dépenses suivis par fournisseur et par lot. Sachez exactement quels partenariats génèrent le plus de valeur." }
         ]
       }
     ]

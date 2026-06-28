@@ -9,14 +9,27 @@ import { InfoCard } from '@/components/InfoCard/InfoCard';
 import { fadeIn, staggerContainer } from '@/utils/animations';
 import JsonLd from '@/components/Seo/JsonLd';
 import { Helmet } from 'react-helmet-async';
+import {FaCertificate, FaClipboardList, FaProjectDiagram} from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import farmOsHeroImage from '@/assets/images/farm-os-hero.webp';
 import DashboardNavbar from "../components/DashboardNavbar/DashboardNavbar";
-import {FaChartLine, FaSatelliteDish, FaShieldAlt} from "react-icons/fa";
+import {
+    FaChartLine,
+    FaSatelliteDish,
+    FaShieldAlt,
+    FaUsers,
+    FaLeaf,
+    FaNetworkWired,
+    FaChartPie, FaSearch, FaCheckCircle, FaWifi, FaAndroid, FaArrowRight, FaTractor, FaFlask, FaStar, FaQrcode, FaLock, FaSync, FaBox, FaTruck, FaCalendarAlt,
+    FaCamera, FaFileInvoiceDollar, FaIndustry, FaGlobeAfrica, FaCloud, FaTree, FaMobile, FaMapMarkerAlt, FaTasks, FaChartBar
+} from "react-icons/fa";
 
-const getIcon = (iconName: string) => {
-    const Icon = (Icons as any)[iconName];
-    return Icon ? Icon : Icons.FaMobile;
+const Icons: Record<string, React.ComponentType<any>> = {
+    FaMobile, FaMapMarkerAlt, FaTasks, FaCamera, FaFileInvoiceDollar, FaChartBar,
+    FaChartLine, FaSearch, FaShieldAlt, FaCloud, FaUsers, FaLeaf, FaNetworkWired,
+    FaChartPie, FaCheckCircle, FaWifi, FaAndroid, FaGlobeAfrica, FaIndustry,
+    FaTree, FaTractor, FaFlask, FaStar, FaQrcode, FaSatelliteDish, FaArrowRight,
+    FaLock, FaSync, FaBox, FaTruck, FaCalendarAlt, FaClipboardList, FaCertificate,
 };
 
 const FarmOS: React.FC = () => {

@@ -54,8 +54,8 @@
       {
         "name": "Financial Intelligence",
         "items": [
-          { "icon": "FaFileInvoiceDollar", "title": "Expense Tracking", "desc": "Log expenses per block or farm-wide with digital receipt capture. Know exactly where every FCFA goes." },
-          { "icon": "FaChartBar", "title": "Revenue Tracking", "desc": "Record sales by batch, quality grade, and buyer. Real-time P&L per hectare." },
+          { "icon": "FaFileInvoiceDollar", "title": "Expense Tracking", "desc": "Log expenses per block, supplier, and batch with digital receipt capture. Know exactly where every FCFA goes." },
+          { "icon": "FaChartBar", "title": "Revenue Tracking", "desc": "Record sales by batch, quality grade, supplier, and buyer. Real-time P&L per supplier and per hectare." },
           { "icon": "FaChartLine", "title": "Investor Dashboard", "desc": "Live KPIs, profit projections, and dividend tracking. The same data our team uses — not a quarterly PDF." }
         ]
       },
@@ -65,6 +65,15 @@
           { "icon": "FaSearch", "title": "Batch Traceability", "desc": "Every shipment linked to a unique batch ID with full harvest-to-container documentation." },
           { "icon": "FaShieldAlt", "title": "Certification Audit Trail", "desc": "Digital records of every input, inspection, and compliance check — audit-ready on demand." },
           { "icon": "FaCloud", "title": "Offline-First Sync", "desc": "Works without internet. Data syncs automatically when connectivity returns. Built for rural West Africa." }
+        ]
+      },
+      {
+        "name": "Supplier Network",
+        "items": [
+          { "icon": "FaUsers", "title": "Supplier Profiles", "desc": "Every batch links to its farmer — name, photo, years of experience, location, and personal bio. Know who grew your cashews." },
+          { "icon": "FaLeaf", "title": "Per-Batch Sustainability", "desc": "No child labor, firebreak protection, sustainable harvesting — verified per batch with timestamp and verifier ID. Not a company-level promise, a batch-level verification." },
+          { "icon": "FaNetworkWired", "title": "Source Type Tracking", "desc": "Owned Farm · Cooperative · Independent · Regional Supplier. Same traceability standard across the entire network. Same Farm OS. Same verification." },
+          { "icon": "FaChartPie", "title": "Supplier-Level P&L", "desc": "Revenue and expenses tracked per supplier and per batch. Know exactly which partnerships drive the most value." }
         ]
       }
     ]
