@@ -7,8 +7,6 @@ import {
     FaArrowRight,
     FaMapMarkerAlt,
     FaCalendarAlt,
-    FaLeaf,
-    FaTint,
     FaUsers,
     FaChartLine,
     FaSeedling, FaBookOpen, FaBox, FaSearch, FaMobile,

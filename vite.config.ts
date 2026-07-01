@@ -75,8 +75,9 @@ export default defineConfig({
             'react-dom',
             'react-router-dom',
             'date-fns',
+            'leaflet', 'react-leaflet'
         ],
-        exclude: ['js-big-decimal', 'leaflet']
+        exclude: ['js-big-decimal']
     },
     css: {
         postcss: './postcss.config.cjs',
@@ -104,7 +105,6 @@ export default defineConfig({
                 manualChunks: {
                     react: ['react', 'react-dom', 'react-router-dom'],
                     animations: ['framer-motion'],
-                    maps: ['leaflet', 'react-leaflet'],
                     i18n: ['i18next', 'react-i18next'],
                     icons: ['react-icons/fa', 'react-icons/gi'],
                     vendor: ['lodash', 'date-fns'],
