@@ -118,7 +118,7 @@ const Navbar: React.FC = () => {
       ]
     },
     { path: '/wholesale', label: t('navbar.wholesale', 'Wholesale') },
-    { path: '/invest', label: t('navbar.invest', 'Invest') },
+    //{ path: '/invest', label: t('navbar.invest', 'Invest') },
     { path: '/partners', label: t('navbar.partners', 'Partners') },
     { path: '/community', label: t('navbar.community', 'Community') },
     { path: '/contact', label: t('navbar.contact') },
