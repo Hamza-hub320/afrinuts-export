@@ -47,6 +47,7 @@ const BlockMap = React.lazy(() => import('./pages/BlockMap'));
 const Tasks = React.lazy(() => import('./pages/Tasks'));
 const Financials = React.lazy(() => import('./pages/Financials'));
 const InvestorPortal = React.lazy(() => import('./pages/InvestorPortal'));
+const SupplierManagement = React.lazy(() => import('./pages/SupplierManagement'));
 
 function ScrollToTop() {
     const { pathname } = useLocation();
@@ -141,6 +142,14 @@ function App(): ReactElement {
                                         <FarmOS />
                                     </ProtectedRoute>
                                 } />
+                                <Route
+                                    path="dashboard/suppliers"
+                                    element={
+                                        <ProtectedRoute allowedRoles={['OWNER', 'MANAGER']}>
+                                            <SupplierManagement />
+                                        </ProtectedRoute>
+                                    }
+                                />
                                 <Route path="*" element={<Home />} />
                             </Routes>
                         </Suspense>

@@ -7,6 +7,7 @@ import {
     FaTachometerAlt, FaBorderAll, FaClipboardList, FaChartPie, FaChartBar, FaMobile
 } from 'react-icons/fa';
 import { useAuth } from '../../contexts/AuthContext';
+import {GiFarmer} from "react-icons/gi";
 
 const DashboardNavbar: React.FC = () => {
     const { user, logout } = useAuth();
@@ -46,7 +47,8 @@ const DashboardNavbar: React.FC = () => {
         { path: '/dashboard/tasks', icon: FaClipboardList, label: 'Tasks', sub: 'Operations' },
         { path: '/dashboard/financials', icon: FaChartPie, label: 'Financials', sub: 'Reports' },
         { path: '/investor', icon: FaChartBar, label: 'Investor', sub: 'View Portal' },
-        { path: '/farm-os',  icon: FaMobile, label: 'fOS', sub: 'Farm Operating System' },
+        { path: '/farm-os',  icon: FaMobile, label: 'AOS', sub: 'Agriculture Operating System' },
+        { path: '/dashboard/suppliers', label: 'Suppliers', icon: GiFarmer, sub: 'Suppliers Management'},
     ];
 
     return (

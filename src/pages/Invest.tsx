@@ -26,7 +26,6 @@ import {
     FaCrown,
     FaRecycle,
     FaMobile,
-    FaTree,
     FaStar,
     FaMapMarkerAlt, FaSearch
 } from 'react-icons/fa';

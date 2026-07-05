@@ -20,7 +20,7 @@ import Section from '@/components/Section/Section';
 import { fadeIn, staggerContainer, slideInFromLeft, slideInFromRight } from '@/utils/animations';
 import { Typography } from "@/components/Typography/Typography";
 import { InfoCard } from '@/components/InfoCard/InfoCard';
-import visionHeroImage from '@/assets/images/vision-hero.webp';
+import visionHeroImage from '@/assets/images/invest-hero.webp';
 import farmImage from '@/assets/images/sustainability-hero.webp';
 import processingImage from '@/assets/images/processing-vision.webp';
 import { IconType } from 'react-icons';
@@ -884,8 +884,8 @@ const Vision: React.FC = () => {
                 </div>
             </Section>
 
-            {/* Roadmap Section */}
-            <Section className="py-10">
+            {/* Roadmap Section
+             <Section className="py-10">
                 <div className="w-full max-w-5xl mx-auto px-4 sm:px-6">
                     <motion.div
                         initial="hidden"
@@ -900,9 +900,9 @@ const Vision: React.FC = () => {
                         <Typography variant="lead" className="text-text-dark max-w-3xl mx-auto">
                             {t('roadmap.subtitle') || "Our journey towards excellence and global recognition"}
                         </Typography>
-                    </motion.div>
+                    </motion.div> */}
 
-                    {/* Use the roadmap data directly */}
+                    {/* Use the roadmap data directly
                     <TimelineCard
                         title={t('roadmap.title') || "Strategic Roadmap"}
                         subtitle={t('roadmap.subtitle') || "From farm to global brand"}
@@ -918,7 +918,7 @@ const Vision: React.FC = () => {
                         trackProgressText={t('timeline.trackProgress', { defaultValue: 'Track Our Progress' })}
                     />
                 </div>
-            </Section>
+            </Section>  */}
 
             {/* End-of-page CTA - Enhanced with Glassy 3D */}
             <Section className="py-16">
