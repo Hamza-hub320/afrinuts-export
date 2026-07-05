@@ -48,6 +48,7 @@ const Tasks = React.lazy(() => import('./pages/Tasks'));
 const Financials = React.lazy(() => import('./pages/Financials'));
 const InvestorPortal = React.lazy(() => import('./pages/InvestorPortal'));
 const SupplierManagement = React.lazy(() => import('./pages/SupplierManagement'));
+const Batches = React.lazy(() => import('./pages/Batches'));
 
 function ScrollToTop() {
     const { pathname } = useLocation();
@@ -150,6 +151,11 @@ function App(): ReactElement {
                                         </ProtectedRoute>
                                     }
                                 />
+                                <Route path="dashboard/batches" element={
+                                    <ProtectedRoute allowedRoles={['OWNER', 'MANAGER']}>
+                                        <Batches />
+                                    </ProtectedRoute>
+                                } />
                                 <Route path="*" element={<Home />} />
                             </Routes>
                         </Suspense>

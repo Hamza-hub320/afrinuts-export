@@ -28,6 +28,9 @@ export const getSupplierData = async (action: string, params?: any) => {
     if (isDevelopment) {
         return getMockData(action, params);
     }
+    if (action === 'getAllBatches' || action === 'getBatchDetail') {
+        return isDevelopment ? getMockData(action, params) : callApi('supplierData', { action, ...params });
+    }
     return callApi('supplierData', { action, ...params });
 };
 

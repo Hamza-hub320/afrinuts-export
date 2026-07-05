@@ -459,6 +459,21 @@ export const getMockData = async (action: string, data?: any) => {
             return { batches: filtered };
         }
 
+        case 'getAllBatches':
+            return { batches: mockQualityBatches };
+
+        case 'getBatchDetail': {
+            const batchId = data?.batchId;
+            const batch = mockQualityBatches.find(b => String(b.id) === String(batchId));
+            if (!batch) return { batch: null, supplier: null, expenses: [], revenues: [] };
+
+            const supplier = mockSuppliers.find(s => s.id === batch.supplierId) || null;
+            const expenses = mockSupplierExpenses.filter(e => e.batchId === parseInt(batchId));
+            const revenues = mockSupplierRevenues.filter(r => r.batchId === parseInt(batchId));
+
+            return { batch, supplier, expenses, revenues };
+        }
+
         case 'getSupplierFinancials': {
             const supplierId = data?.supplierId ? parseInt(data.supplierId) : null;
             const filteredExpenses = supplierId

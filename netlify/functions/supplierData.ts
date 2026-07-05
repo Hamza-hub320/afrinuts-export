@@ -107,6 +107,85 @@ export const handler: Handler = async (event: HandlerEvent) => {
             };
         }
 
+        if (action === 'getAllBatches') {
+            const snapshot = await db
+                .collection('farms').doc(fid)
+                .collection('quality_batches')
+                .orderBy('processingDate', 'desc')
+                .limit(50)
+                .get();
+
+            const batches = snapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data(),
+            }));
+
+            return {
+                statusCode: 200,
+                headers,
+                body: JSON.stringify({ batches }),
+            };
+        }
+
+        if (action === 'getBatchDetail' && params.batchId) {
+            const batchDoc = await db
+                .collection('farms').doc(fid)
+                .collection('quality_batches')
+                .doc(params.batchId)
+                .get();
+
+            if (!batchDoc.exists) {
+                return {
+                    statusCode: 404,
+                    headers,
+                    body: JSON.stringify({ error: 'Batch not found' }),
+                };
+            }
+
+            const batch = { id: batchDoc.id, ...batchDoc.data() };
+
+            // Fetch linked supplier
+            let supplier = null;
+            if (batch.supplierId) {
+                const supplierDoc = await db
+                    .collection('farms').doc(fid)
+                    .collection('suppliers')
+                    .doc(String(batch.supplierId))
+                    .get();
+                if (supplierDoc.exists) {
+                    supplier = { id: supplierDoc.id, ...supplierDoc.data() };
+                }
+            }
+
+            // Fetch linked expenses
+            const expensesSnapshot = await db
+                .collection('farms').doc(fid)
+                .collection('expenses')
+                .where('batchId', '==', parseInt(params.batchId))
+                .get();
+            const expenses = expensesSnapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data(),
+            }));
+
+            // Fetch linked revenues
+            const revenuesSnapshot = await db
+                .collection('farms').doc(fid)
+                .collection('revenues')
+                .where('batchId', '==', parseInt(params.batchId))
+                .get();
+            const revenues = revenuesSnapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data(),
+            }));
+
+            return {
+                statusCode: 200,
+                headers,
+                body: JSON.stringify({ batch, supplier, expenses, revenues }),
+            };
+        }
+
         return {
             statusCode: 400,
             headers,
