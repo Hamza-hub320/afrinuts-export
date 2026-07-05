@@ -26,9 +26,7 @@ export const getPhotos = async (entityType: string, entityId: number, farmId: st
 
 export const getSupplierData = async (action: string, params?: any) => {
     if (isDevelopment) {
-        if (action === 'getSuppliers') return getMockData('getSuppliers');
-        if (action === 'getSupplierQualityBatches') return getMockData('getSupplierQualityBatches');
-        if (action === 'getSupplierFinancials') return getMockData('getSupplierFinancials');
+        return getMockData(action, params);
     }
     return callApi('supplierData', { action, ...params });
 };
