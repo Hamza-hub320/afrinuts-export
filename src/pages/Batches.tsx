@@ -4,7 +4,7 @@ import {
     FaBox, FaSearch, FaTimes, FaCheckCircle, FaTimesCircle,
     FaLeaf, FaFireExtinguisher, FaChild, FaChartBar,
     FaStar, FaCalendarAlt, FaDollarSign, FaUser,
-    FaFlask, FaIndustry
+    FaFlask, FaIndustry, FaExclamationTriangle, FaTint
 } from 'react-icons/fa';
 import { Typography } from '@/components/Typography/Typography';
 import { InfoCard } from '@/components/InfoCard/InfoCard';
@@ -146,6 +146,148 @@ const Batches: React.FC = () => {
                         </motion.div>
                     </motion.div>
 
+                    {/* Grade Distribution */}
+                    <div className="max-w-6xl mx-auto px-4 sm:px-6 mb-8">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <InfoCard
+                                icon={FaStar}
+                                title="Grade Distribution"
+                                iconColor="text-yellow-500"
+                                showInfoBadge={false}
+                            >
+                                <div className="flex items-center gap-4 mt-3">
+                                    <div className="flex-1 text-center">
+                                        <div className="text-3xl font-bold text-amber-600">{premiumBatches}</div>
+                                        <div className="text-xs text-gray-500">Premium</div>
+                                        <div className="text-xs text-gray-400">{batches.length > 0 ? ((premiumBatches / batches.length) * 100).toFixed(0) : 0}%</div>
+                                    </div>
+                                    <div className="flex-1 text-center">
+                                        <div className="text-3xl font-bold text-blue-600">{totalBatches - premiumBatches}</div>
+                                        <div className="text-xs text-gray-500">Standard</div>
+                                        <div className="text-xs text-gray-400">{batches.length > 0 ? (((totalBatches - premiumBatches) / batches.length) * 100).toFixed(0) : 0}%</div>
+                                    </div>
+                                </div>
+                                <div className="w-full bg-gray-200 rounded-full h-3 mt-3 overflow-hidden">
+                                    <div className="bg-amber-500 h-3 float-left rounded-l-full" style={{ width: `${batches.length > 0 ? (premiumBatches / batches.length) * 100 : 0}%` }} />
+                                </div>
+                            </InfoCard>
+
+                            {/* Defect Rate Trend */}
+                            <InfoCard
+                                icon={FaTimesCircle}
+                                title="Average Defect Rate"
+                                subtitle="Lower is better — industry target: <3%"
+                                iconColor="text-red-500"
+                                showInfoBadge={false}
+                            >
+                                <div className="mt-3 text-center">
+                                    <div className="text-3xl font-bold text-red-600">
+                                        {batches.length > 0 ? (batches.reduce((s, b) => s + b.defectiveRate, 0) / batches.length).toFixed(2) : 0}%
+                                    </div>
+                                    <div className="text-xs text-gray-500 mt-1">
+                                        {batches.length > 0 && (batches.reduce((s, b) => s + b.defectiveRate, 0) / batches.length) < 3
+                                            ? '✓ Within industry target'
+                                            : '⚠ Above industry target'}
+                                    </div>
+                                </div>
+                            </InfoCard>
+                        </div>
+                    </div>
+
+                    {/* Supplier Quality Comparison */}
+                    <div className="max-w-6xl mx-auto px-4 sm:px-6 mb-8">
+                        <InfoCard
+                            icon={FaChartBar}
+                            title="Supplier Quality Comparison"
+                            subtitle="Average quality score by supplier across all batches"
+                            iconColor="text-primary"
+                            showInfoBadge={false}
+                        >
+                            <div className="space-y-3 mt-3">
+                                {(() => {
+                                    // Group batches by supplier
+                                    const supplierMap = new Map<number, { name: string; scores: number[]; totalWeight: number }>();
+                                    batches.forEach(b => {
+                                        if (!supplierMap.has(b.supplierId)) {
+                                            supplierMap.set(b.supplierId, { name: `Supplier #${b.supplierId}`, scores: [], totalWeight: 0 });
+                                        }
+                                        const entry = supplierMap.get(b.supplierId)!;
+                                        entry.scores.push(b.qualityScore);
+                                        entry.totalWeight += b.weightKg;
+                                    });
+
+                                    return Array.from(supplierMap.entries())
+                                        .sort((a, b) => {
+                                            const avgA = a[1].scores.reduce((s, v) => s + v, 0) / a[1].scores.length;
+                                            const avgB = b[1].scores.reduce((s, v) => s + v, 0) / b[1].scores.length;
+                                            return avgB - avgA;
+                                        })
+                                        .slice(0, 5)
+                                        .map(([supplierId, data], i) => {
+                                            const avg = data.scores.reduce((s, v) => s + v, 0) / data.scores.length;
+                                            return (
+                                                <div key={supplierId}>
+                                                    <div className="flex justify-between text-xs mb-1">
+                                                        <span className="font-medium">{data.name}</span>
+                                                        <span>{avg.toFixed(1)}% · {data.scores.length} batch{data.scores.length !== 1 ? 'es' : ''}</span>
+                                                    </div>
+                                                    <div className="w-full bg-gray-200 rounded-full h-2.5">
+                                                        <motion.div
+                                                            className={`h-2.5 rounded-full ${avg >= 95 ? 'bg-green-500' : avg >= 85 ? 'bg-amber-500' : 'bg-red-500'}`}
+                                                            initial={{ width: 0 }}
+                                                            animate={{ width: `${avg}%` }}
+                                                            transition={{ duration: 1, delay: 0.1 * i }}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            );
+                                        });
+                                })()}
+                            </div>
+                        </InfoCard>
+                    </div>
+
+                    {/* Delivery Volume Trend */}
+                    <div className="max-w-6xl mx-auto px-4 sm:px-6 mb-8">
+                        <InfoCard
+                            icon={FaCalendarAlt}
+                            title="Delivery Volume Trend"
+                            subtitle="Total weight delivered over time"
+                            iconColor="text-primary"
+                            showInfoBadge={false}
+                        >
+                            <div className="mt-3">
+                                {(() => {
+                                    // Group by month
+                                    const monthlyData = new Map<string, number>();
+                                    batches.forEach(b => {
+                                        const month = new Date(b.processingDate).toLocaleString('default', { month: 'short', year: 'numeric' });
+                                        monthlyData.set(month, (monthlyData.get(month) || 0) + (b.weightKg || 0));
+                                    });
+                                    const entries = Array.from(monthlyData.entries()).sort((a, b) => new Date(a[0]).getTime() - new Date(b[0]).getTime());
+                                    const maxVol = Math.max(...entries.map(e => e[1]));
+
+                                    return entries.slice(-6).map(([month, vol], i) => (
+                                        <div key={month} className="mb-2">
+                                            <div className="flex justify-between text-xs mb-1">
+                                                <span>{month}</span>
+                                                <span className="font-medium">{(vol / 1000).toFixed(1)}T</span>
+                                            </div>
+                                            <div className="w-full bg-gray-200 rounded-full h-2">
+                                                <motion.div
+                                                    className="bg-primary h-2 rounded-full"
+                                                    initial={{ width: 0 }}
+                                                    animate={{ width: `${(vol / maxVol) * 100}%` }}
+                                                    transition={{ duration: 1, delay: 0.1 * i }}
+                                                />
+                                            </div>
+                                        </div>
+                                    ));
+                                })()}
+                            </div>
+                        </InfoCard>
+                    </div>
+
                     {/* Search & Filter */}
                     <div className="flex flex-col sm:flex-row gap-4 mb-6">
                         <div className="relative w-full sm:min-w-[280px] sm:max-w-sm">
@@ -169,14 +311,17 @@ const Batches: React.FC = () => {
                         {filteredBatches.map((batch, idx) => (
                             <motion.div key={batch.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.05 }}
                                         onClick={() => openBatchDetail(batch)} className="cursor-pointer">
-                                <InfoCard title={batch.batchNumber}
-                                          subtitle={`${new Date(batch.processingDate).toLocaleDateString()} · ${(batch.weightKg / 1000).toFixed(1)}T`}
-                                          icon={FaBox} iconColor="text-accent" showInfoBadge={false} className="h-full hover:shadow-lg transition-all">
+                                <InfoCard
+                                    title={batch.batchNumber}
+                                    subtitle={`${new Date(batch.processingDate).toLocaleDateString()} · ${(batch.weightKg / 1000).toFixed(1)}T`}
+                                    icon={FaBox} iconColor="text-accent" showInfoBadge={false} className="h-full hover:shadow-lg transition-all">
                                     <div className="flex items-center gap-2 mt-3">
-                                        <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${batch.qualityGrade === 'PREMIUM' ? 'bg-amber-100 text-amber-700' : 'bg-blue-100 text-blue-700'}`}>
-                                            {batch.qualityGrade}
+                                         <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${batch.qualityGrade === 'PREMIUM' ? 'bg-amber-100 text-amber-700' : 'bg-blue-100 text-blue-700'}`}>
+                                                 {batch.qualityGrade}
                                         </span>
                                         <span className="text-xs text-gray-500">Score: {batch.qualityScore?.toFixed(1)}%</span>
+                                        {batch.defectiveRate > 5 && <FaExclamationTriangle className="text-red-500 text-xs" title="High defect rate" />}
+                                        {batch.moistureContent > 7 && <FaTint className="text-blue-500 text-xs" title="High moisture" />}
                                     </div>
                                     <div className="flex gap-2 mt-2">
                                         <span className="text-xs text-gray-500">Moisture: {batch.moistureContent}%</span>
@@ -218,7 +363,7 @@ const Batches: React.FC = () => {
 
                                         {modalLoading ? (
                                             <div className="flex justify-center py-12"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div></div>
-                                        ) : batchDetail ? (
+                                        ) : batchDetail?.batch ? (
                                             <div className="space-y-6">
                                                 {/* Quality Metrics */}
                                                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -292,6 +437,31 @@ const Batches: React.FC = () => {
                     </div>
                 </Dialog>
             </Transition.Root>
+            {/* Export Readiness */}
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 mb-8">
+                <InfoCard
+                    icon={FaIndustry}
+                    title="Export Readiness"
+                    iconColor="text-green-600"
+                    showInfoBadge={false}
+                >
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-3 text-center">
+                        {[
+                            { label: 'EU Compliant', value: batches.filter(b => (parseTestResults(b.testResults || '{}').aflatoxin || 99) < 4).length, total: batches.length, icon: '🇪🇺' },
+                            { label: 'Organic Grade', value: batches.filter(b => b.qualityGrade === 'PREMIUM' && b.defectiveRate < 3).length, total: batches.length, icon: '🌱' },
+                            { label: 'Export Ready', value: batches.filter(b => b.qualityScore >= 95 && b.defectiveRate < 5).length, total: batches.length, icon: '🚢' },
+                            { label: 'Needs Review', value: batches.filter(b => b.defectiveRate > 5 || b.moistureContent > 7).length, total: batches.length, icon: '🔍' },
+                        ].map((item, i) => (
+                            <div key={i} className="bg-white/40 rounded-xl p-3 border border-white/30">
+                                <div className="text-2xl">{item.icon}</div>
+                                <div className="text-lg font-bold">{item.value}/{item.total}</div>
+                                <div className="text-xs text-gray-500">{item.label}</div>
+                            </div>
+                        ))}
+                    </div>
+                </InfoCard>
+            </div>
+
         </div>
     );
 };

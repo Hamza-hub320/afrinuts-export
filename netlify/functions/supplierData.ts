@@ -142,9 +142,8 @@ export const handler: Handler = async (event: HandlerEvent) => {
                 };
             }
 
-            const batch = { id: batchDoc.id, ...batchDoc.data() };
+            const batch = { id: batchDoc.id, ...batchDoc.data() } as any;
 
-            // Fetch linked supplier
             let supplier = null;
             if (batch.supplierId) {
                 const supplierDoc = await db
