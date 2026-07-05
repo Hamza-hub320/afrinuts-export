@@ -413,88 +413,87 @@ const SupplierManagement: React.FC = () => {
                     </div>
                 </InfoCard>
 
-                {/* Sustainability & Financial Efficiency */}
-                <Section className="py-6">
-                    <div className="max-w-6xl mx-auto px-4 sm:px-6">
-                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                            {/* Sustainability Compliance Scorecard */}
-                            <InfoCard
-                                icon={FaLeaf}
-                                title="Sustainability Compliance"
-                                iconColor="text-green-600"
-                                showInfoBadge={false}
-                            >
-                                <div className="space-y-3 mt-3">
-                                    {[
-                                        { label: 'Sustainable Harvesting', key: 'sustainableHarvesting' },
-                                        { label: 'Firebreak Protection', key: 'firebreakProtection' },
-                                        { label: 'No Child Labor', key: 'noChildLabor' },
-                                    ].map((item, i) => {
-                                        const compliant = suppliers.filter(s => (s as any)[item.key]).length;
-                                        const pct = suppliers.length > 0 ? (compliant / suppliers.length) * 100 : 0;
-                                        return (
-                                            <div key={i}>
-                                                <div className="flex justify-between text-xs mb-1">
-                                                    <span>{item.label}</span>
-                                                    <span className="font-medium">{compliant}/{suppliers.length} ({pct.toFixed(0)}%)</span>
-                                                </div>
-                                                <div className="w-full bg-gray-200 rounded-full h-2.5">
-                                                    <motion.div
-                                                        className="bg-green-500 h-2.5 rounded-full"
-                                                        initial={{ width: 0 }}
-                                                        animate={{ width: `${pct}%` }}
-                                                        transition={{ duration: 1, delay: 0.3 + i * 0.1 }}
-                                                    />
-                                                </div>
-                                            </div>
-                                        );
-                                    })}
+                {/* Sustainability Compliance Scorecard */}
+                <InfoCard
+                    icon={FaLeaf}
+                    title="Sustainability Compliance"
+                    iconColor="text-green-600"
+                    showInfoBadge={false}
+                >
+                    <div className="space-y-3 mt-3">
+                        {[
+                            { label: 'Sustainable Harvesting', key: 'sustainableHarvesting' },
+                            { label: 'Firebreak Protection', key: 'firebreakProtection' },
+                            { label: 'No Child Labor', key: 'noChildLabor' },
+                        ].map((item, i) => {
+                            const compliant = suppliers.filter(s => (s as any)[item.key]).length;
+                            const pct = suppliers.length > 0 ? (compliant / suppliers.length) * 100 : 0;
+                            return (
+                                <div key={i}>
+                                    <div className="flex justify-between text-xs mb-1">
+                                        <span>{item.label}</span>
+                                        <span className="font-medium">{compliant}/{suppliers.length} ({pct.toFixed(0)}%)</span>
+                                    </div>
+                                    <div className="w-full bg-gray-200 rounded-full h-2.5">
+                                        <motion.div
+                                            className="bg-green-500 h-2.5 rounded-full"
+                                            initial={{ width: 0 }}
+                                            animate={{ width: `${pct}%` }}
+                                            transition={{ duration: 1, delay: 0.3 + i * 0.1 }}
+                                        />
+                                    </div>
                                 </div>
-                            </InfoCard>
+                            );
+                        })}
+                    </div>
+                </InfoCard>
+            </div>
 
-                            {/* Financial Efficiency */}
-                            <InfoCard
-                                icon={FaDollarSign}
-                                title="Supplier Financial Efficiency"
-                                subtitle="Revenue generated per 1 FCFA spent on procurement"
-                                iconColor="text-primary"
-                                showInfoBadge={false}
-                            >
-                                <div className="overflow-x-auto mt-3">
-                                    <table className="w-full text-sm">
-                                        <thead>
-                                        <tr className="border-b border-gray-200 text-left">
-                                            <th className="pb-2 font-medium text-gray-600">Supplier</th>
-                                            <th className="pb-2 font-medium text-gray-600">Procurement</th>
-                                            <th className="pb-2 font-medium text-gray-600">Revenue</th>
-                                            <th className="pb-2 font-medium text-gray-600">Efficiency</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        {suppliers.slice(0, 5).map(supplier => {
-                                            const procurement = supplier.annualVolumeKg * 500;
-                                            const revenue = supplier.annualVolumeKg * 1500;
-                                            const efficiency = (revenue / (procurement || 1)).toFixed(1);
-                                            return (
-                                                <tr key={supplier.id} className="border-b border-gray-100 last:border-0 hover:bg-white/20">
-                                                    <td className="py-2 font-medium">{supplier.name}</td>
-                                                    <td className="py-2">{new Intl.NumberFormat('fr-FR').format(procurement)} FCFA</td>
-                                                    <td className="py-2">{new Intl.NumberFormat('fr-FR').format(revenue)} FCFA</td>
-                                                    <td className="py-2">
+            {/* Financial Efficiency */}
+            <Section className="py-6">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6">
+                    <InfoCard
+                        icon={FaDollarSign}
+                        title="Supplier Financial Efficiency"
+                        subtitle="Revenue generated per 1 FCFA spent on procurement"
+                        iconColor="text-primary"
+                        showInfoBadge={false}
+                    >
+                        <div className="overflow-x-auto mt-3">
+                            <table className="w-full text-sm">
+                                <thead>
+                                <tr className="border-b border-gray-200 text-left">
+                                    <th className="pb-2 font-medium text-gray-600">Supplier</th>
+                                    <th className="pb-2 font-medium text-gray-600">Procurement</th>
+                                    <th className="pb-2 font-medium text-gray-600">Revenue</th>
+                                    <th className="pb-2 font-medium text-gray-600">Efficiency</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {suppliers.slice(0, 5).map(supplier => {
+                                    // These would come from the financials endpoint; for demo we'll use supplier data
+                                    const procurement = supplier.annualVolumeKg * 500; // Example: avg 500 FCFA/kg procurement
+                                    const revenue = supplier.annualVolumeKg * 1500; // Example: avg 1500 FCFA/kg revenue
+                                    const efficiency = (revenue / (procurement || 1)).toFixed(1);
+                                    return (
+                                        <tr key={supplier.id} className="border-b border-gray-100 last:border-0 hover:bg-white/20">
+                                            <td className="py-2 font-medium">{supplier.name}</td>
+                                            <td className="py-2">{new Intl.NumberFormat('fr-FR').format(procurement)} FCFA</td>
+                                            <td className="py-2">{new Intl.NumberFormat('fr-FR').format(revenue)} FCFA</td>
+                                            <td className="py-2">
                                         <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${Number(efficiency) > 2 ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}`}>
                                             {efficiency}x
                                         </span>
-                                                    </td>
-                                                </tr>
-                                            );
-                                        })}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </InfoCard>
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
+                                </tbody>
+                            </table>
                         </div>
-                    </div>
-                </Section>
+                    </InfoCard>
+                </div>
+            </Section>
 
             {/* Supplier Detail Modal */}
             <Transition.Root show={!!selectedSupplier} as={Fragment}>
@@ -760,14 +759,14 @@ const SupplierManagement: React.FC = () => {
                                                                                     <>
                                                                                         {supplierTrend[0].toFixed(1)}% → {supplierTrend[supplierTrend.length-1].toFixed(1)}%
                                                                                         <span className="ml-2 text-xs">
-                                            {supplierTrend[supplierTrend.length-1] > supplierTrend[0] ? (
-                                                <span className="text-green-600">↑ Improving</span>
-                                            ) : supplierTrend[supplierTrend.length-1] < supplierTrend[0] ? (
-                                                <span className="text-red-600">↓ Declining</span>
-                                            ) : (
-                                                <span className="text-gray-500">→ Stable</span>
-                                            )}
-                                        </span>
+                                                                                            {supplierTrend[supplierTrend.length-1] > supplierTrend[0] ? (
+                                                                                        <span className="text-green-600">↑ Improving</span>
+                                                                                            ) : supplierTrend[supplierTrend.length-1] < supplierTrend[0] ? (
+                                                                                         <span className="text-red-600">↓ Declining</span>
+                                                                                             ) : (
+                                                                                        <span className="text-gray-500">→ Stable</span>
+                                                                                                 )}
+                                                                                          </span>
                                                                                     </>
                                                                                 ) : 'Not enough data'}
                                                                             </div>
@@ -889,7 +888,6 @@ const SupplierManagement: React.FC = () => {
                     </div>
                 </Dialog>
             </Transition.Root>
-        </div>
         </div>
     );
 };
