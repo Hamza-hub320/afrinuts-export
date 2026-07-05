@@ -150,7 +150,16 @@ const SupplierManagement: React.FC = () => {
         );
     }
 
-    const typeFilters = ['All', 'COOPERATIVE', 'REGIONAL_SUPPLIER', 'INDEPENDENT', 'ACTIVE', 'INACTIVE'];
+    const typeFilters = [
+        'All',
+        'COOPERATIVE',
+        'REGIONAL_SUPPLIER',
+        'INDEPENDENT',
+        'COMMERCIAL_AGGREGATOR',
+        'PROCESSOR',
+        'ACTIVE',
+        'INACTIVE'
+    ];
 
     return (
         <div className="min-h-screen relative overflow-hidden pt-[72px]">
@@ -404,87 +413,88 @@ const SupplierManagement: React.FC = () => {
                     </div>
                 </InfoCard>
 
-                {/* Sustainability Compliance Scorecard */}
-                <InfoCard
-                    icon={FaLeaf}
-                    title="Sustainability Compliance"
-                    iconColor="text-green-600"
-                    showInfoBadge={false}
-                >
-                    <div className="space-y-3 mt-3">
-                        {[
-                            { label: 'Sustainable Harvesting', key: 'sustainableHarvesting' },
-                            { label: 'Firebreak Protection', key: 'firebreakProtection' },
-                            { label: 'No Child Labor', key: 'noChildLabor' },
-                        ].map((item, i) => {
-                            const compliant = suppliers.filter(s => (s as any)[item.key]).length;
-                            const pct = suppliers.length > 0 ? (compliant / suppliers.length) * 100 : 0;
-                            return (
-                                <div key={i}>
-                                    <div className="flex justify-between text-xs mb-1">
-                                        <span>{item.label}</span>
-                                        <span className="font-medium">{compliant}/{suppliers.length} ({pct.toFixed(0)}%)</span>
-                                    </div>
-                                    <div className="w-full bg-gray-200 rounded-full h-2.5">
-                                        <motion.div
-                                            className="bg-green-500 h-2.5 rounded-full"
-                                            initial={{ width: 0 }}
-                                            animate={{ width: `${pct}%` }}
-                                            transition={{ duration: 1, delay: 0.3 + i * 0.1 }}
-                                        />
-                                    </div>
+                {/* Sustainability & Financial Efficiency */}
+                <Section className="py-6">
+                    <div className="max-w-6xl mx-auto px-4 sm:px-6">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            {/* Sustainability Compliance Scorecard */}
+                            <InfoCard
+                                icon={FaLeaf}
+                                title="Sustainability Compliance"
+                                iconColor="text-green-600"
+                                showInfoBadge={false}
+                            >
+                                <div className="space-y-3 mt-3">
+                                    {[
+                                        { label: 'Sustainable Harvesting', key: 'sustainableHarvesting' },
+                                        { label: 'Firebreak Protection', key: 'firebreakProtection' },
+                                        { label: 'No Child Labor', key: 'noChildLabor' },
+                                    ].map((item, i) => {
+                                        const compliant = suppliers.filter(s => (s as any)[item.key]).length;
+                                        const pct = suppliers.length > 0 ? (compliant / suppliers.length) * 100 : 0;
+                                        return (
+                                            <div key={i}>
+                                                <div className="flex justify-between text-xs mb-1">
+                                                    <span>{item.label}</span>
+                                                    <span className="font-medium">{compliant}/{suppliers.length} ({pct.toFixed(0)}%)</span>
+                                                </div>
+                                                <div className="w-full bg-gray-200 rounded-full h-2.5">
+                                                    <motion.div
+                                                        className="bg-green-500 h-2.5 rounded-full"
+                                                        initial={{ width: 0 }}
+                                                        animate={{ width: `${pct}%` }}
+                                                        transition={{ duration: 1, delay: 0.3 + i * 0.1 }}
+                                                    />
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
                                 </div>
-                            );
-                        })}
-                    </div>
-                </InfoCard>
-            </div>
+                            </InfoCard>
 
-            {/* Financial Efficiency */}
-            <Section className="py-6">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6">
-                    <InfoCard
-                        icon={FaDollarSign}
-                        title="Supplier Financial Efficiency"
-                        subtitle="Revenue generated per 1 FCFA spent on procurement"
-                        iconColor="text-primary"
-                        showInfoBadge={false}
-                    >
-                        <div className="overflow-x-auto mt-3">
-                            <table className="w-full text-sm">
-                                <thead>
-                                <tr className="border-b border-gray-200 text-left">
-                                    <th className="pb-2 font-medium text-gray-600">Supplier</th>
-                                    <th className="pb-2 font-medium text-gray-600">Procurement</th>
-                                    <th className="pb-2 font-medium text-gray-600">Revenue</th>
-                                    <th className="pb-2 font-medium text-gray-600">Efficiency</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {suppliers.slice(0, 5).map(supplier => {
-                                    // These would come from the financials endpoint; for demo we'll use supplier data
-                                    const procurement = supplier.annualVolumeKg * 500; // Example: avg 500 FCFA/kg procurement
-                                    const revenue = supplier.annualVolumeKg * 1500; // Example: avg 1500 FCFA/kg revenue
-                                    const efficiency = (revenue / (procurement || 1)).toFixed(1);
-                                    return (
-                                        <tr key={supplier.id} className="border-b border-gray-100 last:border-0 hover:bg-white/20">
-                                            <td className="py-2 font-medium">{supplier.name}</td>
-                                            <td className="py-2">{new Intl.NumberFormat('fr-FR').format(procurement)} FCFA</td>
-                                            <td className="py-2">{new Intl.NumberFormat('fr-FR').format(revenue)} FCFA</td>
-                                            <td className="py-2">
+                            {/* Financial Efficiency */}
+                            <InfoCard
+                                icon={FaDollarSign}
+                                title="Supplier Financial Efficiency"
+                                subtitle="Revenue generated per 1 FCFA spent on procurement"
+                                iconColor="text-primary"
+                                showInfoBadge={false}
+                            >
+                                <div className="overflow-x-auto mt-3">
+                                    <table className="w-full text-sm">
+                                        <thead>
+                                        <tr className="border-b border-gray-200 text-left">
+                                            <th className="pb-2 font-medium text-gray-600">Supplier</th>
+                                            <th className="pb-2 font-medium text-gray-600">Procurement</th>
+                                            <th className="pb-2 font-medium text-gray-600">Revenue</th>
+                                            <th className="pb-2 font-medium text-gray-600">Efficiency</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {suppliers.slice(0, 5).map(supplier => {
+                                            const procurement = supplier.annualVolumeKg * 500;
+                                            const revenue = supplier.annualVolumeKg * 1500;
+                                            const efficiency = (revenue / (procurement || 1)).toFixed(1);
+                                            return (
+                                                <tr key={supplier.id} className="border-b border-gray-100 last:border-0 hover:bg-white/20">
+                                                    <td className="py-2 font-medium">{supplier.name}</td>
+                                                    <td className="py-2">{new Intl.NumberFormat('fr-FR').format(procurement)} FCFA</td>
+                                                    <td className="py-2">{new Intl.NumberFormat('fr-FR').format(revenue)} FCFA</td>
+                                                    <td className="py-2">
                                         <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${Number(efficiency) > 2 ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}`}>
                                             {efficiency}x
                                         </span>
-                                            </td>
-                                        </tr>
-                                    );
-                                })}
-                                </tbody>
-                            </table>
+                                                    </td>
+                                                </tr>
+                                            );
+                                        })}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </InfoCard>
                         </div>
-                    </InfoCard>
-                </div>
-            </Section>
+                    </div>
+                </Section>
 
             {/* Supplier Detail Modal */}
             <Transition.Root show={!!selectedSupplier} as={Fragment}>
@@ -664,125 +674,209 @@ const SupplierManagement: React.FC = () => {
 
                                                 {activeTab === 'quality' && (
                                                     <div>
-                                                        {/* Quality Trend Sparkline */}
-                                                        {supplierTrend.length > 0 && (
-                                                            <div className="bg-white/50 rounded-xl p-4 border border-white/30 mb-4">
-                                                                <h4 className="font-medium text-primary mb-2">Quality Trend (Last {supplierTrend.length} Batches)</h4>
-                                                                <div className="flex items-center gap-3">
-                                                                    <Sparkline data={supplierTrend} width={120} height={36} color="#5A7411" />
-                                                                    <div className="text-sm text-gray-600">
-                                                                        {supplierTrend.length >= 2 ? (
-                                                                            <>
-                                                                                {supplierTrend[0].toFixed(1)}% → {supplierTrend[supplierTrend.length-1].toFixed(1)}%
-                                                                                <span className="ml-2 text-xs">
-                                                                                ({(() => {
-                                                                                    const diff = supplierTrend[supplierTrend.length-1] - supplierTrend[0];
-                                                                                    const dir = diff > 0 ? 'Improving' : diff < 0 ? 'Declining' : 'Stable';
-                                                                                    return <span className={diff > 0 ? 'text-green-600' : diff < 0 ? 'text-red-600' : 'text-gray-500'}>{dir}</span>;
-                                                                                })()})
-                                                                                </span>
-                                                                            </>
-                                                                        ) : 'Not enough data'}
+                                                        {supplierBatches.length === 0 ? (
+                                                            <div className="text-center py-8 text-gray-400">
+                                                                <FaBox className="text-3xl mx-auto mb-2" />
+                                                                <Typography variant="small">No quality batches recorded for this supplier yet.</Typography>
+                                                                <Typography variant="small" className="text-xs mt-1">
+                                                                    Batch data will appear here as deliveries are processed through quality control.
+                                                                </Typography>
+                                                            </div>
+                                                        ) : (
+                                                            <>
+                                                                {/* Batch Summary */}
+                                                                <div className="grid grid-cols-3 gap-3 mb-4">
+                                                                    <div className="bg-white/50 rounded-xl p-3 text-center border border-white/30">
+                                                                        <div className="text-2xl font-bold text-primary">{supplierBatches.length}</div>
+                                                                        <div className="text-xs text-gray-500">Total Batches</div>
+                                                                    </div>
+                                                                    <div className="bg-white/50 rounded-xl p-3 text-center border border-white/30">
+                                                                        <div className="text-2xl font-bold text-primary">
+                                                                            {supplierBatches.reduce((sum, b) => sum + (b.weightKg || 0), 0).toLocaleString()} kg
+                                                                        </div>
+                                                                        <div className="text-xs text-gray-500">Total Delivered</div>
+                                                                    </div>
+                                                                    <div className="bg-white/50 rounded-xl p-3 text-center border border-white/30">
+                                                                        <div className="text-2xl font-bold text-primary">
+                                                                            {(supplierBatches.reduce((sum, b) => sum + (b.qualityScore || 0), 0) / supplierBatches.length).toFixed(1)}%
+                                                                        </div>
+                                                                        <div className="text-xs text-gray-500">Avg Quality</div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                        )}
-                                                        {supplierBatches.length === 0 ? (
-                                                            <p className="text-center text-gray-400 py-8">No quality batches recorded.</p>
-                                                        ) : (
-                                                            <div className="overflow-x-auto">
-                                                                <table className="w-full text-sm">
-                                                                    <thead>
-                                                                    <tr className="border-b border-gray-200 text-left">
-                                                                        <th className="pb-2 font-medium text-gray-600">Batch #</th>
-                                                                        <th className="pb-2 font-medium text-gray-600">Date</th>
-                                                                        <th className="pb-2 font-medium text-gray-600">Weight</th>
-                                                                        <th className="pb-2 font-medium text-gray-600">Grade</th>
-                                                                        <th className="pb-2 font-medium text-gray-600">Score</th>
-                                                                        <th className="pb-2 font-medium text-gray-600">Moisture</th>
-                                                                        <th className="pb-2 font-medium text-gray-600">Defects</th>
-                                                                        <th className="pb-2 font-medium text-gray-600">Compliance</th>
-                                                                        <th className="pb-2 font-medium text-gray-600">Verified</th>
-                                                                    </tr>
-                                                                    </thead>
-                                                                    <tbody>
-                                                                    {supplierBatches.map(batch => (
-                                                                        <tr key={batch.id} className="border-b border-gray-100 last:border-0 hover:bg-white/20">
-                                                                            <td className="py-2">{batch.batchNumber}</td>
-                                                                            <td className="py-2">{new Date(batch.processingDate).toLocaleDateString()}</td>
-                                                                            <td className="py-2">{batch.weightKg.toLocaleString()} kg</td>
-                                                                            <td className="py-2">
-                                    <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${
-                                        batch.qualityGrade === 'PREMIUM' ? 'bg-amber-100 text-amber-700' : 'bg-blue-100 text-blue-700'
-                                    }`}>{batch.qualityGrade}</span>
-                                                                            </td>
-                                                                            <td className="py-2">{batch.qualityScore.toFixed(1)}%</td>
-                                                                            <td className="py-2">{batch.moistureContent}%</td>
-                                                                            <td className="py-2">{batch.defectiveRate}%</td>
-                                                                            <td className="py-2">
-                                                                                <div className="flex gap-1">
-                                                                                    {batch.sustainableHarvesting && <FaLeaf className="text-green-500" title="Sustainable" />}
-                                                                                    {batch.firebreakProtection && <FaFireExtinguisher className="text-orange-500" title="Firebreak" />}
-                                                                                    {batch.noChildLabor && <FaChild className="text-blue-500" title="No Child Labor" />}
-                                                                                    {batch.farmOsMonitored && <FaChartBar className="text-purple-500" title="FarmOS Monitored" />}
-                                                                                </div>
-                                                                            </td>
-                                                                            <td className="py-2">
-                                                                                {batch.verifiedAt ? (
-                                                                                    <span className="text-green-600 text-xs">{new Date(batch.verifiedAt).toLocaleDateString()}</span>
-                                                                                ) : (
-                                                                                    <span className="text-gray-400 text-xs">—</span>
-                                                                                )}
-                                                                            </td>
-                                                                        </tr>
-                                                                    ))}
-                                                                    </tbody>
-                                                                </table>
-                                                            </div>
-                                                        )}
-                                                    </div>
-                                                )}
 
-                                                {activeTab === 'financials' && supplierFinancials && (
-                                                    <div>
-                                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                                                            <div className="bg-green-50/50 rounded-xl p-4 border border-green-200">
-                                                                <p className="text-sm text-gray-500">Total Procured</p>
-                                                                <p className="text-2xl font-bold text-green-700">
-                                                                    {new Intl.NumberFormat('fr-FR').format(supplierFinancials.totalProcurement)} FCFA
-                                                                </p>
-                                                            </div>
-                                                            <div className="bg-blue-50/50 rounded-xl p-4 border border-blue-200">
-                                                                <p className="text-sm text-gray-500">Revenue from Batches</p>
-                                                                <p className="text-2xl font-bold text-blue-700">
-                                                                    {new Intl.NumberFormat('fr-FR').format(supplierFinancials.totalRevenue)} FCFA
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                        {supplierFinancials.expenses?.length > 0 && (
-                                                            <div className="mb-4">
-                                                                <h4 className="font-medium text-primary mb-2">Procurement Expenses</h4>
+                                                                {/* Batch Table */}
                                                                 <div className="overflow-x-auto">
                                                                     <table className="w-full text-sm">
                                                                         <thead>
                                                                         <tr className="border-b border-gray-200 text-left">
-                                                                            <th className="pb-2">Date</th>
-                                                                            <th className="pb-2">Amount</th>
-                                                                            <th className="pb-2">Batch</th>
+                                                                            <th className="pb-2 font-medium text-gray-600">Batch #</th>
+                                                                            <th className="pb-2 font-medium text-gray-600">Date</th>
+                                                                            <th className="pb-2 font-medium text-gray-600">Weight</th>
+                                                                            <th className="pb-2 font-medium text-gray-600">Grade</th>
+                                                                            <th className="pb-2 font-medium text-gray-600">Score</th>
+                                                                            <th className="pb-2 font-medium text-gray-600">Moisture</th>
+                                                                            <th className="pb-2 font-medium text-gray-600">Defects</th>
+                                                                            <th className="pb-2 font-medium text-gray-600">Kernel</th>
+                                                                            <th className="pb-2 font-medium text-gray-600">Compliance</th>
                                                                         </tr>
                                                                         </thead>
                                                                         <tbody>
-                                                                        {supplierFinancials.expenses.map((exp: any) => (
-                                                                            <tr key={exp.id} className="border-b border-gray-100">
-                                                                                <td className="py-1">{new Date(exp.date).toLocaleDateString()}</td>
-                                                                                <td className="py-1">{new Intl.NumberFormat('fr-FR').format(exp.amount)} FCFA</td>
-                                                                                <td className="py-1">{exp.batchNumber || '—'}</td>
+                                                                        {supplierBatches.map(batch => (
+                                                                            <tr key={batch.id} className="border-b border-gray-100 last:border-0 hover:bg-white/20">
+                                                                                <td className="py-2 font-medium">{batch.batchNumber}</td>
+                                                                                <td className="py-2 text-xs">{new Date(batch.processingDate).toLocaleDateString()}</td>
+                                                                                <td className="py-2">{batch.weightKg?.toLocaleString()} kg</td>
+                                                                                <td className="py-2">
+                                        <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${
+                                            batch.qualityGrade === 'PREMIUM' ? 'bg-amber-100 text-amber-700' : 'bg-blue-100 text-blue-700'
+                                        }`}>{batch.qualityGrade}</span>
+                                                                                </td>
+                                                                                <td className="py-2">{batch.qualityScore?.toFixed(1)}%</td>
+                                                                                <td className="py-2">{batch.moistureContent}%</td>
+                                                                                <td className="py-2">{batch.defectiveRate}%</td>
+                                                                                <td className="py-2">{batch.kernelRatio}%</td>
+                                                                                <td className="py-2">
+                                                                                    <div className="flex gap-1">
+                                                                                        {batch.sustainableHarvesting && <FaLeaf className="text-green-500 text-xs" title="Sustainable" />}
+                                                                                        {batch.firebreakProtection && <FaFireExtinguisher className="text-orange-500 text-xs" title="Firebreak" />}
+                                                                                        {batch.noChildLabor && <FaChild className="text-blue-500 text-xs" title="No Child Labor" />}
+                                                                                        {batch.farmOsMonitored && <FaChartBar className="text-purple-500 text-xs" title="FarmOS" />}
+                                                                                    </div>
+                                                                                </td>
                                                                             </tr>
                                                                         ))}
                                                                         </tbody>
                                                                     </table>
                                                                 </div>
+
+                                                                {/* Quality Trend Sparkline */}
+                                                                {supplierTrend.length > 0 && (
+                                                                    <div className="bg-white/50 rounded-xl p-4 border border-white/30 mt-4">
+                                                                        <h4 className="font-medium text-primary mb-2">Quality Trend (Last {supplierTrend.length} Batches)</h4>
+                                                                        <div className="flex items-center gap-3">
+                                                                            <Sparkline data={supplierTrend} width={120} height={36} color="#5A7411" />
+                                                                            <div className="text-sm text-gray-600">
+                                                                                {supplierTrend.length >= 2 ? (
+                                                                                    <>
+                                                                                        {supplierTrend[0].toFixed(1)}% → {supplierTrend[supplierTrend.length-1].toFixed(1)}%
+                                                                                        <span className="ml-2 text-xs">
+                                            {supplierTrend[supplierTrend.length-1] > supplierTrend[0] ? (
+                                                <span className="text-green-600">↑ Improving</span>
+                                            ) : supplierTrend[supplierTrend.length-1] < supplierTrend[0] ? (
+                                                <span className="text-red-600">↓ Declining</span>
+                                            ) : (
+                                                <span className="text-gray-500">→ Stable</span>
+                                            )}
+                                        </span>
+                                                                                    </>
+                                                                                ) : 'Not enough data'}
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                )}
+                                                            </>
+                                                        )}
+                                                    </div>
+                                                )}
+
+                                                {activeTab === 'financials' && (
+                                                    <div>
+                                                        {!supplierFinancials || (supplierFinancials.totalProcurement === 0 && supplierFinancials.totalRevenue === 0) ? (
+                                                            <div className="text-center py-8 text-gray-400">
+                                                                <FaDollarSign className="text-3xl mx-auto mb-2" />
+                                                                <Typography variant="small">No financial data recorded for this supplier yet.</Typography>
+                                                                <Typography variant="small" className="text-xs mt-1">
+                                                                    Financial records will appear as procurement expenses and sales revenues are linked to this supplier's batches.
+                                                                </Typography>
                                                             </div>
+                                                        ) : (
+                                                            <>
+                                                                {/* Summary Cards */}
+                                                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                                                                    <div className="bg-green-50/50 rounded-xl p-4 border border-green-200 text-center">
+                                                                        <p className="text-sm text-gray-500">Total Procured</p>
+                                                                        <p className="text-2xl font-bold text-green-700">
+                                                                            {new Intl.NumberFormat('fr-FR').format(supplierFinancials.totalProcurement)} FCFA
+                                                                        </p>
+                                                                        <p className="text-xs text-gray-500 mt-1">
+                                                                            {supplierFinancials.expenses?.length || 0} expense record{(supplierFinancials.expenses?.length || 0) !== 1 ? 's' : ''}
+                                                                        </p>
+                                                                    </div>
+                                                                    <div className="bg-blue-50/50 rounded-xl p-4 border border-blue-200 text-center">
+                                                                        <p className="text-sm text-gray-500">Revenue from Batches</p>
+                                                                        <p className="text-2xl font-bold text-blue-700">
+                                                                            {new Intl.NumberFormat('fr-FR').format(supplierFinancials.totalRevenue)} FCFA
+                                                                        </p>
+                                                                        <p className="text-xs text-gray-500 mt-1">
+                                                                            {supplierFinancials.revenues?.length || 0} sale record{(supplierFinancials.revenues?.length || 0) !== 1 ? 's' : ''}
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+
+                                                                {/* Expenses Table */}
+                                                                {supplierFinancials.expenses?.length > 0 && (
+                                                                    <div className="mb-4">
+                                                                        <h4 className="font-medium text-primary mb-2">Procurement Expenses</h4>
+                                                                        <div className="overflow-x-auto">
+                                                                            <table className="w-full text-sm">
+                                                                                <thead>
+                                                                                <tr className="border-b border-gray-200 text-left">
+                                                                                    <th className="pb-2">Date</th>
+                                                                                    <th className="pb-2">Amount</th>
+                                                                                    <th className="pb-2">Batch</th>
+                                                                                    <th className="pb-2">Description</th>
+                                                                                </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                {supplierFinancials.expenses.map((exp: any) => (
+                                                                                    <tr key={exp.id} className="border-b border-gray-100">
+                                                                                        <td className="py-1">{new Date(exp.date).toLocaleDateString()}</td>
+                                                                                        <td className="py-1 font-medium">{new Intl.NumberFormat('fr-FR').format(exp.amount)} FCFA</td>
+                                                                                        <td className="py-1">{exp.batchNumber || '—'}</td>
+                                                                                        <td className="py-1 text-xs text-gray-500">{exp.description || '—'}</td>
+                                                                                    </tr>
+                                                                                ))}
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                )}
+
+                                                                {/* Revenue Table */}
+                                                                {supplierFinancials.revenues?.length > 0 && (
+                                                                    <div>
+                                                                        <h4 className="font-medium text-primary mb-2">Sales Revenue</h4>
+                                                                        <div className="overflow-x-auto">
+                                                                            <table className="w-full text-sm">
+                                                                                <thead>
+                                                                                <tr className="border-b border-gray-200 text-left">
+                                                                                    <th className="pb-2">Date</th>
+                                                                                    <th className="pb-2">Batch</th>
+                                                                                    <th className="pb-2">Buyer</th>
+                                                                                    <th className="pb-2">Quality</th>
+                                                                                    <th className="pb-2">Amount</th>
+                                                                                </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                {supplierFinancials.revenues.map((rev: any) => (
+                                                                                    <tr key={rev.id} className="border-b border-gray-100">
+                                                                                        <td className="py-1">{new Date(rev.harvestDate || rev.createdAt).toLocaleDateString()}</td>
+                                                                                        <td className="py-1">{rev.batchNumber || '—'}</td>
+                                                                                        <td className="py-1">{rev.buyer || '—'}</td>
+                                                                                        <td className="py-1">
+                                                                                        <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${
+                                                                                                 rev.quality === 'PREMIUM' ? 'bg-amber-100 text-amber-700' : 'bg-blue-100 text-blue-700'
+                                                                                                 }`}>{rev.quality}</span>
+                                                                                        </td>
+                                                                                        <td className="py-1 font-medium">{new Intl.NumberFormat('fr-FR').format(rev.totalAmount)} FCFA</td>
+                                                                                    </tr>
+                                                                                ))}
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                )}
+                                                            </>
                                                         )}
                                                     </div>
                                                 )}
@@ -795,6 +889,7 @@ const SupplierManagement: React.FC = () => {
                     </div>
                 </Dialog>
             </Transition.Root>
+        </div>
         </div>
     );
 };
