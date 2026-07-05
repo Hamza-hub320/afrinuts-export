@@ -93,7 +93,7 @@ const Batches: React.FC = () => {
         setSelectedBatch(batch);
         setModalLoading(true);
         try {
-            const data = await getSupplierData('getBatchDetail', { batchId: batch.id });
+            const data = await getSupplierData('getBatchDetail', { batchId: String(batch.id) });
             setBatchDetail(data);
         } catch (error) {
             console.error('Error fetching batch detail:', error);
