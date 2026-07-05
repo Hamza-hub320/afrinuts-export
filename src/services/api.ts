@@ -28,7 +28,7 @@ export const getSupplierData = async (action: string, params?: any) => {
     if (isDevelopment) {
         return getMockData(action, params);
     }
-    return callApi('supplierData', { action, ...params });
+    return callApi('supplierData', { action, ...params }, false);
 };
 
 export async function callApi(endpoint: string, data?: any, requireAuth = true, method: string = 'POST') {
