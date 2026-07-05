@@ -223,7 +223,7 @@ const SupplierManagement: React.FC = () => {
 
                     {/* Search & Filter */}
                     <div className="flex flex-col sm:flex-row gap-4 mb-6">
-                        <div className="relative flex-1">
+                        <div className="relative w-full sm:min-w-[280px] sm:max-w-sm">
                             <FaSearch className="absolute left-4 top-3.5 text-gray-400" />
                             <input
                                 type="text"
@@ -382,76 +382,78 @@ const SupplierManagement: React.FC = () => {
             </Section>
 
             {/* Quality Distribution */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                <InfoCard
-                    icon={FaChartBar}
-                    title="Quality Tier Distribution"
-                    iconColor="text-primary"
-                    showInfoBadge={false}
-                >
-                    <div className="space-y-3 mt-3">
-                        {[
-                            { label: 'Premium (≥95%)', count: suppliers.filter(s => s.averageQualityScore >= 95).length, color: 'bg-amber-500' },
-                            { label: 'Standard (80-94%)', count: suppliers.filter(s => s.averageQualityScore >= 80 && s.averageQualityScore < 95).length, color: 'bg-blue-500' },
-                            { label: 'Developing (<80%)', count: suppliers.filter(s => s.averageQualityScore < 80).length, color: 'bg-gray-400' },
-                        ].map((tier, i) => (
-                            <div key={i}>
-                                <div className="flex justify-between text-xs mb-1">
-                                    <span>{tier.label}</span>
-                                    <span className="font-medium">{tier.count} supplier{tier.count !== 1 ? 's' : ''}</span>
-                                </div>
-                                <div className="w-full bg-gray-200 rounded-full h-2.5">
-                                    <motion.div
-                                        className={`${tier.color} h-2.5 rounded-full`}
-                                        initial={{ width: 0 }}
-                                        animate={{ width: `${suppliers.length > 0 ? (tier.count / suppliers.length) * 100 : 0}%` }}
-                                        transition={{ duration: 1, delay: 0.2 }}
-                                    />
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </InfoCard>
-
-                {/* Sustainability Compliance Scorecard */}
-                <InfoCard
-                    icon={FaLeaf}
-                    title="Sustainability Compliance"
-                    iconColor="text-green-600"
-                    showInfoBadge={false}
-                >
-                    <div className="space-y-3 mt-3">
-                        {[
-                            { label: 'Sustainable Harvesting', key: 'sustainableHarvesting' },
-                            { label: 'Firebreak Protection', key: 'firebreakProtection' },
-                            { label: 'No Child Labor', key: 'noChildLabor' },
-                        ].map((item, i) => {
-                            const compliant = suppliers.filter(s => (s as any)[item.key]).length;
-                            const pct = suppliers.length > 0 ? (compliant / suppliers.length) * 100 : 0;
-                            return (
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 mb-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <InfoCard
+                        icon={FaChartBar}
+                        title="Quality Tier Distribution"
+                        iconColor="text-primary"
+                        showInfoBadge={false}
+                    >
+                        <div className="space-y-3 mt-3">
+                            {[
+                                { label: 'Premium (≥95%)', count: suppliers.filter(s => s.averageQualityScore >= 95).length, color: 'bg-amber-500' },
+                                { label: 'Standard (80-94%)', count: suppliers.filter(s => s.averageQualityScore >= 80 && s.averageQualityScore < 95).length, color: 'bg-blue-500' },
+                                { label: 'Developing (<80%)', count: suppliers.filter(s => s.averageQualityScore < 80).length, color: 'bg-gray-400' },
+                            ].map((tier, i) => (
                                 <div key={i}>
                                     <div className="flex justify-between text-xs mb-1">
-                                        <span>{item.label}</span>
-                                        <span className="font-medium">{compliant}/{suppliers.length} ({pct.toFixed(0)}%)</span>
+                                        <span>{tier.label}</span>
+                                        <span className="font-medium">{tier.count} supplier{tier.count !== 1 ? 's' : ''}</span>
                                     </div>
                                     <div className="w-full bg-gray-200 rounded-full h-2.5">
                                         <motion.div
-                                            className="bg-green-500 h-2.5 rounded-full"
+                                            className={`${tier.color} h-2.5 rounded-full`}
                                             initial={{ width: 0 }}
-                                            animate={{ width: `${pct}%` }}
-                                            transition={{ duration: 1, delay: 0.3 + i * 0.1 }}
+                                            animate={{ width: `${suppliers.length > 0 ? (tier.count / suppliers.length) * 100 : 0}%` }}
+                                            transition={{ duration: 1, delay: 0.2 }}
                                         />
                                     </div>
                                 </div>
-                            );
-                        })}
-                    </div>
-                </InfoCard>
+                            ))}
+                        </div>
+                    </InfoCard>
+
+                    {/* Sustainability Compliance Scorecard */}
+                    <InfoCard
+                        icon={FaLeaf}
+                        title="Sustainability Compliance"
+                        iconColor="text-green-600"
+                        showInfoBadge={false}
+                    >
+                        <div className="space-y-3 mt-3">
+                            {[
+                                { label: 'Sustainable Harvesting', key: 'sustainableHarvesting' },
+                                { label: 'Firebreak Protection', key: 'firebreakProtection' },
+                                { label: 'No Child Labor', key: 'noChildLabor' },
+                            ].map((item, i) => {
+                                const compliant = suppliers.filter(s => (s as any)[item.key]).length;
+                                const pct = suppliers.length > 0 ? (compliant / suppliers.length) * 100 : 0;
+                                return (
+                                    <div key={i}>
+                                        <div className="flex justify-between text-xs mb-1">
+                                            <span>{item.label}</span>
+                                            <span className="font-medium">{compliant}/{suppliers.length} ({pct.toFixed(0)}%)</span>
+                                        </div>
+                                        <div className="w-full bg-gray-200 rounded-full h-2.5">
+                                            <motion.div
+                                                className="bg-green-500 h-2.5 rounded-full"
+                                                initial={{ width: 0 }}
+                                                animate={{ width: `${pct}%` }}
+                                                transition={{ duration: 1, delay: 0.3 + i * 0.1 }}
+                                            />
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </InfoCard>
+                </div>
             </div>
 
             {/* Financial Efficiency */}
             <Section className="py-6">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6">
+                <div className="max-w-4xl mx-auto px-4 sm:px-6">
                     <InfoCard
                         icon={FaDollarSign}
                         title="Supplier Financial Efficiency"
@@ -459,7 +461,8 @@ const SupplierManagement: React.FC = () => {
                         iconColor="text-primary"
                         showInfoBadge={false}
                     >
-                        <div className="overflow-x-auto mt-3">
+                        {/* Desktop Table */}
+                        <div className="hidden md:block overflow-x-auto mt-3">
                             <table className="w-full text-sm">
                                 <thead>
                                 <tr className="border-b border-gray-200 text-left">
@@ -471,9 +474,8 @@ const SupplierManagement: React.FC = () => {
                                 </thead>
                                 <tbody>
                                 {suppliers.slice(0, 5).map(supplier => {
-                                    // These would come from the financials endpoint; for demo we'll use supplier data
-                                    const procurement = supplier.annualVolumeKg * 500; // Example: avg 500 FCFA/kg procurement
-                                    const revenue = supplier.annualVolumeKg * 1500; // Example: avg 1500 FCFA/kg revenue
+                                    const procurement = supplier.annualVolumeKg * 500;
+                                    const revenue = supplier.annualVolumeKg * 1500;
                                     const efficiency = (revenue / (procurement || 1)).toFixed(1);
                                     return (
                                         <tr key={supplier.id} className="border-b border-gray-100 last:border-0 hover:bg-white/20">
@@ -481,9 +483,9 @@ const SupplierManagement: React.FC = () => {
                                             <td className="py-2">{new Intl.NumberFormat('fr-FR').format(procurement)} FCFA</td>
                                             <td className="py-2">{new Intl.NumberFormat('fr-FR').format(revenue)} FCFA</td>
                                             <td className="py-2">
-                                        <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${Number(efficiency) > 2 ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}`}>
-                                            {efficiency}x
-                                        </span>
+                                    <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${Number(efficiency) > 2 ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}`}>
+                                        {efficiency}x
+                                    </span>
                                             </td>
                                         </tr>
                                     );
@@ -491,10 +493,42 @@ const SupplierManagement: React.FC = () => {
                                 </tbody>
                             </table>
                         </div>
+
+                        {/* Mobile Cards */}
+                        <div className="md:hidden space-y-3 mt-3">
+                            {suppliers.slice(0, 5).map(supplier => {
+                                const procurement = supplier.annualVolumeKg * 500;
+                                const revenue = supplier.annualVolumeKg * 1500;
+                                const efficiency = (revenue / (procurement || 1)).toFixed(1);
+                                return (
+                                    <motion.div
+                                        key={supplier.id}
+                                        className="bg-white/40 backdrop-blur-sm rounded-xl p-4 border border-white/30"
+                                        whileHover={{ y: -2 }}
+                                    >
+                                        <div className="flex items-center justify-between mb-2">
+                                            <span className="font-medium text-primary text-sm">{supplier.name}</span>
+                                            <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${Number(efficiency) > 2 ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}`}>
+                                    {efficiency}x
+                                </span>
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-2 text-xs">
+                                            <div>
+                                                <span className="text-gray-500">Procurement</span>
+                                                <p className="font-medium text-gray-700">{new Intl.NumberFormat('fr-FR').format(procurement)} FCFA</p>
+                                            </div>
+                                            <div>
+                                                <span className="text-gray-500">Revenue</span>
+                                                <p className="font-medium text-gray-700">{new Intl.NumberFormat('fr-FR').format(revenue)} FCFA</p>
+                                            </div>
+                                        </div>
+                                    </motion.div>
+                                );
+                            })}
+                        </div>
                     </InfoCard>
                 </div>
             </Section>
-
             {/* Supplier Detail Modal */}
             <Transition.Root show={!!selectedSupplier} as={Fragment}>
                 <Dialog as="div" className="relative z-50" onClose={() => setSelectedSupplier(null)}>
