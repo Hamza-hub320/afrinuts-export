@@ -239,13 +239,16 @@ const Batches: React.FC = () => {
                                             const supplierMap = new Map<number, { name: string; scores: number[] }>();
                                             batches.forEach(b => {
                                                 if (!supplierMap.has(b.supplierId)) {
-                                                    supplierMap.set(b.supplierId, { name: `Supplier #${b.supplierId}`, scores: [] });
+                                                    supplierMap.set(b.supplierId, {
+                                                        name: supplierNames.get(b.supplierId) || `Supplier #${b.supplierId}`,
+                                                        scores: []
+                                                    });
                                                 }
                                                 supplierMap.get(b.supplierId)!.scores.push(b.qualityScore);
                                             });
                                             return Array.from(supplierMap.entries())
                                                 .map(([id, data]) => ({
-                                                    name: data.name,
+                                                    name: supplierNames.get(id) || `Supplier #${id}`,
                                                     score: parseFloat((data.scores.reduce((s, v) => s + v, 0) / data.scores.length).toFixed(1)),
                                                     batches: data.scores.length,
                                                 }))
@@ -253,7 +256,7 @@ const Batches: React.FC = () => {
                                                 .slice(0, 5);
                                         })()}
                                         layout="vertical"
-                                        margin={{ left: 60, right: 20, top: 10, bottom: 10 }}
+                                        margin={{ left: 80, right: 20, top: 10, bottom: 10 }}
                                     >
                                         <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
                                         <XAxis type="number" domain={[0, 100]} tickFormatter={(v) => `${v}%`} />
@@ -393,7 +396,7 @@ const Batches: React.FC = () => {
 
                                         {modalLoading ? (
                                             <div className="flex justify-center py-12"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div></div>
-                                        ) : batchDetail?.batch ? (
+                                        ) : batchDetail && batchDetail.batch ? (
                                             <div className="space-y-6">
                                                 {/* Quality Metrics */}
                                                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
