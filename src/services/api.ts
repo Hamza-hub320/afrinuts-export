@@ -40,11 +40,12 @@ export async function callApi(endpoint: string, data?: any, requireAuth = true, 
             idToken = await auth.currentUser?.getIdToken();
         }
 
+        console.log('Calling', endpoint, '| auth required:', requireAuth, '| token present:', !!idToken);
+
         let url = `${baseUrl}/${endpoint}`;
         let body: string | undefined;
 
         if (method === 'GET' && data) {
-            // Convert data to query string
             const params = new URLSearchParams();
             Object.entries(data).forEach(([key, value]) => {
                 params.append(key, String(value));
@@ -64,12 +65,14 @@ export async function callApi(endpoint: string, data?: any, requireAuth = true, 
         });
 
         if (!response.ok) {
+            const errorText = await response.text();
+            console.error('API error response:', errorText);
             throw new Error(`API call failed: ${response.status}`);
         }
 
         return await response.json();
     } catch (error) {
-        console.warn(`API call to ${endpoint} failed, using mock data:`, error);
+        console.warn(`API call to ${endpoint} failed:`, error);
         return null;
     }
 }
