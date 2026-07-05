@@ -1,10 +1,14 @@
 import React, { useEffect, useState, Fragment } from 'react';
 import { motion } from 'framer-motion';
 import {
+    BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
+    AreaChart, Area, Cell
+} from 'recharts';
+import {
     FaBox, FaSearch, FaTimes, FaCheckCircle, FaTimesCircle,
     FaLeaf, FaFireExtinguisher, FaChild, FaChartBar,
     FaStar, FaCalendarAlt, FaDollarSign, FaUser,
-    FaFlask, FaIndustry, FaExclamationTriangle, FaTint
+    FaFlask, FaIndustry, FaExclamationTriangle, FaTint, FaGlobeEurope, FaShip
 } from 'react-icons/fa';
 import { Typography } from '@/components/Typography/Typography';
 import { InfoCard } from '@/components/InfoCard/InfoCard';
@@ -44,6 +48,7 @@ const Batches: React.FC = () => {
     const [selectedBatch, setSelectedBatch] = useState<Batch | null>(null);
     const [batchDetail, setBatchDetail] = useState<any>(null);
     const [modalLoading, setModalLoading] = useState(false);
+    const [supplierNames, setSupplierNames] = useState<Map<number, string>>(new Map());
 
     const isDevelopment = import.meta.env.DEV;
 
@@ -59,6 +64,29 @@ const Batches: React.FC = () => {
             }
         };
         fetchBatches();
+    }, []);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const [batchesData, suppliersData] = await Promise.all([
+                    getSupplierData('getAllBatches'),
+                    getSupplierData('getSuppliers'),
+                ]);
+                setBatches(batchesData.batches || []);
+
+                const names = new Map<number, string>();
+                (suppliersData.suppliers || []).forEach((s: any) => {
+                    names.set(parseInt(s.id), s.name);
+                });
+                setSupplierNames(names);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchData();
     }, []);
 
     const openBatchDetail = async (batch: Batch) => {
@@ -194,98 +222,100 @@ const Batches: React.FC = () => {
                         </div>
                     </div>
 
-                    {/* Supplier Quality Comparison */}
+                    {/* Charts Row */}
                     <div className="max-w-6xl mx-auto px-4 sm:px-6 mb-8">
-                        <InfoCard
-                            icon={FaChartBar}
-                            title="Supplier Quality Comparison"
-                            subtitle="Average quality score by supplier across all batches"
-                            iconColor="text-primary"
-                            showInfoBadge={false}
-                        >
-                            <div className="space-y-3 mt-3">
-                                {(() => {
-                                    // Group batches by supplier
-                                    const supplierMap = new Map<number, { name: string; scores: number[]; totalWeight: number }>();
-                                    batches.forEach(b => {
-                                        if (!supplierMap.has(b.supplierId)) {
-                                            supplierMap.set(b.supplierId, { name: `Supplier #${b.supplierId}`, scores: [], totalWeight: 0 });
-                                        }
-                                        const entry = supplierMap.get(b.supplierId)!;
-                                        entry.scores.push(b.qualityScore);
-                                        entry.totalWeight += b.weightKg;
-                                    });
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            {/* Supplier Quality Comparison - Bar Chart */}
+                            <InfoCard
+                                icon={FaChartBar}
+                                title="Supplier Quality Comparison"
+                                subtitle="Average quality score by supplier"
+                                iconColor="text-primary"
+                                showInfoBadge={false}
+                            >
+                                <ResponsiveContainer width="100%" height={250}>
+                                    <BarChart
+                                        data={(() => {
+                                            const supplierMap = new Map<number, { name: string; scores: number[] }>();
+                                            batches.forEach(b => {
+                                                if (!supplierMap.has(b.supplierId)) {
+                                                    supplierMap.set(b.supplierId, { name: `Supplier #${b.supplierId}`, scores: [] });
+                                                }
+                                                supplierMap.get(b.supplierId)!.scores.push(b.qualityScore);
+                                            });
+                                            return Array.from(supplierMap.entries())
+                                                .map(([id, data]) => ({
+                                                    name: data.name,
+                                                    score: parseFloat((data.scores.reduce((s, v) => s + v, 0) / data.scores.length).toFixed(1)),
+                                                    batches: data.scores.length,
+                                                }))
+                                                .sort((a, b) => b.score - a.score)
+                                                .slice(0, 5);
+                                        })()}
+                                        layout="vertical"
+                                        margin={{ left: 60, right: 20, top: 10, bottom: 10 }}
+                                    >
+                                        <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                                        <XAxis type="number" domain={[0, 100]} tickFormatter={(v) => `${v}%`} />
+                                        <YAxis type="category" dataKey="name" stroke="#6b7280" fontSize={12} width={80} />
+                                        <Tooltip formatter={(value) => `${value}%`} />
+                                        <Bar dataKey="score" radius={[0, 6, 6, 0]}>
+                                            {(() => {
+                                                const supplierMap = new Map<number, { name: string; scores: number[] }>();
+                                                batches.forEach(b => {
+                                                    if (!supplierMap.has(b.supplierId)) {
+                                                        supplierMap.set(b.supplierId, { name: `Supplier #${b.supplierId}`, scores: [] });
+                                                    }
+                                                    supplierMap.get(b.supplierId)!.scores.push(b.qualityScore);
+                                                });
+                                                return Array.from(supplierMap.entries())
+                                                    .sort((a, b) => {
+                                                        const avgA = a[1].scores.reduce((s, v) => s + v, 0) / a[1].scores.length;
+                                                        const avgB = b[1].scores.reduce((s, v) => s + v, 0) / b[1].scores.length;
+                                                        return avgB - avgA;
+                                                    })
+                                                    .slice(0, 5)
+                                                    .map((_, i) => (
+                                                        <Cell key={i} fill={['#5A7411', '#E04E00', '#A0C800', '#253746', '#698714'][i]} />
+                                                    ));
+                                            })()}
+                                        </Bar>
+                                    </BarChart>
+                                </ResponsiveContainer>
+                            </InfoCard>
 
-                                    return Array.from(supplierMap.entries())
-                                        .sort((a, b) => {
-                                            const avgA = a[1].scores.reduce((s, v) => s + v, 0) / a[1].scores.length;
-                                            const avgB = b[1].scores.reduce((s, v) => s + v, 0) / b[1].scores.length;
-                                            return avgB - avgA;
-                                        })
-                                        .slice(0, 5)
-                                        .map(([supplierId, data], i) => {
-                                            const avg = data.scores.reduce((s, v) => s + v, 0) / data.scores.length;
-                                            return (
-                                                <div key={supplierId}>
-                                                    <div className="flex justify-between text-xs mb-1">
-                                                        <span className="font-medium">{data.name}</span>
-                                                        <span>{avg.toFixed(1)}% · {data.scores.length} batch{data.scores.length !== 1 ? 'es' : ''}</span>
-                                                    </div>
-                                                    <div className="w-full bg-gray-200 rounded-full h-2.5">
-                                                        <motion.div
-                                                            className={`h-2.5 rounded-full ${avg >= 95 ? 'bg-green-500' : avg >= 85 ? 'bg-amber-500' : 'bg-red-500'}`}
-                                                            initial={{ width: 0 }}
-                                                            animate={{ width: `${avg}%` }}
-                                                            transition={{ duration: 1, delay: 0.1 * i }}
-                                                        />
-                                                    </div>
-                                                </div>
-                                            );
-                                        });
-                                })()}
-                            </div>
-                        </InfoCard>
-                    </div>
-
-                    {/* Delivery Volume Trend */}
-                    <div className="max-w-6xl mx-auto px-4 sm:px-6 mb-8">
-                        <InfoCard
-                            icon={FaCalendarAlt}
-                            title="Delivery Volume Trend"
-                            subtitle="Total weight delivered over time"
-                            iconColor="text-primary"
-                            showInfoBadge={false}
-                        >
-                            <div className="mt-3">
-                                {(() => {
-                                    // Group by month
-                                    const monthlyData = new Map<string, number>();
-                                    batches.forEach(b => {
-                                        const month = new Date(b.processingDate).toLocaleString('default', { month: 'short', year: 'numeric' });
-                                        monthlyData.set(month, (monthlyData.get(month) || 0) + (b.weightKg || 0));
-                                    });
-                                    const entries = Array.from(monthlyData.entries()).sort((a, b) => new Date(a[0]).getTime() - new Date(b[0]).getTime());
-                                    const maxVol = Math.max(...entries.map(e => e[1]));
-
-                                    return entries.slice(-6).map(([month, vol], i) => (
-                                        <div key={month} className="mb-2">
-                                            <div className="flex justify-between text-xs mb-1">
-                                                <span>{month}</span>
-                                                <span className="font-medium">{(vol / 1000).toFixed(1)}T</span>
-                                            </div>
-                                            <div className="w-full bg-gray-200 rounded-full h-2">
-                                                <motion.div
-                                                    className="bg-primary h-2 rounded-full"
-                                                    initial={{ width: 0 }}
-                                                    animate={{ width: `${(vol / maxVol) * 100}%` }}
-                                                    transition={{ duration: 1, delay: 0.1 * i }}
-                                                />
-                                            </div>
-                                        </div>
-                                    ));
-                                })()}
-                            </div>
-                        </InfoCard>
+                            {/* Delivery Volume Trend - Area Chart */}
+                            <InfoCard
+                                icon={FaCalendarAlt}
+                                title="Delivery Volume Trend"
+                                subtitle="Total weight delivered over time"
+                                iconColor="text-primary"
+                                showInfoBadge={false}
+                            >
+                                <ResponsiveContainer width="100%" height={250}>
+                                    <AreaChart
+                                        data={(() => {
+                                            const monthlyData = new Map<string, number>();
+                                            batches.forEach(b => {
+                                                const month = new Date(b.processingDate).toLocaleString('default', { month: 'short', year: '2-digit' });
+                                                monthlyData.set(month, (monthlyData.get(month) || 0) + (b.weightKg || 0));
+                                            });
+                                            return Array.from(monthlyData.entries())
+                                                .sort((a, b) => new Date(a[0]).getTime() - new Date(b[0]).getTime())
+                                                .slice(-6)
+                                                .map(([month, vol]) => ({ month, tonnes: parseFloat((vol / 1000).toFixed(1)) }));
+                                        })()}
+                                        margin={{ top: 10, right: 20, left: 10, bottom: 10 }}
+                                    >
+                                        <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                                        <XAxis dataKey="month" stroke="#6b7280" fontSize={12} />
+                                        <YAxis stroke="#6b7280" fontSize={12} tickFormatter={(v) => `${v}T`} />
+                                        <Tooltip formatter={(value) => `${value} tonnes`} />
+                                        <Area type="monotone" dataKey="tonnes" stroke="#5A7411" fill="#5A7411" fillOpacity={0.2} strokeWidth={2} />
+                                    </AreaChart>
+                                </ResponsiveContainer>
+                            </InfoCard>
+                        </div>
                     </div>
 
                     {/* Search & Filter */}
@@ -447,21 +477,20 @@ const Batches: React.FC = () => {
                 >
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-3 text-center">
                         {[
-                            { label: 'EU Compliant', value: batches.filter(b => (parseTestResults(b.testResults || '{}').aflatoxin || 99) < 4).length, total: batches.length, icon: '🇪🇺' },
-                            { label: 'Organic Grade', value: batches.filter(b => b.qualityGrade === 'PREMIUM' && b.defectiveRate < 3).length, total: batches.length, icon: '🌱' },
-                            { label: 'Export Ready', value: batches.filter(b => b.qualityScore >= 95 && b.defectiveRate < 5).length, total: batches.length, icon: '🚢' },
-                            { label: 'Needs Review', value: batches.filter(b => b.defectiveRate > 5 || b.moistureContent > 7).length, total: batches.length, icon: '🔍' },
+                            { label: 'EU Compliant', value: batches.filter(b => (parseTestResults(b.testResults || '{}').aflatoxin || 99) < 4).length, total: batches.length, icon: FaGlobeEurope, color: 'text-blue-500' },
+                            { label: 'Organic Grade', value: batches.filter(b => b.qualityGrade === 'PREMIUM' && b.defectiveRate < 3).length, total: batches.length, icon: FaLeaf, color: 'text-green-500' },
+                            { label: 'Export Ready', value: batches.filter(b => b.qualityScore >= 95 && b.defectiveRate < 5).length, total: batches.length, icon: FaShip, color: 'text-primary' },
+                            { label: 'Needs Review', value: batches.filter(b => b.defectiveRate > 5 || b.moistureContent > 7).length, total: batches.length, icon: FaSearch, color: 'text-amber-500' },
                         ].map((item, i) => (
                             <div key={i} className="bg-white/40 rounded-xl p-3 border border-white/30">
-                                <div className="text-2xl">{item.icon}</div>
-                                <div className="text-lg font-bold">{item.value}/{item.total}</div>
+                                <item.icon className={`text-2xl mx-auto ${item.color}`} />
+                                <div className="text-lg font-bold mt-1">{item.value}/{item.total}</div>
                                 <div className="text-xs text-gray-500">{item.label}</div>
                             </div>
                         ))}
                     </div>
                 </InfoCard>
             </div>
-
         </div>
     );
 };
