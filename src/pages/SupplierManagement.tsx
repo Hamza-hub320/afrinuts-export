@@ -6,7 +6,7 @@ import {
     FaSearch, FaChevronDown, FaTimes, FaFileAlt, FaChartBar,
     FaLeaf, FaFireExtinguisher, FaChild, FaHandshake,
     FaTractor, FaCalendarAlt, FaDollarSign, FaIndustry,
-    FaAward, FaUser
+    FaAward, FaUser, FaTrophy
 } from 'react-icons/fa';
 import { Typography } from '@/components/Typography/Typography';
 import { InfoCard } from '@/components/InfoCard/InfoCard';
@@ -15,6 +15,8 @@ import Section from '@/components/Section/Section';
 import { fadeIn, staggerContainer } from '@/utils/animations';
 import { getSupplierData } from '../services/api';
 import { Dialog, Transition } from '@headlessui/react';
+import SupplierMap from '@/components/SupplierMap/SupplierMap';
+import Sparkline from '@/components/Sparkline/Sparkline';
 
 interface Supplier {
     id: string;
@@ -22,6 +24,8 @@ interface Supplier {
     type: string;
     status: string;
     location: string;
+    region?: string;           // ADD
+    country?: string;          // ADD
     contactPerson: string;
     phone: string;
     email: string;
@@ -34,12 +38,18 @@ interface Supplier {
     certificationType?: string;
     certificationNumber?: string;
     certificationExpiryDate?: number;
+    registrationNumber?: string;  // ADD
+    taxId?: string;               // ADD
+    notes?: string;               // ADD
+    hasLocation?: boolean;        // ADD
     firebreakProtection?: boolean;
     noChildLabor?: boolean;
     sustainableHarvesting?: boolean;
     photoUrl?: string;
     bio?: string;
     quote?: string;
+    latitude?: number;
+    longitude?: number;
 }
 
 interface QualityBatch {
@@ -58,6 +68,8 @@ interface QualityBatch {
     sustainableHarvesting?: boolean;
     firebreakProtection?: boolean;
     noChildLabor?: boolean;
+    farmOsMonitored?: boolean;  // ADD
+    verifiedAt?: number;        // ADD
 }
 
 const SupplierManagement: React.FC = () => {
@@ -70,6 +82,8 @@ const SupplierManagement: React.FC = () => {
     const [supplierFinancials, setSupplierFinancials] = useState<any>(null);
     const [activeTab, setActiveTab] = useState<'profile' | 'quality' | 'financials'>('profile');
     const [modalLoading, setModalLoading] = useState(false);
+    const [gradeDistribution, setGradeDistribution] = useState<{ grade: string; count: number }[]>([]);
+    const [supplierTrend, setSupplierTrend] = useState<number[]>([]);
 
     const isDevelopment = import.meta.env.DEV;
 
@@ -96,8 +110,14 @@ const SupplierManagement: React.FC = () => {
                 getSupplierData('getSupplierQualityBatches', { supplierId: supplier.id }),
                 getSupplierData('getSupplierFinancials', { supplierId: supplier.id }),
             ]);
-            setSupplierBatches(batchesData.batches || []);
+            const batches = batchesData.batches || [];
+            setSupplierBatches(batches);
             setSupplierFinancials(financialsData);
+
+            // Compute trend from batches
+            const last5Batches = batches.slice(0, 5);
+            const trendScores = last5Batches.map((b: QualityBatch) => b.qualityScore).reverse();
+            setSupplierTrend(trendScores);
         } catch (error) {
             console.error('Error fetching supplier details:', error);
         } finally {
@@ -271,6 +291,201 @@ const SupplierManagement: React.FC = () => {
                 </div>
             </Section>
 
+            {/* Supplier Leaderboard */}
+            <Section className="py-6">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6">
+                    <motion.div
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={staggerContainer}
+                        className="mb-8"
+                    >
+                        <Typography variant="h3" className="mb-4 text-primary flex items-center gap-2">
+                            <FaTrophy className="text-yellow-500" />
+                            Supplier Leaderboard
+                        </Typography>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            {suppliers
+                                .filter(s => s.annualVolumeKg > 0)
+                                .sort((a, b) => {
+                                    const scoreA = (a.averageQualityScore * (a.annualVolumeKg / 1000)) * (a.sustainableHarvesting ? 1.2 : 1);
+                                    const scoreB = (b.averageQualityScore * (b.annualVolumeKg / 1000)) * (b.sustainableHarvesting ? 1.2 : 1);
+                                    return scoreB - scoreA;
+                                })
+                                .slice(0, 6)
+                                .map((supplier, idx) => (
+                                    <motion.div
+                                        key={supplier.id}
+                                        variants={fadeIn}
+                                        transition={{ delay: idx * 0.1 }}
+                                        className="flex items-center gap-3 p-3 rounded-xl bg-white/40 backdrop-blur-sm border border-white/30"
+                                        whileHover={{ y: -2 }}
+                                    >
+                            <span className="text-lg font-bold text-primary w-8">
+                                {idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : `#${idx + 1}`}
+                            </span>
+                                        <div className="flex-1">
+                                            <p className="font-medium text-gray-900 text-sm">{supplier.name}</p>
+                                            <p className="text-xs text-gray-500">
+                                                Score: {supplier.averageQualityScore?.toFixed(1)}% · {(supplier.annualVolumeKg / 1000).toFixed(0)}T/yr
+                                            </p>
+                                        </div>
+                                        <div className="flex gap-1">
+                                            {supplier.sustainableHarvesting && <FaLeaf className="text-green-500 text-xs" title="Sustainable" />}
+                                            {supplier.firebreakProtection && <FaFireExtinguisher className="text-orange-500 text-xs" title="Firebreak" />}
+                                            {supplier.noChildLabor && <FaChild className="text-blue-500 text-xs" title="No Child Labor" />}
+                                        </div>
+                                    </motion.div>
+                                ))}
+                        </div>
+                    </motion.div>
+                </div>
+            </Section>
+
+            {/* Supplier Map */}
+            <Section className="py-6">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6">
+                    <motion.div
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={staggerContainer}
+                    >
+                        <Typography variant="h3" className="mb-4 text-primary flex items-center gap-2">
+                            <FaMapMarkerAlt className="text-accent" />
+                            Supplier Locations
+                        </Typography>
+                        <SupplierMap
+                            suppliers={suppliers.map(s => ({
+                                id: s.id,
+                                name: s.name,
+                                latitude: s.latitude || 0,
+                                longitude: s.longitude || 0,
+                                isActive: s.status === 'ACTIVE',
+                                type: s.type,
+                                location: s.location,
+                            }))}
+                            className="mb-6"
+                        />
+                    </motion.div>
+                </div>
+            </Section>
+
+            {/* Quality Distribution */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                <InfoCard
+                    icon={FaChartBar}
+                    title="Quality Tier Distribution"
+                    iconColor="text-primary"
+                    showInfoBadge={false}
+                >
+                    <div className="space-y-3 mt-3">
+                        {[
+                            { label: 'Premium (≥95%)', count: suppliers.filter(s => s.averageQualityScore >= 95).length, color: 'bg-amber-500' },
+                            { label: 'Standard (80-94%)', count: suppliers.filter(s => s.averageQualityScore >= 80 && s.averageQualityScore < 95).length, color: 'bg-blue-500' },
+                            { label: 'Developing (<80%)', count: suppliers.filter(s => s.averageQualityScore < 80).length, color: 'bg-gray-400' },
+                        ].map((tier, i) => (
+                            <div key={i}>
+                                <div className="flex justify-between text-xs mb-1">
+                                    <span>{tier.label}</span>
+                                    <span className="font-medium">{tier.count} supplier{tier.count !== 1 ? 's' : ''}</span>
+                                </div>
+                                <div className="w-full bg-gray-200 rounded-full h-2.5">
+                                    <motion.div
+                                        className={`${tier.color} h-2.5 rounded-full`}
+                                        initial={{ width: 0 }}
+                                        animate={{ width: `${suppliers.length > 0 ? (tier.count / suppliers.length) * 100 : 0}%` }}
+                                        transition={{ duration: 1, delay: 0.2 }}
+                                    />
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </InfoCard>
+
+                {/* Sustainability Compliance Scorecard */}
+                <InfoCard
+                    icon={FaLeaf}
+                    title="Sustainability Compliance"
+                    iconColor="text-green-600"
+                    showInfoBadge={false}
+                >
+                    <div className="space-y-3 mt-3">
+                        {[
+                            { label: 'Sustainable Harvesting', key: 'sustainableHarvesting' },
+                            { label: 'Firebreak Protection', key: 'firebreakProtection' },
+                            { label: 'No Child Labor', key: 'noChildLabor' },
+                        ].map((item, i) => {
+                            const compliant = suppliers.filter(s => (s as any)[item.key]).length;
+                            const pct = suppliers.length > 0 ? (compliant / suppliers.length) * 100 : 0;
+                            return (
+                                <div key={i}>
+                                    <div className="flex justify-between text-xs mb-1">
+                                        <span>{item.label}</span>
+                                        <span className="font-medium">{compliant}/{suppliers.length} ({pct.toFixed(0)}%)</span>
+                                    </div>
+                                    <div className="w-full bg-gray-200 rounded-full h-2.5">
+                                        <motion.div
+                                            className="bg-green-500 h-2.5 rounded-full"
+                                            initial={{ width: 0 }}
+                                            animate={{ width: `${pct}%` }}
+                                            transition={{ duration: 1, delay: 0.3 + i * 0.1 }}
+                                        />
+                                    </div>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </InfoCard>
+            </div>
+
+            {/* Financial Efficiency */}
+            <Section className="py-6">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6">
+                    <InfoCard
+                        icon={FaDollarSign}
+                        title="Supplier Financial Efficiency"
+                        subtitle="Revenue generated per 1 FCFA spent on procurement"
+                        iconColor="text-primary"
+                        showInfoBadge={false}
+                    >
+                        <div className="overflow-x-auto mt-3">
+                            <table className="w-full text-sm">
+                                <thead>
+                                <tr className="border-b border-gray-200 text-left">
+                                    <th className="pb-2 font-medium text-gray-600">Supplier</th>
+                                    <th className="pb-2 font-medium text-gray-600">Procurement</th>
+                                    <th className="pb-2 font-medium text-gray-600">Revenue</th>
+                                    <th className="pb-2 font-medium text-gray-600">Efficiency</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {suppliers.slice(0, 5).map(supplier => {
+                                    // These would come from the financials endpoint; for demo we'll use supplier data
+                                    const procurement = supplier.annualVolumeKg * 500; // Example: avg 500 FCFA/kg procurement
+                                    const revenue = supplier.annualVolumeKg * 1500; // Example: avg 1500 FCFA/kg revenue
+                                    const efficiency = (revenue / (procurement || 1)).toFixed(1);
+                                    return (
+                                        <tr key={supplier.id} className="border-b border-gray-100 last:border-0 hover:bg-white/20">
+                                            <td className="py-2 font-medium">{supplier.name}</td>
+                                            <td className="py-2">{new Intl.NumberFormat('fr-FR').format(procurement)} FCFA</td>
+                                            <td className="py-2">{new Intl.NumberFormat('fr-FR').format(revenue)} FCFA</td>
+                                            <td className="py-2">
+                                        <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${Number(efficiency) > 2 ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}`}>
+                                            {efficiency}x
+                                        </span>
+                                            </td>
+                                        </tr>
+                                    );
+                                })}
+                                </tbody>
+                            </table>
+                        </div>
+                    </InfoCard>
+                </div>
+            </Section>
+
             {/* Supplier Detail Modal */}
             <Transition.Root show={!!selectedSupplier} as={Fragment}>
                 <Dialog as="div" className="relative z-50" onClose={() => setSelectedSupplier(null)}>
@@ -344,6 +559,41 @@ const SupplierManagement: React.FC = () => {
                                             <>
                                                 {activeTab === 'profile' && selectedSupplier && (
                                                     <div className="space-y-4">
+                                                        {/* Photo + Name Header */}
+                                                        <div className="flex items-center gap-4">
+                                                            {selectedSupplier.photoUrl ? (
+                                                                <img src={selectedSupplier.photoUrl} alt={selectedSupplier.name}
+                                                                     className="w-20 h-20 rounded-full object-cover border-2 border-primary/20" />
+                                                            ) : (
+                                                                <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center">
+                                                                    <FaUsers className="text-primary text-2xl" />
+                                                                </div>
+                                                            )}
+                                                            <div>
+                                                                <h3 className="text-xl font-bold text-primary">{selectedSupplier.name}</h3>
+                                                                <p className="text-sm text-gray-500">{selectedSupplier.type?.replace(/_/g, ' ')} · {selectedSupplier.status}</p>
+                                                                <div className="flex items-center gap-2 mt-1">
+                                                                    {[...Array(5)].map((_, i) => (
+                                                                        <FaStar key={i} className={i < selectedSupplier.rating ? 'text-yellow-500' : 'text-gray-300'} />
+                                                                    ))}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        {/* Bio / Quote */}
+                                                        {selectedSupplier.bio && (
+                                                            <div className="bg-white/50 rounded-xl p-4 border border-white/30">
+                                                                <h4 className="font-medium text-primary mb-1">About</h4>
+                                                                <p className="text-sm text-gray-700">{selectedSupplier.bio}</p>
+                                                            </div>
+                                                        )}
+                                                        {selectedSupplier.quote && (
+                                                            <div className="bg-accent/10 rounded-xl p-4 italic text-accent-dark text-sm">
+                                                                "{selectedSupplier.quote}"
+                                                            </div>
+                                                        )}
+
+                                                        {/* Contact + Business Details Grid */}
                                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                                             <div className="bg-white/50 rounded-xl p-4 border border-white/30">
                                                                 <h4 className="font-medium text-primary mb-2">Contact Information</h4>
@@ -353,17 +603,37 @@ const SupplierManagement: React.FC = () => {
                                                                 <p className="text-sm flex items-center gap-2"><FaMapMarkerAlt className="text-gray-400" /> {selectedSupplier.location}</p>
                                                             </div>
                                                             <div className="bg-white/50 rounded-xl p-4 border border-white/30">
-                                                                <h4 className="font-medium text-primary mb-2">Farming Details</h4>
-                                                                <p className="text-sm">Farm Size: {selectedSupplier.farmSize ? `${selectedSupplier.farmSize} ha` : 'N/A'}</p>
-                                                                <p className="text-sm">Years Farming: {selectedSupplier.yearsFarming || 'N/A'}</p>
-                                                                <p className="text-sm">Annual Volume: {selectedSupplier.annualVolumeKg ? `${(selectedSupplier.annualVolumeKg / 1000).toFixed(1)}T` : 'N/A'}</p>
-                                                                <p className="text-sm">Quality Score: {selectedSupplier.averageQualityScore?.toFixed(1)}%</p>
+                                                                <h4 className="font-medium text-primary mb-2">Business Information</h4>
+                                                                <p className="text-sm"><strong>Region:</strong> {selectedSupplier.region || 'N/A'}</p>
+                                                                <p className="text-sm"><strong>Country:</strong> {selectedSupplier.country || 'N/A'}</p>
+                                                                <p className="text-sm"><strong>Registration #:</strong> {selectedSupplier.registrationNumber || 'N/A'}</p>
+                                                                <p className="text-sm"><strong>Tax ID:</strong> {selectedSupplier.taxId || 'N/A'}</p>
+                                                                {selectedSupplier.farmSize ? <p className="text-sm"><strong>Farm Size:</strong> {selectedSupplier.farmSize} ha</p> : null}
+                                                                {selectedSupplier.yearsFarming ? <p className="text-sm"><strong>Years Farming:</strong> {selectedSupplier.yearsFarming}</p> : null}
+                                                                <p className="text-sm"><strong>Annual Volume:</strong> {selectedSupplier.annualVolumeKg ? `${(selectedSupplier.annualVolumeKg / 1000).toFixed(1)}T` : 'N/A'}</p>
                                                             </div>
                                                         </div>
 
+                                                        {/* Certifications */}
+                                                        <div className="bg-white/50 rounded-xl p-4 border border-white/30">
+                                                            <h4 className="font-medium text-primary mb-2">Certifications</h4>
+                                                            {selectedSupplier.isCertified ? (
+                                                                <div className="space-y-1">
+                                                                    <p className="text-sm"><strong>Type:</strong> {selectedSupplier.certificationType || 'N/A'}</p>
+                                                                    <p className="text-sm"><strong>Number:</strong> {selectedSupplier.certificationNumber || 'N/A'}</p>
+                                                                    {selectedSupplier.certificationExpiryDate ? (
+                                                                        <p className="text-sm"><strong>Expires:</strong> {new Date(selectedSupplier.certificationExpiryDate).toLocaleDateString()}</p>
+                                                                    ) : null}
+                                                                </div>
+                                                            ) : (
+                                                                <p className="text-sm text-gray-500">Not certified</p>
+                                                            )}
+                                                        </div>
+
+                                                        {/* Sustainability Compliance */}
                                                         <div className="bg-white/50 rounded-xl p-4 border border-white/30">
                                                             <h4 className="font-medium text-primary mb-2">Sustainability Compliance</h4>
-                                                            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                                                            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                                                                 <div className="flex items-center gap-2">
                                                                     {selectedSupplier.sustainableHarvesting ? <FaCheckCircle className="text-green-500" /> : <FaTimesCircle className="text-red-400" />}
                                                                     <span className="text-sm">Sustainable Harvesting</span>
@@ -376,18 +646,17 @@ const SupplierManagement: React.FC = () => {
                                                                     {selectedSupplier.noChildLabor ? <FaCheckCircle className="text-green-500" /> : <FaTimesCircle className="text-red-400" />}
                                                                     <span className="text-sm">No Child Labor</span>
                                                                 </div>
+                                                                <div className="flex items-center gap-2">
+                                                                    <span className="text-sm text-gray-500">Has Location: {selectedSupplier.hasLocation ? 'Yes' : 'No'}</span>
+                                                                </div>
                                                             </div>
                                                         </div>
 
-                                                        {selectedSupplier.bio && (
-                                                            <div className="bg-white/50 rounded-xl p-4 border border-white/30">
-                                                                <h4 className="font-medium text-primary mb-2">Bio</h4>
-                                                                <p className="text-sm text-gray-700">{selectedSupplier.bio}</p>
-                                                            </div>
-                                                        )}
-                                                        {selectedSupplier.quote && (
-                                                            <div className="bg-accent/10 rounded-xl p-4 italic text-accent-dark">
-                                                                "{selectedSupplier.quote}"
+                                                        {/* Internal Notes (for management) */}
+                                                        {selectedSupplier.notes && (
+                                                            <div className="bg-amber-50/50 rounded-xl p-4 border border-amber-200">
+                                                                <h4 className="font-medium text-amber-700 mb-2">Internal Notes</h4>
+                                                                <p className="text-sm text-gray-700">{selectedSupplier.notes}</p>
                                                             </div>
                                                         )}
                                                     </div>
@@ -395,6 +664,29 @@ const SupplierManagement: React.FC = () => {
 
                                                 {activeTab === 'quality' && (
                                                     <div>
+                                                        {/* Quality Trend Sparkline */}
+                                                        {supplierTrend.length > 0 && (
+                                                            <div className="bg-white/50 rounded-xl p-4 border border-white/30 mb-4">
+                                                                <h4 className="font-medium text-primary mb-2">Quality Trend (Last {supplierTrend.length} Batches)</h4>
+                                                                <div className="flex items-center gap-3">
+                                                                    <Sparkline data={supplierTrend} width={120} height={36} color="#5A7411" />
+                                                                    <div className="text-sm text-gray-600">
+                                                                        {supplierTrend.length >= 2 ? (
+                                                                            <>
+                                                                                {supplierTrend[0].toFixed(1)}% → {supplierTrend[supplierTrend.length-1].toFixed(1)}%
+                                                                                <span className="ml-2 text-xs">
+                                                                                ({(() => {
+                                                                                    const diff = supplierTrend[supplierTrend.length-1] - supplierTrend[0];
+                                                                                    const dir = diff > 0 ? 'Improving' : diff < 0 ? 'Declining' : 'Stable';
+                                                                                    return <span className={diff > 0 ? 'text-green-600' : diff < 0 ? 'text-red-600' : 'text-gray-500'}>{dir}</span>;
+                                                                                })()})
+                                                                                </span>
+                                                                            </>
+                                                                        ) : 'Not enough data'}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        )}
                                                         {supplierBatches.length === 0 ? (
                                                             <p className="text-center text-gray-400 py-8">No quality batches recorded.</p>
                                                         ) : (
@@ -404,11 +696,13 @@ const SupplierManagement: React.FC = () => {
                                                                     <tr className="border-b border-gray-200 text-left">
                                                                         <th className="pb-2 font-medium text-gray-600">Batch #</th>
                                                                         <th className="pb-2 font-medium text-gray-600">Date</th>
-                                                                        <th className="pb-2 font-medium text-gray-600">Weight (kg)</th>
+                                                                        <th className="pb-2 font-medium text-gray-600">Weight</th>
                                                                         <th className="pb-2 font-medium text-gray-600">Grade</th>
                                                                         <th className="pb-2 font-medium text-gray-600">Score</th>
                                                                         <th className="pb-2 font-medium text-gray-600">Moisture</th>
                                                                         <th className="pb-2 font-medium text-gray-600">Defects</th>
+                                                                        <th className="pb-2 font-medium text-gray-600">Compliance</th>
+                                                                        <th className="pb-2 font-medium text-gray-600">Verified</th>
                                                                     </tr>
                                                                     </thead>
                                                                     <tbody>
@@ -416,15 +710,30 @@ const SupplierManagement: React.FC = () => {
                                                                         <tr key={batch.id} className="border-b border-gray-100 last:border-0 hover:bg-white/20">
                                                                             <td className="py-2">{batch.batchNumber}</td>
                                                                             <td className="py-2">{new Date(batch.processingDate).toLocaleDateString()}</td>
-                                                                            <td className="py-2">{batch.weightKg.toLocaleString()}</td>
+                                                                            <td className="py-2">{batch.weightKg.toLocaleString()} kg</td>
                                                                             <td className="py-2">
-                                                                                    <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${
-                                                                                        batch.qualityGrade === 'PREMIUM' ? 'bg-amber-100 text-amber-700' : 'bg-blue-100 text-blue-700'
-                                                                                    }`}>{batch.qualityGrade}</span>
+                                    <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${
+                                        batch.qualityGrade === 'PREMIUM' ? 'bg-amber-100 text-amber-700' : 'bg-blue-100 text-blue-700'
+                                    }`}>{batch.qualityGrade}</span>
                                                                             </td>
                                                                             <td className="py-2">{batch.qualityScore.toFixed(1)}%</td>
                                                                             <td className="py-2">{batch.moistureContent}%</td>
                                                                             <td className="py-2">{batch.defectiveRate}%</td>
+                                                                            <td className="py-2">
+                                                                                <div className="flex gap-1">
+                                                                                    {batch.sustainableHarvesting && <FaLeaf className="text-green-500" title="Sustainable" />}
+                                                                                    {batch.firebreakProtection && <FaFireExtinguisher className="text-orange-500" title="Firebreak" />}
+                                                                                    {batch.noChildLabor && <FaChild className="text-blue-500" title="No Child Labor" />}
+                                                                                    {batch.farmOsMonitored && <FaChartBar className="text-purple-500" title="FarmOS Monitored" />}
+                                                                                </div>
+                                                                            </td>
+                                                                            <td className="py-2">
+                                                                                {batch.verifiedAt ? (
+                                                                                    <span className="text-green-600 text-xs">{new Date(batch.verifiedAt).toLocaleDateString()}</span>
+                                                                                ) : (
+                                                                                    <span className="text-gray-400 text-xs">—</span>
+                                                                                )}
+                                                                            </td>
                                                                         </tr>
                                                                     ))}
                                                                     </tbody>

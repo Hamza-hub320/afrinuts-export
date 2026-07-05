@@ -100,6 +100,21 @@
   }
 }
 
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.5);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}
+
+.supplier-marker-pulse {
+  animation: pulse-ring 2s ease-out infinite;
+}
+
 /* Components */
 @layer components {
   /* Enhanced container system */
