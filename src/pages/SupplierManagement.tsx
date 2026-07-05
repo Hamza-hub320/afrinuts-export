@@ -1,6 +1,10 @@
 import React, { useEffect, useState, Fragment } from 'react';
 import { motion } from 'framer-motion';
 import {
+    BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
+    AreaChart, Area, Cell, PieChart, Pie
+} from 'recharts';
+import {
     FaUsers, FaStar, FaBox, FaCheckCircle, FaTimesCircle,
     FaPhone, FaEnvelope, FaMapMarkerAlt, FaSeedling,
     FaSearch, FaChevronDown, FaTimes, FaFileAlt, FaChartBar,
@@ -381,72 +385,70 @@ const SupplierManagement: React.FC = () => {
                 </div>
             </Section>
 
-            {/* Quality Distribution */}
+            {/* Charts Row */}
             <div className="max-w-6xl mx-auto px-4 sm:px-6 mb-8">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    {/* Quality Tier Distribution - Pie Chart */}
                     <InfoCard
                         icon={FaChartBar}
                         title="Quality Tier Distribution"
                         iconColor="text-primary"
                         showInfoBadge={false}
                     >
-                        <div className="space-y-3 mt-3">
-                            {[
-                                { label: 'Premium (≥95%)', count: suppliers.filter(s => s.averageQualityScore >= 95).length, color: 'bg-amber-500' },
-                                { label: 'Standard (80-94%)', count: suppliers.filter(s => s.averageQualityScore >= 80 && s.averageQualityScore < 95).length, color: 'bg-blue-500' },
-                                { label: 'Developing (<80%)', count: suppliers.filter(s => s.averageQualityScore < 80).length, color: 'bg-gray-400' },
-                            ].map((tier, i) => (
-                                <div key={i}>
-                                    <div className="flex justify-between text-xs mb-1">
-                                        <span>{tier.label}</span>
-                                        <span className="font-medium">{tier.count} supplier{tier.count !== 1 ? 's' : ''}</span>
-                                    </div>
-                                    <div className="w-full bg-gray-200 rounded-full h-2.5">
-                                        <motion.div
-                                            className={`${tier.color} h-2.5 rounded-full`}
-                                            initial={{ width: 0 }}
-                                            animate={{ width: `${suppliers.length > 0 ? (tier.count / suppliers.length) * 100 : 0}%` }}
-                                            transition={{ duration: 1, delay: 0.2 }}
-                                        />
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
+                        <ResponsiveContainer width="100%" height={250}>
+                            <PieChart>
+                                <Pie
+                                    data={[
+                                        { name: 'Premium (≥95%)', value: suppliers.filter(s => s.averageQualityScore >= 95).length, fill: '#f59e0b' },
+                                        { name: 'Standard (80-94%)', value: suppliers.filter(s => s.averageQualityScore >= 80 && s.averageQualityScore < 95).length, fill: '#3b82f6' },
+                                        { name: 'Developing (<80%)', value: suppliers.filter(s => s.averageQualityScore < 80).length, fill: '#9ca3af' },
+                                    ].filter(d => d.value > 0)}
+                                    cx="50%"
+                                    cy="50%"
+                                    innerRadius={50}
+                                    outerRadius={90}
+                                    paddingAngle={3}
+                                    dataKey="value"
+                                    label={({ name, value }) => `${(name || '').split(' ')[0]}: ${value}`}
+                                >
+                                </Pie>
+                                <Tooltip />
+                            </PieChart>
+                        </ResponsiveContainer>
                     </InfoCard>
 
-                    {/* Sustainability Compliance Scorecard */}
+                    {/* Sustainability Compliance - Bar Chart */}
                     <InfoCard
                         icon={FaLeaf}
                         title="Sustainability Compliance"
+                        subtitle="Percentage of suppliers meeting each standard"
                         iconColor="text-green-600"
                         showInfoBadge={false}
                     >
-                        <div className="space-y-3 mt-3">
-                            {[
-                                { label: 'Sustainable Harvesting', key: 'sustainableHarvesting' },
-                                { label: 'Firebreak Protection', key: 'firebreakProtection' },
-                                { label: 'No Child Labor', key: 'noChildLabor' },
-                            ].map((item, i) => {
-                                const compliant = suppliers.filter(s => (s as any)[item.key]).length;
-                                const pct = suppliers.length > 0 ? (compliant / suppliers.length) * 100 : 0;
-                                return (
-                                    <div key={i}>
-                                        <div className="flex justify-between text-xs mb-1">
-                                            <span>{item.label}</span>
-                                            <span className="font-medium">{compliant}/{suppliers.length} ({pct.toFixed(0)}%)</span>
-                                        </div>
-                                        <div className="w-full bg-gray-200 rounded-full h-2.5">
-                                            <motion.div
-                                                className="bg-green-500 h-2.5 rounded-full"
-                                                initial={{ width: 0 }}
-                                                animate={{ width: `${pct}%` }}
-                                                transition={{ duration: 1, delay: 0.3 + i * 0.1 }}
-                                            />
-                                        </div>
-                                    </div>
-                                );
-                            })}
-                        </div>
+                        <ResponsiveContainer width="100%" height={250}>
+                            <BarChart
+                                data={[
+                                    { name: 'Sustainable\nHarvesting', value: parseFloat((suppliers.filter(s => s.sustainableHarvesting).length / suppliers.length * 100).toFixed(0)), fill: '#22c55e' },
+                                    { name: 'Firebreak\nProtection', value: parseFloat((suppliers.filter(s => s.firebreakProtection).length / suppliers.length * 100).toFixed(0)), fill: '#f97316' },
+                                    { name: 'No Child\nLabor', value: parseFloat((suppliers.filter(s => s.noChildLabor).length / suppliers.length * 100).toFixed(0)), fill: '#3b82f6' },
+                                ]}
+                                margin={{ top: 10, right: 20, left: 10, bottom: 20 }}
+                            >
+                                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                                <XAxis dataKey="name" stroke="#6b7280" fontSize={11} />
+                                <YAxis domain={[0, 100]} tickFormatter={(v) => `${v}%`} stroke="#6b7280" fontSize={12} />
+                                <Tooltip formatter={(value) => `${value}%`} />
+                                <Bar dataKey="value" radius={[6, 6, 0, 0]}>
+                                    {[
+                                        { name: 'Sustainable\nHarvesting', value: 0, fill: '#22c55e' },
+                                        { name: 'Firebreak\nProtection', value: 0, fill: '#f97316' },
+                                        { name: 'No Child\nLabor', value: 0, fill: '#3b82f6' },
+                                    ].map((entry, index) => (
+                                        <Cell key={index} fill={entry.fill} />
+                                    ))}
+                                </Bar>
+                            </BarChart>
+                        </ResponsiveContainer>
                     </InfoCard>
                 </div>
             </div>
