@@ -10,7 +10,7 @@ import {
     FaSearch, FaChevronDown, FaTimes, FaFileAlt, FaChartBar,
     FaLeaf, FaFireExtinguisher, FaChild, FaHandshake,
     FaTractor, FaCalendarAlt, FaDollarSign, FaIndustry,
-    FaAward, FaUser, FaTrophy
+    FaAward, FaUser, FaTrophy, FaChartLine
 } from 'react-icons/fa';
 import { Typography } from '@/components/Typography/Typography';
 import { InfoCard } from '@/components/InfoCard/InfoCard';
@@ -199,6 +199,69 @@ const SupplierManagement: React.FC = () => {
                         </Typography>
                     </motion.div>
                 </motion.div>
+            </Section>
+
+            {/* Phase 2 Supply Intelligence Banner */}
+            <Section className="py-6">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6">
+                    <motion.div
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={fadeIn}
+                    >
+                        <InfoCard
+                            icon={FaChartLine}
+                            title="Supply Intelligence"
+                            subtitle="Phase 2: Transforming supplier data into procurement foresight"
+                            iconColor="text-accent"
+                            showInfoBadge={false}
+                        >
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-3">
+                                <div className="bg-white/40 rounded-xl p-4 border border-white/30 text-center">
+                                    <div className="text-2xl font-bold text-primary">
+                                        {suppliers.reduce((sum, s) => sum + (s.annualVolumeKg || 0), 0) > 0
+                                            ? `${(suppliers.reduce((sum, s) => sum + (s.annualVolumeKg || 0), 0) / 1000).toFixed(0)}T`
+                                            : '—'}
+                                    </div>
+                                    <div className="text-xs text-gray-500 mt-1">Estimated Network Capacity</div>
+                                    <div className="text-[10px] text-gray-400 mt-1">
+                                        {suppliers.filter(s => s.annualVolumeKg > 0).length} supplier{suppliers.filter(s => s.annualVolumeKg > 0).length !== 1 ? 's' : ''} with volume data
+                                    </div>
+                                </div>
+                                <div className="bg-white/40 rounded-xl p-4 border border-white/30 text-center">
+                                    <div className="text-2xl font-bold text-green-600">
+                                        {suppliers.length > 0
+                                            ? `${suppliers.filter(s => s.yearsFarming && s.yearsFarming >= 10).length}/${suppliers.length}`
+                                            : '—'}
+                                    </div>
+                                    <div className="text-xs text-gray-500 mt-1">Experienced Farmers (10+ yrs)</div>
+                                    <div className="text-[10px] text-gray-400 mt-1">
+                                        Institutional knowledge in the network
+                                    </div>
+                                </div>
+                                <div className="bg-white/40 rounded-xl p-4 border border-white/30 text-center">
+                                    <div className="text-2xl font-bold text-amber-600">
+                                        {suppliers.length > 0
+                                            ? `${suppliers.filter(s => s.averageQualityScore >= 95).length}/${suppliers.length}`
+                                            : '—'}
+                                    </div>
+                                    <div className="text-xs text-gray-500 mt-1">Premium-Grade Suppliers</div>
+                                    <div className="text-[10px] text-gray-400 mt-1">
+                                        {suppliers.length > 0 && suppliers.filter(s => s.averageQualityScore >= 95).length === suppliers.length
+                                            ? 'All suppliers at premium level'
+                                            : 'Tracking toward full premium network'}
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="mt-4 p-3 bg-primary/5 rounded-lg text-xs text-gray-600 text-center">
+                                <FaChartLine className="inline mr-1 text-primary" />
+                                Every delivery, every quality check, every supplier relationship builds this intelligence.
+                                The more data that flows in, the more accurately we can forecast procurement before harvest begins.
+                            </div>
+                        </InfoCard>
+                    </motion.div>
+                </div>
             </Section>
 
             {/* KPI Cards */}
@@ -531,6 +594,7 @@ const SupplierManagement: React.FC = () => {
                     </InfoCard>
                 </div>
             </Section>
+
             {/* Supplier Detail Modal */}
             <Transition.Root show={!!selectedSupplier} as={Fragment}>
                 <Dialog as="div" className="relative z-50" onClose={() => setSelectedSupplier(null)}>
@@ -762,9 +826,9 @@ const SupplierManagement: React.FC = () => {
                                                                                 <td className="py-2 text-xs">{new Date(batch.processingDate).toLocaleDateString()}</td>
                                                                                 <td className="py-2">{batch.weightKg?.toLocaleString()} kg</td>
                                                                                 <td className="py-2">
-                                        <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${
-                                            batch.qualityGrade === 'PREMIUM' ? 'bg-amber-100 text-amber-700' : 'bg-blue-100 text-blue-700'
-                                        }`}>{batch.qualityGrade}</span>
+                                                                                    <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${
+                                                                                     batch.qualityGrade === 'PREMIUM' ? 'bg-amber-100 text-amber-700' : 'bg-blue-100 text-blue-700'
+                                                                                     }`}>{batch.qualityGrade}</span>
                                                                                 </td>
                                                                                 <td className="py-2">{batch.qualityScore?.toFixed(1)}%</td>
                                                                                 <td className="py-2">{batch.moistureContent}%</td>

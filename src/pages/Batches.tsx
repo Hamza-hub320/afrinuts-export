@@ -8,7 +8,7 @@ import {
     FaBox, FaSearch, FaTimes, FaCheckCircle, FaTimesCircle,
     FaLeaf, FaFireExtinguisher, FaChild, FaChartBar,
     FaStar, FaCalendarAlt, FaDollarSign, FaUser,
-    FaFlask, FaIndustry, FaExclamationTriangle, FaTint, FaGlobeEurope, FaShip
+    FaFlask, FaIndustry, FaExclamationTriangle, FaTint, FaGlobeEurope, FaShip, FaChartLine
 } from 'react-icons/fa';
 import { Typography } from '@/components/Typography/Typography';
 import { InfoCard } from '@/components/InfoCard/InfoCard';
@@ -154,6 +154,49 @@ const Batches: React.FC = () => {
                         </Typography>
                     </motion.div>
                 </motion.div>
+            </Section>
+
+            {/* Phase 2 Supply Intelligence Banner */}
+            <Section className="py-6">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6">
+                    <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
+                        <InfoCard
+                            icon={FaChartLine}
+                            title="Supply Intelligence"
+                            subtitle="Every batch tells a story. Together, they forecast the future."
+                            iconColor="text-accent"
+                            showInfoBadge={false}
+                        >
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-3">
+                                <div className="bg-white/40 rounded-xl p-4 border border-white/30 text-center">
+                                    <div className="text-2xl font-bold text-primary">{batches.length}</div>
+                                    <div className="text-xs text-gray-500 mt-1">Total Deliveries Recorded</div>
+                                    <div className="text-[10px] text-gray-400 mt-1">Building historical baseline</div>
+                                </div>
+                                <div className="bg-white/40 rounded-xl p-4 border border-white/30 text-center">
+                                    <div className="text-2xl font-bold text-green-600">
+                                        {batches.length > 0
+                                            ? `${(batches.reduce((s, b) => s + (b.weightKg || 0), 0) / 1000).toFixed(0)}T`
+                                            : '—'}
+                                    </div>
+                                    <div className="text-xs text-gray-500 mt-1">Total Volume Tracked</div>
+                                    <div className="text-[10px] text-gray-400 mt-1">Supply capacity emerging</div>
+                                </div>
+                                <div className="bg-white/40 rounded-xl p-4 border border-white/30 text-center">
+                                    <div className="text-2xl font-bold text-amber-600">
+                                        {new Set(batches.map(b => b.supplierId)).size}
+                                    </div>
+                                    <div className="text-xs text-gray-500 mt-1">Active Supplier Relationships</div>
+                                    <div className="text-[10px] text-gray-400 mt-1">Compounding intelligence</div>
+                                </div>
+                            </div>
+                            <div className="mt-4 p-3 bg-primary/5 rounded-lg text-xs text-gray-600 text-center">
+                                <FaChartLine className="inline mr-1 text-primary" />
+                                Data compounds. Relationships compound. The longer suppliers remain in the network, the more accurate our procurement forecasts become.
+                            </div>
+                        </InfoCard>
+                    </motion.div>
+                </div>
             </Section>
 
             {/* KPI Cards */}
@@ -480,15 +523,44 @@ const Batches: React.FC = () => {
                 >
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-3 text-center">
                         {[
-                            { label: 'EU Compliant', value: batches.filter(b => (parseTestResults(b.testResults || '{}').aflatoxin || 99) < 4).length, total: batches.length, icon: FaGlobeEurope, color: 'text-blue-500' },
-                            { label: 'Organic Grade', value: batches.filter(b => b.qualityGrade === 'PREMIUM' && b.defectiveRate < 3).length, total: batches.length, icon: FaLeaf, color: 'text-green-500' },
-                            { label: 'Export Ready', value: batches.filter(b => b.qualityScore >= 95 && b.defectiveRate < 5).length, total: batches.length, icon: FaShip, color: 'text-primary' },
-                            { label: 'Needs Review', value: batches.filter(b => b.defectiveRate > 5 || b.moistureContent > 7).length, total: batches.length, icon: FaSearch, color: 'text-amber-500' },
+                            {
+                                label: 'EU Compliant',
+                                value: batches.filter(b => (parseTestResults(b.testResults || '{}').aflatoxin || 99) < 4).length,
+                                total: batches.length,
+                                icon: FaGlobeEurope,
+                                color: 'text-blue-500',
+                                hint: 'Aflatoxin < 4ppb'
+                            },
+                            {
+                                label: 'Organic Certified',
+                                value: batches.filter(b => b.batchNumber?.includes('-ORG-')).length,
+                                total: batches.length,
+                                icon: FaLeaf,
+                                color: 'text-green-500',
+                                hint: 'ORG in batch code'
+                            },
+                            {
+                                label: 'Export Ready',
+                                value: batches.filter(b => b.qualityScore >= 95 && b.defectiveRate < 5 && (parseTestResults(b.testResults || '{}').aflatoxin || 99) < 4).length,
+                                total: batches.length,
+                                icon: FaShip,
+                                color: 'text-primary',
+                                hint: 'Score ≥95%, defects <5%, EU compliant'
+                            },
+                            {
+                                label: 'Needs Review',
+                                value: batches.filter(b => b.defectiveRate > 5 || b.moistureContent > 7 || (parseTestResults(b.testResults || '{}').aflatoxin || 99) >= 4).length,
+                                total: batches.length,
+                                icon: FaSearch,
+                                color: 'text-amber-500',
+                                hint: 'High defects, moisture, or aflatoxin'
+                            },
                         ].map((item, i) => (
                             <div key={i} className="bg-white/40 rounded-xl p-3 border border-white/30">
                                 <item.icon className={`text-2xl mx-auto ${item.color}`} />
                                 <div className="text-lg font-bold mt-1">{item.value}/{item.total}</div>
                                 <div className="text-xs text-gray-500">{item.label}</div>
+                                <div className="text-[10px] text-gray-400 mt-0.5">{item.hint}</div>
                             </div>
                         ))}
                     </div>
