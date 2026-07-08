@@ -11,7 +11,7 @@ import {
     FaTrophy,
     FaMedal,
     FaAward,
-    FaLightbulb, FaMapPin, FaGlobeAfrica, FaTimes
+    FaLightbulb, FaMapPin, FaGlobeAfrica, FaTimes, FaUsers
 } from 'react-icons/fa';
 import { Typography } from '@/components/Typography/Typography';
 import DashboardNavbar from '@/components/DashboardNavbar/DashboardNavbar';
@@ -22,11 +22,13 @@ import { GiFarmer } from 'react-icons/gi';
 
 import {
     BarChart, Bar, XAxis, YAxis, CartesianGrid,
-    Tooltip, ResponsiveContainer, PieChart, Pie, Cell
+    Tooltip, ResponsiveContainer, PieChart, Pie, Cell,
+    Legend
 } from 'recharts';
 import { fadeIn, staggerContainer } from '@/utils/animations';
 import Section from '@/components/Section/Section';
 import { useNavigate } from 'react-router-dom';
+import { InfoCard } from '@/components/InfoCard/InfoCard';
 
 const isDevelopment = import.meta.env.DEV;
 const COLORS = ['#5A7411', '#E04E00', '#A0C800', '#253746', '#698714'];
@@ -66,6 +68,10 @@ interface RevenueTransaction {
     harvestCycleId?: string;
     harvestYear?: number;
     harvestSeason?: number;
+    supplierId?: number;
+    supplierName?: string;
+    batchId?: number;
+    batchNumber?: string;
 }
 
 interface Photo {
@@ -113,93 +119,93 @@ const Financials: React.FC = () => {
 
 
     useEffect(() => {
-            const fetchFinancials = async () => {
-                try {
-                    let revenueData, expenseData;
-                    if (isDevelopment) {
-                        revenueData = await getMockData('getRevenueSummary');
-                        expenseData = await getMockData('getExpenseSummary');
-                    } else {
-                        revenueData = await callApi('farmData', { action: 'getRevenueSummary', farmId: '1' });
-                        expenseData = await callApi('farmData', { action: 'getExpenseSummary', farmId: '1' });
-                    }
+        const fetchFinancials = async () => {
+            try {
+                let revenueData, expenseData;
+                if (isDevelopment) {
+                    revenueData = await getMockData('getRevenueSummary');
+                    expenseData = await getMockData('getExpenseSummary');
+                } else {
+                    revenueData = await callApi('farmData', { action: 'getRevenueSummary', farmId: '1' });
+                    expenseData = await callApi('farmData', { action: 'getExpenseSummary', farmId: '1' });
+                }
 
-                    const revenuesList = revenueData.revenues || [];
-                    const expensesList = expenseData.expenses || [];
-                    setRevenues(revenuesList);
-                    setExpenses(expensesList);
+                const revenuesList = revenueData.revenues || [];
+                const expensesList = expenseData.expenses || [];
+                setRevenues(revenuesList);
+                setExpenses(expensesList);
 
-                    // Calculate revenue AND expenses by block
-                    const blockCount = Object.keys(BLOCK_NAMES).length;
-                    const blockMap = new Map<number, any>();
+                // Calculate revenue AND expenses by block
+                const blockCount = Object.keys(BLOCK_NAMES).length;
+                const blockMap = new Map<number, any>();
 
 // Initialize all 35 blocks even if no revenue yet
-                    Object.keys(BLOCK_NAMES).forEach(key => {
-                        const id = parseInt(key);
-                        blockMap.set(id, {
-                            blockId: id,
-                            blockName: BLOCK_NAMES[id],
-                            totalRevenue: 0,
-                            directExpenses: 0,
-                            allocatedExpenses: 0,
-                            totalExpenses: 0,
-                            transactionCount: 0,
-                            quality: 'N/A',
-                        });
+                Object.keys(BLOCK_NAMES).forEach(key => {
+                    const id = parseInt(key);
+                    blockMap.set(id, {
+                        blockId: id,
+                        blockName: BLOCK_NAMES[id],
+                        totalRevenue: 0,
+                        directExpenses: 0,
+                        allocatedExpenses: 0,
+                        totalExpenses: 0,
+                        transactionCount: 0,
+                        quality: 'N/A',
                     });
+                });
 
 // Process revenues
-                    revenuesList.forEach((revenue: any) => {
-                        if (revenue.blockId && blockMap.has(revenue.blockId)) {
-                            const block = blockMap.get(revenue.blockId);
-                            block.totalRevenue += revenue.totalAmount || 0;
-                            block.transactionCount++;
-                            if (revenue.quality) block.quality = revenue.quality;
-                        }
-                    });
+                revenuesList.forEach((revenue: any) => {
+                    if (revenue.blockId && blockMap.has(revenue.blockId)) {
+                        const block = blockMap.get(revenue.blockId);
+                        block.totalRevenue += revenue.totalAmount || 0;
+                        block.transactionCount++;
+                        if (revenue.quality) block.quality = revenue.quality;
+                    }
+                });
 
 // Process expenses: separate direct vs farm-wide
-                    let totalFarmWideExpenses = 0;
-                    expensesList.forEach((expense: any) => {
-                        if (expense.blockId && blockMap.has(expense.blockId)) {
-                            blockMap.get(expense.blockId).directExpenses += expense.amount || 0;
-                        } else {
-                            totalFarmWideExpenses += expense.amount || 0;
-                        }
-                    });
+                let totalFarmWideExpenses = 0;
+                expensesList.forEach((expense: any) => {
+                    if (expense.blockId && blockMap.has(expense.blockId)) {
+                        blockMap.get(expense.blockId).directExpenses += expense.amount || 0;
+                    } else {
+                        totalFarmWideExpenses += expense.amount || 0;
+                    }
+                });
 
 // Allocate farm-wide expenses equally
-                    const perBlockAllocation = totalFarmWideExpenses / blockCount;
-                    blockMap.forEach((block) => {
-                        block.allocatedExpenses = perBlockAllocation;
-                        block.totalExpenses = block.directExpenses + block.allocatedExpenses;
-                        block.profit = block.totalRevenue - block.totalExpenses;
-                        block.roi = block.totalExpenses > 0
-                            ? ((block.totalRevenue - block.totalExpenses) / block.totalExpenses * 100)
-                            : (block.totalRevenue > 0 ? 100 : 0);
-                    });
+                const perBlockAllocation = totalFarmWideExpenses / blockCount;
+                blockMap.forEach((block) => {
+                    block.allocatedExpenses = perBlockAllocation;
+                    block.totalExpenses = block.directExpenses + block.allocatedExpenses;
+                    block.profit = block.totalRevenue - block.totalExpenses;
+                    block.roi = block.totalExpenses > 0
+                        ? ((block.totalRevenue - block.totalExpenses) / block.totalExpenses * 100)
+                        : (block.totalRevenue > 0 ? 100 : 0);
+                });
 
 // Convert to array and sort by profit
-                    const blockRevenueArray = Array.from(blockMap.values())
-                        .sort((a, b) => b.profit - a.profit);
+                const blockRevenueArray = Array.from(blockMap.values())
+                    .sort((a, b) => b.profit - a.profit);
 
-                    setRevenueByBlock(blockRevenueArray);
-                    setPerBlockAllocation(perBlockAllocation);
+                setRevenueByBlock(blockRevenueArray);
+                setPerBlockAllocation(perBlockAllocation);
 
-                    // Fetch photos
-                    if (!isDevelopment) {
-                        const photosData = await callApi('photos', { action: 'getPhotos', farmId: '1' });
-                        setExpensePhotos(photosData.photos || []);
-                    }
-
-                } catch (error) {
-                    console.error('Error fetching financials:', error);
-                } finally {
-                    setLoading(false);
+                // Fetch photos
+                if (!isDevelopment) {
+                    const photosData = await callApi('photos', { action: 'getPhotos', farmId: '1' });
+                    setExpensePhotos(photosData.photos || []);
                 }
-            };
-            fetchFinancials();
-        }, []);
+
+            } catch (error) {
+                console.error('Error fetching financials:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchFinancials();
+    }, []);
 
     const totalRevenue = revenues.reduce((sum: number, r: any) => sum + (r.totalAmount || 0), 0);
     const totalExpenses = expenses.reduce((sum: number, e: any) => sum + (e.amount || 0), 0);
@@ -316,7 +322,7 @@ const Financials: React.FC = () => {
                     initial="hidden"
                     animate="visible"
                     variants={staggerContainer}
-                >
+                    >
                     <GlassCard>
                         <motion.div variants={fadeIn} className="text-center">
                             <motion.div className="bg-green-100 p-4 rounded-full w-fit mx-auto mb-4" whileHover={{ scale: 1.1, rotate: 5 }}>
@@ -355,6 +361,94 @@ const Financials: React.FC = () => {
                         </motion.div>
                     </GlassCard>
                 </motion.div>
+
+                {/* Supplier Financial Performance */}
+                <Section className="py-6">
+                    <div className="max-w-6xl mx-auto px-4 sm:px-6">
+                        <motion.div
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                            variants={staggerContainer}
+                        >
+                            <InfoCard
+                                icon={FaUsers}
+                                title="Supplier Financial Performance"
+                                subtitle="Procurement cost vs revenue generated per supplier"
+                                iconColor="text-accent"
+                                showInfoBadge={false}
+                            >
+                                <div className="overflow-x-auto mt-3">
+                                    <table className="w-full text-sm">
+                                        <thead>
+                                        <tr className="border-b border-gray-200 text-left">
+                                            <th className="pb-2 font-medium text-gray-600">Supplier</th>
+                                            <th className="pb-2 font-medium text-gray-600 text-right">Procurement</th>
+                                            <th className="pb-2 font-medium text-gray-600 text-right">Revenue</th>
+                                            <th className="pb-2 font-medium text-gray-600 text-right">Margin</th>
+                                            <th className="pb-2 font-medium text-gray-600 text-center">Efficiency</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {(() => {
+                                            // Group expenses and revenues by supplier
+                                            const supplierMap = new Map<number, { name: string; procurement: number; revenue: number }>();
+
+                                            expenses.forEach(e => {
+                                                if (e.supplierId) {
+                                                    if (!supplierMap.has(e.supplierId)) {
+                                                        supplierMap.set(e.supplierId, {
+                                                            name: e.supplierName || `Supplier #${e.supplierId}`,
+                                                            procurement: 0,
+                                                            revenue: 0
+                                                        });
+                                                    }
+                                                    supplierMap.get(e.supplierId)!.procurement += e.amount || 0;
+                                                }
+                                            });
+
+                                            revenues.forEach(r => {
+                                                if (r.supplierId) {
+                                                    if (!supplierMap.has(r.supplierId)) {
+                                                        supplierMap.set(r.supplierId, {
+                                                            name: r.supplierName || `Supplier #${r.supplierId}`,
+                                                            procurement: 0,
+                                                            revenue: 0
+                                                        });
+                                                    }
+                                                    supplierMap.get(r.supplierId)!.revenue += r.totalAmount || 0;
+                                                }
+                                            });
+
+                                            return Array.from(supplierMap.entries())
+                                                .sort((a, b) => (b[1].revenue - b[1].procurement) - (a[1].revenue - a[1].procurement))
+                                                .map(([id, data]) => {
+                                                    const margin = data.revenue - data.procurement;
+                                                    const efficiency = data.procurement > 0 ? (data.revenue / data.procurement).toFixed(1) : '—';
+                                                    return (
+                                                        <tr key={id} className="border-b border-gray-100 last:border-0 hover:bg-white/20">
+                                                            <td className="py-2 font-medium">{data.name}</td>
+                                                            <td className="py-2 text-right">{new Intl.NumberFormat('fr-FR').format(data.procurement)} FCFA</td>
+                                                            <td className="py-2 text-right">{new Intl.NumberFormat('fr-FR').format(data.revenue)} FCFA</td>
+                                                            <td className={`py-2 text-right font-medium ${margin >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                                                                {new Intl.NumberFormat('fr-FR').format(margin)} FCFA
+                                                            </td>
+                                                            <td className="py-2 text-center">
+                                                <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${Number(efficiency) > 2 ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}`}>
+                                                    {efficiency}x
+                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                    );
+                                                });
+                                        })()}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </InfoCard>
+                        </motion.div>
+                    </div>
+                </Section>
 
                 {/* Revenue by Block Section */}
                 {revenueByBlock.length > 0 && (
@@ -432,19 +526,41 @@ const Financials: React.FC = () => {
                         <motion.div variants={fadeIn}>
                             <div className="flex items-center gap-2 mb-4">
                                 <FaChartBar className="text-primary text-xl" />
-                                <Typography variant="h4" className="text-primary">Revenue by Quality</Typography>
+                                <Typography variant="h4" className="text-primary">Revenue by Quality & Source</Typography>
                             </div>
                             <ResponsiveContainer width="100%" height={300}>
-                                <BarChart data={revenues}>
+                                <BarChart
+                                    data={(() => {
+                                        const grouped: Record<string, { ownFarm: number; supplier: number }> = {};
+
+                                        revenues.forEach(r => {
+                                            const quality = r.quality || 'UNKNOWN';
+                                            if (!grouped[quality]) {
+                                                grouped[quality] = { ownFarm: 0, supplier: 0 };
+                                            }
+                                            // blockId means it's own farm; supplierId means it's from a supplier
+                                            if (r.blockId) {
+                                                grouped[quality].ownFarm += r.totalAmount || 0;
+                                            } else if (r.supplierId) {
+                                                grouped[quality].supplier += r.totalAmount || 0;
+                                            }
+                                        });
+
+                                        return Object.entries(grouped).map(([quality, data]) => ({
+                                            quality,
+                                            'Own Farm': data.ownFarm,
+                                            'Supplier': data.supplier,
+                                        }));
+                                    })()}
+                                    margin={{ top: 10, right: 20, left: 20, bottom: 10 }}
+                                >
                                     <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
                                     <XAxis dataKey="quality" stroke="#6b7280" />
-                                    <YAxis
-                                        stroke="#6b7280"
-                                        width={80}
-                                        tickFormatter={(value) => `${(value / 1000000).toFixed(1)}M`}
-                                    />
+                                    <YAxis stroke="#6b7280" width={80} tickFormatter={(value) => `${(value / 1000000).toFixed(1)}M`} />
                                     <Tooltip formatter={(value) => `${new Intl.NumberFormat('fr-FR').format(Number(value))} FCFA`} />
-                                    <Bar dataKey="totalAmount" fill="#5A7411" radius={[6, 6, 0, 0]} />
+                                    <Legend />
+                                    <Bar dataKey="Own Farm" fill="#5A7411" radius={[6, 6, 0, 0]} stackId="a" />
+                                    <Bar dataKey="Supplier" fill="#E04E00" radius={[6, 6, 0, 0]} stackId="a" />
                                 </BarChart>
                             </ResponsiveContainer>
                         </motion.div>
@@ -459,7 +575,14 @@ const Financials: React.FC = () => {
                             <ResponsiveContainer width="100%" height={300}>
                                 <PieChart>
                                     <Pie
-                                        data={pieData}
+                                        data={(() => {
+                                            const categories: Record<string, number> = {};
+                                            expenses.forEach(e => {
+                                                const cat = e.category === 'PROCUREMENT' ? 'Supplier Procurement' : e.category?.replace(/_/g, ' ');
+                                                categories[cat] = (categories[cat] || 0) + (e.amount || 0);
+                                            });
+                                            return Object.entries(categories).map(([name, value]) => ({ name, value }));
+                                        })()}
                                         cx="50%" cy="50%"
                                         labelLine={false}
                                         label={({ name, percent }) => `${name}: ${((percent ?? 0) * 100).toFixed(0)}%`}
@@ -470,7 +593,7 @@ const Financials: React.FC = () => {
                                             <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                                         ))}
                                     </Pie>
-                                    <Tooltip />
+                                    <Tooltip formatter={(value) => `${new Intl.NumberFormat('fr-FR').format(Number(value))} FCFA`} />
                                 </PieChart>
                             </ResponsiveContainer>
                         </motion.div>
@@ -807,56 +930,56 @@ const Financials: React.FC = () => {
                                 <Typography variant="h4" className="text-primary">Block Profit & Loss</Typography>
                             </div>
                             <div className="flex items-center gap-2 mb-4">
-                            <Typography variant="small" className="text-gray-500">
-                                <FaLightbulb className="inline mr-1 text-amber-500 text-xs" />
-                                Farm-wide expenses allocated equally: <strong>{new Intl.NumberFormat('fr-FR').format(perBlockAllocation)} FCFA</strong> per block
-                            </Typography>
+                                <Typography variant="small" className="text-gray-500">
+                                    <FaLightbulb className="inline mr-1 text-amber-500 text-xs" />
+                                    Farm-wide expenses allocated equally: <strong>{new Intl.NumberFormat('fr-FR').format(perBlockAllocation)} FCFA</strong> per block
+                                </Typography>
                             </div>
-                                <div className="hidden md:block overflow-x-auto">
-                                    <table className="w-full text-sm">
-                                        <thead>
-                                        <tr className="border-b border-gray-200 text-left">
-                                            <th className="pb-3 font-medium text-gray-600">Rank</th>
-                                            <th className="pb-3 font-medium text-gray-600">Block</th>
-                                            <th className="pb-3 font-medium text-gray-600 text-right">Revenue</th>
-                                            <th className="pb-3 font-medium text-gray-600 text-right">Direct Exp.</th>
-                                            <th className="pb-3 font-medium text-gray-600 text-right">Allocated</th>
-                                            <th className="pb-3 font-medium text-gray-600 text-right">Profit</th>
-                                            <th className="pb-3 font-medium text-gray-600 text-center">ROI</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        {revenueByBlock.map((block, idx) => (
-                                            <motion.tr
-                                                key={block.blockId}
-                                                className="border-b border-gray-100 last:border-0 hover:bg-white/30 transition-colors"
-                                                initial={{ opacity: 0, x: -10 }}
-                                                animate={{ opacity: 1, x: 0 }}
-                                                transition={{ delay: idx * 0.03 }}
-                                            >
-                                                <td className="py-3 font-medium">
-                                                    {idx === 0 && <FaTrophy className="text-yellow-500" />}
-                                                    {idx === 1 && <FaMedal className="text-gray-400" />}
-                                                    {idx === 2 && <FaAward className="text-amber-700" />}
-                                                    {idx > 2 && `${idx + 1}`}
-                                                </td>
-                                                <td className="py-3 font-medium">{block.blockName}</td>
-                                                <td className="py-3 text-right text-green-700">
-                                                    {block.totalRevenue > 0 ? new Intl.NumberFormat('fr-FR').format(block.totalRevenue) : '—'}
-                                                </td>
-                                                <td className="py-3 text-right text-red-600">
-                                                    {block.directExpenses > 0 ? new Intl.NumberFormat('fr-FR').format(block.directExpenses) : '—'}
-                                                </td>
-                                                <td className="py-3 text-right">
-                                                    <span className="text-amber-600">{new Intl.NumberFormat('fr-FR').format(block.allocatedExpenses)}</span>
-                                                    <span className="block text-[10px] text-gray-400 leading-tight">farm-wide</span>
-                                                </td>
-                                                <td className="py-3 text-right font-bold">
+                            <div className="hidden md:block overflow-x-auto">
+                                <table className="w-full text-sm">
+                                    <thead>
+                                    <tr className="border-b border-gray-200 text-left">
+                                        <th className="pb-3 font-medium text-gray-600">Rank</th>
+                                        <th className="pb-3 font-medium text-gray-600">Block</th>
+                                        <th className="pb-3 font-medium text-gray-600 text-right">Revenue</th>
+                                        <th className="pb-3 font-medium text-gray-600 text-right">Direct Exp.</th>
+                                        <th className="pb-3 font-medium text-gray-600 text-right">Allocated</th>
+                                        <th className="pb-3 font-medium text-gray-600 text-right">Profit</th>
+                                        <th className="pb-3 font-medium text-gray-600 text-center">ROI</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {revenueByBlock.map((block, idx) => (
+                                        <motion.tr
+                                            key={block.blockId}
+                                            className="border-b border-gray-100 last:border-0 hover:bg-white/30 transition-colors"
+                                            initial={{ opacity: 0, x: -10 }}
+                                            animate={{ opacity: 1, x: 0 }}
+                                            transition={{ delay: idx * 0.03 }}
+                                        >
+                                            <td className="py-3 font-medium">
+                                                {idx === 0 && <FaTrophy className="text-yellow-500" />}
+                                                {idx === 1 && <FaMedal className="text-gray-400" />}
+                                                {idx === 2 && <FaAward className="text-amber-700" />}
+                                                {idx > 2 && `${idx + 1}`}
+                                            </td>
+                                            <td className="py-3 font-medium">{block.blockName}</td>
+                                            <td className="py-3 text-right text-green-700">
+                                                {block.totalRevenue > 0 ? new Intl.NumberFormat('fr-FR').format(block.totalRevenue) : '—'}
+                                            </td>
+                                            <td className="py-3 text-right text-red-600">
+                                                {block.directExpenses > 0 ? new Intl.NumberFormat('fr-FR').format(block.directExpenses) : '—'}
+                                            </td>
+                                            <td className="py-3 text-right">
+                                                <span className="text-amber-600">{new Intl.NumberFormat('fr-FR').format(block.allocatedExpenses)}</span>
+                                                <span className="block text-[10px] text-gray-400 leading-tight">farm-wide</span>
+                                            </td>
+                                            <td className="py-3 text-right font-bold">
                     <span className={block.profit >= 0 ? 'text-primary' : 'text-red-600'}>
                         {new Intl.NumberFormat('fr-FR').format(block.profit)}
                     </span>
-                                                </td>
-                                                <td className="py-3 text-center">
+                                            </td>
+                                            <td className="py-3 text-center">
                     <span className={`px-2 py-1 text-xs rounded-full font-medium ${
                         block.roi > 200 ? 'bg-green-100 text-green-700' :
                             block.roi > 100 ? 'bg-blue-100 text-blue-700' :
@@ -865,63 +988,63 @@ const Financials: React.FC = () => {
                     }`}>
                         {block.roi.toFixed(0)}%
                     </span>
-                                                </td>
-                                            </motion.tr>
-                                        ))}
-                                        </tbody>
-                                    </table>
-                                </div>
-                                {/* Mobile Cards - visible only on mobile */}
-                                <div className="md:hidden space-y-3">
-                                    {revenueByBlock.map((block, idx) => (
-                                        <motion.div
-                                            key={block.blockId}
-                                            className="bg-white/40 backdrop-blur-sm rounded-xl p-4 border border-white/30 space-y-2"
-                                            initial={{ opacity: 0, y: 10 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            transition={{ delay: idx * 0.03 }}
-                                        >
-                                            <div className="flex items-center justify-between">
-                                                <div className="flex items-center gap-2">
+                                            </td>
+                                        </motion.tr>
+                                    ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                            {/* Mobile Cards - visible only on mobile */}
+                            <div className="md:hidden space-y-3">
+                                {revenueByBlock.map((block, idx) => (
+                                    <motion.div
+                                        key={block.blockId}
+                                        className="bg-white/40 backdrop-blur-sm rounded-xl p-4 border border-white/30 space-y-2"
+                                        initial={{ opacity: 0, y: 10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: idx * 0.03 }}
+                                    >
+                                        <div className="flex items-center justify-between">
+                                            <div className="flex items-center gap-2">
                     <span className="font-bold text-lg">
                         {idx === 0 && <FaTrophy className="text-yellow-500 inline" />}
                         {idx === 1 && <FaMedal className="text-gray-400 inline" />}
                         {idx === 2 && <FaAward className="text-amber-700 inline" />}
                         {idx > 2 && `#${idx + 1}`}
                     </span>
-                                                    <span className="font-bold text-primary text-lg">{block.blockName}</span>
-                                                </div>
-                                                <span className={`px-2 py-1 text-xs rounded-full font-medium ${
-                                                    block.roi > 200 ? 'bg-green-100 text-green-700' :
-                                                        block.roi > 100 ? 'bg-blue-100 text-blue-700' :
-                                                            block.roi > 0 ? 'bg-orange-100 text-orange-700' :
-                                                                'bg-red-100 text-red-700'
-                                                }`}>
+                                                <span className="font-bold text-primary text-lg">{block.blockName}</span>
+                                            </div>
+                                            <span className={`px-2 py-1 text-xs rounded-full font-medium ${
+                                                block.roi > 200 ? 'bg-green-100 text-green-700' :
+                                                    block.roi > 100 ? 'bg-blue-100 text-blue-700' :
+                                                        block.roi > 0 ? 'bg-orange-100 text-orange-700' :
+                                                            'bg-red-100 text-red-700'
+                                            }`}>
                     {block.roi.toFixed(0)}% ROI
                 </span>
-                                            </div>
+                                        </div>
 
-                                            <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-sm">
-                                                <span className="text-gray-500">Revenue</span>
-                                                <span className="text-right text-green-700 font-medium">
+                                        <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-sm">
+                                            <span className="text-gray-500">Revenue</span>
+                                            <span className="text-right text-green-700 font-medium">
                     {block.totalRevenue > 0 ? new Intl.NumberFormat('fr-FR').format(block.totalRevenue) : '—'}
                 </span>
-                                                <span className="text-gray-500">Direct Exp.</span>
-                                                <span className="text-right text-red-600">
+                                            <span className="text-gray-500">Direct Exp.</span>
+                                            <span className="text-right text-red-600">
                     {block.directExpenses > 0 ? new Intl.NumberFormat('fr-FR').format(block.directExpenses) : '—'}
                 </span>
-                                                <span className="text-gray-500">Allocated</span>
-                                                <span className="text-right text-amber-600">
+                                            <span className="text-gray-500">Allocated</span>
+                                            <span className="text-right text-amber-600">
                     {new Intl.NumberFormat('fr-FR').format(block.allocatedExpenses)}
                 </span>
-                                                <span className="text-gray-500 font-semibold">Profit</span>
-                                                <span className={`text-right font-bold ${block.profit >= 0 ? 'text-primary' : 'text-red-600'}`}>
+                                            <span className="text-gray-500 font-semibold">Profit</span>
+                                            <span className={`text-right font-bold ${block.profit >= 0 ? 'text-primary' : 'text-red-600'}`}>
                     {new Intl.NumberFormat('fr-FR').format(block.profit)}
                 </span>
-                                            </div>
-                                        </motion.div>
-                                    ))}
-                                </div>
+                                        </div>
+                                    </motion.div>
+                                ))}
+                            </div>
                             {revenueByBlock.length === 0 && (
                                 <div className="text-center py-8 text-gray-400">
                                     No block revenue data available yet.
@@ -1105,32 +1228,32 @@ const Financials: React.FC = () => {
                 {/* Photo Gallery */}
                 {selectedExpense && expensePhotos.filter(p => p.expenseId === selectedExpense.id).length > 0 && (
                     <div className="mb-20">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.3 }}
-                        className="mt-8 mb-20 max-w-2xl mx-auto relative z-20"
-                    >
-                        <div className="flex items-center justify-between mb-3">
-                            <Typography variant="small" className="text-gray-500">
-                                Showing photos for: <span className="font-medium text-primary">{selectedExpense.description || `Expense #${selectedExpense.id}`}</span>
-                            </Typography>
-                            <button
-                                onClick={() => setSelectedExpense(null)}
-                                className="text-xs text-gray-400 hover:text-red-500 transition-colors flex items-center gap-1"
-                            >
-                                <FaTimes className="text-xs" />
-                                Clear selection
-                            </button>
-                        </div>
-                        <PhotoGallery
-                            photos={expensePhotos}
-                            entityType="expense"
-                            entityId={selectedExpense.id}
-                            entityName={selectedExpense.description || `Expense #${selectedExpense.id}`}
-                            title="Expense Photos"
-                        />
-                    </motion.div>
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.3 }}
+                            className="mt-8 mb-20 max-w-2xl mx-auto relative z-20"
+                        >
+                            <div className="flex items-center justify-between mb-3">
+                                <Typography variant="small" className="text-gray-500">
+                                    Showing photos for: <span className="font-medium text-primary">{selectedExpense.description || `Expense #${selectedExpense.id}`}</span>
+                                </Typography>
+                                <button
+                                    onClick={() => setSelectedExpense(null)}
+                                    className="text-xs text-gray-400 hover:text-red-500 transition-colors flex items-center gap-1"
+                                >
+                                    <FaTimes className="text-xs" />
+                                    Clear selection
+                                </button>
+                            </div>
+                            <PhotoGallery
+                                photos={expensePhotos}
+                                entityType="expense"
+                                entityId={selectedExpense.id}
+                                entityName={selectedExpense.description || `Expense #${selectedExpense.id}`}
+                                title="Expense Photos"
+                            />
+                        </motion.div>
                     </div>
                 )}
 

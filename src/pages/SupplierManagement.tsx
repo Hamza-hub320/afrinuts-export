@@ -201,7 +201,7 @@ const SupplierManagement: React.FC = () => {
                 </motion.div>
             </Section>
 
-            {/* Phase 2 Supply Intelligence Banner */}
+            {/* Supply Intelligence Banner */}
             <Section className="py-6">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6">
                     <motion.div
@@ -213,7 +213,7 @@ const SupplierManagement: React.FC = () => {
                         <InfoCard
                             icon={FaChartLine}
                             title="Supply Intelligence"
-                            subtitle="Phase 2: Transforming supplier data into procurement foresight"
+                            subtitle="Transforming supplier data into procurement foresight"
                             iconColor="text-accent"
                             showInfoBadge={false}
                         >
