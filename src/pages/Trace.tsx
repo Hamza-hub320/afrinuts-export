@@ -649,10 +649,10 @@ const TracePage: React.FC = () => {
                             <InfoCard icon={FaMobile} title={t('farmOsRecord.title', 'Farm OS Record')} variant="accent" showInfoBadge={false}>
                                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-3">
                                     {[
-                                        { label: t('farmOsRecord.recordId'), value: (isBulk ? bulkData!.farmOsMetadata : batch!.farmOsMetadata)!.recordId, icon: FaClipboardList },
-                                        { label: t('farmOsRecord.created'), value: (isBulk ? bulkData!.farmOsMetadata : batch!.farmOsMetadata)!.created, icon: FaCalendarAlt },
-                                        { label: t('farmOsRecord.updated'), value: (isBulk ? bulkData!.farmOsMetadata : batch!.farmOsMetadata)!.lastUpdated, icon: FaClock },
-                                        { label: t('farmOsRecord.status'), value: (isBulk ? bulkData!.farmOsMetadata : batch!.farmOsMetadata)!.verificationStatus, icon: FaShieldAlt, highlight: true },
+                                        { label: t('farmOsRecord.recordId', 'Record ID'), value: (isBulk ? bulkData!.farmOsMetadata : batch!.farmOsMetadata)!.recordId, icon: FaClipboardList },
+                                        { label: t('farmOsRecord.created', 'Created'), value: (isBulk ? bulkData!.farmOsMetadata : batch!.farmOsMetadata)!.created, icon: FaCalendarAlt },
+                                        { label: t('farmOsRecord.updated', 'Last Updated'), value: (isBulk ? bulkData!.farmOsMetadata : batch!.farmOsMetadata)!.lastUpdated, icon: FaClock },
+                                        { label: t('farmOsRecord.status', 'Verification Status'), value: (isBulk ? bulkData!.farmOsMetadata : batch!.farmOsMetadata)!.verificationStatus, icon: FaShieldAlt, highlight: true },
                                     ].map((item, i) => (
                                         <motion.div key={i} className={`rounded-xl p-3 border text-center ${item.highlight ? 'bg-green-50/60 border-green-200' : 'bg-white/40 border-white/30'}`}
                                                     initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }} whileHover={{ y: -2 }}>
