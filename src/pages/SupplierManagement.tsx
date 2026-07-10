@@ -10,7 +10,7 @@ import {
     FaSearch, FaChevronDown, FaTimes, FaFileAlt, FaChartBar,
     FaLeaf, FaFireExtinguisher, FaChild, FaHandshake,
     FaTractor, FaCalendarAlt, FaDollarSign, FaIndustry,
-    FaAward, FaUser, FaTrophy, FaChartLine
+    FaAward, FaUser, FaTrophy, FaChartLine, FaHome
 } from 'react-icons/fa';
 import { Typography } from '@/components/Typography/Typography';
 import { InfoCard } from '@/components/InfoCard/InfoCard';
@@ -156,6 +156,7 @@ const SupplierManagement: React.FC = () => {
 
     const typeFilters = [
         'All',
+        'OWN_FARM',
         'COOPERATIVE',
         'REGIONAL_SUPPLIER',
         'INDEPENDENT',
@@ -333,11 +334,21 @@ const SupplierManagement: React.FC = () => {
                                 <InfoCard
                                     title={supplier.name}
                                     subtitle={`${supplier.type?.replace(/_/g, ' ')} · ${supplier.location}`}
-                                    icon={FaUsers}
-                                    iconColor="text-accent"
+                                    icon={supplier.type === 'OWN_FARM' ? FaHome : FaUsers}
+                                    iconColor={supplier.type === 'OWN_FARM' ? 'text-green-600' : 'text-accent'}
                                     showInfoBadge={false}
-                                    className="h-full hover:shadow-lg transition-all"
+                                    className={`h-full hover:shadow-lg transition-all ${supplier.type === 'OWN_FARM' ? 'border-green-400/30 ring-1 ring-green-400/20' : ''}`}
                                 >
+                                    {/* OWN FARM Badge */}
+                                    {supplier.type === 'OWN_FARM' && (
+                                        <div className="mb-2">
+                                        <span className="px-2 py-0.5 bg-green-100 text-green-700 text-xs rounded-full font-medium flex items-center gap-1 w-fit">
+                                             <FaStar className="text-[10px]" />
+                                                     Own Farm
+                                        </span>
+                                        </div>
+                                    )}
+
                                     <div className="flex items-center gap-2 mt-3">
                                         <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">
                                             Quality: {supplier.averageQualityScore?.toFixed(1)}%
@@ -674,13 +685,29 @@ const SupplierManagement: React.FC = () => {
                                                                 <img src={selectedSupplier.photoUrl} alt={selectedSupplier.name}
                                                                      className="w-20 h-20 rounded-full object-cover border-2 border-primary/20" />
                                                             ) : (
-                                                                <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center">
-                                                                    <FaUsers className="text-primary text-2xl" />
+                                                                <div className={`w-20 h-20 rounded-full flex items-center justify-center ${
+                                                                    selectedSupplier.type === 'OWN_FARM' ? 'bg-green-100' : 'bg-primary/10'
+                                                                }`}>
+                                                                    {selectedSupplier.type === 'OWN_FARM' ? (
+                                                                        <FaHome className="text-green-600 text-2xl" />
+                                                                    ) : (
+                                                                        <FaUsers className="text-primary text-2xl" />
+                                                                    )}
                                                                 </div>
                                                             )}
                                                             <div>
-                                                                <h3 className="text-xl font-bold text-primary">{selectedSupplier.name}</h3>
+                                                                <div className="flex items-center gap-2">
+                                                                    <h3 className="text-xl font-bold text-primary">{selectedSupplier.name}</h3>
+                                                                    {selectedSupplier.type === 'OWN_FARM' && (
+                                                                        <span className="px-2 py-0.5 bg-green-100 text-green-700 text-xs rounded-full font-medium">
+                                                                            Own Farm
+                                                                        </span>
+                                                                    )}
+                                                                </div>
                                                                 <p className="text-sm text-gray-500">{selectedSupplier.type?.replace(/_/g, ' ')} · {selectedSupplier.status}</p>
+                                                                {selectedSupplier.type === 'OWN_FARM' && selectedSupplier.quote && (
+                                                                    <p className="text-xs text-green-700 italic mt-1 max-w-md">"{selectedSupplier.quote}"</p>
+                                                                )}
                                                                 <div className="flex items-center gap-2 mt-1">
                                                                     {[...Array(5)].map((_, i) => (
                                                                         <FaStar key={i} className={i < selectedSupplier.rating ? 'text-yellow-500' : 'text-gray-300'} />
@@ -688,6 +715,27 @@ const SupplierManagement: React.FC = () => {
                                                                 </div>
                                                             </div>
                                                         </div>
+
+                                                        {/* Own Farm Banner */}
+                                                        {selectedSupplier.type === 'OWN_FARM' && (
+                                                            <div className="bg-green-50/80 border border-green-200 rounded-xl p-4 mb-4">
+                                                                <div className="flex items-start gap-3">
+                                                                    <FaHome className="text-green-600 text-xl mt-0.5" />
+                                                                    <div>
+                                                                        <h4 className="font-medium text-green-800">AfriNuts Own Farm Production</h4>
+                                                                        <p className="text-sm text-green-700 mt-1">
+                                                                            This represents cashews grown on our 35-hectare farm in Odienné. Managed by {selectedSupplier.contactPerson},
+                                                                            our farm serves as the quality benchmark for all supplier-sourced cashews.
+                                                                        </p>
+                                                                        <div className="flex gap-4 mt-2 text-xs text-green-600">
+                                                                            <span>{selectedSupplier.farmSize} hectares</span>
+                                                                            <span>{selectedSupplier.yearsFarming} years farming</span>
+                                                                            <span>100% Farm OS monitored</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        )}
 
                                                         {/* Bio / Quote */}
                                                         {selectedSupplier.bio && (

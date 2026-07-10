@@ -420,6 +420,30 @@ export const mockExpenses = [
     { id: 5, amount: 280000, date: Date.now() - 65 * 86400000, category: "MAINTENANCE" },
 ];
 
+export const mockTraceability = [
+    {
+        id: 18,
+        qualityBatchId: 14,
+        batchNumber: 'AFN-FARM-ORG-260710-34D1',
+        buyer: 'NutriGlobal BV',
+        destination: 'Rotterdam, Netherlands',
+        exportDate: 1783693464307,
+        grade: 'Premium',
+        weightKg: 45000,
+        pricePerKg: 0,
+        totalAmount: 0,
+        certificationIds: 'Organic, Halal, ISO 22000',
+        traceabilityUrl: 'https://www.afrinutsexport.com/trace/AFN-FARM-ORG-260710-34D1',
+        supplierId: 10,
+        supplierName: 'FARM-AOS',
+        documents: JSON.stringify({
+            commercialInvoice: '#',
+            packingList: '#',
+            qualityCertificate: '#',
+        }),
+    },
+];
+
 export const getMockData = async (action: string, data?: any) => {
     await new Promise(resolve => setTimeout(resolve, 500));
 

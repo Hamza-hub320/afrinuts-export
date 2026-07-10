@@ -178,10 +178,24 @@ export const handler: Handler = async (event: HandlerEvent) => {
                 ...doc.data(),
             }));
 
+            // Fetch traceability
+            const traceabilitySnapshot = await db
+                .collection('farms').doc(fid)
+                .collection('batch_traceability')
+                .where('qualityBatchId', '==', parseInt(params.batchId))
+                .limit(1)
+                .get();
+
+            let traceability = null;
+            if (!traceabilitySnapshot.empty) {
+                const doc = traceabilitySnapshot.docs[0];
+                traceability = { id: doc.id, ...doc.data() };
+            }
+
             return {
                 statusCode: 200,
                 headers,
-                body: JSON.stringify({ batch, supplier, expenses, revenues }),
+                body: JSON.stringify({ batch, supplier, expenses, revenues, traceability }),
             };
         }
 

@@ -5,10 +5,29 @@ import {
     AreaChart, Area, Cell
 } from 'recharts';
 import {
-    FaBox, FaSearch, FaTimes, FaCheckCircle, FaTimesCircle,
-    FaLeaf, FaFireExtinguisher, FaChild, FaChartBar,
-    FaStar, FaCalendarAlt, FaDollarSign, FaUser,
-    FaFlask, FaIndustry, FaExclamationTriangle, FaTint, FaGlobeEurope, FaShip, FaChartLine
+    FaBox,
+    FaSearch,
+    FaTimes,
+    FaCheckCircle,
+    FaTimesCircle,
+    FaLeaf,
+    FaFireExtinguisher,
+    FaChild,
+    FaChartBar,
+    FaStar,
+    FaCalendarAlt,
+    FaDollarSign,
+    FaUser,
+    FaFlask,
+    FaIndustry,
+    FaExclamationTriangle,
+    FaTint,
+    FaGlobeEurope,
+    FaShip,
+    FaChartLine,
+    FaHome,
+    FaExternalLinkAlt,
+    FaFileAlt, FaGlobeAfrica, FaCertificate, FaHandshake
 } from 'react-icons/fa';
 import { Typography } from '@/components/Typography/Typography';
 import { InfoCard } from '@/components/InfoCard/InfoCard';
@@ -193,6 +212,111 @@ const Batches: React.FC = () => {
                             <div className="mt-4 p-3 bg-primary/5 rounded-lg text-xs text-gray-600 text-center">
                                 <FaChartLine className="inline mr-1 text-primary" />
                                 Data compounds. Relationships compound. The longer suppliers remain in the network, the more accurate our procurement forecasts become.
+                            </div>
+                        </InfoCard>
+                    </motion.div>
+                </div>
+            </Section>
+
+            {/* Export Traceability KPIs */}
+            <Section className="py-6">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6">
+                    <motion.div
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={staggerContainer}
+                    >
+                        <InfoCard
+                            icon={FaGlobeAfrica}
+                            title="Export Traceability"
+                            subtitle="Batches shipped, buyers served, destinations reached"
+                            iconColor="text-blue-600"
+                            showInfoBadge={false}
+                        >
+                            <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mt-3">
+                                {(() => {
+                                    // Filter batches with traceability data
+                                    const tracedBatches = batches.filter(b =>
+                                        b.batchNumber === 'AFN-FARM-ORG-260710-34D1' // Replace with actual check when traceability data is linked
+                                    );
+
+                                    return [
+                                        {
+                                            label: 'Traced Batches',
+                                            value: tracedBatches.length,
+                                            total: batches.length,
+                                            icon: FaGlobeAfrica,
+                                            color: 'text-blue-600',
+                                            hint: 'With export records'
+                                        },
+                                        {
+                                            label: 'Buyers Served',
+                                            value: new Set(tracedBatches.map(b => 'NutriGlobal BV')).size,
+                                            icon: FaHandshake,
+                                            color: 'text-primary',
+                                            hint: 'International buyers'
+                                        },
+                                        {
+                                            label: 'Destinations',
+                                            value: new Set(tracedBatches.map(b => 'Rotterdam')).size,
+                                            icon: FaShip,
+                                            color: 'text-accent',
+                                            hint: 'Countries reached'
+                                        },
+                                        {
+                                            label: 'Export Volume',
+                                            value: tracedBatches.reduce((s, b) => s + (b.weightKg || 0), 0) > 0
+                                                ? `${(tracedBatches.reduce((s, b) => s + (b.weightKg || 0), 0) / 1000).toFixed(0)}T`
+                                                : '—',
+                                            icon: FaBox,
+                                            color: 'text-green-600',
+                                            hint: 'Total exported'
+                                        },
+                                        {
+                                            label: 'Certified Batches',
+                                            value: tracedBatches.filter(b => b.qualityGrade === 'PREMIUM').length,
+                                            total: tracedBatches.length,
+                                            icon: FaCertificate,
+                                            color: 'text-amber-500',
+                                            hint: 'Premium grade'
+                                        },
+                                    ].map((item, i) => (
+                                        <div key={i} className="bg-white/40 rounded-xl p-3 border border-white/30 text-center">
+                                            <item.icon className={`text-xl mx-auto ${item.color}`} />
+                                            <div className="text-lg font-bold mt-1">
+                                                {item.total !== undefined ? `${item.value}/${item.total}` : item.value}
+                                            </div>
+                                            <div className="text-xs text-gray-500">{item.label}</div>
+                                            <div className="text-[10px] text-gray-400 mt-0.5">{item.hint}</div>
+                                        </div>
+                                    ));
+                                })()}
+                            </div>
+
+                            {/* Recent Export Activity */}
+                            <div className="mt-4 pt-4 border-t border-gray-200">
+                                <h4 className="text-sm font-medium text-gray-600 mb-2">Recent Export Activity</h4>
+                                <div className="space-y-2">
+                                    {batches
+                                        .filter(b => b.batchNumber === 'AFN-FARM-ORG-260710-34D1')
+                                        .slice(0, 3)
+                                        .map((batch, i) => (
+                                            <div key={i} className="flex items-center justify-between bg-white/30 rounded-lg px-3 py-2 text-sm">
+                                                <div className="flex items-center gap-2">
+                                                    <FaGlobeAfrica className="text-blue-500 text-xs" />
+                                                    <span className="font-medium">{batch.batchNumber}</span>
+                                                    <span className="text-xs text-gray-500">
+                                            → Rotterdam, NL
+                                        </span>
+                                                </div>
+                                                <div className="flex items-center gap-3 text-xs text-gray-500">
+                                                    <span>NutriGlobal BV</span>
+                                                    <span className="px-1.5 py-0.5 bg-green-100 text-green-700 rounded-full">Premium</span>
+                                                </div>
+                                            </div>
+                                        ))}
+                                </div>
                             </div>
                         </InfoCard>
                     </motion.div>
@@ -390,7 +514,20 @@ const Batches: React.FC = () => {
                                 <InfoCard
                                     title={batch.batchNumber}
                                     subtitle={`${new Date(batch.processingDate).toLocaleDateString()} · ${(batch.weightKg / 1000).toFixed(1)}T`}
-                                    icon={FaBox} iconColor="text-accent" showInfoBadge={false} className="h-full hover:shadow-lg transition-all">
+                                    icon={batch.sourceType === 'OWN_FARM' ? FaHome : FaBox}
+                                    iconColor={batch.sourceType === 'OWN_FARM' ? 'text-green-600' : 'text-accent'}
+                                    showInfoBadge={false}
+                                    className={`h-full hover:shadow-lg transition-all ${batch.sourceType === 'OWN_FARM' ? 'border-green-400/30 ring-1 ring-green-400/20' : ''}`}
+                                >
+                                    {/* Own Farm Badge */}
+                                    {batch.sourceType === 'OWN_FARM' && (
+                                        <div className="mb-2">
+                                            <span className="px-2 py-0.5 bg-green-100 text-green-700 text-xs rounded-full font-medium flex items-center gap-1 w-fit">
+                                                <FaHome className="text-[10px]" />
+                                                    AfriNuts Farm
+                                            </span>
+                                        </div>
+                                    )}
                                     <div className="flex items-center gap-2 mt-3">
                                          <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${batch.qualityGrade === 'PREMIUM' ? 'bg-amber-100 text-amber-700' : 'bg-blue-100 text-blue-700'}`}>
                                                  {batch.qualityGrade}
@@ -480,6 +617,104 @@ const Batches: React.FC = () => {
                                                         {selectedBatch?.noChildLabor && <span className="text-blue-500 text-sm flex items-center gap-1"><FaCheckCircle /> No Child Labor</span>}
                                                     </div>
                                                 </div>
+
+                                                {/* Traceability Section */}
+                                                {batchDetail?.traceability && (
+                                                    <div className="bg-white/50 rounded-xl p-4 border border-white/30">
+                                                        <h4 className="font-medium text-primary mb-3 flex items-center gap-2">
+                                                            <FaGlobeAfrica />
+                                                            Export Traceability
+                                                        </h4>
+                                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                            <div className="space-y-2">
+                                                                <div className="flex justify-between text-sm">
+                                                                    <span className="text-gray-500">Buyer</span>
+                                                                    <span className="font-medium">{batchDetail.traceability.buyer || '—'}</span>
+                                                                </div>
+                                                                <div className="flex justify-between text-sm">
+                                                                    <span className="text-gray-500">Destination</span>
+                                                                    <span className="font-medium">{batchDetail.traceability.destination || '—'}</span>
+                                                                </div>
+                                                                <div className="flex justify-between text-sm">
+                                                                    <span className="text-gray-500">Export Date</span>
+                                                                    <span className="font-medium">
+                                                                            {batchDetail.traceability.exportDate
+                                                                                ? new Date(batchDetail.traceability.exportDate).toLocaleDateString()
+                                                                             : '—'}
+                                                                    </span>
+                                                                </div>
+                                                                <div className="flex justify-between text-sm">
+                                                                    <span className="text-gray-500">Certifications</span>
+                                                                    <span className="font-medium">{batchDetail.traceability.certificationIds || '—'}</span>
+                                                                </div>
+                                                            </div>
+                                                            <div className="space-y-2">
+                                                                <div className="flex justify-between text-sm">
+                                                                    <span className="text-gray-500">Grade</span>
+                                                                    <span className="px-2 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-700">
+                                                                            {batchDetail.traceability.grade || batchDetail.batch?.qualityGrade}
+                                                                    </span>
+                                                                </div>
+                                                                <div className="flex justify-between text-sm">
+                                                                    <span className="text-gray-500">Weight</span>
+                                                                    <span className="font-medium">{(batchDetail.traceability.weightKg / 1000).toFixed(1)}T</span>
+                                                                </div>
+                                                                <div className="flex justify-between text-sm">
+                                                                    <span className="text-gray-500">Price/kg</span>
+                                                                    <span className="font-medium">
+                                                                        {batchDetail.traceability.pricePerKg
+                                                                         ? `${new Intl.NumberFormat('fr-FR').format(batchDetail.traceability.pricePerKg)} FCFA`
+                                                                             : '—'}
+                                                                     </span>
+                                                                </div>
+                                                                <div className="flex justify-between text-sm">
+                                                                    <span className="text-gray-500">Total Value</span>
+                                                                    <span className="font-medium text-green-700">
+                                                                             {batchDetail.traceability.totalAmount
+                                                                              ? `${new Intl.NumberFormat('fr-FR').format(batchDetail.traceability.totalAmount)} FCFA`
+                                                                                : '—'}
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        {/* Traceability Link */}
+                                                        {batchDetail.traceability.traceabilityUrl && (
+                                                            <div className="mt-4 pt-3 border-t border-gray-200">
+                                                                <a
+                                                                    href={batchDetail.traceability.traceabilityUrl}
+                                                                    target="_blank"
+                                                                    rel="noopener noreferrer"
+                                                                    className="inline-flex items-center gap-2 text-primary hover:text-accent text-sm font-medium transition-colors"
+                                                                >
+                                                                    <FaExternalLinkAlt className="text-xs" />
+                                                                    View Full Traceability Record
+                                                                </a>
+                                                            </div>
+                                                        )}
+
+                                                        {/* Export Documents */}
+                                                        {batchDetail.traceability.documents && (
+                                                            <div className="mt-3 pt-3 border-t border-gray-200">
+                                                                <h5 className="text-xs font-medium text-gray-500 mb-2">Export Documents</h5>
+                                                                <div className="flex flex-wrap gap-2">
+                                                                    {Object.entries(JSON.parse(typeof batchDetail.traceability.documents === 'string' ? batchDetail.traceability.documents : '{}')).map(([key, url]) => (
+                                                                        <a
+                                                                            key={key}
+                                                                            href={url as string}
+                                                                            target="_blank"
+                                                                            rel="noopener noreferrer"
+                                                                            className="px-3 py-1.5 bg-primary/5 hover:bg-primary/10 rounded-lg text-xs text-primary transition-colors flex items-center gap-1.5"
+                                                                        >
+                                                                            <FaFileAlt className="text-[10px]" />
+                                                                            {key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
+                                                                        </a>
+                                                                    ))}
+                                                                </div>
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                )}
 
                                                 {/* Linked Supplier */}
                                                 {batchDetail.supplier && (
