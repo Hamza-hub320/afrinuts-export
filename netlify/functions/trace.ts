@@ -76,9 +76,6 @@ function mapToPublicBatch(batchData: any, supplier: any, traceability: any, reve
             ...(traceability?.certificationIds
                 ? traceability.certificationIds.split(',').map((c: string) => c.trim())
                 : []),
-            batchData.sustainableHarvesting ? 'Sustainably Harvested' : null,
-            batchData.noChildLabor ? 'No Child Labor' : null,
-            batchData.firebreakProtection ? 'Firebreak Protected' : null,
         ].filter(Boolean),
         qualityGrade: batchData.qualityGrade,
         qualityResults: `Aflatoxin: ${testResults.aflatoxin || '—'}ppb · Score: ${batchData.qualityScore?.toFixed(1)}%`,
@@ -90,7 +87,7 @@ function mapToPublicBatch(batchData: any, supplier: any, traceability: any, reve
         nutCount: batchData.nutCountPerKg,
         kernelRatio: batchData.kernelRatio,
         defectiveRate: batchData.defectiveRate,
-        overallScore: batchData.qualityScore,
+        overallScore: Math.round(batchData.qualityScore * 10) / 10,
         weightKg: batchData.weightKg,
         labReportUrl: null,
         latitude: supplier?.latitude || 9.51,
@@ -99,7 +96,7 @@ function mapToPublicBatch(batchData: any, supplier: any, traceability: any, reve
             coo: traceability?.documents ? (() => {
                 try {
                     const docs = typeof traceability.documents === 'string' ? JSON.parse(traceability.documents) : traceability.documents;
-                    return docs?.certificateOfOrigin || docs?.coo || null;
+                    return docs?.certificateOfOrigin || docs?.coo || docs?.qualityCertificate || null;
                 } catch { return null; }
             })() : null,
             phyto: traceability?.documents ? (() => {
