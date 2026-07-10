@@ -1,7 +1,7 @@
 {
   "seo": {
     "title": "Cashew Traceability | Farm OS Verified Batch Tracking | AfriNuts Export",
-    "description": "Enter, your batch ID to see your cashew shipment's full journey — GPS coordinates, harvest date, quality metrics, and certification verification. Powered by AfriNuts Farm OS. Try AFN-2026-001."
+    "description": "Enter, your batch ID to see your cashew shipment's full journey — GPS coordinates, harvest date, quality metrics, and certification verification. Powered by AfriNuts Farm OS. Try AFN-FARM-ORG-260710-34D1."
   },
   "page": {
     "title": "AfriNuts Batch Traceability | Farm OS Verified",
@@ -22,7 +22,7 @@
     "notFound": "Batch \"{id}\" not found. Please check and try again."
   },
   "demo": {
-    "note": "Try it yourself — enter AFN-2026-001 in the search box above",
+    "note": "Try it yourself — enter AFN-FARM-ORG-260710-34D1 in the search box above",
     "button": "View Sample Batch"
   },
   "howItWorks": {
