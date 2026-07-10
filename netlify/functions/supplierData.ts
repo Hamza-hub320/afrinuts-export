@@ -54,6 +54,25 @@ export const handler: Handler = async (event: HandlerEvent) => {
             };
         }
 
+        if (action === 'getAllTraceability') {
+            const snapshot = await db
+                .collection('farms').doc(fid)
+                .collection('batch_traceability')
+                .orderBy('exportDate', 'desc')
+                .get();
+
+            const traceability = snapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data(),
+            }));
+
+            return {
+                statusCode: 200,
+                headers,
+                body: JSON.stringify({ traceability }),
+            };
+        }
+
         if (action === 'getSupplierQualityBatches' && supplierId) {
             const snapshot = await db
                 .collection('farms').doc(fid)

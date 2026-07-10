@@ -430,8 +430,8 @@ export const mockTraceability = [
         exportDate: 1783693464307,
         grade: 'Premium',
         weightKg: 45000,
-        pricePerKg: 0,
-        totalAmount: 0,
+        pricePerKg: 2500,
+        totalAmount: 112500000,
         certificationIds: 'Organic, Halal, ISO 22000',
         traceabilityUrl: 'https://www.afrinutsexport.com/trace/AFN-FARM-ORG-260710-34D1',
         supplierId: 10,
@@ -439,7 +439,66 @@ export const mockTraceability = [
         documents: JSON.stringify({
             commercialInvoice: '#',
             packingList: '#',
+            certificateOfOrigin: '#',
+        }),
+    },
+    {
+        id: 19,
+        qualityBatchId: 2,
+        batchNumber: 'AFN-COOP-CONV-260710-4A76',
+        buyer: 'Cargill',
+        destination: 'Hamburg, Germany',
+        exportDate: 1783700000000,
+        grade: 'Standard',
+        weightKg: 35000,
+        pricePerKg: 1800,
+        totalAmount: 63000000,
+        certificationIds: 'Fair Trade',
+        traceabilityUrl: 'https://www.afrinutsexport.com/trace/AFN-COOP-CONV-260710-4A76',
+        supplierId: 4,
+        supplierName: 'AgroCoop Odienné',
+        documents: JSON.stringify({
+            commercialInvoice: '#',
+            billOfLading: '#',
+        }),
+    },
+    {
+        id: 20,
+        qualityBatchId: 1,
+        batchNumber: 'AFN-COOP-ORG-260710-C97E',
+        buyer: 'Olam International',
+        destination: 'Dubai, UAE',
+        exportDate: 1783750000000,
+        grade: 'Premium',
+        weightKg: 40000,
+        pricePerKg: 2800,
+        totalAmount: 112000000,
+        certificationIds: 'Organic, Halal',
+        traceabilityUrl: 'https://www.afrinutsexport.com/trace/AFN-COOP-ORG-260710-C97E',
+        supplierId: 4,
+        supplierName: 'AgroCoop Odienné',
+        documents: JSON.stringify({
+            commercialInvoice: '#',
             qualityCertificate: '#',
+        }),
+    },
+    {
+        id: 21,
+        qualityBatchId: 3,
+        batchNumber: 'AFN-INDP-ORG-260710-8DD0',
+        buyer: 'AFEX Commodities',
+        destination: 'London, UK',
+        exportDate: 1783800000000,
+        grade: 'Premium',
+        weightKg: 25000,
+        pricePerKg: 3200,
+        totalAmount: 80000000,
+        certificationIds: 'Organic, Fair Trade',
+        traceabilityUrl: 'https://www.afrinutsexport.com/trace/AFN-INDP-ORG-260710-8DD0',
+        supplierId: 5,
+        supplierName: 'Farmers United',
+        documents: JSON.stringify({
+            commercialInvoice: '#',
         }),
     },
 ];
@@ -474,6 +533,9 @@ export const getMockData = async (action: string, data?: any) => {
         // ✅ ADD SUPPLIER CASES
         case 'getSuppliers':
             return { suppliers: mockSuppliers };
+
+        case 'getAllTraceability':
+            return { traceability: mockTraceability };
 
         case 'getSupplierQualityBatches': {
             const supplierId = data?.supplierId ? parseInt(data.supplierId) : null;
