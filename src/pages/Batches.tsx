@@ -69,19 +69,22 @@ const Batches: React.FC = () => {
     const [modalLoading, setModalLoading] = useState(false);
     const [supplierNames, setSupplierNames] = useState<Map<number, string>>(new Map());
     const [traceabilityData, setTraceabilityData] = useState<any[]>([]);
+    const [revenues, setRevenues] = useState<any[]>([]);
 
     const isDevelopment = import.meta.env.DEV;
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [batchesData, suppliersData, traceabilityRes] = await Promise.all([
+                const [batchesData, suppliersData, traceabilityRes, revenueRes] = await Promise.all([
                     getSupplierData('getAllBatches'),
                     getSupplierData('getSuppliers'),
-                    getSupplierData('getAllTraceability'),  // ADD THIS
+                    getSupplierData('getAllTraceability'),
+                    getSupplierData('getAllRevenues'),
                 ]);
                 setBatches(batchesData.batches || []);
-                setTraceabilityData(traceabilityRes?.traceability || []);  // ADD THIS
+                setTraceabilityData(traceabilityRes.traceability || []);
+                setRevenues(revenueRes.revenues || []);
 
                 const names = new Map<number, string>();
                 (suppliersData.suppliers || []).forEach((s: any) => {
@@ -272,21 +275,26 @@ const Batches: React.FC = () => {
                                     },
                                     {
                                         label: 'Export Volume',
-                                        value: traceabilityData.reduce((s, t) => s + (t.weightKg || 0), 0) > 0
-                                            ? `${(traceabilityData.reduce((s, t) => s + (t.weightKg || 0), 0) / 1000).toFixed(0)}T`
-                                            : '—',
+                                        value: (() => {
+                                            const totalQty = revenues.reduce((s, r) => s + (r.quantityKg || 0), 0);
+                                            return totalQty > 0 ? `${(totalQty / 1000).toFixed(0)}T` : '—';
+                                        })(),
                                         icon: FaBox,
                                         color: 'text-green-600',
-                                        hint: 'Total shipped'
+                                        hint: 'Total quantity sold'
                                     },
                                     {
                                         label: 'Avg Price/kg',
-                                        value: traceabilityData.filter(t => t.pricePerKg > 0).length > 0
-                                            ? `${Math.round(traceabilityData.filter(t => t.pricePerKg > 0).reduce((s, t) => s + t.pricePerKg, 0) / traceabilityData.filter(t => t.pricePerKg > 0).length)} FCFA`
-                                            : '—',
+                                        value: (() => {
+                                            const revenueTotal = revenues.reduce((s, r) => s + (r.totalAmount || 0), 0);
+                                            const quantityTotal = revenues.reduce((s, r) => s + (r.quantityKg || 0), 0);
+                                            return quantityTotal > 0
+                                                ? `${Math.round(revenueTotal / quantityTotal).toLocaleString()} FCFA`
+                                                : '—';
+                                        })(),
                                         icon: FaDollarSign,
                                         color: 'text-amber-500',
-                                        hint: 'Average across all exports'
+                                        hint: 'Average across all sales'
                                     },
                                 ].map((item, i) => (
                                     <div key={i} className="bg-white/40 rounded-xl p-3 border border-white/30 text-center">
@@ -671,17 +679,17 @@ const Batches: React.FC = () => {
                                                                 <div className="flex justify-between text-sm">
                                                                     <span className="text-gray-500">Price/kg</span>
                                                                     <span className="font-medium">
-                                                                        {batchDetail.traceability.pricePerKg
-                                                                         ? `${new Intl.NumberFormat('fr-FR').format(batchDetail.traceability.pricePerKg)} FCFA`
+                                                                            {batchDetail?.revenues?.[0]?.pricePerKg
+                                                                            ? `${new Intl.NumberFormat('fr-FR').format(batchDetail.revenues[0].pricePerKg)} FCFA`
                                                                              : '—'}
-                                                                     </span>
+                                                                    </span>
                                                                 </div>
                                                                 <div className="flex justify-between text-sm">
                                                                     <span className="text-gray-500">Total Value</span>
                                                                     <span className="font-medium text-green-700">
-                                                                             {batchDetail.traceability.totalAmount
-                                                                              ? `${new Intl.NumberFormat('fr-FR').format(batchDetail.traceability.totalAmount)} FCFA`
-                                                                                : '—'}
+                                                                            {batchDetail?.revenues?.[0]?.totalAmount
+                                                                             ? `${new Intl.NumberFormat('fr-FR').format(batchDetail.revenues[0].totalAmount)} FCFA`
+                                                                             : '—'}
                                                                     </span>
                                                                 </div>
                                                             </div>

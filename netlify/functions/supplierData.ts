@@ -73,6 +73,26 @@ export const handler: Handler = async (event: HandlerEvent) => {
             };
         }
 
+        if (action === 'getAllRevenues') {
+            const snapshot = await db
+                .collection('farms').doc(fid)
+                .collection('revenues')
+                .orderBy('harvestDate', 'desc')
+                .limit(50)
+                .get();
+
+            const revenues = snapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data(),
+            }));
+
+            return {
+                statusCode: 200,
+                headers,
+                body: JSON.stringify({ revenues }),
+            };
+        }
+
         if (action === 'getSupplierQualityBatches' && supplierId) {
             const snapshot = await db
                 .collection('farms').doc(fid)

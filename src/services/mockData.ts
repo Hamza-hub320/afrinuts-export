@@ -560,6 +560,9 @@ export const getMockData = async (action: string, data?: any) => {
             return { batch, supplier, expenses, revenues };
         }
 
+        case 'getAllRevenues':
+            return { revenues: mockSupplierRevenues };
+
         case 'getSupplierFinancials': {
             const supplierId = data?.supplierId ? parseInt(data.supplierId) : null;
             const filteredExpenses = supplierId
