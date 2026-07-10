@@ -93,6 +93,25 @@ export const handler: Handler = async (event: HandlerEvent) => {
             };
         }
 
+        if (action === 'getAllMasterTraceability') {
+            const snapshot = await db
+                .collection('farms').doc(fid)
+                .collection('master_traceability')
+                .orderBy('exportDate', 'desc')
+                .get();
+
+            const masterTraceability = snapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data(),
+            }));
+
+            return {
+                statusCode: 200,
+                headers,
+                body: JSON.stringify({ masterTraceability }),
+            };
+        }
+
         if (action === 'getSupplierQualityBatches' && supplierId) {
             const snapshot = await db
                 .collection('farms').doc(fid)

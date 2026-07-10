@@ -70,21 +70,24 @@ const Batches: React.FC = () => {
     const [supplierNames, setSupplierNames] = useState<Map<number, string>>(new Map());
     const [traceabilityData, setTraceabilityData] = useState<any[]>([]);
     const [revenues, setRevenues] = useState<any[]>([]);
+    const [masterTraceability, setMasterTraceability] = useState<any[]>([]);
 
     const isDevelopment = import.meta.env.DEV;
 
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [batchesData, suppliersData, traceabilityRes, revenueRes] = await Promise.all([
+                const [batchesData, suppliersData, traceabilityRes, revenueRes, masterTraceRes] = await Promise.all([
                     getSupplierData('getAllBatches'),
                     getSupplierData('getSuppliers'),
                     getSupplierData('getAllTraceability'),
                     getSupplierData('getAllRevenues'),
+                    getSupplierData('getAllMasterTraceability'),
                 ]);
                 setBatches(batchesData.batches || []);
                 setTraceabilityData(traceabilityRes.traceability || []);
                 setRevenues(revenueRes.revenues || []);
+                setMasterTraceability(masterTraceRes.masterTraceability || []);
 
                 const names = new Map<number, string>();
                 (suppliersData.suppliers || []).forEach((s: any) => {
@@ -245,63 +248,62 @@ const Batches: React.FC = () => {
                         <InfoCard
                             icon={FaGlobeAfrica}
                             title="Export Traceability"
-                            subtitle={`${traceabilityData.length} batches shipped to international buyers`}
+                            subtitle={`${traceabilityData.length} individual batches + ${masterTraceability.length} bulk shipment${masterTraceability.length !== 1 ? 's' : ''} tracked`}
                             iconColor="text-blue-600"
                             showInfoBadge={false}
                         >
                             <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mt-3">
                                 {[
                                     {
-                                        label: 'Traced Batches',
+                                        label: 'Individual Batches',
                                         value: traceabilityData.length,
-                                        total: batches.length,
-                                        icon: FaGlobeAfrica,
+                                        icon: FaBox,
                                         color: 'text-blue-600',
-                                        hint: 'With export records'
+                                        hint: 'Single batch exports'
+                                    },
+                                    {
+                                        label: 'Bulk Shipments',
+                                        value: masterTraceability.length,
+                                        icon: FaShip,
+                                        color: 'text-primary',
+                                        hint: `${masterTraceability.reduce((s, m) => s + (m.totalBatches || 0), 0)} batches consolidated`
                                     },
                                     {
                                         label: 'Buyers Served',
-                                        value: new Set(traceabilityData.map(t => t.buyer).filter(Boolean)).size,
+                                        value: new Set([
+                                            ...traceabilityData.map(t => t.buyer),
+                                            ...masterTraceability.map(m => m.buyer)
+                                        ].filter(Boolean)).size,
                                         icon: FaHandshake,
-                                        color: 'text-primary',
+                                        color: 'text-accent',
                                         hint: 'International buyers'
                                     },
                                     {
                                         label: 'Destinations',
-                                        value: new Set(traceabilityData.map(t => t.destination).filter(Boolean)).size,
-                                        icon: FaShip,
-                                        color: 'text-accent',
+                                        value: new Set([
+                                            ...traceabilityData.map(t => t.destination),
+                                            ...masterTraceability.map(m => m.destination)
+                                        ].filter(Boolean)).size,
+                                        icon: FaGlobeAfrica,
+                                        color: 'text-green-600',
                                         hint: 'Markets reached'
                                     },
                                     {
-                                        label: 'Export Volume',
+                                        label: 'Total Exported',
                                         value: (() => {
-                                            const totalQty = revenues.reduce((s, r) => s + (r.quantityKg || 0), 0);
-                                            return totalQty > 0 ? `${(totalQty / 1000).toFixed(0)}T` : '—';
+                                            const individual = traceabilityData.reduce((s, t) => s + (t.weightKg || 0), 0);
+                                            const bulk = masterTraceability.reduce((s, m) => s + (m.totalWeightKg || 0), 0);
+                                            const total = individual + bulk;
+                                            return total > 0 ? `${(total / 1000).toFixed(0)}T` : '—';
                                         })(),
-                                        icon: FaBox,
-                                        color: 'text-green-600',
-                                        hint: 'Total quantity sold'
-                                    },
-                                    {
-                                        label: 'Avg Price/kg',
-                                        value: (() => {
-                                            const revenueTotal = revenues.reduce((s, r) => s + (r.totalAmount || 0), 0);
-                                            const quantityTotal = revenues.reduce((s, r) => s + (r.quantityKg || 0), 0);
-                                            return quantityTotal > 0
-                                                ? `${Math.round(revenueTotal / quantityTotal).toLocaleString()} FCFA`
-                                                : '—';
-                                        })(),
-                                        icon: FaDollarSign,
+                                        icon: FaChartBar,
                                         color: 'text-amber-500',
-                                        hint: 'Average across all sales'
+                                        hint: 'Combined volume'
                                     },
                                 ].map((item, i) => (
                                     <div key={i} className="bg-white/40 rounded-xl p-3 border border-white/30 text-center">
                                         <item.icon className={`text-xl mx-auto ${item.color}`} />
-                                        <div className="text-lg font-bold mt-1">
-                                            {item.total !== undefined ? `${item.value}/${item.total}` : item.value}
-                                        </div>
+                                        <div className="text-lg font-bold mt-1">{item.value}</div>
                                         <div className="text-xs text-gray-500">{item.label}</div>
                                         <div className="text-[10px] text-gray-400 mt-0.5">{item.hint}</div>
                                     </div>
@@ -312,11 +314,47 @@ const Batches: React.FC = () => {
                             <div className="mt-4 pt-4 border-t border-gray-200">
                                 <h4 className="text-sm font-medium text-gray-600 mb-2">Recent Export Activity</h4>
                                 <div className="space-y-2">
+                                    {/* Bulk Shipments First */}
+                                    {masterTraceability
+                                        .sort((a, b) => (b.exportDate || 0) - (a.exportDate || 0))
+                                        .slice(0, 2)
+                                        .map((master, i) => {
+                                            const batches = typeof master.batchNumbers === 'string'
+                                                ? JSON.parse(master.batchNumbers)
+                                                : master.batchNumbers || [];
+                                            return (
+                                                <div key={master.id} className="bg-blue-50/50 rounded-lg px-3 py-2.5 text-sm border border-blue-100">
+                                                    <div className="flex items-center justify-between">
+                                                        <div className="flex items-center gap-2">
+                                                            <FaShip className="text-blue-600 text-sm" />
+                                                            <span className="font-semibold text-blue-700">{master.masterBatchNumber}</span>
+                                                            <span className="px-1.5 py-0.5 bg-blue-100 text-blue-700 text-xs rounded-full">
+                                                    {master.shipmentName}
+                                                </span>
+                                                        </div>
+                                                        <div className="flex items-center gap-3 text-xs text-gray-600">
+                                                            <span>→ {master.destination}</span>
+                                                            <span>{master.buyer}</span>
+                                                            <span>{new Date(master.exportDate).toLocaleDateString()}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div className="mt-1.5 flex items-center gap-2 text-xs text-gray-500">
+                                                        <span className="font-medium">Contains {batches.length} batches:</span>
+                                                        {(Array.isArray(batches) ? batches : []).map((bn: string) => (
+                                                            <span key={bn} className="px-1.5 py-0.5 bg-white rounded text-gray-600">{bn}</span>
+                                                        ))}
+                                                        <span className="ml-auto font-medium">{(master.totalWeightKg / 1000).toFixed(1)}T</span>
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
+
+                                    {/* Individual Shipments */}
                                     {traceabilityData
                                         .sort((a, b) => (b.exportDate || 0) - (a.exportDate || 0))
-                                        .slice(0, 4)
+                                        .slice(0, 3)
                                         .map((trace, i) => (
-                                            <div key={i} className="flex items-center justify-between bg-white/30 rounded-lg px-3 py-2 text-sm">
+                                            <div key={trace.id} className="flex items-center justify-between bg-white/30 rounded-lg px-3 py-2 text-sm">
                                                 <div className="flex items-center gap-2">
                                                     <FaGlobeAfrica className="text-blue-500 text-xs" />
                                                     <span className="font-medium">{trace.batchNumber}</span>

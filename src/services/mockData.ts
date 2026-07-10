@@ -503,6 +503,23 @@ export const mockTraceability = [
     },
 ];
 
+export const mockMasterTraceability = [
+    {
+        id: 8,
+        masterBatchNumber: 'MB-20260710-085',
+        shipmentName: 'Omani Bulk',
+        buyer: 'Omani Nuts',
+        destination: 'Oman',
+        exportDate: 1783685218218,
+        totalBatches: 3,
+        totalWeightKg: 65000,
+        grades: 'Standard, Premium',
+        batchNumbers: JSON.stringify(['AFN-COOP-CONV-260710-4A76', 'AFN-INDP-ORG-260710-8DD0', 'AFN-COOP-ORG-260710-C97E']),
+        batchTraceabilityIds: JSON.stringify([17, 14, 13]),
+        traceabilityUrl: 'https://www.afrinutsexport.com/trace/MB-20260710-085',
+    },
+];
+
 export const getMockData = async (action: string, data?: any) => {
     await new Promise(resolve => setTimeout(resolve, 500));
 
@@ -562,6 +579,9 @@ export const getMockData = async (action: string, data?: any) => {
 
         case 'getAllRevenues':
             return { revenues: mockSupplierRevenues };
+
+        case 'getAllMasterTraceability':
+            return { masterTraceability: mockMasterTraceability };
 
         case 'getSupplierFinancials': {
             const supplierId = data?.supplierId ? parseInt(data.supplierId) : null;
