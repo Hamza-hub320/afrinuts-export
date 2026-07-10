@@ -73,17 +73,28 @@ const Batches: React.FC = () => {
     const isDevelopment = import.meta.env.DEV;
 
     useEffect(() => {
-        const fetchBatches = async () => {
+        const fetchData = async () => {
             try {
-                const data = await getSupplierData('getAllBatches');
-                setBatches(data.batches || []);
+                const [batchesData, suppliersData, traceabilityRes] = await Promise.all([
+                    getSupplierData('getAllBatches'),
+                    getSupplierData('getSuppliers'),
+                    getSupplierData('getAllTraceability'),  // ADD THIS
+                ]);
+                setBatches(batchesData.batches || []);
+                setTraceabilityData(traceabilityRes?.traceability || []);  // ADD THIS
+
+                const names = new Map<number, string>();
+                (suppliersData.suppliers || []).forEach((s: any) => {
+                    names.set(parseInt(s.id), s.name);
+                });
+                setSupplierNames(names);
             } catch (error) {
-                console.error('Error fetching batches:', error);
+                console.error('Error fetching data:', error);
             } finally {
                 setLoading(false);
             }
         };
-        fetchBatches();
+        fetchData();
     }, []);
 
     useEffect(() => {
