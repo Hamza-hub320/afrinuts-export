@@ -63,7 +63,7 @@
         "name": "Confiance dans la Chaîne d'Approvisionnement",
         "items": [
           { "icon": "FaSearch", "title": "Traçabilité des Lots", "desc": "Chaque expédition liée à un ID de lot unique avec documentation complète de la récolte au conteneur." },
-          { "icon": "FaShieldAlt", "title": "Piste d'Audit de Certification", "desc": "Enregistrements numériques de chaque intrant, inspection et contrôle de conformité — prêts pour l'audit sur demande." },
+          { "icon": "FaQrcode", "title": "QR Codes de Lot Automatisés", "desc": "Chaque lot reçoit un QR code unique lié à son dossier de traçabilité complet — scannable par tout acheteur." },
           { "icon": "FaCloud", "title": "Synchro Hors Ligne d'Abord", "desc": "Fonctionne sans internet. Les données se synchronisent automatiquement lorsque la connexion revient. Construit pour l'Afrique de l'Ouest rurale." }
         ]
       },
@@ -72,8 +72,16 @@
         "items": [
           { "icon": "FaUsers", "title": "Profils des Fournisseurs", "desc": "Chaque lot est lié à son agriculteur — nom, photo, années d'expérience, localisation et biographie personnelle. Sachez qui a cultivé vos noix de cajou." },
           { "icon": "FaLeaf", "title": "Durabilité par Lot", "desc": "Pas de travail des enfants, protection coupe-feu, récolte durable — vérifié par lot avec horodatage et ID du vérificateur. Pas une promesse au niveau de l'entreprise, une vérification au niveau du lot." },
-          { "icon": "FaNetworkWired", "title": "Suivi par Type de Source", "desc": "Ferme Propriétaire · Coopérative · Indépendant · Fournisseur Régional. Même norme de traçabilité sur tout le réseau. Même Farm OS. Même vérification." },
+          { "icon": "FaNetworkWired", "title": "Suivi par Type de Source", "desc": "Ferme Propriétaire · Coopérative · Indépendant · Fournisseur Régional. Même norme de traçabilité sur tout le réseau." },
           { "icon": "FaChartPie", "title": "P&L par Fournisseur", "desc": "Revenus et dépenses suivis par fournisseur et par lot. Sachez exactement quels partenariats génèrent le plus de valeur." }
+        ]
+      },
+      {
+        "name": "Traçabilité et Documentation",
+        "items": [
+          { "icon": "FaFileInvoice", "title": "Documents Auto-Générés", "desc": "Facture commerciale, liste de colisage et certificat d'origine générés automatiquement à partir des données du lot — prêts à télécharger." },
+          { "icon": "FaProjectDiagram", "title": "Traçabilité Maître", "desc": "Regroupez plusieurs lots en une seule expédition avec des numéros de lot maître et un suivi agrégé." },
+          { "icon": "FaCheckCircle", "title": "Tableau de Bord des Indicateurs Qualité", "desc": "Teneur en humidité, nombre de noix, taux de défauts, ratio d'amandes par lot — automatisé à partir des données de transformation." }
         ]
       }
     ]
@@ -124,11 +132,8 @@
         "status": "En Développement",
         "statusClass": "bg-amber-50 border-amber-200 text-amber-700",
         "items": [
-          { "icon": "FaChartLine", "title": "Tableau de Bord des Indicateurs Qualité", "desc": "Teneur en humidité, nombre de noix, taux de défauts, ratio d'amandes par lot — automatisé à partir des données de transformation." },
           { "icon": "FaShieldAlt", "title": "Suivi de Conformité des Certifications", "desc": "Piste d'audit numérique pour Biologique, Halal, ISO 22000 — enregistre chaque intrant, chaque date d'inspection." },
-          { "icon": "FaLeaf", "title": "Indicateurs de Durabilité", "desc": "Consommation d'eau, intrants biologiques, détournement des déchets, empreinte carbone par récolte — mesurés, pas estimés." },
-          { "icon": "FaQrcode", "title": "QR Codes de Lot Automatisés", "desc": "Chaque expédition reçoit un QR code unique lié à son dossier de traçabilité complet — scannable par tout acheteur." },
-          { "icon": "FaUsers", "title": "Traçabilité des Fournisseurs", "desc": "Suivez quel agriculteur coopératif a fourni quel lot — visibilité complète de la chaîne d'approvisionnement." }
+          { "icon": "FaLeaf", "title": "Indicateurs de Durabilité", "desc": "Consommation d'eau, intrants biologiques, détournement des déchets, empreinte carbone par récolte — mesurés, pas estimés." }
         ]
       },
       {

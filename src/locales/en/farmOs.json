@@ -63,7 +63,7 @@
         "name": "Supply Chain Trust",
         "items": [
           { "icon": "FaSearch", "title": "Batch Traceability", "desc": "Every shipment linked to a unique batch ID with full harvest-to-container documentation." },
-          { "icon": "FaShieldAlt", "title": "Certification Audit Trail", "desc": "Digital records of every input, inspection, and compliance check — audit-ready on demand." },
+          { "icon": "FaQrcode", "title": "Automated Batch QR Codes", "desc": "Each batch gets a unique QR code linking to its full traceability record — scannable by any buyer." },
           { "icon": "FaCloud", "title": "Offline-First Sync", "desc": "Works without internet. Data syncs automatically when connectivity returns. Built for rural West Africa." }
         ]
       },
@@ -72,8 +72,16 @@
         "items": [
           { "icon": "FaUsers", "title": "Supplier Profiles", "desc": "Every batch links to its farmer — name, photo, years of experience, location, and personal bio. Know who grew your cashews." },
           { "icon": "FaLeaf", "title": "Per-Batch Sustainability", "desc": "No child labor, firebreak protection, sustainable harvesting — verified per batch with timestamp and verifier ID. Not a company-level promise, a batch-level verification." },
-          { "icon": "FaNetworkWired", "title": "Source Type Tracking", "desc": "Owned Farm · Cooperative · Independent · Regional Supplier. Same traceability standard across the entire network. Same Farm OS. Same verification." },
+          { "icon": "FaNetworkWired", "title": "Source Type Tracking", "desc": "Owned Farm · Cooperative · Independent · Regional Supplier. Same traceability standard across the entire network." },
           { "icon": "FaChartPie", "title": "Supplier-Level P&L", "desc": "Revenue and expenses tracked per supplier and per batch. Know exactly which partnerships drive the most value." }
+        ]
+      },
+      {
+        "name": "Traceability & Documentation",
+        "items": [
+          { "icon": "FaFileInvoice", "title": "Auto-Generated Documents", "desc": "Commercial Invoice, Packing List, and Certificate of Origin generated automatically from batch data — ready to download." },
+          { "icon": "FaProjectDiagram", "title": "Master Traceability", "desc": "Group multiple batches into a single shipment with master batch numbers and aggregated tracking." },
+          { "icon": "FaCheckCircle", "title": "Quality Metrics Dashboard", "desc": "Moisture content, nut count, defective rate, kernel ratio per batch — automated from processing data." }
         ]
       }
     ]
@@ -124,11 +132,8 @@
         "status": "In Development",
         "statusClass": "bg-amber-50 border-amber-200 text-amber-700",
         "items": [
-          { "icon": "FaChartLine", "title": "Quality Metrics Dashboard", "desc": "Moisture content, nut count, defective rate, kernel ratio per batch — automated from processing data." },
           { "icon": "FaShieldAlt", "title": "Certification Compliance Tracker", "desc": "Digital audit trail for Organic, Halal, ISO 22000 — logs every input, every inspection date." },
-          { "icon": "FaLeaf", "title": "Sustainability Metrics", "desc": "Water usage, organic inputs, waste diversion, carbon footprint per harvest — measured, not estimated." },
-          { "icon": "FaQrcode", "title": "Automated Batch QR Codes", "desc": "Each shipment gets a unique QR code linking to its full traceability record — scannable by any buyer." },
-          { "icon": "FaUsers", "title": "Supplier Traceability", "desc": "Track which cooperative farmer supplied which batch — full supply chain visibility." }
+          { "icon": "FaLeaf", "title": "Sustainability Metrics", "desc": "Water usage, organic inputs, waste diversion, carbon footprint per harvest — measured, not estimated." }
         ]
       },
       {

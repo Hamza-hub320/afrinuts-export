@@ -544,6 +544,19 @@ const TracePage: React.FC = () => {
                                         <div className="flex items-center gap-2 mb-1"><FaFlask className="text-accent text-sm" /><Typography variant="small" className="text-gray-500 font-medium">{t('batch.qualityCheckResults')}</Typography></div>
                                         <Typography variant="body" className="font-semibold text-gray-800">{b.qualityResults || b.qualityGrade || '—'}</Typography>
                                     </motion.div>
+                                    {/* Status Badge */}
+                                    <motion.div className="mt-5 flex items-center justify-center gap-3" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.7 }}>
+                                        <span className={`px-4 py-2 rounded-full text-sm font-semibold flex items-center gap-2 ${
+                                            b.status === 'Shipped' ? 'bg-green-100 text-green-700' : b.status === 'Delivered' ? 'bg-blue-100 text-blue-700' :
+                                            b.status === 'Processing' ? 'bg-amber-100 text-amber-700' : 'bg-gray-100 text-gray-600'
+                                             }`}>
+                                            {b.status === 'Shipped' ? <FaShip className="text-xs" /> :
+                                            b.status === 'Delivered' ? <FaCheckCircle className="text-xs" /> :
+                                             b.status === 'Processing' ? <FaIndustry className="text-xs" /> :
+                                            <FaClock className="text-xs" />}
+                                            {b.status}
+                                        </span>
+                                    </motion.div>
                                 </div>
 
                                 {b.weightKg && (
@@ -614,10 +627,10 @@ const TracePage: React.FC = () => {
                             <InfoCard icon={FaLeaf} title={t('sustainability.title', 'Sustainability Verification')} variant="primary" showInfoBadge={false}>
                                 <div className="grid grid-cols-2 gap-3 mt-3">
                                     {[
-                                        { icon: FaChild, label: t('sustainability.noChildLabor'), value: (isBulk ? bulkData!.sustainability : batch!.sustainability)!.noChildLabor, active: (isBulk ? bulkData!.sustainability : batch!.sustainability)!.noChildLabor },
-                                        { icon: FaMobile, label: t('sustainability.farmOsMonitored'), value: (isBulk ? bulkData!.sustainability : batch!.sustainability)!.farmOsMonitored, active: (isBulk ? bulkData!.sustainability : batch!.sustainability)!.farmOsMonitored },
-                                        { icon: FaShieldAlt, label: t('sustainability.firebreak'), value: (isBulk ? bulkData!.sustainability : batch!.sustainability)!.firebreak, active: (isBulk ? bulkData!.sustainability : batch!.sustainability)!.firebreak },
-                                        { icon: FaTree, label: t('sustainability.harvesting'), value: (isBulk ? bulkData!.sustainability : batch!.sustainability)!.sustainableHarvesting, active: (isBulk ? bulkData!.sustainability : batch!.sustainability)!.sustainableHarvesting },
+                                        { icon: FaChild, label: t('sustainability.noChildLabor', 'No Child Labor'), value: (isBulk ? bulkData!.sustainability : batch!.sustainability)!.noChildLabor, active: (isBulk ? bulkData!.sustainability : batch!.sustainability)!.noChildLabor },
+                                        { icon: FaMobile, label: t('sustainability.farmOsMonitored', 'Farm OS Monitored'), value: (isBulk ? bulkData!.sustainability : batch!.sustainability)!.farmOsMonitored, active: (isBulk ? bulkData!.sustainability : batch!.sustainability)!.farmOsMonitored },
+                                        { icon: FaShieldAlt, label: t('sustainability.firebreak', 'Firebreak'), value: (isBulk ? bulkData!.sustainability : batch!.sustainability)!.firebreak, active: (isBulk ? bulkData!.sustainability : batch!.sustainability)!.firebreak },
+                                        { icon: FaTree, label: t('sustainability.harvesting', 'Sustainable Harvest'), value: (isBulk ? bulkData!.sustainability : batch!.sustainability)!.sustainableHarvesting, active: (isBulk ? bulkData!.sustainability : batch!.sustainability)!.sustainableHarvesting },
                                     ].map((item, i) => (
                                         <motion.div key={i} className={`rounded-xl p-4 border text-center transition-all ${item.active ? 'bg-green-50/60 border-green-200' : 'bg-gray-50/40 border-gray-200'}`}
                                                     initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }} whileHover={{ y: -2 }}>
