@@ -35,17 +35,17 @@ interface BatchData {
     farmLocation: string;
     block?: string;
     processingInfo: string;
-    processingFacility?: string;      // ADD
-    processingLocation?: string;      // ADD
-    processingMethod?: string;        // ADD
-    shellingMethod?: string;          // ADD
-    gradingMethod?: string;           // ADD
-    yieldPercentage?: number | null;  // ADD
+    processingFacility?: string;
+    processingLocation?: string;
+    processingMethod?: string;
+    shellingMethod?: string;
+    gradingMethod?: string;
+    yieldPercentage?: number | null;
     certifications: string[];
     qualityGrade?: string;
     qualityResults?: string;
-    qualityScore?: number;            // ADD
-    testResults?: {                   // ADD
+    qualityScore?: number;
+    testResults?: {
         aflatoxin?: number;
         heavyMetals?: number;
         pesticideResidue?: number;
@@ -60,6 +60,8 @@ interface BatchData {
     defectiveRate?: number;
     overallScore?: number;
     weightKg?: number;
+    kernelWeightKg?: number;
+    rawWeightKg?: number;
     labReportUrl?: string;
     latitude?: number;
     longitude?: number;
@@ -71,6 +73,7 @@ interface BatchData {
         invoice?: string | null;
         insurance?: string | null;
         compliancePack?: string | null;
+        qualityCertificate?: string | null;
     };
     farmer?: {
         id?: string;
@@ -598,10 +601,32 @@ const TracePage: React.FC = () => {
                                     </motion.div>
                                 </div>
 
-                                {b.weightKg && (
-                                    <motion.div className="mt-5 bg-white/30 backdrop-blur-sm rounded-xl p-4 border border-white/20 text-center" initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.6 }}>
-                                        <Typography variant="small" className="text-gray-500">Batch Weight</Typography>
-                                        <Typography variant="h3" className="text-primary font-bold">{(b.weightKg / 1000).toFixed(1)}T</Typography>
+                                {/* Weight Section */}
+                                {(b.kernelWeightKg || b.rawWeightKg) && (
+                                    <motion.div className="mt-5 bg-white/30 backdrop-blur-sm rounded-xl p-4 border border-white/20"
+                                                initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.55 }}>
+                                        <Typography variant="small" className="text-gray-500 text-center mb-2">Batch Weight</Typography>
+                                        <div className="grid grid-cols-2 gap-4">
+                                            <div className="text-center">
+                                                <Typography variant="small" className="text-gray-400 text-xs">Raw Input</Typography>
+                                                <Typography variant="h4" className="text-primary font-bold">
+                                                    {b.rawWeightKg ? `${(b.rawWeightKg / 1000).toFixed(1)}T` : '—'}
+                                                </Typography>
+                                            </div>
+                                            <div className="text-center">
+                                                <Typography variant="small" className="text-gray-400 text-xs">Kernel Output</Typography>
+                                                <Typography variant="h4" className="text-green-600 font-bold">
+                                                    {b.kernelWeightKg ? `${(b.kernelWeightKg / 1000).toFixed(1)}T` : '—'}
+                                                </Typography>
+                                            </div>
+                                        </div>
+                                        {b.kernelRatio && (
+                                            <div className="text-center mt-2">
+                                                <Typography variant="small" className="text-gray-400 text-xs">
+                                                    Kernel Ratio: {b.kernelRatio}%
+                                                </Typography>
+                                            </div>
+                                        )}
                                     </motion.div>
                                 )}
 
