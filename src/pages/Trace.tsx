@@ -35,9 +35,21 @@ interface BatchData {
     farmLocation: string;
     block?: string;
     processingInfo: string;
+    processingFacility?: string;      // ADD
+    processingLocation?: string;      // ADD
+    processingMethod?: string;        // ADD
+    shellingMethod?: string;          // ADD
+    gradingMethod?: string;           // ADD
+    yieldPercentage?: number | null;  // ADD
     certifications: string[];
     qualityGrade?: string;
     qualityResults?: string;
+    qualityScore?: number;            // ADD
+    testResults?: {                   // ADD
+        aflatoxin?: number;
+        heavyMetals?: number;
+        pesticideResidue?: number;
+    };
     destination: string;
     buyer?: string;
     status: string;
@@ -536,26 +548,53 @@ const TracePage: React.FC = () => {
                                 </div>
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
-                                    <motion.div className="bg-white/30 backdrop-blur-sm rounded-xl p-4 border border-white/20" initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.4 }}>
-                                        <div className="flex items-center gap-2 mb-1"><FaIndustry className="text-accent text-sm" /><Typography variant="small" className="text-gray-500 font-medium">{t('batch.processingInfo')}</Typography></div>
-                                        <Typography variant="body" className="font-semibold text-gray-800">{b.processingInfo}</Typography>
+                                    <motion.div className="bg-white/30 backdrop-blur-sm rounded-xl p-4 border border-white/20"
+                                                initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.4 }}>
+                                        <div className="flex items-center gap-2 mb-3">
+                                            <FaIndustry className="text-accent text-sm" />
+                                            <Typography variant="small" className="text-gray-500 font-medium">Processing Information</Typography>
+                                        </div>
+                                        <div className="space-y-2">
+                                            {[
+                                                { label: 'Facility', value: b.processingFacility || '—' },
+                                                { label: 'Location', value: b.processingLocation || '—' },
+                                                { label: 'Method', value: b.processingMethod || '—' },
+                                                { label: 'Shelling', value: b.shellingMethod || '—' },
+                                                { label: 'Grading', value: b.gradingMethod || '—' },
+                                                b.yieldPercentage ? { label: 'Yield', value: `${b.yieldPercentage}%` } : null,
+                                            ].filter(Boolean).map((item: any, i) => (
+                                                <div key={i} className="flex justify-between text-sm">
+                                                    <span className="text-gray-500">{item.label}</span>
+                                                    <span className="font-medium text-gray-700 text-right max-w-[60%]">{item.value}</span>
+                                                </div>
+                                            ))}
+                                        </div>
                                     </motion.div>
-                                    <motion.div className="bg-white/30 backdrop-blur-sm rounded-xl p-4 border border-white/20" initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.5 }}>
-                                        <div className="flex items-center gap-2 mb-1"><FaFlask className="text-accent text-sm" /><Typography variant="small" className="text-gray-500 font-medium">{t('batch.qualityCheckResults')}</Typography></div>
-                                        <Typography variant="body" className="font-semibold text-gray-800">{b.qualityResults || b.qualityGrade || '—'}</Typography>
-                                    </motion.div>
-                                    {/* Status Badge */}
-                                    <motion.div className="mt-5 flex items-center justify-center gap-3" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.7 }}>
-                                        <span className={`px-4 py-2 rounded-full text-sm font-semibold flex items-center gap-2 ${
-                                            b.status === 'Shipped' ? 'bg-green-100 text-green-700' : b.status === 'Delivered' ? 'bg-blue-100 text-blue-700' :
-                                            b.status === 'Processing' ? 'bg-amber-100 text-amber-700' : 'bg-gray-100 text-gray-600'
-                                             }`}>
-                                            {b.status === 'Shipped' ? <FaShip className="text-xs" /> :
-                                            b.status === 'Delivered' ? <FaCheckCircle className="text-xs" /> :
-                                             b.status === 'Processing' ? <FaIndustry className="text-xs" /> :
-                                            <FaClock className="text-xs" />}
-                                            {b.status}
-                                        </span>
+                                    <motion.div className="bg-white/30 backdrop-blur-sm rounded-xl p-4 border border-white/20"
+                                                initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.5 }}>
+                                        <div className="flex items-center gap-2 mb-3">
+                                            <FaFlask className="text-accent text-sm" />
+                                            <Typography variant="small" className="text-gray-500 font-medium">Quality Check Results</Typography>
+                                        </div>
+                                        <div className="space-y-2">
+                                            {b.testResults && [
+                                                { label: 'Aflatoxin', value: b.testResults?.aflatoxin != null ? `${b.testResults.aflatoxin} ppb` : '—', status: (b.testResults?.aflatoxin ?? 99) < 4 ? 'pass' : 'fail' },
+                                                { label: 'Heavy Metals', value: b.testResults?.heavyMetals != null ? `${b.testResults.heavyMetals} ppb` : '—', status: (b.testResults?.heavyMetals ?? 99) < 0.5 ? 'pass' : 'fail' },
+                                                { label: 'Pesticide Residue', value: b.testResults?.pesticideResidue != null ? `${b.testResults.pesticideResidue} ppb` : '—', status: (b.testResults?.pesticideResidue ?? 99) < 0.5 ? 'pass' : 'fail' },
+                                            ].map((item, i) => (
+                                                <div key={i} className="flex justify-between text-sm items-center">
+                                                    <span className="text-gray-500">{item.label}</span>
+                                                    <span className={`font-medium ${item.status === 'pass' ? 'text-green-600' : 'text-red-600'}`}>
+                                                        {item.value}
+                                                        {item.status === 'pass' ? ' ✓' : ' ⚠'}
+                                                     </span>
+                                                </div>
+                                            ))}
+                                            <div className="pt-2 border-t border-gray-200/50 flex justify-between text-sm">
+                                                <span className="text-gray-500">Quality Score</span>
+                                                <span className="font-bold text-primary">{b.overallScore?.toFixed(1)}%</span>
+                                            </div>
+                                        </div>
                                     </motion.div>
                                 </div>
 
@@ -577,6 +616,19 @@ const TracePage: React.FC = () => {
                                     </motion.div>
                                 )}
                             </div>
+                        </motion.div>
+                        {/* Status Badge */}
+                        <motion.div className="mt-5 flex items-center justify-center gap-3" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.7 }}>
+                                        <span className={`px-4 py-2 rounded-full text-sm font-semibold flex items-center gap-2 ${
+                                            b.status === 'Shipped' ? 'bg-green-100 text-green-700' : b.status === 'Delivered' ? 'bg-blue-100 text-blue-700' :
+                                                b.status === 'Processing' ? 'bg-amber-100 text-amber-700' : 'bg-gray-100 text-gray-600'
+                                        }`}>
+                                            {b.status === 'Shipped' ? <FaShip className="text-xs" /> :
+                                                b.status === 'Delivered' ? <FaCheckCircle className="text-xs" /> :
+                                                    b.status === 'Processing' ? <FaIndustry className="text-xs" /> :
+                                                        <FaClock className="text-xs" />}
+                                            {b.status}
+                                        </span>
                         </motion.div>
                     </div>
                 </Section>

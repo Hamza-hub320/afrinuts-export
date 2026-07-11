@@ -72,13 +72,29 @@ function mapToPublicBatch(batchData: any, supplier: any, traceability: any, reve
         farmLocation: supplier?.location || 'Odienné, Côte d\'Ivoire',
         block: batchData.blockId ? `Block ${batchData.blockId}` : null,
         processingInfo: `${batchData.sourceType?.replace(/_/g, ' ')} · ${batchData.qualityGrade}`,
+        processingMethod: traceability?.processingMethod || 'Steam roasting (100% chemical-free)',
+        processingFacility: traceability?.processingFacility || 'AfriNuts NDC (Nuts Distribution Center)',
+        processingLocation: traceability?.processingLocation || 'Odienné, Côte d\'Ivoire',
+        shellingMethod: traceability?.shellingMethod || 'Semi-automated',
+        gradingMethod: traceability?.gradingMethod || 'Manual inspection + electronic sorting',
+        yieldPercentage: traceability?.yieldPercentage || null,
         certifications: [
             ...(traceability?.certificationIds
                 ? traceability.certificationIds.split(',').map((c: string) => c.trim())
                 : []),
         ].filter(Boolean),
         qualityGrade: batchData.qualityGrade,
-        qualityResults: `Aflatoxin: ${testResults.aflatoxin || '—'}ppb · Score: ${batchData.qualityScore?.toFixed(1)}%`,
+        qualityScore: batchData.qualityScore,
+        qualityResults: [
+            `Aflatoxin: ${testResults.aflatoxin || '—'} ppb`,
+            `Heavy Metals: ${testResults.heavyMetals || '—'} ppb`,
+            `Pesticide Residue: ${testResults.pesticideResidue || '—'} ppb`,
+        ].join(' · '),
+        testResults: {
+            aflatoxin: testResults.aflatoxin,
+            heavyMetals: testResults.heavyMetals,
+            pesticideResidue: testResults.pesticideResidue,
+        },
         destination: traceability?.destination || 'Export Market',
         buyer: traceability?.buyer || revenues[0]?.buyer || null,
         status: traceability ? 'Shipped' : 'Processing',
