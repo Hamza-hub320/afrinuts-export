@@ -932,11 +932,11 @@ const TracePage: React.FC = () => {
                                     }}
                                 >
                                     {[
-                                        { icon: GiFruitTree, title: t('journey.farm', 'Farm'), detail: batch!.farmLocation, sub: batch!.block ? t('journey.farmDesc', { block: batch!.block, defaultValue: 'Block {block}' }) : '', color: 'primary', pos: 'md:mt-16' },
-                                        { icon: GiFactory, title: t('journey.process', 'Process'), detail: batch!.processingInfo, sub: batch!.qualityGrade ? t('journey.processDesc', { grade: batch!.qualityGrade, defaultValue: 'Grade: {grade}' }) : '', color: 'accent', pos: 'md:mt-4' },
-                                        { icon: FaCertificate, title: t('journey.certify', 'Certify'), detail: batch!.certifications?.[0] || '', sub: t('journey.certifyDesc', { count: batch!.certifications?.length || 0, defaultValue: '{count} verified' }), color: 'primary', pos: 'md:mt-20' },
-                                        { icon: GiCargoShip, title: t('journey.ship', 'Ship'), detail: t('journey.shipDesc', 'Via Abidjan Port'), sub: batch!.destination, color: 'accent', pos: 'md:mt-2' },
-                                        { icon: FaBuilding, title: t('journey.deliver', 'Deliver'), detail: batch!.buyer || batch!.destination, sub: batch!.status === 'Delivered' ? '✓ Delivered' : 'In Transit', color: 'primary', pos: 'md:mt-14' },
+                                        { icon: GiFruitTree, title: t('journey.farm', 'Farm'), detail: currentBatch!.farmLocation, sub: currentBatch!.block ? t('journey.farmDesc', { block: currentBatch!.block, defaultValue: 'Block {block}' }) : '', color: 'primary', pos: 'md:mt-16' },
+                                        { icon: GiFactory, title: t('journey.process', 'Process'), detail: currentBatch!.processingInfo, sub: currentBatch!.qualityGrade ? t('journey.processDesc', { grade: currentBatch!.qualityGrade, defaultValue: 'Grade: {grade}' }) : '', color: 'accent', pos: 'md:mt-4' },
+                                        { icon: FaCertificate, title: t('journey.certify', 'Certify'), detail: currentBatch!.certifications?.[0] || '', sub: t('journey.certifyDesc', { count: currentBatch!.certifications?.length || 0, defaultValue: '{count} verified' }), color: 'primary', pos: 'md:mt-20' },
+                                        { icon: GiCargoShip, title: t('journey.ship', 'Ship'), detail: t('journey.shipDesc', 'Via Abidjan Port'), sub: currentBatch!.destination, color: 'accent', pos: 'md:mt-2' },
+                                        { icon: FaBuilding, title: t('journey.deliver', 'Deliver'), detail: currentBatch!.buyer || currentBatch!.destination, sub: currentBatch!.status === 'Delivered' ? '✓ Delivered' : 'In Transit', color: 'primary', pos: 'md:mt-14' },
                                         { icon: FaFileAlt, title: t('journey.docs', 'Docs'), detail: t('journey.docsDetail', 'Export Ready'), sub: t('journey.docsDesc', 'COO, Phyto, B/L'), color: 'accent', pos: 'md:mt-6' },
                                     ].map((step, i) => (
                                         <motion.div
