@@ -440,6 +440,8 @@ export const mockTraceability = [
             commercialInvoice: '#',
             packingList: '#',
             certificateOfOrigin: '#',
+            verificationCode: 'A2B337A85F68',
+            updatedAt: 1783842048800,
         }),
     },
     {
@@ -567,14 +569,21 @@ export const getMockData = async (action: string, data?: any) => {
 
         case 'getBatchDetail': {
             const batchId = data?.batchId;
-            const batch = mockQualityBatches.find(b => String(b.id) === String(batchId));
-            if (!batch) return { batch: null, supplier: null, expenses: [], revenues: [] };
+            const foundBatch = mockQualityBatches.find(b => String(b.id) === String(batchId));
+            if (!foundBatch) return { batch: null, supplier: null, expenses: [], revenues: [] };
 
-            const supplier = mockSuppliers.find(s => s.id === batch.supplierId) || null;
-            const expenses = mockSupplierExpenses.filter(e => e.batchId === parseInt(batchId));
-            const revenues = mockSupplierRevenues.filter(r => r.batchId === parseInt(batchId));
+            const trace = mockTraceability.find(t => t.qualityBatchId === parseInt(batchId));
 
-            return { batch, supplier, expenses, revenues };
+            return {
+                batch: {
+                    ...foundBatch,
+                    verificationCode: (trace as any)?.verificationCode || (foundBatch as any).verificationCode || null,
+                    updatedAt: (trace as any)?.updatedAt || (foundBatch as any).updatedAt || Date.now(),
+                },
+                supplier: mockSuppliers.find(s => s.id === foundBatch.supplierId) || null,
+                expenses: mockSupplierExpenses.filter(e => e.batchId === parseInt(batchId)),
+                revenues: mockSupplierRevenues.filter(r => r.batchId === parseInt(batchId)),
+            };
         }
 
         case 'getAllRevenues':

@@ -200,8 +200,36 @@ export const handler: Handler = async (event: HandlerEvent) => {
                 };
             }
 
-            const batch = { id: batchDoc.id, ...batchDoc.data() } as any;
+            const batchData = { id: batchDoc.id, ...batchDoc.data() } as any;
 
+            // Fetch traceability and merge verification code
+            const traceSnapshot = await db
+                .collection('farms').doc(fid)
+                .collection('batch_traceability')
+                .where('qualityBatchId', '==', parseInt(params.batchId))
+                .limit(1)
+                .get();
+
+            let verificationCode = batchData.verificationCode || null;
+            let updatedAt = batchData.updatedAt;
+
+            if (!traceSnapshot.empty) {
+                const traceData = traceSnapshot.docs[0].data();
+                if (traceData.verificationCode) {
+                    verificationCode = traceData.verificationCode;
+                }
+                if (traceData.updatedAt) {
+                    updatedAt = traceData.updatedAt;
+                }
+            }
+
+            const batch = {
+                ...batchData,
+                verificationCode,
+                updatedAt
+            };
+
+            // Fetch linked supplier
             let supplier = null;
             if (batch.supplierId) {
                 const supplierDoc = await db
@@ -236,24 +264,10 @@ export const handler: Handler = async (event: HandlerEvent) => {
                 ...doc.data(),
             }));
 
-            // Fetch traceability
-            const traceabilitySnapshot = await db
-                .collection('farms').doc(fid)
-                .collection('batch_traceability')
-                .where('qualityBatchId', '==', parseInt(params.batchId))
-                .limit(1)
-                .get();
-
-            let traceability = null;
-            if (!traceabilitySnapshot.empty) {
-                const doc = traceabilitySnapshot.docs[0];
-                traceability = { id: doc.id, ...doc.data() };
-            }
-
             return {
                 statusCode: 200,
                 headers,
-                body: JSON.stringify({ batch, supplier, expenses, revenues, traceability }),
+                body: JSON.stringify({ batch, supplier, expenses, revenues }),
             };
         }
 

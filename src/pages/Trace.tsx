@@ -804,15 +804,15 @@ const TracePage: React.FC = () => {
                                                     {t('farmOsRecord.digitalSignature', 'Digital Signature')}
                                                 </Typography>
                                                 <span className="px-2 py-0.5 bg-green-100 text-green-700 text-xs rounded-full font-medium">
-                                        {t('farmOsRecord.verified', 'Verified')}
-                                    </span>
+                                                    {t('farmOsRecord.verified', 'Verified')}
+                                                 </span>
                                             </div>
                                             <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
                                                 <div className="bg-white/50 rounded-lg p-2.5 text-center">
                                                     <Typography variant="small" className="text-gray-400 text-[10px] uppercase tracking-wider">
                                                         {t('farmOsRecord.verificationCode', 'Verification Code')}
                                                     </Typography>
-                                                    <Typography variant="small" className="font-mono font-bold text-primary mt-0.5">
+                                                    <Typography variant="small" className="font-mono font-bold text-primary mt-0.5 tracking-wider">
                                                         {currentBatch.verificationCode}
                                                     </Typography>
                                                 </div>
@@ -820,7 +820,7 @@ const TracePage: React.FC = () => {
                                                     <Typography variant="small" className="text-gray-400 text-[10px] uppercase tracking-wider">
                                                         {t('farmOsRecord.signature', 'Signature')}
                                                     </Typography>
-                                                    <Typography variant="small" className="font-mono text-primary text-[10px] mt-0.5 truncate">
+                                                    <Typography variant="small" className="font-mono text-primary text-[9px] mt-0.5 truncate" title={currentBatch.digitalSignature?.signature}>
                                                         {currentBatch.digitalSignature?.signature || `FOS-SIG-${currentBatch.verificationCode.toLowerCase()}`}
                                                     </Typography>
                                                 </div>
@@ -833,6 +833,47 @@ const TracePage: React.FC = () => {
                                                     </Typography>
                                                 </div>
                                             </div>
+
+                                            {/* Expandable Explanation */}
+                                            <details className="mt-3 group">
+                                                <summary className="flex items-center gap-1.5 text-xs text-primary hover:text-accent cursor-pointer font-medium transition-colors">
+                                                    <FaQuestionCircle className="text-[10px]" />
+                                                    {t('farmOsRecord.whatIsSignature', 'What is a digital signature?')}
+                                                    <FaChevronDown className="text-[8px] transition-transform group-open:rotate-180" />
+                                                </summary>
+                                                <div className="mt-2 pl-5 space-y-3">
+                                                    <Typography variant="small" className="text-gray-600 text-xs leading-relaxed">
+                                                        {t('farmOsRecord.signatureExplanation', 'Our digital signatures use cryptographic technology to prove that this batch data is authentic and has not been tampered with. When you see a verified signature, you can trust that the information you\'re viewing is exactly what was recorded in Farm OS — not something generated after the fact.')}
+                                                    </Typography>
+
+                                                    <div className="bg-blue-50/60 rounded-lg p-3 border border-blue-100">
+                                                        <Typography variant="small" className="font-semibold text-blue-700 text-xs flex items-center gap-1.5 mb-1">
+                                                            <FaCheckCircle className="text-[10px]" />
+                                                            {t('farmOsRecord.howToVerify', 'How to verify')}
+                                                        </Typography>
+                                                        <Typography variant="small" className="text-blue-600 text-xs leading-relaxed">
+                                                            {t('farmOsRecord.verifyInstructions', 'Enter the verification code above on our public verification page to confirm this record\'s authenticity. Anyone can verify — no login required.')}
+                                                        </Typography>
+                                                    </div>
+
+                                                    <div className="flex items-center gap-2">
+                                                        <Link
+                                                            to={`/trace/verify?code=${currentBatch.verificationCode}`}
+                                                            className="inline-flex items-center gap-1.5 text-accent hover:text-primary text-xs font-medium transition-colors"
+                                                        >
+                                                            <FaExternalLinkAlt className="text-[10px]" />
+                                                            {t('farmOsRecord.verifyNow', 'Verify this record')}
+                                                        </Link>
+                                                        <span className="text-gray-300">|</span>
+                                                        <Link
+                                                            to="/trace/verify"
+                                                            className="text-gray-500 hover:text-primary text-xs transition-colors"
+                                                        >
+                                                            {t('farmOsRecord.verifyPage', 'Public verification page')}
+                                                        </Link>
+                                                    </div>
+                                                </div>
+                                            </details>
                                         </div>
                                     </div>
                                 )}
@@ -848,90 +889,6 @@ const TracePage: React.FC = () => {
                         </motion.div>
                     </div>
                 </Section>
-            )}
-
-            {/* Digital Signature Section */}
-            {!isBulk && currentBatch?.verificationCode && (
-                <div className="mt-4 pt-4 border-t border-gray-200/30">
-                    <div className="bg-gradient-to-r from-primary/5 to-accent/5 rounded-xl p-4 border border-primary/20">
-                        <div className="flex items-center gap-2 mb-3">
-                            <FaShieldAlt className="text-green-600" />
-                            <Typography variant="small" className="font-semibold text-primary">
-                                {t('farmOsRecord.digitalSignature', 'Digital Signature')}
-                            </Typography>
-                            <span className="px-2 py-0.5 bg-green-100 text-green-700 text-xs rounded-full font-medium">
-                    {t('farmOsRecord.verified', 'Verified')}
-                </span>
-                        </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-                            <div className="bg-white/50 rounded-lg p-2.5 text-center">
-                                <Typography variant="small" className="text-gray-400 text-[10px] uppercase tracking-wider">
-                                    {t('farmOsRecord.verificationCode', 'Verification Code')}
-                                </Typography>
-                                <Typography variant="small" className="font-mono font-bold text-primary mt-0.5 tracking-wider">
-                                    {currentBatch.verificationCode}
-                                </Typography>
-                            </div>
-                            <div className="bg-white/50 rounded-lg p-2.5 text-center">
-                                <Typography variant="small" className="text-gray-400 text-[10px] uppercase tracking-wider">
-                                    {t('farmOsRecord.signature', 'Signature')}
-                                </Typography>
-                                <Typography variant="small" className="font-mono text-primary text-[9px] mt-0.5 truncate" title={currentBatch.digitalSignature?.signature}>
-                                    {currentBatch.digitalSignature?.signature || `FOS-SIG-${currentBatch.verificationCode.toLowerCase()}`}
-                                </Typography>
-                            </div>
-                            <div className="bg-white/50 rounded-lg p-2.5 text-center">
-                                <Typography variant="small" className="text-gray-400 text-[10px] uppercase tracking-wider">
-                                    {t('farmOsRecord.signedDate', 'Signed Date')}
-                                </Typography>
-                                <Typography variant="small" className="text-primary font-medium mt-0.5">
-                                    {currentBatch.digitalSignature?.signedDate || t('farmOsRecord.justNow', 'Just now')}
-                                </Typography>
-                            </div>
-                        </div>
-
-                        {/* Expandable Explanation */}
-                        <details className="mt-3 group">
-                            <summary className="flex items-center gap-1.5 text-xs text-primary hover:text-accent cursor-pointer font-medium transition-colors">
-                                <FaQuestionCircle className="text-[10px]" />
-                                {t('farmOsRecord.whatIsSignature', 'What is a digital signature?')}
-                                <FaChevronDown className="text-[8px] transition-transform group-open:rotate-180" />
-                            </summary>
-                            <div className="mt-2 pl-5 space-y-3">
-                                <Typography variant="small" className="text-gray-600 text-xs leading-relaxed">
-                                    {t('farmOsRecord.signatureExplanation', 'Our digital signatures use cryptographic technology to prove that this batch data is authentic and has not been tampered with. When you see a verified signature, you can trust that the information you\'re viewing is exactly what was recorded in Farm OS — not something generated after the fact.')}
-                                </Typography>
-
-                                <div className="bg-blue-50/60 rounded-lg p-3 border border-blue-100">
-                                    <Typography variant="small" className="font-semibold text-blue-700 text-xs flex items-center gap-1.5 mb-1">
-                                        <FaCheckCircle className="text-[10px]" />
-                                        {t('farmOsRecord.howToVerify', 'How to verify')}
-                                    </Typography>
-                                    <Typography variant="small" className="text-blue-600 text-xs leading-relaxed">
-                                        {t('farmOsRecord.verifyInstructions', 'Enter the verification code above on our public verification page to confirm this record\'s authenticity. Anyone can verify — no login required.')}
-                                    </Typography>
-                                </div>
-
-                                <div className="flex items-center gap-2">
-                                    <Link
-                                        to={`/trace/verify?code=${currentBatch.verificationCode}`}
-                                        className="inline-flex items-center gap-1.5 text-accent hover:text-primary text-xs font-medium transition-colors"
-                                    >
-                                        <FaExternalLinkAlt className="text-[10px]" />
-                                        {t('farmOsRecord.verifyNow', 'Verify this record')}
-                                    </Link>
-                                    <span className="text-gray-300">|</span>
-                                    <Link
-                                        to="/trace/verify"
-                                        className="text-gray-500 hover:text-primary text-xs transition-colors"
-                                    >
-                                        {t('farmOsRecord.verifyPage', 'Public verification page')}
-                                    </Link>
-                                </div>
-                            </div>
-                        </details>
-                    </div>
-                </div>
             )}
 
             {/* GPS Map - only for single batch with coordinates */}
