@@ -87,16 +87,16 @@
     "process": "Processing",
     "processDesc": "Quality: {{grade}}",
     "certify": "Certify",
-    "certifyDesc": "{{count}} certifications verified",
+    "certifyDesc": "{{count}} certification(s) verified",
     "ship": "Ship",
     "shipDesc": "Via Port of Abidjan",
     "deliver": "Deliver",
-    "deliverDesc": "Estimated arrival: {{date}}",
-    "delivered": "Delivered",
+    "delivered": "✓ Delivered",
     "inTransit": "In Transit",
     "docs": "Docs",
     "docsDetail": "Export Ready",
-    "docsDesc": "COO, Phyto, B/L"
+    "docsDesc": "Export documents available",
+    "pending": "Pending"
   },
   "compliance": {
     "description": "Every traceable batch comes with full compliance documentation — not just promises, verifiable records.",

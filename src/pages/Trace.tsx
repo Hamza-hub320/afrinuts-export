@@ -659,6 +659,40 @@ const TracePage: React.FC = () => {
                 </Section>
             ))}
 
+            {/* Farm Network Status — Single Batch */}
+            {!isBulk && currentBatch?.supplier && (
+                <Section className="py-6">
+                    <div className="max-w-3xl mx-auto px-4 sm:px-6">
+                        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
+                            <InfoCard icon={FaGlobeAfrica} title={t('supplier.title', 'Farm Network Status')} variant="accent" showInfoBadge={false}>
+                                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-3">
+                                    {[
+                                        { label: t('supplier.type', 'Supplier Type'), value: currentBatch.supplier.type, icon: GiFruitTree },
+                                        { label: t('supplier.size', 'Farm Size'), value: currentBatch.supplier.farmSize || '—', icon: FaMapMarkerAlt },
+                                        { label: t('supplier.farmOs', 'Farm OS Status'), value: currentBatch.supplier.farmOsStatus || 'Active', icon: FaMobile },
+                                        { label: t('supplier.season', 'Harvest Season'), value: currentBatch.supplier.season || '2026', icon: FaCalendarAlt },
+                                        { label: t('supplier.traceLevel', 'Traceability Level'), value: currentBatch.supplier.traceLevel || 'Block-Level Verified', icon: FaShieldAlt },
+                                        { label: t('supplier.cooperative', 'Cooperative'), value: currentBatch.supplier.cooperative || 'AfriNuts Owned Farm', icon:  GiFarmer },
+                                    ].map((item, i) => (
+                                        <motion.div key={i} className="bg-white/40 backdrop-blur-sm rounded-xl p-3 border border-white/30 text-center"
+                                                    initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }} whileHover={{ y: -2 }}>
+                                            <item.icon className="text-accent text-lg mx-auto mb-1" />
+                                            <Typography variant="small" className="text-gray-500 text-[10px] uppercase tracking-wider">{item.label}</Typography>
+                                            <Typography variant="small" className="text-primary font-semibold text-xs mt-0.5">{item.value}</Typography>
+                                        </motion.div>
+                                    ))}
+                                </div>
+                                <div className="mt-4 pt-3 border-t border-gray-200/30 text-center">
+                                    <Typography variant="small" className="text-gray-400 text-xs">
+                                        {t('supplier.footnote', 'Farm OS traceability works across our entire supplier network — owned farms, cooperatives, and independent growers. Same system. Same standard.')}
+                                    </Typography>
+                                </div>
+                            </InfoCard>
+                        </motion.div>
+                    </div>
+                </Section>
+            )}
+
             {/* Single Farmer for Single Batch */}
             {!isBulk && batch?.farmer && (
                 <Section className="py-8">
@@ -836,7 +870,7 @@ const TracePage: React.FC = () => {
                 </div>
             </div>
 
-            {/* Tab Content - Journey */}
+            {/* Journey Timeline - Desktop & Mobile */}
             {activeTab === 'journey' && (
                 <>
                     <Section className="py-8 md:py-12">
@@ -846,189 +880,196 @@ const TracePage: React.FC = () => {
                                 <Typography variant="lead" className="text-text-dark max-w-2xl mx-auto">{t('journey.subtitle')}</Typography>
                             </motion.div>
 
-                            <div className="hidden md:block relative py-8">
-                                <svg className="absolute inset-0 w-full h-full" viewBox="0 0 800 200" preserveAspectRatio="none">
-                                    <defs>
-                                        <linearGradient id="journeyGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                                            <stop offset="0%" stopColor="#5A7411" stopOpacity="0.3" />
-                                            <stop offset="50%" stopColor="#E04E00" stopOpacity="0.4" />
-                                            <stop offset="100%" stopColor="#5A7411" stopOpacity="0.3" />
-                                        </linearGradient>
-                                    </defs>
-                                    <path d="M40,100 C200,20 300,180 500,100 C650,40 700,160 760,100" fill="none" stroke="url(#journeyGradient)" strokeWidth="3" strokeLinecap="round" strokeDasharray="8,4" />
-                                </svg>
-                                <div className="grid grid-cols-6 gap-6 relative z-10">
-                                    {[
-                                        { icon: GiFruitTree, title: t('journey.farm', 'Farm'), detail: currentBatch!.farmLocation, sub: currentBatch?.block ? `Block ${currentBatch.block}` : '', color: 'primary', pos: 'md:mt-16' },
-                                        { icon: GiFactory, title: t('journey.process', 'Process'), detail: currentBatch!.processingInfo, sub: currentBatch?.qualityGrade ? `Grade: ${currentBatch.qualityGrade}` : '', color: 'accent', pos: 'md:mt-4' },
-                                        { icon: FaCertificate, title: t('journey.certify', 'Certify'), detail: currentBatch!.certifications?.[0] || '', sub: `${currentBatch?.certifications?.length || 0} verified`, color: 'primary', pos: 'md:mt-20' },
-                                        { icon: GiCargoShip, title: t('journey.ship', 'Ship'), detail: 'Via Abidjan Port', sub: currentBatch?.destination, color: 'accent', pos: 'md:mt-2' },
-                                        { icon: FaBuilding, title: t('journey.deliver', 'Deliver'), detail: currentBatch!.buyer || currentBatch!.destination, sub: currentBatch?.status === 'Shipped' ? '✓ Shipped' : 'In Transit', color: 'primary', pos: 'md:mt-14' },
-                                        { icon: FaFileAlt, title: t('journey.docs', 'Docs'), detail: 'Export Ready', sub: 'COO, Phyto, B/L', color: 'accent', pos: 'md:mt-6' },
-                                    ].map((step, i) => (
-                                        <motion.div key={i} className={`relative flex flex-col items-center text-center group ${step.pos}`}
-                                                    initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.15 }}>
-                                            <div className="absolute -top-8 left-1/2 -translate-x-1/2 w-3 h-3 rounded-full bg-gradient-to-r from-primary to-accent shadow-md" />
-                                            <motion.div className="relative w-16 h-16 rounded-full flex items-center justify-center shadow-lg mb-3 z-10 border-3 bg-white/80 backdrop-blur-sm transform-gpu group/step"
-                                                        style={{ borderColor: i % 2 === 0 ? '#5A7411' : '#E04E00', transformStyle: 'preserve-3d', perspective: '1000px' }} whileHover={{ scale: 1.15, rotate: 5 }}>
-                                                <div className="absolute inset-0 rounded-full border-2 border-white/30 transform-gpu translate-z-[-4px]" />
-                                                <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50" />
-                                                <step.icon className="text-2xl relative z-10" style={{ color: i % 2 === 0 ? '#5A7411' : '#E04E00' }} />
+                            {/* Determine which steps are active based on batch status */}
+                            {(() => {
+                                const status = currentBatch?.status;
+                                const isProcessing = status === 'Processing';
+                                const isShipped = status === 'Shipped';
+                                const isDelivered = status === 'Delivered';
+
+                                const steps = [
+                                    {
+                                        icon: GiFruitTree,
+                                        title: t('journey.farm', 'Farm'),
+                                        detail: currentBatch?.farmLocation || 'Odienné, Côte d\'Ivoire',
+                                        sub: currentBatch?.block ? t('journey.farmDesc', { block: currentBatch.block }) : t('journey.farmDesc', { block: 'Main Farm' }),
+                                        status: 'complete'
+                                    },
+                                    {
+                                        icon: GiFactory,
+                                        title: t('journey.process', 'Process'),
+                                        detail: currentBatch?.processingFacility || 'AfriNuts NDC',
+                                        sub: currentBatch?.qualityGrade ? t('journey.processDesc', { grade: currentBatch.qualityGrade }) : '',
+                                        status: isProcessing || isShipped || isDelivered ? 'complete' : 'active'
+                                    },
+                                    {
+                                        icon: FaCertificate,
+                                        title: t('journey.certify', 'Certify'),
+                                        detail: currentBatch?.certifications?.[0] || t('journey.pending', 'Pending'),
+                                        sub: t('journey.certifyDesc', { count: currentBatch?.certifications?.length || 0 }),
+                                        status: isShipped || isDelivered ? 'complete' : isProcessing ? 'active' : 'upcoming'
+                                    },
+                                    {
+                                        icon: GiCargoShip,
+                                        title: t('journey.ship', 'Ship'),
+                                        detail: currentBatch?.destination || t('journey.pending', 'Awaiting'),
+                                        sub: isShipped || isDelivered ? t('journey.shipDesc', 'Via Port of Abidjan') : t('journey.pending', 'Not yet shipped'),
+                                        status: isShipped || isDelivered ? 'complete' : 'upcoming'
+                                    },
+                                    {
+                                        icon: FaBuilding,
+                                        title: t('journey.deliver', 'Deliver'),
+                                        detail: currentBatch?.buyer || currentBatch?.destination || t('journey.pending', 'Awaiting'),
+                                        sub: isDelivered ? t('journey.delivered', '✓ Delivered') : isShipped ? t('journey.inTransit', 'In Transit') : t('journey.pending', 'Pending'),
+                                        status: isDelivered ? 'complete' : isShipped ? 'active' : 'upcoming'
+                                    },
+                                    {
+                                        icon: FaFileAlt,
+                                        title: t('journey.docs', 'Docs'),
+                                        detail: currentBatch?.documents && Object.values(currentBatch.documents).some(Boolean) ? t('journey.docsDetail', 'Export Ready') : t('journey.pending', 'Processing'),
+                                        sub: currentBatch?.documents && Object.values(currentBatch.documents).filter(Boolean).length > 0
+                                            ? `${Object.values(currentBatch.documents).filter(Boolean).length} documents`
+                                            : t('journey.pending', 'Available after export'),
+                                        status: isDelivered ? 'complete' : 'upcoming'
+                                    },
+                                ];
+
+                                return (
+                                    <>
+                                        {/* Desktop Timeline with SVG Route */}
+                                        <div className="hidden md:block relative py-8">
+                                            <svg className="absolute inset-0 w-full h-full" viewBox="0 0 800 200" preserveAspectRatio="none">
+                                                <defs>
+                                                    <linearGradient id="journeyGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                                        <stop offset="0%" stopColor="#5A7411" stopOpacity="0.3" />
+                                                        <stop offset="50%" stopColor="#E04E00" stopOpacity="0.4" />
+                                                        <stop offset="100%" stopColor="#5A7411" stopOpacity="0.3" />
+                                                    </linearGradient>
+                                                </defs>
+                                                <path d="M40,100 C200,20 300,180 500,100 C650,40 700,160 760,100" fill="none" stroke="url(#journeyGradient)" strokeWidth="3" strokeLinecap="round" strokeDasharray="8,4" />
+                                            </svg>
+                                            <div className="grid grid-cols-6 gap-6 relative z-10">
+                                                {steps.map((step, i) => (
+                                                    <motion.div key={i} className="relative flex flex-col items-center text-center group"
+                                                                style={{ marginTop: i % 2 === 0 ? '4rem' : '1rem' }}
+                                                                initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.15 }}>
+
+                                                        <div className="absolute -top-8 left-1/2 -translate-x-1/2">
+                                                            {step.status === 'active' ? (
+                                                                <span className="relative flex h-3 w-3">
+                                                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
+                                                                    <span className="relative inline-flex rounded-full h-3 w-3 bg-accent"></span>
+                                                                </span>
+                                                            ) : (
+                                                                <div className={`w-3 h-3 rounded-full shadow-md ${
+                                                                    step.status === 'complete' ? 'bg-green-500' : 'bg-gray-300'
+                                                                }`} />
+                                                            )}
+                                                        </div>
+
+                                                        <motion.div
+                                                            className={`relative w-16 h-16 rounded-full flex items-center justify-center shadow-lg mb-3 z-10 border-3 bg-white/80 backdrop-blur-sm transform-gpu ${
+                                                                step.status === 'active' ? 'animate-pulse' : ''
+                                                            }`}
+                                                            style={{
+                                                                borderColor: step.status === 'complete' ? '#22c55e' : step.status === 'active' ? '#E04E00' : '#d1d5db',
+                                                                transformStyle: 'preserve-3d', perspective: '1000px'
+                                                            }}
+                                                            whileHover={{ scale: 1.15, rotate: 5 }}>
+                                                            <div className="absolute inset-0 rounded-full border-2 border-white/30 transform-gpu translate-z-[-4px]" />
+                                                            <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50" />
+                                                            <step.icon className="text-2xl relative z-10" style={{
+                                                                color: step.status === 'complete' ? '#22c55e' : step.status === 'active' ? '#E04E00' : '#9ca3af'
+                                                            }} />
+                                                        </motion.div>
+
+                                                        <div className={`bg-white/40 backdrop-blur-sm rounded-xl p-3 w-full border shadow-sm mt-3 ${
+                                                            step.status === 'active' ? 'border-accent/50' : 'border-white/30'
+                                                        }`}>
+                                                            <Typography variant="small" className="font-bold text-primary leading-tight text-sm">{step.title}</Typography>
+                                                            <Typography variant="small" className="text-gray-600 text-[11px] leading-tight mt-1 line-clamp-2">{step.detail}</Typography>
+                                                            {step.sub && <Typography variant="small" className="text-gray-400 text-[10px] leading-tight mt-1 line-clamp-1">{step.sub}</Typography>}
+                                                        </div>
+                                                    </motion.div>
+                                                ))}
+                                            </div>
+                                        </div>
+
+                                        {/* Mobile Timeline with SVG Route */}
+                                        <div className="md:hidden relative">
+                                            <svg className="absolute top-16 left-0 w-full h-32" viewBox="0 0 400 120" preserveAspectRatio="none">
+                                                <defs>
+                                                    <linearGradient id="mobileJourneyGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                                        <stop offset="0%" stopColor="#5A7411" stopOpacity="0.2" />
+                                                        <stop offset="25%" stopColor="#E04E00" stopOpacity="0.35" />
+                                                        <stop offset="50%" stopColor="#5A7411" stopOpacity="0.2" />
+                                                        <stop offset="75%" stopColor="#E04E00" stopOpacity="0.35" />
+                                                        <stop offset="100%" stopColor="#5A7411" stopOpacity="0.2" />
+                                                    </linearGradient>
+                                                </defs>
+                                                <path d="M10,90 C60,10 100,70 150,40 C200,10 240,80 290,30 C330,-10 370,60 390,20" fill="none" stroke="url(#mobileJourneyGradient)" strokeWidth="2.5" strokeLinecap="round" strokeDasharray="6,3" />
+                                            </svg>
+
+                                            <motion.div className="flex items-center justify-center gap-2 mb-6 text-xs text-gray-500" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}>
+                                                <FaArrowLeft className="text-[10px] animate-pulse" />
+                                                <span className="bg-white/50 backdrop-blur-sm px-3 py-1 rounded-full">{t('journey.scrollHint', 'Swipe to explore')}</span>
+                                                <FaArrowRight className="text-[10px] animate-pulse" />
                                             </motion.div>
-                                            <div className="bg-white/40 backdrop-blur-sm rounded-xl p-3 w-full border border-white/30 shadow-sm mt-3">
-                                                <Typography variant="small" className="font-bold text-primary leading-tight text-sm">{step.title}</Typography>
-                                                <Typography variant="small" className="text-gray-600 text-[11px] leading-tight mt-1 line-clamp-2">{step.detail}</Typography>
-                                                {step.sub && <Typography variant="small" className="text-gray-400 text-[10px] leading-tight mt-1 line-clamp-1">{step.sub}</Typography>}
-                                            </div>
-                                        </motion.div>
-                                    ))}
-                                </div>
-                            </div>
 
-                            {/* Mobile: Interactive Swipeable Timeline */}
-                            <div className="md:hidden relative">
-                                {/* Mobile curved path */}
-                                <svg className="absolute top-16 left-0 w-full h-32" viewBox="0 0 400 120" preserveAspectRatio="none">
-                                    <defs>
-                                        <linearGradient id="mobileJourneyGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                                            <stop offset="0%" stopColor="#5A7411" stopOpacity="0.2" />
-                                            <stop offset="25%" stopColor="#E04E00" stopOpacity="0.35" />
-                                            <stop offset="50%" stopColor="#5A7411" stopOpacity="0.2" />
-                                            <stop offset="75%" stopColor="#E04E00" stopOpacity="0.35" />
-                                            <stop offset="100%" stopColor="#5A7411" stopOpacity="0.2" />
-                                        </linearGradient>
-                                    </defs>
-                                    <path
-                                        d="M10,90 C60,10 100,70 150,40 C200,10 240,80 290,30 C330,-10 370,60 390,20"
-                                        fill="none"
-                                        stroke="url(#mobileJourneyGradient)"
-                                        strokeWidth="2.5"
-                                        strokeLinecap="round"
-                                        strokeDasharray="6,3"
-                                    />
-                                </svg>
+                                            <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-6 -mx-4 px-4 scrollbar-hide"
+                                                 style={{ scrollSnapType: 'x mandatory', WebkitOverflowScrolling: 'touch' }}>
+                                                {steps.map((step, i) => (
+                                                    <motion.div key={i} className="snap-center flex-shrink-0 w-[160px] flex flex-col items-center text-center relative"
+                                                                initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
 
-                                {/* Swipe hint */}
-                                <motion.div
-                                    className="flex items-center justify-center gap-2 mb-6 text-xs text-gray-500"
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    transition={{ delay: 0.5 }}
-                                >
-                                    <FaArrowLeft className="text-[10px] animate-pulse" />
-                                    <span className="bg-white/50 backdrop-blur-sm px-3 py-1 rounded-full">
-                                        {t('journey.scrollHint', 'Swipe to explore the journey')}
-                                    </span>
-                                    <FaArrowRight className="text-[10px] animate-pulse" />
-                                </motion.div>
+                                                        {step.status === 'active' ? (
+                                                            <span className="relative flex h-3 w-3 mb-3">
+                                                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
+                                                            <span className="relative inline-flex rounded-full h-3 w-3 bg-accent"></span>
+                                                            </span>
+                                                        ) : (
+                                                            <div className={`w-3 h-3 rounded-full mb-3 shadow-md ${step.status === 'complete' ? 'bg-green-500' : 'bg-gray-300'}`} />
+                                                        )}
 
-                                {/* Horizontal scroll container */}
-                                <div
-                                    className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-6 -mx-4 px-4 scrollbar-hide"
-                                    style={{
-                                        scrollSnapType: 'x mandatory',
-                                        WebkitOverflowScrolling: 'touch',
-                                        scrollBehavior: 'smooth'
-                                    }}
-                                >
-                                    {[
-                                        { icon: GiFruitTree, title: t('journey.farm', 'Farm'), detail: currentBatch!.farmLocation, sub: currentBatch!.block ? t('journey.farmDesc', { block: currentBatch!.block, defaultValue: 'Block {block}' }) : '', color: 'primary', pos: 'md:mt-16' },
-                                        { icon: GiFactory, title: t('journey.process', 'Process'), detail: currentBatch!.processingInfo, sub: currentBatch!.qualityGrade ? t('journey.processDesc', { grade: currentBatch!.qualityGrade, defaultValue: 'Grade: {grade}' }) : '', color: 'accent', pos: 'md:mt-4' },
-                                        { icon: FaCertificate, title: t('journey.certify', 'Certify'), detail: currentBatch!.certifications?.[0] || '', sub: t('journey.certifyDesc', { count: currentBatch!.certifications?.length || 0, defaultValue: '{count} verified' }), color: 'primary', pos: 'md:mt-20' },
-                                        { icon: GiCargoShip, title: t('journey.ship', 'Ship'), detail: t('journey.shipDesc', 'Via Abidjan Port'), sub: currentBatch!.destination, color: 'accent', pos: 'md:mt-2' },
-                                        { icon: FaBuilding, title: t('journey.deliver', 'Deliver'), detail: currentBatch!.buyer || currentBatch!.destination, sub: currentBatch!.status === 'Delivered' ? '✓ Delivered' : 'In Transit', color: 'primary', pos: 'md:mt-14' },
-                                        { icon: FaFileAlt, title: t('journey.docs', 'Docs'), detail: t('journey.docsDetail', 'Export Ready'), sub: t('journey.docsDesc', 'COO, Phyto, B/L'), color: 'accent', pos: 'md:mt-6' },
-                                    ].map((step, i) => (
-                                        <motion.div
-                                            key={i}
-                                            className="snap-center flex-shrink-0 w-[160px] flex flex-col items-center text-center relative"
-                                            initial={{ opacity: 0, y: 20 }}
-                                            whileInView={{ opacity: 1, y: 0 }}
-                                            viewport={{ once: true }}
-                                            transition={{ delay: i * 0.1 }}
-                                        >
-                                            {/* Connector dot */}
-                                            <div className={`w-3 h-3 rounded-full mb-3 shadow-md ${
-                                                i % 2 === 0 ? 'bg-primary/60' : 'bg-accent/60'
-                                            }`} />
+                                                        <motion.div
+                                                            className={`relative w-16 h-16 rounded-full flex items-center justify-center shadow-lg mb-4 z-10 border-3 bg-white/80 backdrop-blur-sm ${step.status === 'active' ? 'animate-pulse' : ''}`}
+                                                            style={{
+                                                                borderColor: step.status === 'complete' ? '#22c55e' : step.status === 'active' ? '#E04E00' : '#d1d5db',
+                                                                transformStyle: 'preserve-3d', perspective: '1000px'
+                                                            }}
+                                                            whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
+                                                            <div className="absolute inset-0 rounded-full border-2 border-white/30 transform-gpu translate-z-[-4px]" />
+                                                            <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50" />
+                                                            <step.icon className="text-xl relative z-10" style={{ color: step.status === 'complete' ? '#22c55e' : step.status === 'active' ? '#E04E00' : '#9ca3af' }} />
+                                                        </motion.div>
 
-                                            {/* Glass morphism circle */}
-                                            <motion.div
-                                                className="relative w-16 h-16 rounded-full flex items-center justify-center shadow-lg mb-4 z-10 border-3 bg-white/80 backdrop-blur-sm"
-                                                style={{
-                                                    borderColor: i % 2 === 0 ? '#5A7411' : '#E04E00',
-                                                    transformStyle: 'preserve-3d',
-                                                    perspective: '1000px'
-                                                }}
-                                                whileHover={{ scale: 1.1 }}
-                                                whileTap={{ scale: 0.95 }}
-                                            >
-                                                {/* 3D edge effect */}
-                                                <div className="absolute inset-0 rounded-full border-2 border-white/30 transform-gpu translate-z-[-4px]" />
+                                                        <div className="absolute top-8 -right-2 w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-bold shadow-lg z-20 border-2 border-white"
+                                                             style={{ background: step.status === 'complete' ? '#22c55e' : step.status === 'active' ? '#E04E00' : '#9ca3af' }}>
+                                                            {i + 1}
+                                                        </div>
 
-                                                {/* Glassy overlay */}
-                                                <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50" />
+                                                        <div className={`bg-white/40 backdrop-blur-sm rounded-xl p-3 w-full border shadow-sm ${step.status === 'active' ? 'border-accent/50' : 'border-white/30'}`}>
+                                                            <Typography variant="small" className="font-bold text-primary leading-tight text-sm">{step.title}</Typography>
+                                                            <Typography variant="small" className="text-gray-600 text-[11px] leading-tight mt-1 line-clamp-2">{step.detail}</Typography>
+                                                            {step.sub && <Typography variant="small" className="text-gray-400 text-[10px] leading-tight mt-1 line-clamp-1">{step.sub}</Typography>}
+                                                        </div>
 
-                                                {/* Inner shadow */}
-                                                <div className="absolute inset-0 rounded-full shadow-[inset_0_1px_4px_rgba(0,0,0,0.08)]" />
-
-                                                <step.icon className="text-xl relative z-10" style={{ color: i % 2 === 0 ? '#5A7411' : '#E04E00' }} />
-                                            </motion.div>
-
-                                            {/* Step number badge */}
-                                            <div className="absolute top-8 -right-2 w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-bold shadow-lg z-20 border-2 border-white"
-                                                 style={{ background: i % 2 === 0 ? '#5A7411' : '#E04E00' }}>
-                                                {i + 1}
+                                                        {i < 5 && <div className="absolute -right-4 top-1/2 -translate-y-1/2"><FaArrowRight className="text-gray-300 text-sm" /></div>}
+                                                    </motion.div>
+                                                ))}
                                             </div>
 
-                                            {/* Content card with glass effect */}
-                                            <div className="bg-white/40 backdrop-blur-sm rounded-xl p-3 w-full border border-white/30 shadow-sm">
-                                                <Typography variant="small" className="font-bold text-primary leading-tight text-sm">
-                                                    {step.title}
-                                                </Typography>
-                                                <Typography variant="small" className="text-gray-600 text-[11px] leading-tight mt-1 line-clamp-2">
-                                                    {step.detail}
-                                                </Typography>
-                                                {step.sub && (
-                                                    <Typography variant="small" className="text-gray-400 text-[10px] leading-tight mt-1 line-clamp-1">
-                                                        {step.sub}
-                                                    </Typography>
-                                                )}
+                                            <div className="flex justify-center gap-2 mt-6">
+                                                {steps.map((_, i) => (
+                                                    <motion.div key={i} className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                                                        steps[i].status === 'complete' ? 'bg-green-500' : steps[i].status === 'active' ? 'bg-accent' : 'bg-gray-300'
+                                                    }`} whileHover={{ scale: 1.5 }} initial={{ opacity: 0, scale: 0 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.3 + i * 0.1 }} />
+                                                ))}
                                             </div>
-
-                                            {/* Progress arrow (except last) */}
-                                            {i < 5 && (
-                                                <div className="absolute -right-4 top-1/2 -translate-y-1/2">
-                                                    <FaArrowRight className="text-gray-300 text-sm" />
-                                                </div>
-                                            )}
-                                        </motion.div>
-                                    ))}
-                                </div>
-
-                                {/* Dot indicators */}
-                                <div className="flex justify-center gap-2 mt-6">
-                                    {[0, 1, 2, 3, 4, 5].map((i) => (
-                                        <motion.div
-                                            key={i}
-                                            className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                                                i % 2 === 0 ? 'bg-primary/60' : 'bg-accent/60'
-                                            }`}
-                                            whileHover={{ scale: 1.5 }}
-                                            initial={{ opacity: 0, scale: 0 }}
-                                            animate={{ opacity: 1, scale: 1 }}
-                                            transition={{ delay: 0.3 + i * 0.1 }}
-                                        />
-                                    ))}
-                                </div>
-
-                                {/* Step counter */}
-                                <div className="text-center mt-3">
-                                    <Typography variant="small" className="text-gray-400 text-xs">
-                                        {t('journey.steps', '6 steps from farm to delivery')}
-                                    </Typography>
-                                </div>
-                            </div>
+                                        </div>
+                                    </>
+                                );
+                            })()}
                         </div>
                     </Section>
 
