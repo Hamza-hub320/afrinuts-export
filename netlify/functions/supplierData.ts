@@ -210,6 +210,10 @@ export const handler: Handler = async (event: HandlerEvent) => {
                 .limit(1)
                 .get();
 
+            const traceability = !traceSnapshot.empty
+                ? { id: traceSnapshot.docs[0].id, ...traceSnapshot.docs[0].data() }
+                : null;
+
             let verificationCode = batchData.verificationCode || null;
             let updatedAt = batchData.updatedAt;
 
@@ -267,7 +271,7 @@ export const handler: Handler = async (event: HandlerEvent) => {
             return {
                 statusCode: 200,
                 headers,
-                body: JSON.stringify({ batch, supplier, expenses, revenues }),
+                body: JSON.stringify({ batch, supplier, expenses, revenues, traceability }),
             };
         }
 
