@@ -1256,52 +1256,6 @@ const Financials: React.FC = () => {
                         </motion.div>
                     </div>
                 )}
-
-                {/* End-of-page CTA */}
-                <Section className="py-10">
-                    <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 text-center">
-                        <motion.div
-                            className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-3xl shadow-xl p-8 md:p-12 transform-gpu"
-                            style={{ transformStyle: 'preserve-3d' }}
-                            initial="hidden"
-                            whileInView="visible"
-                            viewport={{ once: true }}
-                            variants={staggerContainer}
-                            whileHover={{
-                                y: -8, scale: 1.02, rotateY: 3,
-                                boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
-                                transition: { duration: 0.3 }
-                            }}
-                        >
-                            <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px] hover:translate-z-[-10px] transition-all duration-500" />
-                            <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40 hover:opacity-60 transition-opacity duration-500" />
-                            <div className="relative z-10">
-                                <motion.div variants={fadeIn}>
-                                    <Typography variant="h2" className="mb-6 text-primary">
-                                        Turn Insights Into Action
-                                    </Typography>
-                                    <Typography variant="body" className="mb-8 text-gray-700 max-w-3xl mx-auto">
-                                        Numbers tell the story — now write the next chapter. Dive back into operations, assign tasks, or review key metrics in the farm dashboard.
-                                    </Typography>
-                                    <motion.button
-                                        className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-4 rounded-full transform-gpu group/btn overflow-hidden"
-                                        variants={fadeIn}
-                                        onClick={() => navigate('/dashboard')}
-                                        whileHover={{ scale: 1.05, y: -2, boxShadow: '0 10px 25px -5px rgba(165, 105, 66, 0.4)' }}
-                                        whileTap={{ scale: 0.95 }}
-                                    >
-                                        <div className="absolute inset-0 rounded-full border-2 border-white/30 transform-gpu translate-z-[-4px] group-hover/btn:translate-z-[-6px] transition-all duration-300" />
-                                        <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50 group-hover/btn:opacity-70 transition-opacity duration-300" />
-                                        <span className="relative z-10 font-medium text-lg flex items-center gap-2">
-                                            <FaChartLine className="text-lg" />
-                                            Back to Dashboard
-                                        </span>
-                                    </motion.button>
-                                </motion.div>
-                            </div>
-                        </motion.div>
-                    </div>
-                </Section>
             </div>
         </div>
     );

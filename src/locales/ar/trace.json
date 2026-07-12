@@ -172,6 +172,13 @@
     "facilityFlowchart": "مخطط المنشأة",
     "batchTraceability": "تتبع الدفعات"
   },
+  "verify": {
+    "title": "التحقق من السجل",
+    "valid": "توقيع Farm OS صالح",
+    "explanation": "يؤكد رمز التحقق هذا أن سجل Farm OS قد تم توقيعه رقمياً ولم يتم تغييره. التوقيع مرتبط تشفيرياً ببيانات الدفعة الأصلية.",
+    "tracePage": "تتبع دفعة",
+    "questions": "هل لديك أسئلة؟"
+  },
   "location": {
     "title": "موقع موثق بـ GPS"
   }

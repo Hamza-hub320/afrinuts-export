@@ -674,61 +674,6 @@ const Tasks: React.FC = () => {
 
             {/* End-of-page CTA */}
             <Section className="py-10">
-                <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 text-center">
-                    <motion.div
-                        className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-3xl shadow-xl p-8 md:p-12 transform-gpu"
-                        style={{ transformStyle: 'preserve-3d' }}
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={staggerContainer}
-                        whileHover={{
-                            y: -8, scale: 1.02, rotateY: 3,
-                            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
-                            transition: { duration: 0.3 }
-                        }}
-                    >
-                        <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px] hover:translate-z-[-10px] transition-all duration-500" />
-                        <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40 hover:opacity-60 transition-opacity duration-500" />
-                        <div className="absolute inset-0 rounded-3xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
-
-                        <div className="relative z-10">
-                            <motion.div variants={fadeIn}>
-                                <Typography variant="h2" className="mb-6 text-primary">
-                                    Manage Farm Operations
-                                </Typography>
-                                <Typography variant="body" className="mb-8 text-gray-700 max-w-3xl mx-auto">
-                                    Return to the dashboard for a full overview of tree health, block status, and financial performance across the farm.
-                                </Typography>
-                                <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                                    <motion.button
-                                        className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-4 rounded-full transform-gpu group/btn overflow-hidden"
-                                        variants={fadeIn}
-                                        onClick={() => navigate('/dashboard')}
-                                        whileHover={{ scale: 1.05, y: -2, boxShadow: '0 10px 25px -5px rgba(165, 105, 66, 0.4)' }}
-                                        whileTap={{ scale: 0.95 }}
-                                    >
-                                        <span className="relative z-10 font-medium text-lg flex items-center gap-2">
-                                            <FaTasks /> Back to Dashboard
-                                        </span>
-                                    </motion.button>
-                                    <motion.button
-                                        className="relative border-2 border-primary/50 text-primary hover:bg-white/20 px-8 py-4 rounded-full transform-gpu backdrop-blur-sm"
-                                        variants={fadeIn}
-                                        onClick={() => navigate('/dashboard/financials')}
-                                        whileHover={{ scale: 1.05, y: -2 }}
-                                        whileTap={{ scale: 0.95 }}
-                                    >
-                                        <span className="relative z-10 font-medium text-lg flex items-center gap-2">
-                                            <FaChartPie /> View Financials
-                                        </span>
-                                    </motion.button>
-                                </div>
-                            </motion.div>
-                        </div>
-                    </motion.div>
-                </div>
-
                 {/* Worker Assignment Modal */}
                 <Transition.Root show={!!selectedWorker} as={Fragment}>
                     <Dialog as="div" className="relative z-50" onClose={() => setSelectedWorker(null)}>

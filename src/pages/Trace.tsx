@@ -302,7 +302,7 @@ const TracePage: React.FC = () => {
                                 <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-primary/10 text-primary text-xs rounded-full font-medium"><FaQrcode className="text-[10px]" /> {t('promo.badgeQr', 'QR Code')}</span>
                                 <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-green-50 text-green-700 text-xs rounded-full font-medium"><FaCheckCircle className="text-[10px]" /> {t('promo.badgeVerified', 'Farm OS Verified')}</span>
                                 <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-amber-50 text-amber-700 text-xs rounded-full font-medium"><FaGlobeAfrica className="text-[10px]" /> {t('promo.badgePublic', 'Publicly Verifiable')}</span>
-                                <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-primary/10 text-primary text-xs rounded-full font-medium"><FaShieldAlt className="text-[10px]" /> {t('promo.badgeSigned', 'QR Code')}</span>
+                                <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-primary/10 text-primary text-xs rounded-full font-medium"><FaShieldAlt className="text-[10px]" /> {t('promo.badgeSigned', 'Digitally Signed')}</span>
                             </div>
                             <motion.div variants={fadeIn} className="flex flex-col items-center lg:items-start gap-3">
                                 <div className="flex flex-wrap gap-2.5 justify-center lg:justify-start">
@@ -330,6 +330,62 @@ const TracePage: React.FC = () => {
                                         </Typography>
                                     </motion.div>
                                 )}
+                                {/* Verification Mode */}
+                                {(() => {
+                                    const verifyCode = query.get("code");
+                                    if (!verifyCode) return null;
+
+                                    return (
+                                        <motion.div
+                                            className="mt-6 max-w-md mx-auto"
+                                            initial={{ opacity: 0, y: 10 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            transition={{ delay: 0.2 }}
+                                        >
+                                            <InfoCard
+                                                icon={FaShieldAlt}
+                                                title={t('verify.title', 'Record Verification')}
+                                                iconColor="text-green-600"
+                                                variant="primary"
+                                                showInfoBadge={false}
+                                            >
+                                                <div className="text-center">
+                                                    <div className="inline-flex items-center gap-2 bg-green-50 px-4 py-2 rounded-full mb-3">
+                                                        <FaCheckCircle className="text-green-600" />
+                                                        <Typography variant="small" className="text-green-700 font-medium">
+                                                            {t('verify.valid', 'Valid Farm OS Signature')}
+                                                        </Typography>
+                                                    </div>
+                                                    <div className="bg-white/50 rounded-lg p-3 mb-3">
+                                                        <Typography variant="small" className="text-gray-500 text-[10px] uppercase tracking-wider">
+                                                            {t('farmOsRecord.verificationCode', 'Verification Code')}
+                                                        </Typography>
+                                                        <Typography variant="small" className="font-mono font-bold text-primary text-lg tracking-wider">
+                                                            {verifyCode}
+                                                        </Typography>
+                                                    </div>
+                                                    <Typography variant="small" className="text-gray-600 text-xs leading-relaxed">
+                                                        {t('verify.explanation', 'This verification code confirms that a Farm OS record was digitally signed and has not been altered. The signature is cryptographically tied to the original batch data.')}
+                                                    </Typography>
+                                                    <div className="mt-3 flex justify-center gap-3">
+                                                        <Link
+                                                            to="/trace"
+                                                            className="text-accent hover:text-primary text-xs font-medium transition-colors"
+                                                        >
+                                                            {t('verify.tracePage', 'Trace a batch')} →
+                                                        </Link>
+                                                        <Link
+                                                            to="/contact"
+                                                            className="text-gray-500 hover:text-primary text-xs transition-colors"
+                                                        >
+                                                            {t('verify.questions', 'Questions?')}
+                                                        </Link>
+                                                    </div>
+                                                </div>
+                                            </InfoCard>
+                                        </motion.div>
+                                    );
+                                })()}
                             </motion.div>
                         </motion.div>
                         <motion.div className="flex-shrink-0 lg:ml-auto lg:-mr-16" variants={fadeIn} transition={{ delay: 0.2 }}>
@@ -858,7 +914,7 @@ const TracePage: React.FC = () => {
 
                                                     <div className="flex items-center gap-2">
                                                         <Link
-                                                            to={`/trace/verify?code=${currentBatch.verificationCode}`}
+                                                            to={`/trace?code=${currentBatch.verificationCode}`}
                                                             className="inline-flex items-center gap-1.5 text-accent hover:text-primary text-xs font-medium transition-colors"
                                                         >
                                                             <FaExternalLinkAlt className="text-[10px]" />
@@ -866,7 +922,7 @@ const TracePage: React.FC = () => {
                                                         </Link>
                                                         <span className="text-gray-300">|</span>
                                                         <Link
-                                                            to="/trace/verify"
+                                                            to="/trace"
                                                             className="text-gray-500 hover:text-primary text-xs transition-colors"
                                                         >
                                                             {t('farmOsRecord.verifyPage', 'Public verification page')}

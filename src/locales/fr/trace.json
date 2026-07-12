@@ -172,6 +172,13 @@
     "facilityFlowchart": "Organigramme de l'Installation",
     "batchTraceability": "Traçabilité des Lots"
   },
+  "verify": {
+    "title": "Vérification de l'Enregistrement",
+    "valid": "Signature Farm OS Valide",
+    "explanation": "Ce code de vérification confirme qu'un enregistrement Farm OS a été signé numériquement et n'a pas été modifié. La signature est liée cryptographiquement aux données originales du lot.",
+    "tracePage": "Tracer un lot",
+    "questions": "Des questions ?"
+  },
   "location": {
     "title": "Localisation Vérifiée par GPS"
   }

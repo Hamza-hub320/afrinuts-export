@@ -172,6 +172,13 @@
     "facilityFlowchart": "Facility Flowchart",
     "batchTraceability": "Batch Traceability"
   },
+  "verify": {
+    "title": "Record Verification",
+    "valid": "Valid Farm OS Signature",
+    "explanation": "This verification code confirms that a Farm OS record was digitally signed and has not been altered. The signature is cryptographically tied to the original batch data.",
+    "tracePage": "Trace a batch",
+    "questions": "Questions?"
+  },
   "location": {
     "title": "GPS Verified Location"
   }
