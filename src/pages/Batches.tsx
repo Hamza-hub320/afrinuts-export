@@ -36,6 +36,7 @@ import Section from '@/components/Section/Section';
 import { fadeIn, staggerContainer } from '@/utils/animations';
 import { getSupplierData } from '../services/api';
 import { Dialog, Transition } from '@headlessui/react';
+import {GiFarmer} from "react-icons/gi";
 
 interface Batch {
     id: string;
@@ -158,12 +159,18 @@ const Batches: React.FC = () => {
 
     if (loading) {
         return (
-            <div className="min-h-screen pt-[72px]">
-                <DashboardNavbar />
-                <div className="flex justify-center items-center h-64">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-                </div>
-            </div>
+            <main>
+                <Section className="flex items-center justify-center min-h-[60vh]">
+                    <div className="text-center">
+                        <div className="relative w-24 h-24 mx-auto mb-4">
+                            <div className="absolute inset-0 rounded-full border-b-2 border-primary animate-spin"></div>
+                            <div className="absolute inset-0 flex items-center justify-center">
+                                <GiFarmer className="text-primary text-3xl" />
+                            </div>
+                        </div>
+                    </div>
+                </Section>
+            </main>
         );
     }
 
@@ -782,7 +789,7 @@ const Batches: React.FC = () => {
 
                                                 {/* Digital Signature */}
                                                 {batchDetail?.batch?.verificationCode && (
-                                                    <div className="bg-gradient-to-r from-primary/5 to-accent/5 rounded-xl p-4 border border-primary/20">
+                                                    <div className="bg-white/50 rounded-xl p-4 border border-white/30">
                                                         <div className="flex items-center gap-2 mb-3">
                                                             <FaShieldAlt className="text-green-600" />
                                                             <Typography variant="small" className="font-semibold text-primary">

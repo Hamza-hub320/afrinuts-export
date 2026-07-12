@@ -342,7 +342,7 @@ const Wholesale: React.FC = () => {
                                 {t('farmOsQuote.body', 'When you order from AfriNuts, the traceability report is pulled directly from Farm OS — not created after the fact by someone in an office. Same system our farm managers use. Same data our investors see.')}
                             </Typography>
                             <Link to="/trace" className="text-accent hover:text-primary text-sm font-medium inline-flex items-center gap-1">
-                                {t('farmOsQuote.cta', 'Try traceability with batch AFN-2026-001')} <FaArrowRight className="text-xs" />
+                                {t('farmOsQuote.cta', 'Try traceability with batch AFN-FARM-ORG-260710-34D1')} <FaArrowRight className="text-xs" />
                             </Link>
                         </InfoCard>
                     </motion.div>

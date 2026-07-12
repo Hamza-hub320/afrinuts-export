@@ -60,7 +60,7 @@
   "farmOs": {
     "title": "Ask Your Current Supplier for Block-Level Traceability Data. We'll Wait.",
     "body": "Our custom-built Farm OS tracks every tree, every expense, and every harvest. When you place an order, we don't just ship cashews — we ship a digital record of exactly where they came from, when they were harvested, and how they were handled.",
-    "batchNote": "Test our traceability: ask for batch <strong>AFN-2026-001</strong> when you inquire",
+    "batchNote": "Test our traceability: ask for batch <strong>AFN-FARM-ORG-260710-34D1</strong> when you inquire",
     "cta": "See How Traceability Works"
   },
   "quality": {
@@ -142,6 +142,6 @@
   "farmOsQuote": {
     "title": "Most Suppliers Send a Certificate. We Send the Data That Generated It.",
     "body": "When you order from AfriNuts, the traceability report is pulled directly from Farm OS — not created after the fact by someone in an office. Same system our farm managers use. Same data our investors see.",
-    "cta": "Try traceability with batch AFN-2026-001"
+    "cta": "Try traceability with batch AFN-FARM-ORG-260710-34D1"
   }
 }
