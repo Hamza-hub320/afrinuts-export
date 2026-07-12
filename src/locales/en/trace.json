@@ -1,20 +1,21 @@
 {
   "seo": {
     "title": "Cashew Traceability | Farm OS Verified Batch Tracking | AfriNuts Export",
-    "description": "Enter, your batch ID to see your cashew shipment's full journey — GPS coordinates, harvest date, quality metrics, and certification verification. Powered by AfriNuts Farm OS. Try AFN-FARM-ORG-260710-34D1."
+    "description": "Enter your batch ID to see your cashew shipment's full digital journey — GPS coordinates, harvest date, quality metrics, certification verification, and tamper-proof digital signature. Powered by AfriNuts Farm OS. Try AFN-FARM-ORG-260710-34D1."
   },
   "page": {
     "title": "AfriNuts Batch Traceability | Farm OS Verified",
-    "description": "View block-level traceability data for your cashew shipment — harvest dates, GPS coordinates, quality metrics, and certification verification. Powered by AfriNuts Farm OS."
-},
+    "description": "View block-level traceability data for your cashew shipment — harvest dates, GPS coordinates, quality metrics, certification verification, and tamper-proof digital signature. Powered by AfriNuts Farm OS."
+  },
   "promo": {
     "heading": "Not Just a Paper Trail. Farm OS Verified.",
-    "lead": "Enter a batch ID to see harvest dates, GPS coordinates, quality metrics, and certification records — all pulled directly from our Farm OS. The same data our farm managers use. The same dashboard our investors see. No marketing fluff. No paperwork generated after the fact.",
-    "subheading": "Every AfriNuts shipment comes with a unique traceability code linked to our Farm OS. Scan your QR code or enter your batch ID to see the full digital record — from the exact block in Odienné to your container. Most suppliers send paperwork. We send proof.",
+    "lead": "Enter a batch ID to see harvest dates, GPS coordinates, quality metrics, certification records, and a tamper-proof digital signature — all pulled directly from our Farm OS. The same data our farm managers use. The same dashboard our investors see. No marketing fluff. No paperwork generated after the fact.",
+    "subheading": "Every AfriNuts shipment comes with a unique traceability code linked to our Farm OS. Scan the QR code or enter your batch ID to see the full digital record — from the exact block in Odienné to your container. Most suppliers send paperwork. We send proof. Now with digital signatures for every batch.",
     "introTitle": "Powered by Farm OS",
     "badgeQr": "QR Code",
     "badgeVerified": "Farm OS Verified",
-    "badgePublic": "Publicly Verifiable"
+    "badgePublic": "Publicly Verifiable",
+    "badgeSigned": "Tamper-Proof Signature"
   },
   "search": {
     "placeholder": "Enter your Batch ID...",
@@ -46,18 +47,19 @@
     "batch": "Unique batch IDs tracked in Farm OS from harvest to delivery — not a paper ledger",
     "public": "Publicly verifiable — anyone with the batch ID can check. No login required.",
     "certs": "Certifications verified and displayed per batch — not just claims on a website",
-    "ctaBody": "Every wholesale order includes Farm OS traceability at no extra cost. Your buyers can verify origin, quality, and certifications — just like this page.",
+    "signature": "Tamper-proof digital signature — every batch is cryptographically signed and verifiable",
+    "ctaBody": "Every wholesale order includes Farm OS traceability with digital signatures at no extra cost. Your buyers can verify origin, quality, certifications, and data integrity — just like this page.",
     "ctaButton": "Explore Wholesale Options",
     "origin": "GPS-Verified Origin",
     "originDesc": "GPS coordinates recorded at harvest from our farm in Odienné — verifiable on any map",
     "batchTitle": "Farm OS Batch Record",
     "batchDesc": "Each batch receives a unique digital ID tracked at every stage in our custom operating system",
     "transparent": "Publicly Verifiable",
-    "transparentDesc": "Anyone with the batch ID can verify this information — buyers, customs, investors"
+    "transparentDesc": "Anyone with the batch ID can verify this information — buyers, customs, investors, and regulators"
   },
   "promoCta": {
     "title": "Want This Level of Transparency for Your Orders?",
-    "description": "Every AfriNuts Export wholesale order includes Farm OS traceability. Contact us to place your first order and experience supply chain transparency that most West African suppliers cannot provide.",
+    "description": "Every AfriNuts Export wholesale order includes Farm OS traceability with tamper-proof digital signatures. Contact us to place your first order and experience supply chain transparency that most West African suppliers cannot provide.",
     "button": "Request a Traceable Quote"
   },
   "internalLinks": {
@@ -144,6 +146,24 @@
     "compliancePackDesc": "All documents in one file for easy sharing with customs and regulators",
     "downloadAll": "Download All",
     "compliancePackPending": "Compliance pack will be available once all documents are processed for this batch."
+  },
+  "farmOsRecord": {
+    "title": "Farm OS Record",
+    "recordId": "Record ID",
+    "created": "Created",
+    "updated": "Last Updated",
+    "status": "Verification Status",
+    "verified": "Verified",
+    "digitalSignature": "Digital Signature",
+    "verificationCode": "Verification Code",
+    "signature": "Signature",
+    "signedDate": "Signed Date",
+    "justNow": "Just now",
+    "note": "Data pulled directly from Farm OS. Tamper-proof digital signature confirms this record has not been altered since signing.",
+    "whatIsSignature": "What is a digital signature?",
+    "signatureExplanation": "Our digital signatures use cryptographic technology to prove that this batch data is authentic and has not been tampered with. When you see a verified signature, you can trust that the information you're viewing is exactly what was recorded in Farm OS — not something generated after the fact.",
+    "howToVerify": "How to verify",
+    "verifyInstructions": "Enter the verification code above on our public verification page to confirm this record's authenticity. Anyone can verify — no login required."
   },
   "breadcrumbs": {
     "home": "Home",

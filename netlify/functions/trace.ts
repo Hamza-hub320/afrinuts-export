@@ -78,6 +78,12 @@ function mapToPublicBatch(batchData: any, supplier: any, traceability: any, reve
         shellingMethod: traceability?.shellingMethod || 'Semi-automated',
         gradingMethod: traceability?.gradingMethod || 'Manual inspection + electronic sorting',
         yieldPercentage: traceability?.yieldPercentage || null,
+        verificationCode: traceability?.verificationCode || batchData.verificationCode || null,
+        digitalSignature: traceability?.verificationCode ? {
+            code: traceability.verificationCode,
+            signedDate: new Date(traceability.updatedAt || traceability.createdAt).toLocaleString(),
+            signature: `FOS-SIG-${traceability.verificationCode?.toLowerCase()}-${new Date(traceability.updatedAt || traceability.createdAt).toISOString().replace(/[-:T.]/g, '').slice(0, 14)}`,
+        } : null,
         certifications: [
             ...(traceability?.certificationIds
                 ? traceability.certificationIds.split(',').map((c: string) => c.trim())

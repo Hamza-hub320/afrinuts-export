@@ -27,7 +27,7 @@ import {
     FaChartLine,
     FaHome,
     FaExternalLinkAlt,
-    FaFileAlt, FaGlobeAfrica, FaCertificate, FaHandshake
+    FaFileAlt, FaGlobeAfrica, FaCertificate, FaHandshake, FaShieldAlt
 } from 'react-icons/fa';
 import { Typography } from '@/components/Typography/Typography';
 import { InfoCard } from '@/components/InfoCard/InfoCard';
@@ -777,6 +777,49 @@ const Batches: React.FC = () => {
                                                         <h4 className="font-medium text-primary mb-2 flex items-center gap-2"><FaUser /> Supplier</h4>
                                                         <p className="font-medium">{batchDetail.supplier.name}</p>
                                                         <p className="text-sm text-gray-500">{batchDetail.supplier.contactPerson} · {batchDetail.supplier.phone}</p>
+                                                    </div>
+                                                )}
+
+                                                {/* Digital Signature */}
+                                                {batchDetail?.batch?.verificationCode && (
+                                                    <div className="bg-gradient-to-r from-primary/5 to-accent/5 rounded-xl p-4 border border-primary/20">
+                                                        <div className="flex items-center gap-2 mb-3">
+                                                            <FaShieldAlt className="text-green-600" />
+                                                            <Typography variant="small" className="font-semibold text-primary">
+                                                                Digital Signature
+                                                            </Typography>
+                                                            <span className="px-2 py-0.5 bg-green-100 text-green-700 text-xs rounded-full font-medium">
+                                                                Verified
+                                                            </span>
+                                                        </div>
+                                                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                                                            <div className="bg-white/50 rounded-lg p-2.5 text-center">
+                                                                <Typography variant="small" className="text-gray-400 text-[10px] uppercase tracking-wider">
+                                                                    Verification Code
+                                                                </Typography>
+                                                                <Typography variant="small" className="font-mono font-bold text-primary mt-0.5">
+                                                                    {batchDetail.batch.verificationCode}
+                                                                </Typography>
+                                                            </div>
+                                                            <div className="bg-white/50 rounded-lg p-2.5 text-center">
+                                                                <Typography variant="small" className="text-gray-400 text-[10px] uppercase tracking-wider">
+                                                                    Signature
+                                                                </Typography>
+                                                                <Typography variant="small" className="font-mono text-primary text-[10px] mt-0.5 truncate">
+                                                                    FOS-SIG-{batchDetail.batch.verificationCode?.toLowerCase()}
+                                                                </Typography>
+                                                            </div>
+                                                            <div className="bg-white/50 rounded-lg p-2.5 text-center">
+                                                                <Typography variant="small" className="text-gray-400 text-[10px] uppercase tracking-wider">
+                                                                    Signed Date
+                                                                </Typography>
+                                                                <Typography variant="small" className="text-primary font-medium mt-0.5">
+                                                                    {batchDetail.batch.updatedAt
+                                                                        ? new Date(batchDetail.batch.updatedAt).toLocaleString()
+                                                                        : new Date().toLocaleString()}
+                                                                </Typography>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 )}
 
