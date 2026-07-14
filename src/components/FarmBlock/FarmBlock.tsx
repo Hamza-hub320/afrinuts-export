@@ -4,7 +4,7 @@ import { IconType } from 'react-icons';
 
 interface FarmBlockProps {
     blockName: string;
-    status: 'PLANTED' | 'PLOWED' | 'CLEARED' | 'NOT_CLEARED';
+    status: 'PLANTED' | 'PLOWED' | 'CLEARED' | 'NOT_CLEARED' | 'HARVESTED';
     survivalRate?: number;
     icon: React.ReactNode;
     colors: {

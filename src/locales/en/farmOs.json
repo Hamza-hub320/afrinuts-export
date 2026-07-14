@@ -143,7 +143,6 @@
         "items": [
           { "icon": "FaIndustry", "title": "Processing Line Monitoring", "desc": "Roasting temperature, shelling yield, grading results — every machine, every batch." },
           { "icon": "FaBox", "title": "Inventory Management", "desc": "Raw nuts, WIP, finished goods by batch, location, and age — FIFO tracking automated." },
-          { "icon": "FaFileContract", "title": "Export Documentation Generator", "desc": "Auto-generate COO, Phyto, SGS, and invoice from batch data — hours saved per shipment." },
           { "icon": "FaUsers", "title": "Buyer Portal", "desc": "Clients log in to view their order's full traceability, documents, and quality reports." }
         ]
       },

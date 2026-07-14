@@ -1241,9 +1241,6 @@ const TracePage: React.FC = () => {
                                 </div>
                                 <motion.div className="mt-6 pt-4 border-t border-gray-200/50" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
                                     <Typography variant="small" className="text-gray-500 mb-2">{t('compliance.description')}</Typography>
-                                    <a href="/documents/compliance-pack.pdf" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-accent hover:text-primary font-medium text-sm transition-colors">
-                                        <FaFileAlt className="text-xs" />{t('compliance.link', 'Download Compliance Pack')}
-                                    </a>
                                 </motion.div>
                             </InfoCard>
                         </motion.div>

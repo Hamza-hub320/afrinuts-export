@@ -9,7 +9,7 @@ import {
     FaHourglassHalf,
     FaMapMarkerAlt,
     FaTasks,
-    FaChartLine, FaBorderAll, FaArrowsAltV, FaArrowsAltH
+    FaChartLine, FaBorderAll, FaArrowsAltV, FaArrowsAltH, FaChartBar, FaBox, FaCalendarAlt
 } from 'react-icons/fa';
 import { Typography } from '@/components/Typography/Typography';
 import { getMockData } from '../services/mockData';
@@ -28,8 +28,13 @@ const isDevelopment = import.meta.env.DEV;
 interface Block {
     id: number;
     blockName: string;
-    status: 'PLANTED' | 'PLOWED' | 'CLEARED' | 'NOT_CLEARED';
+    status: 'PLANTED' | 'PLOWED' | 'CLEARED' | 'NOT_CLEARED' | 'HARVESTED';
     survivalRate: number;
+    harvestCount?: number;
+    lastHarvestDate?: number;
+    lastHarvestQuantity?: number;
+    totalHarvestQuantity?: number;
+    harvestHistory?: string;
 }
 
 interface Photo {
@@ -45,6 +50,7 @@ interface Photo {
 
 const getStatusIcon = (status: string) => {
     switch (status) {
+        case 'HARVESTED': return <FaTractor className="text-amber-500" />;
         case 'PLANTED': return <FaTree className="text-green-500" />;
         case 'PLOWED': return <FaTractor className="text-blue-500" />;
         case 'CLEARED': return <FaSeedling className="text-orange-500" />;
@@ -71,6 +77,12 @@ const getStatusColor = (status: string) => {
             border: 'border-orange-300 hover:border-orange-400',
             badge: 'bg-orange-500/20 text-orange-700',
             icon: 'bg-orange-500/10 text-orange-600'
+        };
+        case 'HARVESTED': return {
+            bg: 'from-amber-50 to-yellow-50',
+            border: 'border-amber-300 hover:border-amber-400',
+            badge: 'bg-amber-500/20 text-amber-700',
+            icon: 'bg-amber-500/10 text-amber-600'
         };
         default: return {
             bg: 'from-gray-50 to-slate-50',
@@ -191,6 +203,7 @@ const BlockMap: React.FC = () => {
     const plowedCount = blocks.filter(b => b.status === 'PLOWED').length;
     const clearedCount = blocks.filter(b => b.status === 'CLEARED').length;
     const notClearedCount = blocks.filter(b => b.status === 'NOT_CLEARED').length;
+    const harvestedCount = blocks.filter(b => b.status === 'HARVESTED').length;
 
     return (
         <div className="min-h-screen relative overflow-hidden pt-[72px]">
@@ -272,6 +285,7 @@ const BlockMap: React.FC = () => {
                     >
                         <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-3">
                             {[
+                                { icon: FaTractor, label: 'Harvested', variant: 'secondary' as const },
                                 { icon: FaTree, label: 'Planted', variant: 'secondary' as const },
                                 { icon: FaTractor, label: 'Plowed', variant: 'accent' as const },
                                 { icon: FaSeedling, label: 'Cleared', variant: 'primary' as const },
@@ -443,8 +457,9 @@ const BlockMap: React.FC = () => {
                 </div>
 
                 {/* Summary Stats - Using InfoCard */}
-                <div className="mt-10 grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="mt-10 grid grid-cols-2 md:grid-cols-5 gap-4">
                     {[
+                        { label: 'Harvested', count: harvestedCount, icon: FaTractor, variant: 'secondary' as const },
                         { label: 'Planted Blocks', count: plantedCount, icon: FaTree, variant: 'secondary' as const },
                         { label: 'Plowed Blocks', count: plowedCount, icon: FaTractor, variant: 'accent' as const },
                         { label: 'Cleared Blocks', count: clearedCount, icon: FaSeedling, variant: 'primary' as const },
@@ -466,6 +481,162 @@ const BlockMap: React.FC = () => {
                         </motion.div>
                     ))}
                 </div>
+
+                {/* Harvest Intelligence Section */}
+                <Section className="py-6">
+                    <div className="max-w-6xl mx-auto">
+                        <motion.div
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                            variants={staggerContainer}
+                        >
+                            <InfoCard
+                                icon={FaTractor}
+                                title="Harvest Intelligence"
+                                subtitle="Block-level production tracking — every harvest recorded"
+                                iconColor="text-amber-500"
+                                showInfoBadge={false}
+                            >
+                                {/* Harvest KPIs */}
+                                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
+                                    {[
+                                        {
+                                            label: 'Blocks Harvested',
+                                            value: blocks.filter(b => b.status === 'HARVESTED').length,
+                                            total: blocks.filter(b => b.status === 'PLANTED' || b.status === 'HARVESTED').length,
+                                            icon: FaTractor,
+                                            color: 'text-amber-600',
+                                        },
+                                        {
+                                            label: 'Total Harvests',
+                                            value: blocks.reduce((sum, b) => sum + (b.harvestCount || 0), 0),
+                                            icon: FaChartBar,
+                                            color: 'text-primary',
+                                        },
+                                        {
+                                            label: 'Total Volume',
+                                            value: blocks.reduce((sum, b) => sum + (b.totalHarvestQuantity || 0), 0) > 0
+                                                ? `${(blocks.reduce((sum, b) => sum + (b.totalHarvestQuantity || 0), 0) / 1000).toFixed(1)}T`
+                                                : '—',
+                                            icon: FaBox,
+                                            color: 'text-green-600',
+                                        },
+                                        {
+                                            label: 'Last Harvest',
+                                            value: blocks
+                                                .filter(b => b.lastHarvestDate)
+                                                .sort((a, b) => (b.lastHarvestDate || 0) - (a.lastHarvestDate || 0))[0]?.lastHarvestDate
+                                                ? new Date(blocks.filter(b => b.lastHarvestDate).sort((a, b) => (b.lastHarvestDate || 0) - (a.lastHarvestDate || 0))[0].lastHarvestDate!).toLocaleDateString()
+                                                : '—',
+                                            icon: FaCalendarAlt,
+                                            color: 'text-accent',
+                                        },
+                                    ].map((item, i) => (
+                                        <div key={i} className="bg-white/40 rounded-xl p-3 border border-white/30 text-center">
+                                            <item.icon className={`text-xl mx-auto ${item.color}`} />
+                                            <div className="text-lg font-bold mt-1">
+                                                {item.total !== undefined ? `${item.value}/${item.total}` : item.value}
+                                            </div>
+                                            <div className="text-xs text-gray-500">{item.label}</div>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                {/* Recently Harvested Blocks */}
+                                <div className="mt-4 pt-4 border-t border-gray-200">
+                                    <h4 className="text-sm font-medium text-gray-600 mb-2">Recently Harvested Blocks</h4>
+                                    <div className="space-y-2">
+                                        {blocks
+                                            .filter(b => b.status === 'HARVESTED' && b.lastHarvestDate)
+                                            .sort((a, b) => (b.lastHarvestDate || 0) - (a.lastHarvestDate || 0))
+                                            .slice(0, 5)
+                                            .map((block, i) => {
+                                                const history = block.harvestHistory
+                                                    ? (typeof block.harvestHistory === 'string' ? JSON.parse(block.harvestHistory) : block.harvestHistory)
+                                                    : [];
+                                                const lastHarvest = Array.isArray(history) ? history[history.length - 1] : null;
+                                                return (
+                                                    <div key={block.id} className="flex items-center justify-between bg-white/30 rounded-lg px-3 py-2 text-sm">
+                                                        <div className="flex items-center gap-2">
+                                            <span className="w-6 h-6 rounded-full bg-amber-100 flex items-center justify-center text-xs font-bold text-amber-700">
+                                                {block.blockName}
+                                            </span>
+                                                            <span className="font-medium">{block.blockName}</span>
+                                                        </div>
+                                                        <div className="flex items-center gap-3 text-xs text-gray-500">
+                                                            <span>{block.harvestCount} harvest{block.harvestCount !== 1 ? 's' : ''}</span>
+                                                            <span>{block.totalHarvestQuantity ? `${(block.totalHarvestQuantity / 1000).toFixed(1)}T` : '—'}</span>
+                                                            {lastHarvest?.grade && (
+                                                                <span className={`px-1.5 py-0.5 rounded-full text-xs ${
+                                                                    lastHarvest.grade === 'Premium' ? 'bg-amber-100 text-amber-700' : 'bg-blue-100 text-blue-700'
+                                                                }`}>{lastHarvest.grade}</span>
+                                                            )}
+                                                            <span>{block.lastHarvestDate ? new Date(block.lastHarvestDate).toLocaleDateString() : '—'}</span>
+                                                        </div>
+                                                    </div>
+                                                );
+                                            })}
+                                    </div>
+                                </div>
+                            </InfoCard>
+                        </motion.div>
+                    </div>
+                </Section>
+
+                {/* Harvest Distribution Chart */}
+                <Section className="py-6">
+                    <div className="max-w-6xl mx-auto">
+                        <motion.div
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                            variants={staggerContainer}
+                        >
+                            <InfoCard
+                                icon={FaChartBar}
+                                title="Block Production Distribution"
+                                subtitle="Total harvest quantity by harvested block"
+                                iconColor="text-primary"
+                                showInfoBadge={false}
+                            >
+                                {blocks.filter(b => b.totalHarvestQuantity && b.totalHarvestQuantity > 0).length > 0 ? (
+                                    <div className="space-y-2 mt-3">
+                                        {blocks
+                                            .filter(b => b.totalHarvestQuantity && b.totalHarvestQuantity > 0)
+                                            .sort((a, b) => (b.totalHarvestQuantity || 0) - (a.totalHarvestQuantity || 0))
+                                            .slice(0, 8)
+                                            .map((block, i) => {
+                                                const maxQty = Math.max(...blocks.filter(b => b.totalHarvestQuantity).map(b => b.totalHarvestQuantity || 0));
+                                                const pct = maxQty > 0 ? ((block.totalHarvestQuantity || 0) / maxQty) * 100 : 0;
+                                                return (
+                                                    <div key={block.id}>
+                                                        <div className="flex justify-between text-xs mb-1">
+                                                            <span className="font-medium">{block.blockName}</span>
+                                                            <span className="text-gray-500">{(block.totalHarvestQuantity! / 1000).toFixed(1)}T · {block.harvestCount} harvest{block.harvestCount !== 1 ? 's' : ''}</span>
+                                                        </div>
+                                                        <div className="w-full bg-gray-200 rounded-full h-2.5">
+                                                            <motion.div
+                                                                className="bg-amber-500 h-2.5 rounded-full"
+                                                                initial={{ width: 0 }}
+                                                                animate={{ width: `${pct}%` }}
+                                                                transition={{ duration: 1, delay: i * 0.1 }}
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                );
+                                            })}
+                                    </div>
+                                ) : (
+                                    <div className="text-center py-6 text-gray-400">
+                                        <FaBox className="text-2xl mx-auto mb-2" />
+                                        <p className="text-sm">No harvest data recorded yet</p>
+                                    </div>
+                                )}
+                            </InfoCard>
+                        </motion.div>
+                    </div>
+                </Section>
 
                 {/* Block Details Modal */}
                 {selectedBlock && (
@@ -531,6 +702,35 @@ const BlockMap: React.FC = () => {
                                         </div>
                                     ))}
                                 </div>
+                                {/* Harvest History */}
+                                {selectedBlock.harvestCount && selectedBlock.harvestCount > 0 && (
+                                    <div className="mt-4 pt-4 border-t border-gray-200">
+                                        <h4 className="text-sm font-medium text-primary mb-2 flex items-center gap-2">
+                                            <FaCalendarAlt className="text-amber-500" />
+                                            Harvest History ({selectedBlock.harvestCount} record{selectedBlock.harvestCount !== 1 ? 's' : ''})
+                                        </h4>
+                                        <div className="space-y-2">
+                                            {(() => {
+                                                const history = selectedBlock.harvestHistory
+                                                    ? (typeof selectedBlock.harvestHistory === 'string' ? JSON.parse(selectedBlock.harvestHistory) : selectedBlock.harvestHistory)
+                                                    : [];
+                                                return (Array.isArray(history) ? history : []).map((h: any, i: number) => (
+                                                    <div key={i} className="flex justify-between items-center py-2 px-3 rounded-lg bg-white/30 text-sm">
+                                                        <div className="flex items-center gap-2">
+                                                            <span className="text-xs text-gray-500">{new Date(h.harvestDate).toLocaleDateString()}</span>
+                                                        </div>
+                                                        <div className="flex items-center gap-3">
+                            <span className={`px-1.5 py-0.5 rounded-full text-xs ${
+                                h.grade === 'Premium' ? 'bg-amber-100 text-amber-700' : 'bg-blue-100 text-blue-700'
+                            }`}>{h.grade}</span>
+                                                            <span className="font-medium">{h.quantityKg?.toLocaleString()} kg</span>
+                                                        </div>
+                                                    </div>
+                                                ));
+                                            })()}
+                                        </div>
+                                    </div>
+                                )}
                                 {/* Photo Gallery INSIDE the modal */}
                                 <div className="mt-6">
                                     <PhotoGallery
