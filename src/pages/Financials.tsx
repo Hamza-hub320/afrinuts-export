@@ -11,7 +11,7 @@ import {
     FaTrophy,
     FaMedal,
     FaAward,
-    FaLightbulb, FaMapPin, FaGlobeAfrica, FaTimes, FaUsers
+    FaLightbulb, FaMapPin, FaGlobeAfrica, FaTimes, FaUsers, FaBox, FaHome, FaTractor
 } from 'react-icons/fa';
 import { Typography } from '@/components/Typography/Typography';
 import DashboardNavbar from '@/components/DashboardNavbar/DashboardNavbar';
@@ -186,9 +186,13 @@ const Financials: React.FC = () => {
                     }
                 });
 
-                // Process expenses: separate direct vs farm-wide
+                // Process expenses: separate direct, farm-wide, and procurement
                 let totalFarmWideExpenses = 0;
                 expensesList.forEach((expense: any) => {
+                    if (expense.category === 'PROCUREMENT') {
+                        // Skip procurement — it's tracked in Supplier Financial Performance table
+                        return;
+                    }
                     if (expense.blockId && blockMap.has(expense.blockId)) {
                         blockMap.get(expense.blockId).directExpenses += expense.amount || 0;
                     } else {
@@ -414,6 +418,11 @@ const Financials: React.FC = () => {
                                             // Group expenses and revenues by supplier
                                             const supplierMap = new Map<number, { name: string; procurement: number; revenue: number }>();
 
+                                            // Calculate total farm-wide operational cost (for AfriNuts own farm)
+                                            const totalFarmOperationalCost = expenses
+                                                .filter(e => e.category !== 'PROCUREMENT')
+                                                .reduce((sum, e) => sum + (e.amount || 0), 0);
+
                                             expenses.forEach(e => {
                                                 if (e.supplierId) {
                                                     if (!supplierMap.has(e.supplierId)) {
@@ -440,23 +449,40 @@ const Financials: React.FC = () => {
                                                 }
                                             });
 
+                                            // Set AfriNuts own farm procurement to farm-wide operational cost
+                                            const afriNutsId = 10;
+                                            if (supplierMap.has(afriNutsId)) {
+                                                supplierMap.get(afriNutsId)!.procurement = totalFarmOperationalCost;
+                                            }
+
                                             return Array.from(supplierMap.entries())
                                                 .sort((a, b) => (b[1].revenue - b[1].procurement) - (a[1].revenue - a[1].procurement))
                                                 .map(([id, data]) => {
                                                     const margin = data.revenue - data.procurement;
                                                     const efficiency = data.procurement > 0 ? (data.revenue / data.procurement).toFixed(1) : '—';
+                                                    const isOwnFarm = id === afriNutsId;
                                                     return (
-                                                        <tr key={id} className="border-b border-gray-100 last:border-0 hover:bg-white/20">
-                                                            <td className="py-2 font-medium">{data.name}</td>
-                                                            <td className="py-2 text-right">{new Intl.NumberFormat('fr-FR').format(data.procurement)} FCFA</td>
+                                                        <tr key={id} className={`border-b border-gray-100 last:border-0 hover:bg-white/20 ${isOwnFarm ? 'bg-green-50/30' : ''}`}>
+                                                            <td className="py-2 font-medium">
+                                                                {data.name}
+                                                                {isOwnFarm && (
+                                                                    <span className="ml-2 px-1.5 py-0.5 bg-green-100 text-green-700 text-[10px] rounded-full">Own Farm</span>
+                                                                )}
+                                                            </td>
+                                                            <td className="py-2 text-right">
+                                                                {new Intl.NumberFormat('fr-FR').format(data.procurement)} FCFA
+                                                                {isOwnFarm && (
+                                                                    <div className="text-[10px] text-gray-400">farm operational cost</div>
+                                                                )}
+                                                            </td>
                                                             <td className="py-2 text-right">{new Intl.NumberFormat('fr-FR').format(data.revenue)} FCFA</td>
                                                             <td className={`py-2 text-right font-medium ${margin >= 0 ? 'text-green-600' : 'text-red-600'}`}>
                                                                 {new Intl.NumberFormat('fr-FR').format(margin)} FCFA
                                                             </td>
                                                             <td className="py-2 text-center">
-                                                <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${Number(efficiency) > 2 ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}`}>
-                                                    {efficiency}x
-                                                </span>
+                                                                <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${Number(efficiency) > 2 ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}`}>
+                                                                     {efficiency}x
+                                                                </span>
                                                             </td>
                                                         </tr>
                                                     );
@@ -558,8 +584,8 @@ const Financials: React.FC = () => {
                                             if (!grouped[quality]) {
                                                 grouped[quality] = { ownFarm: 0, supplier: 0 };
                                             }
-                                            // blockId means it's own farm; supplierId means it's from a supplier
-                                            if (r.blockId) {
+                                            // supplierId 10 = FARM-AOS = own farm
+                                            if (r.supplierId === 10) {
                                                 grouped[quality].ownFarm += r.totalAmount || 0;
                                             } else if (r.supplierId) {
                                                 grouped[quality].supplier += r.totalAmount || 0;
@@ -569,7 +595,7 @@ const Financials: React.FC = () => {
                                         return Object.entries(grouped).map(([quality, data]) => ({
                                             quality,
                                             'Own Farm': data.ownFarm,
-                                            'Supplier': data.supplier,
+                                            'Suppliers': data.supplier,
                                         }));
                                     })()}
                                     margin={{ top: 10, right: 20, left: 20, bottom: 10 }}
@@ -579,46 +605,123 @@ const Financials: React.FC = () => {
                                     <YAxis stroke="#6b7280" width={80} tickFormatter={(value) => `${(value / 1000000).toFixed(1)}M`} />
                                     <Tooltip formatter={(value) => `${new Intl.NumberFormat('fr-FR').format(Number(value))} FCFA`} />
                                     <Legend />
-                                    <Bar dataKey="Own Farm" fill="#5A7411" radius={[6, 6, 0, 0]} stackId="a" />
-                                    <Bar dataKey="Supplier" fill="#E04E00" radius={[6, 6, 0, 0]} stackId="a" />
+                                    <Bar dataKey="Own Farm" fill="#5A7411" radius={[6, 6, 0, 0]} />
+                                    <Bar dataKey="Suppliers" fill="#E04E00" radius={[6, 6, 0, 0]} />
                                 </BarChart>
                             </ResponsiveContainer>
                         </motion.div>
                     </GlassCard>
+                </motion.div>
 
+                {/* Expenses Split View */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+                    {/* Farm Operational Expenses */}
                     <GlassCard>
                         <motion.div variants={fadeIn}>
                             <div className="flex items-center gap-2 mb-4">
-                                <FaChartPie className="text-primary text-xl" />
-                                <Typography variant="h4" className="text-primary">Expenses by Category</Typography>
+                                <FaTractor className="text-primary text-xl" />
+                                <Typography variant="h4" className="text-primary">Farm Operational Costs</Typography>
                             </div>
-                            <ResponsiveContainer width="100%" height={300}>
-                                <PieChart>
-                                    <Pie
-                                        data={(() => {
-                                            const categories: Record<string, number> = {};
-                                            expenses.forEach(e => {
-                                                const cat = e.category === 'PROCUREMENT' ? 'Supplier Procurement' : e.category?.replace(/_/g, ' ');
-                                                categories[cat] = (categories[cat] || 0) + (e.amount || 0);
-                                            });
-                                            return Object.entries(categories).map(([name, value]) => ({ name, value }));
-                                        })()}
-                                        cx="50%" cy="50%"
-                                        labelLine={false}
-                                        label={({ name, percent }) => `${name}: ${((percent ?? 0) * 100).toFixed(0)}%`}
-                                        outerRadius={80}
-                                        dataKey="value"
-                                    >
-                                        {pieData.map((entry, index) => (
-                                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                                        ))}
-                                    </Pie>
-                                    <Tooltip formatter={(value) => `${new Intl.NumberFormat('fr-FR').format(Number(value))} FCFA`} />
-                                </PieChart>
-                            </ResponsiveContainer>
+                            {(() => {
+                                const farmExpenses = expenses.filter(e => e.category !== 'PROCUREMENT');
+                                const totalFarm = farmExpenses.reduce((s, e) => s + (e.amount || 0), 0);
+
+                                if (totalFarm === 0) {
+                                    return <p className="text-center text-gray-400 py-8">No operational expenses recorded</p>;
+                                }
+
+                                const categories: Record<string, number> = {};
+                                farmExpenses.forEach(e => {
+                                    const cat = e.category?.replace(/_/g, ' ');
+                                    categories[cat] = (categories[cat] || 0) + (e.amount || 0);
+                                });
+                                const data = Object.entries(categories)
+                                    .map(([name, value]) => ({ name, value, pct: ((value / totalFarm) * 100).toFixed(0) }))
+                                    .sort((a, b) => b.value - a.value);
+
+                                return (
+                                    <>
+                                        <div className="text-2xl font-bold text-primary mb-2">
+                                            {new Intl.NumberFormat('fr-FR').format(totalFarm)} FCFA
+                                        </div>
+                                        <div className="space-y-3">
+                                            {data.map((item, i) => (
+                                                <div key={i}>
+                                                    <div className="flex justify-between text-xs mb-1">
+                                                        <span className="text-gray-600">{item.name}</span>
+                                                        <span className="font-medium">{item.pct}%</span>
+                                                    </div>
+                                                    <div className="w-full bg-gray-200 rounded-full h-2.5">
+                                                        <motion.div
+                                                            className="bg-primary h-2.5 rounded-full"
+                                                            initial={{ width: 0 }}
+                                                            animate={{ width: `${item.pct}%` }}
+                                                            transition={{ duration: 1, delay: i * 0.1 }}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </>
+                                );
+                            })()}
                         </motion.div>
                     </GlassCard>
-                </motion.div>
+
+                    {/* Supplier Procurement Costs */}
+                    <GlassCard>
+                        <motion.div variants={fadeIn}>
+                            <div className="flex items-center gap-2 mb-4">
+                                <FaUsers className="text-accent text-xl" />
+                                <Typography variant="h4" className="text-primary">Supplier Procurement</Typography>
+                            </div>
+                            {(() => {
+                                const procurementExpenses = expenses.filter(e => e.category === 'PROCUREMENT');
+                                const totalProcurement = procurementExpenses.reduce((s, e) => s + (e.amount || 0), 0);
+
+                                if (totalProcurement === 0) {
+                                    return <p className="text-center text-gray-400 py-8">No procurement expenses recorded</p>;
+                                }
+
+                                // Group by supplier
+                                const bySupplier: Record<string, number> = {};
+                                procurementExpenses.forEach(e => {
+                                    const name = e.supplierName || 'Unknown';
+                                    bySupplier[name] = (bySupplier[name] || 0) + (e.amount || 0);
+                                });
+                                const data = Object.entries(bySupplier)
+                                    .map(([name, value]) => ({ name, value, pct: ((value / totalProcurement) * 100).toFixed(0) }))
+                                    .sort((a, b) => b.value - a.value);
+
+                                return (
+                                    <>
+                                        <div className="text-2xl font-bold text-accent mb-2">
+                                            {new Intl.NumberFormat('fr-FR').format(totalProcurement)} FCFA
+                                        </div>
+                                        <div className="space-y-3">
+                                            {data.map((item, i) => (
+                                                <div key={i}>
+                                                    <div className="flex justify-between text-xs mb-1">
+                                                        <span className="text-gray-600">{item.name}</span>
+                                                        <span className="font-medium">{item.pct}%</span>
+                                                    </div>
+                                                    <div className="w-full bg-gray-200 rounded-full h-2.5">
+                                                        <motion.div
+                                                            className="bg-accent h-2.5 rounded-full"
+                                                            initial={{ width: 0 }}
+                                                            animate={{ width: `${item.pct}%` }}
+                                                            transition={{ duration: 1, delay: i * 0.1 }}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </>
+                                );
+                            })()}
+                        </motion.div>
+                    </GlassCard>
+                </div>
 
                 {/* View Toggle for Revenue Tables */}
                 <div className="flex justify-center gap-4 mb-6">
@@ -667,7 +770,7 @@ const Financials: React.FC = () => {
                                 if (recentHarvests.length === 0) return null;
 
                                 const recentRevenue = recentHarvests.reduce((sum: number, r: any) => sum + (r.totalAmount || 0), 0);
-                                const recentBlocks = [...new Set(recentHarvests.map((r: any) => r.blockId).filter(Boolean))];
+                                const recentSuppliers = new Set(recentHarvests.map((r: any) => r.supplierName).filter(Boolean));
 
                                 return (
                                     <motion.div
@@ -677,21 +780,21 @@ const Financials: React.FC = () => {
                                     >
                                         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
                                             <div className="flex items-center gap-2">
-                                <span className="relative flex h-3 w-3">
-                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                                    <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
-                                </span>
+                                        <span className="relative flex h-3 w-3">
+                                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                                        <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                                        </span>
                                                 <Typography variant="small" className="font-semibold text-green-800">
-                                                    {recentHarvests.length} new harvest{recentHarvests.length !== 1 ? 's' : ''} this week
+                                                    {recentHarvests.length} recent sale{recentHarvests.length !== 1 ? 's' : ''}
                                                 </Typography>
                                             </div>
                                             <div className="flex gap-4 text-sm">
-                                <span className="text-green-700">
-                                    <strong>{recentBlocks.length}</strong> block{recentBlocks.length !== 1 ? 's' : ''}
-                                </span>
+                                        <span className="text-green-700">
+                                            <strong>{recentSuppliers.size}</strong> source{recentSuppliers.size !== 1 ? 's' : ''}
+                                        </span>
                                                 <span className="text-green-700 font-bold">
-                                    {new Intl.NumberFormat('fr-FR').format(recentRevenue)} FCFA
-                                </span>
+                        {new Intl.NumberFormat('fr-FR').format(recentRevenue)} FCFA
+                    </span>
                                             </div>
                                         </div>
                                     </motion.div>
@@ -704,9 +807,9 @@ const Financials: React.FC = () => {
                                     <thead>
                                     <tr className="border-b border-gray-200 text-left">
                                         <th className="pb-3 font-medium text-gray-600">Date</th>
-                                        <th className="pb-3 font-medium text-gray-600">Block</th>
-                                        <th className="pb-3 font-medium text-gray-600">Cycle</th>
-                                        <th className="pb-3 font-medium text-gray-600">Harvest #</th>
+                                        <th className="pb-3 font-medium text-gray-600">Source</th>
+                                        <th className="pb-3 font-medium text-gray-600">Batch</th>
+                                        <th className="pb-3 font-medium text-gray-600">Buyer</th>
                                         <th className="pb-3 font-medium text-gray-600">Quality</th>
                                         <th className="pb-3 font-medium text-gray-600 text-right">Amount (FCFA)</th>
                                     </tr>
@@ -730,47 +833,43 @@ const Financials: React.FC = () => {
                                                         <div className="flex items-center gap-2">
                                                             {new Date(revenue.harvestDate || revenue.createdAt).toLocaleDateString()}
                                                             {isRecent && (
-                                                                <span className="px-1.5 py-0.5 bg-green-100 text-green-700 text-[10px] rounded-full font-medium animate-pulse">
-                                                    NEW
-                                                </span>
+                                                                <span className="px-1.5 py-0.5 bg-green-100 text-green-700 text-[10px] rounded-full font-medium">
+                                        NEW
+                                    </span>
                                                             )}
                                                         </div>
                                                     </td>
                                                     <td className="py-3">
-                                                        {revenue.blockId
-                                                            ? BLOCK_NAMES[revenue.blockId] || `Block ${revenue.blockId}`
-                                                            : revenue.supplierId === 10
-                                                                ? 'Farm Batch (Allocated)'
-                                                                : revenue.supplierName || 'Processing Center'}
-                                                    </td>
-                                                    <td className="py-3">
-                                                        {revenue.harvestCycleId ? (
-                                                            <span className="text-xs text-gray-500" title={revenue.harvestCycleId}>
-                                                {revenue.harvestYear || '—'}
-                                            </span>
+                                                        {revenue.supplierId === 10 ? (
+                                                            <span className="px-2 py-1 bg-green-50 text-green-700 text-xs rounded-full inline-flex items-center gap-1">
+                                    <FaHome className="text-[10px]" /> Own Farm
+                                </span>
+                                                        ) : revenue.supplierName ? (
+                                                            <span className="px-2 py-1 bg-blue-50 text-blue-700 text-xs rounded-full inline-flex items-center gap-1">
+                                    <FaUsers className="text-[10px]" /> {revenue.supplierName}
+                                </span>
+                                                        ) : revenue.blockId ? (
+                                                            <span className="text-xs">Block {BLOCK_NAMES[revenue.blockId] || revenue.blockId}</span>
                                                         ) : (
                                                             <span className="text-xs text-gray-400">—</span>
                                                         )}
                                                     </td>
-                                                    <td className="py-3">
-                                                        {revenue.harvestSeason ? (
-                                                            <span className="px-2 py-0.5 bg-blue-50 text-blue-700 text-xs rounded-full">
-                                                #{revenue.harvestSeason}
-                                            </span>
-                                                        ) : (
-                                                            <span className="text-xs text-gray-400">—</span>
-                                                        )}
+                                                    <td className="py-3 text-xs text-gray-500">
+                                                        {revenue.batchNumber || '—'}
+                                                    </td>
+                                                    <td className="py-3 text-xs text-gray-500">
+                                                        {revenue.buyer || '—'}
                                                     </td>
                                                     <td className="py-3">
-                                        <span className={`px-2 py-1 text-xs rounded-full ${
-                                            revenue.quality === 'PREMIUM'
-                                                ? 'bg-amber-100 text-amber-700'
-                                                : revenue.quality === 'STANDARD'
-                                                    ? 'bg-blue-100 text-blue-700'
-                                                    : 'bg-gray-100 text-gray-600'
-                                        }`}>
-                                            {revenue.quality}
-                                        </span>
+                            <span className={`px-2 py-1 text-xs rounded-full ${
+                                revenue.quality === 'PREMIUM'
+                                    ? 'bg-amber-100 text-amber-700'
+                                    : revenue.quality === 'STANDARD'
+                                        ? 'bg-blue-100 text-blue-700'
+                                        : 'bg-gray-100 text-gray-600'
+                            }`}>
+                                {revenue.quality}
+                            </span>
                                                     </td>
                                                     <td className="py-3 text-right font-medium">
                                                         {new Intl.NumberFormat('fr-FR').format(revenue.totalAmount)}
@@ -799,53 +898,50 @@ const Financials: React.FC = () => {
                                                 transition={{ delay: i * 0.05 }}
                                             >
                                                 <div className="flex items-center justify-between">
-                                    <span className={`px-2 py-1 text-xs rounded-full font-medium ${
-                                        revenue.quality === 'PREMIUM'
-                                            ? 'bg-amber-100 text-amber-700'
-                                            : revenue.quality === 'STANDARD'
-                                                ? 'bg-blue-100 text-blue-700'
-                                                : 'bg-gray-100 text-gray-600'
-                                    }`}>
-                                        {revenue.quality}
-                                    </span>
+                        <span className={`px-2 py-1 text-xs rounded-full font-medium ${
+                            revenue.quality === 'PREMIUM'
+                                ? 'bg-amber-100 text-amber-700'
+                                : revenue.quality === 'STANDARD'
+                                    ? 'bg-blue-100 text-blue-700'
+                                    : 'bg-gray-100 text-gray-600'
+                        }`}>
+                            {revenue.quality}
+                        </span>
                                                     <span className="text-xs text-gray-400 flex items-center gap-1">
-                                        {new Date(revenue.harvestDate || revenue.createdAt).toLocaleDateString()}
+                            {new Date(revenue.harvestDate || revenue.createdAt).toLocaleDateString()}
                                                         {isRecent && (
                                                             <span className="px-1.5 py-0.5 bg-green-100 text-green-700 text-[10px] rounded-full font-medium">
-                                                NEW
-                                            </span>
+                                    NEW
+                                </span>
                                                         )}
-                                    </span>
+                        </span>
                                                 </div>
 
                                                 <div className="flex items-center justify-between">
-                                    <span className="text-sm text-gray-600">
-                                        <FaMapPin className="inline mr-1 text-gray-400 text-xs" />
-                                        {revenue.blockId ? BLOCK_NAMES[revenue.blockId] || `Block ${revenue.blockId}` : 'Processing'}
-                                    </span>
+                        <span className="text-sm text-gray-600">
+                            {revenue.supplierId === 10 ? (
+                                <span className="flex items-center gap-1">
+                                    <FaHome className="text-green-500 text-xs" /> Own Farm
+                                </span>
+                            ) : revenue.supplierName ? (
+                                <span className="flex items-center gap-1">
+                                    <FaUsers className="text-blue-500 text-xs" /> {revenue.supplierName}
+                                </span>
+                            ) : (
+                                <span className="flex items-center gap-1">
+                                    <FaMapPin className="text-gray-400 text-xs" /> Processing
+                                </span>
+                            )}
+                        </span>
                                                     <span className="text-lg font-bold text-green-700">
-                                        {new Intl.NumberFormat('fr-FR').format(revenue.totalAmount)}
-                                    </span>
+                            {new Intl.NumberFormat('fr-FR').format(revenue.totalAmount)}
+                        </span>
                                                 </div>
 
-                                                {/* Harvest cycle info row */}
                                                 <div className="flex items-center justify-between text-xs text-gray-500 pt-1 border-t border-gray-100">
-                                    <span>
-                                        {revenue.harvestYear ? `Year ${revenue.harvestYear}` : '—'}
-                                        {revenue.harvestSeason ? ` · Harvest #${revenue.harvestSeason}` : ''}
-                                    </span>
-                                                    {revenue.harvestCycleId && (
-                                                        <span className="text-[10px] text-gray-400 truncate max-w-[150px]" title={revenue.harvestCycleId}>
-                                            {revenue.harvestCycleId}
-                                        </span>
-                                                    )}
+                                                    <span>Batch: {revenue.batchNumber || '—'}</span>
+                                                    {revenue.buyer && <span>Buyer: {revenue.buyer}</span>}
                                                 </div>
-
-                                                {revenue.buyer && (
-                                                    <div className="text-xs text-gray-400 pt-1 border-t border-gray-100">
-                                                        Buyer: {revenue.buyer}
-                                                    </div>
-                                                )}
                                             </motion.div>
                                         );
                                     })}
@@ -999,19 +1095,18 @@ const Financials: React.FC = () => {
                                                 <span className="block text-[10px] text-gray-400 leading-tight">farm-wide</span>
                                             </td>
                                             <td className="py-3 text-right font-bold">
-                    <span className={block.profit >= 0 ? 'text-primary' : 'text-red-600'}>
-                        {new Intl.NumberFormat('fr-FR').format(block.profit)}
-                    </span>
+                                            <span className={block.profit >= 0 ? 'text-primary' : 'text-red-600'}>
+                                                {new Intl.NumberFormat('fr-FR').format(block.profit)}
+                                            </span>
                                             </td>
                                             <td className="py-3 text-center">
-                    <span className={`px-2 py-1 text-xs rounded-full font-medium ${
-                        block.roi > 200 ? 'bg-green-100 text-green-700' :
-                            block.roi > 100 ? 'bg-blue-100 text-blue-700' :
-                                block.roi > 0 ? 'bg-orange-100 text-orange-700' :
-                                    'bg-red-100 text-red-700'
-                    }`}>
-                        {block.roi.toFixed(0)}%
-                    </span>
+                                            <span className={`px-2 py-1 text-xs rounded-full font-medium ${
+                                                 block.roi > 200 ? 'bg-green-100 text-green-700' : block.roi > 100 ? 'bg-blue-100 text-blue-700' :
+                                                 block.roi > 0 ? 'bg-orange-100 text-orange-700' :
+                                                'bg-red-100 text-red-700'
+                                                 }`}>
+                                                    {block.roi.toFixed(0)}%
+                                            </span>
                                             </td>
                                         </motion.tr>
                                     ))}
@@ -1030,12 +1125,12 @@ const Financials: React.FC = () => {
                                     >
                                         <div className="flex items-center justify-between">
                                             <div className="flex items-center gap-2">
-                    <span className="font-bold text-lg">
-                        {idx === 0 && <FaTrophy className="text-yellow-500 inline" />}
-                        {idx === 1 && <FaMedal className="text-gray-400 inline" />}
-                        {idx === 2 && <FaAward className="text-amber-700 inline" />}
-                        {idx > 2 && `#${idx + 1}`}
-                    </span>
+                                            <span className="font-bold text-lg">
+                                                 {idx === 0 && <FaTrophy className="text-yellow-500 inline" />}
+                                                {idx === 1 && <FaMedal className="text-gray-400 inline" />}
+                                                {idx === 2 && <FaAward className="text-amber-700 inline" />}
+                                                     {idx > 2 && `#${idx + 1}`}
+                                            </span>
                                                 <span className="font-bold text-primary text-lg">{block.blockName}</span>
                                             </div>
                                             <span className={`px-2 py-1 text-xs rounded-full font-medium ${
@@ -1088,7 +1183,7 @@ const Financials: React.FC = () => {
                             </div>
                             <Typography variant="small" className="text-gray-500">
                                 <FaLightbulb className="inline mr-1 text-amber-500 text-xs" />
-                                Farm-wide expenses are divided equally across all 35 blocks for P&L calculations
+                                Farm-wide operational expenses are divided equally across 35 blocks. Procurement costs are tracked separately per supplier.
                             </Typography>
                         </div>
                         {/* Desktop Table - hidden on mobile */}
@@ -1109,7 +1204,8 @@ const Financials: React.FC = () => {
                                     .sort((a, b) => (b.date || 0) - (a.date || 0))
                                     .slice(0, expensePage * ITEMS_PER_PAGE)
                                     .map((expense: any, i: number) => {
-                                        const isFarmWide = !expense.blockId;
+                                        const isFarmWide = !expense.blockId && expense.category !== 'PROCUREMENT';
+                                        const isProcurement = expense.category === 'PROCUREMENT';
                                         const perBlockAmount = isFarmWide ? (expense.amount || 0) / 35 : expense.amount;
                                         return (
                                             <motion.tr
@@ -1122,7 +1218,7 @@ const Financials: React.FC = () => {
                                             >
                                                 <td className="py-3 whitespace-nowrap">{new Date(expense.date).toLocaleDateString()}</td>
                                                 <td className="py-3">
-                            <span className={`px-2 py-1 text-xs rounded-full ${
+                                        <span className={`px-2 py-1 text-xs rounded-full ${
                                 expense.category === 'LAND_CLEARING' ? 'bg-amber-50 text-amber-700' :
                                     expense.category === 'LABOR' ? 'bg-blue-50 text-blue-700' :
                                         expense.category === 'PLOWING' ? 'bg-green-50 text-green-700' :
@@ -1137,14 +1233,18 @@ const Financials: React.FC = () => {
                             </span>
                                                 </td>
                                                 <td className="py-3">
-                                                    {isFarmWide ? (
+                                                    {isProcurement ? (
+                                                        <span className="px-2 py-1 bg-purple-50 text-purple-700 text-xs rounded-full inline-flex items-center gap-1">
+                                                            <FaBox className="text-[10px]" /> Procurement
+                                                        </span>
+                                                    ) : isFarmWide ? (
                                                         <span className="px-2 py-1 bg-amber-50 text-amber-700 text-xs rounded-full inline-flex items-center gap-1">
-                                    <FaGlobeAfrica className="text-[10px]" /> Farm-wide
-                                </span>
+                                                            <FaGlobeAfrica className="text-[10px]" /> Farm-wide
+                                                        </span>
                                                     ) : (
                                                         <span className="px-2 py-1 bg-green-50 text-green-700 text-xs rounded-full inline-flex items-center gap-1">
-                                    <FaMapPin className="text-[10px]" /> Block {BLOCK_NAMES[expense.blockId] || expense.blockId}
-                                </span>
+                                                            <FaMapPin className="text-[10px]" /> Block {BLOCK_NAMES[expense.blockId] || expense.blockId}
+                                                        </span>
                                                     )}
                                                 </td>
                                                 <td className="py-3 text-gray-600 text-xs max-w-[200px] truncate" title={expense.description}>
@@ -1154,11 +1254,13 @@ const Financials: React.FC = () => {
                                                     {new Intl.NumberFormat('fr-FR').format(expense.amount)}
                                                 </td>
                                                 <td className="py-3 text-right text-xs">
-                                                    {isFarmWide ? (
+                                                    {isProcurement ? (
+                                                        <span className="text-gray-400">N/A</span>
+                                                    ) : isFarmWide ? (
                                                         <span className="text-gray-500">
-                                    {new Intl.NumberFormat('fr-FR').format(perBlockAmount)}
+                                                            {new Intl.NumberFormat('fr-FR').format(perBlockAmount)}
                                                             <span className="block text-[10px] text-gray-400">÷ 35 blocks</span>
-                                </span>
+                                                        </span>
                                                     ) : (
                                                         <span className="text-gray-400">—</span>
                                                     )}
@@ -1176,7 +1278,8 @@ const Financials: React.FC = () => {
                                 .sort((a, b) => (b.date || 0) - (a.date || 0))
                                 .slice(0, expensePage * ITEMS_PER_PAGE)
                                 .map((expense: any, i: number) => {
-                                    const isFarmWide = !expense.blockId;
+                                    const isFarmWide = !expense.blockId && expense.category !== 'PROCUREMENT';
+                                    const isProcurement = expense.category === 'PROCUREMENT';
                                     const perBlockAmount = isFarmWide ? (expense.amount || 0) / 35 : expense.amount;
                                     return (
                                         <motion.div
@@ -1209,14 +1312,18 @@ const Financials: React.FC = () => {
                                             <p className="text-xs text-gray-600">{expense.description || '—'}</p>
 
                                             <div className="flex items-center justify-between">
-                                                {isFarmWide ? (
+                                                {isProcurement ? (
+                                                    <span className="px-2 py-0.5 bg-purple-50 text-purple-700 text-xs rounded-full inline-flex items-center gap-1">
+                                                        <FaBox className="text-[10px]" /> Procurement
+                                                    </span>
+                                                ) : isFarmWide ? (
                                                     <span className="px-2 py-0.5 bg-amber-50 text-amber-700 text-xs rounded-full inline-flex items-center gap-1">
-                                <FaGlobeAfrica className="text-[10px]" /> Farm-wide
-                            </span>
+                                                        <FaGlobeAfrica className="text-[10px]" /> Farm-wide
+                                                    </span>
                                                 ) : (
                                                     <span className="px-2 py-0.5 bg-green-50 text-green-700 text-xs rounded-full inline-flex items-center gap-1">
-                                <FaMapPin className="text-[10px]" /> Block {BLOCK_NAMES[expense.blockId] || expense.blockId}
-                            </span>
+                                                        <FaMapPin className="text-[10px]" /> Block {BLOCK_NAMES[expense.blockId] || expense.blockId}
+                                                    </span>
                                                 )}
                                                 <div className="text-right">
                                                     <div className="font-bold text-red-600">
