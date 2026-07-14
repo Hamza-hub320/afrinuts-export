@@ -49,21 +49,26 @@ const InvestorPortal: React.FC = () => {
     useEffect(() => {
         const fetchInvestorData = async () => {
             try {
-                let farmData, revenueData, expenseData;
+                let farmData, revenueData, expenseData, blocksData;
                 if (isDevelopment) {
                     farmData = await getMockData('getFarmSummary');
                     revenueData = await getMockData('getRevenueSummary');
                     expenseData = await getMockData('getExpenseSummary');
+                    blocksData = await getMockData('getBlocks');
                 } else {
-                    farmData = await callApi('farmData', { action: 'getFarmSummary', farmId: '1' });
-                    revenueData = await callApi('farmData', { action: 'getRevenueSummary', farmId: '1' });
-                    expenseData = await callApi('farmData', { action: 'getExpenseSummary', farmId: '1' });
+                    [farmData, revenueData, expenseData, blocksData] = await Promise.all([
+                        callApi('farmData', { action: 'getFarmSummary', farmId: '1' }),
+                        callApi('farmData', { action: 'getRevenueSummary', farmId: '1' }),
+                        callApi('farmData', { action: 'getExpenseSummary', farmId: '1' }),
+                        callApi('farmData', { action: 'getBlocks', farmId: '1' }),
+                    ]);
                 }
 
                 setFarmStats(farmData);
 
                 const revenuesList = revenueData.revenues || [];
                 const expensesList = expenseData.expenses || [];
+                const blocksList = blocksData.blocks || [];
                 setRevenues(revenuesList);
                 setExpenses(expensesList);
 
@@ -82,9 +87,10 @@ const InvestorPortal: React.FC = () => {
                 // Expense breakdown for pie chart
                 const byCategory: Record<string, number> = {};
                 expensesList.forEach((e: any) => {
-                    byCategory[e.category] = (byCategory[e.category] || 0) + e.amount;
-                });
-                setExpensesByCategory(byCategory);
+                     const cat = e.category === 'PROCUREMENT' ? 'Supplier Procurement' : e.category?.replace(/_/g, ' ');
+                     byCategory[cat] = (byCategory[cat] || 0) + e.amount;
+                 });
+                 setExpensesByCategory(byCategory);
                 setPieData(Object.entries(byCategory).map(([name, value]) => ({ name, value })));
 
                 // Block-level P&L
@@ -101,20 +107,36 @@ const InvestorPortal: React.FC = () => {
                     });
                 }
                 revenuesList.forEach((r: any) => {
-                    if (r.blockId && blockMap.has(r.blockId)) {
-                        const b = blockMap.get(r.blockId);
-                        b.totalRevenue += r.totalAmount || 0;
-                        b.transactionCount++;
+                    if (r.supplierId === 10 && r.batchId) {
+                        // AfriNuts own farm batch — allocate by harvest contribution
+                        const totalFarmHarvest = blocksList.reduce((sum: number, b: any) => sum + (b.totalHarvestQuantity || 0), 0);
+                        if (totalFarmHarvest > 0) {
+                            blocksList.forEach((b: any) => {
+                                if (b.totalHarvestQuantity && b.totalHarvestQuantity > 0 && blockMap.has(b.id)) {
+                                    const share = b.totalHarvestQuantity / totalFarmHarvest;
+                                    const blockRevenue = Math.round(r.totalAmount * share);
+                                    const blockEntry = blockMap.get(b.id);
+                                    blockEntry.totalRevenue += blockRevenue;
+                                    blockEntry.transactionCount++;
+                                }
+                            });
+                        }
+                    } else if (r.blockId && blockMap.has(r.blockId)) {
+                        const blockEntry = blockMap.get(r.blockId);
+                        blockEntry.totalRevenue += r.totalAmount || 0;
+                        blockEntry.transactionCount++;
                     }
                 });
                 let farmWideTotal = 0;
                 expensesList.forEach((e: any) => {
+                    if (e.category === 'PROCUREMENT') return; // Skip procurement
                     if (e.blockId && blockMap.has(e.blockId)) {
                         blockMap.get(e.blockId).totalExpenses += e.amount || 0;
                     } else {
                         farmWideTotal += e.amount || 0;
                     }
                 });
+
                 const perBlock = farmWideTotal / blockCount;
                 setPerBlockAllocation(perBlock);
                 blockMap.forEach((b) => {
@@ -124,6 +146,17 @@ const InvestorPortal: React.FC = () => {
                 });
                 const sortedBlocks = Array.from(blockMap.values()).sort((a, b) => b.profit - a.profit);
                 setRevenueByBlock(sortedBlocks);
+
+                // Compute farm stats from blocks if farmStats is missing
+                const effectiveStats = farmStats?.stats || {
+                    totalBlocks: blocksList.length || 35,
+                    plantedBlocks: blocksList.filter((b: any) => b.status === 'PLANTED' || b.status === 'HARVESTED').length,
+                    totalTrees: blocksList.length * 100,
+                    aliveTrees: blocksList.reduce((sum: number, b: any) => sum + Math.round((b.survivalRate || 0) * 100 / 100), 0),
+                    survivalRate: blocksList.length > 0
+                        ? blocksList.reduce((sum: number, b: any) => sum + (b.survivalRate || 0), 0) / blocksList.length
+                        : 0,
+                };
 
                 // Track completed harvest CYCLES from Firestore data
                 const uniqueCycles = new Set<string>();
@@ -154,11 +187,29 @@ const InvestorPortal: React.FC = () => {
                 setCycleCompletionPercent(cyclePct);
 
                 // Monthly chart data
-                const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
-                setMonthlyData(months.map((month, i) => ({
+                // Monthly chart data from real revenues
+                const monthlyMap = new Map<string, { revenue: number; profit: number }>();
+                const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+                revenuesList.forEach((r: any) => {
+                    const date = new Date(r.harvestDate || r.createdAt);
+                    const key = monthNames[date.getMonth()];
+                    if (!monthlyMap.has(key)) {
+                        monthlyMap.set(key, { revenue: 0, profit: 0 });
+                    }
+                    const entry = monthlyMap.get(key)!;
+                    entry.revenue += r.totalAmount || 0;
+
+                    // Estimate profit using the calculated margin
+                    const estimatedCost = (r.totalAmount || 0) * (1 - margin / 100);
+                    entry.profit += (r.totalAmount || 0) - estimatedCost;
+                });
+
+                const orderedMonths = monthNames.filter(m => monthlyMap.has(m));
+                setMonthlyData(orderedMonths.map(month => ({
                     month,
-                    revenue: totalRev * (0.8 + (i * 0.04)),
-                    profit: netProfitVal * (0.7 + (i * 0.06)),
+                    revenue: monthlyMap.get(month)!.revenue,
+                    profit: monthlyMap.get(month)!.profit,
                 })));
 
                 setLastUpdated(new Date());

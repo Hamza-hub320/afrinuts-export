@@ -412,7 +412,8 @@ const Financials: React.FC = () => {
                                 iconColor="text-accent"
                                 showInfoBadge={false}
                             >
-                                <div className="overflow-x-auto mt-3">
+                                {/* Desktop Table */}
+                                <div className="hidden md:block overflow-x-auto mt-3">
                                     <table className="w-full text-sm">
                                         <thead>
                                         <tr className="border-b border-gray-200 text-left">
@@ -500,6 +501,82 @@ const Financials: React.FC = () => {
                                         })()}
                                         </tbody>
                                     </table>
+                                </div>
+                                {/* Mobile Cards */}
+                                <div className="md:hidden space-y-3 mt-3">
+                                    {(() => {
+                                        const supplierMap = new Map<number, { name: string; procurement: number; revenue: number }>();
+                                        const totalFarmOperationalCost = expenses
+                                            .filter(e => e.category !== 'PROCUREMENT')
+                                            .reduce((sum, e) => sum + (e.amount || 0), 0);
+
+                                        expenses.forEach(e => {
+                                            if (e.supplierId) {
+                                                if (!supplierMap.has(e.supplierId)) {
+                                                    supplierMap.set(e.supplierId, { name: e.supplierName || `Supplier #${e.supplierId}`, procurement: 0, revenue: 0 });
+                                                }
+                                                supplierMap.get(e.supplierId)!.procurement += e.amount || 0;
+                                            }
+                                        });
+
+                                        revenues.forEach(r => {
+                                            if (r.supplierId) {
+                                                if (!supplierMap.has(r.supplierId)) {
+                                                    supplierMap.set(r.supplierId, { name: r.supplierName || `Supplier #${r.supplierId}`, procurement: 0, revenue: 0 });
+                                                }
+                                                supplierMap.get(r.supplierId)!.revenue += r.totalAmount || 0;
+                                            }
+                                        });
+
+                                        const afriNutsId = 10;
+                                        if (supplierMap.has(afriNutsId)) {
+                                            supplierMap.get(afriNutsId)!.procurement = totalFarmOperationalCost;
+                                        }
+
+                                        return Array.from(supplierMap.entries())
+                                            .sort((a, b) => (b[1].revenue - b[1].procurement) - (a[1].revenue - a[1].procurement))
+                                            .map(([id, data]) => {
+                                                const margin = data.revenue - data.procurement;
+                                                const efficiency = data.procurement > 0 ? (data.revenue / data.procurement).toFixed(1) : '—';
+                                                const isOwnFarm = id === afriNutsId;
+                                                return (
+                                                    <motion.div
+                                                        key={id}
+                                                        className={`bg-white/40 backdrop-blur-sm rounded-xl p-4 border ${isOwnFarm ? 'border-green-300 bg-green-50/30' : 'border-white/30'}`}
+                                                        whileHover={{ y: -2 }}
+                                                    >
+                                                        <div className="flex items-center justify-between mb-3">
+                                <span className="font-medium text-primary text-sm">
+                                    {data.name}
+                                    {isOwnFarm && (
+                                        <span className="ml-2 px-1.5 py-0.5 bg-green-100 text-green-700 text-[10px] rounded-full">Own Farm</span>
+                                    )}
+                                </span>
+                                                            <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${Number(efficiency) > 2 ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}`}>
+                                    {efficiency}x
+                                </span>
+                                                        </div>
+                                                        <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-xs">
+                                                            <div>
+                                                                <span className="text-gray-500">Procurement</span>
+                                                                <p className="font-medium text-gray-700">{new Intl.NumberFormat('fr-FR').format(data.procurement)} FCFA</p>
+                                                                {isOwnFarm && <p className="text-[10px] text-gray-400">farm operational cost</p>}
+                                                            </div>
+                                                            <div>
+                                                                <span className="text-gray-500">Revenue</span>
+                                                                <p className="font-medium text-gray-700">{new Intl.NumberFormat('fr-FR').format(data.revenue)} FCFA</p>
+                                                            </div>
+                                                            <div className="col-span-2 pt-2 border-t border-gray-100">
+                                                                <span className="text-gray-500">Margin</span>
+                                                                <p className={`font-semibold text-sm ${margin >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                                                                    {new Intl.NumberFormat('fr-FR').format(margin)} FCFA
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </motion.div>
+                                                );
+                                            });
+                                    })()}
                                 </div>
                             </InfoCard>
                         </motion.div>
