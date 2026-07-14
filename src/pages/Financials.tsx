@@ -23,7 +23,8 @@ import { GiFarmer } from 'react-icons/gi';
 import {
     BarChart, Bar, XAxis, YAxis, CartesianGrid,
     Tooltip, ResponsiveContainer, PieChart, Pie, Cell,
-    Legend
+    Legend, Area,
+    AreaChart
 } from 'recharts';
 import { fadeIn, staggerContainer } from '@/utils/animations';
 import Section from '@/components/Section/Section';
@@ -116,33 +117,42 @@ const Financials: React.FC = () => {
     const [perBlockAllocation, setPerBlockAllocation] = useState<number>(0);
     const [expensePhotos, setExpensePhotos] = useState<Photo[]>([]);
     const [selectedExpense, setSelectedExpense] = useState<any>(null);
+    const [supplierCapacity, setSupplierCapacity] = useState<number>(0);
+    const [supplierCount, setSupplierCount] = useState<number>(0);
+
 
 
     useEffect(() => {
         const fetchFinancials = async () => {
             try {
-                let revenueData, expenseData, blocksData;
+                let revenueData, expenseData, blocksData, suppliersData;
                 if (isDevelopment) {
                     revenueData = await getMockData('getRevenueSummary');
                     expenseData = await getMockData('getExpenseSummary');
                     blocksData = await getMockData('getBlocks');
+                    suppliersData = await getMockData('getSuppliers');
                 } else {
-                    [revenueData, expenseData, blocksData] = await Promise.all([
+                    [revenueData, expenseData, blocksData, suppliersData] = await Promise.all([
                         callApi('farmData', { action: 'getRevenueSummary', farmId: '1' }),
                         callApi('farmData', { action: 'getExpenseSummary', farmId: '1' }),
                         callApi('farmData', { action: 'getBlocks', farmId: '1' }),
+                        callApi('supplierData', { action: 'getSuppliers', farmId: '1' }),
                     ]);
                 }
 
                 const revenuesList = revenueData.revenues || [];
                 const expensesList = expenseData.expenses || [];
                 const blocksList = blocksData.blocks || [];
+                const suppliersList = suppliersData.suppliers || [];
+                setSupplierCount(suppliersList.length);
 
                 setRevenues(revenuesList);
                 setExpenses(expensesList);
 
                 const blockCount = Object.keys(BLOCK_NAMES).length;
                 const blockMap = new Map<number, any>();
+                const totalCapacity = suppliersList.reduce((sum: number, s: any) => sum + (s.annualVolumeKg || 0), 0);
+                setSupplierCapacity(totalCapacity);
 
                 // Initialize all 35 blocks
                 Object.keys(BLOCK_NAMES).forEach(key => {
@@ -608,6 +618,46 @@ const Financials: React.FC = () => {
                                     <Bar dataKey="Own Farm" fill="#5A7411" radius={[6, 6, 0, 0]} />
                                     <Bar dataKey="Suppliers" fill="#E04E00" radius={[6, 6, 0, 0]} />
                                 </BarChart>
+                            </ResponsiveContainer>
+                        </motion.div>
+                    </GlassCard>
+
+                    <GlassCard>
+                        <motion.div variants={fadeIn}>
+                            <div className="flex items-center gap-2 mb-4">
+                                <FaChartLine className="text-primary text-xl" />
+                                <Typography variant="h4" className="text-primary">Revenue by Source Over Time</Typography>
+                            </div>
+                            <ResponsiveContainer width="100%" height={300}>
+                                <AreaChart
+                                    data={(() => {
+                                        // Group by harvest year
+                                        const byYear: Record<string, { year: string; ownFarm: number; supplier: number }> = {};
+
+                                        revenues.forEach(r => {
+                                            const year = r.harvestYear ? String(r.harvestYear) : 'Unknown';
+                                            if (!byYear[year]) {
+                                                byYear[year] = { year, ownFarm: 0, supplier: 0 };
+                                            }
+                                            if (r.supplierId === 10) {
+                                                byYear[year].ownFarm += r.totalAmount || 0;
+                                            } else if (r.supplierId) {
+                                                byYear[year].supplier += r.totalAmount || 0;
+                                            }
+                                        });
+
+                                        return Object.values(byYear).sort((a, b) => a.year.localeCompare(b.year));
+                                    })()}
+                                    margin={{ top: 10, right: 20, left: 20, bottom: 10 }}
+                                >
+                                    <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                                    <XAxis dataKey="year" stroke="#6b7280" />
+                                    <YAxis stroke="#6b7280" width={80} tickFormatter={(value) => `${(value / 1000000).toFixed(0)}M`} />
+                                    <Tooltip formatter={(value) => `${new Intl.NumberFormat('fr-FR').format(Number(value))} FCFA`} />
+                                    <Legend />
+                                    <Area type="monotone" dataKey="ownFarm" name="Own Farm" stroke="#5A7411" fill="#5A7411" fillOpacity={0.2} strokeWidth={2} />
+                                    <Area type="monotone" dataKey="supplier" name="Suppliers" stroke="#E04E00" fill="#E04E00" fillOpacity={0.2} strokeWidth={2} />
+                                </AreaChart>
                             </ResponsiveContainer>
                         </motion.div>
                     </GlassCard>
@@ -1172,6 +1222,156 @@ const Financials: React.FC = () => {
                         </GlassCard>
                     </motion.div>
                 )}
+
+                {/* Phase 3: Harvest Cycle Intelligence */}
+                <Section className="py-6">
+                    <div className="max-w-6xl mx-auto px-4 sm:px-6">
+                        <motion.div
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                            variants={staggerContainer}
+                        >
+                            <InfoCard
+                                icon={FaChartLine}
+                                title="Harvest Cycle Intelligence"
+                                subtitle="Profit per kg, margin trends, and procurement forecasting"
+                                iconColor="text-primary"
+                                showInfoBadge={false}
+                            >
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-3">
+                                    {/* Profit per kg by source */}
+                                    <div className="bg-white/40 rounded-xl p-4 border border-white/30">
+                                        <h4 className="text-sm font-medium text-primary mb-3 flex items-center gap-2">
+                                            <FaDollarSign className="text-green-600" />
+                                            Profit per kg
+                                        </h4>
+                                        {(() => {
+                                            const farmRevenues = revenues.filter(r => r.supplierId === 10);
+                                            const farmQty = farmRevenues.reduce((s, r) => s + (r.quantityKg || 0), 0);
+                                            const farmRev = farmRevenues.reduce((s, r) => s + (r.totalAmount || 0), 0);
+                                            const farmCost = expenses.filter(e => e.category !== 'PROCUREMENT').reduce((s, e) => s + (e.amount || 0), 0);
+                                            const farmProfitPerKg = farmQty > 0 ? (farmRev - farmCost) / farmQty : 0;
+
+                                            const supplierRevenues = revenues.filter(r => r.supplierId && r.supplierId !== 10);
+                                            const supplierQty = supplierRevenues.reduce((s, r) => s + (r.quantityKg || 0), 0);
+                                            const supplierRev = supplierRevenues.reduce((s, r) => s + (r.totalAmount || 0), 0);
+                                            const supplierCost = expenses.filter(e => e.category === 'PROCUREMENT').reduce((s, e) => s + (e.amount || 0), 0);
+                                            const supplierProfitPerKg = supplierQty > 0 ? (supplierRev - supplierCost) / supplierQty : 0;
+
+                                            return (
+                                                <div className="space-y-3">
+                                                    <div className="flex justify-between items-center">
+                                        <span className="text-xs text-gray-500 flex items-center gap-1">
+                                            <FaHome className="text-green-500 text-[10px]" /> Own Farm
+                                        </span>
+                                                        <span className={`font-bold text-sm ${farmProfitPerKg >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                                            {new Intl.NumberFormat('fr-FR').format(Math.round(farmProfitPerKg))} FCFA/kg
+                                        </span>
+                                                    </div>
+                                                    <div className="flex justify-between items-center">
+                                        <span className="text-xs text-gray-500 flex items-center gap-1">
+                                            <FaUsers className="text-blue-500 text-[10px]" /> Suppliers
+                                        </span>
+                                                        <span className={`font-bold text-sm ${supplierProfitPerKg >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                                            {new Intl.NumberFormat('fr-FR').format(Math.round(supplierProfitPerKg))} FCFA/kg
+                                        </span>
+                                                    </div>
+                                                    <div className="pt-2 border-t border-gray-200">
+                                                        <p className="text-[10px] text-gray-400">
+                                                            {farmProfitPerKg > supplierProfitPerKg
+                                                                ? 'Own farm yields more profit per kg than supplier sourcing.'
+                                                                : 'Supplier sourcing yields more profit per kg than own farm.'}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            );
+                                        })()}
+                                    </div>
+
+                                    {/* Margin Trend */}
+                                    <div className="bg-white/40 rounded-xl p-4 border border-white/30">
+                                        <h4 className="text-sm font-medium text-primary mb-3 flex items-center gap-2">
+                                            <FaChartLine className="text-accent" />
+                                            Margin Summary
+                                        </h4>
+                                        <div className="space-y-3">
+                                            {[
+                                                { label: 'Own Farm Margin', value: (() => {
+                                                        const rev = revenues.filter(r => r.supplierId === 10).reduce((s, r) => s + (r.totalAmount || 0), 0);
+                                                        const cost = expenses.filter(e => e.category !== 'PROCUREMENT').reduce((s, e) => s + (e.amount || 0), 0);
+                                                        return rev > 0 ? ((rev - cost) / rev * 100) : 0;
+                                                    })(), color: 'text-green-600', bar: 'bg-green-500' },
+                                                { label: 'Supplier Margin', value: (() => {
+                                                        const rev = revenues.filter(r => r.supplierId && r.supplierId !== 10).reduce((s, r) => s + (r.totalAmount || 0), 0);
+                                                        const cost = expenses.filter(e => e.category === 'PROCUREMENT').reduce((s, e) => s + (e.amount || 0), 0);
+                                                        return rev > 0 ? ((rev - cost) / rev * 100) : 0;
+                                                    })(), color: 'text-blue-600', bar: 'bg-blue-500' },
+                                                { label: 'Overall Margin', value: profitMargin, color: 'text-primary', bar: 'bg-primary' },
+                                            ].map((item, i) => (
+                                                <div key={i}>
+                                                    <div className="flex justify-between text-xs mb-1">
+                                                        <span className="text-gray-500">{item.label}</span>
+                                                        <span className={`font-medium ${item.color}`}>{item.value.toFixed(1)}%</span>
+                                                    </div>
+                                                    <div className="w-full bg-gray-200 rounded-full h-2">
+                                                        <motion.div
+                                                            className={`${item.bar} h-2 rounded-full`}
+                                                            initial={{ width: 0 }}
+                                                            animate={{ width: `${Math.min(item.value, 100)}%` }}
+                                                            transition={{ duration: 1, delay: i * 0.1 }}
+                                                        />
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    {/* Procurement Forecast */}
+                                    <div className="bg-white/40 rounded-xl p-4 border border-white/30">
+                                        <h4 className="text-sm font-medium text-primary mb-3 flex items-center gap-2">
+                                            <FaBox className="text-amber-500" />
+                                            Procurement Forecast
+                                        </h4>
+                                        <div className="space-y-3">
+                                            {[
+                                                {
+                                                    label: 'Network Capacity',
+                                                    value: supplierCapacity > 0 ? `${(supplierCapacity / 1000).toFixed(0)}T` : '—',
+                                                    hint: `${supplierCount} suppliers with volume data`
+                                                },
+                                                {
+                                                    label: 'Current Cycle Procured',
+                                                    value: (() => {
+                                                        const qty = revenues.reduce((s, r) => s + (r.quantityKg || 0), 0);
+                                                        return qty > 0 ? `${(qty / 1000).toFixed(0)}T` : '—';
+                                                    })(),
+                                                    hint: `${revenues.length} transactions`
+                                                },
+                                                {
+                                                    label: 'Utilization Rate',
+                                                    value: (() => {
+                                                        const procured = revenues.reduce((s, r) => s + (r.quantityKg || 0), 0);
+                                                        return supplierCapacity > 0 ? `${((procured / supplierCapacity) * 100).toFixed(0)}%` : '—';
+                                                    })(),
+                                                    hint: supplierCapacity > 0 && revenues.reduce((s, r) => s + (r.quantityKg || 0), 0) < supplierCapacity
+                                                        ? `${(supplierCapacity - revenues.reduce((s, r) => s + (r.quantityKg || 0), 0)) > 0 ? `${((supplierCapacity - revenues.reduce((s, r) => s + (r.quantityKg || 0), 0)) / 1000).toFixed(0)}T` : '0'} untapped capacity`
+                                                        : 'Fully utilized'
+                                                },
+                                            ].map((item, i) => (
+                                                <div key={i} className="text-center">
+                                                    <div className="text-lg font-bold text-primary">{item.value}</div>
+                                                    <div className="text-xs text-gray-500">{item.label}</div>
+                                                    <div className="text-[10px] text-gray-400">{item.hint}</div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                </div>
+                            </InfoCard>
+                        </motion.div>
+                    </div>
+                </Section>
 
                 {/* Expenses Table */}
                 <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
