@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import {
     FaChartLine, FaDollarSign, FaTree, FaSeedling, FaTractor,
     FaCalendarAlt, FaArrowUp, FaArrowDown, FaLightbulb, FaLeaf,
-    FaChartBar, FaChartPie, FaTrophy, FaMedal, FaAward
+    FaChartBar, FaChartPie, FaTrophy, FaMedal, FaAward, FaIndustry, FaBox, FaGlobeAfrica, FaUsers
 } from 'react-icons/fa';
 import { Typography } from '@/components/Typography/Typography';
 import { InfoCard } from '@/components/InfoCard/InfoCard';
@@ -45,6 +45,7 @@ const InvestorPortal: React.FC = () => {
     const [completedHarvestYears, setCompletedHarvestYears] = useState<number>(0);
     const [totalHarvestsRecorded, setTotalHarvestsRecorded] = useState<number>(0);
     const [cycleCompletionPercent, setCycleCompletionPercent] = useState<number>(0);
+    const [blocksList, setBlocksList] = useState<any[]>([]);
 
     useEffect(() => {
         const fetchInvestorData = async () => {
@@ -69,6 +70,8 @@ const InvestorPortal: React.FC = () => {
                 const revenuesList = revenueData.revenues || [];
                 const expensesList = expenseData.expenses || [];
                 const blocksList = blocksData.blocks || [];
+                const blocksListData = blocksData.blocks || [];
+                setBlocksList(blocksListData);
                 setRevenues(revenuesList);
                 setExpenses(expensesList);
 
@@ -290,6 +293,63 @@ const InvestorPortal: React.FC = () => {
                     </motion.div>
                 </Section>
 
+                {/* Executive Summary */}
+                <Section className="py-6">
+                    <div className="max-w-5xl mx-auto px-4 sm:px-6">
+                        <motion.div
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                            variants={staggerContainer}
+                        >
+                            <InfoCard
+                                icon={FaChartLine}
+                                title="Executive Summary"
+                                subtitle={`As of ${lastUpdated.toLocaleDateString()}`}
+                                iconColor="text-accent"
+                                showInfoBadge={false}
+                            >
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-3 text-sm text-gray-700">
+                                    <div className="bg-white/40 rounded-xl p-3 border border-white/30">
+                                        <h4 className="font-medium text-primary mb-1">Farm Status</h4>
+                                        <p>
+                                            {blocksList.filter((b: any) => b.status === 'HARVESTED').length} of{' '}
+                                            {blocksList.filter((b: any) => b.status === 'PLANTED' || b.status === 'HARVESTED').length} planted blocks
+                                            have been harvested, producing{' '}
+                                            {blocksList.reduce((s: number, b: any) => s + (b.totalHarvestQuantity || 0), 0) > 0
+                                                ? `${(blocksList.reduce((s: number, b: any) => s + (b.totalHarvestQuantity || 0), 0) / 1000).toFixed(1)}T`
+                                                : '—'} of cashews.
+                                            Survival rate: {blocksList.length > 0
+                                            ? (blocksList.reduce((s: number, b: any) => s + (b.survivalRate || 0), 0) / blocksList.length).toFixed(1)
+                                            : 0}%.
+                                        </p>
+                                    </div>
+                                    <div className="bg-white/40 rounded-xl p-3 border border-white/30">
+                                        <h4 className="font-medium text-primary mb-1">Financial Position</h4>
+                                        <p>
+                                            Revenue of {new Intl.NumberFormat('fr-FR').format(financials.totalRevenue)} FCFA
+                                            with {financials.profitMargin.toFixed(0)}% profit margin.
+                                            {revenues.filter(r => r.supplierId && r.supplierId !== 10).length > 0
+                                                ? ` Revenue is diversified across own farm and ${new Set(revenues.filter(r => r.supplierId && r.supplierId !== 10).map(r => r.supplierName)).size} supplier(s).`
+                                                : ''}
+                                        </p>
+                                    </div>
+                                    <div className="bg-white/40 rounded-xl p-3 border border-white/30">
+                                        <h4 className="font-medium text-primary mb-1">Outlook</h4>
+                                        <p>
+                                            {blocksList.filter((b: any) => b.status === 'PLANTED' || b.status === 'HARVESTED').length < 35
+                                                ? `${35 - blocksList.filter((b: any) => b.status === 'PLANTED' || b.status === 'HARVESTED').length} blocks remaining to develop. `
+                                                : 'All 35 blocks planted. '}
+                                            Trees entering peak production window.
+                                            Revenue projected to grow as more blocks mature.
+                                        </p>
+                                    </div>
+                                </div>
+                            </InfoCard>
+                        </motion.div>
+                    </div>
+                </Section>
+
                 <Section className="py-8">
                     <div className="w-full max-w-5xl mx-auto px-4 sm:px-6">
                         <motion.div
@@ -324,50 +384,145 @@ const InvestorPortal: React.FC = () => {
                             {[
                                 {
                                     icon: FaDollarSign,
-                                    title: 'Total Investment Value',
-                                    value: `${(financials.totalRevenue + financials.netProfit).toLocaleString()} FCFA`,
-                                    trend: 12,
+                                    title: `${new Intl.NumberFormat('fr-FR').format(financials.totalRevenue)} FCFA`,
+                                    subtitle: 'Total Revenue',
                                     variant: 'primary' as const
                                 },
                                 {
                                     icon: FaChartLine,
-                                    title: 'Net Profit (YTD)',
-                                    value: `${financials.netProfit.toLocaleString()} FCFA`,
-                                    trend: 18,
+                                    title: `${new Intl.NumberFormat('fr-FR').format(financials.netProfit)} FCFA`,
+                                    subtitle: 'Net Profit',
                                     variant: 'accent' as const
                                 },
                                 {
-                                    icon: FaArrowUp,
-                                    title: 'Profit Margin',
-                                    value: `${financials.profitMargin.toFixed(1)}%`,
-                                    trend: 3,
+                                    icon: FaLeaf,
+                                    title: `${financials.profitMargin.toFixed(1)}%`,
+                                    subtitle: 'Profit Margin',
                                     variant: 'secondary' as const
                                 },
                                 {
-                                    icon: FaSeedling,
-                                    title: 'Farm Progress',
-                                    value: `${Math.round((farmStats?.stats?.plantedBlocks / farmStats?.stats?.totalBlocks) * 100)}%`,
-                                    trend: 8,
+                                    icon: FaTree,
+                                    title: `${blocksList.filter((b: any) => b.status === 'HARVESTED').length}/${blocksList.filter((b: any) => b.status === 'PLANTED' || b.status === 'HARVESTED').length}`,
+                                    subtitle: 'Blocks Harvested',
                                     variant: 'primary' as const
                                 }
                             ].map((kpi, idx) => (
                                 <motion.div key={idx} variants={fadeIn} transition={{ delay: idx * 0.1 }}>
                                     <InfoCard
                                         icon={kpi.icon}
-                                        title={kpi.value}
-                                        subtitle={kpi.title}
+                                        title={kpi.title}
+                                        subtitle={kpi.subtitle}
                                         variant={kpi.variant}
                                         hideIconContainer={false}
                                         showInfoBadge={false}
-                                    >
-                                        <div className={`flex items-center gap-1 text-sm ${kpi.trend >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-                                            {kpi.trend >= 0 ? <FaArrowUp /> : <FaArrowDown />}
-                                            <span className="font-medium">{Math.abs(kpi.trend)}% vs last quarter</span>
-                                        </div>
-                                    </InfoCard>
+                                    />
                                 </motion.div>
                             ))}
                         </motion.div>
+
+                        {/* Revenue Concentration */}
+                        {financials.totalRevenue > 0 && (
+                            <motion.div
+                                initial="hidden"
+                                whileInView="visible"
+                                viewport={{ once: true }}
+                                variants={staggerContainer}
+                                className="mb-8"
+                            >
+                                <InfoCard
+                                    icon={FaUsers}
+                                    title="Revenue Diversification"
+                                    subtitle="How revenue is distributed across suppliers"
+                                    iconColor="text-accent"
+                                    showInfoBadge={false}
+                                >
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-3">
+                                        <div>
+                                            <h4 className="text-sm font-medium text-gray-600 mb-2">By Source</h4>
+                                            <div className="space-y-2">
+                                                {(() => {
+                                                    const ownFarmRev = revenues.filter(r => r.supplierId === 10).reduce((s, r) => s + (r.totalAmount || 0), 0);
+                                                    const supplierRev = financials.totalRevenue - ownFarmRev;
+                                                    const ownFarmPct = financials.totalRevenue > 0 ? (ownFarmRev / financials.totalRevenue * 100) : 0;
+                                                    const supplierPct = 100 - ownFarmPct;
+
+                                                    return [
+                                                        { label: 'Own Farm', value: ownFarmRev, pct: ownFarmPct, color: 'bg-green-500' },
+                                                        { label: 'Suppliers', value: supplierRev, pct: supplierPct, color: 'bg-accent' },
+                                                    ].map((item, i) => (
+                                                        <div key={i}>
+                                                            <div className="flex justify-between text-xs mb-1">
+                                                                <span>{item.label}</span>
+                                                                <span className="font-medium">{item.pct.toFixed(0)}%</span>
+                                                            </div>
+                                                            <div className="w-full bg-gray-200 rounded-full h-2">
+                                                                <motion.div
+                                                                    className={`${item.color} h-2 rounded-full`}
+                                                                    initial={{ width: 0 }}
+                                                                    animate={{ width: `${item.pct}%` }}
+                                                                    transition={{ duration: 1, delay: i * 0.2 }}
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    ));
+                                                })()}
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <h4 className="text-sm font-medium text-gray-600 mb-2">Top Supplier Concentration</h4>
+                                            <div className="space-y-2">
+                                                {(() => {
+                                                    const supplierMap = new Map<string, number>();
+                                                    revenues.filter(r => r.supplierId && r.supplierId !== 10).forEach(r => {
+                                                        const name = r.supplierName || `Supplier #${r.supplierId}`;
+                                                        supplierMap.set(name, (supplierMap.get(name) || 0) + (r.totalAmount || 0));
+                                                    });
+                                                    const totalSupplierRev = Array.from(supplierMap.values()).reduce((s, v) => s + v, 0);
+                                                    return Array.from(supplierMap.entries())
+                                                        .sort((a, b) => b[1] - a[1])
+                                                        .slice(0, 3)
+                                                        .map(([name, rev], i) => {
+                                                            const pct = totalSupplierRev > 0 ? (rev / totalSupplierRev * 100) : 0;
+                                                            return (
+                                                                <div key={i}>
+                                                                    <div className="flex justify-between text-xs mb-1">
+                                                                        <span className="truncate max-w-[120px]">{name}</span>
+                                                                        <span className="font-medium">{pct.toFixed(0)}%</span>
+                                                                    </div>
+                                                                    <div className="w-full bg-gray-200 rounded-full h-2">
+                                                                        <motion.div
+                                                                            className="bg-blue-500 h-2 rounded-full"
+                                                                            initial={{ width: 0 }}
+                                                                            animate={{ width: `${pct}%` }}
+                                                                            transition={{ duration: 1, delay: i * 0.2 }}
+                                                                        />
+                                                                    </div>
+                                                                </div>
+                                                            );
+                                                        });
+                                                })()}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="mt-3 p-2 bg-primary/5 rounded-lg text-[10px] text-gray-500">
+                                        <FaLightbulb className="inline mr-1 text-amber-500" />
+                                        {(() => {
+                                            const supplierMap = new Map<string, number>();
+                                            revenues.filter(r => r.supplierId && r.supplierId !== 10).forEach(r => {
+                                                const name = r.supplierName || `Supplier #${r.supplierId}`;
+                                                supplierMap.set(name, (supplierMap.get(name) || 0) + (r.totalAmount || 0));
+                                            });
+                                            const topSupplier = Array.from(supplierMap.entries()).sort((a, b) => b[1] - a[1])[0];
+                                            const totalSupplierRev = Array.from(supplierMap.values()).reduce((s, v) => s + v, 0);
+                                            const topPct = totalSupplierRev > 0 && topSupplier ? (topSupplier[1] / totalSupplierRev * 100) : 0;
+                                            return topPct > 50
+                                                ? `⚠ High concentration: ${topSupplier?.[0]} represents ${topPct.toFixed(0)}% of supplier revenue. Consider diversifying.`
+                                                : `✓ Healthy diversification: No single supplier exceeds 50% of supplier revenue.`;
+                                        })()}
+                                    </div>
+                                </InfoCard>
+                            </motion.div>
+                        )}
 
                         {/* Quality Revenue Breakdown */}
                         {financials.totalRevenue > 0 && (
@@ -400,7 +555,7 @@ const InvestorPortal: React.FC = () => {
                             </motion.div>
                         )}
 
-                        {/* Unit Economics */}
+                        {/* Unit Economics — Per Tonne Processing */}
                         <motion.div
                             initial="hidden"
                             whileInView="visible"
@@ -408,27 +563,152 @@ const InvestorPortal: React.FC = () => {
                             variants={staggerContainer}
                             className="mb-12"
                         >
-                            <InfoCard icon={FaLeaf} title="Unit Economics" variant="primary" showInfoBadge={false}>
-                                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                                    {[
-                                        { label: 'Cost/Tree', value: financials.totalExpenses / (farmStats?.stats?.aliveTrees || 3500) },
-                                        { label: 'Revenue/Tree', value: financials.totalRevenue / (farmStats?.stats?.aliveTrees || 3500) },
-                                        { label: 'Cost/Hectare', value: financials.totalExpenses / blockCount },
-                                        { label: 'Revenue/Hectare', value: financials.totalRevenue / blockCount },
-                                    ].map((stat, i) => (
-                                        <div key={i} className="text-center p-3 bg-white/30 rounded-xl">
-                                            <div className="text-xs text-gray-500">{stat.label}</div>
-                                            <div className="text-lg font-bold text-primary">
-                                                {new Intl.NumberFormat('fr-FR').format(Math.round(stat.value))} FCFA
+                            <InfoCard
+                                icon={FaIndustry}
+                                title="Unit Economics"
+                                subtitle="Per 1 MT Raw Cashew Nuts — from procurement to export"
+                                variant="primary"
+                                showInfoBadge={false}
+                            >
+                                <div className="space-y-6 mt-3">
+                                    {/* Step 1: Procurement */}
+                                    <div className="bg-white/40 rounded-xl p-4 border border-white/30">
+                                        <h4 className="text-sm font-medium text-primary mb-3 flex items-center gap-2">
+                                            <FaBox className="text-amber-500" />
+                                            Step 1: Raw Material Procurement
+                                        </h4>
+                                        <div className="grid grid-cols-3 gap-3 text-center">
+                                            <div>
+                                                <div className="text-xs text-gray-500">Quantity</div>
+                                                <div className="font-bold text-primary">1.00 MT</div>
+                                            </div>
+                                            <div>
+                                                <div className="text-xs text-gray-500">Planning Price</div>
+                                                <div className="font-bold text-primary">400 FCFA/kg</div>
+                                            </div>
+                                            <div>
+                                                <div className="text-xs text-gray-500">Procurement Cost</div>
+                                                <div className="font-bold text-red-600">400,000 FCFA</div>
                                             </div>
                                         </div>
-                                    ))}
+                                        <p className="text-[10px] text-gray-400 mt-2">
+                                            Planning assumption — actual costs vary by source (own farm, cooperative, independent) and market conditions.
+                                        </p>
+                                    </div>
+
+                                    {/* Step 2: Processing Output */}
+                                    <div className="bg-white/40 rounded-xl p-4 border border-white/30">
+                                        <h4 className="text-sm font-medium text-primary mb-3 flex items-center gap-2">
+                                            <FaIndustry className="text-accent" />
+                                            Step 2: Processing Output (25% Recovery Rate)
+                                        </h4>
+                                        <div className="grid grid-cols-3 gap-3 text-center">
+                                            {[
+                                                { label: 'Premium Kernels', value: '250 kg', color: 'text-amber-600' },
+                                                { label: 'Cashew Shells', value: '700 kg', color: 'text-gray-600' },
+                                                { label: 'Processing Loss', value: '50 kg', color: 'text-red-500' },
+                                            ].map((item, i) => (
+                                                <div key={i}>
+                                                    <div className="text-xs text-gray-500">{item.label}</div>
+                                                    <div className={`font-bold ${item.color}`}>{item.value}</div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    {/* Step 3: Estimated Revenue */}
+                                    <div className="bg-white/40 rounded-xl p-4 border border-white/30">
+                                        <h4 className="text-sm font-medium text-primary mb-3 flex items-center gap-2">
+                                            <FaDollarSign className="text-green-600" />
+                                            Step 3: Estimated Revenue (per 1 MT)
+                                        </h4>
+                                        <div className="space-y-2">
+                                            {[
+                                                { product: 'Premium Export Kernels', qty: '250 kg', price: '$6,500/MT', revenue: '$1,625', primary: true },
+                                                { product: 'CNSL (Future)', qty: '—', price: '$600/MT', revenue: 'Additional', primary: false },
+                                                { product: 'Shell Biomass (Future)', qty: '—', price: '$100/MT', revenue: 'Additional', primary: false },
+                                            ].map((item, i) => (
+                                                <div key={i} className={`flex justify-between items-center py-2 px-3 rounded-lg text-sm ${item.primary ? 'bg-green-50/50 border border-green-100' : 'bg-gray-50/30'}`}>
+                                                    <span className="text-gray-700">{item.product}</span>
+                                                    <div className="flex items-center gap-4">
+                                                        <span className="text-xs text-gray-500">{item.qty} · {item.price}</span>
+                                                        <span className={`font-bold ${item.primary ? 'text-green-700' : 'text-gray-500'}`}>
+                                    {item.revenue}
+                                </span>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                        <p className="text-[10px] text-gray-400 mt-2">
+                                            *CNSL and shell biomass revenue represents potential upside — not included in conservative projections.
+                                        </p>
+                                    </div>
+
+                                    {/* Step 4: Value Creation Summary */}
+                                    <div className="bg-gradient-to-r from-primary/10 to-accent/10 rounded-xl p-4 border border-primary/20">
+                                        <h4 className="text-sm font-medium text-primary mb-3 flex items-center gap-2">
+                                            <FaChartLine className="text-primary" />
+                                            Step 4: Value Creation
+                                        </h4>
+                                        <div className="flex items-center justify-center gap-2 text-xs text-gray-600 mb-3">
+                                            <span className="font-bold">1 MT Raw Cashew Nuts</span>
+                                            <span>→</span>
+                                            <span className="font-bold text-green-700">250 kg Premium Kernels</span>
+                                            <span>+</span>
+                                            <span className="text-gray-500">By-products</span>
+                                            <span>+</span>
+                                            <span className="text-gray-500">Traceability</span>
+                                        </div>
+                                        <div className="grid grid-cols-3 gap-2 text-center text-[10px] text-gray-500">
+                                            <div className="bg-white/30 rounded-lg py-1.5">Quality Grading</div>
+                                            <div className="bg-white/30 rounded-lg py-1.5">Certifications</div>
+                                            <div className="bg-white/30 rounded-lg py-1.5">Farm OS Traceability</div>
+                                        </div>
+                                    </div>
+
+                                    {/* Actual vs Planning Comparison */}
+                                    <div className="bg-white/40 rounded-xl p-4 border border-white/30">
+                                        <h4 className="text-sm font-medium text-primary mb-3 flex items-center gap-2">
+                                            <FaChartBar className="text-primary" />
+                                            Actual Performance vs Planning Assumptions
+                                        </h4>
+                                        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-center">
+                                            {(() => {
+                                                const ownFarmRevenues = revenues.filter(r => r.supplierId === 10);
+                                                const ownFarmQty = ownFarmRevenues.reduce((s, r) => s + (r.quantityKg || 0), 0);
+                                                const ownFarmRev = ownFarmRevenues.reduce((s, r) => s + (r.totalAmount || 0), 0);
+                                                const farmCost = expenses.filter(e => e.category !== 'PROCUREMENT').reduce((s, e) => s + (e.amount || 0), 0);
+
+                                                const actualPricePerKg = ownFarmQty > 0 ? ownFarmRev / ownFarmQty : 0;
+                                                const actualCostPerKg = ownFarmQty > 0 ? farmCost / ownFarmQty : 0;
+                                                const actualMargin = ownFarmRev > 0 ? ((ownFarmRev - farmCost) / ownFarmRev * 100) : 0;
+
+                                                return [
+                                                    { label: 'Avg Price/kg', actual: `${Math.round(actualPricePerKg).toLocaleString()} FCFA`, plan: '2,600 FCFA*', status: actualPricePerKg > 2600 ? 'above' : 'below' },
+                                                    { label: 'Farm Cost/kg', actual: `${Math.round(actualCostPerKg).toLocaleString()} FCFA`, plan: '400 FCFA', status: actualCostPerKg < 400 ? 'below' : 'above' },
+                                                    { label: 'Farm Margin', actual: `${actualMargin.toFixed(0)}%`, plan: '>30%', status: actualMargin > 30 ? 'above' : 'below' },
+                                                    { label: 'Kernel Recovery', actual: '25% est.', plan: '25%', status: 'on-track' },
+                                                ].map((item, i) => (
+                                                    <div key={i}>
+                                                        <div className="text-xs text-gray-500">{item.label}</div>
+                                                        <div className="font-bold text-primary">{item.actual}</div>
+                                                        <div className={`text-[10px] ${item.status === 'above' ? 'text-green-600' : item.status === 'below' ? 'text-red-500' : 'text-gray-400'}`}>
+                                                            Plan: {item.plan}
+                                                        </div>
+                                                    </div>
+                                                ));
+                                            })()}
+                                        </div>
+                                        <p className="text-[10px] text-gray-400 mt-2">
+                                            *Planning price of $6,500/MT converted at ~400 FCFA/USD. Actuals based on own farm production only.
+                                        </p>
+                                    </div>
                                 </div>
                             </InfoCard>
                         </motion.div>
 
-                        {/* Harvest Cycle Tracker */}
-                        {completedHarvestCycles > 0 && (
+                        {/* Harvest & Production Overview */}
+                        {blocksList && blocksList.length > 0 && (
                             <motion.div
                                 initial="hidden"
                                 whileInView="visible"
@@ -438,51 +718,87 @@ const InvestorPortal: React.FC = () => {
                             >
                                 <InfoCard
                                     icon={FaCalendarAlt}
-                                    title="Harvest Cycle Progress"
+                                    title="Harvest & Production Overview"
                                     variant="primary"
                                     showInfoBadge={false}
                                 >
                                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                                        <div className="text-center p-3 bg-white/30 rounded-xl">
-                                            <div className="text-2xl font-bold text-primary">{completedHarvestCycles}</div>
-                                            <div className="text-xs text-gray-500">Block-Cycles Done</div>
-                                            <div className="text-[10px] text-gray-400">of {35 * 3} total</div>
-                                        </div>
-                                        <div className="text-center p-3 bg-white/30 rounded-xl">
-                                            <div className="text-2xl font-bold text-primary">{completedHarvestYears}</div>
-                                            <div className="text-xs text-gray-500">Harvest Years</div>
-                                        </div>
-                                        <div className="text-center p-3 bg-white/30 rounded-xl">
-                                            <div className="text-2xl font-bold text-primary">{totalHarvestsRecorded}</div>
-                                            <div className="text-xs text-gray-500">Total Harvests</div>
-                                            <div className="text-[10px] text-gray-400">up to 2 per block-cycle</div>
-                                        </div>
-                                        <div className="text-center p-3 bg-white/30 rounded-xl">
-                                            <div className="text-2xl font-bold text-primary">
-                                                {cycleCompletionPercent.toFixed(0)}%
+                                        {[
+                                            {
+                                                label: 'Blocks Harvested',
+                                                value: blocksList.filter((b: any) => b.status === 'HARVESTED').length,
+                                                total: blocksList.filter((b: any) => b.status === 'PLANTED' || b.status === 'HARVESTED').length,
+                                                hint: 'of planted blocks'
+                                            },
+                                            {
+                                                label: 'Total Harvests',
+                                                value: blocksList.reduce((sum: number, b: any) => sum + (b.harvestCount || 0), 0),
+                                                hint: 'across all blocks'
+                                            },
+                                            {
+                                                label: 'Total Volume',
+                                                value: blocksList.reduce((sum: number, b: any) => sum + (b.totalHarvestQuantity || 0), 0) > 0
+                                                    ? `${(blocksList.reduce((sum: number, b: any) => sum + (b.totalHarvestQuantity || 0), 0) / 1000).toFixed(1)}T`
+                                                    : '—',
+                                                hint: 'cumulative production'
+                                            },
+                                            {
+                                                label: 'Last Harvest',
+                                                value: blocksList
+                                                    .filter((b: any) => b.lastHarvestDate)
+                                                    .sort((a: any, b: any) => (b.lastHarvestDate || 0) - (a.lastHarvestDate || 0))[0]?.lastHarvestDate
+                                                    ? new Date(blocksList.filter((b: any) => b.lastHarvestDate).sort((a: any, b: any) => (b.lastHarvestDate || 0) - (a.lastHarvestDate || 0))[0].lastHarvestDate!).toLocaleDateString()
+                                                    : '—',
+                                                hint: 'most recent activity'
+                                            },
+                                        ].map((item, i) => (
+                                            <div key={i} className="text-center p-3 bg-white/30 rounded-xl">
+                                                <div className="text-2xl font-bold text-primary">
+                                                    {item.total !== undefined ? `${item.value}/${item.total}` : item.value}
+                                                </div>
+                                                <div className="text-xs text-gray-500">{item.label}</div>
+                                                <div className="text-[10px] text-gray-400">{item.hint}</div>
                                             </div>
-                                            <div className="text-xs text-gray-500">Agreement Progress</div>
-                                        </div>
+                                        ))}
                                     </div>
-                                    <div className="mt-4">
-                                        <div className="flex justify-between text-xs text-gray-500 mb-1">
-                                            <span>3-Year Agreement Progress</span>
-                                            <span>{completedHarvestCycles} / {35 * 3} block-cycles</span>
+
+                                    {/* Recently Harvested Blocks */}
+                                    {blocksList.filter((b: any) => b.status === 'HARVESTED').length > 0 && (
+                                        <div className="mt-4 pt-4 border-t border-gray-200">
+                                            <h4 className="text-sm font-medium text-gray-600 mb-2">Recently Harvested</h4>
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                                                {blocksList
+                                                    .filter((b: any) => b.status === 'HARVESTED' && b.lastHarvestDate)
+                                                    .sort((a: any, b: any) => (b.lastHarvestDate || 0) - (a.lastHarvestDate || 0))
+                                                    .slice(0, 4)
+                                                    .map((block: any) => {
+                                                        const history = block.harvestHistory
+                                                            ? (typeof block.harvestHistory === 'string' ? JSON.parse(block.harvestHistory) : block.harvestHistory)
+                                                            : [];
+                                                        const lastHarvest = Array.isArray(history) ? history[history.length - 1] : null;
+                                                        return (
+                                                            <div key={block.id} className="flex items-center justify-between bg-white/30 rounded-lg px-3 py-2 text-sm">
+                                                                <div className="flex items-center gap-2">
+                                            <span className="w-6 h-6 rounded-full bg-amber-100 flex items-center justify-center text-xs font-bold text-amber-700">
+                                                {block.blockName}
+                                            </span>
+                                                                    <span>{block.blockName}</span>
+                                                                </div>
+                                                                <div className="flex items-center gap-2 text-xs text-gray-500">
+                                                                    <span>{block.harvestCount}×</span>
+                                                                    <span>{block.totalHarvestQuantity ? `${(block.totalHarvestQuantity / 1000).toFixed(1)}T` : '—'}</span>
+                                                                    {lastHarvest?.grade && (
+                                                                        <span className={`px-1.5 py-0.5 rounded-full text-xs ${
+                                                                            lastHarvest.grade === 'Premium' ? 'bg-amber-100 text-amber-700' : 'bg-blue-100 text-blue-700'
+                                                                        }`}>{lastHarvest.grade}</span>
+                                                                    )}
+                                                                </div>
+                                                            </div>
+                                                        );
+                                                    })}
+                                            </div>
                                         </div>
-                                        <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
-                                            <motion.div
-                                                className="bg-gradient-to-r from-primary to-accent h-3 rounded-full"
-                                                initial={{ width: 0 }}
-                                                animate={{ width: `${cycleCompletionPercent}%` }}
-                                                transition={{ duration: 1, delay: 0.3 }}
-                                            />
-                                        </div>
-                                    </div>
-                                    <div className="mt-3 p-3 bg-primary/5 rounded-lg text-xs text-gray-500">
-                                        <FaLightbulb className="inline mr-1 text-amber-500" />
-                                        Each block-cycle = 1 block harvested in 1 year (season). Max 2 harvests per block per season.
-                                        Progress tracks the 3-year agreement: {35 * 3} total block-cycles possible.
-                                    </div>
+                                    )}
                                 </InfoCard>
                             </motion.div>
                         )}
@@ -619,200 +935,102 @@ const InvestorPortal: React.FC = () => {
 
                             {/* Cost Structure */}
                             <InfoCard icon={FaChartPie} title="Cost Structure" variant="accent" showInfoBadge={false}>
-                                {pieData.length > 0 ? (
-                                    <>
-                                        <ResponsiveContainer width="100%" height={250}>
-                                            <PieChart>
-                                                <Pie data={pieData} cx="50%" cy="50%" outerRadius={80} dataKey="value"
-                                                     label={({ name, percent }) => `${name}: ${((percent ?? 0) * 100).toFixed(0)}%`} >
-                                                    {pieData.map((_, idx) => (
-                                                        <Cell key={idx} fill={COLORS[idx % COLORS.length]} />
-                                                    ))}
-                                                </Pie>
-                                                <Tooltip formatter={(value) => `${new Intl.NumberFormat('fr-FR').format(Number(value))} FCFA`} />
-                                            </PieChart>
-                                        </ResponsiveContainer>
-                                        <p className="text-xs text-gray-500 mt-2 text-center">
-                                            {Object.keys(expensesByCategory).length} expense categories
-                                        </p>
-                                    </>
-                                ) : (
-                                    <p className="text-center text-gray-400 py-8">No expense data yet</p>
-                                )}
-                            </InfoCard>
+                                {(() => {
+                                    const farmOpsCost = expenses
+                                        .filter(e => e.category !== 'PROCUREMENT')
+                                        .reduce((sum, e) => sum + (e.amount || 0), 0);
+                                    const procurementCost = expenses
+                                        .filter(e => e.category === 'PROCUREMENT')
+                                        .reduce((sum, e) => sum + (e.amount || 0), 0);
+                                    const totalCost = farmOpsCost + procurementCost;
 
-                            {/* Farm Performance */}
-                            <InfoCard
-                                icon={FaTree}
-                                title="Farm Performance Metrics"
-                                variant="accent"
-                                showInfoBadge={false}
-                            >
-                                <div className="space-y-4">
-                                    <div>
-                                        <div className="flex justify-between text-sm mb-1">
-                                            <span>Farm Completion</span>
-                                            <span className="font-medium">
-                                            {Math.round((farmStats?.stats?.plantedBlocks / farmStats?.stats?.totalBlocks) * 100)}%
-                                        </span>
-                                        </div>
-                                        <div className="w-full bg-gray-200 rounded-full h-2">
-                                            <div className="bg-primary h-2 rounded-full"
-                                                 style={{ width: `${(farmStats?.stats?.plantedBlocks / farmStats?.stats?.totalBlocks) * 100}%` }} />
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <div className="flex justify-between text-sm mb-1">
-                                            <span>Survival Rate</span>
-                                            <span className="font-medium">{farmStats?.stats?.survivalRate?.toFixed(1)}%</span>
-                                        </div>
-                                        <div className="w-full bg-gray-200 rounded-full h-2">
-                                            <div className="bg-accent h-2 rounded-full"
-                                                 style={{ width: `${farmStats?.stats?.survivalRate || 0}%` }} />
-                                        </div>
-                                    </div>
-                                    <div className="grid grid-cols-2 gap-4 mt-4">
-                                        <div className="text-center p-3 bg-primary/5 rounded-xl">
-                                            <FaTree className="text-2xl text-primary mx-auto mb-2" />
-                                            <div className="text-2xl font-bold text-primary">
-                                                {farmStats?.stats?.aliveTrees?.toLocaleString() || 0}
+                                    if (totalCost === 0) {
+                                        return <p className="text-center text-gray-400 py-8">No expense data yet</p>;
+                                    }
+
+                                    return (
+                                        <div className="space-y-4 mt-3">
+                                            {/* Procurement Bar */}
+                                            <div>
+                                                <div className="flex justify-between text-xs mb-1">
+                                                    <span className="font-medium text-gray-700">Supplier Procurement</span>
+                                                    <span className="text-gray-500">
+                                                        {new Intl.NumberFormat('fr-FR').format(procurementCost)} FCFA · {((procurementCost / totalCost) * 100).toFixed(0)}%
+                                                    </span>
+                                                </div>
+                                                <div className="w-full bg-gray-200 rounded-full h-3">
+                                                    <motion.div
+                                                        className="bg-accent h-3 rounded-full"
+                                                        initial={{ width: 0 }}
+                                                        animate={{ width: `${(procurementCost / totalCost) * 100}%` }}
+                                                        transition={{ duration: 1 }}
+                                                    />
+                                                </div>
                                             </div>
-                                            <div className="text-xs text-gray-500">Trees Alive</div>
-                                        </div>
-                                        <div className="text-center p-3 bg-accent/5 rounded-xl">
-                                            <FaTractor className="text-2xl text-accent mx-auto mb-2" />
-                                            <div className="text-2xl font-bold text-accent">
-                                                {farmStats?.stats?.plantedBlocks || 0}/{farmStats?.stats?.totalBlocks || 35}
+
+                                            {/* Farm Operations Bar */}
+                                            <div>
+                                                <div className="flex justify-between text-xs mb-1">
+                                                    <span className="font-medium text-gray-700">Farm Operations</span>
+                                                    <span className="text-gray-500">
+                                                        {new Intl.NumberFormat('fr-FR').format(farmOpsCost)} FCFA · {((farmOpsCost / totalCost) * 100).toFixed(0)}%
+                                                    </span>
+                                                </div>
+                                                <div className="w-full bg-gray-200 rounded-full h-3">
+                                                    <motion.div
+                                                        className="bg-primary h-3 rounded-full"
+                                                        initial={{ width: 0 }}
+                                                        animate={{ width: `${(farmOpsCost / totalCost) * 100}%` }}
+                                                        transition={{ duration: 1, delay: 0.2 }}
+                                                    />
+                                                </div>
                                             </div>
-                                            <div className="text-xs text-gray-500">Blocks Planted</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="mt-4 p-3 bg-accent/5 rounded-lg">
-                                    <p className="text-sm text-gray-600">
-                                        <FaLeaf className="inline mr-1 text-green-600" /> <strong>Sustainability:</strong> Organic practices across {farmStats?.stats?.totalBlocks} blocks.
-                                        Survival rate exceeds industry average of 85%.
-                                    </p>
-                                </div>
-                            </InfoCard>
 
-                            {/* Investment Returns Summary */}
-                            <InfoCard
-                                icon={FaDollarSign}
-                                title="Investment Returns"
-                                variant="primary"
-                                showInfoBadge={false}
-                            >
-                                <div className="space-y-4">
-                                    {/* Revenue Multiple */}
-                                    <motion.div
-                                        className="text-center p-4 rounded-xl bg-white/40 backdrop-blur-sm border border-white/30 shadow-sm"
-                                        variants={fadeIn}
-                                        whileHover={{ y: -2, scale: 1.02 }}
-                                    >
-                                        <div className="text-xs text-gray-500 uppercase tracking-wide">Revenue Multiple</div>
-                                        <div className="text-3xl font-bold text-primary mt-1">
-                                            {(financials.totalExpenses > 0
-                                                ? (financials.totalRevenue / financials.totalExpenses)
-                                                : 0).toFixed(1)}x
-                                        </div>
-                                        <div className="text-xs text-gray-500 mt-1">
-                                            For every 1 FCFA spent,{' '}
-                                            <span className="font-semibold text-gray-700">
-                                            {financials.totalExpenses > 0
-                                                ? (financials.totalRevenue / financials.totalExpenses).toFixed(1)
-                                                : '—'} FCFA
-                                        </span>{' '}
-                                            generated
-                                        </div>
-                                    </motion.div>
+                                            {/* Farm Operations Breakdown */}
+                                            <div className="pt-3 border-t border-gray-200">
+                                                <p className="text-xs text-gray-500 mb-2">Farm Operations Breakdown</p>
+                                                {(() => {
+                                                    const opsCategories: Record<string, number> = {};
+                                                    expenses
+                                                        .filter(e => e.category !== 'PROCUREMENT')
+                                                        .forEach(e => {
+                                                            const cat = e.category?.replace(/_/g, ' ');
+                                                            opsCategories[cat] = (opsCategories[cat] || 0) + (e.amount || 0);
+                                                        });
 
-                                    {/* Per-block metrics */}
-                                    <motion.div className="grid grid-cols-2 gap-3" variants={fadeIn}>
-                                        <motion.div
-                                            className="text-center p-4 rounded-xl bg-white/40 backdrop-blur-sm border border-white/30 shadow-sm"
-                                            whileHover={{ y: -2, scale: 1.02 }}
-                                        >
-                                            <div className="text-xs text-gray-500">Profit/Ha</div>
-                                            <div className="text-xl font-bold text-primary mt-1">
-                                                {new Intl.NumberFormat('fr-FR').format(
-                                                    Math.round(financials.netProfit / blockCount)
-                                                )} FCFA
+                                                    return Object.entries(opsCategories)
+                                                        .sort((a, b) => b[1] - a[1])
+                                                        .slice(0, 5)
+                                                        .map(([name, value], i) => (
+                                                            <div key={i} className="mb-2">
+                                                                <div className="flex justify-between text-[11px] mb-0.5">
+                                                                    <span className="text-gray-600">{name}</span>
+                                                                    <span className="text-gray-400">{((value / farmOpsCost) * 100).toFixed(0)}%</span>
+                                                                </div>
+                                                                <div className="w-full bg-gray-100 rounded-full h-1.5">
+                                                                    <motion.div
+                                                                        className="bg-primary/60 h-1.5 rounded-full"
+                                                                        initial={{ width: 0 }}
+                                                                        animate={{ width: `${(value / farmOpsCost) * 100}%` }}
+                                                                        transition={{ duration: 0.8, delay: 0.3 + i * 0.1 }}
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                        ));
+                                                })()}
                                             </div>
-                                        </motion.div>
-                                        <motion.div
-                                            className="text-center p-4 rounded-xl bg-white/40 backdrop-blur-sm border border-white/30 shadow-sm"
-                                            whileHover={{ y: -2, scale: 1.02 }}
-                                        >
-                                            <div className="text-xs text-gray-500">Avg Block ROI</div>
-                                            <div className="text-xl font-bold text-primary mt-1">
-                                                {revenueByBlock.length > 0
-                                                    ? (revenueByBlock.reduce((sum, b) => sum + b.roi, 0) / revenueByBlock.filter(b => b.totalRevenue > 0).length || 1).toFixed(0)
-                                                    : '—'}%
+
+                                            {/* Total */}
+                                            <div className="pt-3 border-t border-gray-200 flex justify-between text-sm">
+                                                <span className="font-semibold text-gray-700">Total</span>
+                                                <span className="font-bold text-primary">{new Intl.NumberFormat('fr-FR').format(totalCost)} FCFA</span>
                                             </div>
-                                        </motion.div>
-                                    </motion.div>
-
-                                    {/* Investor Share */}
-                                    <motion.div
-                                        className="text-center p-4 rounded-xl bg-white/40 backdrop-blur-sm border border-amber-200 shadow-sm"
-                                        variants={fadeIn}
-                                        whileHover={{ y: -2, scale: 1.02 }}
-                                    >
-                                        <div className="text-xs text-gray-500 uppercase tracking-wide">Investor Share (25% of Net Profit)</div>
-                                        <div className="text-2xl font-bold text-primary mt-1">
-                                            {new Intl.NumberFormat('fr-FR').format(Math.round(financials.netProfit * 0.25))} FCFA
                                         </div>
-                                        <div className="text-xs text-gray-500 mt-1">
-                                            Per harvest cycle · {new Intl.NumberFormat('fr-FR').format(Math.round(financials.netProfit * 0.25 / 35))} FCFA per block
-                                        </div>
-                                    </motion.div>
-
-                                    {/* Payback Projection */}
-                                    <motion.div
-                                        className="text-center p-4 rounded-xl bg-white/40 backdrop-blur-sm border border-white/30 shadow-sm"
-                                        variants={fadeIn}
-                                        whileHover={{ y: -2, scale: 1.02 }}
-                                    >
-                                        {(() => {
-                                            const totalInvestment = financials.totalExpenses;
-                                            const investorSharePerHarvest = financials.netProfit * 0.25;
-                                            const harvestsToDouble = investorSharePerHarvest > 0
-                                                ? Math.ceil((totalInvestment * 1.5) / investorSharePerHarvest)
-                                                : null;
-
-                                            return (
-                                                <>
-                                                    <div className="text-xs text-gray-500 uppercase tracking-wide">Estimated Payback</div>
-                                                    <div className="text-2xl font-bold text-primary mt-1">
-                                                        {harvestsToDouble
-                                                            ? `${harvestsToDouble} Harvests`
-                                                            : 'Calculating...'}
-                                                    </div>
-                                                    <div className="text-xs text-gray-500 mt-1">
-                                                        {harvestsToDouble && completedHarvestCycles > 0
-                                                            ? `${completedHarvestCycles} block-cycles done · ${Math.max(0, harvestsToDouble - completedHarvestCycles)} remaining`
-                                                            : 'Awaiting first harvest data'}
-                                                    </div>
-                                                </>
-                                            );
-                                        })()}
-                                    </motion.div>
-
-                                    {/* Agreement Reference */}
-                                    <motion.div
-                                        className="p-3 rounded-lg bg-gray-50/60 backdrop-blur-sm border border-gray-100"
-                                        variants={fadeIn}
-                                    >
-                                        <p className="text-[10px] text-gray-400 leading-relaxed">
-                                            Per Investment Agreement §4–5: Investor receives 25% of net profit for 3 harvests,
-                                            targeting 1.5x–2.5x return on original investment based on yield performance.
-                                            Projections are estimates; actual returns depend on harvest yields and market prices.
-                                        </p>
-                                    </motion.div>
-                                </div>
+                                    );
+                                })()}
                             </InfoCard>
                         </div>
+
 
                         {/* 3-Year Forecast */}
                         <motion.div
@@ -824,37 +1042,82 @@ const InvestorPortal: React.FC = () => {
                         >
                             <InfoCard
                                 icon={FaCalendarAlt}
-                                title="3-Year Financial Forecast"
+                                title="Production & Revenue Forecast"
+                                subtitle="Based on tree maturity curve and current performance"
                                 variant="primary"
                                 showInfoBadge={false}
                             >
                                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                    {yearlyProjections.map((proj, idx) => (
-                                        <motion.div
-                                            key={idx}
-                                            variants={fadeIn}
-                                            transition={{ delay: idx * 0.1 }}
-                                            className="text-center p-4 rounded-xl bg-gradient-to-br from-primary/5 to-accent/5 border border-primary/10"
-                                        >
-                                            <div className="text-lg font-bold text-primary mb-2">{proj.year}</div>
-                                            <div className="text-2xl font-bold text-gray-900 mb-1">
-                                                {new Intl.NumberFormat('fr-FR').format(proj.revenue)} FCFA
-                                            </div>
-                                            <div className="text-sm text-gray-500 mb-2">Projected Revenue</div>
-                                            <div className="text-green-600 font-semibold">+{proj.growth}% YoY</div>
-                                            <div className="mt-2 pt-2 border-t border-gray-200">
-                                                <div className="text-sm text-gray-600">
-                                                    Net Profit: {new Intl.NumberFormat('fr-FR').format(proj.profit)} FCFA
+                                    {(() => {
+                                        const currentYear = new Date().getFullYear();
+                                        const plantedBlocks = blocksList.filter((b: any) => b.status === 'PLANTED' || b.status === 'HARVESTED').length;
+                                        const harvestedBlocks = blocksList.filter((b: any) => b.status === 'HARVESTED').length;
+                                        const avgRevenuePerBlock = harvestedBlocks > 0 && revenueByBlock.length > 0
+                                            ? revenueByBlock.filter(b => b.totalRevenue > 0).reduce((s, b) => s + b.totalRevenue, 0) / harvestedBlocks
+                                            : 0;
+                                        const farmOperationalCost = expenses
+                                            .filter(e => e.category !== 'PROCUREMENT')
+                                            .reduce((s, e) => s + (e.amount || 0), 0);
+                                        const avgCostPerBlock = plantedBlocks > 0 ? farmOperationalCost / plantedBlocks : 0;
+                                        const currentMargin = financials.totalRevenue > 0 ? (financials.netProfit / financials.totalRevenue) * 100 : 0;
+
+                                        return [
+                                            {
+                                                year: currentYear,
+                                                label: 'Current Year',
+                                                blocks: harvestedBlocks,
+                                                revenue: financials.totalRevenue,
+                                                profit: financials.netProfit,
+                                                note: `${harvestedBlocks} blocks harvested`
+                                            },
+                                            {
+                                                year: currentYear + 1,
+                                                label: 'Next Year',
+                                                blocks: Math.min(plantedBlocks + 5, 35),
+                                                revenue: Math.round(avgRevenuePerBlock * Math.min(plantedBlocks + 5, 35) * 1.15),
+                                                profit: Math.round(avgRevenuePerBlock * Math.min(plantedBlocks + 5, 35) * 1.15 * (currentMargin / 100)),
+                                                note: `${Math.min(plantedBlocks + 5, 35)} blocks projected`
+                                            },
+                                            {
+                                                year: currentYear + 2,
+                                                label: 'Year 3',
+                                                blocks: 35,
+                                                revenue: Math.round(avgRevenuePerBlock * 35 * 1.3),
+                                                profit: Math.round(avgRevenuePerBlock * 35 * 1.3 * (currentMargin / 100)),
+                                                note: 'Full 35-block production'
+                                            },
+                                        ].map((proj, idx) => (
+                                            <motion.div
+                                                key={idx}
+                                                variants={fadeIn}
+                                                transition={{ delay: idx * 0.1 }}
+                                                className="text-center p-4 rounded-xl bg-gradient-to-br from-primary/5 to-accent/5 border border-primary/10"
+                                            >
+                                                <div className="text-xs text-gray-500 uppercase mb-1">{proj.label}</div>
+                                                <div className="text-lg font-bold text-primary mb-2">{proj.year}</div>
+                                                <div className="text-2xl font-bold text-gray-900 mb-1">
+                                                    {new Intl.NumberFormat('fr-FR').format(proj.revenue)} FCFA
                                                 </div>
-                                            </div>
-                                        </motion.div>
-                                    ))}
+                                                <div className="text-sm text-gray-500 mb-2">Projected Revenue</div>
+                                                <div className="mt-2 pt-2 border-t border-gray-200">
+                                                    <div className="text-sm text-green-700 font-medium">
+                                                        Profit: {new Intl.NumberFormat('fr-FR').format(proj.profit)} FCFA
+                                                    </div>
+                                                </div>
+                                                <div className="text-[10px] text-gray-400 mt-1">{proj.note}</div>
+                                            </motion.div>
+                                        ));
+                                    })()}
                                 </div>
                                 <div className="mt-4 p-3 bg-primary/5 rounded-lg">
                                     <p className="text-sm text-gray-600">
-                                        <FaChartBar className="inline mr-1 text-primary" /> <strong>Investment Outlook:</strong> Trees reach peak production in
-                                        {2027 - new Date().getFullYear()} years.
-                                        Projected CAGR of {((yearlyProjections[2].revenue / yearlyProjections[0].revenue) ** (1 / 2) - 1) * 100}%.
+                                        <FaLightbulb className="inline mr-1 text-yellow-500" />
+                                        <strong>Methodology:</strong> Based on {blocksList.filter((b: any) => b.status === 'HARVESTED').length} harvested blocks averaging{' '}
+                                        {new Intl.NumberFormat('fr-FR').format(Math.round(
+                                            blocksList.filter((b: any) => b.status === 'HARVESTED').length > 0 && revenueByBlock.filter(b => b.totalRevenue > 0).length > 0
+                                                ? revenueByBlock.filter(b => b.totalRevenue > 0).reduce((s, b) => s + b.totalRevenue, 0) / blocksList.filter((b: any) => b.status === 'HARVESTED').length
+                                                : 0
+                                        ))} FCFA per block. Projections assume 15% annual yield improvement as trees mature. Actual results depend on weather, market prices, and operational execution.
                                     </p>
                                 </div>
                             </InfoCard>
@@ -870,27 +1133,27 @@ const InvestorPortal: React.FC = () => {
                         >
                             {[
                                 {
-                                    icon: FaCalendarAlt,
-                                    title: 'Year 2',
-                                    subtitle: 'Current Farm Stage',
-                                    description: 'Maturing Phase',
-                                    note: 'Trees entering peak production cycle',
+                                    icon: FaTree,
+                                    title: `${blocksList.filter((b: any) => b.status === 'PLANTED' || b.status === 'HARVESTED').length} Blocks Planted`,
+                                    subtitle: 'Farm Development',
+                                    description: `${blocksList.filter((b: any) => b.status === 'HARVESTED').length} harvesting`,
+                                    note: `${blocksList.length - blocksList.filter((b: any) => b.status === 'PLANTED' || b.status === 'HARVESTED').length} remaining to develop`,
                                     variant: 'primary' as const
                                 },
                                 {
                                     icon: FaChartLine,
-                                    title: 'Premium Quality',
-                                    subtitle: 'Grade A Cashews',
-                                    description: 'Export-Ready',
-                                    note: 'EU & US market compliant',
+                                    title: `${financials.profitMargin.toFixed(0)}% Profit Margin`,
+                                    subtitle: 'Financial Health',
+                                    description: `${revenues.filter(r => r.quality === 'PREMIUM').length} Premium sales`,
+                                    note: `${revenues.filter(r => r.quality === 'STANDARD').length} Standard sales`,
                                     variant: 'accent' as const
                                 },
                                 {
-                                    icon: FaSeedling,
-                                    title: 'Organic Certified',
-                                    subtitle: 'In Progress',
-                                    description: 'Q1 2025',
-                                    note: 'Premium pricing available',
+                                    icon: FaGlobeAfrica,
+                                    title: `${revenues.filter(r => r.supplierId && r.supplierId !== 10).length} Supplier Sales`,
+                                    subtitle: 'Supply Network',
+                                    description: `${revenues.filter(r => r.supplierId === 10).length} Own Farm sales`,
+                                    note: 'Diversified revenue streams',
                                     variant: 'secondary' as const
                                 }
                             ].map((highlight, idx) => (
