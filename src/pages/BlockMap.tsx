@@ -24,7 +24,6 @@ import PhotoGallery from '@/components/PhotoGallery/PhotoGallery';
 
 
 const isDevelopment = import.meta.env.DEV;
-
 interface Block {
     id: number;
     blockName: string;
@@ -35,6 +34,9 @@ interface Block {
     lastHarvestQuantity?: number;
     totalHarvestQuantity?: number;
     harvestHistory?: string;
+    clearedDate?: number;
+    plowedDate?: number;
+    plantedDate?: number;
 }
 
 interface Photo {
@@ -182,6 +184,14 @@ const BlockMap: React.FC = () => {
             .sort((a, b) => parseInt(a.blockName[1]) - parseInt(b.blockName[1]))
     );
 
+    const getBlockStage = (block: Block): 'PLANTED' | 'PLOWED' | 'CLEARED' | 'NOT_CLEARED' | 'HARVESTED' => {
+        if (block.harvestCount && block.harvestCount > 0) return 'HARVESTED';
+        if (block.plantedDate) return 'PLANTED';
+        if (block.plowedDate) return 'PLOWED';
+        if (block.clearedDate) return 'CLEARED';
+        return 'NOT_CLEARED';
+    };
+
     if (loading) {
         return (
             <main>
@@ -199,11 +209,11 @@ const BlockMap: React.FC = () => {
         );
     }
 
-    const plantedCount = blocks.filter(b => b.status === 'PLANTED').length;
-    const plowedCount = blocks.filter(b => b.status === 'PLOWED').length;
-    const clearedCount = blocks.filter(b => b.status === 'CLEARED').length;
-    const notClearedCount = blocks.filter(b => b.status === 'NOT_CLEARED').length;
-    const harvestedCount = blocks.filter(b => b.status === 'HARVESTED').length;
+    const clearedCount = blocks.filter(b => b.clearedDate).length;
+    const plowedCount = blocks.filter(b => b.plowedDate).length;
+    const plantedCount = blocks.filter(b => b.plantedDate).length;
+    const harvestedCount = blocks.filter(b => b.harvestCount && b.harvestCount > 0).length;
+    const notClearedCount = blocks.length - clearedCount;
 
     return (
         <div className="min-h-screen relative overflow-hidden pt-[72px]">
@@ -430,10 +440,10 @@ const BlockMap: React.FC = () => {
                                                 <FarmBlock
                                                     key={block.id}
                                                     blockName={block.blockName}
-                                                    status={block.status}
+                                                    status={getBlockStage(block)}
                                                     survivalRate={block.survivalRate}
-                                                    icon={getStatusIcon(block.status)}
-                                                    colors={colors}
+                                                    icon={getStatusIcon(getBlockStage(block))}
+                                                    colors={getStatusColor(getBlockStage(block))}
                                                     infrastructure={infrastructure}
                                                     onClick={() => setSelectedBlock(block)}
                                                 />
@@ -459,11 +469,11 @@ const BlockMap: React.FC = () => {
                 {/* Summary Stats - Using InfoCard */}
                 <div className="mt-10 grid grid-cols-2 md:grid-cols-5 gap-4">
                     {[
-                        { label: 'Harvested', count: harvestedCount, icon: FaTractor, variant: 'secondary' as const },
-                        { label: 'Planted Blocks', count: plantedCount, icon: FaTree, variant: 'secondary' as const },
-                        { label: 'Plowed Blocks', count: plowedCount, icon: FaTractor, variant: 'accent' as const },
-                        { label: 'Cleared Blocks', count: clearedCount, icon: FaSeedling, variant: 'primary' as const },
-                        { label: 'Not Cleared', count: notClearedCount, icon: FaHourglassHalf, variant: 'primary' as const },
+                        { label: 'Cleared', count: clearedCount, total: blocks.length, icon: FaSeedling, variant: 'primary' as const },
+                        { label: 'Plowed', count: plowedCount, total: blocks.length, icon: FaTractor, variant: 'accent' as const },
+                        { label: 'Planted', count: plantedCount, total: blocks.length, icon: FaTree, variant: 'secondary' as const },
+                        { label: 'Harvested', count: harvestedCount, total: plantedCount, icon: FaTractor, variant: 'secondary' as const },
+                        { label: 'Not Cleared', count: notClearedCount, total: blocks.length, icon: FaHourglassHalf, variant: 'primary' as const },
                     ].map((stat, idx) => (
                         <motion.div
                             key={idx}
@@ -473,7 +483,7 @@ const BlockMap: React.FC = () => {
                         >
                             <InfoCard
                                 icon={stat.icon}
-                                title={String(stat.count)}
+                                title={`${stat.count}/${stat.total}`}
                                 subtitle={stat.label}
                                 variant={stat.variant}
                                 showInfoBadge={false}
