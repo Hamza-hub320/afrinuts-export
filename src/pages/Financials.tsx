@@ -121,25 +121,30 @@ const Financials: React.FC = () => {
     useEffect(() => {
         const fetchFinancials = async () => {
             try {
-                let revenueData, expenseData;
+                let revenueData, expenseData, blocksData;
                 if (isDevelopment) {
                     revenueData = await getMockData('getRevenueSummary');
                     expenseData = await getMockData('getExpenseSummary');
+                    blocksData = await getMockData('getBlocks');
                 } else {
-                    revenueData = await callApi('farmData', { action: 'getRevenueSummary', farmId: '1' });
-                    expenseData = await callApi('farmData', { action: 'getExpenseSummary', farmId: '1' });
+                    [revenueData, expenseData, blocksData] = await Promise.all([
+                        callApi('farmData', { action: 'getRevenueSummary', farmId: '1' }),
+                        callApi('farmData', { action: 'getExpenseSummary', farmId: '1' }),
+                        callApi('farmData', { action: 'getBlocks', farmId: '1' }),
+                    ]);
                 }
 
                 const revenuesList = revenueData.revenues || [];
                 const expensesList = expenseData.expenses || [];
+                const blocksList = blocksData.blocks || [];
+
                 setRevenues(revenuesList);
                 setExpenses(expensesList);
 
-                // Calculate revenue AND expenses by block
                 const blockCount = Object.keys(BLOCK_NAMES).length;
                 const blockMap = new Map<number, any>();
 
-// Initialize all 35 blocks even if no revenue yet
+                // Initialize all 35 blocks
                 Object.keys(BLOCK_NAMES).forEach(key => {
                     const id = parseInt(key);
                     blockMap.set(id, {
@@ -154,17 +159,34 @@ const Financials: React.FC = () => {
                     });
                 });
 
-// Process revenues
+                // Process revenues — allocate farm batch to blocks by harvest contribution
                 revenuesList.forEach((revenue: any) => {
-                    if (revenue.blockId && blockMap.has(revenue.blockId)) {
-                        const block = blockMap.get(revenue.blockId);
-                        block.totalRevenue += revenue.totalAmount || 0;
-                        block.transactionCount++;
-                        if (revenue.quality) block.quality = revenue.quality;
+                    if (revenue.supplierId === 10 && revenue.batchId) {
+                        // AfriNuts own farm batch — allocate proportionally
+                        const totalFarmHarvest = blocksList.reduce((sum: number, b: any) => sum + (b.totalHarvestQuantity || 0), 0);
+
+                        if (totalFarmHarvest > 0) {
+                            blocksList.forEach((b: any) => {
+                                if (b.totalHarvestQuantity && b.totalHarvestQuantity > 0 && blockMap.has(b.id)) {
+                                    const share = b.totalHarvestQuantity / totalFarmHarvest;
+                                    const blockRevenue = Math.round(revenue.totalAmount * share);
+                                    const blockEntry = blockMap.get(b.id);
+                                    blockEntry.totalRevenue += blockRevenue;
+                                    blockEntry.transactionCount++;
+                                    if (revenue.quality) blockEntry.quality = revenue.quality;
+                                }
+                            });
+                        }
+                    } else if (revenue.blockId && blockMap.has(revenue.blockId)) {
+                        // Legacy: direct block revenue
+                        const blockEntry = blockMap.get(revenue.blockId);
+                        blockEntry.totalRevenue += revenue.totalAmount || 0;
+                        blockEntry.transactionCount++;
+                        if (revenue.quality) blockEntry.quality = revenue.quality;
                     }
                 });
 
-// Process expenses: separate direct vs farm-wide
+                // Process expenses: separate direct vs farm-wide
                 let totalFarmWideExpenses = 0;
                 expensesList.forEach((expense: any) => {
                     if (expense.blockId && blockMap.has(expense.blockId)) {
@@ -174,18 +196,17 @@ const Financials: React.FC = () => {
                     }
                 });
 
-// Allocate farm-wide expenses equally
+                // Allocate farm-wide expenses equally
                 const perBlockAllocation = totalFarmWideExpenses / blockCount;
-                blockMap.forEach((block) => {
-                    block.allocatedExpenses = perBlockAllocation;
-                    block.totalExpenses = block.directExpenses + block.allocatedExpenses;
-                    block.profit = block.totalRevenue - block.totalExpenses;
-                    block.roi = block.totalExpenses > 0
-                        ? ((block.totalRevenue - block.totalExpenses) / block.totalExpenses * 100)
-                        : (block.totalRevenue > 0 ? 100 : 0);
+                blockMap.forEach((blockEntry) => {
+                    blockEntry.allocatedExpenses = perBlockAllocation;
+                    blockEntry.totalExpenses = blockEntry.directExpenses + blockEntry.allocatedExpenses;
+                    blockEntry.profit = blockEntry.totalRevenue - blockEntry.totalExpenses;
+                    blockEntry.roi = blockEntry.totalExpenses > 0
+                        ? ((blockEntry.totalRevenue - blockEntry.totalExpenses) / blockEntry.totalExpenses * 100)
+                        : (blockEntry.totalRevenue > 0 ? 100 : 0);
                 });
 
-// Convert to array and sort by profit
                 const blockRevenueArray = Array.from(blockMap.values())
                     .sort((a, b) => b.profit - a.profit);
 
@@ -296,10 +317,9 @@ const Financials: React.FC = () => {
                                 Financial Performance at a Glance
                             </Typography>
                             <Typography variant="lead" className="text-text-dark max-w-3xl mx-auto mb-8">
-                                Track revenue, expenses, and profitability across all 35 blocks of our Odienné farm.
-                                Farm-wide costs are allocated equally per block for fair comparison, while block-specific
-                                expenses are tracked separately. Use the charts to spot trends and the Block Summary
-                                view to identify your top and bottom performers.
+                                Track revenue, expenses, and profitability across all 35 blocks.
+                                Farm harvest revenue is allocated to blocks proportionally based on each block's
+                                harvest contribution. Farm-wide costs are shared equally for fair comparison.
                             </Typography>
                         </motion.div>
                     </motion.div>
@@ -465,7 +485,7 @@ const Financials: React.FC = () => {
                                     <Typography variant="h4" className="text-primary">Revenue by Block</Typography>
                                 </div>
                                 <div className="text-sm text-gray-500 bg-white/30 px-3 py-1 rounded-full">
-                                    {revenueByBlock.length} blocks have generated revenue
+                                    Revenue allocated from {revenues.filter(r => r.supplierId === 10).length} farm batch{revenues.filter(r => r.supplierId === 10).length !== 1 ? 'es' : ''} across {revenueByBlock.filter(b => b.totalRevenue > 0).length} blocks
                                 </div>
                             </div>
 
@@ -717,7 +737,11 @@ const Financials: React.FC = () => {
                                                         </div>
                                                     </td>
                                                     <td className="py-3">
-                                                        {revenue.blockId ? BLOCK_NAMES[revenue.blockId] || `Block ${revenue.blockId}` : 'Processing Center'}
+                                                        {revenue.blockId
+                                                            ? BLOCK_NAMES[revenue.blockId] || `Block ${revenue.blockId}`
+                                                            : revenue.supplierId === 10
+                                                                ? 'Farm Batch (Allocated)'
+                                                                : revenue.supplierName || 'Processing Center'}
                                                     </td>
                                                     <td className="py-3">
                                                         {revenue.harvestCycleId ? (

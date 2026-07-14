@@ -209,7 +209,7 @@ const BlockMap: React.FC = () => {
         );
     }
 
-    const clearedCount = blocks.filter(b => b.clearedDate).length;
+    const clearedCount = blocks.filter(b => b.clearedDate && b.clearedDate > 0).length;
     const plowedCount = blocks.filter(b => b.plowedDate).length;
     const plantedCount = blocks.filter(b => b.plantedDate).length;
     const harvestedCount = blocks.filter(b => b.harvestCount && b.harvestCount > 0).length;
