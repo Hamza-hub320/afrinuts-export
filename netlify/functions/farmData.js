@@ -33,37 +33,40 @@ exports.handler = async (event, context) => {
     // For public stats (no auth required)
     if (action === 'getPublicFarmStats') {
         try {
-            const farmDoc = await db.collection('farms').doc(farmId || '1').get();
             const blocksSnapshot = await db.collection('farms').doc(farmId || '1').collection('blocks').get();
 
             const blocks = [];
             blocksSnapshot.forEach(doc => blocks.push({ id: doc.id, ...doc.data() }));
 
+            const harvestedBlocks = blocks.filter(b => b.status === 'HARVESTED').length;
             const plantedBlocks = blocks.filter(b => b.status === 'PLANTED').length;
-            const aliveTrees = blocks.reduce((sum, b) => sum + (b.survivalRate || 0), 0);
-
-            // Block status distribution for pie chart
-            const statusCount = {};
-            blocks.forEach(b => {
-                statusCount[b.status] = (statusCount[b.status] || 0) + 1;
-            });
-            const blockStatusDistribution = Object.entries(statusCount).map(([name, value]) => ({ name, value }));
-
+            const activeBlocks = blocks.filter(b =>
+                b.status === 'CLEARED' || b.status === 'PLOWED' || b.status === 'PLANTED' || b.status === 'HARVESTED'
+            ).length;
+            const totalTreesPlanted = (plantedBlocks + harvestedBlocks) * 100;
+            const aliveTrees = blocks.reduce((sum, b) => {
+                const rate = b.survivalRate || 0;
+                return sum + Math.round(rate * 100 / 100);
+            }, 0);
 
             return {
                 statusCode: 200,
                 headers,
                 body: JSON.stringify({
                     success: true,
-                    farm: farmDoc.data(),
+                    blocks: blocks,
                     stats: {
                         totalBlocks: blocks.length,
+                        activeBlocks: activeBlocks,
+                        harvestedBlocks: harvestedBlocks,
                         plantedBlocks: plantedBlocks,
-                        totalTrees: blocks.length * 100,
+                        totalTreesPlanted: totalTreesPlanted,
                         aliveTrees: aliveTrees,
-                        survivalRate: (aliveTrees / (blocks.length * 100)) * 100,
+                        survivalRate: (plantedBlocks + harvestedBlocks) > 0
+                            ? blocks.filter(b => b.status === 'PLANTED' || b.status === 'HARVESTED')
+                            .reduce((sum, b) => sum + (b.survivalRate || 0), 0) / (plantedBlocks + harvestedBlocks)
+                            : 0,
                     },
-                    blockStatusDistribution,
                 }),
             };
         } catch (error) {

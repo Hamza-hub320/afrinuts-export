@@ -55,13 +55,19 @@ const LiveFarmStats: React.FC = () => {
     useEffect(() => {
         const fetchBlocks = async () => {
             try {
-                let data;
                 if (isDevelopment) {
-                    data = await getMockData('getBlocks');
+                    const data = await getMockData('getBlocks');
+                    setBlocks(data.blocks || []);
                 } else {
-                    data = await callApi('farmData', { action: 'getBlocks', farmId: '1' }, false);
+                    const data: any = await callApi('farmData', { action: 'getPublicFarmStats', farmId: '1' }, false);
+                    if (data?.blocks) {
+                        setBlocks(data.blocks);
+                    } else {
+                        // Fallback: try authenticated endpoint
+                        const blocksData: any = await callApi('farmData', { action: 'getBlocks', farmId: '1' }, false);
+                        setBlocks(blocksData?.blocks || []);
+                    }
                 }
-                setBlocks(data.blocks || []);
             } catch (err) {
                 console.error('Failed to fetch farm data:', err);
             } finally {
