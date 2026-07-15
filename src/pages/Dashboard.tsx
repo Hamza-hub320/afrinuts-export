@@ -577,7 +577,12 @@ const Dashboard: React.FC = () => {
                             iconColor="text-primary"
                             showInfoBadge={false}
                         >
-                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <div className={`grid grid-cols-1 sm:grid-cols-2 ${
+                                Object.keys(revenues.reduce((acc: Record<string, any>, r: any) => {
+                                    acc[r.quality || 'UNKNOWN'] = true;
+                                    return acc;
+                                }, {})).length >= 3 ? 'lg:grid-cols-3' : 'lg:grid-cols-2'
+                            } gap-4`}>
                                 {Object.entries(
                                     revenues.reduce((acc: Record<string, { amount: number; count: number }>, r: any) => {
                                         const quality = r.quality || 'UNKNOWN';
@@ -588,42 +593,46 @@ const Dashboard: React.FC = () => {
                                     }, {} as Record<string, { amount: number; count: number }>)
                                 )
                                     .sort(([, a], [, b]) => b.amount - a.amount)
-                                    .map(([quality, data]) => (
-                                        <motion.div
-                                            key={quality}
-                                            className={`text-center p-4 rounded-xl border transition-all hover:shadow-md ${
-                                                quality === 'PREMIUM'
-                                                    ? 'bg-amber-50 border-amber-200'
-                                                    : quality === 'STANDARD'
-                                                        ? 'bg-blue-50 border-blue-200'
-                                                        : 'bg-gray-50 border-gray-200'
-                                            }`}
-                                            whileHover={{ y: -2, scale: 1.02 }}
-                                        >
-                                            <div className={`text-xs font-semibold uppercase mb-2 ${
-                                                quality === 'PREMIUM' ? 'text-amber-700' :
-                                                    quality === 'STANDARD' ? 'text-blue-700' : 'text-gray-600'
-                                            }`}>
-                                                {quality}
-                                            </div>
-                                            <div className="text-xl font-bold text-gray-900">
-                                                {new Intl.NumberFormat('fr-FR').format(data.amount)} FCFA
-                                            </div>
-                                            <div className="text-xs text-gray-500 mt-1">
-                                                {data.count} transaction{data.count !== 1 ? 's' : ''} • {' '}
-                                                {totalRevenue > 0 ? ((data.amount / totalRevenue) * 100).toFixed(0) : 0}% of revenue
-                                            </div>
-                                            {/* Mini progress bar */}
-                                            <div  className="w-full bg-gray-200 rounded-full h-1.5 mt-2">
-                                                <div
-                                                    className={`h-1.5 rounded-full ${
-                                                        quality === 'PREMIUM' ? 'bg-amber-500' :
-                                                            quality === 'STANDARD' ? 'bg-blue-500' : 'bg-gray-400'
-                                                    }`}
-                                                />
-                                            </div>
-                                        </motion.div>
-                                    ))}
+                                    .map(([quality, data]) => {
+                                        const pct = totalRevenue > 0 ? (data.amount / totalRevenue) * 100 : 0;
+                                        return (
+                                            <motion.div
+                                                key={quality}
+                                                className={`text-center p-4 rounded-xl border transition-all hover:shadow-md ${
+                                                    quality === 'PREMIUM'
+                                                        ? 'bg-amber-50 border-amber-200'
+                                                        : quality === 'STANDARD'
+                                                            ? 'bg-blue-50 border-blue-200'
+                                                            : 'bg-gray-50 border-gray-200'
+                                                }`}
+                                                whileHover={{ y: -2, scale: 1.02 }}
+                                            >
+                                                <div className={`text-xs font-semibold uppercase mb-2 ${
+                                                    quality === 'PREMIUM' ? 'text-amber-700' :
+                                                        quality === 'STANDARD' ? 'text-blue-700' : 'text-gray-600'
+                                                }`}>
+                                                    {quality}
+                                                </div>
+                                                <div className="text-xl font-bold text-gray-900">
+                                                    {new Intl.NumberFormat('fr-FR').format(data.amount)} FCFA
+                                                </div>
+                                                <div className="text-xs text-gray-500 mt-1">
+                                                    {data.count} transaction{data.count !== 1 ? 's' : ''} • {pct.toFixed(0)}% of revenue
+                                                </div>
+                                                <div className="w-full bg-gray-200 rounded-full h-1.5 mt-2">
+                                                    <motion.div
+                                                        className={`h-1.5 rounded-full ${
+                                                            quality === 'PREMIUM' ? 'bg-amber-500' :
+                                                                quality === 'STANDARD' ? 'bg-blue-500' : 'bg-gray-400'
+                                                        }`}
+                                                        initial={{ width: 0 }}
+                                                        animate={{ width: `${pct}%` }}
+                                                        transition={{ duration: 1 }}
+                                                    />
+                                                </div>
+                                            </motion.div>
+                                        );
+                                    })}
                             </div>
                         </InfoCard>
                     </motion.div>
@@ -703,22 +712,41 @@ const Dashboard: React.FC = () => {
                 )}
 
                 {/* Block Status Quick Summary */}
-                <div className="grid grid-cols-2 md:grid-cols-6 gap-3 mb-8">
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-8">
                     {[
-                        { label: 'Total Blocks', count: blocks.length, icon: FaBorderAll, iconColor: 'text-primary' },
-                        { label: 'Harvested', count: blocks.filter(b => b.status === 'HARVESTED').length, icon: FaTractor, iconColor: 'text-amber-500' },
-                        { label: 'Planted', count: blocks.filter(b => b.status === 'PLANTED').length, icon: FaTree, iconColor: 'text-green-500' },
-                        { label: 'Plowed', count: blocks.filter(b => b.status === 'PLOWED').length, icon: FaTractor, iconColor: 'text-blue-500' },
-                        { label: 'Cleared', count: blocks.filter(b => b.status === 'CLEARED').length, icon: FaSeedling, iconColor: 'text-orange-500' },
-                        { label: 'Not Cleared', count: blocks.filter(b => b.status === 'NOT_CLEARED').length, icon: FaHourglassHalf, iconColor: 'text-gray-400' },
+                        {
+                            label: 'Harvested',
+                            count: blocks.filter(b => b.status === 'HARVESTED').length,
+                            total: blocks.filter(b => b.status === 'PLANTED' || b.status === 'HARVESTED').length,
+                            icon: FaTractor,
+                            iconColor: 'text-amber-500',
+                            variant: 'secondary' as const
+                        },
+                        {
+                            label: 'Planted',
+                            count: blocks.filter(b => b.status === 'PLANTED').length,
+                            total: blocks.length,
+                            icon: FaTree,
+                            iconColor: 'text-green-500',
+                            variant: 'secondary' as const
+                        },
+                        {
+                            label: 'Ready to Harvest',
+                            count: blocks.filter(b => (b.status === 'PLANTED' || b.status === 'HARVESTED') && b.survivalRate >= 85).length,
+                            total: blocks.filter(b => b.status === 'PLANTED' || b.status === 'HARVESTED').length,
+                            icon: FaChartLine,
+                            iconColor: 'text-primary',
+                            variant: 'primary' as const
+                        },
                     ].map((item, idx) => (
                         <motion.div key={idx} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 * idx }}>
                             <InfoCard
                                 icon={item.icon}
-                                title={String(item.count)}
+                                title={`${item.count}/${item.total}`}
                                 subtitle={item.label}
                                 iconColor={item.iconColor}
                                 showInfoBadge={false}
+                                variant={item.variant}
                                 className="h-full"
                             />
                         </motion.div>
