@@ -728,8 +728,28 @@ const Batches: React.FC = () => {
                                                                     </span>
                                                                 </div>
                                                                 <div className="flex justify-between text-sm">
-                                                                    <span className="text-gray-500">Weight</span>
-                                                                    <span className="font-medium">{(batchDetail.traceability.weightKg / 1000).toFixed(1)}T</span>
+                                                                    <span className="text-gray-500">Raw Input</span>
+                                                                    <span className="font-medium">
+        {batchDetail?.batch?.weightKg
+            ? `${(batchDetail.batch.weightKg / 1000).toFixed(1)}T`
+            : '—'}
+    </span>
+                                                                </div>
+                                                                <div className="flex justify-between text-sm">
+                                                                    <span className="text-gray-500">Kernel Output</span>
+                                                                    <span className="font-medium text-green-700">
+        {batchDetail?.revenues?.[0]?.quantityKg
+            ? `${(batchDetail.revenues[0].quantityKg / 1000).toFixed(1)}T`
+            : '—'}
+    </span>
+                                                                </div>
+                                                                <div className="flex justify-between text-sm">
+                                                                    <span className="text-gray-500">Yield</span>
+                                                                    <span className="font-medium">
+        {batchDetail?.batch?.weightKg && batchDetail?.revenues?.[0]?.quantityKg
+            ? `${((batchDetail.revenues[0].quantityKg / batchDetail.batch.weightKg) * 100).toFixed(1)}%`
+            : '—'}
+    </span>
                                                                 </div>
                                                                 <div className="flex justify-between text-sm">
                                                                     <span className="text-gray-500">Price/kg</span>
