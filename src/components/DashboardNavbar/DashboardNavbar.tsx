@@ -47,7 +47,7 @@ const DashboardNavbar: React.FC = () => {
         { path: '/dashboard/tasks', icon: FaClipboardList, label: 'Tasks' },
         { path: '/dashboard/financials', icon: FaChartPie, label: 'Financials' },
         { path: '/investor', icon: FaChartBar, label: 'Investor' },
-        { path: '/farm-os', icon: FaMobile, label: 'Farm OS' },
+        { path: '/farm-os', icon: FaMobile, label: 'AOS' },
         { path: '/dashboard/suppliers', icon: GiFarmer, label: 'Suppliers' },
         { path: '/dashboard/batches', icon: FaBox, label: 'Batches' },
         { path: '/dashboard/settings', icon: FaCog, label: 'Settings' },
@@ -62,7 +62,7 @@ const DashboardNavbar: React.FC = () => {
             className="fixed left-1/2 -translate-x-1/2 z-40 transition-all duration-300 w-full max-w-full sm:max-w-fit sm:w-auto px-3 sm:px-0"
             style={{ top: `${navbarTop}px` }}
         >
-            <div className={`relative bg-white/60 backdrop-blur-md border border-white/40 shadow-lg mx-auto transition-all duration-300 rounded-full ${
+            <div className={`relative bg-white/60 backdrop-blur-md border-2 border-white/40 shadow-lg mx-auto transition-all duration-300 rounded-full ${
                 scrolled ? 'shadow-xl bg-white/80 backdrop-blur-lg scale-[0.97]' : ''
             }`}>
                 {/* Desktop: compact pill */}
