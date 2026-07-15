@@ -20,6 +20,8 @@ import Faq from "@pages/Faq";
 import Blog from '@/pages/Blog';
 import BlogPost from '@/pages/BlogPost';
 import NewsPost from '@/pages/NewsPost';
+import Settings from './pages/Settings';
+import AdminUsers from './pages/AdminUsers';
 
 // Lazy load heavy pages
 const Community = React.lazy(() => import('@/pages/Community'));
@@ -154,6 +156,16 @@ function App(): ReactElement {
                                 <Route path="dashboard/batches" element={
                                     <ProtectedRoute allowedRoles={['OWNER', 'MANAGER']}>
                                         <Batches />
+                                    </ProtectedRoute>
+                                } />
+                                <Route path="dashboard/settings" element={
+                                    <ProtectedRoute allowedRoles={['OWNER', 'MANAGER', 'INVESTOR']}>
+                                        <Settings />
+                                    </ProtectedRoute>
+                                } />
+                                <Route path="dashboard/users" element={
+                                    <ProtectedRoute allowedRoles={['OWNER']}>
+                                        <AdminUsers />
                                     </ProtectedRoute>
                                 } />
                                 <Route path="*" element={<Home />} />

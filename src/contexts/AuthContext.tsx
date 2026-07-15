@@ -12,6 +12,7 @@ interface User {
     email: string;
     name: string;
     role: 'OWNER' | 'MANAGER' | 'WORKER' | 'INVESTOR';
+    displayName?: string | null;
 }
 
 interface AuthContextType {
