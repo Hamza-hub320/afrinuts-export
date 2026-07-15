@@ -1042,8 +1042,8 @@ const InvestorPortal: React.FC = () => {
                         >
                             <InfoCard
                                 icon={FaCalendarAlt}
-                                title="Production & Revenue Forecast"
-                                subtitle="Based on tree maturity curve and current performance"
+                                title="Farm Production Forecast"
+                                subtitle="Based on own farm tree maturity curve and current block performance"
                                 variant="primary"
                                 showInfoBadge={false}
                             >
@@ -1052,39 +1052,48 @@ const InvestorPortal: React.FC = () => {
                                         const currentYear = new Date().getFullYear();
                                         const plantedBlocks = blocksList.filter((b: any) => b.status === 'PLANTED' || b.status === 'HARVESTED').length;
                                         const harvestedBlocks = blocksList.filter((b: any) => b.status === 'HARVESTED').length;
-                                        const avgRevenuePerBlock = harvestedBlocks > 0 && revenueByBlock.length > 0
-                                            ? revenueByBlock.filter(b => b.totalRevenue > 0).reduce((s, b) => s + b.totalRevenue, 0) / harvestedBlocks
-                                            : 0;
-                                        const farmOperationalCost = expenses
+
+                                        // Own farm revenue only (supplierId === 10)
+                                        const ownFarmRevenue = revenues
+                                            .filter(r => r.supplierId === 10)
+                                            .reduce((s, r) => s + (r.totalAmount || 0), 0);
+
+                                        // Own farm operational cost (exclude procurement)
+                                        const ownFarmCost = expenses
                                             .filter(e => e.category !== 'PROCUREMENT')
                                             .reduce((s, e) => s + (e.amount || 0), 0);
-                                        const avgCostPerBlock = plantedBlocks > 0 ? farmOperationalCost / plantedBlocks : 0;
-                                        const currentMargin = financials.totalRevenue > 0 ? (financials.netProfit / financials.totalRevenue) * 100 : 0;
+
+                                        const ownFarmProfit = ownFarmRevenue - ownFarmCost;
+                                        const ownFarmMargin = ownFarmRevenue > 0 ? (ownFarmProfit / ownFarmRevenue) * 100 : 0;
+
+                                        // Average revenue per harvested block
+                                        const avgRevenuePerBlock = harvestedBlocks > 0 ? ownFarmRevenue / harvestedBlocks : 0;
+                                        const avgProfitPerBlock = harvestedBlocks > 0 ? ownFarmProfit / harvestedBlocks : 0;
 
                                         return [
                                             {
                                                 year: currentYear,
                                                 label: 'Current Year',
                                                 blocks: harvestedBlocks,
-                                                revenue: financials.totalRevenue,
-                                                profit: financials.netProfit,
-                                                note: `${harvestedBlocks} blocks harvested`
+                                                revenue: ownFarmRevenue,
+                                                profit: ownFarmProfit,
+                                                note: `${harvestedBlocks} of ${plantedBlocks} planted blocks harvested`
                                             },
                                             {
                                                 year: currentYear + 1,
                                                 label: 'Next Year',
                                                 blocks: Math.min(plantedBlocks + 5, 35),
                                                 revenue: Math.round(avgRevenuePerBlock * Math.min(plantedBlocks + 5, 35) * 1.15),
-                                                profit: Math.round(avgRevenuePerBlock * Math.min(plantedBlocks + 5, 35) * 1.15 * (currentMargin / 100)),
-                                                note: `${Math.min(plantedBlocks + 5, 35)} blocks projected`
+                                                profit: Math.round(avgProfitPerBlock * Math.min(plantedBlocks + 5, 35) * 1.15),
+                                                note: `${Math.min(plantedBlocks + 5, 35)} blocks projected · 15% yield growth`
                                             },
                                             {
                                                 year: currentYear + 2,
                                                 label: 'Year 3',
                                                 blocks: 35,
-                                                revenue: Math.round(avgRevenuePerBlock * 35 * 1.3),
-                                                profit: Math.round(avgRevenuePerBlock * 35 * 1.3 * (currentMargin / 100)),
-                                                note: 'Full 35-block production'
+                                                revenue: Math.round(avgRevenuePerBlock * 35 * 1.30),
+                                                profit: Math.round(avgProfitPerBlock * 35 * 1.30),
+                                                note: 'Full 35-block maturity · 30% cumulative growth'
                                             },
                                         ].map((proj, idx) => (
                                             <motion.div
@@ -1098,7 +1107,7 @@ const InvestorPortal: React.FC = () => {
                                                 <div className="text-2xl font-bold text-gray-900 mb-1">
                                                     {new Intl.NumberFormat('fr-FR').format(proj.revenue)} FCFA
                                                 </div>
-                                                <div className="text-sm text-gray-500 mb-2">Projected Revenue</div>
+                                                <div className="text-sm text-gray-500 mb-2">Farm Revenue</div>
                                                 <div className="mt-2 pt-2 border-t border-gray-200">
                                                     <div className="text-sm text-green-700 font-medium">
                                                         Profit: {new Intl.NumberFormat('fr-FR').format(proj.profit)} FCFA
@@ -1112,12 +1121,120 @@ const InvestorPortal: React.FC = () => {
                                 <div className="mt-4 p-3 bg-primary/5 rounded-lg">
                                     <p className="text-sm text-gray-600">
                                         <FaLightbulb className="inline mr-1 text-yellow-500" />
-                                        <strong>Methodology:</strong> Based on {blocksList.filter((b: any) => b.status === 'HARVESTED').length} harvested blocks averaging{' '}
+                                        <strong>Farm-Only Forecast:</strong> Based on {blocksList.filter((b: any) => b.status === 'HARVESTED').length} harvested blocks
+                                        from our own farm generating{' '}
+                                        {new Intl.NumberFormat('fr-FR').format(
+                                            revenues.filter(r => r.supplierId === 10).reduce((s, r) => s + (r.totalAmount || 0), 0)
+                                        )} FCFA.
+                                        Supplier trading revenue is excluded from this projection.
+                                        As trees mature and more blocks are planted, farm production is expected to grow 15-30% annually.
+                                    </p>
+                                </div>
+                            </InfoCard>
+                        </motion.div>
+
+                        {/* Supplier Trading Forecast */}
+                        <motion.div
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                            variants={staggerContainer}
+                            className="mb-12"
+                        >
+                            <InfoCard
+                                icon={FaUsers}
+                                title="Supplier Trading Forecast"
+                                subtitle="Based on current supplier performance and network capacity"
+                                variant="accent"
+                                showInfoBadge={false}
+                            >
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                    {(() => {
+                                        const currentYear = new Date().getFullYear();
+
+                                        // Supplier revenue only (exclude own farm)
+                                        const supplierRevenue = revenues
+                                            .filter(r => r.supplierId && r.supplierId !== 10)
+                                            .reduce((s, r) => s + (r.totalAmount || 0), 0);
+
+                                        // Supplier procurement cost
+                                        const supplierCost = expenses
+                                            .filter(e => e.category === 'PROCUREMENT')
+                                            .reduce((s, e) => s + (e.amount || 0), 0);
+
+                                        const supplierProfit = supplierRevenue - supplierCost;
+                                        const supplierMargin = supplierCost > 0 ? (supplierProfit / supplierCost) * 100 : 0;
+
+                                        // Active suppliers with revenue
+                                        const activeSupplierIds = new Set(
+                                            revenues.filter(r => r.supplierId && r.supplierId !== 10).map(r => r.supplierId)
+                                        );
+                                        const activeSupplierCount = activeSupplierIds.size;
+
+                                        // Average revenue per supplier
+                                        const avgRevenuePerSupplier = activeSupplierCount > 0 ? supplierRevenue / activeSupplierCount : 0;
+                                        const avgMarginPerSupplier = activeSupplierCount > 0 ? supplierProfit / activeSupplierCount : 0;
+
+                                        return [
+                                            {
+                                                year: currentYear,
+                                                label: 'Current Year',
+                                                suppliers: activeSupplierCount,
+                                                revenue: supplierRevenue,
+                                                profit: supplierProfit,
+                                                note: `${activeSupplierCount} active supplier${activeSupplierCount !== 1 ? 's' : ''}`
+                                            },
+                                            {
+                                                year: currentYear + 1,
+                                                label: 'Next Year',
+                                                suppliers: Math.min(activeSupplierCount + 2, 6),
+                                                revenue: Math.round(avgRevenuePerSupplier * Math.min(activeSupplierCount + 2, 6) * 1.20),
+                                                profit: Math.round(avgMarginPerSupplier * Math.min(activeSupplierCount + 2, 6) * 1.20),
+                                                note: `${Math.min(activeSupplierCount + 2, 6)} suppliers projected · 20% growth`
+                                            },
+                                            {
+                                                year: currentYear + 2,
+                                                label: 'Year 3',
+                                                suppliers: Math.min(activeSupplierCount + 4, 8),
+                                                revenue: Math.round(avgRevenuePerSupplier * Math.min(activeSupplierCount + 4, 8) * 1.40),
+                                                profit: Math.round(avgMarginPerSupplier * Math.min(activeSupplierCount + 4, 8) * 1.40),
+                                                note: `${Math.min(activeSupplierCount + 4, 8)} suppliers projected · 40% cumulative`
+                                            },
+                                        ].map((proj, idx) => (
+                                            <motion.div
+                                                key={idx}
+                                                variants={fadeIn}
+                                                transition={{ delay: idx * 0.1 }}
+                                                className="text-center p-4 rounded-xl bg-gradient-to-br from-accent/5 to-primary/5 border border-accent/10"
+                                            >
+                                                <div className="text-xs text-gray-500 uppercase mb-1">{proj.label}</div>
+                                                <div className="text-lg font-bold text-accent mb-2">{proj.year}</div>
+                                                <div className="text-2xl font-bold text-gray-900 mb-1">
+                                                    {new Intl.NumberFormat('fr-FR').format(proj.revenue)} FCFA
+                                                </div>
+                                                <div className="text-sm text-gray-500 mb-2">Trading Revenue</div>
+                                                <div className="mt-2 pt-2 border-t border-gray-200">
+                                                    <div className="text-sm text-green-700 font-medium">
+                                                        Margin: {new Intl.NumberFormat('fr-FR').format(proj.profit)} FCFA
+                                                    </div>
+                                                </div>
+                                                <div className="text-[10px] text-gray-400 mt-1">{proj.note}</div>
+                                            </motion.div>
+                                        ));
+                                    })()}
+                                </div>
+                                <div className="mt-4 p-3 bg-accent/5 rounded-lg">
+                                    <p className="text-sm text-gray-600">
+                                        <FaLightbulb className="inline mr-1 text-yellow-500" />
+                                        <strong>Supplier-Only Forecast:</strong> Based on {new Set(revenues.filter(r => r.supplierId && r.supplierId !== 10).map(r => r.supplierId)).size} active suppliers
+                                        generating an average of{' '}
                                         {new Intl.NumberFormat('fr-FR').format(Math.round(
-                                            blocksList.filter((b: any) => b.status === 'HARVESTED').length > 0 && revenueByBlock.filter(b => b.totalRevenue > 0).length > 0
-                                                ? revenueByBlock.filter(b => b.totalRevenue > 0).reduce((s, b) => s + b.totalRevenue, 0) / blocksList.filter((b: any) => b.status === 'HARVESTED').length
+                                            new Set(revenues.filter(r => r.supplierId && r.supplierId !== 10).map(r => r.supplierId)).size > 0
+                                                ? revenues.filter(r => r.supplierId && r.supplierId !== 10).reduce((s, r) => s + (r.totalAmount || 0), 0) / new Set(revenues.filter(r => r.supplierId && r.supplierId !== 10).map(r => r.supplierId)).size
                                                 : 0
-                                        ))} FCFA per block. Projections assume 15% annual yield improvement as trees mature. Actual results depend on weather, market prices, and operational execution.
+                                        ))} FCFA per supplier.
+                                        Growth projections assume expanding the supplier network and deepening existing relationships.
+                                        Farm production forecast is shown separately.
                                     </p>
                                 </div>
                             </InfoCard>
