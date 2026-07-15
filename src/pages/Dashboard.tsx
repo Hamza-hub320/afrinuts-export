@@ -57,6 +57,11 @@ const Dashboard: React.FC = () => {
     const [expenses, setExpenses] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [showMobileWeather, setShowMobileWeather] = useState(false);
+    const avgSurvivalRate = blocks.length > 0
+        ? blocks.reduce((sum, b) => sum + (b.survivalRate || 0), 0) / blocks.length
+        : 0;
+    const totalAliveTrees = blocks.reduce((sum, b) => sum + Math.round((b.survivalRate || 0) * 100 / 100), 0);
+
     const getFarmGrowthStage = (): {
         stage: string;
         icon: React.ElementType;
