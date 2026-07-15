@@ -18,7 +18,7 @@ import {
     FaTrophy,
     FaArrowRight,
     FaMedal,
-    FaAward, FaHourglassHalf, FaClipboardList, FaBox, FaChartBar,
+    FaAward, FaHourglassHalf, FaClipboardList, FaBox, FaChartBar, FaBorderAll,
 } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -457,7 +457,7 @@ const Dashboard: React.FC = () => {
                         <InfoCard
                             icon={FaTree}
                             title="Tree Survival Rate"
-                            subtitle={`${farmData?.stats?.totalAliveTrees?.toLocaleString() || 0} trees alive`}
+                            subtitle={`${totalAliveTrees.toLocaleString()} trees alive`}
                             iconColor="text-primary"
                             showInfoBadge={false}
                         >
@@ -465,19 +465,19 @@ const Dashboard: React.FC = () => {
                                 <div className="flex justify-between text-sm mb-1">
                                     <span className="text-gray-600">Survival Rate</span>
                                     <span className="font-semibold text-green-700">
-                        {farmData?.stats?.avgSurvivalRate?.toFixed(1) || 0}%
-                    </span>
+                    {avgSurvivalRate.toFixed(1)}%
+                </span>
                                 </div>
                                 <div className="w-full bg-gray-200 rounded-full h-2.5">
                                     <motion.div
                                         className="bg-gradient-to-r from-primary to-accent h-2.5 rounded-full"
                                         initial={{ width: 0 }}
-                                        animate={{ width: `${farmData?.stats?.avgSurvivalRate || 0}%` }}
+                                        animate={{ width: `${avgSurvivalRate}%` }}
                                         transition={{ duration: 1, delay: 0.3 }}
                                     />
                                 </div>
                                 <p className="text-xs text-gray-500 mt-2">
-                                    {farmData?.stats?.avgSurvivalRate > 85
+                                    {avgSurvivalRate > 85
                                         ? 'Exceeds industry average of 85%'
                                         : 'Below industry average - attention needed'}
                                 </p>
@@ -703,8 +703,9 @@ const Dashboard: React.FC = () => {
                 )}
 
                 {/* Block Status Quick Summary */}
-                <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-8">
+                <div className="grid grid-cols-2 md:grid-cols-6 gap-3 mb-8">
                     {[
+                        { label: 'Total Blocks', count: blocks.length, icon: FaBorderAll, iconColor: 'text-primary' },
                         { label: 'Harvested', count: blocks.filter(b => b.status === 'HARVESTED').length, icon: FaTractor, iconColor: 'text-amber-500' },
                         { label: 'Planted', count: blocks.filter(b => b.status === 'PLANTED').length, icon: FaTree, iconColor: 'text-green-500' },
                         { label: 'Plowed', count: blocks.filter(b => b.status === 'PLOWED').length, icon: FaTractor, iconColor: 'text-blue-500' },
@@ -726,7 +727,6 @@ const Dashboard: React.FC = () => {
 
                 {/* Charts Row */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-                    {/* Revenue vs Expenses */}
                     {/* Revenue by Source Over Time */}
                     <motion.div
                         initial={{ opacity: 0, x: -20 }}
