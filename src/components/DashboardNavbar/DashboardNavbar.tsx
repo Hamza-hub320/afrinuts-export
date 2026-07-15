@@ -7,7 +7,7 @@ import {
     FaTachometerAlt, FaBorderAll, FaClipboardList, FaChartPie, FaChartBar, FaMobile, FaBox, FaCog, FaUserShield
 } from 'react-icons/fa';
 import { useAuth } from '../../contexts/AuthContext';
-import {GiFarmer} from "react-icons/gi";
+import { GiFarmer } from "react-icons/gi";
 
 const DashboardNavbar: React.FC = () => {
     const { user, logout } = useAuth();
@@ -39,55 +39,58 @@ const DashboardNavbar: React.FC = () => {
         navigate('/');
     };
 
-    const isActive = (path: string) => location.pathname === path;
+    const isActive = (path: string) => location.pathname === path || location.pathname.startsWith(path + '/');
 
     const navLinks = [
-        { path: '/dashboard', icon: FaTachometerAlt, label: 'Dashboard', sub: 'Overview' },
-        { path: '/dashboard/blocks', icon: FaBorderAll, label: 'Map', sub: 'Farm grid' },
-        { path: '/dashboard/tasks', icon: FaClipboardList, label: 'Tasks', sub: 'Operations' },
-        { path: '/dashboard/financials', icon: FaChartPie, label: 'Financials', sub: 'Reports' },
-        { path: '/investor', icon: FaChartBar, label: 'Investor', sub: 'View Portal' },
-        { path: '/farm-os',  icon: FaMobile, label: 'AOS', sub: 'Agriculture Operating System' },
-        { path: '/dashboard/suppliers', label: 'Suppliers', icon: GiFarmer, sub: 'Suppliers Management'},
-        { path: '/dashboard/batches', label: 'Batches', icon: FaBox, sub: 'Batch Management' },
-        { path: '/dashboard/settings', icon: FaCog },
-        { path: '/dashboard/users', icon: FaUserShield, roles: ['OWNER'] },
+        { path: '/dashboard', icon: FaTachometerAlt, label: 'Dashboard' },
+        { path: '/dashboard/blocks', icon: FaBorderAll, label: 'Map' },
+        { path: '/dashboard/tasks', icon: FaClipboardList, label: 'Tasks' },
+        { path: '/dashboard/financials', icon: FaChartPie, label: 'Financials' },
+        { path: '/investor', icon: FaChartBar, label: 'Investor' },
+        { path: '/farm-os', icon: FaMobile, label: 'Farm OS' },
+        { path: '/dashboard/suppliers', icon: GiFarmer, label: 'Suppliers' },
+        { path: '/dashboard/batches', icon: FaBox, label: 'Batches' },
+        { path: '/dashboard/settings', icon: FaCog, label: 'Settings' },
+        { path: '/dashboard/users', icon: FaUserShield, label: 'Users', roles: ['OWNER'] },
     ];
+
+    const filteredLinks = navLinks.filter(link => !link.roles || link.roles.includes(user?.role || ''));
 
     return (
         <nav
             ref={menuRef}
-            className="fixed left-1/2 -translate-x-1/2 z-40 transition-all duration-300 w-full max-w-full sm:max-w-[95vw] sm:w-auto px-3 sm:px-0"
+            className="fixed left-1/2 -translate-x-1/2 z-40 transition-all duration-300 w-full max-w-full sm:max-w-fit sm:w-auto px-3 sm:px-0"
             style={{ top: `${navbarTop}px` }}
         >
-            <div className={`relative bg-white/50 backdrop-blur-md border-2 border-white/30 shadow-lg mx-auto transition-all duration-300 rounded-2xl ${
+            <div className={`relative bg-white/60 backdrop-blur-md border border-white/40 shadow-lg mx-auto transition-all duration-300 rounded-full ${
                 scrolled ? 'shadow-xl bg-white/80 backdrop-blur-lg scale-[0.97]' : ''
             }`}>
-                {/* Desktop: pill shape */}
-                <div className="hidden sm:flex justify-center items-center min-h-[48px] py-1 px-4 gap-1">
-                    {navLinks.map((link) => (
+                {/* Desktop: compact pill */}
+                <div className="hidden sm:flex justify-center items-center min-h-[44px] py-1 px-2 gap-0.5">
+                    {filteredLinks.map((link) => (
                         <button
                             key={link.path}
                             onClick={() => navigate(link.path)}
-                            className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                            title={link.label}
+                            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all duration-300 ${
                                 isActive(link.path)
                                     ? 'bg-primary text-white shadow-md'
-                                    : 'text-gray-600 hover:bg-white/60 hover:text-primary'
+                                    : 'text-gray-500 hover:bg-white/70 hover:text-primary'
                             }`}
                         >
-                            <link.icon size={16} />
+                            <link.icon size={14} />
                             <span>{link.label}</span>
                         </button>
                     ))}
 
-                    {/* Role & Logout — desktop */}
-                    <div className="flex items-center gap-2 ml-2 pl-2 border-l border-white/30">
-                    <span className="text-xs text-gray-400 bg-white/40 backdrop-blur-sm px-2 py-1 rounded-full">
-                        {user?.role || 'User'}
-                    </span>
+                    {/* Divider + Role + Logout */}
+                    <div className="flex items-center gap-1.5 ml-1 pl-1.5 border-l border-gray-200/60">
+                        <span className="text-[10px] text-gray-400 bg-white/50 backdrop-blur-sm px-2 py-0.5 rounded-full font-medium">
+                            {user?.role || 'User'}
+                        </span>
                         <button
                             onClick={handleLogout}
-                            className="flex items-center gap-1 px-2 py-1 rounded-full text-sm text-gray-400 hover:text-red-500 hover:bg-white/50 transition-all"
+                            className="flex items-center gap-1 px-2 py-1 rounded-full text-xs text-gray-400 hover:text-red-500 hover:bg-white/60 transition-all"
                             title="Logout"
                         >
                             <FaSignOutAlt size={12} />
@@ -95,58 +98,52 @@ const DashboardNavbar: React.FC = () => {
                     </div>
                 </div>
 
-                {/* Mobile: stacked layout like main navbar */}
+                {/* Mobile */}
                 <div className="sm:hidden">
-                    <div className="flex items-center justify-between px-4 py-3">
+                    <div className="flex items-center justify-between px-4 py-2.5">
                         <button
                             onClick={() => { navigate('/dashboard'); setMobileOpen(false); }}
-                            className="flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-primary transition-colors whitespace-nowrap mr-2"
+                            className="flex items-center gap-1.5 text-sm font-medium text-gray-700 hover:text-primary transition-colors"
                         >
-                            <FaTachometerAlt size={18} className="text-primary" />
+                            <FaTachometerAlt size={16} className="text-primary" />
                             <span>Dashboard</span>
                         </button>
                         <div className="flex items-center gap-2">
-                        <span className="text-xs text-gray-400 bg-white/40 backdrop-blur-sm px-2 py-1 rounded-full">
-                            {user?.role || 'User'}
-                        </span>
+                            <span className="text-[10px] text-gray-400 bg-white/40 backdrop-blur-sm px-2 py-0.5 rounded-full">
+                                {user?.role || 'User'}
+                            </span>
                             <button
                                 onClick={() => setMobileOpen(!mobileOpen)}
-                                className="p-2 rounded-lg text-gray-600 hover:text-primary hover:bg-white/60 transition-colors"
+                                className="p-1.5 rounded-lg text-gray-600 hover:text-primary hover:bg-white/60 transition-colors"
                                 aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
                             >
-                                {mobileOpen ? <FaTimes size={18} /> : <FaBars size={18} />}
+                                {mobileOpen ? <FaTimes size={16} /> : <FaBars size={16} />}
                             </button>
                         </div>
                     </div>
 
                     {mobileOpen && (
-                        <div className="pb-4 px-4 space-y-1">
-                            {navLinks.map((link) => (
+                        <div className="pb-3 px-3 space-y-0.5">
+                            {filteredLinks.map((link) => (
                                 <button
                                     key={link.path}
-                                    onClick={() => {
-                                        navigate(link.path);
-                                        setMobileOpen(false);
-                                    }}
-                                    className={`flex items-center gap-3 w-full px-4 py-3 rounded-xl text-base font-medium transition-all ${
+                                    onClick={() => { navigate(link.path); setMobileOpen(false); }}
+                                    className={`flex items-center gap-2 w-full px-3 py-2 rounded-xl text-sm font-medium transition-all ${
                                         isActive(link.path)
                                             ? 'bg-primary text-white'
                                             : 'text-gray-700 hover:bg-white/60'
                                     }`}
                                 >
-                                    <link.icon size={18} />
-                                    <div className="text-left">
-                                        <span className="block">{link.label}</span>
-                                        <span className="text-xs opacity-70">{link.sub}</span>
-                                    </div>
+                                    <link.icon size={16} />
+                                    <span>{link.label}</span>
                                 </button>
                             ))}
-                            <div className="pt-2 border-t border-gray-200/50">
+                            <div className="pt-2 mt-1 border-t border-gray-200/50">
                                 <button
                                     onClick={() => { handleLogout(); setMobileOpen(false); }}
-                                    className="flex items-center gap-2 w-full px-4 py-3 rounded-xl text-base text-red-500 hover:bg-red-50 transition-colors"
+                                    className="flex items-center gap-2 w-full px-3 py-2 rounded-xl text-sm text-red-500 hover:bg-red-50 transition-colors"
                                 >
-                                    <FaSignOutAlt size={18} />
+                                    <FaSignOutAlt size={16} />
                                     Logout
                                 </button>
                             </div>
