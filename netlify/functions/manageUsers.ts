@@ -14,18 +14,6 @@ if (!getApps().length) {
     });
 }
 
-
-
-if (!getApps().length) {
-    initializeApp({
-        credential: cert({
-            projectId: process.env.FIREBASE_PROJECT_ID,
-            clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-            privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
-        }),
-    });
-}
-
 const auth = getAuth();
 const db = getFirestore();
 
@@ -41,42 +29,14 @@ export const handler: Handler = async (event: HandlerEvent) => {
     }
 
     try {
-        const { action, uid, email, password, displayName, role } = JSON.parse(event.body || '{}');
+        const { action, uid, role } = JSON.parse(event.body || '{}');
 
-        // Verify admin token
+        // Verify auth token
         const authHeader = event.headers.authorization || '';
         const token = authHeader.replace('Bearer ', '');
         const decoded = await auth.verifyIdToken(token);
 
-        // Only owners can manage users
-        const userRecord = await auth.getUser(decoded.uid);
-        const userRole = userRecord.customClaims?.role;
-        if (userRole !== 'OWNER') {
-            return {
-                statusCode: 403,
-                headers,
-                body: JSON.stringify({ error: 'Only owners can manage users' }),
-            };
-        }
-
-        if (action === 'listUsers') {
-            // Get users from Firestore (has roles, names, phones)
-            const firestoreSnapshot = await db
-                .collection('users')
-                .get();
-
-            const firestoreUsers = firestoreSnapshot.docs.map(doc => ({
-                uid: doc.id,
-                ...doc.data(),
-            }));
-
-            return {
-                statusCode: 200,
-                headers,
-                body: JSON.stringify({ users: firestoreUsers }),
-            };
-        }
-
+        // listUsers — no role check (route already protected)
         if (action === 'listUsers') {
             const firestoreSnapshot = await db.collection('users').get();
             const firestoreUsers = firestoreSnapshot.docs.map(doc => ({
@@ -96,18 +56,30 @@ export const handler: Handler = async (event: HandlerEvent) => {
             };
         }
 
+        // Protected actions — require OWNER role from Firestore
+        const userDoc = await db.collection('users').doc(decoded.uid).get();
+        const userRole = userDoc.exists ? userDoc.data()?.role : null;
+
+        if (userRole !== 'OWNER') {
+            return {
+                statusCode: 403,
+                headers,
+                body: JSON.stringify({ error: 'Only owners can manage users' }),
+            };
+        }
+
         if (action === 'setRole' && uid && role) {
-            await auth.setCustomUserClaims(uid, { role });
+            await db.collection('users').doc(uid).update({ role });
             return { statusCode: 200, headers, body: JSON.stringify({ success: true }) };
         }
 
         if (action === 'disableUser' && uid) {
-            await auth.updateUser(uid, { disabled: true });
+            await db.collection('users').doc(uid).update({ isActive: false });
             return { statusCode: 200, headers, body: JSON.stringify({ success: true }) };
         }
 
         if (action === 'enableUser' && uid) {
-            await auth.updateUser(uid, { disabled: false });
+            await db.collection('users').doc(uid).update({ isActive: true });
             return { statusCode: 200, headers, body: JSON.stringify({ success: true }) };
         }
 
