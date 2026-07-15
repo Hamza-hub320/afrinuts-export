@@ -660,10 +660,14 @@ const Dashboard: React.FC = () => {
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                             {blocks
-                                .sort((a, b) => (b.survivalRate || 0) - (a.survivalRate || 0))
+                                .filter(b => b.totalHarvestQuantity && b.totalHarvestQuantity > 0)
+                                .sort((a, b) => (b.totalHarvestQuantity || 0) - (a.totalHarvestQuantity || 0))
                                 .slice(0, 3)
                                 .map((block, idx) => {
-                                    const treeCount = Math.round((block.survivalRate || 0) * 100 / 100); // survivalRate % × 100 trees
+                                    const treeCount = Math.round((block.survivalRate || 0) * 100 / 100);
+                                    const harvestVolume = block.totalHarvestQuantity
+                                        ? (block.totalHarvestQuantity / 1000).toFixed(1) + 'T'
+                                        : '—';
                                     return (
                                         <motion.div
                                             key={block.id}
@@ -674,7 +678,7 @@ const Dashboard: React.FC = () => {
                                             <InfoCard
                                                 icon={idx === 0 ? FaTrophy : idx === 1 ? FaMedal : FaAward}
                                                 title={`Block ${block.blockName || block.id}`}
-                                                subtitle={`${treeCount} trees · ${block.survivalRate?.toFixed(0) || 0}% survival${block.status === 'HARVESTED' ? ` · ${block.totalHarvestQuantity ? (block.totalHarvestQuantity / 1000).toFixed(1) + 'T harvested' : ''}` : ''}`}
+                                                subtitle={`${treeCount} trees · ${block.survivalRate?.toFixed(0) || 0}% survival · ${harvestVolume} harvested`}
                                                 iconColor={
                                                     idx === 0 ? 'text-yellow-500' :
                                                         idx === 1 ? 'text-gray-400' :
@@ -683,24 +687,27 @@ const Dashboard: React.FC = () => {
                                                 showInfoBadge={false}
                                             >
                                                 <div className="mt-2 space-y-1">
-                                                    {block.plantedDate && (
+                                                    <div className="flex justify-between text-xs">
+                                                        <span className="text-gray-500">Yield</span>
+                                                        <span className="text-primary font-medium">{harvestVolume}</span>
+                                                    </div>
+                                                    {block.harvestCount && (
                                                         <div className="flex justify-between text-xs">
-                                                            <span className="text-gray-500">Planted</span>
-                                                            <span className="text-gray-700">
-                                        {new Date(block.plantedDate).toLocaleDateString()}
-                                    </span>
+                                                            <span className="text-gray-500">Harvests</span>
+                                                            <span className="text-gray-700">{block.harvestCount}×</span>
                                                         </div>
                                                     )}
                                                     <div className="flex justify-between text-xs">
                                                         <span className="text-gray-500">Status</span>
                                                         <span className={`px-2 py-0.5 rounded-full text-xs ${
-                                                            block.status === 'PLANTED' ? 'bg-green-100 text-green-700' :
-                                                                block.status === 'PLOWED' ? 'bg-blue-100 text-blue-700' :
-                                                                    block.status === 'CLEARED' ? 'bg-orange-100 text-orange-700' :
-                                                                        'bg-gray-100 text-gray-600'
+                                                            block.status === 'HARVESTED' ? 'bg-amber-100 text-amber-700' :
+                                                                block.status === 'PLANTED' ? 'bg-green-100 text-green-700' :
+                                                                    block.status === 'PLOWED' ? 'bg-blue-100 text-blue-700' :
+                                                                        block.status === 'CLEARED' ? 'bg-orange-100 text-orange-700' :
+                                                                            'bg-gray-100 text-gray-600'
                                                         }`}>
-                                    {block.status}
-                                </span>
+                                            {block.status}
+                                        </span>
                                                     </div>
                                                 </div>
                                             </InfoCard>

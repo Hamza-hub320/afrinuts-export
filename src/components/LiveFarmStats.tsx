@@ -1,245 +1,361 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import {FaTree, FaChartLine, FaSeedling, FaTractor, FaLeaf} from 'react-icons/fa';
-import { FaChartPie } from 'react-icons/fa';
-import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import {
+    FaTree, FaSeedling, FaTractor, FaLeaf, FaCalendarAlt,
+    FaChartLine, FaCloudSun, FaMapMarkerAlt, FaCheckCircle,
+    FaArrowRight
+} from 'react-icons/fa';
 import { Typography } from '@/components/Typography/Typography';
 import { InfoCard } from '@/components/InfoCard/InfoCard';
 import { getMockData } from '../services/mockData';
 import { callApi } from '../services/api';
-import {GiChart, GiFarmer, GiFarmTractor, GiFruitTree, GiSprout} from 'react-icons/gi';
+import { motion } from 'framer-motion';
+import { fadeIn, staggerContainer } from '@/utils/animations';
 import Section from './Section/Section';
+import { GiFarmer } from 'react-icons/gi';
 
-interface FarmStats {
-    totalTrees: number;
-    plantedBlocks: number;
-    totalBlocks: number;
+interface Block {
+    id: number;
+    blockName: string;
+    status: string;
     survivalRate: number;
+    plantedDate?: number;
+    clearedDate?: number;
+    plowedDate?: number;
+    harvestCount?: number;
+    totalHarvestQuantity?: number;
+    lastHarvestDate?: number;
 }
+
+const GlassCard: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className = '' }) => (
+    <motion.div
+        className={`group relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 transition-all duration-500 rounded-2xl shadow-xl transform-gpu overflow-hidden ${className}`}
+        style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
+        whileHover={{
+            y: -4,
+            scale: 1.01,
+            boxShadow: '0 15px 30px -8px rgba(165,105,66,0.15)',
+            transition: { duration: 0.3 }
+        }}
+    >
+        <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
+        <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+        <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] group-hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
+        <div className="relative z-10 p-6">{children}</div>
+    </motion.div>
+);
 
 const isDevelopment = import.meta.env.DEV;
 
-const COLORS = ['#5A7411', '#E04E00', '#A0C800', '#253746', '#698714'];
-
 const LiveFarmStats: React.FC = () => {
     const { t } = useTranslation('farm');
-    const [stats, setStats] = useState<FarmStats | null>(null);
+    const [blocks, setBlocks] = useState<Block[]>([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-    const [blockStatusData, setBlockStatusData] = useState<any[]>([]);
 
     useEffect(() => {
-        const fetchStats = async () => {
+        const fetchBlocks = async () => {
             try {
                 let data;
                 if (isDevelopment) {
-                    data = await getMockData('getPublicFarmStats');
+                    data = await getMockData('getBlocks');
                 } else {
-                    data = await callApi('farmData', { action: 'getPublicFarmStats', farmId: '1' }, false);
+                    data = await callApi('farmData', { action: 'getBlocks', farmId: '1' }, false);
                 }
-                if (data.success) {
-                    setStats({
-                        totalTrees: data.stats?.aliveTrees || 0,
-                        plantedBlocks: data.stats?.plantedBlocks || 0,
-                        totalBlocks: data.stats?.totalBlocks || 35,
-                        survivalRate: data.stats?.totalBlocks ?
-                            (data.stats.aliveTrees / (data.stats.totalBlocks * 100)) * 100 : 0,
-                    });
-                    setBlockStatusData(data.blockStatusDistribution || []);
-                } else {
-                    throw new Error(data.error || 'Failed to fetch stats');
-                }
+                setBlocks(data.blocks || []);
             } catch (err) {
-                console.error('Failed to fetch farm stats:', err);
-                setError(t('liveStats.error', 'Unable to load live farm data'));
+                console.error('Failed to fetch farm data:', err);
             } finally {
                 setLoading(false);
             }
         };
-        fetchStats();
-    }, [t]);
+        fetchBlocks();
+    }, []);
 
     if (loading) {
         return (
-            <main>
-                <Section className="flex items-center justify-center min-h-[60vh]">
-                    <div className="text-center">
-                        <div className="relative w-24 h-24 mx-auto mb-4">
-                            <div className="absolute inset-0 rounded-full border-b-2 border-primary animate-spin"></div>
-                            <div className="absolute inset-0 flex items-center justify-center">
-                                <GiFarmer className="text-primary text-3xl" />
-                            </div>
+            <Section className="flex items-center justify-center min-h-[40vh]">
+                <div className="text-center">
+                    <div className="relative w-16 h-16 mx-auto mb-4">
+                        <div className="absolute inset-0 rounded-full border-b-2 border-primary animate-spin"></div>
+                        <div className="absolute inset-0 flex items-center justify-center">
+                            <GiFarmer className="text-primary text-2xl" />
                         </div>
                     </div>
-                </Section>
-            </main>
+                    <Typography variant="small" className="text-gray-500">{t('liveStats.loading', 'Connecting to farm...')}</Typography>
+                </div>
+            </Section>
         );
     }
 
-    if (error || !stats) {
-        return (
-            <div className="text-center py-12">
-                <p className="text-gray-500">{error || t('liveStats.unavailable', 'Stats unavailable')}</p>
-                {isDevelopment && (
-                    <p className="text-sm text-gray-400 mt-2">{t('liveStats.devMode', 'Development mode: Using mock data')}</p>
-                )}
-            </div>
-        );
-    }
+    // Compute dynamic stats from blocks
+    const totalBlocks = blocks.length || 35;
+    const clearedBlocks = blocks.filter(b => b.status === 'CLEARED').length;
+    const plowedBlocks = blocks.filter(b => b.status === 'PLOWED').length;
+    const plantedBlocks = blocks.filter(b => b.status === 'PLANTED').length;
+    const harvestedBlocks = blocks.filter(b => b.status === 'HARVESTED').length;
+    const activeBlocks = clearedBlocks + plowedBlocks + plantedBlocks + harvestedBlocks;
+    const undevelopedBlocks = totalBlocks - activeBlocks;
 
-    const statsCards = [
-        {
-            icon: GiFruitTree,
-            title: `${Math.round(stats.totalTrees).toLocaleString()}`,
-            subtitle: t('liveStats.cards.blocksPlanted', '{{planted}}/{{total}} blocks planted', { planted: stats.plantedBlocks, total: stats.totalBlocks }),
-            iconColor: 'text-accent',
-        },
-        {
-            icon: GiChart,
-            title: `${Math.round(stats.survivalRate)}%`,
-            subtitle: t('liveStats.cards.treesEstablished', 'Trees successfully established'),
-            iconColor: 'text-accent',
-        },
-        {
-            icon: GiSprout,
-            title: `${Math.round((stats.plantedBlocks / stats.totalBlocks) * 100)}%`,
-            subtitle: t('liveStats.cards.blocksProgress', '{{planted}} of {{total}} blocks planted', { planted: stats.plantedBlocks, total: stats.totalBlocks }),
-            iconColor: 'text-accent',
-        },
-        {
-            icon: GiFarmTractor,
-            title: t('liveStats.cards.totalArea', '35 ha'),
-            subtitle: t('liveStats.cards.cultivatedArea', 'Total cultivated area'),
-            iconColor: 'text-accent',
-        },
-    ];
+    const totalTreesPlanted = (plantedBlocks + harvestedBlocks) * 100;
+    const avgSurvivalRate = (plantedBlocks + harvestedBlocks) > 0
+        ? blocks.filter(b => b.status === 'PLANTED' || b.status === 'HARVESTED')
+        .reduce((sum, b) => sum + (b.survivalRate || 0), 0) / (plantedBlocks + harvestedBlocks)
+        : 0;
+    const totalHarvested = blocks.reduce((sum, b) => sum + (b.totalHarvestQuantity || 0), 0);
+    const totalHarvestCount = blocks.reduce((sum, b) => sum + (b.harvestCount || 0), 0);
+
+    // Determine farm narrative stage
+    const getFarmNarrative = () => {
+        if (harvestedBlocks > 0) {
+            return {
+                stage: 'producing',
+                title: t('liveStats.narrative.producing.title', 'The Orchard is Producing'),
+                description: t('liveStats.narrative.producing.description',
+                    'Our cashew trees are bearing fruit. Each harvest brings us closer to our vision of premium Ivorian cashews on the global market.'),
+                highlight: harvestedBlocks === totalBlocks
+                    ? t('liveStats.narrative.producing.allBlocks', 'All {{count}} blocks have been harvested — the farm is at full production.', { count: totalBlocks })
+                    : t('liveStats.narrative.producing.someBlocks', '{{harvested}} of {{total}} blocks are producing — the rest are maturing.', { harvested: harvestedBlocks, total: totalBlocks }),
+            };
+        }
+        if (plantedBlocks > 0) {
+            const oldestPlanted = blocks
+                .filter(b => b.plantedDate)
+                .sort((a, b) => (a.plantedDate || 0) - (b.plantedDate || 0))[0];
+            const monthsSincePlanting = oldestPlanted?.plantedDate
+                ? Math.floor((Date.now() - oldestPlanted.plantedDate) / (1000 * 60 * 60 * 24 * 30))
+                : 0;
+
+            if (monthsSincePlanting > 12) {
+                return {
+                    stage: 'maturing',
+                    title: t('liveStats.narrative.maturing.title', 'Trees are Maturing'),
+                    description: t('liveStats.narrative.maturing.description',
+                        'Our young cashew trees are developing strong root systems. First flowering is expected soon as we enter the next growth phase.'),
+                    highlight: t('liveStats.narrative.maturing.highlight', '{{blocks}} blocks planted · trees {{months}} months into establishment', { blocks: plantedBlocks, months: monthsSincePlanting }),
+                };
+            }
+            return {
+                stage: 'growing',
+                title: t('liveStats.narrative.growing.title', 'The Orchard is Taking Root'),
+                description: t('liveStats.narrative.growing.description',
+                    'Young cashew seedlings are being nurtured across our farm. Each tree represents a long-term investment in Ivorian agriculture.'),
+                highlight: t('liveStats.narrative.growing.highlight', '{{blocks}} blocks planted · {{trees}} trees in the ground', { blocks: plantedBlocks, trees: plantedBlocks * 100 }),
+            };
+        }
+        if (plowedBlocks > 0 || clearedBlocks > 0) {
+            return {
+                stage: 'preparing',
+                title: t('liveStats.narrative.preparing.title', 'Land is Being Prepared'),
+                description: t('liveStats.narrative.preparing.description',
+                    'Our team is clearing and preparing the land for planting. Every hectare is being carefully readied for cashew cultivation.'),
+                highlight: t('liveStats.narrative.preparing.highlight', '{{active}} of {{total}} blocks under development', { active: activeBlocks, total: totalBlocks }),
+            };
+        }
+        return {
+            stage: 'beginning',
+            title: t('liveStats.narrative.beginning.title', 'A Farm is Born'),
+            description: t('liveStats.narrative.beginning.description',
+                'We are at the beginning of an ambitious journey — transforming family land into a world-class cashew farm in the heart of Ivory Coast.'),
+            highlight: t('liveStats.narrative.beginning.highlight', '{{total}} hectares of potential ready to be unlocked', { total: totalBlocks }),
+        };
+    };
+
+    const narrative = getFarmNarrative();
+
+    // Seasonal insight based on current month
+    const getSeasonalInsight = () => {
+        const month = new Date().getMonth();
+        if (month >= 2 && month <= 4) return t('liveStats.seasonal.flowering', 'Flowering season is underway — a critical period for pollination and nut development.');
+        if (month >= 5 && month <= 7) return t('liveStats.seasonal.development', 'Cashew apples are forming on the trees — the nuts are developing inside each fruit.');
+        if (month >= 8 && month <= 10) return t('liveStats.seasonal.harvest', 'Harvest season — the busiest time on the farm as we collect, dry, and sort the cashew crop.');
+        return t('liveStats.seasonal.maintenance', 'Maintenance season — our team is pruning trees, preparing land, and maintaining farm infrastructure.');
+    };
 
     return (
         <div className="py-12">
-            <div className="text-center mb-8">
-                <Typography variant="h2" className="mb-4">
-                    {t('liveStats.title', 'Live Farm Dashboard')}
-                </Typography>
-                <Typography variant="subtitle" className="text-gray-600">
-                    {t('liveStats.subtitle', 'Live from AfriNuts Farm – where data meets the soil')}
-                </Typography>
-                {isDevelopment && (
-                    <div className="mt-2 inline-flex items-center gap-2 px-3 py-1 bg-yellow-100 rounded-full">
-                        <span className="text-xs text-yellow-700">{t('liveStats.devMode', 'Development Mode - Using Mock Data')}</span>
-                    </div>
+            {/* Narrative Banner */}
+            <GlassCard className="mb-10 p-6 sm:p-8 text-center rounded-3xl">
+                <motion.div variants={fadeIn}>
+                    <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-2">
+                        <FaMapMarkerAlt className="inline mr-2 text-accent" />
+                        Odienné, Ivory Coast
+                    </Typography>
+                </motion.div>
+                <motion.h2 variants={fadeIn} className="font-display text-3xl md:text-4xl text-primary mb-3">
+                    {narrative.title}
+                </motion.h2>
+                <motion.div variants={fadeIn}>
+                    <Typography variant="lead" className="text-gray-700 max-w-3xl mx-auto">
+                        {narrative.description}
+                    </Typography>
+                </motion.div>
+                {narrative.highlight && (
+                    <motion.div variants={fadeIn} className="mt-3">
+            <span className="inline-block px-4 py-1.5 bg-primary/10 text-primary rounded-full text-sm font-medium">
+                {narrative.highlight}
+            </span>
+                    </motion.div>
                 )}
-            </div>
+            </GlassCard>
 
-            {/* KPI Cards Row */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {statsCards.map((card, index) => (
-                    <InfoCard
-                        key={index}
-                        icon={card.icon}
-                        title={card.title}
-                        subtitle={card.subtitle}
-                        iconColor={card.iconColor}
-                        className="text-center"
-                        showInfoBadge={false}
-                    />
+            {/* Key Metrics */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                {[
+                    {
+                        label: t('liveStats.metrics.blocks', 'Blocks Under Cultivation'),
+                        value: `${activeBlocks}/${totalBlocks}`,
+                        icon: FaMapMarkerAlt,
+                        color: 'text-primary'
+                    },
+                    {
+                        label: t('liveStats.metrics.trees', 'Cashew Trees'),
+                        value: totalTreesPlanted.toLocaleString(),
+                        icon: FaTree,
+                        color: 'text-green-600'
+                    },
+                    {
+                        label: t('liveStats.metrics.survival', 'Tree Survival Rate'),
+                        value: activeBlocks > 0 ? `${avgSurvivalRate.toFixed(0)}%` : '—',
+                        icon: FaLeaf,
+                        color: 'text-accent'
+                    },
+                    {
+                        label: harvestedBlocks > 0 ? t('liveStats.metrics.harvested', 'Total Harvested') : t('liveStats.metrics.progress', 'Farm Progress'),
+                        value: harvestedBlocks > 0
+                            ? totalHarvested > 0 ? `${(totalHarvested / 1000).toFixed(1)}T` : '—'
+                            : `${Math.round((activeBlocks / totalBlocks) * 100)}%`,
+                        icon: harvestedBlocks > 0 ? FaTractor : FaChartLine,
+                        color: harvestedBlocks > 0 ? 'text-amber-600' : 'text-primary'
+                    },
+                ].map((metric, idx) => (
+                    <motion.div
+                        key={idx}
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: idx * 0.1 }}
+                    >
+                        <InfoCard
+                            icon={metric.icon}
+                            title={metric.value}
+                            subtitle={metric.label}
+                            iconColor={metric.color}
+                            showInfoBadge={false}
+                            className="h-full text-center"
+                        />
+                    </motion.div>
                 ))}
             </div>
 
-            {/* Second Row: Pie Chart + Performance Metrics */}
-            {blockStatusData.length > 0 && stats && (
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-8">
-                    {/* Block Status Pie Chart */}
-                    <InfoCard
-                        icon={FaChartPie}
-                        title={t('liveStats.blockDistribution', 'Block Status Distribution')}
-                        iconColor="text-primary"
-                        className="text-center"
-                        showInfoBadge={false}
-                    >
-                        <ResponsiveContainer width="100%" height={300}>
-                            <PieChart>
-                                <Pie
-                                    data={blockStatusData}
-                                    cx="50%"
-                                    cy="50%"
-                                    labelLine={true}
-                                    label={({ cx, cy, midAngle, innerRadius, outerRadius, percent }) => {
-                                        const RADIAN = Math.PI / 180;
-                                        const radius = outerRadius * 1.35;
-                                        const x = cx + radius * Math.cos(-midAngle * RADIAN);
-                                        const y = cy + radius * Math.sin(-midAngle * RADIAN);
-                                        return (
-                                            <text x={x} y={y} fill="#374151" textAnchor={x > cx ? 'start' : 'end'} dominantBaseline="central" fontSize="12">
-                                                {`${(percent * 100).toFixed(0)}%`}
-                                            </text>
-                                        );
-                                    }}
-                                    outerRadius="70%"
-                                    dataKey="value"
-                                >
-                                    {blockStatusData.map((entry, index) => (
-                                        <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                                    ))}
-                                </Pie>
-                                <Tooltip formatter={(value, name) => [value, name]} />
-                                <Legend verticalAlign="bottom" wrapperStyle={{ fontSize: '12px', paddingTop: '12px' }} />
-                            </PieChart>
-                        </ResponsiveContainer>
-                    </InfoCard>
+            {/* Farm Timeline */}
+            <motion.div
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={staggerContainer}
+                className="mb-8"
+            >
+                <InfoCard
+                    icon={FaCalendarAlt}
+                    title={t('liveStats.timeline.title', 'Farm Development Timeline')}
+                    iconColor="text-primary"
+                    showInfoBadge={false}
+                >
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-3">
+                        {[
+                            { stage: 'cleared', label: t('liveStats.timeline.cleared', 'Land Cleared'), count: clearedBlocks + plowedBlocks + plantedBlocks + harvestedBlocks, total: totalBlocks, icon: FaSeedling, color: 'text-orange-500', bg: 'bg-orange-50' },
+                            { stage: 'plowed', label: t('liveStats.timeline.plowed', 'Soil Plowed'), count: plowedBlocks + plantedBlocks + harvestedBlocks, total: totalBlocks, icon: FaTractor, color: 'text-blue-500', bg: 'bg-blue-50' },
+                            { stage: 'planted', label: t('liveStats.timeline.planted', 'Trees Planted'), count: plantedBlocks + harvestedBlocks, total: totalBlocks, icon: FaTree, color: 'text-green-500', bg: 'bg-green-50' },
+                            { stage: 'harvested', label: t('liveStats.timeline.harvested', 'First Harvest'), count: harvestedBlocks, total: totalBlocks, icon: FaTractor, color: 'text-amber-500', bg: 'bg-amber-50' },
+                        ].map((stage, idx) => (
+                            <div key={idx} className={`${stage.bg} rounded-xl p-4 text-center border border-white/30`}>
+                                <stage.icon className={`text-2xl mx-auto mb-2 ${stage.color}`} />
+                                <div className="text-2xl font-bold text-gray-800">{stage.count}/{stage.total}</div>
+                                <div className="text-xs text-gray-500 mt-1">{stage.label}</div>
+                                <div className="w-full bg-gray-200 rounded-full h-1.5 mt-2">
+                                    <div className={`h-1.5 rounded-full ${stage.color.replace('text-', 'bg-')}`}
+                                         style={{ width: `${(stage.count / stage.total) * 100}%` }} />
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </InfoCard>
+            </motion.div>
 
-                    {/* Farm Performance Metrics */}
+            {/* Seasonal Insight */}
+            <motion.div
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true }}
+                variants={fadeIn}
+                className="mb-8"
+            >
+                <div className="bg-amber-50/80 border border-amber-200 rounded-2xl p-5 text-center">
+                    <div className="flex items-center justify-center gap-2 mb-2">
+                        <FaCloudSun className="text-amber-500" />
+                        <Typography variant="small" className="font-medium text-amber-700">
+                            {t('liveStats.seasonal.title', 'Seasonal Insight')}
+                        </Typography>
+                    </div>
+                    <Typography variant="body" className="text-amber-700">
+                        {getSeasonalInsight()}
+                    </Typography>
+                </div>
+            </motion.div>
+
+            {/* Recent Activity — only show if there's something to report */}
+            {(harvestedBlocks > 0 || plantedBlocks > 0) && (
+                <motion.div
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true }}
+                    variants={staggerContainer}
+                    className="mb-8"
+                >
                     <InfoCard
-                        icon={FaTree}
-                        title={t('liveStats.performanceMetrics', 'Farm Performance Metrics')}
-                        iconColor="text-accent"
-                        className="text-center"
+                        icon={FaCheckCircle}
+                        title={t('liveStats.activity.title', 'Recent Farm Activity')}
+                        iconColor="text-green-600"
                         showInfoBadge={false}
                     >
-                        <div className="space-y-4">
-                            <div>
-                                <div className="flex justify-between text-sm mb-1">
-                                    <span>{t('liveStats.farmCompletion', 'Farm Completion')}</span>
-                                    <span className="font-medium">{Math.round((stats.plantedBlocks / stats.totalBlocks) * 100)}%</span>
+                        <div className="space-y-2 mt-3">
+                            {harvestedBlocks > 0 && (
+                                <div className="flex items-center gap-3 bg-white/40 rounded-lg px-4 py-2.5 text-sm">
+                                    <FaTractor className="text-amber-500" />
+                                    <span>
+                                        {t('liveStats.activity.harvested', '{{count}} block(s) have been harvested, producing {{volume}} of cashews.', {
+                                            count: harvestedBlocks,
+                                            volume: totalHarvested > 0 ? `${(totalHarvested / 1000).toFixed(1)} tonnes` : 'their first yield'
+                                        })}
+                                    </span>
                                 </div>
-                                <div className="w-full bg-gray-200 rounded-full h-2">
-                                    <div className="bg-primary h-2 rounded-full" style={{ width: `${(stats.plantedBlocks / stats.totalBlocks) * 100}%` }} />
+                            )}
+                            {plantedBlocks > 0 && (
+                                <div className="flex items-center gap-3 bg-white/40 rounded-lg px-4 py-2.5 text-sm">
+                                    <FaSeedling className="text-green-500" />
+                                    <span>
+                                        {t('liveStats.activity.planted', '{{count}} block(s) planted with cashew seedlings.', { count: plantedBlocks })}
+                                    </span>
                                 </div>
-                            </div>
-                            <div>
-                                <div className="flex justify-between text-sm mb-1">
-                                    <span>{t('liveStats.survivalRateLabel', 'Survival Rate')}</span>
-                                    <span className="font-medium">{Math.round(stats.survivalRate)}%</span>
+                            )}
+                            {blocks.filter(b => b.lastHarvestDate).length > 0 && (
+                                <div className="flex items-center gap-3 bg-white/40 rounded-lg px-4 py-2.5 text-sm">
+                                    <FaCalendarAlt className="text-blue-500" />
+                                    <span>
+                                        {t('liveStats.activity.lastHarvest', 'Most recent harvest: {{date}}', {
+                                            date: new Date(Math.max(...blocks.filter(b => b.lastHarvestDate).map(b => b.lastHarvestDate!))).toLocaleDateString()
+                                        })}
+                                    </span>
                                 </div>
-                                <div className="w-full bg-gray-200 rounded-full h-2">
-                                    <div className="bg-accent h-2 rounded-full" style={{ width: `${stats.survivalRate}%` }} />
-                                </div>
-                            </div>
-                            <div className="grid grid-cols-2 gap-4 mt-4">
-                                <div className="text-center p-3 bg-primary/5 rounded-xl">
-                                    <FaTree className="text-2xl text-primary mx-auto mb-2" />
-                                    <div className="text-2xl font-bold text-primary">{Math.round(stats.totalTrees).toLocaleString()}</div>
-                                    <div className="text-xs text-gray-500">{t('liveStats.treesAlive', 'Trees Alive')}</div>
-                                </div>
-                                <div className="text-center p-3 bg-accent/5 rounded-xl">
-                                    <FaTractor className="text-2xl text-accent mx-auto mb-2" />
-                                    <div className="text-2xl font-bold text-accent">{stats.plantedBlocks}/{stats.totalBlocks}</div>
-                                    <div className="text-xs text-gray-500">{t('liveStats.blocksPlantedLabel', 'Blocks Planted')}</div>
-                                </div>
-                            </div>
-                            <div className="p-3 bg-accent/5 rounded-lg">
-                                <p className="text-sm text-gray-600">
-                                    <FaLeaf className="inline mr-1 text-green-600" />
-                                    <strong>{t('liveStats.sustainability', 'Sustainability')}:</strong> {t('liveStats.sustainabilityDesc', 'Organic practices across {{blocks}} blocks. Survival rate exceeds industry average of 85%.', { blocks: stats.totalBlocks })}
-                                </p>
-                            </div>
+                            )}
                         </div>
                     </InfoCard>
-                </div>
+                </motion.div>
             )}
 
-            <div className="mt-8 text-center">
+            <div className="text-center mt-8">
                 <p className="text-xs text-gray-400">
-                    {t('liveStats.lastSync', 'Data updates in real-time • Last sync: {{time}}', { time: new Date().toLocaleString() })}
+                    {t('liveStats.footer', 'Data updates automatically as farm operations progress. This page reflects the current state of our farm in real time.')}
                 </p>
             </div>
         </div>
