@@ -27,7 +27,7 @@ import {
     FaChartLine,
     FaHome,
     FaExternalLinkAlt,
-    FaFileAlt, FaGlobeAfrica, FaCertificate, FaHandshake, FaShieldAlt
+    FaFileAlt, FaGlobeAfrica, FaCertificate, FaHandshake, FaShieldAlt, FaPercentage
 } from 'react-icons/fa';
 import { Typography } from '@/components/Typography/Typography';
 import { InfoCard } from '@/components/InfoCard/InfoCard';
@@ -298,14 +298,24 @@ const Batches: React.FC = () => {
                                     {
                                         label: 'Total Exported',
                                         value: (() => {
-                                            const individual = traceabilityData.reduce((s, t) => s + (t.weightKg || 0), 0);
-                                            const bulk = masterTraceability.reduce((s, m) => s + (m.totalWeightKg || 0), 0);
-                                            const total = individual + bulk;
-                                            return total > 0 ? `${(total / 1000).toFixed(0)}T` : '—';
+                                            const totalKernelsKg = revenues.reduce((s, r) => s + (r.quantityKg || 0), 0);
+                                            return totalKernelsKg > 0 ? `${(totalKernelsKg / 1000).toFixed(1)}T` : '—';
                                         })(),
                                         icon: FaChartBar,
                                         color: 'text-amber-500',
-                                        hint: 'Combined volume'
+                                        hint: 'Kernels sold (revenue)'
+                                    },
+                                    {
+                                        label: 'Avg Kernel Yield',
+                                        value: (() => {
+                                            const totalRawKg = traceabilityData.reduce((s, t) => s + (t.weightKg || 0), 0)
+                                                + masterTraceability.reduce((s, m) => s + (m.totalWeightKg || 0), 0);
+                                            const totalKernelKg = revenues.reduce((s, r) => s + (r.quantityKg || 0), 0);
+                                            return totalRawKg > 0 ? `${((totalKernelKg / totalRawKg) * 100).toFixed(1)}%` : '—';
+                                        })(),
+                                        icon: FaPercentage,
+                                        color: 'text-green-600',
+                                        hint: 'Kernel-to-raw ratio'
                                     },
                                 ].map((item, i) => (
                                     <div key={i} className="bg-white/40 rounded-xl p-3 border border-white/30 text-center">
