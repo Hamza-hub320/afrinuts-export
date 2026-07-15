@@ -1,15 +1,8 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import {
-    FaUser,
-    FaLock,
-    FaCheckCircle,
-    FaEye,
-    FaEyeSlash,
-    FaKey,
-    FaShieldAlt,
-    FaUserShield,
-    FaTimesCircle, FaHistory
+    FaUser, FaLock, FaCheckCircle, FaEye, FaEyeSlash,
+    FaShieldAlt, FaUserShield, FaTimesCircle, FaHistory
 } from 'react-icons/fa';
 import { Typography } from '@/components/Typography/Typography';
 import { InfoCard } from '@/components/InfoCard/InfoCard';
@@ -34,39 +27,20 @@ const Settings: React.FC = () => {
         e.preventDefault();
         setStatus('loading');
         setMessage('');
-
-        if (newPassword !== confirmPassword) {
-            setStatus('error');
-            setMessage('New passwords do not match.');
-            return;
-        }
-
-        if (newPassword.length < 6) {
-            setStatus('error');
-            setMessage('Password must be at least 6 characters.');
-            return;
-        }
+        if (newPassword !== confirmPassword) { setStatus('error'); setMessage('New passwords do not match.'); return; }
+        if (newPassword.length < 6) { setStatus('error'); setMessage('Password must be at least 6 characters.'); return; }
 
         try {
             const currentUser = auth.currentUser;
             if (!currentUser || !currentUser.email) throw new Error('Not authenticated');
-
             const credential = EmailAuthProvider.credential(currentUser.email, currentPassword);
             await reauthenticateWithCredential(currentUser, credential);
             await updatePassword(currentUser, newPassword);
-
-            setStatus('success');
-            setMessage('Password updated successfully.');
-            setCurrentPassword('');
-            setNewPassword('');
-            setConfirmPassword('');
+            setStatus('success'); setMessage('Password updated successfully.');
+            setCurrentPassword(''); setNewPassword(''); setConfirmPassword('');
         } catch (error: any) {
             setStatus('error');
-            if (error.code === 'auth/wrong-password') {
-                setMessage('Current password is incorrect.');
-            } else {
-                setMessage(error.message || 'Failed to update password.');
-            }
+            setMessage(error.code === 'auth/wrong-password' ? 'Current password is incorrect.' : error.message || 'Failed to update password.');
         }
     };
 
@@ -74,7 +48,7 @@ const Settings: React.FC = () => {
         <div className="min-h-screen relative overflow-hidden pt-[72px]">
             <DashboardNavbar />
 
-            <Section className="flex items-center justify-center text-center min-h-[40vh] relative">
+            <Section className="flex items-center justify-center text-center min-h-[30vh] relative">
                 <motion.div className="max-w-4xl px-6 sm:px-8 py-12" initial="hidden" animate="visible" variants={staggerContainer}>
                     <motion.div variants={fadeIn}>
                         <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-4">
@@ -89,140 +63,119 @@ const Settings: React.FC = () => {
             </Section>
 
             <Section className="py-6">
-                <div className="max-w-lg mx-auto px-4 sm:px-6">
-                    {/* Profile Info */}
-                    <motion.div className="mb-8" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
-                        <InfoCard icon={FaUser} title="Account Information" iconColor="text-accent" showInfoBadge={false}>
-                            <div className="space-y-3 mt-2">
-                                <div className="flex justify-between text-sm">
-                                    <span className="text-gray-500">Email</span>
-                                    <span className="font-medium">{user?.email || '—'}</span>
+                <div className="max-w-5xl mx-auto px-4 sm:px-6">
+                    {/* Row 1: Profile + Security Overview */}
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
+                            <InfoCard icon={FaUser} title="Account Information" iconColor="text-accent" showInfoBadge={false}>
+                                <div className="space-y-3 mt-2">
+                                    <div className="flex justify-between text-sm"><span className="text-gray-500">Email</span><span className="font-medium">{user?.email || '—'}</span></div>
+                                    <div className="flex justify-between text-sm"><span className="text-gray-500">Display Name</span><span className="font-medium">{user?.name || user?.displayName || '—'}</span></div>
+                                    <div className="flex justify-between text-sm"><span className="text-gray-500">Role</span><span className="px-2 py-0.5 bg-primary/10 text-primary text-xs rounded-full font-medium">{user?.role || 'User'}</span></div>
                                 </div>
-                                <div className="flex justify-between text-sm">
-                                    <span className="text-gray-500">Display Name</span>
-                                    <span className="font-medium">{user?.name || user?.displayName || '—'}</span>
-                                </div>
-                                <div className="flex justify-between text-sm">
-                                    <span className="text-gray-500">Role</span>
-                                    <span className="px-2 py-0.5 bg-primary/10 text-primary text-xs rounded-full font-medium">
-                                        {user?.role || 'User'}
-                                    </span>
-                                </div>
-                            </div>
-                        </InfoCard>
-                    </motion.div>
+                            </InfoCard>
+                        </motion.div>
 
-                    {/* Password Change */}
-                    <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
-                        <InfoCard icon={FaLock} title="Change Password" iconColor="text-primary" showInfoBadge={false}>
-                            <form onSubmit={handlePasswordChange} className="space-y-4 mt-3">
-                                <div className="relative">
-                                    <label className="block text-xs text-gray-500 mb-1">Current Password</label>
+                        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
+                            <InfoCard icon={FaShieldAlt} title="Security Overview" iconColor="text-amber-500" showInfoBadge={false}>
+                                <div className="grid grid-cols-2 gap-4 mt-3">
+                                    <div className="bg-white/40 rounded-xl p-4 border border-white/30 text-center">
+                                        <div className="text-2xl font-bold text-primary">{user?.lastSignIn ? new Date(user.lastSignIn).toLocaleDateString() : 'Today'}</div>
+                                        <div className="text-xs text-gray-500">Last Login</div>
+                                    </div>
+                                    <div className="bg-white/40 rounded-xl p-4 border border-white/30 text-center">
+                                        <div className="text-2xl font-bold text-green-600">{user?.emailVerified ? 'Verified' : 'Pending'}</div>
+                                        <div className="text-xs text-gray-500">Email Status</div>
+                                    </div>
+                                </div>
+                            </InfoCard>
+                        </motion.div>
+                    </div>
+
+                    {/* Row 2: Password Change + Permissions */}
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
+                            <InfoCard icon={FaLock} title="Change Password" iconColor="text-primary" showInfoBadge={false}>
+                                <form onSubmit={handlePasswordChange} className="space-y-4 mt-3">
                                     <div className="relative">
-                                        <input type={showCurrent ? 'text' : 'password'} value={currentPassword}
-                                               onChange={e => setCurrentPassword(e.target.value)} required
-                                               className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white/60 backdrop-blur-sm text-sm focus:outline-none focus:ring-2 focus:ring-primary pr-10" />
-                                        <button type="button" onClick={() => setShowCurrent(!showCurrent)}
-                                                className="absolute right-3 top-2.5 text-gray-400 hover:text-gray-600">
-                                            {showCurrent ? <FaEyeSlash /> : <FaEye />}
-                                        </button>
-                                    </div>
-                                </div>
-                                <div className="relative">
-                                    <label className="block text-xs text-gray-500 mb-1">New Password</label>
-                                    <div className="relative">
-                                        <input type={showNew ? 'text' : 'password'} value={newPassword}
-                                               onChange={e => setNewPassword(e.target.value)} required
-                                               className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white/60 backdrop-blur-sm text-sm focus:outline-none focus:ring-2 focus:ring-primary pr-10" />
-                                        <button type="button" onClick={() => setShowNew(!showNew)}
-                                                className="absolute right-3 top-2.5 text-gray-400 hover:text-gray-600">
-                                            {showNew ? <FaEyeSlash /> : <FaEye />}
-                                        </button>
-                                    </div>
-                                </div>
-                                <div>
-                                    <label className="block text-xs text-gray-500 mb-1">Confirm New Password</label>
-                                    <input type="password" value={confirmPassword}
-                                           onChange={e => setConfirmPassword(e.target.value)} required
-                                           className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white/60 backdrop-blur-sm text-sm focus:outline-none focus:ring-2 focus:ring-primary" />
-                                </div>
-
-                                {status !== 'idle' && (
-                                    <div className={`p-3 rounded-lg text-sm ${status === 'success' ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
-                                        {status === 'success' && <FaCheckCircle className="inline mr-1" />}
-                                        {message}
-                                    </div>
-                                )}
-
-                                <button type="submit" disabled={status === 'loading'}
-                                        className="w-full py-2.5 bg-gradient-to-r from-primary to-accent text-white rounded-lg font-medium hover:from-accent hover:to-primary transition-all disabled:opacity-50">
-                                    {status === 'loading' ? 'Updating...' : 'Update Password'}
-                                </button>
-                            </form>
-                        </InfoCard>
-                    </motion.div>
-
-                    {/* Security Overview */}
-                    <motion.div className="mb-8" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
-                        <InfoCard icon={FaShieldAlt} title="Security Overview" iconColor="text-amber-500" showInfoBadge={false}>
-                            <div className="grid grid-cols-2 gap-4 mt-3">
-                                <div className="bg-white/40 rounded-xl p-3 border border-white/30 text-center">
-                                    <div className="text-2xl font-bold text-primary">
-                                        {user?.lastSignIn ? new Date(user.lastSignIn).toLocaleDateString() : 'Today'}
-                                    </div>
-                                    <div className="text-xs text-gray-500">Last Login</div>
-                                </div>
-                                <div className="bg-white/40 rounded-xl p-3 border border-white/30 text-center">
-                                    <div className="text-2xl font-bold text-green-600">
-                                        {user?.emailVerified ? 'Verified' : 'Pending'}
-                                    </div>
-                                    <div className="text-xs text-gray-500">Email Status</div>
-                                </div>
-                            </div>
-                        </InfoCard>
-                    </motion.div>
-
-                    {/* Permissions & Access */}
-                    <motion.div className="mb-8" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
-                        <InfoCard icon={FaUserShield} title="Permissions & Access" iconColor="text-primary" showInfoBadge={false}>
-                            <div className="space-y-3 mt-3">
-                                {[
-                                    { label: 'Dashboard & Analytics', roles: ['OWNER', 'MANAGER', 'INVESTOR'] },
-                                    { label: 'Farm Operations', roles: ['OWNER', 'MANAGER'] },
-                                    { label: 'Financial Reports', roles: ['OWNER', 'MANAGER', 'INVESTOR'] },
-                                    { label: 'Supplier & Batch Management', roles: ['OWNER', 'MANAGER'] },
-                                    { label: 'User Management', roles: ['OWNER'] },
-                                ].map((perm, i) => {
-                                    const hasAccess = perm.roles.includes(user?.role || '');
-                                    return (
-                                        <div key={i} className="flex items-center justify-between bg-white/30 rounded-lg px-3 py-2">
-                                            <span className="text-sm">{perm.label}</span>
-                                            <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${hasAccess ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'}`}>
-                            {hasAccess ? <FaCheckCircle className="inline mr-1" /> : <FaTimesCircle className="inline mr-1" />}
-                                                {hasAccess ? 'Access' : 'Restricted'}
-                        </span>
+                                        <label className="block text-xs text-gray-500 mb-1">Current Password</label>
+                                        <div className="relative">
+                                            <input type={showCurrent ? 'text' : 'password'} value={currentPassword} onChange={e => setCurrentPassword(e.target.value)} required
+                                                   className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white/60 backdrop-blur-sm text-sm focus:outline-none focus:ring-2 focus:ring-primary pr-10" />
+                                            <button type="button" onClick={() => setShowCurrent(!showCurrent)} className="absolute right-3 top-2.5 text-gray-400 hover:text-gray-600">
+                                                {showCurrent ? <FaEyeSlash /> : <FaEye />}
+                                            </button>
                                         </div>
-                                    );
-                                })}
-                            </div>
-                        </InfoCard>
-                    </motion.div>
+                                    </div>
+                                    <div className="relative">
+                                        <label className="block text-xs text-gray-500 mb-1">New Password</label>
+                                        <div className="relative">
+                                            <input type={showNew ? 'text' : 'password'} value={newPassword} onChange={e => setNewPassword(e.target.value)} required
+                                                   className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white/60 backdrop-blur-sm text-sm focus:outline-none focus:ring-2 focus:ring-primary pr-10" />
+                                            <button type="button" onClick={() => setShowNew(!showNew)} className="absolute right-3 top-2.5 text-gray-400 hover:text-gray-600">
+                                                {showNew ? <FaEyeSlash /> : <FaEye />}
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label className="block text-xs text-gray-500 mb-1">Confirm New Password</label>
+                                        <input type="password" value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} required
+                                               className="w-full px-4 py-2 rounded-lg border border-gray-300 bg-white/60 backdrop-blur-sm text-sm focus:outline-none focus:ring-2 focus:ring-primary" />
+                                    </div>
+                                    {status !== 'idle' && (
+                                        <div className={`p-3 rounded-lg text-sm ${status === 'success' ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
+                                            {status === 'success' && <FaCheckCircle className="inline mr-1" />}{message}
+                                        </div>
+                                    )}
+                                    <button type="submit" disabled={status === 'loading'}
+                                            className="w-full py-2.5 bg-gradient-to-r from-primary to-accent text-white rounded-lg font-medium hover:from-accent hover:to-primary transition-all disabled:opacity-50">
+                                        {status === 'loading' ? 'Updating...' : 'Update Password'}
+                                    </button>
+                                </form>
+                            </InfoCard>
+                        </motion.div>
 
-                    {/* Account Activity */}
+                        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
+                            <InfoCard icon={FaUserShield} title="Permissions & Access" iconColor="text-primary" showInfoBadge={false}>
+                                <div className="space-y-2 mt-3">
+                                    {[
+                                        { label: 'Dashboard & Analytics', roles: ['OWNER', 'MANAGER', 'INVESTOR'] },
+                                        { label: 'Farm Operations', roles: ['OWNER', 'MANAGER'] },
+                                        { label: 'Financial Reports', roles: ['OWNER', 'MANAGER', 'INVESTOR'] },
+                                        { label: 'Supplier & Batch Management', roles: ['OWNER', 'MANAGER'] },
+                                        { label: 'User Management', roles: ['OWNER'] },
+                                    ].map((perm, i) => {
+                                        const hasAccess = perm.roles.includes(user?.role || '');
+                                        return (
+                                            <div key={i} className="flex items-center justify-between bg-white/30 rounded-lg px-3 py-2 text-sm">
+                                                <span>{perm.label}</span>
+                                                <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${hasAccess ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'}`}>
+                                                    {hasAccess ? <FaCheckCircle className="inline mr-1" /> : <FaTimesCircle className="inline mr-1" />}
+                                                    {hasAccess ? 'Access' : 'Restricted'}
+                                                </span>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </InfoCard>
+                        </motion.div>
+                    </div>
+
+                    {/* Row 3: Account Activity (full width) */}
                     <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
                         <InfoCard icon={FaHistory} title="Account Activity" iconColor="text-blue-500" showInfoBadge={false}>
-                            <div className="space-y-2 mt-3">
-                                <div className="flex justify-between text-sm bg-white/30 rounded-lg px-3 py-2">
-                                    <span>Account created</span>
-                                    <span className="text-gray-500">{user?.createdAt ? new Date(user.createdAt).toLocaleDateString() : '—'}</span>
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-3">
+                                <div className="bg-white/40 rounded-xl p-4 border border-white/30 text-center">
+                                    <div className="text-xs text-gray-500 mb-1">Account Created</div>
+                                    <div className="font-medium">{user?.createdAt ? new Date(user.createdAt).toLocaleDateString() : '—'}</div>
                                 </div>
-                                <div className="flex justify-between text-sm bg-white/30 rounded-lg px-3 py-2">
-                                    <span>Last password change</span>
-                                    <span className="text-gray-500">Today</span>
+                                <div className="bg-white/40 rounded-xl p-4 border border-white/30 text-center">
+                                    <div className="text-xs text-gray-500 mb-1">Last Password Change</div>
+                                    <div className="font-medium">Today</div>
                                 </div>
-                                <div className="flex justify-between text-sm bg-white/30 rounded-lg px-3 py-2">
-                                    <span>Session started</span>
-                                    <span className="text-gray-500">{new Date().toLocaleTimeString()}</span>
+                                <div className="bg-white/40 rounded-xl p-4 border border-white/30 text-center">
+                                    <div className="text-xs text-gray-500 mb-1">Current Session</div>
+                                    <div className="font-medium">{new Date().toLocaleTimeString()}</div>
                                 </div>
                             </div>
                         </InfoCard>

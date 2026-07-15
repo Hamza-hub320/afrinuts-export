@@ -3,7 +3,18 @@ import { initializeApp, cert, getApps } from 'firebase-admin/app';
 import { getAuth } from 'firebase-admin/auth';
 import { getFirestore } from 'firebase-admin/firestore';
 
-const db = getFirestore();
+// Initialize Firebase Admin (only once)
+if (!getApps().length) {
+    initializeApp({
+        credential: cert({
+            projectId: process.env.FIREBASE_PROJECT_ID,
+            clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+            privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+        }),
+    });
+}
+
+
 
 if (!getApps().length) {
     initializeApp({
@@ -16,6 +27,7 @@ if (!getApps().length) {
 }
 
 const auth = getAuth();
+const db = getFirestore();
 
 export const handler: Handler = async (event: HandlerEvent) => {
     const headers = {
@@ -66,17 +78,22 @@ export const handler: Handler = async (event: HandlerEvent) => {
         }
 
         if (action === 'listUsers') {
-            const listResult = await auth.listUsers(100);
-            const users = listResult.users.map(u => ({
-                uid: u.uid,
-                email: u.email,
-                displayName: u.displayName,
-                role: u.customClaims?.role || 'INVESTOR',
-                disabled: u.disabled,
-                lastSignIn: u.metadata.lastSignInTime,
-                createdAt: u.metadata.creationTime,
+            const firestoreSnapshot = await db.collection('users').get();
+            const firestoreUsers = firestoreSnapshot.docs.map(doc => ({
+                uid: doc.id,
+                email: doc.data().email || '',
+                displayName: doc.data().name || doc.data().displayName || '',
+                role: doc.data().role || 'INVESTOR',
+                disabled: doc.data().isActive === false,
+                lastSignIn: doc.data().lastSignIn || null,
+                createdAt: doc.data().createdAt || null,
             }));
-            return { statusCode: 200, headers, body: JSON.stringify({ users }) };
+
+            return {
+                statusCode: 200,
+                headers,
+                body: JSON.stringify({ users: firestoreUsers }),
+            };
         }
 
         if (action === 'setRole' && uid && role) {
