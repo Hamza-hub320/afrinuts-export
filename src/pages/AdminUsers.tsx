@@ -1,6 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { FaUsers, FaUserPlus, FaUserShield, FaUserSlash, FaCrown, FaCheckCircle, FaTimes } from 'react-icons/fa';
+import {
+    FaUsers,
+    FaUserPlus,
+    FaUserShield,
+    FaUserSlash,
+    FaCrown,
+    FaCheckCircle,
+    FaTimes,
+    FaHistory, FaUser
+} from 'react-icons/fa';
 import { Typography } from '@/components/Typography/Typography';
 import { InfoCard } from '@/components/InfoCard/InfoCard';
 import DashboardNavbar from '@/components/DashboardNavbar/DashboardNavbar';
@@ -166,6 +175,66 @@ const AdminUsers: React.FC = () => {
                     </motion.div>
                 </div>
             </Section>
+
+            {/* User Stats */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                <InfoCard icon={FaUsers} title={String(users.length)} subtitle="Total Users" iconColor="text-accent" showInfoBadge={false} />
+                <InfoCard icon={FaCrown} title={String(users.filter(u => u.role === 'OWNER').length)} subtitle="Owners" iconColor="text-yellow-500" showInfoBadge={false} />
+                <InfoCard icon={FaUserSlash} title={String(users.filter(u => u.disabled).length)} subtitle="Disabled" iconColor="text-red-500" showInfoBadge={false} />
+            </div>
+
+            {/* Role Distribution */}
+            <InfoCard icon={FaUserShield} title="Role Distribution" iconColor="text-primary" showInfoBadge={false} className="mb-8">
+                <div className="space-y-3 mt-3">
+                    {[
+                        { role: 'OWNER', icon: FaCrown, color: 'text-yellow-500' },
+                        { role: 'MANAGER', icon: FaUserShield, color: 'text-blue-500' },
+                        { role: 'INVESTOR', icon: FaUser, color: 'text-gray-500' },
+                    ].map(({ role, icon: Icon, color }) => {
+                        const count = users.filter(u => u.role === role).length;
+                        const pct = users.length > 0 ? (count / users.length) * 100 : 0;
+                        return (
+                            <div key={role}>
+                                <div className="flex justify-between text-xs mb-1">
+                                    <span className="flex items-center gap-1"><Icon className={color} /> {role}</span>
+                                    <span className="font-medium">{count} user{count !== 1 ? 's' : ''}</span>
+                                </div>
+                                <div className="w-full bg-gray-200 rounded-full h-2.5">
+                                    <motion.div
+                                        className={`h-2.5 rounded-full ${role === 'OWNER' ? 'bg-yellow-500' : role === 'MANAGER' ? 'bg-blue-500' : 'bg-gray-400'}`}
+                                        initial={{ width: 0 }}
+                                        animate={{ width: `${pct}%` }}
+                                        transition={{ duration: 1 }}
+                                    />
+                                </div>
+                            </div>
+                        );
+                    })}
+                </div>
+            </InfoCard>
+
+            {/* Recent Activity */}
+            <InfoCard icon={FaHistory} title="Recent Activity" iconColor="text-blue-500" showInfoBadge={false}>
+                <div className="space-y-2 mt-3">
+                    {users
+                        .filter(u => u.lastSignIn)
+                        .sort((a, b) => new Date(b.lastSignIn).getTime() - new Date(a.lastSignIn).getTime())
+                        .slice(0, 5)
+                        .map(user => (
+                            <div key={user.uid} className="flex items-center justify-between bg-white/30 rounded-lg px-3 py-2 text-sm">
+                                <div>
+                                    <span className="font-medium">{user.displayName || user.email}</span>
+                                </div>
+                                <div className="flex items-center gap-3 text-xs text-gray-500">
+                        <span className={`px-1.5 py-0.5 rounded-full ${user.role === 'OWNER' ? 'bg-yellow-100 text-yellow-700' : user.role === 'MANAGER' ? 'bg-blue-100 text-blue-700' : 'bg-gray-100 text-gray-600'}`}>
+                            {user.role}
+                        </span>
+                                    <span>{new Date(user.lastSignIn).toLocaleDateString()}</span>
+                                </div>
+                            </div>
+                        ))}
+                </div>
+            </InfoCard>
         </div>
     );
 };

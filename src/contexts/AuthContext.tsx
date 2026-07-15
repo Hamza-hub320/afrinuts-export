@@ -13,6 +13,9 @@ interface User {
     name: string;
     role: 'OWNER' | 'MANAGER' | 'WORKER' | 'INVESTOR';
     displayName?: string | null;
+    lastSignIn?: string | null;
+    emailVerified?: boolean;
+    createdAt?: string | null;
 }
 
 interface AuthContextType {

@@ -1,6 +1,16 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { FaUser, FaLock, FaCheckCircle, FaEye, FaEyeSlash, FaKey } from 'react-icons/fa';
+import {
+    FaUser,
+    FaLock,
+    FaCheckCircle,
+    FaEye,
+    FaEyeSlash,
+    FaKey,
+    FaShieldAlt,
+    FaUserShield,
+    FaTimesCircle, FaHistory
+} from 'react-icons/fa';
 import { Typography } from '@/components/Typography/Typography';
 import { InfoCard } from '@/components/InfoCard/InfoCard';
 import DashboardNavbar from '@/components/DashboardNavbar/DashboardNavbar';
@@ -78,7 +88,7 @@ const Settings: React.FC = () => {
                 </motion.div>
             </Section>
 
-            <Section className="py-8">
+            <Section className="py-6">
                 <div className="max-w-lg mx-auto px-4 sm:px-6">
                     {/* Profile Info */}
                     <motion.div className="mb-8" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
@@ -149,6 +159,72 @@ const Settings: React.FC = () => {
                                     {status === 'loading' ? 'Updating...' : 'Update Password'}
                                 </button>
                             </form>
+                        </InfoCard>
+                    </motion.div>
+
+                    {/* Security Overview */}
+                    <motion.div className="mb-8" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
+                        <InfoCard icon={FaShieldAlt} title="Security Overview" iconColor="text-amber-500" showInfoBadge={false}>
+                            <div className="grid grid-cols-2 gap-4 mt-3">
+                                <div className="bg-white/40 rounded-xl p-3 border border-white/30 text-center">
+                                    <div className="text-2xl font-bold text-primary">
+                                        {user?.lastSignIn ? new Date(user.lastSignIn).toLocaleDateString() : 'Today'}
+                                    </div>
+                                    <div className="text-xs text-gray-500">Last Login</div>
+                                </div>
+                                <div className="bg-white/40 rounded-xl p-3 border border-white/30 text-center">
+                                    <div className="text-2xl font-bold text-green-600">
+                                        {user?.emailVerified ? 'Verified' : 'Pending'}
+                                    </div>
+                                    <div className="text-xs text-gray-500">Email Status</div>
+                                </div>
+                            </div>
+                        </InfoCard>
+                    </motion.div>
+
+                    {/* Permissions & Access */}
+                    <motion.div className="mb-8" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
+                        <InfoCard icon={FaUserShield} title="Permissions & Access" iconColor="text-primary" showInfoBadge={false}>
+                            <div className="space-y-3 mt-3">
+                                {[
+                                    { label: 'Dashboard & Analytics', roles: ['OWNER', 'MANAGER', 'INVESTOR'] },
+                                    { label: 'Farm Operations', roles: ['OWNER', 'MANAGER'] },
+                                    { label: 'Financial Reports', roles: ['OWNER', 'MANAGER', 'INVESTOR'] },
+                                    { label: 'Supplier & Batch Management', roles: ['OWNER', 'MANAGER'] },
+                                    { label: 'User Management', roles: ['OWNER'] },
+                                ].map((perm, i) => {
+                                    const hasAccess = perm.roles.includes(user?.role || '');
+                                    return (
+                                        <div key={i} className="flex items-center justify-between bg-white/30 rounded-lg px-3 py-2">
+                                            <span className="text-sm">{perm.label}</span>
+                                            <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${hasAccess ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'}`}>
+                            {hasAccess ? <FaCheckCircle className="inline mr-1" /> : <FaTimesCircle className="inline mr-1" />}
+                                                {hasAccess ? 'Access' : 'Restricted'}
+                        </span>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </InfoCard>
+                    </motion.div>
+
+                    {/* Account Activity */}
+                    <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
+                        <InfoCard icon={FaHistory} title="Account Activity" iconColor="text-blue-500" showInfoBadge={false}>
+                            <div className="space-y-2 mt-3">
+                                <div className="flex justify-between text-sm bg-white/30 rounded-lg px-3 py-2">
+                                    <span>Account created</span>
+                                    <span className="text-gray-500">{user?.createdAt ? new Date(user.createdAt).toLocaleDateString() : '—'}</span>
+                                </div>
+                                <div className="flex justify-between text-sm bg-white/30 rounded-lg px-3 py-2">
+                                    <span>Last password change</span>
+                                    <span className="text-gray-500">Today</span>
+                                </div>
+                                <div className="flex justify-between text-sm bg-white/30 rounded-lg px-3 py-2">
+                                    <span>Session started</span>
+                                    <span className="text-gray-500">{new Date().toLocaleTimeString()}</span>
+                                </div>
+                            </div>
                         </InfoCard>
                     </motion.div>
                 </div>

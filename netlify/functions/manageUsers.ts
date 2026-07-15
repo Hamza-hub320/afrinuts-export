@@ -1,6 +1,9 @@
 import type { Handler, HandlerEvent } from '@netlify/functions';
 import { initializeApp, cert, getApps } from 'firebase-admin/app';
 import { getAuth } from 'firebase-admin/auth';
+import { getFirestore } from 'firebase-admin/firestore';
+
+const db = getFirestore();
 
 if (!getApps().length) {
     initializeApp({
@@ -41,6 +44,24 @@ export const handler: Handler = async (event: HandlerEvent) => {
                 statusCode: 403,
                 headers,
                 body: JSON.stringify({ error: 'Only owners can manage users' }),
+            };
+        }
+
+        if (action === 'listUsers') {
+            // Get users from Firestore (has roles, names, phones)
+            const firestoreSnapshot = await db
+                .collection('users')
+                .get();
+
+            const firestoreUsers = firestoreSnapshot.docs.map(doc => ({
+                uid: doc.id,
+                ...doc.data(),
+            }));
+
+            return {
+                statusCode: 200,
+                headers,
+                body: JSON.stringify({ users: firestoreUsers }),
             };
         }
 
