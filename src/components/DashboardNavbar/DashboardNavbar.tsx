@@ -62,7 +62,7 @@ const DashboardNavbar: React.FC = () => {
             className="fixed left-1/2 -translate-x-1/2 z-40 transition-all duration-300 w-full max-w-full sm:max-w-fit sm:w-auto px-3 sm:px-0"
             style={{ top: `${navbarTop}px` }}
         >
-            <div className={`relative bg-white/60 backdrop-blur-md border-2 border-white/40 shadow-lg mx-auto transition-all duration-300 rounded-full ${
+            <div className={`relative bg-white/60 backdrop-blur-md border-2 border-white/40 shadow-lg mx-auto transition-all duration-300 rounded-2xl ${
                 scrolled ? 'shadow-xl bg-white/80 backdrop-blur-lg scale-[0.97]' : ''
             }`}>
                 {/* Desktop: compact pill */}
