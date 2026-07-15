@@ -996,41 +996,6 @@ const SupplierManagement: React.FC = () => {
                                                                         </div>
                                                                     </div>
                                                                 )}
-
-                                                                {/* Revenue Table */}
-                                                                {supplierFinancials.revenues?.length > 0 && (
-                                                                    <div>
-                                                                        <h4 className="font-medium text-primary mb-2">Sales Revenue</h4>
-                                                                        <div className="overflow-x-auto">
-                                                                            <table className="w-full text-sm">
-                                                                                <thead>
-                                                                                <tr className="border-b border-gray-200 text-left">
-                                                                                    <th className="pb-2">Date</th>
-                                                                                    <th className="pb-2">Batch</th>
-                                                                                    <th className="pb-2">Buyer</th>
-                                                                                    <th className="pb-2">Quality</th>
-                                                                                    <th className="pb-2">Amount</th>
-                                                                                </tr>
-                                                                                </thead>
-                                                                                <tbody>
-                                                                                {supplierFinancials.revenues.map((rev: any) => (
-                                                                                    <tr key={rev.id} className="border-b border-gray-100">
-                                                                                        <td className="py-1">{new Date(rev.harvestDate || rev.createdAt).toLocaleDateString()}</td>
-                                                                                        <td className="py-1">{rev.batchNumber || '—'}</td>
-                                                                                        <td className="py-1">{rev.buyer || '—'}</td>
-                                                                                        <td className="py-1">
-                                                                                        <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${
-                                                                                                 rev.quality === 'PREMIUM' ? 'bg-amber-100 text-amber-700' : 'bg-blue-100 text-blue-700'
-                                                                                                 }`}>{rev.quality}</span>
-                                                                                        </td>
-                                                                                        <td className="py-1 font-medium">{new Intl.NumberFormat('fr-FR').format(rev.totalAmount)} FCFA</td>
-                                                                                    </tr>
-                                                                                ))}
-                                                                                </tbody>
-                                                                            </table>
-                                                                        </div>
-                                                                    </div>
-                                                                )}
                                                             </>
                                                         )}
                                                     </div>

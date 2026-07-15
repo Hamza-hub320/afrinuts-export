@@ -18,7 +18,7 @@ import {
     FaTrophy,
     FaArrowRight,
     FaMedal,
-    FaAward, FaHourglassHalf, FaClipboardList,
+    FaAward, FaHourglassHalf, FaClipboardList, FaBox, FaChartBar,
 } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -32,7 +32,8 @@ import {
     CartesianGrid,
     Tooltip,
     Legend,
-    ResponsiveContainer
+    ResponsiveContainer,
+    BarChart, Bar
 } from 'recharts';
 import { getMockData } from '../services/mockData';
 import { callApi } from '../services/api';
@@ -64,26 +65,102 @@ const Dashboard: React.FC = () => {
         progressPercent: number;
     } => {
         const totalBlocks = blocks.length || 35;
+        const harvestedBlocks = blocks.filter(b => b.status === 'HARVESTED').length;
         const plantedBlocks = blocks.filter(b => b.status === 'PLANTED').length;
         const plowedBlocks = blocks.filter(b => b.status === 'PLOWED').length;
         const clearedBlocks = blocks.filter(b => b.status === 'CLEARED').length;
         const notClearedBlocks = blocks.filter(b => b.status === 'NOT_CLEARED').length;
 
-        const progressedBlocks = plantedBlocks + plowedBlocks + clearedBlocks;
-        const progressPercent = totalBlocks > 0 ? (progressedBlocks / totalBlocks) * 100 : 0;
+        // All blocks harvested = mature farm
+        if (harvestedBlocks === totalBlocks) {
+            const harvestDates = blocks
+                .filter(b => b.lastHarvestDate)
+                .map(b => b.lastHarvestDate!);
+            if (harvestDates.length > 0) {
+                const oldestHarvest = Math.min(...harvestDates);
+                const monthsSinceFirstHarvest = (Date.now() - oldestHarvest) / (1000 * 60 * 60 * 24 * 30);
+                const totalHarvested = blocks.reduce((sum, b) => sum + (b.totalHarvestQuantity || 0), 0);
+                const harvestCount = blocks.reduce((sum, b) => sum + (b.harvestCount || 0), 0);
+                const avgHarvestsPerBlock = harvestCount / harvestedBlocks;
+
+                if (avgHarvestsPerBlock >= 2) {
+                    return {
+                        stage: 'Established Production',
+                        icon: FaTrophy,
+                        color: 'text-yellow-500',
+                        description: `${harvestCount} total harvests across ${harvestedBlocks} blocks — ${(totalHarvested / 1000).toFixed(1)}T produced`,
+                        progressPercent: 100,
+                    };
+                }
+                return {
+                    stage: 'Early Production',
+                    icon: FaChartLine,
+                    color: 'text-green-600',
+                    description: `${harvestedBlocks} blocks harvested · ${harvestCount} harvest(s) · ${(totalHarvested / 1000).toFixed(1)}T total yield`,
+                    progressPercent: 100,
+                };
+            }
+        }
+
+        // Some harvested
+        if (harvestedBlocks > 0 && harvestedBlocks < totalBlocks) {
+            const activeBlocks = harvestedBlocks + plantedBlocks + plowedBlocks + clearedBlocks;
+            const progressPercent = (activeBlocks / totalBlocks) * 100;
+            return {
+                stage: 'Active Production',
+                icon: FaTractor,
+                color: 'text-green-500',
+                description: `${harvestedBlocks} harvested · ${plantedBlocks} planted · ${totalBlocks - activeBlocks} undeveloped`,
+                progressPercent,
+            };
+        }
+
+        // Planted but not yet harvested
+        if (plantedBlocks > 0) {
+            const plantedDates = blocks
+                .filter(b => b.plantedDate)
+                .map(b => new Date(b.plantedDate).getTime());
+            const avgSurvival = plantedBlocks > 0
+                ? blocks.filter(b => b.status === 'PLANTED').reduce((sum, b) => sum + (b.survivalRate || 0), 0) / plantedBlocks
+                : 0;
+
+            if (plantedDates.length > 0) {
+                const oldestPlanting = Math.min(...plantedDates);
+                const monthsSincePlanting = (Date.now() - oldestPlanting) / (1000 * 60 * 60 * 24 * 30);
+
+                if (monthsSincePlanting < 12) {
+                    return {
+                        stage: 'Young Orchard',
+                        icon: FaTree,
+                        color: 'text-green-500',
+                        description: `${plantedBlocks} blocks planted · ${avgSurvival.toFixed(0)}% survival · trees establishing`,
+                        progressPercent: (plantedBlocks / totalBlocks) * 100,
+                    };
+                }
+                return {
+                    stage: 'Maturing Orchard',
+                    icon: FaTree,
+                    color: 'text-green-600',
+                    description: `${plantedBlocks} blocks maturing · first harvest expected soon`,
+                    progressPercent: (plantedBlocks / totalBlocks) * 100,
+                };
+            }
+        }
 
         // No work started
+        const progressedBlocks = harvestedBlocks + plantedBlocks + plowedBlocks + clearedBlocks;
+        const progressPercent = (progressedBlocks / totalBlocks) * 100;
+
         if (progressedBlocks === 0) {
             return {
                 stage: 'Pre-Development',
                 icon: FaClipboardList,
                 color: 'text-gray-500',
-                description: 'Farm planning & preparation phase — no blocks cleared yet',
+                description: 'Farm planning & preparation — no blocks cleared yet',
                 progressPercent: 0,
             };
         }
 
-        // Some cleared but nothing planted
         if (plantedBlocks === 0 && plowedBlocks === 0 && clearedBlocks > 0) {
             return {
                 stage: 'Land Preparation',
@@ -94,7 +171,6 @@ const Dashboard: React.FC = () => {
             };
         }
 
-        // Plowing underway
         if (plantedBlocks === 0 && plowedBlocks > 0) {
             return {
                 stage: 'Soil Preparation',
@@ -102,79 +178,6 @@ const Dashboard: React.FC = () => {
                 color: 'text-blue-500',
                 description: `${plowedBlocks} block${plowedBlocks > 1 ? 's' : ''} plowed — soil being prepared`,
                 progressPercent,
-            };
-        }
-
-        // Some planted but not all
-        if (plantedBlocks > 0 && plantedBlocks < totalBlocks) {
-            // Check if any planted blocks have survival data suggesting growth stage
-            const plantedBlockData = blocks.filter(b => b.status === 'PLANTED');
-            const avgSurvival = plantedBlockData.reduce((sum, b) => sum + (b.survivalRate || 0), 0) / plantedBlockData.length;
-
-            if (avgSurvival > 80) {
-                return {
-                    stage: 'Young Orchard',
-                    icon: FaTree,
-                    color: 'text-green-500',
-                    description: `${plantedBlocks} blocks planted with ${avgSurvival.toFixed(0)}% survival — trees establishing`,
-                    progressPercent,
-                };
-            }
-
-            return {
-                stage: 'Active Planting',
-                icon: FaSeedling,
-                color: 'text-green-500',
-                description: `${plantedBlocks} of ${totalBlocks} blocks planted — ${totalBlocks - plantedBlocks} remaining`,
-                progressPercent,
-            };
-        }
-
-        // All blocks planted — check maturity based on planting dates
-        if (plantedBlocks === totalBlocks) {
-            const plantedDates = blocks
-                .filter(b => b.plantedDate)
-                .map(b => new Date(b.plantedDate).getTime());
-
-            if (plantedDates.length > 0) {
-                const oldestPlanting = Math.min(...plantedDates);
-                const monthsSincePlanting = (Date.now() - oldestPlanting) / (1000 * 60 * 60 * 24 * 30);
-
-                if (monthsSincePlanting < 6) {
-                    return {
-                        stage: 'Young Orchard',
-                        icon: FaTree,
-                        color: 'text-primary',
-                        description: 'All blocks planted — young trees establishing root systems',
-                        progressPercent: 100,
-                    };
-                }
-                if (monthsSincePlanting < 12) {
-                    return {
-                        stage: 'Maturing Orchard',
-                        icon: FaTree,
-                        color: 'text-primary',
-                        description: 'Trees maturing — first flowering expected next season',
-                        progressPercent: 100,
-                    };
-                }
-                if (monthsSincePlanting < 36) {
-                    return {
-                        stage: 'Early Production',
-                        icon: FaChartLine,
-                        color: 'text-primary',
-                        description: 'Trees entering production phase — yields increasing annually',
-                        progressPercent: 100,
-                    };
-                }
-            }
-
-            return {
-                stage: 'Mature Orchard',
-                icon: FaTrophy,
-                color: 'text-yellow-500',
-                description: 'All blocks fully established — peak production capacity',
-                progressPercent: 100,
             };
         }
 
@@ -233,19 +236,40 @@ const Dashboard: React.FC = () => {
     const overdueTasks = tasks.filter(t => t.dueDate < Date.now() && t.status !== 'COMPLETED');
 
     const blockStatusCount = blocks.reduce((acc: any, block) => {
-        acc[block.status] = (acc[block.status] || 0) + 1;
+        const status = block.status === 'HARVESTED' ? 'HARVESTED' : block.status;
+        acc[status] = (acc[status] || 0) + 1;
         return acc;
     }, {});
     const pieData = Object.entries(blockStatusCount).map(([name, value]) => ({ name, value }));
 
-    const monthlyData = [
-        { month: 'Jan', revenue: 1250000, expenses: 850000 },
-        { month: 'Feb', revenue: 1870000, expenses: 920000 },
-        { month: 'Mar', revenue: 2100000, expenses: 1100000 },
-        { month: 'Apr', revenue: 1950000, expenses: 1050000 },
-        { month: 'May', revenue: 2300000, expenses: 1180000 },
-        { month: 'Jun', revenue: 2750000, expenses: 1250000 },
-    ];
+    // Build monthly data from real revenues
+    const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const monthlyMap = new Map<string, { revenue: number; expenses: number }>();
+
+    revenues.forEach(r => {
+        const date = new Date(r.harvestDate || r.createdAt);
+        const key = monthNames[date.getMonth()];
+        if (!monthlyMap.has(key)) {
+            monthlyMap.set(key, { revenue: 0, expenses: 0 });
+        }
+        monthlyMap.get(key)!.revenue += r.totalAmount || 0;
+    });
+
+    expenses.forEach(e => {
+        const date = new Date(e.date);
+        const key = monthNames[date.getMonth()];
+        if (!monthlyMap.has(key)) {
+            monthlyMap.set(key, { revenue: 0, expenses: 0 });
+        }
+        monthlyMap.get(key)!.expenses += e.amount || 0;
+    });
+
+    const orderedMonths = monthNames.filter(m => monthlyMap.has(m));
+    const monthlyData = orderedMonths.map(month => ({
+        month,
+        revenue: monthlyMap.get(month)!.revenue,
+        expenses: monthlyMap.get(month)!.expenses,
+    }));
 
     if (loading) {
         return (
@@ -378,7 +402,7 @@ const Dashboard: React.FC = () => {
                     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0 }}>
                         <InfoCard
                             icon={FaTree}
-                            title={String(farmData?.stats?.aliveTrees || 0)}
+                            title={String(blocks.reduce((sum, b) => sum + Math.round((b.survivalRate || 0) * 100 / 100), 0))}
                             subtitle="Total Trees Alive"
                             iconColor="text-accent"
                             showInfoBadge={false}
@@ -387,8 +411,8 @@ const Dashboard: React.FC = () => {
                     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
                         <InfoCard
                             icon={FaTractor}
-                            title={`${farmData?.stats?.plantedBlocks || 0}/${farmData?.stats?.totalBlocks || 35}`}
-                            subtitle="Planted Blocks"
+                            title={`${blocks.filter(b => b.status === 'HARVESTED').length}/${blocks.filter(b => b.status === 'PLANTED' || b.status === 'HARVESTED').length}`}
+                            subtitle="Blocks Harvested"
                             iconColor="text-accent"
                             showInfoBadge={false}
                         />
@@ -407,7 +431,7 @@ const Dashboard: React.FC = () => {
                             icon={FaTasks}
                             title={String(pendingTasks.length + inProgressTasks.length)}
                             subtitle={`Active Tasks${overdueTasks.length > 0 ? ` • ${overdueTasks.length} overdue` : ''}`}
-                            iconColor="text-accent"
+                            iconColor={overdueTasks.length > 0 ? 'text-red-500' : 'text-accent'}
                             showInfoBadge={false}
                         />
                     </motion.div>
@@ -421,7 +445,6 @@ const Dashboard: React.FC = () => {
                         />
                     </motion.div>
                 </div>
-
                 {/* Farm Health & Season Row */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                     {/* Survival Rate */}
@@ -429,7 +452,7 @@ const Dashboard: React.FC = () => {
                         <InfoCard
                             icon={FaTree}
                             title="Tree Survival Rate"
-                            subtitle={`${farmData?.stats?.aliveTrees?.toLocaleString() || 0} trees alive`}
+                            subtitle={`${farmData?.stats?.totalAliveTrees?.toLocaleString() || 0} trees alive`}
                             iconColor="text-primary"
                             showInfoBadge={false}
                         >
@@ -437,19 +460,19 @@ const Dashboard: React.FC = () => {
                                 <div className="flex justify-between text-sm mb-1">
                                     <span className="text-gray-600">Survival Rate</span>
                                     <span className="font-semibold text-green-700">
-                        {farmData?.stats?.survivalRate?.toFixed(1) || 0}%
+                        {farmData?.stats?.avgSurvivalRate?.toFixed(1) || 0}%
                     </span>
                                 </div>
                                 <div className="w-full bg-gray-200 rounded-full h-2.5">
                                     <motion.div
                                         className="bg-gradient-to-r from-primary to-accent h-2.5 rounded-full"
                                         initial={{ width: 0 }}
-                                        animate={{ width: `${farmData?.stats?.survivalRate || 0}%` }}
+                                        animate={{ width: `${farmData?.stats?.avgSurvivalRate || 0}%` }}
                                         transition={{ duration: 1, delay: 0.3 }}
                                     />
                                 </div>
                                 <p className="text-xs text-gray-500 mt-2">
-                                    {farmData?.stats?.survivalRate > 85
+                                    {farmData?.stats?.avgSurvivalRate > 85
                                         ? 'Exceeds industry average of 85%'
                                         : 'Below industry average - attention needed'}
                                 </p>
@@ -637,7 +660,7 @@ const Dashboard: React.FC = () => {
                                             <InfoCard
                                                 icon={idx === 0 ? FaTrophy : idx === 1 ? FaMedal : FaAward}
                                                 title={`Block ${block.blockName || block.id}`}
-                                                subtitle={`${treeCount} trees • ${block.survivalRate?.toFixed(0) || 0}% survival`}
+                                                subtitle={`${treeCount} trees · ${block.survivalRate?.toFixed(0) || 0}% survival${block.status === 'HARVESTED' ? ` · ${block.totalHarvestQuantity ? (block.totalHarvestQuantity / 1000).toFixed(1) + 'T harvested' : ''}` : ''}`}
                                                 iconColor={
                                                     idx === 0 ? 'text-yellow-500' :
                                                         idx === 1 ? 'text-gray-400' :
@@ -675,19 +698,15 @@ const Dashboard: React.FC = () => {
                 )}
 
                 {/* Block Status Quick Summary */}
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
+                <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-8">
                     {[
-                        { label: 'Planted', count: blocks.filter(b => b.status === 'PLANTED').length, icon: FaTree, iconColor: 'text-accent' },
-                        { label: 'Plowed', count: blocks.filter(b => b.status === 'PLOWED').length, icon: FaTractor, iconColor: 'text-accent' },
-                        { label: 'Cleared', count: blocks.filter(b => b.status === 'CLEARED').length, icon: FaSeedling, iconColor: 'text-accent' },
-                        { label: 'Not Cleared', count: blocks.filter(b => b.status === 'NOT_CLEARED').length, icon: FaHourglassHalf, iconColor: 'text-accent' },
+                        { label: 'Harvested', count: blocks.filter(b => b.status === 'HARVESTED').length, icon: FaTractor, iconColor: 'text-amber-500' },
+                        { label: 'Planted', count: blocks.filter(b => b.status === 'PLANTED').length, icon: FaTree, iconColor: 'text-green-500' },
+                        { label: 'Plowed', count: blocks.filter(b => b.status === 'PLOWED').length, icon: FaTractor, iconColor: 'text-blue-500' },
+                        { label: 'Cleared', count: blocks.filter(b => b.status === 'CLEARED').length, icon: FaSeedling, iconColor: 'text-orange-500' },
+                        { label: 'Not Cleared', count: blocks.filter(b => b.status === 'NOT_CLEARED').length, icon: FaHourglassHalf, iconColor: 'text-gray-400' },
                     ].map((item, idx) => (
-                        <motion.div
-                            key={idx}
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.1 * idx }}
-                        >
+                        <motion.div key={idx} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 * idx }}>
                             <InfoCard
                                 icon={item.icon}
                                 title={String(item.count)}
@@ -703,72 +722,86 @@ const Dashboard: React.FC = () => {
                 {/* Charts Row */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
                     {/* Revenue vs Expenses */}
+                    {/* Revenue by Source Over Time */}
                     <motion.div
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                     >
                         <InfoCard
-                            icon={() => <FaChartLine className="text-primary text-xl" />}
-                            title="Revenue vs Expenses"
+                            icon={() => <FaChartBar className="text-primary text-xl" />}
+                            title="Revenue by Source"
+                            subtitle="Own farm vs supplier trading"
                             iconColor="text-primary"
                             className="h-full"
                             showInfoBadge={false}
                         >
                             <ResponsiveContainer width="100%" height={300}>
-                                <LineChart data={monthlyData}>
-                                    <CartesianGrid strokeDasharray="3 3" stroke="rgba(0,0,0,0.05)" />
-                                    <XAxis dataKey="month" />
-                                    <YAxis tickFormatter={(value) => `${(value / 1000000).toFixed(1)}M`} />
+                                <BarChart
+                                    data={(() => {
+                                        const byYear: Record<string, { year: string; ownFarm: number; supplier: number }> = {};
+                                        revenues.forEach(r => {
+                                            const year = r.harvestYear ? String(r.harvestYear) : new Date(r.harvestDate || r.createdAt).getFullYear().toString();
+                                            if (!byYear[year]) byYear[year] = { year, ownFarm: 0, supplier: 0 };
+                                            if (r.supplierId === 10) {
+                                                byYear[year].ownFarm += r.totalAmount || 0;
+                                            } else if (r.supplierId) {
+                                                byYear[year].supplier += r.totalAmount || 0;
+                                            }
+                                        });
+                                        return Object.values(byYear).sort((a, b) => a.year.localeCompare(b.year));
+                                    })()}
+                                    margin={{ top: 10, right: 20, left: 20, bottom: 10 }}
+                                >
+                                    <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                                    <XAxis dataKey="year" stroke="#6b7280" />
+                                    <YAxis stroke="#6b7280" width={80} tickFormatter={(value) => `${(value / 1000000).toFixed(0)}M`} />
                                     <Tooltip formatter={(value) => `${new Intl.NumberFormat('fr-FR').format(Number(value))} FCFA`} />
                                     <Legend />
-                                    <Line type="monotone" dataKey="revenue" stroke="#5A7411" strokeWidth={2} />
-                                    <Line type="monotone" dataKey="expenses" stroke="#E04E00" strokeWidth={2} />
-                                </LineChart>
+                                    <Bar dataKey="ownFarm" name="Own Farm" fill="#5A7411" radius={[6, 6, 0, 0]} />
+                                    <Bar dataKey="supplier" name="Suppliers" fill="#E04E00" radius={[6, 6, 0, 0]} />
+                                </BarChart>
                             </ResponsiveContainer>
                         </InfoCard>
                     </motion.div>
 
-                    {/* Block Status Pie */}
+                    {/* Harvest Volume by Block */}
                     <motion.div
                         initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
                     >
                         <InfoCard
-                            icon={() => <FaChartPie className="text-primary text-xl" />}
-                            title="Block Status Distribution"
+                            icon={() => <FaChartBar className="text-primary text-xl" />}
+                            title="Harvest Volume by Block"
+                            subtitle="Total production per harvested block"
                             iconColor="text-primary"
                             className="h-full"
                             showInfoBadge={false}
                         >
-                            <ResponsiveContainer width="100%" height={300}>
-                                <PieChart>
-                                    <Pie
-                                        data={pieData}
-                                        cx="50%"
-                                        cy="50%"
-                                        labelLine={true}
-                                        label={({ name, percent }) => {
-                                            const safeName = name || 'Unknown';
-                                            const safePercent = percent ?? 0;
-                                            const shortName = safeName.length > 10
-                                                ? safeName.substring(0, 10) + '…'
-                                                : safeName;
-                                            return `${shortName}: ${(safePercent * 100).toFixed(0)}%`;
-                                        }}
-                                        outerRadius={80}
-                                        fill="#8884d8"
-                                        dataKey="value"
+                            {blocks.filter(b => b.totalHarvestQuantity && b.totalHarvestQuantity > 0).length > 0 ? (
+                                <ResponsiveContainer width="100%" height={300}>
+                                    <BarChart
+                                        data={blocks
+                                            .filter(b => b.totalHarvestQuantity && b.totalHarvestQuantity > 0)
+                                            .sort((a, b) => (a.blockName || '').localeCompare(b.blockName || ''))
+                                            .map(b => ({
+                                                name: b.blockName || `Block ${b.id}`,
+                                                tonnes: parseFloat(((b.totalHarvestQuantity || 0) / 1000).toFixed(2)),
+                                            }))}
+                                        margin={{ top: 10, right: 20, left: 10, bottom: 30 }}
                                     >
-                                        {pieData.map((entry, index) => (
-                                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                                        ))}
-                                    </Pie>
-                                    <Tooltip
-                                        formatter={(value, name) => [value, name]}
-                                    />
-                                    <Legend />
-                                </PieChart>
-                            </ResponsiveContainer>
+                                        <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                                        <XAxis dataKey="name" stroke="#6b7280" fontSize={10} angle={-45} textAnchor="end" />
+                                        <YAxis stroke="#6b7280" fontSize={12} tickFormatter={(v) => `${v}T`} />
+                                        <Tooltip formatter={(value) => `${value} tonnes`} />
+                                        <Bar dataKey="tonnes" fill="#5A7411" radius={[4, 4, 0, 0]} />
+                                    </BarChart>
+                                </ResponsiveContainer>
+                            ) : (
+                                <div className="text-center py-12 text-gray-400">
+                                    <FaBox className="text-3xl mx-auto mb-2" />
+                                    <p className="text-sm">No harvest data recorded yet</p>
+                                </div>
+                            )}
                         </InfoCard>
                     </motion.div>
                 </div>
@@ -830,23 +863,16 @@ const Dashboard: React.FC = () => {
                     variants={staggerContainer}
                     className="mb-12"
                 >
-                    <InfoCard
-                        title="Financial Summary"
-                        variant="primary"
-                        showInfoBadge={false}
-                    >
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <InfoCard title="Financial Summary" variant="primary" showInfoBadge={false}>
+                        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                             {[
-                                { label: 'Total Revenue', value: totalRevenue, color: 'text-green-600' },
-                                { label: 'Total Expenses', value: totalExpenses, color: 'text-red-600' },
+                                { label: 'Farm Revenue', value: revenues.filter(r => r.supplierId === 10).reduce((s, r) => s + (r.totalAmount || 0), 0), color: 'text-green-600' },
+                                { label: 'Trading Revenue', value: revenues.filter(r => r.supplierId && r.supplierId !== 10).reduce((s, r) => s + (r.totalAmount || 0), 0), color: 'text-blue-600' },
+                                { label: 'Operational Costs', value: expenses.filter(e => e.category !== 'PROCUREMENT').reduce((s, e) => s + (e.amount || 0), 0), color: 'text-red-600' },
                                 { label: 'Net Profit', value: netProfit, color: netProfit >= 0 ? 'text-green-600' : 'text-red-600' },
                             ].map((item, i) => (
-                                <motion.div
-                                    key={i}
-                                    variants={fadeIn}
-                                    transition={{ delay: i * 0.1 }}
-                                    className="text-center p-4 rounded-xl bg-gradient-to-br from-primary/5 to-accent/5 border border-primary/10"
-                                >
+                                <motion.div key={i} variants={fadeIn} transition={{ delay: i * 0.1 }}
+                                            className="text-center p-4 rounded-xl bg-gradient-to-br from-primary/5 to-accent/5 border border-primary/10">
                                     <p className="text-sm text-gray-500">{item.label}</p>
                                     <p className={`text-2xl font-bold ${item.color}`}>
                                         {new Intl.NumberFormat('fr-FR').format(item.value)} FCFA
