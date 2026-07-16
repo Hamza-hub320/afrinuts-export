@@ -39,15 +39,24 @@ export const handler: Handler = async (event: HandlerEvent) => {
         // listUsers — no role check (route already protected)
         if (action === 'listUsers') {
             const firestoreSnapshot = await db.collection('users').get();
-            const firestoreUsers = firestoreSnapshot.docs.map(doc => ({
-                uid: doc.id,
-                email: doc.data().email || '',
-                displayName: doc.data().name || doc.data().displayName || '',
-                role: doc.data().role || 'INVESTOR',
-                disabled: doc.data().isActive === false,
-                lastSignIn: doc.data().lastSignIn || null,
-                createdAt: doc.data().createdAt || null,
-            }));
+
+            const firestoreUsers = firestoreSnapshot.docs.map(doc => {
+                const data = doc.data();
+                return {
+                    uid: doc.id,
+                    email: data.email || '',
+                    displayName: data.name || data.displayName || '',
+                    role: data.role || 'INVESTOR',
+                    disabled: data.isActive === false,
+                    lastSignIn: data.lastLoginAt || null,
+                    lastLoginDevice: data.lastLoginDevice || null,
+                    createdAt: data.createdAt || null,
+                    bio: data.bio || null,
+                    company: data.company || null,
+                    title: data.title || null,
+                    phone: data.phone || null,
+                };
+            });
 
             return {
                 statusCode: 200,

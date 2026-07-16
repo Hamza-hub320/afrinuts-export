@@ -25,6 +25,9 @@ interface UserRecord {
     disabled: boolean;
     lastSignIn: string;
     createdAt: string;
+    title?: string;
+    lastLoginDevice?: string;
+    company?: string;
 }
 
 const ROLES = ['OWNER', 'MANAGER', 'INVESTOR'];
@@ -177,49 +180,165 @@ const AdminUsers: React.FC = () => {
                             <Typography variant="small">No users found</Typography>
                         </div>
                     ) : (
-                        <div className="overflow-x-auto mt-3">
-                            <table className="w-full text-sm">
-                                <thead>
-                                <tr className="border-b border-gray-200 text-left">
-                                    <th className="pb-2 font-medium text-gray-600">User</th>
-                                    <th className="pb-2 font-medium text-gray-600">Role</th>
-                                    <th className="pb-2 font-medium text-gray-600">Status</th>
-                                    <th className="pb-2 font-medium text-gray-600">Last Sign In</th>
-                                    <th className="pb-2 font-medium text-gray-600">Actions</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                {users.map(user => (
-                                    <tr key={user.uid} className="border-b border-gray-100 last:border-0 hover:bg-white/20">
-                                        <td className="py-2">
-                                            <div className="font-medium">{user.displayName || '—'}</div>
-                                            <div className="text-xs text-gray-500">{user.email}</div>
-                                        </td>
-                                        <td className="py-2">
-                                            <select value={user.role} onChange={e => handleRoleChange(user.uid, e.target.value)}
-                                                    className="px-2 py-1 rounded-lg border border-gray-300 bg-white/60 text-xs focus:outline-none focus:ring-1 focus:ring-primary">
-                                                {ROLES.map(role => <option key={role} value={role}>{role}</option>)}
-                                            </select>
-                                        </td>
-                                        <td className="py-2">
-                                            <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${user.disabled ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'}`}>
-                                                {user.disabled ? 'Disabled' : 'Active'}
-                                            </span>
-                                        </td>
-                                        <td className="py-2 text-xs text-gray-500">
-                                            {user.lastSignIn ? new Date(user.lastSignIn).toLocaleDateString() : 'Never'}
-                                        </td>
-                                        <td className="py-2">
-                                            <button onClick={() => handleToggleUser(user.uid, !user.disabled)}
-                                                    className={`px-2 py-1 rounded text-xs font-medium ${user.disabled ? 'bg-green-100 text-green-700 hover:bg-green-200' : 'bg-red-100 text-red-700 hover:bg-red-200'} transition-colors`}>
-                                                {user.disabled ? 'Enable' : 'Disable'}
-                                            </button>
-                                        </td>
+                        <>
+                            {/* Desktop Table */}
+                            <div className="hidden md:block overflow-x-auto mt-3">
+                                <table className="w-full text-sm">
+                                    <thead>
+                                    <tr className="border-b border-gray-200 text-left">
+                                        <th className="pb-2 font-medium text-gray-600">User</th>
+                                        <th className="pb-2 font-medium text-gray-600">Role</th>
+                                        <th className="pb-2 font-medium text-gray-600">Status</th>
+                                        <th className="pb-2 font-medium text-gray-600">Last Sign In</th>
+                                        <th className="pb-2 font-medium text-gray-600">Actions</th>
                                     </tr>
+                                    </thead>
+                                    <tbody>
+                                    {users.map(user => (
+                                        <tr key={user.uid} className="border-b border-gray-100 last:border-0 hover:bg-white/20 transition-colors">
+                                            <td className="py-3">
+                                                <div className="flex items-center gap-3">
+                                                    <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${
+                                                        user.role === 'OWNER' ? 'bg-yellow-100' :
+                                                            user.role === 'MANAGER' ? 'bg-blue-100' : 'bg-gray-100'
+                                                    }`}>
+                                                        {user.role === 'OWNER' ? (
+                                                            <FaCrown className="text-yellow-600 text-sm" />
+                                                        ) : user.role === 'MANAGER' ? (
+                                                            <FaUserShield className="text-blue-600 text-sm" />
+                                                        ) : (
+                                                            <FaUser className="text-gray-500 text-sm" />
+                                                        )}
+                                                    </div>
+                                                    <div>
+                                                        <div className="font-medium">{user.displayName || '—'}</div>
+                                                        <div className="text-xs text-gray-500">{user.email}</div>
+                                                        {user.title && <div className="text-[10px] text-gray-500 italic">{user.title}</div>}
+                                                        {user.company && <div className="text-[10px] text-gray-400">{user.company}</div>}
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td className="py-3">
+                                                <select value={user.role} onChange={e => handleRoleChange(user.uid, e.target.value)}
+                                                        className={`px-3 py-1.5 rounded-lg border text-xs font-medium focus:outline-none focus:ring-2 focus:ring-primary transition-colors ${
+                                                            user.role === 'OWNER' ? 'bg-yellow-50 border-yellow-200 text-yellow-700' :
+                                                                user.role === 'MANAGER' ? 'bg-blue-50 border-blue-200 text-blue-700' :
+                                                                    'bg-gray-50 border-gray-200 text-gray-600'
+                                                        }`}>
+                                                    {ROLES.map(role => <option key={role} value={role}>{role}</option>)}
+                                                </select>
+                                            </td>
+                                            <td className="py-3">
+                                                <div className="flex items-center gap-2">
+                                                    <span className={`w-2 h-2 rounded-full ${user.disabled ? 'bg-red-400' : 'bg-green-400'}`} />
+                                                    <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${user.disabled ? 'bg-red-50 text-red-700' : 'bg-green-50 text-green-700'}`}>
+                                        {user.disabled ? 'Disabled' : 'Active'}
+                                    </span>
+                                                </div>
+                                                {user.disabled && (
+                                                    <div className="text-[10px] text-gray-400 mt-0.5">Account deactivated</div>
+                                                )}
+                                            </td>
+                                            <td className="py-3">
+                                                {user.lastSignIn ? (
+                                                    <div>
+                                                        <div className="text-xs font-medium text-gray-700">
+                                                            {new Date(user.lastSignIn).toLocaleDateString('en-US', {
+                                                                month: 'short', day: 'numeric', year: 'numeric'
+                                                            })}
+                                                        </div>
+                                                        <div className="text-xs text-gray-500">
+                                                            {new Date(user.lastSignIn).toLocaleTimeString('en-US', {
+                                                                hour: '2-digit', minute: '2-digit'
+                                                            })}
+                                                        </div>
+                                                        {user.lastLoginDevice && (
+                                                            <div className="text-[10px] text-gray-400 mt-0.5 truncate max-w-[140px]" title={user.lastLoginDevice}>
+                                                                {user.lastLoginDevice}
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                ) : (
+                                                    <span className="text-xs text-gray-400 italic">Never signed in</span>
+                                                )}
+                                            </td>
+                                            <td className="py-3">
+                                                <div className="flex items-center gap-2">
+                                                    <button onClick={() => handleToggleUser(user.uid, !user.disabled)}
+                                                            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all hover:shadow-sm ${
+                                                                user.disabled
+                                                                    ? 'bg-green-50 text-green-700 hover:bg-green-100 border border-green-200'
+                                                                    : 'bg-red-50 text-red-700 hover:bg-red-100 border border-red-200'
+                                                            }`}>
+                                                        {user.disabled ? 'Enable' : 'Disable'}
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            {/* Mobile Cards */}
+                            <div className="md:hidden space-y-3 mt-3">
+                                {users.map(user => (
+                                    <motion.div
+                                        key={user.uid}
+                                        className="bg-white/40 backdrop-blur-sm rounded-xl p-4 border border-white/30"
+                                        whileHover={{ y: -1 }}
+                                    >
+                                        <div className="flex items-center gap-3 mb-3">
+                                            <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${
+                                                user.role === 'OWNER' ? 'bg-yellow-100' :
+                                                    user.role === 'MANAGER' ? 'bg-blue-100' : 'bg-gray-100'
+                                            }`}>
+                                                {user.role === 'OWNER' ? <FaCrown className="text-yellow-600 text-sm" /> :
+                                                    user.role === 'MANAGER' ? <FaUserShield className="text-blue-600 text-sm" /> :
+                                                        <FaUser className="text-gray-500 text-sm" />}
+                                            </div>
+                                            <div className="flex-1 min-w-0">
+                                                <div className="font-medium text-gray-900 truncate">{user.displayName || '—'}</div>
+                                                <div className="text-xs text-gray-500 truncate">{user.email}</div>
+                                                {user.title && <div className="text-[10px] text-gray-400">{user.title}</div>}
+                                            </div>
+                                            <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${user.disabled ? 'bg-red-50 text-red-700' : 'bg-green-50 text-green-700'}`}>
+                                {user.disabled ? 'Disabled' : 'Active'}
+                            </span>
+                                        </div>
+
+                                        <div className="grid grid-cols-2 gap-3 text-xs">
+                                            <div>
+                                                <span className="text-gray-500">Role</span>
+                                                <select value={user.role} onChange={e => handleRoleChange(user.uid, e.target.value)}
+                                                        className="mt-1 w-full px-2 py-1.5 rounded-lg border border-gray-200 bg-white/60 text-xs focus:outline-none focus:ring-1 focus:ring-primary">
+                                                    {ROLES.map(role => <option key={role} value={role}>{role}</option>)}
+                                                </select>
+                                            </div>
+                                            <div>
+                                                <span className="text-gray-500">Last Sign In</span>
+                                                <div className="mt-1 font-medium">
+                                                    {user.lastSignIn
+                                                        ? new Date(user.lastSignIn).toLocaleDateString()
+                                                        : <span className="text-gray-400 italic">Never</span>}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="mt-3 pt-3 border-t border-gray-100">
+                                            <button onClick={() => handleToggleUser(user.uid, !user.disabled)}
+                                                    className={`w-full py-2 rounded-lg text-xs font-medium transition-all ${
+                                                        user.disabled
+                                                            ? 'bg-green-50 text-green-700 hover:bg-green-100'
+                                                            : 'bg-red-50 text-red-700 hover:bg-red-100'
+                                                    }`}>
+                                                {user.disabled ? 'Enable Account' : 'Disable Account'}
+                                            </button>
+                                        </div>
+                                    </motion.div>
                                 ))}
-                                </tbody>
-                            </table>
-                        </div>
+                            </div>
+                        </>
                     )}
                 </InfoCard>
             </div>

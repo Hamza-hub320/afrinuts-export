@@ -19,6 +19,57 @@ const headers = {
     'Content-Type': 'application/json',
 };
 
+// Helper to get IP address from request
+const getClientIp = (event) => {
+    // Check for Cloudflare-Forwarded-For header (if using Cloudflare)
+    const cfConnectingIp = event.headers?.['cf-connecting-ip'];
+    if (cfConnectingIp) return cfConnectingIp;
+
+    // Check for X-Forwarded-For header
+    const forwardedFor = event.headers?.['x-forwarded-for'];
+    if (forwardedFor) {
+        // Get the first IP from the list
+        return forwardedFor.split(',')[0].trim();
+    }
+
+    // Fallback to remote address
+    const remoteAddress = event.requestContext?.http?.sourceIp ||
+        event.requestContext?.identity?.sourceIp ||
+        event.headers?.['x-real-ip'];
+    if (remoteAddress) return remoteAddress;
+
+    return 'Unknown';
+};
+
+// Helper to get device info from User-Agent
+const getDeviceInfo = (userAgent) => {
+    if (!userAgent) return 'Unknown';
+
+    // Parse User-Agent for device/browser info
+    let device = 'Unknown';
+    let os = 'Unknown';
+    let browser = 'Unknown';
+
+    // OS detection
+    if (userAgent.includes('Windows')) os = 'Windows';
+    else if (userAgent.includes('Mac OS X')) os = 'macOS';
+    else if (userAgent.includes('Linux') && !userAgent.includes('Android')) os = 'Linux';
+    else if (userAgent.includes('Android')) os = 'Android';
+    else if (userAgent.includes('iPhone') || userAgent.includes('iPad') || userAgent.includes('iPod')) os = 'iOS';
+
+    // Browser detection
+    if (userAgent.includes('Chrome') && !userAgent.includes('Edg')) browser = 'Chrome';
+    else if (userAgent.includes('Firefox')) browser = 'Firefox';
+    else if (userAgent.includes('Safari') && !userAgent.includes('Chrome')) browser = 'Safari';
+    else if (userAgent.includes('Edge')) browser = 'Edge';
+
+    device = `${browser}/${os}`;
+    return device;
+};
+
+// Helper to get current timestamp
+const getTimestamp = () => Date.now();
+
 exports.handler = async (event, context) => {
     // Handle preflight OPTIONS request
     if (event.httpMethod === 'OPTIONS') {
@@ -86,8 +137,35 @@ exports.handler = async (event, context) => {
 
             // Get user role from Firestore
             const db = admin.firestore();
-            const userDoc = await db.collection('users').doc(data.localId).get();
+            const userRef = db.collection('users').doc(data.localId);
+            const userDoc = await userRef.get();
             const userData = userDoc.data() || {};
+
+            // ✅ UPDATE FIRESTORE WITH LOGIN TRACKING INFO
+            const now = getTimestamp();
+            const clientIp = getClientIp(event);
+            const userAgent = event.headers?.['user-agent'] || '';
+            const deviceInfo = getDeviceInfo(userAgent);
+
+            const updateData = {
+                lastLoginAt: now,
+                lastLoginIp: clientIp,
+                lastLoginDevice: deviceInfo,
+                lastUpdatedAt: now,
+                updatedAt: now,
+                emailVerified: true, // Set to true on successful login
+                // Preserve existing fields if they exist
+                ...(userData.bio !== undefined && { bio: userData.bio }),
+                ...(userData.company !== undefined && { company: userData.company }),
+                ...(userData.title !== undefined && { title: userData.title }),
+            };
+
+            await userRef.set(updateData, { merge: true });
+            console.log(`✅ Updated login tracking for user: ${data.localId} at ${new Date(now).toISOString()}`);
+
+            // Fetch updated user data after update
+            const updatedDoc = await userRef.get();
+            const updatedData = updatedDoc.data() || {};
 
             return {
                 statusCode: 200,
@@ -99,8 +177,11 @@ exports.handler = async (event, context) => {
                     user: {
                         uid: data.localId,
                         email: data.email,
-                        role: userData.role || 'INVESTOR',
-                        name: userData.name || '',
+                        role: updatedData.role || 'INVESTOR',
+                        name: updatedData.name || '',
+                        lastLoginAt: updatedData.lastLoginAt || null,
+                        lastLoginIp: updatedData.lastLoginIp || null,
+                        lastLoginDevice: updatedData.lastLoginDevice || null,
                     },
                 }),
             };

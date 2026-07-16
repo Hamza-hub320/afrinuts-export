@@ -67,27 +67,93 @@ const Settings: React.FC = () => {
                     {/* Row 1: Profile + Security Overview */}
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
                         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
-                            <InfoCard icon={FaUser} title="Account Information" iconColor="text-accent" showInfoBadge={false}>
-                                <div className="space-y-3 mt-2">
-                                    <div className="flex justify-between text-sm"><span className="text-gray-500">Email</span><span className="font-medium">{user?.email || '—'}</span></div>
-                                    <div className="flex justify-between text-sm"><span className="text-gray-500">Display Name</span><span className="font-medium">{user?.name || user?.displayName || '—'}</span></div>
-                                    <div className="flex justify-between text-sm"><span className="text-gray-500">Role</span><span className="px-2 py-0.5 bg-primary/10 text-primary text-xs rounded-full font-medium">{user?.role || 'User'}</span></div>
+                            {/* Security Overview */}
+                            <InfoCard icon={FaShieldAlt} title="Security Overview" iconColor="text-amber-500" showInfoBadge={false}>
+                                <div className="grid grid-cols-2 gap-3 mt-3">
+                                    <div className="bg-white/40 rounded-xl p-3 border border-white/30 text-center">
+                                        <div className="text-lg font-bold text-primary">
+                                            {user?.lastLoginAt ? new Date(user.lastLoginAt).toLocaleDateString() : 'Today'}
+                                        </div>
+                                        <div className="text-xs text-gray-500">Last Login</div>
+                                    </div>
+                                    <div className="bg-white/40 rounded-xl p-3 border border-white/30 text-center">
+                                        <div className="text-lg font-bold text-green-600">
+                                            {user?.emailVerified ? 'Verified' : 'Pending'}
+                                        </div>
+                                        <div className="text-xs text-gray-500">Email Status</div>
+                                    </div>
+                                </div>
+
+                                <div className="mt-3 space-y-2">
+                                    <div className="bg-white/30 rounded-lg px-3 py-2 flex justify-between text-xs">
+                                        <span className="text-gray-500">Device</span>
+                                        <span className="font-medium">{user?.lastLoginDevice || 'Unknown'}</span>
+                                    </div>
+                                    <div className="bg-white/30 rounded-lg px-3 py-2 flex justify-between text-xs">
+                                        <span className="text-gray-500">IP Address</span>
+                                        <span className="font-medium">{user?.lastLoginIp || 'Unknown'}</span>
+                                    </div>
+                                    <div className="bg-white/30 rounded-lg px-3 py-2 flex justify-between text-xs">
+                                        <span className="text-gray-500">Account Created</span>
+                                        <span className="font-medium">{user?.createdAt ? new Date(user.createdAt).toLocaleDateString() : '—'}</span>
+                                    </div>
+                                    <div className="bg-white/30 rounded-lg px-3 py-2 flex justify-between text-xs">
+                                        <span className="text-gray-500">Two-Factor Auth</span>
+                                        <span className={`font-medium ${user?.twoFactorEnabled ? 'text-green-600' : 'text-red-500'}`}>
+                {user?.twoFactorEnabled ? 'Enabled' : 'Not Configured'}
+            </span>
+                                    </div>
+                                    <div className="bg-white/30 rounded-lg px-3 py-2 flex justify-between text-xs">
+                                        <span className="text-gray-500">Failed Login Attempts</span>
+                                        <span className={`font-medium ${(user?.failedLoginAttempts || 0) > 0 ? 'text-red-500' : 'text-green-600'}`}>
+                {user?.failedLoginAttempts || 0}
+            </span>
+                                    </div>
                                 </div>
                             </InfoCard>
                         </motion.div>
 
                         <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
-                            <InfoCard icon={FaShieldAlt} title="Security Overview" iconColor="text-amber-500" showInfoBadge={false}>
-                                <div className="grid grid-cols-2 gap-4 mt-3">
-                                    <div className="bg-white/40 rounded-xl p-4 border border-white/30 text-center">
-                                        <div className="text-2xl font-bold text-primary">{user?.lastSignIn ? new Date(user.lastSignIn).toLocaleDateString() : 'Today'}</div>
-                                        <div className="text-xs text-gray-500">Last Login</div>
+                            {/* Account Information */}
+                            <InfoCard icon={FaUser} title="Account Information" iconColor="text-accent" showInfoBadge={false}>
+                                <div className="space-y-2 mt-2">
+                                    <div className="bg-white/30 rounded-lg px-3 py-2 flex justify-between text-xs">
+                                        <span className="text-gray-500">Email</span>
+                                        <span className="font-medium">{user?.email || '—'}</span>
                                     </div>
-                                    <div className="bg-white/40 rounded-xl p-4 border border-white/30 text-center">
-                                        <div className="text-2xl font-bold text-green-600">{user?.emailVerified ? 'Verified' : 'Pending'}</div>
-                                        <div className="text-xs text-gray-500">Email Status</div>
+                                    <div className="bg-white/30 rounded-lg px-3 py-2 flex justify-between text-xs">
+                                        <span className="text-gray-500">Display Name</span>
+                                        <span className="font-medium">{user?.name || user?.displayName || '—'}</span>
+                                    </div>
+                                    {user?.title && (
+                                        <div className="bg-white/30 rounded-lg px-3 py-2 flex justify-between text-xs">
+                                            <span className="text-gray-500">Title</span>
+                                            <span className="font-medium italic">{user.title}</span>
+                                        </div>
+                                    )}
+                                    {user?.company && (
+                                        <div className="bg-white/30 rounded-lg px-3 py-2 flex justify-between text-xs">
+                                            <span className="text-gray-500">Company</span>
+                                            <span className="font-medium">{user.company}</span>
+                                        </div>
+                                    )}
+                                    <div className="bg-white/30 rounded-lg px-3 py-2 flex justify-between text-xs">
+                                        <span className="text-gray-500">Role</span>
+                                        <span className="px-2 py-0.5 bg-primary/10 text-primary text-xs rounded-full font-medium">
+                {user?.role || 'User'}
+            </span>
+                                    </div>
+                                    <div className="bg-white/30 rounded-lg px-3 py-2 flex justify-between text-xs">
+                                        <span className="text-gray-500">Phone</span>
+                                        <span className="font-medium">{user?.phone || '—'}</span>
                                     </div>
                                 </div>
+                                {user?.bio && (
+                                    <div className="mt-3 pt-3 border-t border-gray-200">
+                                        <span className="text-xs text-gray-500">Bio</span>
+                                        <p className="text-sm text-gray-700 mt-1 leading-relaxed">{user.bio}</p>
+                                    </div>
+                                )}
                             </InfoCard>
                         </motion.div>
                     </div>

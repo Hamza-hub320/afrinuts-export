@@ -16,6 +16,15 @@ interface User {
     lastSignIn?: string | null;
     emailVerified?: boolean;
     createdAt?: string | null;
+    lastLoginAt?: number | null;
+    lastLoginDevice?: string | null;
+    lastLoginIp?: string | null;
+    title?: string | null;      // ADD
+    company?: string | null;    // ADD
+    bio?: string | null;        // ADD
+    phone?: string | null;      // ADD
+    failedLoginAttempts?: number | null;
+    twoFactorEnabled?: boolean | null;
 }
 
 interface AuthContextType {
@@ -61,7 +70,24 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
         // Sign in with Firebase client SDK
         await signInWithEmailAndPassword(auth, email, password);
-        setUser(result.user);
+
+        // Set user with extended fields from the server response
+        setUser({
+            uid: result.user.uid,
+            email: result.user.email,
+            name: result.user.name,
+            displayName: result.user.name,
+            role: result.user.role,
+            lastLoginAt: result.user.lastLoginAt || null,
+            lastLoginDevice: result.user.lastLoginDevice || null,
+            lastLoginIp: result.user.lastLoginIp || null,
+            emailVerified: true,
+            createdAt: null,
+            title: result.user.title || null,
+            company: result.user.company || null,
+            bio: result.user.bio || null,
+            phone: result.user.phone || null,
+        });
     };
 
     const logout = async () => {
