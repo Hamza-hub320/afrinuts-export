@@ -80,13 +80,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             lastLoginDevice: result.user.lastLoginDevice || null,
             lastLoginIp: result.user.lastLoginIp || null,
             emailVerified: true,
-            createdAt: null,
             title: result.user.title || null,
             company: result.user.company || null,
             bio: result.user.bio || null,
             phone: result.user.phone || null,
             failedLoginAttempts: result.user.failedLoginAttempts || 0,
             twoFactorEnabled: result.user.twoFactorEnabled || false,
+            createdAt: result.user.createdAt || null
         });
     };
 
