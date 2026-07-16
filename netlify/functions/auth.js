@@ -98,11 +98,16 @@ exports.handler = async (event, context) => {
                 headers,
                 body: JSON.stringify({
                     success: true,
+                    idToken: data.idToken,
+                    refreshToken: data.refreshToken,
                     user: {
-                        uid: decodedToken.uid,
-                        email: userRecord.email,
-                        role: userData.role || 'INVESTOR',
-                        name: userData.name || userRecord.displayName,
+                        uid: data.localId,
+                        email: data.email,
+                        role: updatedData.role || 'INVESTOR',
+                        name: updatedData.name || '',
+                        lastLoginAt: updatedData.lastLoginAt || null,
+                        lastLoginIp: updatedData.lastLoginIp || null,
+                        lastLoginDevice: updatedData.lastLoginDevice || null,
                     },
                 }),
             };
@@ -182,6 +187,15 @@ exports.handler = async (event, context) => {
                         lastLoginAt: updatedData.lastLoginAt || null,
                         lastLoginIp: updatedData.lastLoginIp || null,
                         lastLoginDevice: updatedData.lastLoginDevice || null,
+                        // ADD THESE:
+                        phone: updatedData.phone || null,
+                        bio: updatedData.bio || null,
+                        title: updatedData.title || null,
+                        company: updatedData.company || null,
+                        failedLoginAttempts: updatedData.failedLoginAttempts || 0,
+                        twoFactorEnabled: updatedData.twoFactorEnabled || false,
+                        emailVerified: updatedData.emailVerified || false,
+                        createdAt: updatedData.createdAt || null,
                     },
                 }),
             };

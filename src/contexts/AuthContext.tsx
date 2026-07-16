@@ -64,14 +64,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     const login = async (email: string, password: string) => {
         const result = await callFunction('auth', { action: 'signin', email, password });
-        if (!result.success) {
-            throw new Error(result.error);
-        }
+        if (!result.success) throw new Error(result.error);
 
-        // Sign in with Firebase client SDK
+        console.log('Login result user:', result.user);
+
         await signInWithEmailAndPassword(auth, email, password);
 
-        // Set user with extended fields from the server response
         setUser({
             uid: result.user.uid,
             email: result.user.email,
@@ -87,6 +85,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             company: result.user.company || null,
             bio: result.user.bio || null,
             phone: result.user.phone || null,
+            failedLoginAttempts: result.user.failedLoginAttempts || 0,
+            twoFactorEnabled: result.user.twoFactorEnabled || false,
         });
     };
 
