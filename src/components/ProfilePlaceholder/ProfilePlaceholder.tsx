@@ -5,13 +5,15 @@ import {GiFarmer} from "react-icons/gi";
 interface ProfilePlaceholderProps {
     name: string;
     size?: number;
+    smSize?: number;
+    mdSize?: number;
     className?: string;
     variant?: 'primary' | 'accent' | 'secondary';
 }
 
 const ProfilePlaceholder: React.FC<ProfilePlaceholderProps> = ({
                                                                    name,
-                                                                   size = 128,
+                                                                   size = 80,
                                                                    className = '',
                                                                    variant = 'primary'
                                                                }) => {

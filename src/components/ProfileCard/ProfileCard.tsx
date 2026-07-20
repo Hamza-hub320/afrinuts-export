@@ -67,13 +67,13 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                 {/* Image — Large, Centered, Overlapping the bottom edge */}
                 <div className="flex justify-center -mb-8 relative z-10">
                     <motion.div
-                        className={`relative w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden border-4 ${c.border} shadow-lg transform-gpu group-hover:scale-105 transition-transform duration-500`}
+                        className={`relative w-[75px] h-[75px] sm:w-[75px] sm:h-[75px] md:w-[75px] md:h-[75px] rounded-full overflow-hidden border-4 ${c.border} shadow-lg transform-gpu group-hover:scale-105 transition-transform duration-500`}
                         whileHover={{ scale: 1.1, rotate: 2 }}
                         transition={{ type: 'spring', stiffness: 300 }}>
                         {image ? (
-                            <img src={image} alt={altText || name} className="h-32 w-32 rounded-full object-cover border-2 border-primary/20" />
+                            <img src={image} alt={altText || name} className="w-full h-full object-cover" />
                         ) : (
-                            <ProfilePlaceholder name={name} size={82} />
+                            <ProfilePlaceholder name={name} size={67} />
                         )}
                         <div className="absolute inset-0 bg-gradient-to-b from-white/20 to-transparent rounded-full" />
                     </motion.div>

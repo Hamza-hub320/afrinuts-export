@@ -368,7 +368,7 @@ const About: React.FC = () => {
                                     />
                                 ) : (
                                     <div className="float-left mr-4 mb-2">
-                                      <ProfilePlaceholder name={selectedExecutive.name} size={128} />
+                                      <ProfilePlaceholder name={selectedExecutive.name} size={82} />
                                     </div>
                                 )}
                                 <Typography variant="body" className="text-gray-700">
