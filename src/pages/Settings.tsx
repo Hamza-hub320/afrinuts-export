@@ -12,10 +12,12 @@ import { fadeIn, staggerContainer } from '@/utils/animations';
 import { useAuth } from '../contexts/AuthContext';
 import { auth } from '../services/firebase';
 import { updatePassword, reauthenticateWithCredential, EmailAuthProvider } from 'firebase/auth';
+import {GiFarmer} from "react-icons/gi";
 
 const Settings: React.FC = () => {
     const { user } = useAuth();
     const [currentPassword, setCurrentPassword] = useState('');
+    const [loading, setLoading] = useState(true);
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [showCurrent, setShowCurrent] = useState(false);
@@ -43,6 +45,24 @@ const Settings: React.FC = () => {
             setMessage(error.code === 'auth/wrong-password' ? 'Current password is incorrect.' : error.message || 'Failed to update password.');
         }
     };
+
+    if (loading) {
+        return (
+            <main>
+                <Section className="flex items-center justify-center min-h-[60vh]">
+                    <div className="text-center">
+                        <DashboardNavbar />
+                        <div className="relative w-24 h-24 mx-auto mb-4">
+                            <div className="absolute inset-0 rounded-full border-b-2 border-primary animate-spin"></div>
+                            <div className="absolute inset-0 flex items-center justify-center">
+                                <GiFarmer className="text-primary text-3xl" />
+                            </div>
+                        </div>
+                    </div>
+                </Section>
+            </main>
+        );
+    }
 
     return (
         <div className="min-h-screen relative overflow-hidden pt-[72px]">

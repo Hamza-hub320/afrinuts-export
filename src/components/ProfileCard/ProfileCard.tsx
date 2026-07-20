@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { FaExpand, FaQuoteLeft } from 'react-icons/fa';
+import ProfilePlaceholder from '@/components/ProfilePlaceholder/ProfilePlaceholder';
 
 interface ProfileCardProps {
     image: string;
@@ -69,7 +70,11 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
                         className={`relative w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden border-4 ${c.border} shadow-lg transform-gpu group-hover:scale-105 transition-transform duration-500`}
                         whileHover={{ scale: 1.1, rotate: 2 }}
                         transition={{ type: 'spring', stiffness: 300 }}>
-                        <img src={image} alt={altText} width={112} height={112} loading="lazy" className="w-full h-full object-cover" />
+                        {image ? (
+                            <img src={image} alt={altText || name} className="h-32 w-32 rounded-full object-cover border-2 border-primary/20" />
+                        ) : (
+                            <ProfilePlaceholder name={name} size={82} />
+                        )}
                         <div className="absolute inset-0 bg-gradient-to-b from-white/20 to-transparent rounded-full" />
                     </motion.div>
                 </div>

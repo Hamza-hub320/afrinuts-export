@@ -2,6 +2,7 @@ import React, {useState, useRef} from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { trackCtaClick } from '@/utils/analytics';
+import ProfilePlaceholder from '@/components/ProfilePlaceholder/ProfilePlaceholder';
 import {
   FaTree,
   FaSeedling,
@@ -25,7 +26,6 @@ import Section from '@/components/Section/Section';
 import { fadeIn, staggerContainer } from '@/utils/animations';
 
 import ceoImage from '@/assets/images/ceo.webp';
-import cfoImage from '@/assets/images/cfo.webp';
 import farmImage from '@/assets/images/cashew-farm.webp';
 import aboutUsHeroImage from '@/assets/images/about-us-hero.webp';
 import {Typography} from "@/components/Typography/Typography";
@@ -79,7 +79,7 @@ const About: React.FC = () => {
     cfo: {
       name: t('cfo.name', { defaultValue: "Sekou Hakim Peters" }),
       position: t('cfo.position'),
-      image: cfoImage,
+      image: '',
       alt: t('cfo.alt'),
       message: cfoMessage,
       signature: t('cfo.signature'),
@@ -264,7 +264,7 @@ const About: React.FC = () => {
                     variants={fadeIn}
                 >
                   <ProfileCard
-                      image={executives.cfo.image}
+                      image={executives.cfo.image || undefined}
                       name={executives.cfo.name}
                       position={executives.cfo.position}
                       message={executives.cfo.message.slice(0, 1)}
@@ -360,11 +360,17 @@ const About: React.FC = () => {
                                 </button>
                               </div>
                               <div className="mt-4">
-                                <img
-                                  src={selectedExecutive.image}
-                                  alt={selectedExecutive.alt}
-                                  className="float-left h-32 w-32 rounded-full object-cover border-2 border-primary/20 mr-4 mb-2"
-                                />
+                                {selectedExecutive.image ? (
+                                    <img
+                                        src={selectedExecutive.image}
+                                        alt={selectedExecutive.alt}
+                                        className="float-left h-32 w-32 rounded-full object-cover border-2 border-primary/20 mr-4 mb-2"
+                                    />
+                                ) : (
+                                    <div className="float-left mr-4 mb-2">
+                                      <ProfilePlaceholder name={selectedExecutive.name} size={128} />
+                                    </div>
+                                )}
                                 <Typography variant="body" className="text-gray-700">
                                   {selectedExecutive.message.map((paragraph: string, index: number) => (
                                     <p key={index} className="mb-4">{paragraph}</p>

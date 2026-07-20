@@ -21,15 +21,12 @@ import { trackCtaClick } from '@/utils/analytics';
 
 // Import executive images
 import ceoImage from '@/assets/images/ceo.webp';
-import cfoImage from '@/assets/images/cfo.webp';
-import ccoImage from '@/assets/images/cco.webp';
-import opsImage from '@/assets/images/ops-manager.webp';
-import adminImage from '@/assets/images/admin-manager.webp';
-import farmImage from '@/assets/images/farm-manager.webp';
 import executiveHeroImage from '@/assets/images/executive.webp';
 import JsonLd from "@/components/Seo/JsonLd";
 import {Helmet} from "react-helmet-async";
 import { InfoCard } from '@/components/InfoCard/InfoCard';
+import ProfilePlaceholder from '@/components/ProfilePlaceholder/ProfilePlaceholder';
+
 
 interface Executive {
     id: number;
@@ -77,7 +74,7 @@ const ExecutiveTeam: React.FC = () => {
             name: "Sekou Hakim Peters",
             title: t('executives.cfo.title'),
             role: t('executives.cfo.role'),
-            image: cfoImage,
+            image: '',
             alt: t('executives.cfo.alt'),
             bio: t('executives.cfo.bio', { returnObjects: true }),
             certifications: ["Sharia Compliance", "Organic Certification"],
@@ -91,7 +88,7 @@ const ExecutiveTeam: React.FC = () => {
             name: "Muhamadue Aly Kouyate",
             title: t('executives.cco.title'),
             role: t('executives.cco.role'),
-            image: ccoImage,
+            image: '',
             alt: t('executives.cco.alt'),
             bio: t('executives.cco.bio', { returnObjects: true }),
             certifications: ["Export & Trade Compliance", "Supply Chain and Logistics Management", "Process Improvement & Lean Practices"],
@@ -105,7 +102,7 @@ const ExecutiveTeam: React.FC = () => {
             name: "Alassana Bah",
             title: t('executives.ops.title'),
             role: t('executives.ops.role'),
-            image: opsImage,
+            image: '',
             alt: t('executives.cto.alt'),
             bio: t('executives.ops.bio', { returnObjects: true }),
             education: [
@@ -128,7 +125,7 @@ const ExecutiveTeam: React.FC = () => {
             name: "Mohamed Beniken",
             title: t('executives.admin.title'),
             role: t('executives.admin.role'),
-            image: adminImage,
+            image: '',
             alt: t('executives.admin.alt'),
             bio: t('executives.admin.bio', { returnObjects: true }),
             certifications: ["Fair Trade", "Legal Compliance"],
@@ -142,7 +139,7 @@ const ExecutiveTeam: React.FC = () => {
             name: "Souleymane Sangare",
             title: t('executives.farm.title'),
             role: t('executives.farm.role'),
-            image: farmImage,
+            image: '',
             alt: t('executives.farm.alt'),
             bio: t('executives.farm.bio', { returnObjects: true }),
             certifications: ["Sustainable Agriculture", "Community Development"],
@@ -368,7 +365,7 @@ const ExecutiveTeam: React.FC = () => {
                         {executives.map((executive) => (
                             <ProfileCard
                                 key={executive.id}
-                                image={executive.image}
+                                image={executive.image || undefined}
                                 name={executive.name}
                                 position={executive.title}
                                 message={Array.isArray(executive.bio) ? executive.bio : [executive.bio]}
@@ -436,11 +433,11 @@ const ExecutiveTeam: React.FC = () => {
 
                                                     <div className="mt-4 flex flex-col sm:flex-row gap-6">
                                                         <div className="flex-shrink-0">
-                                                            <img
-                                                                src={selectedExecutive.image}
-                                                                alt={selectedExecutive.alt}
-                                                                className="h-32 w-32 rounded-full object-cover border-2 border-primary/20"
-                                                            />
+                                                            {selectedExecutive.image ? (
+                                                                <img src={selectedExecutive.image} alt={selectedExecutive.alt} className="h-32 w-32 rounded-full object-cover border-2 border-primary/20" />
+                                                            ) : (
+                                                                <ProfilePlaceholder name={selectedExecutive.name} size={82} variant="primary" />
+                                                            )}
                                                         </div>
                                                         <div className="flex-1">
                                                             <Typography variant="body" className="text-gray-700">

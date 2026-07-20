@@ -11,7 +11,7 @@ import {
   FaCertificate,
   FaIndustry,
   FaQuestionCircle,
-  FaPenFancy, FaGlobeAfrica, FaDrawPolygon
+  FaPenFancy, FaGlobeAfrica, FaDrawPolygon, FaQrcode
 } from 'react-icons/fa';
 import logo from '@/assets/images/afrinuts-export-official-logo.webp';
 import { useTranslation } from 'react-i18next';
@@ -126,7 +126,7 @@ const Navbar: React.FC = () => {
 
   // Secondary Nav (Capability)
   const secondaryNavItems = [
-    { path: '/trace', label: t('navbar.trace', 'Trace'), icon: FaSearch },
+    { path: '/trace', label: t('navbar.trace', 'Trace'), icon: FaQrcode},
     { path: '/products', label: t('navbar.products', 'Products'), icon: GiPeanut},
     { path: '/certifications', label: t('navbar.certifications', 'Certs'), icon: FaCertificate },
     { path: '/processing', label: t('navbar.processing', 'Processing'), icon: GiFactory },

@@ -15,7 +15,7 @@ import {
     FaTree, FaIndustry, FaCertificate, FaTruck, FaBuilding,
     FaCheckCircle, FaSearch, FaMapMarkerAlt, FaClipboardList,
     FaGlobe, FaShieldAlt, FaCalendarAlt, FaFlask, FaEnvelope, FaArrowRight, FaQrcode,
-    FaFileAlt, FaGlobeEurope, FaGlobeAmericas, FaGlobeAsia, FaCopy,
+    FaFileAlt, FaGlobeEurope, FaGlobeAmericas, FaGlobeAsia, FaCopy, FaSignature,
     FaWhatsapp, FaTwitter, FaLinkedin, FaPrint,
     FaArrowLeft, FaShare, FaChartBar, FaDownload, FaLeaf, FaBox,
     FaMobile,
@@ -285,7 +285,7 @@ const TracePage: React.FC = () => {
                     <motion.div className="max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 flex flex-col lg:flex-row items-center gap-6 lg:gap-28" initial="hidden" animate="visible" variants={staggerContainer}>
                         <motion.div className="flex-1 max-w-none lg:max-w-xl text-center lg:text-left" variants={fadeIn}>
                             <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-3">
-                                <FaSearch className="inline mr-2 text-accent" />{t('page.title')}
+                                <FaQrcode className="inline mr-2 text-accent" />{t('page.title')}
                             </Typography>
                             <motion.h1 className="font-display text-3xl md:text-4xl lg:text-5xl text-text-dark mb-4 leading-tight" variants={fadeIn} style={{ letterSpacing: '-0.03em' }}>
                                 {t('promo.heading')}
@@ -302,7 +302,7 @@ const TracePage: React.FC = () => {
                                 <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-primary/10 text-primary text-xs rounded-full font-medium"><FaQrcode className="text-[10px]" /> {t('promo.badgeQr', 'QR Code')}</span>
                                 <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-green-50 text-green-700 text-xs rounded-full font-medium"><FaCheckCircle className="text-[10px]" /> {t('promo.badgeVerified', 'Farm OS Verified')}</span>
                                 <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-amber-50 text-amber-700 text-xs rounded-full font-medium"><FaGlobeAfrica className="text-[10px]" /> {t('promo.badgePublic', 'Publicly Verifiable')}</span>
-                                <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-primary/10 text-primary text-xs rounded-full font-medium"><FaShieldAlt className="text-[10px]" /> {t('promo.badgeSigned', 'Digitally Signed')}</span>
+                                <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-primary/10 text-primary text-xs rounded-full font-medium"><FaSignature className="text-[10px]" /> {t('promo.badgeSigned', 'Digitally Signed')}</span>
                             </div>
                             <motion.div variants={fadeIn} className="flex flex-col items-center lg:items-start gap-3">
                                 <div className="flex flex-wrap gap-2.5 justify-center lg:justify-start">
