@@ -12,7 +12,7 @@ const SupplyChainMapSVG: React.FC = () => {
                 transition={{ delay: 0.3, duration: 0.8 }}
                 className="bg-gradient-to-br from-primary/5 via-white/60 to-accent/5 backdrop-blur-md rounded-3xl border border-white/40 shadow-xl p-6"
             >
-                <svg viewBox="0 0 1000 650" className="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
+                <svg viewBox="0 0 1000 650" className="w-full h-full" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
                     <defs>
                         {/* Map-like background gradient */}
                         <linearGradient id="mapBg" x1="0%" y1="0%" x2="100%" y2="100%">

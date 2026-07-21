@@ -42,6 +42,7 @@ import { InfoCard } from '@/components/InfoCard/InfoCard';
 import {Helmet} from "react-helmet-async";
 import FarmToDeliverySVG from "@/components/FarmToDeliverySVG/FarmToDeliverySVG";
 import SupplyChainNetwork from "@/components/SupplyChainNetwork/SupplyChainNetwork";
+import IvoryCoastMap from '@/components/IvoryCoastMap/IvoryCoastMap';
 
 
 interface AfriNutsUpdate {
@@ -200,7 +201,7 @@ const Home: React.FC = () => {
                     }
                 }
             }} />
-            {/* Hero Section */}
+            {/* Hero Section - Reduced height since map is now below */}
             <Section
                 fullHeight={false}
                 bgImage={heroImage}
@@ -217,19 +218,6 @@ const Home: React.FC = () => {
                     animate="visible"
                     variants={staggerContainer}
                 >
-                    {/* Animated gradient blobs */}
-                    <div
-                        className="absolute -top-16 -right-16 w-36 h-36 rounded-full opacity-20 blur-3xl animate-pulse"
-                        style={{ background: 'radial-gradient(circle, rgba(165,105,66,0.3) 0%, transparent 70%)' }}
-                    />
-                    <div
-                        className="absolute -bottom-12 -left-12 w-32 h-32 rounded-full opacity-15 blur-3xl"
-                        style={{
-                            background: 'radial-gradient(circle, rgba(210,125,45,0.3) 0%, transparent 70%)',
-                            animation: 'float 6s ease-in-out infinite'
-                        }}
-                    />
-
                     {/* Content */}
                     <div className="relative z-10">
                         <motion.h1
@@ -256,36 +244,33 @@ const Home: React.FC = () => {
                                     navigate('/products');
                                 }}
                             >
-                                {/* Button glass highlight */}
                                 <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50" />
                                 <span className="relative z-10 flex items-center gap-2">
-                {t('hero.ctaButtons.exploreProducts')}
+                        {t('hero.ctaButtons.exploreProducts')}
                                     <FaArrowRight className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover/btn:translate-x-1" />
-            </span>
+                    </span>
                             </motion.button>
                             <motion.button
                                 whileHover={{ scale: 1.05 }}
                                 whileTap={{ scale: 0.95 }}
                                 className="overflow-hidden relative border-primary/50 text-primary hover:bg-white/20 px-5 py-2 sm:px-6 sm:py-3 md:px-8 md:py-4 rounded-full text-base sm:text-lg md:text-xl font-medium transition-all duration-300 shadow-lg hover:shadow-xl flex items-center justify-center gap-2 group/btn"
-                                style={{
-                                    backdropFilter: 'blur(4px)'
-                                }}
+                                style={{ backdropFilter: 'blur(4px)' }}
                                 onClick={() => {
                                     trackCtaClick('learn_more', 'hero');
                                     scrollToSection('about-preview');
                                 }}
                             >
-            <span className="relative z-10 flex items-center gap-2">
-                {t('hero.ctaButtons.learnMore')}
-                <FaChevronDown className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover/btn:translate-y-1" />
-            </span>
+                    <span className="relative z-10 flex items-center gap-2">
+                        {t('hero.ctaButtons.learnMore')}
+                        <FaChevronDown className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover/btn:translate-y-1" />
+                    </span>
                             </motion.button>
                         </div>
                     </div>
                 </motion.div>
             </Section>
 
-            <SupplyChainNetwork />
+            <FarmToDeliverySVG />
 
             {/* 2. About Preview Section */}
             <Suspense fallback={<div>{t('loading.about')}</div>}>
@@ -391,7 +376,6 @@ const Home: React.FC = () => {
                     </motion.div>
                 </Section>
             </Suspense>
-
 
             {/* 3. Products Showcase */}
             <Suspense fallback={<div>{t('loading.products')}</div>}>

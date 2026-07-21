@@ -254,7 +254,7 @@ const FarmToDeliveryRouteSVG: React.FC = () => {
                         </foreignObject>
 
                         <text x="300" y="240" textAnchor="middle" fontSize="12" fill="#E04E00" fontWeight="700" letterSpacing="0.5">
-                            PROCESSING
+                            NUTS DISTRIBUTION CENTER
                         </text>
                         <text x="300" y="254" textAnchor="middle" fontSize="8" fill="#6b7280" fontWeight="400">
                             Value Addition

@@ -28,6 +28,7 @@ import JsonLd from "@/components/Seo/JsonLd";
 import {trackCtaClick, trackOutboundClick} from "@/utils/analytics";
 import BatchLocationMap from '@/components/BatchLocationMap/BatchLocationMap';
 import FarmToDeliverySVG from "@/components/FarmToDeliverySVG/FarmToDeliverySVG";
+import SupplyChainNetwork from "@/components/SupplyChainNetwork/SupplyChainNetwork";
 
 interface BatchData {
     id: string;
@@ -421,6 +422,8 @@ const TracePage: React.FC = () => {
                         </div>
                     </div>
                 </Section>
+
+                <SupplyChainNetwork />
 
                 <FarmToDeliverySVG />
 
