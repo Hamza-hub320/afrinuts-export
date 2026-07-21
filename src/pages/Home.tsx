@@ -26,7 +26,7 @@ import {
 } from '@/utils/animations';
 import { Typography } from '@/components/Typography/Typography';
 import { Product, FarmHighlight, SustainabilityFeature} from '@/types/translations';
-import heroImage from '../assets/images/hero.webp';
+import heroImage from '../assets/images/hero-sup.webp';
 import farmImage from '../assets/images/farm.webp';
 import sustainabilityImage from '../assets/images/sustainability.webp';
 import newsImage from '../assets/images/news.webp';
@@ -40,6 +40,8 @@ import JsonLd from "@/components/Seo/JsonLd";
 import { trackCtaClick, trackProductInquiry, trackOutboundClick } from '@/utils/analytics';
 import { InfoCard } from '@/components/InfoCard/InfoCard';
 import {Helmet} from "react-helmet-async";
+import FarmToDeliverySVG from "@/components/FarmToDeliverySVG/FarmToDeliverySVG";
+import SupplyChainNetwork from "@/components/SupplyChainNetwork/SupplyChainNetwork";
 
 
 interface AfriNutsUpdate {
@@ -283,6 +285,7 @@ const Home: React.FC = () => {
                 </motion.div>
             </Section>
 
+            <SupplyChainNetwork />
 
             {/* 2. About Preview Section */}
             <Suspense fallback={<div>{t('loading.about')}</div>}>
