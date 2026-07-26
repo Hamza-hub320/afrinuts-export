@@ -219,12 +219,29 @@ const Contact: React.FC = () => {
           <div className="max-w-6xl mx-auto px-4 sm:px-6">
             <div className="grid md:grid-cols-3 gap-4">
               <InfoCard icon={FaEnvelope} title={t('info.email')} iconColor="text-accent" variant="secondary" showInfoBadge={false} className="text-center">
-                <Typography variant="small" className="text-gray-600">{t('info.emailPrimary')}</Typography>
-                <Typography variant="small" className="text-gray-500 text-xs">{t('info.emailSecondary')}</Typography>
+                <div className="space-y-1">
+                  <a href="mailto:contact@afrinutsexport.com" className="block text-sm text-gray-600 hover:text-primary transition-colors">
+                    {t('info.emailPrimary')}
+                  </a>
+                  <a href="mailto:sales@afrinutsexport.com" className="block text-sm text-gray-600 hover:text-primary transition-colors">
+                    {t('info.emailSecondary')}
+                  </a>
+                </div>
               </InfoCard>
               <InfoCard icon={FaPhone} title={t('info.phone')} iconColor="text-accent" variant="secondary" showInfoBadge={false} className="text-center">
-                <Typography variant="small" className="text-gray-600">{t('info.phoneNumber')}</Typography>
-                <Typography variant="small" className="text-gray-500 text-xs">{t('info.hours')}</Typography>
+                <div className="space-y-1">
+                  <a href="tel:+2250779191460" className="block text-sm text-gray-600 hover:text-primary transition-colors">
+                    <FaPhone className="inline mr-1 text-[10px]" />
+                    +225 07 79 19 14 60
+                    <span className="block text-[10px] text-gray-400">Côte d'Ivoire</span>
+                  </a>
+                  <a href="tel:+16825387277" className="block text-sm text-gray-600 hover:text-primary transition-colors">
+                    <FaPhone className="inline mr-1 text-[10px]" />
+                    +1 (682) 538-7277
+                    <span className="block text-[10px] text-gray-400">United States</span>
+                  </a>
+                </div>
+                <Typography variant="small" className="text-gray-500 text-xs mt-2">{t('info.hours')}</Typography>
               </InfoCard>
               <InfoCard icon={FaMapMarkerAlt} title={t('info.headquarters')} iconColor="text-accent" variant="secondary" showInfoBadge={false} className="text-center">
                 <Typography variant="small" className="text-gray-600">{t('info.address')}</Typography>

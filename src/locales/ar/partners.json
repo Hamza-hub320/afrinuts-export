@@ -19,6 +19,31 @@
       { "icon": "FaUsers", "label": "+200 مزارع", "bg": "bg-amber-50", "text": "text-amber-700" }
     ]
   },
+  "trust": {
+    "title": "مبني على الثقة. جاهز للشركاء.",
+    "items": [
+      {
+        "value": "70",
+        "label": "هكتاراً مؤمنة",
+        "icon": "GiSprout"
+      },
+      {
+        "value": "RCCM",
+        "label": "شركة مسجلة",
+        "icon": "FaCertificate"
+      },
+      {
+        "value": "+200",
+        "label": "مزارع في الشبكة",
+        "icon": "FaUsers"
+      },
+      {
+        "value": "4",
+        "label": "نماذج شراكة",
+        "icon": "FaHandshake"
+      }
+    ]
+  },
   "whyPartner": {
     "title": "لماذا تشارك مع أفري ناتس",
     "body": "نحن لسنا مكتب تداول. نحن منصة أعمال زراعية مدعومة بالتكنولوجيا بأصول تشغيلية وبرمجيات مملوكة وخارطة طريق واضحة للشهادات.",

@@ -19,6 +19,31 @@
       { "icon": "FaUsers", "label": "200+ Agriculteurs", "bg": "bg-amber-50", "text": "text-amber-700" }
     ]
   },
+  "trust": {
+    "title": "Bâti sur la Confiance. Prêt pour les Partenaires.",
+    "items": [
+      {
+        "value": "70",
+        "label": "Hectares Sécurisés",
+        "icon": "GiSprout"
+      },
+      {
+        "value": "RCCM",
+        "label": "SARL Enregistrée",
+        "icon": "FaCertificate"
+      },
+      {
+        "value": "200+",
+        "label": "Agriculteurs dans le Réseau",
+        "icon": "FaUsers"
+      },
+      {
+        "value": "4",
+        "label": "Modèles de Partenariat",
+        "icon": "FaHandshake"
+      }
+    ]
+  },
   "whyPartner": {
     "title": "Pourquoi Devenir Partenaire d'AfriNuts",
     "body": "Nous ne sommes pas un bureau de négoce. Nous sommes une plateforme agroalimentaire axée sur la technologie avec des actifs opérationnels, un logiciel propriétaire et une feuille de route de certification claire.",

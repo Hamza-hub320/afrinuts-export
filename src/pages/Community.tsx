@@ -16,6 +16,7 @@ import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import communityHeroImage from '@/assets/images/community-hero.webp';
 import partnerVideo from '@/assets/videos/current-partners.mp4';
+import VideoGallery from "@/components/VideoGallery/VideoGallery";
 
 const Community: React.FC = () => {
     const { t } = useTranslation('community');
@@ -143,31 +144,39 @@ const Community: React.FC = () => {
             </div></Section>
 
             {/* Cooperative Video */}
-            <Section className="py-10"><div className="max-w-6xl mx-auto px-4 sm:px-6">
-                <motion.div className="text-center mb-8" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
-                    <Typography variant="h2" className="mb-4">{t('cooperative.title')}</Typography>
-                    <Typography variant="body" className="text-gray-600 max-w-2xl mx-auto">{t('cooperative.body')}</Typography>
-                </motion.div>
-                <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
-                    <InfoCard icon={FaUsers} title={t('cooperative.cardTitle')} variant="primary" showInfoBadge={false}>
-                        <div className="grid md:grid-cols-2 gap-6 items-center">
-                            <div className="rounded-xl overflow-hidden shadow-lg border-2 border-white/30">
-                                <video controls preload="metadata" className="w-full rounded-xl" style={{ minHeight: '280px', maxHeight: '360px', objectFit: 'cover' }}>
-                                    <source src={partnerVideo} type="video/mp4" />
-                                </video>
+            <Section className="py-10">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6">
+                    <motion.div className="text-center mb-8" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
+                        <Typography variant="h2" className="mb-4">{t('cooperative.title')}</Typography>
+                        <Typography variant="body" className="text-gray-600 max-w-2xl mx-auto">{t('cooperative.body')}</Typography>
+                    </motion.div>
+                    <motion.div
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={fadeIn}
+                        className="space-y-4"
+                    >
+                        {/* Video Thumbnail */}
+                        <VideoGallery
+                            videos={[{
+                                src: partnerVideo,
+                                title: t('cooperative.videoTitle', 'Cooperative Partnership Video'),
+                            }]}
+                        />
+
+                        {/* InfoCard Below */}
+                        <InfoCard icon={FaUsers} title={t('cooperative.cardTitle')} variant="primary" showInfoBadge={false}>
+                            <Typography variant="body" className="text-gray-600 mb-4">{t('cooperative.description')}</Typography>
+                            <div className="flex flex-wrap gap-2">
+                                {cooperativeTags.map((tag, idx) => (
+                                    <span key={idx} className="px-3 py-1 bg-primary/10 text-primary text-xs rounded-full font-medium">{tag}</span>
+                                ))}
                             </div>
-                            <div>
-                                <Typography variant="body" className="text-gray-600 mb-4">{t('cooperative.description')}</Typography>
-                                <div className="flex flex-wrap gap-2">
-                                    {cooperativeTags.map((tag, idx) => (
-                                        <span key={idx} className="px-3 py-1 bg-primary/10 text-primary text-xs rounded-full font-medium">{tag}</span>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>
-                    </InfoCard>
-                </motion.div>
-            </div></Section>
+                        </InfoCard>
+                    </motion.div>
+                </div>
+            </Section>
 
             {/* Sadaqah Jariyah */}
             <Section className="py-10">

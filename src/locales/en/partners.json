@@ -19,6 +19,31 @@
       { "icon": "FaUsers", "label": "200+ Farmers", "bg": "bg-amber-50", "text": "text-amber-700" }
     ]
   },
+  "trust": {
+    "title": "Built on Trust. Ready for Partners.",
+    "items": [
+      {
+        "value": "70",
+        "label": "Hectares Secured",
+        "icon": "GiSprout"
+      },
+      {
+        "value": "RCCM",
+        "label": "Registered SARL",
+        "icon": "FaCertificate"
+      },
+      {
+        "value": "200+",
+        "label": "Farmers in Network",
+        "icon": "FaUsers"
+      },
+      {
+        "value": "4",
+        "label": "Partnership Models",
+        "icon": "FaHandshake"
+      }
+    ]
+  },
   "whyPartner": {
     "title": "Why Partner with AfriNuts",
     "body": "We're not a trading desk. We're a tech-enabled agribusiness platform with operational assets, proprietary software, and a clear certification roadmap.",

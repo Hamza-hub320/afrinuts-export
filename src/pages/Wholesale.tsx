@@ -225,7 +225,7 @@ const Wholesale: React.FC = () => {
 
                     {/* CTA */}
                     <motion.div className="text-center mt-4" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
-                        <Link to="/invest" className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-5 py-2 rounded-full transform-gpu transition-all duration-300 inline-flex items-center gap-1.5 text-sm font-medium shadow-md">
+                        <Link to="/contact" className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-5 py-2 rounded-full transform-gpu transition-all duration-300 inline-flex items-center gap-1.5 text-sm font-medium shadow-md">
                             <FaSearch className="text-xs" />
                             {t('blockTracking.viewLiveExample', 'Learn more about Farm OS')}
                             <FaArrowRight className="text-xs" />

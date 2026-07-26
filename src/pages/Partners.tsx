@@ -6,7 +6,7 @@ import {
     FaHandshake, FaMobile, FaUsers,
     FaCheckCircle, FaEnvelope,
     FaCertificate,
-    FaChevronUp, FaChevronDown, FaStar, FaArrowRight, FaFileAlt
+    FaChevronUp, FaChevronDown, FaStar, FaArrowRight, FaFileAlt, FaTimes, FaGlobeAfrica
 } from 'react-icons/fa';
 import Section from '@/components/Section/Section';
 import { Typography } from '@/components/Typography/Typography';
@@ -25,13 +25,12 @@ import tripPhoto3 from '@/assets/images/partners/trip-3.webp';
 import tripPhoto4 from '@/assets/images/partners/trip-4.webp';
 import {
     GiCardboardBox,
-    GiCargoShip,
-    GiCastle,
     GiFactory,
-    GiLaurelCrown, GiPaperTray,
     GiPublicSpeaker,
     GiSprout
 } from "react-icons/gi";
+import ImageGallery from "@/components/ImageGallery/ImageGallery";
+import VideoGallery from "@/components/VideoGallery/VideoGallery";
 
 
 
@@ -41,6 +40,9 @@ const Partners: React.FC = () => {
 
     const whyPartnerIcons: Record<string, React.ComponentType> = { FaMobile, GiSprout, FaCertificate, FaUsers };
     const modelIcons: Record<string, React.ComponentType> = { FaUsers, GiCardboardBox, FaMobile, GiFactory };
+    const trustIcons: Record<string, React.ComponentType> = {
+        GiSprout, FaCertificate, FaUsers, FaHandshake
+    };
 
     const whyPartner = (t('whyPartner.items', { returnObjects: true }) as any[]).map(item => ({
         ...item,
@@ -121,6 +123,66 @@ const Partners: React.FC = () => {
                 </motion.div>
             </Section>
 
+
+            {/* Trust Bar */}
+            <Section className="py-8">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6">
+                    <motion.div
+                        className="text-center mb-6"
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={fadeIn}
+                    >
+                        <Typography variant="h2" className="text-primary">
+                            {t('trust.title', 'Built on Trust. Ready for Partners.')}
+                        </Typography>
+                    </motion.div>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        {(t('trust.items', { returnObjects: true }) as any[]).map((item, idx) => (
+                            <motion.div
+                                key={idx}
+                                initial="hidden"
+                                whileInView="visible"
+                                viewport={{ once: true }}
+                                variants={fadeIn}
+                                transition={{ delay: idx * 0.1 }}
+                            >
+                                <motion.div
+                                    className="group relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl shadow-lg p-5 text-center transform-gpu overflow-hidden"
+                                    style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
+                                    whileHover={{ y: -4, scale: 1.03, boxShadow: '0 15px 30px -8px rgba(165,105,66,0.15)', transition: { duration: 0.3 } }}
+                                >
+                                    {/* 3D edge effect */}
+                                    <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
+
+                                    {/* Glassy overlay */}
+                                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+
+                                    {/* Inner shadow */}
+                                    <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] group-hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
+
+                                    {/* Subtle background pattern */}
+                                    <div className="absolute inset-0 rounded-2xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
+
+                                    <div className="relative z-10">
+                                        <motion.div
+                                            className="bg-accent/10 p-3 rounded-full w-fit mx-auto mb-3"
+                                            whileHover={{ scale: 1.15, rotate: 5 }}
+                                            transition={{ type: 'spring', stiffness: 300 }}
+                                        >
+                                            {React.createElement(trustIcons[item.icon] || FaCheckCircle, { className: "text-accent text-xl" })}
+                                        </motion.div>
+                                        <div className="text-2xl font-bold text-primary">{item.value}</div>
+                                        <div className="text-xs text-gray-500 mt-1">{item.label}</div>
+                                    </div>
+                                </motion.div>
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+            </Section>
+
             {/* Why Partner */}
             <Section className="py-10">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6">
@@ -139,13 +201,6 @@ const Partners: React.FC = () => {
                                 </InfoCard>
                             </motion.div>
                         ))}
-                    </div>
-
-                    {/* Centered Link Below Cards */}
-                    <div className="text-center">
-                        <Link to="/invest" className="relative border border-primary/40 text-primary hover:bg-primary/5 px-5 py-2.5 rounded-full text-sm font-medium inline-flex items-center gap-1.5 bg-white/50 backdrop-blur-sm">
-                            <FaMobile className="text-xs" />{t('hero.ctaFarmOS', 'See Farm OS (Under NDA)')}
-                        </Link>
                     </div>
                 </div>
             </Section>
@@ -239,68 +294,40 @@ const Partners: React.FC = () => {
                     </div>
 
                     {/* Video Gallery */}
-                    <div className="grid md:grid-cols-2 gap-6 mb-8">
-                        {/* Main Trip Video */}
-                        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
-                            <InfoCard icon={GiPublicSpeaker} title={t('milestones.videoMain', 'The Trip in Action')} variant="primary" showInfoBadge={false}>
-                                <div className="rounded-xl overflow-hidden shadow-lg border-2 border-white/30">
-                                    <video controls preload="metadata" className="w-full rounded-xl" style={{ minHeight: '280px', maxHeight: '360px', objectFit: 'cover' }}>
-                                        <source src={partnersTripVideo} type="video/mp4" />
-                                    </video>
-                                </div>
-                            </InfoCard>
-                        </motion.div>
-
-                        {/* CCAK Meeting Video */}
-                        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} transition={{ delay: 0.1 }}>
-                            <InfoCard icon={FaHandshake} title={t('milestones.videoCcak', 'Meeting with CCAK Representative')} variant="accent" showInfoBadge={false}>
-                                <div className="rounded-xl overflow-hidden shadow-lg border-2 border-white/30">
-                                    <video controls preload="metadata" className="w-full rounded-xl" style={{ minHeight: '280px', maxHeight: '360px', objectFit: 'cover' }}>
-                                        <source src={ccakVideo} type="video/mp4" />
-                                    </video>
-                                </div>
-                                <Typography variant="small" className="text-gray-600 mt-3 text-center">
-                                    {t('milestones.videoCcakDesc', 'Mr. Ouattara, CCAK Representative for Odienné-Madinani')}
-                                </Typography>
-                            </InfoCard>
-                        </motion.div>
-                    </div>
-
-                    {/* Land Transfer Video */}
                     <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} className="mb-8">
-                        <InfoCard icon={GiSprout} title={t('milestones.landVideo', 'Family Land Transfer — 70 Hectares')} variant="primary" showInfoBadge={false}>
-                            <div className="grid md:grid-cols-2 gap-4 items-center">
-                                <div className="rounded-xl overflow-hidden shadow-lg border-2 border-white/30">
-                                    <video
-                                        controls
-                                        preload="metadata"
-                                        className="w-full rounded-xl"
-                                        style={{ minHeight: '280px', maxHeight: '360px', objectFit: 'cover' }}
-                                    >
-                                        <source src={landTransferVideo} type="video/mp4" />
-                                    </video>
-                                </div>
-                                <div>
-                                    <Typography variant="body" className="text-gray-600">
-                                        {t('milestones.landVideoDesc', 'A family member officially transferring the 70 hectares to AfriNuts Export. This land has been in the family for generations — now it becomes the foundation of a tech-enabled agribusiness platform. The title process is underway with the Agent Foncier Rural.')}
-                                    </Typography>
-                                </div>
-                            </div>
+                        <InfoCard icon={GiPublicSpeaker} title={t('milestones.videoGalleryTitle', 'Videos from the Trip')} variant="primary" showInfoBadge={false}>
+                            <VideoGallery
+                                videos={[
+                                    {
+                                        src: partnersTripVideo,
+                                        title: t('milestones.videoMain', 'The Trip in Action'),
+                                        description: t('milestones.videoMainDesc', 'Highlights from the partnership development trip to Odienné.'),
+                                    },
+                                    {
+                                        src: ccakVideo,
+                                        title: t('milestones.videoCcak', 'Meeting with CCAK Representative'),
+                                        description: t('milestones.videoCcakDesc', 'Mr. Ouattara, CCAK Representative for Odienné-Madinani'),
+                                    },
+                                    {
+                                        src: landTransferVideo,
+                                        title: t('milestones.landVideo', 'Family Land Transfer — 70 Hectares'),
+                                        description: t('milestones.landVideoDesc', 'A family member officially transferring the 70 hectares to AfriNuts Export. This land has been in the family for generations — now it becomes the foundation of a tech-enabled agribusiness platform.'),
+                                    },
+                                ]}
+                            />
                         </InfoCard>
                     </motion.div>
 
-                    {/* Photo Gallery */}
+                    {/* Photo Gallery — Using ImageGallery Component */}
                     <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
-                        <InfoCard icon={FaStar} title={t('milestones.galleryTitle', 'Moments from the Trip')} variant="accent" showInfoBadge={false}>
-                            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                                {[tripPhoto1, tripPhoto2, tripPhoto3, tripPhoto4].map((photo, idx) => (
-                                    <motion.div key={idx} className="rounded-xl overflow-hidden shadow-md border-2 border-white/30 aspect-square"
-                                                whileHover={{ scale: 1.03, transition: { duration: 0.2 } }}>
-                                        <img src={photo} alt={`Trip photo ${idx + 1}`} className="w-full h-full object-cover" loading="lazy" />
-                                    </motion.div>
-                                ))}
-                            </div>
-                        </InfoCard>
+                        <ImageGallery
+                            images={[
+                                { src: tripPhoto1, alt: 'Trip photo 1', caption: t('milestones.galleryCaptions.photo1', 'Team with government officials') },
+                                { src: tripPhoto2, alt: 'Trip photo 2', caption: t('milestones.galleryCaptions.photo2', 'Community meeting in Odienné') },
+                                { src: tripPhoto3, alt: 'Trip photo 3', caption: t('milestones.galleryCaptions.photo3', 'Farm inspection with local partners') },
+                                { src: tripPhoto4, alt: 'Trip photo 4', caption: t('milestones.galleryCaptions.photo4', 'Farm inspection with local partners') },
+                            ]}
+                        />
                     </motion.div>
                 </div>
             </Section>

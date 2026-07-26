@@ -270,7 +270,30 @@ const Home: React.FC = () => {
                 </motion.div>
             </Section>
 
-            <FarmToDeliverySVG />
+            {/* Trust Bar */}
+            <Section className="py-6">
+                <div className="max-w-4xl mx-auto px-4 sm:px-6">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        {[
+                            { icon: FaLeaf, value: '35 ha', label: t('trust.farm', 'Operating Farm') },
+                            { icon: FaUsers, value: '200+', label: t('trust.farmers', 'Cooperative Farmers') },
+                            { icon: FaChartLine, value: '1', label: t('trust.investor', 'Active Investor') },
+                            { icon: FaMobile, value: 'Farm OS', label: t('trust.tech', 'Proprietary Tech') },
+                        ].map((item, idx) => (
+                            <motion.div key={idx} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} transition={{ delay: idx * 0.1 }}>
+                                <InfoCard
+                                    icon={item.icon}
+                                    title={item.value}
+                                    subtitle={item.label}
+                                    iconColor="text-accent"
+                                    showInfoBadge={false}
+                                    className="h-full text-center"
+                                />
+                            </motion.div>
+                        ))}
+                    </div>
+                </div>
+            </Section>
 
             {/* 2. About Preview Section */}
             <Suspense fallback={<div>{t('loading.about')}</div>}>
@@ -555,7 +578,7 @@ const Home: React.FC = () => {
                             <Typography variant="body" className="text-gray-600 mb-5 max-w-xl mx-auto">
                                 {t('farmOsTeaser.description', 'Most farms run on paper. Ours runs on software we built — an offline-first Android app with cloud sync, real-time dashboards, and block-level tracking. The same system our farm managers use. The same data our investors see.')}
                             </Typography>
-                            <Link to="/invest" className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-6 py-2.5 rounded-full transform-gpu transition-all duration-300 inline-flex items-center gap-2 text-sm font-medium shadow-md">
+                            <Link to="/contact" className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-6 py-2.5 rounded-full transform-gpu transition-all duration-300 inline-flex items-center gap-2 text-sm font-medium shadow-md">
                                 <span>{t('farmOsTeaser.cta', 'Explore Farm OS (Under NDA)')}</span>
                                 <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
                             </Link>
@@ -578,7 +601,7 @@ const Home: React.FC = () => {
                         {[
                             { icon: FaLeaf, title: t('explore.farm.title', 'Our Farm'), desc: t('explore.farm.desc', '35 hectares, 3,500 trees, Farm OS-tracked'), link: '/farm' },
                             { icon: FaBox, title: t('explore.wholesale.title', 'Wholesale'), desc: t('explore.wholesale.desc', 'Bulk cashews with full traceability'), link: '/wholesale' },
-                            { icon: FaChartLine, title: t('explore.invest.title', 'Invest'), desc: t('explore.invest.desc', 'Asset-backed, Shariah-compliant opportunity'), link: '/invest' },
+                            { icon: FaChartLine, title: t('explore.invest.title', 'Invest'), desc: t('explore.invest.desc', 'Asset-backed, Shariah-compliant opportunity'), link: '/contact' },
                             { icon: FaHandshake, title: t('explore.partners.title', 'Partner'), desc: t('explore.partners.desc', 'Outgrower, white-label, Farm OS licensing'), link: '/partners' },
                             { icon: FaIndustry, title: t('explore.processing.title', 'Processing'), desc: t('explore.processing.desc', 'Chemical-free, certification-ready facility'), link: '/processing' },
                             { icon: FaSearch, title: t('explore.trace.title', 'Traceability'), desc: t('explore.trace.desc', 'Track any batch with Farm OS data'), link: '/trace' },
@@ -836,31 +859,6 @@ const Home: React.FC = () => {
                             </div>
                         </div>
                     </motion.div>
-                </div>
-            </Section>
-
-            {/* Trust Bar */}
-            <Section className="py-6">
-                <div className="max-w-4xl mx-auto px-4 sm:px-6">
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        {[
-                            { icon: FaLeaf, value: '35 ha', label: t('trust.farm', 'Operating Farm') },
-                            { icon: FaUsers, value: '200+', label: t('trust.farmers', 'Cooperative Farmers') },
-                            { icon: FaChartLine, value: '1', label: t('trust.investor', 'Active Investor') },
-                            { icon: FaMobile, value: 'Farm OS', label: t('trust.tech', 'Proprietary Tech') },
-                        ].map((item, idx) => (
-                            <motion.div key={idx} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} transition={{ delay: idx * 0.1 }}>
-                                <InfoCard
-                                    icon={item.icon}
-                                    title={item.value}
-                                    subtitle={item.label}
-                                    iconColor="text-accent"
-                                    showInfoBadge={false}
-                                    className="h-full text-center"
-                                />
-                            </motion.div>
-                        ))}
-                    </div>
                 </div>
             </Section>
 
