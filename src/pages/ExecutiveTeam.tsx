@@ -560,10 +560,6 @@ const ExecutiveTeam: React.FC = () => {
                                     <FaEnvelope className="relative z-10" />
                                     <span className="relative z-10">{t('executives.ctaButton', 'Start a Conversation')}</span>
                                 </Link>
-                                <Link to="/invest"
-                                      className="relative border-2 border-primary/50 text-primary hover:bg-primary hover:text-white px-8 py-4 rounded-full transform-gpu font-medium inline-flex items-center gap-2 bg-white/30 backdrop-blur-sm">
-                                    <FaChartLine /> {t('executives.ctaInvest', 'Investor Information')}
-                                </Link>
                             </div>
                         </InfoCard>
                     </motion.div>
