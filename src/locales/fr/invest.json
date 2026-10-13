@@ -1,356 +1,479 @@
 {
   "seo": {
-    "title": "Investissez dans AfriNuts Export | Transformation Certifiée de Noix de Cajou Côte d'Ivoire",
-    "description": "Opportunité d'investissement de 1,25M$ : Construisez le premier centre de transformation de noix de cajou certifié détenu localement en Côte d'Ivoire. Adossé à des actifs, conforme à la Charia, 25 % de participation."
+    "title": "Investir dans AfriNuts Export | Transformation certifiée de noix de cajou en Côte d'Ivoire",
+    "description": "Opportunité d'investissement de 1,25 M$ : construisez le premier centre de transformation de noix de cajou certifié et détenu localement en Côte d'Ivoire. Adossé à des actifs, conforme à la charia, 25 % de capital."
   },
   "hero": {
-    "subtitle": "Opportunité d'Investissement",
-    "title": "Construction du Premier Centre de Transformation de Noix de Cajou Certifié de Côte d'Ivoire",
-    "tagline": "Levée totale de 1 250 000 $ · 25 % de participation (5 M$ post-money) · Investissement minimum : 250 000 $ · Moudaraba conforme à la Charia · Transparence alimentée par Farm OS · Dividendes à partir de 2033",
-    "interimNote": "Pendant la construction du centre de transformation, nous générons des revenus grâce au négoce de noix de cajou brutes — en nous approvisionnant auprès de notre coopérative de plus de 200 agriculteurs et en revendant à des acheteurs établis. Cela compense les coûts opérationnels et établit des relations commerciales avant notre première récolte agricole en 2029.",
+    "subtitle": "Opportunité d'investissement — Phase Un",
+    "title": "Construire la chaîne d'approvisionnement de noix de cajou la plus traçable d'Afrique",
+    "tagline": "Levée de 350 000 $ en Phase Un · 10 % de capital (valorisation post-money de 3,5 M$) · Investissement minimum : 50 000 $ · Mudarabah conforme à la charia · Transparence propulsée par Farm OS",
+    "interimNote": "La plupart des transformateurs construisent d'abord une usine, puis cherchent la matière première. Nous faisons l'inverse. Cet investissement de Phase Un lance nos opérations nationales de négoce de noix de cajou brutes — non comme une fin en soi, mais pour bâtir des relations fournisseurs vérifiées, une adhésion coopérative, une intelligence de production et une infrastructure d'approvisionnement à travers la Côte d'Ivoire. Au moment où notre usine de transformation sera opérationnelle, le réseau d'approvisionnement existera déjà. Nous construisons la chaîne d'approvisionnement avant de construire la capacité de transformation.",
     "downloadNda": "Télécharger la NDA",
-    "scheduleCall": "Planifier un Appel",
-    "imageOverlay": "1,25 M$ · 25 % de Participation · Conforme à la Charia",
+    "scheduleCall": "Planifier un appel",
+    "imageOverlay": "350 K$ · 10 % de capital · Conforme à la charia",
     "kpis": {
-      "targetRaise": "Objectif de Levée",
-      "equityOffered": "Participation Offerte",
-      "postMoneyVal": "Val. Post-Money",
-      "dividendsStart": "Début des Dividendes"
+      "targetRaise": "Levée cible",
+      "equityOffered": "Capital offert",
+      "postMoneyVal": "Valorisation post-money",
+      "minimumInvestment": "Investissement minimum"
     }
   },
   "impactSummary": {
-    "title": "Conçu pour les Investisseurs d'Impact",
-    "body": "Votre capital construit le premier centre de transformation certifié dans le nord-ouest de la Côte d'Ivoire. Vous obtenez 25 % de participation, une conformité totale à la Charia et un tableau de bord Farm OS pour suivre votre investissement en temps réel. Les dividendes commencent en 2033."
+    "title": "Conçu pour les investisseurs à impact",
+    "body": "Votre capital lance nos opérations nationales de négoce et construit le réseau de fournisseurs vérifiés requis avant le début de la transformation. Vous recevez 10 % de capital à une valorisation post-money de 3,5 M$, une conformité totale à la charia et un tableau de bord Farm OS pour suivre votre investissement en temps réel."
   },
   "opportunity": {
-    "title": "L'Opportunité",
-    "body": "La Côte d'Ivoire est le plus grand producteur mondial de noix de cajou — plus de 1,2 million de tonnes métriques par an — pourtant moins de 15 % est transformé localement. Des milliards de valeur quittent le pays chaque année, les noix brutes étant expédiées en Asie pour transformation. Le gouvernement ivoirien encourage désormais activement les transformateurs nationaux à combler cet écart. AfriNuts est positionnée pour être le premier transformateur certifié dans le nord-ouest de la Côte d'Ivoire.",
+    "title": "L'opportunité",
+    "body": "La Côte d'Ivoire est le plus grand producteur mondial de noix de cajou — plus de 1,2 million de tonnes métriques par an — pourtant moins de 15 % est transformé localement. Des milliards de valeur quittent le pays chaque année sous forme de noix brutes expédiées en Asie pour transformation. Le gouvernement ivoirien incite désormais activement les transformateurs nationaux à combler cet écart. AfriNuts construit la fondation technologique pour devenir le premier transformateur certifié dans le nord-ouest de la Côte d'Ivoire.",
     "cards": {
       "producer": {
-        "title": "1er Producteur, <20 % de la Valeur",
-        "desc": "La Côte d'Ivoire produit 45 % des noix de cajou mondiales mais ne capte que moins de 20 % de la valeur finale au détail — un écart de plusieurs milliards de dollars à combler.",
-        "stat": "Écart de +2 G$",
-        "highlights": ["Plus grand producteur mondial de cajou", "Incitations gouvernementales pour les transformateurs", "Accès portuaire stratégique aux marchés de l'UE"]
+        "title": "N°1 producteur, <20 % de valeur",
+        "desc": "La Côte d'Ivoire produit 45 % des noix de cajou mondiales mais capte moins de 20 % de la valeur de détail finale — un écart de plusieurs milliards de dollars qui attend d'être comblé.",
+        "stat": "Écart de 2 Md$+",
+        "highlights": ["Plus grand producteur mondial de noix de cajou", "Incitations gouvernementales pour les transformateurs", "Accès portuaire stratégique aux marchés de l'UE"]
       },
       "firstMover": {
-        "title": "Premier Entrant Technologique",
-        "desc": "AfriNuts sera la première installation de transformation certifiée et axée sur la technologie dans le nord-ouest de la Côte d'Ivoire, avec Farm OS offrant une transparence de niveau institutionnel qu'aucun concurrent ne peut égaler.",
-        "stat": "Premier Entrant",
-        "highlights": ["Plateforme Farm OS sur mesure", "Ferme de 35 hectares opérationnelle", "Coopérative de 200+ agriculteurs sécurisée"]
+        "title": "Pionnier technologique",
+        "desc": "AfriNuts construit la première installation de transformation certifiée et technologique du nord-ouest de la Côte d'Ivoire. Farm OS offre déjà une transparence de niveau institutionnel qu'aucun concurrent ne peut égaler.",
+        "stat": "Pionnier",
+        "highlights": ["Plateforme Farm OS sur mesure — déjà en service", "Ferme de 35 hectares opérationnelle", "Coopérative de 200+ agriculteurs sécurisée"]
       },
       "margin": {
-        "title": "Expansion de Marge x5",
-        "desc": "En transformant localement, nous convertissons les noix de cajou brutes (~1 200 $/tonne) en amandes certifiées biologiques + Halal (6 500 $/tonne), capturant toute la chaîne de valeur.",
+        "title": "Expansion de marge x5",
+        "desc": "En transformant localement, nous transformerons les noix de cajou brutes (~1 200 $/tonne) en amandes certifiées bio + halal (6 500 $/tonne), captant toute la chaîne de valeur.",
         "stat": "Marge x5",
-        "highlights": ["Prix premium certifié", "Modèle d'exportation B2B direct", "Revenus du sous-produit CNSL"]
+        "highlights": ["Prix certifiés premium", "Modèle d'export B2B direct", "Revenus des sous-produits CNSL"]
       }
     }
   },
   "funding": {
-    "title": "Ce Que Vous Financez",
-    "subtitle": "Votre investissement construit le centre de transformation. La ferme est déjà opérationnelle et entièrement financée — ce capital est spécifiquement destiné à l'installation de Phase 1.",
+    "title": "Ce que cet investissement active",
+    "subtitle": "Il ne s'agit pas d'une levée pour un centre de transformation. Il s'agit de l'investissement de Phase Un qui lance nos opérations nationales de négoce de noix de cajou brutes et construit le réseau d'intelligence fournisseurs requis avant le début de la transformation.",
     "operational": {
-      "title": "Déjà Opérationnel",
+      "title": "Fondation déjà construite",
       "items": {
-        "farm": "35 hectares plantés — 3 500 anacardiers en croissance",
-        "organic": "Agroforesterie biologique — sans produits chimiques synthétiques",
-        "financed": "Entièrement financé — ne fait pas partie de cette levée de fonds"
+        "farm": "35 hectares plantés — 3 500 noyers de cajou en croissance",
+        "organic": "Agroforesterie biologique — aucun produit chimique de synthèse",
+        "farmOs": "Farm OS entièrement déployé et opérationnel sur toutes les opérations de la ferme"
       }
     },
     "supplyChain": {
-      "title": "Chaîne d'Approvisionnement Sécurisée",
+      "title": "Le réseau de fournisseurs",
       "items": {
-        "harvest": "Première récolte commerciale prévue en 2029",
-        "cooperative": "Accord coopératif exclusif — 200+ agriculteurs",
-        "supply": "Approvisionnement évolutif garanti en noix de cajou brutes"
+        "trading": "Négoce national de NCR — achat auprès d'agriculteurs coopératifs",
+        "supplier": "Intégration des fournisseurs, vérification GPS et formation qualité",
+        "intelligence": "Intelligence d'approvisionnement : qui produit quoi, à quelle qualité, à quel prix"
       }
     },
-    "quote": "\"La terre est un dépôt sacré. Nous l'empruntons à nos enfants. Nous devons la rendre meilleure que nous l'avons trouvée.\""
+    "quote": "« La plupart des transformateurs construisent d'abord une usine, puis cherchent la matière première. Nous construisons la chaîne d'approvisionnement avant de construire la capacité de transformation. »"
   },
   "charts": {
-    "sectionTitle": "L'Opportunité + Votre Capital",
-    "sectionBody": "La Côte d'Ivoire exporte 85 % de ses noix de cajou brutes, perdant des milliards de valeur. Votre investissement de 1,25 M$ construit le centre de transformation qui capture cette marge — transformant une matière première à 1 200 $/tonne en exportations certifiées à 6 500 $/tonne.",
+    "sectionTitle": "L'opportunité + votre capital",
+    "sectionBody": "La Côte d'Ivoire exporte 85 % de ses noix de cajou brutes, perdant des milliards en valeur. Cet investissement de Phase Un active nos opérations nationales de négoce et construit le réseau d'intelligence fournisseurs requis avant le début de la transformation.",
     "processingGap": {
-      "title": "L'Écart de Transformation",
-      "subtitle": "Production vs Transformation de Noix de Cajou en Côte d'Ivoire",
+      "title": "L'écart de transformation",
+      "subtitle": "Production vs transformation de noix de cajou en Côte d'Ivoire",
       "produced": "Produit",
       "processed": "Transformé",
-      "exported": "Exporté Brut",
+      "exported": "Exporté brut",
       "note": "<strong class=\"text-primary\">85 % exporté brut</strong> — des milliards perdus chaque année. Le gouvernement incite activement les transformateurs nationaux."
     },
     "capitalAllocation": {
-      "title": "Allocation du Capital",
-      "note": "975 K$ CAPEX + 275 K$ Fonds de Roulement"
+      "title": "Allocation du capital de Phase Un",
+      "subtitle": "350 000 $ au total",
+      "note": "Fondation, capital de négoce et intelligence fournisseurs — pas d'infrastructure de transformation"
     }
   },
-  "capitalAllocation": {
-    "construction": "Construction",
-    "machinery": "Machinerie",
-    "workingCapital": "Fonds de Roulement",
-    "powerWater": "Énergie et Eau",
-    "certifications": "Certifications",
+  "capitalAllocationItems": {
+    "headquarters": "Siège opérationnel",
+    "vehicles": "Véhicules et équipements",
+    "supplierDev": "Développement des fournisseurs",
+    "aos": "Déploiement de Farm OS",
+    "workingCapital": "Fonds de roulement pour le négoce de NCR",
+    "recruitment": "Recrutement",
     "contingency": "Imprévus"
   },
-  "returns": {
-    "title": "Rendements Projetés pour l'Investisseur (Scénario de Base)",
-    "community": "Des rendements dans cette vie et la suivante",
-    "subtitle": "Participation de 25 % avec dividendes croissants à partir de l'Année 3 d'exploitation (2033). 50 % des bénéfices nets distribués ; 50 % réinvestis pour l'expansion Phase 2.",
+  "phaseOneReturns": {
+    "title": "Phase Un : rendements de négoce",
+    "subtitle": "Cet investissement active le négoce national de noix de cajou brutes — générant un flux de trésorerie opérationnel tout en construisant le réseau de fournisseurs.",
     "kpis": {
-      "investment": "Investissement",
-      "equityStake": "Participation de 25 %",
-      "postMoneyVal": "Val. Post-Money",
-      "assetBacked": "Adossé à des actifs",
-      "dividendsBegin": "Début des Dividendes",
-      "yearThree": "Année 3 d'exploitation",
-      "annualDividend": "Dividende Annuel (2035)",
-      "growingTo": "Atteignant 93 750 $ d'ici 2037"
+      "investment": "Levée de Phase Un",
+      "investmentValue": "350 000 $",
+      "equity": "Capital offert",
+      "equityValue": "10 %",
+      "postMoney": "Valorisation post-money",
+      "postMoneyValue": "3 500 000 $",
+      "profitPerTruck": "Profit par camion",
+      "profitPerTruckValue": "14 520 $"
     },
-    "dividendTable": {
-      "title": "Projection des Dividendes (Scénario de Base)",
-      "year": "Année",
-      "netProfit": "Bénéfice Net",
-      "dividendPool": "Pool de Dividendes (50 %)",
-      "investorShare": "Part Investisseur (25 %)",
-      "cumulative": "Cumul",
-      "rows": [
-        { "year": 2033, "profit": 120000, "pool": 60000, "share": 15000, "cum": 15000 },
-        { "year": 2034, "profit": 280000, "pool": 140000, "share": 35000, "cum": 50000 },
-        { "year": 2035, "profit": 450000, "pool": 225000, "share": 56250, "cum": 106250 },
-        { "year": "2036 (Est.)", "profit": 600000, "pool": 300000, "share": 75000, "cum": 181250 },
-        { "year": "2037 (Est.)", "profit": 750000, "pool": 375000, "share": 93750, "cum": 275000 }
-      ],
-      "summary": "D'ici fin 2037 : <strong class=\"text-primary\">275 000 $ de dividendes cumulés</strong> — retour de 22 % sur l'investissement initial de 1,25 M$ rien qu'avec les dividendes. L'investisseur conserve 25 % de participation dans une entreprise générant plus de 750 K$ de bénéfice annuel."
+    "tradingTable": {
+      "title": "Projection de négoce",
+      "metric": "Indicateur",
+      "value": "Valeur",
+      "capital": "Capital par camion",
+      "volume": "Volume",
+      "profit": "Profit projeté",
+      "threeTrucks": "Trois camions",
+      "note": "vérifié par un négociant expérimenté en noix de cajou, un négociant expérimenté en noix de cajou. Inclut le prix NCR, le stockage, la main-d'œuvre, le transport et les imprévus."
+    }
+  },
+  "returns": {
+    "title": "Phase Deux : le véritable potentiel",
+    "community": "Des rendements dans cette vie et dans l'au-delà",
+    "subtitle": "Lorsque notre usine de transformation sera opérationnelle (2031+), l'économie de l'entreprise se transformera. Il s'agit d'une projection de ce que devient AfriNuts — non d'une demande de financement. La structure de financement de la Phase Deux sera déterminée avec les investisseurs après la NDA.",
+    "kpis": {
+      "processingLaunch": "Lancement de la transformation",
+      "processingLaunchValue": "2031",
+      "dividendsBegin": "Début des dividendes",
+      "dividendsBeginValue": "2033",
+      "annualDividend": "Dividende annuel (2035)",
+      "annualDividendValue": "56 250 $",
+      "cumulativeDividend": "Cumulé d'ici 2037",
+      "cumulativeDividendValue": "275 000 $"
     },
     "unitEconomics": {
-      "rcnCost": "Coût N.B.",
-      "rcnDesc": "Matière première brute",
-      "kernelPrice": "Prix Amandes",
-      "kernelDesc": "Export certifié bio + Halal",
-      "valueAdded": "Valeur Ajoutée",
-      "valueDesc": "Marge captée par la transformation locale",
-      "cnsl": "Sous-produit CNSL",
-      "cnslDesc": "Revenus du liquide de coque"
+      "title": "Par tonne métrique de NCR transformée",
+      "item": "Élément",
+      "value": "Valeur",
+      "rcnCost": "Prix d'achat du NCR",
+      "rcnCostValue": "400 000 FCFA (400 FCFA/kg)",
+      "kernelRecovery": "Rendement en amandes (25 %)",
+      "kernelRecoveryValue": "250 kg",
+      "kernelPrice": "Prix de vente des amandes",
+      "kernelPriceValue": "6 500 $US/MT",
+      "kernelRevenue": "Revenus des amandes",
+      "kernelRevenueValue": "1 625 $US",
+      "byproduct": "CNSL et biomasse de coques (potentiel)",
+      "byproductValue": "Revenus supplémentaires",
+      "grossValue": "Valeur brute créée",
+      "grossValueValue": "1 625 $US+ par MT"
     },
-    "disclaimer": "Projections du scénario de base. Les scénarios conservateur et optimiste sont disponibles dans le modèle financier complet après signature de la NDA. Ceci ne constitue pas une offre de vente de titres."
+    "scaleProjections": {
+      "phaseTwo": {
+        "title": "À l'échelle de la Phase Deux (1 000–2 000 MT/an)",
+        "revenue": "Revenu annuel (amandes uniquement) : 1,625 M$ – 3,25 M$ US",
+        "byproduct": "Potentiel des sous-produits : CNSL et biomasse de coques",
+        "margin": "Marge brute : 30–40 % (conservateur)"
+      },
+      "phaseFour": {
+        "title": "À l'échelle de la Phase Quatre (70 000 MT/an)",
+        "revenue": "Revenu annuel (amandes uniquement) : 113 M$+ US",
+        "valuation": "Valeur d'entreprise à 3x le chiffre d'affaires : 340 M$+ US"
+      }
+    },
+    "bottomLine": "Un investissement en capital de 350 K$ en Phase Un à une valorisation post-money de 3,5 M$ n'est qu'une fraction de ce qu'AfriNuts peut devenir.",
+    "ndaNote": "Le modèle financier complet, incluant les projections de dividendes et les options de financement de la Phase Deux (capital ou prêt), est disponible après signature de la NDA.",
+    "disclaimer": "Projections du scénario de base. Des scénarios conservateurs et optimistes sont disponibles dans le modèle financier complet après la NDA. Ceci ne constitue pas une offre de vente de valeurs mobilières."
   },
   "certifications": {
-    "title": "Feuille de Route des Certifications",
-    "body": "Les certifications internationales sont la clé des prix premium. Notre installation est construite dès le départ pour se conformer aux normes les plus rigoureuses au monde — ouvrant les portes des marchés à forte valeur en Europe, au Moyen-Orient et en Amérique du Nord que les exportateurs de cajou de base ne peuvent pas atteindre.",
-    "cardTitle": "Certifications en Cours",
-    "cardSubtitle": "Chaque certification débloque un marché premium spécifique. Les délais reflètent les progrès actuels et les dates d'achèvement prévues.",
+    "title": "Feuille de route des certifications",
+    "body": "Les certifications internationales sont la clé d'un prix premium. Notre ferme est déjà en transition vers des pratiques biologiques, et notre future usine de transformation est conçue dès le départ pour se conformer aux normes les plus rigoureuses au monde — ouvrant les portes à des marchés à forte valeur en Europe, au Moyen-Orient et en Amérique du Nord que les exportateurs de noix de cajou en vrac ne peuvent pas atteindre.",
+    "cardTitle": "Certifications en cours",
+    "cardSubtitle": "Chaque certification ouvre un marché premium spécifique. Les délais reflètent la progression actuelle et les dates d'achèvement cibles.",
     "items": [
-      { "id": "organic", "title": "Biologique (ECOCERT)", "description": "Transition de 3 ans débutée en 2024. Agriculture sans produits chimiques vérifiée.", "status": "in-progress", "targetDate": "2027", "issuer": "ECOCERT" },
-      { "id": "fairtrade", "title": "Commerce Équitable", "description": "Pratiques de travail éthiques, salaires équitables, primes communautaires.", "status": "planned", "targetDate": "2030", "issuer": "FLO-CERT" },
-      { "id": "iso", "title": "ISO 22000", "description": "Système de gestion de la sécurité alimentaire pour les marchés d'exportation.", "status": "planned", "targetDate": "2029", "issuer": "ISO" },
-      { "id": "halal", "title": "Halal", "description": "Transformation conforme à la Charia pour les marchés du Moyen-Orient.", "status": "planned", "targetDate": "2029", "issuer": "Autorité Halal" },
-      { "id": "rainforest", "title": "Rainforest Alliance", "description": "Biodiversité, reforestation, agriculture climato-intelligente.", "status": "planned", "targetDate": "2028", "issuer": "Rainforest Alliance" }
+      {
+        "id": "organic",
+        "title": "Biologique (ECOCERT)",
+        "description": "Transition de 3 ans en cours depuis la plantation (2026). Agriculture sans produits chimiques vérifiée.",
+        "status": "in-progress",
+        "targetDate": "2029",
+        "issuer": "ECOCERT"
+      },
+      {
+        "id": "fairtrade",
+        "title": "Commerce équitable",
+        "description": "Pratiques de travail éthiques, salaires équitables, primes communautaires.",
+        "status": "planned",
+        "targetDate": "2030",
+        "issuer": "FLO-CERT"
+      },
+      {
+        "id": "iso",
+        "title": "ISO 22000",
+        "description": "Système de management de la sécurité des denrées alimentaires pour les marchés d'exportation.",
+        "status": "planned",
+        "targetDate": "2030",
+        "issuer": "ISO"
+      },
+      {
+        "id": "halal",
+        "title": "Halal",
+        "description": "Transformation conforme à la charia pour les marchés du Moyen-Orient.",
+        "status": "planned",
+        "targetDate": "2030",
+        "issuer": "Autorité Halal"
+      },
+      {
+        "id": "rainforest",
+        "title": "Rainforest Alliance",
+        "description": "Biodiversité, reforestation, agriculture intelligente face au climat.",
+        "status": "planned",
+        "targetDate": "2029",
+        "issuer": "Rainforest Alliance"
+      }
     ]
   },
   "competitiveAnalysis": {
-    "title": "Pourquoi AfriNuts Gagne",
-    "tableTitle": "Analyse de Positionnement sur le Marché",
-    "disclaimer": "Positionnement stratégique basé sur notre feuille de route de certification et nos plans opérationnels. Les certifications marquées 'En Cours' reflètent le statut actuel et les dates cibles.",
-    "competitorType": "Type de Concurrent",
-    "theirAdvantage": "Leur Avantage",
-    "theirDisadvantage": "Leur Désavantage",
-    "ourStrategy": "Contre-Stratégie d'AfriNuts",
-    "uniqueValueTitle": "L'Avantage Concurrentiel Unique d'AfriNuts",
-    "uniqueValueDesc": "Notre intégration verticale, notre expertise locale et notre technologie Farm OS sur mesure nous permettent d'offrir ce qu'aucun autre acteur ne peut : des noix de cajou premium, certifiées et traçables, soutenues par des données opérationnelles en temps réel — provenant d'une source transparente et socialement responsable au cœur de la plus grande région productrice mondiale.",
+    "title": "Pourquoi AfriNuts gagne",
+    "tableTitle": "Analyse du positionnement sur le marché",
+    "disclaimer": "Positionnement stratégique basé sur notre feuille de route de certifications et nos plans opérationnels. Les certifications marquées « En cours » reflètent le statut actuel et les dates cibles.",
+    "competitorType": "Type de concurrent",
+    "theirAdvantage": "Leur avantage",
+    "theirDisadvantage": "Leur désavantage",
+    "ourStrategy": "Contre-stratégie d'AfriNuts",
+    "uniqueValueTitle": "L'avantage concurrentiel unique d'AfriNuts",
+    "uniqueValueDesc": "Notre intégration verticale, notre expertise locale et notre technologie Farm OS sur mesure nous permettent d'offrir ce qu'aucun autre acteur ne peut offrir : des noix de cajou premium, certifiées et traçables, appuyées par des données opérationnelles en temps réel — d'une source transparente et socialement responsable au cœur de la plus grande région productrice du monde.",
     "rows": [
-      { "competitor": "Grands Transformateurs Asiatiques", "advantage": "Échelle, infrastructure établie, main-d'œuvre à faible coût", "weakness": "Déconnexion géographique de la source, hausse des coûts de main-d'œuvre", "strategy": "Histoire d'Origine et Traçabilité Farm OS : Origine unique de Côte d'Ivoire avec vérification numérique qu'ils ne peuvent égaler" },
-      { "competitor": "Transformateurs Locaux Ivoiriens", "advantage": "Présence locale, accès aux noix brutes", "weakness": "Manquent d'échelle, de certifications et d'infrastructure technologique", "strategy": "Certification et Technologie : Construit pour Biologique, Halal, ISO 22000 — soutenu par les données Farm OS" },
-      { "competitor": "Marques Occidentales", "advantage": "Marques grand public fortes, accès au marché", "weakness": "Dépendantes des amandes importées, déconnectées de la source, sans visibilité sur la chaîne d'approvisionnement", "strategy": "Intégration Verticale + Technologie : Nous possédons la chaîne et avons construit le logiciel pour le prouver" }
+      { "competitor": "Grands transformateurs asiatiques", "advantage": "Échelle, infrastructure établie, main-d'œuvre à faible coût", "weakness": "Déconnexion géographique de la source, coûts de main-d'œuvre en hausse", "strategy": "Histoire d'origine et traçabilité Farm OS : Côte d'Ivoire mono-origine avec vérification numérique qu'ils ne peuvent égaler" },
+      { "competitor": "Transformateurs ivoiriens locaux", "advantage": "Présence locale, accès aux noix brutes", "weakness": "Manque d'échelle, de certifications et d'infrastructure technologique", "strategy": "Certification et technologie : conçues pour le bio, le halal, l'ISO 22000 — appuyées par les données Farm OS" },
+      { "competitor": "Marques occidentales", "advantage": "Marques grand public fortes, accès au marché", "weakness": "Dépendantes des amandes importées, déconnectées de la source, aucune visibilité sur la chaîne d'approvisionnement", "strategy": "Intégration verticale + technologie : nous possédons la chaîne et avons construit le logiciel pour le prouver" }
     ]
   },
   "shariah": {
-    "title": "Investissement Conforme à la Charia",
-    "cardTitle": "Structure 100 % Sans Riba",
-    "body": "Notre investissement est structuré en Moudaraba (partage des bénéfices), entièrement aligné sur les principes de la finance islamique. Aucun intérêt (riba), aucune spéculation (gharar), et aucune activité interdite.",
+    "title": "Investissement conforme à la charia",
+    "cardTitle": "Structure 100 % sans riba",
+    "body": "Nos structures d'investissement sont entièrement alignées sur les principes de la finance islamique. Pas d'intérêt (riba), pas de spéculation (gharar) et pas d'activités interdites. Nous offrons deux voies : la propriété en capital dans AfriNuts, ou un partenariat de négoce Mudarabah pour les investisseurs qui préfèrent des rendements définis basés sur des transactions.",
     "items": [
-      "Distribution transparente des bénéfices — 25 % de part investisseur",
+      "Option capital — 10 % de propriété à une valorisation post-money de 3,5 M$",
+      "Option Mudarabah — % convenu du profit de négoce réellement réalisé, sans capital permanent",
       "Conseil consultatif charia engagé pour la vérification de conformité",
-      "Certification Halal pour l'installation de transformation (objectif 2027)"
+      "Certification halal pour l'usine de transformation (cible 2030)"
     ]
   },
   "risk": {
-    "title": "Cadre d'Atténuation des Risques",
-    "cardTitle": "Comment Nous Protégeons Votre Capital",
+    "title": "Cadre d'atténuation des risques",
+    "cardTitle": "Comment nous protégeons votre capital",
     "items": [
-      { "risk": "Retards de Construction", "mitigation": "Contrats à prix fixe avec des constructeurs réputés. Tampon d'imprévus de 10 % intégré au CAPEX." },
-      { "risk": "Retards de Certification", "mitigation": "Transition biologique de 3 ans débutée en 2024. Responsable conformité dédié. Audits blancs avant les inspections." },
-      { "risk": "Volatilité des Prix du Marché", "mitigation": "Les certifications premium (Biologique, Halal) garantissent 6 500 $/tonne contre des prix volatils de 1 200 $/tonne pour les noix brutes." },
-      { "risk": "Perturbation de la Chaîne d'Approvisionnement", "mitigation": "Propre ferme (35 ha) + accord coopératif exclusif avec 200 agriculteurs garantit l'approvisionnement de base." },
-      { "risk": "Montée en Puissance Opérationnelle", "mitigation": "Réserve de fonds de roulement de 275 K$ assure une entrée sur le marché sans détresse financière." }
+      {
+        "risk": "Volatilité des marges de négoce",
+        "mitigation": "Prix d'achat vérifié à 400 FCFA/kg. Prix de vente du scénario de base à 550 FCFA/kg. Le profit inclut les imprévus. Vérifié par un négociant expérimenté en noix de cajou."
+      },
+      {
+        "risk": "Rythme d'intégration des fournisseurs",
+        "mitigation": "200+ agriculteurs déjà dans la coopérative. Farm OS déployé pour la vérification GPS et le suivi qualité. Le développement des fournisseurs est un poste financé dans cette levée."
+      },
+      {
+        "risk": "Retards de certification",
+        "mitigation": "Transition biologique en cours depuis la plantation (2026). Responsable conformité dédié. Audits à blanc avant inspections. Cible : 2029."
+      },
+      {
+        "risk": "Volatilité des prix du marché",
+        "mitigation": "Les marges de négoce sont stables (150 FCFA/kg en scénario de base). Les certifications de Phase Deux (bio, halal) verrouillent 6 500 $/tonne contre des prix volatils de 1 200 $/tonne pour les noix brutes."
+      },
+      {
+        "risk": "Perturbation de la chaîne d'approvisionnement",
+        "mitigation": "Notre propre ferme (35 hectares) + accord de coopérative de 200+ agriculteurs garantit l'approvisionnement de base. Diversifié entre fournisseurs propres, coopératifs et indépendants."
+      },
+      {
+        "risk": "Montée en régime opérationnelle",
+        "mitigation": "Cette levée de Phase Un inclut 90 K$ de fonds de roulement de négoce et 10 K$ d'imprévus. Le fonds de roulement se recycle à chaque cycle de négoce."
+      }
     ]
   },
   "impact": {
-    "title": "Indicateurs ESG et d'Impact",
+    "title": "Indicateurs ESG et d'impact",
     "subtitle": "Au-delà des rendements financiers, votre investissement génère un impact social et environnemental mesurable à Odienné.",
-    "jobs": "Emplois Locaux Directs",
-    "jobsDesc": "Emplois à la ferme et au centre de transformation d'ici 2035. Priorité d'embauche pour les femmes et les jeunes.",
-    "farmers": "Agriculteurs Soutenus",
-    "farmersDesc": "Via notre accord coopératif exclusif avec des prix équitables et une formation technique.",
-    "reinvestment": "Réinvestissement Communautaire",
-    "reinvestmentDesc": "Des bénéfices nets annuels alloués aux puits d'eau, aux écoles et à la construction de mosquées.",
-    "energy": "Énergie Renouvelable",
-    "energyDesc": "De l'énergie totale provenant du système hybride solaire d'ici 2030. Les coques de cajou utilisées comme combustible de biomasse."
+    "jobs": "Emplois locaux directs",
+    "jobsDesc": "Emploi à la ferme + au centre de transformation d'ici 2035. Embauche prioritaire des femmes et des jeunes.",
+    "farmers": "Agriculteurs soutenus",
+    "farmersDesc": "Grâce à notre accord de coopérative exclusif avec prix équitables et formation technique.",
+    "reinvestment": "Réinvestissement communautaire",
+    "reinvestmentDesc": "Des profits nets annuels alloués aux puits d'eau, aux écoles et à la construction de mosquées.",
+    "energy": "Énergie renouvelable",
+    "energyDesc": "De l'électricité totale provenant d'un système hybride solaire d'ici 2030. Coques de cajou utilisées comme combustible biomasse."
   },
   "team": {
-    "title": "Équipe de Direction",
-    "subtitle": "Les investisseurs investissent dans les personnes. Notre équipe combine des générations de culture de noix de cajou avec une expertise en finance, technologie, opérations et commerce international — le tout guidé par les principes éthiques islamiques.",
+    "title": "Équipe de direction",
+    "subtitle": "Les investisseurs investissent dans les personnes. Notre équipe combine des générations de culture de la noix de cajou avec une expertise en finance, technologie, opérations et commerce international — le tout guidé par des principes éthiques islamiques.",
     "viewAll": "Rencontrer toute l'équipe de direction",
     "members": [
       {
         "name": "Hamza Sangare",
         "position": "Fondateur et PDG",
-        "bio": "Ingénieur logiciel devenu fondateur agroalimentaire. A construit AfriNuts Farm OS — une plateforme Android hors ligne avec synchronisation cloud pour le suivi par bloc. Producteur de cajou de 3e génération. Dirige la stratégie, l'architecture technologique et les relations investisseurs.",
+        "bio": "Ingénieur logiciel devenu fondateur d'agro-industrie. A construit AfriNuts Farm OS — une plateforme Android offline-first avec synchronisation cloud pour le suivi au niveau des blocs. Agriculteur de noix de cajou de 3e génération. Dirige la stratégie, l'architecture technologique et les relations investisseurs.",
         "imageKey": "ceo"
       },
       {
         "name": "Sekou Hakim Peters",
-        "position": "Co-Fondateur et CFO/COO",
-        "bio": "Conçoit des systèmes financiers éthiques où la rentabilité converge avec les principes prophétiques. Dirige la structuration conforme à la Charia, la stratégie opérationnelle et la transition des exportations de matières premières vers la transformation locale.",
+        "position": "Co-fondateur et CFO/COO",
+        "bio": "Architecte de systèmes financiers éthiques où la rentabilité converge avec les principes prophétiques. Dirige la structuration conforme à la charia, la stratégie opérationnelle et la transition des exportations de matières premières brutes vers la transformation locale.",
         "imageKey": "cfo"
       },
       {
         "name": "Muhamadue Kouyaté",
-        "position": "Directeur Commercial",
-        "bio": "Plus de 12 ans en conformité export, logistique et documentation commerciale. Gère les relations acheteurs sur les marchés de l'UE et du Moyen-Orient avec la traçabilité complète de Farm OS soutenant chaque expédition.",
+        "position": "Directeur commercial",
+        "bio": "12+ ans en conformité d'exportation, logistique et documentation commerciale. Gère les relations acheteurs sur les marchés de l'UE et du Moyen-Orient avec une traçabilité Farm OS complète appuyant chaque expédition.",
         "imageKey": "cco"
       },
       {
         "name": "Alassana Bah",
-        "position": "Directeur de la Technologie et Investisseur Précoce",
-        "bio": "A commencé comme investisseur externe. A rejoint l'équipe à plein temps après avoir vu la plateforme technologique de ses propres yeux. Dirige maintenant le développement de Farm OS, l'infrastructure IoT et l'analyse de données — prouvant que les meilleurs investisseurs deviennent des partenaires.",
+        "position": "Directeur technique et investisseur précoce",
+        "bio": "A commencé comme investisseur externe. A rejoint à temps plein après avoir vu la plateforme technologique de ses propres yeux. Dirige désormais le développement de Farm OS, l'infrastructure IoT et l'analytique de données — prouvant que les meilleurs investisseurs deviennent des partenaires.",
         "imageKey": "ops"
       },
       {
         "name": "Mohamed Beniken",
-        "position": "Directeur Administratif",
-        "bio": "Plus de 10 ans en leadership administratif. Supervise les RH, la conformité juridique et la sécurité de l'information — garantissant l'intégrité des données Farm OS et les normes de gouvernance d'entreprise.",
+        "position": "Directeur administratif",
+        "bio": "10+ ans en leadership administratif. Supervise les RH, la conformité juridique et la sécurité de l'information — garantissant l'intégrité des données Farm OS et les normes de gouvernance d'entreprise.",
         "imageKey": "admin"
       },
       {
         "name": "Souleymane Sangare",
-        "position": "Responsable des Opérations Agricoles",
-        "bio": "Plus de 14 ans en gestion agricole. L'homme de terrain à Odienné. Dirige les opérations quotidiennes de la ferme, les relations coopératives et garantit que chaque point de données dans Farm OS reflète la réalité du terrain.",
+        "position": "Responsable des opérations de la ferme",
+        "bio": "14+ ans de gestion agricole. Les bottes sur le terrain à Odienné. Dirige les opérations quotidiennes de la ferme, les relations coopératives et veille à ce que chaque point de données dans Farm OS reflète la vérité du terrain.",
         "imageKey": "farm"
       }
     ]
   },
   "cta": {
-    "title": "Prêt à Explorer Cette Opportunité ?",
-    "body": "Téléchargez notre NDA pour commencer. Une fois signée, vous recevrez le plan d'affaires complet, le modèle financier détaillé et l'accès pour planifier un appel personnel avec notre équipe de direction.",
+    "title": "Prêt à explorer cette opportunité ?",
+    "body": "Téléchargez notre NDA pour commencer. Une fois signé, vous recevrez le plan d'affaires complet, le modèle financier détaillé et l'accès pour planifier un appel personnel avec notre équipe de direction.",
     "downloadNda": "Télécharger la NDA",
-    "scheduleCall": "Planifier un Appel"
+    "scheduleCall": "Planifier un appel"
   },
   "marketSize": {
-    "title": "Marché Total Adressable",
+    "title": "Marché total adressable",
     "subtitle": "Une opportunité de plusieurs milliards de dollars dans un marché mondial en croissance",
-    "globalMarket": { "title": "Marché Mondial des Amandes de Cajou", "growth": "TCAC de 4-5 % jusqu'en 2030" },
-    "ivoryCoast": { "title": "Production de la Côte d'Ivoire", "gap": "<15 % transformé localement" },
-    "ourTarget": { "title": "Notre Marché Cible", "description": "Importations d'amandes certifiées premium vers l'UE, le Moyen-Orient et l'Amérique du Nord" },
-    "growthRate": "Taux de Croissance Annuel",
+    "globalMarket": { "title": "Marché mondial des amandes de cajou", "growth": "TCAC de 4-5 % jusqu'en 2030" },
+    "ivoryCoast": { "title": "Production de Côte d'Ivoire", "gap": "<15 % transformé localement" },
+    "ourTarget": { "title": "Notre marché cible", "description": "Importations d'amandes certifiées premium vers l'UE, le Moyen-Orient et l'Amérique du Nord" },
+    "growthRate": "Taux de croissance annuel",
     "growthDesc": "Porté par les tendances santé et les régimes à base de plantes",
-    "driversTitle": "Moteurs de Croissance du Marché",
+    "driversTitle": "Moteurs de croissance du marché",
     "drivers": [
-      "Santé et Bien-être : Les noix de cajou sont riches en graisses saines, protéines et minéraux",
-      "Révolution Végétale : Demande croissante pour le lait, le beurre, le fromage et la crème de cajou",
-      "Premiumisation : Les consommateurs paient plus pour des produits biologiques, équitables, durables et traçables"
+      "Santé et bien-être : les noix de cajou sont riches en graisses saines, protéines et minéraux",
+      "Révolution végétale : demande croissante pour le lait, le beurre, le fromage et la crème de cajou",
+      "Premiumisation : les consommateurs paient plus pour des produits bio, équitables, durables et traçables",
+      "Pression réglementaire : les lois européennes de diligence raisonnable exigent désormais une traçabilité vérifiée de la chaîne d'approvisionnement — une exigence que la plupart des exportateurs ouest-africains ne peuvent satisfaire"
     ]
   },
   "timeline": {
-    "title": "Votre Parcours d'Investissement",
-    "subtitle": "D'une ferme opérationnelle et des revenus de négoce aujourd'hui aux dividendes de transformation en 2033 — chaque phase est dérisquée avec des actifs existants et une exécution éprouvée.",
-    "scrollHint": "Faites glisser pour explorer",
+    "title": "Votre parcours d'investissement",
+    "subtitle": "De l'incorporation légale et des opérations agricoles aujourd'hui à la transformation commerciale et aux dividendes dans les années 2030 — chaque phase est séquencée pour réduire le risque de la suivante.",
+    "scrollHint": "Glissez pour explorer",
     "items": [
       {
-        "year": "Maintenant",
-        "title": "Ferme Opérationnelle + Revenus de Négoce",
-        "desc": "3 500 arbres en croissance. Le négoce de noix de cajou brutes de notre coopérative de plus de 200 agriculteurs génère des revenus et établit des relations avec les acheteurs.",
+        "year": "Aujourd'hui",
+        "title": "Fondation terminée",
+        "desc": "Incorporée légalement. 35 hectares plantés. 3 500 arbres. Farm OS en service. Coopérative de 200+ agriculteurs sécurisée. La fondation est construite — en attente de cet investissement pour s'activer.",
         "status": "complete"
       },
       {
-        "year": "2027-28",
-        "title": "Construction",
-        "desc": "Centre de transformation construit. Équipement installé. Certifications demandées. Farm OS suit chaque jalon.",
+        "year": "2026-27",
+        "title": "Lancement du négoce + réseau de fournisseurs",
+        "desc": "Cet investissement active le négoce national de NCR. L'intégration des fournisseurs, la vérification GPS, le développement coopératif et l'intelligence d'approvisionnement commencent. Les revenus démarrent pendant que le réseau de fournisseurs grandit.",
         "status": "active"
       },
       {
-        "year": "2029",
-        "title": "Première Récolte Agricole",
-        "desc": "Notre ferme de 35 hectares atteint un rendement commercial. Lots d'échantillons produits pour les acheteurs internationaux. LOI sécurisées.",
+        "year": "2028-30",
+        "title": "Intelligence d'approvisionnement + certification",
+        "desc": "Les données d'approvisionnement deviennent de l'intelligence d'entreprise. Préparation aux certifications bio, halal et ISO 22000 achevée. Programme de pré-engagement acheteurs lancé. La construction de l'usine de transformation commence en parallèle.",
+        "status": "upcoming"
+      },
+      {
+        "year": "2030",
+        "title": "Mise en service de la transformation",
+        "desc": "Installation construite et mise en service. Équipements installés et validés. Personnel formé. AOS intégré à toutes les opérations de transformation. Production d'essai terminée.",
         "status": "upcoming"
       },
       {
         "year": "2031",
-        "title": "Lancement de la Transformation",
-        "desc": "Les opérations de Phase 1 commencent. Premières exportations certifiées vers les marchés de l'UE et du Moyen-Orient.",
+        "title": "Début de la transformation commerciale",
+        "desc": "Premières exportations certifiées vers les marchés de l'UE et du Moyen-Orient. La capacité de transformation passe de 1 000 à 2 000 MT/an. Production d'amandes premium pour les acheteurs internationaux.",
         "status": "upcoming"
       },
       {
-        "year": "2033",
-        "title": "Début des Dividendes",
-        "desc": "50 % des bénéfices nets distribués. Votre rendement commence — dividende annuel projeté de 56 250 $ d'ici 2035.",
+        "year": "2033+",
+        "title": "Dividendes + échelle industrielle",
+        "desc": "50 % des profits nets distribués aux actionnaires. Expansion vers une capacité de transformation de 70 000–100 000 MT/an. AfriNuts devient un leader agro-industriel régional.",
         "status": "upcoming"
       }
     ]
   },
   "exitStrategy": {
-    "title": "Stratégie de Sortie et Protections des Investisseurs",
-    "subtitle": "Des voies claires vers la liquidité avec des protections solides pour les actionnaires",
+    "title": "Stratégie de sortie et protections des investisseurs",
+    "subtitle": "Des voies claires vers la liquidité avec des protections robustes pour les actionnaires",
     "options": [
-      { "title": "Vente de l'Entreprise / Fusion / IPO", "description": "En cas de Sortie, l'Investisseur reçoit 25 % du produit net distribué aux actionnaires, proportionnellement à sa participation." },
-      { "title": "Droit de Sortie Conjointe (Drag-Along)", "description": "Si les actionnaires majoritaires approuvent une vente, l'Investisseur accepte de vendre aux mêmes conditions — garantissant une sortie propre et unifiée pour toutes les parties." },
-      { "title": "Droit de Cession Conjointe (Tag-Along)", "description": "Si un fondateur ou un actionnaire majoritaire vend ses parts, l'Investisseur peut se joindre à la transaction et vendre un montant proportionnel aux mêmes conditions — le protégeant contre la détention d'actions illiquides." },
-      { "title": "Option de Rachat Mutuel (2031)", "description": "L'une ou l'autre partie peut déclencher un rachat. Évaluation basée sur : 2× l'investissement initial, 5× le revenu brut, ou une évaluation indépendante. Paiements différés autorisés — sans riba, sans coercition." }
+      {
+        "title": "Vente de la société / Fusion / IPO",
+        "description": "En cas de Sortie, l'Investisseur reçoit sa part proportionnelle du produit net distribué aux actionnaires — en fonction de sa participation au moment de la sortie."
+      },
+      {
+        "title": "Droits de drag-along",
+        "description": "Si les actionnaires majoritaires approuvent une vente, l'Investisseur accepte de vendre aux mêmes conditions — garantissant une sortie propre et unifiée pour toutes les parties."
+      },
+      {
+        "title": "Droits de tag-along",
+        "description": "Si un fondateur ou un actionnaire majoritaire vend ses actions, l'Investisseur peut rejoindre la transaction et vendre un montant proportionnel aux mêmes conditions — protégeant contre le risque de se retrouver avec des actions illiquides."
+      },
+      {
+        "title": "Option de rachat mutuel (2031)",
+        "description": "L'une ou l'autre partie peut déclencher un rachat. Valorisation basée sur : 2× l'investissement initial, 5× le chiffre d'affaires brut, ou une évaluation indépendante. Paiements différés autorisés — sans riba, sans contrainte."
+      }
     ],
-    "liquidation": "En cas de force majeure ou d'échec commercial, l'Investisseur reçoit une part des actifs restants après les dettes — proportionnelle à sa participation."
+    "liquidation": "En cas de force majeure ou de faillite de l'entreprise, l'Investisseur reçoit une part des actifs restants après dettes — proportionnelle à sa participation."
   },
   "investorProtections": {
-    "title": "Protections Clés des Investisseurs",
-    "subtitle": "Vos Droits en Vertu du Contrat d'Investissement",
+    "title": "Protections clés des investisseurs",
+    "subtitle": "Vos droits en vertu de l'accord d'investissement — les termes finaux sont régis par le pacte d'actionnaires",
     "items": [
-      "Droits préférentiels de souscription — maintenez votre pourcentage de propriété lors des futures levées",
-      "Siège d'observateur au conseil — assistez aux réunions du conseil ou aux réunions consultatives",
+      "Droits préférentiels — maintenez votre pourcentage de propriété lors des tours futurs",
+      "Siège d'observateur au conseil — participez aux réunions du conseil ou consultatives",
       "Rapports trimestriels + états financiers annuels audités",
-      "Droits d'approbation pour les dettes >100 K$, les changements structurels ou les transactions avec des parties liées",
-      "Droits de sortie conjointe (tag-along et drag-along) pour une participation propre à la sortie",
-      "Résolution des litiges conforme à la Charia (droit ivoirien + Tribunal Islamique si nécessaire)"
+      "Droits d'approbation pour dette >100 K$, changements structurels ou transactions avec parties liées",
+      "Droits de tag-along et drag-along pour une participation propre à la sortie",
+      "Résolution des litiges conforme à la charia (droit ivoirien + Tribunal islamique si nécessaire)"
     ]
   },
   "socialProof": {
-    "title": "D'Investisseur à Co-Fondateur",
-    "description": "Alassana Bah a d'abord investi dans notre phase de développement agricole. Après avoir vu la technologie, l'équipe et l'exécution de ses propres yeux, il n'a pas seulement signé un chèque — il a rejoint l'équipe en tant que Directeur de la Technologie. Son parcours d'investisseur externe à CTO dirigeant le développement de notre Farm OS est la plus forte preuve du potentiel d'AfriNuts.",
-    "testimonial": "\"J'ai d'abord investi. Puis j'ai vu la technologie qu'ils construisaient — une application Android personnalisée avec synchronisation hors ligne, des tableaux de bord en temps réel, un suivi par bloc. C'est là que j'ai su que ce n'était pas qu'une simple ferme. J'ai rejoint en tant que CTO parce que la plateforme technologique à elle seule vaut plus que les terres agricoles.\"",
-    "attribution": "— Alassana Bah, CTO et Investisseur Précoce"
+    "title": "D'investisseur à co-fondateur",
+    "description": "Alassana Bah a d'abord investi dans notre phase de développement agricole. Après avoir vu la technologie, l'équipe et l'exécution de ses propres yeux, il n'a pas simplement signé un chèque — il a rejoint en tant que Directeur technique. Son parcours d'investisseur externe à CTO dirigeant notre développement Farm OS est la preuve la plus forte du potentiel d'AfriNuts.",
+    "testimonial": "« J'ai investi d'abord. Puis j'ai vu la technologie qu'ils construisaient — une application Android sur mesure avec synchronisation hors ligne, tableaux de bord en temps réel, suivi au niveau des blocs. C'est là que j'ai su que ce n'était pas juste une ferme. J'ai rejoint en tant que CTO parce que la plateforme technologique seule vaut plus que les terres agricoles. »",
+    "attribution": "— Alassana Bah, CTO et investisseur précoce"
   },
   "legalDisclaimer": {
-    "text": "Ces informations sont fournies à titre informatif uniquement et ne constituent pas une offre de vente ni une sollicitation d'offre d'achat de titres. Tout investissement comporte des risques. Les performances passées ne garantissent pas les résultats futurs. Les projections ne sont que des estimations et peuvent ne pas être atteintes. Cette opportunité d'investissement est disponible uniquement pour les investisseurs qualifiés capables de supporter le risque de perte.",
-    "ndaRequired": "Les détails complets, y compris le plan d'affaires complet et le modèle financier, sont disponibles uniquement après la signature de la NDA."
+    "text": "Ces informations sont fournies à titre informatif uniquement et ne constituent pas une offre de vente ni une sollicitation d'offre d'achat de valeurs mobilières. Tout investissement comporte des risques. Les performances passées ne garantissent pas les résultats futurs. Les projections ne sont que des estimations et peuvent ne pas être atteintes. Cette opportunité d'investissement n'est disponible qu'aux investisseurs qualifiés pouvant supporter le risque de perte.",
+    "ndaRequired": "Les détails complets, y compris le plan d'affaires complet et le modèle financier, ne sont disponibles qu'après signature de la NDA."
   },
   "farmOs": {
-    "title": "Farm OS : La Technologie Derrière l'Investissement",
+    "title": "Farm OS : la technologie derrière l'investissement",
     "linkText": "Voir toutes les capacités de Farm OS",
-    "body": "La plupart des investissements agroalimentaires reposent sur la confiance et des PDF trimestriels. Le nôtre fonctionne sur un système d'exploitation sur mesure qui donne aux investisseurs une visibilité en temps réel sur les performances de la ferme — arbres vivants, dépenses par bloc, volumes de récolte et projections de bénéfices. Le même tableau de bord que notre équipe utilise quotidiennement est disponible pour les investisseurs vérifiés.",
+    "body": "La plupart des investissements agro-industriels reposent sur la confiance et des PDF trimestriels. Le nôtre fonctionne sur un système d'exploitation sur mesure qui donne aux investisseurs une visibilité en temps réel sur la performance de la ferme — arbres vivants, dépenses par bloc, volumes de récolte et projections de profit. Le même tableau de bord que notre équipe utilise quotidiennement est disponible pour les investisseurs vérifiés. Plus important encore, ce même système est la raison pour laquelle les acheteurs internationaux paient des prix premium : chaque lot que nous expédions peut être tracé du bloc de ferme exact au conteneur d'exportation — le niveau de preuve que les marchés de l'UE et du Moyen-Orient exigent de plus en plus.",
     "capabilities": [
-      "Suivi financier par bloc — revenus et dépenses par hectare",
+      "Suivi financier au niveau des blocs — revenus et dépenses par hectare",
       "Tableau de bord en temps réel avec KPI, graphiques et documentation photo",
-      "Gestion des tâches et analyses de performance des travailleurs",
-      "Traçabilité des lots de la récolte au conteneur d'exportation"
+      "Gestion des tâches et analytique de performance des travailleurs",
+      "Traçabilité des lots de la récolte au conteneur d'exportation — la fondation du prix premium"
     ],
-    "cta": "Ceci est le tableau de bord réel. Pas une maquette. Pas une promesse."
+    "cta": "C'est le vrai tableau de bord. Pas une maquette. Pas une promesse."
   },
   "farmOsGated": {
-    "title": "Vous Voulez Voir Farm OS en Action ?",
-    "body": "Farm OS est notre avantage concurrentiel — un système d'exploitation sur mesure qui suit chaque arbre, chaque dépense et chaque exportation. Nous le protégeons soigneusement. Signez la NDA et nous vous ferons une démonstration en direct : tableaux de bord réels, suivi par bloc, traçabilité des lots et rapports financiers que la plupart des entreprises agroalimentaires ne peuvent égaler.",
+    "title": "Vous voulez voir Farm OS en action ?",
+    "body": "Farm OS est notre avantage concurrentiel — un système d'exploitation sur mesure qui suit chaque arbre, chaque dépense et chaque exportation. Nous le protégeons soigneusement. Signez la NDA et nous vous donnerons une démo en direct : vrais tableaux de bord, suivi au niveau des blocs, traçabilité des lots et reporting financier que la plupart des agro-entreprises ne peuvent égaler.",
     "preview": {
-      "dashboard": "Tableau de Bord en Direct",
-      "blocks": "Données par Bloc",
-      "trace": "Traçabilité des Lots",
-      "reports": "Rapports Financiers"
+      "dashboard": "Tableau de bord en direct",
+      "blocks": "Données au niveau des blocs",
+      "trace": "Traçabilité des lots",
+      "reports": "Rapports financiers"
     },
-    "signNda": "Signer la NDA pour Accéder à Farm OS",
-    "note": "Farm OS est une technologie propriétaire. L'accès est accordé uniquement aux investisseurs vérifiés et aux partenaires stratégiques sous NDA."
+    "signNda": "Signer la NDA pour accéder à Farm OS",
+    "note": "Farm OS est une technologie propriétaire. L'accès n'est accordé qu'aux investisseurs vérifiés et partenaires stratégiques sous NDA."
+  },
+  "schedule": {
+    "title": "Planifier un appel",
+    "subtitle": "Choisissez un moment qui vous convient. Nous vous présenterons l'opportunité d'investissement de Phase Un, la stratégie d'intelligence fournisseurs et répondrons à toutes vos questions.",
+    "whatWeCover": "Ce que nous couvrirons",
+    "beforeCall": "Avant notre appel",
+    "reviewPage": "Consulter la page Investir",
+    "ndaNote": "La NDA est requise pour l'accès au modèle financier complet. Nous l'enverrons lors de la réservation.",
+    "note": "Tous les appels sont confidentiels. La NDA est requise pour l'accès au modèle financier complet.",
+    "topics": {
+      "phaseOne": "Termes de l'investissement de Phase Un (350 K$ / 10 % de capital)",
+      "supplierStrategy": "Stratégie d'intelligence fournisseurs — chaîne d'approvisionnement avant capacité de transformation",
+      "farmOs": "Technologie Farm OS et traçabilité",
+      "economics": "Économie du négoce de Phase Un et potentiel de transformation de Phase Deux",
+      "structures": "Structures d'investissement : capital ou Mudarabah conforme à la charia",
+      "protections": "Protections des investisseurs, voies de sortie et reporting"
+    }
   }
 }

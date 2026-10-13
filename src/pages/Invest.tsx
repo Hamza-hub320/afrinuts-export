@@ -27,7 +27,7 @@ import {
     FaRecycle,
     FaMobile,
     FaStar,
-    FaMapMarkerAlt, FaSearch
+    FaMapMarkerAlt, FaSearch, FaBullseye
 } from 'react-icons/fa';
 import {
     BarChart, Bar, XAxis, YAxis, CartesianGrid,
@@ -44,12 +44,9 @@ import { Helmet } from 'react-helmet-async';
 import ndaPDF from '@/assets/documents/nda-afrinuts.pdf';
 import investHeroImage from '@/assets/images/invest-hero.webp';
 import ceoImage from '@/assets/images/ceo.webp';
-import cfoImage from '@/assets/images/cfo.webp';
-import ccoImage from '@/assets/images/cco.webp';
-import opsImage from '@/assets/images/ops-manager.webp';
-import adminImage from '@/assets/images/admin-manager.webp';
-import farmManagerImage from '@/assets/images/farm-manager.webp';
 import {trackCtaClick} from "@/utils/analytics";
+import ProfilePlaceholder from "@/components/ProfilePlaceholder/ProfilePlaceholder";
+import {ScheduleCard} from "@/components/ScheduleCard/ScheduleCard";
 
 
 const Invest: React.FC = () => {
@@ -57,21 +54,22 @@ const Invest: React.FC = () => {
     const navigate = useNavigate();
 
     const capitalAllocation = [
-        { name: t('capitalAllocation.construction'), value: 350000, color: '#5A7411' },
-        { name: t('capitalAllocation.machinery'), value: 400000, color: '#E04E00' },
-        { name: t('capitalAllocation.workingCapital'), value: 275000, color: '#A0C800' },
-        { name: t('capitalAllocation.powerWater'), value: 120000, color: '#253746' },
-        { name: t('capitalAllocation.certifications'), value: 50000, color: '#698714' },
-        { name: t('capitalAllocation.contingency'), value: 25000, color: '#9C3D10' },
+        { name: t('capitalAllocationItems.workingCapital'), value: 90000, color: '#698714' },
+        { name: t('capitalAllocationItems.headquarters'), value: 80000, color: '#5A7411' },
+        { name: t('capitalAllocationItems.vehicles'), value: 60000, color: '#E04E00' },
+        { name: t('capitalAllocationItems.supplierDev'), value: 50000, color: '#A0C800' },
+        { name: t('capitalAllocationItems.aos'), value: 40000, color: '#253746' },
+        { name: t('capitalAllocationItems.recruitment'), value: 20000, color: '#9C3D10' },
+        { name: t('capitalAllocationItems.contingency'), value: 10000, color: '#DEDAD4' },
     ];
 
     const certifications = t('certifications.items', { returnObjects: true }) as any[];
 
     const heroKPIs = [
-        { icon: FaMoneyBillWave, label: t('hero.kpis.targetRaise'), value: '$1.25M' },
-        { icon: FaChartPie, label: t('hero.kpis.equityOffered'), value: '25%' },
-        { icon: FaBuilding, label: t('hero.kpis.postMoneyVal'), value: '$5M' },
-        { icon: FaCalendarAlt, label: t('hero.kpis.dividendsStart'), value: '2033' },
+        { icon: FaMoneyBillWave, label: t('hero.kpis.targetRaise'), value: '$350K' },
+        { icon: FaChartPie, label: t('hero.kpis.equityOffered'), value: '10%' },
+        { icon: FaBuilding, label: t('hero.kpis.postMoneyVal'), value: '$3.5M' },
+        { icon: FaBullseye, label: t('hero.kpis.minimumInvestment'), value: '$50K' },
     ];
 
     const opportunityCards = [
@@ -83,30 +81,23 @@ const Invest: React.FC = () => {
     const operationalItems = [
         { text: t('funding.operational.items.farm'), icon: FaSeedling },
         { text: t('funding.operational.items.organic'), icon: FaLeaf },
-        { text: t('funding.operational.items.financed'), icon: FaMoneyBillWave },
+        { text: t('funding.operational.items.farmOs'), icon: FaMobile },
     ];
 
     const supplyChainItems = [
-        { text: t('funding.supplyChain.items.harvest'), icon: FaCalendarAlt },
-        { text: t('funding.supplyChain.items.cooperative'), icon: FaUsers },
-        { text: t('funding.supplyChain.items.supply'), icon: FaIndustry },
+        { text: t('funding.supplyChain.items.trading'), icon: FaMoneyBillWave },
+        { text: t('funding.supplyChain.items.supplier'), icon: FaUsers },
+        { text: t('funding.supplyChain.items.intelligence'), icon: FaChartLine },
     ];
 
-    const returnKPIs = [
-        { label: t('returns.kpis.investment'), value: '$1,250,000', sub: t('returns.kpis.equityStake'), icon: FaMoneyBillWave },
-        { label: t('returns.kpis.postMoneyVal'), value: '$5,000,000', sub: t('returns.kpis.assetBacked'), icon: FaBuilding },
-        { label: t('returns.kpis.dividendsBegin'), value: '2033', sub: t('returns.kpis.yearThree'), icon: FaCalendarAlt },
-        { label: t('returns.kpis.annualDividend'), value: '$56,250', sub: t('returns.kpis.growingTo'), icon: FaChartLine },
-    ];
-
-    const dividendRows = t('returns.dividendTable.rows', { returnObjects: true }) as any[];
-
-    const unitEconomics = [
-        { label: t('returns.unitEconomics.rcnCost'), value: '~$1,200/ton', desc: t('returns.unitEconomics.rcnDesc'), icon: FaSeedling, color: 'text-accent' },
-        { label: t('returns.unitEconomics.kernelPrice'), value: '~$6,500/ton', desc: t('returns.unitEconomics.kernelDesc'), icon: FaChartLine, color: 'text-accent' },
-        { label: t('returns.unitEconomics.valueAdded'), value: '5.4x', desc: t('returns.unitEconomics.valueDesc'), icon: FaIndustry, color: 'text-accent' },
-        { label: t('returns.unitEconomics.cnsl'), value: '~$450/ton', desc: t('returns.unitEconomics.cnslDesc'), icon: FaRecycle, color: 'text-accent' },
-    ];
+    const teamImageMap: Record<string, string | null> = {
+        ceo: ceoImage,       // Real photo
+        cfo: null,           // Placeholder
+        cco: null,           // Placeholder
+        ops: null,           // Placeholder
+        admin: null,         // Placeholder
+        farm: null,          // Placeholder
+    };
 
     const competitiveRows = t('competitiveAnalysis.rows', { returnObjects: true }) as any[];
 
@@ -120,9 +111,6 @@ const Invest: React.FC = () => {
     ];
 
     const teamMembers = t('team.members', { returnObjects: true }) as any[];
-    const teamImageMap: Record<string, string> = {
-        ceo: ceoImage, cfo: cfoImage, cco: ccoImage, ops: opsImage, admin: adminImage, farm: farmManagerImage,
-    };
 
     return (
         <div className="text-text-dark font-sans">
@@ -161,7 +149,10 @@ const Invest: React.FC = () => {
                             <a href={ndaPDF} download className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-5 py-2.5 rounded-full text-sm font-medium shadow-md inline-flex items-center gap-1.5">
                                 <FaDownload className="text-xs" />{t('hero.downloadNda')}
                             </a>
-                            <motion.button onClick={() => { trackCtaClick('schedule_call', 'invest_hero'); navigate('/contact'); }}
+                            <motion.button onClick={() => {
+  trackCtaClick('schedule_call', 'invest_hero');
+  document.getElementById('schedule-call')?.scrollIntoView({ behavior: 'smooth' });
+}}
                                            className="relative border border-primary/40 text-primary hover:bg-primary/5 px-5 py-2.5 rounded-full text-sm font-medium inline-flex items-center gap-1.5 bg-white/50 backdrop-blur-sm" whileHover={{ y: -1 }}>
                                 <FaHandshake className="text-xs" />{t('hero.scheduleCall')}
                             </motion.button>
@@ -261,38 +252,128 @@ const Invest: React.FC = () => {
                 </div>
             </Section>
 
-            {/* What You're Funding */}
-            <Section className="py-10"><div className="max-w-6xl mx-auto px-4 sm:px-6">
-                <motion.div className="text-center mb-10" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
-                    <Typography variant="h2" className="mb-4">{t('funding.title')}</Typography>
-                    <Typography variant="lead" className="max-w-3xl mx-auto text-gray-600">{t('funding.subtitle')}</Typography>
-                </motion.div>
-                <div className="grid md:grid-cols-2 gap-6">
-                    <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
-                        <Typography variant="h3" className="text-primary flex items-center gap-2 mb-5"><FaCheckCircle className="text-green-500" />{t('funding.operational.title')}</Typography>
-                        <div className="space-y-3">{operationalItems.map((item, idx) => (
-                            <motion.div key={idx} className="flex items-start gap-4 bg-white/30 backdrop-blur-sm rounded-xl p-4 border border-white/20" variants={fadeIn} transition={{ delay: idx * 0.1 }} whileHover={{ y: -2 }}>
-                                <motion.div className="bg-primary p-2 rounded-full text-white mt-0.5 shadow-md" whileHover={{ scale: 1.15, rotate: 5 }}><item.icon className="text-lg" /></motion.div>
-                                <Typography variant="body" className="flex-1 text-left">{item.text}</Typography>
-                            </motion.div>
-                        ))}</div>
+            {/* What This Investment Activates */}
+            <Section className="py-10">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6">
+                    <motion.div
+                        className="text-center mb-10"
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={fadeIn}
+                    >
+                        <Typography variant="h2" className="mb-4">
+                            {t('funding.title')}
+                        </Typography>
+                        <Typography variant="lead" className="max-w-3xl mx-auto text-gray-600">
+                            {t('funding.subtitle')}
+                        </Typography>
                     </motion.div>
-                    <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} transition={{ delay: 0.1 }}>
-                        <Typography variant="h3" className="text-primary flex items-center gap-2 mb-5"><FaUsers className="text-accent" />{t('funding.supplyChain.title')}</Typography>
-                        <div className="space-y-3">{supplyChainItems.map((item, idx) => (
-                            <motion.div key={idx} className="flex items-start gap-4 bg-white/30 backdrop-blur-sm rounded-xl p-4 border border-white/20" variants={fadeIn} transition={{ delay: idx * 0.1 }} whileHover={{ y: -2 }}>
-                                <motion.div className="bg-accent p-2 rounded-full text-white mt-0.5 shadow-md" whileHover={{ scale: 1.15, rotate: 5 }}><item.icon className="text-lg" /></motion.div>
-                                <Typography variant="body" className="flex-1 text-left">{item.text}</Typography>
-                            </motion.div>
-                        ))}</div>
+
+                    <div className="grid md:grid-cols-2 gap-6">
+                        {/* Foundation Already Built */}
+                        <motion.div
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                            variants={fadeIn}
+                        >
+                            <Typography
+                                variant="h3"
+                                className="text-primary flex items-center gap-2 mb-5"
+                            >
+                                <FaCheckCircle className="text-green-500" />
+                                {t('funding.operational.title')}
+                            </Typography>
+                            <div className="space-y-3">
+                                {operationalItems.map((item, idx) => (
+                                    <motion.div
+                                        key={idx}
+                                        className="flex items-start gap-4 bg-white/30 backdrop-blur-sm rounded-xl p-4 border border-white/20"
+                                        variants={fadeIn}
+                                        transition={{ delay: idx * 0.1 }}
+                                        whileHover={{ y: -2 }}
+                                    >
+                                        <motion.div
+                                            className="bg-primary p-2 rounded-full text-white mt-0.5 shadow-md"
+                                            whileHover={{ scale: 1.15, rotate: 5 }}
+                                        >
+                                            <item.icon className="text-lg" />
+                                        </motion.div>
+                                        <Typography variant="body" className="flex-1 text-left">
+                                            {item.text}
+                                        </Typography>
+                                    </motion.div>
+                                ))}
+                            </div>
+                        </motion.div>
+
+                        {/* What This Investment Activates */}
+                        <motion.div
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                            variants={fadeIn}
+                            transition={{ delay: 0.1 }}
+                        >
+                            <Typography
+                                variant="h3"
+                                className="text-primary flex items-center gap-2 mb-5"
+                            >
+                                <FaMoneyBillWave className="text-accent" />
+                                {t('funding.supplyChain.title')}
+                            </Typography>
+                            <div className="space-y-3">
+                                {supplyChainItems.map((item, idx) => (
+                                    <motion.div
+                                        key={idx}
+                                        className="flex items-start gap-4 bg-white/30 backdrop-blur-sm rounded-xl p-4 border border-white/20"
+                                        variants={fadeIn}
+                                        transition={{ delay: idx * 0.1 }}
+                                        whileHover={{ y: -2 }}
+                                    >
+                                        <motion.div
+                                            className="bg-accent p-2 rounded-full text-white mt-0.5 shadow-md"
+                                            whileHover={{ scale: 1.15, rotate: 5 }}
+                                        >
+                                            <item.icon className="text-lg" />
+                                        </motion.div>
+                                        <Typography variant="body" className="flex-1 text-left">
+                                            {item.text}
+                                        </Typography>
+                                    </motion.div>
+                                ))}
+                            </div>
+                        </motion.div>
+                    </div>
+
+                    {/* Quote */}
+                    <motion.div
+                        variants={fadeIn}
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        className="mt-6 relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl shadow-lg p-5 transform-gpu group max-w-2xl mx-auto"
+                        style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
+                        whileHover={{
+                            y: -4,
+                            scale: 1.02,
+                            boxShadow: '0 15px 30px -8px rgba(0,0,0,0.2)',
+                            transition: { duration: 0.3 },
+                        }}
+                    >
+                        <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-4px] group-hover:translate-z-[-8px] transition-all duration-500" />
+                        <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40" />
+                        <div className="absolute left-0 top-0 bottom-0 w-1 bg-primary rounded-l-2xl" />
+                        <Typography
+                            variant="body"
+                            className="text-primary-dark italic relative z-10 text-center"
+                        >
+                            {t('funding.quote')}
+                        </Typography>
                     </motion.div>
                 </div>
-                <motion.div variants={fadeIn} initial="hidden" whileInView="visible" viewport={{ once: true }} className="mt-6 relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl shadow-lg p-5 transform-gpu group max-w-2xl mx-auto" style={{ transformStyle: 'preserve-3d', perspective: '1000px' }} whileHover={{ y: -4, scale: 1.02, boxShadow: '0 15px 30px -8px rgba(0,0,0,0.2)', transition: { duration: 0.3 } }}>
-                    <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-4px] group-hover:translate-z-[-8px] transition-all duration-500" /><div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40" /><div className="absolute left-0 top-0 bottom-0 w-1 bg-primary rounded-l-2xl" />
-                    <Typography variant="body" className="text-primary-dark italic relative z-10 text-center">{t('funding.quote')}</Typography>
-                </motion.div>
-            </div></Section>
-
+            </Section>
             {/* Farm OS: Technology Behind the Investment */}
             <Section className="py-10">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6">
@@ -459,8 +540,16 @@ const Invest: React.FC = () => {
             {/* Charts Row — The Opportunity + Your Capital */}
             <Section className="py-10">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6">
-                    <motion.div className="text-center mb-10" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
-                        <Typography variant="h2" className="mb-4">{t('charts.sectionTitle')}</Typography>
+                    <motion.div
+                        className="text-center mb-10"
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={fadeIn}
+                    >
+                        <Typography variant="h2" className="mb-4">
+                            {t('charts.sectionTitle')}
+                        </Typography>
                         <Typography variant="body" className="text-gray-600 max-w-3xl mx-auto">
                             {t('charts.sectionBody')}
                         </Typography>
@@ -468,205 +557,563 @@ const Invest: React.FC = () => {
 
                     <div className="grid md:grid-cols-2 gap-8">
                         {/* Bar Chart: Ivory Coast Processing Gap */}
-                        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
-                            <InfoCard icon={FaChartBar} title={t('charts.processingGap.title')} subtitle={t('charts.processingGap.subtitle')} variant="primary" showInfoBadge={false}>
+                        <motion.div
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                            variants={fadeIn}
+                        >
+                            <InfoCard
+                                icon={FaChartBar}
+                                title={t('charts.processingGap.title')}
+                                subtitle={t('charts.processingGap.subtitle')}
+                                variant="primary"
+                                showInfoBadge={false}
+                            >
                                 <ResponsiveContainer width="100%" height={280}>
-                                    <BarChart data={[{ name: t('charts.processingGap.produced'), value: 1.2 }, { name: t('charts.processingGap.processed'), value: 0.18 }, { name: t('charts.processingGap.exported'), value: 1.02 }]} layout="vertical" margin={{ left: 60, right: 30, top: 10, bottom: 10 }}>
-                                        <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" /><XAxis type="number" domain={[0, 1.4]} tickFormatter={(v) => `${v}M MT`} /><YAxis type="category" dataKey="name" width={80} tick={{ fontSize: 12 }} /><Tooltip formatter={(value: any) => `${Number(value).toFixed(2)}M MT`} />
-                                        <Bar dataKey="value" radius={[0, 6, 6, 0]}><PieCell fill="#5A7411" /><PieCell fill="#E04E00" /><PieCell fill="#DEDAD4" /></Bar>
+                                    <BarChart
+                                        data={[
+                                            { name: t('charts.processingGap.produced'), value: 1.2 },
+                                            { name: t('charts.processingGap.processed'), value: 0.18 },
+                                            { name: t('charts.processingGap.exported'), value: 1.02 },
+                                        ]}
+                                        layout="vertical"
+                                        margin={{ left: 60, right: 30, top: 10, bottom: 10 }}
+                                    >
+                                        <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
+                                        <XAxis
+                                            type="number"
+                                            domain={[0, 1.4]}
+                                            tickFormatter={(v) => `${v}M MT`}
+                                        />
+                                        <YAxis type="category" dataKey="name" width={80} tick={{ fontSize: 12 }} />
+                                        <Tooltip formatter={(value: any) => `${Number(value).toFixed(2)}M MT`} />
+                                        <Bar dataKey="value" radius={[0, 6, 6, 0]}>
+                                            <PieCell fill="#5A7411" />
+                                            <PieCell fill="#E04E00" />
+                                            <PieCell fill="#DEDAD4" />
+                                        </Bar>
                                     </BarChart>
                                 </ResponsiveContainer>
-                                <div className="mt-3 p-3 bg-primary/5 rounded-lg text-center"><Typography variant="small" className="text-gray-600"><span dangerouslySetInnerHTML={{ __html: t('charts.processingGap.note')}} /></Typography></div>
+                                <div className="mt-3 p-3 bg-primary/5 rounded-lg text-center">
+                                    <Typography variant="small" className="text-gray-600">
+                                        <span dangerouslySetInnerHTML={{ __html: t('charts.processingGap.note') }} />
+                                    </Typography>
+                                </div>
                             </InfoCard>
                         </motion.div>
 
-                        {/* Capital Allocation — Donut Chart */}
-                        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
-                            <InfoCard icon={() => <FaChartPie className="text-primary text-xl" />} title={t('charts.capitalAllocation.title')} subtitle="$1,250,000 Total" iconColor="text-primary" variant="primary" className="h-full" showInfoBadge={false}>
-                                <ResponsiveContainer width="100%" height={300}>
-                                    <PieChart><Pie data={capitalAllocation} cx="50%" cy="50%" labelLine={true} label={({ name, percent }) => `${(name || 'Unknown').length > 12 ? (name || 'Unknown').substring(0, 12) + '…' : (name || 'Unknown')}: ${((percent ?? 0) * 100).toFixed(0)}%`} outerRadius={80} dataKey="value">{capitalAllocation.map((entry, index) => (<PieCell key={`cell-${index}`} fill={entry.color} />))}</Pie><Tooltip formatter={(value: any) => `$${Number(value).toLocaleString()}`} /><Legend /></PieChart>
+                        {/* Capital Allocation — Horizontal Bar Chart */}
+                        <motion.div
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                            variants={fadeIn}
+                        >
+                            <InfoCard
+                                icon={FaChartBar}
+                                title={t('charts.capitalAllocation.title')}
+                                subtitle={t('charts.capitalAllocation.subtitle')}
+                                iconColor="text-primary"
+                                variant="primary"
+                                className="h-full"
+                                showInfoBadge={false}
+                            >
+                                <ResponsiveContainer width="100%" height={320}>
+                                    <BarChart
+                                        data={capitalAllocation}
+                                        layout="vertical"
+                                        margin={{ top: 10, right: 30, left: 20, bottom: 10 }}
+                                    >
+                                        <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" horizontal={false} />
+                                        <XAxis
+                                            type="number"
+                                            domain={[0, 100000]}
+                                            tickFormatter={(v) => `$${(v / 1000).toFixed(0)}K`}
+                                            tick={{ fontSize: 11 }}
+                                        />
+                                        <YAxis
+                                            type="category"
+                                            dataKey="name"
+                                            width={130}
+                                            tick={{ fontSize: 11 }}
+                                        />
+                                        <Tooltip
+                                            formatter={(value: any) => `$${Number(value).toLocaleString()}`}
+                                            labelStyle={{ fontSize: 12 }}
+                                        />
+                                        <Bar dataKey="value" radius={[0, 6, 6, 0]}>
+                                            {capitalAllocation.map((entry, index) => (
+                                                <PieCell key={`cell-${index}`} fill={entry.color} />
+                                            ))}
+                                        </Bar>
+                                    </BarChart>
                                 </ResponsiveContainer>
-                                <div className="mt-3 p-3 bg-primary/5 rounded-lg text-center"><Typography variant="small" className="text-gray-500">{t('charts.capitalAllocation.note')}</Typography></div>
+                                <div className="mt-3 p-3 bg-primary/5 rounded-lg text-center">
+                                    <Typography variant="small" className="text-gray-500">
+                                        {t('charts.capitalAllocation.note')}
+                                    </Typography>
+                                </div>
                             </InfoCard>
                         </motion.div>
                     </div>
                 </div>
             </Section>
 
-            {/* Returns */}
-            <Section className="py-10"><div className="max-w-6xl mx-auto px-4 sm:px-6">
-                <motion.div className="text-center mb-8" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
-                    <Typography variant="h2" className="mb-4">{t('returns.title')}</Typography>
-                    <Typography variant="body" className="text-gray-600 max-w-2xl mx-auto">{t('returns.subtitle')}</Typography>
-                </motion.div>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                    {returnKPIs.map((item, idx) => (
-                        <motion.div key={idx} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} transition={{ delay: idx * 0.1 }}>
-                            <InfoCard icon={item.icon} title={item.value} subtitle={item.label} iconColor="text-accent" showInfoBadge={false} className="h-full text-center"><Typography variant="small" className="text-gray-500 text-xs">{item.sub}</Typography></InfoCard>
-                        </motion.div>
-                    ))}
-                </div>
-                {/* Dividend Projection Table — Responsive */}
-                <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} className="mb-8">
-                    <InfoCard icon={FaChartLine} title={t('returns.dividendTable.title')} variant="primary" showInfoBadge={false}>
+            {/* Phase One: Trading Returns */}
+            <Section className="py-10">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6">
+                    <motion.div
+                        className="text-center mb-8"
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={fadeIn}
+                    >
+                        <Typography variant="h2" className="mb-4">
+                            {t('phaseOneReturns.title')}
+                        </Typography>
+                        <Typography variant="body" className="text-gray-600 max-w-2xl mx-auto">
+                            {t('phaseOneReturns.subtitle')}
+                        </Typography>
+                    </motion.div>
 
-                        {/* Desktop Table */}
-                        <div className="hidden sm:block overflow-x-auto">
-                            <table className="w-full text-sm">
-                                <thead>
-                                <tr className="border-b border-gray-200 text-left">
-                                    <th className="pb-2 font-medium text-gray-600">{t('returns.dividendTable.year')}</th>
-                                    <th className="pb-2 font-medium text-gray-600 text-right">{t('returns.dividendTable.netProfit')}</th>
-                                    <th className="pb-2 font-medium text-gray-600 text-right">{t('returns.dividendTable.dividendPool')}</th>
-                                    <th className="pb-2 font-medium text-gray-600 text-right">{t('returns.dividendTable.investorShare')}</th>
-                                    <th className="pb-2 font-medium text-gray-600 text-right">{t('returns.dividendTable.cumulative')}</th>
-                                </tr>
-                                </thead>
-                                <tbody className="divide-y divide-gray-100">
-                                {dividendRows.map((row, idx) => (
-                                    <tr key={idx} className={idx === 2 ? 'bg-primary/5 font-semibold' : 'hover:bg-white/20 transition-colors'}>
-                                        <td className="py-2.5">{row.year}</td>
-                                        <td className="py-2.5 text-right">${row.profit.toLocaleString()}</td>
-                                        <td className="py-2.5 text-right">${row.pool.toLocaleString()}</td>
-                                        <td className="py-2.5 text-right text-primary font-bold">${row.share.toLocaleString()}</td>
-                                        <td className="py-2.5 text-right text-gray-500">${row.cum.toLocaleString()}</td>
-                                    </tr>
-                                ))}
-                                </tbody>
-                            </table>
-                        </div>
-
-                        {/* Mobile Cards */}
-                        <div className="sm:hidden space-y-3">
-                            {dividendRows.map((row, idx) => (
-                                <motion.div
-                                    key={idx}
-                                    initial={{ opacity: 0, y: 10 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ delay: idx * 0.05 }}
-                                    className={`rounded-xl p-4 border ${idx === 2 ? 'bg-primary/5 border-primary/30' : 'bg-white/40 border-white/30 backdrop-blur-sm'}`}
+                    {/* Phase One KPIs */}
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                        {[
+                            {
+                                icon: FaMoneyBillWave,
+                                value: t('phaseOneReturns.kpis.investmentValue'),
+                                label: t('phaseOneReturns.kpis.investment'),
+                                sub: '',
+                            },
+                            {
+                                icon: FaChartPie,
+                                value: t('phaseOneReturns.kpis.equityValue'),
+                                label: t('phaseOneReturns.kpis.equity'),
+                                sub: '',
+                            },
+                            {
+                                icon: FaBuilding,
+                                value: t('phaseOneReturns.kpis.postMoneyValue'),
+                                label: t('phaseOneReturns.kpis.postMoney'),
+                                sub: '',
+                            },
+                            {
+                                icon: FaChartLine,
+                                value: t('phaseOneReturns.kpis.profitPerTruckValue'),
+                                label: t('phaseOneReturns.kpis.profitPerTruck'),
+                                sub: '',
+                            },
+                        ].map((item, idx) => (
+                            <motion.div
+                                key={idx}
+                                initial="hidden"
+                                whileInView="visible"
+                                viewport={{ once: true }}
+                                variants={fadeIn}
+                                transition={{ delay: idx * 0.1 }}
+                            >
+                                <InfoCard
+                                    icon={item.icon}
+                                    title={item.value}
+                                    subtitle={item.label}
+                                    iconColor="text-accent"
+                                    showInfoBadge={false}
+                                    className="h-full text-center"
                                 >
-                                    <div className="flex items-center justify-between mb-3">
-                        <span className={`text-lg font-bold ${idx === 2 ? 'text-primary' : 'text-gray-800'}`}>
-                            {row.year}
-                        </span>
-                                        <span className={`px-2.5 py-1 rounded-full text-xs font-bold ${idx === 2 ? 'bg-primary text-white' : 'bg-primary/10 text-primary'}`}>
-                            ${row.share.toLocaleString()}
-                        </span>
-                                    </div>
-                                    <div className="grid grid-cols-2 gap-x-4 gap-y-2 text-xs">
-                                        <div>
-                                            <span className="text-gray-400">{t('returns.dividendTable.netProfit')}</span>
-                                            <p className="font-medium text-gray-700">${row.profit.toLocaleString()}</p>
-                                        </div>
-                                        <div>
-                                            <span className="text-gray-400">{t('returns.dividendTable.dividendPool')}</span>
-                                            <p className="font-medium text-gray-700">${row.pool.toLocaleString()}</p>
-                                        </div>
-                                        <div>
-                                            <span className="text-gray-400">{t('returns.dividendTable.investorShare')}</span>
-                                            <p className="font-bold text-primary">${row.share.toLocaleString()}</p>
-                                        </div>
-                                        <div>
-                                            <span className="text-gray-400">{t('returns.dividendTable.cumulative')}</span>
-                                            <p className="font-medium text-gray-600">${row.cum.toLocaleString()}</p>
-                                        </div>
-                                    </div>
-                                </motion.div>
-                            ))}
-                        </div>
+                                    {item.sub && (
+                                        <Typography variant="small" className="text-gray-500 text-xs">
+                                            {item.sub}
+                                        </Typography>
+                                    )}
+                                </InfoCard>
+                            </motion.div>
+                        ))}
+                    </div>
 
-                        {/* Summary */}
-                        <div className="mt-4 p-3 bg-primary/5 rounded-lg">
-                            <Typography variant="small" className="text-gray-600 text-xs">
-                                <span dangerouslySetInnerHTML={{ __html: t('returns.dividendTable.summary') }} />
+                    {/* Trading Projection Table */}
+                    <motion.div
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={fadeIn}
+                        className="mb-8"
+                    >
+                        <InfoCard
+                            icon={FaChartBar}
+                            title={t('phaseOneReturns.tradingTable.title')}
+                            variant="primary"
+                            showInfoBadge={false}
+                        >
+                            <div className="overflow-x-auto">
+                                <table className="w-full text-sm">
+                                    <thead>
+                                    <tr className="border-b border-gray-200 text-left">
+                                        <th className="pb-2 font-medium text-gray-600">
+                                            {t('phaseOneReturns.tradingTable.metric')}
+                                        </th>
+                                        <th className="pb-2 font-medium text-gray-600 text-right">
+                                            {t('phaseOneReturns.tradingTable.value')}
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody className="divide-y divide-gray-100">
+                                    <tr className="hover:bg-white/20 transition-colors">
+                                        <td className="py-2.5">
+                                            {t('phaseOneReturns.tradingTable.capital')}
+                                        </td>
+                                        <td className="py-2.5 text-right font-medium">$30,000</td>
+                                    </tr>
+                                    <tr className="hover:bg-white/20 transition-colors">
+                                        <td className="py-2.5">
+                                            {t('phaseOneReturns.tradingTable.volume')}
+                                        </td>
+                                        <td className="py-2.5 text-right font-medium">42 MT</td>
+                                    </tr>
+                                    <tr className="hover:bg-white/20 transition-colors">
+                                        <td className="py-2.5">
+                                            {t('phaseOneReturns.tradingTable.profit')}
+                                        </td>
+                                        <td className="py-2.5 text-right font-bold text-primary">
+                                            $14,520
+                                        </td>
+                                    </tr>
+                                    <tr className="bg-primary/5 font-semibold">
+                                        <td className="py-2.5">
+                                            {t('phaseOneReturns.tradingTable.threeTrucks')}
+                                        </td>
+                                        <td className="py-2.5 text-right">
+                                            $90,000 / $43,560
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div className="mt-4 p-3 bg-primary/5 rounded-lg">
+                                <Typography variant="small" className="text-gray-600 text-xs">
+                                    {t('phaseOneReturns.tradingTable.note')}
+                                </Typography>
+                            </div>
+                        </InfoCard>
+                    </motion.div>
+                </div>
+            </Section>
+
+            {/* Phase Two: The Real Upside */}
+            <Section className="py-10">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6">
+                    <motion.div
+                        className="text-center mb-8"
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={fadeIn}
+                    >
+                        <Typography variant="h2" className="mb-4">
+                            {t('returns.title')}
+                        </Typography>
+                        <Typography variant="body" className="text-gray-600 max-w-3xl mx-auto">
+                            {t('returns.subtitle')}
+                        </Typography>
+                    </motion.div>
+
+                    {/* Unit Economics Table */}
+                    <motion.div
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={fadeIn}
+                        className="mb-8"
+                    >
+                        <InfoCard
+                            icon={FaIndustry}
+                            title={t('returns.unitEconomics.title')}
+                            variant="primary"
+                            showInfoBadge={false}
+                        >
+                            <div className="overflow-x-auto">
+                                <table className="w-full text-sm">
+                                    <thead>
+                                    <tr className="border-b border-gray-200 text-left">
+                                        <th className="pb-2 font-medium text-gray-600">
+                                            {t('returns.unitEconomics.item')}
+                                        </th>
+                                        <th className="pb-2 font-medium text-gray-600 text-right">
+                                            {t('returns.unitEconomics.value')}
+                                        </th>
+                                    </tr>
+                                    </thead>
+                                    <tbody className="divide-y divide-gray-100">
+                                    <tr>
+                                        <td className="py-2.5">{t('returns.unitEconomics.rcnCost')}</td>
+                                        <td className="py-2.5 text-right">{t('returns.unitEconomics.rcnCostValue')}</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="py-2.5">{t('returns.unitEconomics.kernelRecovery')}</td>
+                                        <td className="py-2.5 text-right">{t('returns.unitEconomics.kernelRecoveryValue')}</td>
+                                    </tr>
+                                    <tr>
+                                        <td className="py-2.5">{t('returns.unitEconomics.kernelPrice')}</td>
+                                        <td className="py-2.5 text-right">{t('returns.unitEconomics.kernelPriceValue')}</td>
+                                    </tr>
+                                    <tr className="bg-primary/5 font-semibold">
+                                        <td className="py-2.5">{t('returns.unitEconomics.kernelRevenue')}</td>
+                                        <td className="py-2.5 text-right text-primary">
+                                            {t('returns.unitEconomics.kernelRevenueValue')}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td className="py-2.5">{t('returns.unitEconomics.byproduct')}</td>
+                                        <td className="py-2.5 text-right">{t('returns.unitEconomics.byproductValue')}</td>
+                                    </tr>
+                                    <tr className="bg-primary/10 font-bold">
+                                        <td className="py-2.5">{t('returns.unitEconomics.grossValue')}</td>
+                                        <td className="py-2.5 text-right text-primary">
+                                            {t('returns.unitEconomics.grossValueValue')}
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </InfoCard>
+                    </motion.div>
+
+                    {/* Scale Projections */}
+                    <div className="grid md:grid-cols-2 gap-6 mb-8">
+                        {/* Phase Two Scale */}
+                        <motion.div
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                            variants={fadeIn}
+                        >
+                            <InfoCard
+                                icon={FaIndustry}
+                                title={t('returns.scaleProjections.phaseTwo.title')}
+                                variant="primary"
+                                showInfoBadge={false}
+                                className="h-full"
+                            >
+                                <ul className="space-y-3 text-sm">
+                                    <li className="flex items-start gap-2">
+                                        <FaCheckCircle className="text-green-500 mt-0.5 flex-shrink-0 text-xs" />
+                                        <span className="text-gray-700">{t('returns.scaleProjections.phaseTwo.revenue')}</span>
+                                    </li>
+                                    <li className="flex items-start gap-2">
+                                        <FaCheckCircle className="text-green-500 mt-0.5 flex-shrink-0 text-xs" />
+                                        <span className="text-gray-700">{t('returns.scaleProjections.phaseTwo.byproduct')}</span>
+                                    </li>
+                                    <li className="flex items-start gap-2">
+                                        <FaCheckCircle className="text-green-500 mt-0.5 flex-shrink-0 text-xs" />
+                                        <span className="text-gray-700">{t('returns.scaleProjections.phaseTwo.margin')}</span>
+                                    </li>
+                                </ul>
+                            </InfoCard>
+                        </motion.div>
+
+                        {/* Phase Four Scale */}
+                        <motion.div
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                            variants={fadeIn}
+                            transition={{ delay: 0.1 }}
+                        >
+                            <InfoCard
+                                icon={FaChartLine}
+                                title={t('returns.scaleProjections.phaseFour.title')}
+                                variant="accent"
+                                showInfoBadge={false}
+                                className="h-full"
+                            >
+                                <ul className="space-y-3 text-sm">
+                                    <li className="flex items-start gap-2">
+                                        <FaCheckCircle className="text-green-500 mt-0.5 flex-shrink-0 text-xs" />
+                                        <span className="text-gray-700">{t('returns.scaleProjections.phaseFour.revenue')}</span>
+                                    </li>
+                                    <li className="flex items-start gap-2">
+                                        <FaCheckCircle className="text-green-500 mt-0.5 flex-shrink-0 text-xs" />
+                                        <span className="text-gray-700">{t('returns.scaleProjections.phaseFour.valuation')}</span>
+                                    </li>
+                                </ul>
+                            </InfoCard>
+                        </motion.div>
+                    </div>
+
+                    {/* Bottom Line */}
+                    <motion.div
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={fadeIn}
+                        className="mb-6"
+                    >
+                        <div className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl shadow-lg p-6 text-center max-w-3xl mx-auto">
+                            <Typography variant="lead" className="text-primary font-semibold">
+                                {t('returns.bottomLine')}
                             </Typography>
                         </div>
-                    </InfoCard>
-                </motion.div>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    {unitEconomics.map((item, idx) => (
-                        <motion.div key={idx} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} transition={{ delay: idx * 0.1 }} className="group relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl shadow-lg p-5 text-center transform-gpu overflow-hidden" style={{ transformStyle: 'preserve-3d', perspective: '1000px' }} whileHover={{ y: -8, scale: 1.05, boxShadow: '0 20px 35px -10px rgba(0,0,0,0.15)', transition: { duration: 0.3 } }}>
-                            <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" /><div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" /><div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.05)]" /><div className="absolute inset-0 rounded-2xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
-                            <div className="relative z-10"><motion.div className="p-3 rounded-full w-fit mx-auto mb-3 bg-white/50 backdrop-blur-md shadow-md" whileHover={{ scale: 1.15, rotate: 5 }} transition={{ type: 'spring', stiffness: 300 }}><item.icon className={`text-xl ${item.color}`} /></motion.div><div className="text-2xl font-bold text-primary">{item.value}</div><div className="text-xs text-gray-500 mt-1 font-medium">{item.label}</div><div className="text-[10px] text-gray-400 mt-0.5">{item.desc}</div></div>
-                        </motion.div>
-                    ))}
+                    </motion.div>
+
+                    {/* NDA Note */}
+                    <motion.div
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={fadeIn}
+                        className="mb-6 bg-blue-50/80 border border-blue-200 rounded-xl p-4 text-center max-w-2xl mx-auto"
+                    >
+                        <Typography variant="small" className="text-blue-700 text-xs">
+                            <FaInfoCircle className="inline mr-2" />
+                            {t('returns.ndaNote')}
+                        </Typography>
+                    </motion.div>
+
+                    {/* Disclaimer */}
+                    <motion.div
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={fadeIn}
+                        className="bg-amber-50/80 border border-amber-200 rounded-xl p-3 text-center max-w-2xl mx-auto"
+                    >
+                        <Typography variant="small" className="text-amber-700 text-xs">
+                            {t('returns.disclaimer')}
+                        </Typography>
+                    </motion.div>
                 </div>
-                <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} className="mt-6 bg-amber-50/80 border border-amber-200 rounded-xl p-3 text-center max-w-2xl mx-auto"><Typography variant="small" className="text-amber-700 text-xs">{t('returns.disclaimer')}</Typography></motion.div>
-            </div>
+
                 <div className="text-center mt-4">
-                    <Link to="/community" className="text-accent hover:text-primary text-sm font-medium inline-flex items-center gap-1">
+                    <Link
+                        to="/community"
+                        className="text-accent hover:text-primary text-sm font-medium inline-flex items-center gap-1"
+                    >
                         <FaStar className="text-xs" />
                         {t('returns.community')}
                         <FaArrowRight className="text-xs" />
                     </Link>
-                </div></Section>
+                </div>
+            </Section>
 
-            {/* Investment Journey Timeline — Glassy 3D Style */}
+            {/* Investment Journey Timeline — 3 Top / 3 Bottom */}
             <Section className="py-10 sm:py-12">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6">
-                    <motion.div className="text-center mb-8 md:mb-12" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
-                        <Typography variant="h2" className="text-primary mb-4">{t('timeline.title')}</Typography>
-                        <Typography variant="body" className="text-gray-600 max-w-2xl mx-auto">{t('timeline.subtitle')}</Typography>
+                    <motion.div
+                        className="text-center mb-8 md:mb-12"
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={fadeIn}
+                    >
+                        <Typography variant="h2" className="text-primary mb-4">
+                            {t('timeline.title')}
+                        </Typography>
+                        <Typography variant="body" className="text-gray-600 max-w-2xl mx-auto">
+                            {t('timeline.subtitle')}
+                        </Typography>
                     </motion.div>
 
-                    <div className="relative">
-                        <div className="hidden md:block absolute left-0 right-0 top-1/2 h-1 bg-accent/30 transform -translate-y-1/2 z-0"></div>
-                        <div className="md:hidden text-center text-sm text-primary mb-4">↓ {t('timeline.scrollHint')} ↓</div>
+                    {(() => {
+                        const items = t('timeline.items', { returnObjects: true }) as any[];
+                        const topRow = items.slice(0, 3);
+                        const bottomRow = items.slice(3, 6);
 
-                        <div className="flex md:flex-row flex-nowrap overflow-x-auto pb-4 md:pb-0 md:overflow-visible gap-6 md:gap-0 relative scrollbar-thin scrollbar-thumb-rounded-full scrollbar-thumb-accent/30 scroll-snap-x">
-                            {(t('timeline.items', { returnObjects: true }) as any[]).map((item, idx) => (
+                        const TimelineCard = ({ item, idx }: { item: any; idx: number }) => (
+                            <motion.div
+                                key={idx}
+                                className="flex flex-col items-center transform-gpu group"
+                                initial="hidden"
+                                whileInView="visible"
+                                viewport={{ once: true }}
+                                variants={fadeIn}
+                                transition={{ delay: idx * 0.1 }}
+                                style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
+                            >
+                                {/* Year Circle */}
                                 <motion.div
-                                    key={idx}
-                                    className="flex flex-col items-center w-[220px] sm:w-[240px] flex-shrink-0 md:w-1/5 px-0 md:px-3 scroll-snap-align-start transform-gpu group"
-                                    initial="hidden"
-                                    whileInView="visible"
-                                    variants={fadeIn}
-                                    viewport={{ once: true }}
-                                    style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
+                                    className={`w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center font-display text-base md:text-xl font-bold border-4 shadow-lg mb-4 z-10 transition-all duration-500 transform-gpu relative ${
+                                        item.status === 'complete'
+                                            ? 'bg-gradient-to-br from-green-50 to-green-100 text-green-700 border-green-400'
+                                            : item.status === 'active'
+                                                ? 'bg-gradient-to-br from-primary/5 to-accent/5 text-primary border-accent'
+                                                : 'bg-gradient-to-br from-gray-50 to-gray-100 text-gray-400 border-gray-300'
+                                    }`}
+                                    whileHover={{ scale: 1.15, rotateY: 5 }}
                                 >
-                                    <motion.div
-                                        className={`w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center font-display text-lg md:text-xl font-bold border-4 shadow-lg mb-4 z-10 transition-all duration-500 transform-gpu relative mt-0 md:mt-8 ${
-                                            item.status === 'complete' ? 'bg-gradient-to-br from-green-50 to-green-100 text-green-700 border-green-400' :
-                                                item.status === 'active' ? 'bg-gradient-to-br from-primary/5 to-accent/5 text-primary border-accent' :
-                                                    'bg-gradient-to-br from-gray-50 to-gray-100 text-gray-400 border-gray-300'
-                                        }`}
-                                        whileHover={{ scale: 1.15, rotateY: 5, boxShadow: '0 10px 25px -5px rgba(0,0,0,0.2)' }}
-                                    >
-                                        <div className="absolute inset-0 rounded-full border-2 border-white/20 transform-gpu translate-z-[-4px] group-hover:translate-z-[-6px] transition-all duration-500" />
-                                        <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
-                                        <span className="relative z-10 text-sm md:text-base">{item.year}</span>
-                                    </motion.div>
-
-                                    <motion.div
-                                        className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-500 p-4 md:p-5 rounded-2xl shadow-lg w-full transform-gpu group/card"
-                                        style={{ transformStyle: 'preserve-3d' }}
-                                        whileHover={{ y: -8, scale: 1.03, rotateY: 3, boxShadow: '0 20px 35px -10px rgba(0,0,0,0.2)', transition: { duration: 0.3 } }}
-                                    >
-                                        <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover/card:translate-z-[-10px] transition-all duration-500" />
-                                        <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover/card:opacity-60 transition-opacity duration-500" />
-                                        <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] group-hover/card:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
-                                        <div className="absolute inset-0 rounded-2xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
-
-                                        <div className="relative z-10">
-                                            <div className="flex items-center gap-2 mb-2 md:mb-3">
-                                                <motion.div
-                                                    className="text-accent text-lg bg-accent/20 p-2 rounded-full transform-gpu group-hover/card:scale-110 transition-transform duration-300"
-                                                    whileHover={{ scale: 1.2, rotate: 5 }}
-                                                    transition={{ type: 'spring', stiffness: 300 }}
-                                                >
-                                                    {item.status === 'complete' ? <FaCheckCircle /> : item.status === 'active' ? <FaIndustry /> : <FaCalendarAlt />}
-                                                </motion.div>
-                                                <Typography variant="h4" className="text-primary text-base md:text-lg">{item.title}</Typography>
-                                            </div>
-                                            <Typography variant="small" className="text-gray-600 text-xs md:text-sm">{item.desc}</Typography>
-                                        </div>
-                                    </motion.div>
+                                    <div className="absolute inset-0 rounded-full border-2 border-white/20 transform-gpu translate-z-[-4px] group-hover:translate-z-[-6px] transition-all duration-500" />
+                                    <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+                                    <span className="relative z-10 text-sm md:text-base">{item.year}</span>
                                 </motion.div>
-                            ))}
-                        </div>
-                    </div>
+
+                                {/* Card */}
+                                <motion.div
+                                    className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-500 p-4 md:p-5 rounded-2xl shadow-lg w-full transform-gpu group/card"
+                                    style={{ transformStyle: 'preserve-3d' }}
+                                    whileHover={{
+                                        y: -8,
+                                        scale: 1.03,
+                                        rotateY: 3,
+                                        boxShadow: '0 20px 35px -10px rgba(0,0,0,0.2)',
+                                        transition: { duration: 0.3 },
+                                    }}
+                                >
+                                    <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover/card:translate-z-[-10px] transition-all duration-500" />
+                                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover/card:opacity-60 transition-opacity duration-500" />
+                                    <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] transition-shadow duration-500" />
+
+                                    <div className="relative z-10">
+                                        <div className="flex items-center gap-2 mb-2 md:mb-3">
+                                            <motion.div
+                                                className="text-accent text-lg bg-accent/20 p-2 rounded-full transform-gpu group-hover/card:scale-110 transition-transform duration-300"
+                                                whileHover={{ scale: 1.2, rotate: 5 }}
+                                                transition={{ type: 'spring', stiffness: 300 }}
+                                            >
+                                                {item.status === 'complete' ? (
+                                                    <FaCheckCircle />
+                                                ) : item.status === 'active' ? (
+                                                    <FaIndustry />
+                                                ) : (
+                                                    <FaCalendarAlt />
+                                                )}
+                                            </motion.div>
+                                            <Typography variant="h4" className="text-primary text-base md:text-lg">
+                                                {item.title}
+                                            </Typography>
+                                        </div>
+                                        <Typography variant="small" className="text-gray-600 text-xs md:text-sm">
+                                            {item.desc}
+                                        </Typography>
+                                    </div>
+                                </motion.div>
+                            </motion.div>
+                        );
+
+                        return (
+                            <div className="relative">
+                                {/* Top Row — 3 cards */}
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-8 md:mb-12">
+                                    {topRow.map((item, idx) => (
+                                        <TimelineCard key={idx} item={item} idx={idx} />
+                                    ))}
+                                </div>
+
+                                {/* Horizontal Line with Center Dot */}
+                                <div className="hidden md:flex items-center justify-center mb-8 md:mb-12">
+                                    <div className="flex-1 h-1 bg-accent/30 rounded-full" />
+                                    <div className="w-4 h-4 rounded-full bg-accent border-4 border-white shadow-md mx-2" />
+                                    <div className="flex-1 h-1 bg-accent/30 rounded-full" />
+                                </div>
+
+                                {/* Bottom Row — 3 cards */}
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+                                    {bottomRow.map((item, idx) => (
+                                        <TimelineCard key={idx} item={item} idx={idx + 3} />
+                                    ))}
+                                </div>
+                            </div>
+                        );
+                    })()}
                 </div>
             </Section>
 
@@ -789,22 +1236,240 @@ const Invest: React.FC = () => {
             </Section>
 
             {/* Team */}
-            <Section className="py-10"><div className="max-w-6xl mx-auto px-4 sm:px-6">
-                <motion.div className="text-center mb-10" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}><Typography variant="h2" className="mb-4">{t('team.title')}</Typography><Typography variant="body" className="text-gray-600 max-w-2xl mx-auto">{t('team.subtitle')}</Typography></motion.div>
-                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">{teamMembers.map((member, idx) => (<motion.div key={idx} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} transition={{ delay: idx * 0.1 }} className="group relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl shadow-lg p-5 transform-gpu overflow-hidden" style={{ transformStyle: 'preserve-3d', perspective: '1000px' }} whileHover={{ y: -6, scale: 1.03, boxShadow: '0 20px 35px -10px rgba(0,0,0,0.15)', transition: { duration: 0.3 } }}>
-                    <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" /><div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" /><div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.05)]" /><div className="absolute inset-0 rounded-2xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
-                    <div className="relative z-10 flex flex-col items-center text-center">
-                        <div className="relative mb-4"><img src={teamImageMap[member.imageKey]} alt={member.name} className="w-20 h-20 rounded-full object-cover border-2 border-white/40 shadow-md group-hover:scale-105 transition-transform duration-300" /><div className="absolute -bottom-1 -right-1 bg-accent text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold border-2 border-white">{member.name.charAt(0)}</div></div>
-                        <Typography variant="h4" className="text-primary">{member.name}</Typography><Typography variant="small" className="text-accent text-xs font-medium mt-0.5 mb-2">{member.position}</Typography><Typography variant="small" className="text-gray-600 text-xs leading-relaxed">{member.bio}</Typography>
+            <Section className="py-10">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6">
+                    <motion.div
+                        className="text-center mb-10"
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={fadeIn}
+                    >
+                        <Typography variant="h2" className="mb-4">
+                            {t('team.title')}
+                        </Typography>
+                        <Typography variant="body" className="text-gray-600 max-w-2xl mx-auto">
+                            {t('team.subtitle')}
+                        </Typography>
+                    </motion.div>
+
+                    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        {teamMembers.map((member, idx) => {
+                            const hasPhoto = teamImageMap[member.imageKey];
+
+                            return (
+                                <motion.div
+                                    key={idx}
+                                    initial="hidden"
+                                    whileInView="visible"
+                                    viewport={{ once: true }}
+                                    variants={fadeIn}
+                                    transition={{ delay: idx * 0.1 }}
+                                    className="group relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl shadow-lg p-5 transform-gpu overflow-hidden"
+                                    style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
+                                    whileHover={{
+                                        y: -6,
+                                        scale: 1.03,
+                                        boxShadow: '0 20px 35px -10px rgba(0,0,0,0.15)',
+                                        transition: { duration: 0.3 },
+                                    }}
+                                >
+                                    <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
+                                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+                                    <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.05)]" />
+
+                                    <div className="relative z-10 flex flex-col items-center text-center">
+                                        <div className="relative mb-4">
+                                            {hasPhoto ? (
+                                                <img
+                                                    src={hasPhoto}
+                                                    alt={member.name}
+                                                    className="w-20 h-20 rounded-full object-cover border-2 border-white/40 shadow-md group-hover:scale-105 transition-transform duration-300"
+                                                />
+                                            ) : (
+                                                <ProfilePlaceholder
+                                                    name={member.name}
+                                                    size={80}
+                                                    variant="primary"
+                                                    className="shadow-md group-hover:scale-105 transition-transform duration-300"
+                                                />
+                                            )}
+                                            <div className="absolute -bottom-1 -right-1 bg-accent text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold border-2 border-white">
+                                                {member.name.charAt(0)}
+                                            </div>
+                                        </div>
+
+                                        <Typography variant="h4" className="text-primary">
+                                            {member.name}
+                                        </Typography>
+                                        <Typography variant="small" className="text-accent text-xs font-medium mt-0.5 mb-2">
+                                            {member.position}
+                                        </Typography>
+                                        <Typography variant="small" className="text-gray-600 text-xs leading-relaxed">
+                                            {member.bio}
+                                        </Typography>
+                                    </div>
+                                </motion.div>
+                            );
+                        })}
                     </div>
-                </motion.div>))}</div>
-                <motion.div className="text-center mt-8" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
-                    <motion.button onClick={() => {
-                        trackCtaClick('view_leadership_team', 'invest_page');
-                        navigate('/executive-team');
-                    }} className="relative border-2 border-primary/50 text-primary hover:bg-primary hover:text-white px-6 py-2.5 rounded-full transform-gpu transition-all duration-300 inline-flex items-center gap-2 text-sm font-medium bg-white/30 backdrop-blur-sm" whileHover={{ y: -2, scale: 1.03 }} whileTap={{ scale: 0.95 }}><FaUsers className="text-sm" />{t('team.viewAll')}<FaArrowRight className="text-xs group-hover:translate-x-1 transition-transform" /></motion.button>
-                </motion.div>
-            </div></Section>
+
+                    <motion.div
+                        className="text-center mt-8"
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={fadeIn}
+                    >
+                        <motion.button
+                            onClick={() => {
+                                trackCtaClick('view_leadership_team', 'invest_page');
+                                navigate('/executive-team');
+                            }}
+                            className="relative border-2 border-primary/50 text-primary hover:bg-primary hover:text-white px-6 py-2.5 rounded-full transform-gpu transition-all duration-300 inline-flex items-center gap-2 text-sm font-medium bg-white/30 backdrop-blur-sm"
+                            whileHover={{ y: -2, scale: 1.03 }}
+                            whileTap={{ scale: 0.95 }}
+                        >
+                            <FaUsers className="text-sm" />
+                            {t('team.viewAll')}
+                            <FaArrowRight className="text-xs group-hover:translate-x-1 transition-transform" />
+                        </motion.button>
+                    </motion.div>
+                </div>
+            </Section>
+
+            {/* Schedule a Call */}
+            <Section className="py-10" id="schedule-call">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6">
+                    <motion.div
+                        className="text-center mb-8"
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={fadeIn}
+                    >
+                        <Typography variant="h2" className="mb-4">
+                            {t('schedule.title')}
+                        </Typography>
+                        <Typography variant="body" className="text-gray-600 max-w-2xl mx-auto">
+                            {t('schedule.subtitle')}
+                        </Typography>
+                    </motion.div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+                        {/* Left Column — What We Will Cover */}
+                        <motion.div
+                            className="md:col-span-1"
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                            variants={fadeIn}
+                        >
+                            <div className="group relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-500 rounded-2xl shadow-xl ring-1 ring-white/10 p-5 sm:p-6 transform-gpu h-full"
+                                 style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
+                            >
+                                {/* 3D edge effect */}
+                                <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] pointer-events-none" />
+                                {/* Glassy overlay */}
+                                <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 pointer-events-none" />
+                                {/* Inner shadow */}
+                                <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] pointer-events-none" />
+
+                                <div className="relative z-10">
+                                    {/* Icon + Title */}
+                                    <div className="flex items-center gap-3 mb-5">
+                                        <div className="bg-white/40 p-3 rounded-full backdrop-blur-md shadow-md">
+                                            <FaCalendarAlt className="text-accent text-2xl" />
+                                        </div>
+                                        <Typography variant="h3" className="text-primary text-lg">
+                                            {t('schedule.whatWeCover')}
+                                        </Typography>
+                                    </div>
+
+                                    {/* Agenda items */}
+                                    <ul className="space-y-3 text-sm">
+                                        {[
+                                            t('schedule.topics.phaseOne'),
+                                            t('schedule.topics.supplierStrategy'),
+                                            t('schedule.topics.farmOs'),
+                                            t('schedule.topics.economics'),
+                                            t('schedule.topics.structures'),
+                                            t('schedule.topics.protections'),
+                                        ].map((topic, idx) => (
+                                            <li key={idx} className="flex items-start gap-2">
+                                                <FaCheckCircle className="text-green-500 mt-0.5 flex-shrink-0 text-xs" />
+                                                <span className="text-gray-700">{topic}</span>
+                                            </li>
+                                        ))}
+                                    </ul>
+
+                                    {/* Prep note */}
+                                    <div className="mt-5 pt-5 border-t border-primary/10">
+                                        <Typography variant="small" className="text-gray-600 text-xs">
+                                            <strong className="text-primary">{t('schedule.beforeCall')}:</strong>
+                                        </Typography>
+                                        <ul className="space-y-2 text-xs text-gray-600 mt-2">
+                                            <li className="flex items-start gap-2">
+                                                <FaInfoCircle className="text-accent mt-0.5 flex-shrink-0 text-[10px]" />
+                                                <span>
+                    {t('schedule.reviewPage')}:{' '}
+                                                    <Link to="/invest" className="text-accent hover:text-primary underline">
+                      afrinutsexport.com/invest
+                    </Link>
+                  </span>
+                                            </li>
+                                            <li className="flex items-start gap-2">
+                                                <FaInfoCircle className="text-accent mt-0.5 flex-shrink-0 text-[10px]" />
+                                                <span>{t('schedule.ndaNote')}</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </motion.div>
+
+                        {/* Right Column — Calendly */}
+                        <motion.div
+                            className="md:col-span-2"
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                            variants={fadeIn}
+                            transition={{ delay: 0.1 }}
+                        >
+                            <div
+                                className="group relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-500 rounded-2xl shadow-xl ring-1 ring-white/10 p-4 sm:p-6 transform-gpu"
+                                style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
+                            >
+                                {/* 3D edge effect */}
+                                <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] pointer-events-none" />
+                                {/* Glassy overlay */}
+                                <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 pointer-events-none" />
+                                {/* Inner shadow */}
+                                <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] pointer-events-none" />
+
+                                <div className="relative z-10">
+                                    <div className="rounded-xl overflow-hidden bg-white/60 backdrop-blur-sm border border-white/30">
+                                        <iframe
+                                            src="https://calendly.com/contact-afrinutsexport/30min?hide_gdpr_banner=1&primary_color=5A7411&embed_type=Inline&embed_domain=www.afrinutsexport.com"
+                                            width="100%"
+                                            height="700"
+                                            frameBorder="0"
+                                            title="Schedule a Call with AfriNuts Export"
+                                            className="rounded-xl"
+                                            loading="lazy"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </div>
+
+                    <Typography variant="small" className="text-center text-gray-500 mt-6">
+                        {t('schedule.note')}
+                    </Typography>
+                </div>
+            </Section>
 
             {/* Final CTA */}
             <Section className="py-16"><div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
@@ -817,11 +1482,12 @@ const Invest: React.FC = () => {
                             <a href={ndaPDF} download className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-4 rounded-full transform-gpu group/btn overflow-hidden font-medium shadow-lg inline-flex items-center gap-2"><div className="absolute inset-0 rounded-full border-2 border-white/30" /><FaFileContract className="relative z-10" /><span className="relative z-10">{t('cta.downloadNda')}</span></a>
                             <motion.button onClick={() => {
                                 trackCtaClick('schedule_call', 'invest_final_cta');
-                                navigate('/contact'); }} className="relative border-2 border-primary/50 text-primary hover:bg-primary hover:text-white px-8 py-4 rounded-full transform-gpu font-medium inline-flex items-center gap-2 bg-white/30 backdrop-blur-sm" whileHover={{ y: -2 }}><FaHandshake />{t('cta.scheduleCall')}</motion.button>
+                                document.getElementById('schedule-call')?.scrollIntoView({ behavior: 'smooth' }); }} className="relative border-2 border-primary/50 text-primary hover:bg-primary hover:text-white px-8 py-4 rounded-full transform-gpu font-medium inline-flex items-center gap-2 bg-white/30 backdrop-blur-sm" whileHover={{ y: -2 }}><FaHandshake />{t('cta.scheduleCall')}</motion.button>
                         </div>
                     </div>
                 </motion.div>
             </div></Section>
+
             {/* Legal Disclaimer */}
             <div className="max-w-4xl mx-auto px-4 sm:px-6 pb-10 text-center">
                 <Typography variant="small" className="text-gray-400 text-xs">
