@@ -114,7 +114,7 @@
       "volume": "Volume",
       "profit": "Projected Profit",
       "threeTrucks": "Three Trucks",
-      "note": "verified by an experienced cashew trader, an experienced cashew trader. Includes RCN price, storage, labor, transportation, and contingency."
+      "note": "Profit verified by an experienced cashew trader. Includes RCN price, storage, labor, transportation, and contingency."
     }
   },
   "returns": {
@@ -164,6 +164,29 @@
     "bottomLine": "A $350K Phase One equity investment at $3.5M post-money is a fraction of what AfriNuts can become.",
     "ndaNote": "Full financial model, including dividend projections and Phase Two financing options (equity or loan), is available after signing the NDA.",
     "disclaimer": "Base case projections. Conservative and optimistic scenarios available in the full financial model after NDA. This is not an offer to sell securities."
+  },
+  "verify": {
+    "title": "How to Verify AfriNuts",
+    "subtitle": "We believe investors should be able to independently confirm who we are before any conversation. Here is how to verify our corporate identity.",
+    "items": {
+      "rccm": "Côte d'Ivoire RCCM",
+      "rccmValue": "CI-ABJ-03-2026-B12-04223",
+      "idu": "IDU",
+      "iduValue": "CI-2026-0066959 J",
+      "registeredOffice": "Registered Office",
+      "registeredOfficeValue": "Odienné, Côte d'Ivoire",
+      "linkedin": "Company LinkedIn",
+      "linkedinValue": "linkedin.com/company/afrinuts-export",
+      "executives": "Executive Team",
+      "executivesValue": "Publicly listed on our Executive Team page and verifiable via LinkedIn",
+      "documents": "Corporate Documents",
+      "documentsValue": "Available for review under NDA"
+    },
+    "whyPolished": {
+      "title": "Why This Page Looks Professional",
+      "body": "We built AfriNuts as a technology-enabled agribusiness. Our founder is a software engineer who built our own farm operating system. We take the same care with our website as we do with our farm data. A polished page is not a warning sign — it is how serious companies present themselves. If you have any doubts, verify us directly using the details above, or schedule a call and we will walk you through the corporate documents, financial model, and Farm OS platform in person."
+    },
+    "note": "If you cannot verify these details independently, do not proceed. We welcome your diligence."
   },
   "certifications": {
     "title": "Certification Roadmap",
@@ -246,7 +269,7 @@
     "items": [
       {
         "risk": "Trading Margin Volatility",
-        "mitigation": "Purchase price verified at 400 FCFA/kg. Selling price base case 550 FCFA/kg. Profit includes contingency. Verified by an experienced cashew trader."
+        "mitigation": "The farmgate price for raw cashew nuts is set annually by the Government of Côte d'Ivoire (via the Conseil du Coton et de l'Anacarde). Our planning assumes 400 FCFA/kg purchase and 550 FCFA/kg base-case selling. Because the government price is fixed each season, margins are predictable within a cycle. Our model includes contingency, and the projections were verified by an experienced cashew trader."
       },
       {
         "risk": "Supplier Onboarding Pace",
@@ -431,9 +454,19 @@
     "testimonial": "\"I invested first. Then I saw the technology they were building — a custom Android app with offline sync, real-time dashboards, block-level tracking. That's when I knew this wasn't just a farm. I joined as CTO because the technology platform alone is worth more than the farmland.\"",
     "attribution": "— Alassana Bah, CTO & Early Investor"
   },
-  "legalDisclaimer": {
-    "text": "This information is for informational purposes only and does not constitute an offer to sell or a solicitation of an offer to buy securities. Any investment involves risk. Past performance does not guarantee future results. Projections are estimates only and may not be achieved. This investment opportunity is available only to qualified investors who can bear the risk of loss.",
-    "ndaRequired": "Full details, including the complete business plan and financial model, are available only after signing the NDA."
+  "legalCompliance": {
+    "title": "Legal & Compliance",
+    "subtitle": "Important information about this investment opportunity.",
+    "items": [
+      "AfriNuts Export SARL is incorporated in Côte d'Ivoire under OHADA law (IDU: CI-2026-0066959 J / RCCM: CI-ABJ-03-2026-B12-04223).",
+      "This is a private placement — not a public offering — available only to qualified investors.",
+      "Investment structures are reviewed by a Shariah advisory board and Ivorian legal counsel before any funds are accepted.",
+      "Full financial model and business plan are available only after signing the NDA.",
+      "This page is not a solicitation to sell securities in any jurisdiction where such an offer would be unlawful.",
+      "All projections shown are estimates and are not guaranteed. Actual results may differ materially.",
+      "Investors are strongly encouraged to conduct independent due diligence and consult their own legal, financial, and tax advisors before investing."
+    ],
+    "note": "For legal or compliance questions, contact us at contact@afrinutsexport.com."
   },
   "farmOs": {
     "title": "Farm OS: The Technology Behind the Investment",

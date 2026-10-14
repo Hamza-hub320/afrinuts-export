@@ -27,7 +27,7 @@ import {
     FaRecycle,
     FaMobile,
     FaStar,
-    FaMapMarkerAlt, FaSearch, FaBullseye
+    FaMapMarkerAlt, FaSearch, FaBullseye, FaEnvelope
 } from 'react-icons/fa';
 import {
     BarChart, Bar, XAxis, YAxis, CartesianGrid,
@@ -1142,6 +1142,82 @@ const Invest: React.FC = () => {
                 </div>
             </Section>
 
+            {/* How to Verify AfriNuts */}
+            <Section className="py-10">
+                <div className="max-w-4xl mx-auto px-4 sm:px-6">
+                    <motion.div
+                        className="text-center mb-8"
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={fadeIn}
+                    >
+                        <Typography variant="h2" className="mb-4">
+                            {t('verify.title')}
+                        </Typography>
+                        <Typography variant="body" className="text-gray-600 max-w-2xl mx-auto">
+                            {t('verify.subtitle')}
+                        </Typography>
+                    </motion.div>
+
+                    <motion.div
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={fadeIn}
+                    >
+                        <InfoCard
+                            icon={FaShieldAlt}
+                            title={t('verify.title')}
+                            variant="primary"
+                            showInfoBadge={false}
+                        >
+                            {/* Verification Grid */}
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                {[
+                                    { label: t('verify.items.rccm'), value: t('verify.items.rccmValue') },
+                                    { label: t('verify.items.idu'), value: t('verify.items.iduValue') },
+                                    { label: t('verify.items.registeredOffice'), value: t('verify.items.registeredOfficeValue') },
+                                    { label: t('verify.items.linkedin'), value: t('verify.items.linkedinValue') },
+                                    { label: t('verify.items.executives'), value: t('verify.items.executivesValue') },
+                                    { label: t('verify.items.documents'), value: t('verify.items.documentsValue') },
+                                ].map((item, idx) => (
+                                    <div
+                                        key={idx}
+                                        className="bg-white/50 backdrop-blur-sm rounded-lg p-3 border border-white/30"
+                                    >
+                                        <Typography variant="small" className="text-accent text-xs font-semibold mb-0.5">
+                                            {item.label}
+                                        </Typography>
+                                        <Typography variant="small" className="text-gray-700 text-sm">
+                                            {item.value}
+                                        </Typography>
+                                    </div>
+                                ))}
+                            </div>
+
+                            {/* Why This Page Looks Professional */}
+                            <div className="mt-6 p-4 bg-primary/5 rounded-xl border border-primary/10">
+                                <Typography variant="h5" className="text-primary text-sm font-semibold mb-2">
+                                    {t('verify.whyPolished.title')}
+                                </Typography>
+                                <Typography variant="small" className="text-gray-700 text-sm leading-relaxed">
+                                    {t('verify.whyPolished.body')}
+                                </Typography>
+                            </div>
+
+                            {/* Closing Note */}
+                            <div className="mt-4 p-3 bg-green-50/80 border border-green-200 rounded-lg">
+                                <Typography variant="small" className="text-green-700 text-xs text-center">
+                                    <FaCheckCircle className="inline mr-1.5" />
+                                    {t('verify.note')}
+                                </Typography>
+                            </div>
+                        </InfoCard>
+                    </motion.div>
+                </div>
+            </Section>
+
             {/* Certifications */}
             <Section className="py-10"><div className="max-w-6xl mx-auto px-4 sm:px-6">
                 <motion.div className="text-center mb-10" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
@@ -1488,13 +1564,28 @@ const Invest: React.FC = () => {
                 </motion.div>
             </div></Section>
 
-            {/* Legal Disclaimer */}
-            <div className="max-w-4xl mx-auto px-4 sm:px-6 pb-10 text-center">
-                <Typography variant="small" className="text-gray-400 text-xs">
-                    {t('legalDisclaimer.text')}
+            {/* Legal & Compliance */}
+            <div className="max-w-4xl mx-auto px-4 sm:px-6 py-10 text-center">
+                <Typography variant="h2" className="mb-4">
+                    {t('legalCompliance.title')}
                 </Typography>
-                <Typography variant="small" className="text-gray-400 text-xs mt-2">
-                    {t('legalDisclaimer.ndaRequired')}
+                <Typography variant="small" className="text-gray-500 text-xs max-w-3xl mx-auto block mb-4">
+                    {t('legalCompliance.subtitle')}
+                </Typography>
+
+                <ul className="space-y-2 max-w-3xl mx-auto text-left mb-6">
+                    {(t('legalCompliance.items', { returnObjects: true }) as string[]).map((item, idx) => (
+                        <li key={idx} className="flex items-start gap-2">
+                            <span className="text-gray-400 text-xs mt-1">•</span>
+                            <Typography variant="small" className="text-gray-400 text-xs">
+                                {item}
+                            </Typography>
+                        </li>
+                    ))}
+                </ul>
+
+                <Typography variant="small" className="text-gray-400 text-xs">
+                    {t('legalCompliance.note')}
                 </Typography>
             </div>
         </div>
