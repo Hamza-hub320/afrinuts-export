@@ -34,24 +34,59 @@
     "title": "General",
     "questions": [
       {
+        "question": "What is AfriNuts Export?",
+        "answer": "AfriNuts Export SARL is a tech-enabled cashew farm and future processing company based in Odienné, Côte d'Ivoire. Incorporated in June 2026 under OHADA law (RCCM: CI-ABJ-03-2026-B12-04223, IDU: CI-2026-0066959 J). We grow organic cashews on 35 hectares, operate a live supplier intelligence network via Farm OS, and reinvest 10% of profits into community development.",
+        "audience": ["all", "customers", "investors"]
+      },
+      {
         "question": "What is Farm OS?",
-        "answer": "Farm OS is our custom-built farm management platform — an offline-first Android application with cloud synchronization. It tracks every block, every tree, every expense, and every harvest. Buyers get traceability data. Investors get real-time dashboards. Partners can license it. It is the technology backbone of everything we do.",
+        "answer": "Farm OS is our custom-built farm operating system — an offline-first Android application with cloud synchronization. It tracks every block, every tree, every expense, every harvest, and every supplier. Buyers get block-level traceability. Investors get real-time dashboards. Partners can license it. It is live today, not a roadmap item.",
         "audience": ["all", "investors", "partners"]
       },
       {
-        "question": "What is AfriNuts Export?",
-        "answer": "AfriNuts Export is a tech-enabled cashew farm and future processing company based in Odienné, Ivory Coast. We grow organic cashews on our 35-hectare farm, manage operations through our custom-built Farm OS platform, and reinvest 10% of profits into community development like schools, water wells, and mosques.",
-        "audience": ["all", "customers"]
-      },
-      {
         "question": "Where is your farm located?",
-        "answer": "Our 35-hectare cashew farm is in Odienné, northwestern Ivory Coast. Every block is GPS-mapped in our Farm OS — we can tell you exactly which row and column your cashews came from.",
+        "answer": "Our 70-hectare estate is in Odienné, northwestern Côte d'Ivoire: 35 hectares under cashew cultivation, 10 hectares reserved for the processing center, and 25 hectares for a separate community development project. Every farm block is GPS-mapped in Farm OS.",
         "audience": ["all", "customers", "b2b"]
       },
       {
         "question": "What products do you offer?",
-        "answer": "We currently grow raw cashew nuts, which will be harvested and sold as unprocessed nuts during the early phases. As the farm matures, we will expand into value-added products through our upcoming processing facility.",
+        "answer": "Phase One focuses on domestic raw cashew nut trading. Future phases will produce premium processed kernels (W320, W240, W180), CNSL by-product, and value-added products like roasted cashews, cashew butter, and cashew milk.",
         "audience": ["all", "customers", "b2b"]
+      },
+      {
+        "question": "How do you differ from other cashew exporters?",
+        "answer": "Three differences: (1) We build the supply chain before the factory — trading and supplier intelligence come first. (2) Farm OS provides block-level traceability that most West African exporters cannot match. (3) We reinvest 10% of profits into community development and operate on Shariah-compliant principles.",
+        "audience": ["all", "b2b", "investors"]
+      }
+    ]
+  },
+  "phaseOne": {
+    "title": "Phase One Investment",
+    "questions": [
+      {
+        "question": "How does Phase One generate returns?",
+        "answer": "Phase One trades raw cashew nuts domestically. The base case projects $14,520 profit per truck ($30,000 capital deployed, 42 metric tons), or roughly $43,560 across three trucks. Equity investors receive 10% of net trading profit as it is realized — no deferral to 2033. Mudarabah partners receive 20% of actual realized profit per cycle, with AfriNuts retaining 80%.",
+        "audience": ["all", "investors"]
+      },
+      {
+        "question": "When do equity investors see a return?",
+        "answer": "Equity investors begin participating in Phase One trading profits immediately. As each trading cycle closes and profit is realized, 10% is distributed to equity holders — proportionate to their ownership stake. There is no deferral. The 2033 dividend timeline applies only to Phase Two processing profits, which is the long-term upside.",
+        "audience": ["all", "investors"]
+      },
+      {
+        "question": "How is profit distributed between equity and Mudarabah investors?",
+        "answer": "Equity investors: 10% of net Phase One trading profit, distributed as each cycle closes. Mudarabah partners: 20% of actual realized profit per cycle, with AfriNuts retaining 80%. In Phase Two (2033+), the dividend policy shifts to 50% of net profits distributed, 50% reinvested for expansion.",
+        "audience": ["all", "investors"]
+      },
+      {
+        "question": "Why is the Mudarabah share 20% while equity is 10%?",
+        "answer": "Equity investors receive 10% because they own 10% of the company and share in all future value — trading profits, processing dividends, and equity appreciation. Mudarabah partners receive 20% of actual realized trading profit per cycle but have no permanent equity stake and no claim on future company value. The two structures are different: one is ownership, the other is a defined transaction-based partnership.",
+        "audience": ["all", "investors"]
+      },
+      {
+        "question": "What happens to the remaining trading profit?",
+        "answer": "AfriNuts retains its share to fund operations, supplier development, certification readiness, and future growth. The retained capital recycles into each trading cycle. Full distribution terms are in the Shareholders' Agreement (equity) and Mudarabah contracts, available after NDA.",
+        "audience": ["all", "investors"]
       }
     ]
   },
@@ -123,14 +158,13 @@
     "questions": [
       {
         "question": "When will the processing center be operational?",
-        "answer": "The cashew processing center is planned for construction starting in 2028, pending land title finalization and investment. Our target is operations by 2031. We will share updates as milestones are reached.",
-        "audience": ["all", "b2b", "partners"],
-        "visualAid": {
-          "type": "image",
-          "src": "/images/processing-center.jpg",
-          "alt": "Processing center plans",
-          "caption": "Rendering of our future processing facility"
-        }
+        "answer": "The cashew processing center is planned for construction starting in 2028, pending land title finalization and Phase Two investment. Our target is commercial operations by 2031. We will share updates as milestones are reached.",
+        "audience": ["all", "b2b", "partners"]
+      },
+      {
+        "question": "What capacity will the processing center have?",
+        "answer": "Phase Two begins with a pilot facility processing 1,000–2,000 MT of raw cashew nuts per year, producing 250–500 MT of premium kernels. Long-term expansion targets 70,000–100,000 MT/year as we scale.",
+        "audience": ["all", "b2b", "partners"]
       },
       {
         "question": "What makes your center eco-friendly?",
@@ -149,13 +183,23 @@
     "questions": [
       {
         "question": "How do you ensure the quality of your cashews?",
-        "answer": "Quality control starts in the field. Our Farm OS tracks moisture content, nut count, and defect rates per batch. When you receive a shipment, you receive the data — not just the nuts.",
+        "answer": "Quality control starts in the field. Farm OS tracks moisture content, nut count, and defect rates per batch. Every batch is linked to its farmer, source type, and quality metrics. When you receive a shipment, you receive the data — not just the nuts.",
         "audience": ["all", "b2b"]
       },
       {
         "question": "Are your products traceable?",
-        "answer": "Yes — and we mean that differently than most suppliers. Our Farm OS provides block-level traceability: GPS coordinates, harvest date, processing batch, and quality metrics. Enter your batch ID on our Trace page and see the full journey yourself. No login required.",
+        "answer": "Yes — and we mean that differently than most suppliers. Farm OS provides block-level traceability: GPS coordinates, harvest date, processing batch, and quality metrics. Enter your batch ID on our Trace page and see the full journey yourself. No login required.",
         "audience": ["all", "b2b"]
+      },
+      {
+        "question": "Do you track supplier sustainability?",
+        "answer": "Yes. Every batch is verified for no child labor, firebreak protection, and sustainable harvesting — with timestamp and verifier ID. This is per-batch verification, not a company-level promise.",
+        "audience": ["all", "b2b", "investors"]
+      },
+      {
+        "question": "Can you trace a batch to a specific farmer?",
+        "answer": "Yes. Every batch links to its farmer — name, photo, years of experience, location, and personal bio. Source types are tracked: Owned Farm, Cooperative, Independent, or Regional Supplier. The same traceability standard applies across the entire network.",
+        "audience": ["all", "b2b", "investors"]
       }
     ]
   },
@@ -164,32 +208,33 @@
     "questions": [
       {
         "question": "What logistics options do you offer?",
-        "answer": "We ship from the Port of Abidjan — one of West Africa's most efficient deep-water ports. Current lead times: 4-6 weeks to Europe, 6-8 weeks to North America, 3-4 weeks to Middle East. Every shipment includes Farm OS traceability documentation.",
+        "answer": "We ship from the Port of Abidjan — one of West Africa's most efficient deep-water ports. Current lead times: 4-6 weeks to Europe, 6-8 weeks to North America, 3-4 weeks to Middle East. We offer FOB Abidjan and can arrange CIF for qualified buyers. Every shipment includes Farm OS traceability documentation.",
         "audience": ["b2b", "partners"],
-        "actions": {
-          "contact": true
-        }
+        "actions": { "contact": true }
+      },
+      {
+        "question": "What is your minimum order quantity?",
+        "answer": "Our standard MOQ is 1 metric ton (approximately 20 jute bags) for raw cashew nuts. For processed kernels and specialty products, MOQs vary — contact us for details.",
+        "audience": ["b2b", "partners"],
+        "actions": { "contact": true }
       },
       {
         "question": "Do you offer bulk pricing?",
         "answer": "Yes, we offer tiered pricing based on order volume. Please contact our sales team for detailed pricing information.",
         "audience": ["b2b", "partners"],
-        "actions": {
-          "contact": true
-        }
+        "actions": { "contact": true }
       },
       {
         "question": "What certifications do you have?",
-        "answer": "We are pursuing organic certification, ISO 22000 for food safety, and other relevant certifications for international export. Documentation is available upon request.",
+        "answer": "We are pursuing Organic (target 2029), Fair Trade (target 2030), ISO 22000 (target 2030), Halal (target 2030), and Rainforest Alliance (target 2029). Our farm is already transitioning to organic practices since planting in 2026. Documentation is available upon request.",
         "audience": ["b2b", "partners"],
-        "actions": {
-          "download": "/documents/certifications.pdf"
-        }
+        "actions": { "download": "Certification Roadmap" }
       },
       {
-        "question": "What logistics options do you offer?",
-        "answer": "We ship from the Port of Abidjan, one of West Africa's most efficient ports. Current lead times: 4-6 weeks to Europe, 6-8 weeks to North America, 3-4 weeks to Middle East. We offer FOB Abidjan and can arrange CIF for qualified buyers. Custom logistics solutions available for large volumes.",
-        "audience": ["b2b", "partners"]
+        "question": "Can I request samples before ordering?",
+        "answer": "Yes. Sample boxes are available for qualified buyers. Contact our sales team to request a sample with full traceability documentation.",
+        "audience": ["b2b", "partners"],
+        "actions": { "contact": true }
       }
     ]
   },
@@ -197,30 +242,24 @@
     "title": "Investment",
     "questions": [
       {
-        "question": "Can I invest in AfriNuts Export?",
-        "answer": "Yes. We welcome ethical investors aligned with our mission. Our investor dashboard provides real-time visibility into farm performance — trees alive, expenses per block, revenue by quality grade. This is the same data we use to run the business. Start by downloading our NDA on the Invest page.",
-        "audience": ["all", "investors"],
-        "actions": {
-          "request": "investor-package"
-        }
+        "question": "What exactly am I investing in?",
+        "answer": "A $350,000 Phase One raise for 10% equity in AfriNuts Export SARL, at a $3.5M post-money valuation (minimum investment $50,000). This phase funds domestic raw cashew trading operations and the supplier intelligence network — it does not fund the processing plant, which is a later phase.",
+        "audience": ["all", "investors"]
+      },
+      {
+        "question": "What is the difference between the equity and Mudarabah options?",
+        "answer": "Two Shariah-compliant paths: (1) equity ownership — 10% of the company at $3.5M post-money, with 10% of net Phase One trading profit distributed as realized, plus future dividends from Phase Two. (2) Mudarabah trading partnership — 20% of actual realized profit per trading cycle, no permanent equity stake. Both are reviewed for Shariah compliance before any funds are accepted.",
+        "audience": ["all", "investors"]
       },
       {
         "question": "What is the expected return on investment?",
-        "answer": "Returns are based on profit-sharing, not fixed interest. Investors receive a share of net profits, with projections available on request. Returns depend on farm performance and market conditions.",
-        "audience": ["investors"]
+        "answer": "Equity investors participate in Phase One trading profits (10% of net profit) as cycles close, and receive dividends from Phase Two processing (target 2033+). Mudarabah partners receive 20% of actual realized trading profit per cycle. Full projections are available under NDA.",
+        "audience": ["all", "investors"]
       },
       {
-        "question": "What are the contract terms?",
-        "answer": "Our investment contracts are structured with 5-year terms, with options for renewal. All contracts include transparent reporting and governance provisions.",
-        "audience": ["investors"]
-      },
-      {
-        "question": "Do you provide sustainability audits?",
-        "answer": "Yes. Our Farm OS tracks environmental metrics alongside production data — water usage, organic inputs, waste diversion. We provide summary reports to investors with data pulled directly from our operating system, not estimates.",
-        "audience": ["investors"],
-        "actions": {
-          "download": "/documents/sustainability-report.pdf"
-        }
+        "question": "When do investors receive dividends?",
+        "answer": "Equity investors receive 10% of net Phase One trading profit as it is realized — not deferred. From 2033 onward, once commercial processing is established, the dividend policy shifts to 50% of net profits distributed, 50% reinvested for Phase Two expansion. Mudarabah partners receive 20% of profit per trading cycle throughout.",
+        "audience": ["all", "investors"]
       }
     ]
   },

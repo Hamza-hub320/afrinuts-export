@@ -1,20 +1,20 @@
 {
   "hero": {
-    "title": "Foire Aux Questions sur AfriNuts Export",
-    "subtitle": "Noix de Cajou Bio, Technologie Farm OS et Investissement Éthique",
-    "lead": "De la technologie Farm OS aux délais de certification biologique — trouvez des réponses claires sur la façon dont nous cultivons, suivons et exportons les noix de cajou d'Odienné, Côte d'Ivoire.",
-    "description": "Obtenez des réponses claires sur notre ferme de noix de cajou technologique à Odienné, Côte d'Ivoire. Découvrez la traçabilité Farm OS, les pratiques biologiques, les plans de transformation, l'impact communautaire et comment collaborer avec nous.",
-    "introTitle": "Tout Ce Que Vous Devez Savoir",
-    "badgeFarm": "Ferme et Production",
+    "title": "Questions fréquentes sur AfriNuts Export",
+    "subtitle": "Noix de cajou biologiques, technologie Farm OS et investissement éthique",
+    "lead": "De la technologie Farm OS aux délais de certification biologique — trouvez des réponses claires sur la façon dont nous cultivons, traçons et exportons les noix de cajou depuis Odienné, Côte d'Ivoire.",
+    "description": "Obtenez des réponses claires sur notre ferme de noix de cajou technologique à Odienné, Côte d'Ivoire. Découvrez la traçabilité Farm OS, les pratiques biologiques, les plans de transformation, l'impact communautaire et comment devenir partenaire.",
+    "introTitle": "Tout ce que vous devez savoir",
+    "badgeFarm": "Ferme et production",
     "badgeTech": "Farm OS",
     "badgeInvest": "Investissement",
     "badgePartner": "Partenariats",
-    "ctaBrowse": "Parcourir les Questions",
-    "ctaContact": "Encore des Questions ?"
+    "ctaBrowse": "Parcourir les questions",
+    "ctaContact": "Vous avez encore des questions ?"
   },
   "audience": {
-    "all": "Tous les Utilisateurs",
-    "b2b": "B2B/Vente en Gros",
+    "all": "Tous les utilisateurs",
+    "b2b": "B2B/Gros",
     "partners": "Partenaires",
     "investors": "Investisseurs",
     "customers": "Clients"
@@ -22,41 +22,76 @@
   "filterBy": "Filtrer par :",
   "searchPlaceholder": "Rechercher des questions...",
   "topQuestions": {
-    "title": "Questions Principales"
+    "title": "Questions principales"
   },
-  "loadMore": "Charger Plus de Sujets",
+  "loadMore": "Charger plus de sujets",
   "stillQuestions": {
     "title": "Vous n'avez pas trouvé votre réponse",
-    "content": "Posez-nous vos questions sur notre ferme, nos produits ou nos opportunités d'investissement.",
-    "button": "Poser une Question"
+    "content": "Posez-nous toutes vos questions sur notre ferme, nos produits ou nos opportunités d'investissement.",
+    "button": "Poser une question"
   },
   "general": {
     "title": "Général",
     "questions": [
       {
+        "question": "Qu'est-ce qu'AfriNuts Export ?",
+        "answer": "AfriNuts Export SARL est une ferme de noix de cajou technologique et une future entreprise de transformation basée à Odienné, en Côte d'Ivoire. Constituée en juin 2026 sous le droit OHADA (RCCM : CI-ABJ-03-2026-B12-04223, IDU : CI-2026-0066959 J). Nous cultivons des noix de cajou biologiques sur 35 hectares, exploitons un réseau d'intelligence fournisseurs en direct via Farm OS, et réinvestissons 10 % des bénéfices dans le développement communautaire.",
+        "audience": ["all", "customers", "investors"]
+      },
+      {
         "question": "Qu'est-ce que Farm OS ?",
-        "answer": "Farm OS est notre plateforme de gestion agricole sur mesure — une application Android hors ligne avec synchronisation cloud. Elle suit chaque bloc, chaque arbre, chaque dépense et chaque récolte. Les acheteurs reçoivent les données de traçabilité. Les investisseurs accèdent à des tableaux de bord en temps réel. Les partenaires peuvent l'utiliser sous licence. C'est l'épine dorsale technologique de tout ce que nous faisons.",
+        "answer": "Farm OS est notre système d'exploitation agricole sur mesure — une application Android offline-first avec synchronisation cloud. Il suit chaque bloc, chaque arbre, chaque dépense, chaque récolte et chaque fournisseur. Les acheteurs obtiennent une traçabilité au niveau du bloc. Les investisseurs obtiennent des tableaux de bord en temps réel. Les partenaires peuvent le licencier. Il est opérationnel aujourd'hui, pas dans une feuille de route.",
         "audience": ["all", "investors", "partners"]
       },
       {
-        "question": "Qu'est-ce qu'AfriNuts Export ?",
-        "answer": "AfriNuts Export est une ferme de noix de cajou technologique et une future entreprise de transformation basée à Odienné, en Côte d'Ivoire. Nous cultivons des noix de cajou biologiques sur notre ferme de 35 hectares, gérons les opérations via notre plateforme Farm OS sur mesure et réinvestissons 10 % des bénéfices dans le développement communautaire comme les écoles, les puits d'eau et les mosquées.",
-        "audience": ["all", "customers"]
-      },
-      {
         "question": "Où se trouve votre ferme ?",
-        "answer": "Notre ferme de noix de cajou de 35 hectares est à Odienné, dans le nord-ouest de la Côte d'Ivoire. Chaque bloc est cartographié par GPS dans notre Farm OS — nous pouvons vous dire exactement de quelle rangée et colonne proviennent vos noix de cajou.",
+        "answer": "Notre domaine de 70 hectares est à Odienné, dans le nord-ouest de la Côte d'Ivoire : 35 hectares en culture de noix de cajou, 10 hectares réservés au centre de transformation, et 25 hectares pour un projet de développement communautaire distinct. Chaque bloc de la ferme est cartographié par GPS dans Farm OS.",
         "audience": ["all", "customers", "b2b"]
       },
       {
         "question": "Quels produits proposez-vous ?",
-        "answer": "Nous cultivons actuellement des noix de cajou brutes, qui seront récoltées et vendues comme noix non transformées pendant les premières phases. À mesure que la ferme mûrira, nous élargirons notre gamme vers des produits à valeur ajoutée grâce à notre future installation de transformation.",
+        "answer": "La Phase Un se concentre sur le négoce domestique de noix de cajou brutes. Les phases futures produiront des amandes transformées premium (W320, W240, W180), le sous-produit CNSL, et des produits à valeur ajoutée comme les noix de cajou grillées, le beurre de cajou et le lait de cajou.",
         "audience": ["all", "customers", "b2b"]
+      },
+      {
+        "question": "En quoi différez-vous des autres exportateurs de noix de cajou ?",
+        "answer": "Trois différences : (1) Nous construisons la chaîne d'approvisionnement avant l'usine — le négoce et l'intelligence fournisseurs viennent en premier. (2) Farm OS fournit une traçabilité au niveau du bloc que la plupart des exportateurs ouest-africains ne peuvent égaler. (3) Nous réinvestissons 10 % des bénéfices dans le développement communautaire et opérons selon des principes conformes à la charia.",
+        "audience": ["all", "b2b", "investors"]
+      }
+    ]
+  },
+  "phaseOne": {
+    "title": "Investissement Phase Un",
+    "questions": [
+      {
+        "question": "Comment la Phase Un génère-t-elle des rendements ?",
+        "answer": "La Phase Un négocie des noix de cajou brutes sur le marché domestique. Le scénario de base projette 14 520 $ de profit par camion (30 000 $ de capital déployé, 42 tonnes métriques), soit environ 43 560 $ sur trois camions. Les investisseurs en actions reçoivent 10 % du bénéfice net de négoce au fur et à mesure de sa réalisation — aucun report à 2033. Les partenaires Mudarabah reçoivent 20 % du profit réellement réalisé par cycle, AfriNuts conservant 80 %.",
+        "audience": ["all", "investors"]
+      },
+      {
+        "question": "Quand les investisseurs en actions voient-ils un rendement ?",
+        "answer": "Les investisseurs en actions commencent à participer aux bénéfices de négoce de la Phase Un immédiatement. À la clôture de chaque cycle de négoce et à la réalisation du profit, 10 % sont distribués aux détenteurs d'actions — proportionnellement à leur part. Il n'y a aucun report. Le calendrier de dividendes de 2033 ne s'applique qu'aux bénéfices de transformation de la Phase Deux, qui est le potentiel à long terme.",
+        "audience": ["all", "investors"]
+      },
+      {
+        "question": "Comment le profit est-il réparti entre les investisseurs en actions et Mudarabah ?",
+        "answer": "Investisseurs en actions : 10 % du bénéfice net de négoce de la Phase Un, distribué à la clôture de chaque cycle. Partenaires Mudarabah : 20 % du profit réellement réalisé par cycle, AfriNuts conservant 80 %. En Phase Deux (2033+), la politique de dividendes passe à 50 % des bénéfices nets distribués, 50 % réinvestis pour l'expansion.",
+        "audience": ["all", "investors"]
+      },
+      {
+        "question": "Pourquoi la part Mudarabah est-elle de 20 % alors que les actions sont à 10 % ?",
+        "answer": "Les investisseurs en actions reçoivent 10 % parce qu'ils possèdent 10 % de l'entreprise et partagent toute la valeur future — bénéfices de négoce, dividendes de transformation et appréciation du capital. Les partenaires Mudarabah reçoivent 20 % du profit de négoce réellement réalisé par cycle mais n'ont aucune participation permanente et aucune prétention sur la valeur future de l'entreprise. Les deux structures sont différentes : l'une est la propriété, l'autre est un partenariat défini basé sur des transactions.",
+        "audience": ["all", "investors"]
+      },
+      {
+        "question": "Que devient le reste du bénéfice de négoce ?",
+        "answer": "AfriNuts conserve sa part pour financer les opérations, le développement des fournisseurs, la préparation aux certifications et la croissance future. Le capital conservé est réinjecté dans chaque cycle de négoce. Les conditions complètes de distribution figurent dans l'Accord des actionnaires (actions) et les contrats Mudarabah, disponibles après NDA.",
+        "audience": ["all", "investors"]
       }
     ]
   },
   "farming": {
-    "title": "Culture de la Noix de Cajou",
+    "title": "Culture de la noix de cajou",
     "questions": [
       {
         "question": "Comment cultivez-vous vos noix de cajou ?",
@@ -64,13 +99,13 @@
         "audience": ["all", "b2b"]
       },
       {
-        "question": "Quand a lieu votre saison de récolte ?",
-        "answer": "Nos premiers arbres ont été plantés en 2026. Première petite récolte prévue en 2029, avec une production maximale d'ici 2031. Chaque récolte est enregistrée dans Farm OS par bloc, date et volume — les acheteurs reçoivent ces données avec leur expédition.",
+        "question": "Quand est votre saison de récolte ?",
+        "answer": "Nos premiers arbres ont été plantés en 2026. Première petite récolte prévue en 2029, avec production maximale d'ici 2031. Chaque récolte est enregistrée dans Farm OS par bloc, date et volume — les acheteurs reçoivent ces données avec leur expédition.",
         "audience": ["all", "b2b"]
       },
       {
         "question": "Vos noix de cajou sont-elles biologiques ?",
-        "answer": "Bien que nous ne soyons pas encore certifiés biologiques, nous utilisons des méthodes agricoles durables et à faible apport chimique qui s'alignent sur les pratiques agroécologiques. Nous prévoyons de poursuivre la certification biologique dans le cadre de nos objectifs ESG.",
+        "answer": "Bien que non encore certifiées biologiques, nous utilisons des méthodes agricoles durables et à usage chimique minimal qui s'alignent sur les pratiques agroécologiques. Nous prévoyons de poursuivre la certification biologique dans le cadre de nos objectifs ESG.",
         "audience": ["all", "b2b"]
       }
     ]
@@ -80,57 +115,56 @@
     "questions": [
       {
         "question": "Quelles pratiques de durabilité suivez-vous ?",
-        "answer": "Nous utilisons l'agriculture pluviale pour conserver l'eau et éviter le besoin d'irrigation en Phase 1. Nous utilisons également des pare-feux pour prévenir les incendies de forêt, pratiquons l'agroforesterie lorsque c'est possible et maintenons des zones tampons naturelles pour préserver la biodiversité.",
+        "answer": "Nous utilisons l'agriculture pluviale pour conserver l'eau et éviter le besoin d'irrigation en Phase 1. Nous employons également des coupe-feu pour prévenir les incendies de forêt, pratiquons l'agroforesterie lorsque possible, et maintenons des zones tampons naturelles pour préserver la biodiversité.",
         "audience": ["all", "b2b", "investors"]
       },
       {
         "question": "Comment gérez-vous l'eau et les déchets ?",
-        "answer": "Notre ferme dépend des précipitations naturelles et nous évitons le ruissellement chimique. À mesure que nous nous développons, nous développerons des systèmes économes en eau et des solutions de compostage pour maintenir la santé des sols et réduire les déchets.",
+        "answer": "Notre ferme dépend des précipitations naturelles et nous évitons le ruissellement chimique. Au fur et à mesure de notre expansion, nous développerons des systèmes économes en eau et des solutions de compostage pour maintenir la santé des sols et réduire les déchets.",
         "audience": ["all", "b2b", "investors"]
       },
       {
-        "question": "Quelle est votre approche ESG ?",
-        "answer": "AfriNuts s'engage envers les principes Environnementaux, Sociaux et de Gouvernance (ESG). Cela inclut le réinvestissement dans les infrastructures locales, la promotion d'un recrutement inclusif et la garantie d'une gouvernance transparente alignée sur les valeurs éthiques.",
+        "question": "Quelle est votre approche de l'ESG ?",
+        "answer": "AfriNuts s'engage envers les principes Environnementaux, Sociaux et de Gouvernance (ESG). Cela inclut le réinvestissement dans les infrastructures locales, la promotion de l'embauche inclusive et la garantie d'une gouvernance transparente alignée sur des valeurs éthiques.",
         "audience": ["all", "b2b", "investors"],
         "actions": {
-          "download": "/documents/rapport-esg.pdf"
+          "download": "/documents/esg-report.pdf"
         }
       }
     ]
   },
   "islamic": {
-    "title": "Investissement Éthique Islamique",
+    "title": "Investissement éthique islamique",
     "questions": [
       {
         "question": "Comment la ferme est-elle alignée sur les principes d'investissement islamiques ?",
-        "answer": "Nous opérons selon une politique sans riba (sans intérêt) et priorisons les partenariats qui reflètent le partage des risques et des bénéfices. Notre modèle d'investisseur est basé sur le financement éthique, le bénéfice communautaire et la durabilité à long terme.",
+        "answer": "Nous opérons sous une politique sans riba (sans intérêt) et privilégions les partenariats qui reflètent le partage des risques et des profits. Notre modèle d'investisseur est basé sur le financement éthique, le bénéfice communautaire et la durabilité à long terme.",
         "audience": ["all", "investors"]
       },
       {
-        "question": "Y a-t-il des intérêts (riba) dans votre modèle de financement ?",
-        "answer": "Non. Nous ne facturons ni ne payons d'intérêts. Nos investisseurs reçoivent une part du bénéfice net (par exemple, 25 %) basée sur la performance, et non des rendements fixes. Cela est conforme à l'éthique financière islamique.",
+        "question": "Y a-t-il de l'intérêt (riba) impliqué dans votre modèle de financement ?",
+        "answer": "Non. Nous ne facturons ni ne payons d'intérêts. Nos investisseurs reçoivent une part du bénéfice net (par exemple, 25 %) basée sur la performance, et non des rendements fixes. Cela s'aligne sur l'éthique financière islamique.",
         "audience": ["all", "investors"]
       },
       {
         "question": "Comment réinvestissez-vous les bénéfices dans la communauté ?",
-        "answer": "Nous réinvestissons 10 % de nos bénéfices nets dans des initiatives communautaires locales. Exemples : forage de puits d'eau, soutien aux médersas locales (écoles islamiques) et contribution à l'entretien des mosquées. C'est notre engagement envers la sadaqah jariyah — une charité continue qui profite aux générations.",
+        "answer": "Nous réinvestissons 10 % de nos bénéfices nets dans des initiatives communautaires locales. Exemples : forage de puits d'eau, soutien aux madrasas locales (écoles islamiques) et contribution à l'entretien des mosquées. C'est notre engagement envers la sadaqah jariyah — la charité continue qui profite aux générations.",
         "audience": ["all", "investors"]
       }
     ]
   },
   "processing": {
-    "title": "Centre de Transformation",
+    "title": "Centre de transformation",
     "questions": [
       {
         "question": "Quand le centre de transformation sera-t-il opérationnel ?",
-        "answer": "La construction du centre de transformation de noix de cajou est prévue pour débuter en 2028, sous réserve de la finalisation du titre foncier et de l'investissement. Notre objectif est le début des opérations d'ici 2031. Nous partagerons les mises à jour au fur et à mesure que les jalons seront atteints.",
-        "audience": ["all", "b2b", "partners"],
-        "visualAid": {
-          "type": "image",
-          "src": "/images/processing-center.jpg",
-          "alt": "Plans du centre de transformation",
-          "caption": "Rendu de notre future installation de transformation"
-        }
+        "answer": "Le centre de transformation de noix de cajou est prévu pour une construction à partir de 2028, sous réserve de la finalisation du titre foncier et de l'investissement de Phase Deux. Notre objectif est une exploitation commerciale d'ici 2031. Nous partagerons les mises à jour au fur et à mesure de l'atteinte des jalons.",
+        "audience": ["all", "b2b", "partners"]
+      },
+      {
+        "question": "Quelle capacité aura le centre de transformation ?",
+        "answer": "La Phase Deux commence par une installation pilote transformant 1 000 à 2 000 tonnes métriques de noix de cajou brutes par an, produisant 250 à 500 tonnes métriques d'amandes premium. L'expansion à long terme vise 70 000 à 100 000 tonnes métriques/an à mesure que nous nous développons.",
+        "audience": ["all", "b2b", "partners"]
       },
       {
         "question": "Qu'est-ce qui rend votre centre écologique ?",
@@ -139,52 +173,68 @@
       },
       {
         "question": "Servira-t-il la communauté locale ?",
-        "answer": "Oui. Au-delà de la transformation de la noix de cajou, le centre fournira des emplois, des formations professionnelles et du développement communautaire. Cela fait partie de notre vision plus large de faire d'Odienné un pôle d'agriculture éthique.",
+        "answer": "Oui. Au-delà de la transformation de la noix de cajou, le centre fournira de l'emploi, de la formation professionnelle et du développement communautaire. Il fait partie de notre vision plus large d'établir Odienné comme un pôle d'agriculture éthique.",
         "audience": ["all", "b2b", "partners"]
       }
     ]
   },
   "quality": {
-    "title": "Qualité et Traçabilité",
+    "title": "Qualité et traçabilité",
     "questions": [
       {
-        "question": "Comment assurez-vous la qualité de vos noix de cajou ?",
-        "answer": "Le contrôle qualité commence dans le champ. Notre Farm OS suit la teneur en humidité, le nombre de noix et les taux de défauts par lot. Lorsque vous recevez une expédition, vous recevez les données — pas seulement les noix.",
+        "question": "Comment garantissez-vous la qualité de vos noix de cajou ?",
+        "answer": "Le contrôle de la qualité commence sur le terrain. Farm OS suit la teneur en humidité, le nombre de noix et les taux de défauts par lot. Chaque lot est lié à son agriculteur, son type de source et ses paramètres de qualité. Lorsque vous recevez une expédition, vous recevez les données — pas seulement les noix.",
         "audience": ["all", "b2b"]
       },
       {
         "question": "Vos produits sont-ils traçables ?",
-        "answer": "Oui — et nous le pensons différemment de la plupart des fournisseurs. Notre Farm OS fournit une traçabilité au niveau du bloc : coordonnées GPS, date de récolte, lot de transformation et indicateurs de qualité. Entrez votre ID de lot sur notre page Trace et voyez le parcours complet vous-même. Aucune connexion requise.",
+        "answer": "Oui — et nous entendons cela différemment de la plupart des fournisseurs. Farm OS fournit une traçabilité au niveau du bloc : coordonnées GPS, date de récolte, lot de transformation et paramètres de qualité. Saisissez votre ID de lot sur notre page Trace et découvrez le parcours complet vous-même. Aucune connexion requise.",
         "audience": ["all", "b2b"]
+      },
+      {
+        "question": "Suivez-vous la durabilité des fournisseurs ?",
+        "answer": "Oui. Chaque lot est vérifié pour l'absence de travail des enfants, la protection par coupe-feu et la récolte durable — avec horodatage et ID du vérificateur. C'est une vérification par lot, pas une promesse au niveau de l'entreprise.",
+        "audience": ["all", "b2b", "investors"]
+      },
+      {
+        "question": "Pouvez-vous tracer un lot jusqu'à un agriculteur spécifique ?",
+        "answer": "Oui. Chaque lot est lié à son agriculteur — nom, photo, années d'expérience, localisation et biographie personnelle. Les types de sources sont suivis : Ferme propre, Coopérative, Indépendant ou Fournisseur régional. La même norme de traçabilité s'applique à l'ensemble du réseau.",
+        "audience": ["all", "b2b", "investors"]
       }
     ]
   },
   "b2b": {
-    "title": "B2B et Vente en Gros",
+    "title": "B2B et gros",
     "questions": [
       {
         "question": "Quelles options logistiques proposez-vous ?",
-        "answer": "Nous expédions depuis le Port d'Abidjan — l'un des ports en eau profonde les plus efficaces d'Afrique de l'Ouest. Délais actuels : 4-6 semaines vers l'Europe, 6-8 semaines vers l'Amérique du Nord, 3-4 semaines vers le Moyen-Orient. Chaque expédition comprend la documentation de traçabilité Farm OS.",
+        "answer": "Nous expédions depuis le port d'Abidjan — l'un des ports en eau profonde les plus efficaces d'Afrique de l'Ouest. Délais actuels : 4-6 semaines vers l'Europe, 6-8 semaines vers l'Amérique du Nord, 3-4 semaines vers le Moyen-Orient. Nous offrons FOB Abidjan et pouvons organiser CIF pour les acheteurs qualifiés. Chaque expédition comprend la documentation de traçabilité Farm OS.",
         "audience": ["b2b", "partners"],
-        "actions": {
-          "contact": true
-        }
+        "actions": { "contact": true }
       },
       {
-        "question": "Proposez-vous des prix de gros ?",
-        "answer": "Oui, nous proposons des prix échelonnés basés sur le volume de commande. Veuillez contacter notre équipe commerciale pour des informations détaillées sur les prix.",
+        "question": "Quelle est votre quantité minimale de commande ?",
+        "answer": "Notre MOQ standard est de 1 tonne métrique (environ 20 sacs de jute) pour les noix de cajou brutes. Pour les amandes transformées et les produits spéciaux, les MOQ varient — contactez-nous pour plus de détails.",
         "audience": ["b2b", "partners"],
-        "actions": {
-          "contact": true
-        }
+        "actions": { "contact": true }
       },
       {
-        "question": "Quelles certifications possédez-vous ?",
-        "answer": "Nous sommes en cours d'obtention de la certification biologique, ISO 22000 pour la sécurité alimentaire et d'autres certifications pertinentes pour l'exportation internationale. La documentation est disponible sur demande.",
+        "question": "Offrez-vous des tarifs de gros ?",
+        "answer": "Oui, nous offrons une tarification par paliers basée sur le volume de commande. Veuillez contacter notre équipe commerciale pour des informations tarifaires détaillées.",
         "audience": ["b2b", "partners"],
-        "actions": {
-          "download": "/documents/certifications.pdf"
-        }
+        "actions": { "contact": true }
+      },
+      {
+        "question": "Quelles certifications avez-vous ?",
+        "answer": "Nous poursuivons Organic (objectif 2029), Fair Trade (objectif 2030), ISO 22000 (objectif 2030), Halal (objectif 2030) et Rainforest Alliance (objectif 2029). Notre ferme est déjà en transition vers des pratiques biologiques depuis la plantation en 2026. La documentation est disponible sur demande.",
+        "audience": ["b2b", "partners"],
+        "actions": { "download": "Feuille de route des certifications" }
+      },
+      {
+        "question": "Puis-je demander des échantillons avant de commander ?",
+        "answer": "Oui. Des boîtes d'échantillons sont disponibles pour les acheteurs qualifiés. Contactez notre équipe commerciale pour demander un échantillon avec documentation de traçabilité complète.",
+        "audience": ["b2b", "partners"],
+        "actions": { "contact": true }
       }
     ]
   },
@@ -192,30 +242,24 @@
     "title": "Investissement",
     "questions": [
       {
-        "question": "Puis-je investir dans AfriNuts Export ?",
-        "answer": "Oui. Nous accueillons les investisseurs éthiques alignés sur notre mission. Notre tableau de bord investisseur offre une visibilité en temps réel sur les performances de la ferme — arbres vivants, dépenses par bloc, revenus par niveau de qualité. Ce sont les mêmes données que nous utilisons pour gérer l'entreprise. Commencez par télécharger notre NDA sur la page Invest.",
-        "audience": ["all", "investors"],
-        "actions": {
-          "request": "dossier-investisseur"
-        }
+        "question": "Dans quoi exactement j'investis ?",
+        "answer": "Une levée de 350 000 $ en Phase Un pour 10 % de participation dans AfriNuts Export SARL, à une valorisation post-money de 3,5 M$ (investissement minimum 50 000 $). Cette phase finance les opérations de négoce domestique de noix de cajou brutes et le réseau d'intelligence fournisseurs — elle ne finance pas l'usine de transformation, qui est une phase ultérieure.",
+        "audience": ["all", "investors"]
+      },
+      {
+        "question": "Quelle est la différence entre les options actions et Mudarabah ?",
+        "answer": "Deux voies conformes à la charia : (1) propriété en actions — 10 % de l'entreprise à 3,5 M$ post-money, avec 10 % du bénéfice net de négoce de la Phase Un distribué au fur et à mesure, plus les futurs dividendes de la Phase Deux. (2) partenariat de négoce Mudarabah — 20 % du profit réellement réalisé par cycle de négoce, sans participation permanente. Les deux sont examinés pour la conformité à la charia avant l'acceptation de tout fonds.",
+        "audience": ["all", "investors"]
       },
       {
         "question": "Quel est le retour sur investissement attendu ?",
-        "answer": "Les rendements sont basés sur le partage des bénéfices, et non sur des intérêts fixes. Les investisseurs reçoivent une part des bénéfices nets, avec des projections disponibles sur demande. Les rendements dépendent de la performance de la ferme et des conditions du marché.",
-        "audience": ["investors"]
+        "answer": "Les investisseurs en actions participent aux bénéfices de négoce de la Phase Un (10 % du bénéfice net) à la clôture des cycles, et reçoivent des dividendes de la transformation de la Phase Deux (objectif 2033+). Les partenaires Mudarabah reçoivent 20 % du profit de négoce réellement réalisé par cycle. Les projections complètes sont disponibles sous NDA.",
+        "audience": ["all", "investors"]
       },
       {
-        "question": "Quelles sont les conditions du contrat ?",
-        "answer": "Nos contrats d'investissement sont structurés avec des durées de 5 ans, avec des options de renouvellement. Tous les contrats incluent des dispositions de reporting transparent et de gouvernance.",
-        "audience": ["investors"]
-      },
-      {
-        "question": "Fournissez-vous des audits de durabilité ?",
-        "answer": "Oui. Notre Farm OS suit les indicateurs environnementaux en même temps que les données de production — consommation d'eau, intrants biologiques, détournement des déchets. Nous fournissons des rapports de synthèse aux investisseurs avec des données extraites directement de notre système d'exploitation, pas des estimations.",
-        "audience": ["investors"],
-        "actions": {
-          "download": "/documents/rapport-durabilite.pdf"
-        }
+        "question": "Quand les investisseurs reçoivent-ils des dividendes ?",
+        "answer": "Les investisseurs en actions reçoivent 10 % du bénéfice net de négoce de la Phase Un au fur et à mesure de sa réalisation — non différé. À partir de 2033, une fois la transformation commerciale établie, la politique de dividendes passe à 50 % des bénéfices nets distribués, 50 % réinvestis pour l'expansion de la Phase Deux. Les partenaires Mudarabah reçoivent 20 % du profit par cycle de négoce tout au long.",
+        "audience": ["all", "investors"]
       }
     ]
   },
@@ -224,41 +268,46 @@
     "questions": [
       {
         "question": "Comment puis-je devenir partenaire ?",
-        "answer": "Nous accueillons les partenariats avec les distributeurs, les détaillants et les entreprises complémentaires. Veuillez contacter notre équipe partenariats pour discuter des opportunités.",
+        "answer": "Nous accueillons les partenariats avec les distributeurs, détaillants et entreprises complémentaires. Veuillez contacter notre équipe de partenariat pour discuter des opportunités.",
         "audience": ["partners"],
         "actions": {
           "contact": true
         }
       },
       {
-        "question": "Proposez-vous des options de marque blanche ?",
-        "answer": "Oui, nous proposons des emballages en marque blanche et des options de marque de distributeur pour les partenaires qualifiés avec des volumes de commande suffisants.",
+        "question": "Offrez-vous des options de marque blanche ?",
+        "answer": "Oui, nous offrons des options d'emballage en marque blanche et de marque privée pour les partenaires qualifiés avec des volumes de commande suffisants.",
         "audience": ["partners"]
       },
       {
-        "question": "Quel soutien fournissez-vous aux partenaires ?",
-        "answer": "Nous fournissons du matériel marketing, des formations sur les produits et des opportunités promotionnelles conjointes à nos partenaires pour assurer un succès mutuel.",
+        "question": "Quel soutien apportez-vous aux partenaires ?",
+        "answer": "Nous fournissons des supports marketing, une formation produit et des opportunités promotionnelles conjointes à nos partenaires pour assurer un succès mutuel.",
         "audience": ["partners"]
       },
       {
         "question": "Quels modèles de partenariat proposez-vous ?",
-        "answer": "Nous proposons quatre modèles : (1) Coopérative de Producteurs — élargir notre réseau d'agriculteurs, (2) Marque Blanche/Co-Packing — nous transformons sous votre marque, (3) Licence Farm OS — déployez notre plateforme sur votre ferme, (4) Co-entreprise de Transformation — construisons des centres de transformation ensemble. Visitez notre page Partenaires pour plus de détails.",
+        "answer": "Nous offrons quatre modèles : (1) Coopérative de producteurs — élargir notre réseau d'agriculteurs, (2) Marque blanche/Co-packing — nous transformons sous votre marque, (3) Licence Farm OS — déployer notre plateforme sur votre ferme, (4) Transformation en coentreprise — construire des centres de transformation ensemble. Visitez notre page Partenaires pour plus de détails.",
         "audience": ["partners"]
       },
       {
         "question": "Farm OS est-il disponible sous licence ?",
-        "answer": "Oui. Nous proposons des licences Farm OS pour les grandes exploitations, les entreprises agroalimentaires et les programmes gouvernementaux. La plateforme est indépendante des cultures — actuellement conçue pour la noix de cajou mais adaptable au cacao, au karité, au café et à d'autres cultures. Contactez-nous pour discuter du déploiement.",
+        "answer": "Oui. Nous offrons une licence Farm OS pour les grandes fermes, les agro-entreprises et les programmes gouvernementaux. La plateforme est agnostique en matière de cultures — actuellement conçue pour la noix de cajou mais adaptable au cacao, au karité, au café et à d'autres cultures. Contactez-nous pour discuter du déploiement.",
         "audience": ["partners"]
       },
       {
-        "question": "Puis-je visiter la ferme avant de devenir partenaire ?",
-        "answer": "Absolument. Nous encourageons les partenaires sérieux à visiter notre ferme de 35 hectares à Odienné et à voir Farm OS en action. Rien ne remplace une visite sur place. Les visites sont organisées sur demande.",
+        "question": "Puis-je visiter la ferme avant de m'associer ?",
+        "answer": "Absolument. Nous encourageons les partenaires sérieux à visiter notre ferme de 35 hectares à Odienné et à voir Farm OS en action. Il n'y a pas de substitut à voir l'opération de ses propres yeux. Les visites sont organisées sur demande.",
         "audience": ["partners"],
         "actions": { "contact": true }
       },
       {
+        "question": "Offrez-vous des options de marque blanche ou de marque privée ?",
+        "answer": "Oui. Nous offrons la transformation et l'emballage en marque blanche pour les partenaires qualifiés avec un volume suffisant. Votre marque, notre traçabilité Farm OS et notre chaîne d'approvisionnement certifiée.",
+        "audience": ["partners"]
+      },
+      {
         "question": "Quel est l'engagement minimum pour un partenariat ?",
-        "answer": "Nous concevons des projets pilotes à petite échelle avec des indicateurs clairs avant de passer à l'échelle. Les volumes minimums dépendent du modèle de partenariat. Contactez notre équipe partenariats pour discuter de vos besoins spécifiques.",
+        "answer": "Nous concevons des projets pilotes à petite échelle et avec des indicateurs clairs avant de passer à l'échelle. Les volumes minimums dépendent du modèle de partenariat. Contactez notre équipe de partenariat pour discuter de vos besoins spécifiques.",
         "audience": ["partners"],
         "actions": { "contact": true }
       }
@@ -269,12 +318,12 @@
     "questions": [
       {
         "question": "Qui dirige AfriNuts Export ?",
-        "answer": "AfriNuts est dirigée par Hamza Sangare (PDG) — un ingénieur logiciel qui a construit Farm OS lui-même — aux côtés d'une équipe experte en finance, agriculture, technologie et développement communautaire. La double expérience de notre fondateur en technologie et en agriculture est ce qui rend notre modèle opérationnel possible.",
+        "answer": "AfriNuts est dirigée par Hamza Sangare (PDG) — un ingénieur logiciel qui a construit Farm OS lui-même — aux côtés d'une équipe avec une expertise en finance, agriculture, technologie et développement communautaire. Le double parcours de notre fondateur en technologie et en agriculture est ce qui rend notre modèle opérationnel possible.",
         "audience": ["all", "investors"]
       },
       {
         "question": "Comment la gouvernance est-elle gérée ?",
-        "answer": "Notre gouvernance est transparente et participative, avec la supervision des parties prenantes locales et des conseillers externes pour garantir la responsabilité.",
+        "answer": "Notre gouvernance est transparente et participative, avec une supervision des parties prenantes locales et des conseillers externes pour garantir la responsabilité.",
         "audience": ["all", "investors"]
       }
     ]
@@ -284,33 +333,33 @@
     "questions": [
       {
         "question": "Comment le projet est-il financé ?",
-        "answer": "Le projet est financé par une combinaison d'investissement en capital, de financement éthique et de bénéfices réinvestis. Nous évitons la dette avec intérêt (riba) pour nous aligner sur nos valeurs.",
+        "answer": "Le projet est financé par un mélange d'investissement en actions, de financement éthique et de bénéfices réinvestis. Nous évitons la dette avec intérêt (riba) pour nous aligner sur nos valeurs.",
         "audience": ["all", "investors"]
       },
       {
-        "question": "Fournissez-vous des rapports financiers ?",
+        "question": "Offrez-vous des rapports financiers ?",
         "answer": "Oui. Nous fournissons des mises à jour financières régulières et des rapports transparents à toutes les parties prenantes et investisseurs.",
         "audience": ["investors"]
       }
     ]
   },
   "cta": {
-    "requestInfo": "Demander des Informations",
-    "requestPartnership": "Demander des Infos Partenariat",
-    "requestQuote": "Demander un Devis",
-    "requestPricing": "Demander des Infos sur les Prix",
-    "downloadInvestor": "Télécharger le Prospectus Investisseur",
-    "downloadCertification": "Télécharger la Feuille de Route des Certifications",
-    "downloadWholesale": "Télécharger la Liste de Prix en Gros",
+    "requestInfo": "Demander des informations",
+    "requestPartnership": "Demander des informations sur le partenariat",
+    "requestQuote": "Demander un devis",
+    "requestPricing": "Demander des informations tarifaires",
+    "downloadInvestor": "Télécharger le prospectus investisseur",
+    "downloadCertification": "Télécharger la feuille de route des certifications",
+    "downloadWholesale": "Télécharger la liste de prix de gros",
     "downloadPdf": "Télécharger le PDF"
   },
   "certifications": {
-    "title": "Certifications Que Nous Poursuivons",
+    "title": "Certifications que nous poursuivons",
     "list": [
-      "Certifié Biologique",
-      "Commerce Équitable",
+      "Certifié biologique",
+      "Commerce équitable",
       "ISO 22000",
-      "Certifié Halal",
+      "Certifié halal",
       "Certifié Rainforest Alliance"
     ]
   }

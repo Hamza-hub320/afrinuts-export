@@ -10,6 +10,7 @@
     "interimNote": "Most processors build a factory first, then search for raw material. We are doing the opposite. This Phase One investment launches our domestic raw cashew trading operations — not as an end in itself, but to build verified supplier relationships, cooperative membership, production intelligence, and procurement infrastructure across Côte d'Ivoire. By the time our processing facility is operational, the supply network will already exist. We are building the supply chain before we build the processing capacity.",
     "downloadNda": "Download NDA",
     "scheduleCall": "Schedule a Call",
+    "viewFaq": "Investor FAQ",
     "imageOverlay": "$350K · 10% Equity · Shariah-Compliant",
     "kpis": {
       "targetRaise": "Target Raise",
@@ -46,6 +47,20 @@
       }
     }
   },
+  "landMap": {
+    "title": "Our Land in Odienné",
+    "caption": "70 hectares secured by family grant. 45 hectares dedicated to AfriNuts Farm and the future processing center. The remaining 25 hectares are reserved for a separate community development project — not part of this investment.",
+    "alt": "Land map of AfriNuts 45-hectare farm and processing center estate in Odienné, Côte d'Ivoire",
+    "note": "Precise coordinates and cadastral details available under NDA.",
+    "stats": {
+      "total": "70 hectares",
+      "farm": "35 hectares",
+      "processing": "10 hectares",
+      "community": "25 hectares",
+      "status": "Land Title — Final Validation"
+    },
+    "clarification": "The map below shows the 45 hectares dedicated to AfriNuts Farm and the processing center. The 25-hectare community project is a separate initiative, managed independently, and is not part of this investment."
+  },
   "funding": {
     "title": "What This Investment Activates",
     "subtitle": "This is not a processing center raise. This is the Phase One investment that launches our domestic raw cashew trading operations and builds the supplier intelligence network required before processing begins.",
@@ -66,6 +81,31 @@
       }
     },
     "quote": "\"Most processors build a factory first, then search for raw material. We are building the supply chain before we build the processing capacity.\""
+  },
+  "milestones": {
+    "title": "Structured Capital Deployment (Optional)",
+    "subtitle": "For investors who prefer milestone-based releases, we can structure the Phase One investment in tranches tied to operational results. Standard full-commitment investment is also available.",
+    "tranches": [
+      {
+        "name": "Tranche A — 40%",
+        "trigger": "Legal signing, corporate structuring, and Farm OS demonstration completed",
+        "purpose": "Working capital for RCN trading launch, outgrower onboarding, and operational headquarters setup",
+        "status": "Farm OS demo ready"
+      },
+      {
+        "name": "Tranche B — 35%",
+        "trigger": "First 100 outgrowers onboarded with baseline KOR tracking active via Farm OS",
+        "purpose": "Working capital for raw material aggregation and procurement intelligence tools",
+        "status": "Pending"
+      },
+      {
+        "name": "Tranche C — 25%",
+        "trigger": "Full traceability for 200+ outgrowers verified; Phase Two processing blueprint ready",
+        "purpose": "Final preparation and structural staging for the processing facility",
+        "status": "Pending"
+      }
+    ],
+    "note": "The live Farm OS demo is available to any investor who has signed the NDA. Contact us to schedule a demonstration."
   },
   "charts": {
     "sectionTitle": "The Opportunity + Your Capital",
@@ -95,7 +135,7 @@
   },
   "phaseOneReturns": {
     "title": "Phase One: Trading Returns",
-    "subtitle": "This investment activates domestic raw cashew trading — generating operating cash flow while building the supplier network.",
+    "subtitle": "This investment activates domestic raw cashew trading — generating operating cash flow while building the supplier network. Equity holders receive 10% of net profit as cycles close.",
     "kpis": {
       "investment": "Phase One Raise",
       "investmentValue": "$350,000",
@@ -114,8 +154,13 @@
       "volume": "Volume",
       "profit": "Projected Profit",
       "threeTrucks": "Three Trucks",
-      "note": "Profit verified by an experienced cashew trader. Includes RCN price, storage, labor, transportation, and contingency."
-    }
+      "equityShare": "Equity Holder Share (10%)",
+      "equityShareValue": "$4,356",
+      "mudarabahShare": "Mudarabah Partner Share (20%)",
+      "mudarabahShareValue": "$8,712",
+      "note": "Profit verified by an experienced cashew trader — includes RCN price, storage, labor, transportation, and contingency."
+    },
+    "distributionNote": "Equity holders receive 10% of net trading profit as cycles close. Mudarabah partners receive 20% of actual realized profit per cycle. No deferral to 2033 for Phase One returns."
   },
   "returns": {
     "title": "Phase Two: The Real Upside",
@@ -187,6 +232,40 @@
       "body": "We built AfriNuts as a technology-enabled agribusiness. Our founder is a software engineer who built our own farm operating system. We take the same care with our website as we do with our farm data. A polished page is not a warning sign — it is how serious companies present themselves. If you have any doubts, verify us directly using the details above, or schedule a call and we will walk you through the corporate documents, financial model, and Farm OS platform in person."
     },
     "note": "If you cannot verify these details independently, do not proceed. We welcome your diligence."
+  },
+  "landStatus": {
+    "title": "Land Ownership Status",
+    "body": "Our 70-hectare estate in Odienné is secured through a family grant. The formal land title is in its final validation stage with the Agent Foncier Rural. Surveyor documentation is complete and available for review under NDA.",
+    "status": "Land Title — Final Validation Stage",
+    "document": "Surveyor document available under NDA"
+  },
+  "dueDiligence": {
+    "title": "Due Diligence & Verification",
+    "subtitle": "We expect serious investors to conduct due diligence. Here is what is available publicly and what is available under NDA.",
+    "publicTitle": "Available Publicly",
+    "publicItems": [
+      "Corporate registration — RCCM and IDU numbers published above",
+      "Land status — title in final validation stage; surveyor document available",
+      "Phase One capital allocation — $350K across 7 categories",
+      "Trading projections — verified by an experienced cashew trader",
+      "Certification roadmap — Organic, Halal, ISO 22000, Fair Trade, Rainforest Alliance"
+    ],
+    "ndaTitle": "Available Under NDA",
+    "ndaItems": [
+      "Live Farm OS demonstration — offline/online sync shown in person",
+      "KOR historical analysis — Odienné production is confidential per CCAK",
+      "Cooperative agreements — legal documents signed with farmer network",
+      "Full financial model — including Phase Two projections and dividend table",
+      "Farm OS technical brief — architecture summary (not full blueprint)"
+    ],
+    "note": "We do not publish architecture, supplier contracts, or financial models publicly. We do demonstrate them live under NDA. This protects our competitive advantage and your investment."
+  },
+  "korNote": {
+    "title": "Kernel Outturn (KOR)",
+    "body": "Odienné's total cashew production figures are confidential per the Conseil du Coton et de l'Anacarde (CCAK). Our Phase Two model uses a 25% KOR — an industry-standard conservative planning figure. Our supplier intelligence network is live today: every batch links to its farmer, source type, and quality metrics via Farm OS. As procurement cycles complete, we will publish verified KOR data from our own operations.",
+    "currentAssumption": "25% — industry standard",
+    "currentCapability": "Supplier intelligence live today",
+    "futureCommitment": "Verified KOR data published as procurement cycles complete"
   },
   "certifications": {
     "title": "Certification Roadmap",
@@ -499,6 +578,9 @@
     "beforeCall": "Before Our Call",
     "reviewPage": "Review the Invest page",
     "ndaNote": "The NDA is required for full financial model access. We will send it upon booking.",
+    "faqTitle": "Have Questions First?",
+    "faqText": "Our Investor FAQ answers the most common questions about Phase One, equity, Mudarabah, dividends, and due diligence.",
+    "faqButton": "Read Investor FAQ",
     "note": "All calls are confidential. The NDA is required for full financial model access.",
     "topics": {
       "phaseOne": "Phase One investment terms ($350K / 10% equity)",
