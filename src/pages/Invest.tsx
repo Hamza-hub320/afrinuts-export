@@ -27,7 +27,7 @@ import {
     FaRecycle,
     FaMobile,
     FaStar,
-    FaMapMarkerAlt, FaSearch, FaBullseye, FaEnvelope
+    FaMapMarkerAlt, FaSearch, FaBullseye, FaEnvelope, FaQuestionCircle
 } from 'react-icons/fa';
 import {
     BarChart, Bar, XAxis, YAxis, CartesianGrid,
@@ -44,9 +44,9 @@ import { Helmet } from 'react-helmet-async';
 import ndaPDF from '@/assets/documents/nda-afrinuts.pdf';
 import investHeroImage from '@/assets/images/invest-hero.webp';
 import ceoImage from '@/assets/images/ceo.webp';
+import landMapImage from '@/assets/images/land-map-odienne.webp';
 import {trackCtaClick} from "@/utils/analytics";
 import ProfilePlaceholder from "@/components/ProfilePlaceholder/ProfilePlaceholder";
-import {ScheduleCard} from "@/components/ScheduleCard/ScheduleCard";
 
 
 const Invest: React.FC = () => {
@@ -150,12 +150,19 @@ const Invest: React.FC = () => {
                                 <FaDownload className="text-xs" />{t('hero.downloadNda')}
                             </a>
                             <motion.button onClick={() => {
-  trackCtaClick('schedule_call', 'invest_hero');
-  document.getElementById('schedule-call')?.scrollIntoView({ behavior: 'smooth' });
-}}
+                                trackCtaClick('schedule_call', 'invest_hero');
+                                document.getElementById('schedule-call')?.scrollIntoView({ behavior: 'smooth' });
+}                                       }
                                            className="relative border border-primary/40 text-primary hover:bg-primary/5 px-5 py-2.5 rounded-full text-sm font-medium inline-flex items-center gap-1.5 bg-white/50 backdrop-blur-sm" whileHover={{ y: -1 }}>
                                 <FaHandshake className="text-xs" />{t('hero.scheduleCall')}
                             </motion.button>
+                            <Link
+                                to="/faq?audience=investors"
+                                onClick={() => trackCtaClick('faq_link', 'invest_hero')}
+                                className="relative border border-accent/40 text-accent hover:bg-accent/5 px-5 py-2.5 rounded-full text-sm font-medium inline-flex items-center gap-1.5 bg-white/50 backdrop-blur-sm"
+                            >
+                                <FaQuestionCircle className="text-xs" />{t('hero.viewFaq')}
+                            </Link>
                         </motion.div>
                     </motion.div>
 
@@ -217,6 +224,103 @@ const Invest: React.FC = () => {
                     ))}
                 </div>
             </div></Section>
+            {/* Land Map */}
+            <Section className="py-10">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6">
+                    <motion.div
+                        className="text-center mb-8"
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={fadeIn}
+                    >
+                        <Typography variant="h2" className="mb-4">
+                            {t('landMap.title')}
+                        </Typography>
+                        <Typography variant="body" className="text-gray-600 max-w-3xl mx-auto">
+                            {t('landMap.caption')}
+                        </Typography>
+                    </motion.div>
+
+                    {/* Clarification Banner */}
+                    <motion.div
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={fadeIn}
+                        className="mb-6 p-3 bg-blue-50/80 border border-blue-200 rounded-xl max-w-3xl mx-auto"
+                    >
+                        <Typography variant="small" className="text-blue-700 text-xs text-center">
+                            <FaInfoCircle className="inline mr-1.5" />
+                            {t('landMap.clarification')}
+                        </Typography>
+                    </motion.div>
+
+                    <div className="grid md:grid-cols-3 gap-6">
+                        {/* Map Image */}
+                        <motion.div
+                            className="md:col-span-2"
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                            variants={fadeIn}
+                        >
+                            <div className="relative bg-white/60 backdrop-blur-sm rounded-2xl border-2 border-primary/20 shadow-xl overflow-hidden p-4">
+                                <img
+                                    src={landMapImage}
+                                    alt={t('landMap.alt')}
+                                    className="w-full h-auto rounded-xl"
+                                    loading="lazy"
+                                />
+                                <div className="mt-3 p-3 bg-primary/5 rounded-lg text-center">
+                                    <Typography variant="small" className="text-gray-500 text-xs">
+                                        <FaInfoCircle className="inline mr-1.5 text-accent" />
+                                        {t('landMap.note')}
+                                    </Typography>
+                                </div>
+                            </div>
+                        </motion.div>
+
+                        {/* Stats */}
+                        <motion.div
+                            className="md:col-span-1"
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                            variants={fadeIn}
+                            transition={{ delay: 0.1 }}
+                        >
+                            <div className="space-y-4">
+                                {[
+                                    { label: t('landMap.stats.total'), icon: FaGlobeAfrica, value: '70 ha', variant: 'primary' as const },
+                                    { label: t('landMap.stats.farm'), icon: FaSeedling, value: '35 ha', variant: 'primary' as const },
+                                    { label: t('landMap.stats.processing'), icon: FaIndustry, value: '10 ha', variant: 'primary' as const },
+                                    { label: t('landMap.stats.community'), icon: FaUsers, value: '25 ha', variant: 'accent' as const },
+                                ].map((item, idx) => (
+                                    <InfoCard
+                                        key={idx}
+                                        icon={item.icon}
+                                        title={item.value}
+                                        subtitle={item.label}
+                                        iconColor={item.variant === 'accent' ? 'text-gray-400' : 'text-accent'}
+                                        showInfoBadge={false}
+                                        variant={item.variant}
+                                        className={`text-center ${item.variant === 'accent' ? 'opacity-70' : ''}`}
+                                    />
+                                ))}
+                            </div>
+
+                            {/* Status Badge */}
+                            <div className="mt-4 p-3 bg-primary/5 rounded-lg text-center">
+          <span className="inline-flex items-center gap-1 px-3 py-1 bg-accent/10 text-accent text-xs rounded-full font-medium">
+            <FaFileContract className="text-[10px]" />
+              {t('landMap.stats.status')}
+          </span>
+                            </div>
+                        </motion.div>
+                    </div>
+                </div>
+            </Section>
 
             {/* Total Addressable Market */}
             <Section className="py-10">
@@ -374,6 +478,81 @@ const Invest: React.FC = () => {
                     </motion.div>
                 </div>
             </Section>
+
+            {/* Structured Capital Deployment */}
+            <Section className="py-10">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6">
+                    <motion.div
+                        className="text-center mb-8"
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={fadeIn}
+                    >
+                        <Typography variant="h2" className="mb-4">
+                            {t('milestones.title')}
+                        </Typography>
+                        <Typography variant="body" className="text-gray-600 max-w-2xl mx-auto">
+                            {t('milestones.subtitle')}
+                        </Typography>
+                    </motion.div>
+
+                    <div className="grid md:grid-cols-3 gap-6">
+                        {(t('milestones.tranches', { returnObjects: true }) as any[]).map((tranche, idx) => (
+                            <motion.div
+                                key={idx}
+                                initial="hidden"
+                                whileInView="visible"
+                                viewport={{ once: true }}
+                                variants={fadeIn}
+                                transition={{ delay: idx * 0.1 }}
+                            >
+                                <InfoCard
+                                    icon={FaChartLine}
+                                    title={tranche.name}
+                                    subtitle={tranche.status}
+                                    iconColor="text-accent"
+                                    showInfoBadge={false}
+                                    className="h-full"
+                                >
+                                    <div className="space-y-3 text-sm">
+                                        <div>
+                                            <Typography variant="small" className="text-accent text-xs font-semibold mb-1">
+                                                Trigger
+                                            </Typography>
+                                            <Typography variant="small" className="text-gray-700">
+                                                {tranche.trigger}
+                                            </Typography>
+                                        </div>
+                                        <div>
+                                            <Typography variant="small" className="text-accent text-xs font-semibold mb-1">
+                                                Purpose
+                                            </Typography>
+                                            <Typography variant="small" className="text-gray-700">
+                                                {tranche.purpose}
+                                            </Typography>
+                                        </div>
+                                    </div>
+                                </InfoCard>
+                            </motion.div>
+                        ))}
+                    </div>
+
+                    <motion.div
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={fadeIn}
+                        className="mt-6 p-3 bg-primary/5 rounded-lg max-w-2xl mx-auto text-center"
+                    >
+                        <Typography variant="small" className="text-gray-600 text-xs">
+                            <FaInfoCircle className="inline mr-1.5 text-accent" />
+                            {t('milestones.note')}
+                        </Typography>
+                    </motion.div>
+                </div>
+            </Section>
+
             {/* Farm OS: Technology Behind the Investment */}
             <Section className="py-10">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6">
@@ -673,119 +852,58 @@ const Invest: React.FC = () => {
                         <Typography variant="h2" className="mb-4">
                             {t('phaseOneReturns.title')}
                         </Typography>
-                        <Typography variant="body" className="text-gray-600 max-w-2xl mx-auto">
+                        <Typography variant="body" className="text-gray-600 max-w-3xl mx-auto">
                             {t('phaseOneReturns.subtitle')}
                         </Typography>
                     </motion.div>
 
-                    {/* Phase One KPIs */}
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
                         {[
-                            {
-                                icon: FaMoneyBillWave,
-                                value: t('phaseOneReturns.kpis.investmentValue'),
-                                label: t('phaseOneReturns.kpis.investment'),
-                                sub: '',
-                            },
-                            {
-                                icon: FaChartPie,
-                                value: t('phaseOneReturns.kpis.equityValue'),
-                                label: t('phaseOneReturns.kpis.equity'),
-                                sub: '',
-                            },
-                            {
-                                icon: FaBuilding,
-                                value: t('phaseOneReturns.kpis.postMoneyValue'),
-                                label: t('phaseOneReturns.kpis.postMoney'),
-                                sub: '',
-                            },
-                            {
-                                icon: FaChartLine,
-                                value: t('phaseOneReturns.kpis.profitPerTruckValue'),
-                                label: t('phaseOneReturns.kpis.profitPerTruck'),
-                                sub: '',
-                            },
+                            { icon: FaMoneyBillWave, value: t('phaseOneReturns.kpis.investmentValue'), label: t('phaseOneReturns.kpis.investment') },
+                            { icon: FaChartPie, value: t('phaseOneReturns.kpis.equityValue'), label: t('phaseOneReturns.kpis.equity') },
+                            { icon: FaBuilding, value: t('phaseOneReturns.kpis.postMoneyValue'), label: t('phaseOneReturns.kpis.postMoney') },
+                            { icon: FaChartLine, value: t('phaseOneReturns.kpis.profitPerTruckValue'), label: t('phaseOneReturns.kpis.profitPerTruck') },
                         ].map((item, idx) => (
-                            <motion.div
-                                key={idx}
-                                initial="hidden"
-                                whileInView="visible"
-                                viewport={{ once: true }}
-                                variants={fadeIn}
-                                transition={{ delay: idx * 0.1 }}
-                            >
-                                <InfoCard
-                                    icon={item.icon}
-                                    title={item.value}
-                                    subtitle={item.label}
-                                    iconColor="text-accent"
-                                    showInfoBadge={false}
-                                    className="h-full text-center"
-                                >
-                                    {item.sub && (
-                                        <Typography variant="small" className="text-gray-500 text-xs">
-                                            {item.sub}
-                                        </Typography>
-                                    )}
-                                </InfoCard>
+                            <motion.div key={idx} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} transition={{ delay: idx * 0.1 }}>
+                                <InfoCard icon={item.icon} title={item.value} subtitle={item.label} iconColor="text-accent" showInfoBadge={false} className="h-full text-center" />
                             </motion.div>
                         ))}
                     </div>
 
-                    {/* Trading Projection Table */}
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={fadeIn}
-                        className="mb-8"
-                    >
-                        <InfoCard
-                            icon={FaChartBar}
-                            title={t('phaseOneReturns.tradingTable.title')}
-                            variant="primary"
-                            showInfoBadge={false}
-                        >
+                    <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} className="mb-8">
+                        <InfoCard icon={FaChartBar} title={t('phaseOneReturns.tradingTable.title')} variant="primary" showInfoBadge={false}>
                             <div className="overflow-x-auto">
                                 <table className="w-full text-sm">
                                     <thead>
                                     <tr className="border-b border-gray-200 text-left">
-                                        <th className="pb-2 font-medium text-gray-600">
-                                            {t('phaseOneReturns.tradingTable.metric')}
-                                        </th>
-                                        <th className="pb-2 font-medium text-gray-600 text-right">
-                                            {t('phaseOneReturns.tradingTable.value')}
-                                        </th>
+                                        <th className="pb-2 font-medium text-gray-600">{t('phaseOneReturns.tradingTable.metric')}</th>
+                                        <th className="pb-2 font-medium text-gray-600 text-right">{t('phaseOneReturns.tradingTable.value')}</th>
                                     </tr>
                                     </thead>
                                     <tbody className="divide-y divide-gray-100">
                                     <tr className="hover:bg-white/20 transition-colors">
-                                        <td className="py-2.5">
-                                            {t('phaseOneReturns.tradingTable.capital')}
-                                        </td>
+                                        <td className="py-2.5">{t('phaseOneReturns.tradingTable.capital')}</td>
                                         <td className="py-2.5 text-right font-medium">$30,000</td>
                                     </tr>
                                     <tr className="hover:bg-white/20 transition-colors">
-                                        <td className="py-2.5">
-                                            {t('phaseOneReturns.tradingTable.volume')}
-                                        </td>
+                                        <td className="py-2.5">{t('phaseOneReturns.tradingTable.volume')}</td>
                                         <td className="py-2.5 text-right font-medium">42 MT</td>
                                     </tr>
                                     <tr className="hover:bg-white/20 transition-colors">
-                                        <td className="py-2.5">
-                                            {t('phaseOneReturns.tradingTable.profit')}
-                                        </td>
-                                        <td className="py-2.5 text-right font-bold text-primary">
-                                            $14,520
-                                        </td>
+                                        <td className="py-2.5">{t('phaseOneReturns.tradingTable.profit')}</td>
+                                        <td className="py-2.5 text-right font-bold text-primary">$14,520</td>
+                                    </tr>
+                                    <tr className="hover:bg-white/20 transition-colors">
+                                        <td className="py-2.5">{t('phaseOneReturns.tradingTable.threeTrucks')}</td>
+                                        <td className="py-2.5 text-right font-medium">$90,000 / $43,560</td>
                                     </tr>
                                     <tr className="bg-primary/5 font-semibold">
-                                        <td className="py-2.5">
-                                            {t('phaseOneReturns.tradingTable.threeTrucks')}
-                                        </td>
-                                        <td className="py-2.5 text-right">
-                                            $90,000 / $43,560
-                                        </td>
+                                        <td className="py-2.5">{t('phaseOneReturns.tradingTable.equityShare')}</td>
+                                        <td className="py-2.5 text-right text-primary">{t('phaseOneReturns.tradingTable.equityShareValue')}</td>
+                                    </tr>
+                                    <tr className="bg-accent/5 font-semibold">
+                                        <td className="py-2.5">{t('phaseOneReturns.tradingTable.mudarabahShare')}</td>
+                                        <td className="py-2.5 text-right text-accent">{t('phaseOneReturns.tradingTable.mudarabahShareValue')}</td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -796,6 +914,48 @@ const Invest: React.FC = () => {
                                 </Typography>
                             </div>
                         </InfoCard>
+                    </motion.div>
+
+                    <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} className="p-4 bg-blue-50/80 border-l-4 border-blue-500 rounded-r-xl max-w-3xl mx-auto">
+                        <Typography variant="small" className="text-blue-700 text-sm">
+                            <FaInfoCircle className="inline mr-2" />
+                            {t('phaseOneReturns.distributionNote')}
+                        </Typography>
+                    </motion.div>
+                </div>
+            </Section>
+
+            {/* KOR Note */}
+            <Section className="py-6">
+                <div className="max-w-4xl mx-auto px-4 sm:px-6">
+                    <motion.div
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={fadeIn}
+                        className="bg-blue-50/80 border-l-4 border-blue-500 rounded-r-xl p-4"
+                    >
+                        <div className="flex items-start gap-3">
+                            <FaChartBar className="text-blue-500 mt-0.5 flex-shrink-0" />
+                            <div>
+                                <Typography variant="h5" className="text-blue-800 text-sm font-semibold mb-1">
+                                    {t('korNote.title')}
+                                </Typography>
+                                <Typography variant="small" className="text-blue-700 text-sm leading-relaxed mb-3">
+                                    {t('korNote.body')}
+                                </Typography>
+                                <div className="flex flex-wrap gap-2">
+            <span className="inline-flex items-center gap-1 px-3 py-1 bg-blue-100 text-blue-700 text-xs rounded-full font-medium">
+              <FaInfoCircle className="text-[10px]" />
+                {t('korNote.currentAssumption')}
+            </span>
+                                    <span className="inline-flex items-center gap-1 px-3 py-1 bg-green-100 text-green-700 text-xs rounded-full font-medium">
+              <FaCheckCircle className="text-[10px]" />
+                                        {t('korNote.futureCommitment')}
+            </span>
+                                </div>
+                            </div>
+                        </div>
                     </motion.div>
                 </div>
             </Section>
@@ -1213,7 +1373,113 @@ const Invest: React.FC = () => {
                                     {t('verify.note')}
                                 </Typography>
                             </div>
+                            {/* Land Status */}
+                            <div className="mt-4 p-4 bg-primary/5 rounded-xl border border-primary/10">
+                                <Typography variant="h5" className="text-primary text-sm font-semibold mb-2">
+                                    <FaMapMarkerAlt className="inline mr-2 text-accent" />
+                                    {t('landStatus.title')}
+                                </Typography>
+                                <Typography variant="small" className="text-gray-700 text-sm leading-relaxed mb-3">
+                                    {t('landStatus.body')}
+                                </Typography>
+                                <div className="flex flex-wrap gap-2">
+    <span className="inline-flex items-center gap-1 px-3 py-1 bg-accent/10 text-accent text-xs rounded-full font-medium">
+      <FaFileContract className="text-[10px]" />
+        {t('landStatus.status')}
+    </span>
+                                    <span className="inline-flex items-center gap-1 px-3 py-1 bg-primary/10 text-primary text-xs rounded-full font-medium">
+      <FaCheckCircle className="text-[10px]" />
+                                        {t('landStatus.document')}
+    </span>
+                                </div>
+                            </div>
                         </InfoCard>
+                    </motion.div>
+                </div>
+            </Section>
+
+            {/* Due Diligence & Verification */}
+            <Section className="py-10">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6">
+                    <motion.div
+                        className="text-center mb-8"
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={fadeIn}
+                    >
+                        <Typography variant="h2" className="mb-4">
+                            {t('dueDiligence.title')}
+                        </Typography>
+                        <Typography variant="body" className="text-gray-600 max-w-2xl mx-auto">
+                            {t('dueDiligence.subtitle')}
+                        </Typography>
+                    </motion.div>
+
+                    <div className="grid md:grid-cols-2 gap-6">
+                        {/* Public */}
+                        <motion.div
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                            variants={fadeIn}
+                        >
+                            <InfoCard
+                                icon={FaGlobeAfrica}
+                                title={t('dueDiligence.publicTitle')}
+                                variant="primary"
+                                showInfoBadge={false}
+                                className="h-full"
+                            >
+                                <ul className="space-y-3 text-sm">
+                                    {(t('dueDiligence.publicItems', { returnObjects: true }) as string[]).map((item, idx) => (
+                                        <li key={idx} className="flex items-start gap-2">
+                                            <FaCheckCircle className="text-green-500 mt-0.5 flex-shrink-0 text-xs" />
+                                            <span className="text-gray-700">{item}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </InfoCard>
+                        </motion.div>
+
+                        {/* NDA */}
+                        <motion.div
+                            initial="hidden"
+                            whileInView="visible"
+                            viewport={{ once: true }}
+                            variants={fadeIn}
+                            transition={{ delay: 0.1 }}
+                        >
+                            <InfoCard
+                                icon={FaFileContract}
+                                title={t('dueDiligence.ndaTitle')}
+                                variant="accent"
+                                showInfoBadge={false}
+                                className="h-full"
+                            >
+                                <ul className="space-y-3 text-sm">
+                                    {(t('dueDiligence.ndaItems', { returnObjects: true }) as string[]).map((item, idx) => (
+                                        <li key={idx} className="flex items-start gap-2">
+                                            <FaCheckCircle className="text-accent mt-0.5 flex-shrink-0 text-xs" />
+                                            <span className="text-gray-700">{item}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </InfoCard>
+                        </motion.div>
+                    </div>
+
+                    <motion.div
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true }}
+                        variants={fadeIn}
+                        className="mt-6 p-3 bg-primary/5 rounded-lg max-w-2xl mx-auto text-center"
+                    >
+                        <Typography variant="small" className="text-gray-600 text-xs">
+                            <FaInfoCircle className="inline mr-1.5 text-accent" />
+                            {t('dueDiligence.note')}
+                        </Typography>
                     </motion.div>
                 </div>
             </Section>
@@ -1433,7 +1699,7 @@ const Invest: React.FC = () => {
                     </motion.div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-                        {/* Left Column — What We Will Cover */}
+                        {/* Left Column — What We Will Cover + FAQ */}
                         <motion.div
                             className="md:col-span-1"
                             initial="hidden"
@@ -1441,8 +1707,9 @@ const Invest: React.FC = () => {
                             viewport={{ once: true }}
                             variants={fadeIn}
                         >
-                            <div className="group relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-500 rounded-2xl shadow-xl ring-1 ring-white/10 p-5 sm:p-6 transform-gpu h-full"
-                                 style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
+                            <div
+                                className="group relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-500 rounded-2xl shadow-xl ring-1 ring-white/10 p-5 transform-gpu h-full"
+                                style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
                             >
                                 {/* 3D edge effect */}
                                 <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] pointer-events-none" />
@@ -1453,17 +1720,17 @@ const Invest: React.FC = () => {
 
                                 <div className="relative z-10">
                                     {/* Icon + Title */}
-                                    <div className="flex items-center gap-3 mb-5">
-                                        <div className="bg-white/40 p-3 rounded-full backdrop-blur-md shadow-md">
-                                            <FaCalendarAlt className="text-accent text-2xl" />
+                                    <div className="flex items-center gap-3 mb-4">
+                                        <div className="bg-white/40 p-2.5 rounded-full backdrop-blur-md shadow-md">
+                                            <FaCalendarAlt className="text-accent text-xl" />
                                         </div>
-                                        <Typography variant="h3" className="text-primary text-lg">
+                                        <Typography variant="h3" className="text-primary text-base">
                                             {t('schedule.whatWeCover')}
                                         </Typography>
                                     </div>
 
                                     {/* Agenda items */}
-                                    <ul className="space-y-3 text-sm">
+                                    <ul className="space-y-2 text-xs">
                                         {[
                                             t('schedule.topics.phaseOne'),
                                             t('schedule.topics.supplierStrategy'),
@@ -1473,18 +1740,18 @@ const Invest: React.FC = () => {
                                             t('schedule.topics.protections'),
                                         ].map((topic, idx) => (
                                             <li key={idx} className="flex items-start gap-2">
-                                                <FaCheckCircle className="text-green-500 mt-0.5 flex-shrink-0 text-xs" />
+                                                <FaCheckCircle className="text-green-500 mt-0.5 flex-shrink-0 text-[10px]" />
                                                 <span className="text-gray-700">{topic}</span>
                                             </li>
                                         ))}
                                     </ul>
 
                                     {/* Prep note */}
-                                    <div className="mt-5 pt-5 border-t border-primary/10">
+                                    <div className="mt-4 pt-4 border-t border-primary/10">
                                         <Typography variant="small" className="text-gray-600 text-xs">
                                             <strong className="text-primary">{t('schedule.beforeCall')}:</strong>
                                         </Typography>
-                                        <ul className="space-y-2 text-xs text-gray-600 mt-2">
+                                        <ul className="space-y-1.5 text-xs text-gray-600 mt-2">
                                             <li className="flex items-start gap-2">
                                                 <FaInfoCircle className="text-accent mt-0.5 flex-shrink-0 text-[10px]" />
                                                 <span>
@@ -1500,6 +1767,27 @@ const Invest: React.FC = () => {
                                             </li>
                                         </ul>
                                     </div>
+
+                                    {/* FAQ Banner */}
+                                    <div className="mt-4 pt-4 border-t border-primary/10">
+                                        <div className="flex items-start gap-2 mb-2">
+                                            <FaQuestionCircle className="text-accent mt-0.5 flex-shrink-0 text-sm" />
+                                            <Typography variant="h5" className="text-primary text-xs font-semibold">
+                                                {t('schedule.faqTitle')}
+                                            </Typography>
+                                        </div>
+                                        <Typography variant="small" className="text-gray-600 text-xs mb-3">
+                                            {t('schedule.faqText')}
+                                        </Typography>
+                                        <Link
+                                            to="/faq?audience=investors"
+                                            onClick={() => trackCtaClick('faq_link', 'invest_schedule_card')}
+                                            className="inline-flex items-center gap-1.5 text-accent hover:text-primary text-xs font-medium underline transition-colors"
+                                        >
+                                            {t('schedule.faqButton')}
+                                            <FaArrowRight className="text-[10px]" />
+                                        </Link>
+                                    </div>
                                 </div>
                             </div>
                         </motion.div>
@@ -1514,7 +1802,7 @@ const Invest: React.FC = () => {
                             transition={{ delay: 0.1 }}
                         >
                             <div
-                                className="group relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-500 rounded-2xl shadow-xl ring-1 ring-white/10 p-4 sm:p-6 transform-gpu"
+                                className="group relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-500 rounded-2xl shadow-xl ring-1 ring-white/10 p-3 sm:p-4 transform-gpu"
                                 style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
                             >
                                 {/* 3D edge effect */}
@@ -1529,7 +1817,7 @@ const Invest: React.FC = () => {
                                         <iframe
                                             src="https://calendly.com/contact-afrinutsexport/30min?hide_gdpr_banner=1&primary_color=5A7411&embed_type=Inline&embed_domain=www.afrinutsexport.com"
                                             width="100%"
-                                            height="700"
+                                            height="600"
                                             frameBorder="0"
                                             title="Schedule a Call with AfriNuts Export"
                                             className="rounded-xl"

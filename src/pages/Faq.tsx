@@ -20,7 +20,7 @@ import {
     FaRecycle,
     FaShieldAlt,
     FaHandHoldingUsd,
-    FaUsers, FaQuestionCircle, FaMobile, FaArrowDown, FaEnvelope
+    FaUsers, FaQuestionCircle, FaMobile, FaArrowDown, FaEnvelope, FaRocket
 } from 'react-icons/fa';
 import { motion, LazyMotion, domAnimation } from 'framer-motion';
 import Section from '@/components/Section/Section';
@@ -87,6 +87,7 @@ const Faq: React.FC = () => {
 
     const getTopics = (): FAQTopic[] => [
         { id: 'general', icon: <FaInfoCircle />, title: t('general.title'), questions: t('general.questions', { returnObjects: true }) as FAQItem[], audience: ['all', 'customers'] },
+        { id: 'phaseOne', icon: <FaRocket />, title: t('phaseOne.title'), questions: t('phaseOne.questions', { returnObjects: true }) as FAQItem[], audience: ['all', 'investors'] },
         { id: 'farming', icon: <FaSeedling />, title: t('farming.title'), questions: t('farming.questions', { returnObjects: true }) as FAQItem[], audience: ['all', 'b2b'] },
         { id: 'sustainability', icon: <FaRecycle />, title: t('sustainability.title'), questions: t('sustainability.questions', { returnObjects: true }) as FAQItem[], audience: ['all', 'b2b', 'investors'] },
         { id: 'islamic', icon: <FaMosque />, title: t('islamic.title'), questions: t('islamic.questions', { returnObjects: true }) as FAQItem[], audience: ['all', 'investors'] },
@@ -172,16 +173,48 @@ const Faq: React.FC = () => {
             <JsonLd data={{
                 "@context": "https://schema.org",
                 "@type": "FAQPage",
-                "name": "AfriNuts Export Frequently Asked Questions",
-                "description": "Answers about organic cashew farming, sustainability, processing, and investment in Côte d'Ivoire.",
-                "mainEntity": [{
-                    "@type": "Question",
-                    "name": "What is AfriNuts Export?",
-                    "acceptedAnswer": {
-                        "@type": "Answer",
-                        "text": "AfriNuts Export is a family-owned cashew farm and future processing company based in Odienné, Ivory Coast. We grow organic cashews, plan to build a local processing facility, and reinvest 10% of our profits into community development."
+                "mainEntity": [
+                    {
+                        "@type": "Question",
+                        "name": "What exactly am I investing in?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "A $350,000 Phase One raise for 10% equity in AfriNuts Export SARL, at a $3.5M post-money valuation (minimum investment $50,000)."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "What land does AfriNuts hold?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "AfriNuts owns 70 hectares in Odienné, Côte d'Ivoire: 35 hectares of operating cashew farm, 10 hectares reserved for the processing center, and 25 hectares reserved for a separate community development project."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "How can I verify AfriNuts independently?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "AfriNuts Export SARL is incorporated in Côte d'Ivoire under OHADA law: RCCM CI-ABJ-03-2026-B12-04223, IDU CI-2026-0066959 J. Corporate documents are available under NDA."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "When do investors receive dividends?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "From 2033 onward, once commercial processing is established. The policy is to distribute 50% of net profits to shareholders."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": "What is the difference between equity and Mudarabah options?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": "Equity: 10% ownership at $3.5M post-money. Mudarabah: agreed share of actual realized trading profit with no permanent equity. Both are Shariah-compliant."
+                        }
                     }
-                }]
+                ]
             }} />
             {/* Hero */}
             <Section className="flex items-center justify-center text-center min-h-[90vh]">
