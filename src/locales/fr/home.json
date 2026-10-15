@@ -39,8 +39,7 @@
         "description": "Noix de cajou grillées, beurre de cajou et poudre de lait de cajou. Lancement T1 2025. Rejoignez notre liste d'attente pour un accès anticipé.",
         "icon": "value-added",
         "features": ["Bientôt disponible", "Rejoignez la liste d'attente", "Prix de gros disponibles"],
-        "available": false,
-        "comingSoon": "Disponible T1 2025"
+        "available": false
       }
     ],
     "cta": {
@@ -159,5 +158,23 @@
     "farmers": "Agriculteurs Coopératifs",
     "investor": "Investisseur Actif",
     "tech": "Technologie Propriétaire"
+  },
+  "investorLetter": {
+    "title": "D'investisseur à CTO — dans ses propres mots",
+    "subtitle": "Lorsqu'Alassana Bah a découvert pour la première fois le pitch deck d'AfriNuts, il était sceptique. Puis il s'est rendu à Odienné, a parcouru la ferme et a examiné le code. Il n'a pas seulement investi — il a rejoint l'équipe à plein temps.",
+    "emailLabel": "E-mail original · 17h02",
+    "emailFrom": "Alassana Bah",
+    "emailTo": "Hamza Sangare",
+    "emailPreviewAlt": "E-mail d'investisseur d'Alassana Bah à Hamza Sangare",
+    "emailThumbnailAlt": "E-mail d'investisseur d'Alassana Bah",
+    "pullQuote": "La plupart des agro-entreprises que j'ai examinées espèrent que leur fournisseur de technologie finira par résoudre la traçabilité. AfriNuts l'a déjà résolue. J'ai investi parce que la terre agricole est réelle. J'ai rejoint l'équipe à plein temps parce que c'est le logiciel qui la rend précieuse.",
+    "attribution": "— Alassana Bah, Directeur Technique & Investisseur précoce",
+    "readFullLetter": "Lire la lettre complète",
+    "permission": "Publié avec la permission explicite d'Alassana Bah.",
+    "stats": {
+      "invested": "A investi en premier",
+      "joined": "A rejoint à plein temps",
+      "verified": "Vérifié sur place"
+    }
   }
 }

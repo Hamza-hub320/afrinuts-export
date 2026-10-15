@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import {Link, useNavigate} from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {
     FaChevronDown,
     FaChevronUp,
@@ -25,6 +25,7 @@ import {
 import { motion, LazyMotion, domAnimation } from 'framer-motion';
 import Section from '@/components/Section/Section';
 import { fadeIn, staggerContainer } from '@/utils/animations';
+import { Reveal } from '@/components/Reveal';
 import { Typography } from '@/components/Typography/Typography';
 import { trackCtaClick, trackDownload, trackFormSubmission } from '@/utils/analytics';
 import investorProspectus from '@/assets/documents/investor-prospectus.pdf';
@@ -151,7 +152,6 @@ const Faq: React.FC = () => {
         return '';
     };
 
-    // Shared glassy card style
     const glassCard = "group relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl shadow-xl transition-all duration-500 transform-gpu overflow-hidden";
     const glassEffects = (
         <>
@@ -174,53 +174,18 @@ const Faq: React.FC = () => {
                 "@context": "https://schema.org",
                 "@type": "FAQPage",
                 "mainEntity": [
-                    {
-                        "@type": "Question",
-                        "name": "What exactly am I investing in?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "A $350,000 Phase One raise for 10% equity in AfriNuts Export SARL, at a $3.5M post-money valuation (minimum investment $50,000)."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "What land does AfriNuts hold?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "AfriNuts owns 70 hectares in Odienné, Côte d'Ivoire: 35 hectares of operating cashew farm, 10 hectares reserved for the processing center, and 25 hectares reserved for a separate community development project."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "How can I verify AfriNuts independently?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "AfriNuts Export SARL is incorporated in Côte d'Ivoire under OHADA law: RCCM CI-ABJ-03-2026-B12-04223, IDU CI-2026-0066959 J. Corporate documents are available under NDA."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "When do investors receive dividends?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "From 2033 onward, once commercial processing is established. The policy is to distribute 50% of net profits to shareholders."
-                        }
-                    },
-                    {
-                        "@type": "Question",
-                        "name": "What is the difference between equity and Mudarabah options?",
-                        "acceptedAnswer": {
-                            "@type": "Answer",
-                            "text": "Equity: 10% ownership at $3.5M post-money. Mudarabah: agreed share of actual realized trading profit with no permanent equity. Both are Shariah-compliant."
-                        }
-                    }
+                    { "@type": "Question", "name": "What exactly am I investing in?", "acceptedAnswer": { "@type": "Answer", "text": "A $350,000 Phase One raise for 10% equity in AfriNuts Export SARL, at a $3.5M post-money valuation (minimum investment $50,000)." } },
+                    { "@type": "Question", "name": "What land does AfriNuts hold?", "acceptedAnswer": { "@type": "Answer", "text": "AfriNuts owns 70 hectares in Odienné, Côte d'Ivoire: 35 hectares of operating cashew farm, 10 hectares reserved for the processing center, and 25 hectares reserved for a separate community development project." } },
+                    { "@type": "Question", "name": "How can I verify AfriNuts independently?", "acceptedAnswer": { "@type": "Answer", "text": "AfriNuts Export SARL is incorporated in Côte d'Ivoire under OHADA law: RCCM CI-ABJ-03-2026-B12-04223, IDU CI-2026-0066959 J. Corporate documents are available under NDA." } },
+                    { "@type": "Question", "name": "When do investors receive dividends?", "acceptedAnswer": { "@type": "Answer", "text": "From 2033 onward, once commercial processing is established. The policy is to distribute 50% of net profits to shareholders." } },
+                    { "@type": "Question", "name": "What is the difference between equity and Mudarabah options?", "acceptedAnswer": { "@type": "Answer", "text": "Equity: 10% ownership at $3.5M post-money. Mudarabah: agreed share of actual realized trading profit with no permanent equity. Both are Shariah-compliant." } }
                 ]
             }} />
-            {/* Hero */}
-            <Section className="flex items-center justify-center text-center min-h-[90vh]">
+
+            {/* HERO — own mount animation */}
+            <Section className="flex items-center justify-center text-center min-h-[90vh]" animate={false}>
                 <motion.div className="max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 flex flex-col lg:flex-row items-center gap-6 lg:gap-28" initial="hidden" animate="visible" variants={staggerContainer}>
 
-                    {/* Left: Text Content */}
                     <motion.div className="flex-1 max-w-none lg:max-w-xl text-center lg:text-left" variants={fadeIn}>
                         <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-3">
                             <FaQuestionCircle className="inline mr-2 text-accent" />{t('hero.subtitle')}
@@ -252,7 +217,6 @@ const Faq: React.FC = () => {
                             ))}
                         </div>
 
-                        {/* CTA Buttons */}
                         <motion.div variants={fadeIn} className="flex flex-wrap gap-2.5 justify-center lg:justify-start">
                             <button
                                 onClick={() => {
@@ -268,7 +232,6 @@ const Faq: React.FC = () => {
                         </motion.div>
                     </motion.div>
 
-                    {/* Right: FAQ Image */}
                     <motion.div className="flex-shrink-0 lg:ml-auto lg:-mr-16" variants={fadeIn} transition={{ delay: 0.2 }}>
                         <motion.div className="relative w-96 h-100 sm:w-80 sm:h-80 lg:w-[450px] lg:h-[690px] rounded-[2rem] overflow-hidden shadow-2xl border-2 border-white/40 transform-gpu group"
                                     style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
@@ -289,74 +252,121 @@ const Faq: React.FC = () => {
             <Section className="py-12">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6">
                     {/* Search */}
-                    <motion.div className="mb-8" variants={fadeIn} initial="hidden" whileInView="visible" viewport={{ once: true }}>
+                    <Reveal className="mb-8">
                         <div className="relative max-w-xl mx-auto">
                             <FaSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
-                            <input type="text" placeholder={t('searchPlaceholder', 'Search questions...')} value={searchTerm} onChange={e => setSearchTerm(e.target.value)}
-                                   className="w-full pl-12 pr-4 py-3 rounded-full border border-gray-300 bg-white/70 backdrop-blur-md text-sm focus:outline-none focus:ring-2 focus:ring-primary shadow-sm" />
+                            <input
+                                type="text"
+                                placeholder={t('searchPlaceholder', 'Search questions...')}
+                                value={searchTerm}
+                                onChange={e => setSearchTerm(e.target.value)}
+                                className="w-full pl-12 pr-4 py-3 rounded-full border border-gray-300 bg-white/70 backdrop-blur-md text-sm focus:outline-none focus:ring-2 focus:ring-primary shadow-sm"
+                            />
                         </div>
-                    </motion.div>
+                    </Reveal>
 
                     {/* Audience Filters */}
-                    <motion.div className="mb-10" variants={fadeIn} initial="hidden" whileInView="visible" viewport={{ once: true }}>
+                    <Reveal className="mb-10">
                         <Typography variant="small" className="text-gray-500 mb-3 text-center">{t('filterBy', 'Filter by:')}</Typography>
                         <div className="flex flex-wrap justify-center gap-2">
                             {audienceFilters.map(filter => (
-                                <motion.button key={filter.id} onClick={() => setActiveAudience(filter.id)}
-                                               className={`px-4 py-2 rounded-full text-sm font-medium transition-all flex items-center backdrop-blur-sm ${
-                                                   activeAudience === filter.id ? 'bg-primary text-white shadow-md' : 'bg-white/60 text-gray-600 hover:bg-white/80 border border-gray-200'
-                                               }`}
-                                               whileHover={{ y: -2 }} whileTap={{ scale: 0.95 }}>
+                                <motion.button
+                                    key={filter.id}
+                                    onClick={() => setActiveAudience(filter.id)}
+                                    className={`px-4 py-2 rounded-full text-sm font-medium transition-all flex items-center backdrop-blur-sm ${
+                                        activeAudience === filter.id
+                                            ? 'bg-primary text-white shadow-md'
+                                            : 'bg-white/60 text-gray-600 hover:bg-white/80 border border-gray-200'
+                                    }`}
+                                    whileHover={{ y: -2 }}
+                                    whileTap={{ scale: 0.95 }}
+                                >
                                     {filter.icon}{filter.label}
                                 </motion.button>
                             ))}
                         </div>
-                    </motion.div>
+                    </Reveal>
 
                     {/* Top Questions */}
                     {activeAudience === 'all' && searchTerm === '' && (
-                        <motion.div className={`${glassCard} p-6 mb-10`} style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
-                                    initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}
-                                    whileHover={{ y: -4, scale: 1.01, boxShadow: '0 15px 30px -8px rgba(165,105,66,0.15)', transition: { duration: 0.3 } }}>
-                            {glassEffects}
-                            <div className="relative z-10">
-                                <Typography variant="h3" className="text-primary mb-6 flex items-center gap-2"><FaQuestion className="text-accent" />{t('topQuestions.title', 'Top Questions')}</Typography>
-                                <div className="space-y-3">
-                                    {topQuestions.map((item, index) => (
-                                        <motion.div key={`top-${index}`}
-                                                    className="bg-white/40 backdrop-blur-sm rounded-xl border border-white/30 overflow-hidden"
-                                                    whileHover={{ y: -1 }}>
-                                            <button className="w-full text-left flex justify-between items-center p-4 group"
-                                                    onClick={() => toggleSection(`top-${index}`)} onKeyDown={e => handleKeyDown(e, 'top', index)}
-                                                    aria-expanded={openSections[`top-${index}`]}>
-                                                <Typography variant="h5" className="text-text-dark text-base font-medium group-hover:text-primary transition-colors pr-4">{item.question}</Typography>
-                                                {openSections[`top-${index}`] ? <FaChevronUp className="text-primary flex-shrink-0" /> : <FaChevronDown className="text-primary flex-shrink-0" />}
-                                            </button>
-                                            <LazyMotion features={domAnimation}>
-                                                <motion.div initial={false} animate={{ height: openSections[`top-${index}`] ? 'auto' : 0, opacity: openSections[`top-${index}`] ? 1 : 0 }}
-                                                            transition={{ duration: 0.2 }} className="overflow-hidden">
-                                                    <div className="px-4 pb-4"><Typography variant="body" className="text-gray-600">{item.answer}</Typography></div>
-                                                </motion.div>
-                                            </LazyMotion>
-                                        </motion.div>
-                                    ))}
+                        <Reveal className={`${glassCard} p-6 mb-10`}>
+                            <motion.div
+                                style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
+                                whileHover={{ y: -4, scale: 1.01, boxShadow: '0 15px 30px -8px rgba(165,105,66,0.15)', transition: { duration: 0.3 } }}
+                            >
+                                {glassEffects}
+                                <div className="relative z-10">
+                                    <Typography variant="h3" className="text-primary mb-6 flex items-center gap-2">
+                                        <FaQuestion className="text-accent" />{t('topQuestions.title', 'Top Questions')}
+                                    </Typography>
+                                    <div className="space-y-3">
+                                        {topQuestions.map((item, index) => (
+                                            <motion.div
+                                                key={`top-${index}`}
+                                                className="bg-white/40 backdrop-blur-sm rounded-xl border border-white/30 overflow-hidden"
+                                                initial={{ opacity: 0, y: 10 }}
+                                                whileInView={{ opacity: 1, y: 0 }}
+                                                viewport={{ once: true }}
+                                                transition={{ delay: index * 0.08 }}
+                                                whileHover={{ y: -1 }}
+                                            >
+                                                <button
+                                                    className="w-full text-left flex justify-between items-center p-4 group"
+                                                    onClick={() => toggleSection(`top-${index}`)}
+                                                    onKeyDown={e => handleKeyDown(e, 'top', index)}
+                                                    aria-expanded={openSections[`top-${index}`]}
+                                                >
+                                                    <Typography variant="h5" className="text-text-dark text-base font-medium group-hover:text-primary transition-colors pr-4">
+                                                        {item.question}
+                                                    </Typography>
+                                                    {openSections[`top-${index}`]
+                                                        ? <FaChevronUp className="text-primary flex-shrink-0" />
+                                                        : <FaChevronDown className="text-primary flex-shrink-0" />}
+                                                </button>
+                                                <LazyMotion features={domAnimation}>
+                                                    <motion.div
+                                                        initial={false}
+                                                        animate={{
+                                                            height: openSections[`top-${index}`] ? 'auto' : 0,
+                                                            opacity: openSections[`top-${index}`] ? 1 : 0
+                                                        }}
+                                                        transition={{ duration: 0.2 }}
+                                                        className="overflow-hidden"
+                                                    >
+                                                        <div className="px-4 pb-4">
+                                                            <Typography variant="body" className="text-gray-600">{item.answer}</Typography>
+                                                        </div>
+                                                    </motion.div>
+                                                </LazyMotion>
+                                            </motion.div>
+                                        ))}
+                                    </div>
                                 </div>
-                            </div>
-                        </motion.div>
+                            </motion.div>
+                        </Reveal>
                     )}
 
                     {/* Topic Accordions */}
                     <div className="space-y-4">
-                        {filteredTopics.slice(0, visibleTopics).map((topic) => (
-                            <motion.div key={topic.id} className={glassCard} style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
-                                        initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}
-                                        whileHover={{ y: -4, scale: 1.01, boxShadow: '0 15px 30px -8px rgba(165,105,66,0.15)', transition: { duration: 0.3 } }}>
+                        {filteredTopics.slice(0, visibleTopics).map((topic, idx) => (
+                            <motion.div
+                                key={topic.id}
+                                className={glassCard}
+                                style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
+                                initial={{ opacity: 0, y: 24 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true, margin: "-40px" }}
+                                transition={{ duration: 0.5, delay: idx * 0.08 }}
+                                whileHover={{ y: -4, scale: 1.01, boxShadow: '0 15px 30px -8px rgba(165,105,66,0.15)', transition: { duration: 0.3 } }}
+                            >
                                 {glassEffects}
                                 <div className="relative z-10">
-                                    <button onClick={() => setActiveTopic(prev => prev === topic.id ? '' : topic.id)}
-                                            className={`w-full flex justify-between items-center px-6 py-4 text-left rounded-2xl transition-all ${
-                                                activeTopic === topic.id ? 'bg-primary text-white rounded-b-none' : 'hover:bg-white/30'
-                                            }`}>
+                                    <button
+                                        onClick={() => setActiveTopic(prev => prev === topic.id ? '' : topic.id)}
+                                        className={`w-full flex justify-between items-center px-6 py-4 text-left rounded-2xl transition-all ${
+                                            activeTopic === topic.id ? 'bg-primary text-white rounded-b-none' : 'hover:bg-white/30'
+                                        }`}
+                                    >
                                         <div className="flex items-center gap-3 text-lg font-semibold">
                                             <span className={`${activeTopic === topic.id ? 'text-white' : 'text-accent'}`}>{topic.icon}</span>
                                             {topic.title}
@@ -372,44 +382,71 @@ const Faq: React.FC = () => {
                                                 .filter(q => !q.audience || q.audience.includes(activeAudience) || activeAudience === 'all')
                                                 .filter(q => q.question.toLowerCase().includes(searchTerm.toLowerCase()) || q.answer.toLowerCase().includes(searchTerm.toLowerCase()))
                                                 .map((item, index) => (
-                                                    <motion.div key={`${topic.id}-${index}`}
-                                                                className="bg-white/40 backdrop-blur-sm rounded-xl border border-white/30 overflow-hidden"
-                                                                initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: index * 0.05 }}
-                                                                whileHover={{ y: -1 }}>
-                                                        <button className="w-full text-left flex justify-between items-center p-4 group"
-                                                                onClick={() => toggleSection(`${topic.id}-${index}`)} onKeyDown={e => handleKeyDown(e, topic.id, index)}
-                                                                aria-expanded={openSections[`${topic.id}-${index}`]}>
-                                                            <Typography variant="h5" className="text-text-dark text-sm font-medium group-hover:text-primary transition-colors pr-4">{item.question}</Typography>
-                                                            {openSections[`${topic.id}-${index}`] ? <FaChevronUp className="text-primary flex-shrink-0" /> : <FaChevronDown className="text-primary flex-shrink-0" />}
+                                                    <motion.div
+                                                        key={`${topic.id}-${index}`}
+                                                        className="bg-white/40 backdrop-blur-sm rounded-xl border border-white/30 overflow-hidden"
+                                                        initial={{ opacity: 0, y: 10 }}
+                                                        animate={{ opacity: 1, y: 0 }}
+                                                        transition={{ delay: index * 0.05 }}
+                                                        whileHover={{ y: -1 }}
+                                                    >
+                                                        <button
+                                                            className="w-full text-left flex justify-between items-center p-4 group"
+                                                            onClick={() => toggleSection(`${topic.id}-${index}`)}
+                                                            onKeyDown={e => handleKeyDown(e, topic.id, index)}
+                                                            aria-expanded={openSections[`${topic.id}-${index}`]}
+                                                        >
+                                                            <Typography variant="h5" className="text-text-dark text-sm font-medium group-hover:text-primary transition-colors pr-4">
+                                                                {item.question}
+                                                            </Typography>
+                                                            {openSections[`${topic.id}-${index}`]
+                                                                ? <FaChevronUp className="text-primary flex-shrink-0" />
+                                                                : <FaChevronDown className="text-primary flex-shrink-0" />}
                                                         </button>
                                                         <LazyMotion features={domAnimation}>
-                                                            <motion.div initial={false} animate={{ height: openSections[`${topic.id}-${index}`] ? 'auto' : 0, opacity: openSections[`${topic.id}-${index}`] ? 1 : 0 }}
-                                                                        transition={{ duration: 0.2 }} className="overflow-hidden">
+                                                            <motion.div
+                                                                initial={false}
+                                                                animate={{
+                                                                    height: openSections[`${topic.id}-${index}`] ? 'auto' : 0,
+                                                                    opacity: openSections[`${topic.id}-${index}`] ? 1 : 0
+                                                                }}
+                                                                transition={{ duration: 0.2 }}
+                                                                className="overflow-hidden"
+                                                            >
                                                                 <div className="px-4 pb-4">
                                                                     <Typography variant="body" className="text-gray-600 mb-3">{item.answer}</Typography>
                                                                     {(item.actions?.contact || item.actions?.download || item.actions?.request) && (
                                                                         <div className="flex flex-wrap gap-2 mt-2">
                                                                             {item.actions?.contact && (
-                                                                                <motion.button whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
-                                                                                               className="px-4 py-2 bg-primary text-white rounded-full text-xs font-medium hover:bg-dark-orange transition-colors flex items-center shadow-sm"
-                                                                                               onClick={() => handleActionClick({ type: 'contact' }, item)}>
+                                                                                <motion.button
+                                                                                    whileHover={{ scale: 1.03 }}
+                                                                                    whileTap={{ scale: 0.97 }}
+                                                                                    className="px-4 py-2 bg-primary text-white rounded-full text-xs font-medium hover:bg-dark-orange transition-colors flex items-center shadow-sm"
+                                                                                    onClick={() => handleActionClick({ type: 'contact' }, item)}
+                                                                                >
                                                                                     <FaFileAlt className="mr-1.5" />{getButtonLabel(item)}
                                                                                 </motion.button>
                                                                             )}
                                                                             {item.actions?.download && !["What certifications do you have?", "Do you provide sustainability audits?", "Are your products traceable?", "What is your approach to ESG?"].includes(item.question) && (
-                                                                                <motion.button whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
-                                                                                               className="px-4 py-2 bg-accent text-white rounded-full text-xs font-medium hover:bg-orange-700 transition-colors flex items-center shadow-sm"
-                                                                                               onClick={() => {
-                                                                                                   trackDownload(item.actions?.download || 'faq_document');
-                                                                                                   handleActionClick({ type: 'download', link: item.actions?.download }, item);
-                                                                                               }}>
+                                                                                <motion.button
+                                                                                    whileHover={{ scale: 1.03 }}
+                                                                                    whileTap={{ scale: 0.97 }}
+                                                                                    className="px-4 py-2 bg-accent text-white rounded-full text-xs font-medium hover:bg-orange-700 transition-colors flex items-center shadow-sm"
+                                                                                    onClick={() => {
+                                                                                        trackDownload(item.actions?.download || 'faq_document');
+                                                                                        handleActionClick({ type: 'download', link: item.actions?.download }, item);
+                                                                                    }}
+                                                                                >
                                                                                     <FaDownload className="mr-1.5" />{getButtonLabel(item)}
                                                                                 </motion.button>
                                                                             )}
                                                                             {item.actions?.request && (
-                                                                                <motion.button whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}
-                                                                                               className="px-4 py-2 bg-primary text-white rounded-full text-xs font-medium hover:bg-dark-orange transition-colors flex items-center shadow-sm"
-                                                                                               onClick={() => handleActionClick({ type: 'request', link: item.actions?.request }, item)}>
+                                                                                <motion.button
+                                                                                    whileHover={{ scale: 1.03 }}
+                                                                                    whileTap={{ scale: 0.97 }}
+                                                                                    className="px-4 py-2 bg-primary text-white rounded-full text-xs font-medium hover:bg-dark-orange transition-colors flex items-center shadow-sm"
+                                                                                    onClick={() => handleActionClick({ type: 'request', link: item.actions?.request }, item)}
+                                                                                >
                                                                                     <FaFileAlt className="mr-1.5" />{getButtonLabel(item)}
                                                                                 </motion.button>
                                                                             )}
@@ -429,19 +466,25 @@ const Faq: React.FC = () => {
 
                     {/* Load More */}
                     {visibleTopics < filteredTopics.length && (
-                        <div className="text-center mt-8">
-                            <motion.button onClick={() => setVisibleTopics(prev => prev + 3)}
-                                           className="px-6 py-3 bg-white/60 backdrop-blur-md text-gray-700 rounded-full hover:bg-white/80 transition-all shadow-md border border-gray-200 text-sm font-medium"
-                                           whileHover={{ y: -2 }} whileTap={{ scale: 0.95 }}>
+                        <Reveal className="text-center mt-8">
+                            <motion.button
+                                onClick={() => setVisibleTopics(prev => prev + 3)}
+                                className="px-6 py-3 bg-white/60 backdrop-blur-md text-gray-700 rounded-full hover:bg-white/80 transition-all shadow-md border border-gray-200 text-sm font-medium"
+                                whileHover={{ y: -2 }}
+                                whileTap={{ scale: 0.95 }}
+                            >
                                 {t('loadMore', 'Load More Topics')}
                             </motion.button>
-                        </div>
+                        </Reveal>
                     )}
 
                     {/* Still Have Questions CTA */}
-                    <motion.div className="mt-12 max-w-lg mx-auto" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
-                        <motion.div className={`${glassCard} p-8 text-center`} style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
-                                    whileHover={{ y: -6, scale: 1.02, boxShadow: '0 20px 35px -10px rgba(0,0,0,0.2)', transition: { duration: 0.3 } }}>
+                    <Reveal className="mt-12 max-w-lg mx-auto">
+                        <motion.div
+                            className={`${glassCard} p-8 text-center`}
+                            style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
+                            whileHover={{ y: -6, scale: 1.02, boxShadow: '0 20px 35px -10px rgba(0,0,0,0.2)', transition: { duration: 0.3 } }}
+                        >
                             {glassEffects}
                             <div className="relative z-10">
                                 <div className="flex justify-center mb-4">
@@ -449,19 +492,24 @@ const Faq: React.FC = () => {
                                 </div>
                                 <Typography variant="h3" className="text-primary mb-3">{t('stillQuestions.title')}</Typography>
                                 <Typography variant="body" className="text-gray-600 mb-6">{t('stillQuestions.content')}</Typography>
-                                <motion.button onClick={() => {
-                                    trackCtaClick('still_questions', 'faq_page');
-                                    navigate('/contact');
-                                }}
-                                               className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-3 rounded-full transform-gpu group/btn overflow-hidden font-medium shadow-md"
-                                               whileHover={{ y: -2, scale: 1.03, boxShadow: '0 10px 25px -5px rgba(165,105,66,0.4)' }} whileTap={{ scale: 0.95 }}>
+                                <motion.button
+                                    onClick={() => {
+                                        trackCtaClick('still_questions', 'faq_page');
+                                        navigate('/contact');
+                                    }}
+                                    className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-3 rounded-full transform-gpu group/btn overflow-hidden font-medium shadow-md"
+                                    whileHover={{ y: -2, scale: 1.03, boxShadow: '0 10px 25px -5px rgba(165,105,66,0.4)' }}
+                                    whileTap={{ scale: 0.95 }}
+                                >
                                     <div className="absolute inset-0 rounded-full border-2 border-white/30" />
                                     <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50" />
-                                    <span className="relative z-10 flex items-center gap-2">{t('stillQuestions.button')}<FaArrowRight /></span>
+                                    <span className="relative z-10 flex items-center gap-2">
+                                        {t('stillQuestions.button')}<FaArrowRight />
+                                    </span>
                                 </motion.button>
                             </div>
                         </motion.div>
-                    </motion.div>
+                    </Reveal>
                 </div>
             </Section>
         </main>

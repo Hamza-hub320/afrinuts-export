@@ -164,8 +164,9 @@
   },
   "returns": {
     "title": "Phase Deux : le véritable potentiel",
+    "subtitle": "La Phase Un génère des rendements de négoce. La Phase Deux est là où la valeur des actions se compose. Une entrée de 350 K$ à 3,5 M$ post-money ne représente qu'une fraction de ce que cette arithmétique soutient à l'échelle.",
+    "subtitleNote": "Les chiffres ci-dessous sont des unités économiques illustratives utilisant les prix actuels du marché et les ratios de transformation standard — non pas une prévision, ni une demande de financement. La structure de financement de la Phase Deux sera déterminée avec les investisseurs après NDA.",
     "community": "Rendements dans cette vie et dans l'au-delà",
-    "subtitle": "Lorsque notre usine de transformation sera opérationnelle (2031+), l'économie de l'entreprise se transformera. Ceci est une projection de ce que devient AfriNuts — non pas une demande de financement. La structure de financement de la Phase Deux sera déterminée avec les investisseurs après NDA.",
     "kpis": {
       "processingLaunch": "Lancement de la transformation",
       "processingLaunchValue": "2031",
@@ -178,6 +179,7 @@
     },
     "unitEconomics": {
       "title": "Par tonne métrique de RCN transformée",
+      "subtitle": "En utilisant le prix bord-champ actuel fixé par le gouvernement et les ratios standard de rendement en amandes",
       "item": "Poste",
       "value": "Valeur",
       "rcnCost": "Prix d'achat RCN",
@@ -203,12 +205,24 @@
       "phaseFour": {
         "title": "À l'échelle Phase Quatre (70 000 MT/an)",
         "revenue": "Revenu annuel (amandes uniquement) : 113 M$+ US",
-        "valuation": "Valeur d'entreprise à 3x le revenu : 340 M$+ US"
+        "valuation": "Valeur d'entreprise de référence à 3x le revenu : 340 M$+ US",
+        "valuationNote": "3x le revenu est un multiple de référence standard pour la transformation agricole en phase de démarrage. La valorisation réelle à la sortie dépendrait de la rentabilité, du taux de croissance et de l'appétit des acheteurs."
       }
     },
-    "bottomLine": "Un investissement en capital de 350 K$ en Phase Un à une valorisation post-money de 3,5 M$ représente une fraction de ce que AfriNuts peut devenir.",
-    "ndaNote": "Le modèle financier complet, incluant les projections de dividendes et les options de financement Phase Deux (capital ou prêt), est disponible après signature de la NDA.",
-    "disclaimer": "Projections du scénario de base. Scénarios conservateurs et optimistes disponibles dans le modèle financier complet après NDA. Ceci ne constitue pas une offre de vente de titres."
+    "structures": {
+      "title": "Deux structures, une opportunité",
+      "equity": {
+        "title": "Actions",
+        "description": "Pour les investisseurs qui souhaitent participer à la transformation complète de la chaîne de valeur. 10 % de propriété à une valorisation post-money de 3,5 M$. Les rendements croissent avec l'entreprise."
+      },
+      "mudarabah": {
+        "title": "Mudarabah",
+        "description": "Pour les investisseurs qui préfèrent des rendements basés sur des transactions issus uniquement du négoce de la Phase Un. Pourcentage convenu du profit de négoce réellement réalisé par cycle. Aucune participation permanente."
+      }
+    },
+    "bottomLine": "Un investissement en actions de 350 K$ en Phase Un à 3,5 M$ post-money ne représente qu'une fraction de ce que cette arithmétique soutient à l'échelle.",
+    "ndaNote": "Le modèle financier complet, incluant les projections de dividendes et les options de financement de la Phase Deux, est disponible après signature de la NDA.",
+    "disclaimer": "Unités économiques illustratives basées sur les prix actuels du marché et les ratios de transformation standard de l'industrie. Les résultats réels dépendent de l'exécution, des conditions du marché et de la performance opérationnelle. Ceci ne constitue pas une offre de vente de titres."
   },
   "verify": {
     "title": "Comment vérifier AfriNuts",
@@ -590,5 +604,25 @@
       "structures": "Structures d'investissement : capitaux propres ou Mudarabah conforme à la charia",
       "protections": "Protections des investisseurs, voies de sortie et reporting"
     }
-  }
+  },
+  "investorLetter": {
+    "title": "D'investisseur à CTO — dans ses propres mots",
+    "subtitle": "Alassana Bah a d'abord investi dans AfriNuts en tant qu'investisseur externe. Après avoir visité la ferme et examiné le code, il a rejoint l'équipe à plein temps en tant que Directeur Technique. Voici l'e-mail non modifié qu'il a envoyé à notre fondateur.",
+    "emailLabel": "E-mail original · 17h02",
+    "emailFrom": "Alassana Bah",
+    "emailTo": "Hamza Sangare",
+    "emailPreviewAlt": "E-mail d'investisseur d'Alassana Bah à Hamza Sangare",
+    "viewFullEmail": "Voir l'e-mail complet",
+    "pullQuotes": {
+      "one": "C'est à ce moment-là que j'ai cessé de considérer cela comme une ferme. C'est un système d'exploitation pour l'agriculture africaine. La ferme est le cas pilote.",
+      "two": "La plupart des agro-entreprises que j'ai examinées espèrent que leur fournisseur de technologie finira par résoudre la traçabilité. AfriNuts l'a déjà résolue.",
+      "three": "J'ai investi parce que la terre agricole est réelle. J'ai rejoint à plein temps parce que c'est le logiciel qui la rend précieuse."
+    },
+    "closingNote": "Si vous lisez ceci et envisagez le tour — demandez la démo à Hamza. Pas une maquette. La véritable application.",
+    "attribution": "— Alassana Bah, Directeur Technique & Investisseur précoce",
+    "ctaPrimary": "Demander la démo en direct",
+    "ctaSecondary": "Planifier une visite de la ferme",
+    "verifyNote": "Le profil LinkedIn d'Alassana et son historique d'investissement sont disponibles sous NDA. Son rôle de CTO est publiquement listé sur notre page Équipe de direction."
+  },
+  "permission": "Publié avec la permission explicite d'Alassana Bah. Détails personnels masqués là où approprié."
 }

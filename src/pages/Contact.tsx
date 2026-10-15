@@ -16,6 +16,7 @@ import { trackCtaClick, trackFormSubmission } from '@/utils/analytics';
 import Section from '@/components/Section/Section';
 import { motion } from 'framer-motion';
 import { fadeIn, staggerContainer } from '@/utils/animations';
+import { Reveal, StaggerList, StaggerItem } from '@/components/Reveal';
 import { Typography } from "@/components/Typography/Typography";
 import { useNavigate, Link } from 'react-router-dom';
 import { InfoCard } from '@/components/InfoCard/InfoCard';
@@ -163,11 +164,10 @@ const Contact: React.FC = () => {
             </div>
         )}
 
-        {/* Hero — Text + Weather Widget */}
-        <Section className="flex items-center justify-center text-center min-h-[65vh]">
+        {/* HERO — own mount animation */}
+        <Section className="flex items-center justify-center text-center min-h-[65vh]" animate={false}>
           <motion.div className="max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 flex flex-col lg:flex-row items-center gap-6 lg:gap-28" initial="hidden" animate="visible" variants={staggerContainer}>
 
-            {/* Left: Text Content */}
             <motion.div className="flex-1 max-w-none lg:max-w-xl text-center lg:text-left" variants={fadeIn}>
               <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-3">
                 <FaEnvelope className="inline mr-2 text-accent" />{t('hero.subtitle', 'Get in Touch')}
@@ -176,12 +176,10 @@ const Contact: React.FC = () => {
                 {t('hero.title', "Let's Talk Cashews")}
               </motion.h1>
 
-              {/* Lead text */}
               <Typography variant="lead" className="text-text-dark mb-5 text-base lg:text-lg">
                 {t('hero.lead', 'Wholesale buyers, investors, partners, or just curious — choose your path and we\'ll get you to the right person.')}
               </Typography>
 
-              {/* Hero Intro Card */}
               <motion.div variants={fadeIn} className="mb-5">
                 <InfoCard
                     icon={FaEnvelope}
@@ -204,7 +202,6 @@ const Contact: React.FC = () => {
               </div>
             </motion.div>
 
-            {/* Right: Weather Widget */}
             <motion.div className="flex-shrink-0 lg:ml-auto w-full max-w-sm lg:max-w-md" variants={fadeIn} transition={{ delay: 0.2 }}>
               <WeatherDisplay location="Odienne" />
               <Typography variant="small" className="text-gray-500 text-xs text-center mt-3">
@@ -214,50 +211,56 @@ const Contact: React.FC = () => {
           </motion.div>
         </Section>
 
-        {/* Quick Contact Options — Info Cards Row */}
+        {/* QUICK CONTACT — staggered cards */}
         <Section className="py-6">
           <div className="max-w-6xl mx-auto px-4 sm:px-6">
-            <div className="grid md:grid-cols-3 gap-4">
-              <InfoCard icon={FaEnvelope} title={t('info.email')} iconColor="text-accent" variant="secondary" showInfoBadge={false} className="text-center">
-                <div className="space-y-1">
-                  <a href="mailto:contact@afrinutsexport.com" className="block text-sm text-gray-600 hover:text-primary transition-colors">
-                    {t('info.emailPrimary')}
-                  </a>
-                  <a href="mailto:sales@afrinutsexport.com" className="block text-sm text-gray-600 hover:text-primary transition-colors">
-                    {t('info.emailSecondary')}
-                  </a>
-                </div>
-              </InfoCard>
-              <InfoCard icon={FaPhone} title={t('info.phone')} iconColor="text-accent" variant="secondary" showInfoBadge={false} className="text-center">
-                <div className="space-y-1">
-                  <a href="tel:+2250779191460" className="block text-sm text-gray-600 hover:text-primary transition-colors">
-                    <FaPhone className="inline mr-1 text-[10px]" />
-                    +225 07 79 19 14 60
-                    <span className="block text-[10px] text-gray-400">Côte d'Ivoire</span>
-                  </a>
-                  <a href="tel:+16825387277" className="block text-sm text-gray-600 hover:text-primary transition-colors">
-                    <FaPhone className="inline mr-1 text-[10px]" />
-                    +1 (682) 538-7277
-                    <span className="block text-[10px] text-gray-400">United States</span>
-                  </a>
-                </div>
-                <Typography variant="small" className="text-gray-500 text-xs mt-2">{t('info.hours')}</Typography>
-              </InfoCard>
-              <InfoCard icon={FaMapMarkerAlt} title={t('info.headquarters')} iconColor="text-accent" variant="secondary" showInfoBadge={false} className="text-center">
-                <Typography variant="small" className="text-gray-600">{t('info.address')}</Typography>
-                <Typography variant="small" className="text-gray-500 text-xs">{t('info.zipCode')}</Typography>
-              </InfoCard>
-            </div>
+            <StaggerList className="grid md:grid-cols-3 gap-4">
+              <StaggerItem>
+                <InfoCard icon={FaEnvelope} title={t('info.email')} iconColor="text-accent" variant="secondary" showInfoBadge={false} className="text-center h-full">
+                  <div className="space-y-1">
+                    <a href="mailto:contact@afrinutsexport.com" className="block text-sm text-gray-600 hover:text-primary transition-colors">
+                      {t('info.emailPrimary')}
+                    </a>
+                    <a href="mailto:sales@afrinutsexport.com" className="block text-sm text-gray-600 hover:text-primary transition-colors">
+                      {t('info.emailSecondary')}
+                    </a>
+                  </div>
+                </InfoCard>
+              </StaggerItem>
+              <StaggerItem>
+                <InfoCard icon={FaPhone} title={t('info.phone')} iconColor="text-accent" variant="secondary" showInfoBadge={false} className="text-center h-full">
+                  <div className="space-y-1">
+                    <a href="tel:+2250779191460" className="block text-sm text-gray-600 hover:text-primary transition-colors">
+                      <FaPhone className="inline mr-1 text-[10px]" />
+                      +225 07 79 19 14 60
+                      <span className="block text-[10px] text-gray-400">Côte d'Ivoire</span>
+                    </a>
+                    <a href="tel:+16825387277" className="block text-sm text-gray-600 hover:text-primary transition-colors">
+                      <FaPhone className="inline mr-1 text-[10px]" />
+                      +1 (682) 538-7277
+                      <span className="block text-[10px] text-gray-400">United States</span>
+                    </a>
+                  </div>
+                  <Typography variant="small" className="text-gray-500 text-xs mt-2">{t('info.hours')}</Typography>
+                </InfoCard>
+              </StaggerItem>
+              <StaggerItem>
+                <InfoCard icon={FaMapMarkerAlt} title={t('info.headquarters')} iconColor="text-accent" variant="secondary" showInfoBadge={false} className="text-center h-full">
+                  <Typography variant="small" className="text-gray-600">{t('info.address')}</Typography>
+                  <Typography variant="small" className="text-gray-500 text-xs">{t('info.zipCode')}</Typography>
+                </InfoCard>
+              </StaggerItem>
+            </StaggerList>
           </div>
         </Section>
 
-        {/* Form + Sidebar — Main Content */}
+        {/* FORM + SIDEBAR */}
         <Section className="py-8">
           <div className="max-w-6xl mx-auto px-4 sm:px-6">
             <div className="grid lg:grid-cols-3 gap-8">
 
               {/* Form — Takes 2/3 on desktop */}
-              <div className="lg:col-span-2">
+              <Reveal className="lg:col-span-2">
                 <FormCard title={t('form.title')} variant="secondary" className="w-full">
                   {errors.submit && (
                       <div className="bg-red-50 border-l-4 border-red-500 text-red-700 p-4 mb-6 rounded">
@@ -351,54 +354,57 @@ const Contact: React.FC = () => {
                     <FaShieldAlt className="inline mr-1" />{t('form.privacy', 'Your information is secure and will never be shared.')}
                   </div>
                 </FormCard>
-              </div>
+              </Reveal>
 
-              {/* Sidebar — Shipping, Payment, FAQ */}
-              <div className="space-y-5">
-                {/* Shipping Options */}
-                <InfoCard icon={FaTruck} title={t('shippingGuidance.title')} variant="secondary" showInfoBadge={false}>
-                  <div className="space-y-3 text-sm">
-                    <div className="flex items-start gap-2">
-                      <FaCheckCircle className="text-green-500 mt-0.5 flex-shrink-0 text-xs" />
-                      <div>
-                        <span className="font-medium text-gray-800">{t('shippingGuidance.fob.title')}</span>
-                        <p className="text-gray-600 text-xs">{t('shippingGuidance.fob.description')}</p>
+              {/* Sidebar */}
+              <StaggerList className="space-y-5">
+                <StaggerItem>
+                  <InfoCard icon={FaTruck} title={t('shippingGuidance.title')} variant="secondary" showInfoBadge={false}>
+                    <div className="space-y-3 text-sm">
+                      <div className="flex items-start gap-2">
+                        <FaCheckCircle className="text-green-500 mt-0.5 flex-shrink-0 text-xs" />
+                        <div>
+                          <span className="font-medium text-gray-800">{t('shippingGuidance.fob.title')}</span>
+                          <p className="text-gray-600 text-xs">{t('shippingGuidance.fob.description')}</p>
+                        </div>
                       </div>
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <FaCheckCircle className="text-green-500 mt-0.5 flex-shrink-0 text-xs" />
-                      <div>
-                        <span className="font-medium text-gray-800">{t('shippingGuidance.exw.title')}</span>
-                        <p className="text-gray-600 text-xs">{t('shippingGuidance.exw.description')}</p>
+                      <div className="flex items-start gap-2">
+                        <FaCheckCircle className="text-green-500 mt-0.5 flex-shrink-0 text-xs" />
+                        <div>
+                          <span className="font-medium text-gray-800">{t('shippingGuidance.exw.title')}</span>
+                          <p className="text-gray-600 text-xs">{t('shippingGuidance.exw.description')}</p>
+                        </div>
                       </div>
+                      <div className="text-xs text-gray-400 pt-2 border-t border-gray-100">{t('shippingGuidance.helpText')}</div>
                     </div>
-                    <div className="text-xs text-gray-400 pt-2 border-t border-gray-100">{t('shippingGuidance.helpText')}</div>
-                  </div>
-                </InfoCard>
+                  </InfoCard>
+                </StaggerItem>
 
-                {/* Offline Payment */}
-                <InfoCard icon={FaBuilding} title={t('offlinePayment.title')} variant="secondary" showInfoBadge={false}>
-                  <Typography variant="small" className="text-gray-600 mb-3">{t('offlinePayment.description')}</Typography>
-                  <div className="flex flex-wrap gap-1.5">
-                    {(t('offlinePayment.methods', { returnObjects: true }) as string[]).map((method, idx) => (
-                        <span key={idx} className="px-2.5 py-1 bg-white/50 rounded-full text-xs text-gray-700 border border-gray-200">{method}</span>
-                    ))}
-                  </div>
-                </InfoCard>
+                <StaggerItem>
+                  <InfoCard icon={FaBuilding} title={t('offlinePayment.title')} variant="secondary" showInfoBadge={false}>
+                    <Typography variant="small" className="text-gray-600 mb-3">{t('offlinePayment.description')}</Typography>
+                    <div className="flex flex-wrap gap-1.5">
+                      {(t('offlinePayment.methods', { returnObjects: true }) as string[]).map((method, idx) => (
+                          <span key={idx} className="px-2.5 py-1 bg-white/50 rounded-full text-xs text-gray-700 border border-gray-200">{method}</span>
+                      ))}
+                    </div>
+                  </InfoCard>
+                </StaggerItem>
 
-                {/* FAQ Link */}
-                <div className="text-center">
-                  <Link to="/faq" className="text-accent hover:text-primary text-sm font-medium inline-flex items-center gap-1">
-                    {t('form.faqLink', 'View Frequently Asked Questions')} <FaArrowRight className="text-xs" />
-                  </Link>
-                </div>
-              </div>
+                <StaggerItem>
+                  <div className="text-center">
+                    <Link to="/faq" className="text-accent hover:text-primary text-sm font-medium inline-flex items-center gap-1">
+                      {t('form.faqLink', 'View Frequently Asked Questions')} <FaArrowRight className="text-xs" />
+                    </Link>
+                  </div>
+                </StaggerItem>
+              </StaggerList>
 
             </div>
           </div>
         </Section>
 
-        {/* Map Section */}
+        {/* MAP */}
         <Section className="py-10">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
             <Typography variant="h2" className="mb-4">{t('map.title')}</Typography>

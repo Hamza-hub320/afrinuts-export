@@ -39,8 +39,7 @@
         "description": "Roasted cashews, cashew butter, and cashew milk powder. Launching Q1 2025. Join our waitlist for early access.",
         "icon": "value-added",
         "features": ["Coming soon", "Join waitlist", "Bulk pricing available"],
-        "available": false,
-        "comingSoon": "Available Q1 2025"
+        "available": false
       }
     ],
     "cta": {
@@ -159,5 +158,23 @@
     "farmers": "Cooperative Farmers",
     "investor": "Active Investor",
     "tech": "Proprietary Tech"
+  },
+  "investorLetter": {
+    "title": "From Investor to CTO — In His Own Words",
+    "subtitle": "When Alassana Bah first saw the AfriNuts pitch deck, he was skeptical. Then he flew to Odienné, walked the farm, and reviewed the code. He didn't just invest — he joined full-time.",
+    "emailLabel": "Original email · 5:02 PM",
+    "emailFrom": "Alassana Bah",
+    "emailTo": "Hamza Sangare",
+    "emailPreviewAlt": "Alassana Bah's investor email to Hamza Sangare",
+    "emailThumbnailAlt": "Investor email from Alassana Bah",
+    "pullQuote": "Most agribusinesses I've looked at are hoping their tech vendor will eventually solve traceability. AfriNuts already solved it. I invested because the farmland is real. I joined full-time because the software is what makes it valuable.",
+    "attribution": "— Alassana Bah, Chief Technology Officer & Early Investor",
+    "readFullLetter": "Read the full letter",
+    "permission": "Published with Alassana Bah's explicit permission.",
+    "stats": {
+      "invested": "Invested first",
+      "joined": "Joined full-time",
+      "verified": "Verified on-site"
+    }
   }
 }

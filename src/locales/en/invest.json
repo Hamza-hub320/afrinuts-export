@@ -164,8 +164,9 @@
   },
   "returns": {
     "title": "Phase Two: The Real Upside",
+    "subtitle": "Phase One delivers trading returns. Phase Two is where equity value compounds. A $350K entry at $3.5M post-money is a fraction of what this arithmetic supports at scale.",
+    "subtitleNote": "The numbers below are illustrative unit economics using today's market prices and standard processing ratios — not a forecast, and not a financing ask. Phase Two financing structure will be determined with investors after NDA.",
     "community": "Returns in this life and the next",
-    "subtitle": "When our processing facility is operational (2031+), the economics of the business transform. This is a projection of what AfriNuts becomes — not a financing ask. Financing structure for Phase Two will be determined with investors after NDA.",
     "kpis": {
       "processingLaunch": "Processing Launch",
       "processingLaunchValue": "2031",
@@ -178,6 +179,7 @@
     },
     "unitEconomics": {
       "title": "Per Metric Tonne of RCN Processed",
+      "subtitle": "Using today's government-set farmgate price and standard kernel outturn ratios",
       "item": "Item",
       "value": "Value",
       "rcnCost": "RCN Purchase Price",
@@ -203,12 +205,24 @@
       "phaseFour": {
         "title": "At Phase Four Scale (70,000 MT/year)",
         "revenue": "Annual revenue (kernels only): US$113M+",
-        "valuation": "Enterprise value at 3x revenue: US$340M+"
+        "valuation": "Reference enterprise value at 3x revenue: US$340M+",
+        "valuationNote": "3x revenue is a standard reference multiple for early-stage agricultural processing. Actual valuation at exit would depend on profitability, growth rate, and buyer appetite."
       }
     },
-    "bottomLine": "A $350K Phase One equity investment at $3.5M post-money is a fraction of what AfriNuts can become.",
-    "ndaNote": "Full financial model, including dividend projections and Phase Two financing options (equity or loan), is available after signing the NDA.",
-    "disclaimer": "Base case projections. Conservative and optimistic scenarios available in the full financial model after NDA. This is not an offer to sell securities."
+    "structures": {
+      "title": "Two Structures, One Opportunity",
+      "equity": {
+        "title": "Equity",
+        "description": "For investors who want to participate in the full value chain transformation. 10% ownership at a $3.5M post-money valuation. Returns grow with the business."
+      },
+      "mudarabah": {
+        "title": "Mudarabah",
+        "description": "For investors who prefer transaction-based returns from Phase One trading alone. Agreed percentage of actual realized trading profit per cycle. No permanent equity."
+      }
+    },
+    "bottomLine": "A $350K Phase One equity investment at $3.5M post-money is a fraction of what this arithmetic supports at scale.",
+    "ndaNote": "Full financial model, including dividend projections and Phase Two financing options, is available after signing the NDA.",
+    "disclaimer": "Illustrative unit economics based on current market prices and industry-standard processing ratios. Actual results depend on execution, market conditions, and operational performance. This is not an offer to sell securities."
   },
   "verify": {
     "title": "How to Verify AfriNuts",
@@ -228,8 +242,8 @@
       "documentsValue": "Available for review under NDA"
     },
     "whyPolished": {
-      "title": "Why This Page Looks Professional",
-      "body": "We built AfriNuts as a technology-enabled agribusiness. Our founder is a software engineer who built our own farm operating system. We take the same care with our website as we do with our farm data. A polished page is not a warning sign — it is how serious companies present themselves. If you have any doubts, verify us directly using the details above, or schedule a call and we will walk you through the corporate documents, financial model, and Farm OS platform in person."
+      "title": "About This Presentation",
+      "body": "AfriNuts is a technology-enabled agribusiness. Our founder is a software engineer who built our own farm operating system, and we apply the same care to how we present our business. Every claim on this page can be verified using the corporate details above. If you would like to review the corporate documents, financial model, or Farm OS platform in more detail, we welcome a call."
     },
     "note": "If you cannot verify these details independently, do not proceed. We welcome your diligence."
   },
@@ -590,5 +604,25 @@
       "structures": "Investment structures: equity or Shariah-compliant Mudarabah",
       "protections": "Investor protections, exit paths, and reporting"
     }
-  }
+  },
+  "investorLetter": {
+    "title": "From Investor to CTO — In His Own Words",
+    "subtitle": "Alassana Bah first invested in AfriNuts as an external investor. After visiting the farm and reviewing the code, he joined full-time as Chief Technology Officer. This is the unedited email he sent to our founder.",
+    "emailLabel": "Original email · 5:02 PM",
+    "emailFrom": "Alassana Bah",
+    "emailTo": "Hamza Sangare",
+    "emailPreviewAlt": "Alassana Bah's investor email to Hamza Sangare",
+    "viewFullEmail": "View full email",
+    "pullQuotes": {
+      "one": "That's when I stopped thinking of this as a farm. It's an operating system for African agriculture. The farm is the pilot case.",
+      "two": "Most agribusinesses I've looked at are hoping their tech vendor will eventually solve traceability. AfriNuts already solved it.",
+      "three": "I invested because the farmland is real. I joined full-time because the software is what makes it valuable."
+    },
+    "closingNote": "If you're reading this and considering the round — ask Hamza for the demo. Not a mockup. The actual app.",
+    "attribution": "— Alassana Bah, Chief Technology Officer & Early Investor",
+    "ctaPrimary": "Request the Live Demo",
+    "ctaSecondary": "Schedule a Farm Visit",
+    "verifyNote": "Alassana's LinkedIn profile and investment history are available under NDA. His role as CTO is publicly listed on our Executive Team page."
+  },
+  "investorLetter.permission": "Published with Alassana Bah's explicit permission. Personal details redacted where appropriate."
 }

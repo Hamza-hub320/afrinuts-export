@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
 import { useTranslation } from 'react-i18next';
-import {Link, useNavigate} from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { trackCtaClick } from '@/utils/analytics';
 import {
     FaTree,
@@ -39,7 +39,8 @@ import StatsCounter from '../components/StatsCounter/StatsCounter';
 import InteractiveMap from '../components/InteractiveMap/InteractiveMap';
 import { InfoCard } from "../components/InfoCard/InfoCard";
 import JsonLd from "@/components/Seo/JsonLd";
-import {Helmet} from "react-helmet-async";
+import { Helmet } from "react-helmet-async";
+import { Reveal, StaggerList, StaggerItem } from '@/components/Reveal';
 
 const Farm = () => {
     const { t } = useTranslation('farm');
@@ -54,44 +55,16 @@ const Farm = () => {
     ];
 
     const keyFeatures = [
-        {
-            icon: GiFarmer,
-            title: t('features.family.title'),
-            description: t('features.family.description')
-        },
-        {
-            icon: GiPlantWatering,
-            title: t('features.irrigation.title'),
-            description: t('features.irrigation.description')
-        },
-        {
-            icon: MdPrecisionManufacturing,
-            title: t('features.processing.title'),
-            description: t('features.processing.description')
-        },
-        {
-            icon: GiFruitTree,
-            title: t('features.harvest.title'),
-            description: t('features.harvest.description')
-        }
+        { icon: GiFarmer, title: t('features.family.title'), description: t('features.family.description') },
+        { icon: GiPlantWatering, title: t('features.irrigation.title'), description: t('features.irrigation.description') },
+        { icon: MdPrecisionManufacturing, title: t('features.processing.title'), description: t('features.processing.description') },
+        { icon: GiFruitTree, title: t('features.harvest.title'), description: t('features.harvest.description') }
     ];
 
     const sustainabilityPractices = [
-        {
-            icon: GiSprout,
-            title: t('sustainability.organic.title'),
-            description: t('sustainability.organic.description')
-        },
-        {
-            icon: GiWaterDrop,
-            title: t('sustainability.water.title'),
-            description: t('sustainability.water.description')
-        },
-        {
-            icon: GiPublicSpeaker,
-            title: t('sustainability.community.title'),
-            description: t('sustainability.community.description')
-        }
+        { icon: GiSprout, title: t('sustainability.organic.title'), description: t('sustainability.organic.description') },
+        { icon: GiWaterDrop, title: t('sustainability.water.title'), description: t('sustainability.water.description') },
+        { icon: GiPublicSpeaker, title: t('sustainability.community.title'), description: t('sustainability.community.description') }
     ];
 
     const galleryImages = [
@@ -102,24 +75,9 @@ const Farm = () => {
     ];
 
     const timelineData = [
-        {
-            year: t('timeline.land.year'),
-            title: t('timeline.land.title'),
-            description: t('timeline.land.description'),
-            icon: FaMapMarkerAlt
-        },
-        {
-            year: t('timeline.planting.year'),
-            title: t('timeline.planting.title'),
-            description: t('timeline.planting.description'),
-            icon: FaSeedling
-        },
-        {
-            year: t('timeline.harvest.year'),
-            title: t('timeline.harvest.title'),
-            description: t('timeline.harvest.description'),
-            icon: GiFruitTree
-        }
+        { year: t('timeline.land.year'), title: t('timeline.land.title'), description: t('timeline.land.description'), icon: FaMapMarkerAlt },
+        { year: t('timeline.planting.year'), title: t('timeline.planting.title'), description: t('timeline.planting.description'), icon: FaSeedling },
+        { year: t('timeline.harvest.year'), title: t('timeline.harvest.title'), description: t('timeline.harvest.description'), icon: GiFruitTree }
     ];
 
     const impactStats = [
@@ -144,16 +102,8 @@ const Farm = () => {
                 "about": {
                     "@type": "Place",
                     "name": "AfriNuts Export Cashew Plantation",
-                    "address": {
-                        "@type": "PostalAddress",
-                        "addressLocality": "Odienné",
-                        "addressCountry": "CI"
-                    },
-                    "geo": {
-                        "@type": "GeoCoordinates",
-                        "latitude": 9.51,
-                        "longitude": -7.5692
-                    }
+                    "address": { "@type": "PostalAddress", "addressLocality": "Odienné", "addressCountry": "CI" },
+                    "geo": { "@type": "GeoCoordinates", "latitude": 9.51, "longitude": -7.5692 }
                 },
                 "mainEntity": {
                     "@type": "Organization",
@@ -169,11 +119,7 @@ const Farm = () => {
                     "location": {
                         "@type": "Place",
                         "name": "AfriNuts Export Farm",
-                        "address": {
-                            "@type": "PostalAddress",
-                            "addressLocality": "Odienné",
-                            "addressCountry": "CI"
-                        }
+                        "address": { "@type": "PostalAddress", "addressLocality": "Odienné", "addressCountry": "CI" }
                     },
                     "potentialAction": {
                         "@type": "OrderAction",
@@ -182,12 +128,12 @@ const Farm = () => {
                     }
                 }
             }} />
+
             <div className="text-text-dark font-sans leading-relaxed">
-                {/* Hero */}
-                <Section className="flex items-center justify-center text-center min-h-[90vh]">
+                {/* HERO — own mount animation */}
+                <Section className="flex items-center justify-center text-center min-h-[90vh]" animate={false}>
                     <motion.div className="max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 flex flex-col lg:flex-row items-center gap-6 lg:gap-28" initial="hidden" animate="visible" variants={staggerContainer}>
 
-                        {/* Left: Text Content */}
                         <motion.div className="flex-1 max-w-none lg:max-w-xl text-center lg:text-left" variants={fadeIn}>
                             <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-3">
                                 <GiFarmer className="inline mr-2 text-accent" />{t('hero.subtitle_tag', 'Our Farm')}
@@ -196,12 +142,10 @@ const Farm = () => {
                                 {t('hero.title')}
                             </motion.h1>
 
-                            {/* Lead Text */}
                             <Typography variant="lead" className="text-text-dark mb-5 text-base lg:text-lg">
                                 {t('hero.lead', '35 hectares. 3,500 trees. One custom-built Farm OS tracking every block, every harvest, every expense. This is not just a farm — this is where our technology meets the soil.')}
                             </Typography>
 
-                            {/* Farm Intro Card */}
                             <motion.div variants={fadeIn} className="mb-5">
                                 <InfoCard
                                     icon={FaMobile}
@@ -217,13 +161,13 @@ const Farm = () => {
 
                             <div className="flex flex-wrap justify-center lg:justify-start gap-2 mb-5">
                                 <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-primary/10 text-primary text-xs rounded-full font-medium">
-                                     <FaMapMarkerAlt className="text-[10px]" /> {t('hero.badgeLocation', 'Odienné, CI')}
+                                    <FaMapMarkerAlt className="text-[10px]" /> {t('hero.badgeLocation', 'Odienné, CI')}
                                 </span>
                                 <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-green-50 text-green-700 text-xs rounded-full font-medium">
                                     <FaTree className="text-[10px]" /> {t('hero.badgeTrees', '3,500 Trees')}
                                 </span>
                                 <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-amber-50 text-amber-700 text-xs rounded-full font-medium">
-                                     <FaMobile className="text-[10px]" /> {t('hero.badgeFarmOS', 'Farm OS Tracked')}
+                                    <FaMobile className="text-[10px]" /> {t('hero.badgeFarmOS', 'Farm OS Tracked')}
                                 </span>
                             </div>
 
@@ -237,9 +181,9 @@ const Farm = () => {
                             </motion.div>
                         </motion.div>
 
-                        {/* Right: Farm Image */}
                         <motion.div className="flex-shrink-0 lg:ml-auto lg:-mr-16" variants={fadeIn} transition={{ delay: 0.2 }}>
-                            <motion.div className="relative w-96 h-100 sm:w-80 sm:h-80 lg:w-[450px] lg:h-[690px] rounded-[2rem] overflow-hidden shadow-2xl border-2 border-white/40 transform-gpu group"                                        style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
+                            <motion.div className="relative w-96 h-100 sm:w-80 sm:h-80 lg:w-[450px] lg:h-[690px] rounded-[2rem] overflow-hidden shadow-2xl border-2 border-white/40 transform-gpu group"
+                                        style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
                                         whileHover={{ scale: 1.03, rotateY: 2, transition: { duration: 0.3 } }}>
                                 <div className="absolute inset-0 rounded-[2rem] border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
                                 <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-b from-white/15 to-transparent opacity-40" />
@@ -253,7 +197,7 @@ const Farm = () => {
                     </motion.div>
                 </Section>
 
-                {/* Farm Overview */}
+                {/* FARM OVERVIEW */}
                 <Section className="py-10 px-6">
                     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                         <div className="text-center mb-16">
@@ -264,13 +208,10 @@ const Farm = () => {
                                 {t('overview.description')}
                             </Typography>
                         </div>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+
+                        <StaggerList className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
                             {farmStats.map((stat, index) => (
-                                <motion.div
-                                    key={index}
-                                    variants={fadeIn}
-                                    transition={{ delay: index * 0.1 }}
-                                >
+                                <StaggerItem key={index}>
                                     <InfoCard
                                         icon={stat.icon}
                                         title={
@@ -285,30 +226,25 @@ const Farm = () => {
                                     >
                                         {stat.label}
                                     </InfoCard>
-                                </motion.div>
+                                </StaggerItem>
                             ))}
-                        </div>
+                        </StaggerList>
                     </div>
 
                     {/* Related Reading */}
-                    <div className="text-center mt-6">
-                        <Link to="/blog/how-to-grow-cashew-trees-west-africa"  className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-accent/10 hover:bg-accent/20 text-accent rounded-full text-sm font-medium transition-colors">
+                    <Reveal className="text-center mt-6">
+                        <Link to="/blog/how-to-grow-cashew-trees-west-africa" className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-accent/10 hover:bg-accent/20 text-accent rounded-full text-sm font-medium transition-colors">
                             <FaBookOpen className="text-xs" />
                             {t('relatedReading.growingGuide')}
                             <FaArrowRight className="text-xs" />
                         </Link>
-                    </div>
+                    </Reveal>
 
-                    {/* Live Farm Stats Section */}
+                    {/* Live Farm Stats */}
                     <section className="py-10">
                         <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                             <LiveFarmStats />
-                            <motion.div
-                                className="text-center mt-8"
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.6 }}
-                            >
+                            <Reveal className="text-center mt-8" delay={0.3}>
                                 <p className="text-text-dark mb-2">
                                     {t('farmOs.title', 'AfriNuts Farm OS — Access for team members')}
                                 </p>
@@ -325,21 +261,21 @@ const Farm = () => {
                                     <span>{t('farmOs.button', 'Login to Farm Operations Center')}</span>
                                     <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
                                 </button>
-                            </motion.div>
+                            </Reveal>
                         </div>
                     </section>
 
-                    {/*Map section*/}
+                    {/* Map Section */}
                     <Section className="py-8 sm:py-12 lg:py-16 px-0 sm:px-4">
                         <div className="w-full max-w-7xl mx-auto px-2 sm:px-6">
-                            <div className="text-center mb-8 md:mb-12">
+                            <Reveal className="text-center mb-8 md:mb-12">
                                 <Typography variant="h2" className="text-primary mb-4">
                                     {t('farm.map.title')}
                                 </Typography>
                                 <Typography variant="body" className="max-w-3xl mx-auto text-text-dark">
                                     {t('farm.map.description')}
                                 </Typography>
-                            </div>
+                            </Reveal>
 
                             <div className="w-full max-w-7xl mx-auto rounded-xl overflow-hidden"
                                  style={{ height: '60vh', minHeight: '350px', maxHeight: '600px' }}>
@@ -357,13 +293,9 @@ const Farm = () => {
                         <Typography variant="h2" className="text-primary text-center mb-16">
                             {t('features.title')}
                         </Typography>
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                        <StaggerList className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                             {keyFeatures.map((feature, index) => (
-                                <motion.div
-                                    key={index}
-                                    variants={fadeIn}
-                                    transition={{ delay: index * 0.1 }}
-                                >
+                                <StaggerItem key={index}>
                                     <InfoCard
                                         icon={feature.icon}
                                         title={feature.title}
@@ -372,27 +304,21 @@ const Farm = () => {
                                     >
                                         {feature.description}
                                     </InfoCard>
-                                </motion.div>
+                                </StaggerItem>
                             ))}
-                        </div>
+                        </StaggerList>
                     </div>
                 </Section>
 
-                {/* Farm Development Timeline */}
+                {/* FARM DEVELOPMENT TIMELINE */}
                 <Section className="py-10 sm:py-12 px-4 sm:px-6">
                     <div className="max-w-6xl mx-auto">
-                        <motion.div
-                            initial="hidden"
-                            whileInView="visible"
-                            variants={fadeIn}
-                            viewport={{ once: true }}
-                        >
+                        <Reveal>
                             <Typography variant="h2" className="text-primary text-center mb-8 md:mb-16">
                                 {t('timeline.title')}
                             </Typography>
-                        </motion.div>
+                        </Reveal>
 
-                        {/* Mobile scroll indicator */}
                         <div className="md:hidden text-center text-sm text-primary mb-4">
                             ↓ {t('timeline.scrollIndicator')} ↓
                         </div>
@@ -400,53 +326,26 @@ const Farm = () => {
                         <div className="relative">
                             <div className="hidden md:block absolute left-0 right-0 top-1/2 h-1 bg-accent/30 transform -translate-y-1/2 z-0"></div>
 
-                            <div className="flex md:flex-row flex-nowrap overflow-x-auto pb-4 md:pb-0 md:overflow-visible gap-6 md:gap-0 relative
-                scrollbar-thin scrollbar-thumb-rounded-full scrollbar-thumb-accent/30 scroll-snap-x">
+                            <StaggerList className="flex md:flex-row flex-nowrap overflow-x-auto pb-4 md:pb-0 md:overflow-visible gap-6 md:gap-0 relative scrollbar-thin scrollbar-thumb-rounded-full scrollbar-thumb-accent/30 scroll-snap-x">
                                 {timelineData.map((item, index) => (
-                                    <motion.div
-                                        key={index}
-                                        className="flex flex-col items-center w-[220px] sm:w-[240px] flex-shrink-0 md:w-1/3 px-0 md:px-4 scroll-snap-align-start transform-gpu group"
-                                        initial="hidden"
-                                        whileInView="visible"
-                                        variants={fadeIn}
-                                        viewport={{ once: true }}
-                                        style={{
-                                            transformStyle: 'preserve-3d',
-                                            perspective: '1000px',
-                                        }}
-                                    >
+                                    <StaggerItem key={index} className="flex flex-col items-center w-[220px] sm:w-[240px] flex-shrink-0 md:w-1/3 px-0 md:px-4 scroll-snap-align-start transform-gpu group">
                                         <motion.div
-                                            className={`
-                                w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center 
-                                font-display text-lg md:text-xl font-bold border-4 shadow-lg mb-4 z-10
-                                bg-gradient-to-br from-primary/5 to-accent/5 text-primary border-accent
-                                transition-all duration-500 transform-gpu
-                                relative
-                                mt-0 md:mt-8
-                            `}
+                                            className={`w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center font-display text-lg md:text-xl font-bold border-4 shadow-lg mb-4 z-10 bg-gradient-to-br from-primary/5 to-accent/5 text-primary border-accent transition-all duration-500 transform-gpu relative mt-0 md:mt-8`}
                                             whileHover={{
                                                 scale: 1.15,
                                                 rotateY: 5,
                                                 boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.2)',
                                             }}
-                                            style={{
-                                                transformStyle: 'preserve-3d',
-                                            }}
+                                            style={{ transformStyle: 'preserve-3d' }}
                                         >
-                                            {/* 3D edge effect for year circle */}
                                             <div className="absolute inset-0 rounded-full border-2 border-white/20 transform-gpu translate-z-[-4px] group-hover:translate-z-[-6px] transition-all duration-500" />
-
-                                            {/* Glassy overlay for year circle */}
                                             <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
-
                                             <span className="relative z-10">{item.year}</span>
                                         </motion.div>
 
                                         <motion.div
                                             className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-500 p-4 md:p-6 rounded-2xl shadow-lg w-full transform-gpu group/card"
-                                            style={{
-                                                transformStyle: 'preserve-3d',
-                                            }}
+                                            style={{ transformStyle: 'preserve-3d' }}
                                             whileHover={{
                                                 y: -8,
                                                 scale: 1.03,
@@ -455,16 +354,9 @@ const Farm = () => {
                                                 transition: { duration: 0.3 }
                                             }}
                                         >
-                                            {/* 3D edge effect */}
                                             <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover/card:translate-z-[-10px] transition-all duration-500" />
-
-                                            {/* Glassy overlay */}
                                             <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover/card:opacity-60 transition-opacity duration-500" />
-
-                                            {/* Inner shadow effect */}
                                             <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] group-hover/card:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
-
-                                            {/* Subtle background pattern */}
                                             <div className="absolute inset-0 rounded-2xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
 
                                             <div className="relative z-10">
@@ -485,23 +377,19 @@ const Farm = () => {
                                                 </Typography>
                                             </div>
                                         </motion.div>
-                                    </motion.div>
+                                    </StaggerItem>
                                 ))}
-                            </div>
+                            </StaggerList>
                         </div>
                     </div>
                 </Section>
 
-                {/* Mid-page CTA */}
+                {/* MID-PAGE CTA */}
                 <Section className="py-8">
                     <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
                         <motion.div
                             className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl shadow-lg p-6 sm:p-8 transform-gpu"
                             style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
-                            initial="hidden"
-                            whileInView="visible"
-                            viewport={{ once: true }}
-                            variants={staggerContainer}
                             whileHover={{ y: -4, scale: 1.01, boxShadow: '0 15px 30px -8px rgba(165,105,66,0.15)', transition: { duration: 0.3 } }}
                         >
                             <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-4px]" />
@@ -531,50 +419,21 @@ const Farm = () => {
                     </div>
                 </Section>
 
-                {/* Impact Section */}
+                {/* IMPACT */}
                 <section className="py-10 px-6 text-primary">
                     <div className="max-w-4xl mx-auto">
-                        <motion.div
-                            initial="hidden"
-                            whileInView="visible"
-                            variants={fadeIn}
-                            viewport={{ once: true }}
-                        >
+                        <Reveal>
                             <Typography variant="h2" className="text-center text-primary mb-16">
                                 {t('impact.title')}
                             </Typography>
-                        </motion.div>
+                        </Reveal>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 justify-center">
+                        <StaggerList className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 justify-center">
                             {impactStats.map((stat, index) => (
-                                <motion.div
-                                    key={index}
-                                    variants={fadeIn}
-                                    transition={{ delay: index * 0.1 }}
-                                    className="flex justify-center transform-gpu group"
-                                    initial="hidden"
-                                    whileInView="visible"
-                                    viewport={{ once: true }}
-                                    style={{
-                                        transformStyle: 'preserve-3d',
-                                        perspective: '1000px',
-                                    }}
-                                >
+                                <StaggerItem key={index} className="flex justify-center transform-gpu group">
                                     <motion.div
-                                        className={`
-                            relative flex flex-col items-center
-                            px-8 py-8
-                            rounded-2xl
-                            shadow-xl
-                            bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30
-                            transition-all duration-500
-                            min-w-[220px] max-w-full
-                            w-fit
-                            transform-gpu
-                        `}
-                                        style={{
-                                            transformStyle: 'preserve-3d',
-                                        }}
+                                        className="relative flex flex-col items-center px-8 py-8 rounded-2xl shadow-xl bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-500 min-w-[220px] max-w-full w-fit transform-gpu"
+                                        style={{ transformStyle: 'preserve-3d' }}
                                         whileHover={{
                                             y: -8,
                                             scale: 1.05,
@@ -583,17 +442,10 @@ const Farm = () => {
                                             transition: { duration: 0.3 }
                                         }}
                                     >
-                                        {/* 3D edge effect */}
                                         <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
-
-                                        {/* Glassy overlay */}
                                         <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
-
-                                        {/* Inner shadow effect */}
                                         <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] group-hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
-
-                                        {/* Subtle background pattern */}
-                                        <div className="absolute inset-0 rounded-2xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUs IDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
+                                        <div className="absolute inset-0 rounded-2xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
 
                                         <div className="relative z-10">
                                             <motion.div
@@ -619,20 +471,19 @@ const Farm = () => {
                                                 whileHover={{ y: -1 }}
                                             >
                                                 <div>
-                                                  <div className="font-semibold">{stat.label.label}</div>
-                                                  <div className="text-sm text-gray-600">{stat.label.description}</div>
+                                                    <div className="font-semibold">{stat.label.label}</div>
+                                                    <div className="text-sm text-gray-600">{stat.label.description}</div>
                                                 </div>
                                             </motion.div>
                                         </div>
                                     </motion.div>
-                                </motion.div>
+                                </StaggerItem>
                             ))}
-                        </div>
+                        </StaggerList>
                     </div>
                 </section>
 
-
-                {/* Sustainability Section */}
+                {/* SUSTAINABILITY */}
                 <Section className="py-10 sm:py-12 px-6">
                     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                         <div className="max-w-6xl mx-auto">
@@ -645,15 +496,9 @@ const Farm = () => {
                                 </Typography>
                             </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            <StaggerList className="grid grid-cols-1 md:grid-cols-3 gap-8">
                                 {sustainabilityPractices.map((practice, index) => (
-                                    <motion.div
-                                        key={index}
-                                        variants={fadeIn}
-                                        transition={{ delay: index * 0.1 }}
-                                        whileInView="visible"
-                                        viewport={{ once: true }}
-                                    >
+                                    <StaggerItem key={index}>
                                         <InfoCard
                                             icon={practice.icon}
                                             title={practice.title}
@@ -662,102 +507,80 @@ const Farm = () => {
                                         >
                                             {practice.description}
                                         </InfoCard>
-                                    </motion.div>
+                                    </StaggerItem>
                                 ))}
-                            </div>
+                            </StaggerList>
                         </div>
                     </div>
                 </Section>
 
-
-
-                {/* Gallery Section */}
+                {/* GALLERY */}
                 <Section className="py-10 sm:py-12 px-6">
                     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
-                        <Typography variant="h2" className="text-primary text-center mb-16">
-                            {t('gallery.title')}
-                        </Typography>
-                        <ImageGallery images={galleryImages} />
+                        <Reveal>
+                            <Typography variant="h2" className="text-primary text-center mb-16">
+                                {t('gallery.title')}
+                            </Typography>
+                        </Reveal>
+                        <Reveal delay={0.15}>
+                            <ImageGallery images={galleryImages} />
+                        </Reveal>
                     </div>
                 </Section>
 
-
-                {/* Call to Action */}
-                {/* Call to Action - Enhanced with Glassy 3D */}
+                {/* CALL TO ACTION */}
                 <section className="py-16 px-6 text-text-dark">
                     <div className="w-full max-w-4xl mx-auto text-center">
-                        <motion.div
-                            className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-3xl shadow-xl p-8 md:p-12 transform-gpu"
-                            style={{
-                                transformStyle: 'preserve-3d',
-                                perspective: '1000px',
-                            }}
-                            initial="hidden"
-                            whileInView="visible"
-                            viewport={{ once: true }}
-                            variants={fadeIn}
-                            whileHover={{
-                                y: -8,
-                                scale: 1.02,
-                                rotateY: 3,
-                                boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
-                                transition: { duration: 0.3 }
-                            }}
-                        >
-                            {/* 3D edge effect */}
-                            <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px] hover:translate-z-[-10px] transition-all duration-500" />
+                        <Reveal>
+                            <motion.div
+                                className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-3xl shadow-xl p-8 md:p-12 transform-gpu"
+                                style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
+                                whileHover={{
+                                    y: -8,
+                                    scale: 1.02,
+                                    rotateY: 3,
+                                    boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+                                    transition: { duration: 0.3 }
+                                }}
+                            >
+                                <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px] hover:translate-z-[-10px] transition-all duration-500" />
+                                <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40 hover:opacity-60 transition-opacity duration-500" />
+                                <div className="absolute inset-0 rounded-3xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
+                                <div className="absolute inset-0 rounded-3xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
 
-                            {/* Glassy overlay */}
-                            <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40 hover:opacity-60 transition-opacity duration-500" />
-
-                            {/* Inner shadow effect */}
-                            <div className="absolute inset-0 rounded-3xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
-
-                            {/* Subtle background pattern */}
-                            <div className="absolute inset-0 rounded-3xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
-
-                            <div className="relative z-10">
-                                <Typography variant="h2" className="mb-6 text-primary">
-                                    {t('cta.title')}
-                                </Typography>
-                                <Typography variant="lead" className="mb-8 max-w-3xl mx-auto text-text-dark">
-                                    {t('cta.description')}
-                                </Typography>
-                                <motion.button
-                                    className="group bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-4 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl inline-flex items-center mx-auto transform-gpu relative overflow-hidden"
-                                    onClick={() => {
-                                        trackCtaClick('contact_from_farm', 'farm_footer_cta');
-                                        navigate('/contact');
-                                    }}
-                                    whileHover={{
-                                        scale: 1.05,
-                                        y: -2,
-                                        transition: { duration: 0.2 }
-                                    }}
-                                    whileTap={{ scale: 0.95 }}
-                                >
-                                    {/* Button 3D effect */}
-                                    <div className="absolute inset-0 rounded-full border-2 border-white/30 transform-gpu translate-z-[-4px] group-hover:translate-z-[-6px] transition-all duration-300" />
-
-                                    {/* Button glassy overlay */}
-                                    <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50 group-hover:opacity-70 transition-opacity duration-300" />
-
-                                    {/* Button inner glow */}
-                                    <div className="absolute inset-0 rounded-full shadow-[inset_0_2px_8px_rgba(255,255,255,0.3)]" />
-
-                                    <span className="relative z-10 font-medium">
-                        {t('cta.button')}
-                    </span>
-                                    <motion.span
-                                        className="ml-2 relative z-10"
-                                        whileHover={{ x: 3 }}
-                                        transition={{ type: 'spring', stiffness: 400 }}
+                                <div className="relative z-10">
+                                    <Typography variant="h2" className="mb-6 text-primary">
+                                        {t('cta.title')}
+                                    </Typography>
+                                    <Typography variant="lead" className="mb-8 max-w-3xl mx-auto text-text-dark">
+                                        {t('cta.description')}
+                                    </Typography>
+                                    <motion.button
+                                        className="group bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-4 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl inline-flex items-center mx-auto transform-gpu relative overflow-hidden"
+                                        onClick={() => {
+                                            trackCtaClick('contact_from_farm', 'farm_footer_cta');
+                                            navigate('/contact');
+                                        }}
+                                        whileHover={{ scale: 1.05, y: -2, transition: { duration: 0.2 } }}
+                                        whileTap={{ scale: 0.95 }}
                                     >
-                                        <FaArrowRight className="transition-transform group-hover:translate-x-1" />
-                                    </motion.span>
-                                </motion.button>
-                            </div>
-                        </motion.div>
+                                        <div className="absolute inset-0 rounded-full border-2 border-white/30 transform-gpu translate-z-[-4px] group-hover:translate-z-[-6px] transition-all duration-300" />
+                                        <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50 group-hover:opacity-70 transition-opacity duration-300" />
+                                        <div className="absolute inset-0 rounded-full shadow-[inset_0_2px_8px_rgba(255,255,255,0.3)]" />
+                                        <span className="relative z-10 font-medium">
+                                            {t('cta.button')}
+                                        </span>
+                                        <motion.span
+                                            className="ml-2 relative z-10"
+                                            whileHover={{ x: 3 }}
+                                            transition={{ type: 'spring', stiffness: 400 }}
+                                        >
+                                            <FaArrowRight className="transition-transform group-hover:translate-x-1" />
+                                        </motion.span>
+                                    </motion.button>
+                                </div>
+                            </motion.div>
+                        </Reveal>
                     </div>
                 </section>
             </div>

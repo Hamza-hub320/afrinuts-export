@@ -3,6 +3,7 @@ import { useLocation, useNavigate, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
 import Section from "@/components/Section/Section";
+import { Reveal, StaggerList, StaggerItem, CountUp } from "@/components/Reveal";
 import { Typography } from "@/components/Typography/Typography";
 import { InfoCard } from "@/components/InfoCard/InfoCard";
 import {
@@ -21,11 +22,11 @@ import {
     FaMobile,
     FaGlobeAfrica, FaUsers, FaChild, FaDatabase, FaClock, FaShip, FaExternalLinkAlt, FaChevronDown, FaQuestionCircle
 } from "react-icons/fa";
-import {fadeIn, staggerContainer} from "@/utils/animations";
-import {Helmet} from "react-helmet-async";
+import { fadeIn, staggerContainer } from "@/utils/animations";
+import { Helmet } from "react-helmet-async";
 import traceHeroImage from '@/assets/images/trace-hero.webp';
 import JsonLd from "@/components/Seo/JsonLd";
-import {trackCtaClick, trackOutboundClick} from "@/utils/analytics";
+import { trackCtaClick, trackOutboundClick } from "@/utils/analytics";
 import BatchLocationMap from '@/components/BatchLocationMap/BatchLocationMap';
 import FarmToDeliverySVG from "@/components/FarmToDeliverySVG/FarmToDeliverySVG";
 import SupplyChainNetwork from "@/components/SupplyChainNetwork/SupplyChainNetwork";
@@ -283,7 +284,8 @@ const TracePage: React.FC = () => {
         const promoBatchId = query.get("batchId");
         return (
             <main className="text-text-dark font-sans">
-                <Section className="flex items-center justify-center text-center min-h-[90vh]">
+                {/* HERO — own mount animation */}
+                <Section className="flex items-center justify-center text-center min-h-[90vh]" animate={false}>
                     <motion.div className="max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 flex flex-col lg:flex-row items-center gap-6 lg:gap-28" initial="hidden" animate="visible" variants={staggerContainer}>
                         <motion.div className="flex-1 max-w-none lg:max-w-xl text-center lg:text-left" variants={fadeIn}>
                             <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-3">
@@ -404,22 +406,23 @@ const TracePage: React.FC = () => {
                     </motion.div>
                 </Section>
 
+                {/* How It Works — staggered */}
                 <Section className="py-12">
                     <div className="max-w-4xl mx-auto px-4 sm:px-6">
                         <Typography variant="h2" className="text-primary text-center mb-10">{t('howItWorks.title', 'How Our Traceability Works')}</Typography>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <StaggerList className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             {[
                                 { icon: FaQrcode, title: t('howItWorks.scan.title', '1. Scan the QR Code'), description: t('howItWorks.scan.description'), variant: 'primary' as const },
                                 { icon: FaSearch, title: t('howItWorks.trace.title', '2. Enter Your Batch ID'), description: t('howItWorks.trace.description'), variant: 'accent' as const },
                                 { icon: FaMapMarkerAlt, title: t('howItWorks.view.title', '3. See the Full Journey'), description: t('howItWorks.view.description'), variant: 'secondary' as const },
                             ].map((step, i) => (
-                                <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
+                                <StaggerItem key={i}>
                                     <InfoCard icon={step.icon} title={step.title} iconColor="text-accent" variant={step.variant} showInfoBadge={false} className="h-full text-center">
                                         <Typography variant="small" className="text-gray-600">{step.description}</Typography>
                                     </InfoCard>
-                                </motion.div>
+                                </StaggerItem>
                             ))}
-                        </div>
+                        </StaggerList>
                     </div>
                 </Section>
 
@@ -430,19 +433,19 @@ const TracePage: React.FC = () => {
                 <Section className="py-10">
                     <div className="max-w-3xl mx-auto px-4 sm:px-6">
                         <InfoCard icon={FaShieldAlt} title={t('trust.title')} iconColor="text-accent" variant="primary" showInfoBadge={false} className="text-center">
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-3">
+                            <StaggerList className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-3">
                                 {[
                                     { icon: FaTree, text: t('trust.farm') },
                                     { icon: FaClipboardList, text: t('trust.batch') },
                                     { icon: FaGlobe, text: t('trust.public') },
                                     { icon: FaCertificate, text: t('trust.certs') },
                                 ].map((item, i) => (
-                                    <div key={i} className="flex items-start gap-3 p-3 bg-white/40 rounded-xl text-left">
+                                    <StaggerItem key={i} className="flex items-start gap-3 p-3 bg-white/40 rounded-xl text-left">
                                         <item.icon className="text-accent mt-0.5 flex-shrink-0" />
                                         <Typography variant="small" className="text-gray-700">{item.text}</Typography>
-                                    </div>
+                                    </StaggerItem>
                                 ))}
-                            </div>
+                            </StaggerList>
                             <div className="mt-6 pt-4 border-t border-gray-200/50">
                                 <Typography variant="body" className="text-gray-600 mb-4">
                                     {t('trust.ctaBody', 'Every wholesale order includes Farm OS traceability at no extra cost.')}
@@ -479,8 +482,8 @@ const TracePage: React.FC = () => {
                     : `Block-level traceability for batch ${displayTitle} from our farm in Odienné, Côte d'Ivoire.`,
             }} />
 
-            {/* Hero */}
-            <Section className="flex items-center justify-center text-center min-h-[50vh]">
+            {/* HERO — own mount animation */}
+            <Section className="flex items-center justify-center text-center min-h-[50vh]" animate={false}>
                 <motion.div className="max-w-3xl px-6 sm:px-8 py-12" variants={fadeIn} initial="hidden" animate="visible">
                     <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-4">
                         {isBulk ? <FaShip className="inline mr-3 text-blue-600" /> : <FaQrcode className="inline mr-3 text-accent" />}
@@ -511,26 +514,24 @@ const TracePage: React.FC = () => {
             {isBulk && bulkData && (
                 <Section className="py-6">
                     <div className="max-w-4xl mx-auto px-4 sm:px-6">
-                        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
-                            <InfoCard icon={FaShip} title={`Bulk Shipment: ${bulkData.masterBatch.masterBatchNumber}`}
-                                      subtitle={`${bulkData.masterBatch.shipmentName} · ${bulkData.batches.length} batches consolidated · ${(bulkData.masterBatch.totalWeightKg / 1000).toFixed(1)}T total`}
-                                      iconColor="text-blue-600" showInfoBadge={false}>
-                                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-3">
-                                    {[
-                                        { label: 'Buyer', value: bulkData.masterBatch.buyer, icon: FaBuilding },
-                                        { label: 'Destination', value: bulkData.masterBatch.destination, icon: FaTruck },
-                                        { label: 'Total Weight', value: `${(bulkData.masterBatch.totalWeightKg / 1000).toFixed(1)}T`, icon: FaBox },
-                                        { label: 'Grades', value: bulkData.masterBatch.grades, icon: FaCertificate },
-                                    ].map((item, i) => (
-                                        <div key={i} className="bg-white/40 rounded-xl p-3 text-center border border-white/30">
-                                            <item.icon className="text-accent text-sm mx-auto mb-1" />
-                                            <div className="text-xs text-gray-500">{item.label}</div>
-                                            <div className="font-semibold text-sm">{item.value}</div>
-                                        </div>
-                                    ))}
-                                </div>
-                            </InfoCard>
-                        </motion.div>
+                        <InfoCard icon={FaShip} title={`Bulk Shipment: ${bulkData.masterBatch.masterBatchNumber}`}
+                                  subtitle={`${bulkData.masterBatch.shipmentName} · ${bulkData.batches.length} batches consolidated · ${(bulkData.masterBatch.totalWeightKg / 1000).toFixed(1)}T total`}
+                                  iconColor="text-blue-600" showInfoBadge={false}>
+                            <StaggerList className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-3">
+                                {[
+                                    { label: 'Buyer', value: bulkData.masterBatch.buyer, icon: FaBuilding },
+                                    { label: 'Destination', value: bulkData.masterBatch.destination, icon: FaTruck },
+                                    { label: 'Total Weight', value: `${(bulkData.masterBatch.totalWeightKg / 1000).toFixed(1)}T`, icon: FaBox },
+                                    { label: 'Grades', value: bulkData.masterBatch.grades, icon: FaCertificate },
+                                ].map((item, i) => (
+                                    <StaggerItem key={i} className="bg-white/40 rounded-xl p-3 text-center border border-white/30">
+                                        <item.icon className="text-accent text-sm mx-auto mb-1" />
+                                        <div className="text-xs text-gray-500">{item.label}</div>
+                                        <div className="font-semibold text-sm">{item.value}</div>
+                                    </StaggerItem>
+                                ))}
+                            </StaggerList>
+                        </InfoCard>
                     </div>
                 </Section>
             )}
@@ -542,9 +543,9 @@ const TracePage: React.FC = () => {
                         <Typography variant="h2" className="text-primary text-center mb-6">
                             {bulkData.farmers.length === 1 ? 'Meet the Farmer' : `Meet the ${bulkData.farmers.length} Farmers Behind This Shipment`}
                         </Typography>
-                        <div className={`grid grid-cols-1 ${bulkData.farmers.length > 1 ? 'md:grid-cols-2 lg:grid-cols-3' : 'max-w-md mx-auto'} gap-6`}>
+                        <StaggerList className={`grid grid-cols-1 ${bulkData.farmers.length > 1 ? 'md:grid-cols-2 lg:grid-cols-3' : 'max-w-md mx-auto'} gap-6`}>
                             {bulkData.farmers.map((farmer: any) => (
-                                <motion.div key={farmer.id || farmer.name} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
+                                <StaggerItem key={farmer.id || farmer.name}>
                                     <InfoCard icon={GiFarmer} title={farmer.name} subtitle={`${farmer.role} · ${farmer.yearsFarming}`} variant="primary" showInfoBadge={false} className="h-full">
                                         <div className="flex items-center gap-2 mb-2">
                                             <FaMapMarkerAlt className="text-gray-400 text-xs" />
@@ -555,9 +556,9 @@ const TracePage: React.FC = () => {
                                             <p className="text-sm italic text-accent-dark mt-2 border-l-2 border-accent/30 pl-3">"{farmer.quote}"</p>
                                         )}
                                     </InfoCard>
-                                </motion.div>
+                                </StaggerItem>
                             ))}
-                        </div>
+                        </StaggerList>
                     </div>
                 </Section>
             )}
@@ -566,17 +567,15 @@ const TracePage: React.FC = () => {
             {isBulk && bulkData?.supplierTypes && bulkData.supplierTypes.length > 0 && (
                 <Section className="py-6">
                     <div className="max-w-4xl mx-auto px-4 sm:px-6">
-                        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
-                            <InfoCard icon={FaGlobeAfrica} title="Supply Network" subtitle="This shipment consolidates cashews from multiple supply channels" variant="accent" showInfoBadge={false}>
-                                <div className="flex flex-wrap gap-2 mt-3">
-                                    {bulkData.supplierTypes.map((type: string) => (
-                                        <span key={type} className="px-3 py-1.5 bg-white/40 backdrop-blur-sm rounded-full text-sm font-medium border border-white/30">
-                                            {type}
-                                        </span>
-                                    ))}
-                                </div>
-                            </InfoCard>
-                        </motion.div>
+                        <InfoCard icon={FaGlobeAfrica} title="Supply Network" subtitle="This shipment consolidates cashews from multiple supply channels" variant="accent" showInfoBadge={false}>
+                            <div className="flex flex-wrap gap-2 mt-3">
+                                {bulkData.supplierTypes.map((type: string) => (
+                                    <span key={type} className="px-3 py-1.5 bg-white/40 backdrop-blur-sm rounded-full text-sm font-medium border border-white/30">
+                                        {type}
+                                    </span>
+                                ))}
+                            </div>
+                        </InfoCard>
                     </div>
                 </Section>
             )}
@@ -585,146 +584,153 @@ const TracePage: React.FC = () => {
             {(isBulk ? bulkData!.batches : [batch!]).map((b: BatchData) => (
                 <Section key={b.id} className="py-6">
                     <div className="max-w-4xl mx-auto px-4 sm:px-6">
-                        <motion.div className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-3xl shadow-xl p-8 transform-gpu overflow-hidden"
-                                    style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
-                                    whileHover={{ y: -5, scale: 1.01, boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)' }}
-                                    initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
-                            <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px]" />
-                            <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40" />
-                            <div className="absolute inset-0 rounded-3xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)]" />
+                        <Reveal>
+                            <motion.div className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-3xl shadow-xl p-8 transform-gpu overflow-hidden"
+                                        style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
+                                        whileHover={{ y: -5, scale: 1.01, boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)' }}>
+                                <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px]" />
+                                <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40" />
+                                <div className="absolute inset-0 rounded-3xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)]" />
 
-                            <div className="relative z-10">
-                                <div className="text-center mb-8">
-                                    {isBulk && <Typography variant="small" className="text-gray-400 mb-1">Batch {bulkData!.batches.indexOf(b) + 1} of {bulkData!.batches.length}</Typography>}
-                                    <div className="inline-flex items-center gap-2 bg-primary/10 px-6 py-2 rounded-full">
-                                        <FaCheckCircle className="text-primary" />
-                                        <span className="font-mono text-lg font-bold text-primary">{b.batchId}</span>
+                                <div className="relative z-10">
+                                    <div className="text-center mb-8">
+                                        {isBulk && <Typography variant="small" className="text-gray-400 mb-1">Batch {bulkData!.batches.indexOf(b) + 1} of {bulkData!.batches.length}</Typography>}
+                                        <div className="inline-flex items-center gap-2 bg-primary/10 px-6 py-2 rounded-full">
+                                            <FaCheckCircle className="text-primary" />
+                                            <span className="font-mono text-lg font-bold text-primary">{b.batchId}</span>
+                                        </div>
+                                        {b.sourceType === 'OWN_FARM' && (
+                                            <span className="ml-3 px-2 py-0.5 bg-green-100 text-green-700 text-xs rounded-full">AfriNuts Farm</span>
+                                        )}
                                     </div>
-                                    {b.sourceType === 'OWN_FARM' && (
-                                        <span className="ml-3 px-2 py-0.5 bg-green-100 text-green-700 text-xs rounded-full">AfriNuts Farm</span>
+
+                                    <StaggerList className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                                        {[
+                                            { label: t('batch.harvestDate'), value: new Date(b.harvestDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }), icon: FaCalendarAlt },
+                                            { label: t('batch.farmLocation'), value: `${b.farmLocation}${b.block ? ` · ${b.block}` : ''}`, icon: FaMapMarkerAlt },
+                                            { label: t('batch.destinationLocation'), value: b.destination, icon: FaTruck },
+                                            { label: t('batch.receivingCompany'), value: b.buyer || '—', icon: FaBuilding },
+                                        ].map((item, i) => (
+                                            <StaggerItem key={i} className="bg-white/30 backdrop-blur-sm rounded-xl p-4 border border-white/20">
+                                                <div className="flex items-center gap-2 mb-1"><item.icon className="text-accent text-sm" /><Typography variant="small" className="text-gray-500 font-medium">{item.label}</Typography></div>
+                                                <Typography variant="body" className="font-semibold text-gray-800">{item.value}</Typography>
+                                            </StaggerItem>
+                                        ))}
+                                    </StaggerList>
+
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
+                                        <Reveal delay={0.1}>
+                                            <div className="bg-white/30 backdrop-blur-sm rounded-xl p-4 border border-white/20">
+                                                <div className="flex items-center gap-2 mb-3">
+                                                    <FaIndustry className="text-accent text-sm" />
+                                                    <Typography variant="small" className="text-gray-500 font-medium">Processing Information</Typography>
+                                                </div>
+                                                <div className="space-y-2">
+                                                    {[
+                                                        { label: 'Facility', value: b.processingFacility || '—' },
+                                                        { label: 'Location', value: b.processingLocation || '—' },
+                                                        { label: 'Method', value: b.processingMethod || '—' },
+                                                        { label: 'Shelling', value: b.shellingMethod || '—' },
+                                                        { label: 'Grading', value: b.gradingMethod || '—' },
+                                                        b.yieldPercentage ? { label: 'Yield', value: `${b.yieldPercentage}%` } : null,
+                                                    ].filter(Boolean).map((item: any, i) => (
+                                                        <div key={i} className="flex justify-between text-sm">
+                                                            <span className="text-gray-500">{item.label}</span>
+                                                            <span className="font-medium text-gray-700 text-right max-w-[60%]">{item.value}</span>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        </Reveal>
+                                        <Reveal delay={0.15}>
+                                            <div className="bg-white/30 backdrop-blur-sm rounded-xl p-4 border border-white/20">
+                                                <div className="flex items-center gap-2 mb-3">
+                                                    <FaFlask className="text-accent text-sm" />
+                                                    <Typography variant="small" className="text-gray-500 font-medium">Quality Check Results</Typography>
+                                                </div>
+                                                <div className="space-y-2">
+                                                    {b.testResults && [
+                                                        { label: 'Aflatoxin', value: b.testResults?.aflatoxin != null ? `${b.testResults.aflatoxin} ppb` : '—', status: (b.testResults?.aflatoxin ?? 99) < 4 ? 'pass' : 'fail' },
+                                                        { label: 'Heavy Metals', value: b.testResults?.heavyMetals != null ? `${b.testResults.heavyMetals} ppb` : '—', status: (b.testResults?.heavyMetals ?? 99) < 0.5 ? 'pass' : 'fail' },
+                                                        { label: 'Pesticide Residue', value: b.testResults?.pesticideResidue != null ? `${b.testResults.pesticideResidue} ppb` : '—', status: (b.testResults?.pesticideResidue ?? 99) < 0.5 ? 'pass' : 'fail' },
+                                                    ].map((item, i) => (
+                                                        <div key={i} className="flex justify-between text-sm items-center">
+                                                            <span className="text-gray-500">{item.label}</span>
+                                                            <span className={`font-medium ${item.status === 'pass' ? 'text-green-600' : 'text-red-600'}`}>
+                                                                {item.value}
+                                                                {item.status === 'pass' ? ' ✓' : ' ⚠'}
+                                                             </span>
+                                                        </div>
+                                                    ))}
+                                                    <div className="pt-2 border-t border-gray-200/50 flex justify-between text-sm">
+                                                        <span className="text-gray-500">Quality Score</span>
+                                                        <span className="font-bold text-primary">
+                                                            {b.overallScore ? <CountUp to={b.overallScore} duration={1.2} suffix="%" /> : '—'}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </Reveal>
+                                    </div>
+
+                                    {/* Weight Section */}
+                                    {(b.kernelWeightKg || b.rawWeightKg) && (
+                                        <Reveal delay={0.2} className="mt-5">
+                                            <div className="bg-white/30 backdrop-blur-sm rounded-xl p-4 border border-white/20">
+                                                <Typography variant="small" className="text-gray-500 text-center mb-2">Batch Weight</Typography>
+                                                <div className="grid grid-cols-2 gap-4">
+                                                    <div className="text-center">
+                                                        <Typography variant="small" className="text-gray-400 text-xs">Raw Input</Typography>
+                                                        <Typography variant="h4" className="text-primary font-bold">
+                                                            {b.rawWeightKg ? `${(b.rawWeightKg / 1000).toFixed(1)}T` : '—'}
+                                                        </Typography>
+                                                    </div>
+                                                    <div className="text-center">
+                                                        <Typography variant="small" className="text-gray-400 text-xs">Kernel Output</Typography>
+                                                        <Typography variant="h4" className="text-green-600 font-bold">
+                                                            {b.kernelWeightKg ? `${(b.kernelWeightKg / 1000).toFixed(1)}T` : '—'}
+                                                        </Typography>
+                                                    </div>
+                                                </div>
+                                                {b.kernelRatio && (
+                                                    <div className="text-center mt-2">
+                                                        <Typography variant="small" className="text-gray-400 text-xs">
+                                                            Kernel Ratio: {b.kernelRatio}%
+                                                        </Typography>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </Reveal>
+                                    )}
+
+                                    {b.certifications && b.certifications.length > 0 && (
+                                        <Reveal delay={0.25} className="mt-5">
+                                            <div className="bg-white/30 backdrop-blur-sm rounded-xl p-4 border border-white/20">
+                                                <div className="flex items-center gap-2 mb-2"><FaCertificate className="text-accent text-sm" /><Typography variant="small" className="text-gray-500 font-medium">{t('batch.certifications')}</Typography></div>
+                                                <div className="flex flex-wrap gap-2">
+                                                    {b.certifications.map((cert, idx) => (
+                                                        <span key={idx} className="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium bg-primary/10 text-primary border border-primary/20">{cert}</span>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        </Reveal>
                                     )}
                                 </div>
-
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                                    {[
-                                        { label: t('batch.harvestDate'), value: new Date(b.harvestDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }), icon: FaCalendarAlt },
-                                        { label: t('batch.farmLocation'), value: `${b.farmLocation}${b.block ? ` · ${b.block}` : ''}`, icon: FaMapMarkerAlt },
-                                        { label: t('batch.destinationLocation'), value: b.destination, icon: FaTruck },
-                                        { label: t('batch.receivingCompany'), value: b.buyer || '—', icon: FaBuilding },
-                                    ].map((item, i) => (
-                                        <motion.div key={i} className="bg-white/30 backdrop-blur-sm rounded-xl p-4 border border-white/20"
-                                                    initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
-                                            <div className="flex items-center gap-2 mb-1"><item.icon className="text-accent text-sm" /><Typography variant="small" className="text-gray-500 font-medium">{item.label}</Typography></div>
-                                            <Typography variant="body" className="font-semibold text-gray-800">{item.value}</Typography>
-                                        </motion.div>
-                                    ))}
-                                </div>
-
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
-                                    <motion.div className="bg-white/30 backdrop-blur-sm rounded-xl p-4 border border-white/20"
-                                                initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.4 }}>
-                                        <div className="flex items-center gap-2 mb-3">
-                                            <FaIndustry className="text-accent text-sm" />
-                                            <Typography variant="small" className="text-gray-500 font-medium">Processing Information</Typography>
-                                        </div>
-                                        <div className="space-y-2">
-                                            {[
-                                                { label: 'Facility', value: b.processingFacility || '—' },
-                                                { label: 'Location', value: b.processingLocation || '—' },
-                                                { label: 'Method', value: b.processingMethod || '—' },
-                                                { label: 'Shelling', value: b.shellingMethod || '—' },
-                                                { label: 'Grading', value: b.gradingMethod || '—' },
-                                                b.yieldPercentage ? { label: 'Yield', value: `${b.yieldPercentage}%` } : null,
-                                            ].filter(Boolean).map((item: any, i) => (
-                                                <div key={i} className="flex justify-between text-sm">
-                                                    <span className="text-gray-500">{item.label}</span>
-                                                    <span className="font-medium text-gray-700 text-right max-w-[60%]">{item.value}</span>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </motion.div>
-                                    <motion.div className="bg-white/30 backdrop-blur-sm rounded-xl p-4 border border-white/20"
-                                                initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.5 }}>
-                                        <div className="flex items-center gap-2 mb-3">
-                                            <FaFlask className="text-accent text-sm" />
-                                            <Typography variant="small" className="text-gray-500 font-medium">Quality Check Results</Typography>
-                                        </div>
-                                        <div className="space-y-2">
-                                            {b.testResults && [
-                                                { label: 'Aflatoxin', value: b.testResults?.aflatoxin != null ? `${b.testResults.aflatoxin} ppb` : '—', status: (b.testResults?.aflatoxin ?? 99) < 4 ? 'pass' : 'fail' },
-                                                { label: 'Heavy Metals', value: b.testResults?.heavyMetals != null ? `${b.testResults.heavyMetals} ppb` : '—', status: (b.testResults?.heavyMetals ?? 99) < 0.5 ? 'pass' : 'fail' },
-                                                { label: 'Pesticide Residue', value: b.testResults?.pesticideResidue != null ? `${b.testResults.pesticideResidue} ppb` : '—', status: (b.testResults?.pesticideResidue ?? 99) < 0.5 ? 'pass' : 'fail' },
-                                            ].map((item, i) => (
-                                                <div key={i} className="flex justify-between text-sm items-center">
-                                                    <span className="text-gray-500">{item.label}</span>
-                                                    <span className={`font-medium ${item.status === 'pass' ? 'text-green-600' : 'text-red-600'}`}>
-                                                        {item.value}
-                                                        {item.status === 'pass' ? ' ✓' : ' ⚠'}
-                                                     </span>
-                                                </div>
-                                            ))}
-                                            <div className="pt-2 border-t border-gray-200/50 flex justify-between text-sm">
-                                                <span className="text-gray-500">Quality Score</span>
-                                                <span className="font-bold text-primary">{b.overallScore?.toFixed(1)}%</span>
-                                            </div>
-                                        </div>
-                                    </motion.div>
-                                </div>
-
-                                {/* Weight Section */}
-                                {(b.kernelWeightKg || b.rawWeightKg) && (
-                                    <motion.div className="mt-5 bg-white/30 backdrop-blur-sm rounded-xl p-4 border border-white/20"
-                                                initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.55 }}>
-                                        <Typography variant="small" className="text-gray-500 text-center mb-2">Batch Weight</Typography>
-                                        <div className="grid grid-cols-2 gap-4">
-                                            <div className="text-center">
-                                                <Typography variant="small" className="text-gray-400 text-xs">Raw Input</Typography>
-                                                <Typography variant="h4" className="text-primary font-bold">
-                                                    {b.rawWeightKg ? `${(b.rawWeightKg / 1000).toFixed(1)}T` : '—'}
-                                                </Typography>
-                                            </div>
-                                            <div className="text-center">
-                                                <Typography variant="small" className="text-gray-400 text-xs">Kernel Output</Typography>
-                                                <Typography variant="h4" className="text-green-600 font-bold">
-                                                    {b.kernelWeightKg ? `${(b.kernelWeightKg / 1000).toFixed(1)}T` : '—'}
-                                                </Typography>
-                                            </div>
-                                        </div>
-                                        {b.kernelRatio && (
-                                            <div className="text-center mt-2">
-                                                <Typography variant="small" className="text-gray-400 text-xs">
-                                                    Kernel Ratio: {b.kernelRatio}%
-                                                </Typography>
-                                            </div>
-                                        )}
-                                    </motion.div>
-                                )}
-
-                                {b.certifications && b.certifications.length > 0 && (
-                                    <motion.div className="mt-5 bg-white/30 backdrop-blur-sm rounded-xl p-4 border border-white/20" initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.7 }}>
-                                        <div className="flex items-center gap-2 mb-2"><FaCertificate className="text-accent text-sm" /><Typography variant="small" className="text-gray-500 font-medium">{t('batch.certifications')}</Typography></div>
-                                        <div className="flex flex-wrap gap-2">
-                                            {b.certifications.map((cert, idx) => (
-                                                <span key={idx} className="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium bg-primary/10 text-primary border border-primary/20">{cert}</span>
-                                            ))}
-                                        </div>
-                                    </motion.div>
-                                )}
-                            </div>
-                        </motion.div>
+                            </motion.div>
+                        </Reveal>
                         {/* Status Badge */}
-                        <motion.div className="mt-5 flex items-center justify-center gap-3" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.7 }}>
-                                        <span className={`px-4 py-2 rounded-full text-sm font-semibold flex items-center gap-2 ${
-                                            b.status === 'Shipped' ? 'bg-green-100 text-green-700' : b.status === 'Delivered' ? 'bg-blue-100 text-blue-700' :
-                                                b.status === 'Processing' ? 'bg-amber-100 text-amber-700' : 'bg-gray-100 text-gray-600'
-                                        }`}>
-                                            {b.status === 'Shipped' ? <FaShip className="text-xs" /> :
-                                                b.status === 'Delivered' ? <FaCheckCircle className="text-xs" /> :
-                                                    b.status === 'Processing' ? <FaIndustry className="text-xs" /> :
-                                                        <FaClock className="text-xs" />}
-                                            {b.status}
-                                        </span>
-                        </motion.div>
+                        <Reveal delay={0.3} className="mt-5 flex items-center justify-center gap-3">
+                            <span className={`px-4 py-2 rounded-full text-sm font-semibold flex items-center gap-2 ${
+                                b.status === 'Shipped' ? 'bg-green-100 text-green-700' : b.status === 'Delivered' ? 'bg-blue-100 text-blue-700' :
+                                    b.status === 'Processing' ? 'bg-amber-100 text-amber-700' : 'bg-gray-100 text-gray-600'
+                            }`}>
+                                {b.status === 'Shipped' ? <FaShip className="text-xs" /> :
+                                    b.status === 'Delivered' ? <FaCheckCircle className="text-xs" /> :
+                                        b.status === 'Processing' ? <FaIndustry className="text-xs" /> :
+                                            <FaClock className="text-xs" />}
+                                {b.status}
+                            </span>
+                        </Reveal>
                     </div>
                 </Section>
             ))}
@@ -733,32 +739,29 @@ const TracePage: React.FC = () => {
             {!isBulk && currentBatch?.supplier && (
                 <Section className="py-6">
                     <div className="max-w-3xl mx-auto px-4 sm:px-6">
-                        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
-                            <InfoCard icon={FaGlobeAfrica} title={t('supplier.title', 'Farm Network Status')} variant="accent" showInfoBadge={false}>
-                                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-3">
-                                    {[
-                                        { label: t('supplier.type', 'Supplier Type'), value: currentBatch.supplier.type, icon: GiFruitTree },
-                                        { label: t('supplier.size', 'Farm Size'), value: currentBatch.supplier.farmSize || '—', icon: FaMapMarkerAlt },
-                                        { label: t('supplier.farmOs', 'Farm OS Status'), value: currentBatch.supplier.farmOsStatus || 'Active', icon: FaMobile },
-                                        { label: t('supplier.season', 'Harvest Season'), value: currentBatch.supplier.season || '2026', icon: FaCalendarAlt },
-                                        { label: t('supplier.traceLevel', 'Traceability Level'), value: currentBatch.supplier.traceLevel || 'Block-Level Verified', icon: FaShieldAlt },
-                                        { label: t('supplier.cooperative', 'Cooperative'), value: currentBatch.supplier.cooperative || 'AfriNuts Owned Farm', icon:  GiFarmer },
-                                    ].map((item, i) => (
-                                        <motion.div key={i} className="bg-white/40 backdrop-blur-sm rounded-xl p-3 border border-white/30 text-center"
-                                                    initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }} whileHover={{ y: -2 }}>
-                                            <item.icon className="text-accent text-lg mx-auto mb-1" />
-                                            <Typography variant="small" className="text-gray-500 text-[10px] uppercase tracking-wider">{item.label}</Typography>
-                                            <Typography variant="small" className="text-primary font-semibold text-xs mt-0.5">{item.value}</Typography>
-                                        </motion.div>
-                                    ))}
-                                </div>
-                                <div className="mt-4 pt-3 border-t border-gray-200/30 text-center">
-                                    <Typography variant="small" className="text-gray-400 text-xs">
-                                        {t('supplier.footnote', 'Farm OS traceability works across our entire supplier network — owned farms, cooperatives, and independent growers. Same system. Same standard.')}
-                                    </Typography>
-                                </div>
-                            </InfoCard>
-                        </motion.div>
+                        <InfoCard icon={FaGlobeAfrica} title={t('supplier.title', 'Farm Network Status')} variant="accent" showInfoBadge={false}>
+                            <StaggerList className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-3">
+                                {[
+                                    { label: t('supplier.type', 'Supplier Type'), value: currentBatch.supplier.type, icon: GiFruitTree },
+                                    { label: t('supplier.size', 'Farm Size'), value: currentBatch.supplier.farmSize || '—', icon: FaMapMarkerAlt },
+                                    { label: t('supplier.farmOs', 'Farm OS Status'), value: currentBatch.supplier.farmOsStatus || 'Active', icon: FaMobile },
+                                    { label: t('supplier.season', 'Harvest Season'), value: currentBatch.supplier.season || '2026', icon: FaCalendarAlt },
+                                    { label: t('supplier.traceLevel', 'Traceability Level'), value: currentBatch.supplier.traceLevel || 'Block-Level Verified', icon: FaShieldAlt },
+                                    { label: t('supplier.cooperative', 'Cooperative'), value: currentBatch.supplier.cooperative || 'AfriNuts Owned Farm', icon: GiFarmer },
+                                ].map((item, i) => (
+                                    <StaggerItem key={i} className="bg-white/40 backdrop-blur-sm rounded-xl p-3 border border-white/30 text-center">
+                                        <item.icon className="text-accent text-lg mx-auto mb-1" />
+                                        <Typography variant="small" className="text-gray-500 text-[10px] uppercase tracking-wider">{item.label}</Typography>
+                                        <Typography variant="small" className="text-primary font-semibold text-xs mt-0.5">{item.value}</Typography>
+                                    </StaggerItem>
+                                ))}
+                            </StaggerList>
+                            <div className="mt-4 pt-3 border-t border-gray-200/30 text-center">
+                                <Typography variant="small" className="text-gray-400 text-xs">
+                                    {t('supplier.footnote', 'Farm OS traceability works across our entire supplier network — owned farms, cooperatives, and independent growers. Same system. Same standard.')}
+                                </Typography>
+                            </div>
+                        </InfoCard>
                     </div>
                 </Section>
             )}
@@ -767,35 +770,33 @@ const TracePage: React.FC = () => {
             {!isBulk && batch?.farmer && (
                 <Section className="py-8">
                     <div className="max-w-3xl mx-auto px-4 sm:px-6">
-                        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
-                            <InfoCard icon={GiFarmer} title={t('farmer.title', 'Meet the Farmer Behind This Batch')} variant="primary" showInfoBadge={false}>
-                                <div className="flex flex-col sm:flex-row items-center gap-6 mt-4">
-                                    <div className="flex-shrink-0">
-                                        <div className="relative w-28 h-28 sm:w-32 sm:h-32 rounded-full overflow-hidden border-4 border-primary/20 shadow-lg flex items-center justify-center bg-primary/5">
-                                            {batch.farmer.photo ? (
-                                                <img src={batch.farmer.photo} alt={batch.farmer.name} className="w-full h-full object-cover" />
-                                            ) : (
-                                                <GiFarmer className="text-5xl text-primary/40" />
-                                            )}
-                                        </div>
-                                    </div>
-                                    <div className="flex-1 text-center sm:text-left">
-                                        <Typography variant="h4" className="text-primary mb-1">{batch.farmer.name}</Typography>
-                                        <Typography variant="small" className="text-accent font-medium mb-2">{batch.farmer.role} · {batch.farmer.yearsFarming}</Typography>
-                                        <div className="flex items-center gap-1.5 justify-center sm:justify-start mb-3">
-                                            <FaMapMarkerAlt className="text-gray-400 text-xs" />
-                                            <Typography variant="small" className="text-gray-500">{batch.farmer.location}</Typography>
-                                        </div>
-                                        <Typography variant="body" className="text-gray-600 text-sm leading-relaxed">{batch.farmer.bio}</Typography>
-                                        {batch.farmer.quote && (
-                                            <div className="mt-4 bg-primary/5 rounded-xl p-4 border-l-4 border-primary">
-                                                <Typography variant="body" className="text-primary-dark italic text-sm">"{batch.farmer.quote}"</Typography>
-                                            </div>
+                        <InfoCard icon={GiFarmer} title={t('farmer.title', 'Meet the Farmer Behind This Batch')} variant="primary" showInfoBadge={false}>
+                            <div className="flex flex-col sm:flex-row items-center gap-6 mt-4">
+                                <div className="flex-shrink-0">
+                                    <div className="relative w-28 h-28 sm:w-32 sm:h-32 rounded-full overflow-hidden border-4 border-primary/20 shadow-lg flex items-center justify-center bg-primary/5">
+                                        {batch.farmer.photo ? (
+                                            <img src={batch.farmer.photo} alt={batch.farmer.name} className="w-full h-full object-cover" />
+                                        ) : (
+                                            <GiFarmer className="text-5xl text-primary/40" />
                                         )}
                                     </div>
                                 </div>
-                            </InfoCard>
-                        </motion.div>
+                                <div className="flex-1 text-center sm:text-left">
+                                    <Typography variant="h4" className="text-primary mb-1">{batch.farmer.name}</Typography>
+                                    <Typography variant="small" className="text-accent font-medium mb-2">{batch.farmer.role} · {batch.farmer.yearsFarming}</Typography>
+                                    <div className="flex items-center gap-1.5 justify-center sm:justify-start mb-3">
+                                        <FaMapMarkerAlt className="text-gray-400 text-xs" />
+                                        <Typography variant="small" className="text-gray-500">{batch.farmer.location}</Typography>
+                                    </div>
+                                    <Typography variant="body" className="text-gray-600 text-sm leading-relaxed">{batch.farmer.bio}</Typography>
+                                    {batch.farmer.quote && (
+                                        <div className="mt-4 bg-primary/5 rounded-xl p-4 border-l-4 border-primary">
+                                            <Typography variant="body" className="text-primary-dark italic text-sm">"{batch.farmer.quote}"</Typography>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        </InfoCard>
                     </div>
                 </Section>
             )}
@@ -804,33 +805,30 @@ const TracePage: React.FC = () => {
             {(isBulk ? bulkData?.sustainability : batch?.sustainability) && (
                 <Section className="py-6">
                     <div className="max-w-3xl mx-auto px-4 sm:px-6">
-                        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
-                            <InfoCard icon={FaLeaf} title={t('sustainability.title', 'Sustainability Verification')} variant="primary" showInfoBadge={false}>
-                                <div className="grid grid-cols-2 gap-3 mt-3">
-                                    {[
-                                        { icon: FaChild, label: t('sustainability.noChildLabor', 'No Child Labor'), value: (isBulk ? bulkData!.sustainability : batch!.sustainability)!.noChildLabor, active: (isBulk ? bulkData!.sustainability : batch!.sustainability)!.noChildLabor },
-                                        { icon: FaMobile, label: t('sustainability.farmOsMonitored', 'Farm OS Monitored'), value: (isBulk ? bulkData!.sustainability : batch!.sustainability)!.farmOsMonitored, active: (isBulk ? bulkData!.sustainability : batch!.sustainability)!.farmOsMonitored },
-                                        { icon: FaShieldAlt, label: t('sustainability.firebreak', 'Firebreak'), value: (isBulk ? bulkData!.sustainability : batch!.sustainability)!.firebreak, active: (isBulk ? bulkData!.sustainability : batch!.sustainability)!.firebreak },
-                                        { icon: FaTree, label: t('sustainability.harvesting', 'Sustainable Harvest'), value: (isBulk ? bulkData!.sustainability : batch!.sustainability)!.sustainableHarvesting, active: (isBulk ? bulkData!.sustainability : batch!.sustainability)!.sustainableHarvesting },
-                                    ].map((item, i) => (
-                                        <motion.div key={i} className={`rounded-xl p-4 border text-center transition-all ${item.active ? 'bg-green-50/60 border-green-200' : 'bg-gray-50/40 border-gray-200'}`}
-                                                    initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }} whileHover={{ y: -2 }}>
-                                            <item.icon className={`text-2xl mx-auto mb-2 ${item.active ? 'text-green-600' : 'text-gray-400'}`} />
-                                            <Typography variant="small" className="text-gray-600 text-xs font-medium">{item.label}</Typography>
-                                            <Typography variant="small" className={`text-xs font-bold mt-1 ${item.active ? 'text-green-700' : 'text-gray-500'}`}>
-                                                {item.active ? 'Verified ✓' : 'Pending'}
-                                            </Typography>
-                                        </motion.div>
-                                    ))}
-                                </div>
-                                <div className="mt-4 pt-3 border-t border-gray-200/30 text-center">
-                                    <Typography variant="small" className="text-gray-400 text-xs flex items-center justify-center gap-1.5">
-                                        <FaGlobeEurope className="text-[10px]" />
-                                        {t('sustainability.euNote', 'Meets EU Due Diligence requirements for sustainable sourcing verification')}
-                                    </Typography>
-                                </div>
-                            </InfoCard>
-                        </motion.div>
+                        <InfoCard icon={FaLeaf} title={t('sustainability.title', 'Sustainability Verification')} variant="primary" showInfoBadge={false}>
+                            <StaggerList className="grid grid-cols-2 gap-3 mt-3">
+                                {[
+                                    { icon: FaChild, label: t('sustainability.noChildLabor', 'No Child Labor'), value: (isBulk ? bulkData!.sustainability : batch!.sustainability)!.noChildLabor, active: (isBulk ? bulkData!.sustainability : batch!.sustainability)!.noChildLabor },
+                                    { icon: FaMobile, label: t('sustainability.farmOsMonitored', 'Farm OS Monitored'), value: (isBulk ? bulkData!.sustainability : batch!.sustainability)!.farmOsMonitored, active: (isBulk ? bulkData!.sustainability : batch!.sustainability)!.farmOsMonitored },
+                                    { icon: FaShieldAlt, label: t('sustainability.firebreak', 'Firebreak'), value: (isBulk ? bulkData!.sustainability : batch!.sustainability)!.firebreak, active: (isBulk ? bulkData!.sustainability : batch!.sustainability)!.firebreak },
+                                    { icon: FaTree, label: t('sustainability.harvesting', 'Sustainable Harvest'), value: (isBulk ? bulkData!.sustainability : batch!.sustainability)!.sustainableHarvesting, active: (isBulk ? bulkData!.sustainability : batch!.sustainability)!.sustainableHarvesting },
+                                ].map((item, i) => (
+                                    <StaggerItem key={i} className={`rounded-xl p-4 border text-center transition-all ${item.active ? 'bg-green-50/60 border-green-200' : 'bg-gray-50/40 border-gray-200'}`}>
+                                        <item.icon className={`text-2xl mx-auto mb-2 ${item.active ? 'text-green-600' : 'text-gray-400'}`} />
+                                        <Typography variant="small" className="text-gray-600 text-xs font-medium">{item.label}</Typography>
+                                        <Typography variant="small" className={`text-xs font-bold mt-1 ${item.active ? 'text-green-700' : 'text-gray-500'}`}>
+                                            {item.active ? 'Verified ✓' : 'Pending'}
+                                        </Typography>
+                                    </StaggerItem>
+                                ))}
+                            </StaggerList>
+                            <div className="mt-4 pt-3 border-t border-gray-200/30 text-center">
+                                <Typography variant="small" className="text-gray-400 text-xs flex items-center justify-center gap-1.5">
+                                    <FaGlobeEurope className="text-[10px]" />
+                                    {t('sustainability.euNote', 'Meets EU Due Diligence requirements for sustainable sourcing verification')}
+                                </Typography>
+                            </div>
+                        </InfoCard>
                     </div>
                 </Section>
             )}
@@ -839,117 +837,114 @@ const TracePage: React.FC = () => {
             {(isBulk ? bulkData?.farmOsMetadata : currentBatch?.farmOsMetadata) && (
                 <Section className="py-6">
                     <div className="max-w-3xl mx-auto px-4 sm:px-6">
-                        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
-                            <InfoCard icon={FaMobile} title={t('farmOsRecord.title', 'Farm OS Record')} variant="accent" showInfoBadge={false}>
-                                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-3">
-                                    {[
-                                        { label: t('farmOsRecord.recordId'), value: (isBulk ? bulkData!.farmOsMetadata : currentBatch!.farmOsMetadata)!.recordId, icon: FaClipboardList },
-                                        { label: t('farmOsRecord.created'), value: (isBulk ? bulkData!.farmOsMetadata : currentBatch!.farmOsMetadata)!.created, icon: FaCalendarAlt },
-                                        { label: t('farmOsRecord.updated'), value: (isBulk ? bulkData!.farmOsMetadata : currentBatch!.farmOsMetadata)!.lastUpdated, icon: FaClock },
-                                        { label: t('farmOsRecord.status'), value: (isBulk ? bulkData!.farmOsMetadata : currentBatch!.farmOsMetadata)!.verificationStatus, icon: FaShieldAlt, highlight: true },
-                                    ].map((item, i) => (
-                                        <motion.div key={i} className={`rounded-xl p-3 border text-center ${item.highlight ? 'bg-green-50/60 border-green-200' : 'bg-white/40 border-white/30'}`}
-                                                    initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }} whileHover={{ y: -2 }}>
-                                            <item.icon className={`text-lg mx-auto mb-1 ${item.highlight ? 'text-green-600' : 'text-accent'}`} />
-                                            <Typography variant="small" className="text-gray-500 text-[10px] uppercase tracking-wider">{item.label}</Typography>
-                                            <Typography variant="small" className={`font-semibold text-xs mt-0.5 ${item.highlight ? 'text-green-700' : 'text-primary'}`}>{item.value}</Typography>
-                                        </motion.div>
-                                    ))}
-                                </div>
+                        <InfoCard icon={FaMobile} title={t('farmOsRecord.title', 'Farm OS Record')} variant="accent" showInfoBadge={false}>
+                            <StaggerList className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-3">
+                                {[
+                                    { label: t('farmOsRecord.recordId'), value: (isBulk ? bulkData!.farmOsMetadata : currentBatch!.farmOsMetadata)!.recordId, icon: FaClipboardList },
+                                    { label: t('farmOsRecord.created'), value: (isBulk ? bulkData!.farmOsMetadata : currentBatch!.farmOsMetadata)!.created, icon: FaCalendarAlt },
+                                    { label: t('farmOsRecord.updated'), value: (isBulk ? bulkData!.farmOsMetadata : currentBatch!.farmOsMetadata)!.lastUpdated, icon: FaClock },
+                                    { label: t('farmOsRecord.status'), value: (isBulk ? bulkData!.farmOsMetadata : currentBatch!.farmOsMetadata)!.verificationStatus, icon: FaShieldAlt, highlight: true },
+                                ].map((item, i) => (
+                                    <StaggerItem key={i} className={`rounded-xl p-3 border text-center ${item.highlight ? 'bg-green-50/60 border-green-200' : 'bg-white/40 border-white/30'}`}>
+                                        <item.icon className={`text-lg mx-auto mb-1 ${item.highlight ? 'text-green-600' : 'text-accent'}`} />
+                                        <Typography variant="small" className="text-gray-500 text-[10px] uppercase tracking-wider">{item.label}</Typography>
+                                        <Typography variant="small" className={`font-semibold text-xs mt-0.5 ${item.highlight ? 'text-green-700' : 'text-primary'}`}>{item.value}</Typography>
+                                    </StaggerItem>
+                                ))}
+                            </StaggerList>
 
-                                {/* Digital Signature Section */}
-                                {!isBulk && currentBatch?.verificationCode && (
-                                    <div className="mt-4 pt-4 border-t border-gray-200/30">
-                                        <div className="bg-gradient-to-r from-primary/5 to-accent/5 rounded-xl p-4 border border-primary/20">
-                                            <div className="flex items-center gap-2 mb-3">
-                                                <FaShieldAlt className="text-green-600" />
-                                                <Typography variant="small" className="font-semibold text-primary">
-                                                    {t('farmOsRecord.digitalSignature', 'Digital Signature')}
-                                                </Typography>
-                                                <span className="px-2 py-0.5 bg-green-100 text-green-700 text-xs rounded-full font-medium">
-                                                    {t('farmOsRecord.verified', 'Verified')}
-                                                 </span>
-                                            </div>
-                                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
-                                                <div className="bg-white/50 rounded-lg p-2.5 text-center">
-                                                    <Typography variant="small" className="text-gray-400 text-[10px] uppercase tracking-wider">
-                                                        {t('farmOsRecord.verificationCode', 'Verification Code')}
-                                                    </Typography>
-                                                    <Typography variant="small" className="font-mono font-bold text-primary mt-0.5 tracking-wider">
-                                                        {currentBatch.verificationCode}
-                                                    </Typography>
-                                                </div>
-                                                <div className="bg-white/50 rounded-lg p-2.5 text-center">
-                                                    <Typography variant="small" className="text-gray-400 text-[10px] uppercase tracking-wider">
-                                                        {t('farmOsRecord.signature', 'Signature')}
-                                                    </Typography>
-                                                    <Typography variant="small" className="font-mono text-primary text-[9px] mt-0.5 truncate" title={currentBatch.digitalSignature?.signature}>
-                                                        {currentBatch.digitalSignature?.signature || `FOS-SIG-${currentBatch.verificationCode.toLowerCase()}`}
-                                                    </Typography>
-                                                </div>
-                                                <div className="bg-white/50 rounded-lg p-2.5 text-center">
-                                                    <Typography variant="small" className="text-gray-400 text-[10px] uppercase tracking-wider">
-                                                        {t('farmOsRecord.signedDate', 'Signed Date')}
-                                                    </Typography>
-                                                    <Typography variant="small" className="text-primary font-medium mt-0.5">
-                                                        {currentBatch.digitalSignature?.signedDate || t('farmOsRecord.justNow', 'Just now')}
-                                                    </Typography>
-                                                </div>
-                                            </div>
-
-                                            {/* Expandable Explanation */}
-                                            <details className="mt-3 group">
-                                                <summary className="flex items-center gap-1.5 text-xs text-primary hover:text-accent cursor-pointer font-medium transition-colors">
-                                                    <FaQuestionCircle className="text-[10px]" />
-                                                    {t('farmOsRecord.whatIsSignature', 'What is a digital signature?')}
-                                                    <FaChevronDown className="text-[8px] transition-transform group-open:rotate-180" />
-                                                </summary>
-                                                <div className="mt-2 pl-5 space-y-3">
-                                                    <Typography variant="small" className="text-gray-600 text-xs leading-relaxed">
-                                                        {t('farmOsRecord.signatureExplanation', 'Our digital signatures use cryptographic technology to prove that this batch data is authentic and has not been tampered with. When you see a verified signature, you can trust that the information you\'re viewing is exactly what was recorded in Farm OS — not something generated after the fact.')}
-                                                    </Typography>
-
-                                                    <div className="bg-blue-50/60 rounded-lg p-3 border border-blue-100">
-                                                        <Typography variant="small" className="font-semibold text-blue-700 text-xs flex items-center gap-1.5 mb-1">
-                                                            <FaCheckCircle className="text-[10px]" />
-                                                            {t('farmOsRecord.howToVerify', 'How to verify')}
-                                                        </Typography>
-                                                        <Typography variant="small" className="text-blue-600 text-xs leading-relaxed">
-                                                            {t('farmOsRecord.verifyInstructions', 'Enter the verification code above on our public verification page to confirm this record\'s authenticity. Anyone can verify — no login required.')}
-                                                        </Typography>
-                                                    </div>
-
-                                                    <div className="flex items-center gap-2">
-                                                        <Link
-                                                            to={`/trace?code=${currentBatch.verificationCode}`}
-                                                            className="inline-flex items-center gap-1.5 text-accent hover:text-primary text-xs font-medium transition-colors"
-                                                        >
-                                                            <FaExternalLinkAlt className="text-[10px]" />
-                                                            {t('farmOsRecord.verifyNow', 'Verify this record')}
-                                                        </Link>
-                                                        <span className="text-gray-300">|</span>
-                                                        <Link
-                                                            to="/trace"
-                                                            className="text-gray-500 hover:text-primary text-xs transition-colors"
-                                                        >
-                                                            {t('farmOsRecord.verifyPage', 'Public verification page')}
-                                                        </Link>
-                                                    </div>
-                                                </div>
-                                            </details>
+                            {/* Digital Signature Section */}
+                            {!isBulk && currentBatch?.verificationCode && (
+                                <Reveal delay={0.2} className="mt-4 pt-4 border-t border-gray-200/30">
+                                    <div className="bg-gradient-to-r from-primary/5 to-accent/5 rounded-xl p-4 border border-primary/20">
+                                        <div className="flex items-center gap-2 mb-3">
+                                            <FaShieldAlt className="text-green-600" />
+                                            <Typography variant="small" className="font-semibold text-primary">
+                                                {t('farmOsRecord.digitalSignature', 'Digital Signature')}
+                                            </Typography>
+                                            <span className="px-2 py-0.5 bg-green-100 text-green-700 text-xs rounded-full font-medium">
+                                                {t('farmOsRecord.verified', 'Verified')}
+                                             </span>
                                         </div>
-                                    </div>
-                                )}
+                                        <StaggerList className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                                            <StaggerItem className="bg-white/50 rounded-lg p-2.5 text-center">
+                                                <Typography variant="small" className="text-gray-400 text-[10px] uppercase tracking-wider">
+                                                    {t('farmOsRecord.verificationCode', 'Verification Code')}
+                                                </Typography>
+                                                <Typography variant="small" className="font-mono font-bold text-primary mt-0.5 tracking-wider">
+                                                    {currentBatch.verificationCode}
+                                                </Typography>
+                                            </StaggerItem>
+                                            <StaggerItem className="bg-white/50 rounded-lg p-2.5 text-center">
+                                                <Typography variant="small" className="text-gray-400 text-[10px] uppercase tracking-wider">
+                                                    {t('farmOsRecord.signature', 'Signature')}
+                                                </Typography>
+                                                <Typography variant="small" className="font-mono text-primary text-[9px] mt-0.5 truncate" title={currentBatch.digitalSignature?.signature}>
+                                                    {currentBatch.digitalSignature?.signature || `FOS-SIG-${currentBatch.verificationCode.toLowerCase()}`}
+                                                </Typography>
+                                            </StaggerItem>
+                                            <StaggerItem className="bg-white/50 rounded-lg p-2.5 text-center">
+                                                <Typography variant="small" className="text-gray-400 text-[10px] uppercase tracking-wider">
+                                                    {t('farmOsRecord.signedDate', 'Signed Date')}
+                                                </Typography>
+                                                <Typography variant="small" className="text-primary font-medium mt-0.5">
+                                                    {currentBatch.digitalSignature?.signedDate || t('farmOsRecord.justNow', 'Just now')}
+                                                </Typography>
+                                            </StaggerItem>
+                                        </StaggerList>
 
-                                {/* System Note */}
-                                <div className="mt-4 pt-3 border-t border-gray-200/30 text-center">
-                                    <Typography variant="small" className="text-gray-400 text-xs flex items-center justify-center gap-1.5">
-                                        <FaDatabase className="text-[10px]" />
-                                        {t('farmOsRecord.note', 'Data pulled directly from Farm OS. Tamper-proof digital signature confirms this record has not been altered since signing.')}
-                                    </Typography>
-                                </div>
-                            </InfoCard>
-                        </motion.div>
+                                        {/* Expandable Explanation */}
+                                        <details className="mt-3 group">
+                                            <summary className="flex items-center gap-1.5 text-xs text-primary hover:text-accent cursor-pointer font-medium transition-colors">
+                                                <FaQuestionCircle className="text-[10px]" />
+                                                {t('farmOsRecord.whatIsSignature', 'What is a digital signature?')}
+                                                <FaChevronDown className="text-[8px] transition-transform group-open:rotate-180" />
+                                            </summary>
+                                            <div className="mt-2 pl-5 space-y-3">
+                                                <Typography variant="small" className="text-gray-600 text-xs leading-relaxed">
+                                                    {t('farmOsRecord.signatureExplanation', 'Our digital signatures use cryptographic technology to prove that this batch data is authentic and has not been tampered with. When you see a verified signature, you can trust that the information you\'re viewing is exactly what was recorded in Farm OS — not something generated after the fact.')}
+                                                </Typography>
+
+                                                <div className="bg-blue-50/60 rounded-lg p-3 border border-blue-100">
+                                                    <Typography variant="small" className="font-semibold text-blue-700 text-xs flex items-center gap-1.5 mb-1">
+                                                        <FaCheckCircle className="text-[10px]" />
+                                                        {t('farmOsRecord.howToVerify', 'How to verify')}
+                                                    </Typography>
+                                                    <Typography variant="small" className="text-blue-600 text-xs leading-relaxed">
+                                                        {t('farmOsRecord.verifyInstructions', 'Enter the verification code above on our public verification page to confirm this record\'s authenticity. Anyone can verify — no login required.')}
+                                                    </Typography>
+                                                </div>
+
+                                                <div className="flex items-center gap-2">
+                                                    <Link
+                                                        to={`/trace?code=${currentBatch.verificationCode}`}
+                                                        className="inline-flex items-center gap-1.5 text-accent hover:text-primary text-xs font-medium transition-colors"
+                                                    >
+                                                        <FaExternalLinkAlt className="text-[10px]" />
+                                                        {t('farmOsRecord.verifyNow', 'Verify this record')}
+                                                    </Link>
+                                                    <span className="text-gray-300">|</span>
+                                                    <Link
+                                                        to="/trace"
+                                                        className="text-gray-500 hover:text-primary text-xs transition-colors"
+                                                    >
+                                                        {t('farmOsRecord.verifyPage', 'Public verification page')}
+                                                    </Link>
+                                                </div>
+                                            </div>
+                                        </details>
+                                    </div>
+                                </Reveal>
+                            )}
+
+                            {/* System Note */}
+                            <div className="mt-4 pt-3 border-t border-gray-200/30 text-center">
+                                <Typography variant="small" className="text-gray-400 text-xs flex items-center justify-center gap-1.5">
+                                    <FaDatabase className="text-[10px]" />
+                                    {t('farmOsRecord.note', 'Data pulled directly from Farm OS. Tamper-proof digital signature confirms this record has not been altered since signing.')}
+                                </Typography>
+                            </div>
+                        </InfoCard>
                     </div>
                 </Section>
             )}
@@ -958,85 +953,84 @@ const TracePage: React.FC = () => {
             {!isBulk && batch?.latitude && batch?.longitude && (
                 <Section className="py-6">
                     <div className="max-w-3xl mx-auto px-4 sm:px-6">
-                        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
-                            <InfoCard icon={FaMapMarkerAlt} title={t('location.title', 'GPS Verified Location')} variant="primary" showInfoBadge={false}>
-                                <div className="mt-3">
-                                    <BatchLocationMap latitude={batch.latitude} longitude={batch.longitude} farmName={batch.farmLocation || 'AfriNuts Farm'} block={batch.block} />
-                                    <div className="flex items-center justify-center gap-2 mt-3">
-                                        <FaMapMarkerAlt className="text-accent text-xs" />
-                                        <Typography variant="small" className="text-gray-600">{batch.farmLocation}{batch.block ? ` · Block ${batch.block}` : ''}</Typography>
-                                        <span className="text-gray-300">·</span>
-                                        <Typography variant="small" className="text-gray-400 text-xs">{batch.latitude.toFixed(4)}, {batch.longitude.toFixed(4)}</Typography>
-                                    </div>
+                        <InfoCard icon={FaMapMarkerAlt} title={t('location.title', 'GPS Verified Location')} variant="primary" showInfoBadge={false}>
+                            <div className="mt-3">
+                                <BatchLocationMap latitude={batch.latitude} longitude={batch.longitude} farmName={batch.farmLocation || 'AfriNuts Farm'} block={batch.block} />
+                                <div className="flex items-center justify-center gap-2 mt-3">
+                                    <FaMapMarkerAlt className="text-accent text-xs" />
+                                    <Typography variant="small" className="text-gray-600">{batch.farmLocation}{batch.block ? ` · Block ${batch.block}` : ''}</Typography>
+                                    <span className="text-gray-300">·</span>
+                                    <Typography variant="small" className="text-gray-400 text-xs">{batch.latitude.toFixed(4)}, {batch.longitude.toFixed(4)}</Typography>
                                 </div>
-                            </InfoCard>
-                        </motion.div>
+                            </div>
+                        </InfoCard>
                     </div>
                 </Section>
             )}
 
             {/* Action Bar */}
-            <div className="max-w-4xl mx-auto px-4 sm:px-6">
-                <motion.div className="flex flex-wrap justify-between items-center gap-3 mb-6" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
-                    <Link to="/trace" className="text-primary hover:text-accent flex items-center gap-2 text-sm font-medium">
-                        <FaArrowLeft className="text-xs" />{t('batch.searchAnother', 'Search Another Batch')}
-                    </Link>
-                    <div className="flex gap-2">
-                        <motion.button onClick={() => window.print()} className="px-4 py-2 bg-white/50 backdrop-blur-sm border border-gray-200 rounded-full text-sm font-medium hover:bg-white/80 transition flex items-center gap-2" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                            <FaPrint className="text-xs" />{t('batch.print', 'Print')}
-                        </motion.button>
-                        <div className="relative">
-                            <motion.button onClick={() => setShowShareMenu(!showShareMenu)} className="px-4 py-2 bg-primary text-white rounded-full text-sm font-medium hover:bg-dark-orange transition flex items-center gap-2" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                                {copied ? <FaCheckCircle className="text-xs" /> : <FaShare className="text-xs" />}
-                                {copied ? t('batch.copied', 'Copied!') : t('batch.share', 'Share')}
+            <Reveal>
+                <div className="max-w-4xl mx-auto px-4 sm:px-6">
+                    <div className="flex flex-wrap justify-between items-center gap-3 mb-6">
+                        <Link to="/trace" className="text-primary hover:text-accent flex items-center gap-2 text-sm font-medium">
+                            <FaArrowLeft className="text-xs" />{t('batch.searchAnother', 'Search Another Batch')}
+                        </Link>
+                        <div className="flex gap-2">
+                            <motion.button onClick={() => window.print()} className="px-4 py-2 bg-white/50 backdrop-blur-sm border border-gray-200 rounded-full text-sm font-medium hover:bg-white/80 transition flex items-center gap-2" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                                <FaPrint className="text-xs" />{t('batch.print', 'Print')}
                             </motion.button>
-                            {showShareMenu && (
-                                <motion.div className="absolute right-0 mt-2 w-44 bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden z-50" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
-                                    {[
-                                        { icon: FaCopy, label: t('share.copyLink', 'Copy Link'), action: () => handleShare() },
-                                        { icon: FaWhatsapp, label: 'WhatsApp', action: () => handleShare('whatsapp') },
-                                        { icon: FaTwitter, label: 'Twitter', action: () => handleShare('twitter') },
-                                        { icon: FaLinkedin, label: 'LinkedIn', action: () => handleShare('linkedin') },
-                                        { icon: FaEnvelope, label: t('share.email', 'Email'), action: () => handleShare('email') },
-                                    ].map((item, i) => (
-                                        <button key={i} onClick={() => { trackOutboundClick(item.label.toLowerCase(), 'share_menu'); item.action(); }}
-                                                className="w-full px-4 py-2.5 text-left hover:bg-gray-50 flex items-center gap-3 text-sm transition">
-                                            <item.icon className="text-gray-500 text-xs" />{item.label}
-                                        </button>
-                                    ))}
-                                </motion.div>
-                            )}
+                            <div className="relative">
+                                <motion.button onClick={() => setShowShareMenu(!showShareMenu)} className="px-4 py-2 bg-primary text-white rounded-full text-sm font-medium hover:bg-dark-orange transition flex items-center gap-2" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                                    {copied ? <FaCheckCircle className="text-xs" /> : <FaShare className="text-xs" />}
+                                    {copied ? t('batch.copied', 'Copied!') : t('batch.share', 'Share')}
+                                </motion.button>
+                                {showShareMenu && (
+                                    <motion.div className="absolute right-0 mt-2 w-44 bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden z-50" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
+                                        {[
+                                            { icon: FaCopy, label: t('share.copyLink', 'Copy Link'), action: () => handleShare() },
+                                            { icon: FaWhatsapp, label: 'WhatsApp', action: () => handleShare('whatsapp') },
+                                            { icon: FaTwitter, label: 'Twitter', action: () => handleShare('twitter') },
+                                            { icon: FaLinkedin, label: 'LinkedIn', action: () => handleShare('linkedin') },
+                                            { icon: FaEnvelope, label: t('share.email', 'Email'), action: () => handleShare('email') },
+                                        ].map((item, i) => (
+                                            <button key={i} onClick={() => { trackOutboundClick(item.label.toLowerCase(), 'share_menu'); item.action(); }}
+                                                    className="w-full px-4 py-2.5 text-left hover:bg-gray-50 flex items-center gap-3 text-sm transition">
+                                                <item.icon className="text-gray-500 text-xs" />{item.label}
+                                            </button>
+                                        ))}
+                                    </motion.div>
+                                )}
+                            </div>
                         </div>
                     </div>
-                </motion.div>
 
-                {/* Tabs */}
-                <div className="flex gap-2 mb-6 border-b border-gray-200 overflow-x-auto">
-                    {[
-                        { key: 'journey' as const, icon: FaMapMarkerAlt, label: t('tabs.journey', 'Journey') },
-                        { key: 'quality' as const, icon: FaChartBar, label: t('tabs.quality', 'Quality') },
-                        { key: 'documents' as const, icon: FaFileAlt, label: t('tabs.documents', 'Documents') },
-                    ].map((tab) => (
-                        <motion.button key={tab.key} onClick={() => setActiveTab(tab.key)}
-                                       className={`flex items-center gap-2 px-4 py-3 text-sm font-medium transition border-b-2 -mb-[2px] whitespace-nowrap ${activeTab === tab.key ? 'border-primary text-primary' : 'border-transparent text-gray-500 hover:text-gray-700'}`}
-                                       whileHover={{ y: -1 }} whileTap={{ scale: 0.95 }}>
-                            <tab.icon className="text-xs" />{tab.label}
-                        </motion.button>
-                    ))}
+                    {/* Tabs */}
+                    <div className="flex gap-2 mb-6 border-b border-gray-200 overflow-x-auto">
+                        {[
+                            { key: 'journey' as const, icon: FaMapMarkerAlt, label: t('tabs.journey', 'Journey') },
+                            { key: 'quality' as const, icon: FaChartBar, label: t('tabs.quality', 'Quality') },
+                            { key: 'documents' as const, icon: FaFileAlt, label: t('tabs.documents', 'Documents') },
+                        ].map((tab) => (
+                            <motion.button key={tab.key} onClick={() => setActiveTab(tab.key)}
+                                           className={`flex items-center gap-2 px-4 py-3 text-sm font-medium transition border-b-2 -mb-[2px] whitespace-nowrap ${activeTab === tab.key ? 'border-primary text-primary' : 'border-transparent text-gray-500 hover:text-gray-700'}`}
+                                           whileHover={{ y: -1 }} whileTap={{ scale: 0.95 }}>
+                                <tab.icon className="text-xs" />{tab.label}
+                            </motion.button>
+                        ))}
+                    </div>
                 </div>
-            </div>
+            </Reveal>
 
             {/* Journey Timeline - Desktop & Mobile */}
             {activeTab === 'journey' && (
                 <>
                     <Section className="py-8 md:py-12">
                         <div className="max-w-4xl mx-auto px-4 sm:px-6">
-                            <motion.div className="text-center mb-8" variants={fadeIn} initial="hidden" whileInView="visible" viewport={{ once: true }}>
+                            <div className="text-center mb-8">
                                 <Typography variant="h2" className="text-primary mb-4">{t('journey.title', "Your Order's Journey")}</Typography>
                                 <Typography variant="lead" className="text-text-dark max-w-2xl mx-auto">{t('journey.subtitle')}</Typography>
-                            </motion.div>
+                            </div>
 
-                            {/* Determine which steps are active based on batch status */}
                             {(() => {
                                 const status = currentBatch?.status;
                                 const isProcessing = status === 'Processing';
@@ -1092,7 +1086,7 @@ const TracePage: React.FC = () => {
 
                                 return (
                                     <>
-                                        {/* Desktop Timeline with SVG Route */}
+                                        {/* Desktop Timeline */}
                                         <div className="hidden md:block relative py-8">
                                             <svg className="absolute inset-0 w-full h-full" viewBox="0 0 800 200" preserveAspectRatio="none">
                                                 <defs>
@@ -1104,12 +1098,9 @@ const TracePage: React.FC = () => {
                                                 </defs>
                                                 <path d="M40,100 C200,20 300,180 500,100 C650,40 700,160 760,100" fill="none" stroke="url(#journeyGradient)" strokeWidth="3" strokeLinecap="round" strokeDasharray="8,4" />
                                             </svg>
-                                            <div className="grid grid-cols-6 gap-6 relative z-10">
+                                            <StaggerList className="grid grid-cols-6 gap-6 relative z-10">
                                                 {steps.map((step, i) => (
-                                                    <motion.div key={i} className="relative flex flex-col items-center text-center group"
-                                                                style={{ marginTop: i % 2 === 0 ? '4rem' : '1rem' }}
-                                                                initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.15 }}>
-
+                                                    <StaggerItem key={i} className="relative flex flex-col items-center text-center group" style={{ marginTop: i % 2 === 0 ? '4rem' : '1rem' }}>
                                                         <div className="absolute -top-8 left-1/2 -translate-x-1/2">
                                                             {step.status === 'active' ? (
                                                                 <span className="relative flex h-3 w-3">
@@ -1146,12 +1137,12 @@ const TracePage: React.FC = () => {
                                                             <Typography variant="small" className="text-gray-600 text-[11px] leading-tight mt-1 line-clamp-2">{step.detail}</Typography>
                                                             {step.sub && <Typography variant="small" className="text-gray-400 text-[10px] leading-tight mt-1 line-clamp-1">{step.sub}</Typography>}
                                                         </div>
-                                                    </motion.div>
+                                                    </StaggerItem>
                                                 ))}
-                                            </div>
+                                            </StaggerList>
                                         </div>
 
-                                        {/* Mobile Timeline with SVG Route */}
+                                        {/* Mobile Timeline */}
                                         <div className="md:hidden relative">
                                             <svg className="absolute top-16 left-0 w-full h-32" viewBox="0 0 400 120" preserveAspectRatio="none">
                                                 <defs>
@@ -1166,18 +1157,15 @@ const TracePage: React.FC = () => {
                                                 <path d="M10,90 C60,10 100,70 150,40 C200,10 240,80 290,30 C330,-10 370,60 390,20" fill="none" stroke="url(#mobileJourneyGradient)" strokeWidth="2.5" strokeLinecap="round" strokeDasharray="6,3" />
                                             </svg>
 
-                                            <motion.div className="flex items-center justify-center gap-2 mb-6 text-xs text-gray-500" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}>
+                                            <Reveal className="flex items-center justify-center gap-2 mb-6 text-xs text-gray-500">
                                                 <FaArrowLeft className="text-[10px] animate-pulse" />
                                                 <span className="bg-white/50 backdrop-blur-sm px-3 py-1 rounded-full">{t('journey.scrollHint', 'Swipe to explore')}</span>
                                                 <FaArrowRight className="text-[10px] animate-pulse" />
-                                            </motion.div>
+                                            </Reveal>
 
-                                            <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-6 -mx-4 px-4 scrollbar-hide"
-                                                 style={{ scrollSnapType: 'x mandatory', WebkitOverflowScrolling: 'touch' }}>
+                                            <StaggerList className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-6 -mx-4 px-4 scrollbar-hide" style={{ scrollSnapType: 'x mandatory', WebkitOverflowScrolling: 'touch' }}>
                                                 {steps.map((step, i) => (
-                                                    <motion.div key={i} className="snap-center flex-shrink-0 w-[160px] flex flex-col items-center text-center relative"
-                                                                initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
-
+                                                    <StaggerItem key={i} className="snap-center flex-shrink-0 w-[160px] flex flex-col items-center text-center relative">
                                                         {step.status === 'active' ? (
                                                             <span className="relative flex h-3 w-3 mb-3">
                                                             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
@@ -1211,15 +1199,15 @@ const TracePage: React.FC = () => {
                                                         </div>
 
                                                         {i < 5 && <div className="absolute -right-4 top-1/2 -translate-y-1/2"><FaArrowRight className="text-gray-300 text-sm" /></div>}
-                                                    </motion.div>
+                                                    </StaggerItem>
                                                 ))}
-                                            </div>
+                                            </StaggerList>
 
                                             <div className="flex justify-center gap-2 mt-6">
                                                 {steps.map((_, i) => (
-                                                    <motion.div key={i} className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                                                    <div key={i} className={`w-2 h-2 rounded-full transition-all duration-300 ${
                                                         steps[i].status === 'complete' ? 'bg-green-500' : steps[i].status === 'active' ? 'bg-accent' : 'bg-gray-300'
-                                                    }`} whileHover={{ scale: 1.5 }} initial={{ opacity: 0, scale: 0 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.3 + i * 0.1 }} />
+                                                    }`} />
                                                 ))}
                                             </div>
                                         </div>
@@ -1231,34 +1219,34 @@ const TracePage: React.FC = () => {
 
                     {/* Trust Section */}
                     <div className="max-w-2xl mx-auto px-4 sm:px-6">
-                        <motion.div className="mt-8" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
+                        <Reveal className="mt-8">
                             <InfoCard icon={FaShieldAlt} title={t('trust.title', 'How We Verify Traceability')} iconColor="text-accent" variant="primary" showInfoBadge={false} className="text-center">
-                                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-3">
+                                <StaggerList className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-3">
                                     {[
                                         { icon: FaMapMarkerAlt, title: t('trust.origin', 'Origin Verified'), desc: t('trust.originDesc') },
                                         { icon: FaClipboardList, title: t('trust.batch', 'Batch Recorded'), desc: t('trust.batchDesc') },
                                         { icon: FaGlobe, title: t('trust.transparent', 'Publicly Visible'), desc: t('trust.transparentDesc') },
                                     ].map((item, i) => (
-                                        <motion.div key={i} className="text-center p-4 bg-white/40 backdrop-blur-sm rounded-xl border border-white/30" whileHover={{ y: -2, scale: 1.02 }}>
+                                        <StaggerItem key={i} className="text-center p-4 bg-white/40 backdrop-blur-sm rounded-xl border border-white/30">
                                             <item.icon className="text-accent text-xl mx-auto mb-2" />
                                             <Typography variant="small" className="font-semibold text-gray-800">{item.title}</Typography>
                                             <Typography variant="small" className="text-gray-500 text-xs mt-1">{item.desc}</Typography>
-                                        </motion.div>
+                                        </StaggerItem>
                                     ))}
-                                </div>
-                                <motion.div className="mt-6 pt-4 border-t border-gray-200/50" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}>
+                                </StaggerList>
+                                <div className="mt-6 pt-4 border-t border-gray-200/50">
                                     <Typography variant="small" className="text-gray-500 mb-2">{t('compliance.description')}</Typography>
-                                </motion.div>
+                                </div>
                             </InfoCard>
-                        </motion.div>
+                        </Reveal>
 
-                        <motion.div className="mt-6 text-center" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ delay: 0.5 }}>
+                        <Reveal className="mt-6 text-center" delay={0.2}>
                             <Typography variant="small" className="text-gray-500 mb-3">{t('ctaQuote.description')}</Typography>
                             <button onClick={() => { trackCtaClick('request_traceable_batch', 'trace_cta'); navigate('/contact?type=wholesale'); }}
                                     className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-6 py-2.5 rounded-full inline-flex items-center gap-2 text-sm font-medium shadow-md">
                                 <FaEnvelope className="text-xs" />{t('ctaQuote.button', 'Request a Traceable Batch')}
                             </button>
-                        </motion.div>
+                        </Reveal>
                     </div>
                 </>
             )}
@@ -1268,50 +1256,56 @@ const TracePage: React.FC = () => {
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 space-y-6">
                     {currentBatch?.overallScore ? (
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <InfoCard icon={FaChartBar} title={t('quality.metrics', 'Quality Metrics')} iconColor="text-accent" variant="primary" showInfoBadge={false} className="h-full">
-                                <div className="space-y-4 mt-3">
-                                    {[
-                                        { label: t('quality.moisture'), value: currentBatch.moistureContent, unit: '%', max: 10, color: 'bg-primary' },
-                                        { label: t('quality.nutCount'), value: currentBatch.nutCount, unit: '', max: 200, color: 'bg-secondary' },
-                                        { label: t('quality.kernelRatio'), value: currentBatch.kernelRatio, unit: '%', max: 55, color: 'bg-accent' },
-                                        { label: t('quality.defectiveRate'), value: currentBatch.defectiveRate, unit: '%', max: 10, color: 'bg-dark-orange' },
-                                    ].filter(m => m.value != null).map((metric, i) => (
-                                        <div key={i} className="bg-white/30 rounded-xl p-3 border border-white/30">
-                                            <div className="flex justify-between items-center mb-2">
-                                                <Typography variant="small" className="text-gray-700 font-medium">{metric.label}</Typography>
-                                                <Typography variant="small" className="font-bold text-primary">{metric.value}{metric.unit}</Typography>
+                            <Reveal>
+                                <InfoCard icon={FaChartBar} title={t('quality.metrics', 'Quality Metrics')} iconColor="text-accent" variant="primary" showInfoBadge={false} className="h-full">
+                                    <div className="space-y-4 mt-3">
+                                        {[
+                                            { label: t('quality.moisture'), value: currentBatch.moistureContent, unit: '%', max: 10, color: 'bg-primary' },
+                                            { label: t('quality.nutCount'), value: currentBatch.nutCount, unit: '', max: 200, color: 'bg-secondary' },
+                                            { label: t('quality.kernelRatio'), value: currentBatch.kernelRatio, unit: '%', max: 55, color: 'bg-accent' },
+                                            { label: t('quality.defectiveRate'), value: currentBatch.defectiveRate, unit: '%', max: 10, color: 'bg-dark-orange' },
+                                        ].filter(m => m.value != null).map((metric, i) => (
+                                            <div key={i} className="bg-white/30 rounded-xl p-3 border border-white/30">
+                                                <div className="flex justify-between items-center mb-2">
+                                                    <Typography variant="small" className="text-gray-700 font-medium">{metric.label}</Typography>
+                                                    <Typography variant="small" className="font-bold text-primary">{metric.value}{metric.unit}</Typography>
+                                                </div>
+                                                <div className="w-full bg-gray-200 rounded-full h-2">
+                                                    <motion.div className={`h-2 rounded-full ${metric.color}`}
+                                                                initial={{ width: 0 }}
+                                                                whileInView={{ width: `${Math.min((metric.value! / metric.max) * 100, 100)}%` }}
+                                                                viewport={{ once: true }} transition={{ duration: 1, delay: i * 0.2 }} />
+                                                </div>
                                             </div>
-                                            <div className="w-full bg-gray-200 rounded-full h-2">
-                                                <motion.div className={`h-2 rounded-full ${metric.color}`}
-                                                            initial={{ width: 0 }}
-                                                            whileInView={{ width: `${Math.min((metric.value! / metric.max) * 100, 100)}%` }}
-                                                            viewport={{ once: true }} transition={{ duration: 1, delay: i * 0.2 }} />
-                                            </div>
-                                        </div>
-                                    ))}
-                                </div>
-                                {currentBatch.overallScore && (
-                                    <div className="mt-4 bg-gradient-to-r from-primary/10 to-accent/10 rounded-xl p-4 text-center">
-                                        <Typography variant="h3" className="font-bold text-primary">{currentBatch.overallScore}%</Typography>
-                                        <Typography variant="small" className="text-gray-500">{t('quality.overallScore')}</Typography>
+                                        ))}
                                     </div>
-                                )}
-                            </InfoCard>
-                            <InfoCard icon={FaCertificate} title={t('batch.certifications')} iconColor="text-accent" variant="accent" showInfoBadge={false} className="h-full">
-                                <div className="space-y-3 mt-3">
-                                    {currentBatch.certifications?.map((cert, i) => (
-                                        <div key={i} className="flex items-center gap-3 bg-white/40 rounded-xl p-3">
-                                            <FaCertificate className="text-accent" />
-                                            <div>
-                                                <Typography variant="small" className="font-medium text-gray-800">{cert}</Typography>
-                                                <Typography variant="small" className="text-green-600 text-xs flex items-center gap-1">
-                                                    <FaCheckCircle className="text-[10px]" /> Verified
-                                                </Typography>
-                                            </div>
+                                    {currentBatch.overallScore && (
+                                        <div className="mt-4 bg-gradient-to-r from-primary/10 to-accent/10 rounded-xl p-4 text-center">
+                                            <Typography variant="h3" className="font-bold text-primary">
+                                                <CountUp to={currentBatch.overallScore} duration={1.4} suffix="%" />
+                                            </Typography>
+                                            <Typography variant="small" className="text-gray-500">{t('quality.overallScore')}</Typography>
                                         </div>
-                                    ))}
-                                </div>
-                            </InfoCard>
+                                    )}
+                                </InfoCard>
+                            </Reveal>
+                            <Reveal delay={0.1}>
+                                <InfoCard icon={FaCertificate} title={t('batch.certifications')} iconColor="text-accent" variant="accent" showInfoBadge={false} className="h-full">
+                                    <StaggerList className="space-y-3 mt-3">
+                                        {currentBatch.certifications?.map((cert, i) => (
+                                            <StaggerItem key={i} className="flex items-center gap-3 bg-white/40 rounded-xl p-3">
+                                                <FaCertificate className="text-accent" />
+                                                <div>
+                                                    <Typography variant="small" className="font-medium text-gray-800">{cert}</Typography>
+                                                    <Typography variant="small" className="text-green-600 text-xs flex items-center gap-1">
+                                                        <FaCheckCircle className="text-[10px]" /> Verified
+                                                    </Typography>
+                                                </div>
+                                            </StaggerItem>
+                                        ))}
+                                    </StaggerList>
+                                </InfoCard>
+                            </Reveal>
                         </div>
                     ) : (
                         <InfoCard icon={FaChartBar} title={t('quality.comingSoon', 'Quality Metrics Coming Soon')} iconColor="text-accent" variant="primary" showInfoBadge={false} className="text-center py-12">
@@ -1324,7 +1318,7 @@ const TracePage: React.FC = () => {
             {/* Tab Content - Documents */}
             {activeTab === 'documents' && (
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 space-y-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <StaggerList className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {[
                             { title: t('docs.coo'), key: 'coo', icon: FaFileAlt },
                             { title: t('docs.phyto'), key: 'phyto', icon: FaLeaf },
@@ -1335,7 +1329,7 @@ const TracePage: React.FC = () => {
                         ].map((doc, i) => {
                             const docUrl = currentBatch?.documents?.[doc.key as keyof typeof currentBatch.documents];
                             return (
-                                <motion.div key={i} initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.05 }}>
+                                <StaggerItem key={i}>
                                     <InfoCard icon={doc.icon} title={doc.title}
                                               subtitle={docUrl ? t('docs.available') : t('docs.pending', 'Available after processing')}
                                               iconColor={docUrl ? "text-green-500" : "text-gray-400"} variant={docUrl ? "primary" : "secondary"} showInfoBadge={false} className="h-full"
@@ -1344,10 +1338,10 @@ const TracePage: React.FC = () => {
                                                       <FaDownload className="text-[10px]" />{t('docs.download')}
                                                   </a>
                                               ) : undefined} />
-                                </motion.div>
+                                </StaggerItem>
                             );
                         })}
-                    </div>
+                    </StaggerList>
                     <div className="text-center py-8">
                         <Typography variant="body" className="text-gray-400">
                             {t('docs.compliancePackPending', 'Compliance pack will be available once all documents are processed.')}

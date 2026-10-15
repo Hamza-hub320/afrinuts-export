@@ -1,6 +1,6 @@
-import React, {Suspense, useEffect, useState} from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import {Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
     FaChevronDown,
@@ -15,17 +15,15 @@ import {
     FaShareSquare,
     FaSadTear,
     FaSearch,
-    FaBox, FaPenFancy, FaMapSigns, FaChartLine, FaHandshake, FaIndustry, FaNewspaper, FaUsers, FaMobile,
+    FaBox, FaPenFancy, FaMapSigns, FaChartLine, FaHandshake, FaIndustry, FaNewspaper, FaUsers, FaMobile, FaQuoteLeft,
 } from 'react-icons/fa';
 import {
     fadeIn,
-    slideInFromLeft,
-    slideInFromRight,
-    scaleUp,
     staggerContainer,
 } from '@/utils/animations';
+import { Reveal, StaggerList, StaggerItem, CountUp } from '@/components/Reveal';
 import { Typography } from '@/components/Typography/Typography';
-import { Product, FarmHighlight, SustainabilityFeature} from '@/types/translations';
+import { Product, FarmHighlight, SustainabilityFeature } from '@/types/translations';
 import heroImage from '../assets/images/hero-sup.webp';
 import farmImage from '../assets/images/farm.webp';
 import sustainabilityImage from '../assets/images/sustainability.webp';
@@ -39,26 +37,11 @@ import ProductCard from '../components/ProductCard/ProductCard';
 import JsonLd from "@/components/Seo/JsonLd";
 import { trackCtaClick, trackProductInquiry, trackOutboundClick } from '@/utils/analytics';
 import { InfoCard } from '@/components/InfoCard/InfoCard';
-import {Helmet} from "react-helmet-async";
-import FarmToDeliverySVG from "@/components/FarmToDeliverySVG/FarmToDeliverySVG";
-import SupplyChainNetwork from "@/components/SupplyChainNetwork/SupplyChainNetwork";
-import IvoryCoastMap from '@/components/IvoryCoastMap/IvoryCoastMap';
+import { Helmet } from "react-helmet-async";
+import { HeroSection } from '@/components/HeroSection/HeroSection';
+import {InvestorLetterMini} from "@/components/InvestorLetter";
 
 
-interface AfriNutsUpdate {
-    id: string;
-    title: string;
-    date: string;
-    excerpt: string;
-    content: string;
-    image?: string;
-    tags: string[];
-    author?: string;
-    isFeatured?: boolean;
-
-}
-
-// Add this interface
 interface AfriNutsUpdate {
     id: string;
     slug: string;
@@ -75,7 +58,6 @@ const Home: React.FC = () => {
     const { t } = useTranslation('home');
     const navigate = useNavigate();
 
-    // Define product data and mappings
     const productImageMap = {
         'raw-cashews': rawCashewImage,
         'organic-cashews': organicCashewImage,
@@ -99,11 +81,9 @@ const Home: React.FC = () => {
         navigate('/contact');
     };
 
-    // For News Load More
     const [newsToShow, setNewsToShow] = useState(2);
     const [homeUpdates, setHomeUpdates] = useState<AfriNutsUpdate[]>([]);
 
-    // Social share handler (dummy)
     const handleShare = (url: string, title: string, platform: string) => {
         trackOutboundClick(platform, title);
         if (navigator.share) {
@@ -175,8 +155,8 @@ const Home: React.FC = () => {
                     "legalName": "AfriNuts Export SARL",
                     "foundingDate": "2023",
                     "founders": [
-                        {"@type": "Person", "name": "Hamza S. Ralsan Sangare", "jobTitle": "Founder & CEO"},
-                        {"@type": "Person", "name": "Sekou Hakim Peters", "jobTitle": "Co-Founder & CFO/COO"}
+                        { "@type": "Person", "name": "Hamza S. Ralsan Sangare", "jobTitle": "Founder & CEO" },
+                        { "@type": "Person", "name": "Sekou Hakim Peters", "jobTitle": "Co-Founder & CFO/COO" }
                     ],
                     "knowsAbout": [
                         "Farm OS",
@@ -201,8 +181,9 @@ const Home: React.FC = () => {
                     }
                 }
             }} />
-            {/* Hero Section - Reduced height since map is now below */}
-            <Section
+
+            {/* HERO — own mount animation */}
+            <HeroSection
                 fullHeight={false}
                 bgImage={heroImage}
                 className="flex items-end justify-center text-center min-h-[60vh] sm:min-h-[80vh] pb-24 pr-16 mx-6 sm:mx-12 lg:mx-32 xl:mx-48 mt-32 pt-24 rounded-[2rem] shadow-2xl overflow-hidden border border-white/40"
@@ -218,7 +199,6 @@ const Home: React.FC = () => {
                     animate="visible"
                     variants={staggerContainer}
                 >
-                    {/* Content */}
                     <div className="relative z-10">
                         <motion.h1
                             className="font-display text-3xl md:text-5xl lg:text-6xl text-primary mb-2 leading-snug"
@@ -233,7 +213,6 @@ const Home: React.FC = () => {
                             </Typography>
                         </motion.div>
 
-                        {/* CTA Buttons */}
                         <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 md:gap-6 justify-center mt-8 sm:mt-10">
                             <motion.button
                                 whileHover={{ scale: 1.05 }}
@@ -246,9 +225,9 @@ const Home: React.FC = () => {
                             >
                                 <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50" />
                                 <span className="relative z-10 flex items-center gap-2">
-                        {t('hero.ctaButtons.exploreProducts')}
+                                    {t('hero.ctaButtons.exploreProducts')}
                                     <FaArrowRight className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover/btn:translate-x-1" />
-                    </span>
+                                </span>
                             </motion.button>
                             <motion.button
                                 whileHover={{ scale: 1.05 }}
@@ -260,27 +239,27 @@ const Home: React.FC = () => {
                                     scrollToSection('about-preview');
                                 }}
                             >
-                    <span className="relative z-10 flex items-center gap-2">
-                        {t('hero.ctaButtons.learnMore')}
-                        <FaChevronDown className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover/btn:translate-y-1" />
-                    </span>
+                                <span className="relative z-10 flex items-center gap-2">
+                                    {t('hero.ctaButtons.learnMore')}
+                                    <FaChevronDown className="w-4 h-4 sm:w-5 sm:h-5 transition-transform group-hover/btn:translate-y-1" />
+                                </span>
                             </motion.button>
                         </div>
                     </div>
                 </motion.div>
-            </Section>
+            </HeroSection>
 
-            {/* Trust Bar */}
+            {/* TRUST BAR — staggered */}
             <Section className="py-6">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6">
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <StaggerList className="grid grid-cols-2 md:grid-cols-4 gap-4">
                         {[
                             { icon: FaLeaf, value: '35 ha', label: t('trust.farm', 'Operating Farm') },
                             { icon: FaUsers, value: '200+', label: t('trust.farmers', 'Cooperative Farmers') },
                             { icon: FaChartLine, value: '1', label: t('trust.investor', 'Active Investor') },
                             { icon: FaMobile, value: 'Farm OS', label: t('trust.tech', 'Proprietary Tech') },
                         ].map((item, idx) => (
-                            <motion.div key={idx} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} transition={{ delay: idx * 0.1 }}>
+                            <StaggerItem key={idx}>
                                 <InfoCard
                                     icon={item.icon}
                                     title={item.value}
@@ -289,315 +268,260 @@ const Home: React.FC = () => {
                                     showInfoBadge={false}
                                     className="h-full text-center"
                                 />
-                            </motion.div>
+                            </StaggerItem>
                         ))}
-                    </div>
+                    </StaggerList>
                 </div>
             </Section>
 
-            {/* 2. About Preview Section */}
+            {/* ABOUT PREVIEW */}
             <Suspense fallback={<div>{t('loading.about')}</div>}>
                 <Section id="about-preview" className="py-10 -mt-1 px-4 sm:px-6">
                     <motion.div
-                        className="w-full max-w-7xl mx-auto px-4 sm:px-6"
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true, margin: "-100px" }}
-                        variants={scaleUp}
+                        className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-500 rounded-2xl md:rounded-3xl shadow-xl md:shadow-2xl p-6 md:p-12 w-full max-w-7xl mx-auto transform-gpu"
+                        style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
+                        whileHover={{
+                            y: -5,
+                            scale: 1.01,
+                            rotateY: 2,
+                            boxShadow: '0 20px 35px -10px rgba(0, 0, 0, 0.2)',
+                            transition: { duration: 0.3 }
+                        }}
                     >
-                        <motion.div
-                            className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-500 rounded-2xl md:rounded-3xl shadow-xl md:shadow-2xl p-6 md:p-12 w-full transform-gpu"
-                            style={{
-                                transformStyle: 'preserve-3d',
-                                perspective: '1000px',
-                            }}
-                            whileHover={{
-                                y: -5,
-                                scale: 1.01,
-                                rotateY: 2,
-                                boxShadow: '0 20px 35px -10px rgba(0, 0, 0, 0.2)',
-                                transition: { duration: 0.3 }
-                            }}
-                        >
-                            {/* 3D edge effect */}
-                            <div className="absolute inset-0 rounded-2xl md:rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px] hover:translate-z-[-10px] transition-all duration-500" />
+                        <div className="absolute inset-0 rounded-2xl md:rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px] hover:translate-z-[-10px] transition-all duration-500" />
+                        <div className="absolute inset-0 rounded-2xl md:rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40 hover:opacity-60 transition-opacity duration-500" />
+                        <div className="absolute inset-0 rounded-2xl md:rounded-3xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] group-hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
+                        <div className="absolute inset-0 rounded-2xl md:rounded-3xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
 
-                            {/* Glassy overlay */}
-                            <div className="absolute inset-0 rounded-2xl md:rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40 hover:opacity-60 transition-opacity duration-500" />
+                        <div className="flex flex-col lg:flex-row items-center gap-8 md:gap-12 relative z-10">
+                            <motion.div
+                                className="text-orange-600 text-5xl p-5 bg-white/80 backdrop-blur-md rounded-xl shadow-inner transform-gpu group-hover:scale-110 transition-transform duration-500"
+                                aria-label={t('aboutPreview.iconAria')}
+                                whileHover={{ scale: 1.1, rotate: 5 }}
+                                transition={{ type: 'spring', stiffness: 300 }}
+                            >
+                                <FaGlobeAfrica />
+                            </motion.div>
+                            <div className="flex-1">
+                                <Typography variant="h2" className="mb-4 md:mb-6">
+                                    {t('aboutPreview.title')}
+                                </Typography>
+                                <Typography variant="body" className="mb-6 md:mb-8">
+                                    {t('aboutPreview.description')}
+                                </Typography>
 
-                            {/* Inner shadow effect */}
-                            <div className="absolute inset-0 rounded-2xl md:rounded-3xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] group-hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
+                                <div className="flex flex-col sm:flex-row gap-4">
+                                    <motion.button
+                                        whileHover={{ scale: 1.08, y: -2, boxShadow: '0 10px 25px -5px rgba(90, 116, 17, 0.4)' }}
+                                        whileTap={{ scale: 0.96 }}
+                                        className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-5 py-2.5 rounded-full text-sm font-medium shadow-md inline-flex items-center gap-1.5"
+                                        onClick={() => navigate('/about')}
+                                        aria-label={t('aboutPreview.ctaButton')}
+                                    >
+                                        <FaMapSigns className="mr-2" />
+                                        {t('aboutPreview.ctaButton')}
+                                        <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+                                    </motion.button>
 
-                            {/* Subtle background pattern */}
-                            <div className="absolute inset-0 rounded-2xl md:rounded-3xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
+                                    <motion.button
+                                        whileHover={{ scale: 1.08, y: -2, boxShadow: '0 10px 25px -5px rgba(224, 78, 0, 0.4)' }}
+                                        whileTap={{ scale: 0.96 }}
+                                        className="relative border border-primary/40 text-primary hover:bg-primary/5 px-5 py-2.5 rounded-full text-sm font-medium inline-flex items-center gap-1.5 bg-white/50 backdrop-blur-sm"
+                                        onClick={() => navigate('/blog')}
+                                        aria-label="Visit our blog"
+                                    >
+                                        <FaPenFancy className="mr-2" />
+                                        {t('aboutPreview.blogButton')}
+                                        <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+                                    </motion.button>
 
-                            <div className="flex flex-col lg:flex-row items-center gap-8 md:gap-12 lg:gap-12 relative z-10">
-                                <motion.div
-                                    className="text-orange-600 text-5xl p-5 bg-white/80 backdrop-blur-md rounded-xl shadow-inner transform-gpu group-hover:scale-110 transition-transform duration-500"
-                                    variants={fadeIn}
-                                    aria-label={t('aboutPreview.iconAria')}
-                                    whileHover={{ scale: 1.1, rotate: 5 }}
-                                    transition={{ type: 'spring', stiffness: 300 }}
-                                >
-                                    <FaGlobeAfrica />
-                                </motion.div>
-                                <motion.div
-                                    className="flex-1"
-                                    variants={fadeIn}
-                                >
-                                    <Typography variant="h2" className="mb-4 md:mb-6">
-                                        {t('aboutPreview.title')}
-                                    </Typography>
-                                    <Typography variant="body" className="mb-6 md:mb-8">
-                                        {t('aboutPreview.description')}
-                                    </Typography>
-
-                                    {/* Two Button Row — Now Three */}
-                                    <div className="flex flex-col sm:flex-row gap-4">
-                                        {/* Farm Story Button — Primary Green */}
-                                        <motion.button
-                                            whileHover={{ scale: 1.08, y: -2, boxShadow: '0 10px 25px -5px rgba(90, 116, 17, 0.4)' }}
-                                            whileTap={{ scale: 0.96 }}
-                                            className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-5 py-2.5 rounded-full text-sm font-medium shadow-md inline-flex items-center gap-1.5"
-                                            onClick={() => navigate('/about')}
-                                            aria-label={t('aboutPreview.ctaButton')}
-                                        >
-                                            <FaMapSigns className="mr-2" />
-                                            {t('aboutPreview.ctaButton')}
-                                            <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
-                                        </motion.button>
-
-                                        {/* Blog Button — Accent Orange */}
-                                        <motion.button
-                                            whileHover={{ scale: 1.08, y: -2, boxShadow: '0 10px 25px -5px rgba(224, 78, 0, 0.4)' }}
-                                            whileTap={{ scale: 0.96 }}
-                                            className="relative border border-primary/40 text-primary hover:bg-primary/5 px-5 py-2.5 rounded-full text-sm font-medium inline-flex items-center gap-1.5 bg-white/50 backdrop-blur-sm"
-                                            onClick={() => navigate('/blog')}
-                                            aria-label="Visit our blog"
-                                        >
-                                            <FaPenFancy className="mr-2" />
-                                            {t('aboutPreview.blogButton')}
-                                            <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
-                                        </motion.button>
-
-                                        {/* Wholesale Button — Navy/Teal */}
-                                        <motion.button
-                                            whileHover={{ scale: 1.08, y: -2, boxShadow: '0 10px 25px -5px rgba(37, 55, 70, 0.4)' }}
-                                            whileTap={{ scale: 0.96 }}
-                                            className="relative border border-accent/40 text-accent hover:bg-accent/5 px-5 py-2.5 rounded-full text-sm font-medium inline-flex items-center gap-1.5 bg-white/50 backdrop-blur-sm"
-                                            onClick={() => navigate('/wholesale')}
-                                            aria-label={t('aboutPreview.wholesaleButton', 'Wholesale Inquiry')}
-                                        >
-                                            <FaBox className="mr-2" />
-                                            {t('aboutPreview.wholesaleButton', 'Wholesale Inquiry')}
-                                            <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
-                                        </motion.button>
-                                    </div>
-                                </motion.div>
+                                    <motion.button
+                                        whileHover={{ scale: 1.08, y: -2, boxShadow: '0 10px 25px -5px rgba(37, 55, 70, 0.4)' }}
+                                        whileTap={{ scale: 0.96 }}
+                                        className="relative border border-accent/40 text-accent hover:bg-accent/5 px-5 py-2.5 rounded-full text-sm font-medium inline-flex items-center gap-1.5 bg-white/50 backdrop-blur-sm"
+                                        onClick={() => navigate('/wholesale')}
+                                        aria-label={t('aboutPreview.wholesaleButton', 'Wholesale Inquiry')}
+                                    >
+                                        <FaBox className="mr-2" />
+                                        {t('aboutPreview.wholesaleButton', 'Wholesale Inquiry')}
+                                        <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" />
+                                    </motion.button>
+                                </div>
                             </div>
-                        </motion.div>
+                        </div>
                     </motion.div>
                 </Section>
             </Suspense>
 
-            {/* 3. Products Showcase */}
+            {/* PRODUCTS SHOWCASE */}
             <Suspense fallback={<div>{t('loading.products')}</div>}>
                 <Section className="py-10">
                     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
-                        <motion.div
-                            className="text-center mb-16 h-full"
-                            initial="hidden"
-                            whileInView="visible"
-                            viewport={{ once: true }}
-                            variants={fadeIn}
-                        >
+                        <div className="text-center mb-16">
                             <Typography variant="h2" className="mb-4">
                                 {t('products.title')}
                             </Typography>
                             <Typography variant="subhead" className="max-w-3xl mx-auto">
                                 {t('products.subtitle')}
                             </Typography>
-                        </motion.div>
+                        </div>
 
-                        <motion.div
-                            className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 overflow-visible"
-                            variants={staggerContainer}
-                            initial="hidden"
-                            whileInView="visible"
-                            viewport={{ once: true }}
-                        >
+                        <StaggerList className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 sm:gap-8 overflow-visible">
                             {(t('products.items', { returnObjects: true }) as Product[]).map((product) => (
-                                <motion.div
-                                    key={product.key}
-                                    whileHover={{ scale: 1.02 }}
-                                    whileTap={{ scale: 0.97 }}
-                                    className="w-full relative z-0 overflow-visible h-full"
-                                >
-                                    <ProductCard
-                                        product={{
-                                            ...product,
-                                            icon: product.icon.toLowerCase().replace(/\s+/g, '-'),
-                                            backgroundImage: product.icon.toLowerCase().replace(/\s+/g, '-'),
-                                            features: product.features || []
-                                        }}
-                                        className="h-full"
-                                        handleContactClick={() => {
-                                            trackProductInquiry(product.name);
-                                            handleContactClick();
-                                        }}
-                                        productImageMap={productImageMap}
-                                        iconMap={iconMap}
-                                        // Pass i18n alt texts and aria labels
-                                        imageAlt={t(`products.itemsAlt.${product.key}`)}
-                                        ariaLabel={t(`products.itemsAria.${product.key}`)}
-                                        // Social share
-                                        renderSocialShare={() => (
-                                            <div className="flex gap-2 mt-2">
-                                                <button
-                                                    aria-label={t('products.share.facebook')}
-                                                    className="rounded-full p-2 hover:bg-primary/10 transition"
-                                                    onClick={() => handleShare(window.location.href, product.name, 'facebook')}
-                                                    type="button"
-                                                >
-                                                    <FaFacebook className="w-4 h-4 text-primary" />
-                                                </button>
-                                                <button
-                                                    aria-label={t('products.share.twitter')}
-                                                    className="rounded-full p-2 hover:bg-accent/10 transition"
-                                                    onClick={() => handleShare(window.location.href, product.name, 'twitter')}
-                                                    type="button"
-                                                >
-                                                    <FaTwitter className="w-4 h-4 text-accent" />
-                                                </button>
-                                                <button
-                                                    aria-label={t('products.share.linkedin')}
-                                                    className="rounded-full p-2 hover:bg-primary/10 transition"
-                                                    onClick={() => handleShare(window.location.href, product.name, 'linkedin')}
-                                                    type="button"
-                                                >
-                                                    <FaLinkedin className="w-4 h-4 text-primary" />
-                                                </button>
-                                            </div>
-                                        )}
-                                    />
-                                </motion.div>
+                                <StaggerItem key={product.key}>
+                                    <motion.div
+                                        whileHover={{ scale: 1.02 }}
+                                        whileTap={{ scale: 0.97 }}
+                                        className="w-full relative z-0 overflow-visible h-full"
+                                    >
+                                        <ProductCard
+                                            product={{
+                                                ...product,
+                                                icon: product.icon.toLowerCase().replace(/\s+/g, '-'),
+                                                backgroundImage: product.icon.toLowerCase().replace(/\s+/g, '-'),
+                                                features: product.features || []
+                                            }}
+                                            className="h-full"
+                                            handleContactClick={() => {
+                                                trackProductInquiry(product.name);
+                                                handleContactClick();
+                                            }}
+                                            productImageMap={productImageMap}
+                                            iconMap={iconMap}
+                                            imageAlt={t(`products.itemsAlt.${product.key}`)}
+                                            ariaLabel={t(`products.itemsAria.${product.key}`)}
+                                            renderSocialShare={() => (
+                                                <div className="flex gap-2 mt-2">
+                                                    <button
+                                                        aria-label={t('products.share.facebook')}
+                                                        className="rounded-full p-2 hover:bg-primary/10 transition"
+                                                        onClick={() => handleShare(window.location.href, product.name, 'facebook')}
+                                                        type="button"
+                                                    >
+                                                        <FaFacebook className="w-4 h-4 text-primary" />
+                                                    </button>
+                                                    <button
+                                                        aria-label={t('products.share.twitter')}
+                                                        className="rounded-full p-2 hover:bg-accent/10 transition"
+                                                        onClick={() => handleShare(window.location.href, product.name, 'twitter')}
+                                                        type="button"
+                                                    >
+                                                        <FaTwitter className="w-4 h-4 text-accent" />
+                                                    </button>
+                                                    <button
+                                                        aria-label={t('products.share.linkedin')}
+                                                        className="rounded-full p-2 hover:bg-primary/10 transition"
+                                                        onClick={() => handleShare(window.location.href, product.name, 'linkedin')}
+                                                        type="button"
+                                                    >
+                                                        <FaLinkedin className="w-4 h-4 text-primary" />
+                                                    </button>
+                                                </div>
+                                            )}
+                                        />
+                                    </motion.div>
+                                </StaggerItem>
                             ))}
-                        </motion.div>
+                        </StaggerList>
                     </div>
                 </Section>
             </Suspense>
 
-            {/* Product CTA */}
+            {/* PRODUCT CTA */}
             <Section className="py-8">
                 <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={staggerContainer}
+                    <Typography variant="h2" className="text-primary mb-3">
+                        {t('products.cta.heading')}
+                    </Typography>
+                    <Typography variant="body" className="text-gray-600 mb-5 max-w-xl mx-auto">
+                        {t('products.cta.description')}
+                    </Typography>
+                    <motion.button
+                        onClick={() => navigate('/products')}
+                        className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-6 py-2.5 rounded-full transform-gpu transition-all duration-300 inline-flex items-center gap-2 text-sm font-medium shadow-md"
+                        whileHover={{ y: -2, scale: 1.03 }}
+                        whileTap={{ scale: 0.95 }}
                     >
-                        <Typography variant="h2" className="text-primary mb-3">
-                            {t('products.cta.heading')}
-                        </Typography>
+                        <div className="absolute inset-0 rounded-full border-2 border-white/30" />
+                        <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50" />
+                        <span className="relative z-10">{t('products.cta.button', 'Explore All Products')}</span>
+                        <FaArrowRight className="relative z-10 group-hover:translate-x-1 transition-transform" />
+                    </motion.button>
+                </div>
+            </Section>
+
+            {/* WHOLESALE CTA */}
+            <div className="flex flex-wrap gap-3 justify-center mt-3">
+                <Link to="/wholesale" className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-primary/10 hover:bg-primary/20 text-primary rounded-full text-sm font-medium transition-colors">
+                    <FaBox className="text-xs" />
+                    {t('internalLinks.wholesale')}
+                    <FaArrowRight className="text-xs" />
+                </Link>
+                <Link to="/farm-os" className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-accent/10 hover:bg-accent/20 text-accent rounded-full text-sm font-medium transition-colors">
+                    {t('internalLinks.farmosLink', 'Powered by Farm OS')} <FaArrowRight className="text-[10px]" />
+                </Link>
+            </div>
+
+            {/* TRACEABILITY TEASER */}
+            <Section className="py-10">
+                <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
+                    <InfoCard
+                        icon={FaSearch}
+                        title={t('traceability.title', 'Traceable from Tree to Container')}
+                        variant="primary"
+                        showInfoBadge={false}
+                        className="text-center"
+                    >
                         <Typography variant="body" className="text-gray-600 mb-5 max-w-xl mx-auto">
-                            {t('products.cta.description')}
+                            {t('traceability.description', 'Our custom Farm OS tracks every cashew from the block it was harvested to the container it ships in. Buyers and investors get real-time visibility into origin, quality, and handling — not just a paper trail.')}
                         </Typography>
                         <motion.button
-                            onClick={() => navigate('/products')}
+                            onClick={() => navigate('/trace')}
                             className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-6 py-2.5 rounded-full transform-gpu transition-all duration-300 inline-flex items-center gap-2 text-sm font-medium shadow-md"
                             whileHover={{ y: -2, scale: 1.03 }}
                             whileTap={{ scale: 0.95 }}
                         >
                             <div className="absolute inset-0 rounded-full border-2 border-white/30" />
                             <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50" />
-                            <span className="relative z-10">{t('products.cta.button', 'Explore All Products')}</span>
+                            <span className="relative z-10">{t('traceability.cta', 'See How Traceability Works')}</span>
                             <FaArrowRight className="relative z-10 group-hover:translate-x-1 transition-transform" />
                         </motion.button>
-                    </motion.div>
+                    </InfoCard>
                 </div>
             </Section>
 
-            {/* Wholesale CTA */}
-            <div className="flex flex-wrap gap-3 justify-center mt-3">
-                <Link to="/wholesale"  className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-primary/10 hover:bg-primary/20 text-primary rounded-full text-sm font-medium transition-colors">
-                    <FaBox className="text-xs" />
-                    {t('internalLinks.wholesale')}
-                    <FaArrowRight className="text-xs" />
-                </Link>
-                <Link to="/farm-os" className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-accent/10 hover:bg-accent/20 text-accent rounded-full text-sm font-medium transition-colors">
-                    {t('internalLinks.farmosLink"', 'Powered by Farm OS')} <FaArrowRight className="text-[10px]" />
-                </Link>
-            </div>
-
-            {/* Traceability Teaser */}
-            <Section className="py-10">
-                <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={staggerContainer}
-                    >
-                        <InfoCard
-                            icon={FaSearch}
-                            title={t('traceability.title', 'Traceable from Tree to Container')}
-                            variant="primary"
-                            showInfoBadge={false}
-                            className="text-center"
-                        >
-                            <Typography variant="body" className="text-gray-600 mb-5 max-w-xl mx-auto">
-                                {t('traceability.description', 'Our custom Farm OS tracks every cashew from the block it was harvested to the container it ships in. Buyers and investors get real-time visibility into origin, quality, and handling — not just a paper trail.')}
-                            </Typography>
-                            <motion.button
-                                onClick={() => navigate('/trace')}
-                                className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-6 py-2.5 rounded-full transform-gpu transition-all duration-300 inline-flex items-center gap-2 text-sm font-medium shadow-md"
-                                whileHover={{ y: -2, scale: 1.03 }}
-                                whileTap={{ scale: 0.95 }}
-                            >
-                                <div className="absolute inset-0 rounded-full border-2 border-white/30" />
-                                <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50" />
-                                <span className="relative z-10">{t('traceability.cta', 'See How Traceability Works')}</span>
-                                <FaArrowRight className="relative z-10 group-hover:translate-x-1 transition-transform" />
-                            </motion.button>
-                        </InfoCard>
-                    </motion.div>
-                </div>
-            </Section>
-
-            {/* Farm OS Teaser — After Products CTA, before Traceability */}
+            {/* FARM OS TEASER */}
             <Section className="py-8">
                 <div className="max-w-3xl mx-auto px-4 sm:px-6 text-center">
-                    <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
-                        <InfoCard
-                            icon={FaMobile}
-                            title={t('farmOsTeaser.title', 'Powered by Farm OS — Our Custom Operating System')}
-                            variant={"secondary"}
-                            showInfoBadge={false}
-                            className="text-center"
-                        >
-                            <Typography variant="body" className="text-gray-600 mb-5 max-w-xl mx-auto">
-                                {t('farmOsTeaser.description', 'Most farms run on paper. Ours runs on software we built — an offline-first Android app with cloud sync, real-time dashboards, and block-level tracking. The same system our farm managers use. The same data our investors see.')}
-                            </Typography>
-                            <Link to="/contact" className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-6 py-2.5 rounded-full transform-gpu transition-all duration-300 inline-flex items-center gap-2 text-sm font-medium shadow-md">
-                                <span>{t('farmOsTeaser.cta', 'Explore Farm OS (Under NDA)')}</span>
-                                <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
-                            </Link>
-                        </InfoCard>
-                    </motion.div>
+                    <InfoCard
+                        icon={FaMobile}
+                        title={t('farmOsTeaser.title', 'Powered by Farm OS — Our Custom Operating System')}
+                        variant={"secondary"}
+                        showInfoBadge={false}
+                        className="text-center"
+                    >
+                        <Typography variant="body" className="text-gray-600 mb-5 max-w-xl mx-auto">
+                            {t('farmOsTeaser.description', 'Most farms run on paper. Ours runs on software we built — an offline-first Android app with cloud sync, real-time dashboards, and block-level tracking. The same system our farm managers use. The same data our investors see.')}
+                        </Typography>
+                        <Link to="/contact" className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-6 py-2.5 rounded-full transform-gpu transition-all duration-300 inline-flex items-center gap-2 text-sm font-medium shadow-md">
+                            <span>{t('farmOsTeaser.cta', 'Explore Farm OS (Under NDA)')}</span>
+                            <FaArrowRight className="group-hover:translate-x-1 transition-transform" />
+                        </Link>
+                    </InfoCard>
                 </div>
             </Section>
 
-            {/* Explore AfriNuts — Page Directory */}
+            {/* EXPLORE AFRINUTS — Page Directory */}
             <Section className="py-10">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6">
-                    <motion.div className="text-center mb-10" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
+                    <div className="text-center mb-10">
                         <Typography variant="h2" className="mb-4">{t('explore.title', 'Explore AfriNuts')}</Typography>
                         <Typography variant="body" className="max-w-2xl mx-auto">
                             {t('explore.subtitle', 'From our tech-enabled farm to your supply chain. Every part of AfriNuts is built for transparency.')}
                         </Typography>
-                    </motion.div>
+                    </div>
 
-                    <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <StaggerList className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
                         {[
                             { icon: FaLeaf, title: t('explore.farm.title', 'Our Farm'), desc: t('explore.farm.desc', '35 hectares, 3,500 trees, Farm OS-tracked'), link: '/farm' },
                             { icon: FaBox, title: t('explore.wholesale.title', 'Wholesale'), desc: t('explore.wholesale.desc', 'Bulk cashews with full traceability'), link: '/wholesale' },
@@ -608,7 +532,7 @@ const Home: React.FC = () => {
                             { icon: FaNewspaper, title: t('explore.news.title', 'News & Blog'), desc: t('explore.news.desc', 'Farm updates, industry insights, guides'), link: '/news' },
                             { icon: FaUsers, title: t('explore.team.title', 'Our Team'), desc: t('explore.team.desc', 'Software engineers, farmers, finance experts'), link: '/executive-team' },
                         ].map((item, idx) => (
-                            <motion.div key={idx} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} transition={{ delay: idx * 0.05 }}>
+                            <StaggerItem key={idx}>
                                 <Link to={item.link} className="block h-full">
                                     <InfoCard
                                         icon={item.icon}
@@ -623,68 +547,60 @@ const Home: React.FC = () => {
                                         </div>
                                     </InfoCard>
                                 </Link>
-                            </motion.div>
+                            </StaggerItem>
                         ))}
-                    </div>
+                    </StaggerList>
                 </div>
             </Section>
 
+            <Section className="py-16">
+                <Reveal className="max-w-4xl mx-auto text-center">
+                    <InvestorLetterMini />
+                </Reveal>
+            </Section>
 
-            {/* 4. Farm Story */}
-            <Section className="py-10 bg-gradient-to-r from-primary/30 via-white/30
-  bg-[length:300%_300%] bg-gradient-animate-slow text-text-dark px-4 sm:px-6 rounded-t-[80px] md:rounded-t-[100px] overflow-hidden pt-24 pb-8 relative">
+            {/* FARM STORY */}
+            <Section className="py-10 bg-gradient-to-r from-primary/30 via-white/30 bg-[length:300%_300%] bg-gradient-animate-slow text-text-dark px-4 sm:px-6 rounded-t-[80px] md:rounded-t-[100px] overflow-hidden pt-24 pb-8 relative">
                 <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                     <div className="flex flex-col lg:flex-row items-center gap-8 md:gap-16">
-                        <motion.div
-                            className="flex-1 w-full max-w-md sm:max-w-lg md:max-w-2xl lg:max-w-4xl xl:max-w-6xl mx-auto"
-                            initial="hidden"
-                            whileInView="visible"
-                            viewport={{ once: true }}
-                            variants={slideInFromLeft}
-                        >
+                        <div className="flex-1 w-full max-w-md sm:max-w-lg md:max-w-2xl lg:max-w-4xl xl:max-w-6xl mx-auto">
                             <Typography variant="h2" className="mb-4 md:mb-6">
                                 {t('farm.title')}
                             </Typography>
                             <Typography variant="body" className="mb-6 md:mb-8">
                                 {t('farm.description')}
                             </Typography>
-                            <div className="grid sm:grid-cols-2 gap-4 md:gap-6 mb-6 md:mb-8">
+                            <StaggerList className="grid sm:grid-cols-2 gap-4 md:gap-6 mb-6 md:mb-8">
                                 {(t('farm.highlights', { returnObjects: true }) as FarmHighlight[]).map((highlight) => (
-                                    <motion.div
-                                        key={highlight.key}
-                                        className="relative bg-white/20 backdrop-blur-md border border-white/30 p-4 rounded-xl transform-gpu"
-                                        style={{
-                                            transformStyle: 'preserve-3d',
-                                            perspective: '1000px',
-                                        }}
-                                        whileHover={{
-                                            y: -5,
-                                            scale: 1.02,
-                                            rotateY: 2,
-                                            boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)',
-                                            transition: { duration: 0.3 }
-                                        }}
-                                    >
-                                        {/* 3D edge effect */}
-                                        <div className="absolute inset-0 rounded-xl border-2 border-white/20 transform-gpu translate-z-[-4px] hover:translate-z-[-8px] transition-all duration-500" />
-
-                                        {/* Glassy overlay */}
-                                        <div className="absolute inset-0 rounded-xl bg-gradient-to-b from-white/15 to-transparent opacity-30 hover:opacity-50 transition-opacity duration-500" />
-
-                                        <div className="relative z-10">
-                                            <div className="text-accent text-2xl mb-2" aria-label={t(`farm.highlightsAria.${highlight.key}`)}>
-                                                {highlight.icon === 'FaLeaf' ? <FaLeaf /> : <FaGlobeAfrica />}
+                                    <StaggerItem key={highlight.key}>
+                                        <motion.div
+                                            className="relative bg-white/20 backdrop-blur-md border border-white/30 p-4 rounded-xl transform-gpu h-full"
+                                            style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
+                                            whileHover={{
+                                                y: -5,
+                                                scale: 1.02,
+                                                rotateY: 2,
+                                                boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1)',
+                                                transition: { duration: 0.3 }
+                                            }}
+                                        >
+                                            <div className="absolute inset-0 rounded-xl border-2 border-white/20 transform-gpu translate-z-[-4px] hover:translate-z-[-8px] transition-all duration-500" />
+                                            <div className="absolute inset-0 rounded-xl bg-gradient-to-b from-white/15 to-transparent opacity-30 hover:opacity-50 transition-opacity duration-500" />
+                                            <div className="relative z-10">
+                                                <div className="text-accent text-2xl mb-2" aria-label={t(`farm.highlightsAria.${highlight.key}`)}>
+                                                    {highlight.icon === 'FaLeaf' ? <FaLeaf /> : <FaGlobeAfrica />}
+                                                </div>
+                                                <Typography variant="h4" className="mb-2">
+                                                    {highlight.title}
+                                                </Typography>
+                                                <Typography variant="small">
+                                                    {highlight.description}
+                                                </Typography>
                                             </div>
-                                            <Typography variant="h4" className="mb-2">
-                                                {highlight.title}
-                                            </Typography>
-                                            <Typography variant="small">
-                                                {highlight.description}
-                                            </Typography>
-                                        </div>
-                                    </motion.div>
+                                        </motion.div>
+                                    </StaggerItem>
                                 ))}
-                            </div>
+                            </StaggerList>
                             <motion.button
                                 whileHover={{ scale: 1.08 }}
                                 whileTap={{ scale: 0.96 }}
@@ -696,22 +612,13 @@ const Home: React.FC = () => {
                                 aria-label={t('farm.ctaButton')}
                             >
                                 {t('farm.ctaButton')}
-                                <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" aria-hidden="true"/>
+                                <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
                             </motion.button>
-                        </motion.div>
-                        <motion.div
-                            className="flex-1 w-full max-w-md sm:max-w-lg md:max-w-2xl lg:max-w-4xl xl:max-w-6xl mx-auto"
-                            initial="hidden"
-                            whileInView="visible"
-                            viewport={{ once: true }}
-                            variants={slideInFromRight}
-                        >
+                        </div>
+                        <div className="flex-1 w-full max-w-md sm:max-w-lg md:max-w-2xl lg:max-w-4xl xl:max-w-6xl mx-auto">
                             <motion.div
                                 className="relative rounded-2xl md:rounded-3xl overflow-hidden shadow-xl md:shadow-2xl aspect-video w-full transform-gpu"
-                                style={{
-                                    transformStyle: 'preserve-3d',
-                                    perspective: '1000px',
-                                }}
+                                style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
                                 whileHover={{
                                     scale: 1.04,
                                     rotateY: 3,
@@ -720,12 +627,8 @@ const Home: React.FC = () => {
                                 }}
                                 whileTap={{ scale: 0.97 }}
                             >
-                                {/* 3D edge effect */}
                                 <div className="absolute inset-0 rounded-2xl md:rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px] hover:translate-z-[-10px] transition-all duration-500 z-10" />
-
-                                {/* Glassy overlay */}
                                 <div className="absolute inset-0 rounded-2xl md:rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40 hover:opacity-60 transition-opacity duration-500 z-10" />
-
                                 <img
                                     src={farmImage}
                                     alt={t('farm.imageAlt')}
@@ -741,25 +644,17 @@ const Home: React.FC = () => {
                                     </Typography>
                                 </div>
                             </motion.div>
-                        </motion.div>
+                        </div>
                     </div>
                 </div>
             </Section>
 
-            {/* 5. Sustainability */}
-            <Section className="py-10 bg-gradient-to-r from-primary/30 via-white/30
-  bg-[length:400%_400%] bg-gradient-animate-slow px-4 sm:px-6 rounded-b-[80px] md:rounded-b-[100px] overflow-hidden pt-24 pb-8 relative">
+            {/* SUSTAINABILITY */}
+            <Section className="py-10 bg-gradient-to-r from-primary/30 via-white/30 bg-[length:400%_400%] bg-gradient-animate-slow px-4 sm:px-6 rounded-b-[80px] md:rounded-b-[100px] overflow-hidden pt-24 pb-8 relative">
                 <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                     <motion.div
                         className="relative bg-gradient-to-br from-primary/5 to-accent/5 rounded-2xl md:rounded-3xl shadow-xl md:shadow-2xl overflow-hidden w-full max-w-md sm:max-w-lg md:max-w-2xl lg:max-w-4xl xl:max-w-6xl mx-auto border-2 border-primary/20 hover:border-accent/30 transition-all duration-300 transform-gpu"
-                        style={{
-                            transformStyle: 'preserve-3d',
-                            perspective: '1000px',
-                        }}
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={scaleUp}
+                        style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
                         whileHover={{
                             y: -5,
                             scale: 1.01,
@@ -768,13 +663,8 @@ const Home: React.FC = () => {
                             transition: { duration: 0.3 }
                         }}
                     >
-                        {/* 3D edge effect */}
                         <div className="absolute inset-0 rounded-2xl md:rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px] hover:translate-z-[-10px] transition-all duration-500" />
-
-                        {/* Glassy overlay */}
                         <div className="absolute inset-0 rounded-2xl md:rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40 hover:opacity-60 transition-opacity duration-500" />
-
-                        {/* Subtle background pattern */}
                         <div className="absolute inset-0 rounded-2xl md:rounded-3xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
 
                         <div className="flex flex-col md:flex-row gap-0 relative z-10">
@@ -785,9 +675,7 @@ const Home: React.FC = () => {
                                 whileTap={{ scale: 0.97 }}
                                 aria-label={t('sustainability.imageAlt')}
                             >
-                                {/* Image 3D effect */}
                                 <div className="absolute inset-0 rounded-l-2xl md:rounded-l-3xl border-r-2 border-white/20 transform-gpu translate-z-[-4px] hover:translate-z-[-8px] transition-all duration-500" />
-
                                 <img
                                     src={sustainabilityImage}
                                     alt={t('sustainability.imageAlt')}
@@ -814,33 +702,30 @@ const Home: React.FC = () => {
                                 <Typography variant="body" className="mb-6 md:mb-8 text-sm sm:text-base text-gray-900">
                                     {t('sustainability.description')}
                                 </Typography>
-                                <div className="space-y-3 md:space-y-4 mb-6 md:mb-8">
-                                    {(t('sustainability.features', { returnObjects: true }) as SustainabilityFeature[]).map((feature, index) => (
-                                        <motion.div
-                                            key={feature.key}
-                                            className="flex items-start gap-3 md:gap-4 bg-white/30 backdrop-blur-sm p-3 rounded-lg transform-gpu hover:scale-[1.02] transition-transform duration-300"
-                                            initial={{ opacity: 0, x: -10 }}
-                                            whileInView={{ opacity: 1, x: 0 }}
-                                            transition={{ delay: index * 0.1 }}
-                                            viewport={{ once: true }}
-                                            whileHover={{ x: 3 }}
-                                        >
-                                            <div className="text-accent text-lg md:text-xl mt-1 bg-accent/10 p-2 rounded-full" aria-label={t(`sustainability.featuresAria.${feature.key}`)}>
-                                                {feature.icon === 'FaSeedling' ? <FaSeedling /> :
-                                                    feature.icon === 'FaGlobeAfrica' ? <FaGlobeAfrica /> :
-                                                        <FaLeaf />}
-                                            </div>
-                                            <div>
-                                                <Typography variant="h4" className="mb-1 text-sm md:text-base text-gray-900">
-                                                    {feature.title}
-                                                </Typography>
-                                                <Typography variant="small" className="text-xs sm:text-sm text-gray-900">
-                                                    {feature.description}
-                                                </Typography>
-                                            </div>
-                                        </motion.div>
+                                <StaggerList className="space-y-3 md:space-y-4 mb-6 md:mb-8">
+                                    {(t('sustainability.features', { returnObjects: true }) as SustainabilityFeature[]).map((feature) => (
+                                        <StaggerItem key={feature.key}>
+                                            <motion.div
+                                                className="flex items-start gap-3 md:gap-4 bg-white/30 backdrop-blur-sm p-3 rounded-lg transform-gpu"
+                                                whileHover={{ x: 3, scale: 1.02 }}
+                                            >
+                                                <div className="text-accent text-lg md:text-xl mt-1 bg-accent/10 p-2 rounded-full" aria-label={t(`sustainability.featuresAria.${feature.key}`)}>
+                                                    {feature.icon === 'FaSeedling' ? <FaSeedling /> :
+                                                        feature.icon === 'FaGlobeAfrica' ? <FaGlobeAfrica /> :
+                                                            <FaLeaf />}
+                                                </div>
+                                                <div>
+                                                    <Typography variant="h4" className="mb-1 text-sm md:text-base text-gray-900">
+                                                        {feature.title}
+                                                    </Typography>
+                                                    <Typography variant="small" className="text-xs sm:text-sm text-gray-900">
+                                                        {feature.description}
+                                                    </Typography>
+                                                </div>
+                                            </motion.div>
+                                        </StaggerItem>
                                     ))}
-                                </div>
+                                </StaggerList>
                                 <div className="flex justify-center md:justify-start">
                                     <motion.button
                                         whileHover={{ scale: 1.08 }}
@@ -853,7 +738,7 @@ const Home: React.FC = () => {
                                         aria-label={t('sustainability.ctaButton')}
                                     >
                                         {t('sustainability.ctaButton')}
-                                        <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" aria-hidden="true"/>
+                                        <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
                                     </motion.button>
                                 </div>
                             </div>
@@ -862,23 +747,17 @@ const Home: React.FC = () => {
                 </div>
             </Section>
 
-            {/* 6. News & Updates - Dynamic from Contentful */}
+            {/* NEWS & UPDATES */}
             <Section className="py-16">
                 <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
-                    <motion.div
-                        className="text-center mb-12"
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={fadeIn}
-                    >
+                    <div className="text-center mb-12">
                         <Typography variant="h2" className="mb-4">
                             {t('news.title')}
                         </Typography>
                         <Typography variant="subhead" className="max-w-3xl mx-auto">
                             {t('news.subtitle')}
                         </Typography>
-                    </motion.div>
+                    </div>
 
                     {homeUpdates.length === 0 ? (
                         <div className="text-center py-10">
@@ -886,29 +765,19 @@ const Home: React.FC = () => {
                             <Typography variant="body" className="text-gray-500">{t('news.noUpdates')}</Typography>
                         </div>
                     ) : (
-                        <motion.div
-                            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12"
-                            variants={staggerContainer}
-                            initial="hidden"
-                            whileInView="visible"
-                            viewport={{ once: true }}
-                        >
-                            {homeUpdates.slice(0, 3).map((update: AfriNutsUpdate, index: number) => (
-                                <motion.div key={update.id} variants={fadeIn}>
+                        <StaggerList className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+                            {homeUpdates.slice(0, 3).map((update: AfriNutsUpdate) => (
+                                <StaggerItem key={update.id}>
                                     <Link to={`/news/${update.slug}`} className="group block h-full">
                                         <motion.div
                                             className="group relative bg-gradient-to-br from-primary/5 to-accent/5 rounded-2xl border-2 border-primary/20 hover:border-accent/30 shadow-lg overflow-hidden transition-all duration-500 border-l-4 border-accent h-full transform-gpu"
                                             style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
                                             whileHover={{ y: -4, scale: 1.01, boxShadow: '0 15px 30px -8px rgba(0,0,0,0.15)', transition: { duration: 0.3 } }}
                                         >
-                                            {/* 3D edge effect */}
                                             <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-8px] transition-all duration-500" />
-                                            {/* Glassy overlay */}
                                             <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
-                                            {/* Inner shadow */}
                                             <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.05)]" />
 
-                                            {/* Image */}
                                             <div className="relative h-44 overflow-hidden z-10">
                                                 <motion.img
                                                     src={update.image || newsImage}
@@ -918,7 +787,6 @@ const Home: React.FC = () => {
                                                     whileHover={{ scale: 1.05 }}
                                                     transition={{ duration: 0.3 }}
                                                 />
-                                                {/* Share button */}
                                                 <button
                                                     className="absolute top-3 right-3 z-20 w-7 h-7 rounded-full bg-white/70 backdrop-blur-md border border-white/40 shadow-sm flex items-center justify-center text-primary hover:text-accent hover:bg-white/90 transition-all"
                                                     onClick={(e) => {
@@ -937,7 +805,6 @@ const Home: React.FC = () => {
                                                 </button>
                                             </div>
 
-                                            {/* Content */}
                                             <div className="p-4 relative z-10">
                                                 <div className="flex items-center gap-1.5 mb-2">
                                                     <div className="bg-accent/20 p-1.5 rounded-full">
@@ -954,33 +821,27 @@ const Home: React.FC = () => {
                                                     {update.excerpt}
                                                 </Typography>
                                                 <span className="text-accent hover:text-primary text-xs font-medium inline-flex items-center gap-1 transition-colors">
-                                                {t('newsCard.readMore')}
+                                                    {t('newsCard.readMore')}
                                                     <FaArrowRight className="text-[10px]" />
                                                 </span>
                                             </div>
                                         </motion.div>
                                     </Link>
-                                </motion.div>
+                                </StaggerItem>
                             ))}
-                        </motion.div>
+                        </StaggerList>
                     )}
                 </div>
             </Section>
 
-            {/* 7. Contact CTA */}
+            {/* CONTACT CTA */}
             <Suspense fallback={<div>{t('loading.contact')}</div>}>
                 <Section className="py-16 text-text-dark relative overflow-hidden">
                     <div className="w-full px-4 sm:px-6">
                         <div className="relative z-10 container mx-auto text-center max-w-md sm:max-w-lg md:max-w-2xl lg:max-w-4xl xl:max-w-6xl">
                             <motion.div
                                 className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-3xl shadow-xl p-8 md:p-12 transform-gpu mx-auto max-w-4xl"
-                                style={{
-                                    transformStyle: 'preserve-3d',
-                                }}
-                                initial="hidden"
-                                whileInView="visible"
-                                viewport={{ once: true }}
-                                variants={scaleUp}
+                                style={{ transformStyle: 'preserve-3d' }}
                                 whileHover={{
                                     y: -5,
                                     scale: 1.02,
@@ -989,16 +850,9 @@ const Home: React.FC = () => {
                                     transition: { duration: 0.3 }
                                 }}
                             >
-                                {/* 3D edge effect */}
                                 <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px] hover:translate-z-[-10px] transition-all duration-500" />
-
-                                {/* Glassy overlay */}
                                 <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40 hover:opacity-60 transition-opacity duration-500" />
-
-                                {/* Inner shadow effect */}
                                 <div className="absolute inset-0 rounded-3xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
-
-                                {/* Subtle background pattern */}
                                 <div className="absolute inset-0 rounded-3xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
 
                                 <div className="relative z-10">
@@ -1022,19 +876,13 @@ const Home: React.FC = () => {
                                         }}
                                         whileTap={{ scale: 0.96 }}
                                     >
-                                        {/* Button 3D edge effect */}
                                         <div className="absolute inset-0 rounded-full border-2 border-white/30 transform-gpu translate-z-[-4px] group-hover:translate-z-[-6px] transition-all duration-300" />
-
-                                        {/* Button glassy overlay */}
                                         <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50 group-hover:opacity-70 transition-opacity duration-300" />
-
-                                        {/* Button inner glow */}
                                         <div className="absolute inset-0 rounded-full shadow-[inset_0_2px_8px_rgba(255,255,255,0.3)]" />
-
                                         <span className="relative z-10 font-medium">
-                                {t('contact.ctaButton')}
-                            </span>
-                                        <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform relative z-10" aria-hidden="true"/>
+                                            {t('contact.ctaButton')}
+                                        </span>
+                                        <FaArrowRight className="ml-2 group-hover:translate-x-1 transition-transform relative z-10" aria-hidden="true" />
                                     </motion.button>
                                 </div>
                             </motion.div>

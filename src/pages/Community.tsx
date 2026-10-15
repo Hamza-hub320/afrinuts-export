@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
     FaHeart, FaHandshake, FaUsers, FaArrowRight,
@@ -11,12 +11,13 @@ import Section from '@/components/Section/Section';
 import { Typography } from '@/components/Typography/Typography';
 import { InfoCard } from '@/components/InfoCard/InfoCard';
 import { fadeIn, staggerContainer } from '@/utils/animations';
+import { Reveal, StaggerList, StaggerItem } from '@/components/Reveal';
 import JsonLd from '@/components/Seo/JsonLd';
 import { Helmet } from 'react-helmet-async';
-import { Link } from 'react-router-dom';
 import communityHeroImage from '@/assets/images/community-hero.webp';
 import partnerVideo from '@/assets/videos/current-partners.mp4';
 import VideoGallery from "@/components/VideoGallery/VideoGallery";
+import {HeroSection} from "@/components/HeroSection/HeroSection";
 
 const Community: React.FC = () => {
     const { t } = useTranslation('community');
@@ -32,7 +33,7 @@ const Community: React.FC = () => {
     const cooperativeTags = t('cooperative.tags', { returnObjects: true }) as string[];
 
     return (
-        <div  className="text-text-dark font-sans">
+        <div className="text-text-dark font-sans">
             <Helmet>
                 <title>{t('seo.title')}</title>
                 <meta name="description" content={t('seo.description')} />
@@ -46,8 +47,8 @@ const Community: React.FC = () => {
                 "description": t('seo.description'),
             }} />
 
-            {/* Hero */}
-            <Section className="flex items-center justify-center text-center min-h-[90vh]">
+            {/* HERO — own mount animation */}
+            <HeroSection className="flex items-center justify-center text-center min-h-[90vh]" animate={false}>
                 <motion.div className="max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 flex flex-col lg:flex-row items-center gap-6 lg:gap-28" initial="hidden" animate="visible" variants={staggerContainer}>
 
                     <motion.div className="flex-1 max-w-none lg:max-w-xl text-center lg:text-left" variants={fadeIn}>
@@ -90,7 +91,7 @@ const Community: React.FC = () => {
                     </motion.div>
 
                     <motion.div className="flex-shrink-0 lg:ml-auto lg:-mr-16" variants={fadeIn} transition={{ delay: 0.2 }}>
-                        <motion.div className="relative w-96 h-100 sm:w-80 sm:h-80 lg:w-[450px] lg:h-[690px]  rounded-[2rem] overflow-hidden shadow-2xl border-2 border-white/40 transform-gpu group"
+                        <motion.div className="relative w-96 h-100 sm:w-80 sm:h-80 lg:w-[450px] lg:h-[690px] rounded-[2rem] overflow-hidden shadow-2xl border-2 border-white/40 transform-gpu group"
                                     style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
                                     whileHover={{ scale: 1.03, rotateY: 2, transition: { duration: 0.3 } }}>
                             <div className="absolute inset-0 rounded-[2rem] border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
@@ -102,137 +103,157 @@ const Community: React.FC = () => {
                         </motion.div>
                     </motion.div>
                 </motion.div>
-            </Section>
+            </HeroSection>
 
-            {/* How It Works */}
-            <Section className="py-10"><div className="max-w-6xl mx-auto px-4 sm:px-6">
-                <motion.div className="text-center mb-10" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
-                    <Typography variant="h2" className="mb-4">{t('howItWorks.title')}</Typography>
-                    <Typography variant="body" className="text-gray-600 max-w-2xl mx-auto">{t('howItWorks.body')}</Typography>
-                </motion.div>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    {howItWorks.map((item, idx) => (
-                        <motion.div key={idx} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} transition={{ delay: idx * 0.1 }}>
-                            <InfoCard title={item.title} subtitle={`${t('howItWorks.stepLabel')} ${item.step}`} iconColor="text-accent" showInfoBadge={false} className="h-full text-center">
-                                <div className="w-10 h-10 bg-accent text-white rounded-full flex items-center justify-center text-lg font-bold mx-auto mb-3">{item.step}</div>
-                                <Typography variant="small" className="text-gray-600">{item.desc}</Typography>
-                            </InfoCard>
-                        </motion.div>
-                    ))}
-                </div>
-            </div></Section>
-
-            {/* Impact Areas */}
-            <Section className="py-10"><div className="max-w-6xl mx-auto px-4 sm:px-6">
-                <motion.div className="text-center mb-10" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
-                    <Typography variant="h2" className="mb-4">{t('impactAreas.title')}</Typography>
-                    <Typography variant="body" className="text-gray-600 max-w-2xl mx-auto">{t('impactAreas.body')}</Typography>
-                </motion.div>
-                <div className="grid md:grid-cols-2 gap-6">
-                    {impactAreas.map((item, idx) => {
-                        const IconComponent = iconMap[item.icon] || FaStar;
-                        return (
-                            <motion.div key={idx} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} transition={{ delay: idx * 0.1 }}>
-                                <InfoCard icon={IconComponent} title={item.title} iconColor={item.color} showInfoBadge={false} className="h-full">
-                                    <Typography variant="small" className="text-gray-600 mb-3">{item.desc}</Typography>
-                                    <span className={`inline-block px-3 py-1 ${item.bg} ${item.color} text-xs rounded-full font-bold`}>{item.stat}</span>
-                                </InfoCard>
-                            </motion.div>
-                        );
-                    })}
-                </div>
-            </div></Section>
-
-            {/* Cooperative Video */}
+            {/* HOW IT WORKS */}
             <Section className="py-10">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6">
-                    <motion.div className="text-center mb-8" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
+                    <Reveal className="text-center mb-10">
+                        <Typography variant="h2" className="mb-4">{t('howItWorks.title')}</Typography>
+                        <Typography variant="body" className="text-gray-600 max-w-2xl mx-auto">{t('howItWorks.body')}</Typography>
+                    </Reveal>
+
+                    <StaggerList className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                        {howItWorks.map((item, idx) => (
+                            <StaggerItem key={idx}>
+                                <InfoCard title={item.title} subtitle={`${t('howItWorks.stepLabel')} ${item.step}`} iconColor="text-accent" showInfoBadge={false} className="h-full text-center">
+                                    <div className="w-10 h-10 bg-accent text-white rounded-full flex items-center justify-center text-lg font-bold mx-auto mb-3">{item.step}</div>
+                                    <Typography variant="small" className="text-gray-600">{item.desc}</Typography>
+                                </InfoCard>
+                            </StaggerItem>
+                        ))}
+                    </StaggerList>
+                </div>
+            </Section>
+
+            {/* IMPACT AREAS */}
+            <Section className="py-10">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6">
+                    <Reveal className="text-center mb-10">
+                        <Typography variant="h2" className="mb-4">{t('impactAreas.title')}</Typography>
+                        <Typography variant="body" className="text-gray-600 max-w-2xl mx-auto">{t('impactAreas.body')}</Typography>
+                    </Reveal>
+
+                    <StaggerList className="grid md:grid-cols-2 gap-6">
+                        {impactAreas.map((item, idx) => {
+                            const IconComponent = iconMap[item.icon] || FaStar;
+                            return (
+                                <StaggerItem key={idx}>
+                                    <InfoCard icon={IconComponent} title={item.title} iconColor={item.color} showInfoBadge={false} className="h-full">
+                                        <Typography variant="small" className="text-gray-600 mb-3">{item.desc}</Typography>
+                                        <span className={`inline-block px-3 py-1 ${item.bg} ${item.color} text-xs rounded-full font-bold`}>{item.stat}</span>
+                                    </InfoCard>
+                                </StaggerItem>
+                            );
+                        })}
+                    </StaggerList>
+                </div>
+            </Section>
+
+            {/* COOPERATIVE VIDEO */}
+            <Section className="py-10">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6">
+                    <Reveal className="text-center mb-8">
                         <Typography variant="h2" className="mb-4">{t('cooperative.title')}</Typography>
                         <Typography variant="body" className="text-gray-600 max-w-2xl mx-auto">{t('cooperative.body')}</Typography>
-                    </motion.div>
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={fadeIn}
-                        className="space-y-4"
-                    >
-                        {/* Video Thumbnail */}
-                        <VideoGallery
-                            videos={[{
-                                src: partnerVideo,
-                                title: t('cooperative.videoTitle', 'Cooperative Partnership Video'),
-                            }]}
-                        />
+                    </Reveal>
 
-                        {/* InfoCard Below */}
-                        <InfoCard icon={FaUsers} title={t('cooperative.cardTitle')} variant="primary" showInfoBadge={false}>
-                            <Typography variant="body" className="text-gray-600 mb-4">{t('cooperative.description')}</Typography>
-                            <div className="flex flex-wrap gap-2">
-                                {cooperativeTags.map((tag, idx) => (
-                                    <span key={idx} className="px-3 py-1 bg-primary/10 text-primary text-xs rounded-full font-medium">{tag}</span>
-                                ))}
-                            </div>
-                        </InfoCard>
-                    </motion.div>
+                    <Reveal>
+                        <div className="space-y-4">
+                            <VideoGallery
+                                videos={[{
+                                    src: partnerVideo,
+                                    title: t('cooperative.videoTitle', 'Cooperative Partnership Video'),
+                                }]}
+                            />
+
+                            <InfoCard icon={FaUsers} title={t('cooperative.cardTitle')} variant="primary" showInfoBadge={false}>
+                                <Typography variant="body" className="text-gray-600 mb-4">{t('cooperative.description')}</Typography>
+                                <StaggerList className="flex flex-wrap gap-2">
+                                    {cooperativeTags.map((tag, idx) => (
+                                        <StaggerItem key={idx}>
+                                            <span className="px-3 py-1 bg-primary/10 text-primary text-xs rounded-full font-medium">{tag}</span>
+                                        </StaggerItem>
+                                    ))}
+                                </StaggerList>
+                            </InfoCard>
+                        </div>
+                    </Reveal>
                 </div>
             </Section>
 
-            {/* Sadaqah Jariyah */}
+            {/* SADAQAH JARIYAH */}
             <Section className="py-10">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
-                    <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
-                        <Typography variant="h2" className="mb-4">{t('sadaqah.title')}</Typography>
-                        <Typography variant="body" className="text-gray-600 mb-6 max-w-2xl mx-auto">{t('sadaqah.body')}</Typography>
+                    <Typography variant="h2" className="mb-4">{t('sadaqah.title')}</Typography>
+                    <Typography variant="body" className="text-gray-600 mb-6 max-w-2xl mx-auto">{t('sadaqah.body')}</Typography>
 
-                        <InfoCard icon={FaStar} title={t('sadaqah.cardTitle')} variant="accent" showInfoBadge={false} className="text-center">
-                            <Typography variant="body" className="text-gray-600 mb-4 max-w-2xl mx-auto">{t('sadaqah.body2')}</Typography>
-                            <div className="bg-amber-50/80 border border-amber-200 rounded-xl p-4 max-w-2xl mx-auto mt-4">
-                                <Typography variant="small" className="text-amber-800 italic">
-                                    {t('sadaqah.hadith')}
-                                </Typography>
-                                <Typography variant="small" className="text-amber-600 mt-1 font-medium">
-                                    {t('sadaqah.hadithSource')}
-                                </Typography>
-                            </div>
-                        </InfoCard>
-                    </motion.div>
+                    <InfoCard icon={FaStar} title={t('sadaqah.cardTitle')} variant="accent" showInfoBadge={false} className="text-center">
+                        <Typography variant="body" className="text-gray-600 mb-4 max-w-2xl mx-auto">{t('sadaqah.body2')}</Typography>
+                        <div className="bg-amber-50/80 border border-amber-200 rounded-xl p-4 max-w-2xl mx-auto mt-4">
+                            <Typography variant="small" className="text-amber-800 italic">
+                                {t('sadaqah.hadith')}
+                            </Typography>
+                            <Typography variant="small" className="text-amber-600 mt-1 font-medium">
+                                {t('sadaqah.hadithSource')}
+                            </Typography>
+                        </div>
+                    </InfoCard>
                 </div>
             </Section>
 
-            {/* For Buyers + For Investors */}
-            <Section className="py-10"><div className="max-w-6xl mx-auto px-4 sm:px-6"><div className="grid md:grid-cols-2 gap-8">
-                <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
-                    <InfoCard icon={FaLeaf} title={t('forBuyers.title')} variant="primary" showInfoBadge={false} className="h-full">
-                        <Typography variant="body" className="text-gray-600 mb-4">{t('forBuyers.body')}</Typography>
-                        <Link to="/wholesale" className="text-accent hover:text-primary text-sm font-medium inline-flex items-center gap-1">{t('forBuyers.cta')} <FaArrowRight className="text-xs" /></Link>
-                    </InfoCard>
-                </motion.div>
-                <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} transition={{ delay: 0.1 }}>
-                    <InfoCard icon={FaChartLine} title={t('forInvestors.title')} variant="accent" showInfoBadge={false} className="h-full">
-                        <Typography variant="body" className="text-gray-600 mb-4">{t('forInvestors.body')}</Typography>
-                        <Link to="/invest" className="text-accent hover:text-primary text-sm font-medium inline-flex items-center gap-1">{t('forInvestors.cta')} <FaArrowRight className="text-xs" /></Link>
-                    </InfoCard>
-                </motion.div>
-            </div></div></Section>
+            {/* FOR BUYERS + FOR INVESTORS */}
+            <Section className="py-10">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6">
+                    <StaggerList className="grid md:grid-cols-2 gap-8">
+                        <StaggerItem>
+                            <InfoCard icon={FaLeaf} title={t('forBuyers.title')} variant="primary" showInfoBadge={false} className="h-full">
+                                <Typography variant="body" className="text-gray-600 mb-4">{t('forBuyers.body')}</Typography>
+                                <Link to="/wholesale" className="text-accent hover:text-primary text-sm font-medium inline-flex items-center gap-1">
+                                    {t('forBuyers.cta')} <FaArrowRight className="text-xs" />
+                                </Link>
+                            </InfoCard>
+                        </StaggerItem>
+                        <StaggerItem>
+                            <InfoCard icon={FaChartLine} title={t('forInvestors.title')} variant="accent" showInfoBadge={false} className="h-full">
+                                <Typography variant="body" className="text-gray-600 mb-4">{t('forInvestors.body')}</Typography>
+                                <Link to="/invest" className="text-accent hover:text-primary text-sm font-medium inline-flex items-center gap-1">
+                                    {t('forInvestors.cta')} <FaArrowRight className="text-xs" />
+                                </Link>
+                            </InfoCard>
+                        </StaggerItem>
+                    </StaggerList>
+                </div>
+            </Section>
 
-            {/* Final CTA */}
-            <Section className="py-16"><div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
-                <motion.div className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-3xl shadow-xl p-8 md:p-12 transform-gpu"
-                            style={{ transformStyle: 'preserve-3d' }} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}
-                            whileHover={{ y: -6, scale: 1.02 }}>
-                    <div className="absolute inset-0 rounded-3xl border-2 border-white/20" /><div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40" />
-                    <div className="relative z-10">
-                        <Typography variant="h2" className="mb-4 text-primary">{t('cta.title')}</Typography>
-                        <Typography variant="body" className="mb-6 text-gray-600 max-w-2xl mx-auto">{t('cta.body')}</Typography>
-                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            <Link to="/wholesale" className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-6 py-2.5 rounded-full text-sm font-medium shadow-md inline-flex items-center gap-2"><FaLeaf className="text-xs" />{t('cta.source')}</Link>
-                            <Link to="/invest" className="relative border border-primary/40 text-primary hover:bg-primary/5 px-6 py-2.5 rounded-full text-sm font-medium inline-flex items-center gap-2 bg-white/50 backdrop-blur-sm"><FaChartLine className="text-xs" />{t('cta.invest')}</Link>
-                            <Link to="/partners" className="relative border border-primary/40 text-primary hover:bg-primary/5 px-6 py-2.5 rounded-full text-sm font-medium inline-flex items-center gap-2 bg-white/50 backdrop-blur-sm"><FaHandshake className="text-xs" />{t('cta.partner')}</Link>
+            {/* FINAL CTA */}
+            <Section className="py-16">
+                <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+                    <motion.div
+                        className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-3xl shadow-xl p-8 md:p-12 transform-gpu"
+                        style={{ transformStyle: 'preserve-3d' }}
+                        whileHover={{ y: -6, scale: 1.02 }}
+                    >
+                        <div className="absolute inset-0 rounded-3xl border-2 border-white/20" />
+                        <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40" />
+                        <div className="relative z-10">
+                            <Typography variant="h2" className="mb-4 text-primary">{t('cta.title')}</Typography>
+                            <Typography variant="body" className="mb-6 text-gray-600 max-w-2xl mx-auto">{t('cta.body')}</Typography>
+                            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                                <Link to="/wholesale" className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-6 py-2.5 rounded-full text-sm font-medium shadow-md inline-flex items-center gap-2">
+                                    <FaLeaf className="text-xs" />{t('cta.source')}
+                                </Link>
+                                <Link to="/invest" className="relative border border-primary/40 text-primary hover:bg-primary/5 px-6 py-2.5 rounded-full text-sm font-medium inline-flex items-center gap-2 bg-white/50 backdrop-blur-sm">
+                                    <FaChartLine className="text-xs" />{t('cta.invest')}
+                                </Link>
+                                <Link to="/partners" className="relative border border-primary/40 text-primary hover:bg-primary/5 px-6 py-2.5 rounded-full text-sm font-medium inline-flex items-center gap-2 bg-white/50 backdrop-blur-sm">
+                                    <FaHandshake className="text-xs" />{t('cta.partner')}
+                                </Link>
+                            </div>
                         </div>
-                    </div>
-                </motion.div>
-            </div></Section>
+                    </motion.div>
+                </div>
+            </Section>
         </div>
     );
 };

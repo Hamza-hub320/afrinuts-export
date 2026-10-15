@@ -1,7 +1,8 @@
-import React, {Fragment, useState, useEffect, KeyboardEvent} from 'react';
+import React, { Fragment, useState, useEffect, KeyboardEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { fadeIn, staggerContainer } from '@/utils/animations';
+import { Reveal, StaggerList, StaggerItem } from '@/components/Reveal';
 import { Typography } from "@/components/Typography/Typography";
 import Section from '@/components/Section/Section';
 import {
@@ -12,10 +13,10 @@ import {
     FaArrowLeft,
     FaUsers,
     FaCheckCircle,
-    FaGlobeAfrica, FaHandshake, FaMobile, FaChartLine
+    FaGlobeAfrica, FaHandshake, FaMobile
 } from 'react-icons/fa';
-import {Link, useNavigate} from 'react-router-dom';
-import {Dialog, Transition} from '@headlessui/react';
+import { Link, useNavigate } from 'react-router-dom';
+import { Dialog, Transition } from '@headlessui/react';
 import { ProfileCard } from '@/components/ProfileCard/ProfileCard';
 import { trackCtaClick } from '@/utils/analytics';
 
@@ -23,9 +24,10 @@ import { trackCtaClick } from '@/utils/analytics';
 import ceoImage from '@/assets/images/ceo.webp';
 import executiveHeroImage from '@/assets/images/executive.webp';
 import JsonLd from "@/components/Seo/JsonLd";
-import {Helmet} from "react-helmet-async";
+import { Helmet } from "react-helmet-async";
 import { InfoCard } from '@/components/InfoCard/InfoCard';
 import ProfilePlaceholder from '@/components/ProfilePlaceholder/ProfilePlaceholder';
+import {HeroSection} from "@/components/HeroSection/HeroSection";
 
 
 interface Executive {
@@ -161,7 +163,6 @@ const ExecutiveTeam: React.FC = () => {
         document.body.style.overflow = 'auto';
     };
 
-    // Handle keyboard events
     const handleKeyDown = (e: KeyboardEvent) => {
         if (e.key === 'Escape') closeModal();
     };
@@ -169,7 +170,6 @@ const ExecutiveTeam: React.FC = () => {
     useEffect(() => {
         if (isModalOpen) {
             document.addEventListener('keydown', handleKeyDown as unknown as EventListener);
-            // Focus on close button when modal opens
             setTimeout(() => {
                 const closeButton = document.querySelector('[aria-label="Close modal"]') as HTMLElement;
                 if (closeButton) closeButton.focus();
@@ -195,40 +195,12 @@ const ExecutiveTeam: React.FC = () => {
                     "name": "AfriNuts Export",
                     "description": "Building a vertically integrated, ethical cashew value chain rooted in Côte d'Ivoire.",
                     "employees": [
-                        {
-                            "@type": "Person",
-                            "name": "Hamza S. Ralsan Sangare",
-                            "jobTitle": "Chief Executive Officer",
-                            "email": "hamza@afrinutsexport.com",
-                            "sameAs": "https://www.linkedin.com/in/hamza-sangare-827a8a130/"
-                        },
-                        {
-                            "@type": "Person",
-                            "name": "Sekou Hakim",
-                            "jobTitle": "Chief Financial & Operating Officer",
-                            "email": "sekou@afrinutsexport.com",
-                            "sameAs": "https://www.linkedin.com/in/sekou-peters"
-                        },
-                        {
-                            "@type": "Person",
-                            "name": "Mohamadue Kouyaté",
-                            "jobTitle": "Chief Commercial Officer"
-                        },
-                        {
-                            "@type": "Person",
-                            "name": "Alassana Bah",
-                            "jobTitle": "Chief Technology Officer"
-                        },
-                        {
-                            "@type": "Person",
-                            "name": "Mohammed Beniken",
-                            "jobTitle": "Chief Administrative Officer"
-                        },
-                        {
-                            "@type": "Person",
-                            "name": "Souleymane Sangare",
-                            "jobTitle": "Agricultural Operations Manager"
-                        }
+                        { "@type": "Person", "name": "Hamza S. Ralsan Sangare", "jobTitle": "Chief Executive Officer", "email": "hamza@afrinutsexport.com", "sameAs": "https://www.linkedin.com/in/hamza-sangare-827a8a130/" },
+                        { "@type": "Person", "name": "Sekou Hakim", "jobTitle": "Chief Financial & Operating Officer", "email": "sekou@afrinutsexport.com", "sameAs": "https://www.linkedin.com/in/sekou-peters" },
+                        { "@type": "Person", "name": "Mohamadue Kouyaté", "jobTitle": "Chief Commercial Officer" },
+                        { "@type": "Person", "name": "Alassana Bah", "jobTitle": "Chief Technology Officer" },
+                        { "@type": "Person", "name": "Mohammed Beniken", "jobTitle": "Chief Administrative Officer" },
+                        { "@type": "Person", "name": "Souleymane Sangare", "jobTitle": "Agricultural Operations Manager" }
                     ]
                 }
             }} />
@@ -243,9 +215,14 @@ const ExecutiveTeam: React.FC = () => {
                 </div>
             </div>
 
-            {/* Hero */}
-            <Section className="flex items-center justify-center text-center pt-2 pb-8 lg:pb-12">
-                <motion.div className="max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-4 lg:py-8 flex flex-col lg:flex-row items-center gap-6 lg:gap-28" initial="hidden" animate="visible" variants={staggerContainer}>
+            {/* HERO — own mount animation */}
+            <HeroSection className="flex items-center justify-center text-center pt-2 pb-8 lg:pb-12" animate={false}>
+                <motion.div
+                    className="max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-4 lg:py-8 flex flex-col lg:flex-row items-center gap-6 lg:gap-28"
+                    initial="hidden"
+                    animate="visible"
+                    variants={staggerContainer}
+                >
                     {/* Left: Text Content */}
                     <motion.div className="flex-1 max-w-none lg:max-w-xl text-center lg:text-left" variants={fadeIn}>
                         <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-3">
@@ -255,12 +232,10 @@ const ExecutiveTeam: React.FC = () => {
                             {t('executives.title')}
                         </motion.h1>
 
-                        {/* Lead Text */}
                         <Typography variant="lead" className="text-text-dark mb-5 text-base lg:text-lg">
                             {t('executives.lead', 'Most agribusiness teams are farmers who learned business. Ours is a software engineer who built a farm operating system, a financial architect who structures Shariah-compliant investments, and a trade compliance specialist who knows every document your shipment needs. We didn\'t assemble a team — we built a platform.')}
                         </Typography>
 
-                        {/* Executive Intro Card */}
                         <motion.div variants={fadeIn} className="mb-5">
                             <InfoCard
                                 icon={FaUsers}
@@ -275,15 +250,15 @@ const ExecutiveTeam: React.FC = () => {
                         </motion.div>
 
                         <div className="flex flex-wrap justify-center lg:justify-start gap-2 mb-5">
-                <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-primary/10 text-primary text-xs rounded-full font-medium">
-                    <FaUserTie className="text-[10px]" /> {t('executives.badgeTeam', '6 Leaders')}
-                </span>
+                            <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-primary/10 text-primary text-xs rounded-full font-medium">
+                                <FaUserTie className="text-[10px]" /> {t('executives.badgeTeam', '6 Leaders')}
+                            </span>
                             <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-green-50 text-green-700 text-xs rounded-full font-medium">
-                    <FaCheckCircle className="text-[10px]" /> {t('executives.badgeGlobal', '3 Continents')}
-                </span>
+                                <FaCheckCircle className="text-[10px]" /> {t('executives.badgeGlobal', '3 Continents')}
+                            </span>
                             <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-amber-50 text-amber-700 text-xs rounded-full font-medium">
-                    <FaGlobeAfrica className="text-[10px]" /> {t('executives.badgeHQ', 'Odienné, CI')}
-                </span>
+                                <FaGlobeAfrica className="text-[10px]" /> {t('executives.badgeHQ', 'Odienné, CI')}
+                            </span>
                         </div>
 
                         <motion.div variants={fadeIn} className="flex flex-wrap gap-2.5 justify-center lg:justify-start">
@@ -311,76 +286,58 @@ const ExecutiveTeam: React.FC = () => {
                             </div>
                         </motion.div>
                     </motion.div>
-
                 </motion.div>
-            </Section>
+            </HeroSection>
 
-            {/* Why Our Team Is Different */}
+            {/* WHY OUR TEAM IS DIFFERENT — staggered cards */}
             <Section className="py-6">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6">
-                    <motion.div className="text-center mb-8" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
+                    <div className="text-center mb-8">
                         <Typography variant="h2" className="mb-4">{t('executives.whyDifferentTitle', 'Why Our Team Is Different')}</Typography>
                         <Typography variant="body" className="text-gray-600 max-w-2xl mx-auto">
                             {t('executives.whyDifferentBody', 'Most agribusiness teams look the same: farmers and traders. Ours includes the software engineer who built our operating system, the financial architect who structured our Shariah-compliant investment model, and the trade compliance specialist who ensures every shipment meets EU standards.')}
                         </Typography>
-                    </motion.div>
-                    <div className="grid md:grid-cols-3 gap-4">
+                    </div>
+                    <StaggerList className="grid md:grid-cols-3 gap-4">
                         {[
-                            {
-                                icon: FaMobile,
-                                title: t('executives.tech', 'Technology Built In-House'),
-                                desc: t('executives.techDesc', 'Farm OS was not purchased. It was architected and coded by our CEO, running on devices our CTO configured. Every line of code is ours.')
-                            },
-                            {
-                                icon: FaHandshake,
-                                title: t('executives.finance', 'Shariah-Compliant by Design'),
-                                desc: t('executives.financeDesc', 'Our CFO structured our Mudarabah investment model — not a consultant. Islamic finance isn\'t a checkbox. It\'s how we\'re built.')
-                            },
-                            {
-                                icon: FaGlobeAfrica,
-                                title: t('executives.operations', 'Boots on the Ground + Global Reach'),
-                                desc: t('executives.operationsDesc', 'Our farm manager lives in Odienné. Our commercial officer manages EU and Middle East buyer relationships. We span continents from day one.')
-                            },
+                            { icon: FaMobile, title: t('executives.tech', 'Technology Built In-House'), desc: t('executives.techDesc', 'Farm OS was not purchased...') },
+                            { icon: FaHandshake, title: t('executives.finance', 'Shariah-Compliant by Design'), desc: t('executives.financeDesc', 'Our CFO structured our Mudarabah investment model...') },
+                            { icon: FaGlobeAfrica, title: t('executives.operations', 'Boots on the Ground + Global Reach'), desc: t('executives.operationsDesc', 'Our farm manager lives in Odienné...') },
                         ].map((item, idx) => (
-                            <motion.div key={idx} initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn} transition={{ delay: idx * 0.1 }}>
+                            <StaggerItem key={idx}>
                                 <InfoCard icon={item.icon} title={item.title} iconColor="text-accent" showInfoBadge={false} className="h-full">
                                     <Typography variant="small" className="text-gray-600">{item.desc}</Typography>
                                 </InfoCard>
-                            </motion.div>
+                            </StaggerItem>
                         ))}
-                    </div>
+                    </StaggerList>
                 </div>
             </Section>
 
-            {/* Executive Team Grid using ProfileCard */}
+            {/* EXECUTIVE TEAM GRID */}
             <Section className="py-16" id="team-grid">
                 <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <motion.div
-                        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={staggerContainer}
-                    >
+                    <StaggerList className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {executives.map((executive) => (
-                            <ProfileCard
-                                key={executive.id}
-                                image={executive.image || undefined}
-                                name={executive.name}
-                                position={executive.title}
-                                message={Array.isArray(executive.bio) ? executive.bio : [executive.bio]}
-                                signature={executive.role}
-                                altText={executive.alt}
-                                expandable={true}
-                                variant={executive.department === "leadership" ? "primary" : "accent"}
-                                className="cursor-pointer"
-                                onClick={() => {
-                                    trackCtaClick('view_bio', 'executive_team');
-                                    openModal(executive);
-                                }}
-                            />
+                            <StaggerItem key={executive.id}>
+                                <ProfileCard
+                                    image={executive.image || undefined}
+                                    name={executive.name}
+                                    position={executive.title}
+                                    message={Array.isArray(executive.bio) ? executive.bio : [executive.bio]}
+                                    signature={executive.role}
+                                    altText={executive.alt}
+                                    expandable={true}
+                                    variant={executive.department === "leadership" ? "primary" : "accent"}
+                                    className="cursor-pointer h-full"
+                                    onClick={() => {
+                                        trackCtaClick('view_bio', 'executive_team');
+                                        openModal(executive);
+                                    }}
+                                />
+                            </StaggerItem>
                         ))}
-                    </motion.div>
+                    </StaggerList>
                 </div>
 
                 {/* Bio Modal */}
@@ -496,7 +453,6 @@ const ExecutiveTeam: React.FC = () => {
                                                         </div>
                                                     </div>
 
-                                                    {/* Email & LinkedIn */}
                                                     <div className="mt-4 pt-4 border-t border-gray-200 space-y-2">
                                                         <div className="flex items-center gap-2 text-sm">
                                                             <FaEnvelope className="text-primary" />
@@ -533,47 +489,40 @@ const ExecutiveTeam: React.FC = () => {
                 </Transition.Root>
             </Section>
 
-            {/* CTA Section */}
+            {/* CTA SECTION */}
             <Section className="py-16">
                 <div className="max-w-4xl mx-auto px-6 text-center">
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={staggerContainer}
+                    <InfoCard
+                        icon={FaUsers}
+                        title={t('executives.ctaTitle', 'Ready to Work With Us?')}
+                        variant="primary"
+                        showInfoBadge={false}
+                        className="text-center"
                     >
-                        <InfoCard
-                            icon={FaUsers}
-                            title={t('executives.ctaTitle', 'Ready to Work With Us?')}
-                            variant="primary"
-                            showInfoBadge={false}
-                            className="text-center"
-                        >
-                            <Typography variant="body" className="text-gray-600 mb-6 max-w-2xl mx-auto">
-                                {t('executives.ctaDescription', 'Behind every shipment of traceable cashews is this team — building the technology, managing the farm, structuring the finance, and ensuring compliance. Whether you\'re a buyer, investor, or partner — let\'s start the conversation.')}
-                            </Typography>
-                            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                                <Link to="/contact"
-                                      className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-4 rounded-full transform-gpu group/btn overflow-hidden font-medium shadow-lg inline-flex items-center gap-2">
-                                    <div className="absolute inset-0 rounded-full border-2 border-white/30" />
-                                    <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50" />
-                                    <FaEnvelope className="relative z-10" />
-                                    <span className="relative z-10">{t('executives.ctaButton', 'Start a Conversation')}</span>
-                                </Link>
-                            </div>
-                        </InfoCard>
-                    </motion.div>
+                        <Typography variant="body" className="text-gray-600 mb-6 max-w-2xl mx-auto">
+                            {t('executives.ctaDescription', 'Behind every shipment of traceable cashews is this team — building the technology, managing the farm, structuring the finance, and ensuring compliance. Whether you\'re a buyer, investor, or partner — let\'s start the conversation.')}
+                        </Typography>
+                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                            <Link to="/contact"
+                                  className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-4 rounded-full transform-gpu group/btn overflow-hidden font-medium shadow-lg inline-flex items-center gap-2">
+                                <div className="absolute inset-0 rounded-full border-2 border-white/30" />
+                                <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50" />
+                                <FaEnvelope className="relative z-10" />
+                                <span className="relative z-10">{t('executives.ctaButton', 'Start a Conversation')}</span>
+                            </Link>
+                        </div>
+                    </InfoCard>
                 </div>
             </Section>
 
             <style>{`
-    @media (max-width: 640px) {
-        .modal-content {
-            margin: 0.5rem;
-            width: calc(100% - 1rem);
-        }
-    }
-`}</style>
+                @media (max-width: 640px) {
+                    .modal-content {
+                        margin: 0.5rem;
+                        width: calc(100% - 1rem);
+                    }
+                }
+            `}</style>
         </main>
     );
 };
