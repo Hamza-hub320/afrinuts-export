@@ -82,6 +82,34 @@
     "description": "For bulk orders, payments are handled via bank transfer. Our sales team provides an invoice after your inquiry.",
     "methods": ["Bank Transfer", "Wire Payment"]
   },
+  "schedule": {
+    "title": "Schedule a Call",
+    "subtitle": "Choose a time that works for you. We will walk you through the Phase One investment opportunity, the supplier intelligence strategy, and answer any questions you have.",
+    "whatWeCover": "What We Will Cover",
+    "beforeCall": "Before Our Call",
+    "reviewPage": "Review the Invest page",
+    "ndaNote": "The NDA is required for full financial model access. We will send it upon booking.",
+    "faqTitle": "Have Questions First?",
+    "faqText": "Our Investor FAQ answers the most common questions about Phase One, equity, Mudarabah, dividends, and due diligence.",
+    "faqButton": "Read Investor FAQ",
+    "note": "All calls are confidential. The NDA is required for full financial model access.",
+    "ctaTitle": "Pick a Time That Works for You",
+    "ctaBody": "Opens a 30-minute slot calendar in a secure overlay. No downloads. No account required.",
+    "bookButton": "Book Your Call",
+    "topics": {
+      "phaseOne": "Phase One investment terms ($350K / 10% equity)",
+      "supplierStrategy": "Supplier intelligence strategy — supply chain before processing capacity",
+      "farmOs": "Farm OS technology and traceability",
+      "economics": "Phase One trading economics and Phase Two processing upside",
+      "structures": "Investment structures: equity or Shariah-compliant Mudarabah",
+      "protections": "Investor protections, exit paths, and reporting"
+    },
+    "badges": {
+      "duration": "30 minutes",
+      "format": "Video or phone",
+      "timezone": "GMT timezone"
+    }
+  },
   "map": {
     "title": "Our Operational Headquarters",
     "iframeTitle": "AfriNuts Export Location"

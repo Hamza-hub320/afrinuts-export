@@ -7,10 +7,13 @@ import {
   FaTruck,
   FaGlobeAfrica,
   FaBuilding,
-  FaArrowRight
+  FaArrowRight,
+  FaCalendarAlt,
+  FaInfoCircle,
+  FaQuestionCircle
 } from 'react-icons/fa';
 import emailjs from '@emailjs/browser';
-import React, { useState, useRef, FormEvent, ChangeEvent } from 'react';
+import React, { useState, useRef, FormEvent, ChangeEvent, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { trackCtaClick, trackFormSubmission } from '@/utils/analytics';
 import Section from '@/components/Section/Section';
@@ -24,6 +27,7 @@ import { FormCard } from '@/components/FormCard/FormCard';
 import JsonLd from "@/components/Seo/JsonLd";
 import { Helmet } from "react-helmet-async";
 import WeatherDisplay from "@/components/WeatherDisplay/WeatherDisplay";
+import { useCalendly } from '@/hooks/useCalendly';
 
 interface FormData {
   name: string;
@@ -49,6 +53,7 @@ interface FormErrors {
 
 const Contact: React.FC = () => {
   const { t } = useTranslation('contact');
+  const { openCalendly } = useCalendly();
   const formRef = useRef<HTMLFormElement | null>(null);
   const nameRef = useRef<HTMLInputElement | null>(null);
   const emailRef = useRef<HTMLInputElement | null>(null);
@@ -64,6 +69,16 @@ const Contact: React.FC = () => {
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [showSuccess, setShowSuccess] = useState<boolean>(false);
+
+  // Auto-scroll to #schedule-call if URL hash is present (e.g., arriving from /invest)
+  useEffect(() => {
+    if (window.location.hash === '#schedule-call') {
+      const el = document.getElementById('schedule-call');
+      if (el) {
+        setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 150);
+      }
+    }
+  }, []);
 
   const validate = (): FormErrors => {
     const newErrors: FormErrors = {};
@@ -164,7 +179,7 @@ const Contact: React.FC = () => {
             </div>
         )}
 
-        {/* HERO — own mount animation */}
+        {/* HERO */}
         <Section className="flex items-center justify-center text-center min-h-[65vh]" animate={false}>
           <motion.div className="max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 flex flex-col lg:flex-row items-center gap-6 lg:gap-28" initial="hidden" animate="visible" variants={staggerContainer}>
 
@@ -211,7 +226,7 @@ const Contact: React.FC = () => {
           </motion.div>
         </Section>
 
-        {/* QUICK CONTACT — staggered cards */}
+        {/* QUICK CONTACT */}
         <Section className="py-6">
           <div className="max-w-6xl mx-auto px-4 sm:px-6">
             <StaggerList className="grid md:grid-cols-3 gap-4">
@@ -259,7 +274,6 @@ const Contact: React.FC = () => {
           <div className="max-w-6xl mx-auto px-4 sm:px-6">
             <div className="grid lg:grid-cols-3 gap-8">
 
-              {/* Form — Takes 2/3 on desktop */}
               <Reveal className="lg:col-span-2">
                 <FormCard title={t('form.title')} variant="secondary" className="w-full">
                   {errors.submit && (
@@ -356,7 +370,6 @@ const Contact: React.FC = () => {
                 </FormCard>
               </Reveal>
 
-              {/* Sidebar */}
               <StaggerList className="space-y-5">
                 <StaggerItem>
                   <InfoCard icon={FaTruck} title={t('shippingGuidance.title')} variant="secondary" showInfoBadge={false}>
@@ -401,6 +414,142 @@ const Contact: React.FC = () => {
               </StaggerList>
 
             </div>
+          </div>
+        </Section>
+
+        {/* SCHEDULE A CALL — moved from Invest */}
+        <Section className="py-10" id="schedule-call">
+          <div className="max-w-6xl mx-auto px-4 sm:px-6">
+            <Reveal className="text-center mb-8">
+              <Typography variant="h2" className="mb-4">
+                {t('schedule.title')}
+              </Typography>
+              <Typography variant="body" className="text-gray-600 max-w-2xl mx-auto">
+                {t('schedule.subtitle')}
+              </Typography>
+            </Reveal>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+              {/* Left Column — What We'll Cover + FAQ */}
+              <Reveal className="md:col-span-1">
+                <InfoCard
+                    icon={FaCalendarAlt}
+                    title={t('schedule.whatWeCover')}
+                    variant="secondary"
+                    showInfoBadge={false}
+                    className="h-full text-left"
+                >
+                  <ul className="space-y-2 text-xs">
+                    {[
+                      t('schedule.topics.phaseOne'),
+                      t('schedule.topics.supplierStrategy'),
+                      t('schedule.topics.farmOs'),
+                      t('schedule.topics.economics'),
+                      t('schedule.topics.structures'),
+                      t('schedule.topics.protections'),
+                    ].map((topic, idx) => (
+                        <li key={idx} className="flex items-start gap-2">
+                          <FaCheckCircle className="text-green-500 mt-0.5 flex-shrink-0 text-[10px]" />
+                          <span className="text-gray-700">{topic}</span>
+                        </li>
+                    ))}
+                  </ul>
+
+                  <div className="mt-4 pt-4 border-t border-primary/10">
+                    <Typography variant="small" className="text-gray-600 text-xs">
+                      <strong className="text-primary">{t('schedule.beforeCall')}:</strong>
+                    </Typography>
+                    <ul className="space-y-1.5 text-xs text-gray-600 mt-2">
+                      <li className="flex items-start gap-2">
+                        <FaInfoCircle className="text-accent mt-0.5 flex-shrink-0 text-[10px]" />
+                        <span>
+                                    {t('schedule.reviewPage')}:{' '}
+                          <Link to="/invest" className="text-accent hover:text-primary underline">
+                                        afrinutsexport.com/invest
+                                    </Link>
+                                </span>
+                      </li>
+                      <li className="flex items-start gap-2">
+                        <FaInfoCircle className="text-accent mt-0.5 flex-shrink-0 text-[10px]" />
+                        <span>{t('schedule.ndaNote')}</span>
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div className="mt-4 pt-4 border-t border-primary/10">
+                    <div className="flex items-start gap-2 mb-2">
+                      <FaQuestionCircle className="text-accent mt-0.5 flex-shrink-0 text-sm" />
+                      <Typography variant="h5" className="text-primary text-xs font-semibold">
+                        {t('schedule.faqTitle')}
+                      </Typography>
+                    </div>
+                    <Typography variant="small" className="text-gray-600 text-xs mb-3">
+                      {t('schedule.faqText')}
+                    </Typography>
+                    <Link
+                        to="/faq?audience=investors"
+                        onClick={() => trackCtaClick('faq_link', 'contact_schedule_card')}
+                        className="inline-flex items-center gap-1.5 text-accent hover:text-primary text-xs font-medium underline transition-colors"
+                    >
+                      {t('schedule.faqButton')}
+                      <FaArrowRight className="text-[10px]" />
+                    </Link>
+                  </div>
+                </InfoCard>
+              </Reveal>
+
+              {/* Right Column — Calendly Popup Trigger */}
+              <Reveal className="md:col-span-2" delay={0.1}>
+                <InfoCard
+                    icon={FaCalendarAlt}
+                    title={t('schedule.ctaTitle', 'Pick a Time That Works for You')}
+                    variant="secondary"
+                    showInfoBadge={false}
+                    className="h-full text-center"
+                >
+                  <div className="py-6">
+                    <Typography variant="body" className="text-gray-600 mb-6 max-w-md mx-auto text-sm">
+                      {t('schedule.ctaBody', 'Opens a 30-minute slot calendar in a secure overlay. No downloads. No account required.')}
+                    </Typography>
+
+                    <button
+                        onClick={() => {
+                          trackCtaClick('open_calendly_popup', 'contact_schedule_section');
+                          openCalendly();
+                        }}
+                        className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-4 rounded-full transform-gpu group/btn overflow-hidden font-medium shadow-lg inline-flex items-center gap-2 transition-transform duration-300 hover:-translate-y-0.5 hover:scale-[1.03] active:scale-[0.97]"
+                    >
+                      <div className="absolute inset-0 rounded-full border-2 border-white/30" />
+                      <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50 group-hover/btn:opacity-70 transition-opacity duration-300" />
+                      <FaCalendarAlt className="relative z-10" />
+                      <span className="relative z-10">{t('schedule.bookButton', 'Book Your Call')}</span>
+                      <FaArrowRight className="relative z-10 text-xs" />
+                    </button>
+
+                    <div className="mt-5 flex flex-wrap justify-center gap-3 text-xs text-gray-500">
+                            <span className="inline-flex items-center gap-1">
+                                <FaCheckCircle className="text-green-500 text-[10px]" />
+                              {t('schedule.badges.duration')}
+                            </span>
+                      <span className="inline-flex items-center gap-1">
+                                <FaCheckCircle className="text-green-500 text-[10px]" />
+                        {t('schedule.badges.format')}
+                            </span>
+                      <span className="inline-flex items-center gap-1">
+                                <FaCheckCircle className="text-green-500 text-[10px]" />
+                        {t('schedule.badges.timezone')}
+                            </span>
+                    </div>
+                  </div>
+                </InfoCard>
+              </Reveal>
+            </div>
+
+            <Reveal>
+              <Typography variant="small" className="text-center text-gray-500 mt-6">
+                {t('schedule.note')}
+              </Typography>
+            </Reveal>
           </div>
         </Section>
 

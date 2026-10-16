@@ -82,6 +82,34 @@
     "description": "Pour les commandes en gros, les paiements sont traités par virement bancaire. Notre équipe commerciale fournit une facture après votre demande.",
     "methods": ["Virement Bancaire", "Paiement par Virement"]
   },
+  "schedule": {
+    "title": "Planifier un appel",
+    "subtitle": "Choisissez un horaire qui vous convient. Nous vous présenterons l'opportunité d'investissement de la Phase Un, la stratégie d'intelligence fournisseurs, et répondrons à toutes vos questions.",
+    "whatWeCover": "Ce que nous aborderons",
+    "beforeCall": "Avant notre appel",
+    "reviewPage": "Consultez la page Investir",
+    "ndaNote": "La NDA est requise pour accéder au modèle financier complet. Nous vous l'enverrons lors de la réservation.",
+    "faqTitle": "Vous avez d'abord des questions ?",
+    "faqText": "Notre FAQ investisseurs répond aux questions les plus courantes sur la Phase Un, les actions, la Mudarabah, les dividendes et la diligence raisonnable.",
+    "faqButton": "Lire la FAQ investisseurs",
+    "note": "Tous les appels sont confidentiels. La NDA est requise pour accéder au modèle financier complet.",
+    "ctaTitle": "Choisissez un moment qui vous convient",
+    "ctaBody": "Ouvre un calendrier de créneaux de 30 minutes dans une fenêtre sécurisée. Aucun téléchargement. Aucun compte requis.",
+    "bookButton": "Réservez votre appel",
+    "topics": {
+      "phaseOne": "Conditions d'investissement de la Phase Un (350 K$ / 10 % de participation)",
+      "supplierStrategy": "Stratégie d'intelligence fournisseurs — la chaîne d'approvisionnement avant la capacité de transformation",
+      "farmOs": "Technologie Farm OS et traçabilité",
+      "economics": "Économie du négoce de la Phase Un et potentiel de transformation de la Phase Deux",
+      "structures": "Structures d'investissement : actions ou Mudarabah conforme à la charia",
+      "protections": "Protections des investisseurs, voies de sortie et reporting"
+    },
+    "badges": {
+      "duration": "30 minutes",
+      "format": "Vidéo ou téléphone",
+      "timezone": "Fuseau GMT"
+    }
+  },
   "map": {
     "title": "Notre Quartier Général Opérationnel",
     "iframeTitle": "Localisation d'AfriNuts Export"

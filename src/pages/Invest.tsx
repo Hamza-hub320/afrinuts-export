@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Reveal, StaggerList, StaggerItem, CountUp } from "@/components/Reveal";
 import { Link, useNavigate } from 'react-router-dom';
-import { useCalendly } from '@/hooks/useCalendly';
 import { motion } from 'framer-motion';
 import {
     FaChartLine,
@@ -55,7 +54,6 @@ import {InvestorLetter} from "@/components/InvestorLetter/InvestorLetter";
 const Invest: React.FC = () => {
     const { t } = useTranslation('invest');
     const navigate = useNavigate();
-    const { openCalendly } = useCalendly();
 
 
     const capitalAllocation = [
@@ -96,7 +94,6 @@ const Invest: React.FC = () => {
     ];
 
     const [isDesktop, setIsDesktop] = useState(false);
-
     useEffect(() => {
         const check = () => setIsDesktop(window.innerWidth >= 768);
         check();
@@ -165,6 +162,7 @@ const Invest: React.FC = () => {
                             </a>
                             <motion.button onClick={() => {
                                 trackCtaClick('schedule_call', 'invest_hero');
+                                navigate('/contact#schedule-call');
                                 document.getElementById('schedule-call')?.scrollIntoView({ behavior: 'smooth' });
                             }}
                                            className="relative border border-primary/40 text-primary hover:bg-primary/5 px-5 py-2.5 rounded-full text-sm font-medium inline-flex items-center gap-1.5 bg-white/50 backdrop-blur-sm" whileHover={{ y: -1 }}>
@@ -1069,12 +1067,24 @@ const Invest: React.FC = () => {
                 </div>
             </Section>
 
-            {/* Exit Strategy */}
+            {/* Exit Strategy & Investor Protections */}
             <Section className="py-10">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6">
-                    <Reveal className="text-center mb-8">
-                        <Typography variant="h2" className="mb-4">{t('exitStrategy.title')}</Typography>
-                        <Typography variant="body" className="text-gray-600 max-w-2xl mx-auto">{t('exitStrategy.subtitle')}</Typography>
+                    <Reveal className="text-center mb-10">
+                        <Typography variant="h2" className="mb-4">
+                            {t('exitStrategy.title')}
+                        </Typography>
+                        <Typography variant="body" className="text-gray-600 max-w-2xl mx-auto">
+                            {t('exitStrategy.subtitle')}
+                        </Typography>
+                    </Reveal>
+
+                    {/* Exit Paths */}
+                    <Reveal className="mb-4">
+                        <Typography variant="h3" className="text-primary text-lg mb-4 flex items-center gap-2">
+                            <FaGlobeAfrica className="text-accent text-base" />
+                            {t('exitStrategy.optionsTitle', 'Exit Paths')}
+                        </Typography>
                     </Reveal>
                     <StaggerList className="grid md:grid-cols-2 gap-4 mb-6">
                         {(t('exitStrategy.options', { returnObjects: true }) as any[]).map((opt, idx) => (
@@ -1086,9 +1096,40 @@ const Invest: React.FC = () => {
                             </StaggerItem>
                         ))}
                     </StaggerList>
-                    <Reveal className="bg-amber-50/80 border border-amber-200 rounded-xl p-3 text-center max-w-2xl mx-auto">
+
+                    <Reveal className="bg-amber-50/80 border border-amber-200 rounded-xl p-3 text-center max-w-2xl mx-auto mb-8">
                         <Typography variant="small" className="text-amber-700 text-xs">{t('exitStrategy.liquidation')}</Typography>
                     </Reveal>
+
+                    {/* Bridge */}
+                    <Reveal className="text-center max-w-2xl mx-auto mb-8">
+                        <Typography variant="small" className="text-gray-500 italic">
+                            {t('exitStrategy.bridge', 'When the time comes to exit, these are the paths available — and these are the protections that stay with you through the journey.')}
+                        </Typography>
+                    </Reveal>
+
+                    {/* Investor Protections */}
+                    <Reveal className="mb-4">
+                        <Typography variant="h3" className="text-primary text-lg mb-4 flex items-center gap-2">
+                            <FaShieldAlt className="text-accent text-base" />
+                            {t('investorProtections.title')}
+                        </Typography>
+                    </Reveal>
+                    <Reveal className="text-center mb-4">
+                        <Typography variant="small" className="text-gray-600 max-w-2xl mx-auto">
+                            {t('investorProtections.subtitle')}
+                        </Typography>
+                    </Reveal>
+                    <StaggerList className="grid md:grid-cols-2 gap-4">
+                        {(t('investorProtections.items', { returnObjects: true }) as string[]).map((item, idx) => (
+                            <StaggerItem key={idx} className="bg-white/50 backdrop-blur-sm rounded-xl p-4 border border-white/30">
+                                <div className="flex items-start gap-2">
+                                    <FaCheckCircle className="text-green-500 mt-0.5 flex-shrink-0 text-sm" />
+                                    <Typography variant="small" className="text-gray-700">{item}</Typography>
+                                </div>
+                            </StaggerItem>
+                        ))}
+                    </StaggerList>
                 </div>
             </Section>
 
@@ -1363,27 +1404,6 @@ const Invest: React.FC = () => {
                 </div>
             </Section>
 
-            {/* Investor Protections */}
-            <Section className="py-10">
-                <div className="max-w-6xl mx-auto px-4 sm:px-6">
-                    <Reveal className="text-center mb-8">
-                        <Typography variant="h2" className="mb-4">{t('investorProtections.title')}</Typography>
-                    </Reveal>
-                    <Reveal>
-                        <InfoCard icon={FaShieldAlt} title={t('investorProtections.subtitle')} variant="primary" showInfoBadge={false}>
-                            <StaggerList className="grid md:grid-cols-2 gap-3">
-                                {(t('investorProtections.items', { returnObjects: true }) as string[]).map((item, idx) => (
-                                    <StaggerItem key={idx} className="flex items-start gap-2 bg-white/50 rounded-lg p-3 border border-white/30">
-                                        <FaCheckCircle className="text-green-500 mt-0.5 flex-shrink-0 text-xs" />
-                                        <Typography variant="small" className="text-gray-700">{item}</Typography>
-                                    </StaggerItem>
-                                ))}
-                            </StaggerList>
-                        </InfoCard>
-                    </Reveal>
-                </div>
-            </Section>
-
             {/* Impact */}
             <Section className="py-10">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6">
@@ -1418,7 +1438,7 @@ const Invest: React.FC = () => {
 
             {/* Team */}
             <Section className="py-10">
-                <div className="max-w-6xl mx-auto px-4 sm:px-6">
+                <div className="max-w-4xl mx-auto px-4 sm:px-6">
                     <Reveal className="text-center mb-10">
                         <Typography variant="h2" className="mb-4">
                             {t('team.title')}
@@ -1428,61 +1448,63 @@ const Invest: React.FC = () => {
                         </Typography>
                     </Reveal>
 
-                    <StaggerList className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {teamMembers.map((member, idx) => {
-                            const hasPhoto = teamImageMap[member.imageKey];
+                    <StaggerList className="grid sm:grid-cols-2 gap-6">
+                        {teamMembers
+                            .filter((member: any) => member.imageKey === 'ceo' || member.imageKey === 'cfo')
+                            .map((member: any, idx: number) => {
+                                const hasPhoto = teamImageMap[member.imageKey];
 
-                            return (
-                                <StaggerItem key={idx}>
-                                    <motion.div
-                                        className="group relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl shadow-lg p-5 transform-gpu overflow-hidden h-full"
-                                        style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
-                                        whileHover={{
-                                            y: -6,
-                                            scale: 1.03,
-                                            boxShadow: '0 20px 35px -10px rgba(0,0,0,0.15)',
-                                            transition: { duration: 0.3 },
-                                        }}
-                                    >
-                                        <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
-                                        <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
-                                        <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.05)]" />
+                                return (
+                                    <StaggerItem key={idx}>
+                                        <motion.div
+                                            className="group relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl shadow-lg p-6 transform-gpu overflow-hidden h-full"
+                                            style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
+                                            whileHover={{
+                                                y: -6,
+                                                scale: 1.03,
+                                                boxShadow: '0 20px 35px -10px rgba(0,0,0,0.15)',
+                                                transition: { duration: 0.3 },
+                                            }}
+                                        >
+                                            <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
+                                            <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+                                            <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.05)]" />
 
-                                        <div className="relative z-10 flex flex-col items-center text-center">
-                                            <div className="relative mb-4">
-                                                {hasPhoto ? (
-                                                    <img
-                                                        src={hasPhoto}
-                                                        alt={member.name}
-                                                        className="w-20 h-20 rounded-full object-cover border-2 border-white/40 shadow-md group-hover:scale-105 transition-transform duration-300"
-                                                    />
-                                                ) : (
-                                                    <ProfilePlaceholder
-                                                        name={member.name}
-                                                        size={80}
-                                                        variant="primary"
-                                                        className="shadow-md group-hover:scale-105 transition-transform duration-300"
-                                                    />
-                                                )}
-                                                <div className="absolute -bottom-1 -right-1 bg-accent text-white w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold border-2 border-white">
-                                                    {member.name.charAt(0)}
+                                            <div className="relative z-10 flex flex-col items-center text-center">
+                                                <div className="relative mb-4">
+                                                    {hasPhoto ? (
+                                                        <img
+                                                            src={hasPhoto}
+                                                            alt={member.name}
+                                                            className="w-24 h-24 rounded-full object-cover border-2 border-white/40 shadow-md group-hover:scale-105 transition-transform duration-300"
+                                                        />
+                                                    ) : (
+                                                        <ProfilePlaceholder
+                                                            name={member.name}
+                                                            size={96}
+                                                            variant="primary"
+                                                            className="shadow-md group-hover:scale-105 transition-transform duration-300"
+                                                        />
+                                                    )}
+                                                    <div className="absolute -bottom-1 -right-1 bg-accent text-white w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold border-2 border-white">
+                                                        {member.name.charAt(0)}
+                                                    </div>
                                                 </div>
-                                            </div>
 
-                                            <Typography variant="h4" className="text-primary">
-                                                {member.name}
-                                            </Typography>
-                                            <Typography variant="small" className="text-accent text-xs font-medium mt-0.5 mb-2">
-                                                {member.position}
-                                            </Typography>
-                                            <Typography variant="small" className="text-gray-600 text-xs leading-relaxed">
-                                                {member.bio}
-                                            </Typography>
-                                        </div>
-                                    </motion.div>
-                                </StaggerItem>
-                            );
-                        })}
+                                                <Typography variant="h4" className="text-primary">
+                                                    {member.name}
+                                                </Typography>
+                                                <Typography variant="small" className="text-accent text-sm font-medium mt-1 mb-3">
+                                                    {member.position}
+                                                </Typography>
+                                                <Typography variant="small" className="text-gray-600 text-sm leading-relaxed">
+                                                    {member.bio}
+                                                </Typography>
+                                            </div>
+                                        </motion.div>
+                                    </StaggerItem>
+                                );
+                            })}
                     </StaggerList>
 
                     <Reveal className="text-center mt-8">
@@ -1496,162 +1518,9 @@ const Invest: React.FC = () => {
                             whileTap={{ scale: 0.95 }}
                         >
                             <FaUsers className="text-sm" />
-                            {t('team.viewAll')}
+                            {t('team.viewAll', 'View the Full Leadership Team')}
                             <FaArrowRight className="text-xs group-hover:translate-x-1 transition-transform" />
                         </motion.button>
-                    </Reveal>
-                </div>
-            </Section>
-
-            {/* Schedule a Call */}
-            <Section className="py-10" id="schedule-call">
-                <div className="max-w-6xl mx-auto px-4 sm:px-6">
-                    <Reveal className="text-center mb-8">
-                        <Typography variant="h2" className="mb-4">
-                            {t('schedule.title')}
-                        </Typography>
-                        <Typography variant="body" className="text-gray-600 max-w-2xl mx-auto">
-                            {t('schedule.subtitle')}
-                        </Typography>
-                    </Reveal>
-
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-                        {/* Left Column — What We'll Cover + FAQ */}
-                        <Reveal className="md:col-span-1">
-                            <div className="group relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-500 rounded-2xl shadow-xl ring-1 ring-white/10 p-5 transform-gpu h-full">
-                                <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] pointer-events-none" />
-                                <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 pointer-events-none" />
-                                <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] pointer-events-none" />
-
-                                <div className="relative z-10">
-                                    <div className="flex items-center gap-3 mb-4">
-                                        <div className="bg-white/40 p-2.5 rounded-full backdrop-blur-md shadow-md">
-                                            <FaCalendarAlt className="text-accent text-xl" />
-                                        </div>
-                                        <Typography variant="h3" className="text-primary text-base">
-                                            {t('schedule.whatWeCover')}
-                                        </Typography>
-                                    </div>
-
-                                    <ul className="space-y-2 text-xs">
-                                        {[
-                                            t('schedule.topics.phaseOne'),
-                                            t('schedule.topics.supplierStrategy'),
-                                            t('schedule.topics.farmOs'),
-                                            t('schedule.topics.economics'),
-                                            t('schedule.topics.structures'),
-                                            t('schedule.topics.protections'),
-                                        ].map((topic, idx) => (
-                                            <li key={idx} className="flex items-start gap-2">
-                                                <FaCheckCircle className="text-green-500 mt-0.5 flex-shrink-0 text-[10px]" />
-                                                <span className="text-gray-700">{topic}</span>
-                                            </li>
-                                        ))}
-                                    </ul>
-
-                                    <div className="mt-4 pt-4 border-t border-primary/10">
-                                        <Typography variant="small" className="text-gray-600 text-xs">
-                                            <strong className="text-primary">{t('schedule.beforeCall')}:</strong>
-                                        </Typography>
-                                        <ul className="space-y-1.5 text-xs text-gray-600 mt-2">
-                                            <li className="flex items-start gap-2">
-                                                <FaInfoCircle className="text-accent mt-0.5 flex-shrink-0 text-[10px]" />
-                                                <span>
-                                        {t('schedule.reviewPage')}:{' '}
-                                                    <Link to="/invest" className="text-accent hover:text-primary underline">
-                                            afrinutsexport.com/invest
-                                        </Link>
-                                    </span>
-                                            </li>
-                                            <li className="flex items-start gap-2">
-                                                <FaInfoCircle className="text-accent mt-0.5 flex-shrink-0 text-[10px]" />
-                                                <span>{t('schedule.ndaNote')}</span>
-                                            </li>
-                                        </ul>
-                                    </div>
-
-                                    <div className="mt-4 pt-4 border-t border-primary/10">
-                                        <div className="flex items-start gap-2 mb-2">
-                                            <FaQuestionCircle className="text-accent mt-0.5 flex-shrink-0 text-sm" />
-                                            <Typography variant="h5" className="text-primary text-xs font-semibold">
-                                                {t('schedule.faqTitle')}
-                                            </Typography>
-                                        </div>
-                                        <Typography variant="small" className="text-gray-600 text-xs mb-3">
-                                            {t('schedule.faqText')}
-                                        </Typography>
-                                        <Link
-                                            to="/faq?audience=investors"
-                                            onClick={() => trackCtaClick('faq_link', 'invest_schedule_card')}
-                                            className="inline-flex items-center gap-1.5 text-accent hover:text-primary text-xs font-medium underline transition-colors"
-                                        >
-                                            {t('schedule.faqButton')}
-                                            <FaArrowRight className="text-[10px]" />
-                                        </Link>
-                                    </div>
-                                </div>
-                            </div>
-                        </Reveal>
-
-                        {/* Right Column — Calendly Popup Trigger (static, no motion) */}
-                        <Reveal className="md:col-span-2" delay={0.1}>
-                            <div className="group relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-500 rounded-2xl shadow-xl ring-1 ring-white/10 p-8 sm:p-12 transform-gpu h-full flex items-center justify-center">
-                                <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] pointer-events-none" />
-                                <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 pointer-events-none" />
-                                <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] pointer-events-none" />
-
-                                <div className="relative z-10 text-center">
-                                    {/* Icon — CSS hover instead of Framer */}
-                                    <div className="bg-accent/10 p-4 rounded-full w-fit mx-auto mb-5 border border-accent/20 transition-transform duration-300 hover:scale-105 hover:rotate-3">
-                                        <FaCalendarAlt className="text-accent text-3xl" />
-                                    </div>
-
-                                    <Typography variant="h3" className="text-primary mb-3">
-                                        {t('schedule.ctaTitle', 'Pick a Time That Works for You')}
-                                    </Typography>
-
-                                    <Typography variant="body" className="text-gray-600 mb-6 max-w-md mx-auto text-sm">
-                                        {t('schedule.ctaBody', 'Opens a 30-minute slot calendar in a secure overlay. No downloads. No account required.')}
-                                    </Typography>
-
-                                    {/* Button — CSS hover/active instead of Framer */}
-                                    <button
-                                        onClick={() => {
-                                            trackCtaClick('open_calendly_popup', 'invest_schedule_section');
-                                            openCalendly();
-                                        }}
-                                        className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-4 rounded-full transform-gpu group/btn overflow-hidden font-medium shadow-lg inline-flex items-center gap-2 transition-transform duration-300 hover:-translate-y-0.5 hover:scale-[1.03] active:scale-[0.97]"
-                                    >
-                                        <div className="absolute inset-0 rounded-full border-2 border-white/30" />
-                                        <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50 group-hover/btn:opacity-70 transition-opacity duration-300" />
-                                        <FaCalendarAlt className="relative z-10" />
-                                        <span className="relative z-10">{t('schedule.bookButton', 'Book Your Call')}</span>
-                                        <FaArrowRight className="relative z-10 text-xs" />
-                                    </button>
-
-                                    <div className="mt-5 flex flex-wrap justify-center gap-3 text-xs text-gray-500">
-                <span className="inline-flex items-center gap-1">
-                    <FaCheckCircle className="text-green-500 text-[10px]" />
-                    {t('schedule.badges.duration')}
-                </span>
-                                        <span className="inline-flex items-center gap-1">
-                    <FaCheckCircle className="text-green-500 text-[10px]" />
-                                            {t('schedule.badges.format')}
-                </span>
-                                        <span className="inline-flex items-center gap-1">
-                    <FaCheckCircle className="text-green-500 text-[10px]" />
-                                            {t('schedule.badges.timezone')}
-                </span>
-                                    </div>
-                                </div>
-                            </div>
-                        </Reveal>
-                    </div>
-
-                    <Reveal>
-                        <Typography variant="small" className="text-center text-gray-500 mt-6">
-                            {t('schedule.note')}
-                        </Typography>
                     </Reveal>
                 </div>
             </Section>
@@ -1674,6 +1543,7 @@ const Invest: React.FC = () => {
                                     </a>
                                     <motion.button onClick={() => {
                                         trackCtaClick('schedule_call', 'invest_final_cta');
+                                        navigate('/contact#schedule-call');
                                         document.getElementById('schedule-call')?.scrollIntoView({ behavior: 'smooth' });
                                     }} className="relative border-2 border-primary/50 text-primary hover:bg-primary hover:text-white px-8 py-4 rounded-full transform-gpu font-medium inline-flex items-center gap-2 bg-white/30 backdrop-blur-sm" whileHover={{ y: -2 }}>
                                         <FaHandshake />{t('cta.scheduleCall')}

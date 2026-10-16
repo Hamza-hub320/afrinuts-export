@@ -510,37 +510,39 @@
   },
   "exitStrategy": {
     "title": "Stratégie de sortie et protections des investisseurs",
-    "subtitle": "Des voies claires vers la liquidité avec des protections robustes pour les actionnaires",
+    "subtitle": "Des voies claires vers la liquidité, avec des protections solides pour les actionnaires",
+    "optionsTitle": "Voies de sortie",
+    "bridge": "Le moment venu de sortir, voici les voies disponibles — et voici les protections qui vous accompagnent tout au long du parcours.",
     "options": [
       {
-        "title": "Vente / Fusion / IPO de l'entreprise",
-        "description": "En cas de sortie, l'investisseur reçoit sa part proportionnelle des produits nets distribués aux actionnaires — en fonction de sa participation au moment de la sortie."
+        "title": "Vente de la société / Fusion / Introduction en bourse",
+        "description": "En cas de sortie, l'investisseur reçoit sa part proportionnelle du produit net distribué aux actionnaires — en fonction de sa participation au moment de la sortie."
       },
       {
-        "title": "Droits de drag-along",
-        "description": "Si les actionnaires majoritaires approuvent une vente, l'investisseur accepte de vendre aux mêmes conditions — assurant une sortie propre et unifiée pour toutes les parties."
+        "title": "Droits de drag-along (entraînement)",
+        "description": "Si les actionnaires majoritaires approuvent une vente, l'investisseur accepte de vendre aux mêmes conditions — garantissant une sortie propre et unifiée pour toutes les parties."
       },
       {
-        "title": "Droits de tag-along",
-        "description": "Si un fondateur ou un actionnaire majoritaire vend ses actions, l'investisseur peut rejoindre la transaction et vendre un montant proportionnel aux mêmes conditions — protégeant contre le risque de se retrouver avec des actions illiquides."
+        "title": "Droits de tag-along (accompagnement)",
+        "description": "Si un fondateur ou un actionnaire majoritaire vend ses actions, l'investisseur peut se joindre à la transaction et vendre une part proportionnelle aux mêmes conditions — évitant ainsi de se retrouver avec des actions illiquides."
       },
       {
         "title": "Option de rachat mutuel (2031)",
-        "description": "L'une ou l'autre partie peut déclencher un rachat. Valorisation basée sur : 2× l'investissement initial, 5× le revenu brut, ou une évaluation indépendante. Paiements différés autorisés — pas de riba, pas de coercition."
+        "description": "L'une ou l'autre partie peut déclencher un rachat. Valorisation basée sur : 2× l'investissement initial, 5× le chiffre d'affaires brut, ou une expertise indépendante. Paiements différés autorisés — sans riba, sans contrainte."
       }
     ],
-    "liquidation": "En cas de force majeure ou de faillite, l'investisseur reçoit une part des actifs restants après dettes — proportionnelle à sa participation."
+    "liquidation": "En cas de force majeure ou de faillite, l'investisseur reçoit une part des actifs restants après déduction des dettes — proportionnelle à sa participation."
   },
   "investorProtections": {
     "title": "Principales protections des investisseurs",
-    "subtitle": "Vos droits en vertu de l'accord d'investissement — les termes finaux sont régis par le pacte d'actionnaires",
+    "subtitle": "Vos droits en vertu de l'accord d'investissement — les conditions finales étant régies par l'accord des actionnaires",
     "items": [
-      "Droits de préemption — maintenir votre pourcentage de propriété dans les tours futurs",
-      "Siège d'observateur au conseil — assister aux réunions du conseil ou consultatives",
+      "Droits de préemption — maintenir votre pourcentage de participation lors des tours futurs",
+      "Siège d'observateur au conseil — assister aux réunions du conseil ou du comité consultatif",
       "Rapports trimestriels + états financiers annuels audités",
-      "Droits d'approbation pour dette >100 K$, changements structurels ou transactions avec parties liées",
-      "Droits de tag-along et drag-along pour une participation à une sortie propre",
-      "Résolution des litiges conforme à la charia (droit ivoirien + Tribunal islamique si nécessaire)"
+      "Droits d'approbation pour la dette >100 K$, les changements structurels ou les transactions avec parties liées",
+      "Droits de tag-along et drag-along pour une participation propre à la sortie",
+      "Résolution des litiges conforme à la charia (droit ivoirien + tribunal islamique si nécessaire)"
     ]
   },
   "socialProof": {
@@ -586,34 +588,6 @@
     },
     "signNda": "Signer la NDA pour l'accès à Farm OS",
     "note": "Farm OS est une technologie propriétaire. L'accès n'est accordé qu'aux investisseurs vérifiés et partenaires stratégiques sous NDA."
-  },
-  "schedule": {
-    "title": "Planifier un appel",
-    "subtitle": "Choisissez un horaire qui vous convient. Nous vous présenterons l'opportunité d'investissement de la Phase Un, la stratégie d'intelligence fournisseurs, et répondrons à toutes vos questions.",
-    "whatWeCover": "Ce que nous aborderons",
-    "beforeCall": "Avant notre appel",
-    "reviewPage": "Consultez la page Investir",
-    "ndaNote": "La NDA est requise pour accéder au modèle financier complet. Nous vous l'enverrons lors de la réservation.",
-    "faqTitle": "Vous avez d'abord des questions ?",
-    "faqText": "Notre FAQ investisseurs répond aux questions les plus courantes sur la Phase Un, les actions, la Mudarabah, les dividendes et la diligence raisonnable.",
-    "faqButton": "Lire la FAQ investisseurs",
-    "note": "Tous les appels sont confidentiels. La NDA est requise pour accéder au modèle financier complet.",
-    "ctaTitle": "Choisissez un moment qui vous convient",
-    "ctaBody": "Ouvre un calendrier de créneaux de 30 minutes dans une fenêtre sécurisée. Aucun téléchargement. Aucun compte requis.",
-    "bookButton": "Réservez votre appel",
-    "topics": {
-      "phaseOne": "Conditions d'investissement de la Phase Un (350 K$ / 10 % de participation)",
-      "supplierStrategy": "Stratégie d'intelligence fournisseurs — la chaîne d'approvisionnement avant la capacité de transformation",
-      "farmOs": "Technologie Farm OS et traçabilité",
-      "economics": "Économie du négoce de la Phase Un et potentiel de transformation de la Phase Deux",
-      "structures": "Structures d'investissement : actions ou Mudarabah conforme à la charia",
-      "protections": "Protections des investisseurs, voies de sortie et reporting"
-    },
-    "badges": {
-      "duration": "30 minutes",
-      "format": "Vidéo ou téléphone",
-      "timezone": "Fuseau GMT"
-    }
   },
   "investorLetter": {
     "title": "D'investisseur à CTO — dans ses propres mots",
