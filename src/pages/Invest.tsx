@@ -94,6 +94,15 @@ const Invest: React.FC = () => {
         { text: t('funding.supplyChain.items.intelligence'), icon: FaChartLine },
     ];
 
+    const [isDesktop, setIsDesktop] = useState(false);
+
+    useEffect(() => {
+        const check = () => setIsDesktop(window.innerWidth >= 768);
+        check();
+        window.addEventListener('resize', check);
+        return () => window.removeEventListener('resize', check);
+    }, []);
+
     const teamImageMap: Record<string, string | null> = {
         ceo: ceoImage,
         cfo: null,
@@ -768,12 +777,14 @@ const Invest: React.FC = () => {
                                     <tr className="hover:bg-white/20 transition-colors">
                                         <td className="py-2.5">{t('phaseOneReturns.tradingTable.profit')}</td>
                                         <td className="py-2.5 text-right font-bold text-primary">
-                                            <CountUp to={14520} prefix="$" />
+                                            {isDesktop ? <CountUp to={14520} prefix="$" /> : '$14,520'}
                                         </td>
                                     </tr>
                                     <tr className="hover:bg-white/20 transition-colors">
                                         <td className="py-2.5">{t('phaseOneReturns.tradingTable.threeTrucks')}</td>
-                                        <td className="py-2.5 text-right font-medium">$90,000 / <CountUp to={43560} prefix="$" /></td>
+                                        <td className="py-2.5 text-right font-medium">
+                                            $90,000 / {isDesktop ? <CountUp to={43560} prefix="$" /> : '$43,560'}
+                                        </td>
                                     </tr>
                                     <tr className="bg-primary/5 font-semibold">
                                         <td className="py-2.5">{t('phaseOneReturns.tradingTable.equityShare')}</td>
