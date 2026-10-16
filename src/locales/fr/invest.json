@@ -144,6 +144,8 @@
   "phaseOneReturns": {
     "title": "Phase Un : rendements du négoce",
     "subtitle": "Cet investissement active le négoce domestique de noix de cajou brutes — générant des flux de trésorerie opérationnels tout en construisant le réseau de fournisseurs. Les détenteurs de parts reçoivent 10 % du bénéfice net à la clôture des cycles.",
+    "closingTitle": "Rendements du négoce et la voie à suivre",
+    "closingBody": "Cet investissement active le négoce domestique de noix de cajou brutes afin de générer des revenus immédiats à cycle court tout en verrouillant notre réseau d'approvisionnement. En participant à la Phase Un, les investisseurs sécurisent une participation précoce dans un écosystème agritech à forte croissance, captant des distributions de négoce immédiates dans notre cadre conforme à la charia, tout en se positionnant pour l'expansion massive de marge 5x lorsque l'usine de transformation de la Phase Deux sera opérationnelle.",
     "kpis": {
       "investment": "Levée Phase Un",
       "investmentValue": "350 000 $",
@@ -166,10 +168,10 @@
       "equityShareValue": "4 356 $",
       "mudarabahShare": "Part partenaire Mudarabah (20 %)",
       "mudarabahShareValue": "8 712 $",
-      "note": "Profit vérifié par un négociant expérimenté en noix de cajou — inclut le prix RCN, le stockage, la main-d'œuvre, le transport et les imprévus.",
-      "liquidityNote": "Les actions de la Phase Un se convertissent directement en actions de la Phase Deux lors du lancement de l'usine de transformation. Pendant la phase de négoce, les détenteurs d'actions reçoivent 10 % du bénéfice net par cycle sous forme de distributions. Aucun verrouillage au-delà de la durée de la Phase Un."
+      "note": "Profit vérifié par un négociant expérimenté en noix de cajou — inclut le prix RCN, le stockage, la main-d'œuvre, le transport et les imprévus."
     },
-    "distributionNote": "Les détenteurs de parts reçoivent 10 % du bénéfice net de négoce à la clôture des cycles. Les partenaires Mudarabah reçoivent 20 % du profit réellement réalisé par cycle. Aucun report à 2033 pour les rendements de Phase Un."
+    "distributionNote": "Les détenteurs de parts reçoivent 10 % du bénéfice net de négoce à la clôture des cycles. Les partenaires Mudarabah reçoivent 20 % du profit réellement réalisé par cycle. Aucun report à 2033 pour les rendements de Phase Un.",
+    "liquidityNote": "Les actions de la Phase Un se convertissent directement en actions de la Phase Deux lors du lancement de l'usine de transformation. Pendant la phase de négoce, les détenteurs d'actions reçoivent 10 % du bénéfice net par cycle sous forme de distributions. Aucun verrouillage au-delà de la durée de la Phase Un."
   },
   "returns": {
     "title": "Phase Deux : le véritable potentiel",
@@ -184,9 +186,7 @@
       "annualDividend": "Dividende annuel (2035)",
       "annualDividendValue": "56 250 $",
       "cumulativeDividend": "Cumulé d'ici 2037",
-      "cumulativeDividendValue": "275 000 $",
-      "closingTitle": "Rendements du négoce et la voie à suivre",
-      "closingBody": "Cet investissement active le négoce domestique de noix de cajou brutes afin de générer des revenus immédiats à cycle court tout en verrouillant notre réseau d'approvisionnement. En participant à la Phase Un, les investisseurs sécurisent une participation précoce dans un écosystème agritech à forte croissance, captant des distributions de négoce immédiates dans notre cadre conforme à la charia, tout en se positionnant pour l'expansion massive de marge 5x lorsque l'usine de transformation de la Phase Deux sera opérationnelle."
+      "cumulativeDividendValue": "275 000 $"
     },
     "unitEconomics": {
       "title": "Par tonne métrique de RCN transformée",

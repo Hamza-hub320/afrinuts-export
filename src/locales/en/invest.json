@@ -136,6 +136,8 @@
   "phaseOneReturns": {
     "title": "Phase One: Trading Returns",
     "subtitle": "This investment activates domestic raw cashew trading — generating operating cash flow while building the supplier network. Equity holders receive 10% of net profit as cycles close.",
+    "closingTitle": "Trading Returns & The Path Forward",
+    "closingBody": "This investment activates domestic raw cashew trading to generate immediate, short-cycle revenue while locking in our supply network. By participating in Phase One, investors secure early equity in a high-growth agritech ecosystem, capturing immediate trading distributions under our Shariah-compliant framework while positioning for the massive 5x margin expansion when the Phase Two processing facility goes live.",
     "kpis": {
       "investment": "Phase One Raise",
       "investmentValue": "$350,000",
@@ -176,9 +178,7 @@
       "annualDividend": "Annual Dividend (2035)",
       "annualDividendValue": "$56,250",
       "cumulativeDividend": "Cumulative by 2037",
-      "cumulativeDividendValue": "$275,000",
-      "closingTitle": "Trading Returns & The Path Forward",
-      "closingBody": "This investment activates domestic raw cashew trading to generate immediate, short-cycle revenue while locking in our supply network. By participating in Phase One, investors secure early equity in a high-growth agritech ecosystem, capturing immediate trading distributions under our Shariah-compliant framework while positioning for the massive 5x margin expansion when the Phase Two processing facility goes live."
+      "cumulativeDividendValue": "$275,000"
     },
     "unitEconomics": {
       "title": "Per Metric Tonne of RCN Processed",
@@ -226,7 +226,7 @@
     "bottomLine": "A $350K Phase One equity investment at $3.5M post-money is a fraction of what this arithmetic supports at scale.",
     "ndaNote": "Full financial model, including dividend projections and Phase Two financing options, is available after signing the NDA.",
     "disclaimer": "Illustrative unit economics based on current market prices and industry-standard processing ratios. Actual results depend on execution, market conditions, and operational performance. This is not an offer to sell securities."
-  },
+    },
   "verify": {
     "title": "How to Verify AfriNuts",
     "subtitle": "We believe investors should be able to independently confirm who we are before any conversation. Here is how to verify our corporate identity.",
