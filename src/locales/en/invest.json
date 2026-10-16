@@ -598,6 +598,9 @@
     "faqText": "Our Investor FAQ answers the most common questions about Phase One, equity, Mudarabah, dividends, and due diligence.",
     "faqButton": "Read Investor FAQ",
     "note": "All calls are confidential. The NDA is required for full financial model access.",
+    "ctaTitle": "Pick a Time That Works for You",
+    "ctaBody": "Opens a 30-minute slot calendar in a secure overlay. No downloads. No account required.",
+    "bookButton": "Book Your Call",
     "topics": {
       "phaseOne": "Phase One investment terms ($350K / 10% equity)",
       "supplierStrategy": "Supplier intelligence strategy — supply chain before processing capacity",
@@ -605,6 +608,11 @@
       "economics": "Phase One trading economics and Phase Two processing upside",
       "structures": "Investment structures: equity or Shariah-compliant Mudarabah",
       "protections": "Investor protections, exit paths, and reporting"
+    },
+    "badges": {
+      "duration": "30 minutes",
+      "format": "Video or phone",
+      "timezone": "GMT timezone"
     }
   },
   "investorLetter": {

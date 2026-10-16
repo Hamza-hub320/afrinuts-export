@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Reveal, StaggerList, StaggerItem, CountUp } from "@/components/Reveal";
 import { Link, useNavigate } from 'react-router-dom';
+import { useCalendly } from '@/hooks/useCalendly';
 import { motion } from 'framer-motion';
 import {
     FaChartLine,
@@ -49,12 +50,12 @@ import { trackCtaClick } from "@/utils/analytics";
 import ProfilePlaceholder from "@/components/ProfilePlaceholder/ProfilePlaceholder";
 import { HeroSection } from '@/components/HeroSection/HeroSection';
 import {InvestorLetter} from "@/components/InvestorLetter/InvestorLetter";
-import GlassCard from "@/components/GlassCard/GlassCard";
 
 
 const Invest: React.FC = () => {
     const { t } = useTranslation('invest');
     const navigate = useNavigate();
+    const { openCalendly } = useCalendly();
 
 
     const capitalAllocation = [
@@ -1515,6 +1516,7 @@ const Invest: React.FC = () => {
                     </Reveal>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+                        {/* Left Column — What We'll Cover + FAQ */}
                         <Reveal className="md:col-span-1">
                             <div className="group relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-500 rounded-2xl shadow-xl ring-1 ring-white/10 p-5 transform-gpu h-full">
                                 <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] pointer-events-none" />
@@ -1555,11 +1557,11 @@ const Invest: React.FC = () => {
                                             <li className="flex items-start gap-2">
                                                 <FaInfoCircle className="text-accent mt-0.5 flex-shrink-0 text-[10px]" />
                                                 <span>
-                                                    {t('schedule.reviewPage')}:{' '}
+                                        {t('schedule.reviewPage')}:{' '}
                                                     <Link to="/invest" className="text-accent hover:text-primary underline">
-                                                        afrinutsexport.com/invest
-                                                    </Link>
-                                                </span>
+                                            afrinutsexport.com/invest
+                                        </Link>
+                                    </span>
                                             </li>
                                             <li className="flex items-start gap-2">
                                                 <FaInfoCircle className="text-accent mt-0.5 flex-shrink-0 text-[10px]" />
@@ -1591,23 +1593,58 @@ const Invest: React.FC = () => {
                             </div>
                         </Reveal>
 
+                        {/* Right Column — Calendly Popup Trigger */}
                         <Reveal className="md:col-span-2" delay={0.1}>
-                            <div className="group relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-500 rounded-2xl shadow-xl ring-1 ring-white/10 p-3 sm:p-4 transform-gpu">
+                            <div className="group relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-500 rounded-2xl shadow-xl ring-1 ring-white/10 p-8 sm:p-12 transform-gpu h-full flex items-center justify-center">
                                 <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] pointer-events-none" />
                                 <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 pointer-events-none" />
                                 <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] pointer-events-none" />
 
-                                <div className="relative z-10">
-                                    <div className="rounded-xl overflow-hidden bg-white/60 backdrop-blur-sm border border-white/30">
-                                        <iframe
-                                            src="https://calendly.com/contact-afrinutsexport/30min?hide_gdpr_banner=1&primary_color=5A7411&embed_type=Inline&embed_domain=www.afrinutsexport.com"
-                                            width="100%"
-                                            height="600"
-                                            frameBorder="0"
-                                            title="Schedule a Call with AfriNuts Export"
-                                            className="rounded-xl"
-                                            loading="lazy"
-                                        />
+                                <div className="relative z-10 text-center">
+                                    <motion.div
+                                        className="bg-accent/10 p-4 rounded-full w-fit mx-auto mb-5 border border-accent/20"
+                                        whileHover={{ scale: 1.08, rotate: 4 }}
+                                        transition={{ type: 'spring', stiffness: 300 }}
+                                    >
+                                        <FaCalendarAlt className="text-accent text-3xl" />
+                                    </motion.div>
+
+                                    <Typography variant="h3" className="text-primary mb-3">
+                                        {t('schedule.ctaTitle', 'Pick a Time That Works for You')}
+                                    </Typography>
+
+                                    <Typography variant="body" className="text-gray-600 mb-6 max-w-md mx-auto text-sm">
+                                        {t('schedule.ctaBody', 'Opens a 30-minute slot calendar in a secure overlay. No downloads. No account required.')}
+                                    </Typography>
+
+                                    <motion.button
+                                        onClick={() => {
+                                            trackCtaClick('open_calendly_popup', 'invest_schedule_section');
+                                            openCalendly();
+                                        }}
+                                        className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-4 rounded-full transform-gpu group/btn overflow-hidden font-medium shadow-lg inline-flex items-center gap-2"
+                                        whileHover={{ y: -3, scale: 1.03 }}
+                                        whileTap={{ scale: 0.97 }}
+                                    >
+                                        <div className="absolute inset-0 rounded-full border-2 border-white/30" />
+                                        <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50 group-hover/btn:opacity-70 transition-opacity duration-300" />
+                                        <FaCalendarAlt className="relative z-10" />
+                                        <span className="relative z-10">{t('schedule.bookButton', 'Book Your Call')}</span>
+                                        <FaArrowRight className="relative z-10 text-xs" />
+                                    </motion.button>
+
+                                    <div className="mt-5 flex flex-wrap justify-center gap-3 text-xs text-gray-500">
+                                        <span className="inline-flex items-center gap-1">
+                                            <FaCheckCircle className="text-green-500 text-[10px]" />
+                                            {t('schedule.badges.duration')}
+                                        </span>
+                                        <span className="inline-flex items-center gap-1"> <FaCheckCircle className="text-green-500 text-[10px]" />
+                                            {t('schedule.badges.format')}
+                                        </span>
+                                        <span className="inline-flex items-center gap-1">
+                                            <FaCheckCircle className="text-green-500 text-[10px]" />
+                                            {t('schedule.badges.timezone')}
+                                        </span>
                                     </div>
                                 </div>
                             </div>
