@@ -168,7 +168,7 @@ const Navbar: React.FC = () => {
   return (
       <nav ref={navRef} className={`fixed top-2 left-2 right-2 z-50 transition-all duration-300 ${scrolled ? 'scale-[0.98]' : ''}`}>
         {/* Primary Navbar */}
-        <div className={`relative z-30 bg-white/70 backdrop-blur-md border-2 border-white/40 rounded-2xl shadow-lg mx-auto max-w-7xl transition-all duration-300 ${scrolled ? 'shadow-xl bg-white/85 backdrop-blur-lg' : ''}`}>
+        <div className={`relative z-30 bg-white/50 backdrop-blur-md border border-white/30  rounded-2xl shadow-lg mx-auto max-w-7xl transition-all duration-300 ${scrolled ? 'shadow-xl backdrop-blur-lg' : ''}`}>
           <div className="flex justify-between items-center h-14 px-3 sm:px-4 lg:px-5">
             {/* Logo */}
             <div className="flex-shrink-0 flex items-center">

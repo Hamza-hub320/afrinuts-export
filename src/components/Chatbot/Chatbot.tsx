@@ -17,9 +17,7 @@ const FloatingButtons: React.FC<FloatingButtonsProps> = ({ className = '' }) => 
             {/* WhatsApp Button */}
             <motion.button
                 className="flex items-center px-3 py-2 rounded-full border-green-400 text-green-600 hover:bg-green-50 shadow-xl bg-white/50 transform-gpu group relative"
-                style={{
-                    transformStyle: 'preserve-3d',
-                }}
+                style={{ transformStyle: 'preserve-3d' }}
                 aria-label="Contact AfriNuts Export via WhatsApp"
                 onClick={() => {
                     trackOutboundClick('whatsapp', 'floating_button');
@@ -28,12 +26,7 @@ const FloatingButtons: React.FC<FloatingButtonsProps> = ({ className = '' }) => 
                 type="button"
                 initial={{ scale: 0, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                transition={{
-                    type: 'spring',
-                    stiffness: 200,
-                    damping: 15,
-                    delay: 0.5
-                }}
+                transition={{ type: 'spring', stiffness: 200, damping: 15, delay: 0.5 }}
                 whileHover={{
                     scale: 1.05,
                     y: -2,
@@ -42,15 +35,9 @@ const FloatingButtons: React.FC<FloatingButtonsProps> = ({ className = '' }) => 
                 }}
                 whileTap={{ scale: 0.95 }}
             >
-                {/* 3D edge effect */}
                 <div className="absolute inset-0 rounded-full border-2 border-white/30 transform-gpu translate-z-[-4px] group-hover:translate-z-[-6px] transition-all duration-300" />
-
-                {/* Glassy overlay */}
                 <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50 group-hover:opacity-70 transition-opacity duration-300" />
-
-                {/* Inner glow */}
                 <div className="absolute inset-0 rounded-full shadow-[inset_0_2px_8px_rgba(255,255,255,0.3)]" />
-
                 <div className="relative z-10 flex items-center">
                     <FaWhatsapp className="text-xl" />
                     <motion.span
@@ -68,31 +55,18 @@ const FloatingButtons: React.FC<FloatingButtonsProps> = ({ className = '' }) => 
             <motion.div
                 initial={{ scale: 0, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
-                transition={{
-                    type: 'spring',
-                    stiffness: 200,
-                    damping: 15,
-                    delay: 0.3
-                }}
+                transition={{ type: 'spring', stiffness: 200, damping: 15, delay: 0.3 }}
             >
                 <Link
                     to="/contact"
                     onClick={() => trackCtaClick('contact_us', 'floating_button')}
                     className="flex items-center px-3 py-2 rounded-full bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white shadow-xl transform-gpu group relative"
-                    style={{
-                        transformStyle: 'preserve-3d',
-                    }}
+                    style={{ transformStyle: 'preserve-3d' }}
                     aria-label="Go to Contact Page"
                 >
-                    {/* 3D edge effect */}
                     <div className="absolute inset-0 rounded-full border-2 border-white/30 transform-gpu translate-z-[-4px] group-hover:translate-z-[-6px] transition-all duration-300" />
-
-                    {/* Glassy overlay */}
                     <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50 group-hover:opacity-70 transition-opacity duration-300" />
-
-                    {/* Inner glow */}
                     <div className="absolute inset-0 rounded-full shadow-[inset_0_2px_8px_rgba(255,255,255,0.3)]" />
-
                     <div className="relative z-10 flex items-center">
                         <FaComment className="text-lg" />
                         <span className="ml-2 text-sm font-medium">Contact Us</span>

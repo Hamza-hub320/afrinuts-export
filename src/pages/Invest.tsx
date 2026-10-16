@@ -49,6 +49,7 @@ import { trackCtaClick } from "@/utils/analytics";
 import ProfilePlaceholder from "@/components/ProfilePlaceholder/ProfilePlaceholder";
 import { HeroSection } from '@/components/HeroSection/HeroSection';
 import {InvestorLetter} from "@/components/InvestorLetter/InvestorLetter";
+import GlassCard from "@/components/GlassCard/GlassCard";
 
 
 const Invest: React.FC = () => {
@@ -486,17 +487,17 @@ const Invest: React.FC = () => {
             </Section>
 
             {/* Farm OS: Technology Behind the Investment */}
-            <Section className="py-10">
+            <Section className="py-10" id="farmos-gated">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6">
                     <Reveal className="text-center mb-10">
                         <Typography variant="h2" className="mb-4">{t('farmOs.title')}</Typography>
                         <Typography variant="body" className="text-gray-600 max-w-3xl mx-auto">{t('farmOs.body')}</Typography>
                     </Reveal>
 
-                    <div className="grid md:grid-cols-2 gap-8">
+                    <div className="grid md:grid-cols-2 gap-8 mb-8">
                         {/* Capabilities */}
                         <Reveal>
-                            <InfoCard icon={FaMobile} title="Investor-Grade Technology" variant="secondary" showInfoBadge={false}>
+                            <InfoCard icon={FaMobile} title="Investor-Grade Technology" variant="secondary" showInfoBadge={false} className="h-full">
                                 <ul className="space-y-2 text-sm">
                                     {(t('farmOs.capabilities', { returnObjects: true }) as string[]).map((item, idx) => (
                                         <li key={idx} className="flex items-start gap-2">
@@ -568,47 +569,24 @@ const Invest: React.FC = () => {
                                 <div className="inline-block bg-accent/10 text-accent text-xs font-medium px-4 py-2 rounded-full">
                                     {t('farmOs.cta')}
                                 </div>
-                                <button
-                                    onClick={() => document.getElementById('farmos-gated')?.scrollIntoView({ behavior: 'smooth' })}
-                                    className="text-accent hover:text-primary text-xs font-medium inline-flex items-center gap-1 mt-3"
-                                >
-                                    {t('farmOs.linkText', 'See full Farm OS capabilities')} <FaArrowRight className="text-[10px]" />
-                                </button>
                             </InfoCard>
                         </Reveal>
                     </div>
-                </div>
-            </Section>
 
-            {/* Farm OS — Gated Access */}
-            <Section className="py-10" id="farmos-gated">
-                <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
-                    <Reveal
-                        className="relative bg-gradient-to-br from-navy/90 to-navy/95 border-2 border-primary/30 rounded-3xl shadow-xl p-8 md:p-12 transform-gpu overflow-hidden"
-                    >
-                        <div className="absolute -top-20 -right-20 w-40 h-40 rounded-full opacity-10 blur-3xl animate-pulse"
-                             style={{ background: 'radial-gradient(circle, rgba(165,105,66,0.5) 0%, transparent 70%)' }} />
-                        <div className="absolute -bottom-16 -left-16 w-36 h-36 rounded-full opacity-8 blur-3xl"
-                             style={{ background: 'radial-gradient(circle, rgba(210,125,45,0.5) 0%, transparent 70%)', animation: 'float 6s ease-in-out infinite' }} />
-
-                        <div className="relative z-10">
-                            <motion.div
-                                className="bg-primary/20 p-4 rounded-full w-fit mx-auto mb-6 border-2 border-primary/40"
-                                whileHover={{ scale: 1.1, rotate: 5 }}
-                                transition={{ type: 'spring', stiffness: 300 }}
-                            >
-                                <FaMobile className="text-4xl text-white" />
-                            </motion.div>
-
-                            <Typography variant="h2" className="text-white mb-4">
-                                {t('farmOsGated.title', 'Want to See Farm OS in Action?')}
-                            </Typography>
-
-                            <Typography variant="body" className="text-white max-w-2xl mx-auto mb-6">
+                    {/* Gated Access — inline panel below the two cards */}
+                    <Reveal delay={0.2}>
+                        <InfoCard
+                            icon={FaFileContract}
+                            title={t('farmOsGated.title', 'Want to See Farm OS in Action?')}
+                            variant="accent"
+                            showInfoBadge={false}
+                            className="text-center"
+                        >
+                            <Typography variant="body" className="text-gray-700 max-w-3xl mx-auto mb-6">
                                 {t('farmOsGated.body', 'Farm OS is our competitive advantage — a custom-built operating system that tracks every tree, every expense, and every export. We protect it carefully. Sign the NDA and we\'ll give you a live demo: real dashboards, block-level tracking, batch traceability, and financial reporting that most agribusinesses cannot match.')}
                             </Typography>
 
-                            <StaggerList className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
+                            <StaggerList className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8 max-w-3xl mx-auto">
                                 {[
                                     { icon: FaChartLine, label: t('farmOsGated.preview.dashboard', 'Live Dashboard') },
                                     { icon: FaMapMarkerAlt, label: t('farmOsGated.preview.blocks', 'Block-Level Data') },
@@ -616,29 +594,44 @@ const Invest: React.FC = () => {
                                     { icon: FaFileContract, label: t('farmOsGated.preview.reports', 'Financial Reports') },
                                 ].map((item, idx) => (
                                     <StaggerItem key={idx}>
-                                        <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 border border-white/10 text-center">
+                                        <div
+                                            className="rounded-xl p-3 text-center transition-all duration-300"
+                                            style={{
+                                                background: 'rgba(255,255,255,0.55)',
+                                                border: '1px solid rgba(255,255,255,0.7)',
+                                                backdropFilter: 'blur(12px)',
+                                                WebkitBackdropFilter: 'blur(12px)',
+                                                boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.85), inset 0 -1px 0 rgba(0,0,0,0.03)',
+                                            }}
+                                        >
                                             <item.icon className="text-accent text-xl mx-auto mb-1" />
-                                            <div className="text-white text-xs">{item.label}</div>
+                                            <div className="text-gray-700 text-xs">{item.label}</div>
                                         </div>
                                     </StaggerItem>
                                 ))}
                             </StaggerList>
 
                             <motion.div variants={fadeIn} className="flex flex-col sm:flex-row gap-4 justify-center">
-                                <a href={ndaPDF} download className="relative bg-gradient-to-r from-accent to-dark-orange hover:from-dark-orange hover:to-accent text-white px-8 py-4 rounded-full transform-gpu group/btn overflow-hidden font-medium shadow-lg inline-flex items-center gap-2">
+                                <a
+                                    href={ndaPDF}
+                                    download
+                                    className="relative bg-gradient-to-r from-accent to-dark-orange hover:from-dark-orange hover:to-accent text-white px-8 py-4 rounded-full transform-gpu group/btn overflow-hidden font-medium shadow-lg inline-flex items-center gap-2"
+                                >
                                     <div className="absolute inset-0 rounded-full border-2 border-white/30" />
+                                    <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50 group-hover/btn:opacity-70 transition-opacity duration-300" />
                                     <FaFileContract className="relative z-10" />
                                     <span className="relative z-10">{t('farmOsGated.signNda', 'Sign NDA for Farm OS Access')}</span>
                                 </a>
                             </motion.div>
 
-                            <Typography variant="small" className="text-white mt-4 text-xs">
+                            <Typography variant="small" className="text-gray-500 mt-4 text-xs">
                                 {t('farmOsGated.note', 'Farm OS is proprietary technology. Access is granted only to verified investors and strategic partners under NDA.')}
                             </Typography>
-                        </div>
+                        </InfoCard>
                     </Reveal>
                 </div>
             </Section>
+
 
             {/* Charts Row — The Opportunity + Your Capital */}
             <Section className="py-10">
@@ -1107,6 +1100,7 @@ const Invest: React.FC = () => {
                                     { label: t('verify.items.idu'), value: t('verify.items.iduValue') },
                                     { label: t('verify.items.registeredOffice'), value: t('verify.items.registeredOfficeValue') },
                                     { label: t('verify.items.linkedin'), value: t('verify.items.linkedinValue') },
+                                    { label: t('verify.items.cbInsights'), value: t('verify.items.cbInsightsValue') },
                                     { label: t('verify.items.executives'), value: t('verify.items.executivesValue') },
                                     { label: t('verify.items.documents'), value: t('verify.items.documentsValue') },
                                 ].map((item, idx) => (
@@ -1127,13 +1121,6 @@ const Invest: React.FC = () => {
                                 </Typography>
                                 <Typography variant="small" className="text-gray-700 text-sm leading-relaxed">
                                     {t('verify.whyPolished.body')}
-                                </Typography>
-                            </div>
-
-                            <div className="mt-4 p-3 bg-green-50/80 border border-green-200 rounded-lg">
-                                <Typography variant="small" className="text-green-700 text-xs text-center">
-                                    <FaCheckCircle className="inline mr-1.5" />
-                                    {t('verify.note')}
                                 </Typography>
                             </div>
 
@@ -1181,6 +1168,13 @@ const Invest: React.FC = () => {
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+
+                            <div className="mt-4 p-3 bg-green-50/80 border border-green-200 rounded-lg">
+                                <Typography variant="small" className="text-green-700 text-xs text-center">
+                                    <FaCheckCircle className="inline mr-1.5" />
+                                    {t('verify.note')}
+                                </Typography>
                             </div>
                         </InfoCard>
                     </Reveal>

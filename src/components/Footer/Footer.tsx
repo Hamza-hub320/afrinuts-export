@@ -12,6 +12,7 @@ import {
     FaLeaf, FaCertificate
 } from 'react-icons/fa';
 import { motion } from 'framer-motion';
+import { Reveal } from '@/components/Reveal';
 
 const Footer = () => {
     const { t } = useTranslation('footer');
@@ -66,7 +67,7 @@ const Footer = () => {
     const contactItems = [
         { icon: <FaMapMarkerAlt />, text: "Odienné, Côte D'Ivoire" },
         { icon: <FaPhone />, text: "+225 (077) 919 - 1460" },
-        { icon: <FaEnvelope />, text: "info@afrinutsexport.com" },
+        { icon: <FaEnvelope />, text: "contact@afrinutsexport.com" },
     ];
 
     return (
@@ -77,239 +78,223 @@ const Footer = () => {
                 {/* Mobile layout */}
                 <div className="md:hidden space-y-12 mb-12">
                     {/* Company Info */}
-                    <motion.div
-                        className="space-y-6 relative overflow-hidden rounded-2xl transition-all duration-500 group"
-                        style={{
-                            background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 50%, rgba(255,255,255,0.06) 100%)',
-                            border: '1px solid rgba(255,255,255,0.12)',
-                            boxShadow: '0 8px 32px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.08), inset 0 -1px 0 rgba(0,0,0,0.1)'
-                        }}
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.5 }}
-                    >
-                        <div className="relative z-10 p-6">
-                            <h3 className="text-xl font-bold mb-2">{t('company.title')}</h3>
-                            <p className="text-sm text-accent/80 mb-3 flex items-center gap-1.5">
-                                <FaMobile className="text-[10px]" />{t('company.tagline')}
-                            </p>
-                            <p className="text-sm leading-relaxed">{t('company.description')}</p>
-                            <div className="flex space-x-5 text-xl mt-4">
-                                <motion.a
-                                    href="https://www.linkedin.com/company/afrinuts-export"
-                                    aria-label="Follow us on LinkedIn"
-                                    className="hover:text-accent transition-colors duration-300 bg-white/10 p-2 rounded-full backdrop-blur-sm"
-                                    whileHover={{ y: -3, scale: 1.1 }}
-                                    whileTap={{ scale: 0.95 }}
-                                >
-                                    <FaLinkedin />
-                                </motion.a>
-                            </div>
-                            {/* Registration Badge */}
-                            <div className="mt-3 flex items-center gap-2">
-                                <FaCertificate className="text-accent text-xs" />
-                                <span className="text-[10px] text-gray-400">
-                                RCCM: CI-ABJ-03-2026-B12-04223
-                            </span>
+                    <Reveal>
+                        <div
+                            className="space-y-6 relative overflow-hidden rounded-2xl transition-all duration-500 group"
+                            style={{
+                                background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 50%, rgba(255,255,255,0.06) 100%)',
+                                border: '1px solid rgba(255,255,255,0.12)',
+                                boxShadow: '0 8px 32px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.08), inset 0 -1px 0 rgba(0,0,0,0.1)'
+                            }}
+                        >
+                            <div className="relative z-10 p-6">
+                                <h3 className="text-xl font-bold mb-2">{t('company.title')}</h3>
+                                <p className="text-sm text-accent/80 mb-3 flex items-center gap-1.5">
+                                    <FaMobile className="text-[10px]" />{t('company.tagline')}
+                                </p>
+                                <p className="text-sm leading-relaxed">{t('company.description')}</p>
+                                <div className="flex space-x-5 text-xl mt-4">
+                                    <motion.a
+                                        href="https://www.linkedin.com/company/afrinuts-export"
+                                        aria-label="Follow us on LinkedIn"
+                                        className="hover:text-accent transition-colors duration-300 bg-white/10 p-2 rounded-full backdrop-blur-sm"
+                                        whileHover={{ y: -3, scale: 1.1 }}
+                                        whileTap={{ scale: 0.95 }}
+                                    >
+                                        <FaLinkedin />
+                                    </motion.a>
+                                </div>
+                                <div className="mt-3 flex items-center gap-2">
+                                    <FaCertificate className="text-accent text-xs" />
+                                    <span className="text-[10px] text-gray-400">
+                                        RCCM: CI-ABJ-03-2026-B12-04223
+                                    </span>
+                                </div>
                             </div>
                         </div>
-                    </motion.div>
+                    </Reveal>
 
                     {/* Newsletter */}
-                    <motion.div
-                        className="space-y-6 relative overflow-hidden rounded-2xl transition-all duration-500 group"
-                        style={{
-                            background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 50%, rgba(255,255,255,0.06) 100%)',
-                            border: '1px solid rgba(255,255,255,0.12)',
-                            boxShadow: '0 8px 32px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.08), inset 0 -1px 0 rgba(0,0,0,0.1)'
-                        }}
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.5, delay: 0.1 }}
-                    >
-                        <div className="relative z-10 p-6">
-                            <h3 className="text-xl font-bold mb-4">{t('newsletter.title')}</h3>
-                            <p className="text-sm">{t('newsletter.description')}</p>
-                            <form className="space-y-4 mt-4" onSubmit={async (e) => {
-                                e.preventDefault();
-                                const form = e.target as HTMLFormElement;
-                                const emailInput = form.querySelector('#newsletter-email-mobile') as HTMLInputElement;
-                                await handleNewsletterSubmit(emailInput.value, form);
-                            }}>
-                                <label htmlFor="newsletter-email-mobile" className="sr-only">{t('newsletter.label')}</label>
-                                <motion.input id="newsletter-email-mobile" type="email" placeholder={t('newsletter.placeholder')} required
-                                              className="w-full px-4 py-3 rounded-full bg-white/10 backdrop-blur-sm placeholder-white/50 border border-white/20 focus:border-accent focus:ring-2 focus:ring-accent/30 outline-none transition"
-                                              whileFocus={{ scale: 1.02 }} />
-                                <motion.button type="submit"
-                                               className="w-full px-6 py-3 bg-primary hover:bg-dark-orange text-white rounded-full font-medium transition-all duration-300 flex items-center justify-center transform-gpu"
-                                               whileHover={{ scale: 1.02, y: -2 }} whileTap={{ scale: 0.98 }}
-                                               aria-label={t('newsletter.submitAriaLabel')}>
-                                    {t('newsletter.button')}
-                                    <motion.span className="ml-2" whileHover={{ x: 3 }} transition={{ type: 'spring', stiffness: 400 }}>
-                                        <FaArrowRight />
-                                    </motion.span>
-                                </motion.button>
-                            </form>
-                            {subscribeStatus !== 'idle' && (
-                                <p className={`text-sm mt-2 ${subscribeStatus === 'success' ? 'text-green-400' : 'text-red-400'}`}>{subscribeMessage}</p>
-                            )}
+                    <Reveal delay={0.1}>
+                        <div
+                            className="space-y-6 relative overflow-hidden rounded-2xl transition-all duration-500 group"
+                            style={{
+                                background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 50%, rgba(255,255,255,0.06) 100%)',
+                                border: '1px solid rgba(255,255,255,0.12)',
+                                boxShadow: '0 8px 32px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.08), inset 0 -1px 0 rgba(0,0,0,0.1)'
+                            }}
+                        >
+                            <div className="relative z-10 p-6">
+                                <h3 className="text-xl font-bold mb-4">{t('newsletter.title')}</h3>
+                                <p className="text-sm">{t('newsletter.description')}</p>
+                                <form className="space-y-4 mt-4" onSubmit={async (e) => {
+                                    e.preventDefault();
+                                    const form = e.target as HTMLFormElement;
+                                    const emailInput = form.querySelector('#newsletter-email-mobile') as HTMLInputElement;
+                                    await handleNewsletterSubmit(emailInput.value, form);
+                                }}>
+                                    <label htmlFor="newsletter-email-mobile" className="sr-only">{t('newsletter.label')}</label>
+                                    <motion.input id="newsletter-email-mobile" type="email" placeholder={t('newsletter.placeholder')} required
+                                                  className="w-full px-4 py-3 rounded-full bg-white/10 backdrop-blur-sm placeholder-white/50 border border-white/20 focus:border-accent focus:ring-2 focus:ring-accent/30 outline-none transition"
+                                                  whileFocus={{ scale: 1.02 }} />
+                                    <motion.button type="submit"
+                                                   className="w-full px-6 py-3 bg-primary hover:bg-dark-orange text-white rounded-full font-medium transition-all duration-300 flex items-center justify-center transform-gpu"
+                                                   whileHover={{ scale: 1.02, y: -2 }} whileTap={{ scale: 0.98 }}
+                                                   aria-label={t('newsletter.submitAriaLabel')}>
+                                        {t('newsletter.button')}
+                                        <motion.span className="ml-2" whileHover={{ x: 3 }} transition={{ type: 'spring', stiffness: 400 }}>
+                                            <FaArrowRight />
+                                        </motion.span>
+                                    </motion.button>
+                                </form>
+                                {subscribeStatus !== 'idle' && (
+                                    <p className={`text-sm mt-2 ${subscribeStatus === 'success' ? 'text-green-400' : 'text-red-400'}`}>{subscribeMessage}</p>
+                                )}
+                            </div>
                         </div>
-                    </motion.div>
+                    </Reveal>
                 </div>
 
                 {/* Desktop layout */}
                 <div className="hidden md:grid grid-cols-4 gap-8 mb-12 mt-8">
                     {/* Company Info */}
-                    <motion.div
-                        className="relative overflow-hidden rounded-2xl transition-all duration-500 group"
-                        style={{
-                            background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 50%, rgba(255,255,255,0.06) 100%)',
-                            border: '1px solid rgba(255,255,255,0.12)',
-                            boxShadow: '0 8px 32px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.08), inset 0 -1px 0 rgba(0,0,0,0.1)'
-                        }}
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.5 }}
-                    >
-                        <div className="relative z-10 p-6">
-                            <h3 className="text-xl font-bold mb-2">{t('company.title')}</h3>
-                            <p className="text-xs text-accent/80 mb-3 flex items-center gap-1.5">
-                                <FaMobile className="text-[10px]" />{t('company.tagline')}
-                            </p>
-                            <p className="text-sm mb-4">{t('company.description')}</p>
-                            <div className="flex space-x-3">
-                                <motion.a
-                                    href="https://www.linkedin.com/company/afrinuts-export"
-                                    aria-label="Follow us on LinkedIn"
-                                    className="hover:text-accent transition-colors duration-300 text-lg bg-white/10 p-2 rounded-full backdrop-blur-sm"
-                                    whileHover={{ y: -3, scale: 1.1 }}
-                                    whileTap={{ scale: 0.95 }}
-                                >
-                                    <FaLinkedin />
-                                </motion.a>
-                            </div>
-                            {/* Registration Badge */}
-                            <div className="mt-3 flex items-center gap-2">
-                                <FaCertificate className="text-accent text-xs" />
-                                <span className="text-[10px] text-gray-400">
-                                RCCM: CI-ABJ-03-2026-B12-04223
-                            </span>
+                    <Reveal>
+                        <div
+                            className="relative overflow-hidden rounded-2xl transition-all duration-500 group h-full"
+                            style={{
+                                background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 50%, rgba(255,255,255,0.06) 100%)',
+                                border: '1px solid rgba(255,255,255,0.12)',
+                                boxShadow: '0 8px 32px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.08), inset 0 -1px 0 rgba(0,0,0,0.1)'
+                            }}
+                        >
+                            <div className="relative z-10 p-6">
+                                <h3 className="text-xl font-bold mb-2">{t('company.title')}</h3>
+                                <p className="text-xs text-accent/80 mb-3 flex items-center gap-1.5">
+                                    <FaMobile className="text-[10px]" />{t('company.tagline')}
+                                </p>
+                                <p className="text-sm mb-4">{t('company.description')}</p>
+                                <div className="flex space-x-3">
+                                    <motion.a
+                                        href="https://www.linkedin.com/company/afrinuts-export"
+                                        aria-label="Follow us on LinkedIn"
+                                        className="hover:text-accent transition-colors duration-300 text-lg bg-white/10 p-2 rounded-full backdrop-blur-sm"
+                                        whileHover={{ y: -3, scale: 1.1 }}
+                                        whileTap={{ scale: 0.95 }}
+                                    >
+                                        <FaLinkedin />
+                                    </motion.a>
+                                </div>
+                                <div className="mt-3 flex items-center gap-2">
+                                    <FaCertificate className="text-accent text-xs" />
+                                    <span className="text-[10px] text-gray-400">
+                                        RCCM: CI-ABJ-03-2026-B12-04223
+                                    </span>
+                                </div>
                             </div>
                         </div>
-                    </motion.div>
+                    </Reveal>
 
-                    {/* Quick Links - Two Columns */}
-                    <motion.div
-                        className="relative overflow-hidden rounded-2xl transition-all duration-500 group"
-                        style={{
-                            background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 50%, rgba(255,255,255,0.06) 100%)',
-                            border: '1px solid rgba(255,255,255,0.12)',
-                            boxShadow: '0 8px 32px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.08), inset 0 -1px 0 rgba(0,0,0,0.1)'
-                        }}
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.5, delay: 0.1 }}
-                    >
-                        <div className="relative z-10 p-6">
-                            <h3 className="text-xl font-bold mb-4">{t('links.title')}</h3>
-                            <div className="grid grid-cols-2 gap-x-4 gap-y-2">
-                                {/* Left Column */}
-                                <ul className="space-y-2">
-                                    {quickLinks.slice(0, 6).map((link, index) => (
-                                        <motion.li key={index} whileHover={{ x: 3 }} transition={{ type: "spring", stiffness: 300 }}>
-                                            <Link to={link.path} className="text-xs hover:text-accent transition-colors duration-300 flex items-center group">
-                                                <span className="w-1.5 h-1.5 bg-accent rounded-full mr-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex-shrink-0"></span>
-                                                {link.text}
-                                            </Link>
-                                        </motion.li>
-                                    ))}
-                                </ul>
-                                {/* Right Column */}
-                                <ul className="space-y-2">
-                                    {quickLinks.slice(6, 11).map((link, index) => (
-                                        <motion.li key={index} whileHover={{ x: 3 }} transition={{ type: "spring", stiffness: 300 }}>
-                                            <Link to={link.path} className="text-xs hover:text-accent transition-colors duration-300 flex items-center group">
-                                                <span className="w-1.5 h-1.5 bg-accent rounded-full mr-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex-shrink-0"></span>
-                                                {link.text}
-                                            </Link>
-                                        </motion.li>
-                                    ))}
-                                </ul>
+                    {/* Quick Links */}
+                    <Reveal delay={0.1}>
+                        <div
+                            className="relative overflow-hidden rounded-2xl transition-all duration-500 group h-full"
+                            style={{
+                                background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 50%, rgba(255,255,255,0.06) 100%)',
+                                border: '1px solid rgba(255,255,255,0.12)',
+                                boxShadow: '0 8px 32px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.08), inset 0 -1px 0 rgba(0,0,0,0.1)'
+                            }}
+                        >
+                            <div className="relative z-10 p-6">
+                                <h3 className="text-xl font-bold mb-4">{t('links.title')}</h3>
+                                <div className="grid grid-cols-2 gap-x-4 gap-y-2">
+                                    <ul className="space-y-2">
+                                        {quickLinks.slice(0, 6).map((link, index) => (
+                                            <motion.li key={index} whileHover={{ x: 3 }} transition={{ type: "spring", stiffness: 300 }}>
+                                                <Link to={link.path} className="text-xs hover:text-accent transition-colors duration-300 flex items-center group">
+                                                    <span className="w-1.5 h-1.5 bg-accent rounded-full mr-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex-shrink-0"></span>
+                                                    {link.text}
+                                                </Link>
+                                            </motion.li>
+                                        ))}
+                                    </ul>
+                                    <ul className="space-y-2">
+                                        {quickLinks.slice(6, 11).map((link, index) => (
+                                            <motion.li key={index} whileHover={{ x: 3 }} transition={{ type: "spring", stiffness: 300 }}>
+                                                <Link to={link.path} className="text-xs hover:text-accent transition-colors duration-300 flex items-center group">
+                                                    <span className="w-1.5 h-1.5 bg-accent rounded-full mr-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex-shrink-0"></span>
+                                                    {link.text}
+                                                </Link>
+                                            </motion.li>
+                                        ))}
+                                    </ul>
+                                </div>
                             </div>
                         </div>
-                    </motion.div>
+                    </Reveal>
 
                     {/* Contact Info */}
-                    <motion.div
-                        className="relative overflow-hidden rounded-2xl transition-all duration-500 group"
-                        style={{
-                            background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 50%, rgba(255,255,255,0.06) 100%)',
-                            border: '1px solid rgba(255,255,255,0.12)',
-                            boxShadow: '0 8px 32px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.08), inset 0 -1px 0 rgba(0,0,0,0.1)'
-                        }}
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.5, delay: 0.2 }}
-                    >
-                        <div className="relative z-10 p-6">
-                            <h3 className="text-xl font-bold mb-4">{t('contact.title')}</h3>
-                            <ul className="space-y-3">
-                                {contactItems.map((item, index) => (
-                                    <motion.li key={index}
-                                               className="flex items-start space-x-3 p-3 rounded-xl transition-all duration-300"
-                                               style={{ background: 'rgba(255,255,255,0.05)' }}
-                                               whileHover={{ x: 3 }}>
-                                        <span className="text-accent mt-0.5">{item.icon}</span>
-                                        <span className="text-sm">{item.text}</span>
-                                    </motion.li>
-                                ))}
-                            </ul>
+                    <Reveal delay={0.2}>
+                        <div
+                            className="relative overflow-hidden rounded-2xl transition-all duration-500 group h-full"
+                            style={{
+                                background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 50%, rgba(255,255,255,0.06) 100%)',
+                                border: '1px solid rgba(255,255,255,0.12)',
+                                boxShadow: '0 8px 32px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.08), inset 0 -1px 0 rgba(0,0,0,0.1)'
+                            }}
+                        >
+                            <div className="relative z-10 p-6">
+                                <h3 className="text-xl font-bold mb-4">{t('contact.title')}</h3>
+                                <ul className="space-y-3">
+                                    {contactItems.map((item, index) => (
+                                        <motion.li key={index}
+                                                   className="flex items-start space-x-3 p-3 rounded-xl transition-all duration-300"
+                                                   style={{ background: 'rgba(255,255,255,0.05)' }}
+                                                   whileHover={{ x: 3 }}>
+                                            <span className="text-accent mt-0.5">{item.icon}</span>
+                                            <span className="text-sm">{item.text}</span>
+                                        </motion.li>
+                                    ))}
+                                </ul>
+                            </div>
                         </div>
-                    </motion.div>
+                    </Reveal>
 
                     {/* Newsletter */}
-                    <motion.div
-                        className="relative overflow-hidden rounded-2xl transition-all duration-500 group"
-                        style={{
-                            background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 50%, rgba(255,255,255,0.06) 100%)',
-                            border: '1px solid rgba(255,255,255,0.12)',
-                            boxShadow: '0 8px 32px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.08), inset 0 -1px 0 rgba(0,0,0,0.1)'
-                        }}
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.5, delay: 0.3 }}
-                    >
-                        <div className="relative z-10 p-6">
-                            <h3 className="text-xl font-bold mb-4">{t('newsletter.title')}</h3>
-                            <p className="text-sm mb-4">{t('newsletter.description')}</p>
-                            <form className="space-y-3" onSubmit={async (e) => {
-                                e.preventDefault();
-                                const form = e.target as HTMLFormElement;
-                                const emailInput = form.querySelector('#newsletter-email-desktop') as HTMLInputElement;
-                                await handleNewsletterSubmit(emailInput.value, form);
-                            }}>
-                                <label htmlFor="newsletter-email-desktop" className="sr-only">{t('newsletter.label')}</label>
-                                <motion.input id="newsletter-email-desktop" type="email" placeholder={t('newsletter.placeholder')} required
-                                              className="w-full px-4 py-3 rounded-full bg-white/10 backdrop-blur-sm placeholder-white/50 border border-white/20 focus:border-accent focus:ring-2 focus:ring-accent/30 outline-none transition"
-                                              whileFocus={{ scale: 1.02 }} />
-                                <motion.button type="submit"
-                                               className="w-full px-4 py-3 bg-primary hover:bg-dark-orange text-white rounded-full font-medium transform-gpu hover:scale-105 transition-all duration-300 flex items-center justify-center"
-                                               whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }}>
-                                    {t('newsletter.button')}
-                                    <FaArrowRight className="ml-2" />
-                                </motion.button>
-                            </form>
-                            {subscribeStatus !== 'idle' && (
-                                <p className={`text-sm mt-2 ${subscribeStatus === 'success' ? 'text-green-400' : 'text-red-400'}`}>{subscribeMessage}</p>
-                            )}
+                    <Reveal delay={0.3}>
+                        <div
+                            className="relative overflow-hidden rounded-2xl transition-all duration-500 group h-full"
+                            style={{
+                                background: 'linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.03) 50%, rgba(255,255,255,0.06) 100%)',
+                                border: '1px solid rgba(255,255,255,0.12)',
+                                boxShadow: '0 8px 32px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.08), inset 0 -1px 0 rgba(0,0,0,0.1)'
+                            }}
+                        >
+                            <div className="relative z-10 p-6">
+                                <h3 className="text-xl font-bold mb-4">{t('newsletter.title')}</h3>
+                                <p className="text-sm mb-4">{t('newsletter.description')}</p>
+                                <form className="space-y-3" onSubmit={async (e) => {
+                                    e.preventDefault();
+                                    const form = e.target as HTMLFormElement;
+                                    const emailInput = form.querySelector('#newsletter-email-desktop') as HTMLInputElement;
+                                    await handleNewsletterSubmit(emailInput.value, form);
+                                }}>
+                                    <label htmlFor="newsletter-email-desktop" className="sr-only">{t('newsletter.label')}</label>
+                                    <motion.input id="newsletter-email-desktop" type="email" placeholder={t('newsletter.placeholder')} required
+                                                  className="w-full px-4 py-3 rounded-full bg-white/10 backdrop-blur-sm placeholder-white/50 border border-white/20 focus:border-accent focus:ring-2 focus:ring-accent/30 outline-none transition"
+                                                  whileFocus={{ scale: 1.02 }} />
+                                    <motion.button type="submit"
+                                                   className="w-full px-4 py-3 bg-primary hover:bg-dark-orange text-white rounded-full font-medium transform-gpu hover:scale-105 transition-all duration-300 flex items-center justify-center"
+                                                   whileHover={{ y: -2 }} whileTap={{ scale: 0.98 }}>
+                                        {t('newsletter.button')}
+                                        <FaArrowRight className="ml-2" />
+                                    </motion.button>
+                                </form>
+                                {subscribeStatus !== 'idle' && (
+                                    <p className={`text-sm mt-2 ${subscribeStatus === 'success' ? 'text-green-400' : 'text-red-400'}`}>{subscribeMessage}</p>
+                                )}
+                            </div>
                         </div>
-                    </motion.div>
+                    </Reveal>
                 </div>
 
                 {/* Bottom legal section */}

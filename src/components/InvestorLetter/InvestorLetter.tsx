@@ -30,23 +30,46 @@ export function InvestorLetter({ onRequestDemo, onScheduleVisit }: InvestorLette
                 {/* LEFT — The email screenshot */}
                 <Reveal>
                     <motion.div
-                        className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-3xl shadow-xl p-4 transform-gpu group"
-                        style={{ transformStyle: "preserve-3d", perspective: "1000px" }}
+                        className="relative overflow-hidden rounded-3xl p-4 transform-gpu group transition-all duration-500"
+                        style={{
+                            background: 'linear-gradient(135deg, rgba(35,35,40,0.70) 0%, rgba(20,20,25,0.60) 50%, rgba(30,30,35,0.65) 100%)',
+                            border: '1px solid rgba(255,255,255,0.14)',
+                            boxShadow: '0 8px 32px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.15), inset 0 -1px 0 rgba(0,0,0,0.3)',
+                            backdropFilter: 'blur(24px) saturate(200%)',
+                            WebkitBackdropFilter: 'blur(24px) saturate(200%)',
+                        }}
                         whileHover={{
                             y: -4,
                             scale: 1.01,
-                            boxShadow: "0 25px 50px -12px rgba(0,0,0,0.2)",
+                            boxShadow: '0 16px 40px -8px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.2)',
                             transition: { duration: 0.3 },
                         }}
                     >
-                        <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
-                        <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40" />
+                        {/* Very faint brand glow */}
+                        <div
+                            className="absolute -top-12 -right-12 w-32 h-32 rounded-full opacity-12 blur-3xl animate-pulse pointer-events-none"
+                            style={{ background: 'radial-gradient(circle, rgba(224,78,0,0.5) 0%, transparent 70%)' }}
+                        />
+                        <div
+                            className="absolute -bottom-10 -left-10 w-28 h-28 rounded-full opacity-10 blur-3xl pointer-events-none"
+                            style={{
+                                background: 'radial-gradient(circle, rgba(90,116,17,0.5) 0%, transparent 70%)',
+                                animation: 'float 6s ease-in-out infinite',
+                            }}
+                        />
 
+                        {/* Top highlight — the "glass shine" */}
+                        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none" />
+
+                        {/* Inner ring */}
+                        <div className="absolute inset-0 rounded-3xl ring-1 ring-inset ring-white/[0.08] pointer-events-none" />
+
+                        {/* Content */}
                         <div className="relative z-10">
                             {/* Email chrome */}
                             <div className="flex items-center gap-2 mb-3 px-2">
                                 <FaEnvelope className="text-accent text-sm" />
-                                <Typography variant="small" className="text-gray-500 text-xs">
+                                <Typography variant="small" className="text-white/70 text-xs">
                                     {t("investorLetter.emailLabel")}
                                 </Typography>
                             </div>
@@ -54,7 +77,7 @@ export function InvestorLetter({ onRequestDemo, onScheduleVisit }: InvestorLette
                             <img
                                 src={investorEmailImg}
                                 alt={t("investorLetter.emailPreviewAlt")}
-                                className="w-full h-auto rounded-2xl shadow-md"
+                                className="w-full h-auto rounded-2xl shadow-lg"
                                 loading="lazy"
                             />
 
@@ -63,7 +86,7 @@ export function InvestorLetter({ onRequestDemo, onScheduleVisit }: InvestorLette
                                     href={investorEmailImg}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="inline-flex items-center gap-1.5 text-accent hover:text-primary text-xs font-medium underline"
+                                    className="inline-flex items-center gap-1.5 text-accent hover:text-white text-xs font-medium underline"
                                 >
                                     <FaArrowRight className="text-[10px]" />
                                     {t("investorLetter.viewFullEmail")}
@@ -78,15 +101,52 @@ export function InvestorLetter({ onRequestDemo, onScheduleVisit }: InvestorLette
                     <StaggerList className="space-y-4">
                         {(["one", "two", "three"] as const).map((key) => (
                             <StaggerItem key={key}>
-                                <div className="relative bg-white/50 backdrop-blur-sm rounded-2xl border border-primary/10 p-5 shadow-sm">
-                                    <FaQuoteLeft className="text-accent/30 text-2xl mb-2" />
-                                    <Typography
-                                        variant="body"
-                                        className="text-gray-700 italic leading-relaxed"
-                                    >
-                                        "{t(`investorLetter.pullQuotes.${key}`)}"
-                                    </Typography>
-                                </div>
+                                <motion.div
+                                    className="group relative overflow-hidden rounded-2xl transition-all duration-500 transform-gpu"
+                                    style={{
+                                        background: 'linear-gradient(135deg, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.30) 50%, rgba(255,255,255,0.45) 100%)',
+                                        border: '1px solid rgba(255,255,255,0.70)',
+                                        boxShadow: '0 8px 32px rgba(165,105,66,0.08), inset 0 1px 0 rgba(255,255,255,0.85), inset 0 -1px 0 rgba(0,0,0,0.03)',
+                                        backdropFilter: 'blur(24px) saturate(180%)',
+                                        WebkitBackdropFilter: 'blur(24px) saturate(180%)',
+                                    }}
+                                    whileHover={{
+                                        y: -3,
+                                        scale: 1.01,
+                                        boxShadow: '0 16px 40px -8px rgba(165,105,66,0.15), inset 0 1px 0 rgba(255,255,255,0.9)',
+                                        transition: { duration: 0.3 },
+                                    }}
+                                >
+                                    {/* Very faint brand glow — barely visible */}
+                                    <div
+                                        className="absolute -top-12 -right-12 w-32 h-32 rounded-full opacity-15 blur-3xl animate-pulse pointer-events-none"
+                                        style={{ background: 'radial-gradient(circle, rgba(224,78,0,0.4) 0%, transparent 70%)' }}
+                                    />
+                                    <div
+                                        className="absolute -bottom-10 -left-10 w-28 h-28 rounded-full opacity-10 blur-3xl pointer-events-none"
+                                        style={{
+                                            background: 'radial-gradient(circle, rgba(90,116,17,0.4) 0%, transparent 70%)',
+                                            animation: 'float 6s ease-in-out infinite',
+                                        }}
+                                    />
+
+                                    {/* Top highlight — the "glass shine" */}
+                                    <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/80 to-transparent pointer-events-none" />
+
+                                    {/* Inner ring */}
+                                    <div className="absolute inset-0 rounded-2xl ring-1 ring-inset ring-white/30 pointer-events-none" />
+
+                                    {/* Content */}
+                                    <div className="relative z-10 p-5">
+                                        <FaQuoteLeft className="text-accent/60 text-2xl mb-3" />
+                                        <Typography
+                                            variant="body"
+                                            className="text-gray-800 italic leading-relaxed"
+                                        >
+                                            "{t(`investorLetter.pullQuotes.${key}`)}"
+                                        </Typography>
+                                    </div>
+                                </motion.div>
                             </StaggerItem>
                         ))}
                     </StaggerList>
