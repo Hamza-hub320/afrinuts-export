@@ -1428,7 +1428,7 @@ const Invest: React.FC = () => {
                 <InvestorLetter
                     onScheduleVisit={() => {
                         trackCtaClick('schedule_visit', 'investor_letter');
-                        document.getElementById('schedule-call')?.scrollIntoView({ behavior: 'smooth' });
+                        navigate('/contact#schedule-call');
                     }}
                 />
                 <Typography variant="small" className="text-gray-400 text-xs text-center mt-6">
