@@ -1593,7 +1593,7 @@ const Invest: React.FC = () => {
                             </div>
                         </Reveal>
 
-                        {/* Right Column — Calendly Popup Trigger */}
+                        {/* Right Column — Calendly Popup Trigger (static, no motion) */}
                         <Reveal className="md:col-span-2" delay={0.1}>
                             <div className="group relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 hover:border-accent/30 transition-all duration-500 rounded-2xl shadow-xl ring-1 ring-white/10 p-8 sm:p-12 transform-gpu h-full flex items-center justify-center">
                                 <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] pointer-events-none" />
@@ -1601,13 +1601,10 @@ const Invest: React.FC = () => {
                                 <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] pointer-events-none" />
 
                                 <div className="relative z-10 text-center">
-                                    <motion.div
-                                        className="bg-accent/10 p-4 rounded-full w-fit mx-auto mb-5 border border-accent/20"
-                                        whileHover={{ scale: 1.08, rotate: 4 }}
-                                        transition={{ type: 'spring', stiffness: 300 }}
-                                    >
+                                    {/* Icon — CSS hover instead of Framer */}
+                                    <div className="bg-accent/10 p-4 rounded-full w-fit mx-auto mb-5 border border-accent/20 transition-transform duration-300 hover:scale-105 hover:rotate-3">
                                         <FaCalendarAlt className="text-accent text-3xl" />
-                                    </motion.div>
+                                    </div>
 
                                     <Typography variant="h3" className="text-primary mb-3">
                                         {t('schedule.ctaTitle', 'Pick a Time That Works for You')}
@@ -1617,34 +1614,34 @@ const Invest: React.FC = () => {
                                         {t('schedule.ctaBody', 'Opens a 30-minute slot calendar in a secure overlay. No downloads. No account required.')}
                                     </Typography>
 
-                                    <motion.button
+                                    {/* Button — CSS hover/active instead of Framer */}
+                                    <button
                                         onClick={() => {
                                             trackCtaClick('open_calendly_popup', 'invest_schedule_section');
                                             openCalendly();
                                         }}
-                                        className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-4 rounded-full transform-gpu group/btn overflow-hidden font-medium shadow-lg inline-flex items-center gap-2"
-                                        whileHover={{ y: -3, scale: 1.03 }}
-                                        whileTap={{ scale: 0.97 }}
+                                        className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-4 rounded-full transform-gpu group/btn overflow-hidden font-medium shadow-lg inline-flex items-center gap-2 transition-transform duration-300 hover:-translate-y-0.5 hover:scale-[1.03] active:scale-[0.97]"
                                     >
                                         <div className="absolute inset-0 rounded-full border-2 border-white/30" />
                                         <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50 group-hover/btn:opacity-70 transition-opacity duration-300" />
                                         <FaCalendarAlt className="relative z-10" />
                                         <span className="relative z-10">{t('schedule.bookButton', 'Book Your Call')}</span>
                                         <FaArrowRight className="relative z-10 text-xs" />
-                                    </motion.button>
+                                    </button>
 
                                     <div className="mt-5 flex flex-wrap justify-center gap-3 text-xs text-gray-500">
+                <span className="inline-flex items-center gap-1">
+                    <FaCheckCircle className="text-green-500 text-[10px]" />
+                    {t('schedule.badges.duration')}
+                </span>
                                         <span className="inline-flex items-center gap-1">
-                                            <FaCheckCircle className="text-green-500 text-[10px]" />
-                                            {t('schedule.badges.duration')}
-                                        </span>
-                                        <span className="inline-flex items-center gap-1"> <FaCheckCircle className="text-green-500 text-[10px]" />
+                    <FaCheckCircle className="text-green-500 text-[10px]" />
                                             {t('schedule.badges.format')}
-                                        </span>
+                </span>
                                         <span className="inline-flex items-center gap-1">
-                                            <FaCheckCircle className="text-green-500 text-[10px]" />
+                    <FaCheckCircle className="text-green-500 text-[10px]" />
                                             {t('schedule.badges.timezone')}
-                                        </span>
+                </span>
                                     </div>
                                 </div>
                             </div>
