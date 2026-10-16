@@ -353,25 +353,6 @@ a {
   }
 }
 
-@media only screen and (max-width: 768px) {
-  /* Target the Calendly popup overlay container */
-  #calendly-popup-overlay,
-  .calendly-overlay {
-    padding: 0 !important;
-    margin: 0 !important;
-    border-radius: 0 !important;
-  }
-
-  /* Ensure the inner content fills the screen */
-  .calendly-popup {
-    height: 100vh !important;
-    max-height: 100vh !important;
-    width: 100vw !important;
-    max-width: 100vw !important;
-    border-radius: 0 !important;
-  }
-}
-
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 6rem; /* adjust to your header height */
