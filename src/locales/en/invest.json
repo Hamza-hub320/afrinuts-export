@@ -28,7 +28,7 @@
     "body": "Côte d'Ivoire is the world's largest cashew producer — over 1.2 million metric tons annually — yet less than 15% is processed locally. Billions in value leave the country every year as raw nuts are shipped to Asia for processing. The Ivorian government is now actively incentivizing domestic processors to close this gap. AfriNuts is building the tech-enabled foundation to become the first certified processor in northwestern Côte d'Ivoire.",
     "cards": {
       "producer": {
-        "title": "#1 Producer, <20% Value",
+        "title": "#1 Producer, <$2B Gap",
         "desc": "Côte d'Ivoire produces 45% of global cashews but captures less than 20% of the final retail value — a multi-billion dollar gap waiting to be closed.",
         "stat": "$2B+ Gap",
         "highlights": ["World's largest cashew producer", "Government incentives for processors", "Strategic port access to EU markets"]
@@ -37,7 +37,7 @@
         "title": "Tech-Enabled First Mover",
         "desc": "AfriNuts is building the first tech-enabled certified processing facility in northwestern Côte d'Ivoire. Farm OS already provides institutional-grade transparency that no competitor can match.",
         "stat": "First Mover",
-        "highlights": ["Custom Farm OS platform — live today", "35-hectare farm operational", "200+ farmer cooperative secured"]
+        "highlights": ["Custom Farm OS platform — live today", "45 ha secured — 35 ha planted, 10 ha reserved for processing", "200+ farmer cooperative secured"]
       },
       "margin": {
         "title": "5x Margin Expansion",
@@ -160,7 +160,8 @@
       "mudarabahShareValue": "$8,712",
       "note": "Profit verified by an experienced cashew trader — includes RCN price, storage, labor, transportation, and contingency."
     },
-    "distributionNote": "Equity holders receive 10% of net trading profit as cycles close. Mudarabah partners receive 20% of actual realized profit per cycle. No deferral to 2033 for Phase One returns."
+    "distributionNote": "Equity holders receive 10% of net trading profit as cycles close. Mudarabah partners receive 20% of actual realized profit per cycle. No deferral to 2033 for Phase One returns.",
+    "liquidityNote": "Phase One equity converts directly into Phase Two equity when the processing facility launches. During the trading phase, equity holders receive 10% of net profit per cycle as distributions. No lock-up beyond the Phase One term."
   },
   "returns": {
     "title": "Phase Two: The Real Upside",
@@ -175,7 +176,9 @@
       "annualDividend": "Annual Dividend (2035)",
       "annualDividendValue": "$56,250",
       "cumulativeDividend": "Cumulative by 2037",
-      "cumulativeDividendValue": "$275,000"
+      "cumulativeDividendValue": "$275,000",
+      "closingTitle": "Trading Returns & The Path Forward",
+      "closingBody": "This investment activates domestic raw cashew trading to generate immediate, short-cycle revenue while locking in our supply network. By participating in Phase One, investors secure early equity in a high-growth agritech ecosystem, capturing immediate trading distributions under our Shariah-compliant framework while positioning for the massive 5x margin expansion when the Phase Two processing facility goes live."
     },
     "unitEconomics": {
       "title": "Per Metric Tonne of RCN Processed",

@@ -28,16 +28,24 @@
     "body": "La Côte d'Ivoire est le premier producteur mondial de noix de cajou — plus de 1,2 million de tonnes métriques par an — pourtant moins de 15 % est transformé localement. Des milliards de valeur quittent le pays chaque année, les noix brutes étant expédiées en Asie pour transformation. Le gouvernement ivoirien incite désormais activement les transformateurs locaux à combler cet écart. AfriNuts construit la fondation technologique pour devenir le premier transformateur certifié du nord-ouest de la Côte d'Ivoire.",
     "cards": {
       "producer": {
-        "title": "N°1 producteur, <20 % de valeur",
-        "desc": "La Côte d'Ivoire produit 45 % des noix de cajou mondiales mais capte moins de 20 % de la valeur finale au détail — un écart de plusieurs milliards de dollars à combler.",
+        "title": "N°1 producteur, écart <2 Md$",
+        "desc": "La Côte d'Ivoire produit 45 % des noix de cajou mondiales mais capte moins de 20 % de la valeur finale au détail — un écart de plusieurs milliards de dollars qui attend d'être comblé.",
         "stat": "Écart de 2 Md$+",
-        "highlights": ["Premier producteur mondial de noix de cajou", "Incitations gouvernementales pour les transformateurs", "Accès portuaire stratégique aux marchés de l'UE"]
+        "highlights": [
+          "Premier producteur mondial de noix de cajou",
+          "Incitations gouvernementales pour les transformateurs",
+          "Accès portuaire stratégique aux marchés de l'UE"
+        ]
       },
       "firstMover": {
         "title": "Pionnier technologique",
         "desc": "AfriNuts construit la première usine de transformation certifiée et technologique du nord-ouest de la Côte d'Ivoire. Farm OS offre déjà une transparence de niveau institutionnel qu'aucun concurrent ne peut égaler.",
         "stat": "Pionnier",
-        "highlights": ["Plateforme Farm OS sur mesure — déjà en service", "Ferme de 35 hectares opérationnelle", "Coopérative de 200+ agriculteurs sécurisée"]
+        "highlights": [
+          "Plateforme Farm OS sur mesure — déjà en service",
+          "45 ha sécurisés — 35 ha plantés, 10 ha réservés à la transformation",
+          "Coopérative de 200+ agriculteurs sécurisée"
+        ]
       },
       "margin": {
         "title": "Expansion de marge 5x",
@@ -158,7 +166,8 @@
       "equityShareValue": "4 356 $",
       "mudarabahShare": "Part partenaire Mudarabah (20 %)",
       "mudarabahShareValue": "8 712 $",
-      "note": "Profit vérifié par un négociant expérimenté en noix de cajou — inclut le prix RCN, le stockage, la main-d'œuvre, le transport et les imprévus."
+      "note": "Profit vérifié par un négociant expérimenté en noix de cajou — inclut le prix RCN, le stockage, la main-d'œuvre, le transport et les imprévus.",
+      "liquidityNote": "Les actions de la Phase Un se convertissent directement en actions de la Phase Deux lors du lancement de l'usine de transformation. Pendant la phase de négoce, les détenteurs d'actions reçoivent 10 % du bénéfice net par cycle sous forme de distributions. Aucun verrouillage au-delà de la durée de la Phase Un."
     },
     "distributionNote": "Les détenteurs de parts reçoivent 10 % du bénéfice net de négoce à la clôture des cycles. Les partenaires Mudarabah reçoivent 20 % du profit réellement réalisé par cycle. Aucun report à 2033 pour les rendements de Phase Un."
   },
@@ -175,7 +184,9 @@
       "annualDividend": "Dividende annuel (2035)",
       "annualDividendValue": "56 250 $",
       "cumulativeDividend": "Cumulé d'ici 2037",
-      "cumulativeDividendValue": "275 000 $"
+      "cumulativeDividendValue": "275 000 $",
+      "closingTitle": "Rendements du négoce et la voie à suivre",
+      "closingBody": "Cet investissement active le négoce domestique de noix de cajou brutes afin de générer des revenus immédiats à cycle court tout en verrouillant notre réseau d'approvisionnement. En participant à la Phase Un, les investisseurs sécurisent une participation précoce dans un écosystème agritech à forte croissance, captant des distributions de négoce immédiates dans notre cadre conforme à la charia, tout en se positionnant pour l'expansion massive de marge 5x lorsque l'usine de transformation de la Phase Deux sera opérationnelle."
     },
     "unitEconomics": {
       "title": "Par tonne métrique de RCN transformée",

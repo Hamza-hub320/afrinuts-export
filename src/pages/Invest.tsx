@@ -672,14 +672,14 @@ const Invest: React.FC = () => {
                                     <BarChart
                                         data={[
                                             { name: t('charts.processingGap.produced'), value: 1.2 },
-                                            { name: t('charts.processingGap.processed'), value: 0.18 },
-                                            { name: t('charts.processingGap.exported'), value: 1.02 },
+                                            { name: t('charts.processingGap.processed'), value: 0.17 },
+                                            { name: t('charts.processingGap.exported'), value: 1.03 },
                                         ]}
                                         layout="vertical"
                                         margin={{ left: 60, right: 30, top: 10, bottom: 10 }}
                                     >
                                         <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                                        <XAxis type="number" domain={[0, 1.4]} tickFormatter={(v) => `${v}M MT`} />
+                                        <XAxis type="number" domain={[0, 1.2]} tickFormatter={(v) => `${v}M MT`} />
                                         <YAxis type="category" dataKey="name" width={80} tick={{ fontSize: 12 }} />
                                         <Tooltip formatter={(value: any) => `${Number(value).toFixed(2)}M MT`} />
                                         <Bar dataKey="value" radius={[0, 6, 6, 0]}>
@@ -814,6 +814,13 @@ const Invest: React.FC = () => {
                         <Typography variant="small" className="text-blue-700 text-sm">
                             <FaInfoCircle className="inline mr-2" />
                             {t('phaseOneReturns.distributionNote')}
+                        </Typography>
+                    </Reveal>
+
+                    <Reveal className="mt-4 p-3 bg-blue-50/80 border border-blue-200 rounded-xl max-w-2xl mx-auto text-center">
+                        <Typography variant="small" className="text-blue-700 text-xs">
+                            <FaInfoCircle className="inline mr-1.5" />
+                            {t('phaseOneReturns.liquidityNote')}
                         </Typography>
                     </Reveal>
                 </div>
@@ -954,6 +961,17 @@ const Invest: React.FC = () => {
                             <FaInfoCircle className="inline mr-2" />
                             {t('returns.ndaNote')}
                         </Typography>
+                    </Reveal>
+
+                    <Reveal className="mb-6">
+                        <div className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl shadow-lg p-6 text-center max-w-3xl mx-auto">
+                            <Typography variant="lead" className="text-primary font-semibold mb-3">
+                                {t('phaseOneReturns.closingTitle', 'Trading Returns & The Path Forward')}
+                            </Typography>
+                            <Typography variant="body" className="text-gray-700">
+                                {t('phaseOneReturns.closingBody', 'This investment activates domestic raw cashew trading to generate immediate, short-cycle revenue while locking in our supply network. By participating in Phase One, investors secure early equity in a high-growth agritech ecosystem, capturing immediate trading distributions under our Shariah-compliant framework while positioning for the massive 5x margin expansion when the Phase Two processing facility goes live.')}
+                            </Typography>
+                        </div>
                     </Reveal>
 
                     <Reveal className="bg-amber-50/80 border border-amber-200 rounded-xl p-3 text-center max-w-2xl mx-auto">
