@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Reveal, StaggerList, StaggerItem, CountUp } from "@/components/Reveal";
 import { Link, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, MotionConfig } from 'framer-motion';
 import {
     FaChartLine,
     FaIndustry,
@@ -94,8 +94,13 @@ const Invest: React.FC = () => {
     ];
 
     const [isDesktop, setIsDesktop] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
+
     useEffect(() => {
-        const check = () => setIsDesktop(window.innerWidth >= 768);
+        const check = () => {
+            setIsDesktop(window.innerWidth >= 768);
+            setIsMobile(window.matchMedia('(max-width: 767px)').matches);
+        };
         check();
         window.addEventListener('resize', check);
         return () => window.removeEventListener('resize', check);
@@ -124,6 +129,7 @@ const Invest: React.FC = () => {
     const teamMembers = t('team.members', { returnObjects: true }) as any[];
 
     return (
+        <MotionConfig reducedMotion={isMobile ? 'always' : 'never'}>
         <div className="text-text-dark font-sans">
             <Helmet>
                 <title>{t('seo.title')}</title>
@@ -1582,6 +1588,7 @@ const Invest: React.FC = () => {
                 </Reveal>
             </div>
         </div>
+        </MotionConfig>
     );
 };
 
