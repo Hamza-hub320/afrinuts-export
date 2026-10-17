@@ -554,7 +554,7 @@ const Contact: React.FC = () => {
         </Section>
 
         {/* MAP */}
-        <Section className="py-10">
+        {/* <Section className="py-10">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
             <Typography variant="h2" className="mb-4">{t('map.title')}</Typography>
             <div className="mt-6 rounded-xl overflow-hidden shadow-xl border-2 border-primary/20">
@@ -563,7 +563,7 @@ const Contact: React.FC = () => {
                       width="100%" height="400" className="border-0" allowFullScreen loading="lazy" />
             </div>
           </div>
-        </Section>
+        </Section> */}
       </div>
   );
 };

@@ -525,7 +525,7 @@ const Invest: React.FC = () => {
 
                         {/* Dashboard Visual Representation */}
                         <Reveal delay={0.1}>
-                            <InfoCard icon={FaChartLine} title="Live Dashboard Access" variant="primary" showInfoBadge={false} className="h-full text-center">
+                            <InfoCard icon={FaChartLine} title="Live Dashboard Access" variant="secondary" showInfoBadge={false} className="h-full text-center">
                                 {/* Styled Dashboard Graphic — Not Real Data */}
                                 <div className="bg-white/80 backdrop-blur-sm rounded-xl p-4 border border-white/40 shadow-inner mb-4">
                                     <div className="flex items-center justify-between mb-4 pb-3 border-b border-gray-200">
@@ -592,7 +592,7 @@ const Invest: React.FC = () => {
                         <InfoCard
                             icon={FaFileContract}
                             title={t('farmOsGated.title', 'Want to See Farm OS in Action?')}
-                            variant="accent"
+                            variant="secondary"
                             showInfoBadge={false}
                             className="text-center"
                         >
@@ -1551,60 +1551,80 @@ const Invest: React.FC = () => {
 
             {/* Final CTA */}
             <Section className="py-16">
-                <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+                <div className="max-w-4xl mx-auto px-4 sm:px-6">
                     <Reveal>
-                        <div className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-3xl shadow-xl p-8 md:p-12 transform-gpu">
-                            <div className="absolute inset-0 rounded-3xl border-2 border-white/20" />
-                            <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40" />
-                            <div className="relative z-10">
-                                <Typography variant="h2" className="mb-4 text-primary">{t('cta.title')}</Typography>
-                                <Typography variant="body" className="mb-6 text-gray-600 max-w-2xl mx-auto">{t('cta.body')}</Typography>
-                                <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                                    <a href={ndaPDF} download className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-8 py-4 rounded-full transform-gpu group/btn overflow-hidden font-medium shadow-lg inline-flex items-center gap-2">
-                                        <div className="absolute inset-0 rounded-full border-2 border-white/30" />
-                                        <FaFileContract className="relative z-10" />
-                                        <span className="relative z-10">{t('cta.downloadNda')}</span>
-                                    </a>
-                                    <motion.button onClick={() => {
+                        <InfoCard
+                            icon={FaFileContract}
+                            title={t('cta.title')}
+                            variant="primary"
+                            showInfoBadge={false}
+                            className="text-center"
+                        >
+                            <Typography variant="body" className="text-gray-600 max-w-2xl mx-auto mb-6">
+                                {t('cta.body')}
+                            </Typography>
+                            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                                <a
+                                    href={ndaPDF}
+                                    download
+                                    className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-6 py-3 rounded-full transform-gpu group/btn overflow-hidden font-medium shadow-lg inline-flex items-center justify-center gap-2"
+                                >
+                                    <div className="absolute inset-0 rounded-full border-2 border-white/30" />
+                                    <div className="absolute inset-0 rounded-full bg-gradient-to-b from-white/20 to-transparent opacity-50 group-hover/btn:opacity-70 transition-opacity duration-300" />
+                                    <FaFileContract className="relative z-10" />
+                                    <span className="relative z-10">{t('cta.downloadNda')}</span>
+                                </a>
+                                <motion.button
+                                    onClick={() => {
                                         trackCtaClick('schedule_call', 'invest_final_cta');
                                         navigate('/contact#schedule-call');
-                                        document.getElementById('schedule-call')?.scrollIntoView({ behavior: 'smooth' });
-                                    }} className="relative border-2 border-primary/50 text-primary hover:bg-primary hover:text-white px-8 py-4 rounded-full transform-gpu font-medium inline-flex items-center gap-2 bg-white/30 backdrop-blur-sm" whileHover={{ y: -2 }}>
-                                        <FaHandshake />{t('cta.scheduleCall')}
-                                    </motion.button>
-                                </div>
+                                    }}
+                                    className="relative border-2 border-primary/50 text-primary hover:bg-primary hover:text-white px-6 py-3 rounded-full transform-gpu font-medium inline-flex items-center justify-center gap-2 bg-white/30 backdrop-blur-sm transition-colors duration-300"
+                                    whileHover={{ y: -2 }}
+                                >
+                                    <FaHandshake />
+                                    {t('cta.scheduleCall')}
+                                </motion.button>
                             </div>
-                        </div>
+                        </InfoCard>
                     </Reveal>
                 </div>
             </Section>
 
             {/* Legal & Compliance */}
-            <div className="max-w-4xl mx-auto px-4 sm:px-6 py-10 text-center">
-                <Reveal>
-                    <Typography variant="h2" className="mb-4">
-                        {t('legalCompliance.title')}
-                    </Typography>
-                    <Typography variant="small" className="text-gray-500 text-xs max-w-3xl mx-auto block mb-4">
-                        {t('legalCompliance.subtitle')}
-                    </Typography>
+            <Section className="py-10">
+                <div className="max-w-4xl mx-auto px-4 sm:px-6">
+                    <Reveal>
+                        <InfoCard
+                            icon={FaShieldAlt}
+                            title={t('legalCompliance.title')}
+                            subtitle={t('legalCompliance.subtitle')}
+                            variant="secondary"
+                            showInfoBadge={false}
+                        >
+                            <StaggerList className="space-y-3">
+                                {(t('legalCompliance.items', { returnObjects: true }) as string[]).map((item, idx) => (
+                                    <StaggerItem
+                                        key={idx}
+                                        className="flex items-start gap-3 bg-white/50 backdrop-blur-sm rounded-lg p-3 border border-white/30"
+                                    >
+                                        <FaCheckCircle className="text-primary mt-0.5 flex-shrink-0 text-xs" />
+                                        <Typography variant="small" className="text-gray-700 text-xs leading-relaxed">
+                                            {item}
+                                        </Typography>
+                                    </StaggerItem>
+                                ))}
+                            </StaggerList>
 
-                    <StaggerList className="space-y-2 max-w-3xl mx-auto text-left mb-6">
-                        {(t('legalCompliance.items', { returnObjects: true }) as string[]).map((item, idx) => (
-                            <StaggerItem key={idx} className="flex items-start gap-2">
-                                <span className="text-gray-400 text-xs mt-1">•</span>
-                                <Typography variant="small" className="text-gray-400 text-xs">
-                                    {item}
+                            <div className="mt-6 pt-4 border-t border-gray-200">
+                                <Typography variant="small" className="text-gray-500 text-xs italic text-center">
+                                    {t('legalCompliance.note')}
                                 </Typography>
-                            </StaggerItem>
-                        ))}
-                    </StaggerList>
-
-                    <Typography variant="small" className="text-gray-400 text-xs">
-                        {t('legalCompliance.note')}
-                    </Typography>
-                </Reveal>
-            </div>
+                            </div>
+                        </InfoCard>
+                    </Reveal>
+                </div>
+            </Section>
         </div>
         </MotionConfig>
     );
