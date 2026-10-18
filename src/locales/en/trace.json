@@ -66,6 +66,7 @@
     "farmOs": "Learn about wholesale ordering with Farm OS traceability"
   },
   "batch": {
+    "dossierName": "The Batch Dossier",
     "harvestDate": "Harvest Date",
     "farmLocation": "Farm Location (GPS Verified)",
     "processingInfo": "Processing Information",

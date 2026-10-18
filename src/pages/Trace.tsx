@@ -584,6 +584,20 @@ const TracePage: React.FC = () => {
             {(isBulk ? bulkData!.batches : [batch!]).map((b: BatchData) => (
                 <Section key={b.id} className="py-6">
                     <div className="max-w-4xl mx-auto px-4 sm:px-6">
+                        {/* Card Header — sits above the card, outside the glassy container */}
+                        <Reveal className="text-center mb-4">
+                            <Typography
+                                variant="subhead"
+                                className="uppercase tracking-widest text-accent text-xs font-semibold"
+                            >
+                                {t('batch.dossierName', 'The Batch Dossier')}
+                            </Typography>
+                            {isBulk && (
+                                <Typography variant="small" className="text-gray-400 text-xs mt-1">
+                                    Batch {bulkData!.batches.indexOf(b) + 1} of {bulkData!.batches.length}
+                                </Typography>
+                            )}
+                        </Reveal>
                         <Reveal>
                             <motion.div className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-3xl shadow-xl p-8 transform-gpu overflow-hidden"
                                         style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
@@ -735,11 +749,11 @@ const TracePage: React.FC = () => {
                 </Section>
             ))}
 
-            {/* Farm Network Status — Single Batch */}
+            {/* The Supply Network — Single Batch */}
             {!isBulk && currentBatch?.supplier && (
                 <Section className="py-6">
                     <div className="max-w-3xl mx-auto px-4 sm:px-6">
-                        <InfoCard icon={FaGlobeAfrica} title={t('supplier.title', 'Farm Network Status')} variant="accent" showInfoBadge={false}>
+                        <InfoCard icon={FaGlobeAfrica} title={t('supplier.title', 'The Supply Network')} variant="accent" showInfoBadge={false}>
                             <StaggerList className="grid grid-cols-2 sm:grid-cols-3 gap-3 mt-3">
                                 {[
                                     { label: t('supplier.type', 'Supplier Type'), value: currentBatch.supplier.type, icon: GiFruitTree },
@@ -770,7 +784,7 @@ const TracePage: React.FC = () => {
             {!isBulk && batch?.farmer && (
                 <Section className="py-8">
                     <div className="max-w-3xl mx-auto px-4 sm:px-6">
-                        <InfoCard icon={GiFarmer} title={t('farmer.title', 'Meet the Farmer Behind This Batch')} variant="primary" showInfoBadge={false}>
+                        <InfoCard icon={GiFarmer} title={t('farmer.title', 'The Farmer')} variant="primary" showInfoBadge={false}>
                             <div className="flex flex-col sm:flex-row items-center gap-6 mt-4">
                                 <div className="flex-shrink-0">
                                     <div className="relative w-28 h-28 sm:w-32 sm:h-32 rounded-full overflow-hidden border-4 border-primary/20 shadow-lg flex items-center justify-center bg-primary/5">
@@ -801,11 +815,11 @@ const TracePage: React.FC = () => {
                 </Section>
             )}
 
-            {/* Sustainability Verification */}
+            {/* The Sustainability Record */}
             {(isBulk ? bulkData?.sustainability : batch?.sustainability) && (
                 <Section className="py-6">
                     <div className="max-w-3xl mx-auto px-4 sm:px-6">
-                        <InfoCard icon={FaLeaf} title={t('sustainability.title', 'Sustainability Verification')} variant="primary" showInfoBadge={false}>
+                        <InfoCard icon={FaLeaf} title={t('sustainability.title', 'The Sustainability Record')} variant="primary" showInfoBadge={false}>
                             <StaggerList className="grid grid-cols-2 gap-3 mt-3">
                                 {[
                                     { icon: FaChild, label: t('sustainability.noChildLabor', 'No Child Labor'), value: (isBulk ? bulkData!.sustainability : batch!.sustainability)!.noChildLabor, active: (isBulk ? bulkData!.sustainability : batch!.sustainability)!.noChildLabor },
@@ -953,7 +967,7 @@ const TracePage: React.FC = () => {
             {!isBulk && batch?.latitude && batch?.longitude && (
                 <Section className="py-6">
                     <div className="max-w-3xl mx-auto px-4 sm:px-6">
-                        <InfoCard icon={FaMapMarkerAlt} title={t('location.title', 'GPS Verified Location')} variant="primary" showInfoBadge={false}>
+                        <InfoCard icon={FaMapMarkerAlt} title={t('location.title', 'The Farm Location')} variant="primary" showInfoBadge={false}>
                             <div className="mt-3">
                                 <BatchLocationMap latitude={batch.latitude} longitude={batch.longitude} farmName={batch.farmLocation || 'AfriNuts Farm'} block={batch.block} />
                                 <div className="flex items-center justify-center gap-2 mt-3">
