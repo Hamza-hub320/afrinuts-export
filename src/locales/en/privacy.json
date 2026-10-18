@@ -1,6 +1,6 @@
 {
   "title": "Privacy Policy",
-  "effectiveDate": "Effective Date: July 26, 2025",
+  "effectiveDate": "Effective Date: October 15, 2026",
   "description": "Learn how AfriNuts collects, uses, and protects your personal information. We are committed to transparency, privacy, and safeguarding your data when you interact with our services.",
   "collection": {
     "title": "1. What Information We Collect",
@@ -56,7 +56,7 @@
       "Withdraw consent for marketing communications at any time",
       "Object to or restrict processing of your personal data"
     ],
-    "contactEmail": "info@afrinutsexport.com",
+    "contactEmail": "contactafrinutsexport.com",
     "note": "We respond to requests in accordance with applicable data protection laws, including the right to lodge a complaint with the relevant supervisory authority."
   },
   "thirdPartyServices": {
@@ -67,9 +67,35 @@
     "title": "7. Children's Privacy",
     "description": "Our website and services are not directed to individuals under 18 years of age. We do not knowingly collect personal information from children."
   },
+  "supplierData": {
+    "title": "8. Supplier & Farmer Data",
+    "description": "In addition to website visitors, AfriNuts works with 200+ farmers in our supplier network whose data is recorded in Farm OS, our farm management platform.",
+    "principle": "Our principle: farmers own their data. AfriNuts holds it in trust.",
+    "whatWeCollect": {
+      "title": "What We Collect",
+      "body": "At supplier onboarding — with the farmer's explicit consent — we record identity details (name, photo, contact), farm GPS boundaries and block locations, harvest dates, volumes, quality inspection results, and batch delivery and payment records. We collect only what traceability requires."
+    },
+    "howWeUseIt": {
+      "title": "How We Use It",
+      "body": "Batch traceability, quality assurance, farmer payments, certification applications (Organic, Halal, ISO 22000), sustainability reporting, and regulatory compliance, including EU due diligence requirements."
+    },
+    "whatWeNeverDo": {
+      "title": "What We Never Do",
+      "body": "We never sell farmer data. We never share it with lenders, insurers, or authorities in ways that could harm the farmer. We never use it for price discrimination against the farmer."
+    },
+    "whatBuyersSee": {
+      "title": "What Buyers See",
+      "body": "Parties verifying a batch see only what verification needs — batch ID, origin, harvest date, quality results, sustainability attestations. Personal details appear only with the farmer's consent or in anonymized form."
+    },
+    "farmerRights": {
+      "title": "Farmer Rights",
+      "body": "Every farmer may access, correct, or export their data, and may request deletion of personal data when leaving the supplier network (anonymized production statistics may be retained for certification audits). Concerns can be raised through the cooperative liaison or our Admin & Sustainability lead, and are answered within 14 days."
+    },
+    "contactEmail": "contact@afrinutsexport.com"
+  },
   "changes": {
-    "title": "8. Changes to this Policy",
+    "title": "9. Changes to this Policy",
     "description": "AfriNuts may update this Privacy Policy periodically. Changes will be posted on this page with an updated 'Last Updated' date. Continued use of our services constitutes acceptance of the updated policy."
   },
-  "lastUpdated": "Last updated: July 26, 2025"
+  "lastUpdated": "Last updated: October 15, 2026"
 }

@@ -1,75 +1,101 @@
 {
-  "title": "Politique de Confidentialité",
-  "effectiveDate": "Date d'effet : 26 juillet 2025",
+  "title": "Politique de confidentialité",
+  "effectiveDate": "Date d'entrée en vigueur : 15 octobre 2026",
   "description": "Découvrez comment AfriNuts collecte, utilise et protège vos informations personnelles. Nous nous engageons à la transparence, à la confidentialité et à la protection de vos données lorsque vous interagissez avec nos services.",
   "collection": {
-    "title": "1. Quelles Informations Nous Collectons",
+    "title": "1. Quelles informations nous collectons",
     "description": "Nous pouvons collecter les informations suivantes lorsque vous interagissez avec nos services :",
     "items": [
-      "Détails personnels tels que votre nom, adresse e-mail, numéro de téléphone et informations sur l'entreprise lorsque vous nous contactez ou demandez un devis",
-      "Informations techniques de votre navigateur ou appareil, y compris l'adresse IP, le type de navigateur, le système d'exploitation et les cookies",
-      "Données d'utilisation telles que les pages visitées, le temps passé sur notre site web et les interactions avec le contenu",
-      "Informations que vous fournissez volontairement via des enquêtes, newsletters ou formulaires de feedback"
+      "Données personnelles telles que votre nom, adresse e-mail, numéro de téléphone et informations sur votre entreprise lorsque vous nous contactez ou demandez un devis",
+      "Informations techniques provenant de votre navigateur ou appareil, y compris l'adresse IP, le type de navigateur, le système d'exploitation et les cookies",
+      "Données d'utilisation telles que les pages visitées, le temps passé sur notre site Web et les interactions avec le contenu",
+      "Informations que vous fournissez volontairement via des enquêtes, newsletters ou formulaires de commentaires"
     ],
-    "note": "Nous collectons uniquement les informations nécessaires pour fournir nos services et améliorer votre expérience."
+    "note": "Nous collectons uniquement les informations nécessaires à la fourniture de nos services et à l'amélioration de votre expérience."
   },
   "use": {
-    "title": "2. Comment Nous Utilisons Vos Informations",
-    "description": "Vos données sont utilisées uniquement à des fins commerciales légitimes, y compris :",
+    "title": "2. Comment nous utilisons vos informations",
+    "description": "Vos données sont utilisées à des fins commerciales légitimes uniquement, notamment :",
     "items": [
       "Répondre aux demandes et fournir les services ou devis demandés",
-      "Améliorer les performances, la fonctionnalité et l'expérience utilisateur du site web",
-      "Envoyer des newsletters, des mises à jour promotionnelles ou des notifications de service si vous avez opté",
+      "Améliorer les performances, la fonctionnalité et l'expérience utilisateur du site Web",
+      "Envoyer des newsletters, des mises à jour promotionnelles ou des notifications de service si vous y avez consenti",
       "Analyser les tendances et l'utilisation pour optimiser nos offres et communications",
-      "Conformité aux obligations légales et protection d'AfriNuts contre la fraude ou l'utilisation abusive"
+      "Respecter les obligations légales et protéger AfriNuts contre la fraude ou l'usage abusif"
     ],
     "note": "Nous ne vendons, ne louons ni n'échangeons vos informations personnelles avec des tiers."
   },
   "cookies": {
-    "title": "3. Cookies et Suivi",
-    "description": "Nous utilisons des cookies et des technologies de suivi similaires pour améliorer votre expérience, analyser le trafic du site web et comprendre le comportement des utilisateurs.",
+    "title": "3. Cookies et suivi",
+    "description": "Nous utilisons des cookies et des technologies de suivi similaires pour améliorer votre expérience, analyser le trafic du site Web et comprendre le comportement des utilisateurs.",
     "items": [
-      "Cookies nécessaires pour les fonctionnalités de base du site web",
+      "Cookies nécessaires au fonctionnement de base du site Web",
       "Cookies de performance et d'analyse pour mesurer et améliorer les performances du site",
-      "Cookies de préférence pour mémoriser vos choix et paramètres",
-      "Cookies marketing optionnels pour un contenu personnalisé (uniquement si vous consentez)"
+      "Cookies de préférences pour mémoriser vos choix et paramètres",
+      "Cookies marketing optionnels pour du contenu personnalisé (uniquement avec votre consentement)"
     ],
     "note": "Vous pouvez gérer ou désactiver les cookies dans les paramètres de votre navigateur, mais certaines fonctionnalités peuvent être affectées."
   },
   "security": {
-    "title": "4. Sécurité des Données",
-    "description": "Nous mettons en œuvre des mesures techniques, administratives et organisationnelles robustes pour protéger vos informations personnelles contre tout accès non autorisé, perte ou utilisation abusive, y compris :",
+    "title": "4. Sécurité des données",
+    "description": "Nous mettons en œuvre des mesures techniques, administratives et organisationnelles robustes pour protéger vos informations personnelles contre tout accès non autorisé, perte ou usage abusif, notamment :",
     "items": [
       "Chiffrement des données sensibles en transit et au repos",
-      "Mises à jour régulières de la sécurité du système et du réseau",
+      "Mises à jour régulières de la sécurité des systèmes et du réseau",
       "Contrôles d'accès et formation du personnel sur la protection des données",
       "Procédures de surveillance et de réponse aux violations de sécurité potentielles"
     ]
   },
   "rights": {
-    "title": "5. Vos Droits",
+    "title": "5. Vos droits",
     "description": "Vous disposez des droits suivants concernant vos données personnelles :",
     "items": [
       "Accéder à vos informations personnelles",
-      "Demander la correction des données inexactes",
+      "Demander la correction de données inexactes",
       "Demander la suppression de vos informations personnelles lorsque la loi le permet",
-      "Retirer votre consentement pour les communications marketing à tout moment",
-      "Vous opposer ou restreindre le traitement de vos données personnelles"
+      "Retirer votre consentement aux communications marketing à tout moment",
+      "Vous opposer au traitement de vos données personnelles ou le restreindre"
     ],
-    "contactEmail": "info@afrinutsexport.com",
-    "note": "Nous répondons aux demandes conformément aux lois applicables sur la protection des données, y compris le droit de déposer une plainte auprès de l'autorité de surveillance compétente."
+    "contactEmail": "contact@afrinutsexport.com",
+    "note": "Nous répondons aux demandes conformément aux lois applicables en matière de protection des données, y compris le droit de déposer une plainte auprès de l'autorité de contrôle compétente."
   },
   "thirdPartyServices": {
-    "title": "6. Services Tiers",
-    "description": "Nous pouvons utiliser des services tiers de confiance pour l'analyse, le marketing et l'hébergement. Ces services sont liés par des accords de confidentialité et ne peuvent pas utiliser vos données à des fins non liées."
+    "title": "6. Services tiers",
+    "description": "Nous pouvons faire appel à des services tiers de confiance pour l'analyse, le marketing et l'hébergement. Ces services sont liés par des accords de confidentialité et ne peuvent pas utiliser vos données à des fins non liées."
   },
   "childrenPrivacy": {
-    "title": "7. Confidentialité des Enfants",
-    "description": "Notre site web et nos services ne s'adressent pas aux personnes de moins de 18 ans. Nous ne collectons pas sciemment d'informations personnelles auprès d'enfants."
+    "title": "7. Confidentialité des enfants",
+    "description": "Notre site Web et nos services ne s'adressent pas aux personnes de moins de 18 ans. Nous ne collectons pas sciemment d'informations personnelles auprès d'enfants."
+  },
+  "supplierData": {
+    "title": "8. Données des fournisseurs et des agriculteurs",
+    "description": "Outre les visiteurs du site Web, AfriNuts travaille avec plus de 200 agriculteurs de notre réseau de fournisseurs, dont les données sont enregistrées dans Farm OS, notre plateforme de gestion agricole.",
+    "principle": "Notre principe : les agriculteurs possèdent leurs données. AfriNuts les détient en fiducie.",
+    "whatWeCollect": {
+      "title": "Ce que nous collectons",
+      "body": "Lors de l'intégration des fournisseurs — avec le consentement explicite de l'agriculteur — nous enregistrons les détails d'identité (nom, photo, contact), les limites GPS de la ferme et les emplacements des parcelles, les dates de récolte, les volumes, les résultats des inspections de qualité, ainsi que les enregistrements de livraison et de paiement par lot. Nous ne collectons que ce que la traçabilité exige."
+    },
+    "howWeUseIt": {
+      "title": "Comment nous l'utilisons",
+      "body": "Traçabilité des lots, assurance qualité, paiements aux agriculteurs, demandes de certification (biologique, halal, ISO 22000), rapports de durabilité et conformité réglementaire, y compris les exigences de diligence raisonnable de l'UE."
+    },
+    "whatWeNeverDo": {
+      "title": "Ce que nous ne faisons jamais",
+      "body": "Nous ne vendons jamais les données des agriculteurs. Nous ne les partageons jamais avec des prêteurs, des assureurs ou des autorités d'une manière qui pourrait nuire à l'agriculteur. Nous ne les utilisons jamais pour une discrimination tarifaire à l'encontre de l'agriculteur."
+    },
+    "whatBuyersSee": {
+      "title": "Ce que voient les acheteurs",
+      "body": "Les parties qui vérifient un lot ne voient que ce dont la vérification a besoin — identifiant du lot, origine, date de récolte, résultats de qualité, attestations de durabilité. Les détails personnels n'apparaissent qu'avec le consentement de l'agriculteur ou sous forme anonymisée."
+    },
+    "farmerRights": {
+      "title": "Droits des agriculteurs",
+      "body": "Chaque agriculteur peut accéder à ses données, les corriger ou les exporter, et peut demander la suppression des données personnelles lorsqu'il quitte le réseau de fournisseurs (des statistiques de production anonymisées peuvent être conservées pour les audits de certification). Les préoccupations peuvent être signalées via le représentant de la coopérative ou notre responsable Administration et Durabilité, et reçoivent une réponse dans les 14 jours."
+    },
+    "contactEmail": "contact@afrinutsexport.com"
   },
   "changes": {
-    "title": "8. Modifications de cette Politique",
-    "description": "AfriNuts peut mettre à jour cette Politique de Confidentialité périodiquement. Les modifications seront publiées sur cette page avec une date de 'Dernière mise à jour'. L'utilisation continue de nos services vaut acceptation de la politique mise à jour."
+    "title": "9. Modifications de cette politique",
+    "description": "AfriNuts peut mettre à jour cette Politique de confidentialité périodiquement. Les modifications seront publiées sur cette page avec une date de « Dernière mise à jour » actualisée. L'utilisation continue de nos services constitue l'acceptation de la politique mise à jour."
   },
-  "lastUpdated": "Dernière mise à jour : 26 juillet 2025"
+  "lastUpdated": "Dernière mise à jour : 15 octobre 2026"
 }

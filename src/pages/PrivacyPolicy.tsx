@@ -12,15 +12,16 @@ import {
     faExchangeAlt,
     faChild,
     faSyncAlt,
-    faBuilding
+    faTractor,
+    faLeaf
 } from '@fortawesome/free-solid-svg-icons';
-import {fadeIn, staggerContainer} from "@/utils/animations";
+import { fadeIn, staggerContainer } from "@/utils/animations";
 import { motion } from 'framer-motion';
 
 const PrivacyPolicy: React.FC = () => {
     const { t } = useTranslation('privacy');
 
-    // Content sections with icons - updated with new sections
+    // Content sections with icons — includes new supplier & farmer data section
     const sections = [
         { key: 'collection', icon: faUserLock },
         { key: 'use', icon: faShieldAlt },
@@ -29,6 +30,7 @@ const PrivacyPolicy: React.FC = () => {
         { key: 'rights', icon: faUserLock },
         { key: 'thirdPartyServices', icon: faExchangeAlt },
         { key: 'childrenPrivacy', icon: faChild },
+        { key: 'supplierData', icon: faTractor },      // NEW — Section 9
         { key: 'changes', icon: faSyncAlt }
     ];
 
@@ -45,7 +47,6 @@ const PrivacyPolicy: React.FC = () => {
                     animate="visible"
                     variants={staggerContainer}
                 >
-                    {/* Subtitle / Effective Date */}
                     <motion.div variants={fadeIn}>
                         <Typography
                             variant="subhead"
@@ -55,7 +56,6 @@ const PrivacyPolicy: React.FC = () => {
                         </Typography>
                     </motion.div>
 
-                    {/* Title with Icon */}
                     <motion.h1
                         className="font-display text-4xl md:text-5xl lg:text-6xl text-text-dark mb-6 leading-tight flex items-center justify-center"
                         variants={fadeIn}
@@ -65,7 +65,6 @@ const PrivacyPolicy: React.FC = () => {
                         {t('title')}
                     </motion.h1>
 
-                    {/* Description */}
                     <motion.div variants={fadeIn}>
                         <Typography
                             variant="lead"
@@ -77,7 +76,7 @@ const PrivacyPolicy: React.FC = () => {
                 </motion.div>
             </Section>
 
-            {/* Scroll indicator - Kept exactly the same */}
+            {/* Scroll indicator */}
             <motion.div
                 className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
                 animate={{ y: [0, 10, 0] }}
@@ -114,16 +113,10 @@ const PrivacyPolicy: React.FC = () => {
                                     transition: { duration: 0.3 }
                                 }}
                             >
-                                {/* 3D edge effect */}
                                 <div className="absolute inset-0 rounded-2xl border-2 border-white/30 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
-
-                                {/* Glassy overlay */}
                                 <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/20 to-transparent opacity-30 group-hover:opacity-50 transition-opacity duration-500" />
-
-                                {/* Inner shadow effect */}
                                 <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.05)] group-hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.08)] transition-shadow duration-500" />
 
-                                {/* Section icon */}
                                 <div className="absolute -top-3 -left-3 w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center shadow-md z-20">
                                     <FontAwesomeIcon icon={icon} className="h-5 w-5" />
                                 </div>
@@ -161,7 +154,75 @@ const PrivacyPolicy: React.FC = () => {
                                         </Typography>
                                     )}
 
-                                    {/* Contact email for rights section */}
+                                    {/* Supplier & Farmer Data — custom structured rendering */}
+                                    {key === 'supplierData' && (
+                                        <div className="space-y-4">
+                                            {/* Principle callout */}
+                                            {t('supplierData.principle') && (
+                                                <motion.div
+                                                    className="p-4 bg-primary/5 rounded-lg border-l-4 border-primary"
+                                                    initial={{ opacity: 0, x: -10 }}
+                                                    whileInView={{ opacity: 1, x: 0 }}
+                                                    viewport={{ once: true }}
+                                                >
+                                                    <Typography variant="body" className="font-medium text-primary">
+                                                        <FontAwesomeIcon icon={faLeaf} className="mr-2 text-accent" />
+                                                        {t('supplierData.principle')}
+                                                    </Typography>
+                                                </motion.div>
+                                            )}
+
+                                            {/* Structured subsections */}
+                                            {[
+                                                { subKey: 'whatWeCollect', icon: faTractor },
+                                                { subKey: 'howWeUseIt', icon: faShieldAlt },
+                                                { subKey: 'whatWeNeverDo', icon: faLock },
+                                                { subKey: 'whatBuyersSee', icon: faExchangeAlt },
+                                                { subKey: 'farmerRights', icon: faUserLock },
+                                            ].map(({ subKey, icon: SubIcon }, idx) => (
+                                                <motion.div
+                                                    key={subKey}
+                                                    className="bg-white/50 p-4 rounded-lg border border-gray-100"
+                                                    initial={{ opacity: 0, y: 10 }}
+                                                    whileInView={{ opacity: 1, y: 0 }}
+                                                    viewport={{ once: true }}
+                                                    transition={{ delay: idx * 0.08 }}
+                                                >
+                                                    <div className="flex items-start gap-3">
+                                                        <div className="bg-primary/10 p-2 rounded-full flex-shrink-0 mt-0.5">
+                                                            <FontAwesomeIcon icon={SubIcon} className="h-4 w-4 text-primary" />
+                                                        </div>
+                                                        <div className="flex-1">
+                                                            <Typography variant="h4" className="text-primary text-base mb-1">
+                                                                {t(`supplierData.${subKey}.title`)}
+                                                            </Typography>
+                                                            <Typography variant="body" className="text-gray-700 leading-relaxed">
+                                                                {t(`supplierData.${subKey}.body`)}
+                                                            </Typography>
+                                                        </div>
+                                                    </div>
+                                                </motion.div>
+                                            ))}
+
+                                            {/* Contact line for supplier data concerns */}
+                                            {t('supplierData.contactEmail') && (
+                                                <motion.div
+                                                    className="p-4 bg-primary/5 rounded-lg border-l-4 border-primary flex items-center"
+                                                    whileHover={{ x: 5 }}
+                                                    transition={{ duration: 0.2 }}
+                                                >
+                                                    <a
+                                                        href={`mailto:${t('supplierData.contactEmail')}`}
+                                                        className="text-primary hover:underline font-medium"
+                                                    >
+                                                        {t('supplierData.contactEmail')}
+                                                    </a>
+                                                </motion.div>
+                                            )}
+                                        </div>
+                                    )}
+
+                                    {/* Contact email for rights section (existing) */}
                                     {key === 'rights' && t('rights.contactEmail') && (
                                         <motion.div
                                             className="mt-4 p-4 bg-primary/5 rounded-lg border-l-4 border-primary flex items-center"
@@ -193,9 +254,7 @@ const PrivacyPolicy: React.FC = () => {
                     transition={{ duration: 0.5 }}
                 >
                     <div className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl p-6 transform-gpu">
-                        {/* 3D edge effect */}
                         <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-4px] transition-all duration-500" />
-
                         <div className="relative z-10">
                             <Typography variant="body" className="text-gray-500">
                                 {t('lastUpdated')}
