@@ -13,14 +13,47 @@ import {
     GiCargoShip,
 } from 'react-icons/gi';
 import {
-    FaTree, FaIndustry, FaCertificate, FaTruck, FaBuilding,
-    FaCheckCircle, FaSearch, FaMapMarkerAlt, FaClipboardList,
-    FaGlobe, FaShieldAlt, FaCalendarAlt, FaFlask, FaEnvelope, FaArrowRight, FaQrcode,
-    FaFileAlt, FaGlobeEurope, FaGlobeAmericas, FaGlobeAsia, FaCopy, FaSignature,
-    FaWhatsapp, FaTwitter, FaLinkedin, FaPrint,
-    FaArrowLeft, FaShare, FaChartBar, FaDownload, FaLeaf, FaBox,
+    FaTree,
+    FaIndustry,
+    FaCertificate,
+    FaTruck,
+    FaBuilding,
+    FaCheckCircle,
+    FaSearch,
+    FaMapMarkerAlt,
+    FaClipboardList,
+    FaGlobe,
+    FaShieldAlt,
+    FaCalendarAlt,
+    FaFlask,
+    FaEnvelope,
+    FaArrowRight,
+    FaQrcode,
+    FaFileAlt,
+    FaGlobeEurope,
+    FaCopy,
+    FaSignature,
+    FaWhatsapp,
+    FaTwitter,
+    FaLinkedin,
+    FaPrint,
+    FaArrowLeft,
+    FaShare,
+    FaChartBar,
+    FaDownload,
+    FaLeaf,
+    FaBox,
     FaMobile,
-    FaGlobeAfrica, FaUsers, FaChild, FaDatabase, FaClock, FaShip, FaExternalLinkAlt, FaChevronDown, FaQuestionCircle
+    FaGlobeAfrica,
+    FaUsers,
+    FaChild,
+    FaDatabase,
+    FaClock,
+    FaShip,
+    FaExternalLinkAlt,
+    FaChevronDown,
+    FaQuestionCircle,
+    FaHeart, FaInfoCircle
 } from "react-icons/fa";
 import { fadeIn, staggerContainer } from "@/utils/animations";
 import { Helmet } from "react-helmet-async";
@@ -28,8 +61,6 @@ import traceHeroImage from '@/assets/images/trace-hero.webp';
 import JsonLd from "@/components/Seo/JsonLd";
 import { trackCtaClick, trackOutboundClick } from "@/utils/analytics";
 import BatchLocationMap from '@/components/BatchLocationMap/BatchLocationMap';
-import FarmToDeliverySVG from "@/components/FarmToDeliverySVG/FarmToDeliverySVG";
-import SupplyChainNetwork from "@/components/SupplyChainNetwork/SupplyChainNetwork";
 
 interface BatchData {
     id: string;
@@ -334,6 +365,10 @@ const TracePage: React.FC = () => {
                                         </Typography>
                                     </motion.div>
                                 )}
+                                <div className="mt-3 text-xs text-gray-500 text-center lg:text-left">
+                                    <FaInfoCircle className="inline mr-1 text-accent text-[10px]" />
+                                    {t('demo.note', 'Sample batches are publicly shared by AfriNuts for demonstration. Real customer batches are private and require a tracking code.')}
+                                </div>
                                 {/* Verification Mode */}
                                 {(() => {
                                     const verifyCode = query.get("code");
@@ -426,9 +461,160 @@ const TracePage: React.FC = () => {
                     </div>
                 </Section>
 
-                <SupplyChainNetwork />
+                {/* Privacy Notice */}
+                <Section className="py-8">
+                    <div className="max-w-3xl mx-auto px-4 sm:px-6">
+                        <Reveal>
+                            <InfoCard
+                                icon={FaShieldAlt}
+                                title={t('privacy.title', 'Your Batch Is Private')}
+                                variant="primary"
+                                showInfoBadge={false}
+                                className="text-center"
+                            >
+                                <Typography variant="body" className="text-gray-700 max-w-2xl mx-auto">
+                                    {t('privacy.body', 'Each batch has a unique tracking code — printed on the QR sticker, Bill of Lading, and Certificate of Origin. Only someone with that code can view the batch record. We never publish customer batches, and we never reveal what shipments exist in our system.')}
+                                </Typography>
 
-                <FarmToDeliverySVG />
+                                <StaggerList className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-5">
+                                    {[
+                                        { icon: FaQrcode, label: t('privacy.unique', 'Unique code per batch') },
+                                        { icon: FaShieldAlt, label: t('privacy.secure', 'Encrypted lookup') },
+                                        { icon: FaCheckCircle, label: t('privacy.public', 'Publicly verifiable') },
+                                    ].map((item, i) => (
+                                        <StaggerItem key={i} className="bg-white/40 rounded-xl p-3 text-center">
+                                            <item.icon className="text-accent text-lg mx-auto mb-1" />
+                                            <Typography variant="small" className="text-gray-700 text-xs">{item.label}</Typography>
+                                        </StaggerItem>
+                                    ))}
+                                </StaggerList>
+                            </InfoCard>
+                        </Reveal>
+                    </div>
+                </Section>
+
+                {/* What You'll See */}
+                <Section className="py-10">
+                    <div className="max-w-5xl mx-auto px-4 sm:px-6">
+                        <Reveal className="text-center mb-8">
+                            <Typography variant="h2" className="text-primary mb-3">
+                                {t('whatYouSee.title', 'What You\'ll See Inside Every Batch')}
+                            </Typography>
+                        </Reveal>
+
+                        <StaggerList className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                            {[
+                                { icon: FaClipboardList, title: 'The Batch Dossier', desc: 'Origin, processing, quality, weight' },
+                                { icon: FaGlobeAfrica, title: 'The Supply Network', desc: 'Which supplier, cooperative status' },
+                                { icon: GiFarmer, title: 'The Farmer', desc: 'Who grew it, their story' },
+                                { icon: FaLeaf, title: 'The Sustainability Record', desc: 'Compliance and farming methods' },
+                                { icon: FaMapMarkerAlt, title: 'The Farm Location', desc: 'GPS map of the source' },
+                                { icon: FaShieldAlt, title: 'Farm OS Record', desc: 'Digital signature, verification' },
+                            ].map((item, i) => (
+                                <StaggerItem key={i}>
+                                    <div className="bg-white/50 rounded-xl p-4 border border-white/30 h-full hover:bg-white/70 transition-all">
+                                        <item.icon className="text-accent text-xl mb-2" />
+                                        <Typography variant="small" className="font-semibold text-primary text-xs">{item.title}</Typography>
+                                        <Typography variant="small" className="text-gray-500 text-[11px] mt-1">{item.desc}</Typography>
+                                    </div>
+                                </StaggerItem>
+                            ))}
+                        </StaggerList>
+                    </div>
+                </Section>
+
+                {/* Who Uses This */}
+                <Section className="py-10">
+                    <div className="max-w-4xl mx-auto px-4 sm:px-6">
+                        <Reveal className="text-center mb-8">
+                            <Typography variant="h2" className="text-primary mb-3">
+                                {t('personas.title', 'Built for Everyone Who Touches a Bag')}
+                            </Typography>
+                        </Reveal>
+
+                        <StaggerList className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            {[
+                                {
+                                    icon: FaBuilding,
+                                    title: t('personas.buyer.title', 'For Buyers'),
+                                    body: t('personas.buyer.body', 'Verify origin, quality, and certifications before you open a container. No paperwork chase.')
+                                },
+                                {
+                                    icon: FaShieldAlt,
+                                    title: t('personas.regulator.title', 'For Regulators'),
+                                    body: t('personas.regulator.body', 'EU due diligence-ready records. Blockchain-grade traceability without blockchain complexity.')
+                                },
+                                {
+                                    icon: FaHeart,
+                                    title: t('personas.consumer.title', 'For Consumers'),
+                                    body: t('personas.consumer.body', 'See the farm your cashews came from. Every bag tells a story you can verify in 10 seconds.')
+                                },
+                            ].map((item, i) => (
+                                <StaggerItem key={i}>
+                                    <InfoCard
+                                        icon={item.icon}
+                                        title={item.title}
+                                        variant={i === 0 ? 'primary' : i === 1 ? 'accent' : 'secondary'}
+                                        showInfoBadge={false}
+                                        className="h-full"
+                                    >
+                                        <Typography variant="small" className="text-gray-600">
+                                            {item.body}
+                                        </Typography>
+                                    </InfoCard>
+                                </StaggerItem>
+                            ))}
+                        </StaggerList>
+                    </div>
+                </Section>
+
+                {/* Traceability FAQ */}
+                <Section className="py-10">
+                    <div className="max-w-3xl mx-auto px-4 sm:px-6">
+                        <Reveal className="text-center mb-8">
+                            <Typography variant="h2" className="text-primary mb-3">
+                                {t('faq.title', 'Common Questions')}
+                            </Typography>
+                        </Reveal>
+
+                        <StaggerList className="space-y-3">
+                            {[
+                                {
+                                    q: 'How do I find my batch ID?',
+                                    a: 'Your batch ID is printed on the QR code sticker attached to every 50kg bag and on your Bill of Lading and Certificate of Origin.'
+                                },
+                                {
+                                    q: 'What if the batch ID doesn\'t work?',
+                                    a: 'Check for typos — batch IDs are case-sensitive. If it still doesn\'t work, contact us at info@afrinutsexport.com with your invoice number.'
+                                },
+                                {
+                                    q: 'Can I verify the digital signature independently?',
+                                    a: 'Yes — every batch has a tamper-proof verification code you can check without login. The signature proves the data hasn\'t been altered since signing.'
+                                },
+                                {
+                                    "q": "Who can see my batch record?",
+                                    "a": "Only someone with your unique tracking code. The code appears on the QR sticker on each bag, your Bill of Lading, and your Certificate of Origin. We don't publish batch records publicly and we don't allow browsing — every view requires a specific code."
+                                },
+                            ].map((item, i) => (
+                                <StaggerItem key={i}>
+                                    <details className="group bg-white/50 backdrop-blur-sm rounded-xl border border-white/30 overflow-hidden">
+                                        <summary className="flex items-center justify-between p-4 cursor-pointer list-none hover:bg-white/30 transition-colors">
+                                            <Typography variant="small" className="font-semibold text-primary">
+                                                {item.q}
+                                            </Typography>
+                                            <FaChevronDown className="text-accent text-xs transition-transform group-open:rotate-180" />
+                                        </summary>
+                                        <div className="px-4 pb-4">
+                                            <Typography variant="small" className="text-gray-600 text-sm leading-relaxed">
+                                                {item.a}
+                                            </Typography>
+                                        </div>
+                                    </details>
+                                </StaggerItem>
+                            ))}
+                        </StaggerList>
+                    </div>
+                </Section>
 
                 <Section className="py-10">
                     <div className="max-w-3xl mx-auto px-4 sm:px-6">
