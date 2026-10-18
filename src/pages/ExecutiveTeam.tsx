@@ -22,6 +22,7 @@ import { trackCtaClick } from '@/utils/analytics';
 
 // Import executive images
 import ceoImage from '@/assets/images/ceo.webp';
+import ccoImage from '@/assets/images/cco.webp';
 import executiveHeroImage from '@/assets/images/executive.webp';
 import JsonLd from "@/components/Seo/JsonLd";
 import { Helmet } from "react-helmet-async";
@@ -90,7 +91,7 @@ const ExecutiveTeam: React.FC = () => {
             name: "Muhamadue Aly Kouyate",
             title: t('executives.cco.title'),
             role: t('executives.cco.role'),
-            image: '',
+            image: ccoImage,
             alt: t('executives.cco.alt'),
             bio: t('executives.cco.bio', { returnObjects: true }),
             certifications: ["Export & Trade Compliance", "Supply Chain and Logistics Management", "Process Improvement & Lean Practices"],
