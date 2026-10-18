@@ -76,7 +76,7 @@
       "Object to or restrict processing of your data where permitted",
       "Lodge a complaint with a data protection authority if needed"
     ],
-    "contactEmail": "info@afrinutsexport.com"
+    "contactEmail": "contact@afrinutsexport.com"
   },
 
   "childrenPrivacy": {
@@ -92,6 +92,6 @@
   "contactUs": {
     "title": "9. Contact Us",
     "address": "AfriNuts Export, Odienné, Côte d'Ivoire",
-    "email": "info@afrinutsexport.com"
+    "email": "contact@afrinutsexport.com"
   }
 }
