@@ -31,6 +31,35 @@ export const getSupplierData = async (action: string, params?: any) => {
     return callApi('supplierData', { action, ...params }, false);
 };
 
+export const getBuyerPortalData = async (action: string, params?: any) => {
+    if (isDevelopment) {
+        // Mock data for dev
+        return getMockData(action, params);
+    }
+
+    const user = auth.currentUser;
+    if (!user) throw new Error('Not authenticated');
+
+    const token = await user.getIdToken();
+    const queryParams = new URLSearchParams({ action, ...params }).toString();
+
+    const response = await fetch(
+        `/.netlify/functions/buyerPortal?${queryParams}`,
+        {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        }
+    );
+
+    if (!response.ok) {
+        const error = await response.json().catch(() => ({}));
+        throw new Error(error.error || `Request failed: ${response.status}`);
+    }
+
+    return response.json();
+};
+
 export async function callApi(endpoint: string, data?: any, requireAuth = true, method: string = 'POST') {
     try {
         const baseUrl = getApiBaseUrl();

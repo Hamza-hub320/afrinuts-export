@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { auth } from '@/services/firebase';
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { motion } from "framer-motion";
@@ -281,7 +282,20 @@ const TracePage: React.FC = () => {
                 const allData = await allResponse.json();
                 setAllBatches(allData.batches || []);
 
-                const response = await fetch(`/.netlify/functions/trace?batchId=${encodeURIComponent(batchId)}`);
+                const headers: HeadersInit = {};
+                if (auth.currentUser) {
+                    try {
+                        const token = await auth.currentUser.getIdToken();
+                        headers.Authorization = `Bearer ${token}`;
+                    } catch (err) {
+                        console.warn('Failed to get auth token:', err);
+                    }
+                }
+
+                const response = await fetch(
+                    `/.netlify/functions/trace?batchId=${encodeURIComponent(batchId)}`,
+                    { headers }
+                );
                 const data = await response.json();
 
                 if (data.isBulk) {

@@ -9,6 +9,8 @@ import AccessibilityToolbar from './components/AccessibilityToolbar/Accessibilit
 import FeedbackButton from './components/FeedbackButton/FeedbackButton';
 import BuyerLogin from '@/pages/BuyerPortal/BuyerLogin';
 import BuyerAuthCallback from '@/pages/BuyerPortal/BuyerAuthCallback';
+import BuyerDashboard from '@/pages/BuyerPortal/BuyerDashboard';
+import { BuyerProtectedRoute } from '@/components/BuyerProtectedRoute';
 
 import i18n from './i18n';
 import './index.css';
@@ -172,6 +174,14 @@ function App(): ReactElement {
                                         <AdminUsers />
                                     </ProtectedRoute>
                                 } />
+                                <Route
+                                    path="/portal"
+                                    element={
+                                        <BuyerProtectedRoute>
+                                            <BuyerDashboard />
+                                        </BuyerProtectedRoute>
+                                    }
+                                />
                                 <Route path="*" element={<Home />} />
                             </Routes>
                         </Suspense>
