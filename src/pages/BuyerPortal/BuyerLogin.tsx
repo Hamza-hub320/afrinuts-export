@@ -41,7 +41,7 @@ const BuyerLogin: React.FC = () => {
                 animate="visible"
                 variants={staggerContainer}
             >
-                <Link to="/public" className="inline-flex items-center gap-2 text-primary hover:text-accent mb-6 text-sm">
+                <Link to="/trace" className="inline-flex items-center gap-2 text-primary hover:text-accent mb-6 text-sm">
                     <FaArrowLeft className="text-xs" /> Back to Home
                 </Link>
 

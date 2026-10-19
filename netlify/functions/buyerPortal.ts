@@ -193,12 +193,11 @@ export const handler: Handler = async (event: HandlerEvent) => {
                 return {
                     statusCode: 200,
                     headers,
-                    body: JSON.stringify({ batches: [] }),
+                    body: JSON.stringify({ buyer: { companyName: buyer.companyName, contactPerson: buyer.contactPerson }, batches: [] }),
                 };
             }
 
-            // Fetch each batch from quality_batches
-            // Firestore `in` queries are limited to 10 items, so we chunk
+            // Chunk for Firestore `in` query limit of 10
             const chunks: string[][] = [];
             for (let i = 0; i < allowedBatchIds.length; i += 10) {
                 chunks.push(allowedBatchIds.slice(i, i + 10));
