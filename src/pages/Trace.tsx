@@ -64,13 +64,18 @@ import { trackCtaClick, trackOutboundClick } from "@/utils/analytics";
 import BatchLocationMap from '@/components/BatchLocationMap/BatchLocationMap';
 
 interface BatchData {
+    // ── Always present ──────────────────────────────────────
     id: string;
     batchId: string;
+    view?: 'public' | 'private';
+    requiresAuthForFullRecord?: boolean;
     status: string;
     sourceType?: string;
     qualityGrade?: string;
-    processingDate: string;
-    harvestDate?: string;
+
+    // ── Public fields (always present) ──────────────────────
+    processingDate: string;       // ISO string from API
+    harvestDate?: string;         // legacy fallback
     originCountry?: string;
     originRegion?: string;
     destinationCountry?: string;
@@ -78,6 +83,8 @@ interface BatchData {
     hasDigitalSignature?: boolean;
     isInspected?: boolean;
     certifications?: string[];
+
+    // ── Private-only: identity & location ───────────────────
     farmLocation?: string;
     block?: string | null;
     destination?: string;
@@ -86,6 +93,8 @@ interface BatchData {
     longitude?: number;
     slug?: string;
     supplierId?: number;
+
+    // ── Private-only: processing info ───────────────────────
     processingInfo?: string;
     processingFacility?: string;
     processingLocation?: string;
@@ -93,11 +102,13 @@ interface BatchData {
     shellingMethod?: string;
     gradingMethod?: string;
     yieldPercentage?: number | null;
+
+    // ── Private-only: quality metrics ───────────────────────
     qualityScore?: number | null;
     moistureContent?: number | null;
     defectiveRate?: number | null;
     kernelRatio?: number | null;
-    nutCount?: number | null;
+    nutCount?: number | null;      // = nutCountPerKg from API
     overallScore?: number | null;
     qualityResults?: string;
     testResults?: {
@@ -105,15 +116,21 @@ interface BatchData {
         heavyMetals?: number | null;
         pesticideResidue?: number | null;
     } | null;
+
+    // ── Private-only: weights ───────────────────────────────
     weightKg?: number;
     rawWeightKg?: number | null;
     kernelWeightKg?: number | null;
+
+    // ── Private-only: digital signature ─────────────────────
     verificationCode?: string | null;
     digitalSignature?: {
         code: string;
         signedDate: string;
         signature: string;
     } | null;
+
+    // ── Private-only: documents ─────────────────────────────
     documents?: {
         coo?: string | null;
         phyto?: string | null;
@@ -125,6 +142,8 @@ interface BatchData {
         qualityCertificate?: string | null;
     };
     labReportUrl?: string;
+
+    // ── Private-only: nested objects ────────────────────────
     farmer?: {
         id?: string;
         name: string;
@@ -135,6 +154,7 @@ interface BatchData {
         bio: string;
         quote?: string;
     } | null;
+
     supplier?: {
         id?: string;
         type: string;
@@ -144,12 +164,14 @@ interface BatchData {
         traceLevel: string;
         cooperative: string | null;
     };
+
     sustainability?: {
         noChildLabor: boolean;
         farmOsMonitored: boolean;
         firebreak: boolean;
         sustainableHarvesting: boolean;
     } | null;
+
     farmOsMetadata?: {
         recordId: string;
         created: string;
@@ -160,6 +182,8 @@ interface BatchData {
 
 interface BulkData {
     isBulk: true;
+    view?: 'public' | 'private';
+    requiresAuthForFullRecord?: boolean;
     masterBatch: {
         id: string;
         masterBatchNumber: string;
@@ -199,7 +223,6 @@ const TracePage: React.FC = () => {
     const [showShareMenu, setShowShareMenu] = useState(false);
     const [copied, setCopied] = useState(false);
     const [activeTab, setActiveTab] = useState<'journey' | 'quality' | 'documents'>('journey');
-    const [view, setView] = useState<'public' | 'private'>('public');
 
     const isBulk = !!bulkData;
     const currentBatch = batch || (bulkData?.batches?.[0] || null);
@@ -278,8 +301,6 @@ const TracePage: React.FC = () => {
                     { headers }
                 );
                 const data = await response.json();
-
-                setView(data.view === 'private' ? 'private' : 'public');
 
                 if (data.isBulk) {
                     setBulkData(data as BulkData);
@@ -671,7 +692,9 @@ const TracePage: React.FC = () => {
     const displayTitle = isBulk ? bulkData!.masterBatch.masterBatchNumber : batch?.batchId;
 
 // Determine the view from the API response
-    const isPrivateView = view === 'private';
+    const isPrivateView = isBulk
+        ? bulkData?.view === 'private'
+        : (batch as any)?.view === 'private';
 
     return (
         <main className="text-text-dark font-sans">
