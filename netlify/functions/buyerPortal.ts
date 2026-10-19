@@ -36,7 +36,19 @@ async function getViewerUid(event: HandlerEvent): Promise<string | null> {
 /**
  * Find the buyer record for the given UID.
  */
-async function getBuyerRecord(fid: string, uid: string) {
+interface BuyerRecord {
+    id: string;
+    uid?: string;
+    email: string;
+    companyName: string;
+    contactPerson: string;
+    allowedBatchIds: string[];
+    isActive: boolean;
+    createdAt?: any;
+    lastLoginAt?: string | null;
+}
+
+async function getBuyerRecord(fid: string, uid: string): Promise<BuyerRecord | null> {
     // First try: uid already linked
     let snapshot = await db
         .collection('farms').doc(fid)
@@ -47,10 +59,22 @@ async function getBuyerRecord(fid: string, uid: string) {
         .get();
 
     if (!snapshot.empty) {
-        return { id: snapshot.docs[0].id, ...snapshot.docs[0].data() };
+        const doc = snapshot.docs[0];
+        const data = doc.data() as any;
+        return {
+            id: doc.id,
+            uid: data.uid,
+            email: data.email,
+            companyName: data.companyName,
+            contactPerson: data.contactPerson,
+            allowedBatchIds: data.allowedBatchIds || [],
+            isActive: data.isActive,
+            createdAt: data.createdAt,
+            lastLoginAt: data.lastLoginAt,
+        };
     }
 
-    // Fallback: link by email (first login after admin creates the record)
+    // Fallback: link by email
     try {
         const { getAuth } = await import('firebase-admin/auth');
         const userRecord = await getAuth().getUser(uid);
@@ -67,12 +91,22 @@ async function getBuyerRecord(fid: string, uid: string) {
 
             if (!snapshot.empty) {
                 const buyerDoc = snapshot.docs[0];
-                // Link the uid to this buyer record
                 await buyerDoc.ref.update({
                     uid,
                     lastLoginAt: new Date().toISOString(),
                 });
-                return { id: buyerDoc.id, ...buyerDoc.data(), uid };
+                const data = buyerDoc.data() as any;
+                return {
+                    id: buyerDoc.id,
+                    uid,
+                    email: data.email,
+                    companyName: data.companyName,
+                    contactPerson: data.contactPerson,
+                    allowedBatchIds: data.allowedBatchIds || [],
+                    isActive: data.isActive,
+                    createdAt: data.createdAt,
+                    lastLoginAt: data.lastLoginAt,
+                };
             }
         }
     } catch (err) {
@@ -80,6 +114,21 @@ async function getBuyerRecord(fid: string, uid: string) {
     }
 
     return null;
+}
+
+function normalizeStringArray(value: any): string[] {
+    if (!value) return [];
+    if (Array.isArray(value)) return value;
+    if (typeof value === 'string') {
+        try {
+            const parsed = JSON.parse(value);
+            return Array.isArray(parsed) ? parsed : [];
+        } catch {
+            // Not JSON — treat as single value
+            return value.trim() ? [value.trim()] : [];
+        }
+    }
+    return [];
 }
 
 export const handler: Handler = async (event: HandlerEvent) => {
