@@ -282,6 +282,7 @@ const TracePage: React.FC = () => {
                 const allData = await allResponse.json();
                 setAllBatches(allData.batches || []);
 
+                // Build auth header if user is logged in
                 const headers: HeadersInit = {};
                 if (auth.currentUser) {
                     try {

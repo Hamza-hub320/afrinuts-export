@@ -124,7 +124,6 @@ function normalizeStringArray(value: any): string[] {
             const parsed = JSON.parse(value);
             return Array.isArray(parsed) ? parsed : [];
         } catch {
-            // Not JSON — treat as single value
             return value.trim() ? [value.trim()] : [];
         }
     }
@@ -185,7 +184,7 @@ export const handler: Handler = async (event: HandlerEvent) => {
             };
         }
 
-        // ── Action: list my batches ───────────────────────────
+        // ── Action: list my batches (FULL ENRICHED VERSION) ───
         if (action === 'myBatches') {
             const allowedBatchIds: string[] = buyer.allowedBatchIds || [];
 
@@ -193,7 +192,10 @@ export const handler: Handler = async (event: HandlerEvent) => {
                 return {
                     statusCode: 200,
                     headers,
-                    body: JSON.stringify({ buyer: { companyName: buyer.companyName, contactPerson: buyer.contactPerson }, batches: [] }),
+                    body: JSON.stringify({
+                        buyer: { companyName: buyer.companyName, contactPerson: buyer.contactPerson },
+                        batches: []
+                    }),
                 };
             }
 
@@ -203,48 +205,114 @@ export const handler: Handler = async (event: HandlerEvent) => {
                 chunks.push(allowedBatchIds.slice(i, i + 10));
             }
 
-            const allBatches: any[] = [];
+            const rawBatches: any[] = [];
             for (const chunk of chunks) {
                 const snapshot = await db
                     .collection('farms').doc(fid)
                     .collection('quality_batches')
                     .where('batchNumber', 'in', chunk)
                     .get();
+                snapshot.docs.forEach(doc => rawBatches.push({ id: doc.id, ...doc.data() }));
+            }
 
-                snapshot.docs.forEach(doc => {
+            // Fetch traceability records
+            const rawTraces: any[] = [];
+            for (const chunk of chunks) {
+                const snapshot = await db
+                    .collection('farms').doc(fid)
+                    .collection('batch_traceability')
+                    .where('batchNumber', 'in', chunk)
+                    .get();
+                snapshot.docs.forEach(doc => rawTraces.push({ id: doc.id, ...doc.data() }));
+            }
+
+            // Fetch revenues (kernel weights)
+            const rawRevenues: any[] = [];
+            for (const chunk of chunks) {
+                const snapshot = await db
+                    .collection('farms').doc(fid)
+                    .collection('revenues')
+                    .where('batchNumber', 'in', chunk)
+                    .get();
+                snapshot.docs.forEach(doc => rawRevenues.push({ id: doc.id, ...doc.data() }));
+            }
+
+            // Fetch suppliers (farmer names)
+            const supplierIds = [...new Set(rawBatches.map(b => b.supplierId).filter(Boolean))];
+            const supplierMap = new Map<number, any>();
+            if (supplierIds.length > 0) {
+                const supplierSnapshot = await db.collection('farms').doc(fid).collection('suppliers').get();
+                supplierSnapshot.docs.forEach(doc => {
                     const data = doc.data();
-                    allBatches.push({
-                        id: doc.id,
-                        batchId: data.batchNumber,
-                        processingDate: data.processingDate,
-                        qualityGrade: data.qualityGrade,
-                        sourceType: data.sourceType,
-                        weightKg: data.weightKg,
-                        isInspected: (data.qualityScore ?? 0) > 0,
-                        hasVerification: !!(data.verificationCode),
-                    });
+                    if (data.id) supplierMap.set(data.id, data);
                 });
             }
 
-            // Fetch traceability records for these batches to get status
-            const traceSnapshot = await db
-                .collection('farms').doc(fid)
-                .collection('batch_traceability')
-                .where('batchNumber', 'in', chunks.length === 1 && chunks[0].length <= 10 ? chunks[0] : []) // simplified
-                .get()
-                .catch(() => ({ docs: [] as any[] }));
+            // Merge everything by batchNumber
+            const traceByBatch = new Map(rawTraces.map(t => [t.batchNumber, t]));
+            const revenueByBatch = new Map(rawRevenues.map(r => [r.batchNumber, r]));
 
-            // Map traceability by batchNumber
-            const traceMap = new Map<string, any>();
-            if (traceSnapshot.docs) {
-                traceSnapshot.docs.forEach(doc => {
-                    const data = doc.data();
-                    if (data.batchNumber) traceMap.set(data.batchNumber, data);
-                });
-            }
+            const enriched = rawBatches.map(b => {
+                const trace = traceByBatch.get(b.batchNumber);
+                const revenue = revenueByBatch.get(b.batchNumber);
+                const supplier = supplierMap.get(b.supplierId);
 
-            // Sort by processingDate descending
-            allBatches.sort((a, b) => (b.processingDate || 0) - (a.processingDate || 0));
+                // Count documents
+                let documentsAvailable = 0;
+                let documentsTotal = 6;
+                if (trace?.documents) {
+                    try {
+                        const docs = typeof trace.documents === 'string' ? JSON.parse(trace.documents) : trace.documents;
+                        documentsAvailable = Object.values(docs).filter(Boolean).length;
+                    } catch { /* ignore */ }
+                }
+
+                const inspected = (b.qualityScore ?? 0) > 0;
+
+                return {
+                    id: b.id,
+                    batchId: b.batchNumber,
+                    processingDate: b.processingDate,
+                    qualityGrade: b.qualityGrade,
+                    sourceType: b.sourceType,
+                    weightKg: b.weightKg,
+                    isInspected: inspected,
+                    hasVerification: !!(trace?.verificationCode || b.verificationCode),
+                    verificationCode: trace?.verificationCode || b.verificationCode || null,
+
+                    // Quality metrics
+                    qualityScore: inspected ? b.qualityScore : null,
+                    moistureContent: inspected ? b.moistureContent : null,
+                    defectiveRate: inspected ? b.defectiveRate : null,
+
+                    // Location & buyer
+                    destination: trace?.destination || null,
+                    destinationCountry: trace?.destination ? trace.destination.split(',').pop()?.trim() : null,
+                    buyer: trace?.buyer || revenue?.buyer || null,
+                    exportDate: trace?.exportDate || null,
+
+                    // Farmer
+                    farmerName: supplier?.contactPerson || null,
+
+                    // Certifications
+                    certifications: trace?.certificationIds
+                        ? String(trace.certificationIds).split(',').map((c: string) => c.trim()).filter(Boolean)
+                        : [],
+
+                    // Weights
+                    rawWeightKg: b.weightKg,
+                    kernelWeightKg: revenue?.quantityKg || null,
+
+                    // Documents
+                    documentsAvailable,
+                    documentsTotal,
+
+                    // Status
+                    status: trace ? 'SHIPPED' : (inspected ? 'QUALITY_VERIFIED' : 'RECEIVED'),
+                };
+            });
+
+            enriched.sort((a, b) => (b.processingDate || 0) - (a.processingDate || 0));
 
             return {
                 statusCode: 200,
@@ -254,10 +322,7 @@ export const handler: Handler = async (event: HandlerEvent) => {
                         companyName: buyer.companyName,
                         contactPerson: buyer.contactPerson,
                     },
-                    batches: allBatches.map(b => ({
-                        ...b,
-                        status: traceMap.get(b.batchId) ? 'SHIPPED' : (b.isInspected ? 'QUALITY_VERIFIED' : 'RECEIVED'),
-                    })),
+                    batches: enriched,
                 }),
             };
         }
