@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FaEnvelope, FaArrowLeft, FaCheckCircle, FaShieldAlt } from 'react-icons/fa';
-import { Typography } from '@/components/Typography/Typography';
-import { InfoCard } from '@/components/InfoCard/InfoCard';
-import Section from '@/components/Section/Section';
+import { Typography } from '@components/Typography/Typography';
+import { InfoCard } from '@components/InfoCard/InfoCard';
+import Section from '@components/Section/Section';
 import { fadeIn, staggerContainer } from '@/utils/animations';
 import { sendMagicLink } from '@/services/buyerAuth';
 
@@ -41,7 +41,7 @@ const BuyerLogin: React.FC = () => {
                 animate="visible"
                 variants={staggerContainer}
             >
-                <Link to="/" className="inline-flex items-center gap-2 text-primary hover:text-accent mb-6 text-sm">
+                <Link to="/public" className="inline-flex items-center gap-2 text-primary hover:text-accent mb-6 text-sm">
                     <FaArrowLeft className="text-xs" /> Back to Home
                 </Link>
 

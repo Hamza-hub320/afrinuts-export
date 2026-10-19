@@ -7,6 +7,8 @@ import { AuthProvider } from './contexts/AuthContext';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import AccessibilityToolbar from './components/AccessibilityToolbar/AccessibilityToolbar';
 import FeedbackButton from './components/FeedbackButton/FeedbackButton';
+import BuyerLogin from '@/pages/BuyerPortal/BuyerLogin';
+import BuyerAuthCallback from '@/pages/BuyerPortal/BuyerAuthCallback';
 
 import i18n from './i18n';
 import './index.css';
@@ -113,6 +115,8 @@ function App(): ReactElement {
                                     <Route path="wholesale" element={<Wholesale />} />
                                     <Route path="partners" element={<Partners />} />
                                     <Route path="community" element={<Community />} />
+                                    <Route path="/portal/login" element={<BuyerLogin />} />
+                                    <Route path="/portal/auth/callback" element={<BuyerAuthCallback />} />
                                 </Route>
 
                                 <Route path="dashboard" element={
