@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { auth } from '@/services/firebase';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
@@ -97,6 +98,20 @@ const BuyerDashboard: React.FC = () => {
             </span>
         );
     };
+
+    const handleFullRecord = async (batchId: string) => {
+        try {
+            const token = await auth.currentUser?.getIdToken();
+            const url = token
+                ? `/trace?batchId=${encodeURIComponent(batchId)}&token=${encodeURIComponent(token)}`
+                : `/trace?batchId=${encodeURIComponent(batchId)}`;
+            navigate(url);
+        } catch (err) {
+            console.error('Failed to get token:', err);
+            navigate(`/trace?batchId=${encodeURIComponent(batchId)}`);
+        }
+    };
+
 
     if (loading) {
         return (
@@ -272,13 +287,15 @@ const BuyerDashboard: React.FC = () => {
                                                         </div>
                                                     </div>
                                                     <div className="flex items-center gap-2">
-                                                        <Link
-                                                            to={`/trace?batchId=${encodeURIComponent(batch.batchId)}`}
+                                                        <motion.button
+                                                            onClick={() => handleFullRecord(batch.batchId)}
                                                             className="inline-flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-dark-orange transition"
+                                                            whileHover={{ y: -1 }}
+                                                            whileTap={{ scale: 0.95 }}
                                                         >
                                                             Full Record
                                                             <FaArrowRight className="text-xs" />
-                                                        </Link>
+                                                        </motion.button>
                                                         <button
                                                             onClick={() => setExpandedBatch(isExpanded ? null : batch.id)}
                                                             className="text-xs text-gray-500 hover:text-primary px-3 py-2"

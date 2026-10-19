@@ -282,9 +282,12 @@ const TracePage: React.FC = () => {
                 const allData = await allResponse.json();
                 setAllBatches(allData.batches || []);
 
-                // Build auth header if user is logged in
+                // Build auth header — prefer token from URL, fall back to current user
                 const headers: HeadersInit = {};
-                if (auth.currentUser) {
+                const urlToken = query.get("token");
+                if (urlToken) {
+                    headers.Authorization = `Bearer ${urlToken}`;
+                } else if (auth.currentUser) {
                     try {
                         const token = await auth.currentUser.getIdToken();
                         headers.Authorization = `Bearer ${token}`;
