@@ -76,7 +76,9 @@
     "receivingCompany": "Receiving Company",
     "previewAllBatches": "Preview All Batches",
     "previewNotice": "Default batch preview (no batchId provided in URL)",
-    "sampleNotice": "Sample batch — demonstration of Farm OS traceability"
+    "sampleNotice": "Sample batch — demonstration of Farm OS traceability",
+    "origin": "Origin",
+    "destination": "Destination"
   },
   "batchInfo": {
     "verified": "Farm OS Verified"
@@ -181,5 +183,10 @@
   },
   "location": {
     "title": "The Farm Location"
+  },
+  "loginCta": {
+    "title": "You're viewing the public record",
+    "body": "Buyers can log in to see full documentation, lab results, farmer details, and chain of custody.",
+    "button": "Buyer Login"
   }
 }

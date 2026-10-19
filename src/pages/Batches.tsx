@@ -27,7 +27,7 @@ import {
     FaChartLine,
     FaHome,
     FaExternalLinkAlt,
-    FaFileAlt, FaGlobeAfrica, FaCertificate, FaHandshake, FaShieldAlt, FaPercentage
+    FaFileAlt, FaGlobeAfrica, FaCertificate, FaHandshake, FaShieldAlt, FaPercentage, FaClock
 } from 'react-icons/fa';
 import { Typography } from '@/components/Typography/Typography';
 import { InfoCard } from '@/components/InfoCard/InfoCard';
@@ -152,9 +152,11 @@ const Batches: React.FC = () => {
 
     const totalBatches = batches.length;
     const premiumBatches = batches.filter(b => b.qualityGrade === 'PREMIUM').length;
-    const avgQuality = batches.length > 0
-        ? (batches.reduce((s, b) => s + (b.qualityScore || 0), 0) / batches.length).toFixed(1)
-        : '0';
+    // Only average batches that have been inspected
+    const inspectedBatches = batches.filter(b => (b.qualityScore ?? 0) > 0);
+    const avgQuality = inspectedBatches.length > 0
+        ? (inspectedBatches.reduce((s, b) => s + b.qualityScore, 0) / inspectedBatches.length).toFixed(1)
+        : null;
     const totalWeight = batches.reduce((s, b) => s + (b.weightKg || 0), 0);
 
     if (loading) {
@@ -406,7 +408,15 @@ const Batches: React.FC = () => {
                             <InfoCard icon={FaStar} title={String(premiumBatches)} subtitle="Premium Grade" iconColor="text-yellow-500" showInfoBadge={false} />
                         </motion.div>
                         <motion.div variants={fadeIn} transition={{ delay: 0.2 }}>
-                            <InfoCard icon={FaChartBar} title={`${avgQuality}%`} subtitle="Avg. Quality Score" iconColor="text-primary" showInfoBadge={false} />
+                            <InfoCard
+                                icon={FaChartBar}
+                                title={avgQuality ? `${avgQuality}%` : 'Pending'}
+                                subtitle={inspectedBatches.length > 0
+                                    ? `Avg. Quality Score (${inspectedBatches.length} inspected)`
+                                    : 'Avg. Quality Score'}
+                                iconColor="text-primary"
+                                showInfoBadge={false}
+                            />
                         </motion.div>
                         <motion.div variants={fadeIn} transition={{ delay: 0.3 }}>
                             <InfoCard icon={FaIndustry} title={`${(totalWeight / 1000).toFixed(0)}T`} subtitle="Total Weight" iconColor="text-green-600" showInfoBadge={false} />
@@ -448,14 +458,35 @@ const Batches: React.FC = () => {
                                 showInfoBadge={false}
                             >
                                 <div className="mt-3 text-center">
-                                    <div className="text-3xl font-bold text-red-600">
-                                        {batches.length > 0 ? (batches.reduce((s, b) => s + b.defectiveRate, 0) / batches.length).toFixed(2) : 0}%
-                                    </div>
-                                    <div className="text-xs text-gray-500 mt-1">
-                                        {batches.length > 0 && (batches.reduce((s, b) => s + b.defectiveRate, 0) / batches.length) < 3
-                                            ? '✓ Within industry target'
-                                            : '⚠ Above industry target'}
-                                    </div>
+                                    {(() => {
+                                        // Only average batches that have actually been inspected
+                                        const inspected = batches.filter(b => b.defectiveRate > 0 || b.qualityScore > 0);
+
+                                        if (inspected.length === 0) {
+                                            return (
+                                                <>
+                                                    <div className="text-2xl font-bold text-gray-400">Pending</div>
+                                                    <div className="text-xs text-gray-500 mt-1">
+                                                        No inspected batches yet
+                                                    </div>
+                                                </>
+                                            );
+                                        }
+
+                                        const avgDefect = inspected.reduce((s, b) => s + b.defectiveRate, 0) / inspected.length;
+                                        return (
+                                            <>
+                                                <div className="text-3xl font-bold text-red-600">
+                                                    {avgDefect.toFixed(2)}%
+                                                </div>
+                                                <div className="text-xs text-gray-500 mt-1">
+                                                    {avgDefect < 3
+                                                        ? `✓ Within industry target (${inspected.length} inspected)`
+                                                        : `⚠ Above industry target (${inspected.length} inspected)`}
+                                                </div>
+                                            </>
+                                        );
+                                    })()}
                                 </div>
                             </InfoCard>
                         </div>
@@ -600,17 +631,27 @@ const Batches: React.FC = () => {
                                             </span>
                                         </div>
                                     )}
+                                    {/* Quality grade + score + risk indicators */}
                                     <div className="flex items-center gap-2 mt-3">
-                                         <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${batch.qualityGrade === 'PREMIUM' ? 'bg-amber-100 text-amber-700' : 'bg-blue-100 text-blue-700'}`}>
-                                                 {batch.qualityGrade}
+                                        <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${
+                                            batch.qualityGrade === 'PREMIUM' ? 'bg-amber-100 text-amber-700' : 'bg-blue-100 text-blue-700'
+                                                 }`}>
+                                             {batch.qualityGrade}
                                         </span>
-                                        <span className="text-xs text-gray-500">Score: {batch.qualityScore?.toFixed(1)}%</span>
+                                        <span className="text-xs text-gray-500">
+                                            Score: {batch.qualityScore > 0 ? `${batch.qualityScore.toFixed(1)}%` : 'Pending'}
+                                        </span>
+                                        {/* Only show risk indicators when quality has actually been measured */}
                                         {batch.defectiveRate > 5 && <FaExclamationTriangle className="text-red-500 text-xs" title="High defect rate" />}
                                         {batch.moistureContent > 7 && <FaTint className="text-blue-500 text-xs" title="High moisture" />}
                                     </div>
                                     <div className="flex gap-2 mt-2">
-                                        <span className="text-xs text-gray-500">Moisture: {batch.moistureContent}%</span>
-                                        <span className="text-xs text-gray-500">Defects: {batch.defectiveRate}%</span>
+                                         <span className="text-xs text-gray-500">
+                                            Moisture: {batch.moistureContent > 0 ? `${batch.moistureContent}%` : 'Pending'}
+                                        </span>
+                                        <span className="text-xs text-gray-500">
+                                            Defects: {batch.defectiveRate > 0 ? `${batch.defectiveRate}%` : 'Pending'}
+                                        </span>
                                     </div>
                                     <div className="flex gap-1 mt-2">
                                         {batch.sustainableHarvesting && <FaLeaf className="text-green-500 text-xs" />}
@@ -650,33 +691,84 @@ const Batches: React.FC = () => {
                                             <div className="flex justify-center py-12"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div></div>
                                         ) : batchDetail && batchDetail.batch ? (
                                             <div className="space-y-6">
-                                                {/* Quality Metrics */}
-                                                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                                                    {[
-                                                        { label: 'Quality Score', value: `${selectedBatch?.qualityScore?.toFixed(1)}%`, color: 'text-primary' },
-                                                        { label: 'Moisture', value: `${selectedBatch?.moistureContent}%`, color: 'text-blue-600' },
-                                                        { label: 'Defect Rate', value: `${selectedBatch?.defectiveRate}%`, color: 'text-red-600' },
-                                                        { label: 'Kernel Ratio', value: `${selectedBatch?.kernelRatio}%`, color: 'text-green-600' },
-                                                    ].map((m, i) => (
-                                                        <div key={i} className="bg-white/50 rounded-xl p-3 text-center border border-white/30">
-                                                            <div className={`text-lg font-bold ${m.color}`}>{m.value}</div>
-                                                            <div className="text-xs text-gray-500">{m.label}</div>
-                                                        </div>
-                                                    ))}
-                                                </div>
+                                                {/* Quality Metrics — show "Pending" when not yet inspected */}
+                                                {(() => {
+                                                    const isInspected = (selectedBatch?.qualityScore ?? 0) > 0
+                                                        || (selectedBatch?.moistureContent ?? 0) > 0
+                                                        || (selectedBatch?.kernelRatio ?? 0) > 0;
 
-                                                {/* Test Results */}
-                                                {selectedBatch?.testResults && (
-                                                    <div className="bg-white/50 rounded-xl p-4 border border-white/30">
-                                                        <h4 className="font-medium text-primary mb-2 flex items-center gap-2"><FaFlask /> Test Results</h4>
-                                                        <div className="grid grid-cols-3 gap-3 text-sm">
-                                                            {Object.entries(parseTestResults(selectedBatch.testResults)).map(([key, value]) => (
-                                                                <div key={key} className="text-center">
-                                                                    <div className="text-gray-500 capitalize">{key.replace(/([A-Z])/g, ' $1')}</div>
-                                                                    <div className="font-semibold">{String(value)}</div>
+                                                    if (!isInspected) {
+                                                        return (
+                                                            <div className="bg-amber-50/60 border border-amber-200 rounded-xl p-4 text-center">
+                                                                <FaClock className="text-amber-500 text-2xl mx-auto mb-2" />
+                                                                <Typography variant="small" className="font-semibold text-amber-700">
+                                                                    Quality Inspection Pending
+                                                                </Typography>
+                                                                <Typography variant="small" className="text-amber-600 text-xs mt-1">
+                                                                    This batch has been received but hasn't been inspected yet. Quality metrics will appear once the inspection is complete.
+                                                                </Typography>
+                                                            </div>
+                                                        );
+                                                    }
+
+                                                    return (
+                                                        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                                                            {[
+                                                                {
+                                                                    label: 'Quality Score',
+                                                                    value: (selectedBatch?.qualityScore ?? 0) > 0 ? `${selectedBatch!.qualityScore.toFixed(1)}%` : '—',
+                                                                    color: 'text-primary'
+                                                                },
+                                                                {
+                                                                    label: 'Moisture',
+                                                                    value: (selectedBatch?.moistureContent ?? 0) > 0 ? `${selectedBatch!.moistureContent}%` : '—',
+                                                                    color: 'text-blue-600'
+                                                                },
+                                                                {
+                                                                    label: 'Defect Rate',
+                                                                    value: (selectedBatch?.defectiveRate ?? 0) > 0 ? `${selectedBatch!.defectiveRate}%` : '—',
+                                                                    color: 'text-red-600'
+                                                                },
+                                                                {
+                                                                    label: 'Kernel Ratio',
+                                                                    value: (selectedBatch?.kernelRatio ?? 0) > 0 ? `${selectedBatch!.kernelRatio}%` : '—',
+                                                                    color: 'text-green-600'
+                                                                },
+                                                            ].map((m, i) => (
+                                                                <div key={i} className="bg-white/50 rounded-xl p-3 text-center border border-white/30">
+                                                                    <div className={`text-lg font-bold ${m.color}`}>{m.value}</div>
+                                                                    <div className="text-xs text-gray-500">{m.label}</div>
                                                                 </div>
                                                             ))}
                                                         </div>
+                                                    );
+                                                })()}
+
+                                                {/* Test Results */}
+                                                {selectedBatch?.testResults && Object.keys(parseTestResults(selectedBatch.testResults)).length > 0 ? (
+                                                    <div className="bg-white/50 rounded-xl p-4 border border-white/30">
+                                                        <h4 className="font-medium text-primary mb-2 flex items-center gap-2">
+                                                            <FaFlask /> Test Results
+                                                        </h4>
+                                                        <div className="grid grid-cols-3 gap-3 text-sm">
+                                                            {Object.entries(parseTestResults(selectedBatch.testResults)).map(([key, value]) => (
+                                                                <div key={key} className="text-center">
+                                                                    <div className="text-gray-500 capitalize">
+                                                                        {key.replace(/([A-Z])/g, ' $1')}
+                                                                    </div>
+                                                                    <div className="font-semibold">
+                                                                        {value != null && value !== 0 ? String(value) : 'Pending'}
+                                                                    </div>
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    </div>
+                                                ) : (
+                                                    <div className="bg-amber-50/60 border border-amber-200 rounded-xl p-4 text-center">
+                                                        <FaFlask className="text-amber-500 text-xl mx-auto mb-2" />
+                                                        <Typography variant="small" className="text-amber-700 text-xs">
+                                                            Lab tests pending — results will appear after quality inspection
+                                                        </Typography>
                                                     </div>
                                                 )}
 
@@ -891,48 +983,69 @@ const Batches: React.FC = () => {
                     iconColor="text-green-600"
                     showInfoBadge={false}
                 >
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-3 text-center">
-                        {[
-                            {
-                                label: 'EU Compliant',
-                                value: batches.filter(b => (parseTestResults(b.testResults || '{}').aflatoxin || 99) < 4).length,
-                                total: batches.length,
-                                icon: FaGlobeEurope,
-                                color: 'text-blue-500',
-                                hint: 'Aflatoxin < 4ppb'
-                            },
-                            {
-                                label: 'Organic Certified',
-                                value: batches.filter(b => b.batchNumber?.includes('-ORG-')).length,
-                                total: batches.length,
-                                icon: FaLeaf,
-                                color: 'text-green-500',
-                                hint: 'ORG in batch code'
-                            },
-                            {
-                                label: 'Export Ready',
-                                value: batches.filter(b => b.qualityScore >= 95 && b.defectiveRate < 5 && (parseTestResults(b.testResults || '{}').aflatoxin || 99) < 4).length,
-                                total: batches.length,
-                                icon: FaShip,
-                                color: 'text-primary',
-                                hint: 'Score ≥95%, defects <5%, EU compliant'
-                            },
-                            {
-                                label: 'Needs Review',
-                                value: batches.filter(b => b.defectiveRate > 5 || b.moistureContent > 7 || (parseTestResults(b.testResults || '{}').aflatoxin || 99) >= 4).length,
-                                total: batches.length,
-                                icon: FaSearch,
-                                color: 'text-amber-500',
-                                hint: 'High defects, moisture, or aflatoxin'
-                            },
-                        ].map((item, i) => (
-                            <div key={i} className="bg-white/40 rounded-xl p-3 border border-white/30">
-                                <item.icon className={`text-2xl mx-auto ${item.color}`} />
-                                <div className="text-lg font-bold mt-1">{item.value}/{item.total}</div>
-                                <div className="text-xs text-gray-500">{item.label}</div>
-                                <div className="text-[10px] text-gray-400 mt-0.5">{item.hint}</div>
-                            </div>
-                        ))}
+                    <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mt-3 text-center">
+                        {(() => {
+                            const inspected = batches.filter(b => (b.qualityScore ?? 0) > 0);
+                            const uninspected = batches.length - inspected.length;
+
+                            return [
+                                {
+                                    label: 'EU Compliant',
+                                    value: inspected.filter(b => (parseTestResults(b.testResults || '{}').aflatoxin || 99) < 4).length,
+                                    total: inspected.length,
+                                    icon: FaGlobeEurope,
+                                    color: 'text-blue-500',
+                                    hint: 'Aflatoxin < 4ppb'
+                                },
+                                {
+                                    label: 'Organic Certified',
+                                    value: batches.filter(b => b.batchNumber?.includes('-ORG-')).length,
+                                    total: batches.length,
+                                    icon: FaLeaf,
+                                    color: 'text-green-500',
+                                    hint: 'ORG in batch code'
+                                },
+                                {
+                                    label: 'Export Ready',
+                                    value: inspected.filter(b =>
+                                        b.qualityScore >= 95 &&
+                                        b.defectiveRate < 5 &&
+                                        (parseTestResults(b.testResults || '{}').aflatoxin || 99) < 4
+                                    ).length,
+                                    total: inspected.length,
+                                    icon: FaShip,
+                                    color: 'text-primary',
+                                    hint: 'Score ≥95%, defects <5%, EU compliant'
+                                },
+                                {
+                                    label: 'Needs Review',
+                                    value: inspected.filter(b =>
+                                        b.defectiveRate > 5 ||
+                                        b.moistureContent > 7 ||
+                                        (parseTestResults(b.testResults || '{}').aflatoxin || 99) >= 4
+                                    ).length,
+                                    total: inspected.length,
+                                    icon: FaSearch,
+                                    color: 'text-amber-500',
+                                    hint: 'High defects, moisture, or aflatoxin'
+                                },
+                                {
+                                    label: 'Pending Inspection',
+                                    value: uninspected,
+                                    total: batches.length,
+                                    icon: FaClock,
+                                    color: 'text-gray-500',
+                                    hint: 'Awaiting quality check'
+                                },
+                            ].map((item, i) => (
+                                <div key={i} className="bg-white/40 rounded-xl p-3 border border-white/30">
+                                    <item.icon className={`text-2xl mx-auto ${item.color}`} />
+                                    <div className="text-lg font-bold mt-1">{item.value}/{item.total}</div>
+                                    <div className="text-xs text-gray-500">{item.label}</div>
+                                    <div className="text-[10px] text-gray-400 mt-0.5">{item.hint}</div>
+                                </div>
+                            ));
+                        })()}
                     </div>
                 </InfoCard>
             </div>
