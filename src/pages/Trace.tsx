@@ -208,6 +208,8 @@ function useQuery() {
     return new URLSearchParams(useLocation().search);
 }
 
+const [view, setView] = useState<'public' | 'private'>('public');
+
 const TracePage: React.FC = () => {
     const { t } = useTranslation("trace");
     const query = useQuery();
@@ -305,9 +307,11 @@ const TracePage: React.FC = () => {
                 if (data.isBulk) {
                     setBulkData(data as BulkData);
                     setBatch(null);
+                    setView(data.view === 'private' ? 'private' : 'public');
                 } else {
                     setBatch(data.batch);
                     setBulkData(null);
+                    setView(data.view === 'private' ? 'private' : 'public');
                 }
             } catch (error) {
                 console.error('Error fetching batch data:', error);
@@ -692,9 +696,7 @@ const TracePage: React.FC = () => {
     const displayTitle = isBulk ? bulkData!.masterBatch.masterBatchNumber : batch?.batchId;
 
 // Determine the view from the API response
-    const isPrivateView = isBulk
-        ? bulkData?.view === 'private'
-        : (batch as any)?.view === 'private';
+    const isPrivateView = view === 'private';
 
     return (
         <main className="text-text-dark font-sans">
