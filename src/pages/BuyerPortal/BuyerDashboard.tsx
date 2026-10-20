@@ -5,8 +5,8 @@ import { motion } from 'framer-motion';
 import {
     FaBox, FaShip, FaCheckCircle, FaClock, FaSignOutAlt,
     FaArrowRight, FaUser, FaDownload, FaShieldAlt,
-    FaFileAlt, FaFlask, FaGlobeAfrica, FaCalendarAlt,
-    FaExternalLinkAlt, FaCertificate, FaMapMarkerAlt, FaTint, FaPercentage,
+    FaFileAlt, FaCertificate, FaMapMarkerAlt, FaPercentage,
+    FaFlask, FaLeaf, FaChild, FaMobile, FaTree, FaCalendarAlt, FaBuilding
 } from 'react-icons/fa';
 import { GiFarmer } from 'react-icons/gi';
 import { Typography } from '@/components/Typography/Typography';
@@ -16,6 +16,7 @@ import { fadeIn, staggerContainer } from '@/utils/animations';
 import { getBuyerPortalData } from '@/services/api';
 import { buyerLogout, onBuyerAuthChange } from '@/services/buyerAuth';
 import type { User } from 'firebase/auth';
+import BatchLocationMap from '@/components/BatchLocationMap/BatchLocationMap';
 
 interface MyBatch {
     id: string;
@@ -25,10 +26,9 @@ interface MyBatch {
     sourceType: string;
     weightKg: number;
     isInspected: boolean;
-    hasVerification: boolean;
     status: string;
 
-    // Richer fields from the enhanced buyerPortal function
+    // Private enriched fields
     qualityScore?: number | null;
     moistureContent?: number | null;
     defectiveRate?: number | null;
@@ -43,6 +43,32 @@ interface MyBatch {
     exportDate?: number | null;
     rawWeightKg?: number | null;
     kernelWeightKg?: number | null;
+
+    // Assuming the backend `myBatches` returns these or you can fetch them individually
+    farmLocation?: string;
+    block?: string;
+    latitude?: number;
+    longitude?: number;
+    farmerBio?: string;
+    farmerPhoto?: string;
+    farmerQuote?: string;
+    processingFacility?: string;
+    processingMethod?: string;
+    shellingMethod?: string;
+    gradingMethod?: string;
+    testResults?: {
+        aflatoxin?: number | null;
+        heavyMetals?: number | null;
+        pesticideResidue?: number | null;
+    };
+    sustainability?: {
+        noChildLabor: boolean;
+        farmOsMonitored: boolean;
+        firebreak: boolean;
+        sustainableHarvesting: boolean;
+    };
+    yieldPercentage?: number | null;
+    kernelRatio?: number | null;
 }
 
 interface BuyerInfo {
@@ -58,6 +84,7 @@ const BuyerDashboard: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [expandedBatch, setExpandedBatch] = useState<string | null>(null);
+    const [activeTab, setActiveTab] = useState<'journey' | 'quality' | 'documents'>('journey');
 
     useEffect(() => {
         const unsubscribe = onBuyerAuthChange(setUser);
@@ -99,20 +126,6 @@ const BuyerDashboard: React.FC = () => {
         );
     };
 
-    const handleFullRecord = async (batchId: string) => {
-        try {
-            const token = await auth.currentUser?.getIdToken();
-            const url = token
-                ? `/trace?batchId=${encodeURIComponent(batchId)}&token=${encodeURIComponent(token)}`
-                : `/trace?batchId=${encodeURIComponent(batchId)}`;
-            navigate(url);
-        } catch (err) {
-            console.error('Failed to get token:', err);
-            navigate(`/trace?batchId=${encodeURIComponent(batchId)}`);
-        }
-    };
-
-
     if (loading) {
         return (
             <div className="min-h-screen flex items-center justify-center pt-[72px]">
@@ -136,12 +149,10 @@ const BuyerDashboard: React.FC = () => {
         );
     }
 
-    // KPIs computed from real data
+    // KPIs
     const totalWeight = batches.reduce((s, b) => s + (b.weightKg || 0), 0);
     const inspected = batches.filter(b => b.isInspected);
-    const avgQuality = inspected.length > 0
-        ? (inspected.reduce((s, b) => s + (b.qualityScore || 0), 0) / inspected.length).toFixed(1)
-        : null;
+    const avgQuality = inspected.length > 0 ? (inspected.reduce((s, b) => s + (b.qualityScore || 0), 0) / inspected.length).toFixed(1) : null;
     const totalDocsAvailable = batches.reduce((s, b) => s + (b.documentsAvailable || 0), 0);
     const premiumCount = batches.filter(b => b.qualityGrade === 'PREMIUM').length;
 
@@ -149,17 +160,12 @@ const BuyerDashboard: React.FC = () => {
         <div className="min-h-screen pt-[72px] bg-gradient-to-br from-primary/5 to-accent/5">
             <Section className="py-8">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6">
+
                     {/* Header */}
-                    <motion.div
-                        initial="hidden"
-                        animate="visible"
-                        variants={staggerContainer}
-                        className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8"
-                    >
+                    <motion.div initial="hidden" animate="visible" variants={staggerContainer} className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
                         <div>
                             <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-2 text-sm">
-                                <FaShieldAlt className="inline mr-2 text-accent" />
-                                Buyer Portal
+                                <FaShieldAlt className="inline mr-2 text-accent" /> Buyer Portal
                             </Typography>
                             <Typography variant="h1" className="text-3xl md:text-4xl font-display text-text-dark">
                                 {buyerInfo?.companyName || 'Welcome'}
@@ -170,64 +176,21 @@ const BuyerDashboard: React.FC = () => {
                                 </Typography>
                             )}
                         </div>
-                        <button
-                            onClick={handleLogout}
-                            className="flex items-center gap-2 px-4 py-2 bg-white/50 backdrop-blur-sm border border-gray-200 rounded-full text-sm font-medium hover:bg-white/80 transition"
-                        >
-                            <FaSignOutAlt className="text-xs" />
-                            Sign Out
+                        <button onClick={handleLogout} className="flex items-center gap-2 px-4 py-2 bg-white/50 backdrop-blur-sm border border-gray-200 rounded-full text-sm font-medium hover:bg-white/80 transition">
+                            <FaSignOutAlt className="text-xs" /> Sign Out
                         </button>
                     </motion.div>
 
-                    {/* KPI Cards — richer */}
-                    <motion.div
-                        initial="hidden"
-                        animate="visible"
-                        variants={staggerContainer}
-                        className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8"
-                    >
-                        <motion.div variants={fadeIn}>
-                            <InfoCard icon={FaBox} title={String(batches.length)} subtitle="Batches" iconColor="text-accent" showInfoBadge={false} />
-                        </motion.div>
-                        <motion.div variants={fadeIn} transition={{ delay: 0.05 }}>
-                            <InfoCard
-                                icon={FaShip}
-                                title={String(batches.filter(b => b.status === 'SHIPPED').length)}
-                                subtitle="Shipped"
-                                iconColor="text-green-600"
-                                showInfoBadge={false}
-                            />
-                        </motion.div>
-                        <motion.div variants={fadeIn} transition={{ delay: 0.1 }}>
-                            <InfoCard
-                                icon={FaCertificate}
-                                title={String(premiumCount)}
-                                subtitle="Premium Grade"
-                                iconColor="text-amber-500"
-                                showInfoBadge={false}
-                            />
-                        </motion.div>
-                        <motion.div variants={fadeIn} transition={{ delay: 0.15 }}>
-                            <InfoCard
-                                icon={FaPercentage}
-                                title={avgQuality ? `${avgQuality}%` : '—'}
-                                subtitle="Avg. Quality"
-                                iconColor="text-primary"
-                                showInfoBadge={false}
-                            />
-                        </motion.div>
-                        <motion.div variants={fadeIn} transition={{ delay: 0.2 }}>
-                            <InfoCard
-                                icon={FaDownload}
-                                title={String(totalDocsAvailable)}
-                                subtitle="Docs Available"
-                                iconColor="text-blue-600"
-                                showInfoBadge={false}
-                            />
-                        </motion.div>
+                    {/* KPI Cards */}
+                    <motion.div initial="hidden" animate="visible" variants={staggerContainer} className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
+                        <motion.div variants={fadeIn}><InfoCard icon={FaBox} title={String(batches.length)} subtitle="Batches" iconColor="text-accent" showInfoBadge={false} /></motion.div>
+                        <motion.div variants={fadeIn} transition={{ delay: 0.05 }}><InfoCard icon={FaShip} title={String(batches.filter(b => b.status === 'SHIPPED').length)} subtitle="Shipped" iconColor="text-green-600" showInfoBadge={false} /></motion.div>
+                        <motion.div variants={fadeIn} transition={{ delay: 0.1 }}><InfoCard icon={FaCertificate} title={String(premiumCount)} subtitle="Premium Grade" iconColor="text-amber-500" showInfoBadge={false} /></motion.div>
+                        <motion.div variants={fadeIn} transition={{ delay: 0.15 }}><InfoCard icon={FaPercentage} title={avgQuality ? `${avgQuality}%` : '—'} subtitle="Avg. Quality" iconColor="text-primary" showInfoBadge={false} /></motion.div>
+                        <motion.div variants={fadeIn} transition={{ delay: 0.2 }}><InfoCard icon={FaDownload} title={String(totalDocsAvailable)} subtitle="Docs Available" iconColor="text-blue-600" showInfoBadge={false} /></motion.div>
                     </motion.div>
 
-                    {/* Batches List — expanded cards */}
+                    {/* Batches List */}
                     <motion.div initial="hidden" animate="visible" variants={staggerContainer}>
                         <Typography variant="h2" className="text-primary mb-4">Your Batches</Typography>
 
@@ -238,19 +201,15 @@ const BuyerDashboard: React.FC = () => {
                                 </Typography>
                             </InfoCard>
                         ) : (
-                            <div className="space-y-4">
+                            <div className="space-y-6">
                                 {batches.map((batch, idx) => {
                                     const isExpanded = expandedBatch === batch.id;
                                     return (
-                                        <motion.div
-                                            key={batch.id}
-                                            initial={{ opacity: 0, y: 10 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            transition={{ delay: idx * 0.05 }}
-                                            className="bg-white/70 backdrop-blur-sm border border-white/40 rounded-2xl shadow-md overflow-hidden"
-                                        >
-                                            {/* Card Header — always visible */}
-                                            <div className="p-5">
+                                        <motion.div key={batch.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.05 }}
+                                                    className="bg-white/70 backdrop-blur-sm border border-white/40 rounded-2xl shadow-md overflow-hidden">
+
+                                            {/* Card Header */}
+                                            <div className="p-5 cursor-pointer hover:bg-white/40 transition-colors" onClick={() => setExpandedBatch(isExpanded ? null : batch.id)}>
                                                 <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
                                                     <div className="flex-1">
                                                         <div className="flex items-center gap-2 mb-2 flex-wrap">
@@ -258,63 +217,31 @@ const BuyerDashboard: React.FC = () => {
                                                                 {batch.batchId}
                                                             </span>
                                                             {batch.sourceType === 'OWN_FARM' && (
-                                                                <span className="px-2 py-0.5 bg-green-100 text-green-700 text-xs rounded-full">
-                                                                    AfriNuts Farm
-                                                                </span>
+                                                                <span className="px-2 py-0.5 bg-green-100 text-green-700 text-xs rounded-full">AfriNuts Farm</span>
                                                             )}
                                                             {getStatusBadge(batch.status)}
                                                         </div>
                                                         <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-600">
-                                                            <span className="flex items-center gap-1">
-                                                                <FaCalendarAlt className="text-gray-400" />
-                                                                {new Date(batch.processingDate).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}
-                                                            </span>
-                                                            <span className="flex items-center gap-1">
-                                                                <FaBox className="text-gray-400" />
-                                                                {(batch.weightKg / 1000).toFixed(1)}T raw
-                                                            </span>
-                                                            {batch.kernelWeightKg && (
-                                                                <span className="flex items-center gap-1">
-                                                                    <FaPercentage className="text-gray-400" />
-                                                                    {(batch.kernelWeightKg / 1000).toFixed(1)}T kernel
-                                                                </span>
-                                                            )}
-                                                            <span className={`px-2 py-0.5 rounded-full ${
-                                                                batch.qualityGrade === 'PREMIUM' ? 'bg-amber-100 text-amber-700' : 'bg-blue-100 text-blue-700'
-                                                            }`}>
+                                                            <span className="flex items-center gap-1"><FaCalendarAlt className="text-gray-400" /> {new Date(batch.processingDate).toLocaleDateString()}</span>
+                                                            <span className="flex items-center gap-1"><FaBox className="text-gray-400" /> {(batch.weightKg / 1000).toFixed(1)}T raw</span>
+                                                            {batch.kernelWeightKg && <span className="flex items-center gap-1"><FaPercentage className="text-gray-400" /> {(batch.kernelWeightKg / 1000).toFixed(1)}T kernel</span>}
+                                                            <span className={`px-2 py-0.5 rounded-full ${batch.qualityGrade === 'PREMIUM' ? 'bg-amber-100 text-amber-700' : 'bg-blue-100 text-blue-700'}`}>
                                                                 {batch.qualityGrade}
                                                             </span>
                                                         </div>
                                                     </div>
-                                                    <div className="flex items-center gap-2">
-                                                        <motion.button
-                                                            onClick={() => handleFullRecord(batch.batchId)}
-                                                            className="inline-flex items-center gap-2 bg-primary text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-dark-orange transition"
-                                                            whileHover={{ y: -1 }}
-                                                            whileTap={{ scale: 0.95 }}
-                                                        >
-                                                            Full Record
-                                                            <FaArrowRight className="text-xs" />
-                                                        </motion.button>
-                                                        <button
-                                                            onClick={() => setExpandedBatch(isExpanded ? null : batch.id)}
-                                                            className="text-xs text-gray-500 hover:text-primary px-3 py-2"
-                                                        >
-                                                            {isExpanded ? 'Hide details' : 'Quick preview'}
-                                                        </button>
-                                                    </div>
+                                                    <button className="text-xs text-gray-500 hover:text-primary px-3 py-2">
+                                                        {isExpanded ? 'Hide details' : 'View full details'}
+                                                    </button>
                                                 </div>
                                             </div>
 
-                                            {/* Expanded Preview — inline details */}
+                                            {/* Expanded Details */}
                                             {isExpanded && (
-                                                <motion.div
-                                                    initial={{ height: 0, opacity: 0 }}
-                                                    animate={{ height: 'auto', opacity: 1 }}
-                                                    className="border-t border-gray-200/50 bg-white/30 p-5 space-y-4"
-                                                >
+                                                <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} className="border-t border-gray-200/50 bg-white/30 p-5">
+
                                                     {/* Quality & Origin Grid */}
-                                                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                                                    <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
                                                         {batch.qualityScore != null && (
                                                             <div className="bg-white/60 rounded-xl p-3 border border-white/40">
                                                                 <div className="text-[10px] text-gray-500 uppercase tracking-wider">Quality Score</div>
@@ -343,49 +270,75 @@ const BuyerDashboard: React.FC = () => {
 
                                                     {/* Farmer */}
                                                     {batch.farmerName && (
-                                                        <div className="flex items-center gap-2 text-sm">
-                                                            <GiFarmer className="text-accent text-lg" />
-                                                            <span className="text-gray-500">Grown by</span>
-                                                            <span className="font-medium text-gray-800">{batch.farmerName}</span>
+                                                        <div className="bg-white/40 rounded-xl p-4 flex items-center gap-4 mb-4">
+                                                            <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                                                                {batch.farmerPhoto ? <img src={batch.farmerPhoto} className="w-full h-full rounded-full object-cover" /> : <GiFarmer className="text-xl text-primary" />}
+                                                            </div>
+                                                            <div>
+                                                                <div className="text-xs text-gray-500">Grown by</div>
+                                                                <div className="font-bold text-gray-800">{batch.farmerName}</div>
+                                                                {batch.farmerBio && <div className="text-xs text-gray-600 line-clamp-1">{batch.farmerBio}</div>}
+                                                            </div>
                                                         </div>
                                                     )}
 
-                                                    {/* Certifications */}
-                                                    {batch.certifications && batch.certifications.length > 0 && (
-                                                        <div className="flex items-center gap-2 flex-wrap">
-                                                            <FaCertificate className="text-accent text-sm" />
-                                                            <span className="text-gray-500 text-sm">Certifications:</span>
-                                                            {batch.certifications.map(c => (
-                                                                <span key={c} className="px-2 py-0.5 bg-primary/10 text-primary rounded-full text-xs">
-                                                                    {c}
-                                                                </span>
-                                                            ))}
+                                                    {/* Processing Info */}
+                                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                                        <div className="bg-white/40 rounded-xl p-4 border border-white/30">
+                                                            <div className="text-xs font-bold text-gray-700 mb-2 flex items-center gap-2"><FaFlask className="text-accent"/> Processing Details</div>
+                                                            <div className="space-y-1 text-sm">
+                                                                <div className="flex justify-between"><span className="text-gray-500">Facility:</span> <span className="font-medium text-right">{batch.processingFacility || 'AfriNuts NDC'}</span></div>
+                                                                <div className="flex justify-between"><span className="text-gray-500">Method:</span> <span className="font-medium text-right">{batch.processingMethod || 'Steam Roasted'}</span></div>
+                                                                <div className="flex justify-between"><span className="text-gray-500">Yield:</span> <span className="font-medium text-right">{batch.yieldPercentage ? `${batch.yieldPercentage.toFixed(1)}%` : '—'}</span></div>
+                                                            </div>
                                                         </div>
-                                                    )}
 
-                                                    {/* Documents */}
-                                                    {batch.documentsTotal && batch.documentsTotal > 0 && (
-                                                        <div className="flex items-center gap-2 text-sm">
-                                                            <FaFileAlt className="text-accent" />
-                                                            <span className="font-medium text-gray-800">
-                                                                {batch.documentsAvailable} of {batch.documentsTotal} documents available
-                                                            </span>
-                                                            <Link to={`/trace?batchId=${encodeURIComponent(batch.batchId)}`} className="text-accent hover:underline text-xs ml-auto">
-                                                                Download →
-                                                            </Link>
-                                                        </div>
-                                                    )}
-
-                                                    {/* Verification */}
-                                                    {batch.hasVerification && (
-                                                        <div className="flex items-center gap-2 text-sm">
-                                                            <FaShieldAlt className="text-green-600" />
-                                                            <span className="text-gray-600">Digitally signed</span>
-                                                            {batch.verificationCode && (
-                                                                <span className="font-mono text-xs text-gray-500">
-                                                                    {batch.verificationCode}
-                                                                </span>
+                                                        {/* Lab Results */}
+                                                        <div className="bg-white/40 rounded-xl p-4 border border-white/30">
+                                                            <div className="text-xs font-bold text-gray-700 mb-2 flex items-center gap-2"><FaShieldAlt className="text-green-600"/> Quality Lab Results</div>
+                                                            {batch.testResults ? (
+                                                                <div className="space-y-1 text-sm">
+                                                                    <div className="flex justify-between"><span className="text-gray-500">Aflatoxin:</span> <span className={`font-medium ${batch.testResults.aflatoxin! < 4 ? 'text-green-600' : 'text-red-600'}`}>{batch.testResults.aflatoxin} ppb {batch.testResults.aflatoxin! < 4 ? '✓' : '⚠'}</span></div>
+                                                                    <div className="flex justify-between"><span className="text-gray-500">Heavy Metals:</span> <span className={`font-medium ${batch.testResults.heavyMetals! < 0.5 ? 'text-green-600' : 'text-red-600'}`}>{batch.testResults.heavyMetals} ppb {batch.testResults.heavyMetals! < 0.5 ? '✓' : '⚠'}</span></div>
+                                                                </div>
+                                                            ) : (
+                                                                <div className="text-sm text-gray-500">Lab results pending</div>
                                                             )}
+                                                        </div>
+                                                    </div>
+
+                                                    {/* Sustainability */}
+                                                    {batch.sustainability && (
+                                                        <div className="bg-white/40 rounded-xl p-4 border border-white/30 mb-4">
+                                                            <div className="text-xs font-bold text-gray-700 mb-3 flex items-center gap-2"><FaLeaf className="text-green-600"/> Sustainability Verification</div>
+                                                            <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                                                                {[
+                                                                    { label: 'No Child Labor', active: batch.sustainability.noChildLabor, icon: FaChild },
+                                                                    { label: 'Farm OS Monitored', active: batch.sustainability.farmOsMonitored, icon: FaMobile },
+                                                                    { label: 'Firebreak Protected', active: batch.sustainability.firebreak, icon: FaShieldAlt },
+                                                                    { label: 'Sustainable Harvest', active: batch.sustainability.sustainableHarvesting, icon: FaTree },
+                                                                ].map((s, i) => (
+                                                                    <div key={i} className={`p-2 rounded-lg text-center text-xs border ${s.active ? 'bg-green-50 border-green-200 text-green-700' : 'bg-gray-50 border-gray-200 text-gray-500'}`}>
+                                                                        <s.icon className={`mx-auto mb-1 ${s.active ? 'text-green-600' : 'text-gray-400'}`} />
+                                                                        {s.label} {s.active && '✓'}
+                                                                    </div>
+                                                                ))}
+                                                            </div>
+                                                        </div>
+                                                    )}
+
+                                                    {/* GPS Map */}
+                                                    {batch.latitude && batch.longitude && (
+                                                        <div className="bg-white/40 rounded-xl p-1 border border-white/30 mb-4">
+                                                            <BatchLocationMap latitude={batch.latitude} longitude={batch.longitude} farmName={batch.farmLocation || 'AfriNuts Farm'} block={batch.block || null} />
+                                                        </div>
+                                                    )}
+
+                                                    {/* Digital Signature */}
+                                                    {batch.verificationCode && (
+                                                        <div className="bg-gradient-to-r from-primary/5 to-accent/5 rounded-xl p-4 border border-primary/20 text-center">
+                                                            <div className="text-xs font-semibold text-primary mb-1 flex items-center justify-center gap-2"><FaShieldAlt className="text-green-600"/> Digital Signature Verified</div>
+                                                            <div className="font-mono text-sm tracking-wider text-gray-700">{batch.verificationCode}</div>
                                                         </div>
                                                     )}
                                                 </motion.div>
@@ -404,8 +357,7 @@ const BuyerDashboard: React.FC = () => {
                                 Questions about your batches, documentation, or the portal? Our team is here to help.
                             </Typography>
                             <Link to="/contact" className="inline-flex items-center gap-2 bg-primary text-white px-5 py-2 rounded-full text-sm font-medium hover:bg-dark-orange transition">
-                                Contact Us
-                                <FaArrowRight className="text-xs" />
+                                Contact Us <FaArrowRight className="text-xs" />
                             </Link>
                         </InfoCard>
                     </motion.div>
