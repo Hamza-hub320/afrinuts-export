@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { auth } from '@/services/firebase';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
@@ -6,7 +7,8 @@ import {
     FaArrowRight, FaUser, FaDownload, FaShieldAlt,
     FaFileAlt, FaCertificate, FaMapMarkerAlt, FaPercentage,
     FaFlask, FaLeaf, FaChild, FaMobile, FaTree, FaCalendarAlt, FaBuilding,
-    FaIndustry, FaChartBar, FaTruck, FaShare, FaCopy, FaWhatsapp, FaTwitter, FaLinkedin, FaEnvelope,
+    FaIndustry, FaChartBar, FaTruck, FaArrowLeft, FaGlobeEurope, FaDatabase, FaExternalLinkAlt, FaChevronDown, FaQuestionCircle,
+    FaQrcode, FaSignature, FaGlobeAfrica, FaCopy, FaWhatsapp, FaTwitter, FaLinkedin, FaEnvelope, FaPrint, FaShare
 } from 'react-icons/fa';
 import { GiFarmer, GiFruitTree, GiFactory, GiCargoShip } from 'react-icons/gi';
 import { Typography } from '@/components/Typography/Typography';
@@ -40,7 +42,6 @@ interface MyBatch {
         signedDate: string;
         signature: string;
     } | null;
-    qualityResults?: string;
     qualityScore?: number;
     testResults?: {
         aflatoxin?: number;
@@ -146,9 +147,9 @@ const BuyerDashboard: React.FC = () => {
         navigate('/portal/login');
     };
 
-    const handleShare = async (platform?: string) => {
-        const url = window.location.href;
-        const text = `AfriNuts Buyer Portal: ${buyerInfo?.companyName}`;
+    const handleShare = async (batchId: string, platform?: string) => {
+        const url = `${window.location.origin}/trace?batchId=${encodeURIComponent(batchId)}`;
+        const text = `AfriNuts Batch Traceability: ${batchId}`;
 
         if (platform === 'whatsapp') {
             window.open(`https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}`);
@@ -168,6 +169,22 @@ const BuyerDashboard: React.FC = () => {
             }
         }
         setShowShareMenu(false);
+    };
+
+    const getStatusBadge = (status: string) => {
+        const styles: Record<string, { bg: string; text: string; icon: React.ReactNode; label: string }> = {
+            SHIPPED: { bg: 'bg-green-100', text: 'text-green-700', icon: <FaShip className="text-xs" />, label: 'Shipped' },
+            DELIVERED: { bg: 'bg-blue-100', text: 'text-blue-700', icon: <FaCheckCircle className="text-xs" />, label: 'Delivered' },
+            QUALITY_VERIFIED: { bg: 'bg-amber-100', text: 'text-amber-700', icon: <FaCheckCircle className="text-xs" />, label: 'Quality Verified' },
+            RECEIVED: { bg: 'bg-gray-100', text: 'text-gray-600', icon: <FaClock className="text-xs" />, label: 'Received' },
+            Processing: { bg: 'bg-amber-100', text: 'text-amber-700', icon: <FaIndustry className="text-xs" />, label: 'Processing' },
+        };
+        const s = styles[status] || styles.RECEIVED;
+        return (
+            <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold ${s.bg} ${s.text}`}>
+                {s.icon}{s.label}
+            </span>
+        );
     };
 
     if (loading) {
@@ -220,38 +237,15 @@ const BuyerDashboard: React.FC = () => {
                                 </Typography>
                             )}
                         </div>
-                        <div className="flex items-center gap-2">
-                            <div className="relative">
-                                <button onClick={() => setShowShareMenu(!showShareMenu)} className="flex items-center gap-2 px-4 py-2 bg-white/50 backdrop-blur-sm border border-gray-200 rounded-full text-sm font-medium hover:bg-white/80 transition">
-                                    {copied ? <FaCheckCircle className="text-xs text-green-600" /> : <FaShare className="text-xs" />}
-                                    {copied ? 'Copied!' : 'Share Portal'}
-                                </button>
-                                {showShareMenu && (
-                                    <motion.div className="absolute right-0 mt-2 w-44 bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden z-50" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
-                                        {[
-                                            { icon: FaCopy, label: 'Copy Link', action: () => handleShare() },
-                                            { icon: FaWhatsapp, label: 'WhatsApp', action: () => handleShare('whatsapp') },
-                                            { icon: FaTwitter, label: 'Twitter', action: () => handleShare('twitter') },
-                                            { icon: FaLinkedin, label: 'LinkedIn', action: () => handleShare('linkedin') },
-                                            { icon: FaEnvelope, label: 'Email', action: () => handleShare('email') },
-                                        ].map((item, i) => (
-                                            <button key={i} onClick={() => item.action()} className="w-full px-4 py-2.5 text-left hover:bg-gray-50 flex items-center gap-3 text-sm transition">
-                                                <item.icon className="text-gray-500 text-xs" />{item.label}
-                                            </button>
-                                        ))}
-                                    </motion.div>
-                                )}
-                            </div>
-                            <button onClick={handleLogout} className="flex items-center gap-2 px-4 py-2 bg-white/50 backdrop-blur-sm border border-gray-200 rounded-full text-sm font-medium hover:bg-white/80 transition">
-                                <FaSignOutAlt className="text-xs" /> Sign Out
-                            </button>
-                        </div>
+                        <button onClick={handleLogout} className="flex items-center gap-2 px-4 py-2 bg-white/50 backdrop-blur-sm border border-gray-200 rounded-full text-sm font-medium hover:bg-white/80 transition">
+                            <FaSignOutAlt className="text-xs" /> Sign Out
+                        </button>
                     </motion.div>
 
                     {/* KPI Cards */}
                     <motion.div initial="hidden" animate="visible" variants={staggerContainer} className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
                         <motion.div variants={fadeIn}><InfoCard icon={FaBox} title={String(batches.length)} subtitle="Batches" iconColor="text-accent" showInfoBadge={false} /></motion.div>
-                        <motion.div variants={fadeIn} transition={{ delay: 0.05 }}><InfoCard icon={FaShip} title={String(batches.filter(b => b.status === 'SHIPPED' || b.status === 'Shipped').length)} subtitle="Shipped" iconColor="text-green-600" showInfoBadge={false} /></motion.div>
+                        <motion.div variants={fadeIn} transition={{ delay: 0.05 }}><InfoCard icon={FaShip} title={String(batches.filter(b => b.status === 'Shipped' || b.status === 'SHIPPED').length)} subtitle="Shipped" iconColor="text-green-600" showInfoBadge={false} /></motion.div>
                         <motion.div variants={fadeIn} transition={{ delay: 0.1 }}><InfoCard icon={FaCertificate} title={String(premiumCount)} subtitle="Premium Grade" iconColor="text-amber-500" showInfoBadge={false} /></motion.div>
                         <motion.div variants={fadeIn} transition={{ delay: 0.15 }}><InfoCard icon={FaPercentage} title={avgQuality ? `${avgQuality}%` : '—'} subtitle="Avg. Quality" iconColor="text-primary" showInfoBadge={false} /></motion.div>
                         <motion.div variants={fadeIn} transition={{ delay: 0.2 }}><InfoCard icon={FaDownload} title={String(totalDocsAvailable)} subtitle="Docs Available" iconColor="text-blue-600" showInfoBadge={false} /></motion.div>
@@ -268,9 +262,11 @@ const BuyerDashboard: React.FC = () => {
                                 </Typography>
                             </InfoCard>
                         ) : (
-                            <div className="space-y-8">
+                            <div className="space-y-12">
                                 {batches.map((batch, idx) => {
                                     const isExpanded = expandedBatch === batch.id;
+
+                                    // Journey status calculation
                                     const status = batch.status;
                                     const isProcessing = status === 'Processing' || status === 'QUALITY_VERIFIED';
                                     const isShipped = status === 'Shipped' || status === 'SHIPPED';
@@ -286,175 +282,355 @@ const BuyerDashboard: React.FC = () => {
                                     ];
 
                                     return (
-                                        <motion.div key={batch.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.05 }}
-                                                    className="bg-white/70 backdrop-blur-sm border border-white/40 rounded-3xl shadow-md overflow-hidden">
+                                        <motion.div key={batch.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.05 }} className="space-y-6">
 
-                                            {/* Card Header */}
-                                            <div className="p-6 border-b border-gray-200/50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                                                <div>
-                                                    <div className="flex items-center gap-3 mb-2 flex-wrap">
-                                                        <span className="font-mono text-lg font-bold text-primary bg-primary/10 px-4 py-1.5 rounded-full">
-                                                            {batch.batchId}
-                                                        </span>
+                                            {/* The Batch Dossier Card (Old Trace View) */}
+                                            <div className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-3xl shadow-xl p-8 transform-gpu overflow-hidden">
+                                                <div className="absolute inset-0 rounded-3xl border-2 border-white/20" />
+                                                <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40" />
+
+                                                <div className="relative z-10">
+                                                    <div className="text-center mb-8">
+                                                        <div className="inline-flex items-center gap-2 bg-primary/10 px-6 py-2 rounded-full">
+                                                            <FaCheckCircle className="text-primary" />
+                                                            <span className="font-mono text-lg font-bold text-primary">{batch.batchId}</span>
+                                                        </div>
                                                         {batch.sourceType === 'OWN_FARM' && (
-                                                            <span className="px-2.5 py-1 bg-green-100 text-green-700 text-xs rounded-full font-medium">AfriNuts Farm</span>
+                                                            <span className="ml-3 px-2 py-0.5 bg-green-100 text-green-700 text-xs rounded-full">AfriNuts Farm</span>
                                                         )}
-                                                        <span className={`px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1.5 ${
-                                                            isShipped ? 'bg-green-100 text-green-700' : isProcessing ? 'bg-amber-100 text-amber-700' : 'bg-gray-100 text-gray-600'
-                                                        }`}>
-                                                            {isShipped ? <FaShip className="text-xs" /> : isProcessing ? <FaIndustry className="text-xs" /> : <FaClock className="text-xs" />}
-                                                            {status.replace(/_/g, ' ')}
-                                                        </span>
                                                     </div>
-                                                    <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-gray-600 mt-3">
-                                                        <span className="flex items-center gap-1.5"><FaCalendarAlt className="text-gray-400" /> {new Date(batch.harvestDate).toLocaleDateString()}</span>
-                                                        <span className="flex items-center gap-1.5"><FaBox className="text-gray-400" /> {batch.rawWeightKg ? `${(batch.rawWeightKg / 1000).toFixed(1)}T raw` : '—'}</span>
-                                                        {batch.kernelWeightKg && <span className="flex items-center gap-1.5"><FaPercentage className="text-gray-400" /> {(batch.kernelWeightKg / 1000).toFixed(1)}T kernel</span>}
-                                                        <span className="flex items-center gap-1.5"><FaMapMarkerAlt className="text-gray-400" /> {batch.farmLocation}</span>
-                                                    </div>
-                                                </div>
-                                                <button onClick={() => setExpandedBatch(isExpanded ? null : batch.id)}
-                                                        className={`px-6 py-2.5 rounded-full text-sm font-medium transition-colors ${isExpanded ? 'bg-gray-200 text-gray-700' : 'bg-primary text-white hover:bg-dark-orange'}`}>
-                                                    {isExpanded ? 'Close Details' : 'View Full Dossier'}
-                                                </button>
-                                            </div>
 
-                                            {/* Expanded Rich Details */}
-                                            {isExpanded && (
-                                                <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} className="bg-white/30 p-6">
-
-                                                    {/* Tabs */}
-                                                    <div className="flex gap-2 mb-6 border-b border-gray-200 overflow-x-auto">
+                                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                                                         {[
-                                                            { key: 'journey' as const, icon: FaMapMarkerAlt, label: 'Journey' },
-                                                            { key: 'quality' as const, icon: FaChartBar, label: 'Quality' },
-                                                            { key: 'documents' as const, icon: FaFileAlt, label: 'Documents' },
-                                                        ].map((tab) => (
-                                                            <button key={tab.key} onClick={() => setActiveTab(tab.key)}
-                                                                    className={`flex items-center gap-2 px-4 py-3 text-sm font-medium transition border-b-2 -mb-[2px] whitespace-nowrap ${activeTab === tab.key ? 'border-primary text-primary' : 'border-transparent text-gray-500 hover:text-gray-700'}`}>
-                                                                <tab.icon className="text-xs" />{tab.label}
-                                                            </button>
+                                                            { label: 'Harvest Date', value: new Date(batch.harvestDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }), icon: FaCalendarAlt },
+                                                            { label: 'Farm Location', value: `${batch.farmLocation}${batch.block ? ` · ${batch.block}` : ''}`, icon: FaMapMarkerAlt },
+                                                            { label: 'Destination', value: batch.destination || '—', icon: FaTruck },
+                                                            { label: 'Receiving Company', value: batch.buyer || '—', icon: FaBuilding },
+                                                        ].map((item, i) => (
+                                                            <div key={i} className="bg-white/30 backdrop-blur-sm rounded-xl p-4 border border-white/20">
+                                                                <div className="flex items-center gap-2 mb-1">
+                                                                    <item.icon className="text-accent text-sm" />
+                                                                    <span className="text-gray-500 font-medium text-xs uppercase">{item.label}</span>
+                                                                </div>
+                                                                <div className="font-semibold text-gray-800">{item.value}</div>
+                                                            </div>
                                                         ))}
                                                     </div>
 
-                                                    {/* Tab Content: Journey */}
-                                                    {activeTab === 'journey' && (
-                                                        <div className="mb-8">
-                                                            <div className="hidden md:block relative py-8">
-                                                                <StaggerList className="grid grid-cols-6 gap-6 relative z-10">
-                                                                    {journeySteps.map((step, i) => (
-                                                                        <StaggerItem key={i} className="relative flex flex-col items-center text-center">
-                                                                            <motion.div className={`relative w-16 h-16 rounded-full flex items-center justify-center shadow-lg mb-3 z-10 bg-white/80 backdrop-blur-sm`}
-                                                                                        style={{ borderColor: step.status === 'complete' ? '#22c55e' : step.status === 'active' ? '#E04E00' : '#d1d5db' }}>
-                                                                                <step.icon className="text-2xl relative z-10" style={{ color: step.status === 'complete' ? '#22c55e' : step.status === 'active' ? '#E04E00' : '#9ca3af' }} />
-                                                                            </motion.div>
-                                                                            <div className="bg-white/40 backdrop-blur-sm rounded-xl p-3 w-full border border-white/30">
-                                                                                <Typography variant="small" className="font-bold text-primary text-sm">{step.title}</Typography>
-                                                                                <Typography variant="small" className="text-gray-600 text-[11px] mt-1 line-clamp-2">{step.detail}</Typography>
-                                                                                {step.sub && <Typography variant="small" className="text-gray-400 text-[10px] mt-1 line-clamp-1">{step.sub}</Typography>}
-                                                                            </div>
-                                                                        </StaggerItem>
-                                                                    ))}
-                                                                </StaggerList>
+                                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
+                                                        <div className="bg-white/30 backdrop-blur-sm rounded-xl p-4 border border-white/20">
+                                                            <div className="flex items-center gap-2 mb-3">
+                                                                <FaIndustry className="text-accent text-sm" />
+                                                                <span className="text-gray-500 font-medium text-xs uppercase">Processing Information</span>
                                                             </div>
-                                                            {/* Mobile Journey */}
-                                                            <div className="md:hidden">
-                                                                <StaggerList className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-6 -mx-4 px-4">
-                                                                    {journeySteps.map((step, i) => (
-                                                                        <StaggerItem key={i} className="snap-center flex-shrink-0 w-[160px] flex flex-col items-center text-center">
-                                                                            <motion.div className={`relative w-16 h-16 rounded-full flex items-center justify-center shadow-lg mb-4 bg-white/80 backdrop-blur-sm`}
-                                                                                        style={{ borderColor: step.status === 'complete' ? '#22c55e' : step.status === 'active' ? '#E04E00' : '#d1d5db' }}>
-                                                                                <step.icon className="text-xl" style={{ color: step.status === 'complete' ? '#22c55e' : step.status === 'active' ? '#E04E00' : '#9ca3af' }} />
-                                                                            </motion.div>
-                                                                            <div className="bg-white/40 backdrop-blur-sm rounded-xl p-3 w-full border border-white/30">
-                                                                                <Typography variant="small" className="font-bold text-primary text-sm">{step.title}</Typography>
-                                                                                <Typography variant="small" className="text-gray-600 text-[11px] mt-1 line-clamp-2">{step.detail}</Typography>
-                                                                            </div>
-                                                                        </StaggerItem>
-                                                                    ))}
-                                                                </StaggerList>
+                                                            <div className="space-y-2">
+                                                                {[
+                                                                    { label: 'Facility', value: batch.processingFacility || '—' },
+                                                                    { label: 'Location', value: batch.processingLocation || '—' },
+                                                                    { label: 'Method', value: batch.processingMethod || '—' },
+                                                                    { label: 'Shelling', value: batch.shellingMethod || '—' },
+                                                                    { label: 'Grading', value: batch.gradingMethod || '—' },
+                                                                    batch.yieldPercentage ? { label: 'Yield', value: `${batch.yieldPercentage}%` } : null,
+                                                                ].filter(Boolean).map((item: any, i) => (
+                                                                    <div key={i} className="flex justify-between text-sm">
+                                                                        <span className="text-gray-500">{item.label}</span>
+                                                                        <span className="font-medium text-gray-700 text-right max-w-[60%]">{item.value}</span>
+                                                                    </div>
+                                                                ))}
+                                                            </div>
+                                                        </div>
+                                                        <div className="bg-white/30 backdrop-blur-sm rounded-xl p-4 border border-white/20">
+                                                            <div className="flex items-center gap-2 mb-3">
+                                                                <FaFlask className="text-accent text-sm" />
+                                                                <span className="text-gray-500 font-medium text-xs uppercase">Quality Check Results</span>
+                                                            </div>
+                                                            <div className="space-y-2">
+                                                                {batch.testResults && [
+                                                                    { label: 'Aflatoxin', value: batch.testResults?.aflatoxin != null ? `${batch.testResults.aflatoxin} ppb` : '—', status: (batch.testResults?.aflatoxin ?? 99) < 4 ? 'pass' : 'fail' },
+                                                                    { label: 'Heavy Metals', value: batch.testResults?.heavyMetals != null ? `${batch.testResults.heavyMetals} ppb` : '—', status: (batch.testResults?.heavyMetals ?? 99) < 0.5 ? 'pass' : 'fail' },
+                                                                    { label: 'Pesticide Residue', value: batch.testResults?.pesticideResidue != null ? `${batch.testResults.pesticideResidue} ppb` : '—', status: (batch.testResults?.pesticideResidue ?? 99) < 0.5 ? 'pass' : 'fail' },
+                                                                ].map((item, i) => (
+                                                                    <div key={i} className="flex justify-between text-sm items-center">
+                                                                        <span className="text-gray-500">{item.label}</span>
+                                                                        <span className={`font-medium ${item.status === 'pass' ? 'text-green-600' : 'text-red-600'}`}>
+                                                                            {item.value} {item.status === 'pass' ? ' ✓' : ' ⚠'}
+                                                                        </span>
+                                                                    </div>
+                                                                ))}
+                                                                <div className="pt-2 border-t border-gray-200/50 flex justify-between text-sm">
+                                                                    <span className="text-gray-500">Quality Score</span>
+                                                                    <span className="font-bold text-primary">{batch.overallScore?.toFixed(1)}%</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    {(batch.kernelWeightKg || batch.rawWeightKg) && (
+                                                        <div className="mt-5 bg-white/30 backdrop-blur-sm rounded-xl p-4 border border-white/20">
+                                                            <div className="text-center mb-2 text-gray-500 font-medium text-xs uppercase">Batch Weight</div>
+                                                            <div className="grid grid-cols-2 gap-4">
+                                                                <div className="text-center">
+                                                                    <div className="text-gray-400 text-xs">Raw Input</div>
+                                                                    <div className="text-primary font-bold text-2xl">{batch.rawWeightKg ? `${(batch.rawWeightKg / 1000).toFixed(1)}T` : '—'}</div>
+                                                                </div>
+                                                                <div className="text-center">
+                                                                    <div className="text-gray-400 text-xs">Kernel Output</div>
+                                                                    <div className="text-green-600 font-bold text-2xl">{batch.kernelWeightKg ? `${(batch.kernelWeightKg / 1000).toFixed(1)}T` : '—'}</div>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     )}
 
-                                                    {/* Tab Content: Quality */}
-                                                    {activeTab === 'quality' && (
-                                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                                                            <div className="bg-white/40 rounded-xl p-5 border border-white/30">
-                                                                <div className="flex items-center gap-2 mb-4">
-                                                                    <FaChartBar className="text-accent" />
-                                                                    <Typography variant="h4" className="text-primary text-base">Quality Metrics</Typography>
+                                                    {batch.certifications && batch.certifications.length > 0 && (
+                                                        <div className="mt-5 bg-white/30 backdrop-blur-sm rounded-xl p-4 border border-white/20">
+                                                            <div className="flex items-center gap-2 mb-2">
+                                                                <FaCertificate className="text-accent text-sm" />
+                                                                <span className="text-gray-500 font-medium text-xs uppercase">Certifications</span>
+                                                            </div>
+                                                            <div className="flex flex-wrap gap-2">
+                                                                {batch.certifications.map((cert, idx) => (
+                                                                    <span key={idx} className="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium bg-primary/10 text-primary border border-primary/20">{cert}</span>
+                                                                ))}
+                                                            </div>
+                                                        </div>
+                                                    )}
+
+                                                    <div className="mt-5 flex items-center justify-center gap-3">
+                                                        {getStatusBadge(batch.status)}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            {/* Farmer Profile */}
+                                            {batch.farmer && (
+                                                <InfoCard icon={GiFarmer} title="Meet the Farmer Behind This Batch" variant="primary" showInfoBadge={false}>
+                                                    <div className="flex flex-col sm:flex-row items-center gap-6 mt-4">
+                                                        <div className="flex-shrink-0">
+                                                            <div className="relative w-28 h-28 rounded-full overflow-hidden border-4 border-primary/20 shadow-lg flex items-center justify-center bg-primary/5">
+                                                                {batch.farmer.photo ? (
+                                                                    <img src={batch.farmer.photo} alt={batch.farmer.name} className="w-full h-full object-cover" />
+                                                                ) : (
+                                                                    <GiFarmer className="text-5xl text-primary/40" />
+                                                                )}
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex-1 text-center sm:text-left">
+                                                            <h4 className="text-primary mb-1 font-bold text-xl">{batch.farmer.name}</h4>
+                                                            <div className="text-accent font-medium mb-2">{batch.farmer.role} · {batch.farmer.yearsFarming}</div>
+                                                            <div className="flex items-center gap-1.5 justify-center sm:justify-start mb-3 text-sm text-gray-500">
+                                                                <FaMapMarkerAlt className="text-gray-400 text-xs" />
+                                                                {batch.farmer.location}
+                                                            </div>
+                                                            <div className="text-gray-600 text-sm leading-relaxed">{batch.farmer.bio}</div>
+                                                            {batch.farmer.quote && (
+                                                                <div className="mt-4 bg-primary/5 rounded-xl p-4 border-l-4 border-primary">
+                                                                    <div className="text-primary-dark italic text-sm">"{batch.farmer.quote}"</div>
                                                                 </div>
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                </InfoCard>
+                                            )}
+
+                                            {/* Sustainability Verification */}
+                                            {batch.sustainability && (
+                                                <InfoCard icon={FaLeaf} title="Sustainability Verification" variant="primary" showInfoBadge={false}>
+                                                    <div className="grid grid-cols-2 gap-3 mt-3">
+                                                        {[
+                                                            { icon: FaChild, label: 'No Child Labor', active: batch.sustainability.noChildLabor },
+                                                            { icon: FaMobile, label: 'Farm OS Monitored', active: batch.sustainability.farmOsMonitored },
+                                                            { icon: FaShieldAlt, label: 'Firebreak', active: batch.sustainability.firebreak },
+                                                            { icon: FaTree, label: 'Sustainable Harvest', active: batch.sustainability.sustainableHarvesting },
+                                                        ].map((item, i) => (
+                                                            <div key={i} className={`rounded-xl p-4 border text-center transition-all ${item.active ? 'bg-green-50/60 border-green-200' : 'bg-gray-50/40 border-gray-200'}`}>
+                                                                <item.icon className={`text-2xl mx-auto mb-2 ${item.active ? 'text-green-600' : 'text-gray-400'}`} />
+                                                                <div className="text-gray-600 text-xs font-medium">{item.label}</div>
+                                                                <div className={`text-xs font-bold mt-1 ${item.active ? 'text-green-700' : 'text-gray-500'}`}>
+                                                                    {item.active ? 'Verified ✓' : 'Pending'}
+                                                                </div>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </InfoCard>
+                                            )}
+
+                                            {/* GPS Map */}
+                                            {batch.latitude && batch.longitude && (
+                                                <InfoCard icon={FaMapMarkerAlt} title="GPS Verified Location" variant="primary" showInfoBadge={false}>
+                                                    <div className="mt-3">
+                                                        <BatchLocationMap latitude={batch.latitude} longitude={batch.longitude} farmName={batch.farmLocation || 'AfriNuts Farm'} block={batch.block} />
+                                                        <div className="flex items-center justify-center gap-2 mt-3">
+                                                            <FaMapMarkerAlt className="text-accent text-xs" />
+                                                            <span className="text-gray-600 text-sm">{batch.farmLocation}{batch.block ? ` · Block ${batch.block}` : ''}</span>
+                                                            <span className="text-gray-300">·</span>
+                                                            <span className="text-gray-400 text-xs">{batch.latitude.toFixed(4)}, {batch.longitude.toFixed(4)}</span>
+                                                        </div>
+                                                    </div>
+                                                </InfoCard>
+                                            )}
+
+                                            {/* Farm OS Record + Digital Signature */}
+                                            {batch.farmOsMetadata && (
+                                                <InfoCard icon={FaMobile} title="Farm OS Record" variant="accent" showInfoBadge={false}>
+                                                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-3">
+                                                        {[
+                                                            { label: 'Record ID', value: batch.farmOsMetadata.recordId, icon: FaDatabase },
+                                                            { label: 'Created', value: batch.farmOsMetadata.created, icon: FaCalendarAlt },
+                                                            { label: 'Last Updated', value: batch.farmOsMetadata.lastUpdated, icon: FaClock },
+                                                            { label: 'Status', value: batch.farmOsMetadata.verificationStatus, icon: FaShieldAlt, highlight: true },
+                                                        ].map((item, i) => (
+                                                            <div key={i} className={`rounded-xl p-3 border text-center ${item.highlight ? 'bg-green-50/60 border-green-200' : 'bg-white/40 border-white/30'}`}>
+                                                                <item.icon className={`text-lg mx-auto mb-1 ${item.highlight ? 'text-green-600' : 'text-accent'}`} />
+                                                                <div className="text-gray-500 text-[10px] uppercase tracking-wider">{item.label}</div>
+                                                                <div className={`font-semibold text-xs mt-0.5 ${item.highlight ? 'text-green-700' : 'text-primary'}`}>{item.value}</div>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+
+                                                    {batch.verificationCode && (
+                                                        <div className="mt-4 pt-4 border-t border-gray-200/30">
+                                                            <div className="bg-gradient-to-r from-primary/5 to-accent/5 rounded-xl p-4 border border-primary/20">
+                                                                <div className="flex items-center gap-2 mb-3">
+                                                                    <FaShieldAlt className="text-green-600" />
+                                                                    <span className="font-semibold text-primary">Digital Signature</span>
+                                                                    <span className="px-2 py-0.5 bg-green-100 text-green-700 text-xs rounded-full font-medium">Verified</span>
+                                                                </div>
+                                                                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                                                                    <div className="bg-white/50 rounded-lg p-2.5 text-center">
+                                                                        <div className="text-gray-400 text-[10px] uppercase tracking-wider">Verification Code</div>
+                                                                        <div className="font-mono font-bold text-primary mt-0.5 tracking-wider">{batch.verificationCode}</div>
+                                                                    </div>
+                                                                    <div className="bg-white/50 rounded-lg p-2.5 text-center">
+                                                                        <div className="text-gray-400 text-[10px] uppercase tracking-wider">Signature</div>
+                                                                        <div className="font-mono text-primary text-[9px] mt-0.5 truncate">{batch.digitalSignature?.signature}</div>
+                                                                    </div>
+                                                                    <div className="bg-white/50 rounded-lg p-2.5 text-center">
+                                                                        <div className="text-gray-400 text-[10px] uppercase tracking-wider">Signed Date</div>
+                                                                        <div className="text-primary font-medium mt-0.5">{batch.digitalSignature?.signedDate}</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                </InfoCard>
+                                            )}
+
+                                            {/* Tabs: Journey, Quality, Documents */}
+                                            <div className="mt-8">
+                                                <div className="flex gap-2 mb-6 border-b border-gray-200 overflow-x-auto">
+                                                    {[
+                                                        { key: 'journey' as const, icon: FaMapMarkerAlt, label: 'Journey' },
+                                                        { key: 'quality' as const, icon: FaChartBar, label: 'Quality' },
+                                                        { key: 'documents' as const, icon: FaFileAlt, label: 'Documents' },
+                                                    ].map((tab) => (
+                                                        <button key={tab.key} onClick={() => setActiveTab(tab.key)}
+                                                                className={`flex items-center gap-2 px-4 py-3 text-sm font-medium transition border-b-2 -mb-[2px] whitespace-nowrap ${activeTab === tab.key ? 'border-primary text-primary' : 'border-transparent text-gray-500 hover:text-gray-700'}`}>
+                                                            <tab.icon className="text-xs" />{tab.label}
+                                                        </button>
+                                                    ))}
+                                                </div>
+
+                                                {activeTab === 'journey' && (
+                                                    <div className="bg-white/50 backdrop-blur-sm rounded-3xl p-6 border border-white/30">
+                                                        <h3 className="text-center text-primary font-bold text-xl mb-6">Your Order's Journey</h3>
+
+                                                        {/* Desktop Journey Timeline */}
+                                                        <div className="hidden md:block relative py-8">
+                                                            <svg className="absolute inset-0 w-full h-full" viewBox="0 0 800 200" preserveAspectRatio="none">
+                                                                <path d="M40,100 C200,20 300,180 500,100 C650,40 700,160 760,100" fill="none" stroke="url(#journeyGradient)" strokeWidth="3" strokeLinecap="round" strokeDasharray="8,4" />
+                                                            </svg>
+                                                            <div className="grid grid-cols-6 gap-6 relative z-10">
+                                                                {journeySteps.map((step, i) => (
+                                                                    <div key={i} className="relative flex flex-col items-center text-center" style={{ marginTop: i % 2 === 0 ? '4rem' : '1rem' }}>
+                                                                        <div className={`w-16 h-16 rounded-full flex items-center justify-center shadow-lg mb-3 z-10 bg-white/80 backdrop-blur-sm border-3 ${
+                                                                            step.status === 'complete' ? 'border-green-500' : step.status === 'active' ? 'border-accent animate-pulse' : 'border-gray-300'
+                                                                        }`}>
+                                                                            <step.icon className={`text-2xl ${step.status === 'complete' ? 'text-green-500' : step.status === 'active' ? 'text-accent' : 'text-gray-400'}`} />
+                                                                        </div>
+                                                                        <div className={`bg-white/40 backdrop-blur-sm rounded-xl p-3 w-full border shadow-sm mt-3 ${step.status === 'active' ? 'border-accent/50' : 'border-white/30'}`}>
+                                                                            <div className="font-bold text-primary text-sm">{step.title}</div>
+                                                                            <div className="text-gray-600 text-[11px] mt-1 line-clamp-2">{step.detail}</div>
+                                                                            {step.sub && <div className="text-gray-400 text-[10px] mt-1 line-clamp-1">{step.sub}</div>}
+                                                                        </div>
+                                                                    </div>
+                                                                ))}
+                                                            </div>
+                                                        </div>
+
+                                                        {/* Mobile Journey Timeline */}
+                                                        <div className="md:hidden flex overflow-x-auto snap-x snap-mandatory gap-6 pb-6 -mx-2 px-2">
+                                                            {journeySteps.map((step, i) => (
+                                                                <div key={i} className="snap-center flex-shrink-0 w-[160px] flex flex-col items-center text-center relative">
+                                                                    <div className={`w-16 h-16 rounded-full flex items-center justify-center shadow-lg mb-4 z-10 bg-white/80 border-3 ${
+                                                                        step.status === 'complete' ? 'border-green-500' : step.status === 'active' ? 'border-accent animate-pulse' : 'border-gray-300'
+                                                                    }`}>
+                                                                        <step.icon className={`text-xl ${step.status === 'complete' ? 'text-green-500' : step.status === 'active' ? 'text-accent' : 'text-gray-400'}`} />
+                                                                    </div>
+                                                                    <div className="absolute top-8 -right-2 w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-bold shadow-lg z-20 border-2 border-white"
+                                                                         style={{ background: step.status === 'complete' ? '#22c55e' : step.status === 'active' ? '#E04E00' : '#9ca3af' }}>
+                                                                        {i + 1}
+                                                                    </div>
+                                                                    <div className={`bg-white/40 rounded-xl p-3 w-full border shadow-sm ${step.status === 'active' ? 'border-accent/50' : 'border-white/30'}`}>
+                                                                        <div className="font-bold text-primary text-sm">{step.title}</div>
+                                                                        <div className="text-gray-600 text-[11px] mt-1 line-clamp-2">{step.detail}</div>
+                                                                    </div>
+                                                                </div>
+                                                            ))}
+                                                        </div>
+                                                    </div>
+                                                )}
+
+                                                {activeTab === 'quality' && (
+                                                    <div className="bg-white/50 backdrop-blur-sm rounded-3xl p-6 border border-white/30">
+                                                        {batch.overallScore ? (
+                                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                                                 <div className="space-y-4">
+                                                                    <h3 className="text-primary font-bold text-lg mb-3">Quality Metrics</h3>
                                                                     {[
                                                                         { label: 'Moisture', value: batch.moistureContent, unit: '%', max: 10, color: 'bg-primary' },
                                                                         { label: 'Nut Count', value: batch.nutCount, unit: '', max: 200, color: 'bg-secondary' },
                                                                         { label: 'Kernel Ratio', value: batch.kernelRatio, unit: '%', max: 55, color: 'bg-accent' },
                                                                         { label: 'Defects', value: batch.defectiveRate, unit: '%', max: 10, color: 'bg-dark-orange' },
                                                                     ].filter(m => m.value != null).map((metric, i) => (
-                                                                        <div key={i} className="bg-white/50 rounded-lg p-3">
-                                                                            <div className="flex justify-between items-center mb-1">
-                                                                                <span className="text-sm text-gray-600 font-medium">{metric.label}</span>
+                                                                        <div key={i} className="bg-white/50 rounded-xl p-3 border border-white/30">
+                                                                            <div className="flex justify-between items-center mb-2">
+                                                                                <span className="text-gray-700 font-medium text-sm">{metric.label}</span>
                                                                                 <span className="font-bold text-primary">{metric.value}{metric.unit}</span>
                                                                             </div>
                                                                             <div className="w-full bg-gray-200 rounded-full h-2">
-                                                                                <motion.div className={`h-2 rounded-full ${metric.color}`} initial={{ width: 0 }} whileInView={{ width: `${Math.min((metric.value! / metric.max) * 100, 100)}%` }} viewport={{ once: true }} transition={{ duration: 1, delay: i * 0.2 }} />
+                                                                                <div className={`h-2 rounded-full ${metric.color}`} style={{ width: `${Math.min((metric.value! / metric.max) * 100, 100)}%` }} />
+                                                                            </div>
+                                                                        </div>
+                                                                    ))}
+                                                                    <div className="mt-4 bg-gradient-to-r from-primary/10 to-accent/10 rounded-xl p-4 text-center">
+                                                                        <div className="font-bold text-primary text-3xl">{batch.overallScore}%</div>
+                                                                        <div className="text-gray-500 text-sm">Overall Quality Score</div>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="space-y-4">
+                                                                    <h3 className="text-primary font-bold text-lg mb-3">Certifications</h3>
+                                                                    {batch.certifications?.map((cert, i) => (
+                                                                        <div key={i} className="flex items-center gap-3 bg-white/40 rounded-xl p-3 border border-white/30">
+                                                                            <FaCertificate className="text-accent" />
+                                                                            <div>
+                                                                                <div className="font-medium text-gray-800">{cert}</div>
+                                                                                <div className="text-green-600 text-xs flex items-center gap-1">
+                                                                                    <FaCheckCircle className="text-[10px]" /> Verified
+                                                                                </div>
                                                                             </div>
                                                                         </div>
                                                                     ))}
                                                                 </div>
-                                                                {batch.overallScore && (
-                                                                    <div className="mt-4 bg-primary/10 rounded-xl p-4 text-center">
-                                                                        <Typography variant="h3" className="font-bold text-primary"><CountUp to={batch.overallScore} duration={1.4} suffix="%" /></Typography>
-                                                                        <Typography variant="small" className="text-gray-500">Overall Quality Score</Typography>
-                                                                    </div>
-                                                                )}
                                                             </div>
+                                                        ) : (
+                                                            <div className="text-center py-8 text-gray-400">Quality metrics coming soon.</div>
+                                                        )}
+                                                    </div>
+                                                )}
 
-                                                            <div className="space-y-4">
-                                                                <div className="bg-white/40 rounded-xl p-5 border border-white/30">
-                                                                    <div className="flex items-center gap-2 mb-3"><FaFlask className="text-accent" /><Typography variant="h4" className="text-primary text-base">Lab Results</Typography></div>
-                                                                    {batch.testResults ? (
-                                                                        <div className="space-y-2">
-                                                                            {[
-                                                                                { label: 'Aflatoxin', value: batch.testResults.aflatoxin, limit: 4, unit: 'ppb' },
-                                                                                { label: 'Heavy Metals', value: batch.testResults.heavyMetals, limit: 0.5, unit: 'ppb' },
-                                                                                { label: 'Pesticides', value: batch.testResults.pesticideResidue, limit: 0.5, unit: 'ppb' },
-                                                                            ].map((test, i) => (
-                                                                                <div key={i} className="flex justify-between items-center bg-white/50 p-2.5 rounded-lg text-sm">
-                                                                                    <span className="text-gray-600">{test.label}</span>
-                                                                                    <span className={`font-bold ${test.value! < test.limit ? 'text-green-600' : 'text-red-600'}`}>
-                                                                                        {test.value} {test.unit} {test.value! < test.limit ? '✓' : '⚠'}
-                                                                                    </span>
-                                                                                </div>
-                                                                            ))}
-                                                                        </div>
-                                                                    ) : <div className="text-sm text-gray-500">Pending</div>}
-                                                                </div>
-
-                                                                <div className="bg-white/40 rounded-xl p-5 border border-white/30">
-                                                                    <div className="flex items-center gap-2 mb-3"><FaLeaf className="text-green-600" /><Typography variant="h4" className="text-primary text-base">Sustainability</Typography></div>
-                                                                    <div className="grid grid-cols-2 gap-2">
-                                                                        {[
-                                                                            { label: 'No Child Labor', active: batch.sustainability?.noChildLabor, icon: FaChild },
-                                                                            { label: 'Farm OS Monitored', active: batch.sustainability?.farmOsMonitored, icon: FaMobile },
-                                                                            { label: 'Firebreak', active: batch.sustainability?.firebreak, icon: FaShieldAlt },
-                                                                            { label: 'Sust. Harvest', active: batch.sustainability?.sustainableHarvesting, icon: FaTree },
-                                                                        ].map((s, i) => (
-                                                                            <div key={i} className={`p-2 rounded-lg text-center text-xs border ${s.active ? 'bg-green-50 border-green-200 text-green-700' : 'bg-gray-50 border-gray-200 text-gray-500'}`}>
-                                                                                <s.icon className={`mx-auto mb-1 ${s.active ? 'text-green-600' : 'text-gray-400'}`} />
-                                                                                {s.label} {s.active && '✓'}
-                                                                            </div>
-                                                                        ))}
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    )}
-
-                                                    {/* Tab Content: Documents */}
-                                                    {activeTab === 'documents' && (
-                                                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+                                                {activeTab === 'documents' && (
+                                                    <div className="bg-white/50 backdrop-blur-sm rounded-3xl p-6 border border-white/30">
+                                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                                             {[
                                                                 { title: 'Certificate of Origin', key: 'coo', icon: FaFileAlt },
                                                                 { title: 'Phytosanitary', key: 'phyto', icon: FaLeaf },
@@ -481,59 +657,24 @@ const BuyerDashboard: React.FC = () => {
                                                                 );
                                                             })}
                                                         </div>
-                                                    )}
-
-                                                    {/* GPS Map & Digital Signature Row */}
-                                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-                                                        {/* GPS Map */}
-                                                        {batch.latitude && batch.longitude && (
-                                                            <div className="bg-white/40 rounded-xl p-1 border border-white/30">
-                                                                <BatchLocationMap latitude={batch.latitude} longitude={batch.longitude} farmName={batch.farmLocation} block={batch.block} />
-                                                            </div>
-                                                        )}
-
-                                                        {/* Digital Signature */}
-                                                        {batch.verificationCode && (
-                                                            <div className="bg-gradient-to-r from-primary/5 to-accent/5 rounded-xl p-5 border border-primary/20">
-                                                                <div className="flex items-center gap-2 mb-3">
-                                                                    <FaShieldAlt className="text-green-600" />
-                                                                    <span className="font-semibold text-primary">Digital Signature Verified</span>
-                                                                </div>
-                                                                <div className="bg-white/50 rounded-lg p-3 text-center mb-3">
-                                                                    <div className="text-[10px] text-gray-500 uppercase tracking-wider mb-1">Verification Code</div>
-                                                                    <div className="font-mono text-sm font-bold text-primary tracking-wider">{batch.verificationCode}</div>
-                                                                </div>
-                                                                <div className="text-[10px] text-gray-500 text-center">
-                                                                    Signed: {batch.digitalSignature?.signedDate || 'Just now'}
-                                                                </div>
-                                                            </div>
-                                                        )}
                                                     </div>
+                                                )}
+                                            </div>
 
-                                                    {/* Farmer Profile */}
-                                                    {batch.farmer && (
-                                                        <div className="mt-6 bg-white/40 rounded-xl p-5 border border-white/30">
-                                                            <div className="flex items-center gap-2 mb-3">
-                                                                <GiFarmer className="text-accent text-xl" />
-                                                                <Typography variant="h4" className="text-primary text-base">The Farmer Behind This Batch</Typography>
-                                                            </div>
-                                                            <div className="flex flex-col sm:flex-row items-center gap-4">
-                                                                <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-primary/20 bg-primary/5 flex items-center justify-center flex-shrink-0">
-                                                                    {batch.farmer.photo ? <img src={batch.farmer.photo} className="w-full h-full object-cover" /> : <GiFarmer className="text-3xl text-primary/40" />}
-                                                                </div>
-                                                                <div className="text-center sm:text-left">
-                                                                    <div className="font-bold text-lg text-gray-800">{batch.farmer.name}</div>
-                                                                    <div className="text-sm text-accent font-medium">{batch.farmer.role} · {batch.farmer.yearsFarming}</div>
-                                                                    <div className="text-xs text-gray-500 mt-1">{batch.farmer.bio}</div>
-                                                                    {batch.farmer.quote && (
-                                                                        <div className="mt-2 text-sm italic text-primary-dark border-l-2 border-primary/30 pl-3">"{batch.farmer.quote}"</div>
-                                                                    )}
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    )}
-                                                </motion.div>
-                                            )}
+                                            {/* Action Bar (Print & Share) */}
+                                            <div className="mt-6 flex flex-wrap justify-between items-center gap-3">
+                                                <div className="text-gray-500 text-sm">Batch {idx + 1} of {batches.length}</div>
+                                                <div className="flex gap-2">
+                                                    <button onClick={() => window.print()} className="px-4 py-2 bg-white/50 border border-gray-200 rounded-full text-sm font-medium hover:bg-white/80 transition flex items-center gap-2">
+                                                        <FaPrint className="text-xs" /> Print
+                                                    </button>
+                                                    <button onClick={() => handleShare(batch.batchId)} className="px-4 py-2 bg-primary text-white rounded-full text-sm font-medium hover:bg-dark-orange transition flex items-center gap-2">
+                                                        <FaShare className="text-xs" /> Share
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                            <hr className="border-gray-200/50 my-6" />
                                         </motion.div>
                                     );
                                 })}
