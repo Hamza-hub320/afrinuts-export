@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { auth } from '@/services/firebase';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
@@ -7,7 +6,7 @@ import {
     FaArrowRight, FaUser, FaDownload, FaShieldAlt,
     FaFileAlt, FaCertificate, FaMapMarkerAlt, FaPercentage,
     FaFlask, FaLeaf, FaChild, FaMobile, FaTree, FaCalendarAlt, FaBuilding,
-    FaIndustry, FaChartBar, FaTruck,
+    FaIndustry, FaChartBar, FaTruck, FaShare, FaCopy, FaWhatsapp, FaTwitter, FaLinkedin, FaEnvelope,
 } from 'react-icons/fa';
 import { GiFarmer, GiFruitTree, GiFactory, GiCargoShip } from 'react-icons/gi';
 import { Typography } from '@/components/Typography/Typography';
@@ -80,6 +79,15 @@ interface MyBatch {
         bio: string;
         quote?: string;
     } | null;
+    supplier?: {
+        id?: string;
+        type: string;
+        farmSize: string;
+        farmOsStatus: string;
+        season: string;
+        traceLevel: string;
+        cooperative: string | null;
+    };
     sustainability?: {
         noChildLabor: boolean;
         farmOsMonitored: boolean;
@@ -109,6 +117,8 @@ const BuyerDashboard: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
     const [expandedBatch, setExpandedBatch] = useState<string | null>(null);
     const [activeTab, setActiveTab] = useState<'journey' | 'quality' | 'documents'>('journey');
+    const [showShareMenu, setShowShareMenu] = useState(false);
+    const [copied, setCopied] = useState(false);
 
     useEffect(() => {
         const unsubscribe = onBuyerAuthChange(setUser);
@@ -120,7 +130,6 @@ const BuyerDashboard: React.FC = () => {
             try {
                 const data = await getBuyerPortalData('myBatches');
                 setBuyerInfo(data.buyer);
-                // Assume the backend now returns the enriched data for the portal
                 setBatches(data.batches || []);
             } catch (err: any) {
                 console.error('Portal fetch error:', err);
@@ -137,20 +146,28 @@ const BuyerDashboard: React.FC = () => {
         navigate('/portal/login');
     };
 
-    const getStatusBadge = (status: string) => {
-        const styles: Record<string, { bg: string; text: string; icon: React.ReactNode; label: string }> = {
-            SHIPPED: { bg: 'bg-green-100', text: 'text-green-700', icon: <FaShip className="text-xs" />, label: 'Shipped' },
-            DELIVERED: { bg: 'bg-blue-100', text: 'text-blue-700', icon: <FaCheckCircle className="text-xs" />, label: 'Delivered' },
-            QUALITY_VERIFIED: { bg: 'bg-amber-100', text: 'text-amber-700', icon: <FaCheckCircle className="text-xs" />, label: 'Quality Verified' },
-            RECEIVED: { bg: 'bg-gray-100', text: 'text-gray-600', icon: <FaClock className="text-xs" />, label: 'Received' },
-            Processing: { bg: 'bg-amber-100', text: 'text-amber-700', icon: <FaIndustry className="text-xs" />, label: 'Processing' },
-        };
-        const s = styles[status] || styles.RECEIVED;
-        return (
-            <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold ${s.bg} ${s.text}`}>
-                {s.icon}{s.label}
-            </span>
-        );
+    const handleShare = async (platform?: string) => {
+        const url = window.location.href;
+        const text = `AfriNuts Buyer Portal: ${buyerInfo?.companyName}`;
+
+        if (platform === 'whatsapp') {
+            window.open(`https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}`);
+        } else if (platform === 'twitter') {
+            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`);
+        } else if (platform === 'linkedin') {
+            window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(url)}`);
+        } else if (platform === 'email') {
+            window.location.href = `mailto:?subject=${encodeURIComponent(text)}&body=${encodeURIComponent(text + '\n\n' + url)}`;
+        } else {
+            try {
+                await navigator.clipboard.writeText(url);
+                setCopied(true);
+                setTimeout(() => setCopied(false), 2000);
+            } catch (err) {
+                console.error('Failed to copy:', err);
+            }
+        }
+        setShowShareMenu(false);
     };
 
     if (loading) {
@@ -176,6 +193,7 @@ const BuyerDashboard: React.FC = () => {
         );
     }
 
+    // KPIs
     const totalWeight = batches.reduce((s, b) => s + (b.weightKg || 0), 0);
     const inspected = batches.filter(b => b.qualityScore && b.qualityScore > 0);
     const avgQuality = inspected.length > 0 ? (inspected.reduce((s, b) => s + (b.qualityScore || 0), 0) / inspected.length).toFixed(1) : null;
@@ -202,15 +220,38 @@ const BuyerDashboard: React.FC = () => {
                                 </Typography>
                             )}
                         </div>
-                        <button onClick={handleLogout} className="flex items-center gap-2 px-4 py-2 bg-white/50 backdrop-blur-sm border border-gray-200 rounded-full text-sm font-medium hover:bg-white/80 transition">
-                            <FaSignOutAlt className="text-xs" /> Sign Out
-                        </button>
+                        <div className="flex items-center gap-2">
+                            <div className="relative">
+                                <button onClick={() => setShowShareMenu(!showShareMenu)} className="flex items-center gap-2 px-4 py-2 bg-white/50 backdrop-blur-sm border border-gray-200 rounded-full text-sm font-medium hover:bg-white/80 transition">
+                                    {copied ? <FaCheckCircle className="text-xs text-green-600" /> : <FaShare className="text-xs" />}
+                                    {copied ? 'Copied!' : 'Share Portal'}
+                                </button>
+                                {showShareMenu && (
+                                    <motion.div className="absolute right-0 mt-2 w-44 bg-white rounded-xl shadow-xl border border-gray-200 overflow-hidden z-50" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }}>
+                                        {[
+                                            { icon: FaCopy, label: 'Copy Link', action: () => handleShare() },
+                                            { icon: FaWhatsapp, label: 'WhatsApp', action: () => handleShare('whatsapp') },
+                                            { icon: FaTwitter, label: 'Twitter', action: () => handleShare('twitter') },
+                                            { icon: FaLinkedin, label: 'LinkedIn', action: () => handleShare('linkedin') },
+                                            { icon: FaEnvelope, label: 'Email', action: () => handleShare('email') },
+                                        ].map((item, i) => (
+                                            <button key={i} onClick={() => item.action()} className="w-full px-4 py-2.5 text-left hover:bg-gray-50 flex items-center gap-3 text-sm transition">
+                                                <item.icon className="text-gray-500 text-xs" />{item.label}
+                                            </button>
+                                        ))}
+                                    </motion.div>
+                                )}
+                            </div>
+                            <button onClick={handleLogout} className="flex items-center gap-2 px-4 py-2 bg-white/50 backdrop-blur-sm border border-gray-200 rounded-full text-sm font-medium hover:bg-white/80 transition">
+                                <FaSignOutAlt className="text-xs" /> Sign Out
+                            </button>
+                        </div>
                     </motion.div>
 
                     {/* KPI Cards */}
                     <motion.div initial="hidden" animate="visible" variants={staggerContainer} className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
                         <motion.div variants={fadeIn}><InfoCard icon={FaBox} title={String(batches.length)} subtitle="Batches" iconColor="text-accent" showInfoBadge={false} /></motion.div>
-                        <motion.div variants={fadeIn} transition={{ delay: 0.05 }}><InfoCard icon={FaShip} title={String(batches.filter(b => b.status === 'Shipped' || b.status === 'SHIPPED').length)} subtitle="Shipped" iconColor="text-green-600" showInfoBadge={false} /></motion.div>
+                        <motion.div variants={fadeIn} transition={{ delay: 0.05 }}><InfoCard icon={FaShip} title={String(batches.filter(b => b.status === 'SHIPPED' || b.status === 'Shipped').length)} subtitle="Shipped" iconColor="text-green-600" showInfoBadge={false} /></motion.div>
                         <motion.div variants={fadeIn} transition={{ delay: 0.1 }}><InfoCard icon={FaCertificate} title={String(premiumCount)} subtitle="Premium Grade" iconColor="text-amber-500" showInfoBadge={false} /></motion.div>
                         <motion.div variants={fadeIn} transition={{ delay: 0.15 }}><InfoCard icon={FaPercentage} title={avgQuality ? `${avgQuality}%` : '—'} subtitle="Avg. Quality" iconColor="text-primary" showInfoBadge={false} /></motion.div>
                         <motion.div variants={fadeIn} transition={{ delay: 0.2 }}><InfoCard icon={FaDownload} title={String(totalDocsAvailable)} subtitle="Docs Available" iconColor="text-blue-600" showInfoBadge={false} /></motion.div>
@@ -230,8 +271,6 @@ const BuyerDashboard: React.FC = () => {
                             <div className="space-y-8">
                                 {batches.map((batch, idx) => {
                                     const isExpanded = expandedBatch === batch.id;
-
-                                    // Determine status for Journey
                                     const status = batch.status;
                                     const isProcessing = status === 'Processing' || status === 'QUALITY_VERIFIED';
                                     const isShipped = status === 'Shipped' || status === 'SHIPPED';
@@ -260,7 +299,12 @@ const BuyerDashboard: React.FC = () => {
                                                         {batch.sourceType === 'OWN_FARM' && (
                                                             <span className="px-2.5 py-1 bg-green-100 text-green-700 text-xs rounded-full font-medium">AfriNuts Farm</span>
                                                         )}
-                                                        {getStatusBadge(batch.status)}
+                                                        <span className={`px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1.5 ${
+                                                            isShipped ? 'bg-green-100 text-green-700' : isProcessing ? 'bg-amber-100 text-amber-700' : 'bg-gray-100 text-gray-600'
+                                                        }`}>
+                                                            {isShipped ? <FaShip className="text-xs" /> : isProcessing ? <FaIndustry className="text-xs" /> : <FaClock className="text-xs" />}
+                                                            {status.replace(/_/g, ' ')}
+                                                        </span>
                                                     </div>
                                                     <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm text-gray-600 mt-3">
                                                         <span className="flex items-center gap-1.5"><FaCalendarAlt className="text-gray-400" /> {new Date(batch.harvestDate).toLocaleDateString()}</span>
