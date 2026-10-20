@@ -169,6 +169,8 @@ export const handler: Handler = async (event: HandlerEvent) => {
             const traceByBatch = new Map(rawTraces.map(t => [t.batchNumber, t]));
             const revenueByBatch = new Map(rawRevenues.map(r => [r.batchNumber, r]));
 
+            // Inside your enriched mapping in buyer-portal.ts
+
             const enriched = rawBatches.map(b => {
                 const trace = traceByBatch.get(b.batchNumber);
                 const revenue = revenueByBatch.get(b.batchNumber);
@@ -176,6 +178,10 @@ export const handler: Handler = async (event: HandlerEvent) => {
                 const testResults = parseTestResults(b);
                 const docs = parseDocuments(trace);
                 const inspected = isBatchInspected(b);
+
+                // GPS fallback logic
+                const latitude = supplier?.latitude ?? supplier?.location?.latitude ?? b.latitude ?? 9.51;
+                const longitude = supplier?.longitude ?? supplier?.location?.longitude ?? b.longitude ?? -7.5692;
 
                 const verificationCode = trace?.verificationCode || b.verificationCode || null;
                 const sigTimestamp = trace?.updatedAt || trace?.createdAt || b.updatedAt;
@@ -191,11 +197,11 @@ export const handler: Handler = async (event: HandlerEvent) => {
                     status: trace ? 'SHIPPED' : (inspected ? 'QUALITY_VERIFIED' : 'RECEIVED'),
                     verificationCode,
 
-                    // Location
+                    // Location (Now with proper fallback)
                     farmLocation: supplier?.location || "Odienné, Côte d'Ivoire",
                     block: b.blockId ? `Block ${b.blockId}` : null,
-                    latitude: supplier?.latitude ?? b.latitude ?? null,
-                    longitude: supplier?.longitude ?? b.longitude ?? null,
+                    latitude,
+                    longitude,
                     destination: trace?.destination || null,
                     destinationCountry: extractCountry(trace?.destination),
                     buyer: trace?.buyer || revenue?.buyer || null,
