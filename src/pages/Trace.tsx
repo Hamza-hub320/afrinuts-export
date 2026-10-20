@@ -7,11 +7,39 @@ import { Reveal, StaggerList, StaggerItem } from "@/components/Reveal";
 import { Typography } from "@/components/Typography/Typography";
 import { InfoCard } from "@/components/InfoCard/InfoCard";
 import {
-    FaSearch, FaMapMarkerAlt, FaClipboardList, FaGlobeAfrica,
-    FaShieldAlt, FaCertificate, FaTruck, FaBuilding, FaCheckCircle,
-    FaClock, FaFlask, FaBox, FaMobile, FaChevronDown, FaHeart,
-    FaQrcode, FaFileAlt, FaLeaf, FaChild, FaTree, FaPrint, FaShip,
-    FaArrowLeft, FaShare, FaCopy, FaWhatsapp, FaTwitter, FaLinkedin, FaEnvelope, FaCalendarAlt
+    FaSearch,
+    FaMapMarkerAlt,
+    FaClipboardList,
+    FaGlobeAfrica,
+    FaShieldAlt,
+    FaCertificate,
+    FaTruck,
+    FaBuilding,
+    FaCheckCircle,
+    FaClock,
+    FaFlask,
+    FaBox,
+    FaMobile,
+    FaChevronDown,
+    FaHeart,
+    FaQrcode,
+    FaFileAlt,
+    FaLeaf,
+    FaChild,
+    FaTree,
+    FaPrint,
+    FaShip,
+    FaArrowLeft,
+    FaShare,
+    FaCopy,
+    FaWhatsapp,
+    FaTwitter,
+    FaLinkedin,
+    FaEnvelope,
+    FaCalendarAlt,
+    FaGlobe,
+    FaSignature,
+    FaInfoCircle, FaArrowRight
 } from "react-icons/fa";
 import { GiFarmer } from "react-icons/gi";
 import { fadeIn, staggerContainer } from "@/utils/animations";
@@ -105,6 +133,8 @@ const TracePage: React.FC = () => {
         }
     };
 
+    const currentBatch = batch || (bulkData?.batches?.[0] || null);
+
     const handleShare = async (platform?: string) => {
         const url = window.location.href;
         const text = bulkData
@@ -134,86 +164,303 @@ const TracePage: React.FC = () => {
     }
 
     // ========== PROMO PAGE (no batch found) ==========
-    if (!batch && !bulkData) {
+    if (!currentBatch && !loading) {
         const promoBatchId = query.get("batchId");
         return (
             <main className="text-text-dark font-sans">
-                <Helmet>
-                    <title>{t('seo.title', 'Cashew Traceability | Farm OS Verified Batch Tracking | AfriNuts Export')}</title>
-                </Helmet>
-
+                {/* HERO — own mount animation */}
                 <Section className="flex items-center justify-center text-center min-h-[90vh]" animate={false}>
                     <motion.div className="max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 flex flex-col lg:flex-row items-center gap-6 lg:gap-28" initial="hidden" animate="visible" variants={staggerContainer}>
                         <motion.div className="flex-1 max-w-none lg:max-w-xl text-center lg:text-left" variants={fadeIn}>
                             <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-3">
-                                <FaQrcode className="inline mr-2 text-accent" />{t('page.title', 'AfriNuts Batch Traceability')}
+                                <FaQrcode className="inline mr-2 text-accent" />{t('page.title')}
                             </Typography>
                             <motion.h1 className="font-display text-3xl md:text-4xl lg:text-5xl text-text-dark mb-4 leading-tight" variants={fadeIn} style={{ letterSpacing: '-0.03em' }}>
-                                {t('promo.heading', 'Not Just a Paper Trail. Farm OS Verified.')}
+                                {t('promo.heading')}
                             </motion.h1>
                             <Typography variant="lead" className="text-text-dark mb-5 text-base lg:text-lg">
                                 {t('promo.lead', 'Enter a batch ID to see harvest dates, GPS coordinates, quality metrics, and certification records — all pulled directly from our Farm OS.')}
                             </Typography>
-
-                            <form onSubmit={handleSearch} className="mt-8 max-w-md mx-auto lg:mx-0">
-                                <div className="relative">
-                                    <FaSearch className="absolute left-4 top-3.5 text-gray-400" />
-                                    <input type="text" placeholder={t('search.placeholder', 'Enter your Batch ID...')} value={searchInput} onChange={(e) => setSearchInput(e.target.value)}
-                                           className="w-full pl-12 pr-20 py-3 rounded-full border border-gray-300 bg-white/70 backdrop-blur-md text-sm focus:outline-none focus:ring-2 focus:ring-primary shadow-sm" />
-                                    <button type="submit" className="absolute right-2 top-1/2 -translate-y-1/2 bg-primary text-white px-5 py-1.5 rounded-full text-sm font-medium hover:bg-dark-orange transition">
-                                        {t('search.button', 'Trace')}
+                            <motion.div variants={fadeIn} className="mb-5">
+                                <InfoCard icon={FaMobile} title={t('promo.introTitle', 'Powered by Farm OS')} variant="secondary" showInfoBadge={false}>
+                                    <Typography variant="small" className="text-gray-600">{t('promo.subheading')}</Typography>
+                                </InfoCard>
+                            </motion.div>
+                            <div className="flex flex-wrap justify-center lg:justify-start gap-2 mb-5">
+                                <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-primary/10 text-primary text-xs rounded-full font-medium"><FaQrcode className="text-[10px]" /> {t('promo.badgeQr', 'QR Code')}</span>
+                                <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-green-50 text-green-700 text-xs rounded-full font-medium"><FaCheckCircle className="text-[10px]" /> {t('promo.badgeVerified', 'Farm OS Verified')}</span>
+                                <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-amber-50 text-amber-700 text-xs rounded-full font-medium"><FaGlobeAfrica className="text-[10px]" /> {t('promo.badgePublic', 'Publicly Verifiable')}</span>
+                                <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-primary/10 text-primary text-xs rounded-full font-medium"><FaSignature className="text-[10px]" /> {t('promo.badgeSigned', 'Digitally Signed')}</span>
+                            </div>
+                            <motion.div variants={fadeIn} className="flex flex-col items-center lg:items-start gap-3">
+                                <div className="flex flex-wrap gap-2.5 justify-center lg:justify-start">
+                                    <div className="relative bg-white/50 backdrop-blur-sm border border-gray-300 rounded-full flex items-center">
+                                        <FaSearch className="absolute left-3 text-gray-400 text-xs" />
+                                        <input type="text" placeholder={t('search.placeholder', 'Enter your Batch ID...')}
+                                               className="pl-9 pr-20 py-2.5 bg-transparent text-sm focus:outline-none rounded-full w-56 batch-search-input"
+                                               onKeyDown={(e) => { if (e.key === 'Enter') { const input = e.currentTarget.value.trim(); if (input) window.location.href = `/trace?batchId=${encodeURIComponent(input)}`; } }} />
+                                        <button onClick={() => { const input = document.querySelector<HTMLInputElement>('.batch-search-input'); const value = input?.value?.trim(); if (value) window.location.href = `/trace?batchId=${encodeURIComponent(value)}`; }}
+                                                className="absolute right-1 top-1 bottom-1 bg-primary text-white px-4 rounded-full text-xs font-medium hover:bg-dark-orange transition-colors">{t('search.button', 'Trace')}</button>
+                                    </div>
+                                    <button onClick={() => window.location.href = '/trace?batchId=AFN-FARM-ORG-260710-34D1'}
+                                            className="relative border border-primary/40 text-primary hover:bg-primary/5 px-5 py-2.5 rounded-full text-sm font-medium inline-flex items-center gap-1.5 bg-white/50 backdrop-blur-sm">
+                                        <FaFlask className="text-xs" />{t('demo.button', 'View Demo Batch')}
+                                    </button>
+                                    <button onClick={() => window.location.href = '/trace?batchId=MB-20260710-085'}
+                                            className="relative border border-blue-400/40 text-blue-600 hover:bg-blue-50 px-5 py-2.5 rounded-full text-sm font-medium inline-flex items-center gap-1.5 bg-white/50 backdrop-blur-sm">
+                                        <FaShip className="text-xs" />{t('demo.bulkButton', 'View Bulk Shipment')}
                                     </button>
                                 </div>
                                 {promoBatchId && promoBatchId.trim() !== '' && (
-                                    <motion.div initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }} className="mt-3 text-center lg:text-left">
+                                    <motion.div initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }} className="text-center lg:text-left">
                                         <Typography variant="small" className="text-amber-600 bg-amber-50/80 px-4 py-2 rounded-full inline-block">
                                             {t('search.notFound', 'Batch "{id}" not found. Please check and try again.', { id: promoBatchId })}
                                         </Typography>
                                     </motion.div>
                                 )}
-                            </form>
+                                <div className="mt-3 text-xs text-gray-500 text-center lg:text-left">
+                                    <FaInfoCircle className="inline mr-1 text-accent text-[10px]" />
+                                    {t('demo.note', 'Sample batches are publicly shared by AfriNuts for demonstration. Real customer batches are private and require a tracking code.')}
+                                </div>
+                                {/* Verification Mode */}
+                                {(() => {
+                                    const verifyCode = query.get("code");
+                                    if (!verifyCode) return null;
 
-                            <div className="mt-8 flex flex-wrap justify-center lg:justify-start gap-3">
-                                <button onClick={() => window.location.href = '/trace?batchId=AFN-FARM-ORG-260710-34D1'} className="border border-primary/40 text-primary hover:bg-primary/5 px-5 py-2.5 rounded-full text-sm font-medium inline-flex items-center gap-1.5 bg-white/50 backdrop-blur-sm">
-                                    <FaFlask className="text-xs" />{t('demo.button', 'View Demo Batch')}
-                                </button>
-                                <button onClick={() => window.location.href = '/trace?batchId=MB-20260710-085'} className="border border-blue-400/40 text-blue-600 hover:bg-blue-50 px-5 py-2.5 rounded-full text-sm font-medium inline-flex items-center gap-1.5 bg-white/50 backdrop-blur-sm">
-                                    <FaShip className="text-xs" />{t('demo.bulkButton', 'View Bulk Shipment')}
-                                </button>
-                            </div>
+                                    return (
+                                        <motion.div
+                                            className="mt-6 max-w-md mx-auto"
+                                            initial={{ opacity: 0, y: 10 }}
+                                            animate={{ opacity: 1, y: 0 }}
+                                            transition={{ delay: 0.2 }}
+                                        >
+                                            <InfoCard
+                                                icon={FaShieldAlt}
+                                                title={t('verify.title', 'Record Verification')}
+                                                iconColor="text-green-600"
+                                                variant="primary"
+                                                showInfoBadge={false}
+                                            >
+                                                <div className="text-center">
+                                                    <div className="inline-flex items-center gap-2 bg-green-50 px-4 py-2 rounded-full mb-3">
+                                                        <FaCheckCircle className="text-green-600" />
+                                                        <Typography variant="small" className="text-green-700 font-medium">
+                                                            {t('verify.valid', 'Valid Farm OS Signature')}
+                                                        </Typography>
+                                                    </div>
+                                                    <div className="bg-white/50 rounded-lg p-3 mb-3">
+                                                        <Typography variant="small" className="text-gray-500 text-[10px] uppercase tracking-wider">
+                                                            {t('farmOsRecord.verificationCode', 'Verification Code')}
+                                                        </Typography>
+                                                        <Typography variant="small" className="font-mono font-bold text-primary text-lg tracking-wider">
+                                                            {verifyCode}
+                                                        </Typography>
+                                                    </div>
+                                                    <Typography variant="small" className="text-gray-600 text-xs leading-relaxed">
+                                                        {t('verify.explanation', 'This verification code confirms that a Farm OS record was digitally signed and has not been altered. The signature is cryptographically tied to the original batch data.')}
+                                                    </Typography>
+                                                    <div className="mt-3 flex justify-center gap-3">
+                                                        <Link
+                                                            to="/trace"
+                                                            className="text-accent hover:text-primary text-xs font-medium transition-colors"
+                                                        >
+                                                            {t('verify.tracePage', 'Trace a batch')} →
+                                                        </Link>
+                                                        <Link
+                                                            to="/contact"
+                                                            className="text-gray-500 hover:text-primary text-xs transition-colors"
+                                                        >
+                                                            {t('verify.questions', 'Questions?')}
+                                                        </Link>
+                                                    </div>
+                                                </div>
+                                            </InfoCard>
+                                        </motion.div>
+                                    );
+                                })()}
+                            </motion.div>
                         </motion.div>
-
-                        <motion.div className="flex-shrink-0 lg:ml-auto" variants={fadeIn} transition={{ delay: 0.2 }}>
-                            <div className="relative w-96 h-100 sm:w-80 sm:h-80 lg:w-[450px] lg:h-[690px] rounded-[2rem] overflow-hidden shadow-2xl border-2 border-white/40">
+                        <motion.div className="flex-shrink-0 lg:ml-auto lg:-mr-16" variants={fadeIn} transition={{ delay: 0.2 }}>
+                            <motion.div className="relative w-96 h-100 sm:w-80 sm:h-80 lg:w-[450px] lg:h-[690px] rounded-[2rem] overflow-hidden shadow-2xl border-2 border-white/40 transform-gpu group"
+                                        style={{ transformStyle: 'preserve-3d', perspective: '1000px' }} whileHover={{ scale: 1.03, rotateY: 2, transition: { duration: 0.3 } }}>
+                                <div className="absolute inset-0 rounded-[2rem] border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
+                                <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-b from-white/15 to-transparent opacity-40" />
                                 <img src={traceHeroImage} alt="Farm OS Traceability" className="w-full h-full object-cover" />
                                 <div className="absolute bottom-3 left-3 right-3 bg-white/80 backdrop-blur-sm rounded-full px-3 py-1 text-center">
                                     <span className="text-primary text-[11px] font-semibold">Farm OS Verified</span>
                                 </div>
-                            </div>
+                            </motion.div>
                         </motion.div>
                     </motion.div>
                 </Section>
 
+                {/* How It Works — staggered */}
+                <Section className="py-12">
+                    <div className="max-w-4xl mx-auto px-4 sm:px-6">
+                        <Typography variant="h2" className="text-primary text-center mb-10">{t('howItWorks.title', 'How Our Traceability Works')}</Typography>
+                        <StaggerList className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            {[
+                                { icon: FaQrcode, title: t('howItWorks.scan.title', '1. Scan the QR Code'), description: t('howItWorks.scan.description'), variant: 'primary' as const },
+                                { icon: FaSearch, title: t('howItWorks.trace.title', '2. Enter Your Batch ID'), description: t('howItWorks.trace.description'), variant: 'accent' as const },
+                                { icon: FaMapMarkerAlt, title: t('howItWorks.view.title', '3. See the Full Journey'), description: t('howItWorks.view.description'), variant: 'secondary' as const },
+                            ].map((step, i) => (
+                                <StaggerItem key={i}>
+                                    <InfoCard icon={step.icon} title={step.title} iconColor="text-accent" variant={step.variant} showInfoBadge={false} className="h-full text-center">
+                                        <Typography variant="small" className="text-gray-600">{step.description}</Typography>
+                                    </InfoCard>
+                                </StaggerItem>
+                            ))}
+                        </StaggerList>
+                    </div>
+                </Section>
+
+                {/* Privacy Notice */}
+                <Section className="py-8">
+                    <div className="max-w-3xl mx-auto px-4 sm:px-6">
+                        <Reveal>
+                            <InfoCard
+                                icon={FaShieldAlt}
+                                title={t('privacy.title', 'Your Batch Is Private')}
+                                variant="primary"
+                                showInfoBadge={false}
+                                className="text-center"
+                            >
+                                <Typography variant="body" className="text-gray-700 max-w-2xl mx-auto">
+                                    {t('privacy.body', 'Each batch has a unique tracking code — printed on the QR sticker, Bill of Lading, and Certificate of Origin. Only someone with that code can view the batch record. We never publish customer batches, and we never reveal what shipments exist in our system.')}
+                                </Typography>
+
+                                <StaggerList className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-5">
+                                    {[
+                                        { icon: FaQrcode, label: t('privacy.unique', 'Unique code per batch') },
+                                        { icon: FaShieldAlt, label: t('privacy.secure', 'Encrypted lookup') },
+                                        { icon: FaCheckCircle, label: t('privacy.public', 'Publicly verifiable') },
+                                    ].map((item, i) => (
+                                        <StaggerItem key={i} className="bg-white/40 rounded-xl p-3 text-center">
+                                            <item.icon className="text-accent text-lg mx-auto mb-1" />
+                                            <Typography variant="small" className="text-gray-700 text-xs">{item.label}</Typography>
+                                        </StaggerItem>
+                                    ))}
+                                </StaggerList>
+                            </InfoCard>
+                        </Reveal>
+                    </div>
+                </Section>
+
+                {/* What You'll See */}
+                <Section className="py-10">
+                    <div className="max-w-5xl mx-auto px-4 sm:px-6">
+                        <Reveal className="text-center mb-8">
+                            <Typography variant="h2" className="text-primary mb-3">
+                                {t('whatYouSee.title', 'What You\'ll See Inside Every Batch')}
+                            </Typography>
+                        </Reveal>
+
+                        <StaggerList className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                            {[
+                                { icon: FaClipboardList, title: 'The Batch Dossier', desc: 'Origin, processing, quality, weight' },
+                                { icon: FaGlobeAfrica, title: 'The Supply Network', desc: 'Which supplier, cooperative status' },
+                                { icon: GiFarmer, title: 'The Farmer', desc: 'Who grew it, their story' },
+                                { icon: FaLeaf, title: 'The Sustainability Record', desc: 'Compliance and farming methods' },
+                                { icon: FaMapMarkerAlt, title: 'The Farm Location', desc: 'GPS map of the source' },
+                                { icon: FaShieldAlt, title: 'Farm OS Record', desc: 'Digital signature, verification' },
+                            ].map((item, i) => (
+                                <StaggerItem key={i}>
+                                    <div className="bg-white/50 rounded-xl p-4 border border-white/30 h-full hover:bg-white/70 transition-all">
+                                        <item.icon className="text-accent text-xl mb-2" />
+                                        <Typography variant="small" className="font-semibold text-primary text-xs">{item.title}</Typography>
+                                        <Typography variant="small" className="text-gray-500 text-[11px] mt-1">{item.desc}</Typography>
+                                    </div>
+                                </StaggerItem>
+                            ))}
+                        </StaggerList>
+                    </div>
+                </Section>
+
+                {/* Who Uses This */}
+                <Section className="py-10">
+                    <div className="max-w-4xl mx-auto px-4 sm:px-6">
+                        <Reveal className="text-center mb-8">
+                            <Typography variant="h2" className="text-primary mb-3">
+                                {t('personas.title', 'Built for Everyone Who Touches a Bag')}
+                            </Typography>
+                        </Reveal>
+
+                        <StaggerList className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            {[
+                                {
+                                    icon: FaBuilding,
+                                    title: t('personas.buyer.title', 'For Buyers'),
+                                    body: t('personas.buyer.body', 'Verify origin, quality, and certifications before you open a container. No paperwork chase.')
+                                },
+                                {
+                                    icon: FaShieldAlt,
+                                    title: t('personas.regulator.title', 'For Regulators'),
+                                    body: t('personas.regulator.body', 'EU due diligence-ready records. Blockchain-grade traceability without blockchain complexity.')
+                                },
+                                {
+                                    icon: FaHeart,
+                                    title: t('personas.consumer.title', 'For Consumers'),
+                                    body: t('personas.consumer.body', 'See the farm your cashews came from. Every bag tells a story you can verify in 10 seconds.')
+                                },
+                            ].map((item, i) => (
+                                <StaggerItem key={i}>
+                                    <InfoCard
+                                        icon={item.icon}
+                                        title={item.title}
+                                        variant={i === 0 ? 'primary' : i === 1 ? 'accent' : 'secondary'}
+                                        showInfoBadge={false}
+                                        className="h-full"
+                                    >
+                                        <Typography variant="small" className="text-gray-600">
+                                            {item.body}
+                                        </Typography>
+                                    </InfoCard>
+                                </StaggerItem>
+                            ))}
+                        </StaggerList>
+                    </div>
+                </Section>
+
+                {/* Traceability FAQ */}
                 <Section className="py-10">
                     <div className="max-w-3xl mx-auto px-4 sm:px-6">
                         <Reveal className="text-center mb-8">
-                            <Typography variant="h2" className="text-primary mb-3">{t('faq.title', 'Common Questions')}</Typography>
+                            <Typography variant="h2" className="text-primary mb-3">
+                                {t('faq.title', 'Common Questions')}
+                            </Typography>
                         </Reveal>
+
                         <StaggerList className="space-y-3">
                             {[
-                                { q: 'How do I find my batch ID?', a: 'Your batch ID is printed on the QR code sticker attached to every 50kg bag and on your Bill of Lading and Certificate of Origin.' },
-                                { q: 'What if the batch ID doesn\'t work?', a: 'Check for typos — batch IDs are case-sensitive. If it still doesn\'t work, contact us at contact@afrinutsexport.com with your invoice number.' },
-                                { q: 'Can I verify the digital signature independently?', a: 'Yes — every batch has a tamper-proof verification code you can check without login. The signature proves the data hasn\'t been altered since signing.' },
-                                { q: "Who can see my batch record?", a: "Only someone with your unique tracking code. The code appears on the QR sticker on each bag, your Bill of Lading, and your Certificate of Origin. We don't publish batch records publicly." },
+                                {
+                                    q: 'How do I find my batch ID?',
+                                    a: 'Your batch ID is printed on the QR code sticker attached to every 50kg bag and on your Bill of Lading and Certificate of Origin.'
+                                },
+                                {
+                                    q: 'What if the batch ID doesn\'t work?',
+                                    a: 'Check for typos — batch IDs are case-sensitive. If it still doesn\'t work, contact us at info@afrinutsexport.com with your invoice number.'
+                                },
+                                {
+                                    q: 'Can I verify the digital signature independently?',
+                                    a: 'Yes — every batch has a tamper-proof verification code you can check without login. The signature proves the data hasn\'t been altered since signing.'
+                                },
+                                {
+                                    "q": "Who can see my batch record?",
+                                    "a": "Only someone with your unique tracking code. The code appears on the QR sticker on each bag, your Bill of Lading, and your Certificate of Origin. We don't publish batch records publicly and we don't allow browsing — every view requires a specific code."
+                                },
                             ].map((item, i) => (
                                 <StaggerItem key={i}>
                                     <details className="group bg-white/50 backdrop-blur-sm rounded-xl border border-white/30 overflow-hidden">
                                         <summary className="flex items-center justify-between p-4 cursor-pointer list-none hover:bg-white/30 transition-colors">
-                                            <Typography variant="small" className="font-semibold text-primary">{item.q}</Typography>
+                                            <Typography variant="small" className="font-semibold text-primary">
+                                                {item.q}
+                                            </Typography>
                                             <FaChevronDown className="text-accent text-xs transition-transform group-open:rotate-180" />
                                         </summary>
                                         <div className="px-4 pb-4">
-                                            <Typography variant="small" className="text-gray-600 text-sm leading-relaxed">{item.a}</Typography>
+                                            <Typography variant="small" className="text-gray-600 text-sm leading-relaxed">
+                                                {item.a}
+                                            </Typography>
                                         </div>
                                     </details>
                                 </StaggerItem>
@@ -221,6 +468,35 @@ const TracePage: React.FC = () => {
                         </StaggerList>
                     </div>
                 </Section>
+
+                <Section className="py-10">
+                    <div className="max-w-3xl mx-auto px-4 sm:px-6">
+                        <InfoCard icon={FaShieldAlt} title={t('trust.title')} iconColor="text-accent" variant="primary" showInfoBadge={false} className="text-center">
+                            <StaggerList className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-3">
+                                {[
+                                    { icon: FaTree, text: t('trust.farm') },
+                                    { icon: FaClipboardList, text: t('trust.batch') },
+                                    { icon: FaGlobe, text: t('trust.public') },
+                                    { icon: FaCertificate, text: t('trust.certs') },
+                                ].map((item, i) => (
+                                    <StaggerItem key={i} className="flex items-start gap-3 p-3 bg-white/40 rounded-xl text-left">
+                                        <item.icon className="text-accent mt-0.5 flex-shrink-0" />
+                                        <Typography variant="small" className="text-gray-700">{item.text}</Typography>
+                                    </StaggerItem>
+                                ))}
+                            </StaggerList>
+                            <div className="mt-6 pt-4 border-t border-gray-200/50">
+                                <Typography variant="body" className="text-gray-600 mb-4">
+                                    {t('trust.ctaBody', 'Every wholesale order includes Farm OS traceability at no extra cost.')}
+                                </Typography>
+                                <Link to="/wholesale" className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-6 py-2.5 rounded-full inline-flex items-center gap-2 text-sm font-medium shadow-md">
+                                    <FaBox className="text-xs" />{t('trust.ctaButton', 'Explore Wholesale Options')}<FaArrowRight className="text-xs" />
+                                </Link>
+                            </div>
+                        </InfoCard>
+                    </div>
+                </Section>
+
             </main>
         );
     }

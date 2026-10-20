@@ -23,7 +23,7 @@
     "notFound": "Batch \"{id}\" not found. Please check and try again."
   },
   "demo": {
-    "note": "Try it yourself — enter AFN-FARM-ORG-260710-34D1 in the search box above",
+    "note": "Sample batches are publicly shared by AfriNuts for demonstration. Real customer batches are private and require a tracking code.",
     "button": "View Sample Batch"
   },
   "howItWorks": {
