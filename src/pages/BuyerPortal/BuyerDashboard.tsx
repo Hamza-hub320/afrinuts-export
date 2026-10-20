@@ -321,14 +321,31 @@ const BuyerDashboard: React.FC = () => {
                                             <BatchFarmerCard farmer={batch.farmer} />
                                             <BatchSustainabilityCard sustainability={batch.sustainability} />
 
-                                            {/* GPS Map */}
-                                            {batch.latitude && batch.longitude && (
-                                                <InfoCard icon={FaMapMarkerAlt} title="GPS Verified Location" variant="primary" showInfoBadge={false}>
-                                                    <div className="mt-3">
-                                                        <BatchLocationMap latitude={batch.latitude} longitude={batch.longitude} farmName={batch.farmLocation || 'AfriNuts Farm'} block={batch.block} />
-                                                    </div>
-                                                </InfoCard>
-                                            )}
+                                            {/* GPS Map with fallback */}
+                                            {(() => {
+                                                const lat = batch.latitude ?? 9.51;
+                                                const lng = batch.longitude ?? -7.5692;
+                                                return (
+                                                    <InfoCard icon={FaMapMarkerAlt} title="GPS Verified Location" variant="primary" showInfoBadge={false}>
+                                                        <div className="mt-3">
+                                                            <BatchLocationMap
+                                                                latitude={lat}
+                                                                longitude={lng}
+                                                                farmName={batch.farmLocation || 'AfriNuts Farm'}
+                                                                block={batch.block}
+                                                            />
+                                                            <div className="flex items-center justify-center gap-2 mt-3 text-sm text-gray-600">
+                                                                <FaMapMarkerAlt className="text-accent text-xs" />
+                                                                {batch.farmLocation}
+                                                                {batch.block ? ` · ${batch.block}` : ''}
+                                                                <span className="text-gray-400 text-xs">
+                        ({lat.toFixed(4)}, {lng.toFixed(4)})
+                    </span>
+                                                            </div>
+                                                        </div>
+                                                    </InfoCard>
+                                                );
+                                            })()}
 
                                             <BatchSignatureCard metadata={batch.farmOsMetadata} signature={batch.digitalSignature} />
 
@@ -352,6 +369,13 @@ const BuyerDashboard: React.FC = () => {
                                                         <h3 className="text-center text-primary font-bold text-xl mb-6">Your Order's Journey</h3>
                                                         <div className="hidden md:block relative py-8">
                                                             <svg className="absolute inset-0 w-full h-full" viewBox="0 0 800 200" preserveAspectRatio="none">
+                                                                <defs>
+                                                                    <linearGradient id="journeyGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                                                        <stop offset="0%" stopColor="#5A7411" stopOpacity="0.3" />
+                                                                        <stop offset="50%" stopColor="#E04E00" stopOpacity="0.4" />
+                                                                        <stop offset="100%" stopColor="#5A7411" stopOpacity="0.3" />
+                                                                    </linearGradient>
+                                                                </defs>
                                                                 <path d="M40,100 C200,20 300,180 500,100 C650,40 700,160 760,100" fill="none" stroke="url(#journeyGradient)" strokeWidth="3" strokeLinecap="round" strokeDasharray="8,4" />
                                                             </svg>
                                                             <div className="grid grid-cols-6 gap-6 relative z-10">
@@ -366,6 +390,62 @@ const BuyerDashboard: React.FC = () => {
                                                                             {step.sub && <div className="text-gray-400 text-[10px] mt-1 line-clamp-1">{step.sub}</div>}
                                                                         </div>
                                                                     </div>
+                                                                ))}
+                                                            </div>
+                                                        </div>
+                                                        {/* Mobile Timeline */}
+                                                        <div className="md:hidden relative">
+                                                            <svg className="absolute top-16 left-0 w-full h-32" viewBox="0 0 400 120" preserveAspectRatio="none">
+                                                                <defs>
+                                                                    <linearGradient id="mobileJourneyGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                                                        <stop offset="0%" stopColor="#5A7411" stopOpacity="0.2" />
+                                                                        <stop offset="25%" stopColor="#E04E00" stopOpacity="0.35" />
+                                                                        <stop offset="50%" stopColor="#5A7411" stopOpacity="0.2" />
+                                                                        <stop offset="75%" stopColor="#E04E00" stopOpacity="0.35" />
+                                                                        <stop offset="100%" stopColor="#5A7411" stopOpacity="0.2" />
+                                                                    </linearGradient>
+                                                                </defs>
+                                                                <path d="M10,90 C60,10 100,70 150,40 C200,10 240,80 290,30 C330,-10 370,60 390,20" fill="none" stroke="url(#mobileJourneyGradient)" strokeWidth="2.5" strokeLinecap="round" strokeDasharray="6,3" />
+                                                            </svg>
+
+                                                            <div className="flex items-center justify-center gap-2 mb-6 text-xs text-gray-500">
+                                                                <FaArrowLeft className="text-[10px] animate-pulse" />
+                                                                <span className="bg-white/50 backdrop-blur-sm px-3 py-1 rounded-full">Swipe to explore</span>
+                                                                <FaArrowRight className="text-[10px] animate-pulse" />
+                                                            </div>
+
+                                                            <div className="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-6 -mx-4 px-4 scrollbar-hide" style={{ scrollSnapType: 'x mandatory', WebkitOverflowScrolling: 'touch' }}>
+                                                                {journeySteps.map((step, i) => (
+                                                                    <div key={i} className="snap-center flex-shrink-0 w-[160px] flex flex-col items-center text-center relative">
+                                                                        {step.status === 'active' ? (
+                                                                            <span className="relative flex h-3 w-3 mb-3">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-3 w-3 bg-accent"></span>
+                    </span>
+                                                                        ) : (
+                                                                            <div className={`w-3 h-3 rounded-full mb-3 shadow-md ${step.status === 'complete' ? 'bg-green-500' : 'bg-gray-300'}`} />
+                                                                        )}
+
+                                                                        <div className={`relative w-16 h-16 rounded-full flex items-center justify-center shadow-lg mb-4 z-10 border-3 bg-white/80 backdrop-blur-sm ${step.status === 'active' ? 'animate-pulse' : ''}`} style={{ borderColor: step.status === 'complete' ? '#22c55e' : step.status === 'active' ? '#E04E00' : '#d1d5db' }}>
+                                                                            <step.icon className="text-xl" style={{ color: step.status === 'complete' ? '#22c55e' : step.status === 'active' ? '#E04E00' : '#9ca3af' }} />
+                                                                        </div>
+
+                                                                        <div className="absolute top-8 -right-2 w-6 h-6 rounded-full flex items-center justify-center text-white text-xs font-bold shadow-lg z-20 border-2 border-white" style={{ background: step.status === 'complete' ? '#22c55e' : step.status === 'active' ? '#E04E00' : '#9ca3af' }}>
+                                                                            {i + 1}
+                                                                        </div>
+
+                                                                        <div className={`bg-white/40 backdrop-blur-sm rounded-xl p-3 w-full border shadow-sm ${step.status === 'active' ? 'border-accent/50' : 'border-white/30'}`}>
+                                                                            <div className="font-bold text-primary text-sm leading-tight">{step.title}</div>
+                                                                            <div className="text-gray-600 text-[11px] leading-tight mt-1 line-clamp-2">{step.detail}</div>
+                                                                            {step.sub && <div className="text-gray-400 text-[10px] leading-tight mt-1 line-clamp-1">{step.sub}</div>}
+                                                                        </div>
+                                                                    </div>
+                                                                ))}
+                                                            </div>
+
+                                                            <div className="flex justify-center gap-2 mt-6">
+                                                                {journeySteps.map((_, i) => (
+                                                                    <div key={i} className={`w-2 h-2 rounded-full transition-all duration-300 ${journeySteps[i].status === 'complete' ? 'bg-green-500' : journeySteps[i].status === 'active' ? 'bg-accent' : 'bg-gray-300'}`} />
                                                                 ))}
                                                             </div>
                                                         </div>
