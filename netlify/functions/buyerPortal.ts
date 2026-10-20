@@ -129,27 +129,76 @@ export const handler: Handler = async (event: HandlerEvent) => {
 
         if (action === 'myBatches') {
             const allowedBatchIds: string[] = buyer.allowedBatchIds || [];
+
             if (allowedBatchIds.length === 0) {
-                return { statusCode: 200, headers, body: JSON.stringify({ buyer: { companyName: buyer.companyName, contactPerson: buyer.contactPerson }, batches: [] }) };
+                return {
+                    statusCode: 200, headers,
+                    body: JSON.stringify({ buyer: { companyName: buyer.companyName, contactPerson: buyer.contactPerson }, batches: [], bulkShipments: [] }),
+                };
             }
 
-            // Chunking for Firestore limit
-            const chunks: string[][] = [];
-            for (let i = 0; i < allowedBatchIds.length; i += 10) { chunks.push(allowedBatchIds.slice(i, i + 10)); }
+            // 1. Identify Master (Bulk) vs Single Batch IDs
+            const masterSnapshot = await db.collection('farms').doc(fid).collection('master_traceability').get();
+            const masterMap = new Map();
+            masterSnapshot.docs.forEach(doc => {
+                const data = doc.data();
+                masterMap.set(data.masterBatchNumber, { id: doc.id, ...data });
+            });
 
+            const masterBatches: any[] = [];
+            const singleBatchIds: string[] = [];
+
+            for (const id of allowedBatchIds) {
+                if (masterMap.has(id)) {
+                    masterBatches.push(masterMap.get(id));
+                } else {
+                    singleBatchIds.push(id);
+                }
+            }
+
+            // 2. Fetch Single Batches
             const rawBatches: any[] = [];
+            if (singleBatchIds.length > 0) {
+                const chunks: string[][] = [];
+                for (let i = 0; i < singleBatchIds.length; i += 10) { chunks.push(singleBatchIds.slice(i, i + 10)); }
+                for (const chunk of chunks) {
+                    const snapshot = await db.collection('farms').doc(fid).collection('quality_batches').where('batchNumber', 'in', chunk).get();
+                    snapshot.docs.forEach(doc => rawBatches.push({ id: doc.id, ...doc.data() }));
+                }
+            }
+
+            // 3. Fetch Batches inside Master (Bulk) Shipments
+            const bulkSubBatchNumbers: string[] = [];
+            for (const master of masterBatches) {
+                const batchNumbers = typeof master.batchNumbers === 'string' ? JSON.parse(master.batchNumbers) : master.batchNumbers || [];
+                bulkSubBatchNumbers.push(...batchNumbers);
+            }
+
+            if (bulkSubBatchNumbers.length > 0) {
+                const chunks: string[][] = [];
+                for (let i = 0; i < bulkSubBatchNumbers.length; i += 10) { chunks.push(bulkSubBatchNumbers.slice(i, i + 10)); }
+                for (const chunk of chunks) {
+                    const snapshot = await db.collection('farms').doc(fid).collection('quality_batches').where('batchNumber', 'in', chunk).get();
+                    snapshot.docs.forEach(doc => rawBatches.push({ id: doc.id, ...doc.data() }));
+                }
+            }
+
+            // 4. Fetch Traces, Revenues, and Suppliers for all collected batches
+            const allBatchNumbers = [...new Set(rawBatches.map(b => b.batchNumber))];
             const rawTraces: any[] = [];
             const rawRevenues: any[] = [];
 
-            for (const chunk of chunks) {
-                const [bSnap, tSnap, rSnap] = await Promise.all([
-                    db.collection('farms').doc(fid).collection('quality_batches').where('batchNumber', 'in', chunk).get(),
-                    db.collection('farms').doc(fid).collection('batch_traceability').where('batchNumber', 'in', chunk).get(),
-                    db.collection('farms').doc(fid).collection('revenues').where('batchNumber', 'in', chunk).get()
-                ]);
-                bSnap.docs.forEach(doc => rawBatches.push({ id: doc.id, ...doc.data() }));
-                tSnap.docs.forEach(doc => rawTraces.push({ id: doc.id, ...doc.data() }));
-                rSnap.docs.forEach(doc => rawRevenues.push({ id: doc.id, ...doc.data() }));
+            if (allBatchNumbers.length > 0) {
+                const chunks: string[][] = [];
+                for (let i = 0; i < allBatchNumbers.length; i += 10) { chunks.push(allBatchNumbers.slice(i, i + 10)); }
+                for (const chunk of chunks) {
+                    const [tSnap, rSnap] = await Promise.all([
+                        db.collection('farms').doc(fid).collection('batch_traceability').where('batchNumber', 'in', chunk).get(),
+                        db.collection('farms').doc(fid).collection('revenues').where('batchNumber', 'in', chunk).get()
+                    ]);
+                    tSnap.docs.forEach(doc => rawTraces.push({ id: doc.id, ...doc.data() }));
+                    rSnap.docs.forEach(doc => rawRevenues.push({ id: doc.id, ...doc.data() }));
+                }
             }
 
             const supplierIds = [...new Set(rawBatches.map(b => b.supplierId).filter(Boolean))];
@@ -165,14 +214,14 @@ export const handler: Handler = async (event: HandlerEvent) => {
             const traceByBatch = new Map(rawTraces.map(t => [t.batchNumber, t]));
             const revenueByBatch = new Map(rawRevenues.map(r => [r.batchNumber, r]));
 
-            const enriched = rawBatches.map(b => {
+            // 5. Enrichment Function
+            const enrichBatch = (b: any) => {
                 const trace = traceByBatch.get(b.batchNumber);
                 const revenue = revenueByBatch.get(b.batchNumber);
                 const supplier = supplierMap.get(b.supplierId);
                 const testResults = parseTestResults(b);
                 const docs = parseDocuments(trace);
                 const inspected = isBatchInspected(b);
-
                 const verificationCode = trace?.verificationCode || b.verificationCode || null;
                 const sigTimestamp = trace?.updatedAt || trace?.createdAt || b.updatedAt;
 
@@ -186,8 +235,6 @@ export const handler: Handler = async (event: HandlerEvent) => {
                     isInspected: inspected,
                     status: trace ? 'SHIPPED' : (inspected ? 'QUALITY_VERIFIED' : 'RECEIVED'),
                     verificationCode,
-
-                    // Location
                     farmLocation: supplier?.location || "Odienné, Côte d'Ivoire",
                     block: b.blockId ? `Block ${b.blockId}` : null,
                     latitude: supplier?.latitude ?? null,
@@ -195,8 +242,6 @@ export const handler: Handler = async (event: HandlerEvent) => {
                     destination: trace?.destination || null,
                     destinationCountry: extractCountry(trace?.destination),
                     buyer: trace?.buyer || revenue?.buyer || null,
-
-                    // Processing
                     processingInfo: `${b.sourceType?.replace(/_/g, ' ')} · ${b.qualityGrade}`,
                     processingFacility: trace?.processingFacility || 'AfriNuts NDC (Nuts Distribution Center)',
                     processingLocation: trace?.processingLocation || "Odienné, Côte d'Ivoire",
@@ -204,8 +249,6 @@ export const handler: Handler = async (event: HandlerEvent) => {
                     shellingMethod: trace?.shellingMethod || 'Semi-automated',
                     gradingMethod: trace?.gradingMethod || 'Manual inspection + electronic sorting',
                     yieldPercentage: trace?.yieldPercentage || null,
-
-                    // Quality
                     qualityScore: inspected ? b.qualityScore : null,
                     moistureContent: inspected ? b.moistureContent : null,
                     defectiveRate: inspected ? b.defectiveRate : null,
@@ -213,12 +256,8 @@ export const handler: Handler = async (event: HandlerEvent) => {
                     nutCount: inspected ? b.nutCountPerKg : null,
                     overallScore: inspected ? Math.round((b.qualityScore ?? 0) * 10) / 10 : null,
                     testResults: inspected ? { aflatoxin: testResults.aflatoxin ?? null, heavyMetals: testResults.heavyMetals ?? null, pesticideResidue: testResults.pesticideResidue ?? null } : null,
-
-                    // Weights
                     rawWeightKg: b.weightKg || null,
                     kernelWeightKg: revenue?.quantityKg || null,
-
-                    // Documents
                     documents: {
                         coo: docs.certificateOfOrigin || docs.coo || docs.qualityCertificate || null,
                         phyto: docs.phytosanitary || docs.phyto || null,
@@ -228,23 +267,17 @@ export const handler: Handler = async (event: HandlerEvent) => {
                         insurance: docs.insurance || null,
                         compliancePack: '/documents/compliance-pack.pdf',
                     },
-
-                    // Digital Signature
                     digitalSignature: verificationCode ? {
                         code: verificationCode,
                         signature: `FOS-SIG-${verificationCode.toLowerCase()}`,
                         signedDate: sigTimestamp ? new Date(sigTimestamp).toLocaleString() : null,
                     } : null,
-
-                    // Sustainability
                     sustainability: {
                         noChildLabor: b.noChildLabor || false,
                         farmOsMonitored: b.farmOsMonitored || false,
                         firebreak: b.firebreakProtection || false,
                         sustainableHarvesting: b.sustainableHarvesting || false,
                     },
-
-                    // Farmer Profile
                     farmer: supplier ? {
                         id: supplier.id,
                         name: supplier.contactPerson,
@@ -255,27 +288,56 @@ export const handler: Handler = async (event: HandlerEvent) => {
                         bio: supplier.bio || 'Dedicated cashew farmer in the Odienné region.',
                         quote: supplier.quote || null,
                     } : null,
-
-                    // Farm OS Metadata
                     farmOsMetadata: {
                         recordId: `FOS-${b.batchNumber}`,
                         created: new Date(b.createdAt).toLocaleDateString(),
                         lastUpdated: new Date(b.updatedAt).toLocaleDateString(),
                         verificationStatus: b.verifiedAt ? 'Verified' : 'Pending',
                     },
-
-                    // Certifications
                     certifications: trace?.certificationIds ? String(trace.certificationIds).split(',').map((c: string) => c.trim()).filter(Boolean) : [],
+                };
+            };
+
+            // 6. Build final payloads
+            const enrichedSingles = rawBatches.map(enrichBatch);
+
+            const enrichedMasters = masterBatches.map(m => {
+                const subBatches = enrichedSingles.filter(b => m.batchNumbers.includes(b.batchId));
+                return {
+                    isBulk: true,
+                    masterBatch: {
+                        id: m.id,
+                        masterBatchNumber: m.masterBatchNumber,
+                        shipmentName: m.shipmentName,
+                        buyer: m.buyer,
+                        destination: m.destination,
+                        destinationCountry: extractCountry(m.destination),
+                        exportDate: m.exportDate,
+                        totalBatches: m.totalBatches,
+                        totalWeightKg: m.totalWeightKg,
+                        grades: m.grades
+                    },
+                    batches: subBatches,
+                    farmers: subBatches.map(b => b.farmer).filter((f: any, i: number, arr: any[]) => f && arr.findIndex((x: any) => x?.id === f.id) === i),
+                    sustainability: {
+                        noChildLabor: subBatches.every(b => b.sustainability.noChildLabor),
+                        farmOsMonitored: subBatches.some(b => b.sustainability.farmOsMonitored),
+                        firebreak: subBatches.every(b => b.sustainability.firebreak),
+                        sustainableHarvesting: subBatches.every(b => b.sustainability.sustainableHarvesting),
+                    }
                 };
             });
 
-            enriched.sort((a, b) => new Date(b.processingDate).getTime() - new Date(a.processingDate).getTime());
+            // Filter out single batches that are already inside a master batch
+            const masterSubBatchIds = enrichedMasters.flatMap(m => m.batches.map(b => b.batchId));
+            const standaloneSingles = enrichedSingles.filter(b => !masterSubBatchIds.includes(b.batchId));
 
             return {
                 statusCode: 200, headers,
                 body: JSON.stringify({
                     buyer: { companyName: buyer.companyName, contactPerson: buyer.contactPerson },
-                    batches: enriched,
+                    batches: standaloneSingles,
+                    bulkShipments: enrichedMasters
                 }),
             };
         }
