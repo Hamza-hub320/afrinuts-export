@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { auth } from '@/services/firebase';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
-    FaBox, FaShip, FaCheckCircle, FaClock, FaSignOutAlt,
+    FaBox, FaShip, FaCheckCircle, FaSignOutAlt,
     FaArrowRight, FaUser, FaDownload, FaShieldAlt,
     FaFileAlt, FaCertificate, FaMapMarkerAlt, FaPercentage,
-    FaFlask, FaLeaf, FaChild, FaMobile, FaTree, FaCalendarAlt, FaBuilding,
+    FaFlask, FaLeaf, FaMobile, FaCalendarAlt, FaBuilding,
     FaIndustry, FaChartBar, FaTruck, FaPrint, FaShare, FaEnvelope,
     FaArrowLeft, FaCopy, FaWhatsapp, FaTwitter, FaLinkedin, FaGlobeAfrica
 } from 'react-icons/fa';
@@ -15,11 +14,10 @@ import { Typography } from '@/components/Typography/Typography';
 import { InfoCard } from '@/components/InfoCard/InfoCard';
 import Section from '@/components/Section/Section';
 import { fadeIn, staggerContainer } from '@/utils/animations';
-import { getBuyerPortalData } from '@/services/api';
+import {getAdminData, getBuyerPortalData} from '@/services/api';
 import { buyerLogout, onBuyerAuthChange } from '@/services/buyerAuth';
 import type { User } from 'firebase/auth';
 import BatchLocationMap from '@/components/BatchLocationMap/BatchLocationMap';
-import { Reveal, StaggerList, StaggerItem, CountUp } from '@/components/Reveal';
 import { useTranslation } from 'react-i18next';
 
 // Shared components
@@ -115,6 +113,21 @@ const BuyerDashboard: React.FC = () => {
         const fetchData = async () => {
             try {
                 const data = await getBuyerPortalData('myBatches');
+
+                // If the API returns an error saying they are not a buyer,
+                // but they are an admin, redirect them to the admin panel.
+                if (data.error === 'not_a_buyer') {
+                    // Check if they are an admin by trying an admin action
+                    try {
+                        await getAdminData('admin_listBuyers');
+                        navigate('/admin/buyers');
+                        return;
+                    } catch (adminErr) {
+                        // Not an admin either, show normal error
+                        throw new Error('You do not have access to this portal.');
+                    }
+                }
+
                 setBuyerInfo(data.buyer);
                 if (data.isBulk) {
                     setPortalData(data as BulkData);
@@ -128,7 +141,7 @@ const BuyerDashboard: React.FC = () => {
             }
         };
         if (user) fetchData();
-    }, [user]);
+    }, [user, navigate]);
 
     const handleLogout = async () => {
         await buyerLogout();

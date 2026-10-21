@@ -112,17 +112,46 @@ export const handler: Handler = async (event: HandlerEvent) => {
         const viewerUid = await getViewerUid(event);
         if (!viewerUid) return { statusCode: 401, headers, body: JSON.stringify({ error: 'unauthenticated' }) };
 
-        const buyer = await getBuyerRecord(fid, viewerUid);
-        if (!buyer) return { statusCode: 403, headers, body: JSON.stringify({ error: 'not_a_buyer' }) };
+        // 1. Check if the user is an Admin first
+        const adminCheck = await isAdmin(fid, viewerUid);
+
+        // 2. If not an admin, check if they are a buyer
+        const buyer = adminCheck ? null : await getBuyerRecord(fid, viewerUid);
+
+        // 3. If they are neither an admin nor a buyer, reject them
+        if (!adminCheck && !buyer) {
+            return { statusCode: 403, headers, body: JSON.stringify({ error: 'not_a_buyer' }) };
+        }
+
+        // 4. Proceed with the actions...
 
         const query = event.queryStringParameters || {};
         const action = query.action;
 
         if (!action || action === 'me') {
+            // If the viewer is an admin, return admin profile (no buyer record)
+            if (adminCheck) {
+                return {
+                    statusCode: 200, headers,
+                    body: JSON.stringify({
+                        isAdmin: true,
+                        buyer: null,
+                    }),
+                };
+            }
+
+            // Otherwise, they must be a buyer
             return {
                 statusCode: 200, headers,
                 body: JSON.stringify({
-                    buyer: { id: buyer.id, email: buyer.email, companyName: buyer.companyName, contactPerson: buyer.contactPerson, allowedBatchCount: (buyer.allowedBatchIds || []).length },
+                    isAdmin: false,
+                    buyer: {
+                        id: buyer!.id,
+                        email: buyer!.email,
+                        companyName: buyer!.companyName,
+                        contactPerson: buyer!.contactPerson,
+                        allowedBatchCount: (buyer!.allowedBatchIds || []).length,
+                    },
                 }),
             };
         }
@@ -392,6 +421,17 @@ export const handler: Handler = async (event: HandlerEvent) => {
         }
 
         if (action === 'myBatches') {
+            // Admins don't have batches
+            if (adminCheck || !buyer) {
+                return {
+                    statusCode: 200, headers,
+                    body: JSON.stringify({
+                        buyer: null,
+                        batches: [],
+                    }),
+                };
+            }
+
             const allowedBatchIds: string[] = buyer.allowedBatchIds || [];
 
             if (allowedBatchIds.length === 0) {
