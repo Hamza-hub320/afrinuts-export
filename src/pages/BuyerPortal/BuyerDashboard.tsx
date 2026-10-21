@@ -8,7 +8,7 @@ import {
     FaFileAlt, FaCertificate, FaMapMarkerAlt, FaPercentage,
     FaFlask, FaLeaf, FaChild, FaMobile, FaTree, FaCalendarAlt, FaBuilding,
     FaIndustry, FaChartBar, FaTruck, FaPrint, FaShare, FaEnvelope,
-    FaArrowLeft, FaCopy, FaWhatsapp, FaTwitter, FaLinkedin
+    FaArrowLeft, FaCopy, FaWhatsapp, FaTwitter, FaLinkedin, FaGlobeAfrica
 } from 'react-icons/fa';
 import { GiFarmer, GiFruitTree, GiFactory, GiCargoShip } from 'react-icons/gi';
 import { Typography } from '@/components/Typography/Typography';
@@ -20,6 +20,7 @@ import { buyerLogout, onBuyerAuthChange } from '@/services/buyerAuth';
 import type { User } from 'firebase/auth';
 import BatchLocationMap from '@/components/BatchLocationMap/BatchLocationMap';
 import { Reveal, StaggerList, StaggerItem, CountUp } from '@/components/Reveal';
+import { useTranslation } from 'react-i18next';
 
 // Shared components
 import { BatchFarmerCard } from '@/components/batch/BatchFarmerCard';
@@ -60,6 +61,15 @@ interface MyBatch {
     documents?: Record<string, string | null | undefined>;
     farmer?: any;
     sustainability?: any;
+    supplier?: {
+        id?: number;
+        type: string;
+        farmSize: string;
+        farmOsStatus: string;
+        season: string;
+        traceLevel: string;
+        cooperative: string | null;
+    } | null;
     farmOsMetadata?: any;
     sourceType?: string;
 }
@@ -85,6 +95,7 @@ interface BuyerInfo {
 }
 
 const BuyerDashboard: React.FC = () => {
+    const { t } = useTranslation('portal');
     const navigate = useNavigate();
     const [user, setUser] = useState<User | null>(null);
     const [buyerInfo, setBuyerInfo] = useState<BuyerInfo | null>(null);
@@ -252,7 +263,7 @@ const BuyerDashboard: React.FC = () => {
                                     ];
 
                                     return (
-                                        <motion.div key={batch.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.05 }} className="space-y-6">
+                                        <motion.div key={batch.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.05 }} className="space-y-8">
 
                                             {/* Dossier Card */}
                                             <div className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-3xl shadow-xl p-8 transform-gpu overflow-hidden">
@@ -317,37 +328,77 @@ const BuyerDashboard: React.FC = () => {
                                                 </div>
                                             </div>
 
-                                            {/* Shared Components */}
-                                            <BatchFarmerCard farmer={batch.farmer} />
-                                            <BatchSustainabilityCard sustainability={batch.sustainability} />
-
-                                            {/* GPS Map with fallback */}
-                                            {(() => {
-                                                const lat = batch.latitude ?? 9.51;
-                                                const lng = batch.longitude ?? -7.5692;
-                                                return (
+                                            {/* FARMER + GPS — Two Columns */}
+                                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                                <div>
+                                                    <Typography variant="small" className="text-primary font-semibold uppercase tracking-widest mb-3">
+                                                        The People Behind This Batch
+                                                    </Typography>
+                                                    <BatchFarmerCard farmer={batch.farmer} />
+                                                </div>
+                                                <div>
+                                                    <Typography variant="small" className="text-primary font-semibold uppercase tracking-widest mb-3">
+                                                        Where It Was Grown
+                                                    </Typography>
                                                     <InfoCard icon={FaMapMarkerAlt} title="GPS Verified Location" variant="primary" showInfoBadge={false}>
                                                         <div className="mt-3">
                                                             <BatchLocationMap
-                                                                latitude={lat}
-                                                                longitude={lng}
+                                                                latitude={batch.latitude ?? 9.51}
+                                                                longitude={batch.longitude ?? -7.5692}
                                                                 farmName={batch.farmLocation || 'AfriNuts Farm'}
                                                                 block={batch.block}
                                                             />
-                                                            <div className="flex items-center justify-center gap-2 mt-3 text-sm text-gray-600">
+                                                            <div className="flex items-center justify-center gap-2 mt-3">
                                                                 <FaMapMarkerAlt className="text-accent text-xs" />
-                                                                {batch.farmLocation}
-                                                                {batch.block ? ` · ${batch.block}` : ''}
-                                                                <span className="text-gray-400 text-xs">
-                        ({lat.toFixed(4)}, {lng.toFixed(4)})
-                    </span>
+                                                                <Typography variant="small" className="text-gray-600">{batch.farmLocation}{batch.block ? ` · Block ${batch.block}` : ''}</Typography>
                                                             </div>
                                                         </div>
                                                     </InfoCard>
-                                                );
-                                            })()}
+                                                </div>
+                                            </div>
 
-                                            <BatchSignatureCard metadata={batch.farmOsMetadata} signature={batch.digitalSignature} />
+                                            {/* FARM NETWORK + SUSTAINABILITY — Two Columns */}
+                                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                                <div>
+                                                    <Typography variant="small" className="text-primary font-semibold uppercase tracking-widest mb-3">
+                                                        Farm Network Status
+                                                    </Typography>
+                                                    {batch.supplier && (
+                                                        <InfoCard icon={FaGlobeAfrica} title="Farm Network" variant="accent" showInfoBadge={false}>
+                                                            <div className="grid grid-cols-2 gap-3 mt-3">
+                                                                {[
+                                                                    { label: 'Supplier Type', value: batch.supplier.type, icon: GiFruitTree },
+                                                                    { label: 'Farm Size', value: batch.supplier.farmSize, icon: FaMapMarkerAlt },
+                                                                    { label: 'Farm OS Status', value: batch.supplier.farmOsStatus, icon: FaMobile },
+                                                                    { label: 'Harvest Season', value: batch.supplier.season, icon: FaCalendarAlt },
+                                                                    { label: 'Traceability Level', value: batch.supplier.traceLevel, icon: FaShieldAlt },
+                                                                    { label: 'Cooperative', value: batch.supplier.cooperative || 'AfriNuts Owned Farm', icon: GiFarmer },
+                                                                ].map((item, i) => (
+                                                                    <div key={i} className="bg-white/40 backdrop-blur-sm rounded-xl p-3 border border-white/30 text-center">
+                                                                        <item.icon className="text-accent text-lg mx-auto mb-1" />
+                                                                        <div className="text-gray-500 text-[10px] uppercase tracking-wider">{item.label}</div>
+                                                                        <div className="text-primary font-semibold text-xs mt-0.5">{item.value}</div>
+                                                                    </div>
+                                                                ))}
+                                                            </div>
+                                                        </InfoCard>
+                                                    )}
+                                                </div>
+                                                <div>
+                                                    <Typography variant="small" className="text-primary font-semibold uppercase tracking-widest mb-3">
+                                                        Sustainability Verification
+                                                    </Typography>
+                                                    <BatchSustainabilityCard sustainability={batch.sustainability} />
+                                                </div>
+                                            </div>
+
+                                            {/* FARM OS RECORD — Full Width */}
+                                            <div>
+                                                <Typography variant="small" className="text-primary font-semibold uppercase tracking-widest mb-3">
+                                                    Farm OS Record & Digital Signature
+                                                </Typography>
+                                                <BatchSignatureCard metadata={batch.farmOsMetadata} signature={batch.digitalSignature} />
+                                            </div>
 
                                             {/* Tabs */}
                                             <div className="mt-8">

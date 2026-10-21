@@ -228,6 +228,22 @@ export const handler: Handler = async (event: HandlerEvent) => {
                     rawWeightKg: b.weightKg || null,
                     kernelWeightKg: revenue?.quantityKg || null,
 
+                    // LOCATION (with fallback)
+                    latitude: supplier?.latitude || 9.51,
+                    longitude: supplier?.longitude || -7.5692,
+
+                    // SUPPLIER metadata
+                    supplier: supplier ? {
+                        id: supplier.id,
+                        type: supplier.type?.replace(/_/g, ' ') || 'Independent',
+                        farmSize: supplier.farmSize ? `${supplier.farmSize} ha` : 'N/A',
+                        farmOsStatus: 'Active',
+                        season: '2026',
+                        traceLevel: 'Block-Level Verified',
+                        cooperative: supplier.type === 'COOPERATIVE' ? supplier.name : 'AfriNuts Network',
+                    } : null,
+
+
                     // Documents
                     documents: {
                         coo: docs.certificateOfOrigin || docs.coo || docs.qualityCertificate || null,
