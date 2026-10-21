@@ -81,6 +81,29 @@ async function getBuyerRecord(fid: string, uid: string): Promise<BuyerRecord | n
     return null;
 }
 
+// ── Helper: find another buyer that already owns a given batch / master ──
+async function findBuyerOwner(
+    fid: string,
+    batchId: string,
+    kind: 'batch' | 'master',
+    excludeBuyerId: string
+): Promise<{ id: string; companyName: string } | null> {
+    const field = kind === 'master' ? 'allowedMasterBatchIds' : 'allowedBatchIds';
+    const snap = await db
+        .collection('farms').doc(fid)
+        .collection('buyers')
+        .where(field, 'array-contains', batchId)
+        .limit(5)
+        .get();
+
+    for (const doc of snap.docs) {
+        if (doc.id === excludeBuyerId) continue;
+        const data = doc.data();
+        return { id: doc.id, companyName: data.companyName || 'another buyer' };
+    }
+    return null;
+}
+
 // ── Helper: check if the viewer is an admin (reuses users/{uid}.role) ──
 const ADMIN_ROLES = new Set(['OWNER', 'MANAGER']);
 
@@ -302,6 +325,7 @@ export const handler: Handler = async (event: HandlerEvent) => {
             'admin_assignBatches',
             'admin_listBatches',
             'admin_listMasterBatches',
+            'admin_listAssignments',
         ];
 
         if (adminActions.includes(action || '')) {
@@ -476,6 +500,28 @@ export const handler: Handler = async (event: HandlerEvent) => {
                     return { statusCode: 404, headers, body: JSON.stringify({ error: 'buyer_not_found' }) };
                 }
 
+                // ── Exclusivity: batch/master can only belong to one buyer ──
+                if (mode === 'add') {
+                    for (const id of batchIds as string[]) {
+                        const owner = await findBuyerOwner(fid, id, kind, buyerId);
+                        if (owner) {
+                            return {
+                                statusCode: 409,
+                                headers,
+                                body: JSON.stringify({
+                                    error: 'already_assigned_to_other_buyer',
+                                    hint: kind === 'master'
+                                        ? `Bulk shipment ${id} is already assigned to ${owner.companyName}.`
+                                        : `Batch ${id} is already assigned to ${owner.companyName}.`,
+                                    batchId: id,
+                                    ownerBuyerId: owner.id,
+                                    ownerCompanyName: owner.companyName,
+                                }),
+                            };
+                        }
+                    }
+                }
+
                 // Prevent mixing individual batches with master shipments on the same buyer
                 const otherField = kind === 'master' ? 'allowedBatchIds' : 'allowedMasterBatchIds';
                 const otherCurrent: string[] = buyerDoc.data()?.[otherField] || [];
@@ -599,6 +645,19 @@ export const handler: Handler = async (event: HandlerEvent) => {
                     headers,
                     body: JSON.stringify({ masters }),
                 };
+            }
+
+            // ── Action: assignment ownership map (admin only) ──────
+            if (action === 'admin_listAssignments') {
+                const snap = await db.collection('farms').doc(fid).collection('buyers').get();
+                const batchOwners: Record<string, string> = {};
+                const masterOwners: Record<string, string> = {};
+                snap.docs.forEach(doc => {
+                    const d = doc.data();
+                    (d.allowedBatchIds || []).forEach((b: string) => { batchOwners[b] = d.companyName || 'Buyer'; });
+                    (d.allowedMasterBatchIds || []).forEach((m: string) => { masterOwners[m] = d.companyName || 'Buyer'; });
+                });
+                return { statusCode: 200, headers, body: JSON.stringify({ batchOwners, masterOwners }) };
             }
 
             return { statusCode: 400, headers, body: JSON.stringify({ error: 'unknown_admin_action' }) };

@@ -54,6 +54,7 @@ interface MasterBatchSummary {
     traceabilityUrl: string | null;
 }
 
+
 // ── Helpers ─────────────────────────────────────────────
 const relativeTime = (iso: string | null): string => {
     if (!iso) return 'Never';
@@ -107,17 +108,22 @@ const AdminBuyers: React.FC = () => {
     const [formContact, setFormContact] = useState('');
     const [saving, setSaving] = useState(false);
     const [formError, setFormError] = useState<string | null>(null);
+    const [batchOwners, setBatchOwners] = useState<Record<string, string>>({});
+    const [masterOwners, setMasterOwners] = useState<Record<string, string>>({});
 
     const loadData = async () => {
         try {
-            const [buyersRes, batchesRes, mastersRes] = await Promise.all([
+            const [buyersRes, batchesRes, mastersRes, assignmentsRes] = await Promise.all([
                 getAdminData('admin_listBuyers'),
                 getAdminData('admin_listBatches'),
                 getAdminData('admin_listMasterBatches'),
+                getAdminData('admin_listAssignments'),
             ]);
             setBuyers(buyersRes.buyers || []);
             setAllBatches(batchesRes.batches || []);
             setAllMasters(mastersRes.masters || []);
+            setBatchOwners(assignmentsRes.batchOwners || {});
+            setMasterOwners(assignmentsRes.masterOwners || {});
         } catch (err: any) {
             setError(err.message || 'Failed to load data');
         } finally {
@@ -194,10 +200,20 @@ const AdminBuyers: React.FC = () => {
             setAssignBuyer(updated);
             setBuyers(prev => prev.map(b => (b.id === assignBuyer.id ? updated : b)));
         } catch (err: any) {
-            // Surface server-side hint if buyer already has the other kind
-            const msg = err?.message || '';
-            alert('Failed to update assignment: ' + msg);
-        }
+                const raw = err?.message || '';
+                if (raw.includes('already_assigned_to_other_buyer')) {
+                    // backend hint has the human-readable string in `hint`, but getAdminData throws Error(hint ?? error)
+                    alert(raw.replace('already_assigned_to_other_buyer', '').trim() || 'That shipment is already assigned to another buyer.');
+                } else if (raw.includes('buyer_already_has_other_kind')) {
+                    alert(
+                        assignKind === 'batch'
+                            ? 'This buyer already holds bulk shipments. Remove them before assigning individual batches.'
+                            : 'This buyer already holds individual batches. Remove them before assigning bulk shipments.'
+                    );
+                } else {
+                    alert('Failed to update assignment: ' + raw);
+                }
+            }
     };
 
     const handleDelete = async (buyer: Buyer) => {
@@ -810,22 +826,32 @@ const AdminBuyers: React.FC = () => {
                                     {assignKind === 'batch' ? (
                                         allBatches.map((b) => {
                                             const isAssigned = assignBuyer?.allowedBatchIds.includes(b.batchId);
+                                            const otherOwner = !isAssigned ? batchOwners[b.batchId] : null;
+                                            const disabled = !!otherOwner;
+
                                             return (
                                                 <button
                                                     key={b.id}
-                                                    onClick={() => handleAssignToggle(b.batchId, 'batch')}
+                                                    onClick={() => !disabled && handleAssignToggle(b.batchId, 'batch')}
+                                                    disabled={disabled}
                                                     className={`w-full text-left p-3 rounded-xl border transition-all ${
-                                                        isAssigned
-                                                            ? 'bg-primary/10 border-primary/40'
-                                                            : 'bg-gray-50 border-gray-200 hover:bg-gray-100'
+                                                        disabled
+                                                            ? 'bg-gray-100 border-gray-200 opacity-60 cursor-not-allowed'
+                                                            : isAssigned
+                                                                ? 'bg-primary/10 border-primary/40'
+                                                                : 'bg-gray-50 border-gray-200 hover:bg-gray-100'
                                                     }`}
                                                 >
                                                     <div className="flex items-center justify-between gap-2">
                                                         <div className="flex items-center gap-3 flex-1 min-w-0">
                                                             <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 ${
-                                                                isAssigned ? 'bg-primary text-white' : 'bg-gray-200 text-gray-500'
+                                                                disabled
+                                                                    ? 'bg-gray-300 text-gray-500'
+                                                                    : isAssigned
+                                                                        ? 'bg-primary text-white'
+                                                                        : 'bg-gray-200 text-gray-500'
                                                             }`}>
-                                                                {isAssigned ? <FaMinus className="text-[10px]" /> : <FaPlus className="text-[10px]" />}
+                                                                {disabled ? <FaLock className="text-[9px]" /> : isAssigned ? <FaMinus className="text-[10px]" /> : <FaPlus className="text-[10px]" />}
                                                             </div>
                                                             <div className="min-w-0">
                                                                 <div className="font-mono text-sm font-medium truncate">{b.batchId}</div>
@@ -834,9 +860,13 @@ const AdminBuyers: React.FC = () => {
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        {isAssigned && (
+                                                        {disabled ? (
+                                                            <span className="px-2 py-0.5 bg-gray-200 text-gray-600 text-[10px] rounded-full flex-shrink-0">
+                                                                Taken by {otherOwner}
+                                                            </span>
+                                                        ) : isAssigned ? (
                                                             <FaCheckCircle className="text-primary text-sm flex-shrink-0" />
-                                                        )}
+                                                        ) : null}
                                                     </div>
                                                 </button>
                                             );
