@@ -1,15 +1,13 @@
 import React, { useEffect, useState, Fragment } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
     FaUserPlus, FaUsers, FaBox, FaCheckCircle,
-    FaArrowLeft, FaTrash, FaEdit, FaPlus, FaMinus, FaSearch,
-    FaSave, FaTimes, FaShieldAlt,
+    FaTrash, FaEdit, FaPlus, FaMinus, FaSearch,
+    FaSave, FaTimes, FaUserShield,
 } from 'react-icons/fa';
 import { Dialog, Transition } from '@headlessui/react';
 import { Typography } from '@/components/Typography/Typography';
 import { InfoCard } from '@/components/InfoCard/InfoCard';
-import Section from '@/components/Section/Section';
 import { getAdminData } from '@/services/api';
 
 interface Buyer {
@@ -35,24 +33,22 @@ interface BatchSummary {
 }
 
 const AdminBuyers: React.FC = () => {
-    const navigate = useNavigate();
     const [buyers, setBuyers] = useState<Buyer[]>([]);
     const [allBatches, setAllBatches] = useState<BatchSummary[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [searchQuery, setSearchQuery] = useState('');
 
-    // Modal state
     const [createOpen, setCreateOpen] = useState(false);
     const [editBuyer, setEditBuyer] = useState<Buyer | null>(null);
     const [assignBuyer, setAssignBuyer] = useState<Buyer | null>(null);
 
-    // Form state
     const [formEmail, setFormEmail] = useState('');
     const [formCompany, setFormCompany] = useState('');
     const [formContact, setFormContact] = useState('');
     const [saving, setSaving] = useState(false);
     const [formError, setFormError] = useState<string | null>(null);
+
 
     const loadData = async () => {
         try {
@@ -156,62 +152,35 @@ const AdminBuyers: React.FC = () => {
         || b.contactPerson?.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-    if (loading) {
-        return (
-            <div className="min-h-screen pt-[72px] flex items-center justify-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-            </div>
-        );
-    }
-
-    if (error) {
-        return (
-            <div className="min-h-screen pt-[72px] px-4">
-                <div className="max-w-md mx-auto mt-12">
-                    <InfoCard icon={FaShieldAlt} title="Access Error" variant="accent" showInfoBadge={false}>
-                        <Typography variant="body" className="text-gray-700 mb-4">{error}</Typography>
-                        <Link to="/" className="bg-primary text-white px-6 py-2 rounded-full text-sm font-medium">
-                            Back to Home
-                        </Link>
-                    </InfoCard>
-                </div>
-            </div>
-        );
-    }
+    if (loading) return <div className="p-8"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary" /></div>;
+    if (error) return <div className="p-8"><InfoCard icon={FaUserShield} title="Access Error" variant="accent" showInfoBadge={false}><p className="text-sm text-gray-700">{error}</p></InfoCard></div>;
 
     return (
-        <div className="min-h-screen pt-[72px] bg-gradient-to-br from-primary/5 to-accent/5">
-            <Section className="py-8">
-                <div className="max-w-6xl mx-auto px-4 sm:px-6">
-                    {/* Header */}
-                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
-                        <div>
-                            <Link to="/portal" className="inline-flex items-center gap-2 text-primary hover:text-accent mb-3 text-sm">
-                                <FaArrowLeft className="text-xs" /> Back to Portal
-                            </Link>
-                            <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-2 text-sm">
-                                <FaShieldAlt className="inline mr-2 text-accent" />
-                                Admin
-                            </Typography>
-                            <Typography variant="h1" className="text-3xl md:text-4xl font-display text-text-dark">
-                                Buyer Management
-                            </Typography>
-                        </div>
-                        <button
-                            onClick={() => { setCreateOpen(true); setFormError(null); setFormEmail(''); setFormCompany(''); setFormContact(''); }}
-                            className="flex items-center gap-2 bg-gradient-to-r from-primary to-accent text-white px-6 py-3 rounded-full font-medium shadow-md hover:shadow-lg transition"
-                        >
-                            <FaUserPlus />
-                            Create Buyer
-                        </button>
-                    </div>
+        <div className="p-4 sm:p-6 max-w-6xl mx-auto">
+            {/* Header */}
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+                <div>
+                    <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-1 text-xs">
+                        <FaUsers className="inline mr-2 text-accent" /> Farm OS
+                    </Typography>
+                    <Typography variant="h1" className="text-2xl md:text-3xl font-display text-text-dark">
+                        Buyer Management
+                    </Typography>
+                </div>
+                <button
+                    onClick={() => { setCreateOpen(true); setFormError(null); setFormEmail(''); setFormCompany(''); setFormContact(''); }}
+                    className="flex items-center gap-2 bg-gradient-to-r from-primary to-accent text-white px-5 py-2.5 rounded-full font-medium shadow-md hover:shadow-lg transition text-sm"
+                >
+                    <FaUserPlus /> Create Buyer
+                </button>
+            </div>
 
-                    {/* KPIs */}
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
-                        <InfoCard icon={FaUsers} title={String(buyers.length)} subtitle="Total Buyers" iconColor="text-accent" showInfoBadge={false} />
-                        <InfoCard icon={FaCheckCircle} title={String(buyers.filter(b => b.isActive).length)} subtitle="Active" iconColor="text-green-600" showInfoBadge={false} />
-                        <InfoCard icon={FaBox} title={String(buyers.reduce((s, b) => s + b.allowedBatchCount, 0))} subtitle="Total Assignments" iconColor="text-primary" showInfoBadge={false} />
-                    </div>
+            {/* KPIs */}
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
+                <InfoCard icon={FaUsers} title={String(buyers.length)} subtitle="Total Buyers" iconColor="text-accent" showInfoBadge={false} />
+                <InfoCard icon={FaCheckCircle} title={String(buyers.filter(b => b.isActive).length)} subtitle="Active" iconColor="text-green-600" showInfoBadge={false} />
+                <InfoCard icon={FaBox} title={String(buyers.reduce((s, b) => s + b.allowedBatchCount, 0))} subtitle="Total Assignments" iconColor="text-primary" showInfoBadge={false} />
+            </div>
 
                     {/* Search */}
                     <div className="mb-6">
@@ -302,8 +271,7 @@ const AdminBuyers: React.FC = () => {
                             ))}
                         </div>
                     )}
-                </div>
-            </Section>
+
 
             {/* ── Create Modal ───────────────────────────────── */}
             <Transition.Root show={createOpen} as={Fragment}>

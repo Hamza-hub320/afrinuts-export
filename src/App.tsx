@@ -186,11 +186,11 @@ function App(): ReactElement {
                                     }
                                 />
                                 <Route
-                                    path="/admin/buyers"
+                                    path="buyers"
                                     element={
-                                        <BuyerProtectedRoute>
+                                        <ProtectedRoute allowedRoles={['OWNER', 'MANAGER']}>
                                             <AdminBuyers />
-                                        </BuyerProtectedRoute>
+                                        </ProtectedRoute>
                                     }
                                 />
                                 <Route path="*" element={<Home />} />
