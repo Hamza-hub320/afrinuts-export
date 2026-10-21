@@ -84,23 +84,58 @@ async function getBuyerRecord(fid: string, uid: string): Promise<BuyerRecord | n
 // ── Helper: find another buyer that already owns a given batch / master ──
 async function findBuyerOwner(
     fid: string,
-    batchId: string,
+    id: string,
     kind: 'batch' | 'master',
     excludeBuyerId: string
-): Promise<{ id: string; companyName: string } | null> {
-    const field = kind === 'master' ? 'allowedMasterBatchIds' : 'allowedBatchIds';
-    const snap = await db
+): Promise<{ id: string; companyName: string; viaMaster?: string } | null> {
+    // 1. Direct ownership on the same field
+    const directField = kind === 'master' ? 'allowedMasterBatchIds' : 'allowedBatchIds';
+    const direct = await db
         .collection('farms').doc(fid)
         .collection('buyers')
-        .where(field, 'array-contains', batchId)
+        .where(directField, 'array-contains', id)
         .limit(5)
         .get();
-
-    for (const doc of snap.docs) {
+    for (const doc of direct.docs) {
         if (doc.id === excludeBuyerId) continue;
         const data = doc.data();
         return { id: doc.id, companyName: data.companyName || 'another buyer' };
     }
+
+    // 2. If we're checking a batch, also check whether it lives inside
+    //    some other buyer's bulk shipment.
+    if (kind === 'batch') {
+        // Find every master that contains this batch as a child
+        // (search is done in-memory since batchNumbers is a JSON string).
+        const mastersSnap = await db
+            .collection('farms').doc(fid)
+            .collection('master_traceability')
+            .get();
+        const parentMasters: string[] = [];
+        mastersSnap.docs.forEach(m => {
+            const children = parseMasterBatchNumbers(m.data().batchNumbers);
+            if (children.includes(id)) parentMasters.push(m.data().masterBatchNumber);
+        });
+
+        if (parentMasters.length > 0) {
+            const ownersSnap = await db
+                .collection('farms').doc(fid)
+                .collection('buyers')
+                .where('allowedMasterBatchIds', 'array-contains-any', parentMasters.slice(0, 10))
+                .limit(5)
+                .get();
+            for (const doc of ownersSnap.docs) {
+                if (doc.id === excludeBuyerId) continue;
+                const data = doc.data();
+                return {
+                    id: doc.id,
+                    companyName: data.companyName || 'another buyer',
+                    viaMaster: parentMasters[0],
+                };
+            }
+        }
+    }
+
     return null;
 }
 
@@ -112,6 +147,18 @@ async function isAdmin(uid: string): Promise<boolean> {
     if (!userDoc.exists) return false;
     const role = userDoc.data()?.role;
     return typeof role === 'string' && ADMIN_ROLES.has(role);
+}
+
+// ── Helper: get child batch numbers for a given master batch number ──
+async function getMasterChildBatches(fid: string, masterBatchNumber: string): Promise<string[]> {
+    const snap = await db
+        .collection('farms').doc(fid)
+        .collection('master_traceability')
+        .where('masterBatchNumber', '==', masterBatchNumber)
+        .limit(1)
+        .get();
+    if (snap.empty) return [];
+    return parseMasterBatchNumbers(snap.docs[0].data().batchNumbers);
 }
 
 // ── Helper: generate a buyer document ID ───────────────────
@@ -510,12 +557,15 @@ export const handler: Handler = async (event: HandlerEvent) => {
                                 headers,
                                 body: JSON.stringify({
                                     error: 'already_assigned_to_other_buyer',
-                                    hint: kind === 'master'
-                                        ? `Bulk shipment ${id} is already assigned to ${owner.companyName}.`
-                                        : `Batch ${id} is already assigned to ${owner.companyName}.`,
+                                    hint: owner.viaMaster
+                                        ? `Batch ${id} is part of bulk shipment ${owner.viaMaster} already assigned to ${owner.companyName}.`
+                                        : kind === 'master'
+                                            ? `Bulk shipment ${id} is already assigned to ${owner.companyName}.`
+                                            : `Batch ${id} is already assigned to ${owner.companyName}.`,
                                     batchId: id,
                                     ownerBuyerId: owner.id,
                                     ownerCompanyName: owner.companyName,
+                                    viaMaster: owner.viaMaster || null,
                                 }),
                             };
                         }
@@ -649,15 +699,34 @@ export const handler: Handler = async (event: HandlerEvent) => {
 
             // ── Action: assignment ownership map (admin only) ──────
             if (action === 'admin_listAssignments') {
-                const snap = await db.collection('farms').doc(fid).collection('buyers').get();
+                const [buyersSnap, mastersSnap] = await Promise.all([
+                    db.collection('farms').doc(fid).collection('buyers').get(),
+                    db.collection('farms').doc(fid).collection('master_traceability').get(),
+                ]);
+
                 const batchOwners: Record<string, string> = {};
                 const masterOwners: Record<string, string> = {};
-                snap.docs.forEach(doc => {
+
+                buyersSnap.docs.forEach(doc => {
                     const d = doc.data();
                     (d.allowedBatchIds || []).forEach((b: string) => { batchOwners[b] = d.companyName || 'Buyer'; });
                     (d.allowedMasterBatchIds || []).forEach((m: string) => { masterOwners[m] = d.companyName || 'Buyer'; });
                 });
-                return { statusCode: 200, headers, body: JSON.stringify({ batchOwners, masterOwners }) };
+
+                // childBatchNumber → parent masterBatchNumber (used by the UI to gray out
+                // batches that are already inside someone's bulk shipment)
+                const childToMaster: Record<string, string> = {};
+                mastersSnap.docs.forEach(doc => {
+                    const d = doc.data();
+                    const children = parseMasterBatchNumbers(d.batchNumbers);
+                    children.forEach(c => { childToMaster[c] = d.masterBatchNumber; });
+                });
+
+                return {
+                    statusCode: 200,
+                    headers,
+                    body: JSON.stringify({ batchOwners, masterOwners, childToMaster }),
+                };
             }
 
             return { statusCode: 400, headers, body: JSON.stringify({ error: 'unknown_admin_action' }) };

@@ -54,7 +54,6 @@ interface MasterBatchSummary {
     traceabilityUrl: string | null;
 }
 
-
 // ── Helpers ─────────────────────────────────────────────
 const relativeTime = (iso: string | null): string => {
     if (!iso) return 'Never';
@@ -108,8 +107,10 @@ const AdminBuyers: React.FC = () => {
     const [formContact, setFormContact] = useState('');
     const [saving, setSaving] = useState(false);
     const [formError, setFormError] = useState<string | null>(null);
+
     const [batchOwners, setBatchOwners] = useState<Record<string, string>>({});
     const [masterOwners, setMasterOwners] = useState<Record<string, string>>({});
+    const [childToMaster, setChildToMaster] = useState<Record<string, string>>({});
 
     const loadData = async () => {
         try {
@@ -124,6 +125,7 @@ const AdminBuyers: React.FC = () => {
             setAllMasters(mastersRes.masters || []);
             setBatchOwners(assignmentsRes.batchOwners || {});
             setMasterOwners(assignmentsRes.masterOwners || {});
+            setChildToMaster(assignmentsRes.childToMaster || {});
         } catch (err: any) {
             setError(err.message || 'Failed to load data');
         } finally {
@@ -134,6 +136,34 @@ const AdminBuyers: React.FC = () => {
     useEffect(() => {
         loadData();
     }, []);
+
+    // ── Ownership resolution (used by the assign modal) ──
+    // Returns the name of another buyer holding this item (direct or via bulk),
+    // or null if the item is free / already owned by the current assignBuyer.
+    const resolveBatchOwner = (batchId: string): { companyName: string; viaMaster?: string } | null => {
+        if (!assignBuyer) return null;
+        if (assignBuyer.allowedBatchIds.includes(batchId)) return null;      // already ours
+        // Direct owner?
+        const direct = batchOwners[batchId];
+        if (direct && direct !== assignBuyer.companyName) return { companyName: direct };
+        // Inside another buyer's bulk?
+        const parentMaster = childToMaster[batchId];
+        if (parentMaster) {
+            const bulkOwner = masterOwners[parentMaster];
+            if (bulkOwner && bulkOwner !== assignBuyer.companyName) {
+                return { companyName: bulkOwner, viaMaster: parentMaster };
+            }
+        }
+        return null;
+    };
+
+    const resolveMasterOwner = (masterBatchNumber: string): { companyName: string } | null => {
+        if (!assignBuyer) return null;
+        if (assignBuyer.allowedMasterBatchIds.includes(masterBatchNumber)) return null;
+        const owner = masterOwners[masterBatchNumber];
+        if (owner && owner !== assignBuyer.companyName) return { companyName: owner };
+        return null;
+    };
 
     const handleCreate = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -199,21 +229,23 @@ const AdminBuyers: React.FC = () => {
             };
             setAssignBuyer(updated);
             setBuyers(prev => prev.map(b => (b.id === assignBuyer.id ? updated : b)));
+            // Refresh the ownership maps so the modal reflects the change immediately
+            await loadData();
         } catch (err: any) {
-                const raw = err?.message || '';
-                if (raw.includes('already_assigned_to_other_buyer')) {
-                    // backend hint has the human-readable string in `hint`, but getAdminData throws Error(hint ?? error)
-                    alert(raw.replace('already_assigned_to_other_buyer', '').trim() || 'That shipment is already assigned to another buyer.');
-                } else if (raw.includes('buyer_already_has_other_kind')) {
-                    alert(
-                        assignKind === 'batch'
-                            ? 'This buyer already holds bulk shipments. Remove them before assigning individual batches.'
-                            : 'This buyer already holds individual batches. Remove them before assigning bulk shipments.'
-                    );
-                } else {
-                    alert('Failed to update assignment: ' + raw);
-                }
+            const raw = err?.message || '';
+            if (raw.includes('already_assigned_to_other_buyer') || raw.includes('already assigned to')) {
+                // Server hint (from getAdminData: err.hint || err.error)
+                alert(raw.replace('already_assigned_to_other_buyer', '').trim() || 'That shipment is already assigned to another buyer.');
+            } else if (raw.includes('buyer_already_has_other_kind')) {
+                alert(
+                    assignKind === 'batch'
+                        ? 'This buyer already holds bulk shipments. Remove them before assigning individual batches.'
+                        : 'This buyer already holds individual batches. Remove them before assigning bulk shipments.'
+                );
+            } else {
+                alert('Failed to update assignment: ' + raw);
             }
+        }
     };
 
     const handleDelete = async (buyer: Buyer) => {
@@ -521,7 +553,6 @@ const AdminBuyers: React.FC = () => {
                                         <div className="p-5 pl-6">
                                             <div className="flex flex-col md:flex-row justify-between gap-4">
                                                 <div className="flex-1 min-w-0">
-                                                    {/* Header row */}
                                                     <div className="flex items-center gap-2 mb-1 flex-wrap">
                                                         <span className="font-semibold text-primary text-lg truncate">{buyer.companyName}</span>
                                                         {buyer.isActive ? (
@@ -550,7 +581,6 @@ const AdminBuyers: React.FC = () => {
                                                         )}
                                                     </div>
 
-                                                    {/* Contact info */}
                                                     <div className="text-sm text-gray-600 space-y-0.5">
                                                         <div className="flex items-center gap-2">
                                                             <FaEnvelope className="text-[10px] text-gray-400" />
@@ -561,7 +591,6 @@ const AdminBuyers: React.FC = () => {
                                                         )}
                                                     </div>
 
-                                                    {/* Meta strip */}
                                                     <div className="mt-3 flex items-center gap-3 text-xs text-gray-500 flex-wrap">
                                                         <span className="inline-flex items-center gap-1">
                                                             <FaBox className="text-[10px]" />
@@ -589,7 +618,6 @@ const AdminBuyers: React.FC = () => {
                                                         </span>
                                                     </div>
 
-                                                    {/* Chips preview: individual batches + bulk masters */}
                                                     {(buyer.allowedBatchIds.length > 0 || buyer.allowedMasterBatchIds.length > 0) && (
                                                         <div className="mt-2 flex flex-wrap gap-1">
                                                             {buyer.allowedBatchIds.slice(0, 4).map((bid) => (
@@ -617,7 +645,6 @@ const AdminBuyers: React.FC = () => {
                                                     )}
                                                 </div>
 
-                                                {/* Actions */}
                                                 <div className="flex gap-2 flex-wrap md:flex-nowrap md:items-start">
                                                     <button
                                                         onClick={() => openAssign(buyer)}
@@ -797,7 +824,7 @@ const AdminBuyers: React.FC = () => {
                                     </button>
                                 </div>
                                 <Typography variant="small" className="text-gray-500 text-xs mb-4">
-                                    A buyer can hold either individual batches or bulk shipments — not both. Click to toggle.
+                                    A buyer can hold either individual batches or bulk shipments — not both. Batches that are already part of another buyer's bulk shipment are locked.
                                 </Typography>
 
                                 {/* Kind toggle */}
@@ -826,8 +853,8 @@ const AdminBuyers: React.FC = () => {
                                     {assignKind === 'batch' ? (
                                         allBatches.map((b) => {
                                             const isAssigned = assignBuyer?.allowedBatchIds.includes(b.batchId);
-                                            const otherOwner = !isAssigned ? batchOwners[b.batchId] : null;
-                                            const disabled = !!otherOwner;
+                                            const conflict = isAssigned ? null : resolveBatchOwner(b.batchId);
+                                            const disabled = !!conflict;
 
                                             return (
                                                 <button
@@ -860,9 +887,11 @@ const AdminBuyers: React.FC = () => {
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        {disabled ? (
-                                                            <span className="px-2 py-0.5 bg-gray-200 text-gray-600 text-[10px] rounded-full flex-shrink-0">
-                                                                Taken by {otherOwner}
+                                                        {disabled && conflict ? (
+                                                            <span className="px-2 py-0.5 bg-gray-200 text-gray-700 text-[10px] rounded-full flex-shrink-0 max-w-[200px] truncate text-right">
+                                                                {conflict.viaMaster
+                                                                    ? `In bulk ${conflict.viaMaster} · ${conflict.companyName}`
+                                                                    : `Taken by ${conflict.companyName}`}
                                                             </span>
                                                         ) : isAssigned ? (
                                                             <FaCheckCircle className="text-primary text-sm flex-shrink-0" />
@@ -874,22 +903,32 @@ const AdminBuyers: React.FC = () => {
                                     ) : (
                                         allMasters.map((m) => {
                                             const isAssigned = assignBuyer?.allowedMasterBatchIds.includes(m.masterBatchNumber);
+                                            const conflict = isAssigned ? null : resolveMasterOwner(m.masterBatchNumber);
+                                            const disabled = !!conflict;
+
                                             return (
                                                 <button
                                                     key={m.id}
-                                                    onClick={() => handleAssignToggle(m.masterBatchNumber, 'master')}
+                                                    onClick={() => !disabled && handleAssignToggle(m.masterBatchNumber, 'master')}
+                                                    disabled={disabled}
                                                     className={`w-full text-left p-3 rounded-xl border transition-all ${
-                                                        isAssigned
-                                                            ? 'bg-blue-50 border-blue-300'
-                                                            : 'bg-gray-50 border-gray-200 hover:bg-gray-100'
+                                                        disabled
+                                                            ? 'bg-gray-100 border-gray-200 opacity-60 cursor-not-allowed'
+                                                            : isAssigned
+                                                                ? 'bg-blue-50 border-blue-300'
+                                                                : 'bg-gray-50 border-gray-200 hover:bg-gray-100'
                                                     }`}
                                                 >
                                                     <div className="flex items-center justify-between gap-2">
                                                         <div className="flex items-center gap-3 flex-1 min-w-0">
                                                             <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 ${
-                                                                isAssigned ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-500'
+                                                                disabled
+                                                                    ? 'bg-gray-300 text-gray-500'
+                                                                    : isAssigned
+                                                                        ? 'bg-blue-600 text-white'
+                                                                        : 'bg-gray-200 text-gray-500'
                                                             }`}>
-                                                                {isAssigned ? <FaMinus className="text-[10px]" /> : <FaPlus className="text-[10px]" />}
+                                                                {disabled ? <FaLock className="text-[9px]" /> : isAssigned ? <FaMinus className="text-[10px]" /> : <FaPlus className="text-[10px]" />}
                                                             </div>
                                                             <div className="min-w-0">
                                                                 <div className="font-mono text-sm font-medium truncate">{m.masterBatchNumber}</div>
@@ -899,7 +938,13 @@ const AdminBuyers: React.FC = () => {
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        {isAssigned && <FaCheckCircle className="text-blue-600 text-sm flex-shrink-0" />}
+                                                        {disabled && conflict ? (
+                                                            <span className="px-2 py-0.5 bg-gray-200 text-gray-700 text-[10px] rounded-full flex-shrink-0 max-w-[200px] truncate text-right">
+                                                                Taken by {conflict.companyName}
+                                                            </span>
+                                                        ) : isAssigned ? (
+                                                            <FaCheckCircle className="text-blue-600 text-sm flex-shrink-0" />
+                                                        ) : null}
                                                     </div>
                                                 </button>
                                             );
