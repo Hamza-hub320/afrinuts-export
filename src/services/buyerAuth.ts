@@ -9,30 +9,37 @@ import {
 import { auth } from './firebase';
 
 const STORAGE_KEY = 'buyerPortalEmail';
-const REDIRECT_KEY = 'buyerPortalRedirect';
 
 /**
- * Send a magic link to the buyer's email.
- * @param email  The email to send the link to.
- * @param redirect  Where to send the user after sign-in. Defaults to /portal.
- *                  Use /admin/buyers for admin mode.
+ * Send a magic link to the buyer's (or staff's) email.
+ *
+ * @param email        The recipient email.
+ * @param redirectPath Where to send the user after sign-in.
+ *                     Defaults to the buyer portal (`/portal`).
+ *                     Staff should pass `/dashboard/buyers`.
  */
-export async function sendMagicLink(email: string, redirect: string = '/portal'): Promise<void> {
+export async function sendMagicLink(
+    email: string,
+    redirectPath: string = '/portal'
+): Promise<void> {
     const actionCodeSettings = {
-        url: `${window.location.origin}/portal/auth/callback?redirect=${encodeURIComponent(redirect)}`,
+        // `continueUrl` survives the magic-link round-trip and is readable on
+        // the callback page via `?redirect=`.
+        url: `${window.location.origin}/portal/auth/callback?redirect=${encodeURIComponent(
+            redirectPath
+        )}`,
         handleCodeInApp: true,
     };
 
     await sendSignInLinkToEmail(auth, email, actionCodeSettings);
     window.localStorage.setItem(STORAGE_KEY, email);
-    window.localStorage.setItem(REDIRECT_KEY, redirect);
 }
 
 /**
  * Complete the sign-in when the user returns from clicking the magic link.
- * Returns the authenticated user and the redirect target.
+ * Returns the authenticated Firebase User.
  */
-export async function completeMagicLink(): Promise<{ user: User; redirect: string } | null> {
+export async function completeMagicLinkSignIn(): Promise<User | null> {
     if (!isSignInWithEmailLink(auth, window.location.href)) {
         return null;
     }
@@ -51,32 +58,21 @@ export async function completeMagicLink(): Promise<{ user: User; redirect: strin
     const result = await signInWithEmailLink(auth, email, window.location.href);
     window.localStorage.removeItem(STORAGE_KEY);
 
-    // Determine redirect from URL param first, then fall back to stored value
+    // Clean up only the Firebase auth params (apiKey, oobCode, mode, …)
+    // while preserving our own `?redirect=` so the callback page can
+    // still decide where to navigate.
     const url = new URL(window.location.href);
-    const redirect =
-        url.searchParams.get('redirect')
-        || window.localStorage.getItem(REDIRECT_KEY)
-        || '/portal';
+    const redirect = url.searchParams.get('redirect');
+    const cleanUrl = redirect
+        ? `/portal/auth/callback?redirect=${encodeURIComponent(redirect)}`
+        : '/portal';
+    window.history.replaceState({}, document.title, cleanUrl);
 
-    window.localStorage.removeItem(REDIRECT_KEY);
-
-    // Clean up the URL
-    window.history.replaceState({}, document.title, '/portal');
-
-    return { user: result.user, redirect };
+    return result.user;
 }
 
 /**
- * Legacy wrapper — returns only the user.
- * @deprecated Use `completeMagicLink` instead.
- */
-export async function completeMagicLinkSignIn(): Promise<User | null> {
-    const result = await completeMagicLink();
-    return result?.user ?? null;
-}
-
-/**
- * Log out the current buyer (or admin).
+ * Log out the current buyer.
  */
 export async function buyerLogout(): Promise<void> {
     await signOut(auth);

@@ -8,10 +8,8 @@ import { ProtectedRoute } from './components/ProtectedRoute';
 import AccessibilityToolbar from './components/AccessibilityToolbar/AccessibilityToolbar';
 import FeedbackButton from './components/FeedbackButton/FeedbackButton';
 import BuyerLogin from '@/pages/BuyerPortal/BuyerLogin';
-import BuyerAuthCallback from '@/pages/BuyerPortal/BuyerAuthCallback';
 import BuyerDashboard from '@/pages/BuyerPortal/BuyerDashboard';
 import { BuyerProtectedRoute } from '@/components/BuyerProtectedRoute';
-
 
 import i18n from './i18n';
 import './index.css';
@@ -21,14 +19,14 @@ import Home from './pages/Home';
 import About from './pages/About';
 import Contact from './pages/Contact';
 import News from './pages/News';
-import Faq from "@pages/Faq";
+import Faq from '@/pages/Faq';
 import Blog from '@/pages/Blog';
 import BlogPost from '@/pages/BlogPost';
 import NewsPost from '@/pages/NewsPost';
 import Settings from './pages/Settings';
 import AdminUsers from './pages/AdminUsers';
-import AdminBuyers from "./pages/Admin/AdminBuyers";
-import BuyerCallback from "./pages/BuyerCallback";
+import AdminBuyers from './pages/Admin/AdminBuyers';
+import BuyerCallback from './pages/BuyerCallback';
 
 // Lazy load heavy pages
 const Community = React.lazy(() => import('@/pages/Community'));
@@ -45,7 +43,7 @@ const Sustainability = React.lazy(() => import('./pages/Sustainability'));
 const Vision = React.lazy(() => import('./pages/Vision'));
 const ExecutiveTeam = React.lazy(() => import('./pages/ExecutiveTeam'));
 const OurStory = React.lazy(() => import('./pages/OurStory'));
-const TracePage = React.lazy(() => import("./pages/Trace"));
+const TracePage = React.lazy(() => import('./pages/Trace'));
 const Accessibility = React.lazy(() => import('@/pages/Accessibility'));
 const PrivacyPolicy = React.lazy(() => import('./pages/PrivacyPolicy'));
 const TermsOfService = React.lazy(() => import('./pages/TermsOfService'));
@@ -86,9 +84,6 @@ function App(): ReactElement {
                         <div className="fixed right-0 top-[30%] z-[9999] flex flex-col">
                             <AccessibilityToolbar />
                             <FeedbackButton />
-                        </div>
-                        <div className="fixed bottom-8 right-8 z-[9999] flex flex-col items-end space-y-3">
-                            <AccessibilityToolbar />
                         </div>
                         <Suspense fallback={<LoadingFallback />}>
                             <Routes>
@@ -185,14 +180,11 @@ function App(): ReactElement {
                                         </BuyerProtectedRoute>
                                     }
                                 />
-                                <Route
-                                    path="buyers"
-                                    element={
-                                        <ProtectedRoute allowedRoles={['OWNER', 'MANAGER']}>
-                                            <AdminBuyers />
-                                        </ProtectedRoute>
-                                    }
-                                />
+                                <Route path="dashboard/buyers" element={
+                                    <ProtectedRoute allowedRoles={['OWNER', 'MANAGER']}>
+                                        <AdminBuyers />
+                                    </ProtectedRoute>
+                                } />
                                 <Route path="*" element={<Home />} />
                             </Routes>
                         </Suspense>
