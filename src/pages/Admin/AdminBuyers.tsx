@@ -5,8 +5,7 @@ import {
     FaTrash, FaEdit, FaPlus, FaMinus, FaSearch,
     FaSave, FaTimes, FaUserShield, FaUserClock,
     FaExclamationTriangle, FaLink, FaTrophy,
-    FaEnvelope, FaLock, FaArrowRight, FaLightbulb,
-    FaChartLine,
+    FaEnvelope, FaLock, FaChartLine, FaShip,
 } from 'react-icons/fa';
 import { Dialog, Transition } from '@headlessui/react';
 import { Typography } from '@/components/Typography/Typography';
@@ -15,6 +14,7 @@ import DashboardNavbar from '@/components/DashboardNavbar/DashboardNavbar';
 import Section from '@/components/Section/Section';
 import { fadeIn, staggerContainer } from '@/utils/animations';
 import { getAdminData } from '@/services/api';
+import { GiFarmer } from 'react-icons/gi';
 
 interface Buyer {
     id: string;
@@ -23,6 +23,8 @@ interface Buyer {
     contactPerson: string;
     allowedBatchIds: string[];
     allowedBatchCount: number;
+    allowedMasterBatchIds: string[];
+    allowedMasterCount: number;
     isActive: boolean;
     uid: string | null;
     createdAt: string;
@@ -36,6 +38,20 @@ interface BatchSummary {
     qualityGrade: string;
     sourceType: string;
     weightKg: number;
+}
+
+interface MasterBatchSummary {
+    id: string;
+    masterBatchNumber: string;
+    shipmentName: string | null;
+    buyer: string | null;
+    destination: string | null;
+    exportDate: number | null;
+    totalBatches: number;
+    totalWeightKg: number;
+    grades: string | null;
+    batchNumbers: string[];
+    traceabilityUrl: string | null;
 }
 
 // ── Helpers ─────────────────────────────────────────────
@@ -76,6 +92,7 @@ const GlassCard: React.FC<{ children: React.ReactNode; className?: string }> = (
 const AdminBuyers: React.FC = () => {
     const [buyers, setBuyers] = useState<Buyer[]>([]);
     const [allBatches, setAllBatches] = useState<BatchSummary[]>([]);
+    const [allMasters, setAllMasters] = useState<MasterBatchSummary[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [searchQuery, setSearchQuery] = useState('');
@@ -83,6 +100,7 @@ const AdminBuyers: React.FC = () => {
     const [createOpen, setCreateOpen] = useState(false);
     const [editBuyer, setEditBuyer] = useState<Buyer | null>(null);
     const [assignBuyer, setAssignBuyer] = useState<Buyer | null>(null);
+    const [assignKind, setAssignKind] = useState<'batch' | 'master'>('batch');
 
     const [formEmail, setFormEmail] = useState('');
     const [formCompany, setFormCompany] = useState('');
@@ -92,12 +110,14 @@ const AdminBuyers: React.FC = () => {
 
     const loadData = async () => {
         try {
-            const [buyersRes, batchesRes] = await Promise.all([
+            const [buyersRes, batchesRes, mastersRes] = await Promise.all([
                 getAdminData('admin_listBuyers'),
                 getAdminData('admin_listBatches'),
+                getAdminData('admin_listMasterBatches'),
             ]);
             setBuyers(buyersRes.buyers || []);
             setAllBatches(batchesRes.batches || []);
+            setAllMasters(mastersRes.masters || []);
         } catch (err: any) {
             setError(err.message || 'Failed to load data');
         } finally {
@@ -119,6 +139,7 @@ const AdminBuyers: React.FC = () => {
                 companyName: formCompany,
                 contactPerson: formContact,
                 allowedBatchIds: [],
+                allowedMasterBatchIds: [],
             });
             setCreateOpen(false);
             setFormEmail('');
@@ -152,20 +173,30 @@ const AdminBuyers: React.FC = () => {
         }
     };
 
-    const handleAssignToggle = async (batchId: string) => {
+    const handleAssignToggle = async (id: string, kind: 'batch' | 'master' = 'batch') => {
         if (!assignBuyer) return;
-        const isAssigned = assignBuyer.allowedBatchIds.includes(batchId);
+        const list = kind === 'master' ? assignBuyer.allowedMasterBatchIds : assignBuyer.allowedBatchIds;
+        const isAssigned = list.includes(id);
         try {
             const result = await getAdminData('admin_assignBatches', {
                 buyerId: assignBuyer.id,
-                batchIds: [batchId],
+                batchIds: [id],
+                kind,
                 mode: isAssigned ? 'remove' : 'add',
             });
-            const updated = { ...assignBuyer, allowedBatchIds: result.allowedBatchIds };
+            const updated: Buyer = {
+                ...assignBuyer,
+                allowedBatchIds: result.allowedBatchIds || [],
+                allowedBatchCount: (result.allowedBatchIds || []).length,
+                allowedMasterBatchIds: result.allowedMasterBatchIds || [],
+                allowedMasterCount: (result.allowedMasterBatchIds || []).length,
+            };
             setAssignBuyer(updated);
-            setBuyers(prev => prev.map(b => b.id === assignBuyer.id ? { ...b, allowedBatchIds: result.allowedBatchIds, allowedBatchCount: result.allowedBatchIds.length } : b));
+            setBuyers(prev => prev.map(b => (b.id === assignBuyer.id ? updated : b)));
         } catch (err: any) {
-            alert('Failed to update assignment: ' + err.message);
+            // Surface server-side hint if buyer already has the other kind
+            const msg = err?.message || '';
+            alert('Failed to update assignment: ' + msg);
         }
     };
 
@@ -186,6 +217,11 @@ const AdminBuyers: React.FC = () => {
         setFormError(null);
     };
 
+    const openAssign = (buyer: Buyer) => {
+        setAssignBuyer(buyer);
+        setAssignKind(buyer.allowedMasterCount > 0 ? 'master' : 'batch');
+    };
+
     const filteredBuyers = buyers.filter(b =>
         b.companyName.toLowerCase().includes(searchQuery.toLowerCase())
         || b.email.toLowerCase().includes(searchQuery.toLowerCase())
@@ -197,12 +233,14 @@ const AdminBuyers: React.FC = () => {
         const total = buyers.length;
         const active = buyers.filter(b => b.isActive).length;
         const totalAssignments = buyers.reduce((s, b) => s + b.allowedBatchCount, 0);
-        const unassigned = buyers.filter(b => b.allowedBatchCount === 0).length;
+        const totalBulk = buyers.reduce((s, b) => s + b.allowedMasterCount, 0);
+        const unassigned = buyers.filter(b => b.allowedBatchCount === 0 && b.allowedMasterCount === 0).length;
         const neverLoggedIn = buyers.filter(b => !b.uid).length;
-        const avgBatches = total > 0 ? totalAssignments / total : 0;
-        const topBuyer = [...buyers].sort((a, b) => b.allowedBatchCount - a.allowedBatchCount)[0];
-        const pendingActivation = buyers.filter(b => b.uid && b.allowedBatchCount === 0).length;
-        return { total, active, totalAssignments, unassigned, neverLoggedIn, avgBatches, topBuyer, pendingActivation };
+        const avgAssignments = total > 0 ? (totalAssignments + totalBulk) / total : 0;
+        const topBuyer = [...buyers].sort(
+            (a, b) => (b.allowedBatchCount + b.allowedMasterCount) - (a.allowedBatchCount + a.allowedMasterCount)
+        )[0];
+        return { total, active, totalAssignments, totalBulk, unassigned, neverLoggedIn, avgAssignments, topBuyer };
     }, [buyers]);
 
     if (loading) {
@@ -213,7 +251,7 @@ const AdminBuyers: React.FC = () => {
                     <div className="relative w-24 h-24 mx-auto">
                         <div className="absolute inset-0 rounded-full border-b-2 border-primary animate-spin" />
                         <div className="absolute inset-0 flex items-center justify-center">
-                            <FaUsers className="text-primary text-3xl" />
+                            <GiFarmer className="text-primary text-3xl" />
                         </div>
                     </div>
                 </Section>
@@ -264,7 +302,7 @@ const AdminBuyers: React.FC = () => {
                     </motion.h1>
                     <motion.div variants={fadeIn}>
                         <Typography variant="lead" className="text-text-dark max-w-3xl mx-auto">
-                            Provision buyer accounts, grant portal access, and assign the exact batches each buyer can see.
+                            Provision buyer accounts, grant portal access, and assign the exact batches or bulk shipments each buyer can see.
                         </Typography>
                     </motion.div>
                 </motion.div>
@@ -288,7 +326,7 @@ const AdminBuyers: React.FC = () => {
                             <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
                                 {[
                                     { icon: FaUserPlus, label: 'Create buyer', hint: 'Company + email' },
-                                    { icon: FaLink,     label: 'Assign batches', hint: 'Pick shipments' },
+                                    { icon: FaLink,     label: 'Assign shipments', hint: 'Batches or bulk' },
                                     { icon: FaEnvelope, label: 'Buyer receives link', hint: 'Via /portal/login' },
                                     { icon: FaCheckCircle, label: 'Buyer sees shipments', hint: 'Only assigned' },
                                 ].map((step, i) => (
@@ -337,7 +375,12 @@ const AdminBuyers: React.FC = () => {
                             <div className="bg-accent/10 p-3 rounded-full w-fit mx-auto mb-2">
                                 <FaBox className="text-xl text-accent" />
                             </div>
-                            <div className="text-2xl font-bold text-accent">{intel.totalAssignments}</div>
+                            <div className="text-2xl font-bold text-accent">
+                                {intel.totalAssignments}
+                                {intel.totalBulk > 0 && (
+                                    <span className="text-sm text-blue-600 ml-1">+ {intel.totalBulk} bulk</span>
+                                )}
+                            </div>
                             <div className="text-xs text-gray-600 mt-1">Assignments</div>
                         </motion.div>
                     </GlassCard>
@@ -346,14 +389,14 @@ const AdminBuyers: React.FC = () => {
                             <div className="bg-blue-100 p-3 rounded-full w-fit mx-auto mb-2">
                                 <FaChartLine className="text-xl text-blue-600" />
                             </div>
-                            <div className="text-2xl font-bold text-blue-600">{intel.avgBatches.toFixed(1)}</div>
+                            <div className="text-2xl font-bold text-blue-600">{intel.avgAssignments.toFixed(1)}</div>
                             <div className="text-xs text-gray-600 mt-1">Avg. per buyer</div>
                         </motion.div>
                     </GlassCard>
                 </motion.div>
 
                 {/* ── Intelligence strip ────────────────────── */}
-                {(intel.unassigned > 0 || intel.neverLoggedIn > 0 || intel.topBuyer) && (
+                {(intel.unassigned > 0 || intel.neverLoggedIn > 0 || (intel.topBuyer && (intel.topBuyer.allowedBatchCount + intel.topBuyer.allowedMasterCount) > 0)) && (
                     <motion.div
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
@@ -365,7 +408,7 @@ const AdminBuyers: React.FC = () => {
                                 <FaExclamationTriangle className="text-amber-600 mt-0.5" />
                                 <div className="text-sm">
                                     <div className="font-medium text-amber-800">{intel.unassigned} unassigned buyer{intel.unassigned !== 1 ? 's' : ''}</div>
-                                    <div className="text-xs text-amber-700">Created but no batches yet — assign shipments to activate them.</div>
+                                    <div className="text-xs text-amber-700">Created but no shipments yet — assign to activate.</div>
                                 </div>
                             </div>
                         )}
@@ -378,12 +421,16 @@ const AdminBuyers: React.FC = () => {
                                 </div>
                             </div>
                         )}
-                        {intel.topBuyer && intel.topBuyer.allowedBatchCount > 0 && (
+                        {intel.topBuyer && (intel.topBuyer.allowedBatchCount + intel.topBuyer.allowedMasterCount) > 0 && (
                             <div className="rounded-xl border border-green-200 bg-green-50/60 backdrop-blur-sm p-3 flex items-start gap-3">
                                 <FaTrophy className="text-green-600 mt-0.5" />
                                 <div className="text-sm">
                                     <div className="font-medium text-green-800">Top buyer: {intel.topBuyer.companyName}</div>
-                                    <div className="text-xs text-green-700">{intel.topBuyer.allowedBatchCount} batches assigned</div>
+                                    <div className="text-xs text-green-700">
+                                        {intel.topBuyer.allowedBatchCount + intel.topBuyer.allowedMasterCount} shipment{
+                                        (intel.topBuyer.allowedBatchCount + intel.topBuyer.allowedMasterCount) !== 1 ? 's' : ''
+                                    } assigned
+                                    </div>
                                 </div>
                             </div>
                         )}
@@ -438,12 +485,15 @@ const AdminBuyers: React.FC = () => {
                 ) : (
                     <div className="space-y-3">
                         {filteredBuyers.map((buyer) => {
-                            const isUnassigned = buyer.allowedBatchCount === 0;
+                            const totalAssigned = buyer.allowedBatchCount + buyer.allowedMasterCount;
+                            const isUnassigned = totalAssigned === 0;
                             const statusColor = !buyer.isActive
                                 ? 'bg-gray-400'
                                 : isUnassigned
                                     ? 'bg-amber-400'
-                                    : 'bg-green-500';
+                                    : buyer.allowedMasterCount > 0
+                                        ? 'bg-blue-500'
+                                        : 'bg-green-500';
                             return (
                                 <motion.div
                                     key={buyer.id}
@@ -474,7 +524,12 @@ const AdminBuyers: React.FC = () => {
                                                         )}
                                                         {isUnassigned && (
                                                             <span className="px-2 py-0.5 bg-red-100 text-red-700 text-xs rounded-full inline-flex items-center gap-1">
-                                                                <FaExclamationTriangle className="text-[9px]" /> No batches
+                                                                <FaExclamationTriangle className="text-[9px]" /> No shipments
+                                                            </span>
+                                                        )}
+                                                        {buyer.allowedMasterCount > 0 && (
+                                                            <span className="px-2 py-0.5 bg-blue-100 text-blue-700 text-xs rounded-full inline-flex items-center gap-1">
+                                                                <FaShip className="text-[9px]" /> Bulk
                                                             </span>
                                                         )}
                                                     </div>
@@ -494,11 +549,20 @@ const AdminBuyers: React.FC = () => {
                                                     <div className="mt-3 flex items-center gap-3 text-xs text-gray-500 flex-wrap">
                                                         <span className="inline-flex items-center gap-1">
                                                             <FaBox className="text-[10px]" />
-                                                            <strong className={buyer.allowedBatchCount > 0 ? 'text-primary' : 'text-red-500'}>
+                                                            <strong className={buyer.allowedBatchCount > 0 ? 'text-primary' : 'text-gray-400'}>
                                                                 {buyer.allowedBatchCount}
                                                             </strong>
                                                             {' '}batch{buyer.allowedBatchCount !== 1 ? 'es' : ''}
                                                         </span>
+                                                        {buyer.allowedMasterCount > 0 && (
+                                                            <>
+                                                                <span className="text-gray-300">·</span>
+                                                                <span className="inline-flex items-center gap-1 text-blue-700">
+                                                                    <FaShip className="text-[10px]" />
+                                                                    <strong>{buyer.allowedMasterCount}</strong> bulk shipment{buyer.allowedMasterCount !== 1 ? 's' : ''}
+                                                                </span>
+                                                            </>
+                                                        )}
                                                         <span className="text-gray-300">·</span>
                                                         <span title={buyer.lastLoginAt || 'Never'}>
                                                             {buyer.uid ? `Last seen ${relativeTime(buyer.lastLoginAt)}` : 'Awaiting first login'}
@@ -509,8 +573,8 @@ const AdminBuyers: React.FC = () => {
                                                         </span>
                                                     </div>
 
-                                                    {/* Batch chips preview */}
-                                                    {buyer.allowedBatchIds.length > 0 && (
+                                                    {/* Chips preview: individual batches + bulk masters */}
+                                                    {(buyer.allowedBatchIds.length > 0 || buyer.allowedMasterBatchIds.length > 0) && (
                                                         <div className="mt-2 flex flex-wrap gap-1">
                                                             {buyer.allowedBatchIds.slice(0, 4).map((bid) => (
                                                                 <span key={bid} className="px-2 py-0.5 bg-primary/10 text-primary text-[10px] rounded-full font-mono">
@@ -522,6 +586,17 @@ const AdminBuyers: React.FC = () => {
                                                                     +{buyer.allowedBatchIds.length - 4} more
                                                                 </span>
                                                             )}
+                                                            {buyer.allowedMasterBatchIds.slice(0, 2).map((mid) => (
+                                                                <span key={mid} className="px-2 py-0.5 bg-blue-100 text-blue-700 text-[10px] rounded-full font-mono inline-flex items-center gap-1">
+                                                                    <FaShip className="text-[8px]" />
+                                                                    {mid}
+                                                                </span>
+                                                            ))}
+                                                            {buyer.allowedMasterBatchIds.length > 2 && (
+                                                                <span className="px-2 py-0.5 bg-gray-100 text-gray-600 text-[10px] rounded-full">
+                                                                    +{buyer.allowedMasterBatchIds.length - 2} bulk
+                                                                </span>
+                                                            )}
                                                         </div>
                                                     )}
                                                 </div>
@@ -529,7 +604,7 @@ const AdminBuyers: React.FC = () => {
                                                 {/* Actions */}
                                                 <div className="flex gap-2 flex-wrap md:flex-nowrap md:items-start">
                                                     <button
-                                                        onClick={() => setAssignBuyer(buyer)}
+                                                        onClick={() => openAssign(buyer)}
                                                         className="px-3 py-2 bg-primary/10 text-primary rounded-lg text-xs font-medium hover:bg-primary/20 transition flex items-center gap-1.5"
                                                     >
                                                         <FaBox className="text-[10px]" />
@@ -688,7 +763,7 @@ const AdminBuyers: React.FC = () => {
                 </Dialog>
             </Transition.Root>
 
-            {/* ── Assign Batches Modal ────────────────────────── */}
+            {/* ── Assign Batches / Bulk Modal ────────────────── */}
             <Transition.Root show={!!assignBuyer} as={Fragment}>
                 <Dialog as="div" className="relative z-50" onClose={() => setAssignBuyer(null)}>
                     <Transition.Child as={Fragment} enter="ease-out duration-200" enterFrom="opacity-0" enterTo="opacity-100" leave="ease-in duration-150" leaveFrom="opacity-100" leaveTo="opacity-0">
@@ -699,51 +774,119 @@ const AdminBuyers: React.FC = () => {
                             <Dialog.Panel className="w-full max-w-2xl bg-white rounded-2xl shadow-xl p-6 max-h-[85vh] overflow-y-auto">
                                 <div className="flex justify-between items-center mb-2">
                                     <Dialog.Title className="text-lg font-semibold text-primary">
-                                        Assign Batches to {assignBuyer?.companyName}
+                                        Assign shipments to {assignBuyer?.companyName}
                                     </Dialog.Title>
                                     <button onClick={() => setAssignBuyer(null)} className="text-gray-400 hover:text-gray-600">
                                         <FaTimes />
                                     </button>
                                 </div>
                                 <Typography variant="small" className="text-gray-500 text-xs mb-4">
-                                    Click a batch to toggle assignment. Assigned batches are highlighted.
+                                    A buyer can hold either individual batches or bulk shipments — not both. Click to toggle.
                                 </Typography>
 
+                                {/* Kind toggle */}
+                                <div className="grid grid-cols-2 gap-2 p-1 bg-gray-100 rounded-xl mb-4">
+                                    <button
+                                        type="button"
+                                        onClick={() => setAssignKind('batch')}
+                                        className={`py-2 rounded-lg text-xs font-medium transition ${
+                                            assignKind === 'batch' ? 'bg-primary text-white shadow' : 'text-gray-600'
+                                        }`}
+                                    >
+                                        Individual Batches ({assignBuyer?.allowedBatchCount || 0})
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => setAssignKind('master')}
+                                        className={`py-2 rounded-lg text-xs font-medium transition ${
+                                            assignKind === 'master' ? 'bg-primary text-white shadow' : 'text-gray-600'
+                                        }`}
+                                    >
+                                        Bulk Shipments ({assignBuyer?.allowedMasterCount || 0})
+                                    </button>
+                                </div>
+
                                 <div className="space-y-2">
-                                    {allBatches.map((b) => {
-                                        const isAssigned = assignBuyer?.allowedBatchIds.includes(b.batchId);
-                                        return (
-                                            <button
-                                                key={b.id}
-                                                onClick={() => handleAssignToggle(b.batchId)}
-                                                className={`w-full text-left p-3 rounded-xl border transition-all ${
-                                                    isAssigned
-                                                        ? 'bg-primary/10 border-primary/40'
-                                                        : 'bg-gray-50 border-gray-200 hover:bg-gray-100'
-                                                }`}
-                                            >
-                                                <div className="flex items-center justify-between gap-2">
-                                                    <div className="flex items-center gap-3 flex-1 min-w-0">
-                                                        <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 ${
-                                                            isAssigned ? 'bg-primary text-white' : 'bg-gray-200 text-gray-500'
-                                                        }`}>
-                                                            {isAssigned ? <FaMinus className="text-[10px]" /> : <FaPlus className="text-[10px]" />}
-                                                        </div>
-                                                        <div className="min-w-0">
-                                                            <div className="font-mono text-sm font-medium truncate">{b.batchId}</div>
-                                                            <div className="text-xs text-gray-500">
-                                                                {new Date(b.processingDate).toLocaleDateString()} · {b.qualityGrade} · {(b.weightKg / 1000).toFixed(1)}T
+                                    {assignKind === 'batch' ? (
+                                        allBatches.map((b) => {
+                                            const isAssigned = assignBuyer?.allowedBatchIds.includes(b.batchId);
+                                            return (
+                                                <button
+                                                    key={b.id}
+                                                    onClick={() => handleAssignToggle(b.batchId, 'batch')}
+                                                    className={`w-full text-left p-3 rounded-xl border transition-all ${
+                                                        isAssigned
+                                                            ? 'bg-primary/10 border-primary/40'
+                                                            : 'bg-gray-50 border-gray-200 hover:bg-gray-100'
+                                                    }`}
+                                                >
+                                                    <div className="flex items-center justify-between gap-2">
+                                                        <div className="flex items-center gap-3 flex-1 min-w-0">
+                                                            <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 ${
+                                                                isAssigned ? 'bg-primary text-white' : 'bg-gray-200 text-gray-500'
+                                                            }`}>
+                                                                {isAssigned ? <FaMinus className="text-[10px]" /> : <FaPlus className="text-[10px]" />}
+                                                            </div>
+                                                            <div className="min-w-0">
+                                                                <div className="font-mono text-sm font-medium truncate">{b.batchId}</div>
+                                                                <div className="text-xs text-gray-500">
+                                                                    {new Date(b.processingDate).toLocaleDateString()} · {b.qualityGrade} · {(b.weightKg / 1000).toFixed(1)}T
+                                                                </div>
                                                             </div>
                                                         </div>
+                                                        {isAssigned && (
+                                                            <FaCheckCircle className="text-primary text-sm flex-shrink-0" />
+                                                        )}
                                                     </div>
-                                                    {isAssigned && (
-                                                        <FaCheckCircle className="text-primary text-sm flex-shrink-0" />
-                                                    )}
-                                                </div>
-                                            </button>
-                                        );
-                                    })}
+                                                </button>
+                                            );
+                                        })
+                                    ) : (
+                                        allMasters.map((m) => {
+                                            const isAssigned = assignBuyer?.allowedMasterBatchIds.includes(m.masterBatchNumber);
+                                            return (
+                                                <button
+                                                    key={m.id}
+                                                    onClick={() => handleAssignToggle(m.masterBatchNumber, 'master')}
+                                                    className={`w-full text-left p-3 rounded-xl border transition-all ${
+                                                        isAssigned
+                                                            ? 'bg-blue-50 border-blue-300'
+                                                            : 'bg-gray-50 border-gray-200 hover:bg-gray-100'
+                                                    }`}
+                                                >
+                                                    <div className="flex items-center justify-between gap-2">
+                                                        <div className="flex items-center gap-3 flex-1 min-w-0">
+                                                            <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 ${
+                                                                isAssigned ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-500'
+                                                            }`}>
+                                                                {isAssigned ? <FaMinus className="text-[10px]" /> : <FaPlus className="text-[10px]" />}
+                                                            </div>
+                                                            <div className="min-w-0">
+                                                                <div className="font-mono text-sm font-medium truncate">{m.masterBatchNumber}</div>
+                                                                <div className="text-xs text-gray-500 truncate">
+                                                                    {m.shipmentName || '—'} · {m.totalBatches} batches · {(m.totalWeightKg / 1000).toFixed(1)}T
+                                                                    {m.destination ? ` · ${m.destination}` : ''}
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        {isAssigned && <FaCheckCircle className="text-blue-600 text-sm flex-shrink-0" />}
+                                                    </div>
+                                                </button>
+                                            );
+                                        })
+                                    )}
                                 </div>
+
+                                {assignKind === 'batch' && assignBuyer && assignBuyer.allowedMasterCount > 0 && (
+                                    <div className="mt-3 p-3 bg-amber-50 border border-amber-200 rounded-lg text-xs text-amber-800">
+                                        This buyer currently holds {assignBuyer.allowedMasterCount} bulk shipment{assignBuyer.allowedMasterCount !== 1 ? 's' : ''}. Remove those first before assigning individual batches.
+                                    </div>
+                                )}
+                                {assignKind === 'master' && assignBuyer && assignBuyer.allowedBatchCount > 0 && (
+                                    <div className="mt-3 p-3 bg-amber-50 border border-amber-200 rounded-lg text-xs text-amber-800">
+                                        This buyer currently holds {assignBuyer.allowedBatchCount} individual batch{assignBuyer.allowedBatchCount !== 1 ? 'es' : ''}. Remove those first before assigning bulk shipments.
+                                    </div>
+                                )}
 
                                 <div className="mt-4 pt-4 border-t border-gray-200">
                                     <button

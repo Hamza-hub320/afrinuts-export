@@ -36,6 +36,7 @@ interface BuyerRecord {
     companyName: string;
     contactPerson: string;
     allowedBatchIds: string[];
+    allowedMasterBatchIds: string[];
     isActive: boolean;
 }
 
@@ -47,7 +48,10 @@ async function getBuyerRecord(fid: string, uid: string): Promise<BuyerRecord | n
         const data = doc.data() as any;
         return {
             id: doc.id, uid: data.uid, email: data.email, companyName: data.companyName,
-            contactPerson: data.contactPerson, allowedBatchIds: data.allowedBatchIds || [], isActive: data.isActive,
+            contactPerson: data.contactPerson,
+            allowedBatchIds: data.allowedBatchIds || [],
+            allowedMasterBatchIds: data.allowedMasterBatchIds || [],
+            isActive: data.isActive,
         };
     }
 
@@ -64,7 +68,10 @@ async function getBuyerRecord(fid: string, uid: string): Promise<BuyerRecord | n
                 const data = buyerDoc.data() as any;
                 return {
                     id: buyerDoc.id, uid, email: data.email, companyName: data.companyName,
-                    contactPerson: data.contactPerson, allowedBatchIds: data.allowedBatchIds || [], isActive: data.isActive,
+                    contactPerson: data.contactPerson,
+                    allowedBatchIds: data.allowedBatchIds || [],
+                    allowedMasterBatchIds: data.allowedMasterBatchIds || [],
+                    isActive: data.isActive,
                 };
             }
         }
@@ -115,6 +122,160 @@ function isBatchInspected(batchData: any): boolean {
     return (batchData.qualityScore ?? 0) > 0 || (batchData.moistureContent ?? 0) > 0 || (batchData.defectiveRate ?? 0) > 0 || (batchData.kernelRatio ?? 0) > 0;
 }
 
+function parseMasterBatchNumbers(raw: any): string[] {
+    if (!raw) return [];
+    if (Array.isArray(raw)) return raw;
+    try { return JSON.parse(String(raw)); } catch { return []; }
+}
+
+// ── Shared batch enrichment (used by single-batch and bulk paths) ──
+async function enrichBatches(fid: string, batchNumbers: string[]): Promise<any[]> {
+    if (batchNumbers.length === 0) return [];
+
+    const chunks: string[][] = [];
+    for (let i = 0; i < batchNumbers.length; i += 10) {
+        chunks.push(batchNumbers.slice(i, i + 10));
+    }
+
+    const rawBatches: any[] = [];
+    const rawTraces: any[] = [];
+    const rawRevenues: any[] = [];
+
+    for (const chunk of chunks) {
+        const [bSnap, tSnap, rSnap] = await Promise.all([
+            db.collection('farms').doc(fid).collection('quality_batches').where('batchNumber', 'in', chunk).get(),
+            db.collection('farms').doc(fid).collection('batch_traceability').where('batchNumber', 'in', chunk).get(),
+            db.collection('farms').doc(fid).collection('revenues').where('batchNumber', 'in', chunk).get(),
+        ]);
+        bSnap.docs.forEach(doc => rawBatches.push({ id: doc.id, ...doc.data() }));
+        tSnap.docs.forEach(doc => rawTraces.push({ id: doc.id, ...doc.data() }));
+        rSnap.docs.forEach(doc => rawRevenues.push({ id: doc.id, ...doc.data() }));
+    }
+
+    const supplierIds = [...new Set(rawBatches.map(b => b.supplierId).filter(Boolean))];
+    const supplierMap = new Map<number, any>();
+    if (supplierIds.length > 0) {
+        const supplierSnapshot = await db.collection('farms').doc(fid).collection('suppliers').get();
+        supplierSnapshot.docs.forEach(doc => {
+            const data = doc.data();
+            if (data.id) supplierMap.set(data.id, data);
+        });
+    }
+
+    const traceByBatch = new Map(rawTraces.map(t => [t.batchNumber, t]));
+    const revenueByBatch = new Map(rawRevenues.map(r => [r.batchNumber, r]));
+
+    const enriched = rawBatches.map(b => {
+        const trace = traceByBatch.get(b.batchNumber);
+        const revenue = revenueByBatch.get(b.batchNumber);
+        const supplier = supplierMap.get(b.supplierId);
+        const testResults = parseTestResults(b);
+        const docs = parseDocuments(trace);
+        const inspected = isBatchInspected(b);
+
+        const latitude = supplier?.latitude ?? supplier?.location?.latitude ?? b.latitude ?? 9.51;
+        const longitude = supplier?.longitude ?? supplier?.location?.longitude ?? b.longitude ?? -7.5692;
+
+        const verificationCode = trace?.verificationCode || b.verificationCode || null;
+        const sigTimestamp = trace?.updatedAt || trace?.createdAt || b.updatedAt;
+
+        return {
+            id: b.id,
+            batchId: b.batchNumber,
+            processingDate: new Date(b.processingDate).toISOString(),
+            harvestDate: new Date(b.processingDate).toISOString(),
+            qualityGrade: b.qualityGrade,
+            sourceType: b.sourceType,
+            isInspected: inspected,
+            status: trace ? 'SHIPPED' : (inspected ? 'QUALITY_VERIFIED' : 'RECEIVED'),
+            verificationCode,
+
+            farmLocation: supplier?.location || "Odienné, Côte d'Ivoire",
+            block: b.blockId ? `Block ${b.blockId}` : null,
+            latitude: supplier?.latitude || 9.51,
+            longitude: supplier?.longitude || -7.5692,
+            destination: trace?.destination || null,
+            destinationCountry: extractCountry(trace?.destination),
+            buyer: trace?.buyer || revenue?.buyer || null,
+
+            processingInfo: `${b.sourceType?.replace(/_/g, ' ')} · ${b.qualityGrade}`,
+            processingFacility: trace?.processingFacility || 'AfriNuts NDC (Nuts Distribution Center)',
+            processingLocation: trace?.processingLocation || "Odienné, Côte d'Ivoire",
+            processingMethod: trace?.processingMethod || 'Steam roasting (100% chemical-free)',
+            shellingMethod: trace?.shellingMethod || 'Semi-automated',
+            gradingMethod: trace?.gradingMethod || 'Manual inspection + electronic sorting',
+            yieldPercentage: trace?.yieldPercentage || null,
+
+            qualityScore: inspected ? b.qualityScore : null,
+            moistureContent: inspected ? b.moistureContent : null,
+            defectiveRate: inspected ? b.defectiveRate : null,
+            kernelRatio: inspected ? b.kernelRatio : null,
+            nutCount: inspected ? b.nutCountPerKg : null,
+            overallScore: inspected ? Math.round((b.qualityScore ?? 0) * 10) / 10 : null,
+            testResults: inspected ? { aflatoxin: testResults.aflatoxin ?? null, heavyMetals: testResults.heavyMetals ?? null, pesticideResidue: testResults.pesticideResidue ?? null } : null,
+
+            rawWeightKg: b.weightKg || null,
+            kernelWeightKg: revenue?.quantityKg || null,
+
+            supplier: supplier ? {
+                id: supplier.id,
+                type: supplier.type?.replace(/_/g, ' ') || 'Independent',
+                farmSize: supplier.farmSize ? `${supplier.farmSize} ha` : 'N/A',
+                farmOsStatus: 'Active',
+                season: '2026',
+                traceLevel: 'Block-Level Verified',
+                cooperative: supplier.type === 'COOPERATIVE' ? supplier.name : 'AfriNuts Network',
+            } : null,
+
+            documents: {
+                coo: docs.certificateOfOrigin || docs.coo || docs.qualityCertificate || null,
+                phyto: docs.phytosanitary || docs.phyto || null,
+                billOfLading: docs.billOfLading || null,
+                packingList: docs.packingList || null,
+                invoice: docs.commercialInvoice || docs.invoice || null,
+                insurance: docs.insurance || null,
+                compliancePack: '/documents/compliance-pack.pdf',
+            },
+
+            digitalSignature: verificationCode ? {
+                code: verificationCode,
+                signature: `FOS-SIG-${verificationCode.toLowerCase()}`,
+                signedDate: sigTimestamp ? new Date(sigTimestamp).toLocaleString() : null,
+            } : null,
+
+            sustainability: {
+                noChildLabor: b.noChildLabor || false,
+                farmOsMonitored: b.farmOsMonitored || false,
+                firebreak: b.firebreakProtection || false,
+                sustainableHarvesting: b.sustainableHarvesting || false,
+            },
+
+            farmer: supplier ? {
+                id: supplier.id,
+                name: supplier.contactPerson,
+                role: supplier.type?.replace(/_/g, ' ') || 'Farmer',
+                photo: supplier.photoUrl || '',
+                yearsFarming: `${supplier.yearsFarming || 0}+ years`,
+                location: supplier.location || 'Odienné',
+                bio: supplier.bio || 'Dedicated cashew farmer in the Odienné region.',
+                quote: supplier.quote || null,
+            } : null,
+
+            farmOsMetadata: {
+                recordId: `FOS-${b.batchNumber}`,
+                created: new Date(b.createdAt).toLocaleDateString(),
+                lastUpdated: new Date(b.updatedAt).toLocaleDateString(),
+                verificationStatus: b.verifiedAt ? 'Verified' : 'Pending',
+            },
+
+            certifications: trace?.certificationIds ? String(trace.certificationIds).split(',').map((c: string) => c.trim()).filter(Boolean) : [],
+        };
+    });
+
+    enriched.sort((a, b) => new Date(b.processingDate).getTime() - new Date(a.processingDate).getTime());
+    return enriched;
+}
+
 export const handler: Handler = async (event: HandlerEvent) => {
     const headers = {
         'Access-Control-Allow-Origin': '*',
@@ -140,6 +301,7 @@ export const handler: Handler = async (event: HandlerEvent) => {
             'admin_deleteBuyer',
             'admin_assignBatches',
             'admin_listBatches',
+            'admin_listMasterBatches',
         ];
 
         if (adminActions.includes(action || '')) {
@@ -158,6 +320,7 @@ export const handler: Handler = async (event: HandlerEvent) => {
 
                 const buyers = snapshot.docs.map(doc => {
                     const data = doc.data();
+                    const masterIds: string[] = data.allowedMasterBatchIds || [];
                     return {
                         id: doc.id,
                         email: data.email,
@@ -165,6 +328,8 @@ export const handler: Handler = async (event: HandlerEvent) => {
                         contactPerson: data.contactPerson,
                         allowedBatchIds: data.allowedBatchIds || [],
                         allowedBatchCount: (data.allowedBatchIds || []).length,
+                        allowedMasterBatchIds: masterIds,
+                        allowedMasterCount: masterIds.length,
                         isActive: data.isActive !== false,
                         uid: data.uid || null,
                         createdAt: data.createdAt,
@@ -186,7 +351,7 @@ export const handler: Handler = async (event: HandlerEvent) => {
                 }
 
                 const body = JSON.parse(event.body || '{}');
-                const { email, companyName, contactPerson, allowedBatchIds } = body;
+                const { email, companyName, contactPerson, allowedBatchIds, allowedMasterBatchIds } = body;
 
                 if (!email || !companyName) {
                     return {
@@ -222,6 +387,7 @@ export const handler: Handler = async (event: HandlerEvent) => {
                         companyName: companyName.trim(),
                         contactPerson: (contactPerson || '').trim(),
                         allowedBatchIds: Array.isArray(allowedBatchIds) ? allowedBatchIds : [],
+                        allowedMasterBatchIds: Array.isArray(allowedMasterBatchIds) ? allowedMasterBatchIds : [],
                         isActive: true,
                         createdAt: new Date().toISOString(),
                         lastLoginAt: null,
@@ -242,7 +408,7 @@ export const handler: Handler = async (event: HandlerEvent) => {
                 }
 
                 const body = JSON.parse(event.body || '{}');
-                const { buyerId, companyName, contactPerson, isActive } = body;
+                const { buyerId, companyName, contactPerson, isActive, allowedMasterBatchIds } = body;
 
                 if (!buyerId) {
                     return {
@@ -256,6 +422,9 @@ export const handler: Handler = async (event: HandlerEvent) => {
                 if (companyName !== undefined) updates.companyName = companyName.trim();
                 if (contactPerson !== undefined) updates.contactPerson = contactPerson.trim();
                 if (isActive !== undefined) updates.isActive = !!isActive;
+                if (allowedMasterBatchIds !== undefined && Array.isArray(allowedMasterBatchIds)) {
+                    updates.allowedMasterBatchIds = allowedMasterBatchIds;
+                }
 
                 if (Object.keys(updates).length === 0) {
                     return {
@@ -278,7 +447,7 @@ export const handler: Handler = async (event: HandlerEvent) => {
                 };
             }
 
-            // ── Action: assign or remove batches (admin only) ──────
+            // ── Action: assign or remove batches / master batches (admin only) ──
             if (action === 'admin_assignBatches') {
                 if (event.httpMethod !== 'POST') {
                     return { statusCode: 405, headers, body: JSON.stringify({ error: 'method_not_allowed' }) };
@@ -286,6 +455,7 @@ export const handler: Handler = async (event: HandlerEvent) => {
 
                 const body = JSON.parse(event.body || '{}');
                 const { buyerId, batchIds, mode } = body;
+                const kind: 'batch' | 'master' = body.kind === 'master' ? 'master' : 'batch';
                 // mode: 'add' | 'remove' | 'set'
 
                 if (!buyerId || !Array.isArray(batchIds)) {
@@ -306,7 +476,22 @@ export const handler: Handler = async (event: HandlerEvent) => {
                     return { statusCode: 404, headers, body: JSON.stringify({ error: 'buyer_not_found' }) };
                 }
 
-                const current: string[] = buyerDoc.data()?.allowedBatchIds || [];
+                // Prevent mixing individual batches with master shipments on the same buyer
+                const otherField = kind === 'master' ? 'allowedBatchIds' : 'allowedMasterBatchIds';
+                const otherCurrent: string[] = buyerDoc.data()?.[otherField] || [];
+                if (mode === 'add' && otherCurrent.length > 0) {
+                    return {
+                        statusCode: 409,
+                        headers,
+                        body: JSON.stringify({
+                            error: 'buyer_already_has_other_kind',
+                            hint: `Buyer already has ${otherCurrent.length} ${otherField}. Remove those first.`,
+                        }),
+                    };
+                }
+
+                const field = kind === 'master' ? 'allowedMasterBatchIds' : 'allowedBatchIds';
+                const current: string[] = buyerDoc.data()?.[field] || [];
                 let next: string[];
 
                 if (mode === 'add') {
@@ -317,12 +502,18 @@ export const handler: Handler = async (event: HandlerEvent) => {
                     next = batchIds;
                 }
 
-                await buyerRef.update({ allowedBatchIds: next });
+                await buyerRef.update({ [field]: next });
 
+                const fresh = (await buyerRef.get()).data() || {};
                 return {
                     statusCode: 200,
                     headers,
-                    body: JSON.stringify({ success: true, allowedBatchIds: next }),
+                    body: JSON.stringify({
+                        success: true,
+                        kind,
+                        allowedBatchIds: fresh.allowedBatchIds || [],
+                        allowedMasterBatchIds: fresh.allowedMasterBatchIds || [],
+                    }),
                 };
             }
 
@@ -376,6 +567,40 @@ export const handler: Handler = async (event: HandlerEvent) => {
                 };
             }
 
+            // ── Action: list master batches / bulk shipments (admin only) ──
+            if (action === 'admin_listMasterBatches') {
+                const snapshot = await db
+                    .collection('farms').doc(fid)
+                    .collection('master_traceability')
+                    .orderBy('exportDate', 'desc')
+                    .limit(100)
+                    .get();
+
+                const masters = snapshot.docs.map(doc => {
+                    const d = doc.data();
+                    const childBatchNumbers = parseMasterBatchNumbers(d.batchNumbers);
+                    return {
+                        id: doc.id,
+                        masterBatchNumber: d.masterBatchNumber,
+                        shipmentName: d.shipmentName || null,
+                        buyer: d.buyer || null,
+                        destination: d.destination || null,
+                        exportDate: d.exportDate || null,
+                        totalBatches: d.totalBatches || childBatchNumbers.length,
+                        totalWeightKg: d.totalWeightKg || 0,
+                        grades: d.grades || null,
+                        batchNumbers: childBatchNumbers,
+                        traceabilityUrl: d.traceabilityUrl || null,
+                    };
+                });
+
+                return {
+                    statusCode: 200,
+                    headers,
+                    body: JSON.stringify({ masters }),
+                };
+            }
+
             return { statusCode: 400, headers, body: JSON.stringify({ error: 'unknown_admin_action' }) };
         }
 
@@ -387,160 +612,69 @@ export const handler: Handler = async (event: HandlerEvent) => {
             return {
                 statusCode: 200, headers,
                 body: JSON.stringify({
-                    buyer: { id: buyer.id, email: buyer.email, companyName: buyer.companyName, contactPerson: buyer.contactPerson, allowedBatchCount: (buyer.allowedBatchIds || []).length },
+                    buyer: {
+                        id: buyer.id,
+                        email: buyer.email,
+                        companyName: buyer.companyName,
+                        contactPerson: buyer.contactPerson,
+                        allowedBatchCount: (buyer.allowedBatchIds || []).length,
+                        allowedMasterCount: (buyer.allowedMasterBatchIds || []).length,
+                    },
                 }),
             };
         }
 
         if (action === 'myBatches') {
             const allowedBatchIds: string[] = buyer.allowedBatchIds || [];
+            const allowedMasterBatchIds: string[] = buyer.allowedMasterBatchIds || [];
 
+            // ── Bulk path: exactly one master assigned, no individual batches ──
+            if (allowedMasterBatchIds.length === 1 && allowedBatchIds.length === 0) {
+                const masterSnap = await db
+                    .collection('farms').doc(fid)
+                    .collection('master_traceability')
+                    .where('masterBatchNumber', '==', allowedMasterBatchIds[0])
+                    .limit(1)
+                    .get();
+
+                if (!masterSnap.empty) {
+                    const masterData = masterSnap.docs[0].data();
+                    const childBatchNumbers = parseMasterBatchNumbers(masterData.batchNumbers);
+                    const enriched = await enrichBatches(fid, childBatchNumbers);
+
+                    return {
+                        statusCode: 200, headers,
+                        body: JSON.stringify({
+                            isBulk: true,
+                            masterBatch: {
+                                masterBatchNumber: masterData.masterBatchNumber,
+                                shipmentName: masterData.shipmentName || null,
+                                buyer: masterData.buyer || null,
+                                destination: masterData.destination || null,
+                                totalBatches: masterData.totalBatches || childBatchNumbers.length,
+                                totalWeightKg: masterData.totalWeightKg || 0,
+                                grades: masterData.grades || null,
+                                exportDate: masterData.exportDate || null,
+                            },
+                            buyer: { companyName: buyer.companyName, contactPerson: buyer.contactPerson },
+                            batches: enriched,
+                        }),
+                    };
+                }
+            }
+
+            // ── Single-batch path (unchanged) ──
             if (allowedBatchIds.length === 0) {
                 return {
                     statusCode: 200, headers,
-                    body: JSON.stringify({ buyer: { companyName: buyer.companyName, contactPerson: buyer.contactPerson }, batches: [] }),
+                    body: JSON.stringify({
+                        buyer: { companyName: buyer.companyName, contactPerson: buyer.contactPerson },
+                        batches: [],
+                    }),
                 };
             }
 
-            const chunks: string[][] = [];
-            for (let i = 0; i < allowedBatchIds.length; i += 10) { chunks.push(allowedBatchIds.slice(i, i + 10)); }
-
-            const rawBatches: any[] = [];
-            const rawTraces: any[] = [];
-            const rawRevenues: any[] = [];
-
-            for (const chunk of chunks) {
-                const [bSnap, tSnap, rSnap] = await Promise.all([
-                    db.collection('farms').doc(fid).collection('quality_batches').where('batchNumber', 'in', chunk).get(),
-                    db.collection('farms').doc(fid).collection('batch_traceability').where('batchNumber', 'in', chunk).get(),
-                    db.collection('farms').doc(fid).collection('revenues').where('batchNumber', 'in', chunk).get()
-                ]);
-                bSnap.docs.forEach(doc => rawBatches.push({ id: doc.id, ...doc.data() }));
-                tSnap.docs.forEach(doc => rawTraces.push({ id: doc.id, ...doc.data() }));
-                rSnap.docs.forEach(doc => rawRevenues.push({ id: doc.id, ...doc.data() }));
-            }
-
-            const supplierIds = [...new Set(rawBatches.map(b => b.supplierId).filter(Boolean))];
-            const supplierMap = new Map<number, any>();
-            if (supplierIds.length > 0) {
-                const supplierSnapshot = await db.collection('farms').doc(fid).collection('suppliers').get();
-                supplierSnapshot.docs.forEach(doc => {
-                    const data = doc.data();
-                    if (data.id) supplierMap.set(data.id, data);
-                });
-            }
-
-            const traceByBatch = new Map(rawTraces.map(t => [t.batchNumber, t]));
-            const revenueByBatch = new Map(rawRevenues.map(r => [r.batchNumber, r]));
-
-            const enriched = rawBatches.map(b => {
-                const trace = traceByBatch.get(b.batchNumber);
-                const revenue = revenueByBatch.get(b.batchNumber);
-                const supplier = supplierMap.get(b.supplierId);
-                const testResults = parseTestResults(b);
-                const docs = parseDocuments(trace);
-                const inspected = isBatchInspected(b);
-
-                const latitude = supplier?.latitude ?? supplier?.location?.latitude ?? b.latitude ?? 9.51;
-                const longitude = supplier?.longitude ?? supplier?.location?.longitude ?? b.longitude ?? -7.5692;
-
-                const verificationCode = trace?.verificationCode || b.verificationCode || null;
-                const sigTimestamp = trace?.updatedAt || trace?.createdAt || b.updatedAt;
-
-                return {
-                    id: b.id,
-                    batchId: b.batchNumber,
-                    processingDate: new Date(b.processingDate).toISOString(),
-                    harvestDate: new Date(b.processingDate).toISOString(),
-                    qualityGrade: b.qualityGrade,
-                    sourceType: b.sourceType,
-                    isInspected: inspected,
-                    status: trace ? 'SHIPPED' : (inspected ? 'QUALITY_VERIFIED' : 'RECEIVED'),
-                    verificationCode,
-
-                    farmLocation: supplier?.location || "Odienné, Côte d'Ivoire",
-                    block: b.blockId ? `Block ${b.blockId}` : null,
-                    latitude: supplier?.latitude || 9.51,
-                    longitude: supplier?.longitude || -7.5692,
-                    destination: trace?.destination || null,
-                    destinationCountry: extractCountry(trace?.destination),
-                    buyer: trace?.buyer || revenue?.buyer || null,
-
-                    processingInfo: `${b.sourceType?.replace(/_/g, ' ')} · ${b.qualityGrade}`,
-                    processingFacility: trace?.processingFacility || 'AfriNuts NDC (Nuts Distribution Center)',
-                    processingLocation: trace?.processingLocation || "Odienné, Côte d'Ivoire",
-                    processingMethod: trace?.processingMethod || 'Steam roasting (100% chemical-free)',
-                    shellingMethod: trace?.shellingMethod || 'Semi-automated',
-                    gradingMethod: trace?.gradingMethod || 'Manual inspection + electronic sorting',
-                    yieldPercentage: trace?.yieldPercentage || null,
-
-                    qualityScore: inspected ? b.qualityScore : null,
-                    moistureContent: inspected ? b.moistureContent : null,
-                    defectiveRate: inspected ? b.defectiveRate : null,
-                    kernelRatio: inspected ? b.kernelRatio : null,
-                    nutCount: inspected ? b.nutCountPerKg : null,
-                    overallScore: inspected ? Math.round((b.qualityScore ?? 0) * 10) / 10 : null,
-                    testResults: inspected ? { aflatoxin: testResults.aflatoxin ?? null, heavyMetals: testResults.heavyMetals ?? null, pesticideResidue: testResults.pesticideResidue ?? null } : null,
-
-                    rawWeightKg: b.weightKg || null,
-                    kernelWeightKg: revenue?.quantityKg || null,
-
-                    supplier: supplier ? {
-                        id: supplier.id,
-                        type: supplier.type?.replace(/_/g, ' ') || 'Independent',
-                        farmSize: supplier.farmSize ? `${supplier.farmSize} ha` : 'N/A',
-                        farmOsStatus: 'Active',
-                        season: '2026',
-                        traceLevel: 'Block-Level Verified',
-                        cooperative: supplier.type === 'COOPERATIVE' ? supplier.name : 'AfriNuts Network',
-                    } : null,
-
-                    documents: {
-                        coo: docs.certificateOfOrigin || docs.coo || docs.qualityCertificate || null,
-                        phyto: docs.phytosanitary || docs.phyto || null,
-                        billOfLading: docs.billOfLading || null,
-                        packingList: docs.packingList || null,
-                        invoice: docs.commercialInvoice || docs.invoice || null,
-                        insurance: docs.insurance || null,
-                        compliancePack: '/documents/compliance-pack.pdf',
-                    },
-
-                    digitalSignature: verificationCode ? {
-                        code: verificationCode,
-                        signature: `FOS-SIG-${verificationCode.toLowerCase()}`,
-                        signedDate: sigTimestamp ? new Date(sigTimestamp).toLocaleString() : null,
-                    } : null,
-
-                    sustainability: {
-                        noChildLabor: b.noChildLabor || false,
-                        farmOsMonitored: b.farmOsMonitored || false,
-                        firebreak: b.firebreakProtection || false,
-                        sustainableHarvesting: b.sustainableHarvesting || false,
-                    },
-
-                    farmer: supplier ? {
-                        id: supplier.id,
-                        name: supplier.contactPerson,
-                        role: supplier.type?.replace(/_/g, ' ') || 'Farmer',
-                        photo: supplier.photoUrl || '',
-                        yearsFarming: `${supplier.yearsFarming || 0}+ years`,
-                        location: supplier.location || 'Odienné',
-                        bio: supplier.bio || 'Dedicated cashew farmer in the Odienné region.',
-                        quote: supplier.quote || null,
-                    } : null,
-
-                    farmOsMetadata: {
-                        recordId: `FOS-${b.batchNumber}`,
-                        created: new Date(b.createdAt).toLocaleDateString(),
-                        lastUpdated: new Date(b.updatedAt).toLocaleDateString(),
-                        verificationStatus: b.verifiedAt ? 'Verified' : 'Pending',
-                    },
-
-                    certifications: trace?.certificationIds ? String(trace.certificationIds).split(',').map((c: string) => c.trim()).filter(Boolean) : [],
-                };
-            });
-
-            enriched.sort((a, b) => new Date(b.processingDate).getTime() - new Date(a.processingDate).getTime());
+            const enriched = await enrichBatches(fid, allowedBatchIds);
 
             return {
                 statusCode: 200, headers,
