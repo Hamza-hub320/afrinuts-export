@@ -5,7 +5,7 @@ import {
     FaTrash, FaEdit, FaPlus, FaMinus, FaSearch,
     FaSave, FaTimes, FaUserShield, FaUserClock,
     FaExclamationTriangle, FaLink, FaTrophy,
-    FaEnvelope, FaLock, FaChartLine, FaShip,
+    FaEnvelope, FaLock, FaChartLine, FaShip, FaLightbulb,
 } from 'react-icons/fa';
 import { Dialog, Transition } from '@headlessui/react';
 import { Typography } from '@/components/Typography/Typography';
