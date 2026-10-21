@@ -323,6 +323,38 @@ const TracePage: React.FC = () => {
                     </div>
                 </Section>
 
+                {/* Buyer Portal CTA — for buyers arriving without a valid batch ID */}
+                <Section className="py-8">
+                    <div className="max-w-3xl mx-auto px-4 sm:px-6">
+                        <Reveal>
+                            <div className="bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-2xl p-6 shadow-xl">
+                                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                                    <div className="flex-shrink-0 w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                                        <FaBuilding className="text-primary text-xl" />
+                                    </div>
+                                    <div className="flex-1">
+                                        <Typography variant="h4" className="text-primary mb-1">
+                                            Already a buyer? Access your full shipment record
+                                        </Typography>
+                                        <Typography variant="small" className="text-gray-600">
+                                            Buyers with assigned shipments can sign in with a magic link to see
+                                            lab results, full documentation, farmer details, and chain of custody.
+                                        </Typography>
+                                    </div>
+                                    <Link
+                                        to="/portal/login"
+                                        className="flex-shrink-0 inline-flex items-center gap-2 bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-5 py-2.5 rounded-full text-sm font-medium shadow-md transition-all"
+                                    >
+                                        <FaShieldAlt className="text-xs" />
+                                        Buyer Portal
+                                        <FaArrowRight className="text-xs" />
+                                    </Link>
+                                </div>
+                            </div>
+                        </Reveal>
+                    </div>
+                </Section>
+
                 {/* Privacy Notice */}
                 <Section className="py-8">
                     <div className="max-w-3xl mx-auto px-4 sm:px-6">

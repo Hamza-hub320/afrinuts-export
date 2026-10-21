@@ -11,7 +11,7 @@ import {
   FaCertificate,
   FaIndustry,
   FaQuestionCircle,
-  FaPenFancy, FaGlobeAfrica, FaDrawPolygon, FaQrcode
+  FaPenFancy, FaGlobeAfrica, FaDrawPolygon, FaQrcode, FaShieldAlt
 } from 'react-icons/fa';
 import logo from '@/assets/images/afrinuts-export-official-logo.webp';
 import { useTranslation } from 'react-i18next';
@@ -135,6 +135,7 @@ const Navbar: React.FC = () => {
     { path: '/blog', label: t('navbar.blog', 'Blog'), icon: FaPenFancy },
     { path: '/news', label: t('navbar.news', 'News'), icon: GiEarthAfricaEurope},
     { path: '/faq', label: t('navbar.faq', 'FAQ'), icon: FaQuestionCircle },
+    { path: '/portal/login', label: t('navbar.portal', 'Portal'), icon: FaShieldAlt },
   ];
 
   const closeMobileMenu = () => {
