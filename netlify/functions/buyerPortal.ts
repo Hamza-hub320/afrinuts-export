@@ -127,6 +127,270 @@ export const handler: Handler = async (event: HandlerEvent) => {
             };
         }
 
+        // ── Check admin status (applies to admin_* actions only) ──
+        const adminActions = ['admin_listBuyers', 'admin_createBuyer', 'admin_updateBuyer', 'admin_deleteBuyer', 'admin_assignBatches'];
+        const isAdminAction = adminActions.includes(action || '');
+
+        if (isAdminAction) {
+            const adminCheck = await isAdmin(fid, viewerUid);
+            if (!adminCheck) {
+                return {
+                    statusCode: 403,
+                    headers,
+                    body: JSON.stringify({ error: 'not_authorized' }),
+                };
+            }
+        }
+
+// ── Action: list all buyers (admin only) ───────────────────
+        if (action === 'admin_listBuyers') {
+            const snapshot = await db
+                .collection('farms').doc(fid)
+                .collection('buyers')
+                .orderBy('createdAt', 'desc')
+                .get();
+
+            const buyers = snapshot.docs.map(doc => {
+                const data = doc.data();
+                return {
+                    id: doc.id,
+                    email: data.email,
+                    companyName: data.companyName,
+                    contactPerson: data.contactPerson,
+                    allowedBatchIds: data.allowedBatchIds || [],
+                    allowedBatchCount: (data.allowedBatchIds || []).length,
+                    isActive: data.isActive !== false,
+                    uid: data.uid || null,
+                    createdAt: data.createdAt,
+                    lastLoginAt: data.lastLoginAt || null,
+                };
+            });
+
+            return {
+                statusCode: 200,
+                headers,
+                body: JSON.stringify({ buyers }),
+            };
+        }
+
+// ── Action: create new buyer (admin only) ──────────────────
+        if (action === 'admin_createBuyer') {
+            if (event.httpMethod !== 'POST') {
+                return { statusCode: 405, headers, body: JSON.stringify({ error: 'method_not_allowed' }) };
+            }
+
+            const body = JSON.parse(event.body || '{}');
+            const { email, companyName, contactPerson, allowedBatchIds } = body;
+
+            // Validate
+            if (!email || !companyName) {
+                return {
+                    statusCode: 400,
+                    headers,
+                    body: JSON.stringify({ error: 'email and companyName are required' }),
+                };
+            }
+
+            // Check for duplicate email
+            const existing = await db
+                .collection('farms').doc(fid)
+                .collection('buyers')
+                .where('email', '==', email.trim().toLowerCase())
+                .limit(1)
+                .get();
+
+            if (!existing.empty) {
+                return {
+                    statusCode: 409,
+                    headers,
+                    body: JSON.stringify({ error: 'buyer_with_email_exists' }),
+                };
+            }
+
+            const buyerId = generateBuyerId();
+            await db
+                .collection('farms').doc(fid)
+                .collection('buyers')
+                .doc(buyerId)
+                .set({
+                    uid: '',
+                    email: email.trim().toLowerCase(),
+                    companyName: companyName.trim(),
+                    contactPerson: (contactPerson || '').trim(),
+                    allowedBatchIds: Array.isArray(allowedBatchIds) ? allowedBatchIds : [],
+                    isActive: true,
+                    createdAt: new Date().toISOString(),
+                    lastLoginAt: null,
+                    createdBy: viewerUid,
+                });
+
+            return {
+                statusCode: 200,
+                headers,
+                body: JSON.stringify({ id: buyerId, success: true }),
+            };
+        }
+
+// ── Action: update buyer (admin only) ──────────────────────
+        if (action === 'admin_updateBuyer') {
+            if (event.httpMethod !== 'POST') {
+                return { statusCode: 405, headers, body: JSON.stringify({ error: 'method_not_allowed' }) };
+            }
+
+            const body = JSON.parse(event.body || '{}');
+            const { buyerId, companyName, contactPerson, isActive } = body;
+
+            if (!buyerId) {
+                return {
+                    statusCode: 400,
+                    headers,
+                    body: JSON.stringify({ error: 'buyerId is required' }),
+                };
+            }
+
+            const updates: Record<string, any> = {};
+            if (companyName !== undefined) updates.companyName = companyName.trim();
+            if (contactPerson !== undefined) updates.contactPerson = contactPerson.trim();
+            if (isActive !== undefined) updates.isActive = !!isActive;
+
+            if (Object.keys(updates).length === 0) {
+                return {
+                    statusCode: 400,
+                    headers,
+                    body: JSON.stringify({ error: 'no_updates' }),
+                };
+            }
+
+            await db
+                .collection('farms').doc(fid)
+                .collection('buyers')
+                .doc(buyerId)
+                .update(updates);
+
+            return {
+                statusCode: 200,
+                headers,
+                body: JSON.stringify({ success: true }),
+            };
+        }
+
+// ── Action: assign or remove batches (admin only) ──────────
+        if (action === 'admin_assignBatches') {
+            if (event.httpMethod !== 'POST') {
+                return { statusCode: 405, headers, body: JSON.stringify({ error: 'method_not_allowed' }) };
+            }
+
+            const body = JSON.parse(event.body || '{}');
+            const { buyerId, batchIds, mode } = body;
+            // mode: 'add' | 'remove' | 'set'
+
+            if (!buyerId || !Array.isArray(batchIds)) {
+                return {
+                    statusCode: 400,
+                    headers,
+                    body: JSON.stringify({ error: 'buyerId and batchIds[] are required' }),
+                };
+            }
+
+            const buyerRef = db
+                .collection('farms').doc(fid)
+                .collection('buyers')
+                .doc(buyerId);
+
+            const buyerDoc = await buyerRef.get();
+            if (!buyerDoc.exists) {
+                return { statusCode: 404, headers, body: JSON.stringify({ error: 'buyer_not_found' }) };
+            }
+
+            const current: string[] = buyerDoc.data()?.allowedBatchIds || [];
+            let next: string[];
+
+            if (mode === 'add') {
+                next = Array.from(new Set([...current, ...batchIds]));
+            } else if (mode === 'remove') {
+                next = current.filter(id => !batchIds.includes(id));
+            } else {
+                // 'set' — replace entirely
+                next = batchIds;
+            }
+
+            await buyerRef.update({ allowedBatchIds: next });
+
+            return {
+                statusCode: 200,
+                headers,
+                body: JSON.stringify({ success: true, allowedBatchIds: next }),
+            };
+        }
+
+// ── Action: delete buyer (admin only) ──────────────────────
+        if (action === 'admin_deleteBuyer') {
+            if (event.httpMethod !== 'POST') {
+                return { statusCode: 405, headers, body: JSON.stringify({ error: 'method_not_allowed' }) };
+            }
+
+            const body = JSON.parse(event.body || '{}');
+            const { buyerId } = body;
+
+            if (!buyerId) {
+                return { statusCode: 400, headers, body: JSON.stringify({ error: 'buyerId is required' }) };
+            }
+
+            await db
+                .collection('farms').doc(fid)
+                .collection('buyers')
+                .doc(buyerId)
+                .delete();
+
+            return { statusCode: 200, headers, body: JSON.stringify({ success: true }) };
+        }
+
+        // ── Action: list all available batches (admin only) ────────
+        if (action === 'admin_listBatches') {
+            const snapshot = await db
+                .collection('farms').doc(fid)
+                .collection('quality_batches')
+                .orderBy('processingDate', 'desc')
+                .limit(100)
+                .get();
+
+            const batches = snapshot.docs.map(doc => {
+                const data = doc.data();
+                return {
+                    id: doc.id,
+                    batchId: data.batchNumber,
+                    processingDate: data.processingDate,
+                    qualityGrade: data.qualityGrade,
+                    sourceType: data.sourceType,
+                    weightKg: data.weightKg,
+                };
+            });
+
+            return {
+                statusCode: 200,
+                headers,
+                body: JSON.stringify({ batches }),
+            };
+        }
+
+        // ── Helper: check if the viewer is an admin ────────────────
+        async function isAdmin(fid: string, uid: string): Promise<boolean> {
+            const adminDoc = await db
+                .collection('farms').doc(fid)
+                .collection('admins')
+                .doc(uid)
+                .get();
+            return adminDoc.exists;
+        }
+
+// ── Helper: generate a buyer document ID ───────────────────
+        function generateBuyerId(): string {
+            // Simple unique ID: buyer_<timestamp>_<random>
+            const ts = Date.now();
+            const rand = Math.random().toString(36).substring(2, 8);
+            return `buyer_${ts}_${rand}`;
+        }
+
         if (action === 'myBatches') {
             const allowedBatchIds: string[] = buyer.allowedBatchIds || [];
 

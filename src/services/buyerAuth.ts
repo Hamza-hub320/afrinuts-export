@@ -9,25 +9,30 @@ import {
 import { auth } from './firebase';
 
 const STORAGE_KEY = 'buyerPortalEmail';
+const REDIRECT_KEY = 'buyerPortalRedirect';
 
 /**
  * Send a magic link to the buyer's email.
+ * @param email  The email to send the link to.
+ * @param redirect  Where to send the user after sign-in. Defaults to /portal.
+ *                  Use /admin/buyers for admin mode.
  */
-export async function sendMagicLink(email: string): Promise<void> {
+export async function sendMagicLink(email: string, redirect: string = '/portal'): Promise<void> {
     const actionCodeSettings = {
-        url: `${window.location.origin}/portal/auth/callback`,
+        url: `${window.location.origin}/portal/auth/callback?redirect=${encodeURIComponent(redirect)}`,
         handleCodeInApp: true,
     };
 
     await sendSignInLinkToEmail(auth, email, actionCodeSettings);
     window.localStorage.setItem(STORAGE_KEY, email);
+    window.localStorage.setItem(REDIRECT_KEY, redirect);
 }
 
 /**
  * Complete the sign-in when the user returns from clicking the magic link.
- * Returns the authenticated Firebase User.
+ * Returns the authenticated user and the redirect target.
  */
-export async function completeMagicLinkSignIn(): Promise<User | null> {
+export async function completeMagicLink(): Promise<{ user: User; redirect: string } | null> {
     if (!isSignInWithEmailLink(auth, window.location.href)) {
         return null;
     }
@@ -46,14 +51,32 @@ export async function completeMagicLinkSignIn(): Promise<User | null> {
     const result = await signInWithEmailLink(auth, email, window.location.href);
     window.localStorage.removeItem(STORAGE_KEY);
 
-    // Clean up the URL (remove the magic link query params)
+    // Determine redirect from URL param first, then fall back to stored value
+    const url = new URL(window.location.href);
+    const redirect =
+        url.searchParams.get('redirect')
+        || window.localStorage.getItem(REDIRECT_KEY)
+        || '/portal';
+
+    window.localStorage.removeItem(REDIRECT_KEY);
+
+    // Clean up the URL
     window.history.replaceState({}, document.title, '/portal');
 
-    return result.user;
+    return { user: result.user, redirect };
 }
 
 /**
- * Log out the current buyer.
+ * Legacy wrapper — returns only the user.
+ * @deprecated Use `completeMagicLink` instead.
+ */
+export async function completeMagicLinkSignIn(): Promise<User | null> {
+    const result = await completeMagicLink();
+    return result?.user ?? null;
+}
+
+/**
+ * Log out the current buyer (or admin).
  */
 export async function buyerLogout(): Promise<void> {
     await signOut(auth);

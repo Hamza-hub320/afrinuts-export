@@ -60,6 +60,43 @@ export const getBuyerPortalData = async (action: string, params?: any) => {
     return response.json();
 };
 
+export const getAdminData = async (action: string, params?: any) => {
+    const user = auth.currentUser;
+    if (!user) throw new Error('Not authenticated');
+
+    const token = await user.getIdToken();
+
+    if (action === 'admin_createBuyer' || action === 'admin_updateBuyer'
+        || action === 'admin_assignBatches' || action === 'admin_deleteBuyer') {
+        // POST actions
+        const response = await fetch(`/.netlify/functions/buyerPortal?action=${action}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(params || {}),
+        });
+        if (!response.ok) {
+            const err = await response.json().catch(() => ({}));
+            throw new Error(err.error || `Request failed: ${response.status}`);
+        }
+        return response.json();
+    }
+
+    // GET actions
+    const queryParams = new URLSearchParams({ action, ...params }).toString();
+    const response = await fetch(
+        `/.netlify/functions/buyerPortal?${queryParams}`,
+        { headers: { Authorization: `Bearer ${token}` } }
+    );
+    if (!response.ok) {
+        const err = await response.json().catch(() => ({}));
+        throw new Error(err.error || `Request failed: ${response.status}`);
+    }
+    return response.json();
+};
+
 export async function callApi(endpoint: string, data?: any, requireAuth = true, method: string = 'POST') {
     try {
         const baseUrl = getApiBaseUrl();

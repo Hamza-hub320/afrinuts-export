@@ -12,6 +12,7 @@ import BuyerAuthCallback from '@/pages/BuyerPortal/BuyerAuthCallback';
 import BuyerDashboard from '@/pages/BuyerPortal/BuyerDashboard';
 import { BuyerProtectedRoute } from '@/components/BuyerProtectedRoute';
 
+
 import i18n from './i18n';
 import './index.css';
 
@@ -26,6 +27,8 @@ import BlogPost from '@/pages/BlogPost';
 import NewsPost from '@/pages/NewsPost';
 import Settings from './pages/Settings';
 import AdminUsers from './pages/AdminUsers';
+import AdminBuyers from "./pages/Admin/AdminBuyers";
+import BuyerCallback from "./pages/BuyerCallback";
 
 // Lazy load heavy pages
 const Community = React.lazy(() => import('@/pages/Community'));
@@ -118,7 +121,7 @@ function App(): ReactElement {
                                     <Route path="partners" element={<Partners />} />
                                     <Route path="community" element={<Community />} />
                                     <Route path="/portal/login" element={<BuyerLogin />} />
-                                    <Route path="/portal/auth/callback" element={<BuyerAuthCallback />} />
+                                    <Route path="/portal/auth/callback" element={<BuyerCallback />} />
                                 </Route>
 
                                 <Route path="dashboard" element={
@@ -179,6 +182,14 @@ function App(): ReactElement {
                                     element={
                                         <BuyerProtectedRoute>
                                             <BuyerDashboard />
+                                        </BuyerProtectedRoute>
+                                    }
+                                />
+                                <Route
+                                    path="/admin/buyers"
+                                    element={
+                                        <BuyerProtectedRoute>
+                                            <AdminBuyers />
                                         </BuyerProtectedRoute>
                                     }
                                 />

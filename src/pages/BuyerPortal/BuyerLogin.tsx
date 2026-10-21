@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { FaEnvelope, FaArrowLeft, FaCheckCircle, FaShieldAlt } from 'react-icons/fa';
+import { FaEnvelope, FaArrowLeft, FaCheckCircle, FaShieldAlt, FaUserShield } from 'react-icons/fa';
 import { Typography } from '@/components/Typography/Typography';
 import { InfoCard } from '@/components/InfoCard/InfoCard';
-import Section from '@components/Section/Section';
+import Section from '@/components/Section/Section';
 import { fadeIn, staggerContainer } from '@/utils/animations';
 import { sendMagicLink } from '@/services/buyerAuth';
 
 const BuyerLogin: React.FC = () => {
     const [email, setEmail] = useState('');
+    const [mode, setMode] = useState<'buyer' | 'admin'>('buyer');
     const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
     const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
@@ -20,14 +21,17 @@ const BuyerLogin: React.FC = () => {
         setErrorMessage('');
 
         try {
-            await sendMagicLink(email.trim().toLowerCase());
+            // Add a `redirect` hint in the URL so the magic-link handler
+            // knows where to send the user after auth.
+            const redirect = mode === 'admin' ? '/admin/buyers' : '/portal';
+            await sendMagicLink(email.trim().toLowerCase(), redirect);
             setStatus('sent');
         } catch (error: any) {
             console.error('Magic link error:', error);
             setStatus('error');
             setErrorMessage(
                 error?.code === 'auth/user-not-found'
-                    ? 'No buyer account found with this email. Contact us if you believe this is an error.'
+                    ? `No ${mode} account found with this email. Contact us if you believe this is an error.`
                     : error?.message || 'Something went wrong. Please try again.'
             );
         }
@@ -46,12 +50,42 @@ const BuyerLogin: React.FC = () => {
                 </Link>
 
                 <InfoCard
-                    icon={FaShieldAlt}
-                    title="Buyer Portal Login"
-                    subtitle="Access your shipments' full documentation"
+                    icon={mode === 'admin' ? FaUserShield : FaShieldAlt}
+                    title={mode === 'admin' ? 'Admin Login' : 'Buyer Portal Login'}
+                    subtitle={
+                        mode === 'admin'
+                            ? 'Manage buyers and batch assignments'
+                            : "Access your shipments' full documentation"
+                    }
                     variant="primary"
                     showInfoBadge={false}
                 >
+                    {/* Mode Toggle */}
+                    <div className="flex gap-1 bg-gray-100 rounded-full p-1 mb-5">
+                        <button
+                            type="button"
+                            onClick={() => { setMode('buyer'); setStatus('idle'); setErrorMessage(''); }}
+                            className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-full text-xs font-medium transition ${
+                                mode === 'buyer'
+                                    ? 'bg-white text-primary shadow-sm'
+                                    : 'text-gray-500 hover:text-gray-700'
+                            }`}
+                        >
+                            <FaShieldAlt className="text-[10px]" /> Buyer
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => { setMode('admin'); setStatus('idle'); setErrorMessage(''); }}
+                            className={`flex-1 flex items-center justify-center gap-1.5 py-2 rounded-full text-xs font-medium transition ${
+                                mode === 'admin'
+                                    ? 'bg-white text-primary shadow-sm'
+                                    : 'text-gray-500 hover:text-gray-700'
+                            }`}
+                        >
+                            <FaUserShield className="text-[10px]" /> Admin
+                        </button>
+                    </div>
+
                     {status === 'sent' ? (
                         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
                             <div className="bg-green-50 border border-green-200 rounded-xl p-4 mb-4">
@@ -62,7 +96,8 @@ const BuyerLogin: React.FC = () => {
                                             Check your email
                                         </Typography>
                                         <Typography variant="small" className="text-green-700 text-sm">
-                                            We sent a login link to <strong>{email}</strong>. Click it to access your buyer portal.
+                                            We sent a login link to <strong>{email}</strong>. Click it to access{' '}
+                                            {mode === 'admin' ? 'the admin panel.' : 'your buyer portal.'}
                                         </Typography>
                                     </div>
                                 </div>
@@ -80,11 +115,13 @@ const BuyerLogin: React.FC = () => {
                     ) : (
                         <form onSubmit={handleSubmit}>
                             <Typography variant="body" className="text-gray-700 mb-4 text-sm">
-                                Enter your business email. We'll send you a secure login link — no password to remember.
+                                {mode === 'admin'
+                                    ? "Enter your admin email. We'll send you a secure login link."
+                                    : "Enter your business email. We'll send you a secure login link — no password to remember."}
                             </Typography>
 
                             <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1.5">
-                                Business Email
+                                {mode === 'admin' ? 'Admin Email' : 'Business Email'}
                             </label>
                             <div className="relative mb-4">
                                 <FaEnvelope className="absolute left-4 top-3.5 text-gray-400" />
@@ -93,7 +130,7 @@ const BuyerLogin: React.FC = () => {
                                     id="email"
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    placeholder="procurement@nutriglobal.com"
+                                    placeholder={mode === 'admin' ? 'team@afrinutsexport.com' : 'procurement@nutriglobal.com'}
                                     required
                                     className="w-full pl-11 pr-4 py-3 rounded-full border border-gray-300 bg-white/70 focus:outline-none focus:ring-2 focus:ring-primary text-sm"
                                 />
@@ -112,14 +149,20 @@ const BuyerLogin: React.FC = () => {
                                 disabled={status === 'sending'}
                                 className="w-full bg-gradient-to-r from-primary to-accent text-white px-6 py-3 rounded-full font-medium shadow-md hover:shadow-lg transition-all disabled:opacity-50"
                             >
-                                {status === 'sending' ? 'Sending...' : 'Send Login Link'}
+                                {status === 'sending'
+                                    ? 'Sending...'
+                                    : mode === 'admin'
+                                        ? 'Send Admin Login Link'
+                                        : 'Send Login Link'}
                             </button>
                         </form>
                     )}
 
                     <div className="mt-6 pt-4 border-t border-gray-200">
                         <Typography variant="small" className="text-gray-500 text-xs text-center">
-                            Not yet a buyer? <Link to="/contact" className="text-accent hover:text-primary underline">Contact us</Link> to get access.
+                            {mode === 'admin'
+                                ? 'Only authorized team members can log in as admin.'
+                                : <>Not yet a buyer? <Link to="/contact" className="text-accent hover:text-primary underline">Contact us</Link> to get access.</>}
                         </Typography>
                     </div>
                 </InfoCard>
