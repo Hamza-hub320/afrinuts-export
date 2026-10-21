@@ -460,8 +460,8 @@ export const handler: Handler = async (event: HandlerEvent) => {
 
                     farmLocation: supplier?.location || "Odienné, Côte d'Ivoire",
                     block: b.blockId ? `Block ${b.blockId}` : null,
-                    latitude,
-                    longitude,
+                    latitude: supplier?.latitude || 9.51,
+                    longitude: supplier?.longitude || -7.5692,
                     destination: trace?.destination || null,
                     destinationCountry: extractCountry(trace?.destination),
                     buyer: trace?.buyer || revenue?.buyer || null,
