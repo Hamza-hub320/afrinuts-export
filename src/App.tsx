@@ -26,7 +26,7 @@ import NewsPost from '@/pages/NewsPost';
 import Settings from './pages/Settings';
 import AdminUsers from './pages/AdminUsers';
 import AdminBuyers from './pages/Admin/AdminBuyers';
-import BuyerCallback from './pages/BuyerCallback';
+import BuyerCallback from '@/pages/BuyerPortal/BuyerAuthCallback';
 
 // Lazy load heavy pages
 const Community = React.lazy(() => import('@/pages/Community'));
