@@ -207,8 +207,8 @@ async function sendBuyerNotification(params: {
     companyName: string;
     contactPerson?: string;
     kind: 'batch' | 'master';
-    ids: string[];           // newly assigned IDs only
-    masterSummary?: string;  // e.g. "MB-20260710-085 · 3 batches · 65T · Oman"
+    ids: string[];
+    masterSummary?: string;
 }): Promise<{ ok: boolean; error?: string }> {
     if (!RESEND_API_KEY) {
         console.warn('RESEND_API_KEY missing — skipping buyer notification');
@@ -231,46 +231,110 @@ async function sendBuyerNotification(params: {
         ? `Bulk shipment ${params.masterSummary || params.ids[0]} is now available`
         : `${params.ids.length} new batch${params.ids.length !== 1 ? 'es' : ''} assigned`;
 
-    const idList = params.kind === 'master'
-        ? '' // masterSummary covers it
-        : `<ul style="margin:8px 0 0 16px;padding:0;">${params.ids.map(id => `<li style="font-family:monospace;font-size:13px;color:#333;">${id}</li>`).join('')}</ul>`;
+    // Batch chips styled like mini InfoCards
+    const idListHtml = params.kind === 'master'
+        ? `<div style="margin-top:16px;padding:16px;background:#ffffff;border-radius:12px;border:2px solid #5A7411;text-align:center;box-shadow:0 4px 12px rgba(90,116,17,0.1);">
+             <p style="margin:0;color:#5A4D47;font-size:11px;text-transform:uppercase;letter-spacing:1.5px;font-weight:700;">Bulk Shipment</p>
+             <p style="margin:6px 0 0;color:#5A7411;font-family:ui-monospace,SFMono-Regular,monospace;font-size:15px;font-weight:700;">${params.masterSummary || params.ids[0]}</p>
+           </div>`
+        : params.ids.map(id => `
+            <div style="margin-top:12px;padding:12px 16px;background:#ffffff;border-radius:12px;border:1px solid #DEDAD4;box-shadow:0 2px 8px rgba(90,77,71,0.05);">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td align="left" style="font-family:ui-monospace,SFMono-Regular,monospace;font-size:13px;color:#5A7411;font-weight:600;">
+                    <span style="color:#E04E00;margin-right:8px;">▸</span>${id}
+                  </td>
+                  <td align="right" style="font-size:11px;font-weight:800;color:#E04E00;text-transform:uppercase;letter-spacing:1px;white-space:nowrap;">
+                    Assigned
+                  </td>
+                </tr>
+              </table>
+            </div>
+          `).join('');
 
     const html = `
-        <div style="font-family:system-ui,-apple-system,sans-serif;max-width:560px;margin:0 auto;padding:24px;color:#253746;">
-            <div style="text-align:center;margin-bottom:24px;">
-                <h1 style="color:#5A7411;font-size:22px;margin:0;">AfriNuts Export</h1>
-                <p style="color:#8892a0;font-size:13px;margin:4px 0 0;">Buyer Portal</p>
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <style>
+                body { margin: 0; padding: 0; background-color: #F5F5F5; }
+                @media (max-width: 600px) {
+                    .email-container { padding: 16px !important; }
+                    .email-card { border-radius: 16px !important; }
+                }
+            </style>
+        </head>
+        <body style="margin:0;padding:0;background-color:#F5F5F5;">
+            <!-- Background matching your body gradient -->
+            <div class="email-container" style="background: linear-gradient(145deg, #F5F5F5 0%, #DEDAD4 100%); padding:40px 20px;font-family:'Inter',system-ui,-apple-system,sans-serif;">
+                
+                <!-- Main InfoCard Wrapper -->
+                <div class="email-card" style="max-width:540px;margin:0 auto;background: linear-gradient(135deg, rgba(90,116,17,0.05) 0%, rgba(224,78,0,0.05) 100%); border-radius:24px; border:2px solid rgba(90,116,17,0.2); overflow:hidden; box-shadow:0 20px 40px rgba(90,77,71,0.15);">
+
+                    <!-- Header -->
+                    <div style="background: rgba(255,255,255,0.4); padding:32px 24px 24px; text-align:center; border-bottom:1px solid rgba(90,116,17,0.1);">
+                        <!-- Brand Logo (Text Fallback) -->
+                        <div style="display:inline-block;width:56px;height:56px;line-height:56px;background:linear-gradient(135deg, #5A7411, #E04E00);border-radius:50%;margin-bottom:12px;text-align:center;box-shadow:0 4px 12px rgba(224,78,0,0.3);">
+                            <span style="color:#ffffff;font-size:26px;font-weight:800;font-family:'Playfair Display',serif;">A</span>
+                        </div>
+                        <h1 style="color:#5A7411;font-size:24px;font-weight:700;margin:0;letter-spacing:-0.5px;font-family:'Playfair Display',serif;">AfriNuts Export</h1>
+                        <p style="color:#E04E00;font-size:11px;font-weight:700;margin:6px 0 0;text-transform:uppercase;letter-spacing:2px;">Buyer Portal</p>
+                    </div>
+
+                    <!-- Body -->
+                    <div style="padding:32px 24px;">
+                        <p style="color:#5A4D47;font-size:16px;margin:0 0 20px; font-weight: 500;">
+                            Hello <strong style="color:#5A7411;">${params.contactPerson || params.companyName}</strong>,
+                        </p>
+
+                        <!-- Status banner (Accent styled) -->
+                        <div style="background-color:rgba(224,78,0,0.08); border:1px solid rgba(224,78,0,0.2); border-radius:12px; padding:14px 16px; margin-bottom:20px; box-shadow:inset 0 2px 4px rgba(255,255,255,0.5);">
+                            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                                <tr>
+                                    <td width="24" valign="middle" style="font-size:16px;color:#E04E00;">✦</td>
+                                    <td style="padding-left:10px;color:#9C3D10;font-size:14px;font-weight:700;line-height:1.4;">
+                                        ${headline}
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <p style="color:#5A4D47;font-size:14px;line-height:1.6;margin:0 0 12px;">
+                            Assigned to <strong style="color:#5A7411;">${params.companyName}</strong> in your buyer portal.
+                        </p>
+
+                        <!-- Batch / bulk chips -->
+                        ${idListHtml}
+
+                        <!-- CTA button (Primary gradient) -->
+                        <div style="margin-top:32px;text-align:center;">
+                            <a href="${magicLink}"
+                               style="display:inline-block; background: linear-gradient(90deg, #5A7411, #E04E00); color:#ffffff; text-decoration:none; padding:14px 32px; border-radius:100px; font-weight:700; font-size:15px; box-shadow:0 8px 20px rgba(224,78,0,0.3); letter-spacing:0.5px;">
+                                Open Buyer Portal →
+                            </a>
+                        </div>
+
+                        <p style="color:#8A7C74;font-size:12px;text-align:center;margin-top:28px;line-height:1.6;">
+                            This secure link is one-time use and expires in <strong style="color:#5A4D47;">1 hour</strong>.<br/>
+                            If you didn't request this, you can safely ignore this email.
+                        </p>
+                    </div>
+
+                    <!-- Footer -->
+                    <div style="background: rgba(255,255,255,0.4); padding:24px; text-align:center; border-top:1px solid rgba(90,116,17,0.1);">
+                        <p style="color:#5A4D47;font-size:12px;margin:0 0 8px; font-weight:500;">
+                            AfriNuts Export · Odienné, Côte d'Ivoire
+                        </p>
+                        <p style="margin:0;">
+                            <a href="https://www.afrinutsexport.com" style="color:#5A7411;text-decoration:none;font-size:12px;font-weight:700;">www.afrinutsexport.com</a>
+                        </p>
+                    </div>
+                </div>
             </div>
-
-            <p style="font-size:15px;">Hello ${params.contactPerson || params.companyName},</p>
-
-            <p style="font-size:15px;">
-                <strong>${headline}</strong> to <strong>${params.companyName}</strong> in your buyer portal.
-            </p>
-
-            ${idList}
-
-            <p style="margin-top:20px;font-size:15px;">Sign in to view full documentation, lab results, farmer details, and chain of custody:</p>
-
-            <div style="text-align:center;margin:24px 0;">
-                <a href="${magicLink}"
-                   style="display:inline-block;background:linear-gradient(90deg,#5A7411,#E04E00);color:#fff;text-decoration:none;padding:12px 28px;border-radius:999px;font-weight:600;font-size:14px;">
-                    Open Buyer Portal
-                </a>
-            </div>
-
-            <p style="font-size:12px;color:#8892a0;text-align:center;">
-                This link is one-time use and expires in 1 hour.<br/>
-                If you didn't request it, you can safely ignore this email.
-            </p>
-
-            <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0;"/>
-
-            <p style="font-size:12px;color:#8892a0;text-align:center;margin:0;">
-                AfriNuts Export · Odienné, Côte d'Ivoire<br/>
-                <a href="https://www.afrinutsexport.com" style="color:#5A7411;text-decoration:none;">www.afrinutsexport.com</a>
-            </p>
-        </div>
+        </body>
+        </html>
     `;
 
     try {
@@ -284,8 +348,8 @@ async function sendBuyerNotification(params: {
                 from: FROM_EMAIL,
                 to: params.to,
                 subject: params.kind === 'master'
-                    ? `Bulk shipment available: ${params.masterSummary || params.ids[0]}`
-                    : `${params.ids.length} new batch${params.ids.length !== 1 ? 'es' : ''} assigned to ${params.companyName}`,
+                    ? `✦ Bulk shipment available: ${params.masterSummary?.split('·')[0]?.trim() || params.ids[0]}`
+                    : `✦ ${params.ids.length} new batch${params.ids.length !== 1 ? 'es' : ''} assigned to ${params.companyName}`,
                 html,
             }),
         });
