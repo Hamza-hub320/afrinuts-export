@@ -8,7 +8,7 @@ import {
 } from 'firebase/auth';
 import { auth } from './firebase';
 
-const STORAGE_KEY = 'buyerPortalEmail';
+export const STORAGE_KEY = 'buyerPortalEmail';
 
 /**
  * Send a magic link to the buyer's (or staff's) email.
@@ -34,6 +34,7 @@ export async function sendMagicLink(
     await sendSignInLinkToEmail(auth, email, actionCodeSettings);
     window.localStorage.setItem(STORAGE_KEY, email);
 }
+
 
 /**
  * Complete the sign-in when the user returns from clicking the magic link.

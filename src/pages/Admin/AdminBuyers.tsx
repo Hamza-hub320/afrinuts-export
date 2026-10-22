@@ -111,6 +111,7 @@ const AdminBuyers: React.FC = () => {
     const [batchOwners, setBatchOwners] = useState<Record<string, string>>({});
     const [masterOwners, setMasterOwners] = useState<Record<string, string>>({});
     const [childToMaster, setChildToMaster] = useState<Record<string, string>>({});
+    const [lastNotified, setLastNotified] = useState<{ email: string; ok: boolean } | null>(null);
 
     const loadData = async () => {
         try {
@@ -227,6 +228,11 @@ const AdminBuyers: React.FC = () => {
                 allowedMasterBatchIds: result.allowedMasterBatchIds || [],
                 allowedMasterCount: (result.allowedMasterBatchIds || []).length,
             };
+            if (result.notified !== undefined && result.notified !== null) {
+                setLastNotified({ email: assignBuyer.email, ok: !!result.notified });
+                // Auto-clear after 6 seconds
+                setTimeout(() => setLastNotified(null), 6000);
+            }
             setAssignBuyer(updated);
             setBuyers(prev => prev.map(b => (b.id === assignBuyer.id ? updated : b)));
             // Refresh the ownership maps so the modal reflects the change immediately
@@ -964,6 +970,18 @@ const AdminBuyers: React.FC = () => {
                                 )}
 
                                 <div className="mt-4 pt-4 border-t border-gray-200">
+                                    {lastNotified && (
+                                        <div className={`mt-3 p-2 rounded-lg text-xs flex items-center gap-2 ${
+                                            lastNotified.ok
+                                                ? 'bg-green-50 border border-green-200 text-green-700'
+                                                : 'bg-amber-50 border border-amber-200 text-amber-700'
+                                        }`}>
+                                            <FaEnvelope className="text-[10px]" />
+                                            {lastNotified.ok
+                                                ? `Notification sent to ${lastNotified.email}`
+                                                : `Assigned — email not sent (check RESEND_API_KEY / logs)`}
+                                        </div>
+                                    )}
                                     <button
                                         onClick={() => setAssignBuyer(null)}
                                         className="w-full bg-primary text-white px-4 py-2 rounded-lg text-sm font-medium"

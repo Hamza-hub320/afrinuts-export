@@ -198,6 +198,110 @@ function parseMasterBatchNumbers(raw: any): string[] {
     try { return JSON.parse(String(raw)); } catch { return []; }
 }
 
+// ── Email helper (Resend) ─────────────────────────────────
+const RESEND_API_KEY = process.env.RESEND_API_KEY;
+const FROM_EMAIL = process.env.FROM_EMAIL || 'AfriNuts Export <noreply@afrinutsexport.com>';
+
+async function sendBuyerNotification(params: {
+    to: string;
+    companyName: string;
+    contactPerson?: string;
+    kind: 'batch' | 'master';
+    ids: string[];           // newly assigned IDs only
+    masterSummary?: string;  // e.g. "MB-20260710-085 · 3 batches · 65T · Oman"
+}): Promise<{ ok: boolean; error?: string }> {
+    if (!RESEND_API_KEY) {
+        console.warn('RESEND_API_KEY missing — skipping buyer notification');
+        return { ok: false, error: 'no_api_key' };
+    }
+
+    // Generate a sign-in link server-side
+    let magicLink = 'https://www.afrinutsexport.com/portal/login';
+    try {
+        const { getAuth } = await import('firebase-admin/auth');
+        magicLink = await getAuth().generateSignInWithEmailLink(params.to, {
+            url: 'https://www.afrinutsexport.com/portal/auth/callback?redirect=%2Fportal',
+            handleCodeInApp: true,
+        });
+    } catch (err) {
+        console.warn('generateSignInWithEmailLink failed, falling back to /portal/login', err);
+    }
+
+    const headline = params.kind === 'master'
+        ? `Bulk shipment ${params.masterSummary || params.ids[0]} is now available`
+        : `${params.ids.length} new batch${params.ids.length !== 1 ? 'es' : ''} assigned`;
+
+    const idList = params.kind === 'master'
+        ? '' // masterSummary covers it
+        : `<ul style="margin:8px 0 0 16px;padding:0;">${params.ids.map(id => `<li style="font-family:monospace;font-size:13px;color:#333;">${id}</li>`).join('')}</ul>`;
+
+    const html = `
+        <div style="font-family:system-ui,-apple-system,sans-serif;max-width:560px;margin:0 auto;padding:24px;color:#253746;">
+            <div style="text-align:center;margin-bottom:24px;">
+                <h1 style="color:#5A7411;font-size:22px;margin:0;">AfriNuts Export</h1>
+                <p style="color:#8892a0;font-size:13px;margin:4px 0 0;">Buyer Portal</p>
+            </div>
+
+            <p style="font-size:15px;">Hello ${params.contactPerson || params.companyName},</p>
+
+            <p style="font-size:15px;">
+                <strong>${headline}</strong> to <strong>${params.companyName}</strong> in your buyer portal.
+            </p>
+
+            ${idList}
+
+            <p style="margin-top:20px;font-size:15px;">Sign in to view full documentation, lab results, farmer details, and chain of custody:</p>
+
+            <div style="text-align:center;margin:24px 0;">
+                <a href="${magicLink}"
+                   style="display:inline-block;background:linear-gradient(90deg,#5A7411,#E04E00);color:#fff;text-decoration:none;padding:12px 28px;border-radius:999px;font-weight:600;font-size:14px;">
+                    Open Buyer Portal
+                </a>
+            </div>
+
+            <p style="font-size:12px;color:#8892a0;text-align:center;">
+                This link is one-time use and expires in 1 hour.<br/>
+                If you didn't request it, you can safely ignore this email.
+            </p>
+
+            <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0;"/>
+
+            <p style="font-size:12px;color:#8892a0;text-align:center;margin:0;">
+                AfriNuts Export · Odienné, Côte d'Ivoire<br/>
+                <a href="https://www.afrinutsexport.com" style="color:#5A7411;text-decoration:none;">www.afrinutsexport.com</a>
+            </p>
+        </div>
+    `;
+
+    try {
+        const res = await fetch('https://api.resend.com/emails', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${RESEND_API_KEY}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                from: FROM_EMAIL,
+                to: params.to,
+                subject: params.kind === 'master'
+                    ? `Bulk shipment available: ${params.masterSummary || params.ids[0]}`
+                    : `${params.ids.length} new batch${params.ids.length !== 1 ? 'es' : ''} assigned to ${params.companyName}`,
+                html,
+            }),
+        });
+
+        if (!res.ok) {
+            const text = await res.text();
+            console.warn('Resend error:', res.status, text);
+            return { ok: false, error: `resend_${res.status}` };
+        }
+        return { ok: true };
+    } catch (err: any) {
+        console.warn('sendBuyerNotification failed:', err?.message);
+        return { ok: false, error: err?.message || 'unknown' };
+    }
+}
+
 // ── Shared batch enrichment (used by single-batch and bulk paths) ──
 async function enrichBatches(fid: string, batchNumbers: string[]): Promise<any[]> {
     if (batchNumbers.length === 0) return [];
@@ -600,7 +704,77 @@ export const handler: Handler = async (event: HandlerEvent) => {
 
                 await buyerRef.update({ [field]: next });
 
+                // Notify buyer of newly assigned shipments (best-effort, non-blocking)
+                if (mode === 'add') {
+                    const buyerData = buyerDoc.data() || {};
+                    const alreadyHad: string[] = buyerData?.[field] || [];
+                    const newlyAssigned = (batchIds as string[]).filter(id => !alreadyHad.includes(id));
+
+                    if (newlyAssigned.length > 0 && buyerData.email) {
+                        try {
+                            let masterSummary: string | undefined;
+                            if (kind === 'master') {
+                                // Fetch the master doc for a nicer summary
+                                const mSnap = await db.collection('farms').doc(fid)
+                                    .collection('master_traceability')
+                                    .where('masterBatchNumber', '==', newlyAssigned[0])
+                                    .limit(1).get();
+                                if (!mSnap.empty) {
+                                    const m = mSnap.docs[0].data();
+                                    masterSummary = `${m.masterBatchNumber} · ${m.totalBatches} batches · ${((m.totalWeightKg||0)/1000).toFixed(1)}T${m.destination ? ` · ${m.destination}` : ''}`;
+                                }
+                            }
+                            await sendBuyerNotification({
+                                to: buyerData.email,
+                                companyName: buyerData.companyName || 'Buyer',
+                                contactPerson: buyerData.contactPerson,
+                                kind,
+                                ids: newlyAssigned,
+                                masterSummary,
+                            });
+                        } catch (notifyErr) {
+                            // Never fail the assignment because of email
+                            console.warn('Buyer notification failed (non-fatal):', notifyErr);
+                        }
+                    }
+                }
+
                 const fresh = (await buyerRef.get()).data() || {};
+
+                let notified = false;
+                if (mode === 'add') {
+                    const buyerData = buyerDoc.data() || {};
+                    const alreadyHad: string[] = buyerData?.[field] || [];
+                    const newlyAssigned = (batchIds as string[]).filter(id => !alreadyHad.includes(id));
+
+                    if (newlyAssigned.length > 0 && buyerData.email) {
+                        try {
+                            let masterSummary: string | undefined;
+                            if (kind === 'master') {
+                                const mSnap = await db.collection('farms').doc(fid)
+                                    .collection('master_traceability')
+                                    .where('masterBatchNumber', '==', newlyAssigned[0])
+                                    .limit(1).get();
+                                if (!mSnap.empty) {
+                                    const m = mSnap.docs[0].data();
+                                    masterSummary = `${m.masterBatchNumber} · ${m.totalBatches} batches · ${((m.totalWeightKg||0)/1000).toFixed(1)}T${m.destination ? ` · ${m.destination}` : ''}`;
+                                }
+                            }
+                            const result = await sendBuyerNotification({
+                                to: buyerData.email,
+                                companyName: buyerData.companyName || 'Buyer',
+                                contactPerson: buyerData.contactPerson,
+                                kind,
+                                ids: newlyAssigned,
+                                masterSummary,
+                            });
+                            notified = result.ok;
+                        } catch (notifyErr) {
+                            console.warn('Buyer notification failed (non-fatal):', notifyErr);
+                        }
+                    }
+                }
+
                 return {
                     statusCode: 200,
                     headers,
@@ -609,6 +783,7 @@ export const handler: Handler = async (event: HandlerEvent) => {
                         kind,
                         allowedBatchIds: fresh.allowedBatchIds || [],
                         allowedMasterBatchIds: fresh.allowedMasterBatchIds || [],
+                        notified,
                     }),
                 };
             }
