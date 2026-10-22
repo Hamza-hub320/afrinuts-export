@@ -273,12 +273,15 @@ async function sendBuyerNotification(params: {
                 <!-- Main InfoCard Wrapper -->
                 <div class="email-card" style="max-width:540px;margin:0 auto;background: linear-gradient(135deg, rgba(90,116,17,0.05) 0%, rgba(224,78,0,0.05) 100%); border-radius:24px; border:2px solid rgba(90,116,17,0.2); overflow:hidden; box-shadow:0 20px 40px rgba(90,77,71,0.15);">
 
-                    <!-- Header -->
+                     <!-- Header -->
                     <div style="background: rgba(255,255,255,0.4); padding:32px 24px 24px; text-align:center; border-bottom:1px solid rgba(90,116,17,0.1);">
-                        <!-- Brand Logo (Text Fallback) -->
-                        <div style="display:inline-block;width:56px;height:56px;line-height:56px;background:linear-gradient(135deg, #5A7411, #E04E00);border-radius:50%;margin-bottom:12px;text-align:center;box-shadow:0 4px 12px rgba(224,78,0,0.3);">
-                            <span style="color:#ffffff;font-size:26px;font-weight:800;font-family:'Playfair Display',serif;">A</span>
-                        </div>
+                        
+                        <!-- Replaced 'A' with live logo URL -->
+                        <img src="https://www.afrinutsexport.com/logo-email.webp" 
+                             alt="AfriNuts Export" 
+                             width="64" 
+                             style="display:inline-block; width:64px; height:auto; margin-bottom:12px; border-radius:8px;" />
+                             
                         <h1 style="color:#5A7411;font-size:24px;font-weight:700;margin:0;letter-spacing:-0.5px;font-family:'Playfair Display',serif;">AfriNuts Export</h1>
                         <p style="color:#E04E00;font-size:11px;font-weight:700;margin:6px 0 0;text-transform:uppercase;letter-spacing:2px;">Buyer Portal</p>
                     </div>
