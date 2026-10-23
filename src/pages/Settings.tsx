@@ -17,13 +17,14 @@ import {GiFarmer} from "react-icons/gi";
 const Settings: React.FC = () => {
     const { user } = useAuth();
     const [currentPassword, setCurrentPassword] = useState('');
-    const [loading, setLoading] = useState(true);
     const [newPassword, setNewPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [showCurrent, setShowCurrent] = useState(false);
     const [showNew, setShowNew] = useState(false);
     const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
     const [message, setMessage] = useState('');
+
+    // 👇 REMOVED: const [loading, setLoading] = useState(true);
 
     const handlePasswordChange = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -45,24 +46,6 @@ const Settings: React.FC = () => {
             setMessage(error.code === 'auth/wrong-password' ? 'Current password is incorrect.' : error.message || 'Failed to update password.');
         }
     };
-
-    if (loading) {
-        return (
-            <main>
-                <Section className="flex items-center justify-center min-h-[60vh]">
-                    <div className="text-center">
-                        <DashboardNavbar />
-                        <div className="relative w-24 h-24 mx-auto mb-4">
-                            <div className="absolute inset-0 rounded-full border-b-2 border-primary animate-spin"></div>
-                            <div className="absolute inset-0 flex items-center justify-center">
-                                <GiFarmer className="text-primary text-3xl" />
-                            </div>
-                        </div>
-                    </div>
-                </Section>
-            </main>
-        );
-    }
 
     return (
         <div className="min-h-screen relative overflow-hidden pt-[72px]">

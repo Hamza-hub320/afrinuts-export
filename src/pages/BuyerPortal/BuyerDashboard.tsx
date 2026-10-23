@@ -191,7 +191,12 @@ const BuyerDashboard: React.FC = () => {
     // KPIs
     const inspected = batches.filter(b => b.qualityScore && b.qualityScore > 0);
     const avgQuality = inspected.length > 0 ? (inspected.reduce((s, b) => s + (b.qualityScore || 0), 0) / inspected.length).toFixed(1) : null;
-    const totalDocsAvailable = batches.reduce((s, b) => s + (b.documents ? Object.values(b.documents).filter(Boolean).length : 0), 0);
+    const totalDocsAvailable = batches.reduce((s, b) => {
+    if (!b.documents) return s;
+    // Exclude the always-present compliance pack from the count
+    const realDocs = Object.entries(b.documents).filter(([key, val]) => key !== 'compliancePack' && !!val);
+    return s + realDocs.length;
+}, 0);
     const premiumCount = batches.filter(b => b.qualityGrade === 'PREMIUM').length;
 
     return (
@@ -297,14 +302,20 @@ const BuyerDashboard: React.FC = () => {
                                             <div className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 rounded-3xl shadow-xl p-8 transform-gpu overflow-hidden">
                                                 <div className="absolute inset-0 rounded-3xl border-2 border-white/20 transform-gpu translate-z-[-6px]" />
                                                 <div className="absolute inset-0 rounded-3xl bg-gradient-to-b from-white/15 to-transparent opacity-40" />
+
                                                 <div className="relative z-10">
+                                                    {/* Title & Batch ID */}
                                                     <div className="text-center mb-8">
+                                                        <Typography variant="subhead" className="uppercase tracking-widest text-primary font-semibold mb-3">
+                                                            The Batch Dossier
+                                                        </Typography>
                                                         <div className="inline-flex items-center gap-2 bg-primary/10 px-6 py-2 rounded-full">
                                                             <FaCheckCircle className="text-primary" />
                                                             <span className="font-mono text-lg font-bold text-primary">{batch.batchId}</span>
                                                         </div>
                                                     </div>
 
+                                                    {/* Top Grid: Basic Info */}
                                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                                                         {[
                                                             { label: 'Harvest Date', value: new Date(batch.harvestDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }), icon: FaCalendarAlt },
@@ -322,10 +333,13 @@ const BuyerDashboard: React.FC = () => {
                                                         ))}
                                                     </div>
 
-                                                    {/* Quality & Processing details grid */}
+                                                    {/* Middle Grid: Processing & Quality */}
                                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
                                                         <div className="bg-white/30 backdrop-blur-sm rounded-xl p-4 border border-white/20">
-                                                            <div className="flex items-center gap-2 mb-3"><FaIndustry className="text-accent text-sm" /><span className="text-gray-500 font-medium text-xs uppercase">Processing Info</span></div>
+                                                            <div className="flex items-center gap-2 mb-3">
+                                                                <FaIndustry className="text-accent text-sm" />
+                                                                <span className="text-gray-500 font-medium text-xs uppercase">Processing Info</span>
+                                                            </div>
                                                             <div className="space-y-2">
                                                                 {[
                                                                     { label: 'Facility', value: batch.processingFacility || '—' },
@@ -333,12 +347,19 @@ const BuyerDashboard: React.FC = () => {
                                                                     { label: 'Shelling', value: batch.shellingMethod || '—' },
                                                                     { label: 'Grading', value: batch.gradingMethod || '—' },
                                                                 ].map((item, i) => (
-                                                                    <div key={i} className="flex justify-between text-sm"><span className="text-gray-500">{item.label}</span><span className="font-medium text-gray-700 text-right max-w-[60%]">{item.value}</span></div>
+                                                                    <div key={i} className="flex justify-between text-sm">
+                                                                        <span className="text-gray-500">{item.label}</span>
+                                                                        <span className="font-medium text-gray-700 text-right max-w-[60%]">{item.value}</span>
+                                                                    </div>
                                                                 ))}
                                                             </div>
                                                         </div>
+
                                                         <div className="bg-white/30 backdrop-blur-sm rounded-xl p-4 border border-white/20">
-                                                            <div className="flex items-center gap-2 mb-3"><FaFlask className="text-accent text-sm" /><span className="text-gray-500 font-medium text-xs uppercase">Quality Results</span></div>
+                                                            <div className="flex items-center gap-2 mb-3">
+                                                                <FaFlask className="text-accent text-sm" />
+                                                                <span className="text-gray-500 font-medium text-xs uppercase">Quality Results</span>
+                                                            </div>
                                                             <div className="space-y-2">
                                                                 {batch.testResults && [
                                                                     { label: 'Aflatoxin', value: batch.testResults?.aflatoxin != null ? `${batch.testResults.aflatoxin} ppb` : '—', status: (batch.testResults?.aflatoxin ?? 99) < 4 ? 'pass' : 'fail' },
@@ -347,12 +368,44 @@ const BuyerDashboard: React.FC = () => {
                                                                 ].map((item, i) => (
                                                                     <div key={i} className="flex justify-between text-sm items-center">
                                                                         <span className="text-gray-500">{item.label}</span>
-                                                                        <span className={`font-medium ${item.status === 'pass' ? 'text-green-600' : 'text-red-600'}`}>{item.value} {item.status === 'pass' ? ' ✓' : ' ⚠'}</span>
+                                                                        <span className={`font-medium ${item.status === 'pass' ? 'text-green-600' : 'text-red-600'}`}>
+                                                                            {item.value} {item.status === 'pass' ? ' ✓' : ' ⚠'}
+                                                                        </span>
                                                                     </div>
                                                                 ))}
                                                             </div>
                                                         </div>
                                                     </div>
+
+                                                    {/* Bottom Section: Weight */}
+                                                    {(batch.kernelWeightKg || batch.rawWeightKg) && (
+                                                        <div className="mt-5 bg-white/30 backdrop-blur-sm rounded-xl p-4 border border-white/20">
+                                                            <div className="flex items-center gap-2 mb-3">
+                                                                <FaBox className="text-accent text-sm" />
+                                                                <span className="text-gray-500 font-medium text-xs uppercase">Batch Weight</span>
+                                                            </div>
+                                                            <div className="grid grid-cols-3 gap-4">
+                                                                <div className="text-center">
+                                                                    <Typography variant="small" className="text-gray-400 text-xs uppercase tracking-wider mb-1">Raw Input</Typography>
+                                                                    <Typography variant="h4" className="text-primary font-bold">
+                                                                        {batch.rawWeightKg ? `${(batch.rawWeightKg / 1000).toFixed(1)}T` : '—'}
+                                                                    </Typography>
+                                                                </div>
+                                                                <div className="text-center border-x border-gray-200/50">
+                                                                    <Typography variant="small" className="text-gray-400 text-xs uppercase tracking-wider mb-1">Kernel Ratio</Typography>
+                                                                    <Typography variant="h4" className="text-accent font-bold">
+                                                                        {batch.kernelRatio ? `${batch.kernelRatio}%` : '—'}
+                                                                    </Typography>
+                                                                </div>
+                                                                <div className="text-center">
+                                                                    <Typography variant="small" className="text-gray-400 text-xs uppercase tracking-wider mb-1">Kernel Output</Typography>
+                                                                    <Typography variant="h4" className="text-green-600 font-bold">
+                                                                        {batch.kernelWeightKg ? `${(batch.kernelWeightKg / 1000).toFixed(1)}T` : '—'}
+                                                                    </Typography>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    )}
                                                 </div>
                                             </div>
 
