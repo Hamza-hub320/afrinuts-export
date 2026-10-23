@@ -15,7 +15,64 @@ if (!getApps().length) {
 const db = getFirestore();
 
 // ============================================================
-// DATA FETCHING
+// RATE LIMITING (Upstash Redis)
+// ============================================================
+// Add to Netlify env:
+//   UPSTASH_REDIS_URL   = https://xxx.upstash.io
+//   UPSTASH_REDIS_TOKEN = xxx
+// Free tier: 10,000 commands/day — plenty for a public trace page.
+//
+// If unset, rate limiting is skipped (dev-friendly).
+// ============================================================
+
+const RATE_LIMIT_MAX = 30;      // 30 requests
+const RATE_LIMIT_WINDOW = 60;   // per 60 seconds, per IP
+
+async function checkRateLimit(ip: string): Promise<{ ok: boolean; remaining?: number }> {
+    const url = process.env.UPSTASH_REDIS_URL;
+    const token = process.env.UPSTASH_REDIS_TOKEN;
+    if (!url || !token) return { ok: true }; // skip if not configured
+
+    const key = `rl:trace:${ip}`;
+    try {
+        const res = await fetch(`${url}/pipeline`, {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify([
+                ['INCR', key],
+                ['EXPIRE', key, RATE_LIMIT_WINDOW],
+            ]),
+        });
+        if (!res.ok) return { ok: true }; // fail-open
+        const data = await res.json();
+        const count = data?.[0]?.result ?? 0;
+        return { ok: count <= RATE_LIMIT_MAX, remaining: Math.max(0, RATE_LIMIT_MAX - count) };
+    } catch {
+        return { ok: true }; // fail-open: never break the API because Redis is down
+    }
+}
+
+// ============================================================
+// LOGGING
+// ============================================================
+
+function log(level: 'info' | 'warn' | 'error', event: string, data: Record<string, any> = {}) {
+    const payload = { ts: new Date().toISOString(), level, event, ...data };
+    if (level === 'error') console.error(JSON.stringify(payload));
+    else if (level === 'warn') console.warn(JSON.stringify(payload));
+    else console.info(JSON.stringify(payload));
+}
+
+function requestId(event: HandlerEvent): string {
+    // Netlify sets `x-nf-request-id`; fall back to a short random ID
+    return (event.headers['x-nf-request-id'] as string) || Math.random().toString(36).slice(2, 10);
+}
+
+// ============================================================
+// DATA FETCHING (unchanged)
 // ============================================================
 
 async function fetchBatchDetails(fid: string, batchNumber: string) {
@@ -67,23 +124,15 @@ async function fetchBatchDetails(fid: string, batchNumber: string) {
 }
 
 // ============================================================
-// HELPERS
+// HELPERS (unchanged)
 // ============================================================
 
-/**
- * Extract country from a destination string.
- * "Rotterdam, Netherlands" → "Netherlands"
- * "Oman" → "Oman"
- */
 function extractCountry(destination: string | undefined | null): string | null {
     if (!destination) return null;
     const parts = destination.split(',').map(p => p.trim()).filter(Boolean);
     return parts.length > 1 ? parts[parts.length - 1] : parts[0];
 }
 
-/**
- * Safely parse the documents JSON string/object from traceability.
- */
 function parseDocuments(traceability: any): Record<string, any> {
     if (!traceability?.documents) return {};
     try {
@@ -95,9 +144,6 @@ function parseDocuments(traceability: any): Record<string, any> {
     }
 }
 
-/**
- * Parse test results JSON from the batch.
- */
 function parseTestResults(batchData: any): Record<string, any> {
     if (!batchData.testResults) return {};
     try {
@@ -109,11 +155,6 @@ function parseTestResults(batchData: any): Record<string, any> {
     }
 }
 
-/**
- * Determine if a batch has been quality-inspected.
- * A batch is inspected when it has a positive quality score OR
- * any real moisture/defect/kernel measurements.
- */
 function isBatchInspected(batchData: any): boolean {
     return (batchData.qualityScore ?? 0) > 0
         || (batchData.moistureContent ?? 0) > 0
@@ -122,15 +163,12 @@ function isBatchInspected(batchData: any): boolean {
 }
 
 // ============================================================
-// PUBLIC VIEW MAPPER
-// Safe for anyone with the batch ID. No buyer, no farmer, no
-// lab results, no documents, no exact weights, no prices.
+// PUBLIC VIEW MAPPER (unchanged)
 // ============================================================
 
 function mapToPublicBatch(batchData: any, supplier: any, traceability: any) {
     const inspected = isBatchInspected(batchData);
 
-    // Status is a public, high-level indicator
     let status: string;
     if (!inspected) {
         status = 'RECEIVED';
@@ -143,45 +181,26 @@ function mapToPublicBatch(batchData: any, supplier: any, traceability: any) {
     return {
         id: batchData.id,
         batchId: batchData.batchNumber,
-
-        // Origin — country and region only, never exact GPS
         originCountry: "Côte d'Ivoire",
         originRegion: 'Odienné',
-
-        // Batch metadata already printed on the bag
         sourceType: batchData.sourceType,
         processingDate: new Date(batchData.processingDate).toISOString(),
-
-        // Quality grade only (grade is stamped on bags anyway)
         qualityGrade: batchData.qualityGrade,
         isInspected: inspected,
-
-        // Certifications — already stamped on bags
         certifications: traceability?.certificationIds
             ? String(traceability.certificationIds).split(',').map((c: string) => c.trim()).filter(Boolean)
             : [],
-
-        // Destination country only — never the full address
         destinationCountry: extractCountry(traceability?.destination),
-
-        // High-level status
         status,
-
-        // Rough weight class — rounded, never exact
         weightClass: batchData.weightKg
             ? `~${Math.round(batchData.weightKg / 1000)}T`
             : null,
-
-        // Existence of a digital signature only — never the code
         hasDigitalSignature: !!(traceability?.verificationCode || batchData.verificationCode),
     };
 }
 
 // ============================================================
-// PRIVATE VIEW MAPPER
-// Only returned when the requesting user is authorized.
-// Includes everything: buyer, farmer, quality metrics, lab
-// results, documents, financials, full signature.
+// PRIVATE VIEW MAPPER (unchanged)
 // ============================================================
 
 function mapToPrivateBatch(
@@ -200,18 +219,12 @@ function mapToPrivateBatch(
 
     return {
         ...publicData,
-
-        // ── Buyer & destination (exact) ────────────────────────
         destination: traceability?.destination || null,
         buyer: traceability?.buyer || revenues[0]?.buyer || null,
-
-        // ── Exact farm location ────────────────────────────────
         farmLocation: supplier?.location || "Odienné, Côte d'Ivoire",
         block: batchData.blockId ? `Block ${batchData.blockId}` : null,
         latitude: supplier?.latitude ?? null,
         longitude: supplier?.longitude ?? null,
-
-        // ── Farmer profile ─────────────────────────────────────
         farmer: supplier
             ? {
                 id: supplier.id,
@@ -224,8 +237,6 @@ function mapToPrivateBatch(
                 quote: supplier.quote || null,
             }
             : null,
-
-        // ── Supplier details ───────────────────────────────────
         supplier: supplier
             ? {
                 id: supplier.id,
@@ -238,8 +249,6 @@ function mapToPrivateBatch(
                     supplier.type === 'COOPERATIVE' ? supplier.name : 'AfriNuts Network',
             }
             : null,
-
-        // ── Processing info ────────────────────────────────────
         processingInfo: `${batchData.sourceType?.replace(/_/g, ' ')} · ${batchData.qualityGrade}`,
         processingMethod: traceability?.processingMethod || 'Steam roasting (100% chemical-free)',
         processingFacility:
@@ -247,15 +256,12 @@ function mapToPrivateBatch(
         processingLocation: traceability?.processingLocation || "Odienné, Côte d'Ivoire",
         shellingMethod: traceability?.shellingMethod || 'Semi-automated',
         gradingMethod: traceability?.gradingMethod || 'Manual inspection + electronic sorting',
-
-        // ── Quality metrics (only when inspected) ──────────────
         qualityScore: inspected ? batchData.qualityScore : null,
         moistureContent: inspected ? batchData.moistureContent : null,
         defectiveRate: inspected ? batchData.defectiveRate : null,
         kernelRatio: inspected ? batchData.kernelRatio : null,
         nutCount: inspected ? batchData.nutCountPerKg : null,
         overallScore: inspected ? Math.round((batchData.qualityScore ?? 0) * 10) / 10 : null,
-
         testResults: inspected
             ? {
                 aflatoxin: testResults.aflatoxin ?? null,
@@ -263,20 +269,14 @@ function mapToPrivateBatch(
                 pesticideResidue: testResults.pesticideResidue ?? null,
             }
             : null,
-
-        // ── Exact weights ──────────────────────────────────────
         rawWeightKg: batchData.weightKg || null,
         kernelWeightKg: revenues[0]?.quantityKg || null,
         yieldPercentage:
             batchData.weightKg && revenues[0]?.quantityKg
                 ? (revenues[0].quantityKg / batchData.weightKg) * 100
                 : traceability?.yieldPercentage || null,
-
-        // ── Financials ─────────────────────────────────────────
         pricePerKg: revenues[0]?.pricePerKg || null,
         totalAmount: revenues[0]?.totalAmount || null,
-
-        // ── Export documents ───────────────────────────────────
         documents: {
             coo: docs.certificateOfOrigin || docs.coo || docs.qualityCertificate || null,
             phyto: docs.phytosanitary || docs.phyto || null,
@@ -286,8 +286,6 @@ function mapToPrivateBatch(
             insurance: docs.insurance || null,
             compliancePack: '/documents/compliance-pack.pdf',
         },
-
-        // ── Digital signature (full) ───────────────────────────
         verificationCode,
         digitalSignature: verificationCode
             ? {
@@ -298,24 +296,18 @@ function mapToPrivateBatch(
                     : null,
             }
             : null,
-
-        // ── Sustainability (detailed) ──────────────────────────
         sustainability: {
             noChildLabor: batchData.noChildLabor || false,
             farmOsMonitored: batchData.farmOsMonitored || false,
             firebreak: batchData.firebreakProtection || false,
             sustainableHarvesting: batchData.sustainableHarvesting || false,
         },
-
-        // ── Farm OS metadata ───────────────────────────────────
         farmOsMetadata: {
             recordId: `FOS-${batchData.batchNumber}`,
             created: new Date(batchData.createdAt).toLocaleDateString(),
             lastUpdated: new Date(batchData.updatedAt).toLocaleDateString(),
             verificationStatus: batchData.verifiedAt ? 'Verified' : 'Pending',
         },
-
-        // ── Source metadata ────────────────────────────────────
         sourceType: batchData.sourceType,
         supplierId: batchData.supplierId,
         slug: batchData.batchNumber?.toLowerCase(),
@@ -323,13 +315,9 @@ function mapToPrivateBatch(
 }
 
 // ============================================================
-// AUTHENTICATION
+// AUTHENTICATION (unchanged)
 // ============================================================
 
-/**
- * Verify the incoming Authorization header and return the buyer's UID.
- * Returns null if there's no valid token.
- */
 async function getViewerUid(event: HandlerEvent): Promise<string | null> {
     const authHeader = event.headers.authorization || event.headers.Authorization;
     if (!authHeader?.startsWith('Bearer ')) return null;
@@ -340,29 +328,20 @@ async function getViewerUid(event: HandlerEvent): Promise<string | null> {
         const decoded = await getAuth().verifyIdToken(token);
         return decoded.uid;
     } catch (err) {
-        console.warn('Invalid auth token:', err);
+        log('warn', 'invalid_token', { err: String(err) });
         return null;
     }
 }
 
-/**
- * Check if a viewer is authorized to see the full record for a batch.
- *
- * Two authorization paths (checked in order):
- *   1. Batch's buyerIds array contains the viewer's UID
- *   2. Buyers collection has an active buyer whose allowedBatchIds includes this batch
- */
-async function isViewerAuthorized(
+async function isViewerAuthorizedForBatch(
     fid: string,
     viewerUid: string,
     batchNumber: string,
     batchData: any
 ): Promise<boolean> {
-    // Path 1: batch.buyerIds
     const buyerIds: string[] = batchData.buyerIds || [];
     if (buyerIds.includes(viewerUid)) return true;
 
-    // Path 2: buyers collection
     try {
         const buyerSnapshot = await db
             .collection('farms').doc(fid)
@@ -378,9 +357,39 @@ async function isViewerAuthorized(
             if (allowedBatchIds.includes(batchNumber)) return true;
         }
     } catch (err) {
-        console.warn('Buyer lookup failed:', err);
+        log('warn', 'buyer_lookup_failed', { err: String(err) });
     }
 
+    return false;
+}
+
+/**
+ * New helper: check whether a viewer is authorized for a MASTER (bulk)
+ * shipment — based on the buyer record's allowedMasterBatchIds, NOT
+ * per-child batch ownership. This matches the admin assignment model.
+ */
+async function isViewerAuthorizedForMaster(
+    fid: string,
+    viewerUid: string,
+    masterBatchNumber: string
+): Promise<boolean> {
+    try {
+        const buyerSnapshot = await db
+            .collection('farms').doc(fid)
+            .collection('buyers')
+            .where('uid', '==', viewerUid)
+            .where('isActive', '==', true)
+            .limit(1)
+            .get();
+
+        if (!buyerSnapshot.empty) {
+            const buyerData = buyerSnapshot.docs[0].data();
+            const allowedMasterBatchIds: string[] = buyerData.allowedMasterBatchIds || [];
+            if (allowedMasterBatchIds.includes(masterBatchNumber)) return true;
+        }
+    } catch (err) {
+        log('warn', 'buyer_master_lookup_failed', { err: String(err) });
+    }
     return false;
 }
 
@@ -389,14 +398,32 @@ async function isViewerAuthorized(
 // ============================================================
 
 export const handler: Handler = async (event: HandlerEvent) => {
-    const headers = {
+    const rid = requestId(event);
+    const baseHeaders = {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Headers': 'Content-Type, Authorization',
         'Access-Control-Allow-Methods': 'GET, OPTIONS',
+        'X-Request-Id': rid,
     };
 
     if (event.httpMethod === 'OPTIONS') {
-        return { statusCode: 200, headers, body: '' };
+        return { statusCode: 200, headers: baseHeaders, body: '' };
+    }
+
+    // ── Rate limit (only GET) ─────────────────────────────
+    const ip =
+        (event.headers['x-forwarded-for'] as string)?.split(',')[0]?.trim() ||
+        (event.headers['client-ip'] as string) ||
+        'unknown';
+
+    const rl = await checkRateLimit(ip);
+    if (!rl.ok) {
+        log('warn', 'rate_limited', { rid, ip });
+        return {
+            statusCode: 429,
+            headers: { ...baseHeaders, 'Retry-After': String(RATE_LIMIT_WINDOW) },
+            body: JSON.stringify({ error: 'rate_limited', message: 'Too many requests. Try again shortly.' }),
+        };
     }
 
     try {
@@ -404,51 +431,43 @@ export const handler: Handler = async (event: HandlerEvent) => {
         const batchId = query.batchId;
         const fid = '1';
 
-        // ── Get the viewer (may be null) ───────────────────────
         const viewerUid = await getViewerUid(event);
 
-        // ═══════════════════════════════════════════════════════
-        // CASE: No batchId → return list of available batch IDs
-        // (used by the promo page to show "sample batches")
-        // ═══════════════════════════════════════════════════════
+        // ── Case: no batchId → sample list ────────────────
         if (!batchId) {
             const [batchesSnapshot, masterSnapshot] = await Promise.all([
                 db.collection('farms').doc(fid).collection('quality_batches').limit(20).get(),
                 db.collection('farms').doc(fid).collection('master_traceability').limit(10).get(),
             ]);
-
             const batches = batchesSnapshot.docs.map(doc => ({
                 id: doc.id,
                 batchId: doc.data().batchNumber,
             }));
-
             const masterBatches = masterSnapshot.docs.map(doc => ({
                 id: doc.id,
                 batchId: doc.data().masterBatchNumber,
                 isBulk: true,
             }));
-
+            log('info', 'samples_listed', { rid, batches: batches.length, masters: masterBatches.length });
             return {
                 statusCode: 200,
-                headers,
+                headers: { ...baseHeaders, 'Cache-Control': 'public, max-age=60' },
                 body: JSON.stringify({ batches: [...batches, ...masterBatches] }),
             };
         }
 
-        // ═══════════════════════════════════════════════════════
-        // CASE: Master (bulk) batch
-        // ═══════════════════════════════════════════════════════
-        const allMasterSnapshot = await db
+        // ── Case: master (bulk) ───────────────────────────
+        // IMPORTANT: query directly by masterBatchNumber instead of loading
+        // the whole collection. This is what was slow at scale.
+        const masterSnap = await db
             .collection('farms').doc(fid)
             .collection('master_traceability')
+            .where('masterBatchNumber', '==', batchId)
+            .limit(1)
             .get();
 
-        const masterDoc = allMasterSnapshot.docs.find(
-            doc => doc.data().masterBatchNumber === batchId
-        );
-
-        if (masterDoc) {
-            const masterData = { id: masterDoc.id, ...masterDoc.data() } as any;
+        if (!masterSnap.empty) {
+            const masterData = { id: masterSnap.docs[0].id, ...masterSnap.docs[0].data() } as any;
 
             const batchNumbers: string[] = typeof masterData.batchNumbers === 'string'
                 ? JSON.parse(masterData.batchNumbers)
@@ -457,35 +476,25 @@ export const handler: Handler = async (event: HandlerEvent) => {
             const batchDetails = await Promise.all(
                 batchNumbers.map((bn: string) => fetchBatchDetails(fid, bn))
             );
-
             const validDetails = batchDetails.filter(Boolean) as any[];
 
-            // Determine authorization for the bulk shipment:
-            // authorized if the viewer is authorized for ALL batches in the shipment.
+            // ── Authorize via the master doc, not per-child ──
             let isAuthorized = false;
-            if (viewerUid && validDetails.length > 0) {
-                const authChecks = await Promise.all(
-                    validDetails.map(d =>
-                        isViewerAuthorized(fid, viewerUid, d.batchData.batchNumber, d.batchData)
-                    )
-                );
-                isAuthorized = authChecks.every(Boolean);
+            if (viewerUid) {
+                isAuthorized = await isViewerAuthorizedForMaster(fid, viewerUid, batchId);
             }
 
-            // Map each batch with the appropriate mapper
             const batches = validDetails.map(d =>
                 isAuthorized
                     ? mapToPrivateBatch(d.batchData, d.supplier, d.traceability, d.revenues)
                     : mapToPublicBatch(d.batchData, d.supplier, d.traceability)
             );
 
-            // Public-safe summaries
             const farmers = isAuthorized
                 ? batches
                     .map((b: any) => b.farmer)
-                    .filter(
-                        (f: any, i: number, arr: any[]) =>
-                            f && arr.findIndex((x: any) => x?.id === f.id) === i
+                    .filter((f: any, i: number, arr: any[]) =>
+                        f && arr.findIndex((x: any) => x?.id === f.id) === i
                     )
                 : null;
 
@@ -498,15 +507,23 @@ export const handler: Handler = async (event: HandlerEvent) => {
                     noChildLabor: batches.every((b: any) => b.sustainability?.noChildLabor),
                     farmOsMonitored: batches.some((b: any) => b.sustainability?.farmOsMonitored),
                     firebreak: batches.every((b: any) => b.sustainability?.firebreak),
-                    sustainableHarvesting: batches.every(
-                        (b: any) => b.sustainability?.sustainableHarvesting
-                    ),
+                    sustainableHarvesting: batches.every((b: any) => b.sustainability?.sustainableHarvesting),
                 }
                 : null;
 
+            log('info', 'master_resolved', {
+                rid, masterBatchNumber: batchId, view: isAuthorized ? 'private' : 'public',
+                childBatches: validDetails.length,
+            });
+
             return {
                 statusCode: 200,
-                headers,
+                headers: {
+                    ...baseHeaders,
+                    'Cache-Control': isAuthorized
+                        ? 'private, no-store'
+                        : 'public, max-age=300, s-maxage=600',
+                },
                 body: JSON.stringify({
                     isBulk: true,
                     view: isAuthorized ? 'private' : 'public',
@@ -514,7 +531,6 @@ export const handler: Handler = async (event: HandlerEvent) => {
                         id: masterData.id,
                         masterBatchNumber: masterData.masterBatchNumber,
                         shipmentName: masterData.shipmentName,
-                        // Buyer & destination only when authorized
                         buyer: isAuthorized ? masterData.buyer : null,
                         destination: isAuthorized ? masterData.destination : null,
                         destinationCountry: extractCountry(masterData.destination),
@@ -539,37 +555,32 @@ export const handler: Handler = async (event: HandlerEvent) => {
             };
         }
 
-        // ═══════════════════════════════════════════════════════
-        // CASE: Single batch
-        // ═══════════════════════════════════════════════════════
+        // ── Case: single batch ────────────────────────────
         const detail = await fetchBatchDetails(fid, batchId);
-
         if (!detail) {
-            // Return a generic 404 for both public and private — never
-            // reveal whether a batch exists to an unauthorized viewer.
+            log('info', 'batch_not_found', { rid, batchId });
             return {
                 statusCode: 200,
-                headers,
+                headers: { ...baseHeaders, 'Cache-Control': 'public, max-age=60' },
                 body: JSON.stringify({ batch: null }),
             };
         }
 
-        // Check authorization
         let isAuthorized = false;
         if (viewerUid) {
-            isAuthorized = await isViewerAuthorized(
-                fid,
-                viewerUid,
-                detail.batchData.batchNumber,
-                detail.batchData
+            isAuthorized = await isViewerAuthorizedForBatch(
+                fid, viewerUid, detail.batchData.batchNumber, detail.batchData
             );
         }
 
+        log('info', 'batch_resolved', {
+            rid, batchId, view: isAuthorized ? 'private' : 'public',
+        });
+
         if (isAuthorized) {
-            // ── Private view ───────────────────────────────────
             return {
                 statusCode: 200,
-                headers,
+                headers: { ...baseHeaders, 'Cache-Control': 'private, no-store' },
                 body: JSON.stringify({
                     isBulk: false,
                     view: 'private',
@@ -582,10 +593,9 @@ export const handler: Handler = async (event: HandlerEvent) => {
                 }),
             };
         } else {
-            // ── Public view ────────────────────────────────────
             return {
                 statusCode: 200,
-                headers,
+                headers: { ...baseHeaders, 'Cache-Control': 'public, max-age=300, s-maxage=600' },
                 body: JSON.stringify({
                     isBulk: false,
                     view: 'public',
@@ -599,11 +609,11 @@ export const handler: Handler = async (event: HandlerEvent) => {
             };
         }
     } catch (error: any) {
-        console.error('Trace handler error:', error);
+        log('error', 'handler_exception', { rid, err: error?.message, stack: error?.stack });
         return {
             statusCode: 500,
-            headers,
-            body: JSON.stringify({ error: 'internal_error' }),
+            headers: baseHeaders,
+            body: JSON.stringify({ error: 'internal_error', rid }),
         };
     }
 };
