@@ -95,8 +95,10 @@ export const handler: Handler = async (event: HandlerEvent) => {
     }
 
     // ── Ensure the payload actually has the type field we need ──
-    if (!payload || typeof payload !== 'object' || !payload.type) {
-        log('warn', 'webhook_payload_invalid', { eventId, rawKeys: Object.keys(payload || {}) });
+    // ── Validate we got a usable payload ──
+    const payloadKeys = Object.keys(payload || {});
+    if (payloadKeys.length === 0) {
+        log('warn', 'webhook_payload_invalid', { eventId, rawKeys: payloadKeys });
         return { statusCode: 200, headers: baseHeaders, body: JSON.stringify({ ok: true, note: 'empty_payload' }) };
     }
 
