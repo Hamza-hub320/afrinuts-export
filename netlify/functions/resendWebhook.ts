@@ -59,18 +59,36 @@ export const handler: Handler = async (event: HandlerEvent) => {
             ? Buffer.from(event.body || '', 'base64').toString('utf8')
             : event.body || '';
 
-        const verified: any = wh.verify(rawBody, {
-            'svix-id': event.headers['svix-id'] || event.headers['Svix-Id'] || '',
-            'svix-timestamp': event.headers['svix-timestamp'] || event.headers['Svix-Timestamp'] || '',
-            'svix-signature': event.headers['svix-signature'] || event.headers['Svix-Signature'] || '',
+        // LOG WHAT WE RECEIVE
+        const svixId = event.headers['svix-id'] || event.headers['Svix-Id'] || '';
+        const svixTs = event.headers['svix-timestamp'] || event.headers['Svix-Timestamp'] || '';
+        const svixSig = event.headers['svix-signature'] || event.headers['Svix-Signature'] || '';
+
+        log('info', 'webhook_headers_debug', {
+            eventId,
+            hasSvixId: !!svixId,
+            hasSvixTs: !!svixTs,
+            hasSvixSig: !!svixSig,
+            bodyLength: rawBody.length,
+            allHeaderKeys: Object.keys(event.headers)
         });
 
-        // Safely extract the actual payload wrapper
-        payload =
-            verified?.payload        // svix v1.15+
-            ?? verified?.data        // some older wrappers
-            ?? verified;             // raw JSON fallback
+        const verified: any = wh.verify(rawBody, {
+            'svix-id': svixId,
+            'svix-timestamp': svixTs,
+            'svix-signature': svixSig,
+        });
 
+        // Debug what verified looks like
+        log('info', 'webhook_verified_shape', {
+            eventId,
+            verifiedType: typeof verified,
+            verifiedKeys: Object.keys(verified || {}),
+            hasPayload: !!verified?.payload,
+            hasData: !!verified?.data,
+        });
+
+        payload = verified?.payload ?? verified?.data ?? verified;
     } catch (err: any) {
         log('warn', 'webhook_signature_invalid', { err: err?.message, eventId });
         return { statusCode: 400, headers: baseHeaders, body: JSON.stringify({ error: 'invalid_signature' }) };
