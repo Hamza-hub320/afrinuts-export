@@ -124,12 +124,19 @@ const AdminBuyers: React.FC = () => {
                 getAdminData('admin_listMasterBatches'),
                 getAdminData('admin_listAssignments'),
             ]);
-            setBuyers(buyersRes.buyers || []);
+            const freshBuyers = buyersRes.buyers || [];
+            setBuyers(freshBuyers);
             setAllBatches(batchesRes.batches || []);
             setAllMasters(mastersRes.masters || []);
             setBatchOwners(assignmentsRes.batchOwners || {});
             setMasterOwners(assignmentsRes.masterOwners || {});
             setChildToMaster(assignmentsRes.childToMaster || {});
+
+            // Sync the open Assign modal (if any) with fresh data
+            if (assignBuyer) {
+                const fresh = freshBuyers.find((b: Buyer) => b.id === assignBuyer.id);
+                if (fresh) setAssignBuyer(fresh);
+            }
         } catch (err: any) {
             setError(err.message || 'Failed to load data');
         } finally {

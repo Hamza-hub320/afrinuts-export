@@ -581,6 +581,9 @@ export const handler: Handler = async (event: HandlerEvent) => {
                         uid: data.uid || null,
                         createdAt: data.createdAt,
                         lastLoginAt: data.lastLoginAt || null,
+                        emailBounced: data.emailBounced === true,
+                        emailBounceType: data.emailBounceType || null,
+                        lastBounceAt: data.lastBounceAt || null,
                     };
                 });
 
@@ -869,6 +872,7 @@ export const handler: Handler = async (event: HandlerEvent) => {
                         allowedBatchIds: fresh.allowedBatchIds || [],
                         allowedMasterBatchIds: fresh.allowedMasterBatchIds || [],
                         notified,
+                        emailBounced: fresh.emailBounced === true,
                     }),
                 };
             }
