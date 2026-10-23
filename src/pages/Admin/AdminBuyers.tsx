@@ -225,21 +225,11 @@ const AdminBuyers: React.FC = () => {
                 kind,
                 mode: isAssigned ? 'remove' : 'add',
             });
-            const updated: Buyer = {
-                ...assignBuyer,
-                allowedBatchIds: result.allowedBatchIds || [],
-                allowedBatchCount: (result.allowedBatchIds || []).length,
-                allowedMasterBatchIds: result.allowedMasterBatchIds || [],
-                allowedMasterCount: (result.allowedMasterBatchIds || []).length,
-            };
             if (result.notified !== undefined && result.notified !== null) {
                 setLastNotified({ email: assignBuyer.email, ok: !!result.notified });
-                // Auto-clear after 6 seconds
                 setTimeout(() => setLastNotified(null), 6000);
             }
-            setAssignBuyer(updated);
-            setBuyers(prev => prev.map(b => (b.id === assignBuyer.id ? updated : b)));
-            // Refresh the ownership maps so the modal reflects the change immediately
+            // Just reload — this updates both `buyers` and `assignBuyer` atomically
             await loadData();
         } catch (err: any) {
             const raw = err?.message || '';
