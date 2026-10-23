@@ -65,16 +65,25 @@ export const handler: Handler = async (event: HandlerEvent) => {
     let payload: any;
     try {
         const wh = new Webhook(WEBHOOK_SECRET);
-        // Svix requires the raw body as a string
         const rawBody = event.isBase64Encoded
             ? Buffer.from(event.body || '', 'base64').toString('utf8')
             : event.body || '';
 
-        payload = wh.verify(rawBody, {
+        const verified = wh.verify(rawBody, {
             'svix-id': event.headers['svix-id'] || event.headers['Svix-Id'] || '',
             'svix-timestamp': event.headers['svix-timestamp'] || event.headers['Svix-Timestamp'] || '',
             'svix-signature': event.headers['svix-signature'] || event.headers['Svix-Signature'] || '',
         });
+
+        if (!payload || typeof payload !== 'object') {
+            log('warn', 'webhook_payload_invalid', { eventId });
+            return { statusCode: 200, headers: baseHeaders, body: JSON.stringify({ ok: true, note: 'empty_payload' }) };
+        }
+
+        const type = payload.type as string;
+
+        // svix v1+ returns { payload, ... }; older versions returned raw JSON.
+        payload = (verified as any)?.payload ?? verified;
     } catch (err: any) {
         log('warn', 'webhook_signature_invalid', { err: err?.message, eventId });
         return { statusCode: 400, headers: baseHeaders, body: JSON.stringify({ error: 'invalid_signature' }) };

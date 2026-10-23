@@ -842,6 +842,8 @@ export const handler: Handler = async (event: HandlerEvent) => {
                                     masterSummary = `${m.masterBatchNumber} · ${m.totalBatches} batches · ${((m.totalWeightKg||0)/1000).toFixed(1)}T${m.destination ? ` · ${m.destination}` : ''}`;
                                 }
                             }
+
+                            // This is the only place we call sendBuyerNotification
                             const result = await sendBuyerNotification({
                                 emailBounced: buyerData.emailBounced === true,
                                 to: buyerData.email,
