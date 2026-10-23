@@ -396,17 +396,21 @@ const TracePage: React.FC = () => {
                         <StaggerList className="grid grid-cols-2 md:grid-cols-3 gap-4">
                             {[
                                 { icon: FaClipboardList, title: t('whatYouSee.batchDossier'), desc: t('whatYouSee.batchDossierDesc') },
-                                { icon: FaGlobeAfrica, title: t('whatYouSee.supplyNetwork'), desc: t('whatYouSee.supplyNetworkDesc') },
-                                { icon: GiFarmer, title: t('whatYouSee.farmer'), desc: t('whatYouSee.farmerDesc') },
-                                { icon: FaLeaf, title: t('whatYouSee.sustainability'), desc: t('whatYouSee.sustainabilityDesc') },
-                                { icon: FaMapMarkerAlt, title: t('whatYouSee.farmLocation'), desc: t('whatYouSee.farmLocationDesc') },
-                                { icon: FaShieldAlt, title: t('whatYouSee.farmOsRecord'), desc: t('whatYouSee.farmOsRecordDesc') },
+                                { icon: FaGlobeAfrica,   title: t('whatYouSee.supplyNetwork'), desc: t('whatYouSee.supplyNetworkDesc') },
+                                { icon: FaTruck,         title: t('whatYouSee.farmer'),        desc: t('whatYouSee.farmerDesc') },
+                                { icon: FaCertificate,   title: t('whatYouSee.sustainability'), desc: t('whatYouSee.sustainabilityDesc') },
+                                { icon: FaLeaf,          title: t('whatYouSee.farmLocation'),  desc: t('whatYouSee.farmLocationDesc') },
+                                { icon: FaShip,          title: t('whatYouSee.farmOsRecord'),  desc: t('whatYouSee.farmOsRecordDesc') },
                             ].map((item, i) => (
                                 <StaggerItem key={i}>
                                     <div className="bg-white/50 rounded-xl p-4 border border-white/30 h-full hover:bg-white/70 transition-all">
                                         <item.icon className="text-accent text-xl mb-2" />
-                                        <Typography variant="small" className="font-semibold text-primary text-xs">{item.title}</Typography>
-                                        <Typography variant="small" className="text-gray-500 text-[11px] mt-1">{item.desc}</Typography>
+                                        <Typography variant="small" className="font-semibold text-primary text-xs">
+                                            {item.title}
+                                        </Typography>
+                                        <Typography variant="small" className="text-gray-500 text-[11px] mt-1">
+                                            {item.desc}
+                                        </Typography>
                                     </div>
                                 </StaggerItem>
                             ))}
@@ -541,9 +545,9 @@ const TracePage: React.FC = () => {
                         </Typography>
                     )}
                     <Typography variant="lead" className="text-text-dark max-w-2xl mx-auto mt-2">
-                        View block-level traceability data for your cashew shipment — harvest dates, GPS coordinates, quality metrics, certification verification, and tamper-proof digital signature. Powered by AfriNuts Farm OS.
+                        Verify origin, quality grade, certifications, and shipment status for this batch.
+                        Full lab results, farmer details, GPS coordinates, and export documents are available to buyers in the Buyer Portal.
                     </Typography>
-
                     <form onSubmit={handleSearch} className="mt-8 max-w-md mx-auto">
                         <div className="relative">
                             <FaSearch className="absolute left-4 top-3.5 text-gray-400" />

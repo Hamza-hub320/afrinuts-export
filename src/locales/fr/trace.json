@@ -3,14 +3,37 @@
     "title": "Traçabilité des lots AfriNuts | Vérifié par Farm OS"
   },
   "promo": {
-    "heading": "Pas seulement une trace papier. Vérifié par Farm OS.",
-    "lead": "Saisissez un identifiant de lot pour voir les dates de récolte, les coordonnées GPS, les indicateurs de qualité, les enregistrements de certification et une signature numérique infalsifiable — tous extraits directement de notre Farm OS. Les mêmes données que celles utilisées par nos responsables de ferme. Le même tableau de bord que celui vu par nos investisseurs. Pas de discours marketing. Pas de documents générés après coup.",
-    "subheading": "Chaque expédition AfriNuts est accompagnée d'un code de traçabilité unique lié à notre Farm OS. Scannez le QR code ou saisissez votre identifiant de lot pour consulter l'enregistrement numérique complet — depuis la parcelle exacte à Odienné jusqu'à votre conteneur. La plupart des fournisseurs envoient des documents. Nous envoyons des preuves. Désormais avec signature numérique pour chaque lot.",
+    "heading": "Vérifiez votre expédition. Propulsé par Farm OS.",
+    "lead": "Saisissez votre identifiant de lot pour confirmer l'origine, la qualité, les certifications et le statut actuel de l'expédition — tous extraits directement de Farm OS. Les résultats complets de laboratoire, les profils des agriculteurs, les coordonnées GPS et les documents d'exportation sont disponibles pour les acheteurs dans le Portail acheteurs.",
+    "subheading": "Chaque expédition AfriNuts porte un code de traçabilité unique. Toute personne disposant du code peut vérifier que l'expédition existe, d'où elle vient et son statut actuel. Les acheteurs ayant accès au portail voient le dossier complet — y compris les résultats de laboratoire, les détails des agriculteurs, les poids exacts et les documents d'exportation.",
     "introTitle": "Propulsé par Farm OS",
-    "badgeQr": "QR Code",
+    "badgeQr": "Code QR",
     "badgeVerified": "Vérifié par Farm OS",
     "badgePublic": "Vérifiable publiquement",
-    "badgeSigned": "Signature infalsifiable"
+    "badgeSigned": "Signature infalsifiable",
+    "verifiedBadge": "Vérifié par Farm OS"
+  },
+  "howItWorks": {
+    "title": "Comment fonctionne notre traçabilité",
+    "scan": {
+      "title": "1. Scannez le code QR",
+      "description": "Chaque sac comprend un code QR unique lié à son lot dans Farm OS — notre système d'exploitation sur mesure."
+    },
+    "trace": {
+      "title": "2. Saisissez votre identifiant de lot",
+      "description": "Ou tapez votre identifiant de lot pour consulter le résumé de l'expédition — origine, qualité, certifications et statut."
+    },
+    "view": {
+      "title": "3. Vérifiez ou connectez-vous",
+      "description": "Toute personne disposant du code voit le résumé public. Les acheteurs se connectent au Portail acheteurs pour le dossier complet — résultats de laboratoire, détails des agriculteurs, documents et poids exacts."
+    }
+  },
+  "privacy": {
+    "title": "Résumé public. Détails privés.",
+    "body": "Chaque lot possède un code de suivi unique — imprimé sur l'autocollant QR, le connaissement et le certificat d'origine. Toute personne disposant du code peut vérifier le dossier public : origine, qualité, certifications et statut. Le dossier complet — y compris les résultats de laboratoire, l'identité de l'acheteur, les détails des agriculteurs, les poids exacts et les documents d'exportation — n'est disponible que pour l'acheteur vérifié via le Portail acheteurs.",
+    "unique": "Code unique par lot",
+    "secure": "Résumé public avec le code",
+    "public": "Dossier complet derrière la connexion acheteur"
   },
   "search": {
     "placeholder": "Saisissez votre identifiant de lot...",
@@ -19,91 +42,69 @@
   },
   "demo": {
     "button": "Voir un lot exemple",
-    "note": "Les lots d'exemple sont partagés publiquement par AfriNuts à des fins de démonstration. Les lots clients réels sont privés et nécessitent un code de suivi."
-  },
-  "howItWorks": {
-    "title": "Comment fonctionne notre traçabilité",
-    "scan": {
-      "title": "1. Scannez le QR code",
-      "description": "Chaque sac comprend un QR code unique lié à son lot dans Farm OS — notre système d'exploitation sur mesure."
-    },
-    "trace": {
-      "title": "2. Saisissez votre identifiant de lot",
-      "description": "Ou saisissez votre identifiant de lot pour accéder à l'enregistrement numérique complet — dates de récolte, coordonnées GPS, indicateurs de qualité."
-    },
-    "view": {
-      "title": "3. Consultez le parcours numérique complet",
-      "description": "Depuis la parcelle exacte à Odienné jusqu'à votre conteneur. Chaque étape documentée dans Farm OS — non générée après coup."
-    }
-  },
-  "privacy": {
-    "title": "Votre lot est privé",
-    "body": "Chaque lot possède un code de suivi unique — imprimé sur l'autocollant QR, le connaissement et le certificat d'origine. Seule une personne disposant de ce code peut consulter l'enregistrement du lot. Nous ne publions jamais les lots clients et ne révélons jamais quelles expéditions existent dans notre système.",
-    "unique": "Code unique par lot",
-    "secure": "Recherche chiffrée",
-    "public": "Vérifiable publiquement"
-  },
-  "buyerCta": {
-    "title": "Déjà acheteur ? Accédez à votre dossier d'expédition complet",
-    "body": "Les acheteurs avec des expéditions attribuées peuvent se connecter avec un lien magique pour consulter les résultats de laboratoire, la documentation complète, les détails de l'agriculteur et la chaîne de traçabilité.",
-    "button": "Portail acheteurs"
+    "note": "Les lots exemples sont partagés publiquement par AfriNuts à des fins de démonstration. Les lots réels des clients sont privés et nécessitent un code de suivi."
   },
   "whatYouSee": {
-    "title": "Ce que vous trouverez dans chaque lot",
-    "batchDossier": "Le dossier du lot",
-    "batchDossierDesc": "Origine, transformation, qualité, poids",
-    "supplyNetwork": "Le réseau d'approvisionnement",
-    "supplyNetworkDesc": "Quel fournisseur, statut de la coopérative",
-    "farmer": "L'agriculteur",
-    "farmerDesc": "Qui l'a cultivé, son histoire",
-    "sustainability": "Le dossier de durabilité",
-    "sustainabilityDesc": "Conformité et méthodes agricoles",
-    "farmLocation": "L'emplacement de la ferme",
-    "farmLocationDesc": "Carte GPS de la source",
-    "farmOsRecord": "Enregistrement Farm OS",
-    "farmOsRecordDesc": "Signature numérique, vérification"
+    "title": "Ce que vous pouvez vérifier ici",
+    "batchDossier": "Résumé du lot",
+    "batchDossierDesc": "Identifiant du lot, date de transformation, classe de poids",
+    "supplyNetwork": "Origine",
+    "supplyNetworkDesc": "Pays et région de récolte",
+    "farmer": "Destination",
+    "farmerDesc": "Pays de destination de l'expédition",
+    "sustainability": "Qualité",
+    "sustainabilityDesc": "Qualité Premium ou Standard",
+    "farmLocation": "Certifications",
+    "farmLocationDesc": "Certifications attachées à ce lot",
+    "farmOsRecord": "Statut de l'expédition",
+    "farmOsRecordDesc": "Reçu, Qualité vérifiée ou Expédié"
+  },
+  "buyerCta": {
+    "title": "Acheteur ? Accédez au dossier complet",
+    "body": "Les acheteurs ayant accès au portail peuvent se connecter pour voir les résultats de laboratoire, les détails des agriculteurs, les poids exacts, les documents d'exportation (COO, connaissement, phytosanitaire) et la chaîne de traçabilité.",
+    "button": "Portail acheteurs"
   },
   "personas": {
     "title": "Conçu pour tous ceux qui touchent un sac",
     "buyer": {
       "title": "Pour les acheteurs",
-      "body": "Vérifiez l'origine, la qualité et les certifications avant d'ouvrir un conteneur. Plus de course aux documents."
+      "body": "Connectez-vous au Portail acheteurs pour voir les résultats de laboratoire, les détails des agriculteurs, les poids exacts, les documents d'exportation et la chaîne de traçabilité."
     },
     "regulator": {
       "title": "Pour les régulateurs",
-      "body": "Des enregistrements prêts pour la diligence raisonnable de l'UE. Une traçabilité de niveau blockchain sans la complexité de la blockchain."
+      "body": "Résumé public avec origine, certifications et statut vérifiables avec le code du lot. Dossier complet disponible sur demande aux acheteurs autorisés."
     },
     "consumer": {
       "title": "Pour les consommateurs",
-      "body": "Voyez la ferme d'où proviennent vos noix de cajou. Chaque sac raconte une histoire que vous pouvez vérifier en 10 secondes."
+      "body": "Vérifiez le pays d'origine et la qualité du lot imprimés sur votre sac. Chaque sac raconte une histoire que vous pouvez vérifier en 10 secondes."
     }
   },
   "faq": {
     "title": "Questions fréquentes",
     "q1": "Comment trouver mon identifiant de lot ?",
-    "a1": "Votre identifiant de lot est imprimé sur l'autocollant QR code attaché à chaque sac de 50 kg, ainsi que sur votre connaissement et votre certificat d'origine.",
+    "a1": "Votre identifiant de lot est imprimé sur l'autocollant du code QR attaché à chaque sac de 50 kg, ainsi que sur votre connaissement et votre certificat d'origine.",
     "q2": "Que faire si l'identifiant de lot ne fonctionne pas ?",
-    "a2": "Vérifiez les fautes de frappe — les identifiants de lot sont sensibles à la casse. S'il ne fonctionne toujours pas, contactez-nous à info@afrinutsexport.com avec votre numéro de facture.",
-    "q3": "Puis-je vérifier la signature numérique de façon indépendante ?",
-    "a3": "Oui — chaque lot dispose d'un code de vérification infalsifiable que vous pouvez contrôler sans connexion. La signature prouve que les données n'ont pas été modifiées depuis la signature.",
-    "q4": "Qui peut voir l'enregistrement de mon lot ?",
-    "a4": "Toute personne disposant de votre code de suivi unique peut consulter le résumé public de traçabilité (origine, grade de qualité, certifications et statut). Cependant, l'enregistrement privé complet — y compris les résultats de laboratoire, les détails de l'agriculteur, les poids exacts, les documents d'exportation et les prix — n'est accessible qu'à l'acheteur vérifié via la connexion au Portail acheteurs. Nous n'autorisons jamais la navigation sans un code spécifique.",
+    "a2": "Vérifiez les fautes de frappe — les identifiants de lot sont sensibles à la casse. Si cela ne fonctionne toujours pas, contactez-nous à contact@afrinutsexport.com avec votre numéro de facture.",
+    "q3": "Puis-je vérifier la signature numérique de manière indépendante ?",
+    "a3": "Oui — chaque lot dispose d'un code de vérification infalsifiable que vous pouvez consulter sans connexion. La signature prouve que les données n'ont pas été modifiées depuis leur signature.",
+    "q4": "Qui peut voir le dossier de mon lot ?",
+    "a4": "Toute personne disposant de votre code de suivi unique peut consulter le résumé public de traçabilité (origine, qualité, certifications et statut). Cependant, le dossier privé complet — y compris les résultats de laboratoire, les détails des agriculteurs, les poids exacts, les documents d'exportation et les prix — n'est disponible que pour l'acheteur vérifié via la connexion au Portail acheteurs. Nous n'autorisons jamais la navigation sans un code spécifique.",
     "q5": "Comment accéder à mon dossier acheteur complet ?",
-    "a5": "Les acheteurs reçoivent un lien magique sécurisé par e-mail chaque fois qu'un lot leur est attribué. Cliquez sur le lien pour vous connecter — aucun mot de passe requis. Si vous êtes acheteur et n'avez pas reçu votre lien, contactez-nous à info@afrinutsexport.com."
+    "a5": "Les acheteurs reçoivent un lien magique sécurisé par e-mail chaque fois qu'un lot leur est attribué. Cliquez sur le lien pour vous connecter — aucun mot de passe requis. Si vous êtes acheteur et n'avez pas reçu votre lien, contactez-nous à contact@afrinutsexport.com."
   },
   "trust": {
     "title": "Ce qui rend notre traçabilité différente",
     "farm": "Origine unique de notre ferme de 35 hectares à Odienné, Côte d'Ivoire — pas de lots mélangés de sources inconnues",
     "batch": "Identifiants de lot uniques suivis dans Farm OS de la récolte à la livraison — pas un registre papier",
-    "public": "Vérifiable publiquement — toute personne disposant de l'identifiant du lot peut vérifier. Aucune connexion requise.",
-    "certs": "Certifications vérifiées et affichées par lot — pas de simples affirmations sur un site Web",
-    "ctaBody": "Chaque commande de gros inclut la traçabilité Farm OS avec signatures numériques sans coût supplémentaire. Vos acheteurs peuvent vérifier l'origine, la qualité, les certifications et l'intégrité des données — comme sur cette page.",
+    "public": "Résumé vérifiable publiquement — toute personne disposant de l'identifiant de lot peut confirmer l'origine, la qualité et le statut",
+    "certs": "Certifications vérifiées et affichées par lot — pas de simples déclarations sur un site Web",
+    "ctaBody": "Chaque commande en gros inclut la traçabilité complète Farm OS. Les acheteurs reçoivent l'accès au portail pour consulter le dossier complet — résultats de laboratoire, profils des agriculteurs, documents et signatures — sans frais supplémentaires.",
     "ctaButton": "Explorer les options de gros"
   },
   "verify": {
-    "title": "Vérification de l'enregistrement",
+    "title": "Vérification du dossier",
     "valid": "Signature Farm OS valide",
-    "explanation": "Ce code de vérification confirme qu'un enregistrement Farm OS a été signé numériquement et n'a pas été modifié. La signature est cryptographiquement liée aux données d'origine du lot.",
+    "explanation": "Ce code de vérification confirme qu'un dossier Farm OS a été signé numériquement et n'a pas été modifié. La signature est cryptographiquement liée aux données originales du lot.",
     "tracePage": "Tracer un lot",
     "questions": "Des questions ?"
   },
