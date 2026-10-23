@@ -15,11 +15,6 @@ if (!getApps().length) {
 
 const db = getFirestore();
 
-// Svix verifies Resend webhooks. Signature is HMAC-SHA256 with the
-// `RESEND_WEBHOOK_SECRET` and headers `svix-id`, `svix-timestamp`, `svix-signature`.
-// Without a valid signature, we reject — otherwise anyone could POST arbitrary
-// events to flag buyers as bounced.
-
 const WEBHOOK_SECRET = process.env.RESEND_WEBHOOK_SECRET;
 
 function log(level: 'info' | 'warn' | 'error', event: string, data: Record<string, any> = {}) {
@@ -29,9 +24,6 @@ function log(level: 'info' | 'warn' | 'error', event: string, data: Record<strin
     else console.info(JSON.stringify(payload));
 }
 
-// ── Locate a buyer record by email address ──
-// Bounces happen at the email level, but our buyers are in
-// farms/1/buyers/{id}. We query by email field.
 async function findBuyerByEmail(email: string): Promise<{ id: string; companyName: string } | null> {
     if (!email) return null;
     const snap = await db
@@ -47,8 +39,6 @@ async function findBuyerByEmail(email: string): Promise<{ id: string; companyNam
 }
 
 export const handler: Handler = async (event: HandlerEvent) => {
-    // Resend sends a `svix-id` header to uniquely identify the event,
-    // used for idempotency. Repeated deliveries happen if we time out.
     const eventId = event.headers['svix-id'] || event.headers['Svix-Id'];
     const baseHeaders = { 'Content-Type': 'application/json' };
 
@@ -69,30 +59,30 @@ export const handler: Handler = async (event: HandlerEvent) => {
             ? Buffer.from(event.body || '', 'base64').toString('utf8')
             : event.body || '';
 
-        const verified = wh.verify(rawBody, {
+        const verified: any = wh.verify(rawBody, {
             'svix-id': event.headers['svix-id'] || event.headers['Svix-Id'] || '',
             'svix-timestamp': event.headers['svix-timestamp'] || event.headers['Svix-Timestamp'] || '',
             'svix-signature': event.headers['svix-signature'] || event.headers['Svix-Signature'] || '',
         });
 
-        if (!payload || typeof payload !== 'object') {
-            log('warn', 'webhook_payload_invalid', { eventId });
-            return { statusCode: 200, headers: baseHeaders, body: JSON.stringify({ ok: true, note: 'empty_payload' }) };
-        }
+        // Safely extract the actual payload wrapper
+        payload =
+            verified?.payload        // svix v1.15+
+            ?? verified?.data        // some older wrappers
+            ?? verified;             // raw JSON fallback
 
-        const type = payload.type as string;
-
-        // svix v1+ returns { payload, ... }; older versions returned raw JSON.
-        payload = (verified as any)?.payload ?? verified;
     } catch (err: any) {
         log('warn', 'webhook_signature_invalid', { err: err?.message, eventId });
         return { statusCode: 400, headers: baseHeaders, body: JSON.stringify({ error: 'invalid_signature' }) };
     }
 
-    // ── Idempotency: if we've seen this eventId before, skip ──
-    // Resend retries webhooks on failure. Handling the same event twice is
-    // harmless (we just re-set the field), but we log-and-skip to keep
-    // metrics clean. Stored in farms/1/webhook_events/{eventId}.
+    // ── Ensure the payload actually has the type field we need ──
+    if (!payload || typeof payload !== 'object' || !payload.type) {
+        log('warn', 'webhook_payload_invalid', { eventId, rawKeys: Object.keys(payload || {}) });
+        return { statusCode: 200, headers: baseHeaders, body: JSON.stringify({ ok: true, note: 'empty_payload' }) };
+    }
+
+    // ── Idempotency ──
     if (eventId) {
         const seenRef = db.collection('farms').doc('1').collection('webhook_events').doc(eventId);
         const seenDoc = await seenRef.get();
@@ -100,8 +90,6 @@ export const handler: Handler = async (event: HandlerEvent) => {
             log('info', 'webhook_duplicate', { eventId });
             return { statusCode: 200, headers: baseHeaders, body: JSON.stringify({ ok: true, duplicate: true }) };
         }
-        // Record the event BEFORE processing, so a crash mid-processing still
-        // marks the event as "seen" and won't cause an infinite retry loop.
         await seenRef.set({ type: payload.type, createdAt: new Date().toISOString() });
     }
 
@@ -113,10 +101,10 @@ export const handler: Handler = async (event: HandlerEvent) => {
 
     // ── Route by event type ──
     if (type === 'email.bounced') {
-        // `data.bounce.type` is 'hard' or 'soft'.
-        // Hard bounce = permanent (invalid email). Soft = temporary (mailbox full).
-        // We mark both, but hard bounces should be treated more seriously.
-        const bounceType = data?.bounce?.type || 'unknown';
+        // NOTE: Resend sends 'Permanent' or 'Transient' for data.bounce.type.
+        // We normalize to 'hard' or 'soft' for our own logic.
+        const rawBounceType = data?.bounce?.type || 'unknown';
+        const bounceType = rawBounceType.toLowerCase().includes('permanent') ? 'hard' : 'soft';
         const reason = data?.bounce?.message || 'unknown';
 
         const buyer = await findBuyerByEmail(recipientEmail || '');
@@ -144,9 +132,6 @@ export const handler: Handler = async (event: HandlerEvent) => {
     }
 
     if (type === 'email.complained') {
-        // The recipient marked our email as spam. This is the strongest
-        // possible signal — we must not email them again until a human
-        // verifies they still want contact.
         const buyer = await findBuyerByEmail(recipientEmail || '');
         if (!buyer) {
             log('warn', 'complaint_no_buyer', { eventId, recipientEmail });
@@ -171,8 +156,6 @@ export const handler: Handler = async (event: HandlerEvent) => {
     }
 
     if (type === 'email.delivered') {
-        // A successful delivery clears a previous soft bounce.
-        // (Hard bounces stay flagged until manually cleared.)
         if (recipientEmail) {
             const buyer = await findBuyerByEmail(recipientEmail);
             if (buyer) {
@@ -194,6 +177,5 @@ export const handler: Handler = async (event: HandlerEvent) => {
         return { statusCode: 200, headers: baseHeaders, body: JSON.stringify({ ok: true }) };
     }
 
-    // Any other event type — record and return 200 to stop retries.
     return { statusCode: 200, headers: baseHeaders, body: JSON.stringify({ ok: true, ignored: type }) };
 };
