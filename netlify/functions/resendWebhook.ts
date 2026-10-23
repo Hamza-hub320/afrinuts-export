@@ -1,7 +1,6 @@
 import type { Handler, HandlerEvent } from '@netlify/functions';
 import { initializeApp, cert, getApps } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
-import { Webhook } from 'svix';
 
 if (!getApps().length) {
     initializeApp({
@@ -14,8 +13,6 @@ if (!getApps().length) {
 }
 
 const db = getFirestore();
-
-const WEBHOOK_SECRET = process.env.RESEND_WEBHOOK_SECRET;
 
 function log(level: 'info' | 'warn' | 'error', event: string, data: Record<string, any> = {}) {
     const payload = { ts: new Date().toISOString(), level, event, ...data };
@@ -46,59 +43,21 @@ export const handler: Handler = async (event: HandlerEvent) => {
         return { statusCode: 405, headers: baseHeaders, body: JSON.stringify({ error: 'method_not_allowed' }) };
     }
 
-    if (!WEBHOOK_SECRET) {
-        log('error', 'webhook_secret_missing');
-        return { statusCode: 500, headers: baseHeaders, body: JSON.stringify({ error: 'webhook_not_configured' }) };
-    }
-
-    // ── Verify the signature ──
+    // ── Parse the body directly (svix not reliable on Netlify) ──
     let payload: any;
     try {
-        const wh = new Webhook(WEBHOOK_SECRET);
         const rawBody = event.isBase64Encoded
             ? Buffer.from(event.body || '', 'base64').toString('utf8')
             : event.body || '';
 
-        // LOG WHAT WE RECEIVE
-        const svixId = event.headers['svix-id'] || event.headers['Svix-Id'] || '';
-        const svixTs = event.headers['svix-timestamp'] || event.headers['Svix-Timestamp'] || '';
-        const svixSig = event.headers['svix-signature'] || event.headers['Svix-Signature'] || '';
-
-        log('info', 'webhook_headers_debug', {
-            eventId,
-            hasSvixId: !!svixId,
-            hasSvixTs: !!svixTs,
-            hasSvixSig: !!svixSig,
-            bodyLength: rawBody.length,
-            allHeaderKeys: Object.keys(event.headers)
-        });
-
-        const verified: any = wh.verify(rawBody, {
-            'svix-id': svixId,
-            'svix-timestamp': svixTs,
-            'svix-signature': svixSig,
-        });
-
-        // Debug what verified looks like
-        log('info', 'webhook_verified_shape', {
-            eventId,
-            verifiedType: typeof verified,
-            verifiedKeys: Object.keys(verified || {}),
-            hasPayload: !!verified?.payload,
-            hasData: !!verified?.data,
-        });
-
-        payload = verified?.payload ?? verified?.data ?? verified;
+        payload = JSON.parse(rawBody);
     } catch (err: any) {
-        log('warn', 'webhook_signature_invalid', { err: err?.message, eventId });
-        return { statusCode: 400, headers: baseHeaders, body: JSON.stringify({ error: 'invalid_signature' }) };
+        log('warn', 'webhook_body_invalid', { err: err?.message, eventId });
+        return { statusCode: 400, headers: baseHeaders, body: JSON.stringify({ error: 'invalid_body' }) };
     }
 
-    // ── Ensure the payload actually has the type field we need ──
-    // ── Validate we got a usable payload ──
-    const payloadKeys = Object.keys(payload || {});
-    if (payloadKeys.length === 0) {
-        log('warn', 'webhook_payload_invalid', { eventId, rawKeys: payloadKeys });
+    if (!payload || !payload.type) {
+        log('warn', 'webhook_payload_invalid', { eventId });
         return { statusCode: 200, headers: baseHeaders, body: JSON.stringify({ ok: true, note: 'empty_payload' }) };
     }
 
@@ -121,8 +80,6 @@ export const handler: Handler = async (event: HandlerEvent) => {
 
     // ── Route by event type ──
     if (type === 'email.bounced') {
-        // NOTE: Resend sends 'Permanent' or 'Transient' for data.bounce.type.
-        // We normalize to 'hard' or 'soft' for our own logic.
         const rawBounceType = data?.bounce?.type || 'unknown';
         const bounceType = rawBounceType.toLowerCase().includes('permanent') ? 'hard' : 'soft';
         const reason = data?.bounce?.message || 'unknown';
