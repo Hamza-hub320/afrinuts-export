@@ -25,6 +25,9 @@ interface Buyer {
     allowedBatchCount: number;
     allowedMasterBatchIds: string[];
     allowedMasterCount: number;
+    emailBounced?: boolean;
+    emailBounceType?: 'hard' | 'soft' | 'complaint' | null;
+    lastBounceAt?: string | null;
     isActive: boolean;
     uid: string | null;
     createdAt: string;
@@ -200,6 +203,7 @@ const AdminBuyers: React.FC = () => {
                 buyerId: editBuyer.id,
                 companyName: formCompany,
                 contactPerson: formContact,
+                emailBounced: editBuyer.emailBounced,
             });
             setEditBuyer(null);
             await loadData();
@@ -291,10 +295,11 @@ const AdminBuyers: React.FC = () => {
         const unassigned = buyers.filter(b => b.allowedBatchCount === 0 && b.allowedMasterCount === 0).length;
         const neverLoggedIn = buyers.filter(b => !b.uid).length;
         const avgAssignments = total > 0 ? (totalAssignments + totalBulk) / total : 0;
+        const bounced = buyers.filter(b => b.emailBounced === true).length;
         const topBuyer = [...buyers].sort(
             (a, b) => (b.allowedBatchCount + b.allowedMasterCount) - (a.allowedBatchCount + a.allowedMasterCount)
         )[0];
-        return { total, active, totalAssignments, totalBulk, unassigned, neverLoggedIn, avgAssignments, topBuyer };
+        return { total, active, totalAssignments, totalBulk, unassigned, neverLoggedIn, avgAssignments, topBuyer, bounced };
     }, [buyers]);
 
     if (loading) {
@@ -475,6 +480,19 @@ const AdminBuyers: React.FC = () => {
                                 </div>
                             </div>
                         )}
+                        {intel.bounced > 0 && (
+                            <div className="rounded-xl border border-red-200 bg-red-50/60 backdrop-blur-sm p-3 flex items-start gap-3">
+                                <FaEnvelope className="text-red-600 mt-0.5" />
+                                <div className="text-sm">
+                                    <div className="font-medium text-red-800">
+                                        {intel.bounced} buyer{intel.bounced !== 1 ? 's' : ''} with bounced email
+                                    </div>
+                                    <div className="text-xs text-red-700">
+                                        Notifications won't reach them — update email or clear the flag.
+                                    </div>
+                                </div>
+                            </div>
+                        )}
                         {intel.topBuyer && (intel.topBuyer.allowedBatchCount + intel.topBuyer.allowedMasterCount) > 0 && (
                             <div className="rounded-xl border border-green-200 bg-green-50/60 backdrop-blur-sm p-3 flex items-start gap-3">
                                 <FaTrophy className="text-green-600 mt-0.5" />
@@ -573,6 +591,15 @@ const AdminBuyers: React.FC = () => {
                                                         ) : (
                                                             <span className="px-2 py-0.5 bg-amber-100 text-amber-700 text-xs rounded-full inline-flex items-center gap-1">
                                                                 <FaUserClock className="text-[9px]" /> Not logged in
+                                                            </span>
+                                                        )}
+                                                        {buyer.emailBounced && (
+                                                            <span
+                                                                className="px-2 py-0.5 bg-red-100 text-red-700 text-xs rounded-full inline-flex items-center gap-1"
+                                                                title={`${buyer.emailBounceType === 'complaint' ? 'Marked as spam' : 'Email bounced'} on ${buyer.lastBounceAt ? new Date(buyer.lastBounceAt).toLocaleDateString() : 'unknown'}`}
+                                                            >
+                                                                <FaExclamationTriangle className="text-[9px]" />
+                                                                Email {buyer.emailBounceType === 'complaint' ? 'spam-flagged' : 'bounced'}
                                                             </span>
                                                         )}
                                                         {isUnassigned && (
@@ -768,6 +795,30 @@ const AdminBuyers: React.FC = () => {
                                     </button>
                                 </div>
                                 <form onSubmit={handleUpdate} className="space-y-4">
+                                    {editBuyer?.emailBounced && (
+                                        <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 mb-2">
+                                            <div className="flex items-start gap-2">
+                                                <FaExclamationTriangle className="text-amber-600 mt-0.5 flex-shrink-0" />
+                                                <div className="flex-1">
+                                                    <Typography variant="small" className="font-semibold text-amber-800">
+                                                        Email previously bounced
+                                                    </Typography>
+                                                    <Typography variant="small" className="text-amber-700 text-xs">
+                                                        {editBuyer.emailBounceType === 'complaint'
+                                                            ? 'This address was marked as spam.'
+                                                            : 'The last email we sent to this address bounced.'}
+                                                    </Typography>
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => setEditBuyer({ ...editBuyer, emailBounced: false })}
+                                                        className="mt-2 text-xs text-amber-700 hover:text-amber-900 underline font-medium"
+                                                    >
+                                                        Clear bounce flag
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
                                         <input type="email" value={editBuyer?.email || ''} disabled className="w-full px-4 py-2 rounded-lg border border-gray-200 bg-gray-50 text-gray-500 text-sm" />

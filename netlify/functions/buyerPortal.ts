@@ -203,6 +203,7 @@ const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const FROM_EMAIL = process.env.FROM_EMAIL || 'AfriNuts Export <noreply@afrinutsexport.com>';
 
 async function sendBuyerNotification(params: {
+    emailBounced: boolean;
     to: string;
     companyName: string;
     contactPerson?: string;
@@ -210,6 +211,10 @@ async function sendBuyerNotification(params: {
     ids: string[];
     masterSummary?: string;
 }): Promise<{ ok: boolean; error?: string }> {
+    if (params.emailBounced) {
+        console.warn(`Skipping email to bounced buyer: ${params.to}`);
+        return { ok: false, error: 'email_bounced' };
+    }
     if (!RESEND_API_KEY) {
         console.warn('RESEND_API_KEY missing — skipping buyer notification');
         return { ok: false, error: 'no_api_key' };
@@ -650,7 +655,7 @@ export const handler: Handler = async (event: HandlerEvent) => {
                 }
 
                 const body = JSON.parse(event.body || '{}');
-                const { buyerId, companyName, contactPerson, isActive, allowedMasterBatchIds } = body;
+                const { buyerId, companyName, contactPerson, isActive, allowedMasterBatchIds, emailBounced } = body;
 
                 if (!buyerId) {
                     return {
@@ -666,6 +671,15 @@ export const handler: Handler = async (event: HandlerEvent) => {
                 if (isActive !== undefined) updates.isActive = !!isActive;
                 if (allowedMasterBatchIds !== undefined && Array.isArray(allowedMasterBatchIds)) {
                     updates.allowedMasterBatchIds = allowedMasterBatchIds;
+                }
+
+                if (emailBounced !== undefined) {
+                    updates.emailBounced = !!emailBounced;
+                    if (!emailBounced) {
+                        updates.emailBounceType = null;
+                        updates.emailBounceReason = null;
+                        updates.lastBounceAt = null;
+                    }
                 }
 
                 if (Object.keys(updates).length === 0) {
@@ -792,6 +806,7 @@ export const handler: Handler = async (event: HandlerEvent) => {
                                 }
                             }
                             await sendBuyerNotification({
+                                emailBounced: buyerData.emailBounced === true,
                                 to: buyerData.email,
                                 companyName: buyerData.companyName || 'Buyer',
                                 contactPerson: buyerData.contactPerson,
@@ -828,6 +843,7 @@ export const handler: Handler = async (event: HandlerEvent) => {
                                 }
                             }
                             const result = await sendBuyerNotification({
+                                emailBounced: buyerData.emailBounced === true,
                                 to: buyerData.email,
                                 companyName: buyerData.companyName || 'Buyer',
                                 contactPerson: buyerData.contactPerson,
