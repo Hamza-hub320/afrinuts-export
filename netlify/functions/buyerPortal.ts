@@ -658,7 +658,7 @@ export const handler: Handler = async (event: HandlerEvent) => {
                 }
 
                 const body = JSON.parse(event.body || '{}');
-                const { buyerId, companyName, contactPerson, isActive, allowedMasterBatchIds, emailBounced } = body;
+                const { buyerId, companyName, contactPerson, isActive, allowedMasterBatchIds, emailBounced, email } = body;
 
                 if (!buyerId) {
                     return {
@@ -676,6 +676,40 @@ export const handler: Handler = async (event: HandlerEvent) => {
                     updates.allowedMasterBatchIds = allowedMasterBatchIds;
                 }
 
+                // Handle email change
+                if (email !== undefined) {
+                    const cleanEmail = email.trim().toLowerCase();
+
+                    // Check for conflict — another buyer already has this email
+                    const existing = await db.collection('farms').doc(fid)
+                        .collection('buyers')
+                        .where('email', '==', cleanEmail)
+                        .get();
+
+                    const hasConflict = existing.docs.some(doc => doc.id !== buyerId);
+                    if (hasConflict) {
+                        return {
+                            statusCode: 409,
+                            headers,
+                            body: JSON.stringify({
+                                error: 'email_already_exists',
+                                hint: 'Another buyer already uses this email.',
+                            }),
+                        };
+                    }
+
+                    updates.email = cleanEmail;
+
+                    // Editing the email auto-clears bounce state (unless the caller explicitly sent emailBounced)
+                    if (emailBounced === undefined) {
+                        updates.emailBounced = false;
+                        updates.emailBounceType = null;
+                        updates.emailBounceReason = null;
+                        updates.lastBounceAt = null;
+                    }
+                }
+
+                // Handle explicit bounce flag changes (e.g. "Clear bounce flag" button without changing email)
                 if (emailBounced !== undefined) {
                     updates.emailBounced = !!emailBounced;
                     if (!emailBounced) {

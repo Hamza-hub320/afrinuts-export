@@ -210,6 +210,7 @@ const AdminBuyers: React.FC = () => {
                 buyerId: editBuyer.id,
                 companyName: formCompany,
                 contactPerson: formContact,
+                email: editBuyer.email,
                 emailBounced: editBuyer.emailBounced,
             });
             setEditBuyer(null);
@@ -805,12 +806,15 @@ const AdminBuyers: React.FC = () => {
                                                             ? 'This address was marked as spam.'
                                                             : 'The last email we sent to this address bounced.'}
                                                     </Typography>
+                                                    <Typography variant="small" className="text-amber-700 text-xs mt-1">
+                                                        Change the email below to a new address (this will automatically clear the bounce flag), or click below to just clear the flag.
+                                                    </Typography>
                                                     <button
                                                         type="button"
                                                         onClick={() => setEditBuyer({ ...editBuyer, emailBounced: false })}
                                                         className="mt-2 text-xs text-amber-700 hover:text-amber-900 underline font-medium"
                                                     >
-                                                        Clear bounce flag
+                                                        Clear bounce flag without changing email
                                                     </button>
                                                 </div>
                                             </div>
@@ -818,7 +822,12 @@ const AdminBuyers: React.FC = () => {
                                     )}
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                                        <input type="email" value={editBuyer?.email || ''} disabled className="w-full px-4 py-2 rounded-lg border border-gray-200 bg-gray-50 text-gray-500 text-sm" />
+                                        <input
+                                            type="email"
+                                            value={editBuyer?.email || ''}
+                                            onChange={(e) => setEditBuyer(prev => prev ? { ...prev, email: e.target.value } : prev)}
+                                            className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary text-sm"
+                                        />
                                     </div>
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 mb-1">Company Name</label>
