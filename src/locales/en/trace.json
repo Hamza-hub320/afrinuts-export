@@ -1,11 +1,6 @@
 {
-  "seo": {
-    "title": "Cashew Traceability | Farm OS Verified Batch Tracking | AfriNuts Export",
-    "description": "Enter your batch ID to see your cashew shipment's full digital journey — GPS coordinates, harvest date, quality metrics, certification verification, and tamper-proof digital signature. Powered by AfriNuts Farm OS. Try AFN-FARM-ORG-260710-34D1."
-  },
   "page": {
-    "title": "AfriNuts Batch Traceability | Farm OS Verified",
-    "description": "View block-level traceability data for your cashew shipment — harvest dates, GPS coordinates, quality metrics, certification verification, and tamper-proof digital signature. Powered by AfriNuts Farm OS."
+    "title": "AfriNuts Batch Traceability | Farm OS Verified"
   },
   "promo": {
     "heading": "Not Just a Paper Trail. Farm OS Verified.",
@@ -23,8 +18,8 @@
     "notFound": "Batch \"{id}\" not found. Please check and try again."
   },
   "demo": {
-    "note": "Sample batches are publicly shared by AfriNuts for demonstration. Real customer batches are private and require a tracking code.",
-    "button": "View Sample Batch"
+    "button": "View Sample Batch",
+    "note": "Sample batches are publicly shared by AfriNuts for demonstration. Real customer batches are private and require a tracking code."
   },
   "howItWorks": {
     "title": "How Our Traceability Works",
@@ -41,138 +36,69 @@
       "description": "From the exact block in Odienné to your container. Every step documented in Farm OS — not generated after the fact."
     }
   },
+  "privacy": {
+    "title": "Your Batch Is Private",
+    "body": "Each batch has a unique tracking code — printed on the QR sticker, Bill of Lading, and Certificate of Origin. Only someone with that code can view the batch record. We never publish customer batches, and we never reveal what shipments exist in our system.",
+    "unique": "Unique code per batch",
+    "secure": "Encrypted lookup",
+    "public": "Publicly verifiable"
+  },
+  "buyerCta": {
+    "title": "Already a buyer? Access your full shipment record",
+    "body": "Buyers with assigned shipments can sign in with a magic link to see lab results, full documentation, farmer details, and chain of custody.",
+    "button": "Buyer Portal"
+  },
+  "whatYouSee": {
+    "title": "What You'll See Inside Every Batch",
+    "batchDossier": "The Batch Dossier",
+    "batchDossierDesc": "Origin, processing, quality, weight",
+    "supplyNetwork": "The Supply Network",
+    "supplyNetworkDesc": "Which supplier, cooperative status",
+    "farmer": "The Farmer",
+    "farmerDesc": "Who grew it, their story",
+    "sustainability": "The Sustainability Record",
+    "sustainabilityDesc": "Compliance and farming methods",
+    "farmLocation": "The Farm Location",
+    "farmLocationDesc": "GPS map of the source",
+    "farmOsRecord": "Farm OS Record",
+    "farmOsRecordDesc": "Digital signature, verification"
+  },
+  "personas": {
+    "title": "Built for Everyone Who Touches a Bag",
+    "buyer": {
+      "title": "For Buyers",
+      "body": "Verify origin, quality, and certifications before you open a container. No paperwork chase."
+    },
+    "regulator": {
+      "title": "For Regulators",
+      "body": "EU due diligence-ready records. Blockchain-grade traceability without blockchain complexity."
+    },
+    "consumer": {
+      "title": "For Consumers",
+      "body": "See the farm your cashews came from. Every bag tells a story you can verify in 10 seconds."
+    }
+  },
+  "faq": {
+    "title": "Common Questions",
+    "q1": "How do I find my batch ID?",
+    "a1": "Your batch ID is printed on the QR code sticker attached to every 50kg bag and on your Bill of Lading and Certificate of Origin.",
+    "q2": "What if the batch ID doesn't work?",
+    "a2": "Check for typos — batch IDs are case-sensitive. If it still doesn't work, contact us at info@afrinutsexport.com with your invoice number.",
+    "q3": "Can I verify the digital signature independently?",
+    "a3": "Yes — every batch has a tamper-proof verification code you can check without login. The signature proves the data hasn't been altered since signing.",
+    "q4": "Who can see my batch record?",
+    "a4": "Anyone with your unique tracking code can view the public traceability summary (origin, quality grade, certifications, and status). However, the full private record — including lab results, farmer details, exact weights, export documents, and pricing — is only available to the verified buyer via the Buyer Portal login. We never allow browsing without a specific code.",
+    "q5": "How do I access my full buyer record?",
+    "a5": "Buyers receive a secure magic link by email whenever a batch is assigned to them. Click the link to sign in — no password required. If you're a buyer and haven't received your link, contact us at info@afrinutsexport.com."
+  },
   "trust": {
     "title": "What Makes Our Traceability Different",
     "farm": "Single-origin from our 35-hectare farm in Odienné, Côte d'Ivoire — not mixed lots from unknown sources",
     "batch": "Unique batch IDs tracked in Farm OS from harvest to delivery — not a paper ledger",
     "public": "Publicly verifiable — anyone with the batch ID can check. No login required.",
     "certs": "Certifications verified and displayed per batch — not just claims on a website",
-    "signature": "Tamper-proof digital signature — every batch is cryptographically signed and verifiable",
     "ctaBody": "Every wholesale order includes Farm OS traceability with digital signatures at no extra cost. Your buyers can verify origin, quality, certifications, and data integrity — just like this page.",
-    "ctaButton": "Explore Wholesale Options",
-    "origin": "GPS-Verified Origin",
-    "originDesc": "GPS coordinates recorded at harvest from our farm in Odienné — verifiable on any map",
-    "batchTitle": "Farm OS Batch Record",
-    "batchDesc": "Each batch receives a unique digital ID tracked at every stage in our custom operating system",
-    "transparent": "Publicly Verifiable",
-    "transparentDesc": "Anyone with the batch ID can verify this information — buyers, customs, investors, and regulators"
-  },
-  "promoCta": {
-    "title": "Want This Level of Transparency for Your Orders?",
-    "description": "Every AfriNuts Export wholesale order includes Farm OS traceability with tamper-proof digital signatures. Contact us to place your first order and experience supply chain transparency that most West African suppliers cannot provide.",
-    "button": "Request a Traceable Quote"
-  },
-  "internalLinks": {
-    "farmOs": "Learn about wholesale ordering with Farm OS traceability"
-  },
-  "batch": {
-    "dossierName": "The Batch Dossier",
-    "harvestDate": "Harvest Date",
-    "farmLocation": "Farm Location (GPS Verified)",
-    "processingInfo": "Processing Information",
-    "certifications": "Certifications",
-    "qualityCheckResults": "Quality Check Results",
-    "destinationLocation": "Destination Location",
-    "receivingCompany": "Receiving Company",
-    "previewAllBatches": "Preview All Batches",
-    "previewNotice": "Default batch preview (no batchId provided in URL)",
-    "sampleNotice": "Sample batch — demonstration of Farm OS traceability",
-    "origin": "Origin",
-    "destination": "Destination"
-  },
-  "batchInfo": {
-    "verified": "Farm OS Verified"
-  },
-  "journey": {
-    "title": "Your Order's Digital Journey",
-    "scrollHint": "Swipe to explore the journey",
-    "subtitle": "Follow your cashews from our farm in Odienné to your door — every step recorded in Farm OS.",
-    "farm": "Farm",
-    "farmDesc": "Harvested from {{block}}",
-    "process": "Processing",
-    "processDesc": "Quality: {{grade}}",
-    "certify": "Certify",
-    "certifyDesc": "{{count}} certification(s) verified",
-    "ship": "Ship",
-    "shipDesc": "Via Port of Abidjan",
-    "deliver": "Deliver",
-    "delivered": "✓ Delivered",
-    "inTransit": "In Transit",
-    "docs": "Docs",
-    "docsDetail": "Export Ready",
-    "docsDesc": "Export documents available",
-    "pending": "Pending"
-  },
-  "compliance": {
-    "description": "Every traceable batch comes with full compliance documentation — not just promises, verifiable records."
-  },
-  "ctaQuote": {
-    "description": "Every wholesale order includes full Farm OS traceability. Get your quote today.",
-    "button": "Request a Traceable Batch"
-  },
-  "testimonials": {
-    "title": "Trusted by Importers Worldwide"
-  },
-  "cta": {
-    "title": "Connect With AfriNuts",
-    "subtitle": "Have questions about batch traceability or want to partner with us? Reach out today.",
-    "button": "Contact Us"
-  },
-  "tabs": {
-    "journey": "Journey",
-    "quality": "Quality",
-    "documents": "Documents"
-  },
-  "quality": {
-    "metrics": "Quality Metrics",
-    "moisture": "Moisture Content",
-    "nutCount": "Nut Count/kg",
-    "kernelRatio": "Kernel Ratio",
-    "defectiveRate": "Defective Rate",
-    "overallScore": "Overall Quality Score",
-    "downloadReport": "Download Lab Report",
-    "comingSoon": "Quality Metrics Coming Soon",
-    "comingSoonDesc": "Detailed quality metrics will be available once testing is complete for this batch."
-  },
-  "docs": {
-    "coo": "Certificate of Origin",
-    "phyto": "Phytosanitary Certificate",
-    "billOfLading": "Bill of Lading",
-    "packingList": "Packing List",
-    "invoice": "Commercial Invoice",
-    "insurance": "Insurance Certificate",
-    "available": "Available for Download",
-    "pending": "Available After Processing",
-    "download": "Download",
-    "compliancePack": "Download Complete Compliance Pack",
-    "compliancePackDesc": "All documents in one file for easy sharing with customs and regulators",
-    "downloadAll": "Download All",
-    "compliancePackPending": "Compliance pack will be available once all documents are processed for this batch."
-  },
-  "farmOsRecord": {
-    "title": "Farm OS Record",
-    "recordId": "Record ID",
-    "created": "Created",
-    "updated": "Last Updated",
-    "status": "Verification Status",
-    "verified": "Verified",
-    "digitalSignature": "Digital Signature",
-    "verificationCode": "Verification Code",
-    "signature": "Signature",
-    "signedDate": "Signed Date",
-    "justNow": "Just now",
-    "note": "Data pulled directly from Farm OS. Tamper-proof digital signature confirms this record has not been altered since signing.",
-    "whatIsSignature": "What is a digital signature?",
-    "signatureExplanation": "Our digital signatures use cryptographic technology to prove that this batch data is authentic and has not been tampered with. When you see a verified signature, you can trust that the information you're viewing is exactly what was recorded in Farm OS — not something generated after the fact.",
-    "howToVerify": "How to verify",
-    "verifyInstructions": "Enter the verification code above on our public verification page to confirm this record's authenticity. Anyone can verify — no login required."
-  },
-  "breadcrumbs": {
-    "home": "Home",
-    "farm": "Farm",
-    "processing": "Processing",
-    "facilityFlowchart": "Facility Flowchart",
-    "batchTraceability": "Batch Traceability"
+    "ctaButton": "Explore Wholesale Options"
   },
   "verify": {
     "title": "Record Verification",
@@ -181,12 +107,7 @@
     "tracePage": "Trace a batch",
     "questions": "Questions?"
   },
-  "location": {
-    "title": "The Farm Location"
-  },
-  "loginCta": {
-    "title": "You're viewing the public record",
-    "body": "Buyers can log in to see full documentation, lab results, farmer details, and chain of custody.",
-    "button": "Buyer Login"
+  "farmOsRecord": {
+    "verificationCode": "Verification Code"
   }
 }

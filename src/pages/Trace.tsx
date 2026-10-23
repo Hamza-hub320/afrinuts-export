@@ -109,11 +109,9 @@ const TracePage: React.FC = () => {
                 const data = await response.json();
 
                 if (data.isBulk) {
-                    // We only take the public data
                     setBulkData(data as BulkData);
                     setBatch(null);
                 } else {
-                    // We only take the public data
                     setBatch(data.batch);
                     setBulkData(null);
                 }
@@ -172,12 +170,12 @@ const TracePage: React.FC = () => {
         );
     }
 
-    // ========== PROMO PAGE (no batch found) ==========
+    // ========== PROMO PAGE (Translated) ==========
     if (!currentBatch && !loading) {
         const promoBatchId = query.get("batchId");
         return (
             <main className="text-text-dark font-sans">
-                {/* HERO — own mount animation */}
+                {/* HERO */}
                 <Section className="flex items-center justify-center text-center min-h-[90vh]" animate={false}>
                     <motion.div className="max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 flex flex-col lg:flex-row items-center gap-6 lg:gap-28" initial="hidden" animate="visible" variants={staggerContainer}>
                         <motion.div className="flex-1 max-w-none lg:max-w-xl text-center lg:text-left" variants={fadeIn}>
@@ -188,32 +186,32 @@ const TracePage: React.FC = () => {
                                 {t('promo.heading')}
                             </motion.h1>
                             <Typography variant="lead" className="text-text-dark mb-5 text-base lg:text-lg">
-                                {t('promo.lead', 'Enter a batch ID to see harvest dates, GPS coordinates, quality metrics, and certification records — all pulled directly from our Farm OS.')}
+                                {t('promo.lead')}
                             </Typography>
                             <motion.div variants={fadeIn} className="mb-5">
-                                <InfoCard icon={FaMobile} title={t('promo.introTitle', 'Powered by Farm OS')} variant="secondary" showInfoBadge={false}>
+                                <InfoCard icon={FaMobile} title={t('promo.introTitle')} variant="secondary" showInfoBadge={false}>
                                     <Typography variant="small" className="text-gray-600">{t('promo.subheading')}</Typography>
                                 </InfoCard>
                             </motion.div>
                             <div className="flex flex-wrap justify-center lg:justify-start gap-2 mb-5">
-                                <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-primary/10 text-primary text-xs rounded-full font-medium"><FaQrcode className="text-[10px]" /> {t('promo.badgeQr', 'QR Code')}</span>
-                                <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-green-50 text-green-700 text-xs rounded-full font-medium"><FaCheckCircle className="text-[10px]" /> {t('promo.badgeVerified', 'Farm OS Verified')}</span>
-                                <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-amber-50 text-amber-700 text-xs rounded-full font-medium"><FaGlobeAfrica className="text-[10px]" /> {t('promo.badgePublic', 'Publicly Verifiable')}</span>
-                                <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-primary/10 text-primary text-xs rounded-full font-medium"><FaSignature className="text-[10px]" /> {t('promo.badgeSigned', 'Digitally Signed')}</span>
+                                <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-primary/10 text-primary text-xs rounded-full font-medium"><FaQrcode className="text-[10px]" /> {t('promo.badgeQr')}</span>
+                                <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-green-50 text-green-700 text-xs rounded-full font-medium"><FaCheckCircle className="text-[10px]" /> {t('promo.badgeVerified')}</span>
+                                <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-amber-50 text-amber-700 text-xs rounded-full font-medium"><FaGlobeAfrica className="text-[10px]" /> {t('promo.badgePublic')}</span>
+                                <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-primary/10 text-primary text-xs rounded-full font-medium"><FaSignature className="text-[10px]" /> {t('promo.badgeSigned')}</span>
                             </div>
                             <motion.div variants={fadeIn} className="flex flex-col items-center lg:items-start gap-3">
                                 <div className="flex flex-wrap gap-2.5 justify-center lg:justify-start">
                                     <div className="relative bg-white/50 backdrop-blur-sm border border-gray-300 rounded-full flex items-center">
                                         <FaSearch className="absolute left-3 text-gray-400 text-xs" />
-                                        <input type="text" placeholder={t('search.placeholder', 'Enter your Batch ID...')}
+                                        <input type="text" placeholder={t('search.placeholder')}
                                                className="pl-9 pr-20 py-2.5 bg-transparent text-sm focus:outline-none rounded-full w-56 batch-search-input"
                                                onKeyDown={(e) => { if (e.key === 'Enter') { const input = e.currentTarget.value.trim(); if (input) window.location.href = `/trace?batchId=${encodeURIComponent(input)}`; } }} />
                                         <button onClick={() => { const input = document.querySelector<HTMLInputElement>('.batch-search-input'); const value = input?.value?.trim(); if (value) window.location.href = `/trace?batchId=${encodeURIComponent(value)}`; }}
-                                                className="absolute right-1 top-1 bottom-1 bg-primary text-white px-4 rounded-full text-xs font-medium hover:bg-dark-orange transition-colors">{t('search.button', 'Trace')}</button>
+                                                className="absolute right-1 top-1 bottom-1 bg-primary text-white px-4 rounded-full text-xs font-medium hover:bg-dark-orange transition-colors">{t('search.button')}</button>
                                     </div>
                                     <button onClick={() => window.location.href = '/trace?batchId=AFN-FARM-ORG-260710-34D1'}
                                             className="relative border border-primary/40 text-primary hover:bg-primary/5 px-5 py-2.5 rounded-full text-sm font-medium inline-flex items-center gap-1.5 bg-white/50 backdrop-blur-sm">
-                                        <FaFlask className="text-xs" />{t('demo.button', 'View Demo Batch')}
+                                        <FaFlask className="text-xs" />{t('demo.button')}
                                     </button>
                                     <button onClick={() => window.location.href = '/trace?batchId=MB-20260710-085'}
                                             className="relative border border-blue-400/40 text-blue-600 hover:bg-blue-50 px-5 py-2.5 rounded-full text-sm font-medium inline-flex items-center gap-1.5 bg-white/50 backdrop-blur-sm">
@@ -223,13 +221,13 @@ const TracePage: React.FC = () => {
                                 {promoBatchId && promoBatchId.trim() !== '' && (
                                     <motion.div initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }} className="text-center lg:text-left">
                                         <Typography variant="small" className="text-amber-600 bg-amber-50/80 px-4 py-2 rounded-full inline-block">
-                                            {t('search.notFound', 'Batch "{id}" not found. Please check and try again.', { id: promoBatchId })}
+                                            {t('search.notFound', { id: promoBatchId })}
                                         </Typography>
                                     </motion.div>
                                 )}
                                 <div className="mt-3 text-xs text-gray-500 text-center lg:text-left">
                                     <FaInfoCircle className="inline mr-1 text-accent text-[10px]" />
-                                    {t('demo.note', 'Sample batches are publicly shared by AfriNuts for demonstration. Real customer batches are private and require a tracking code.')}
+                                    {t('demo.note')}
                                 </div>
                                 {/* Verification Mode */}
                                 {(() => {
@@ -245,7 +243,7 @@ const TracePage: React.FC = () => {
                                         >
                                             <InfoCard
                                                 icon={FaShieldAlt}
-                                                title={t('verify.title', 'Record Verification')}
+                                                title={t('verify.title')}
                                                 iconColor="text-green-600"
                                                 variant="primary"
                                                 showInfoBadge={false}
@@ -254,32 +252,32 @@ const TracePage: React.FC = () => {
                                                     <div className="inline-flex items-center gap-2 bg-green-50 px-4 py-2 rounded-full mb-3">
                                                         <FaCheckCircle className="text-green-600" />
                                                         <Typography variant="small" className="text-green-700 font-medium">
-                                                            {t('verify.valid', 'Valid Farm OS Signature')}
+                                                            {t('verify.valid')}
                                                         </Typography>
                                                     </div>
                                                     <div className="bg-white/50 rounded-lg p-3 mb-3">
                                                         <Typography variant="small" className="text-gray-500 text-[10px] uppercase tracking-wider">
-                                                            {t('farmOsRecord.verificationCode', 'Verification Code')}
+                                                            {t('farmOsRecord.verificationCode')}
                                                         </Typography>
                                                         <Typography variant="small" className="font-mono font-bold text-primary text-lg tracking-wider">
                                                             {verifyCode}
                                                         </Typography>
                                                     </div>
                                                     <Typography variant="small" className="text-gray-600 text-xs leading-relaxed">
-                                                        {t('verify.explanation', 'This verification code confirms that a Farm OS record was digitally signed and has not been altered. The signature is cryptographically tied to the original batch data.')}
+                                                        {t('verify.explanation')}
                                                     </Typography>
                                                     <div className="mt-3 flex justify-center gap-3">
                                                         <Link
                                                             to="/trace"
                                                             className="text-accent hover:text-primary text-xs font-medium transition-colors"
                                                         >
-                                                            {t('verify.tracePage', 'Trace a batch')} →
+                                                            {t('verify.tracePage')} →
                                                         </Link>
                                                         <Link
                                                             to="/contact"
                                                             className="text-gray-500 hover:text-primary text-xs transition-colors"
                                                         >
-                                                            {t('verify.questions', 'Questions?')}
+                                                            {t('verify.questions')}
                                                         </Link>
                                                     </div>
                                                 </div>
@@ -303,15 +301,15 @@ const TracePage: React.FC = () => {
                     </motion.div>
                 </Section>
 
-                {/* How It Works — staggered */}
+                {/* How It Works — Translated */}
                 <Section className="py-12">
                     <div className="max-w-4xl mx-auto px-4 sm:px-6">
-                        <Typography variant="h2" className="text-primary text-center mb-10">{t('howItWorks.title', 'How Our Traceability Works')}</Typography>
+                        <Typography variant="h2" className="text-primary text-center mb-10">{t('howItWorks.title')}</Typography>
                         <StaggerList className="grid grid-cols-1 md:grid-cols-3 gap-6">
                             {[
-                                { icon: FaQrcode, title: t('howItWorks.scan.title', '1. Scan the QR Code'), description: t('howItWorks.scan.description'), variant: 'primary' as const },
-                                { icon: FaSearch, title: t('howItWorks.trace.title', '2. Enter Your Batch ID'), description: t('howItWorks.trace.description'), variant: 'accent' as const },
-                                { icon: FaMapMarkerAlt, title: t('howItWorks.view.title', '3. See the Full Journey'), description: t('howItWorks.view.description'), variant: 'secondary' as const },
+                                { icon: FaQrcode, title: t('howItWorks.scan.title'), description: t('howItWorks.scan.description'), variant: 'primary' as const },
+                                { icon: FaSearch, title: t('howItWorks.trace.title'), description: t('howItWorks.trace.description'), variant: 'accent' as const },
+                                { icon: FaMapMarkerAlt, title: t('howItWorks.view.title'), description: t('howItWorks.view.description'), variant: 'secondary' as const },
                             ].map((step, i) => (
                                 <StaggerItem key={i}>
                                     <InfoCard icon={step.icon} title={step.title} iconColor="text-accent" variant={step.variant} showInfoBadge={false} className="h-full text-center">
@@ -334,11 +332,10 @@ const TracePage: React.FC = () => {
                                     </div>
                                     <div className="flex-1">
                                         <Typography variant="h4" className="text-primary mb-1">
-                                            Already a buyer? Access your full shipment record
+                                            {t('buyerCta.title')}
                                         </Typography>
                                         <Typography variant="small" className="text-gray-600">
-                                            Buyers with assigned shipments can sign in with a magic link to see
-                                            lab results, full documentation, farmer details, and chain of custody.
+                                            {t('buyerCta.body')}
                                         </Typography>
                                     </div>
                                     <Link
@@ -346,7 +343,7 @@ const TracePage: React.FC = () => {
                                         className="flex-shrink-0 inline-flex items-center gap-2 bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-5 py-2.5 rounded-full text-sm font-medium shadow-md transition-all"
                                     >
                                         <FaShieldAlt className="text-xs" />
-                                        Buyer Portal
+                                        {t('buyerCta.button')}
                                         <FaArrowRight className="text-xs" />
                                     </Link>
                                 </div>
@@ -355,26 +352,26 @@ const TracePage: React.FC = () => {
                     </div>
                 </Section>
 
-                {/* Privacy Notice */}
+                {/* Privacy Notice — Translated */}
                 <Section className="py-8">
                     <div className="max-w-3xl mx-auto px-4 sm:px-6">
                         <Reveal>
                             <InfoCard
                                 icon={FaShieldAlt}
-                                title={t('privacy.title', 'Your Batch Is Private')}
+                                title={t('privacy.title')}
                                 variant="primary"
                                 showInfoBadge={false}
                                 className="text-center"
                             >
                                 <Typography variant="body" className="text-gray-700 max-w-2xl mx-auto">
-                                    {t('privacy.body', 'Each batch has a unique tracking code — printed on the QR sticker, Bill of Lading, and Certificate of Origin. Only someone with that code can view the batch record. We never publish customer batches, and we never reveal what shipments exist in our system.')}
+                                    {t('privacy.body')}
                                 </Typography>
 
                                 <StaggerList className="grid grid-cols-1 sm:grid-cols-3 gap-3 mt-5">
                                     {[
-                                        { icon: FaQrcode, label: t('privacy.unique', 'Unique code per batch') },
-                                        { icon: FaShieldAlt, label: t('privacy.secure', 'Encrypted lookup') },
-                                        { icon: FaCheckCircle, label: t('privacy.public', 'Publicly verifiable') },
+                                        { icon: FaQrcode, label: t('privacy.unique') },
+                                        { icon: FaShieldAlt, label: t('privacy.secure') },
+                                        { icon: FaCheckCircle, label: t('privacy.public') },
                                     ].map((item, i) => (
                                         <StaggerItem key={i} className="bg-white/40 rounded-xl p-3 text-center">
                                             <item.icon className="text-accent text-lg mx-auto mb-1" />
@@ -387,23 +384,23 @@ const TracePage: React.FC = () => {
                     </div>
                 </Section>
 
-                {/* What You'll See */}
+                {/* What You'll See — Translated */}
                 <Section className="py-10">
                     <div className="max-w-5xl mx-auto px-4 sm:px-6">
                         <Reveal className="text-center mb-8">
                             <Typography variant="h2" className="text-primary mb-3">
-                                {t('whatYouSee.title', 'What You\'ll See Inside Every Batch')}
+                                {t('whatYouSee.title')}
                             </Typography>
                         </Reveal>
 
                         <StaggerList className="grid grid-cols-2 md:grid-cols-3 gap-4">
                             {[
-                                { icon: FaClipboardList, title: 'The Batch Dossier', desc: 'Origin, processing, quality, weight' },
-                                { icon: FaGlobeAfrica, title: 'The Supply Network', desc: 'Which supplier, cooperative status' },
-                                { icon: GiFarmer, title: 'The Farmer', desc: 'Who grew it, their story' },
-                                { icon: FaLeaf, title: 'The Sustainability Record', desc: 'Compliance and farming methods' },
-                                { icon: FaMapMarkerAlt, title: 'The Farm Location', desc: 'GPS map of the source' },
-                                { icon: FaShieldAlt, title: 'Farm OS Record', desc: 'Digital signature, verification' },
+                                { icon: FaClipboardList, title: t('whatYouSee.batchDossier'), desc: t('whatYouSee.batchDossierDesc') },
+                                { icon: FaGlobeAfrica, title: t('whatYouSee.supplyNetwork'), desc: t('whatYouSee.supplyNetworkDesc') },
+                                { icon: GiFarmer, title: t('whatYouSee.farmer'), desc: t('whatYouSee.farmerDesc') },
+                                { icon: FaLeaf, title: t('whatYouSee.sustainability'), desc: t('whatYouSee.sustainabilityDesc') },
+                                { icon: FaMapMarkerAlt, title: t('whatYouSee.farmLocation'), desc: t('whatYouSee.farmLocationDesc') },
+                                { icon: FaShieldAlt, title: t('whatYouSee.farmOsRecord'), desc: t('whatYouSee.farmOsRecordDesc') },
                             ].map((item, i) => (
                                 <StaggerItem key={i}>
                                     <div className="bg-white/50 rounded-xl p-4 border border-white/30 h-full hover:bg-white/70 transition-all">
@@ -417,32 +414,20 @@ const TracePage: React.FC = () => {
                     </div>
                 </Section>
 
-                {/* Who Uses This */}
+                {/* Who Uses This — Translated */}
                 <Section className="py-10">
                     <div className="max-w-4xl mx-auto px-4 sm:px-6">
                         <Reveal className="text-center mb-8">
                             <Typography variant="h2" className="text-primary mb-3">
-                                {t('personas.title', 'Built for Everyone Who Touches a Bag')}
+                                {t('personas.title')}
                             </Typography>
                         </Reveal>
 
                         <StaggerList className="grid grid-cols-1 md:grid-cols-3 gap-4">
                             {[
-                                {
-                                    icon: FaBuilding,
-                                    title: t('personas.buyer.title', 'For Buyers'),
-                                    body: t('personas.buyer.body', 'Verify origin, quality, and certifications before you open a container. No paperwork chase.')
-                                },
-                                {
-                                    icon: FaShieldAlt,
-                                    title: t('personas.regulator.title', 'For Regulators'),
-                                    body: t('personas.regulator.body', 'EU due diligence-ready records. Blockchain-grade traceability without blockchain complexity.')
-                                },
-                                {
-                                    icon: FaHeart,
-                                    title: t('personas.consumer.title', 'For Consumers'),
-                                    body: t('personas.consumer.body', 'See the farm your cashews came from. Every bag tells a story you can verify in 10 seconds.')
-                                },
+                                { icon: FaBuilding, title: t('personas.buyer.title'), body: t('personas.buyer.body') },
+                                { icon: FaShieldAlt, title: t('personas.regulator.title'), body: t('personas.regulator.body') },
+                                { icon: FaHeart, title: t('personas.consumer.title'), body: t('personas.consumer.body') },
                             ].map((item, i) => (
                                 <StaggerItem key={i}>
                                     <InfoCard
@@ -462,33 +447,22 @@ const TracePage: React.FC = () => {
                     </div>
                 </Section>
 
-                {/* Traceability FAQ */}
+                {/* Traceability FAQ — Translated */}
                 <Section className="py-10">
                     <div className="max-w-3xl mx-auto px-4 sm:px-6">
                         <Reveal className="text-center mb-8">
                             <Typography variant="h2" className="text-primary mb-3">
-                                {t('faq.title', 'Common Questions')}
+                                {t('faq.title')}
                             </Typography>
                         </Reveal>
 
                         <StaggerList className="space-y-3">
                             {[
-                                {
-                                    q: 'How do I find my batch ID?',
-                                    a: 'Your batch ID is printed on the QR code sticker attached to every 50kg bag and on your Bill of Lading and Certificate of Origin.'
-                                },
-                                {
-                                    q: 'What if the batch ID doesn\'t work?',
-                                    a: 'Check for typos — batch IDs are case-sensitive. If it still doesn\'t work, contact us at info@afrinutsexport.com with your invoice number.'
-                                },
-                                {
-                                    q: 'Can I verify the digital signature independently?',
-                                    a: 'Yes — every batch has a tamper-proof verification code you can check without login. The signature proves the data hasn\'t been altered since signing.'
-                                },
-                                {
-                                    "q": "Who can see my batch record?",
-                                    "a": "Only someone with your unique tracking code. The code appears on the QR sticker on each bag, your Bill of Lading, and your Certificate of Origin. We don't publish batch records publicly and we don't allow browsing — every view requires a specific code."
-                                },
+                                { q: t('faq.q1'), a: t('faq.a1') },
+                                { q: t('faq.q2'), a: t('faq.a2') },
+                                { q: t('faq.q3'), a: t('faq.a3') },
+                                { q: t('faq.q4'), a: t('faq.a4') },
+                                { q: t('faq.q5'), a: t('faq.a5') },
                             ].map((item, i) => (
                                 <StaggerItem key={i}>
                                     <details className="group bg-white/50 backdrop-blur-sm rounded-xl border border-white/30 overflow-hidden">
@@ -528,10 +502,10 @@ const TracePage: React.FC = () => {
                             </StaggerList>
                             <div className="mt-6 pt-4 border-t border-gray-200/50">
                                 <Typography variant="body" className="text-gray-600 mb-4">
-                                    {t('trust.ctaBody', 'Every wholesale order includes Farm OS traceability at no extra cost.')}
+                                    {t('trust.ctaBody')}
                                 </Typography>
                                 <Link to="/wholesale" className="relative bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary text-white px-6 py-2.5 rounded-full inline-flex items-center gap-2 text-sm font-medium shadow-md">
-                                    <FaBox className="text-xs" />{t('trust.ctaButton', 'Explore Wholesale Options')}<FaArrowRight className="text-xs" />
+                                    <FaBox className="text-xs" />{t('trust.ctaButton')}<FaArrowRight className="text-xs" />
                                 </Link>
                             </div>
                         </InfoCard>
@@ -542,7 +516,7 @@ const TracePage: React.FC = () => {
         );
     }
 
-    // ========== SINGLE OR BULK FOUND (Public UI) ==========
+    // ========== SINGLE OR BULK FOUND (English only) ==========
     const displayTitle = bulkData ? bulkData.masterBatch.masterBatchNumber : batch?.batchId;
     const batchesToRender = bulkData ? bulkData.batches : (batch ? [batch] : []);
 
@@ -558,7 +532,7 @@ const TracePage: React.FC = () => {
                 <motion.div className="max-w-3xl px-6 sm:px-8 py-12" variants={fadeIn} initial="hidden" animate="visible">
                     <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-4">
                         {bulkData ? <FaShip className="inline mr-3 text-blue-600" /> : <FaQrcode className="inline mr-3 text-accent" />}
-                        {bulkData ? 'Bulk Shipment Traceability' : t('page.title')}
+                        {bulkData ? 'Bulk Shipment Traceability' : 'AfriNuts Batch Traceability'}
                     </Typography>
                     <Typography variant="h1" className="text-4xl md:text-5xl lg:text-6xl font-display text-text-dark mb-6">{displayTitle}</Typography>
                     {bulkData && (
@@ -573,10 +547,10 @@ const TracePage: React.FC = () => {
                     <form onSubmit={handleSearch} className="mt-8 max-w-md mx-auto">
                         <div className="relative">
                             <FaSearch className="absolute left-4 top-3.5 text-gray-400" />
-                            <input type="text" placeholder={t('search.placeholder')} value={searchInput} onChange={(e) => setSearchInput(e.target.value)}
+                            <input type="text" placeholder="Enter your Batch ID..." value={searchInput} onChange={(e) => setSearchInput(e.target.value)}
                                    className="w-full pl-12 pr-20 py-3 rounded-full border border-gray-300 bg-white/70 backdrop-blur-md text-sm focus:outline-none focus:ring-2 focus:ring-primary shadow-sm" />
                             <button type="submit" className="absolute right-2 top-1/2 -translate-y-1/2 bg-primary text-white px-5 py-1.5 rounded-full text-sm font-medium hover:bg-dark-orange transition">
-                                {t('search.button', 'Trace')}
+                                Trace
                             </button>
                         </div>
                     </form>
@@ -591,12 +565,12 @@ const TracePage: React.FC = () => {
                             <div className="flex items-center gap-3">
                                 <FaShieldAlt className="text-blue-600 text-xl flex-shrink-0" />
                                 <div>
-                                    <Typography variant="small" className="font-semibold text-blue-800">{t('loginCta.title', 'You are viewing the public record')}</Typography>
-                                    <Typography variant="small" className="text-blue-700 text-xs">{t('loginCta.body', 'Buyers can log in to see full documentation, lab results, farmer details, and chain of custody.')}</Typography>
+                                    <Typography variant="small" className="font-semibold text-blue-800">You're viewing the public record</Typography>
+                                    <Typography variant="small" className="text-blue-700 text-xs">Buyers can log in to see full documentation, lab results, farmer details, and chain of custody.</Typography>
                                 </div>
                             </div>
                             <Link to="/portal/login" className="flex-shrink-0 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full text-sm font-medium transition-colors">
-                                {t('loginCta.button', 'Buyer Login')} →
+                                Buyer Login →
                             </Link>
                         </div>
                     </Reveal>
@@ -634,7 +608,7 @@ const TracePage: React.FC = () => {
                     <div className="max-w-4xl mx-auto px-4 sm:px-6">
                         <Reveal className="text-center mb-4">
                             <Typography variant="subhead" className="uppercase tracking-widest text-accent text-xs font-semibold">
-                                {t('batch.dossierName', 'The Batch Dossier')}
+                                The Batch Dossier
                             </Typography>
                             {bulkData && (
                                 <Typography variant="small" className="text-gray-400 text-xs mt-1">

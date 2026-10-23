@@ -1,185 +1,113 @@
 {
-  "seo": {
-    "title": "Traçabilité des Noix de Cajou | Suivi de Lot Vérifié Farm OS | AfriNuts Export",
-    "description": "Entrez votre ID de lot pour voir le parcours numérique complet de votre expédition de noix de cajou — coordonnées GPS, date de récolte, indicateurs de qualité, vérification des certifications et signature numérique infalsifiable. Propulsé par AfriNuts Farm OS. Essayez AFN-FARM-ORG-260710-34D1."
-  },
   "page": {
-    "title": "Traçabilité des Lots AfriNuts | Vérifié par Farm OS",
-    "description": "Consultez les données de traçabilité au niveau du bloc pour votre expédition de noix de cajou — dates de récolte, coordonnées GPS, indicateurs de qualité, vérification des certifications et signature numérique infalsifiable. Propulsé par AfriNuts Farm OS."
+    "title": "Traçabilité des lots AfriNuts | Vérifié par Farm OS"
   },
   "promo": {
-    "heading": "Pas Juste une Trace Papier. Vérifié par Farm OS.",
-    "lead": "Saisissez un ID de lot pour voir les dates de récolte, les coordonnées GPS, les indicateurs de qualité, les enregistrements de certification et une signature numérique infalsifiable — tous extraits directement de notre Farm OS. Les mêmes données que nos gestionnaires agricoles utilisent. Le même tableau de bord que nos investisseurs voient. Pas de baratin marketing. Pas de paperasse générée après coup.",
-    "subheading": "Chaque expédition AfriNuts est accompagnée d'un code de traçabilité unique lié à notre Farm OS. Scannez le QR code ou saisissez votre ID de lot pour voir l'enregistrement numérique complet — du bloc exact à Odienné jusqu'à votre conteneur. La plupart des fournisseurs envoient de la paperasse. Nous envoyons des preuves. Maintenant avec des signatures numériques pour chaque lot.",
+    "heading": "Pas seulement une trace papier. Vérifié par Farm OS.",
+    "lead": "Saisissez un identifiant de lot pour voir les dates de récolte, les coordonnées GPS, les indicateurs de qualité, les enregistrements de certification et une signature numérique infalsifiable — tous extraits directement de notre Farm OS. Les mêmes données que celles utilisées par nos responsables de ferme. Le même tableau de bord que celui vu par nos investisseurs. Pas de discours marketing. Pas de documents générés après coup.",
+    "subheading": "Chaque expédition AfriNuts est accompagnée d'un code de traçabilité unique lié à notre Farm OS. Scannez le QR code ou saisissez votre identifiant de lot pour consulter l'enregistrement numérique complet — depuis la parcelle exacte à Odienné jusqu'à votre conteneur. La plupart des fournisseurs envoient des documents. Nous envoyons des preuves. Désormais avec signature numérique pour chaque lot.",
     "introTitle": "Propulsé par Farm OS",
     "badgeQr": "QR Code",
-    "badgeVerified": "Vérifié Farm OS",
-    "badgePublic": "Vérifiable Publiquement",
-    "badgeSigned": "Signature Infalsifiable"
+    "badgeVerified": "Vérifié par Farm OS",
+    "badgePublic": "Vérifiable publiquement",
+    "badgeSigned": "Signature infalsifiable"
   },
   "search": {
-    "placeholder": "Entrez votre ID de lot...",
+    "placeholder": "Saisissez votre identifiant de lot...",
     "button": "Tracer",
-    "notFound": "Lot \"{id}\" introuvable. Veuillez vérifier et réessayer."
+    "notFound": "Lot « {id} » introuvable. Veuillez vérifier et réessayer."
   },
   "demo": {
-    "note": "Essayez vous-même — entrez AFN-FARM-ORG-260710-34D1 dans la zone de recherche ci-dessus",
-    "button": "Voir un Lot d'Exemple"
+    "button": "Voir un lot exemple",
+    "note": "Les lots d'exemple sont partagés publiquement par AfriNuts à des fins de démonstration. Les lots clients réels sont privés et nécessitent un code de suivi."
   },
   "howItWorks": {
-    "title": "Comment Fonctionne Notre Traçabilité",
+    "title": "Comment fonctionne notre traçabilité",
     "scan": {
-      "title": "1. Scannez le QR Code",
+      "title": "1. Scannez le QR code",
       "description": "Chaque sac comprend un QR code unique lié à son lot dans Farm OS — notre système d'exploitation sur mesure."
     },
     "trace": {
-      "title": "2. Entrez Votre ID de Lot",
-      "description": "Ou saisissez votre ID de lot pour accéder à l'enregistrement numérique complet — dates de récolte, coordonnées GPS, indicateurs de qualité."
+      "title": "2. Saisissez votre identifiant de lot",
+      "description": "Ou saisissez votre identifiant de lot pour accéder à l'enregistrement numérique complet — dates de récolte, coordonnées GPS, indicateurs de qualité."
     },
     "view": {
-      "title": "3. Consultez le Parcours Numérique Complet",
-      "description": "Du bloc exact à Odienné jusqu'à votre conteneur. Chaque étape documentée dans Farm OS — pas générée après coup."
+      "title": "3. Consultez le parcours numérique complet",
+      "description": "Depuis la parcelle exacte à Odienné jusqu'à votre conteneur. Chaque étape documentée dans Farm OS — non générée après coup."
     }
   },
+  "privacy": {
+    "title": "Votre lot est privé",
+    "body": "Chaque lot possède un code de suivi unique — imprimé sur l'autocollant QR, le connaissement et le certificat d'origine. Seule une personne disposant de ce code peut consulter l'enregistrement du lot. Nous ne publions jamais les lots clients et ne révélons jamais quelles expéditions existent dans notre système.",
+    "unique": "Code unique par lot",
+    "secure": "Recherche chiffrée",
+    "public": "Vérifiable publiquement"
+  },
+  "buyerCta": {
+    "title": "Déjà acheteur ? Accédez à votre dossier d'expédition complet",
+    "body": "Les acheteurs avec des expéditions attribuées peuvent se connecter avec un lien magique pour consulter les résultats de laboratoire, la documentation complète, les détails de l'agriculteur et la chaîne de traçabilité.",
+    "button": "Portail acheteurs"
+  },
+  "whatYouSee": {
+    "title": "Ce que vous trouverez dans chaque lot",
+    "batchDossier": "Le dossier du lot",
+    "batchDossierDesc": "Origine, transformation, qualité, poids",
+    "supplyNetwork": "Le réseau d'approvisionnement",
+    "supplyNetworkDesc": "Quel fournisseur, statut de la coopérative",
+    "farmer": "L'agriculteur",
+    "farmerDesc": "Qui l'a cultivé, son histoire",
+    "sustainability": "Le dossier de durabilité",
+    "sustainabilityDesc": "Conformité et méthodes agricoles",
+    "farmLocation": "L'emplacement de la ferme",
+    "farmLocationDesc": "Carte GPS de la source",
+    "farmOsRecord": "Enregistrement Farm OS",
+    "farmOsRecordDesc": "Signature numérique, vérification"
+  },
+  "personas": {
+    "title": "Conçu pour tous ceux qui touchent un sac",
+    "buyer": {
+      "title": "Pour les acheteurs",
+      "body": "Vérifiez l'origine, la qualité et les certifications avant d'ouvrir un conteneur. Plus de course aux documents."
+    },
+    "regulator": {
+      "title": "Pour les régulateurs",
+      "body": "Des enregistrements prêts pour la diligence raisonnable de l'UE. Une traçabilité de niveau blockchain sans la complexité de la blockchain."
+    },
+    "consumer": {
+      "title": "Pour les consommateurs",
+      "body": "Voyez la ferme d'où proviennent vos noix de cajou. Chaque sac raconte une histoire que vous pouvez vérifier en 10 secondes."
+    }
+  },
+  "faq": {
+    "title": "Questions fréquentes",
+    "q1": "Comment trouver mon identifiant de lot ?",
+    "a1": "Votre identifiant de lot est imprimé sur l'autocollant QR code attaché à chaque sac de 50 kg, ainsi que sur votre connaissement et votre certificat d'origine.",
+    "q2": "Que faire si l'identifiant de lot ne fonctionne pas ?",
+    "a2": "Vérifiez les fautes de frappe — les identifiants de lot sont sensibles à la casse. S'il ne fonctionne toujours pas, contactez-nous à info@afrinutsexport.com avec votre numéro de facture.",
+    "q3": "Puis-je vérifier la signature numérique de façon indépendante ?",
+    "a3": "Oui — chaque lot dispose d'un code de vérification infalsifiable que vous pouvez contrôler sans connexion. La signature prouve que les données n'ont pas été modifiées depuis la signature.",
+    "q4": "Qui peut voir l'enregistrement de mon lot ?",
+    "a4": "Toute personne disposant de votre code de suivi unique peut consulter le résumé public de traçabilité (origine, grade de qualité, certifications et statut). Cependant, l'enregistrement privé complet — y compris les résultats de laboratoire, les détails de l'agriculteur, les poids exacts, les documents d'exportation et les prix — n'est accessible qu'à l'acheteur vérifié via la connexion au Portail acheteurs. Nous n'autorisons jamais la navigation sans un code spécifique.",
+    "q5": "Comment accéder à mon dossier acheteur complet ?",
+    "a5": "Les acheteurs reçoivent un lien magique sécurisé par e-mail chaque fois qu'un lot leur est attribué. Cliquez sur le lien pour vous connecter — aucun mot de passe requis. Si vous êtes acheteur et n'avez pas reçu votre lien, contactez-nous à info@afrinutsexport.com."
+  },
   "trust": {
-    "title": "Ce Qui Rend Notre Traçabilité Différente",
+    "title": "Ce qui rend notre traçabilité différente",
     "farm": "Origine unique de notre ferme de 35 hectares à Odienné, Côte d'Ivoire — pas de lots mélangés de sources inconnues",
-    "batch": "IDs de lot uniques suivis dans Farm OS de la récolte à la livraison — pas un registre papier",
-    "public": "Vérifiable publiquement — toute personne ayant l'ID de lot peut vérifier. Aucune connexion requise.",
-    "certs": "Certifications vérifiées et affichées par lot — pas seulement des affirmations sur un site web",
-    "signature": "Signature numérique infalsifiable — chaque lot est signé cryptographiquement et vérifiable",
-    "ctaBody": "Chaque commande en gros inclut la traçabilité Farm OS avec signatures numériques sans frais supplémentaires. Vos acheteurs peuvent vérifier l'origine, la qualité, les certifications et l'intégrité des données — exactement comme cette page.",
-    "ctaButton": "Explorer les Options de Gros",
-    "origin": "Origine Vérifiée par GPS",
-    "originDesc": "Coordonnées GPS enregistrées à la récolte depuis notre ferme à Odienné — vérifiables sur n'importe quelle carte",
-    "batchTitle": "Enregistrement de Lot Farm OS",
-    "batchDesc": "Chaque lot reçoit un ID numérique unique suivi à chaque étape dans notre système d'exploitation sur mesure",
-    "transparent": "Vérifiable Publiquement",
-    "transparentDesc": "Toute personne ayant l'ID de lot peut vérifier ces informations — acheteurs, douanes, investisseurs et régulateurs"
-  },
-  "promoCta": {
-    "title": "Vous Voulez Ce Niveau de Transparence Pour Vos Commandes ?",
-    "description": "Chaque commande en gros AfriNuts Export inclut la traçabilité Farm OS avec signatures numériques infalsifiables. Contactez-nous pour passer votre première commande et découvrez une transparence de la chaîne d'approvisionnement que la plupart des fournisseurs ouest-africains ne peuvent pas offrir.",
-    "button": "Demander un Devis Traçable"
-  },
-  "internalLinks": {
-    "farmOs": "Découvrez la commande en gros avec la traçabilité Farm OS"
-  },
-  "batch": {
-    "harvestDate": "Date de Récolte",
-    "farmLocation": "Localisation de la Ferme (Vérifiée GPS)",
-    "processingInfo": "Informations de Transformation",
-    "certifications": "Certifications",
-    "qualityCheckResults": "Résultats du Contrôle Qualité",
-    "destinationLocation": "Localisation de Destination",
-    "receivingCompany": "Entreprise Destinataire",
-    "previewAllBatches": "Aperçu de Tous les Lots",
-    "previewNotice": "Aperçu du lot par défaut (aucun ID de lot fourni dans l'URL)",
-    "sampleNotice": "Lot d'exemple — démonstration de la traçabilité Farm OS"
-  },
-  "batchInfo": {
-    "verified": "Vérifié par Farm OS"
-  },
-  "journey": {
-    "title": "Le Parcours Numérique de Votre Commande",
-    "scrollHint": "Faites glisser pour explorer le parcours",
-    "subtitle": "Suivez vos noix de cajou de notre ferme à Odienné jusqu'à votre porte — chaque étape enregistrée dans Farm OS.",
-    "farm": "Ferme",
-    "farmDesc": "Récolté du bloc {{block}}",
-    "process": "Transformation",
-    "processDesc": "Qualité : {{grade}}",
-    "certify": "Certifier",
-    "certifyDesc": "{{count}} certification(s) vérifiée(s)",
-    "ship": "Expédier",
-    "shipDesc": "Via le Port d'Abidjan",
-    "deliver": "Livrer",
-    "delivered": "✓ Livré",
-    "inTransit": "En Transit",
-    "docs": "Documents",
-    "docsDetail": "Prêt à l'Export",
-    "docsDesc": "Documents d'exportation disponibles",
-    "pending": "En Attente"
-  },
-  "compliance": {
-    "description": "Chaque lot traçable est accompagné d'une documentation de conformité complète — pas seulement des promesses, des enregistrements vérifiables.",
-    "link": "Télécharger le Dossier de Conformité"
-  },
-  "ctaQuote": {
-    "description": "Chaque commande en gros inclut une traçabilité Farm OS complète. Obtenez votre devis aujourd'hui.",
-    "button": "Demander un Lot Traçable"
-  },
-  "testimonials": {
-    "title": "Approuvé par des Importateurs du Monde Entier"
-  },
-  "cta": {
-    "title": "Connectez-Vous Avec AfriNuts",
-    "subtitle": "Vous avez des questions sur la traçabilité des lots ou souhaitez collaborer avec nous ? Contactez-nous dès aujourd'hui.",
-    "button": "Contactez-Nous"
-  },
-  "tabs": {
-    "journey": "Parcours",
-    "quality": "Qualité",
-    "documents": "Documents"
-  },
-  "quality": {
-    "metrics": "Indicateurs de Qualité",
-    "moisture": "Teneur en Humidité",
-    "nutCount": "Nombre de Noix/kg",
-    "kernelRatio": "Ratio d'Amandes",
-    "defectiveRate": "Taux de Défauts",
-    "overallScore": "Score de Qualité Global",
-    "downloadReport": "Télécharger le Rapport de Laboratoire",
-    "comingSoon": "Indicateurs de Qualité à Venir",
-    "comingSoonDesc": "Les indicateurs de qualité détaillés seront disponibles une fois les tests terminés pour ce lot."
-  },
-  "docs": {
-    "coo": "Certificat d'Origine",
-    "phyto": "Certificat Phytosanitaire",
-    "billOfLading": "Connaissement",
-    "packingList": "Liste de Colisage",
-    "invoice": "Facture Commerciale",
-    "insurance": "Certificat d'Assurance",
-    "available": "Disponible au Téléchargement",
-    "pending": "Disponible Après Transformation",
-    "download": "Télécharger",
-    "compliancePack": "Télécharger le Dossier de Conformité Complet",
-    "compliancePackDesc": "Tous les documents en un seul fichier pour faciliter le partage avec les douanes et les régulateurs",
-    "downloadAll": "Tout Télécharger",
-    "compliancePackPending": "Le dossier de conformité sera disponible une fois tous les documents traités pour ce lot."
-  },
-  "farmOsRecord": {
-    "title": "Enregistrement Farm OS",
-    "recordId": "ID d'Enregistrement",
-    "created": "Créé",
-    "updated": "Dernière Mise à Jour",
-    "status": "Statut de Vérification",
-    "verified": "Vérifié",
-    "digitalSignature": "Signature Numérique",
-    "verificationCode": "Code de Vérification",
-    "signature": "Signature",
-    "signedDate": "Date de Signature",
-    "justNow": "À l'instant",
-    "note": "Données extraites directement de Farm OS. La signature numérique infalsifiable confirme que cet enregistrement n'a pas été modifié depuis la signature.",
-    "whatIsSignature": "Qu'est-ce qu'une signature numérique ?",
-    "signatureExplanation": "Nos signatures numériques utilisent la technologie cryptographique pour prouver que ces données de lot sont authentiques et n'ont pas été altérées. Lorsque vous voyez une signature vérifiée, vous pouvez être sûr que les informations que vous consultez sont exactement ce qui a été enregistré dans Farm OS — pas quelque chose généré après coup.",
-    "howToVerify": "Comment vérifier",
-    "verifyInstructions": "Entrez le code de vérification ci-dessus sur notre page de vérification publique pour confirmer l'authenticité de cet enregistrement. Tout le monde peut vérifier — aucune connexion requise."
-  },
-  "breadcrumbs": {
-    "home": "Accueil",
-    "farm": "Ferme",
-    "processing": "Transformation",
-    "facilityFlowchart": "Organigramme de l'Installation",
-    "batchTraceability": "Traçabilité des Lots"
+    "batch": "Identifiants de lot uniques suivis dans Farm OS de la récolte à la livraison — pas un registre papier",
+    "public": "Vérifiable publiquement — toute personne disposant de l'identifiant du lot peut vérifier. Aucune connexion requise.",
+    "certs": "Certifications vérifiées et affichées par lot — pas de simples affirmations sur un site Web",
+    "ctaBody": "Chaque commande de gros inclut la traçabilité Farm OS avec signatures numériques sans coût supplémentaire. Vos acheteurs peuvent vérifier l'origine, la qualité, les certifications et l'intégrité des données — comme sur cette page.",
+    "ctaButton": "Explorer les options de gros"
   },
   "verify": {
-    "title": "Vérification de l'Enregistrement",
-    "valid": "Signature Farm OS Valide",
-    "explanation": "Ce code de vérification confirme qu'un enregistrement Farm OS a été signé numériquement et n'a pas été modifié. La signature est liée cryptographiquement aux données originales du lot.",
+    "title": "Vérification de l'enregistrement",
+    "valid": "Signature Farm OS valide",
+    "explanation": "Ce code de vérification confirme qu'un enregistrement Farm OS a été signé numériquement et n'a pas été modifié. La signature est cryptographiquement liée aux données d'origine du lot.",
     "tracePage": "Tracer un lot",
     "questions": "Des questions ?"
   },
-  "location": {
-    "title": "Localisation Vérifiée par GPS"
+  "farmOsRecord": {
+    "verificationCode": "Code de vérification"
   }
 }
