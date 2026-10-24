@@ -32,7 +32,6 @@ async function checkRateLimit(ip: string): Promise<{ ok: boolean; remaining?: nu
     const url = process.env.UPSTASH_REDIS_URL;
     const token = process.env.UPSTASH_REDIS_TOKEN;
 
-    // ── DIAGNOSTIC (remove after confirming) ──
     console.log(JSON.stringify({
         ts: new Date().toISOString(),
         event: 'ratelimit_check',
@@ -41,37 +40,73 @@ async function checkRateLimit(ip: string): Promise<{ ok: boolean; remaining?: nu
         ip,
     }));
 
-    if (!url || !token) return { ok: true }; // skip if not configured
+    if (!url || !token) return { ok: true };
 
     const key = `rl:trace:${ip}`;
     try {
-        // 1. INCR the counter.
-        //    POST is required — fetch defaults to GET, and Upstash's
-        //    /incr and /expire endpoints reject non-POST requests.
         const incrRes = await fetch(`${url}/incr/${key}`, {
             method: 'POST',
             headers: { Authorization: `Bearer ${token}` },
         });
-        if (!incrRes.ok) return { ok: true }; // fail-open
-        const count = (await incrRes.json()).result as number;
 
-        // 2. Set EXPIRE only on the first hit in the window.
-        //    If we ran EXPIRE on every INCR, the TTL would keep
-        //    resetting under steady traffic and the counter would
-        //    never clear — the IP would be locked out forever.
+        // 👇 NEW: log the raw INCR response
+        const incrBody = await incrRes.text();
+        console.log(JSON.stringify({
+            ts: new Date().toISOString(),
+            event: 'ratelimit_incr',
+            status: incrRes.status,
+            body: incrBody.slice(0, 500),
+            key,
+        }));
+
+        if (!incrRes.ok) return { ok: true };
+
+        let count = 0;
+        try {
+            count = JSON.parse(incrBody).result as number;
+        } catch {
+            console.warn(JSON.stringify({
+                ts: new Date().toISOString(),
+                event: 'ratelimit_parse_error',
+                body: incrBody.slice(0, 200),
+            }));
+            return { ok: true };
+        }
+
+        // 👇 NEW: log the parsed count
+        console.log(JSON.stringify({
+            ts: new Date().toISOString(),
+            event: 'ratelimit_count',
+            count,
+            key,
+        }));
+
         if (count === 1) {
-            await fetch(`${url}/expire/${key}/${RATE_LIMIT_WINDOW}`, {
+            const expireRes = await fetch(`${url}/expire/${key}/60`, {
                 method: 'POST',
                 headers: { Authorization: `Bearer ${token}` },
             });
+            console.log(JSON.stringify({
+                ts: new Date().toISOString(),
+                event: 'ratelimit_expire',
+                status: expireRes.status,
+                key,
+            }));
         }
 
         return {
-            ok: count <= RATE_LIMIT_MAX,
-            remaining: Math.max(0, RATE_LIMIT_MAX - count),
+            ok: count <= 30,
+            remaining: Math.max(0, 30 - count),
         };
-    } catch {
-        return { ok: true }; // fail-open: never break the API because Redis is down
+    } catch (err: any) {
+        // 👇 NEW: don't swallow the error silently
+        console.warn(JSON.stringify({
+            ts: new Date().toISOString(),
+            event: 'ratelimit_exception',
+            err: err?.message,
+            stack: err?.stack?.split('\n').slice(0, 3).join(' | '),
+        }));
+        return { ok: true };
     }
 }
 
