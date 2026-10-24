@@ -31,6 +31,16 @@ const RATE_LIMIT_WINDOW = 60;   // per 60 seconds, per IP
 async function checkRateLimit(ip: string): Promise<{ ok: boolean; remaining?: number }> {
     const url = process.env.UPSTASH_REDIS_URL;
     const token = process.env.UPSTASH_REDIS_TOKEN;
+
+    // ── DIAGNOSTIC (remove after confirming) ──
+    console.log(JSON.stringify({
+        ts: new Date().toISOString(),
+        event: 'ratelimit_check',
+        hasUrl: !!url,
+        hasToken: !!token,
+        ip,
+    }));
+
     if (!url || !token) return { ok: true }; // skip if not configured
 
     const key = `rl:trace:${ip}`;
