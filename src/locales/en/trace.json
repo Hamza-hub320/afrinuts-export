@@ -29,7 +29,23 @@
       "description": "Anyone with the code sees the public summary. Buyers log in to the Buyer Portal for the full record — lab results, farmer details, documents, and exact weights."
     }
   },
-
+  "batchIdExplainer": {
+    "title": "What the letters in your batch ID mean",
+    "warningTitle": "ORG does not mean certified organic",
+    "warningBody": "ORG describes how the batch was grown — organic agroforestry, no synthetic chemicals, currently in conversion toward organic certification. A batch is only described as certified organic once a certificate has actually been issued, and that status appears in the batch's certifications field.",
+    "orgTitle": "ORG",
+    "orgBody": "Grown using organic practices (organic agroforestry, no synthetic chemicals, in conversion).",
+    "convTitle": "CONV",
+    "convBody": "Grown using conventional farming practices.",
+    "footerNote": "Production method tells you how the crop was grown. Certification is a separate, audited status shown in the certifications field.",
+    "segments": {
+      "afn": "AfriNuts",
+      "farm": "Source",
+      "method": "Method",
+      "date": "Date",
+      "unique": "Unique"
+    }
+  },
   "privacy": {
     "title": "Public Summary. Private Details.",
     "body": "Every batch has a unique tracking code — printed on the QR sticker, Bill of Lading, and Certificate of Origin. Anyone with the code can verify the public record: origin, quality grade, certifications, and status. The full record — including lab results, buyer identity, farmer details, exact weights, and export documents — is only available to the verified buyer via the Buyer Portal.",
@@ -92,7 +108,9 @@
     "q4": "Who can see my batch record?",
     "a4": "Anyone with your unique tracking code can view the public traceability summary (origin, quality grade, certifications, and status). However, the full private record — including lab results, farmer details, exact weights, export documents, and pricing — is only available to the verified buyer via the Buyer Portal login. We never allow browsing without a specific code.",
     "q5": "How do I access my full buyer record?",
-    "a5": "Buyers receive a secure magic link by email whenever a batch is assigned to them. Click the link to sign in — no password required. If you're a buyer and haven't received your link, contact us at contact@afrinutsexport.com."
+    "a5": "Buyers receive a secure magic link by email whenever a batch is assigned to them. Click the link to sign in — no password required. If you're a buyer and haven't received your link, contact us at contact@afrinutsexport.com.",
+    "q6": "What do the letters in my batch ID mean?",
+    "a6": "A batch ID looks like this: AFN-FARM-ORG-260710-34D1 — AfriNuts, source, production method, date code, unique code. ORG means the batch was grown using organic practices: organic agroforestry, no synthetic chemicals, currently in conversion toward organic certification. ORG does NOT mean certified organic. A batch is only described as certified organic once a certificate has actually been issued, and that status will appear in the batch's certifications field. CONV means the batch was grown using conventional farming practices. Production method tells you how the crop was grown. Certification is a separate, audited status shown in the certifications field."
   },
   "trust": {
     "title": "What Makes Our Traceability Different",

@@ -188,7 +188,7 @@
       },
       {
         "question": "Are your products traceable?",
-        "answer": "Yes — and we mean that differently than most suppliers. Farm OS provides block-level traceability: GPS coordinates, harvest date, processing batch, and quality metrics. Enter your batch ID on our Trace page and see the full journey yourself. No login required.",
+        "answer": "Yes — and we mean that differently than most suppliers. Farm OS provides block-level traceability: GPS coordinates, harvest date, processing batch, and quality metrics. Enter your batch ID on our Trace page and See the public summary. Buyers log in for the full journey.",
         "audience": ["all", "b2b"]
       },
       {

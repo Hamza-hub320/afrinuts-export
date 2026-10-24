@@ -35,21 +35,31 @@ async function checkRateLimit(ip: string): Promise<{ ok: boolean; remaining?: nu
 
     const key = `rl:trace:${ip}`;
     try {
-        const res = await fetch(`${url}/pipeline`, {
+        // 1. INCR the counter.
+        //    POST is required — fetch defaults to GET, and Upstash's
+        //    /incr and /expire endpoints reject non-POST requests.
+        const incrRes = await fetch(`${url}/incr/${key}`, {
             method: 'POST',
-            headers: {
-                Authorization: `Bearer ${token}`,
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify([
-                ['INCR', key],
-                ['EXPIRE', key, RATE_LIMIT_WINDOW],
-            ]),
+            headers: { Authorization: `Bearer ${token}` },
         });
-        if (!res.ok) return { ok: true }; // fail-open
-        const data = await res.json();
-        const count = data?.[0]?.result ?? 0;
-        return { ok: count <= RATE_LIMIT_MAX, remaining: Math.max(0, RATE_LIMIT_MAX - count) };
+        if (!incrRes.ok) return { ok: true }; // fail-open
+        const count = (await incrRes.json()).result as number;
+
+        // 2. Set EXPIRE only on the first hit in the window.
+        //    If we ran EXPIRE on every INCR, the TTL would keep
+        //    resetting under steady traffic and the counter would
+        //    never clear — the IP would be locked out forever.
+        if (count === 1) {
+            await fetch(`${url}/expire/${key}/${RATE_LIMIT_WINDOW}`, {
+                method: 'POST',
+                headers: { Authorization: `Bearer ${token}` },
+            });
+        }
+
+        return {
+            ok: count <= RATE_LIMIT_MAX,
+            remaining: Math.max(0, RATE_LIMIT_MAX - count),
+        };
     } catch {
         return { ok: true }; // fail-open: never break the API because Redis is down
     }

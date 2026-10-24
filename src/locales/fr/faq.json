@@ -188,7 +188,7 @@
       },
       {
         "question": "Vos produits sont-ils traçables ?",
-        "answer": "Oui — et nous entendons cela différemment de la plupart des fournisseurs. Farm OS fournit une traçabilité au niveau du bloc : coordonnées GPS, date de récolte, lot de transformation et paramètres de qualité. Saisissez votre ID de lot sur notre page Trace et découvrez le parcours complet vous-même. Aucune connexion requise.",
+        "answer": "Oui — et nous l'entendons différemment de la plupart des fournisseurs. Farm OS offre une traçabilité au niveau du bloc : coordonnées GPS, date de récolte, lot de transformation et paramètres de qualité. Saisissez votre ID de lot sur notre page Tracer et consultez le résumé public. Les acheteurs se connectent pour voir le parcours complet.",
         "audience": ["all", "b2b"]
       },
       {

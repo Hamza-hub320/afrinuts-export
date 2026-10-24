@@ -221,26 +221,32 @@ const TracePage: React.FC = () => {
                                 <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-primary/10 text-primary text-xs rounded-full font-medium"><FaSignature className="text-[10px]" /> {t('promo.badgeSigned')}</span>
                             </div>
                             <motion.div variants={fadeIn} className="flex flex-col items-center lg:items-start gap-3">
-                                <div className="flex flex-wrap gap-2.5 justify-center lg:justify-start">
-                                    <div className="relative bg-white/50 backdrop-blur-sm border border-gray-300 rounded-full flex items-center">
+                                <div className="flex flex-col gap-3 w-full max-w-lg mx-auto lg:mx-0">
+                                    {/* Search Bar (Top - Full Width) */}
+                                    <div className="relative w-full bg-white/50 backdrop-blur-sm border border-gray-300 rounded-full flex items-center">
                                         <FaSearch className="absolute left-3 text-gray-400 text-xs" />
                                         <input type="text" placeholder={t('search.placeholder')}
-                                               className="pl-9 pr-20 py-2.5 bg-transparent text-sm focus:outline-none rounded-full w-56 batch-search-input"
+                                               className="w-full pl-9 pr-24 py-2.5 bg-transparent text-sm focus:outline-none rounded-full batch-search-input"
                                                onKeyDown={(e) => { if (e.key === 'Enter') { const input = e.currentTarget.value.trim(); if (input) window.location.href = `/trace?batchId=${encodeURIComponent(input)}`; } }} />
                                         <button onClick={() => { const input = document.querySelector<HTMLInputElement>('.batch-search-input'); const value = input?.value?.trim(); if (value) window.location.href = `/trace?batchId=${encodeURIComponent(value)}`; }}
                                                 className="absolute right-1 top-1 bottom-1 bg-primary text-white px-4 rounded-full text-xs font-medium hover:bg-dark-orange transition-colors">{t('search.button')}</button>
                                     </div>
-                                    <button onClick={() => window.location.href = '/trace?batchId=AFN-FARM-ORG-260710-34D1'}
-                                            className="relative border border-primary/40 text-primary hover:bg-primary/5 px-5 py-2.5 rounded-full text-sm font-medium inline-flex items-center gap-1.5 bg-white/50 backdrop-blur-sm">
-                                        <FaFlask className="text-xs" />{t('demo.button')}
-                                    </button>
-                                    <button onClick={() => window.location.href = '/trace?batchId=MB-20260710-085'}
-                                            className="relative border border-blue-400/40 text-blue-600 hover:bg-blue-50 px-5 py-2.5 rounded-full text-sm font-medium inline-flex items-center gap-1.5 bg-white/50 backdrop-blur-sm">
-                                        <FaShip className="text-xs" />{t('demo.bulkButton', 'View Bulk Shipment')}
-                                    </button>
+
+                                    {/* Two Demo Buttons (Bottom - Side by Side) */}
+                                    <div className="grid grid-cols-2 gap-3">
+                                        <button onClick={() => window.location.href = '/trace?batchId=AFN-FARM-ORG-260710-34D1'}
+                                                className="relative border border-primary/40 text-primary hover:bg-primary/5 px-5 py-2.5 rounded-full text-sm font-medium inline-flex items-center justify-center gap-1.5 bg-white/50 backdrop-blur-sm">
+                                            <FaFlask className="text-xs" />{t('demo.button')}
+                                        </button>
+                                        <button onClick={() => window.location.href = '/trace?batchId=MB-20260710-085'}
+                                                className="relative border border-blue-400/40 text-blue-600 hover:bg-blue-50 px-5 py-2.5 rounded-full text-sm font-medium inline-flex items-center justify-center gap-1.5 bg-white/50 backdrop-blur-sm">
+                                            <FaShip className="text-xs" />{t('demo.bulkButton', 'View Bulk Shipment')}
+                                        </button>
+                                    </div>
                                 </div>
+
                                 {promoBatchId && promoBatchId.trim() !== '' && (
-                                    <motion.div initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }} className="text-center lg:text-left">
+                                    <motion.div initial={{ opacity: 0, y: -5 }} animate={{ opacity: 1, y: 0 }} className="text-center lg:text-left mt-3">
                                         <Typography variant="small" className="text-amber-600 bg-amber-50/80 px-4 py-2 rounded-full inline-block">
                                             {t('search.notFound', { id: promoBatchId })}
                                         </Typography>
@@ -339,6 +345,76 @@ const TracePage: React.FC = () => {
                                 </StaggerItem>
                             ))}
                         </StaggerList>
+                    </div>
+                </Section>
+
+                {/* Batch ID Explainer */}
+                <Section className="py-10">
+                    <div className="max-w-3xl mx-auto px-4 sm:px-6">
+                        <Reveal>
+                            <InfoCard
+                                icon={FaClipboardList}
+                                title={t('batchIdExplainer.title')}
+                                variant="primary"
+                                showInfoBadge={false}
+                            >
+                                <div className="space-y-4">
+                                    <div className="bg-white/50 rounded-xl p-4 border border-white/30 text-center">
+                        <span className="font-mono text-lg font-bold text-primary">
+                            AFN<span className="text-accent">-</span>FARM<span className="text-accent">-</span><span className="text-amber-600">ORG</span><span className="text-accent">-</span>260710<span className="text-accent">-</span>34D1
+                        </span>
+                                    </div>
+
+                                    <div className="grid grid-cols-2 md:grid-cols-5 gap-2 text-center">
+                                        {[
+                                            { code: 'AFN', label: t('batchIdExplainer.segments.afn') },
+                                            { code: 'FARM', label: t('batchIdExplainer.segments.farm') },
+                                            { code: 'ORG', label: t('batchIdExplainer.segments.method') },
+                                            { code: '260710', label: t('batchIdExplainer.segments.date') },
+                                            { code: '34D1', label: t('batchIdExplainer.segments.unique') },
+                                        ].map((item, i) => (
+                                            <div key={i} className="bg-white/40 rounded-lg p-2 border border-white/20">
+                                                <div className="font-mono font-bold text-primary text-xs">{item.code}</div>
+                                                <div className="text-[10px] text-gray-500 mt-0.5">{item.label}</div>
+                                            </div>
+                                        ))}
+                                    </div>
+
+                                    <div className="bg-amber-50/80 border border-amber-200 rounded-xl p-4">
+                                        <div className="flex items-start gap-3">
+                                            <FaExclamationTriangle className="text-amber-600 mt-0.5 flex-shrink-0" />
+                                            <div>
+                                                <Typography variant="small" className="font-semibold text-amber-900 mb-1">
+                                                    {t('batchIdExplainer.warningTitle')}
+                                                </Typography>
+                                                <Typography variant="small" className="text-amber-800 leading-relaxed">
+                                                    {t('batchIdExplainer.warningBody')}
+                                                </Typography>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                        <div className="bg-white/50 rounded-xl p-3 border border-white/30">
+                                            <div className="font-mono text-sm font-bold text-amber-600 mb-1">{t('batchIdExplainer.orgTitle')}</div>
+                                            <Typography variant="small" className="text-gray-700 text-xs">
+                                                {t('batchIdExplainer.orgBody')}
+                                            </Typography>
+                                        </div>
+                                        <div className="bg-white/50 rounded-xl p-3 border border-white/30">
+                                            <div className="font-mono text-sm font-bold text-gray-600 mb-1">{t('batchIdExplainer.convTitle')}</div>
+                                            <Typography variant="small" className="text-gray-700 text-xs">
+                                                {t('batchIdExplainer.convBody')}
+                                            </Typography>
+                                        </div>
+                                    </div>
+
+                                    <Typography variant="small" className="text-gray-600 text-center text-xs">
+                                        {t('batchIdExplainer.footerNote')}
+                                    </Typography>
+                                </div>
+                            </InfoCard>
+                        </Reveal>
                     </div>
                 </Section>
 
@@ -488,6 +564,7 @@ const TracePage: React.FC = () => {
                                 { q: t('faq.q3'), a: t('faq.a3') },
                                 { q: t('faq.q4'), a: t('faq.a4') },
                                 { q: t('faq.q5'), a: t('faq.a5') },
+                                { q: t('faq.q6'), a: t('faq.a6') }
                             ].map((item, i) => (
                                 <StaggerItem key={i}>
                                     <details className="group bg-white/50 backdrop-blur-sm rounded-xl border border-white/30 overflow-hidden">
