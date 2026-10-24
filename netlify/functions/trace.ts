@@ -433,26 +433,15 @@ export const handler: Handler = async (event: HandlerEvent) => {
 
         const viewerUid = await getViewerUid(event);
 
-        // ── Case: no batchId → sample list ────────────────
-        if (!batchId) {
-            const [batchesSnapshot, masterSnapshot] = await Promise.all([
-                db.collection('farms').doc(fid).collection('quality_batches').limit(20).get(),
-                db.collection('farms').doc(fid).collection('master_traceability').limit(10).get(),
-            ]);
-            const batches = batchesSnapshot.docs.map(doc => ({
-                id: doc.id,
-                batchId: doc.data().batchNumber,
-            }));
-            const masterBatches = masterSnapshot.docs.map(doc => ({
-                id: doc.id,
-                batchId: doc.data().masterBatchNumber,
-                isBulk: true,
-            }));
-            log('info', 'samples_listed', { rid, batches: batches.length, masters: masterBatches.length });
+        // ── Case: no batchId → reject (no public index) ────────────
+        if (!batchId || batchId.trim() === '') {
             return {
-                statusCode: 200,
-                headers: { ...baseHeaders, 'Cache-Control': 'public, max-age=60' },
-                body: JSON.stringify({ batches: [...batches, ...masterBatches] }),
+                statusCode: 400,
+                headers: { ...baseHeaders, 'Cache-Control': 'no-store' },
+                body: JSON.stringify({
+                    error: 'batch_id_required',
+                    message: 'A batchId query parameter is required to fetch traceability data.',
+                }),
             };
         }
 
