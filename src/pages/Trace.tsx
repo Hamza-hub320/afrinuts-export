@@ -552,8 +552,6 @@ const TracePage: React.FC = () => {
                 <meta name="description" content={`Traceability record for ${displayTitle}. View harvest data, quality metrics, GPS coordinates, and certification verification. Powered by AfriNuts Farm OS.`} />
             </Helmet>
 
-            {(batch?.isDemo || bulkData?.masterBatch?.isDemo) && <DemoBanner />}
-
             {/* HERO */}
             <Section className="flex items-center justify-center text-center min-h-[50vh]" animate={false}>
                 <motion.div className="max-w-3xl px-6 sm:px-8 py-12" variants={fadeIn} initial="hidden" animate="visible">
@@ -678,6 +676,11 @@ const TracePage: React.FC = () => {
                                         <div className="inline-flex items-center gap-2 bg-primary/10 px-6 py-2 rounded-full">
                                             <FaCheckCircle className="text-primary" />
                                             <span className="font-mono text-lg font-bold text-primary">{b.batchId}</span>
+                                            {b.isDemo && (
+                                                <span className="px-2 py-0.5 bg-amber-200 text-amber-900 text-[10px] font-bold rounded-full uppercase tracking-wider print:border print:border-black print:bg-white print:text-black">
+                                        Demo
+                                    </span>
+                                            )}
                                         </div>
                                         {b.sourceType === 'OWN_FARM' && (
                                             <span className="ml-3 px-2 py-0.5 bg-green-100 text-green-700 text-xs rounded-full">AfriNuts Farm</span>
@@ -702,9 +705,9 @@ const TracePage: React.FC = () => {
                                     </StaggerList>
 
                                     <Reveal delay={0.15} className="mt-5 flex items-center justify-center">
-                                        <span className="px-4 py-2 rounded-full text-sm font-semibold flex items-center gap-2 bg-green-100 text-green-700">
-                                            <FaShip className="text-xs" /> {b.status?.replace(/_/g, ' ')}
-                                        </span>
+                            <span className="px-4 py-2 rounded-full text-sm font-semibold flex items-center gap-2 bg-green-100 text-green-700">
+                                <FaShip className="text-xs" /> {b.status?.replace(/_/g, ' ')}
+                            </span>
                                     </Reveal>
 
                                     {b.certifications && b.certifications.length > 0 && (
@@ -717,8 +720,8 @@ const TracePage: React.FC = () => {
                                                 <div className="flex flex-wrap gap-2">
                                                     {b.certifications.map((cert, idx) => (
                                                         <span key={idx} className="inline-flex items-center px-3 py-1.5 rounded-full text-sm font-medium bg-primary/10 text-primary border border-primary/20">
-                                                            {cert}
-                                                        </span>
+                                                {cert}
+                                            </span>
                                                     ))}
                                                 </div>
                                             </div>
