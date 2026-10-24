@@ -39,7 +39,7 @@ import {
     FaCalendarAlt,
     FaGlobe,
     FaSignature,
-    FaInfoCircle, FaArrowRight
+    FaInfoCircle, FaArrowRight, FaExclamationTriangle
 } from "react-icons/fa";
 import { GiFarmer } from "react-icons/gi";
 import { fadeIn, staggerContainer } from "@/utils/animations";
@@ -553,42 +553,120 @@ const TracePage: React.FC = () => {
             </Helmet>
 
             {/* HERO */}
-            <Section className="flex items-center justify-center text-center min-h-[50vh]" animate={false}>
-                <motion.div className="max-w-3xl px-6 sm:px-8 py-12" variants={fadeIn} initial="hidden" animate="visible">
-                    <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-4">
-                        {bulkData ? <FaShip className="inline mr-3 text-blue-600" /> : <FaQrcode className="inline mr-3 text-accent" />}
-                        {bulkData ? 'Bulk Shipment Traceability' : 'AfriNuts Batch Traceability'}
-                    </Typography>
-                    {/* Display title (batch ID or master batch number) */}
-                    <div className="inline-flex items-center gap-2 bg-primary/10 px-6 py-2 rounded-full mb-4">
-                        <FaCheckCircle className="text-primary" />
-                        <span className="font-mono text-lg font-bold text-primary">{displayTitle}</span>
-                        {(batch?.isDemo || bulkData?.masterBatch?.isDemo) && (
-                            <span className="px-2 py-0.5 bg-amber-200 text-amber-900 text-[10px] font-bold rounded-full uppercase tracking-wider print:border print:border-black print:bg-white print:text-black">
-                                Demo
-                            </span>
-                        )}
-                    </div>
-                    <Typography variant="h1" className="text-4xl md:text-5xl lg:text-6xl font-display text-text-dark mb-6">{displayTitle}</Typography>
-                    {bulkData && (
-                        <Typography variant="lead" className="text-text-dark max-w-2xl mx-auto">
-                            {bulkData.masterBatch.shipmentName} · {bulkData.masterBatch.totalBatches} batches consolidated
+            <Section className="flex items-center justify-center text-center min-h-[65vh]" animate={false}>
+                <motion.div
+                    className="max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12 flex flex-col lg:flex-row items-center gap-6 lg:gap-16"
+                    initial="hidden"
+                    animate="visible"
+                    variants={staggerContainer}
+                >
+                    {/* Left Column: Title + Search */}
+                    <motion.div className="flex-1 max-w-none lg:max-w-xl text-center lg:text-left" variants={fadeIn}>
+                        <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-3">
+                            {bulkData ? <FaShip className="inline mr-2 text-blue-600" /> : <FaQrcode className="inline mr-2 text-accent" />}
+                            {bulkData ? 'Bulk Shipment Traceability' : 'AfriNuts Batch Traceability'}
                         </Typography>
-                    )}
-                    <Typography variant="lead" className="text-text-dark max-w-2xl mx-auto mt-2">
-                        Verify origin, quality grade, certifications, and shipment status for this batch.
-                        Full lab results, farmer details, GPS coordinates, and export documents are available to buyers in the Buyer Portal.
-                    </Typography>
-                    <form onSubmit={handleSearch} className="mt-8 max-w-md mx-auto">
-                        <div className="relative">
-                            <FaSearch className="absolute left-4 top-3.5 text-gray-400" />
-                            <input type="text" placeholder="Enter your Batch ID..." value={searchInput} onChange={(e) => setSearchInput(e.target.value)}
-                                   className="w-full pl-12 pr-20 py-3 rounded-full border border-gray-300 bg-white/70 backdrop-blur-md text-sm focus:outline-none focus:ring-2 focus:ring-primary shadow-sm" />
-                            <button type="submit" className="absolute right-2 top-1/2 -translate-y-1/2 bg-primary text-white px-5 py-1.5 rounded-full text-sm font-medium hover:bg-dark-orange transition">
-                                Trace
-                            </button>
+
+                        <motion.h1
+                            className="font-display text-3xl md:text-4xl lg:text-5xl text-text-dark mb-4 leading-tight"
+                            variants={fadeIn}
+                            style={{ letterSpacing: '-0.03em' }}
+                        >
+                            {displayTitle}
+                        </motion.h1>
+
+                        {bulkData && (
+                            <Typography variant="lead" className="text-text-dark mb-3 text-base lg:text-lg">
+                                {bulkData.masterBatch.shipmentName} · {bulkData.masterBatch.totalBatches} batches consolidated
+                            </Typography>
+                        )}
+
+                        <Typography variant="lead" className="text-text-dark mb-5 text-base lg:text-lg">
+                            Verify origin, quality grade, certifications, and shipment status for this batch.
+                            Full lab results, farmer details, GPS coordinates, and export documents are available to buyers in the Buyer Portal.
+                        </Typography>
+
+                        <div className="flex flex-wrap justify-center lg:justify-start gap-2 mb-5">
+                <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-primary/10 text-primary text-xs rounded-full font-medium">
+                    <FaCheckCircle className="text-[10px]" /> Farm OS Verified
+                </span>
+                            <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-green-50 text-green-700 text-xs rounded-full font-medium">
+                    <FaShieldAlt className="text-[10px]" /> Publicly Verifiable
+                </span>
                         </div>
-                    </form>
+
+                        <form onSubmit={handleSearch} className="max-w-md mx-auto lg:mx-0">
+                            <div className="relative">
+                                <FaSearch className="absolute left-4 top-3.5 text-gray-400" />
+                                <input
+                                    type="text"
+                                    placeholder="Enter your Batch ID..."
+                                    value={searchInput}
+                                    onChange={(e) => setSearchInput(e.target.value)}
+                                    className="w-full pl-12 pr-20 py-3 rounded-full border border-gray-300 bg-white/70 backdrop-blur-md text-sm focus:outline-none focus:ring-2 focus:ring-primary shadow-sm"
+                                />
+                                <button
+                                    type="submit"
+                                    className="absolute right-2 top-1/2 -translate-y-1/2 bg-primary text-white px-5 py-1.5 rounded-full text-sm font-medium hover:bg-dark-orange transition"
+                                >
+                                    Trace
+                                </button>
+                            </div>
+                        </form>
+                    </motion.div>
+
+                    {/* Right Column: Glass Card (Demo Warning or Verification Badge) */}
+                    <motion.div className="flex-shrink-0 lg:ml-auto w-full max-w-sm lg:max-w-md" variants={fadeIn} transition={{ delay: 0.2 }}>
+                        <div className="group relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 transition-all duration-500 rounded-2xl shadow-xl p-6 transform-gpu overflow-hidden"
+                             style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}>
+                            <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px]" />
+                            <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40" />
+                            <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)]" />
+
+                            <div className="relative z-10">
+                                {(batch?.isDemo || bulkData?.masterBatch?.isDemo) ? (
+                                    // ── Demo Warning Card ──
+                                    <div className="text-center">
+                                        <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-amber-100 border-2 border-amber-300 flex items-center justify-center">
+                                            <FaExclamationTriangle className="text-amber-600 text-2xl" />
+                                        </div>
+                                        <Typography variant="h4" className="text-primary font-bold mb-2">
+                                            Demonstration Record
+                                        </Typography>
+                                        <span className="inline-block px-3 py-1 bg-amber-200 text-amber-900 text-[11px] font-bold rounded-full uppercase tracking-wider mb-4">
+                                Sample Data
+                            </span>
+                                        <Typography variant="small" className="text-gray-700 leading-relaxed">
+                                            This shows how a real AfriNuts batch will appear once shipping begins. It is not a real shipment, and the certifications shown are illustrative, not achieved.
+                                        </Typography>
+                                    </div>
+                                ) : (
+                                    // ── Real Batch Card ──
+                                    <div className="text-center">
+                                        <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-green-100 border-2 border-green-300 flex items-center justify-center">
+                                            <FaCheckCircle className="text-green-600 text-2xl" />
+                                        </div>
+                                        <Typography variant="h4" className="text-primary font-bold mb-2">
+                                            Farm OS Verified
+                                        </Typography>
+                                        <span className="inline-block px-3 py-1 bg-green-100 text-green-700 text-[11px] font-bold rounded-full uppercase tracking-wider mb-4">
+                                Public Record
+                            </span>
+                                        <Typography variant="small" className="text-gray-700 leading-relaxed">
+                                            Origin, quality grade, and certifications have been verified against this batch's Farm OS record.
+                                        </Typography>
+                                    </div>
+                                )}
+
+                                <div className="mt-6 pt-4 border-t border-white/30">
+                                    <div className="flex items-center justify-center gap-2 text-xs text-gray-500">
+                                        <FaShieldAlt className="text-accent" />
+                                        <span>Tamper-proof digital signature</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </motion.div>
                 </motion.div>
             </Section>
 
