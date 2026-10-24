@@ -196,6 +196,7 @@ function mapToPublicBatch(batchData: any, supplier: any, traceability: any) {
             ? `~${Math.round(batchData.weightKg / 1000)}T`
             : null,
         hasDigitalSignature: !!(traceability?.verificationCode || batchData.verificationCode),
+        isDemo: batchData.isDemo === true,
     };
 }
 
@@ -528,6 +529,7 @@ export const handler: Handler = async (event: HandlerEvent) => {
                         totalWeightKg: masterData.totalWeightKg,
                         grades: masterData.grades,
                         traceabilityUrl: masterData.traceabilityUrl,
+                        isDemo: masterData.isDemo === true,
                     },
                     batches,
                     farmers,

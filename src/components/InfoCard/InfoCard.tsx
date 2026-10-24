@@ -7,7 +7,7 @@ import { FaInfoCircle } from 'react-icons/fa';
 interface InfoCardProps {
     hideIconContainer?: boolean;
     icon?: IconType;
-    title: string;
+    title: string | React.ReactNode;
     subtitle?: string;
     children?: React.ReactNode;
     iconColor?: string;

@@ -342,6 +342,12 @@ a {
   }
 }
 
+@media print {
+  nav, footer, .fixed, button:not(.print-keep), [class*="z-50"] {
+    display: none !important;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

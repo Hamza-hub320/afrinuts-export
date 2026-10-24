@@ -60,6 +60,7 @@ interface PublicBatch {
     hasDigitalSignature?: boolean;
     isInspected?: boolean;
     certifications?: string[];
+    isDemo?: boolean;
 }
 
 interface BulkData {
@@ -72,6 +73,7 @@ interface BulkData {
         totalBatches: number;
         totalWeightKg: number;
         grades: string;
+        isDemo?: boolean;
     };
     batches: PublicBatch[];
 }
@@ -169,6 +171,25 @@ const TracePage: React.FC = () => {
             </main>
         );
     }
+
+    const DemoBanner: React.FC = () => (
+        <div className="w-full bg-amber-50 border-y-2 border-amber-300 py-3 px-4 print:border-black print:bg-white">
+            <div className="max-w-4xl mx-auto flex items-start gap-3">
+            <span className="inline-flex items-center justify-center w-8 h-8 rounded-full bg-amber-200 text-amber-800 font-bold text-sm flex-shrink-0 print:border print:border-black print:bg-white">
+                !
+            </span>
+                <div className="flex-1">
+                    <p className="text-sm font-semibold text-amber-900 print:text-black">
+                        Demonstration Record — Sample Data
+                    </p>
+                    <p className="text-xs text-amber-800 mt-0.5 print:text-black">
+                        This shows how a real AfriNuts batch will appear once shipping begins. It is not a real shipment,
+                        and the certifications shown are illustrative, not achieved.
+                    </p>
+                </div>
+            </div>
+        </div>
+    );
 
     // ========== PROMO PAGE (Translated) ==========
     if (!currentBatch && !loading) {
@@ -531,6 +552,8 @@ const TracePage: React.FC = () => {
                 <meta name="description" content={`Traceability record for ${displayTitle}. View harvest data, quality metrics, GPS coordinates, and certification verification. Powered by AfriNuts Farm OS.`} />
             </Helmet>
 
+            {(batch?.isDemo || bulkData?.masterBatch?.isDemo) && <DemoBanner />}
+
             {/* HERO */}
             <Section className="flex items-center justify-center text-center min-h-[50vh]" animate={false}>
                 <motion.div className="max-w-3xl px-6 sm:px-8 py-12" variants={fadeIn} initial="hidden" animate="visible">
@@ -538,6 +561,16 @@ const TracePage: React.FC = () => {
                         {bulkData ? <FaShip className="inline mr-3 text-blue-600" /> : <FaQrcode className="inline mr-3 text-accent" />}
                         {bulkData ? 'Bulk Shipment Traceability' : 'AfriNuts Batch Traceability'}
                     </Typography>
+                    {/* Display title (batch ID or master batch number) */}
+                    <div className="inline-flex items-center gap-2 bg-primary/10 px-6 py-2 rounded-full mb-4">
+                        <FaCheckCircle className="text-primary" />
+                        <span className="font-mono text-lg font-bold text-primary">{displayTitle}</span>
+                        {(batch?.isDemo || bulkData?.masterBatch?.isDemo) && (
+                            <span className="px-2 py-0.5 bg-amber-200 text-amber-900 text-[10px] font-bold rounded-full uppercase tracking-wider print:border print:border-black print:bg-white print:text-black">
+                                Demo
+                            </span>
+                        )}
+                    </div>
                     <Typography variant="h1" className="text-4xl md:text-5xl lg:text-6xl font-display text-text-dark mb-6">{displayTitle}</Typography>
                     {bulkData && (
                         <Typography variant="lead" className="text-text-dark max-w-2xl mx-auto">
@@ -585,9 +618,22 @@ const TracePage: React.FC = () => {
             {bulkData && (
                 <Section className="py-6">
                     <div className="max-w-4xl mx-auto px-4 sm:px-6">
-                        <InfoCard icon={FaShip} title={`Bulk Shipment: ${bulkData.masterBatch.masterBatchNumber}`}
-                                  subtitle={`${bulkData.masterBatch.shipmentName} · ${bulkData.masterBatch.totalBatches} batches consolidated`}
-                                  iconColor="text-blue-600" showInfoBadge={false}>
+                        <InfoCard
+                            icon={FaShip}
+                            title={
+                                <span className="inline-flex items-center gap-2">
+                        <span>Bulk Shipment: {bulkData.masterBatch.masterBatchNumber}</span>
+                                    {bulkData.masterBatch.isDemo && (
+                                        <span className="px-2 py-0.5 bg-amber-200 text-amber-900 text-[10px] font-bold rounded-full uppercase tracking-wider">
+                                Demo
+                            </span>
+                                    )}
+                    </span>
+                            }
+                            subtitle={`${bulkData.masterBatch.shipmentName} · ${bulkData.masterBatch.totalBatches} batches consolidated`}
+                            iconColor="text-blue-600"
+                            showInfoBadge={false}
+                        >
                             <StaggerList className="grid grid-cols-2 md:grid-cols-3 gap-3 mt-3">
                                 {[
                                     { label: 'Destination Country', value: bulkData.masterBatch.destinationCountry || '—', icon: FaGlobeAfrica },
