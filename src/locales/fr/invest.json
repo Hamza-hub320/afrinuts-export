@@ -42,7 +42,7 @@
         "desc": "AfriNuts construit la première usine de transformation certifiée et technologique du nord-ouest de la Côte d'Ivoire. Farm OS offre déjà une transparence de niveau institutionnel qu'aucun concurrent ne peut égaler.",
         "stat": "Pionnier",
         "highlights": [
-          "Plateforme Farm OS sur mesure — déjà en service",
+          "Plateforme Farm OS sur mesure — environnement de démonstration en direct",
           "45 ha sécurisés — 35 ha plantés, 10 ha réservés à la transformation",
           "Coopérative de 200+ agriculteurs sécurisée"
         ]
@@ -289,7 +289,7 @@
   },
   "korNote": {
     "title": "Rendement en amandes (KOR)",
-    "body": "Les chiffres totaux de production de noix de cajou d'Odienné sont confidentiels selon le Conseil du Coton et de l'Anacarde (CCAK). Notre modèle Phase Deux utilise un KOR de 25 % — un chiffre de planification conservateur standard de l'industrie. Notre réseau d'intelligence fournisseurs est actif aujourd'hui : chaque lot est lié à son agriculteur, son type de source et ses métriques de qualité via Farm OS. Au fur et à mesure que les cycles d'approvisionnement se terminent, nous publierons les données KOR vérifiées de nos propres opérations.",
+    "body": "Les chiffres totaux de production de noix de cajou d'Odienné sont confidentiels selon le Conseil du Coton et de l'Anacarde (CCAK). Notre modèle de Phase Deux utilise un KOR de 25 % — un chiffre de planification conservateur conforme aux normes du secteur. Notre réseau d'intelligence fournisseurs sera lancé avec le financement de la Phase Un : chaque lot est lié à son agriculteur, à son type de source et à ses paramètres de qualité via Farm OS. Au fur et à mesure que les cycles d'approvisionnement se terminent, nous publierons des données KOR vérifiées issues de nos propres opérations.",
     "currentAssumption": "25 % — norme de l'industrie",
     "currentCapability": "Intelligence fournisseurs active aujourd'hui",
     "futureCommitment": "Données KOR vérifiées publiées à mesure que les cycles d'approvisionnement se terminent"
@@ -484,7 +484,7 @@
       {
         "year": "Aujourd'hui",
         "title": "Fondation terminée",
-        "desc": "Incorporée légalement. 35 hectares plantés. 3 500 arbres. Farm OS en service. Coopérative de 200+ agriculteurs sécurisée. La fondation est construite — en attente de cet investissement pour s'activer.",
+        "desc": "Constituée légalement. 35 hectares plantés. 3 500 arbres. Environnement de démonstration Farm OS opérationnel. Coopérative de 200+ agriculteurs sécurisée. La fondation est construite — en attente de cet investissement pour être activée.",
         "status": "complete"
       },
       {

@@ -37,7 +37,7 @@
         "title": "Tech-Enabled First Mover",
         "desc": "AfriNuts is building the first tech-enabled certified processing facility in northwestern Côte d'Ivoire. Farm OS already provides institutional-grade transparency that no competitor can match.",
         "stat": "First Mover",
-        "highlights": ["Custom Farm OS platform — live today", "45 ha secured — 35 ha planted, 10 ha reserved for processing", "200+ farmer cooperative secured"]
+        "highlights": ["Custom Farm OS platform — live demonstration environment", "45 ha secured — 35 ha planted, 10 ha reserved for processing", "200+ farmer cooperative secured"]
       },
       "margin": {
         "title": "5x Margin Expansion",
@@ -281,7 +281,7 @@
   },
   "korNote": {
     "title": "Kernel Outturn (KOR)",
-    "body": "Odienné's total cashew production figures are confidential per the Conseil du Coton et de l'Anacarde (CCAK). Our Phase Two model uses a 25% KOR — an industry-standard conservative planning figure. Our supplier intelligence network is live today: every batch links to its farmer, source type, and quality metrics via Farm OS. As procurement cycles complete, we will publish verified KOR data from our own operations.",
+    "body": "Odienné's total cashew production figures are confidential per the Conseil du Coton et de l'Anacarde (CCAK). Our Phase Two model uses a 25% KOR — an industry-standard conservative planning figure. Our supplier intelligence network will launch with Phase One funding: every batch links to its farmer, source type, and quality metrics via Farm OS. As procurement cycles complete, we will publish verified KOR data from our own operations.",
     "currentAssumption": "25% — industry standard",
     "currentCapability": "Supplier intelligence live today",
     "futureCommitment": "Verified KOR data published as procurement cycles complete"
@@ -476,7 +476,7 @@
       {
         "year": "Now",
         "title": "Foundation Complete",
-        "desc": "Legally incorporated. 35 hectares planted. 3,500 trees. Farm OS live. 200+ farmer cooperative secured. The foundation is built — waiting for this investment to activate.",
+        "desc": "Legally incorporated. 35 hectares planted. 3,500 trees. Farm OS demonstration environment live. 200+ farmer cooperative secured. The foundation is built — waiting for this investment to activate.",
         "status": "complete"
       },
       {

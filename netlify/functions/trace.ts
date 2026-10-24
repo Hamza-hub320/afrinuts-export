@@ -31,15 +31,6 @@ const RATE_LIMIT_WINDOW = 60;   // per 60 seconds, per IP
 async function checkRateLimit(ip: string): Promise<{ ok: boolean; remaining?: number }> {
     const url = process.env.UPSTASH_REDIS_URL;
     const token = process.env.UPSTASH_REDIS_TOKEN;
-
-    console.log(JSON.stringify({
-        ts: new Date().toISOString(),
-        event: 'ratelimit_check',
-        hasUrl: !!url,
-        hasToken: !!token,
-        ip,
-    }));
-
     if (!url || !token) return { ok: true };
 
     const key = `rl:trace:${ip}`;
@@ -48,64 +39,21 @@ async function checkRateLimit(ip: string): Promise<{ ok: boolean; remaining?: nu
             method: 'POST',
             headers: { Authorization: `Bearer ${token}` },
         });
-
-        // 👇 NEW: log the raw INCR response
-        const incrBody = await incrRes.text();
-        console.log(JSON.stringify({
-            ts: new Date().toISOString(),
-            event: 'ratelimit_incr',
-            status: incrRes.status,
-            body: incrBody.slice(0, 500),
-            key,
-        }));
-
         if (!incrRes.ok) return { ok: true };
-
-        let count = 0;
-        try {
-            count = JSON.parse(incrBody).result as number;
-        } catch {
-            console.warn(JSON.stringify({
-                ts: new Date().toISOString(),
-                event: 'ratelimit_parse_error',
-                body: incrBody.slice(0, 200),
-            }));
-            return { ok: true };
-        }
-
-        // 👇 NEW: log the parsed count
-        console.log(JSON.stringify({
-            ts: new Date().toISOString(),
-            event: 'ratelimit_count',
-            count,
-            key,
-        }));
+        const count = (await incrRes.json()).result as number;
 
         if (count === 1) {
-            const expireRes = await fetch(`${url}/expire/${key}/60`, {
+            await fetch(`${url}/expire/${key}/${RATE_LIMIT_WINDOW}`, {
                 method: 'POST',
                 headers: { Authorization: `Bearer ${token}` },
             });
-            console.log(JSON.stringify({
-                ts: new Date().toISOString(),
-                event: 'ratelimit_expire',
-                status: expireRes.status,
-                key,
-            }));
         }
 
         return {
-            ok: count <= 30,
-            remaining: Math.max(0, 30 - count),
+            ok: count <= RATE_LIMIT_MAX,
+            remaining: Math.max(0, RATE_LIMIT_MAX - count),
         };
-    } catch (err: any) {
-        // 👇 NEW: don't swallow the error silently
-        console.warn(JSON.stringify({
-            ts: new Date().toISOString(),
-            event: 'ratelimit_exception',
-            err: err?.message,
-            stack: err?.stack?.split('\n').slice(0, 3).join(' | '),
-        }));
+    } catch {
         return { ok: true };
     }
 }
