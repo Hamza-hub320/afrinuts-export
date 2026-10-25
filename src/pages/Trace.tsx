@@ -663,6 +663,20 @@ const TracePage: React.FC = () => {
                             Full lab results, farmer details, GPS coordinates, and export documents are available to buyers in the Buyer Portal.
                         </Typography>
 
+                        <div className="max-w-2xl mx-auto mt-4 mb-5 text-left">
+                            <InfoCard
+                                icon={FaShieldAlt}
+                                title="Farmer Consent"
+                                variant="secondary"
+                                iconColor="text-accent"
+                                showInfoBadge={false}
+                            >
+                                <Typography variant="small" className="text-gray-600 leading-relaxed">
+                                    Farmer identity and precise location are shared only with the farmer's recorded consent.
+                                </Typography>
+                            </InfoCard>
+                        </div>
+
                         <div className="flex flex-wrap justify-center lg:justify-start gap-2 mb-5">
                 <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-primary/10 text-primary text-xs rounded-full font-medium">
                     <FaCheckCircle className="text-[10px]" /> Farm OS Verified
