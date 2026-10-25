@@ -679,14 +679,23 @@ export const handler: Handler = async (event: HandlerEvent) => {
 
                 // ── Compute next: 'set' replaces, 'add' appends ──
                 let next: string[];
+                const items = Array.isArray(pending.items) ? pending.items : [];
                 if (pending.mode === 'set') {
-                    next = pending.items;
+                    next = items;
                 } else {
-                    next = Array.from(new Set([...current, ...pending.items]));
+                    next = Array.from(new Set([...current, ...items]));
                 }
 
                 const approver = await getUserProfile(viewerUid);
                 const now = new Date().toISOString();
+
+
+                const auditPayload: Record<string, any> = { pendingId };
+                if (pending.kind !== undefined) auditPayload.kind = pending.kind;
+                if (pending.items !== undefined) auditPayload.items = pending.items;
+                if (pending.mode !== undefined) auditPayload.mode = pending.mode;
+                else auditPayload.mode = 'add'; // legacy entries were always 'add' behavior
+                if (pending.requestedBy !== undefined) auditPayload.requestedBy = pending.requestedBy;
 
                 await buyerRef.update({
                     [field]: next,
@@ -697,7 +706,7 @@ export const handler: Handler = async (event: HandlerEvent) => {
                         actor: viewerUid,
                         actorName: approver?.name || 'Admin',
                         actorRole: approver?.role || 'OWNER',
-                        payload: { pendingId, kind: pending.kind, items: pending.items, mode: pending.mode, requestedBy: pending.requestedBy },
+                        payload: auditPayload,
                     }),
                 });
 
