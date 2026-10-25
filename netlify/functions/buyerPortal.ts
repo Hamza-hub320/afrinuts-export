@@ -607,7 +607,9 @@ export const handler: Handler = async (event: HandlerEvent) => {
             }
 
             if (action === 'admin_approveAssignment') {
-                if (event.httpMethod !== 'POST') return { statusCode: 405, headers, body: JSON.stringify({ error: 'method_not_allowed' }) };
+                if (event.httpMethod !== 'POST') {
+                    return { statusCode: 405, headers, body: JSON.stringify({ error: 'method_not_allowed' }) };
+                }
 
                 const { buyerId, pendingId } = JSON.parse(event.body || '{}');
                 if (!buyerId || !pendingId) {
@@ -616,12 +618,16 @@ export const handler: Handler = async (event: HandlerEvent) => {
 
                 const buyerRef = db.collection('farms').doc(fid).collection('buyers').doc(buyerId);
                 const buyerDoc = await buyerRef.get();
-                if (!buyerDoc.exists) return { statusCode: 404, headers, body: JSON.stringify({ error: 'buyer_not_found' }) };
+                if (!buyerDoc.exists) {
+                    return { statusCode: 404, headers, body: JSON.stringify({ error: 'buyer_not_found' }) };
+                }
 
                 const buyer = buyerDoc.data() || {};
                 const pendingList: any[] = buyer.pendingAssignments || [];
                 const pending = pendingList.find((p: any) => p.id === pendingId);
-                if (!pending) return { statusCode: 404, headers, body: JSON.stringify({ error: 'pending_not_found' }) };
+                if (!pending) {
+                    return { statusCode: 404, headers, body: JSON.stringify({ error: 'pending_not_found' }) };
+                }
 
                 // ── Hierarchy check ──
                 const gate = await canApprove(viewerUid, pending.requestedBy);
@@ -634,13 +640,13 @@ export const handler: Handler = async (event: HandlerEvent) => {
                             hint:
                                 gate.reason === 'cannot_approve_own_request' ? 'A second admin must approve this request.' :
                                     gate.reason === 'same_role_cannot_approve' ? 'Only a senior role (OWNER) can approve this request.' :
-                                        gate.reason === 'insufficient_role_to_approve' ? 'Your role is below the requester\'s — only a senior admin can approve.' :
+                                        gate.reason === 'insufficient_role_to_approve' ? "Your role is below the requester's — only a senior admin can approve." :
                                             'You cannot approve this request.',
                         }),
                     };
                 }
 
-                // ── Re-check exclusivity (state may have changed since request) ──
+                // ── Re-check exclusivity (state may have drifted since request) ──
                 for (const id of pending.items as string[]) {
                     const owner = await findBuyerOwner(fid, id, pending.kind, buyerId);
                     if (owner) {
@@ -655,6 +661,7 @@ export const handler: Handler = async (event: HandlerEvent) => {
                     }
                 }
 
+                // ── Re-check kind-mixing ──
                 const field = pending.kind === 'master' ? 'allowedMasterBatchIds' : 'allowedBatchIds';
                 const otherField = pending.kind === 'master' ? 'allowedBatchIds' : 'allowedMasterBatchIds';
                 const current: string[] = buyer[field] || [];
@@ -670,7 +677,14 @@ export const handler: Handler = async (event: HandlerEvent) => {
                     };
                 }
 
-                const next = Array.from(new Set([...current, ...pending.items]));
+                // ── Compute next: 'set' replaces, 'add' appends ──
+                let next: string[];
+                if (pending.mode === 'set') {
+                    next = pending.items;
+                } else {
+                    next = Array.from(new Set([...current, ...pending.items]));
+                }
+
                 const approver = await getUserProfile(viewerUid);
                 const now = new Date().toISOString();
 
@@ -683,20 +697,22 @@ export const handler: Handler = async (event: HandlerEvent) => {
                         actor: viewerUid,
                         actorName: approver?.name || 'Admin',
                         actorRole: approver?.role || 'OWNER',
-                        payload: { pendingId, kind: pending.kind, items: pending.items, requestedBy: pending.requestedBy },
+                        payload: { pendingId, kind: pending.kind, items: pending.items, mode: pending.mode, requestedBy: pending.requestedBy },
                     }),
                 });
 
-                // ── Now send the email (the only thing that was deferred) ──
-                const fresh = (await buyerRef.get()).data() || {};
+                // ── Send email — only about items the buyer didn't already have ──
+                const currentSet = new Set(current);
+                const newlyAssigned = (pending.items as string[]).filter((id: string) => !currentSet.has(id));
+
                 let notified = false;
-                if (buyer.email && buyer.emailBounced !== true) {
+                if (newlyAssigned.length > 0 && buyer.email && buyer.emailBounced !== true) {
                     try {
                         let masterSummary: string | undefined;
                         if (pending.kind === 'master') {
                             const mSnap = await db.collection('farms').doc(fid)
                                 .collection('master_traceability')
-                                .where('masterBatchNumber', '==', pending.items[0])
+                                .where('masterBatchNumber', '==', newlyAssigned[0])
                                 .limit(1).get();
                             if (!mSnap.empty) {
                                 const m = mSnap.docs[0].data();
@@ -709,7 +725,7 @@ export const handler: Handler = async (event: HandlerEvent) => {
                             companyName: buyer.companyName || 'Buyer',
                             contactPerson: buyer.contactPerson,
                             kind: pending.kind,
-                            ids: pending.items,
+                            ids: newlyAssigned,
                             masterSummary,
                         });
                         notified = result.ok;
@@ -718,6 +734,7 @@ export const handler: Handler = async (event: HandlerEvent) => {
                     }
                 }
 
+                const fresh = (await buyerRef.get()).data() || {};
                 return {
                     statusCode: 200,
                     headers,
@@ -1029,6 +1046,26 @@ export const handler: Handler = async (event: HandlerEvent) => {
                             body: JSON.stringify({
                                 error: 'buyer_already_has_other_kind',
                                 hint: `Buyer already has ${otherCurrent.length} ${otherField}. Remove those first.`,
+                            }),
+                        };
+                    }
+
+                    // 3. Duplicate pending check  👈 NEW — goes here
+                    const existingPending: any[] = buyerDoc.data()?.pendingAssignments || [];
+                    const duplicate = existingPending.find((p: any) =>
+                        p.kind === kind &&
+                        p.mode === mode &&
+                        p.items.length === batchIds.length &&
+                        p.items.every((existingId: string) => batchIds.includes(existingId))
+                    );
+                    if (duplicate) {
+                        return {
+                            statusCode: 409,
+                            headers,
+                            body: JSON.stringify({
+                                error: 'pending_already_exists',
+                                hint: 'This exact assignment is already pending approval.',
+                                existingPendingId: duplicate.id,
                             }),
                         };
                     }

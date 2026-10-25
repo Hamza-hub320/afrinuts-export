@@ -244,6 +244,7 @@ const AdminBuyers: React.FC = () => {
         if (!assignBuyer) return;
         const list = kind === 'master' ? assignBuyer.allowedMasterBatchIds : assignBuyer.allowedBatchIds;
         const isAssigned = list.includes(id);
+
         try {
             const result = await getAdminData('admin_assignBatches', {
                 buyerId: assignBuyer.id,
@@ -252,31 +253,31 @@ const AdminBuyers: React.FC = () => {
                 mode: isAssigned ? 'remove' : 'add',
             });
 
-            if (result.notified !== undefined && result.notified !== null) {
-                setLastNotified({ email: assignBuyer.email, ok: !!result.notified });
-                setTimeout(() => setLastNotified(null), 6000);
-            }
-
             if (result.pending) {
-                setLastNotified({ email: 'queued for approval', ok: true });
+                setLastNotified({
+                    email: 'Queued for approval — an OWNER must approve before the buyer is notified.',
+                    ok: true,
+                });
                 setTimeout(() => setLastNotified(null), 6000);
+            } else if (isAssigned) {
+                setLastNotified({ email: `Removed from ${assignBuyer.companyName}`, ok: true });
+                setTimeout(() => setLastNotified(null), 4000);
             } else if (result.notified !== undefined) {
                 setLastNotified({ email: assignBuyer.email, ok: !!result.notified });
                 setTimeout(() => setLastNotified(null), 6000);
             }
-            // Just reload — this updates both `buyers` and `assignBuyer` atomically
+
             await loadData();
         } catch (err: any) {
             const raw = err?.message || '';
-            if (raw.includes('already_assigned_to_other_buyer') || raw.includes('already assigned to')) {
-                // Server hint (from getAdminData: err.hint || err.error)
-                alert(raw.replace('already_assigned_to_other_buyer', '').trim() || 'That shipment is already assigned to another buyer.');
+            if (raw.includes('already_assigned_to_other_buyer')) {
+                alert(raw.replace('already_assigned_to_other_buyer', '').trim() || 'Already assigned to another buyer.');
             } else if (raw.includes('buyer_already_has_other_kind')) {
-                alert(
-                    assignKind === 'batch'
-                        ? 'This buyer already holds bulk shipments. Remove them before assigning individual batches.'
-                        : 'This buyer already holds individual batches. Remove them before assigning bulk shipments.'
-                );
+                alert(assignKind === 'batch'
+                    ? 'This buyer already holds bulk shipments. Remove them first.'
+                    : 'This buyer already holds individual batches. Remove them first.');
+            } else if (raw.includes('pending_already_exists')) {
+                alert('This assignment is already pending approval.');
             } else {
                 alert('Failed to update assignment: ' + raw);
             }
@@ -1056,32 +1057,45 @@ const AdminBuyers: React.FC = () => {
                                     {assignKind === 'batch' ? (
                                         allBatches.map((b) => {
                                             const isAssigned = assignBuyer?.allowedBatchIds.includes(b.batchId);
+                                            const isPending = (assignBuyer?.pendingAssignments || []).some(
+                                                (p: any) => p.kind === 'batch' && p.items.includes(b.batchId)
+                                            );
                                             const conflict = isAssigned ? null : resolveBatchOwner(b.batchId);
                                             const disabled = !!conflict;
 
                                             return (
                                                 <button
                                                     key={b.id}
-                                                    onClick={() => !disabled && handleAssignToggle(b.batchId, 'batch')}
-                                                    disabled={disabled}
+                                                    onClick={() => !disabled && !isPending && handleAssignToggle(b.batchId, 'batch')}
+                                                    disabled={disabled || isPending}
                                                     className={`w-full text-left p-3 rounded-xl border transition-all ${
-                                                        disabled
-                                                            ? 'bg-gray-100 border-gray-200 opacity-60 cursor-not-allowed'
-                                                            : isAssigned
-                                                                ? 'bg-primary/10 border-primary/40'
-                                                                : 'bg-gray-50 border-gray-200 hover:bg-gray-100'
+                                                        isPending
+                                                            ? 'bg-purple-50 border-purple-300 opacity-60 cursor-not-allowed'
+                                                            : disabled
+                                                                ? 'bg-gray-100 border-gray-200 opacity-60 cursor-not-allowed'
+                                                                : isAssigned
+                                                                    ? 'bg-primary/10 border-primary/40'
+                                                                    : 'bg-gray-50 border-gray-200 hover:bg-gray-100'
                                                     }`}
                                                 >
                                                     <div className="flex items-center justify-between gap-2">
                                                         <div className="flex items-center gap-3 flex-1 min-w-0">
                                                             <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 ${
-                                                                disabled
-                                                                    ? 'bg-gray-300 text-gray-500'
-                                                                    : isAssigned
-                                                                        ? 'bg-primary text-white'
-                                                                        : 'bg-gray-200 text-gray-500'
+                                                                isPending
+                                                                    ? 'bg-purple-500 text-white'
+                                                                    : disabled
+                                                                        ? 'bg-gray-300 text-gray-500'
+                                                                        : isAssigned
+                                                                            ? 'bg-primary text-white'
+                                                                            : 'bg-gray-200 text-gray-500'
                                                             }`}>
-                                                                {disabled ? <FaLock className="text-[9px]" /> : isAssigned ? <FaMinus className="text-[10px]" /> : <FaPlus className="text-[10px]" />}
+                                                                {isPending
+                                                                    ? <FaClock className="text-[10px]" />
+                                                                    : disabled
+                                                                        ? <FaLock className="text-[9px]" />
+                                                                        : isAssigned
+                                                                            ? <FaMinus className="text-[10px]" />
+                                                                            : <FaPlus className="text-[10px]" />}
                                                             </div>
                                                             <div className="min-w-0">
                                                                 <div className="font-mono text-sm font-medium truncate">{b.batchId}</div>
@@ -1090,11 +1104,15 @@ const AdminBuyers: React.FC = () => {
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        {disabled && conflict ? (
+                                                        {isPending ? (
+                                                            <span className="px-2 py-0.5 bg-purple-100 text-purple-700 text-[10px] rounded-full flex-shrink-0">
+                                                                Pending
+                                                            </span>
+                                                        ) : disabled && conflict ? (
                                                             <span className="px-2 py-0.5 bg-gray-200 text-gray-700 text-[10px] rounded-full flex-shrink-0 max-w-[200px] truncate text-right">
-                                                                {conflict.viaMaster
-                                                                    ? `In bulk ${conflict.viaMaster} · ${conflict.companyName}`
-                                                                    : `Taken by ${conflict.companyName}`}
+                                                                 {conflict.viaMaster
+                                                                        ? `In bulk ${conflict.viaMaster} · ${conflict.companyName}`
+                                                                        : `Taken by ${conflict.companyName}`}
                                                             </span>
                                                         ) : isAssigned ? (
                                                             <FaCheckCircle className="text-primary text-sm flex-shrink-0" />
@@ -1106,32 +1124,45 @@ const AdminBuyers: React.FC = () => {
                                     ) : (
                                         allMasters.map((m) => {
                                             const isAssigned = assignBuyer?.allowedMasterBatchIds.includes(m.masterBatchNumber);
+                                            const isPending = (assignBuyer?.pendingAssignments || []).some(
+                                                (p: any) => p.kind === 'master' && p.items.includes(m.masterBatchNumber)
+                                            );
                                             const conflict = isAssigned ? null : resolveMasterOwner(m.masterBatchNumber);
                                             const disabled = !!conflict;
 
                                             return (
                                                 <button
                                                     key={m.id}
-                                                    onClick={() => !disabled && handleAssignToggle(m.masterBatchNumber, 'master')}
-                                                    disabled={disabled}
+                                                    onClick={() => !disabled && !isPending && handleAssignToggle(m.masterBatchNumber, 'master')}
+                                                    disabled={disabled || isPending}
                                                     className={`w-full text-left p-3 rounded-xl border transition-all ${
-                                                        disabled
-                                                            ? 'bg-gray-100 border-gray-200 opacity-60 cursor-not-allowed'
-                                                            : isAssigned
-                                                                ? 'bg-blue-50 border-blue-300'
-                                                                : 'bg-gray-50 border-gray-200 hover:bg-gray-100'
+                                                        isPending
+                                                            ? 'bg-purple-50 border-purple-300 opacity-60 cursor-not-allowed'
+                                                            : disabled
+                                                                ? 'bg-gray-100 border-gray-200 opacity-60 cursor-not-allowed'
+                                                                : isAssigned
+                                                                    ? 'bg-blue-50 border-blue-300'
+                                                                    : 'bg-gray-50 border-gray-200 hover:bg-gray-100'
                                                     }`}
                                                 >
                                                     <div className="flex items-center justify-between gap-2">
                                                         <div className="flex items-center gap-3 flex-1 min-w-0">
                                                             <div className={`w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 ${
-                                                                disabled
-                                                                    ? 'bg-gray-300 text-gray-500'
-                                                                    : isAssigned
-                                                                        ? 'bg-blue-600 text-white'
-                                                                        : 'bg-gray-200 text-gray-500'
+                                                                isPending
+                                                                    ? 'bg-purple-500 text-white'
+                                                                    : disabled
+                                                                        ? 'bg-gray-300 text-gray-500'
+                                                                        : isAssigned
+                                                                            ? 'bg-blue-600 text-white'
+                                                                            : 'bg-gray-200 text-gray-500'
                                                             }`}>
-                                                                {disabled ? <FaLock className="text-[9px]" /> : isAssigned ? <FaMinus className="text-[10px]" /> : <FaPlus className="text-[10px]" />}
+                                                                {isPending
+                                                                    ? <FaClock className="text-[10px]" />
+                                                                    : disabled
+                                                                        ? <FaLock className="text-[9px]" />
+                                                                        : isAssigned
+                                                                            ? <FaMinus className="text-[10px]" />
+                                                                            : <FaPlus className="text-[10px]" />}
                                                             </div>
                                                             <div className="min-w-0">
                                                                 <div className="font-mono text-sm font-medium truncate">{m.masterBatchNumber}</div>
@@ -1141,7 +1172,11 @@ const AdminBuyers: React.FC = () => {
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        {disabled && conflict ? (
+                                                        {isPending ? (
+                                                            <span className="px-2 py-0.5 bg-purple-100 text-purple-700 text-[10px] rounded-full flex-shrink-0">
+                                                                Pending
+                                                            </span>
+                                                        ) : disabled && conflict ? (
                                                             <span className="px-2 py-0.5 bg-gray-200 text-gray-700 text-[10px] rounded-full flex-shrink-0 max-w-[200px] truncate text-right">
                                                                 Taken by {conflict.companyName}
                                                             </span>
@@ -1174,9 +1209,7 @@ const AdminBuyers: React.FC = () => {
                                                 : 'bg-amber-50 border border-amber-200 text-amber-700'
                                         }`}>
                                             <FaClock className="text-[10px]" />
-                                            {lastNotified.ok
-                                                ? `Submitted for approval — will be sent to ${lastNotified.email} after approval`
-                                                : `Error: check logs`}
+                                            {lastNotified.ok ? lastNotified.email : `Error — check logs`}
                                         </div>
                                     )}
                                     <button

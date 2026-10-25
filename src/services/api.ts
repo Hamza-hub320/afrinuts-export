@@ -65,6 +65,14 @@ export const getAdminData = async (action: string, params?: any) => {
     if (!user) throw new Error('Not authenticated');
 
     const token = await user.getIdToken();
+    const postActions = [
+        'admin_createBuyer',
+        'admin_updateBuyer',
+        'admin_assignBatches',
+        'admin_deleteBuyer',
+        'admin_approveAssignment',   // 👈 add
+        'admin_rejectAssignment',    // 👈 add
+    ];
 
     if (action === 'admin_createBuyer' || action === 'admin_updateBuyer'
         || action === 'admin_assignBatches' || action === 'admin_deleteBuyer') {
