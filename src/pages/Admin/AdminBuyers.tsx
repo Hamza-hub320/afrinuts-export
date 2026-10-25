@@ -1,11 +1,12 @@
 import React, { useEffect, useState, Fragment, useMemo } from 'react';
 import { motion } from 'framer-motion';
+import { useAuth } from '@/contexts/AuthContext';
 import {
     FaUserPlus, FaUsers, FaBox, FaCheckCircle,
     FaTrash, FaEdit, FaPlus, FaMinus, FaSearch,
     FaSave, FaTimes, FaUserShield, FaUserClock,
     FaExclamationTriangle, FaLink, FaTrophy,
-    FaEnvelope, FaLock, FaChartLine, FaShip, FaLightbulb,
+    FaEnvelope, FaLock, FaChartLine, FaShip, FaLightbulb, FaClock,
 } from 'react-icons/fa';
 import { Dialog, Transition } from '@headlessui/react';
 import { Typography } from '@/components/Typography/Typography';
@@ -32,6 +33,9 @@ interface Buyer {
     uid: string | null;
     createdAt: string;
     lastLoginAt: string | null;
+    pendingCount?: number;
+    pendingAssignments?: any[];
+    auditTrail?: any[];
 }
 
 interface BatchSummary {
@@ -99,6 +103,7 @@ const AdminBuyers: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [searchQuery, setSearchQuery] = useState('');
+    const { user } = useAuth();
 
     const [createOpen, setCreateOpen] = useState(false);
     const [editBuyer, setEditBuyer] = useState<Buyer | null>(null);
@@ -115,6 +120,19 @@ const AdminBuyers: React.FC = () => {
     const [masterOwners, setMasterOwners] = useState<Record<string, string>>({});
     const [childToMaster, setChildToMaster] = useState<Record<string, string>>({});
     const [lastNotified, setLastNotified] = useState<{ email: string; ok: boolean } | null>(null);
+
+
+    const canActOn = (pending: any): { allowed: boolean; reason?: string } => {
+        if (!user) return { allowed: false, reason: 'Not signed in' };
+        if (pending.requestedBy === user.uid) {
+            return { allowed: false, reason: 'Awaiting senior approval' };
+        }
+        if (user.role === 'OWNER') {
+            return { allowed: true }; // OWNER can approve anyone except self
+        }
+        // MANAGER can never approve (server also blocks this)
+        return { allowed: false, reason: 'Requires OWNER role' };
+    };
 
     const loadData = async () => {
         try {
@@ -233,7 +251,16 @@ const AdminBuyers: React.FC = () => {
                 kind,
                 mode: isAssigned ? 'remove' : 'add',
             });
+
             if (result.notified !== undefined && result.notified !== null) {
+                setLastNotified({ email: assignBuyer.email, ok: !!result.notified });
+                setTimeout(() => setLastNotified(null), 6000);
+            }
+
+            if (result.pending) {
+                setLastNotified({ email: 'queued for approval', ok: true });
+                setTimeout(() => setLastNotified(null), 6000);
+            } else if (result.notified !== undefined) {
                 setLastNotified({ email: assignBuyer.email, ok: !!result.notified });
                 setTimeout(() => setLastNotified(null), 6000);
             }
@@ -266,6 +293,30 @@ const AdminBuyers: React.FC = () => {
         }
     };
 
+    const handleApprove = async (buyerId: string, pendingId: string) => {
+        try {
+            const result = await getAdminData('admin_approveAssignment', { buyerId, pendingId });
+            if (result.approved) {
+                setLastNotified({ email: 'approved', ok: true });
+                setTimeout(() => setLastNotified(null), 4000);
+            }
+            await loadData();
+        } catch (err: any) {
+            const raw = err?.message || 'Approval failed';
+            alert(raw.replace(/^[a-z_]+:\s*/i, '') || raw);
+        }
+    };
+
+    const handleReject = async (buyerId: string, pendingId: string) => {
+        if (!window.confirm('Reject this assignment request? The buyer will not be notified.')) return;
+        try {
+            await getAdminData('admin_rejectAssignment', { buyerId, pendingId });
+            await loadData();
+        } catch (err: any) {
+            alert(err?.message || 'Rejection failed');
+        }
+    };
+
     const openEdit = (buyer: Buyer) => {
         setEditBuyer(buyer);
         setFormCompany(buyer.companyName);
@@ -289,6 +340,7 @@ const AdminBuyers: React.FC = () => {
         const total = buyers.length;
         const active = buyers.filter(b => b.isActive).length;
         const totalAssignments = buyers.reduce((s, b) => s + b.allowedBatchCount, 0);
+        const totalPending = buyers.reduce((s, b) => s + ((b as any).pendingCount || 0), 0);
         const totalBulk = buyers.reduce((s, b) => s + b.allowedMasterCount, 0);
         const unassigned = buyers.filter(b => b.allowedBatchCount === 0 && b.allowedMasterCount === 0).length;
         const neverLoggedIn = buyers.filter(b => !b.uid).length;
@@ -297,7 +349,7 @@ const AdminBuyers: React.FC = () => {
         const topBuyer = [...buyers].sort(
             (a, b) => (b.allowedBatchCount + b.allowedMasterCount) - (a.allowedBatchCount + a.allowedMasterCount)
         )[0];
-        return { total, active, totalAssignments, totalBulk, unassigned, neverLoggedIn, avgAssignments, topBuyer, bounced };
+        return { total, active, totalAssignments, totalBulk, unassigned, neverLoggedIn, avgAssignments, topBuyer, bounced, totalPending };
     }, [buyers]);
 
     if (loading) {
@@ -453,6 +505,68 @@ const AdminBuyers: React.FC = () => {
                 </motion.div>
 
                 {/* ── Intelligence strip ────────────────────── */}
+                {/* Pending Approvals */}
+                {intel.totalPending > 0 && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="mb-6 rounded-2xl border-2 border-purple-200 bg-purple-50/60 backdrop-blur-sm p-4"
+                    >
+                        <div className="flex items-center gap-2 mb-3">
+                            <FaClock className="text-purple-600" />
+                            <Typography variant="small" className="font-semibold text-purple-800">
+                                {intel.totalPending} pending approval{intel.totalPending !== 1 ? 's' : ''}
+                            </Typography>
+                        </div>
+
+                        <div className="space-y-2">
+                            {buyers.flatMap(b =>
+                                (b.pendingAssignments || []).map((p: any) => {
+                                    const gate = canActOn(p);
+                                    return (
+                                        <div key={p.id} className="bg-white/80 rounded-xl p-3 flex items-center justify-between gap-3">
+                                            <div className="flex-1 min-w-0">
+                                                <div className="text-sm font-medium text-primary truncate">
+                                                    {b.companyName} — {p.kind === 'master' ? 'Bulk shipment' : `${p.items.length} batch${p.items.length !== 1 ? 'es' : ''}`}
+                                                </div>
+                                                <div className="text-xs text-gray-500 truncate">
+                                                    {p.items.join(', ')} · requested by{' '}
+                                                    <span className="font-medium text-gray-700">{p.requestedByName}</span>{' '}
+                                                    {p.requestedByRole && (
+                                                        <span className="text-gray-400">({p.requestedByRole})</span>
+                                                    )}{' '}
+                                                    {relativeTime(p.requestedAt)}
+                                                </div>
+                                            </div>
+                                            <div className="flex items-center gap-2 flex-shrink-0">
+                                                {gate.allowed ? (
+                                                    <>
+                                                        <button
+                                                            onClick={() => handleApprove(b.id, p.id)}
+                                                            className="px-3 py-1.5 bg-green-600 text-white rounded-lg text-xs font-medium hover:bg-green-700 transition"
+                                                        >
+                                                            Approve
+                                                        </button>
+                                                        <button
+                                                            onClick={() => handleReject(b.id, p.id)}
+                                                            className="px-3 py-1.5 bg-red-50 text-red-600 border border-red-200 rounded-lg text-xs font-medium hover:bg-red-100 transition"
+                                                        >
+                                                            Reject
+                                                        </button>
+                                                    </>
+                                                ) : (
+                                                    <span className="text-xs text-gray-400 px-3 py-1.5 rounded-lg bg-gray-50 border border-gray-200">
+                                        {gate.reason}
+                                    </span>
+                                                )}
+                                            </div>
+                                        </div>
+                                    );
+                                })
+                            )}
+                        </div>
+                    </motion.div>
+                )}
                 {(intel.unassigned > 0 || intel.neverLoggedIn > 0 || (intel.topBuyer && (intel.topBuyer.allowedBatchCount + intel.topBuyer.allowedMasterCount) > 0)) && (
                     <motion.div
                         initial={{ opacity: 0, y: 10 }}
@@ -604,6 +718,11 @@ const AdminBuyers: React.FC = () => {
                                                             <span className="px-2 py-0.5 bg-red-100 text-red-700 text-xs rounded-full inline-flex items-center gap-1">
                                                                 <FaExclamationTriangle className="text-[9px]" /> No shipments
                                                             </span>
+                                                        )}
+                                                        {(buyer.pendingCount ?? 0) > 0 && (
+                                                            <span className="px-2 py-0.5 bg-purple-100 text-purple-700 text-xs rounded-full inline-flex items-center gap-1">
+                                                                <FaClock className="text-[9px]" /> {buyer.pendingCount} pending
+                                                             </span>
                                                         )}
                                                         {buyer.allowedMasterCount > 0 && (
                                                             <span className="px-2 py-0.5 bg-blue-100 text-blue-700 text-xs rounded-full inline-flex items-center gap-1">
@@ -820,6 +939,27 @@ const AdminBuyers: React.FC = () => {
                                             </div>
                                         </div>
                                     )}
+                                    {editBuyer?.auditTrail && editBuyer.auditTrail.length > 0 && (
+                                        <div className="border-t border-gray-200 pt-3">
+                                            <Typography variant="small" className="font-semibold text-gray-700 mb-2">
+                                                Recent activity
+                                            </Typography>
+                                            <div className="space-y-1.5 max-h-40 overflow-y-auto">
+                                                {editBuyer.auditTrail.slice(-10).reverse().map((a: any, i: number) => (
+                                                    <div key={i} className="text-xs text-gray-500 flex items-start gap-2">
+                                                    <span className="text-gray-400 font-mono whitespace-nowrap">
+                                                        {new Date(a.ts).toLocaleDateString()}
+                                                    </span>
+                                                        <span>
+                                                            <strong>{a.actorName}</strong>{' '}
+                                                            <span className="text-gray-400">({a.actorRole || 'Admin'})</span>{' '}
+                                                            {a.action.replace(/_/g, ' ')}
+                                                        </span>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
                                         <input
@@ -1030,13 +1170,13 @@ const AdminBuyers: React.FC = () => {
                                     {lastNotified && (
                                         <div className={`mt-3 p-2 rounded-lg text-xs flex items-center gap-2 ${
                                             lastNotified.ok
-                                                ? 'bg-green-50 border border-green-200 text-green-700'
+                                                ? 'bg-purple-50 border border-purple-200 text-purple-700'
                                                 : 'bg-amber-50 border border-amber-200 text-amber-700'
                                         }`}>
-                                            <FaEnvelope className="text-[10px]" />
+                                            <FaClock className="text-[10px]" />
                                             {lastNotified.ok
-                                                ? `Notification sent to ${lastNotified.email}`
-                                                : `Assigned — email not sent (check RESEND_API_KEY / logs)`}
+                                                ? `Submitted for approval — will be sent to ${lastNotified.email} after approval`
+                                                : `Error: check logs`}
                                         </div>
                                     )}
                                     <button

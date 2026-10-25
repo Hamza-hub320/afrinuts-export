@@ -1,6 +1,7 @@
 import type { Handler, HandlerEvent } from '@netlify/functions';
 import { initializeApp, cert, getApps } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
+import { FieldValue } from 'firebase-admin/firestore';
 
 if (!getApps().length) {
     initializeApp({
@@ -147,6 +148,51 @@ async function isAdmin(uid: string): Promise<boolean> {
     if (!userDoc.exists) return false;
     const role = userDoc.data()?.role;
     return typeof role === 'string' && ADMIN_ROLES.has(role);
+}
+
+// ── Role hierarchy ──────────────────────────────────────────
+const ROLE_RANK: Record<string, number> = { OWNER: 2, MANAGER: 1 };
+
+async function getUserProfile(uid: string): Promise<{ role: string; name: string; email?: string } | null> {
+    const doc = await db.collection('users').doc(uid).get();
+    if (!doc.exists) return null;
+    const data = doc.data() || {};
+    if (typeof data.role !== 'string' || !ROLE_RANK[data.role]) return null;
+    return {
+        role: data.role,
+        name: data.name || data.email || 'Admin',
+        email: data.email,
+    };
+}
+
+async function canApprove(
+    approverUid: string,
+    requesterUid: string
+): Promise<{ ok: boolean; reason?: string }> {
+    if (approverUid === requesterUid) {
+        return { ok: false, reason: 'cannot_approve_own_request' };
+    }
+    const approver = await getUserProfile(approverUid);
+    const requester = await getUserProfile(requesterUid);
+    if (!approver) return { ok: false, reason: 'approver_not_an_admin' };
+    if (!requester) return { ok: false, reason: 'requester_not_an_admin' };
+
+    const approverRank = ROLE_RANK[approver.role];
+    const requesterRank = ROLE_RANK[requester.role];
+
+    // Strictly higher rank can approve
+    if (approverRank > requesterRank) return { ok: true };
+
+    // Same rank: only OWNERs may cross-approve (peer check for C-suite)
+    if (approverRank === requesterRank && approver.role === 'OWNER') return { ok: true };
+
+    return {
+        ok: false,
+        reason:
+            approverRank === requesterRank
+                ? 'same_role_cannot_approve'
+                : 'insufficient_role_to_approve',
+    };
 }
 
 // ── Helper: get child batch numbers for a given master batch number ──
@@ -549,12 +595,198 @@ export const handler: Handler = async (event: HandlerEvent) => {
             'admin_listBatches',
             'admin_listMasterBatches',
             'admin_listAssignments',
+            'admin_approveAssignment',
+            'admin_rejectAssignment',
+            'admin_listPendingApprovals',
         ];
 
         if (adminActions.includes(action || '')) {
             const adminOk = await isAdmin(viewerUid);
             if (!adminOk) {
                 return { statusCode: 403, headers, body: JSON.stringify({ error: 'not_authorized' }) };
+            }
+
+            if (action === 'admin_approveAssignment') {
+                if (event.httpMethod !== 'POST') return { statusCode: 405, headers, body: JSON.stringify({ error: 'method_not_allowed' }) };
+
+                const { buyerId, pendingId } = JSON.parse(event.body || '{}');
+                if (!buyerId || !pendingId) {
+                    return { statusCode: 400, headers, body: JSON.stringify({ error: 'buyerId and pendingId required' }) };
+                }
+
+                const buyerRef = db.collection('farms').doc(fid).collection('buyers').doc(buyerId);
+                const buyerDoc = await buyerRef.get();
+                if (!buyerDoc.exists) return { statusCode: 404, headers, body: JSON.stringify({ error: 'buyer_not_found' }) };
+
+                const buyer = buyerDoc.data() || {};
+                const pendingList: any[] = buyer.pendingAssignments || [];
+                const pending = pendingList.find((p: any) => p.id === pendingId);
+                if (!pending) return { statusCode: 404, headers, body: JSON.stringify({ error: 'pending_not_found' }) };
+
+                // ── Hierarchy check ──
+                const gate = await canApprove(viewerUid, pending.requestedBy);
+                if (!gate.ok) {
+                    return {
+                        statusCode: 403,
+                        headers,
+                        body: JSON.stringify({
+                            error: gate.reason,
+                            hint:
+                                gate.reason === 'cannot_approve_own_request' ? 'A second admin must approve this request.' :
+                                    gate.reason === 'same_role_cannot_approve' ? 'Only a senior role (OWNER) can approve this request.' :
+                                        gate.reason === 'insufficient_role_to_approve' ? 'Your role is below the requester\'s — only a senior admin can approve.' :
+                                            'You cannot approve this request.',
+                        }),
+                    };
+                }
+
+                // ── Re-check exclusivity (state may have changed since request) ──
+                for (const id of pending.items as string[]) {
+                    const owner = await findBuyerOwner(fid, id, pending.kind, buyerId);
+                    if (owner) {
+                        return {
+                            statusCode: 409,
+                            headers,
+                            body: JSON.stringify({
+                                error: 'already_assigned_to_other_buyer',
+                                hint: `${pending.kind === 'master' ? 'Bulk shipment' : 'Batch'} ${id} was assigned to ${owner.companyName} since this request was created.`,
+                            }),
+                        };
+                    }
+                }
+
+                const field = pending.kind === 'master' ? 'allowedMasterBatchIds' : 'allowedBatchIds';
+                const otherField = pending.kind === 'master' ? 'allowedBatchIds' : 'allowedMasterBatchIds';
+                const current: string[] = buyer[field] || [];
+                const otherCurrent: string[] = buyer[otherField] || [];
+                if (otherCurrent.length > 0) {
+                    return {
+                        statusCode: 409,
+                        headers,
+                        body: JSON.stringify({
+                            error: 'buyer_already_has_other_kind',
+                            hint: `Buyer now holds ${otherCurrent.length} ${otherField}. Reject this request and reassign manually.`,
+                        }),
+                    };
+                }
+
+                const next = Array.from(new Set([...current, ...pending.items]));
+                const approver = await getUserProfile(viewerUid);
+                const now = new Date().toISOString();
+
+                await buyerRef.update({
+                    [field]: next,
+                    pendingAssignments: pendingList.filter((p: any) => p.id !== pendingId),
+                    auditTrail: FieldValue.arrayUnion({
+                        ts: now,
+                        action: 'pending_assign_approved',
+                        actor: viewerUid,
+                        actorName: approver?.name || 'Admin',
+                        actorRole: approver?.role || 'OWNER',
+                        payload: { pendingId, kind: pending.kind, items: pending.items, requestedBy: pending.requestedBy },
+                    }),
+                });
+
+                // ── Now send the email (the only thing that was deferred) ──
+                const fresh = (await buyerRef.get()).data() || {};
+                let notified = false;
+                if (buyer.email && buyer.emailBounced !== true) {
+                    try {
+                        let masterSummary: string | undefined;
+                        if (pending.kind === 'master') {
+                            const mSnap = await db.collection('farms').doc(fid)
+                                .collection('master_traceability')
+                                .where('masterBatchNumber', '==', pending.items[0])
+                                .limit(1).get();
+                            if (!mSnap.empty) {
+                                const m = mSnap.docs[0].data();
+                                masterSummary = `${m.masterBatchNumber} · ${m.totalBatches} batches · ${((m.totalWeightKg||0)/1000).toFixed(1)}T${m.destination ? ` · ${m.destination}` : ''}`;
+                            }
+                        }
+                        const result = await sendBuyerNotification({
+                            emailBounced: false,
+                            to: buyer.email,
+                            companyName: buyer.companyName || 'Buyer',
+                            contactPerson: buyer.contactPerson,
+                            kind: pending.kind,
+                            ids: pending.items,
+                            masterSummary,
+                        });
+                        notified = result.ok;
+                    } catch (err) {
+                        console.warn('Notification after approval failed (non-fatal):', err);
+                    }
+                }
+
+                return {
+                    statusCode: 200,
+                    headers,
+                    body: JSON.stringify({
+                        success: true,
+                        approved: true,
+                        notified,
+                        allowedBatchIds: fresh.allowedBatchIds || [],
+                        allowedMasterBatchIds: fresh.allowedMasterBatchIds || [],
+                        emailBounced: fresh.emailBounced === true,
+                    }),
+                };
+            }
+
+            if (action === 'admin_rejectAssignment') {
+                if (event.httpMethod !== 'POST') return { statusCode: 405, headers, body: JSON.stringify({ error: 'method_not_allowed' }) };
+
+                const { buyerId, pendingId, reason } = JSON.parse(event.body || '{}');
+                if (!buyerId || !pendingId) {
+                    return { statusCode: 400, headers, body: JSON.stringify({ error: 'buyerId and pendingId required' }) };
+                }
+
+                const buyerRef = db.collection('farms').doc(fid).collection('buyers').doc(buyerId);
+                const buyerDoc = await buyerRef.get();
+                if (!buyerDoc.exists) return { statusCode: 404, headers, body: JSON.stringify({ error: 'buyer_not_found' }) };
+
+                const buyer = buyerDoc.data() || {};
+                const pendingList: any[] = buyer.pendingAssignments || [];
+                const pending = pendingList.find((p: any) => p.id === pendingId);
+                if (!pending) return { statusCode: 404, headers, body: JSON.stringify({ error: 'pending_not_found' }) };
+
+                const gate = await canApprove(viewerUid, pending.requestedBy);
+                if (!gate.ok) {
+                    return { statusCode: 403, headers, body: JSON.stringify({ error: gate.reason }) };
+                }
+
+                const rejecter = await getUserProfile(viewerUid);
+                await buyerRef.update({
+                    pendingAssignments: pendingList.filter((p: any) => p.id !== pendingId),
+                    auditTrail: FieldValue.arrayUnion({
+                        ts: new Date().toISOString(),
+                        action: 'pending_assign_rejected',
+                        actor: viewerUid,
+                        actorName: rejecter?.name || 'Admin',
+                        actorRole: rejecter?.role || 'OWNER',
+                        payload: { pendingId, kind: pending.kind, items: pending.items, reason: reason || null },
+                    }),
+                });
+
+                return { statusCode: 200, headers, body: JSON.stringify({ success: true, rejected: true }) };
+            }
+
+            if (action === 'admin_listPendingApprovals') {
+                const snapshot = await db.collection('farms').doc(fid).collection('buyers').get();
+                const pending: any[] = [];
+                snapshot.docs.forEach(doc => {
+                    const d = doc.data();
+                    (d.pendingAssignments || []).forEach((p: any) => {
+                        if (p.status === 'pending') {
+                            pending.push({
+                                buyerId: doc.id,
+                                buyerName: d.companyName || 'Buyer',
+                                ...p,
+                            });
+                        }
+                    });
+                });
+                pending.sort((a, b) => (b.requestedAt || '').localeCompare(a.requestedAt || ''));
+                return { statusCode: 200, headers, body: JSON.stringify({ pending }) };
             }
 
             // ── Action: list all buyers (admin only) ───────────────
@@ -568,6 +800,7 @@ export const handler: Handler = async (event: HandlerEvent) => {
                 const buyers = snapshot.docs.map(doc => {
                     const data = doc.data();
                     const masterIds: string[] = data.allowedMasterBatchIds || [];
+                    const pendingList: any[] = data.pendingAssignments || [];
                     return {
                         id: doc.id,
                         email: data.email,
@@ -584,6 +817,9 @@ export const handler: Handler = async (event: HandlerEvent) => {
                         emailBounced: data.emailBounced === true,
                         emailBounceType: data.emailBounceType || null,
                         lastBounceAt: data.lastBounceAt || null,
+                        pendingCount: pendingList.length,
+                        pendingAssignments: pendingList,
+                        auditTrail: (data.auditTrail || []).slice(-20),
                     };
                 });
 
@@ -759,6 +995,86 @@ export const handler: Handler = async (event: HandlerEvent) => {
                     };
                 }
 
+                // ── APPROVAL GATE: mode 'add' creates a pending request, does not apply ──
+                if (mode === 'add') {
+                    const buyerRef = db.collection('farms').doc(fid).collection('buyers').doc(buyerId);
+                    const buyerDoc = await buyerRef.get();
+                    if (!buyerDoc.exists) {
+                        return { statusCode: 404, headers, body: JSON.stringify({ error: 'buyer_not_found' }) };
+                    }
+
+                    // Early validity checks (fail fast so we don't queue impossible requests)
+                    for (const id of batchIds as string[]) {
+                        const owner = await findBuyerOwner(fid, id, kind, buyerId);
+                        if (owner) {
+                            return {
+                                statusCode: 409,
+                                headers,
+                                body: JSON.stringify({
+                                    error: 'already_assigned_to_other_buyer',
+                                    hint: owner.viaMaster
+                                        ? `Batch ${id} is part of bulk ${owner.viaMaster} already assigned to ${owner.companyName}.`
+                                        : `${kind === 'master' ? 'Bulk shipment' : 'Batch'} ${id} is already assigned to ${owner.companyName}.`,
+                                }),
+                            };
+                        }
+                    }
+
+                    const otherField = kind === 'master' ? 'allowedBatchIds' : 'allowedMasterBatchIds';
+                    const otherCurrent: string[] = buyerDoc.data()?.[otherField] || [];
+                    if (otherCurrent.length > 0) {
+                        return {
+                            statusCode: 409,
+                            headers,
+                            body: JSON.stringify({
+                                error: 'buyer_already_has_other_kind',
+                                hint: `Buyer already has ${otherCurrent.length} ${otherField}. Remove those first.`,
+                            }),
+                        };
+                    }
+
+                    // Create pending entry + audit trail in one write
+                    const requester = await getUserProfile(viewerUid);
+                    if (!requester) {
+                        return { statusCode: 403, headers, body: JSON.stringify({ error: 'not_authorized' }) };
+                    }
+
+                    const pendingId = `pa_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+                    const now = new Date().toISOString();
+
+                    await buyerRef.update({
+                        pendingAssignments: FieldValue.arrayUnion({
+                            id: pendingId,
+                            kind,
+                            items: batchIds,
+                            requestedBy: viewerUid,
+                            requestedByName: requester.name,
+                            requestedByRole: requester.role,
+                            requestedAt: now,
+                            status: 'pending',
+                        }),
+                        auditTrail: FieldValue.arrayUnion({
+                            ts: now,
+                            action: 'pending_assign_requested',
+                            actor: viewerUid,
+                            actorName: requester.name,
+                            actorRole: requester.role,
+                            payload: { pendingId, kind, items: batchIds },
+                        }),
+                    });
+
+                    return {
+                        statusCode: 200,
+                        headers,
+                        body: JSON.stringify({
+                            success: true,
+                            pending: true,
+                            pendingId,
+                            message: 'Submitted for approval. A senior admin must approve before the buyer is notified.',
+                        }),
+                    };
+                }
+
                 const buyerRef = db
                     .collection('farms').doc(fid)
                     .collection('buyers')
@@ -910,6 +1226,8 @@ export const handler: Handler = async (event: HandlerEvent) => {
                     }),
                 };
             }
+
+
 
             // ── Action: delete buyer (admin only) ──────────────────
             if (action === 'admin_deleteBuyer') {
