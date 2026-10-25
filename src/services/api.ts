@@ -65,18 +65,18 @@ export const getAdminData = async (action: string, params?: any) => {
     if (!user) throw new Error('Not authenticated');
 
     const token = await user.getIdToken();
+
     const postActions = [
         'admin_createBuyer',
         'admin_updateBuyer',
         'admin_assignBatches',
         'admin_deleteBuyer',
-        'admin_approveAssignment',   // 👈 add
-        'admin_rejectAssignment',    // 👈 add
+        'admin_approveAssignment',
+        'admin_rejectAssignment',
     ];
 
-    if (action === 'admin_createBuyer' || action === 'admin_updateBuyer'
-        || action === 'admin_assignBatches' || action === 'admin_deleteBuyer') {
-        // POST actions
+    // 👇 use the array — this is the fix
+    if (postActions.includes(action)) {
         const response = await fetch(`/.netlify/functions/buyerPortal?action=${action}`, {
             method: 'POST',
             headers: {
@@ -87,20 +87,20 @@ export const getAdminData = async (action: string, params?: any) => {
         });
         if (!response.ok) {
             const err = await response.json().catch(() => ({}));
-            throw new Error(err.error || `Request failed: ${response.status}`);
+            throw new Error(err.hint || err.error || `Request failed: ${response.status}`);
         }
         return response.json();
     }
 
     // GET actions
-    const queryParams = new URLSearchParams({ action, ...params }).toString();
+    const queryParams = new URLSearchParams({ action, ...(params || {}) }).toString();
     const response = await fetch(
         `/.netlify/functions/buyerPortal?${queryParams}`,
         { headers: { Authorization: `Bearer ${token}` } }
     );
     if (!response.ok) {
         const err = await response.json().catch(() => ({}));
-        throw new Error(err.error || `Request failed: ${response.status}`);
+        throw new Error(err.hint || err.error || `Request failed: ${response.status}`);
     }
     return response.json();
 };
