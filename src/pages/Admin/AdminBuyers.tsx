@@ -167,22 +167,31 @@ const AdminBuyers: React.FC = () => {
     }, []);
 
     // ── Ownership resolution (used by the assign modal) ──
-    // Returns the name of another buyer holding this item (direct or via bulk),
-    // or null if the item is free / already owned by the current assignBuyer.
-    const resolveBatchOwner = (batchId: string): { companyName: string; viaMaster?: string } | null => {
+    const resolveBatchOwner = (batchId: string): { companyName: string; viaMaster?: string; self?: boolean } | null => {
         if (!assignBuyer) return null;
-        if (assignBuyer.allowedBatchIds.includes(batchId)) return null;      // already ours
-        // Direct owner?
+
+        // Already assigned directly to this buyer → not a conflict, allow remove
+        if (assignBuyer.allowedBatchIds.includes(batchId)) return null;
+
+        // 1. Direct owner (someone else has it directly)
         const direct = batchOwners[batchId];
-        if (direct && direct !== assignBuyer.companyName) return { companyName: direct };
-        // Inside another buyer's bulk?
+        if (direct && direct !== assignBuyer.companyName) {
+            return { companyName: direct };
+        }
+        // Edge case: direct === assignBuyer.companyName is handled by the
+        // early-return above (allowedBatchIds check), so no extra branch needed.
+
+        // 2. Child of any bulk — locked regardless of who owns the bulk.
         const parentMaster = childToMaster[batchId];
         if (parentMaster) {
-            const bulkOwner = masterOwners[parentMaster];
-            if (bulkOwner && bulkOwner !== assignBuyer.companyName) {
-                return { companyName: bulkOwner, viaMaster: parentMaster };
-            }
+            const bulkOwner = masterOwners[parentMaster]; // may be undefined
+            return {
+                companyName: bulkOwner || 'a bulk shipment',
+                viaMaster: parentMaster,
+                self: bulkOwner === assignBuyer.companyName,
+            };
         }
+
         return null;
     };
 
@@ -1109,10 +1118,12 @@ const AdminBuyers: React.FC = () => {
                                                                 Pending
                                                             </span>
                                                         ) : disabled && conflict ? (
-                                                            <span className="px-2 py-0.5 bg-gray-200 text-gray-700 text-[10px] rounded-full flex-shrink-0 max-w-[200px] truncate text-right">
-                                                                 {conflict.viaMaster
-                                                                        ? `In bulk ${conflict.viaMaster} · ${conflict.companyName}`
-                                                                        : `Taken by ${conflict.companyName}`}
+                                                            <span className="px-2 py-0.5 bg-gray-200 text-gray-700 text-[10px] rounded-full flex-shrink-0 max-w-[220px] truncate text-right">
+                                                                    {conflict.viaMaster
+                                                                        ? conflict.self
+                                                                            ? `In your bulk ${conflict.viaMaster}`
+                                                                            : `In bulk ${conflict.viaMaster} · ${conflict.companyName}`
+                                                                            : `Taken by ${conflict.companyName}`}
                                                             </span>
                                                         ) : isAssigned ? (
                                                             <FaCheckCircle className="text-primary text-sm flex-shrink-0" />

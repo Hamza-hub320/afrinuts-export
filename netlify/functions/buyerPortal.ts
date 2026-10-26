@@ -89,7 +89,7 @@ async function findBuyerOwner(
     kind: 'batch' | 'master',
     excludeBuyerId: string
 ): Promise<{ id: string; companyName: string; viaMaster?: string } | null> {
-    // 1. Direct ownership on the same field
+    // ── 1. Direct ownership (respect excludeBuyerId — allows self-removal) ──
     const directField = kind === 'master' ? 'allowedMasterBatchIds' : 'allowedBatchIds';
     const direct = await db
         .collection('farms').doc(fid)
@@ -103,15 +103,16 @@ async function findBuyerOwner(
         return { id: doc.id, companyName: data.companyName || 'another buyer' };
     }
 
-    // 2. If we're checking a batch, also check whether it lives inside
-    //    some other buyer's bulk shipment.
+    // ── 2. If we're checking a batch, check whether it lives inside ANY bulk ──
+    //     regardless of whether that bulk belongs to the current buyer or
+    //     someone else. Child batches are properties of the bulk, not the
+    //     buyer — they can never be individually assigned while the bulk exists.
     if (kind === 'batch') {
-        // Find every master that contains this batch as a child
-        // (search is done in-memory since batchNumbers is a JSON string).
         const mastersSnap = await db
             .collection('farms').doc(fid)
             .collection('master_traceability')
             .get();
+
         const parentMasters: string[] = [];
         mastersSnap.docs.forEach(m => {
             const children = parseMasterBatchNumbers(m.data().batchNumbers);
@@ -125,8 +126,10 @@ async function findBuyerOwner(
                 .where('allowedMasterBatchIds', 'array-contains-any', parentMasters.slice(0, 10))
                 .limit(5)
                 .get();
+
+            // If the parent bulk is assigned to ANYONE (including excludeBuyerId),
+            // the child is locked. No `continue` here.
             for (const doc of ownersSnap.docs) {
-                if (doc.id === excludeBuyerId) continue;
                 const data = doc.data();
                 return {
                     id: doc.id,
@@ -650,12 +653,23 @@ export const handler: Handler = async (event: HandlerEvent) => {
                 for (const id of pending.items as string[]) {
                     const owner = await findBuyerOwner(fid, id, pending.kind, buyerId);
                     if (owner) {
+                        const isSelf = owner.id === buyerId;
                         return {
                             statusCode: 409,
                             headers,
                             body: JSON.stringify({
                                 error: 'already_assigned_to_other_buyer',
-                                hint: `${pending.kind === 'master' ? 'Bulk shipment' : 'Batch'} ${id} was assigned to ${owner.companyName} since this request was created.`,
+                                hint: owner.viaMaster
+                                    ? isSelf
+                                        ? `Batch ${id} is already part of your bulk shipment ${owner.viaMaster}. It's covered by the bulk — no need to assign it individually.`
+                                        : `Batch ${id} is part of bulk ${owner.viaMaster} already assigned to ${owner.companyName}.`
+                                    : kind === 'master'
+                                        ? `Bulk shipment ${id} is already assigned to ${owner.companyName}.`
+                                        : `Batch ${id} is already assigned to ${owner.companyName}.`,
+                                batchId: id,
+                                ownerBuyerId: owner.id,
+                                ownerCompanyName: owner.companyName,
+                                viaMaster: owner.viaMaster || null,
                             }),
                         };
                     }
@@ -1021,14 +1035,23 @@ export const handler: Handler = async (event: HandlerEvent) => {
                     for (const id of batchIds as string[]) {
                         const owner = await findBuyerOwner(fid, id, kind, buyerId);
                         if (owner) {
+                            const isSelf = owner.id === buyerId;
                             return {
                                 statusCode: 409,
                                 headers,
                                 body: JSON.stringify({
                                     error: 'already_assigned_to_other_buyer',
                                     hint: owner.viaMaster
-                                        ? `Batch ${id} is part of bulk ${owner.viaMaster} already assigned to ${owner.companyName}.`
-                                        : `${kind === 'master' ? 'Bulk shipment' : 'Batch'} ${id} is already assigned to ${owner.companyName}.`,
+                                        ? isSelf
+                                            ? `Batch ${id} is already part of your bulk shipment ${owner.viaMaster}. It's covered by the bulk — no need to assign it individually.`
+                                            : `Batch ${id} is part of bulk ${owner.viaMaster} already assigned to ${owner.companyName}.`
+                                        : kind === 'master'
+                                            ? `Bulk shipment ${id} is already assigned to ${owner.companyName}.`
+                                            : `Batch ${id} is already assigned to ${owner.companyName}.`,
+                                    batchId: id,
+                                    ownerBuyerId: owner.id,
+                                    ownerCompanyName: owner.companyName,
+                                    viaMaster: owner.viaMaster || null,
                                 }),
                             };
                         }
