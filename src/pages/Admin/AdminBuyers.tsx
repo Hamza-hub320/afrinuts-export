@@ -1190,17 +1190,6 @@ const AdminBuyers: React.FC = () => {
                                     )}
                                 </div>
 
-                                {assignKind === 'batch' && assignBuyer && assignBuyer.allowedMasterCount > 0 && (
-                                    <div className="mt-3 p-3 bg-amber-50 border border-amber-200 rounded-lg text-xs text-amber-800">
-                                        This buyer currently holds {assignBuyer.allowedMasterCount} bulk shipment{assignBuyer.allowedMasterCount !== 1 ? 's' : ''}. Remove those first before assigning individual batches.
-                                    </div>
-                                )}
-                                {assignKind === 'master' && assignBuyer && assignBuyer.allowedBatchCount > 0 && (
-                                    <div className="mt-3 p-3 bg-amber-50 border border-amber-200 rounded-lg text-xs text-amber-800">
-                                        This buyer currently holds {assignBuyer.allowedBatchCount} individual batch{assignBuyer.allowedBatchCount !== 1 ? 'es' : ''}. Remove those first before assigning bulk shipments.
-                                    </div>
-                                )}
-
                                 <div className="mt-4 pt-4 border-t border-gray-200">
                                     {lastNotified && (
                                         <div className={`mt-3 p-2 rounded-lg text-xs flex items-center gap-2 ${

@@ -663,19 +663,7 @@ export const handler: Handler = async (event: HandlerEvent) => {
 
                 // ── Re-check kind-mixing ──
                 const field = pending.kind === 'master' ? 'allowedMasterBatchIds' : 'allowedBatchIds';
-                const otherField = pending.kind === 'master' ? 'allowedBatchIds' : 'allowedMasterBatchIds';
                 const current: string[] = buyer[field] || [];
-                const otherCurrent: string[] = buyer[otherField] || [];
-                if (otherCurrent.length > 0) {
-                    return {
-                        statusCode: 409,
-                        headers,
-                        body: JSON.stringify({
-                            error: 'buyer_already_has_other_kind',
-                            hint: `Buyer now holds ${otherCurrent.length} ${otherField}. Reject this request and reassign manually.`,
-                        }),
-                    };
-                }
 
                 // ── Compute next: 'set' replaces, 'add' appends ──
                 let next: string[];
@@ -1046,19 +1034,6 @@ export const handler: Handler = async (event: HandlerEvent) => {
                         }
                     }
 
-                    const otherField = kind === 'master' ? 'allowedBatchIds' : 'allowedMasterBatchIds';
-                    const otherCurrent: string[] = buyerDoc.data()?.[otherField] || [];
-                    if (otherCurrent.length > 0) {
-                        return {
-                            statusCode: 409,
-                            headers,
-                            body: JSON.stringify({
-                                error: 'buyer_already_has_other_kind',
-                                hint: `Buyer already has ${otherCurrent.length} ${otherField}. Remove those first.`,
-                            }),
-                        };
-                    }
-
                     // 3. Duplicate pending check  👈 NEW — goes here
                     const existingPending: any[] = buyerDoc.data()?.pendingAssignments || [];
                     const duplicate = existingPending.find((p: any) =>
@@ -1154,20 +1129,6 @@ export const handler: Handler = async (event: HandlerEvent) => {
                             };
                         }
                     }
-                }
-
-                // Prevent mixing individual batches with master shipments on the same buyer
-                const otherField = kind === 'master' ? 'allowedBatchIds' : 'allowedMasterBatchIds';
-                const otherCurrent: string[] = buyerDoc.data()?.[otherField] || [];
-                if (mode === 'add' && otherCurrent.length > 0) {
-                    return {
-                        statusCode: 409,
-                        headers,
-                        body: JSON.stringify({
-                            error: 'buyer_already_has_other_kind',
-                            hint: `Buyer already has ${otherCurrent.length} ${otherField}. Remove those first.`,
-                        }),
-                    };
                 }
 
                 const field = kind === 'master' ? 'allowedMasterBatchIds' : 'allowedBatchIds';
@@ -1418,59 +1379,60 @@ export const handler: Handler = async (event: HandlerEvent) => {
             const allowedBatchIds: string[] = buyer.allowedBatchIds || [];
             const allowedMasterBatchIds: string[] = buyer.allowedMasterBatchIds || [];
 
-            // ── Bulk path: exactly one master assigned, no individual batches ──
-            if (allowedMasterBatchIds.length === 1 && allowedBatchIds.length === 0) {
+            // ── Resolve any assigned masters ──
+            const masters: any[] = [];
+            for (const masterNumber of allowedMasterBatchIds) {
                 const masterSnap = await db
                     .collection('farms').doc(fid)
                     .collection('master_traceability')
-                    .where('masterBatchNumber', '==', allowedMasterBatchIds[0])
+                    .where('masterBatchNumber', '==', masterNumber)
                     .limit(1)
                     .get();
-
-                if (!masterSnap.empty) {
-                    const masterData = masterSnap.docs[0].data();
-                    const childBatchNumbers = parseMasterBatchNumbers(masterData.batchNumbers);
-                    const enriched = await enrichBatches(fid, childBatchNumbers);
-
-                    return {
-                        statusCode: 200, headers,
-                        body: JSON.stringify({
-                            isBulk: true,
-                            masterBatch: {
-                                masterBatchNumber: masterData.masterBatchNumber,
-                                shipmentName: masterData.shipmentName || null,
-                                buyer: masterData.buyer || null,
-                                destination: masterData.destination || null,
-                                totalBatches: masterData.totalBatches || childBatchNumbers.length,
-                                totalWeightKg: masterData.totalWeightKg || 0,
-                                grades: masterData.grades || null,
-                                exportDate: masterData.exportDate || null,
-                            },
-                            buyer: { companyName: buyer.companyName, contactPerson: buyer.contactPerson },
-                            batches: enriched,
-                        }),
-                    };
-                }
+                if (masterSnap.empty) continue;
+                const m = masterSnap.docs[0].data();
+                masters.push({
+                    masterBatchNumber: m.masterBatchNumber,
+                    shipmentName: m.shipmentName || null,
+                    buyer: m.buyer || null,
+                    destination: m.destination || null,
+                    totalBatches: m.totalBatches || parseMasterBatchNumbers(m.batchNumbers).length,
+                    totalWeightKg: m.totalWeightKg || 0,
+                    grades: m.grades || null,
+                    exportDate: m.exportDate || null,
+                });
             }
 
-            // ── Single-batch path (unchanged) ──
-            if (allowedBatchIds.length === 0) {
-                return {
-                    statusCode: 200, headers,
-                    body: JSON.stringify({
-                        buyer: { companyName: buyer.companyName, contactPerson: buyer.contactPerson },
-                        batches: [],
-                    }),
-                };
-            }
+            // ── Enrich individual batches ──
+            const enrichedBatches = allowedBatchIds.length > 0
+                ? await enrichBatches(fid, allowedBatchIds)
+                : [];
 
-            const enriched = await enrichBatches(fid, allowedBatchIds);
+            // ── Enrich master children (each master becomes a group) ──
+            const mastersWithChildren: any[] = [];
+            for (const master of masters) {
+                const masterSnap = await db
+                    .collection('farms').doc(fid)
+                    .collection('master_traceability')
+                    .where('masterBatchNumber', '==', master.masterBatchNumber)
+                    .limit(1)
+                    .get();
+                if (masterSnap.empty) continue;
+                const childBatchNumbers = parseMasterBatchNumbers(masterSnap.docs[0].data().batchNumbers);
+                const children = await enrichBatches(fid, childBatchNumbers);
+                mastersWithChildren.push({ ...master, batches: children });
+            }
 
             return {
-                statusCode: 200, headers,
+                statusCode: 200,
+                headers,
                 body: JSON.stringify({
                     buyer: { companyName: buyer.companyName, contactPerson: buyer.contactPerson },
-                    batches: enriched,
+                    // ── New shape: both arrays present, either may be empty ──
+                    batches: enrichedBatches,
+                    masters: mastersWithChildren,
+                    // ── Legacy flags for backward compat with the current buyer dashboard ──
+                    isBulk: masters.length > 0 && enrichedBatches.length === 0,
+                    masterBatch: masters.length > 0 ? masters[0] : null,
                 }),
             };
         }

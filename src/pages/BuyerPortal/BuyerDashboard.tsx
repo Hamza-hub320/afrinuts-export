@@ -24,6 +24,7 @@ import { useTranslation } from 'react-i18next';
 import { BatchFarmerCard } from '@/components/batch/BatchFarmerCard';
 import { BatchSustainabilityCard } from '@/components/batch/BatchSustainabilityCard';
 import { BatchSignatureCard } from '@/components/batch/BatchSignatureCard';
+import {data} from "autoprefixer";
 
 interface MyBatch {
     id: string;
@@ -187,6 +188,9 @@ const BuyerDashboard: React.FC = () => {
     const isBulk = !Array.isArray(portalData) && (portalData as BulkData).isBulk;
     const bulkData = isBulk ? (portalData as BulkData) : null;
     const batches = isBulk ? bulkData!.batches : (portalData as MyBatch[]);
+    const mastersList = (data as any).masters || [];
+    const individualBatches = (data as any).batches || [];
+    const hasBoth = mastersList.length > 0 && individualBatches.length > 0;
 
     // KPIs
     const inspected = batches.filter(b => b.qualityScore && b.qualityScore > 0);
@@ -272,6 +276,16 @@ const BuyerDashboard: React.FC = () => {
                                     </div>
                                 </InfoCard>
                             </motion.div>
+                        )}
+
+                        {hasBoth && (
+                            <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-xl">
+                                <p className="text-sm text-blue-800">
+                                    <strong>{mastersList.length}</strong> bulk shipment{mastersList.length !== 1 ? 's' : ''} and{' '}
+                                    <strong>{individualBatches.length}</strong> individual batch{individualBatches.length !== 1 ? 'es' : ''} assigned.
+                                    Each section shows below.
+                                </p>
+                            </div>
                         )}
 
                         {batches.length === 0 ? (
