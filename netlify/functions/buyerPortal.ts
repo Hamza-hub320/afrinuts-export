@@ -82,6 +82,64 @@ async function getBuyerRecord(fid: string, uid: string): Promise<BuyerRecord | n
     return null;
 }
 
+// ── Consent gate for farmer PII shown to buyers ──
+// Returns only the fields the farmer consented to share. Missing scopes
+// get a safe fallback so the UI doesn't break — the buyer sees a proper
+// anonymized view rather than a null-checking mess in every component.
+function buildGatedFarmer(supplier: any): any {
+    if (!supplier) return null;
+
+    // Withdrawal overrides everything — treat as fully withdrawn
+    const withdrawn = !!supplier.dataConsentWithdrawnDate;
+
+    const scopes = new Set<string>(
+        withdrawn ? [] : (Array.isArray(supplier.dataConsentScope) ? supplier.dataConsentScope : [])
+    );
+    const consentGiven = supplier.dataConsentGiven === true && !withdrawn;
+
+    const hasIdentity = consentGiven && scopes.has('identity');
+    const hasLocation = consentGiven && scopes.has('location');
+    const hasPhoto = consentGiven && scopes.has('photo');
+
+    // Base shape — always returned, so the UI can render a consistent card
+    return {
+        // Stable, non-identifying ID — safe to expose
+        id: supplier.id,
+
+        // ── Identity gate ──
+        name: hasIdentity ? (supplier.contactPerson || 'Farmer') : 'Verified Farmer',
+        role: supplier.type?.replace(/_/g, ' ') || 'Farmer',
+        bio: hasIdentity ? (supplier.bio || 'Dedicated cashew farmer in the Odienné region.') : null,
+        quote: hasIdentity ? (supplier.quote || null) : null,
+        yearsFarming: hasIdentity && supplier.yearsFarming ? `${supplier.yearsFarming}+ years` : null,
+
+        // ── Photo gate ──
+        photo: hasPhoto ? (supplier.photoUrl || '') : '',
+
+        // ── Location gate ──
+        // `location` here is the string label (e.g. "Odienné · Block 3").
+        // Precise GPS coordinates are handled separately in the batch object.
+        location: hasLocation ? (supplier.location || 'Odienné') : 'Côte d\'Ivoire',
+
+        // ── Non-identifying flags (always safe to expose) ──
+        // These describe how the crop was grown, not who grew it.
+        // Agronomic facts are already implied by the batch's certifications
+        // and quality grade. No consent needed to show them.
+        traceLevel: supplier.traceLevel || null,
+        cooperative: supplier.type === 'COOPERATIVE' ? supplier.name : null,
+
+        // ── Consent state (boolean flags, not the record) ──
+        // The buyer sees *that* consent exists for the fields they can see,
+        // but not the signed record (dates, version, text, who signed it).
+        consentShared: {
+            identity: hasIdentity,
+            location: hasLocation,
+            photo: hasPhoto,
+        },
+    };
+}
+
+
 // ── Helper: find another buyer that already owns a given batch / master ──
 async function findBuyerOwner(
     fid: string,
@@ -468,8 +526,17 @@ async function enrichBatches(fid: string, batchNumbers: string[]): Promise<any[]
         const docs = parseDocuments(trace);
         const inspected = isBatchInspected(b);
 
-        const latitude = supplier?.latitude ?? supplier?.location?.latitude ?? b.latitude ?? 9.51;
-        const longitude = supplier?.longitude ?? supplier?.location?.longitude ?? b.longitude ?? -7.5692;
+        const consentGiven = supplier?.dataConsentGiven === true && !supplier?.dataConsentWithdrawnDate;
+        const hasLocation = consentGiven
+            && Array.isArray(supplier?.dataConsentScope)
+            && supplier.dataConsentScope.includes('location');
+
+        const latitude = hasLocation
+            ? (supplier?.latitude ?? 9.51)
+            : 9.51;
+        const longitude = hasLocation
+            ? (supplier?.longitude ?? -7.5692)
+            : -7.5692;
 
         const verificationCode = trace?.verificationCode || b.verificationCode || null;
         const sigTimestamp = trace?.updatedAt || trace?.createdAt || b.updatedAt;
@@ -487,8 +554,8 @@ async function enrichBatches(fid: string, batchNumbers: string[]): Promise<any[]
 
             farmLocation: supplier?.location || "Odienné, Côte d'Ivoire",
             block: b.blockId ? `Block ${b.blockId}` : null,
-            latitude: supplier?.latitude || 9.51,
-            longitude: supplier?.longitude || -7.5692,
+            latitude,
+            longitude,
             destination: trace?.destination || null,
             destinationCountry: extractCountry(trace?.destination),
             buyer: trace?.buyer || revenue?.buyer || null,
@@ -515,12 +582,12 @@ async function enrichBatches(fid: string, batchNumbers: string[]): Promise<any[]
             supplier: supplier ? {
                 id: supplier.id,
                 type: supplier.type?.replace(/_/g, ' ') || 'Independent',
-                farmSize: supplier.farmSize ? `${supplier.farmSize} ha` : 'N/A',
                 farmOsStatus: 'Active',
                 season: '2026',
-                traceLevel: 'Block-Level Verified',
-                cooperative: supplier.type === 'COOPERATIVE' ? supplier.name : 'AfriNuts Network',
             } : null,
+
+            farmer: buildGatedFarmer(supplier),
+
 
             documents: {
                 coo: docs.certificateOfOrigin || docs.coo || docs.qualityCertificate || null,
@@ -544,17 +611,6 @@ async function enrichBatches(fid: string, batchNumbers: string[]): Promise<any[]
                 firebreak: b.firebreakProtection || false,
                 sustainableHarvesting: b.sustainableHarvesting || false,
             },
-
-            farmer: supplier ? {
-                id: supplier.id,
-                name: supplier.contactPerson,
-                role: supplier.type?.replace(/_/g, ' ') || 'Farmer',
-                photo: supplier.photoUrl || '',
-                yearsFarming: `${supplier.yearsFarming || 0}+ years`,
-                location: supplier.location || 'Odienné',
-                bio: supplier.bio || 'Dedicated cashew farmer in the Odienné region.',
-                quote: supplier.quote || null,
-            } : null,
 
             farmOsMetadata: {
                 recordId: `FOS-${b.batchNumber}`,

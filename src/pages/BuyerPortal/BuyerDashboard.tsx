@@ -7,7 +7,7 @@ import {
     FaFileAlt, FaCertificate, FaMapMarkerAlt, FaPercentage,
     FaFlask, FaLeaf, FaMobile, FaCalendarAlt, FaBuilding,
     FaIndustry, FaChartBar, FaTruck, FaPrint, FaShare, FaEnvelope,
-    FaArrowLeft, FaCopy, FaWhatsapp, FaTwitter, FaLinkedin, FaGlobeAfrica
+    FaArrowLeft, FaCopy, FaWhatsapp, FaTwitter, FaLinkedin, FaGlobeAfrica, FaLock
 } from 'react-icons/fa';
 import { GiFarmer, GiFruitTree, GiFactory, GiCargoShip } from 'react-icons/gi';
 import { Typography } from '@/components/Typography/Typography';
@@ -23,6 +23,23 @@ import { useTranslation } from 'react-i18next';
 import { BatchFarmerCard } from '@/components/batch/BatchFarmerCard';
 import { BatchSustainabilityCard } from '@/components/batch/BatchSustainabilityCard';
 import { BatchSignatureCard } from '@/components/batch/BatchSignatureCard';
+
+interface GatedFarmer {
+    id?: number;
+    name: string;
+    role: string;
+    bio: string | null;
+    quote: string | null;
+    yearsFarming: string | null;
+    photo: string;
+    location: string;
+    traceLevel?: string | null;
+    cooperative?: string | null;
+    consentShared?: { identity: boolean; location: boolean; photo: boolean };
+    identityWithheld?: boolean;
+    locationWithheld?: boolean;
+    photoWithheld?: boolean;
+}
 
 interface MyBatch {
     id: string;
@@ -393,10 +410,15 @@ const BuyerDashboard: React.FC = () => {
                                     longitude={batch.longitude ?? -7.5692}
                                     farmName={batch.farmLocation || 'AfriNuts Farm'}
                                     block={batch.block}
+                                    locationWithheld={batch.farmer?.locationWithheld === true}
                                 />
                                 <div className="flex items-center justify-center gap-2 mt-3">
                                     <FaMapMarkerAlt className="text-accent text-xs" />
-                                    <Typography variant="small" className="text-gray-600">{batch.farmLocation}{batch.block ? ` · Block ${batch.block}` : ''}</Typography>
+                                    <Typography variant="small" className="text-gray-600">
+                                        {batch.farmer?.locationWithheld
+                                            ? "Côte d'Ivoire · Odienné region"
+                                            : `${batch.farmLocation}${batch.block ? ` · Block ${batch.block}` : ''}`}
+                                    </Typography>
                                 </div>
                             </div>
                         </InfoCard>
