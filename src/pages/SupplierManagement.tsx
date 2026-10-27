@@ -10,7 +10,7 @@ import {
     FaSearch, FaChevronDown, FaTimes, FaFileAlt, FaChartBar,
     FaLeaf, FaFireExtinguisher, FaChild, FaHandshake,
     FaTractor, FaCalendarAlt, FaDollarSign, FaIndustry,
-    FaAward, FaUser, FaTrophy, FaChartLine, FaHome
+    FaAward, FaUser, FaTrophy, FaChartLine, FaHome, FaShieldAlt, FaCamera
 } from 'react-icons/fa';
 import { Typography } from '@/components/Typography/Typography';
 import { InfoCard } from '@/components/InfoCard/InfoCard';
@@ -55,6 +55,13 @@ interface Supplier {
     quote?: string;
     latitude?: number;
     longitude?: number;
+    dataConsentGiven?: boolean;
+    dataConsentScope?: string[];
+    dataConsentSignedBy?: string;
+    dataConsentVersion?: string;
+    dataConsentWithdrawnDate?: number | null;
+    dataConsentWithdrawnReason?: string | null;
+    farmerIdNumber?: string;
 }
 
 interface QualityBatch {
@@ -133,7 +140,10 @@ const SupplierManagement: React.FC = () => {
     const filteredSuppliers = suppliers.filter(s => {
         const matchSearch = s.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
             s.contactPerson?.toLowerCase().includes(searchQuery.toLowerCase());
-        const matchType = filterType === 'All' || s.type === filterType || s.status === filterType;
+        let matchType = false;
+        if (filterType === 'All') matchType = true;
+        else if (filterType === 'BUYER_READY') matchType = !!(s.dataConsentGiven && s.status === 'ACTIVE');
+        else matchType = s.type === filterType || s.status === filterType;
         return matchSearch && matchType;
     });
 
@@ -171,7 +181,8 @@ const SupplierManagement: React.FC = () => {
         'COMMERCIAL_AGGREGATOR',
         'PROCESSOR',
         'ACTIVE',
-        'INACTIVE'
+        'INACTIVE',
+        'BUYER_READY'
     ];
 
     return (
@@ -375,6 +386,13 @@ const SupplierManagement: React.FC = () => {
                                         {supplier.noChildLabor && (
                                             <span className="text-blue-500 text-xs flex items-center gap-1"><FaChild /> No Child Labor</span>
                                         )}
+                                        {supplier.dataConsentGiven ? (
+                                            <span className="text-primary text-xs flex items-center gap-1" title={`Scopes: ${supplier.dataConsentScope?.join(', ')}`}><FaShieldAlt /> Consent</span>
+                                        ) : (
+                                            <span className="text-amber-500 text-xs flex items-center gap-1" title="No data consent on record">
+                                            <FaShieldAlt /> No Consent
+                                             </span>
+                                        )}
                                     </div>
                                     <div className="flex items-center gap-1 mt-2 text-xs text-gray-500">
                                         <FaPhone className="text-[10px]" /> {supplier.phone}
@@ -383,6 +401,67 @@ const SupplierManagement: React.FC = () => {
                             </motion.div>
                         ))}
                     </div>
+                </div>
+            </Section>
+
+            {/* Consent & Data Trust */}
+            <Section className="py-6">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6">
+                    <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
+                        <InfoCard
+                            icon={FaShieldAlt}
+                            title="Consent & Data Trust"
+                            subtitle="Farmer data is held in trust — shared with buyers only where consent is recorded"
+                            iconColor="text-primary"
+                            showInfoBadge={false}
+                        >
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-3">
+                                {(() => {
+                                    const withConsent = suppliers.filter(s => s.dataConsentGiven).length;
+                                    const total = suppliers.length;
+                                    const pct = total > 0 ? (withConsent / total) * 100 : 0;
+                                    const locationConsent = suppliers.filter(s => s.dataConsentScope?.includes('location')).length;
+                                    const identityConsent = suppliers.filter(s => s.dataConsentScope?.includes('identity')).length;
+                                    const photoConsent = suppliers.filter(s => s.dataConsentScope?.includes('photo')).length;
+
+                                    return [
+                                        { label: 'Consent Coverage', value: `${withConsent}/${total}`, pct, icon: FaShieldAlt, color: 'text-primary', hint: `${pct.toFixed(0)}% of network` },
+                                        { label: 'Identity Shared', value: `${identityConsent}/${total}`, icon: FaUser, color: 'text-accent', hint: 'Name visible to buyers' },
+                                        { label: 'Location Shared', value: `${locationConsent}/${total}`, icon: FaMapMarkerAlt, color: 'text-green-600', hint: 'GPS visible to buyers' },
+                                        { label: 'Photo Shared', value: `${photoConsent}/${total}`, icon: FaCamera, color: 'text-blue-500', hint: 'Photo visible to buyers' },
+                                    ].map((item, i) => (
+                                        <div key={i} className="bg-white/40 rounded-xl p-3 border border-white/30 text-center">
+                                            <item.icon className={`text-xl mx-auto ${item.color}`} />
+                                            <div className="text-lg font-bold mt-1">{item.value}</div>
+                                            <div className="text-xs text-gray-500">{item.label}</div>
+                                            <div className="text-[10px] text-gray-400 mt-0.5">{item.hint}</div>
+                                        </div>
+                                    ));
+                                })()}
+                            </div>
+                            {/* Consent coverage bar */}
+                            <div className="mt-4">
+                                <div className="flex justify-between text-xs text-gray-500 mb-1">
+                                    <span>Network consent coverage</span>
+                                    <span>
+                            {suppliers.filter(s => s.dataConsentGiven).length}/{suppliers.length}
+                        </span>
+                                </div>
+                                <div className="w-full bg-gray-200 rounded-full h-2.5">
+                                    <motion.div
+                                        className="bg-primary h-2.5 rounded-full"
+                                        initial={{ width: 0 }}
+                                        animate={{ width: `${suppliers.length > 0 ? (suppliers.filter(s => s.dataConsentGiven).length / suppliers.length) * 100 : 0}%` }}
+                                        transition={{ duration: 1 }}
+                                    />
+                                </div>
+                            </div>
+                            <div className="mt-4 p-3 bg-primary/5 rounded-lg text-xs text-gray-600 text-center">
+                                <FaShieldAlt className="inline mr-1 text-primary" />
+                                Farmer data remains theirs. AfriNuts holds it in trust and shares only consented scopes with verified buyers. Withdrawn consent is respected immediately.
+                            </div>
+                        </InfoCard>
+                    </motion.div>
                 </div>
             </Section>
 
@@ -815,6 +894,53 @@ const SupplierManagement: React.FC = () => {
                                                                     <span className="text-sm text-gray-500">Has Location: {selectedSupplier.hasLocation ? 'Yes' : 'No'}</span>
                                                                 </div>
                                                             </div>
+                                                        </div>
+                                                        {/* Data Consent & Trust */}
+                                                        <div className="bg-white/50 rounded-xl p-4 border border-white/30">
+                                                            <h4 className="font-medium text-primary mb-2 flex items-center gap-2">
+                                                                <FaShieldAlt /> Data Consent & Trust
+                                                            </h4>
+                                                            {selectedSupplier.dataConsentGiven ? (
+                                                                <div className="space-y-2">
+                                                                    <div className="flex items-center gap-2">
+                                                                        <FaCheckCircle className="text-green-500" />
+                                                                        <span className="text-sm font-medium text-green-700">Consent on record</span>
+                                                                        {selectedSupplier.dataConsentVersion && (
+                                                                            <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full">v{selectedSupplier.dataConsentVersion}</span>
+                                                                        )}
+                                                                    </div>
+                                                                    <p className="text-sm text-gray-600">
+                                                                        Signed by <strong>{selectedSupplier.dataConsentSignedBy}</strong>
+                                                                        {selectedSupplier.farmerIdNumber && <> · Farmer ID: {selectedSupplier.farmerIdNumber}</>}
+                                                                    </p>
+                                                                    <div className="flex flex-wrap gap-2 mt-2">
+                                                                        {['identity', 'location', 'photo'].map(scope => {
+                                                                            const has = selectedSupplier.dataConsentScope?.includes(scope);
+                                                                            return (
+                                                                                <span key={scope} className={`px-2 py-1 rounded-full text-xs font-medium flex items-center gap-1 ${
+                                                                                    has ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-400 line-through'
+                                                                                }`}>{has ? <FaCheckCircle className="text-[10px]" /> : <FaTimesCircle className="text-[10px]" />}
+                                                                                    {scope.charAt(0).toUpperCase() + scope.slice(1)} shared</span>
+                                                                            );
+                                                                        })}
+                                                                    </div>
+                                                                    {selectedSupplier.dataConsentWithdrawnDate ? (
+                                                                        <div className="mt-2 p-2 bg-red-50 border border-red-200 rounded-lg text-xs text-red-700">
+                                                                            <strong>Withdrawn</strong> on {new Date(selectedSupplier.dataConsentWithdrawnDate).toLocaleDateString()}
+                                                                            {selectedSupplier.dataConsentWithdrawnReason && <> — {selectedSupplier.dataConsentWithdrawnReason}</>}
+                                                                        </div>
+                                                                    ) : (
+                                                                        <p className="text-xs text-gray-400 mt-2">
+                                                                            Buyer Portal will show only the consented scopes. Consent can be withdrawn at any time.
+                                                                        </p>
+                                                                    )}
+                                                                </div>
+                                                            ) : (
+                                                                <div className="flex items-center gap-2">
+                                                                    <FaTimesCircle className="text-amber-500" />
+                                                                    <span className="text-sm text-amber-700">No consent on record — identity and location withheld from buyers</span>
+                                                                </div>
+                                                            )}
                                                         </div>
 
                                                         {/* Internal Notes (for management) */}
