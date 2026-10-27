@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import {
     FaShip, FaBox, FaCheckCircle, FaCalendarAlt, FaMapMarkerAlt,
-    FaTruck, FaBuilding, FaIndustry, FaFlask, FaFileAlt, FaLeaf,
+    FaTruck, FaBuilding, FaFlask, FaFileAlt, FaLeaf,
     FaShieldAlt, FaDownload, FaPrint, FaShare, FaCopy,
     FaWhatsapp, FaTwitter, FaLinkedin, FaEnvelope, FaChartBar,
-    FaUser, FaLock, FaGlobeAfrica, FaMobile, FaCertificate,
+    FaUser, FaMobile, FaCertificate,
 } from 'react-icons/fa';
 import { GiFarmer, GiFruitTree, GiFactory, GiCargoShip } from 'react-icons/gi';
 import { Typography } from '@/components/Typography/Typography';
@@ -22,16 +22,23 @@ interface BatchDossierProps {
 
 type Tab = 'journey' | 'quality' | 'documents' | 'farmer' | 'map' | 'signature';
 
-// ── Local GlassCard (matches the dashboard shell) ──
-const GlassCard: React.FC<{ children: React.ReactNode; className?: string }> = ({
-                                                                                    children,
-                                                                                    className = '',
-                                                                                }) => (
-    <div
-        className={`relative bg-white/70 backdrop-blur-xl border border-white/40 shadow-xl rounded-2xl overflow-hidden ${className}`}
+// ── GlassCard — matches AdminBuyers / Financials ──
+const GlassCard: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className = '' }) => (
+    <motion.div
+        className={`group relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 transition-all duration-500 rounded-2xl shadow-xl transform-gpu overflow-hidden ${className}`}
+        style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
+        whileHover={{
+            y: -5,
+            scale: 1.01,
+            boxShadow: '0 20px 35px -10px rgba(0, 0, 0, 0.2)',
+            transition: { duration: 0.3 },
+        }}
     >
-        {children}
-    </div>
+        <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
+        <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+        <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] group-hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
+        <div className="relative z-10 p-5">{children}</div>
+    </motion.div>
 );
 
 export const BatchDossier: React.FC<BatchDossierProps> = ({ batch }) => {
@@ -87,17 +94,12 @@ export const BatchDossier: React.FC<BatchDossierProps> = ({ batch }) => {
         {
             icon: FaBuilding,
             title: 'Arrival',
-            detail: isDelivered
-                ? '✓ Delivered'
-                : isShipped
-                    ? 'In transit'
-                    : 'Estimated on delivery',
+            detail: isDelivered ? '✓ Delivered' : isShipped ? 'In transit' : 'Estimated on delivery',
             sub: batch.destination || '—',
             status: isDelivered ? 'complete' : isShipped ? 'active' : 'upcoming',
         },
     ];
 
-    // Share handler
     const handleShare = async (platform?: string) => {
         const url = `${window.location.origin}/trace?batchId=${encodeURIComponent(batch.batchId)}`;
         const text = `AfriNuts Batch: ${batch.batchId}`;
@@ -115,7 +117,6 @@ export const BatchDossier: React.FC<BatchDossierProps> = ({ batch }) => {
         setShowShareMenu(false);
     };
 
-    // Quality metric definitions (matching wireframe's chart on the right side)
     const qualityMetrics = [
         { label: 'Moisture Content', value: batch.moistureContent, unit: '%', max: 10, good: true },
         { label: 'Foreign Matter', value: batch.defectiveRate, unit: '%', max: 10, good: true },
@@ -126,7 +127,7 @@ export const BatchDossier: React.FC<BatchDossierProps> = ({ batch }) => {
     return (
         <div className="space-y-4">
             {/* ── DOSSIER HEADER ── */}
-            <GlassCard className="p-6">
+            <GlassCard>
                 <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
                     <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-2 mb-3 flex-wrap">
@@ -155,9 +156,7 @@ export const BatchDossier: React.FC<BatchDossierProps> = ({ batch }) => {
                             <span className="flex items-center gap-1.5">
                                 <FaCalendarAlt className="text-gray-400" />
                                 {batch.processingDate || batch.harvestDate
-                                    ? new Date(
-                                        batch.processingDate || batch.harvestDate
-                                    ).toLocaleDateString('en-US', {
+                                    ? new Date(batch.processingDate || batch.harvestDate).toLocaleDateString('en-US', {
                                         month: 'short',
                                         day: 'numeric',
                                         year: 'numeric',
@@ -180,7 +179,7 @@ export const BatchDossier: React.FC<BatchDossierProps> = ({ batch }) => {
                     <div className="flex gap-2 flex-shrink-0">
                         <button
                             onClick={() => window.print()}
-                            className="px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-xs font-medium text-gray-700 hover:bg-gray-100 transition flex items-center gap-1.5"
+                            className="px-3 py-2 bg-white/60 backdrop-blur-sm border border-white/40 rounded-lg text-xs font-medium text-gray-700 hover:bg-white transition flex items-center gap-1.5"
                         >
                             <FaPrint /> Print
                         </button>
@@ -217,8 +216,8 @@ export const BatchDossier: React.FC<BatchDossierProps> = ({ batch }) => {
                 </div>
             </GlassCard>
 
-            {/* ── TAB BAR (horizontal, matching wireframe) ── */}
-            <GlassCard className="p-1.5">
+            {/* ── TAB BAR ── */}
+            <GlassCard className="!p-1.5">
                 <div className="flex overflow-x-auto scrollbar-hide">
                     {[
                         { key: 'journey' as Tab, icon: FaMapMarkerAlt, label: 'Journey' },
@@ -237,7 +236,7 @@ export const BatchDossier: React.FC<BatchDossierProps> = ({ batch }) => {
                                 className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all whitespace-nowrap flex-shrink-0 ${
                                     active
                                         ? 'bg-primary text-white shadow-md'
-                                        : 'text-gray-600 hover:bg-gray-50'
+                                        : 'text-gray-600 hover:bg-white/60'
                                 }`}
                             >
                                 <Icon className="text-xs" />
@@ -255,11 +254,11 @@ export const BatchDossier: React.FC<BatchDossierProps> = ({ batch }) => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.2 }}
             >
-                {/* JOURNEY TAB — matches wireframe's left "Shipment Journey" + right "Quality Metrics" split */}
+                {/* JOURNEY TAB */}
                 {activeTab === 'journey' && (
                     <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
-                        {/* Left: Shipment Journey timeline */}
-                        <GlassCard className="p-6">
+                        {/* Left: Shipment Journey */}
+                        <GlassCard>
                             <Typography variant="h4" className="font-bold text-gray-900 mb-4">
                                 Shipment Journey
                             </Typography>
@@ -269,17 +268,13 @@ export const BatchDossier: React.FC<BatchDossierProps> = ({ batch }) => {
                                     const isLast = i === journeySteps.length - 1;
                                     return (
                                         <div key={i} className="flex gap-3 relative">
-                                            {/* Vertical connecting line */}
                                             {!isLast && (
                                                 <div
                                                     className={`absolute left-[15px] top-8 bottom-0 w-0.5 ${
-                                                        step.status === 'complete'
-                                                            ? 'bg-green-300'
-                                                            : 'bg-gray-200'
+                                                        step.status === 'complete' ? 'bg-green-300' : 'bg-gray-200'
                                                     }`}
                                                 />
                                             )}
-                                            {/* Icon */}
                                             <div
                                                 className={`relative z-10 w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
                                                     step.status === 'complete'
@@ -295,7 +290,6 @@ export const BatchDossier: React.FC<BatchDossierProps> = ({ batch }) => {
                                                     <Icon className="text-sm" />
                                                 )}
                                             </div>
-                                            {/* Content */}
                                             <div className="flex-1 pb-5">
                                                 <div className="flex items-start justify-between gap-2">
                                                     <div>
@@ -330,25 +324,17 @@ export const BatchDossier: React.FC<BatchDossierProps> = ({ batch }) => {
                             </div>
                         </GlassCard>
 
-                        {/* Right: Quality Metrics donut + summary */}
+                        {/* Right: Quality Metrics + Lab Results */}
                         <div className="space-y-4">
-                            <GlassCard className="p-6">
+                            <GlassCard>
                                 <Typography variant="h4" className="font-bold text-gray-900 mb-4">
                                     Quality Metrics
                                 </Typography>
 
                                 <div className="flex flex-col sm:flex-row items-center gap-6">
-                                    {/* Donut chart */}
                                     <div className="relative w-32 h-32 flex-shrink-0">
                                         <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100">
-                                            <circle
-                                                cx="50"
-                                                cy="50"
-                                                r="42"
-                                                fill="none"
-                                                stroke="#e5e7eb"
-                                                strokeWidth="8"
-                                            />
+                                            <circle cx="50" cy="50" r="42" fill="none" stroke="#e5e7eb" strokeWidth="8" />
                                             <circle
                                                 cx="50"
                                                 cy="50"
@@ -357,9 +343,7 @@ export const BatchDossier: React.FC<BatchDossierProps> = ({ batch }) => {
                                                 stroke="#16a34a"
                                                 strokeWidth="8"
                                                 strokeLinecap="round"
-                                                strokeDasharray={`${
-                                                    (batch.qualityScore || 0) * 2.64
-                                                } 264`}
+                                                strokeDasharray={`${(batch.qualityScore || 0) * 2.64} 264`}
                                             />
                                         </svg>
                                         <div className="absolute inset-0 flex flex-col items-center justify-center">
@@ -372,13 +356,9 @@ export const BatchDossier: React.FC<BatchDossierProps> = ({ batch }) => {
                                         </div>
                                     </div>
 
-                                    {/* Metrics list */}
                                     <div className="flex-1 w-full space-y-2.5">
                                         {qualityMetrics.map((m, i) => (
-                                            <div
-                                                key={i}
-                                                className="flex items-center justify-between text-sm"
-                                            >
+                                            <div key={i} className="flex items-center justify-between text-sm">
                                                 <span className="text-gray-600">{m.label}</span>
                                                 <div className="flex items-center gap-2">
                                                     <span className="font-semibold text-gray-900">
@@ -406,9 +386,8 @@ export const BatchDossier: React.FC<BatchDossierProps> = ({ batch }) => {
                                 </div>
                             </GlassCard>
 
-                            {/* Lab Test Results */}
                             {batch.testResults && (
-                                <GlassCard className="p-6">
+                                <GlassCard>
                                     <Typography variant="h4" className="font-bold text-gray-900 mb-4 flex items-center gap-2">
                                         <FaFlask className="text-accent" /> Lab Test Results
                                     </Typography>
@@ -422,7 +401,7 @@ export const BatchDossier: React.FC<BatchDossierProps> = ({ batch }) => {
                                             return (
                                                 <div
                                                     key={i}
-                                                    className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
+                                                    className="flex items-center justify-between p-3 bg-white/50 rounded-lg border border-white/40"
                                                 >
                                                     <div>
                                                         <div className="text-sm font-medium text-gray-900">
@@ -440,9 +419,7 @@ export const BatchDossier: React.FC<BatchDossierProps> = ({ batch }) => {
                                                         >
                                                             {t.value != null ? `${t.value} ${t.unit}` : 'Pending'}
                                                         </span>
-                                                        {passed && (
-                                                            <FaCheckCircle className="text-green-500 text-xs" />
-                                                        )}
+                                                        {passed && <FaCheckCircle className="text-green-500 text-xs" />}
                                                     </div>
                                                 </div>
                                             );
@@ -456,12 +433,12 @@ export const BatchDossier: React.FC<BatchDossierProps> = ({ batch }) => {
 
                 {/* QUALITY TAB */}
                 {activeTab === 'quality' && (
-                    <GlassCard className="p-6">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <GlassCard>
+                            <Typography variant="h4" className="font-bold text-gray-900 mb-3">
+                                Quality Metrics
+                            </Typography>
                             <div className="space-y-3">
-                                <Typography variant="h4" className="font-bold text-gray-900 mb-3">
-                                    Quality Metrics
-                                </Typography>
                                 {[
                                     { label: 'Moisture', value: batch.moistureContent, unit: '%', max: 10, color: 'bg-primary' },
                                     { label: 'Nut Count', value: batch.nutCount, unit: '/kg', max: 250, color: 'bg-blue-500' },
@@ -470,7 +447,10 @@ export const BatchDossier: React.FC<BatchDossierProps> = ({ batch }) => {
                                 ]
                                     .filter((m) => m.value != null)
                                     .map((metric, i) => (
-                                        <div key={i} className="bg-gray-50 rounded-xl p-3">
+                                        <div
+                                            key={i}
+                                            className="bg-white/50 rounded-xl p-3 border border-white/40"
+                                        >
                                             <div className="flex justify-between items-center mb-2">
                                                 <span className="text-gray-700 font-medium text-sm">
                                                     {metric.label}
@@ -480,21 +460,18 @@ export const BatchDossier: React.FC<BatchDossierProps> = ({ batch }) => {
                                                     {metric.unit}
                                                 </span>
                                             </div>
-                                            <div className="w-full bg-gray-200 rounded-full h-2">
+                                            <div className="w-full bg-gray-200/60 rounded-full h-2">
                                                 <div
                                                     className={`h-2 rounded-full ${metric.color}`}
                                                     style={{
-                                                        width: `${Math.min(
-                                                            (metric.value! / metric.max) * 100,
-                                                            100
-                                                        )}%`,
+                                                        width: `${Math.min((metric.value! / metric.max) * 100, 100)}%`,
                                                     }}
                                                 />
                                             </div>
                                         </div>
                                     ))}
                                 {batch.overallScore && (
-                                    <div className="bg-gradient-to-r from-primary/10 to-accent/10 rounded-xl p-4 text-center">
+                                    <div className="bg-gradient-to-r from-primary/10 to-accent/10 rounded-xl p-4 text-center border border-primary/20">
                                         <div className="font-bold text-primary text-3xl">
                                             {batch.overallScore}%
                                         </div>
@@ -504,39 +481,39 @@ export const BatchDossier: React.FC<BatchDossierProps> = ({ batch }) => {
                                     </div>
                                 )}
                             </div>
+                        </GlassCard>
 
-                            <div>
-                                <Typography variant="h4" className="font-bold text-gray-900 mb-3">
-                                    Certifications
-                                </Typography>
-                                <div className="space-y-2">
-                                    {batch.certifications?.length > 0 ? (
-                                        batch.certifications.map((cert, i) => (
-                                            <div
-                                                key={i}
-                                                className="flex items-center gap-3 bg-gray-50 rounded-xl p-3"
-                                            >
-                                                <FaCertificate className="text-accent" />
-                                                <div>
-                                                    <div className="font-medium text-gray-800">{cert}</div>
-                                                    <div className="text-green-600 text-xs flex items-center gap-1">
-                                                        <FaCheckCircle className="text-[10px]" /> Verified
-                                                    </div>
+                        <GlassCard>
+                            <Typography variant="h4" className="font-bold text-gray-900 mb-3">
+                                Certifications
+                            </Typography>
+                            <div className="space-y-2">
+                                {batch.certifications?.length > 0 ? (
+                                    batch.certifications.map((cert, i) => (
+                                        <div
+                                            key={i}
+                                            className="flex items-center gap-3 bg-white/50 rounded-xl p-3 border border-white/40"
+                                        >
+                                            <FaCertificate className="text-accent" />
+                                            <div>
+                                                <div className="font-medium text-gray-800">{cert}</div>
+                                                <div className="text-green-600 text-xs flex items-center gap-1">
+                                                    <FaCheckCircle className="text-[10px]" /> Verified
                                                 </div>
                                             </div>
-                                        ))
-                                    ) : (
-                                        <p className="text-gray-400 text-sm">No certifications recorded.</p>
-                                    )}
-                                </div>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <p className="text-gray-400 text-sm">No certifications recorded.</p>
+                                )}
                             </div>
-                        </div>
-                    </GlassCard>
+                        </GlassCard>
+                    </div>
                 )}
 
                 {/* DOCUMENTS TAB */}
                 {activeTab === 'documents' && (
-                    <GlassCard className="p-6">
+                    <GlassCard>
                         <Typography variant="h4" className="font-bold text-gray-900 mb-4">
                             Export Documents
                         </Typography>
@@ -555,8 +532,8 @@ export const BatchDossier: React.FC<BatchDossierProps> = ({ batch }) => {
                                         key={i}
                                         className={`rounded-xl p-4 border flex items-center justify-between ${
                                             url
-                                                ? 'bg-green-50/50 border-green-100'
-                                                : 'bg-gray-50 border-gray-200'
+                                                ? 'bg-green-50/60 border-green-200/60'
+                                                : 'bg-white/50 border-white/40'
                                         }`}
                                     >
                                         <div className="flex items-center gap-3">
@@ -600,13 +577,14 @@ export const BatchDossier: React.FC<BatchDossierProps> = ({ batch }) => {
                     <div className="space-y-4">
                         <BatchFarmerCard farmer={batch.farmer} />
                         {batch.supplier && (
-                            <InfoCard
-                                icon={FaGlobeAfrica}
-                                title="Farm Network"
-                                variant="accent"
-                                showInfoBadge={false}
-                            >
-                                <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mt-3">
+                            <GlassCard>
+                                <Typography
+                                    variant="h4"
+                                    className="font-bold text-gray-900 mb-4 flex items-center gap-2"
+                                >
+                                    <GiFarmer className="text-accent" /> Farm Network
+                                </Typography>
+                                <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                                     {[
                                         { label: 'Supplier Type', value: batch.supplier.type, icon: GiFruitTree },
                                         { label: 'Farm OS Status', value: batch.supplier.farmOsStatus, icon: FaMobile },
@@ -618,7 +596,7 @@ export const BatchDossier: React.FC<BatchDossierProps> = ({ batch }) => {
                                         return (
                                             <div
                                                 key={i}
-                                                className="bg-white/60 rounded-xl p-3 border border-gray-100 text-center"
+                                                className="bg-white/50 rounded-xl p-3 border border-white/40 text-center"
                                             >
                                                 <Icon className="text-accent text-lg mx-auto mb-1" />
                                                 <div className="text-gray-500 text-[10px] uppercase tracking-wider">
@@ -631,15 +609,18 @@ export const BatchDossier: React.FC<BatchDossierProps> = ({ batch }) => {
                                         );
                                     })}
                                 </div>
-                            </InfoCard>
+                            </GlassCard>
                         )}
                     </div>
                 )}
 
                 {/* MAP TAB */}
                 {activeTab === 'map' && (
-                    <GlassCard className="p-6">
-                        <Typography variant="h4" className="font-bold text-gray-900 mb-4 flex items-center gap-2">
+                    <GlassCard>
+                        <Typography
+                            variant="h4"
+                            className="font-bold text-gray-900 mb-4 flex items-center gap-2"
+                        >
                             <FaMapMarkerAlt className="text-accent" /> Location & Route
                         </Typography>
                         <BatchLocationMap

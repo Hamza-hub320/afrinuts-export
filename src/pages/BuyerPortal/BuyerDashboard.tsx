@@ -254,53 +254,45 @@ const BuyerDashboard: React.FC = () => {
                                 </div>
 
                                 <div className="relative z-10 flex-1 grid grid-cols-2 lg:grid-cols-4 gap-4 w-full">
-                                    {/* KPI 1 — now using GlassCard */}
-                                    <GlassCard className="!p-0">
-                                        <div className="p-4 flex flex-col justify-center h-full bg-white/60 rounded-xl">
-                                            <div className="flex items-center gap-2 mb-2">
-                                                <div className="p-1.5 bg-blue-50 text-blue-600 rounded-md"><FaBox size={14} /></div>
-                                                <span className="text-xs text-gray-500 font-medium">Total Shipments</span>
-                                            </div>
-                                            <div className="text-2xl font-bold text-gray-900">{allBatchesForKpis.length}</div>
-                                            <div className="text-[10px] text-green-600 font-medium mt-1">↑ Updated today</div>
+                                    {/* KPI 1 */}
+                                    <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex flex-col justify-center">
+                                        <div className="flex items-center gap-2 mb-2">
+                                            <div className="p-1.5 bg-blue-50 text-accent rounded-md"><FaBox size={14} /></div>
+                                            <span className="text-xs text-gray-500 font-medium">Total Shipments</span>
                                         </div>
-                                    </GlassCard>
+                                        <div className="text-2xl font-bold text-gray-900">{allBatchesForKpis.length}</div>
+                                        <div className="text-[10px] text-green-600 font-medium mt-1">↑ Updated today</div>
+                                    </div>
 
                                     {/* KPI 2 */}
-                                    <GlassCard className="!p-0">
-                                        <div className="p-4 flex flex-col justify-center h-full bg-white/60 rounded-xl">
-                                            <div className="flex items-center gap-2 mb-2">
-                                                <div className="p-1.5 bg-indigo-50 text-indigo-600 rounded-md"><FaWeightHanging size={14} /></div>
-                                                <span className="text-xs text-gray-500 font-medium">Total Weight</span>
-                                            </div>
-                                            <div className="text-2xl font-bold text-gray-900">{(totalWeight / 1000).toFixed(1)} MT</div>
-                                            <div className="text-[10px] text-green-600 font-medium mt-1">↑ Verified weights</div>
+                                    <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex flex-col justify-center">
+                                        <div className="flex items-center gap-2 mb-2">
+                                            <div className="p-1.5 bg-indigo-50 text-accent rounded-md"><FaWeightHanging size={14} /></div>
+                                            <span className="text-xs text-gray-500 font-medium">Total Weight</span>
                                         </div>
-                                    </GlassCard>
+                                        <div className="text-2xl font-bold text-gray-900">{(totalWeight / 1000).toFixed(1)} MT</div>
+                                        <div className="text-[10px] text-primary font-medium mt-1">↑ Verified weights</div>
+                                    </div>
 
                                     {/* KPI 3 */}
-                                    <GlassCard className="!p-0">
-                                        <div className="p-4 flex flex-col justify-center h-full bg-white/60 rounded-xl">
-                                            <div className="flex items-center gap-2 mb-2">
-                                                <div className="p-1.5 bg-emerald-50 text-emerald-600 rounded-md"><FaCertificate size={14} /></div>
-                                                <span className="text-xs text-gray-500 font-medium">Avg. Quality Grade</span>
-                                            </div>
-                                            <div className="text-2xl font-bold text-gray-900">Premium</div>
-                                            <div className="text-[10px] text-green-600 font-medium mt-1">{premiumPct}% premium grade</div>
+                                    <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex flex-col justify-center">
+                                        <div className="flex items-center gap-2 mb-2">
+                                            <div className="p-1.5 bg-emerald-50 text-primary rounded-md"><FaCertificate size={14} /></div>
+                                            <span className="text-xs text-gray-500 font-medium">Avg. Quality Grade</span>
                                         </div>
-                                    </GlassCard>
+                                        <div className="text-2xl font-bold text-gray-900">Premium</div>
+                                        <div className="text-[10px] text-green-600 font-medium mt-1">{premiumPct}% premium grade</div>
+                                    </div>
 
                                     {/* KPI 4 */}
-                                    <GlassCard className="!p-0">
-                                        <div className="p-4 flex flex-col justify-center h-full bg-white/60 rounded-xl">
-                                            <div className="flex items-center gap-2 mb-2">
-                                                <div className="p-1.5 bg-green-50 text-green-600 rounded-md"><FaLeaf size={14} /></div>
-                                                <span className="text-xs text-gray-500 font-medium">Origin</span>
-                                            </div>
-                                            <div className="text-2xl font-bold text-gray-900">Côte d'Ivoire</div>
-                                            <div className="text-[10px] text-gray-400 font-medium mt-1">100% traceable</div>
+                                    <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex flex-col justify-center">
+                                        <div className="flex items-center gap-2 mb-2">
+                                            <div className="p-1.5 bg-green-50 text-green-600 rounded-md"><FaLeaf size={14} /></div>
+                                            <span className="text-xs text-gray-500 font-medium">Origin</span>
                                         </div>
-                                    </GlassCard>
+                                        <div className="text-2xl font-bold text-gray-900">Côte d'Ivoire</div>
+                                        <div className="text-[10px] text-primary font-medium mt-1">100% traceable</div>
+                                    </div>
                                 </div>
                             </div>
                         </GlassCard>

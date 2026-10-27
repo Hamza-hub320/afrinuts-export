@@ -1,4 +1,4 @@
-import { GlassCard } from '@/components/buyer/GlassCard';
+import { motion } from 'framer-motion';
 import { Typography } from '@/components/Typography/Typography';
 import {
     FaLeaf,
@@ -9,6 +9,25 @@ import {
     FaGlobeEurope,
     FaCheckCircle,
 } from 'react-icons/fa';
+
+// ── GlassCard — matches AdminBuyers / Financials / BatchDossier ──
+const GlassCard: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className = '' }) => (
+    <motion.div
+        className={`group relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 transition-all duration-500 rounded-2xl shadow-xl transform-gpu overflow-hidden ${className}`}
+        style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
+        whileHover={{
+            y: -5,
+            scale: 1.01,
+            boxShadow: '0 20px 35px -10px rgba(0, 0, 0, 0.2)',
+            transition: { duration: 0.3 },
+        }}
+    >
+        <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
+        <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+        <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] group-hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
+        <div className="relative z-10 p-5">{children}</div>
+    </motion.div>
+);
 
 export const BatchSustainabilityCard = ({ sustainability }: { sustainability: any }) => {
     if (!sustainability) return null;
@@ -21,13 +40,18 @@ export const BatchSustainabilityCard = ({ sustainability }: { sustainability: an
     ];
 
     return (
-        <GlassCard
-            icon={FaLeaf}
-            title="Sustainability Verification"
-            variant="primary"
-            minimal
-        >
-            <div className="grid grid-cols-2 gap-2 mt-1">
+        <GlassCard>
+            {/* Header row — icon + title */}
+            <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <FaLeaf className="text-primary text-lg" />
+                </div>
+                <Typography variant="h4" className="font-bold text-gray-900">
+                    Sustainability Verification
+                </Typography>
+            </div>
+
+            <div className="grid grid-cols-2 gap-2">
                 {items.map((item, i) => {
                     const Icon = item.icon;
                     const active = item.active;
@@ -36,8 +60,8 @@ export const BatchSustainabilityCard = ({ sustainability }: { sustainability: an
                             key={i}
                             className={`rounded-lg p-3 border text-center transition-colors ${
                                 active
-                                    ? 'bg-green-50/70 border-green-200'
-                                    : 'bg-gray-50/60 border-gray-200'
+                                    ? 'bg-green-50/70 backdrop-blur-sm border-green-200/70'
+                                    : 'bg-white/50 backdrop-blur-sm border-white/40'
                             }`}
                         >
                             <Icon
