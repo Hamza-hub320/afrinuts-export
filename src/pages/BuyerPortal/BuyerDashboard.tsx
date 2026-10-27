@@ -2,7 +2,7 @@ import React, { useEffect, useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
-    FaBox, FaShip, FaSearch, FaLeaf,
+    FaBox, FaShip, FaSearch, FaLeaf, FaSignOutAlt,
     FaChevronDown, FaChevronRight,
     FaCheckCircle, FaWeightHanging, FaCertificate
 } from 'react-icons/fa';
@@ -10,14 +10,13 @@ import { Typography } from '@/components/Typography/Typography';
 import Section from '@/components/Section/Section';
 import { staggerContainer } from '@/utils/animations';
 import { getAdminData, getBuyerPortalData } from '@/services/api';
-import { onBuyerAuthChange } from '@/services/buyerAuth';
+import { buyerLogout, onBuyerAuthChange } from '@/services/buyerAuth';
 import type { User } from 'firebase/auth';
 
-// Import the components we'll build next
 import { BatchDossier } from '@/components/buyer/BatchDossier';
 import { BatchListItem } from '@/components/buyer/BatchListItem';
 
-// ── Shared Types (used across files) ──
+// ── Shared Types ──
 export interface GatedFarmer {
     id?: number;
     name: string;
@@ -99,11 +98,23 @@ export interface MyBatchesResponse {
     masterBatch?: MasterBatch | null;
 }
 
-// ── GlassCard (Reusable local shell) ──
+// ── GlassCard (matches AdminBuyers) ──
 const GlassCard: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className = '' }) => (
-    <div className={`relative bg-white/70 backdrop-blur-xl border border-white/40 shadow-xl rounded-2xl overflow-hidden ${className}`}>
-        {children}
-    </div>
+    <motion.div
+        className={`group relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 transition-all duration-500 rounded-2xl shadow-xl transform-gpu overflow-hidden ${className}`}
+        style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
+        whileHover={{
+            y: -5,
+            scale: 1.01,
+            boxShadow: '0 20px 35px -10px rgba(0, 0, 0, 0.2)',
+            transition: { duration: 0.3 },
+        }}
+    >
+        <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
+        <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+        <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] group-hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
+        <div className="relative z-10 p-5">{children}</div>
+    </motion.div>
 );
 
 const BuyerDashboard: React.FC = () => {
@@ -192,8 +203,22 @@ const BuyerDashboard: React.FC = () => {
     const premiumCount = allBatchesForKpis.filter(b => b.qualityGrade === 'PREMIUM').length;
     const premiumPct = allBatchesForKpis.length > 0 ? Math.round((premiumCount / allBatchesForKpis.length) * 100) : 0;
 
-    if (loading) return <div className="min-h-screen flex items-center justify-center bg-gray-50"><div className="w-12 h-12 border-b-2 border-primary rounded-full animate-spin" /></div>;
-    if (error) return <div className="min-h-screen flex items-center justify-center bg-gray-50"><div className="p-6 bg-white rounded-xl shadow-md text-red-600">{error}</div></div>;
+    const handleLogout = async () => {
+        await buyerLogout();
+        navigate('/portal/login');
+    };
+
+    if (loading) return (
+        <div className="min-h-screen flex items-center justify-center bg-gray-50">
+            <div className="w-12 h-12 border-b-2 border-primary rounded-full animate-spin" />
+        </div>
+    );
+
+    if (error) return (
+        <div className="min-h-screen flex items-center justify-center bg-gray-50">
+            <div className="p-6 bg-white rounded-xl shadow-md text-red-600">{error}</div>
+        </div>
+    );
 
     return (
         <div className="min-h-screen pt-[72px] bg-gray-50/50 font-sans">
@@ -202,58 +227,80 @@ const BuyerDashboard: React.FC = () => {
 
                     {/* ── HERO & KPIs ── */}
                     <motion.div initial="hidden" animate="visible" variants={staggerContainer} className="mb-8">
-                        <GlassCard className="p-6 md:p-8 flex flex-col xl:flex-row justify-between items-start xl:items-center gap-8 relative overflow-hidden">
-                            {/* Background abstract pattern for glass effect */}
-                            <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wNykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-30 mix-blend-overlay" />
+                        <GlassCard className="!p-0">
+                            <div className="p-6 md:p-8 flex flex-col xl:flex-row justify-between items-start xl:items-center gap-8 relative overflow-hidden">
+                                {/* Pattern overlay */}
+                                <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wNykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-30 mix-blend-overlay pointer-events-none" />
 
-                            <div className="relative z-10 lg:w-1/3">
-                                <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-2 text-xs font-bold">
-                                    Your Shipments
-                                </Typography>
-                                <Typography variant="h2" className="text-3xl md:text-4xl font-display text-gray-900 mb-2">
-                                    Track your cashew shipments
-                                </Typography>
-                                <Typography variant="body" className="text-gray-600 text-sm">
-                                    Complete transparency from farm to port. Verify quality, origin and impact.
-                                </Typography>
-                            </div>
+                                <div className="relative z-10 lg:w-1/3">
+                                    <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-2 text-xs font-bold">
+                                        Your Shipments
+                                    </Typography>
+                                    <Typography variant="h2" className="text-3xl md:text-4xl font-display text-gray-900 mb-2">
+                                        Track your cashew shipments
+                                    </Typography>
+                                    <Typography variant="body" className="text-gray-600 text-sm">
+                                        Complete transparency from farm to port. Verify quality, origin and impact.
+                                    </Typography>
 
-                            <div className="relative z-10 flex-1 grid grid-cols-2 lg:grid-cols-4 gap-4 w-full">
-                                {/* KPI 1 */}
-                                <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex flex-col justify-center">
-                                    <div className="flex items-center gap-2 mb-2">
-                                        <div className="p-1.5 bg-blue-50 text-blue-600 rounded-md"><FaBox size={14} /></div>
-                                        <span className="text-xs text-gray-500 font-medium">Total Shipments</span>
-                                    </div>
-                                    <div className="text-2xl font-bold text-gray-900">{allBatchesForKpis.length}</div>
-                                    <div className="text-[10px] text-green-600 font-medium mt-1">↑ Updated today</div>
+                                    {/* Sign-out — bottom of hero copy on mobile, inline with text on desktop */}
+                                    <button
+                                        onClick={handleLogout}
+                                        className="mt-4 inline-flex items-center gap-2 px-4 py-2 bg-white/70 backdrop-blur-sm border border-gray-200 rounded-full text-sm font-medium text-gray-700 hover:bg-white hover:text-red-600 transition"
+                                    >
+                                        <FaSignOutAlt className="text-xs" />
+                                        Sign Out
+                                    </button>
                                 </div>
-                                {/* KPI 2 */}
-                                <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex flex-col justify-center">
-                                    <div className="flex items-center gap-2 mb-2">
-                                        <div className="p-1.5 bg-indigo-50 text-indigo-600 rounded-md"><FaWeightHanging size={14} /></div>
-                                        <span className="text-xs text-gray-500 font-medium">Total Weight</span>
-                                    </div>
-                                    <div className="text-2xl font-bold text-gray-900">{(totalWeight / 1000).toFixed(1)} MT</div>
-                                    <div className="text-[10px] text-green-600 font-medium mt-1">↑ Verified weights</div>
-                                </div>
-                                {/* KPI 3 */}
-                                <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex flex-col justify-center">
-                                    <div className="flex items-center gap-2 mb-2">
-                                        <div className="p-1.5 bg-emerald-50 text-emerald-600 rounded-md"><FaCertificate size={14} /></div>
-                                        <span className="text-xs text-gray-500 font-medium">Avg. Quality Grade</span>
-                                    </div>
-                                    <div className="text-2xl font-bold text-gray-900">Premium</div>
-                                    <div className="text-[10px] text-green-600 font-medium mt-1">{premiumPct}% premium grade</div>
-                                </div>
-                                {/* KPI 4 */}
-                                <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex flex-col justify-center">
-                                    <div className="flex items-center gap-2 mb-2">
-                                        <div className="p-1.5 bg-green-50 text-green-600 rounded-md"><FaLeaf size={14} /></div>
-                                        <span className="text-xs text-gray-500 font-medium">Origin</span>
-                                    </div>
-                                    <div className="text-2xl font-bold text-gray-900">Côte d'Ivoire</div>
-                                    <div className="text-[10px] text-gray-400 font-medium mt-1">100% traceable</div>
+
+                                <div className="relative z-10 flex-1 grid grid-cols-2 lg:grid-cols-4 gap-4 w-full">
+                                    {/* KPI 1 — now using GlassCard */}
+                                    <GlassCard className="!p-0">
+                                        <div className="p-4 flex flex-col justify-center h-full bg-white/60 rounded-xl">
+                                            <div className="flex items-center gap-2 mb-2">
+                                                <div className="p-1.5 bg-blue-50 text-blue-600 rounded-md"><FaBox size={14} /></div>
+                                                <span className="text-xs text-gray-500 font-medium">Total Shipments</span>
+                                            </div>
+                                            <div className="text-2xl font-bold text-gray-900">{allBatchesForKpis.length}</div>
+                                            <div className="text-[10px] text-green-600 font-medium mt-1">↑ Updated today</div>
+                                        </div>
+                                    </GlassCard>
+
+                                    {/* KPI 2 */}
+                                    <GlassCard className="!p-0">
+                                        <div className="p-4 flex flex-col justify-center h-full bg-white/60 rounded-xl">
+                                            <div className="flex items-center gap-2 mb-2">
+                                                <div className="p-1.5 bg-indigo-50 text-indigo-600 rounded-md"><FaWeightHanging size={14} /></div>
+                                                <span className="text-xs text-gray-500 font-medium">Total Weight</span>
+                                            </div>
+                                            <div className="text-2xl font-bold text-gray-900">{(totalWeight / 1000).toFixed(1)} MT</div>
+                                            <div className="text-[10px] text-green-600 font-medium mt-1">↑ Verified weights</div>
+                                        </div>
+                                    </GlassCard>
+
+                                    {/* KPI 3 */}
+                                    <GlassCard className="!p-0">
+                                        <div className="p-4 flex flex-col justify-center h-full bg-white/60 rounded-xl">
+                                            <div className="flex items-center gap-2 mb-2">
+                                                <div className="p-1.5 bg-emerald-50 text-emerald-600 rounded-md"><FaCertificate size={14} /></div>
+                                                <span className="text-xs text-gray-500 font-medium">Avg. Quality Grade</span>
+                                            </div>
+                                            <div className="text-2xl font-bold text-gray-900">Premium</div>
+                                            <div className="text-[10px] text-green-600 font-medium mt-1">{premiumPct}% premium grade</div>
+                                        </div>
+                                    </GlassCard>
+
+                                    {/* KPI 4 */}
+                                    <GlassCard className="!p-0">
+                                        <div className="p-4 flex flex-col justify-center h-full bg-white/60 rounded-xl">
+                                            <div className="flex items-center gap-2 mb-2">
+                                                <div className="p-1.5 bg-green-50 text-green-600 rounded-md"><FaLeaf size={14} /></div>
+                                                <span className="text-xs text-gray-500 font-medium">Origin</span>
+                                            </div>
+                                            <div className="text-2xl font-bold text-gray-900">Côte d'Ivoire</div>
+                                            <div className="text-[10px] text-gray-400 font-medium mt-1">100% traceable</div>
+                                        </div>
+                                    </GlassCard>
                                 </div>
                             </div>
                         </GlassCard>
@@ -261,108 +308,132 @@ const BuyerDashboard: React.FC = () => {
 
                     {/* ── SPLIT LAYOUT: Sidebar + Detail ── */}
                     {allBatchesForKpis.length === 0 ? (
-                        <div className="text-center py-20 bg-white rounded-2xl border border-gray-200">
-                            <FaBox className="text-4xl text-gray-300 mx-auto mb-4" />
-                            <Typography variant="h4" className="text-gray-900 mb-2">No shipments yet</Typography>
-                            <Typography variant="body" className="text-gray-500">We'll notify you when your first shipment is processed.</Typography>
-                        </div>
+                        <GlassCard>
+                            <div className="text-center py-16">
+                                <FaBox className="text-4xl text-primary/40 mx-auto mb-4" />
+                                <Typography variant="h4" className="text-gray-900 mb-2">No shipments yet</Typography>
+                                <Typography variant="body" className="text-gray-500">
+                                    We'll notify you when your first shipment is processed.
+                                </Typography>
+                            </div>
+                        </GlassCard>
                     ) : (
                         <div className="grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-6 items-start">
 
                             {/* ── LEFT SIDEBAR ── */}
-                            <aside className="lg:sticky lg:top-[90px] lg:h-[calc(100vh-120px)] flex flex-col bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
-                                <div className="p-4 border-b border-gray-100">
-                                    <div className="flex justify-between items-center mb-4">
-                                        <Typography variant="h4" className="font-bold text-gray-900">Your Shipments</Typography>
+                            <aside className="lg:sticky lg:top-[90px] lg:max-h-[calc(100vh-120px)]">
+                                <GlassCard className="!p-0 flex flex-col max-h-[calc(100vh-120px)]">
+                                    <div className="p-4 border-b border-white/30">
+                                        <div className="flex justify-between items-center mb-4">
+                                            <Typography variant="h4" className="font-bold text-gray-900">
+                                                Your Shipments
+                                            </Typography>
+                                        </div>
+                                        <div className="relative">
+                                            <FaSearch className="absolute left-3 top-2.5 text-gray-400 text-sm" />
+                                            <input
+                                                type="text"
+                                                placeholder="Search batch ID..."
+                                                value={searchQuery}
+                                                onChange={(e) => setSearchQuery(e.target.value)}
+                                                className="w-full pl-9 pr-3 py-2 bg-white/60 border border-white/40 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all placeholder:text-gray-400"
+                                            />
+                                        </div>
                                     </div>
-                                    <div className="relative">
-                                        <FaSearch className="absolute left-3 top-2.5 text-gray-400 text-sm" />
-                                        <input
-                                            type="text"
-                                            placeholder="Search batch ID..."
-                                            value={searchQuery}
-                                            onChange={(e) => setSearchQuery(e.target.value)}
-                                            className="w-full pl-9 pr-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all placeholder:text-gray-400"
-                                        />
-                                    </div>
-                                </div>
 
-                                <div className="flex-1 overflow-y-auto p-3 space-y-4 scrollbar-hide">
-                                    {/* Bulk Groups */}
-                                    {filteredMasters.map((group) => {
-                                        const isOpen = openBulkIds.has(group.master.masterBatchNumber);
-                                        return (
-                                            <div key={group.master.masterBatchNumber} className="bg-blue-50/40 rounded-xl border border-blue-100 overflow-hidden">
-                                                <button
-                                                    onClick={() => {
-                                                        setOpenBulkIds(prev => {
-                                                            const next = new Set(prev);
-                                                            next.has(group.master.masterBatchNumber) ? next.delete(group.master.masterBatchNumber) : next.add(group.master.masterBatchNumber);
-                                                            return next;
-                                                        });
-                                                    }}
-                                                    className="w-full flex items-center justify-between p-3 hover:bg-blue-50 transition-colors"
-                                                >
-                                                    <div className="flex items-center gap-3">
-                                                        <div className="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center text-blue-600">
-                                                            <FaShip size={14} />
+                                    <div className="flex-1 overflow-y-auto p-3 space-y-4 scrollbar-hide">
+                                        {/* Bulk Groups */}
+                                        {filteredMasters.map((group) => {
+                                            const isOpen = openBulkIds.has(group.master.masterBatchNumber);
+                                            return (
+                                                <div key={group.master.masterBatchNumber} className="bg-blue-50/60 backdrop-blur-sm rounded-xl border border-blue-200/60 overflow-hidden">
+                                                    <button
+                                                        onClick={() => {
+                                                            setOpenBulkIds(prev => {
+                                                                const next = new Set(prev);
+                                                                next.has(group.master.masterBatchNumber)
+                                                                    ? next.delete(group.master.masterBatchNumber)
+                                                                    : next.add(group.master.masterBatchNumber);
+                                                                return next;
+                                                            });
+                                                        }}
+                                                        className="w-full flex items-center justify-between p-3 hover:bg-blue-100/40 transition-colors"
+                                                    >
+                                                        <div className="flex items-center gap-3">
+                                                            <div className="w-8 h-8 rounded-lg bg-blue-100 flex items-center justify-center text-blue-600">
+                                                                <FaShip size={14} />
+                                                            </div>
+                                                            <div className="text-left">
+                                                                <div className="font-mono text-sm font-bold text-blue-900">
+                                                                    {group.master.masterBatchNumber}
+                                                                </div>
+                                                                <div className="text-[11px] text-blue-700">
+                                                                    {group.batches.length} batches · {((group.master.totalWeightKg || 0) / 1000).toFixed(1)}T
+                                                                </div>
+                                                            </div>
                                                         </div>
-                                                        <div className="text-left">
-                                                            <div className="font-mono text-sm font-bold text-blue-900">{group.master.masterBatchNumber}</div>
-                                                            <div className="text-[11px] text-blue-600">{group.batches.length} batches · {(group.master.totalWeightKg / 1000).toFixed(1)}T</div>
+                                                        {isOpen ? (
+                                                            <FaChevronDown className="text-blue-500 text-xs" />
+                                                        ) : (
+                                                            <FaChevronRight className="text-blue-500 text-xs" />
+                                                        )}
+                                                    </button>
+
+                                                    {isOpen && (
+                                                        <div className="p-2 space-y-1 bg-white/50">
+                                                            {group.batches.map(b => (
+                                                                <BatchListItem
+                                                                    key={b.id}
+                                                                    batch={b}
+                                                                    isSelected={selectedBatchId === b.id}
+                                                                    onClick={() => setSelectedBatchId(b.id)}
+                                                                />
+                                                            ))}
                                                         </div>
-                                                    </div>
-                                                    {isOpen ? <FaChevronDown className="text-blue-400 text-xs" /> : <FaChevronRight className="text-blue-400 text-xs" />}
-                                                </button>
+                                                    )}
+                                                </div>
+                                            );
+                                        })}
 
-                                                {isOpen && (
-                                                    <div className="p-2 space-y-1 bg-white/50">
-                                                        {group.batches.map(b => (
-                                                            <BatchListItem
-                                                                key={b.id}
-                                                                batch={b}
-                                                                isSelected={selectedBatchId === b.id}
-                                                                onClick={() => setSelectedBatchId(b.id)}
-                                                            />
-                                                        ))}
-                                                    </div>
-                                                )}
+                                        {/* Individual Batches */}
+                                        {filteredIndividuals.length > 0 && (
+                                            <div>
+                                                <div className="flex items-center gap-2 px-2 mb-2 mt-4">
+                                                    <FaBox className="text-gray-400 text-xs" />
+                                                    <span className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">
+                                                        Individual Batches
+                                                    </span>
+                                                </div>
+                                                <div className="space-y-1">
+                                                    {filteredIndividuals.map(b => (
+                                                        <BatchListItem
+                                                            key={b.id}
+                                                            batch={b}
+                                                            isSelected={selectedBatchId === b.id}
+                                                            onClick={() => setSelectedBatchId(b.id)}
+                                                        />
+                                                    ))}
+                                                </div>
                                             </div>
-                                        );
-                                    })}
+                                        )}
+                                    </div>
 
-                                    {/* Individual Batches */}
-                                    {filteredIndividuals.length > 0 && (
-                                        <div>
-                                            <div className="flex items-center gap-2 px-2 mb-2 mt-4">
-                                                <FaBox className="text-gray-400 text-xs" />
-                                                <span className="text-[11px] font-bold text-gray-500 uppercase tracking-wider">Individual Batches</span>
+                                    <div className="p-4 bg-green-50/70 backdrop-blur-sm border-t border-green-200/60">
+                                        <div className="flex items-center gap-2">
+                                            <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
+                                                <FaCheckCircle className="text-green-600 text-xs" />
                                             </div>
-                                            <div className="space-y-1">
-                                                {filteredIndividuals.map(b => (
-                                                    <BatchListItem
-                                                        key={b.id}
-                                                        batch={b}
-                                                        isSelected={selectedBatchId === b.id}
-                                                        onClick={() => setSelectedBatchId(b.id)}
-                                                    />
-                                                ))}
+                                            <div>
+                                                <div className="text-xs font-bold text-green-900">
+                                                    All shipments are 100% traceable
+                                                </div>
+                                                <div className="text-[10px] text-green-700">
+                                                    From our farmers to your facility.
+                                                </div>
                                             </div>
-                                        </div>
-                                    )}
-                                </div>
-
-                                <div className="p-4 bg-green-50 border-t border-green-100">
-                                    <div className="flex items-center gap-2">
-                                        <div className="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
-                                            <FaCheckCircle className="text-green-600 text-xs" />
-                                        </div>
-                                        <div>
-                                            <div className="text-xs font-bold text-green-900">All shipments are 100% traceable</div>
-                                            <div className="text-[10px] text-green-700">From our farmers to your facility.</div>
                                         </div>
                                     </div>
-                                </div>
+                                </GlassCard>
                             </aside>
 
                             {/* ── RIGHT DOSSIER ── */}
@@ -370,11 +441,17 @@ const BuyerDashboard: React.FC = () => {
                                 {selectedBatch ? (
                                     <BatchDossier batch={selectedBatch} />
                                 ) : (
-                                    <div className="h-full flex flex-col items-center justify-center p-12 bg-white rounded-2xl border border-gray-200 border-dashed text-center">
-                                        <FaSearch className="text-3xl text-gray-300 mb-4" />
-                                        <Typography variant="h4" className="text-gray-900 mb-1">Select a shipment</Typography>
-                                        <Typography variant="body" className="text-gray-500">Choose a batch from the list to view its full dossier.</Typography>
-                                    </div>
+                                    <GlassCard>
+                                        <div className="flex flex-col items-center justify-center p-12 text-center">
+                                            <FaSearch className="text-3xl text-primary/30 mb-4" />
+                                            <Typography variant="h4" className="text-gray-900 mb-1">
+                                                Select a shipment
+                                            </Typography>
+                                            <Typography variant="body" className="text-gray-500">
+                                                Choose a batch from the list to view its full dossier.
+                                            </Typography>
+                                        </div>
+                                    </GlassCard>
                                 )}
                             </main>
                         </div>
