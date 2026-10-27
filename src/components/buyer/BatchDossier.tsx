@@ -350,9 +350,6 @@ export const BatchDossier: React.FC<BatchDossierProps> = ({ batch }) => {
                                             <div className="text-2xl font-bold text-gray-900">
                                                 {batch.qualityScore ? Math.round(batch.qualityScore) : '—'}%
                                             </div>
-                                            <div className="text-[10px] text-gray-500 uppercase tracking-wider">
-                                                Quality Score
-                                            </div>
                                         </div>
                                     </div>
 
@@ -474,6 +471,9 @@ export const BatchDossier: React.FC<BatchDossierProps> = ({ batch }) => {
                                     <div className="bg-gradient-to-r from-primary/10 to-accent/10 rounded-xl p-4 text-center border border-primary/20">
                                         <div className="font-bold text-primary text-3xl">
                                             {batch.overallScore}%
+                                        </div>
+                                        <div className="text-gray-500 text-sm">
+                                            Overall Quality Score
                                         </div>
                                     </div>
                                 )}
