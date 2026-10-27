@@ -271,7 +271,7 @@ const BuyerDashboard: React.FC = () => {
                                             <span className="text-xs text-gray-500 font-medium">Total Weight</span>
                                         </div>
                                         <div className="text-2xl font-bold text-gray-900">{(totalWeight / 1000).toFixed(1)} MT</div>
-                                        <div className="text-[10px] text-primary font-medium mt-1">↑ Verified weights</div>
+                                        <div className="text-[10px] text-green-600 font-medium mt-1">↑ Verified weights</div>
                                     </div>
 
                                     {/* KPI 3 */}
@@ -287,11 +287,11 @@ const BuyerDashboard: React.FC = () => {
                                     {/* KPI 4 */}
                                     <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-100 flex flex-col justify-center">
                                         <div className="flex items-center gap-2 mb-2">
-                                            <div className="p-1.5 bg-green-50 text-green-600 rounded-md"><FaLeaf size={14} /></div>
+                                            <div className="p-1.5 bg-green-50 text-primary rounded-md"><FaLeaf size={14} /></div>
                                             <span className="text-xs text-gray-500 font-medium">Origin</span>
                                         </div>
                                         <div className="text-2xl font-bold text-gray-900">Côte d'Ivoire</div>
-                                        <div className="text-[10px] text-primary font-medium mt-1">100% traceable</div>
+                                        <div className="text-[10px] text-green-600 font-medium mt-1">100% traceable</div>
                                     </div>
                                 </div>
                             </div>

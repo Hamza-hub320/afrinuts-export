@@ -475,9 +475,6 @@ export const BatchDossier: React.FC<BatchDossierProps> = ({ batch }) => {
                                         <div className="font-bold text-primary text-3xl">
                                             {batch.overallScore}%
                                         </div>
-                                        <div className="text-gray-500 text-sm">
-                                            Overall Quality Score
-                                        </div>
                                     </div>
                                 )}
                             </div>
