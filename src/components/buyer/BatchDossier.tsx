@@ -326,7 +326,7 @@ export const BatchDossier: React.FC<BatchDossierProps> = ({ batch }) => {
                                 </div>
                             </GlassCard>
 
-                            {/* ── COMPACT FARMER CARD ── */}
+                            {/* Compact Farmer Card */}
                             {batch.farmer && (
                                 <GlassCard>
                                     <div className="flex items-center justify-between mb-4">
@@ -336,7 +336,6 @@ export const BatchDossier: React.FC<BatchDossierProps> = ({ batch }) => {
                                     </div>
 
                                     <div className="flex items-start gap-4">
-                                        {/* Avatar — smaller, 64px */}
                                         <div className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-primary/20 flex items-center justify-center bg-white/60 flex-shrink-0">
                                             {batch.farmer.photo && !batch.farmer.photoWithheld ? (
                                                 <img
@@ -386,11 +385,42 @@ export const BatchDossier: React.FC<BatchDossierProps> = ({ batch }) => {
                                     </div>
                                 </GlassCard>
                             )}
+
+                            {/* Compact Location & Route — 160px map */}
+                            <GlassCard>
+                                <div className="flex items-center justify-between mb-3">
+                                    <Typography variant="h4" className="font-bold text-gray-900">
+                                        Location & Route
+                                    </Typography>
+                                    <button
+                                        onClick={() => setActiveTab('map')}
+                                        className="text-xs font-semibold text-primary hover:text-accent transition"
+                                    >
+                                        Expand
+                                    </button>
+                                </div>
+                                <div className="rounded-xl overflow-hidden">
+                                    <BatchLocationMap
+                                        latitude={batch.latitude ?? 9.51}
+                                        longitude={batch.longitude ?? -7.5692}
+                                        farmName={batch.farmLocation || 'AfriNuts Farm'}
+                                        block={batch.block}
+                                        locationWithheld={locationWithheld}
+                                        height={160}
+                                    />
+                                </div>
+                                <div className="flex items-center gap-1.5 mt-3">
+                                    <FaMapMarkerAlt className="text-accent text-[10px]" />
+                                    <span className="text-xs text-gray-600 truncate">
+                        {displayLocation}
+                    </span>
+                                </div>
+                            </GlassCard>
                         </div>
 
                         {/* ── RIGHT COLUMN ── */}
                         <div className="space-y-4">
-                            {/* Quality Metrics — donut + metrics */}
+                            {/* Quality Metrics */}
                             <GlassCard>
                                 <Typography variant="h4" className="font-bold text-gray-900 mb-4">
                                     Quality Metrics
@@ -451,37 +481,50 @@ export const BatchDossier: React.FC<BatchDossierProps> = ({ batch }) => {
                                 </div>
                             </GlassCard>
 
-                            {/* ── COMPACT MAP CARD ── */}
-                            <GlassCard>
-                                <div className="flex items-center justify-between mb-3">
-                                    <Typography variant="h4" className="font-bold text-gray-900">
-                                        Location & Route
+                            {/* Lab Test Results */}
+                            {batch.testResults && (
+                                <GlassCard>
+                                    <Typography variant="h4" className="font-bold text-gray-900 mb-4 flex items-center gap-2">
+                                        <FaFlask className="text-accent" /> Lab Test Results
                                     </Typography>
-                                    <button
-                                        onClick={() => setActiveTab('map')}
-                                        className="text-xs font-semibold text-primary hover:text-accent transition"
-                                    >
-                                        Expand
-                                    </button>
-                                </div>
-                                <div className="rounded-xl overflow-hidden">
-                                    <BatchLocationMap
-                                        latitude={batch.latitude ?? 9.51}
-                                        longitude={batch.longitude ?? -7.5692}
-                                        farmName={batch.farmLocation || 'AfriNuts Farm'}
-                                        block={batch.block}
-                                        locationWithheld={locationWithheld}
-                                    />
-                                </div>
-                                <div className="flex items-center gap-1.5 mt-3">
-                                    <FaMapMarkerAlt className="text-accent text-[10px]" />
-                                    <span className="text-xs text-gray-600 truncate">
-                        {displayLocation}
-                    </span>
-                                </div>
-                            </GlassCard>
+                                    <div className="space-y-2">
+                                        {[
+                                            { label: 'Aflatoxin', value: batch.testResults.aflatoxin, unit: 'ppb', limit: 4 },
+                                            { label: 'Heavy Metals', value: batch.testResults.heavyMetals, unit: 'ppb', limit: 0.5 },
+                                            { label: 'Pesticide Residue', value: batch.testResults.pesticideResidue, unit: 'ppb', limit: 0.5 },
+                                        ].map((t, i) => {
+                                            const passed = t.value != null && t.value < t.limit;
+                                            return (
+                                                <div
+                                                    key={i}
+                                                    className="flex items-center justify-between p-3 bg-white/50 rounded-lg border border-white/40"
+                                                >
+                                                    <div>
+                                                        <div className="text-sm font-medium text-gray-900">
+                                                            {t.label}
+                                                        </div>
+                                                        <div className="text-[10px] text-gray-500">
+                                                            Limit: &lt; {t.limit} {t.unit}
+                                                        </div>
+                                                    </div>
+                                                    <div className="flex items-center gap-2">
+                                        <span
+                                            className={`text-sm font-semibold ${
+                                                passed ? 'text-green-600' : 'text-red-600'
+                                            }`}
+                                        >
+                                            {t.value != null ? `${t.value} ${t.unit}` : 'Pending'}
+                                        </span>
+                                                        {passed && <FaCheckCircle className="text-green-500 text-xs" />}
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                </GlassCard>
+                            )}
 
-                            {/* ── COMPACT DOCUMENTS (available only) ── */}
+                            {/* Compact Documents (available only) */}
                             <GlassCard>
                                 <div className="flex items-center justify-between mb-3">
                                     <Typography variant="h4" className="font-bold text-gray-900">
@@ -546,7 +589,6 @@ export const BatchDossier: React.FC<BatchDossierProps> = ({ batch }) => {
                 {/* QUALITY TAB */}
                 {activeTab === 'quality' && (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        {/* Quality Metrics */}
                         <GlassCard>
                             <Typography variant="h4" className="font-bold text-gray-900 mb-3">
                                 Quality Metrics
@@ -565,13 +607,13 @@ export const BatchDossier: React.FC<BatchDossierProps> = ({ batch }) => {
                                             className="bg-white/50 rounded-xl p-3 border border-white/40"
                                         >
                                             <div className="flex justify-between items-center mb-2">
-                                <span className="text-gray-700 font-medium text-sm">
-                                    {metric.label}
-                                </span>
+                                                <span className="text-gray-700 font-medium text-sm">
+                                                    {metric.label}
+                                                </span>
                                                 <span className="font-bold text-primary">
-                                    {metric.value}
+                                                    {metric.value}
                                                     {metric.unit}
-                                </span>
+                                                </span>
                                             </div>
                                             <div className="w-full bg-gray-200/60 rounded-full h-2">
                                                 <div
@@ -596,81 +638,31 @@ export const BatchDossier: React.FC<BatchDossierProps> = ({ batch }) => {
                             </div>
                         </GlassCard>
 
-                        {/* Right column: Lab Results + Certifications */}
-                        <div className="space-y-4">
-                            {/* Lab Test Results */}
-                            {batch.testResults && (
-                                <GlassCard>
-                                    <Typography
-                                        variant="h4"
-                                        className="font-bold text-gray-900 mb-4 flex items-center gap-2"
-                                    >
-                                        <FaFlask className="text-accent" /> Lab Test Results
-                                    </Typography>
-                                    <div className="space-y-2">
-                                        {[
-                                            { label: 'Aflatoxin', value: batch.testResults.aflatoxin, unit: 'ppb', limit: 4 },
-                                            { label: 'Heavy Metals', value: batch.testResults.heavyMetals, unit: 'ppb', limit: 0.5 },
-                                            { label: 'Pesticide Residue', value: batch.testResults.pesticideResidue, unit: 'ppb', limit: 0.5 },
-                                        ].map((t, i) => {
-                                            const passed = t.value != null && t.value < t.limit;
-                                            return (
-                                                <div
-                                                    key={i}
-                                                    className="flex items-center justify-between p-3 bg-white/50 rounded-lg border border-white/40"
-                                                >
-                                                    <div>
-                                                        <div className="text-sm font-medium text-gray-900">
-                                                            {t.label}
-                                                        </div>
-                                                        <div className="text-[10px] text-gray-500">
-                                                            Limit: &lt; {t.limit} {t.unit}
-                                                        </div>
-                                                    </div>
-                                                    <div className="flex items-center gap-2">
-                                        <span
-                                            className={`text-sm font-semibold ${
-                                                passed ? 'text-green-600' : 'text-red-600'
-                                            }`}
+                        <GlassCard>
+                            <Typography variant="h4" className="font-bold text-gray-900 mb-3">
+                                Certifications
+                            </Typography>
+                            <div className="space-y-2">
+                                {batch.certifications?.length > 0 ? (
+                                    batch.certifications.map((cert, i) => (
+                                        <div
+                                            key={i}
+                                            className="flex items-center gap-3 bg-white/50 rounded-xl p-3 border border-white/40"
                                         >
-                                            {t.value != null ? `${t.value} ${t.unit}` : 'Pending'}
-                                        </span>
-                                                        {passed && <FaCheckCircle className="text-green-500 text-xs" />}
-                                                    </div>
-                                                </div>
-                                            );
-                                        })}
-                                    </div>
-                                </GlassCard>
-                            )}
-
-                            {/* Certifications */}
-                            <GlassCard>
-                                <Typography variant="h4" className="font-bold text-gray-900 mb-3">
-                                    Certifications
-                                </Typography>
-                                <div className="space-y-2">
-                                    {batch.certifications?.length > 0 ? (
-                                        batch.certifications.map((cert, i) => (
-                                            <div
-                                                key={i}
-                                                className="flex items-center gap-3 bg-white/50 rounded-xl p-3 border border-white/40"
-                                            >
-                                                <FaCertificate className="text-accent" />
-                                                <div>
-                                                    <div className="font-medium text-gray-800">{cert}</div>
-                                                    <div className="text-green-600 text-xs flex items-center gap-1">
-                                                        <FaCheckCircle className="text-[10px]" /> Verified
-                                                    </div>
+                                            <FaCertificate className="text-accent" />
+                                            <div>
+                                                <div className="font-medium text-gray-800">{cert}</div>
+                                                <div className="text-green-600 text-xs flex items-center gap-1">
+                                                    <FaCheckCircle className="text-[10px]" /> Verified
                                                 </div>
                                             </div>
-                                        ))
-                                    ) : (
-                                        <p className="text-gray-400 text-sm">No certifications recorded.</p>
-                                    )}
-                                </div>
-                            </GlassCard>
-                        </div>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <p className="text-gray-400 text-sm">No certifications recorded.</p>
+                                )}
+                            </div>
+                        </GlassCard>
                     </div>
                 )}
 

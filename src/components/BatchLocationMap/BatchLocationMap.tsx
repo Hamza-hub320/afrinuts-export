@@ -18,6 +18,7 @@ interface BatchLocationMapProps {
     farmName?: string;
     block?: string;
     className?: string;
+    height?: number;
     // When true, render a placeholder instead of the map.
     // Should be set by the caller when farmer.locationWithheld === true.
     locationWithheld?: boolean;
@@ -30,11 +31,12 @@ const BatchLocationMap: React.FC<BatchLocationMapProps> = ({
                                                                block,
                                                                className = '',
                                                                locationWithheld = false,
+                                                               height = 280,
                                                            }) => {
     // ── Withheld: render a placeholder card, never the real map ──
     if (locationWithheld) {
         return (
-            <div className={`rounded-xl overflow-hidden shadow-lg border-2 border-gray-200 bg-gray-50 ${className}`}>
+            <div className={`rounded-xl overflow-hidden shadow-lg border-2 border-gray-200 bg-gray-50 ${className}`}  style={{ height: `${height}px` }}>
                 <div className="flex flex-col items-center justify-center py-12 px-6 text-center">
                     <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center mb-3 shadow-sm">
                         <FaLock className="text-gray-400 text-xl" />
@@ -61,7 +63,7 @@ const BatchLocationMap: React.FC<BatchLocationMapProps> = ({
                 center={[latitude, longitude]}
                 zoom={14}
                 scrollWheelZoom={false}
-                style={{ height: '280px', width: '100%' }}
+                style={{ height: `${height}px`, width: '100%' }}
                 attributionControl={false}
             >
                 <TileLayer
