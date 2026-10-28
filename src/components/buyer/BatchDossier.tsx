@@ -387,7 +387,7 @@ export const BatchDossier: React.FC<BatchDossierProps> = ({ batch }) => {
                             )}
 
                             {/* Compact Location & Route — 160px map */}
-                            <GlassCard>
+                            {/* <GlassCard>
                                 <div className="flex items-center justify-between mb-3">
                                     <Typography variant="h4" className="font-bold text-gray-900">
                                         Location & Route
@@ -412,10 +412,11 @@ export const BatchDossier: React.FC<BatchDossierProps> = ({ batch }) => {
                                 <div className="flex items-center gap-1.5 mt-3">
                                     <FaMapMarkerAlt className="text-accent text-[10px]" />
                                     <span className="text-xs text-gray-600 truncate">
-                        {displayLocation}
-                    </span>
+                                        {displayLocation}
+                                    </span>
                                 </div>
-                            </GlassCard>
+                            </GlassCard> */}
+
                         </div>
 
                         {/* ── RIGHT COLUMN ── */}
@@ -767,7 +768,7 @@ export const BatchDossier: React.FC<BatchDossierProps> = ({ batch }) => {
                 )}
 
                 {/* MAP TAB */}
-                {/* {activeTab === 'map' && (
+               {activeTab === 'map' && (
                     <GlassCard>
                         <Typography
                             variant="h4"
@@ -789,7 +790,7 @@ export const BatchDossier: React.FC<BatchDossierProps> = ({ batch }) => {
                             </Typography>
                         </div>
                     </GlassCard>
-                )} */}
+                )}
 
                 {/* SIGNATURE TAB */}
                 {activeTab === 'signature' && (
