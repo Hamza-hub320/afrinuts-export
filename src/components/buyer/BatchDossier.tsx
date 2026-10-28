@@ -445,9 +445,6 @@ export const BatchDossier: React.FC<BatchDossierProps> = ({ batch }) => {
                                             <div className="text-2xl font-bold text-gray-900">
                                                 {batch.qualityScore ? Math.round(batch.qualityScore) : '—'}%
                                             </div>
-                                            <div className="text-[10px] text-gray-500 uppercase tracking-wider">
-                                                Quality Score
-                                            </div>
                                         </div>
                                     </div>
 
@@ -770,7 +767,7 @@ export const BatchDossier: React.FC<BatchDossierProps> = ({ batch }) => {
                 )}
 
                 {/* MAP TAB */}
-                {activeTab === 'map' && (
+                {/* {activeTab === 'map' && (
                     <GlassCard>
                         <Typography
                             variant="h4"
@@ -792,7 +789,7 @@ export const BatchDossier: React.FC<BatchDossierProps> = ({ batch }) => {
                             </Typography>
                         </div>
                     </GlassCard>
-                )}
+                )} */}
 
                 {/* SIGNATURE TAB */}
                 {activeTab === 'signature' && (
