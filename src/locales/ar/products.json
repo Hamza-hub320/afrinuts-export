@@ -126,7 +126,7 @@
         "title": "عضوي (ECOCERT)",
         "description": "التحول الثلاثي الجاري منذ الزراعة (2026). تم التحقق من الزراعة الخالية من المواد الكيميائية.",
         "status": "in-progress",
-        "targetDate": "2029 (المزرعة) / 2030 (المعالجة)",
+        "targetDate": "2029",
         "issuer": "ECOCERT"
       },
       {
@@ -134,7 +134,7 @@
         "title": "التجارة العادلة",
         "description": "ممارسات عمل أخلاقية، وأجور عادلة، وعلاوات مجتمعية.",
         "status": "planned",
-        "targetDate": "2030-2031",
+        "targetDate": "2030",
         "issuer": "FLO-CERT"
       },
       {
@@ -150,7 +150,7 @@
         "title": "حلال",
         "description": "معالجة متوافقة مع الشريعة لأسواق الشرق الأوسط.",
         "status": "planned",
-        "targetDate": "2029",
+        "targetDate": "2030",
         "issuer": "جهة اعتماد حلال"
       },
       {
@@ -158,10 +158,25 @@
         "title": "تحالف الغابات المطيرة",
         "description": "التنوع البيولوجي، وإعادة التشجير، والزراعة الذكية مناخيًا.",
         "status": "planned",
-        "targetDate": "2028",
+        "targetDate": "2029",
         "issuer": "Rainforest Alliance"
       }
-    ]
+    ],
+    "organic": {
+      "title": "شهادة عضوية"
+    },
+    "fairtrade": {
+      "title": "التجارة العادلة"
+    },
+    "iso": {
+      "title": "معتمد ISO 22000"
+    },
+    "halal": {
+      "title": "معتمد حلال"
+    },
+    "rainforest": {
+      "title": "Rainforest Alliance"
+    }
   },
   "cta": {
     "title": "هل أنت مستعد للحصول على كاجو ممتاز؟",

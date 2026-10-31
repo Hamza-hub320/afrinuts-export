@@ -127,7 +127,7 @@
         "title": "Organic (ECOCERT)",
         "description": "3-year transition underway since planting (2026). Chemical-free farming verified.",
         "status": "in-progress",
-        "targetDate": "2029 (Farm) / 2030 (Processing)",
+        "targetDate": "2029",
         "issuer": "ECOCERT"
       },
       {
@@ -135,7 +135,7 @@
         "title": "Fair Trade",
         "description": "Ethical labor practices, fair wages, community premiums.",
         "status": "planned",
-        "targetDate": "2030-2031",
+        "targetDate": "2030",
         "issuer": "FLO-CERT"
       },
       {
@@ -151,7 +151,7 @@
         "title": "Halal",
         "description": "Shariah-compliant processing for Middle East markets.",
         "status": "planned",
-        "targetDate": "2029",
+        "targetDate": "2030",
         "issuer": "Halal Authority"
       },
       {
@@ -159,10 +159,25 @@
         "title": "Rainforest Alliance",
         "description": "Biodiversity, reforestation, climate-smart agriculture.",
         "status": "planned",
-        "targetDate": "2028",
+        "targetDate": "2029",
         "issuer": "Rainforest Alliance"
       }
-    ]
+    ],
+    "organic": {
+      "title": "Organic Certification"
+    },
+    "fairtrade": {
+      "title": "Fair Trade"
+    },
+    "iso": {
+      "title": "ISO 22000 Certified"
+    },
+    "halal": {
+      "title": "Halal Certified"
+    },
+    "rainforest": {
+      "title": "Rainforest Alliance"
+    }
   },
   "cta": {
     "title": "Ready to Source Premium Cashews?",

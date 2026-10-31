@@ -49,7 +49,7 @@ const Certifications: React.FC = () => {
     const { t } = useTranslation('certifications');
     const navigate = useNavigate();
     const [activeCert, setActiveCert] = useState<string | null>(null);
-    const [filter, setFilter] = useState<'all' | 'achieved' | 'upcoming'>('all');
+    const [filter, setFilter] = useState<'all' | 'achieved' | 'upcoming'| 'planned'>('all');
 
     interface Certification {
         id: string;
@@ -83,7 +83,7 @@ const Certifications: React.FC = () => {
             id: "fairtrade",
             title: t('certifications.fairtrade.title'),
             icon: FaHandshake,
-            status: "upcoming",
+            status: "planned",
             description: t('certifications.fairtrade.description'),
             benefits: t('certifications.fairtrade.benefits', { returnObjects: true }) as string[],
             validity: t('certifications.fairtrade.validity'),
@@ -96,7 +96,7 @@ const Certifications: React.FC = () => {
             id: "iso22000",
             title: t('certifications.iso22000.title'),
             icon: FaShieldAlt,
-            status: "upcoming",
+            status: "planned",
             description: t('certifications.iso22000.description'),
             benefits: t('certifications.iso22000.benefits', { returnObjects: true }) as string[],
             validity: t('certifications.iso22000.validity'),
@@ -109,7 +109,7 @@ const Certifications: React.FC = () => {
             id: "halal",
             title: t('certifications.halal.title'),
             icon: FaKaaba,
-            status: "upcoming",
+            status: "planned",
             description: t('certifications.halal.description'),
             benefits: t('certifications.halal.benefits', { returnObjects: true }) as string[],
             validity: t('certifications.halal.validity'),
@@ -122,7 +122,7 @@ const Certifications: React.FC = () => {
             id: "rainforest",
             title: t('certifications.rainforest.title'),
             icon: FaGlobe,
-            status: "upcoming",
+            status: "planned",
             description: t('certifications.rainforest.description'),
             benefits: t('certifications.rainforest.benefits', { returnObjects: true }) as string[],
             validity: t('certifications.rainforest.validity'),

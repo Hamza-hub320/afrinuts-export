@@ -21,7 +21,7 @@
   "tryDifferentFilter": "Please try a different filter to see more certifications.",
     "status": {
       "achieved": "Certified",
-      "upcoming": "In Progress"
+      "upcoming": "Planned"
     },
   "certifications": {
     "title": "Explore Our Certifications",
