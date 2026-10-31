@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Fragment } from 'react';
+import React, {useEffect, useState, Fragment, useMemo} from 'react';
 import { motion } from 'framer-motion';
 import {
     BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
@@ -21,7 +21,10 @@ import { getSupplierData } from '../services/api';
 import { Dialog, Transition } from '@headlessui/react';
 import SupplierMap from '@/components/SupplierMap/SupplierMap';
 import Sparkline from '@/components/Sparkline/Sparkline';
+import { computeTrustScore, TrustResult } from '@/utils/trustScore';
 import {GiFarmer} from "react-icons/gi";
+import {TrustPanel} from "@/components/TrustBadge/TrustPanel";
+import {TrustBadge} from "@/components/TrustBadge/TrustBadge";
 
 interface Supplier {
     id: string;
@@ -29,8 +32,9 @@ interface Supplier {
     type: string;
     status: string;
     location: string;
-    region?: string;           // ADD
-    country?: string;          // ADD
+    region?: string;
+    isActive: boolean;
+    country?: string;
     contactPerson: string;
     phone: string;
     email: string;
@@ -43,10 +47,10 @@ interface Supplier {
     certificationType?: string;
     certificationNumber?: string;
     certificationExpiryDate?: number;
-    registrationNumber?: string;  // ADD
-    taxId?: string;               // ADD
-    notes?: string;               // ADD
-    hasLocation?: boolean;        // ADD
+    registrationNumber?: string;
+    taxId?: string;
+    notes?: string;
+    hasLocation?: boolean;
     firebreakProtection?: boolean;
     noChildLabor?: boolean;
     sustainableHarvesting?: boolean;
@@ -86,6 +90,7 @@ interface QualityBatch {
 
 const SupplierManagement: React.FC = () => {
     const [suppliers, setSuppliers] = useState<Supplier[]>([]);
+    const [batchesBySupplier, setBatchesBySupplier] = useState<Record<string, any[]>>({});
     const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
     const [filterType, setFilterType] = useState('All');
@@ -102,8 +107,9 @@ const SupplierManagement: React.FC = () => {
     useEffect(() => {
         const fetchSuppliers = async () => {
             try {
-                const data = await getSupplierData('getSuppliers');
+                const data = await getSupplierData('getSuppliersWithTrust');
                 setSuppliers(data.suppliers || []);
+                setBatchesBySupplier(data.batchesBySupplier || {});
             } catch (error) {
                 console.error('Error fetching suppliers:', error);
             } finally {
@@ -112,6 +118,20 @@ const SupplierManagement: React.FC = () => {
         };
         fetchSuppliers();
     }, []);
+
+    const trustBySupplier = useMemo(() => {
+        const map: Record<string, TrustResult> = {};
+        suppliers.forEach(s => {
+            map[s.id] = computeTrustScore({
+                supplier: {
+                    ...s,
+                    isActive: s.isActive ?? s.status === 'ACTIVE',
+                },
+                batches: batchesBySupplier[s.id] || [],
+            });
+        });
+        return map;
+    }, [suppliers, batchesBySupplier]);
 
     const openSupplierDetail = async (supplier: Supplier) => {
         setSelectedSupplier(supplier);
@@ -214,9 +234,16 @@ const SupplierManagement: React.FC = () => {
                         Supplier Management
                     </motion.h1>
                     <motion.div variants={fadeIn}>
-                        <Typography variant="lead" className="text-text-dark max-w-3xl mx-auto">
-                            Track supplier performance, quality history, sustainability compliance, and financial contributions across your supply chain.
-                        </Typography>
+                        <motion.div variants={fadeIn}>
+                            <Typography variant="lead" className="text-text-dark max-w-3xl mx-auto">
+                                Decide who to trust, and why. Every supplier is scored on quality, traceability,
+                                sustainability, compliance and cooperation — with the evidence behind each score
+                                visible, and confidence stated separately from performance.
+                            </Typography>
+                            <Typography variant="small" className="text-gray-500 max-w-2xl mx-auto mt-3">
+                                Capacity is shown separately from trust. Missing evidence lowers confidence, not the score.
+                            </Typography>
+                        </motion.div>
                     </motion.div>
                 </motion.div>
             </Section>
@@ -301,7 +328,20 @@ const SupplierManagement: React.FC = () => {
                             <InfoCard icon={FaCheckCircle} title={String(activeSuppliers)} subtitle="Active Suppliers" iconColor="text-green-600" showInfoBadge={false} />
                         </motion.div>
                         <motion.div variants={fadeIn} transition={{ delay: 0.2 }}>
-                            <InfoCard icon={FaStar} title={`${avgQualityScore}%`} subtitle="Avg. Quality Score" iconColor="text-yellow-500" showInfoBadge={false} />
+                            <InfoCard
+                                icon={FaStar}
+                                title={(() => {
+                                    const scores = Object.values(trustBySupplier)
+                                        .map(t => t.overall)
+                                        .filter((v): v is number => v !== null);
+                                    return scores.length > 0
+                                        ? `${(scores.reduce((a, b) => a + b, 0) / scores.length).toFixed(1)}`
+                                        : '—';
+                                })()}
+                                subtitle="Avg. Trust Score"
+                                iconColor="text-yellow-500"
+                                showInfoBadge={false}
+                            />
                         </motion.div>
                         <motion.div variants={fadeIn} transition={{ delay: 0.3 }}>
                             <InfoCard icon={FaBox} title={`${(totalVolume / 1000).toFixed(0)}T`} subtitle="Annual Volume" iconColor="text-primary" showInfoBadge={false} />
@@ -367,6 +407,11 @@ const SupplierManagement: React.FC = () => {
                                         </span>
                                         </div>
                                     )}
+
+                                    {/* Trust Badge */}
+                                    <div className="mt-3 mb-2">
+                                        <TrustBadge trust={trustBySupplier[supplier.id]} compact />
+                                    </div>
 
                                     <div className="flex items-center gap-2 mt-3">
                                         <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">
@@ -481,37 +526,36 @@ const SupplierManagement: React.FC = () => {
                         </Typography>
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                             {suppliers
-                                .filter(s => s.annualVolumeKg > 0)
-                                .sort((a, b) => {
-                                    const scoreA = (a.averageQualityScore * (a.annualVolumeKg / 1000)) * (a.sustainableHarvesting ? 1.2 : 1);
-                                    const scoreB = (b.averageQualityScore * (b.annualVolumeKg / 1000)) * (b.sustainableHarvesting ? 1.2 : 1);
-                                    return scoreB - scoreA;
-                                })
+                                .filter(s => trustBySupplier[s.id]?.overall !== null)
+                                .sort((a, b) => (trustBySupplier[b.id].overall ?? 0) - (trustBySupplier[a.id].overall ?? 0))
                                 .slice(0, 6)
-                                .map((supplier, idx) => (
-                                    <motion.div
-                                        key={supplier.id}
-                                        variants={fadeIn}
-                                        transition={{ delay: idx * 0.1 }}
-                                        className="flex items-center gap-3 p-3 rounded-xl bg-white/40 backdrop-blur-sm border border-white/30"
-                                        whileHover={{ y: -2 }}
-                                    >
-                            <span className="text-lg font-bold text-primary w-8">
-                                {idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : `#${idx + 1}`}
-                            </span>
-                                        <div className="flex-1">
-                                            <p className="font-medium text-gray-900 text-sm">{supplier.name}</p>
-                                            <p className="text-xs text-gray-500">
-                                                Score: {supplier.averageQualityScore?.toFixed(1)}% · {(supplier.annualVolumeKg / 1000).toFixed(0)}T/yr
-                                            </p>
-                                        </div>
-                                        <div className="flex gap-1">
-                                            {supplier.sustainableHarvesting && <FaLeaf className="text-green-500 text-xs" title="Sustainable" />}
-                                            {supplier.firebreakProtection && <FaFireExtinguisher className="text-orange-500 text-xs" title="Firebreak" />}
-                                            {supplier.noChildLabor && <FaChild className="text-blue-500 text-xs" title="No Child Labor" />}
-                                        </div>
-                                    </motion.div>
-                                ))}
+                                .map((supplier, idx) => {
+                                    const trust = trustBySupplier[supplier.id];
+                                    return (
+                                        <motion.div
+                                            key={supplier.id}
+                                            variants={fadeIn}
+                                            transition={{ delay: idx * 0.1 }}
+                                            className="flex items-center gap-3 p-3 rounded-xl bg-white/40 backdrop-blur-sm border border-white/30"
+                                            whileHover={{ y: -2 }}
+                                        >
+                                        <span className="text-lg font-bold text-primary w-8">
+                                            {idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : `#${idx + 1}`}
+                                        </span>
+                                            <div className="flex-1">
+                                                <p className="font-medium text-gray-900 text-sm">{supplier.name}</p>
+                                                <p className="text-xs text-gray-500">
+                                                    Trust: {trust.overall} · {trust.confidence} · {trust.verifiedTransactions} batches
+                                                </p>
+                                            </div>
+                                            <div className="flex gap-1">
+                                                {supplier.sustainableHarvesting && <FaLeaf className="text-green-500 text-xs" title="Sustainable" />}
+                                                {supplier.firebreakProtection && <FaFireExtinguisher className="text-orange-500 text-xs" title="Firebreak" />}
+                                                {supplier.noChildLabor && <FaChild className="text-blue-500 text-xs" title="No Child Labor" />}
+                                            </div>
+                                        </motion.div>
+                                    );
+                                })}
                         </div>
                     </motion.div>
                 </div>
@@ -823,6 +867,8 @@ const SupplierManagement: React.FC = () => {
                                                                 </div>
                                                             </div>
                                                         )}
+
+                                                        <TrustPanel trust={trustBySupplier[selectedSupplier.id]} />
 
                                                         {/* Bio / Quote */}
                                                         {selectedSupplier.bio && (

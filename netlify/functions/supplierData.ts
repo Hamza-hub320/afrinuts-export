@@ -54,6 +54,36 @@ export const handler: Handler = async (event: HandlerEvent) => {
             };
         }
 
+        if (action === 'getSuppliersWithTrust') {
+            const suppliersSnap = await db
+                .collection('farms').doc(fid)
+                .collection('suppliers')
+                .get();
+
+            const batchesSnap = await db
+                .collection('farms').doc(fid)
+                .collection('quality_batches')
+                .get();
+
+            const suppliers = suppliersSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+            const batches = batchesSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+            // Group batches by supplierId for the client to compute trust
+            const batchesBySupplier: Record<string, any[]> = {};
+            batches.forEach((b: any) => {
+                if (b.supplierId != null) {
+                    const key = String(b.supplierId);
+                    (batchesBySupplier[key] = batchesBySupplier[key] || []).push(b);
+                }
+            });
+
+            return {
+                statusCode: 200,
+                headers,
+                body: JSON.stringify({ suppliers, batchesBySupplier }),
+            };
+        }
+
         if (action === 'getAllTraceability') {
             const snapshot = await db
                 .collection('farms').doc(fid)
