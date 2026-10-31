@@ -10,7 +10,7 @@ import {
     FaSearch, FaChevronDown, FaTimes, FaFileAlt, FaChartBar,
     FaLeaf, FaFireExtinguisher, FaChild, FaHandshake,
     FaTractor, FaCalendarAlt, FaDollarSign, FaIndustry,
-    FaAward, FaUser, FaTrophy, FaChartLine, FaHome, FaShieldAlt, FaCamera
+    FaAward, FaUser, FaTrophy, FaChartLine, FaHome, FaShieldAlt, FaCamera, FaExclamationTriangle, FaHistory
 } from 'react-icons/fa';
 import { Typography } from '@/components/Typography/Typography';
 import { InfoCard } from '@/components/InfoCard/InfoCard';
@@ -590,73 +590,193 @@ const SupplierManagement: React.FC = () => {
                 </div>
             </Section>
 
-            {/* Charts Row */}
+            {/* Trust Intelligence Row — A & B */}
             <div className="max-w-6xl mx-auto px-4 sm:px-6 mb-8">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    {/* Quality Tier Distribution - Pie Chart */}
-                    <InfoCard
-                        icon={FaChartBar}
-                        title="Quality Tier Distribution"
-                        iconColor="text-primary"
-                        showInfoBadge={false}
-                    >
-                        <ResponsiveContainer width="100%" height={250}>
-                            <PieChart>
-                                <Pie
-                                    data={[
-                                        { name: 'Premium (≥95%)', value: suppliers.filter(s => s.averageQualityScore >= 95).length, fill: '#f59e0b' },
-                                        { name: 'Standard (80-94%)', value: suppliers.filter(s => s.averageQualityScore >= 80 && s.averageQualityScore < 95).length, fill: '#3b82f6' },
-                                        { name: 'Developing (<80%)', value: suppliers.filter(s => s.averageQualityScore < 80).length, fill: '#9ca3af' },
-                                    ].filter(d => d.value > 0)}
-                                    cx="50%"
-                                    cy="50%"
-                                    innerRadius={50}
-                                    outerRadius={90}
-                                    paddingAngle={3}
-                                    dataKey="value"
-                                    label={({ name, value }) => `${(name || '').split(' ')[0]}: ${value}`}
-                                >
-                                </Pie>
-                                <Tooltip />
-                            </PieChart>
-                        </ResponsiveContainer>
-                    </InfoCard>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
-                    {/* Sustainability Compliance - Bar Chart */}
+                    {/* ============================================
+            OPTION A — Highest Trust Scores
+            ============================================ */}
                     <InfoCard
-                        icon={FaLeaf}
-                        title="Sustainability Compliance"
-                        subtitle="Percentage of suppliers meeting each standard"
+                        icon={FaShieldAlt}
+                        title="Highest Trust Scores"
+                        subtitle="Ranked by evidence-backed performance, not volume"
                         iconColor="text-green-600"
                         showInfoBadge={false}
                     >
-                        <ResponsiveContainer width="100%" height={250}>
-                            <BarChart
-                                data={[
-                                    { name: 'Sustainable\nHarvesting', value: parseFloat((suppliers.filter(s => s.sustainableHarvesting).length / suppliers.length * 100).toFixed(0)), fill: '#22c55e' },
-                                    { name: 'Firebreak\nProtection', value: parseFloat((suppliers.filter(s => s.firebreakProtection).length / suppliers.length * 100).toFixed(0)), fill: '#f97316' },
-                                    { name: 'No Child\nLabor', value: parseFloat((suppliers.filter(s => s.noChildLabor).length / suppliers.length * 100).toFixed(0)), fill: '#3b82f6' },
-                                ]}
-                                margin={{ top: 10, right: 20, left: 10, bottom: 20 }}
-                            >
-                                <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
-                                <XAxis dataKey="name" stroke="#6b7280" fontSize={11} />
-                                <YAxis domain={[0, 100]} tickFormatter={(v) => `${v}%`} stroke="#6b7280" fontSize={12} />
-                                <Tooltip formatter={(value) => `${value}%`} />
-                                <Bar dataKey="value" radius={[6, 6, 0, 0]}>
-                                    {[
-                                        { name: 'Sustainable\nHarvesting', value: 0, fill: '#22c55e' },
-                                        { name: 'Firebreak\nProtection', value: 0, fill: '#f97316' },
-                                        { name: 'No Child\nLabor', value: 0, fill: '#3b82f6' },
-                                    ].map((entry, index) => (
-                                        <Cell key={index} fill={entry.fill} />
-                                    ))}
-                                </Bar>
-                            </BarChart>
-                        </ResponsiveContainer>
+                        <div className="space-y-2 mt-3">
+                            {(() => {
+                                const ranked = suppliers
+                                    .map(s => ({ supplier: s, trust: trustBySupplier[s.id] }))
+                                    .filter(x => x.trust?.overall !== null)
+                                    .sort((a, b) => (b.trust.overall ?? 0) - (a.trust.overall ?? 0))
+                                    .slice(0, 5);
+
+                                if (ranked.length === 0) {
+                                    return (
+                                        <div className="text-center py-6 text-sm text-gray-400">
+                                            <FaShieldAlt className="text-2xl mx-auto mb-2 text-gray-300" />
+                                            No suppliers with sufficient evidence yet.
+                                        </div>
+                                    );
+                                }
+
+                                return ranked.map(({ supplier, trust }, i) => (
+                                    <div
+                                        key={supplier.id}
+                                        onClick={() => openSupplierDetail(supplier)}
+                                        className="flex items-center gap-3 bg-white/40 rounded-xl p-2.5 border border-white/30 cursor-pointer hover:bg-white/60 transition-all"
+                                    >
+                                        <span className="w-6 text-sm font-bold text-gray-400 text-center">#{i + 1}</span>
+                                        <div className="flex-1 min-w-0">
+                                            <p className="text-sm font-medium truncate">{supplier.name}</p>
+                                            <p className="text-[10px] text-gray-500">
+                                                {trust.verifiedTransactions} verified batch{trust.verifiedTransactions !== 1 ? 'es' : ''}
+                                            </p>
+                                        </div>
+                                        <div className="text-right flex-shrink-0">
+                                            <div className={`text-sm font-bold ${
+                                                (trust.overall ?? 0) >= 85 ? 'text-green-600' :
+                                                    (trust.overall ?? 0) >= 70 ? 'text-primary' :
+                                                        (trust.overall ?? 0) >= 50 ? 'text-amber-600' : 'text-red-600'
+                                            }`}>
+                                                {trust.overall}
+                                            </div>
+                                            <div className={`text-[10px] px-1.5 py-0.5 rounded-full inline-block ${
+                                                trust.confidence === 'established' ? 'bg-green-100 text-green-700' :
+                                                    trust.confidence === 'developing' ? 'bg-blue-100 text-blue-700' :
+                                                        'bg-amber-100 text-amber-700'
+                                            }`}>
+                                                {trust.confidence}
+                                            </div>
+                                        </div>
+                                    </div>
+                                ));
+                            })()}
+                        </div>
                     </InfoCard>
+
+                    {/* ============================================
+            OPTION B — Evidence Maturity
+            ============================================ */}
+                    <InfoCard
+                        icon={FaHistory}
+                        title="Evidence Maturity"
+                        subtitle="How much verified history supports our supplier assessments"
+                        iconColor="text-blue-600"
+                        showInfoBadge={false}
+                    >
+                        <div className="space-y-3 mt-3">
+                            {(() => {
+                                const counts = { preliminary: 0, developing: 0, established: 0 };
+                                Object.values(trustBySupplier).forEach(t => { counts[t.confidence]++; });
+                                const total = Object.values(counts).reduce((a, b) => a + b, 0);
+
+                                const tiers = [
+                                    { key: 'preliminary' as const, label: 'Preliminary', range: '0–2 batches', color: 'bg-amber-500', textColor: 'text-amber-700', desc: 'Limited history — not unreliable, just new' },
+                                    { key: 'developing' as const, label: 'Developing', range: '3–9 batches', color: 'bg-blue-500', textColor: 'text-blue-700', desc: 'Early performance pattern emerging' },
+                                    { key: 'established' as const, label: 'Established', range: '10+ batches', color: 'bg-green-500', textColor: 'text-green-700', desc: 'Substantial verified history across cycles' },
+                                ];
+
+                                return tiers.map(tier => (
+                                    <div key={tier.key} className="bg-white/40 rounded-xl p-3 border border-white/30">
+                                        <div className="flex justify-between items-baseline mb-1">
+                                            <span className={`text-sm font-semibold ${tier.textColor}`}>{tier.label}</span>
+                                            <span className="text-xl font-bold">{counts[tier.key]}</span>
+                                        </div>
+                                        <div className="text-[10px] text-gray-500 mb-1.5">{tier.range}</div>
+                                        <div className="w-full bg-gray-200 rounded-full h-2">
+                                            <motion.div
+                                                className={`${tier.color} h-2 rounded-full`}
+                                                initial={{ width: 0 }}
+                                                animate={{ width: `${total > 0 ? (counts[tier.key] / total) * 100 : 0}%` }}
+                                                transition={{ duration: 0.8 }}
+                                            />
+                                        </div>
+                                        <p className="text-[10px] text-gray-500 mt-1.5">{tier.desc}</p>
+                                    </div>
+                                ));
+                            })()}
+                        </div>
+                        <p className="text-[10px] text-gray-400 mt-3 text-center">
+                            Missing evidence lowers confidence — never the trust score itself.
+                        </p>
+                    </InfoCard>
+
                 </div>
             </div>
+
+            {/* ============================================
+    OPTION C — Risk & Attention Radar
+    ============================================ */}
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 mb-8">
+                <InfoCard
+                    icon={FaExclamationTriangle}
+                    title="Risk & Attention Radar"
+                    subtitle="Suppliers requiring review — sorted by trust severity"
+                    iconColor="text-amber-600"
+                    showInfoBadge={false}
+                >
+                    {(() => {
+                        const flagged = suppliers
+                            .map(s => ({ supplier: s, trust: trustBySupplier[s.id] }))
+                            .filter(x => x.trust && x.trust.flags.length > 0)
+                            .sort((a, b) => (a.trust.overall ?? 100) - (b.trust.overall ?? 100));
+
+                        if (flagged.length === 0) {
+                            return (
+                                <div className="text-center py-6 text-sm text-gray-400">
+                                    <FaCheckCircle className="text-2xl text-green-500 mx-auto mb-2" />
+                                    No suppliers currently require attention.
+                                </div>
+                            );
+                        }
+
+                        return (
+                            <div className="space-y-2 mt-3">
+                                {flagged.slice(0, 6).map(({ supplier, trust }) => (
+                                    <div
+                                        key={supplier.id}
+                                        onClick={() => openSupplierDetail(supplier)}
+                                        className="bg-white/40 rounded-xl p-3 border border-white/30 cursor-pointer hover:bg-white/60 transition-all flex items-center gap-3"
+                                    >
+                                        <div className="flex-1 min-w-0">
+                                            <div className="flex items-center gap-2">
+                                                <p className="text-sm font-medium truncate">{supplier.name}</p>
+                                                <span className="text-[10px] text-gray-400 flex-shrink-0">
+                                        {supplier.type?.replace(/_/g, ' ')}
+                                    </span>
+                                            </div>
+                                            <div className="flex flex-wrap gap-1 mt-1">
+                                                {trust.flags.map(f => (
+                                                    <span key={f} className="px-1.5 py-0.5 bg-amber-100 text-amber-700 text-[10px] rounded-full">
+                                            {f}
+                                        </span>
+                                                ))}
+                                            </div>
+                                        </div>
+                                        <div className="text-right flex-shrink-0">
+                                            <div className={`text-sm font-bold ${
+                                                (trust.overall ?? 0) < 50 ? 'text-red-600' : 'text-amber-600'
+                                            }`}>
+                                                {trust.overall ?? '—'}
+                                            </div>
+                                            <div className="text-[10px] text-gray-400">{trust.confidence}</div>
+                                        </div>
+                                    </div>
+                                ))}
+                                {flagged.length > 6 && (
+                                    <p className="text-[10px] text-gray-400 text-center pt-1">
+                                        +{flagged.length - 6} more supplier{flagged.length - 6 !== 1 ? 's' : ''} with flags
+                                    </p>
+                                )}
+                            </div>
+                        );
+                    })()}
+                </InfoCard>
+            </div>
+
+
 
             {/* Financial Efficiency */}
             <Section className="py-6">
