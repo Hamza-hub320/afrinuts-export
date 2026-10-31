@@ -117,28 +117,52 @@
     ]
   },
   "certifications": {
-    "title": "Feuille de Route des Certifications",
-    "subtitle": "Construit dès le départ pour répondre aux normes internationales — débloquant des prix premium sur les marchés mondiaux.",
-    "organic": {
-      "title": "Certification Biologique",
-      "targetDate": "2029 (Ferme) / 2030 (Transformation)"
-    },
-    "fairtrade": {
-      "title": "Commerce Équitable",
-      "targetDate": "2030-2031"
-    },
-    "iso": {
-      "title": "Certifié ISO 22000",
-      "targetDate": "2030"
-    },
-    "halal": {
-      "title": "Certifié Halal",
-      "targetDate": "2029"
-    },
-    "rainforest": {
-      "title": "Rainforest Alliance",
-      "targetDate": "2028"
-    }
+    "title": "Feuille de route des certifications",
+    "body": "Chaque produit que nous expédions est adossé à une traçabilité vérifiée. Bien que nos certifications soient en cours, notre ferme applique déjà des principes biologiques stricts, et notre future usine de transformation est conçue pour dépasser les normes internationales de sécurité alimentaire. Nous construisons la couche de preuve qu'exigent les acheteurs européens et nord-américains.",
+    "cardTitle": "Certifications en cours",
+    "cardSubtitle": "Chaque certification ouvre un marché premium spécifique. Les délais reflètent la progression actuelle et les dates d'achèvement visées.",
+    "items": [
+      {
+        "id": "organic",
+        "title": "Biologique (ECOCERT)",
+        "description": "Transition de 3 ans en cours depuis la plantation (2026). Agriculture sans produits chimiques vérifiée.",
+        "status": "in-progress",
+        "targetDate": "2029 (Ferme) / 2030 (Transformation)",
+        "issuer": "ECOCERT"
+      },
+      {
+        "id": "fairtrade",
+        "title": "Commerce équitable",
+        "description": "Pratiques de travail éthiques, salaires équitables, primes communautaires.",
+        "status": "planned",
+        "targetDate": "2030-2031",
+        "issuer": "FLO-CERT"
+      },
+      {
+        "id": "iso",
+        "title": "ISO 22000",
+        "description": "Système de management de la sécurité des denrées alimentaires pour les marchés d'exportation.",
+        "status": "planned",
+        "targetDate": "2030",
+        "issuer": "ISO"
+      },
+      {
+        "id": "halal",
+        "title": "Halal",
+        "description": "Transformation conforme à la charia pour les marchés du Moyen-Orient.",
+        "status": "planned",
+        "targetDate": "2029",
+        "issuer": "Autorité Halal"
+      },
+      {
+        "id": "rainforest",
+        "title": "Rainforest Alliance",
+        "description": "Biodiversité, reforestation, agriculture climato-intelligente.",
+        "status": "planned",
+        "targetDate": "2028",
+        "issuer": "Rainforest Alliance"
+      }
+    ]
   },
   "cta": {
     "title": "Prêt à Vous Approvisionner en Noix de Cajou Premium ?",

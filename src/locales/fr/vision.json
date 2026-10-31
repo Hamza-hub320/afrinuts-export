@@ -29,7 +29,11 @@
       { "stat": "35 ha", "label": "Ferme Opérationnelle", "desc": "3 500 anacardiers plantés" },
       { "stat": "200+", "label": "Agriculteurs dans la Coopérative", "desc": "Accord d'approvisionnement exclusif signé" },
       { "stat": "Farm OS", "label": "Technologie Déployée", "desc": "Application Android personnalisée avec synchronisation cloud" },
-      { "stat": "1,25 M$", "label": "Centre de Transformation", "desc": "Levée de fonds en cours" }
+      {
+        "stat": "350 k$",
+        "label": "Levée de la Phase Un",
+        "desc": "Tour d'investissement ouvert"
+      }
     ]
   },
   "sustainability": {
@@ -77,7 +81,7 @@
     "items": [
       { "title": "Traçabilité Numérique (2028+)", "content": "Suivi blockchain au niveau des lots de notre ferme au conteneur d'exportation. Chaque noix de cajou traçable.", "icon": "FaGlobe" },
       { "title": "Agriculture Intelligente (2030+)", "content": "Mise en œuvre prévue de la surveillance par drones, des capteurs de sol et de l'analyse prédictive pour optimiser le rendement et réduire les intrants.", "icon": "FaSeedling" },
-      { "title": "Certification Internationale (2026-2029)", "content": "Biologique (objectif 2027), Halal (objectif 2028) et ISO 22000 (objectif 2029) pour l'accès aux marchés mondiaux.", "icon": "FaLeaf" },
+      {"title": "Certification internationale (2026-2030)", "content": "Biologique (objectif 2029), Halal (objectif 2030) et ISO 22000 (objectif 2030) pour l'accès aux marchés mondiaux.", "icon": "FaLeaf"},
       { "title": "Leadership Régional (En cours)", "content": "Créer un modèle reproductible d'agro-industrie éthique et rentable pouvant être déployé à grande échelle en Afrique de l'Ouest.", "icon": "FaChartLine" }
     ]
   },

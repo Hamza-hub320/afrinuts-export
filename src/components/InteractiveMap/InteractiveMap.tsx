@@ -275,7 +275,7 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
                                 <strong>{t('map.region')}:</strong> Denguélé District, Ivory Coast
                             </Typography>
                             <Typography variant="small" className="text-text-dark">
-                                <strong>{t('map.area')}:</strong> 50 hectares
+                                <strong>{t('map.area')}:</strong> 70 hectares
                             </Typography>
                         </div>
 

@@ -118,27 +118,51 @@
   },
   "certifications": {
     "title": "Certification Roadmap",
-    "subtitle": "Built from the ground up to meet international standards — unlocking premium pricing in global markets.",
-    "organic": {
-      "title": "Organic Certification",
-      "targetDate": "2029 (Farm) / 2030 (Processing)"
-    },
-    "fairtrade": {
-      "title": "Fair Trade",
-      "targetDate": "2030-2031"
-    },
-    "iso": {
-      "title": "ISO 22000 Certified",
-      "targetDate": "2030"
-    },
-    "halal": {
-      "title": "Halal Certified",
-      "targetDate": "2029"
-    },
-    "rainforest": {
-      "title": "Rainforest Alliance",
-      "targetDate": "2028"
-    }
+    "body": "Every product we ship is backed by verified traceability. While our certifications are in progress, our farm operates on strict organic principles today, and our future processing facility is designed to exceed international food safety standards. We are building the proof layer that European and North American buyers require.",
+    "cardTitle": "Certifications in Progress",
+    "cardSubtitle": "Each certification unlocks a specific premium market. Timelines reflect current progress and target completion dates.",
+    "items": [
+      {
+        "id": "organic",
+        "title": "Organic (ECOCERT)",
+        "description": "3-year transition underway since planting (2026). Chemical-free farming verified.",
+        "status": "in-progress",
+        "targetDate": "2029 (Farm) / 2030 (Processing)",
+        "issuer": "ECOCERT"
+      },
+      {
+        "id": "fairtrade",
+        "title": "Fair Trade",
+        "description": "Ethical labor practices, fair wages, community premiums.",
+        "status": "planned",
+        "targetDate": "2030-2031",
+        "issuer": "FLO-CERT"
+      },
+      {
+        "id": "iso",
+        "title": "ISO 22000",
+        "description": "Food safety management system for export markets.",
+        "status": "planned",
+        "targetDate": "2030",
+        "issuer": "ISO"
+      },
+      {
+        "id": "halal",
+        "title": "Halal",
+        "description": "Shariah-compliant processing for Middle East markets.",
+        "status": "planned",
+        "targetDate": "2029",
+        "issuer": "Halal Authority"
+      },
+      {
+        "id": "rainforest",
+        "title": "Rainforest Alliance",
+        "description": "Biodiversity, reforestation, climate-smart agriculture.",
+        "status": "planned",
+        "targetDate": "2028",
+        "issuer": "Rainforest Alliance"
+      }
+    ]
   },
   "cta": {
     "title": "Ready to Source Premium Cashews?",

@@ -79,7 +79,7 @@
   "logistics": {
     "title": "Export Logistics",
     "description": "We ship from the Port of Abidjan — one of West Africa's most efficient and modern deep-water ports. Direct shipping lines to Europe, the Middle East, and North America mean your cargo moves fast, with fewer transshipments and lower risk of delay.",
-    "documentation": "Documentation: Certificate of Origin, SGS Inspection, Phytosanitary Certificate. Organic (target 2027) and Halal (target 2029) certifications in progress — facility built to compliance standards from day one.",
+    "documentation": "Documentation: Certificate of Origin, SGS Inspection, Phytosanitary Certificate. Organic (target 2029) and Halal (target 2030) certifications in progress — facility built to compliance standards from day one.",
     "items": [
       { "icon": "FaTruck", "label": "Port", "value": "Abidjan, Côte d'Ivoire" },
       { "icon": "FaGlobeAfrica", "label": "EU Transit", "value": "4-6 weeks" },

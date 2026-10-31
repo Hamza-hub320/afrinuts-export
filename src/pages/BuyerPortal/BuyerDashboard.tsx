@@ -221,7 +221,7 @@ const BuyerDashboard: React.FC = () => {
     );
 
     return (
-        <div className="min-h-screen pt-[72px] bg-gray-50/50 font-sans">
+        <div className="min-h-screen pt-[72px] font-sans">
             <Section className="py-6">
                 <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
 

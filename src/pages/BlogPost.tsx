@@ -124,7 +124,7 @@ const options = {
 };
 
 const getAuthorImage = (author: string): string => {
-    if (author.includes('Hamza Sangare')) return ceoImage;
+    if (author.includes('Hamza')) return ceoImage;
     if (author.includes('Sekou')) return cfoImage;
     if (author.includes('Muhamadue') || author.includes('Kouyaté')) return ccoImage;
     if (author.includes('Alassana')) return opsImage;
@@ -134,7 +134,7 @@ const getAuthorImage = (author: string): string => {
 };
 
 const getAuthorRole = (author: string): string => {
-    if (author.includes('Hamza Sangare')) return 'Founder & CEO';
+    if (author.includes('Hamza')) return 'Founder & CEO';
     if (author.includes('Sekou')) return 'Co-Founder & CFO/COO';
     if (author.includes('Muhamadue') || author.includes('Kouyaté')) return 'Chief Commercial Officer';
     if (author.includes('Alassana')) return 'Chief Technology Officer';
@@ -145,7 +145,7 @@ const getAuthorRole = (author: string): string => {
 
 const getAuthorBio = (author: string): string => {
     const teamMembers: Record<string, string> = {
-        'Hamza Sangare': 'Founder & CEO of AfriNuts Export. Built Farm OS, the custom operating system powering our farm. Third-generation cashew farmer writing from Odienné — covering strategy, technology, farming, and the future of West African agribusiness.',
+        'Hamza S. Ralsan Sangare': 'Founder & CEO of AfriNuts Export. Built Farm OS, the custom operating system powering our farm. Third-generation cashew farmer writing from Odienné — covering strategy, technology, farming, and the future of West African agribusiness.',
         'Sekou Hakim': 'Co-Founder & CFO/COO at AfriNuts Export. Writes about ethical finance, Shariah-compliant investment structures, and the economics of building a vertically integrated cashew business in Côte d\'Ivoire.',
         'Muhamadue Kouyate': 'Chief Commercial Officer at AfriNuts Export. 12+ years in export compliance and trade. Writes about global cashew markets, buyer relationships, logistics, and what importers actually look for.',
         'Alassana Bah': 'Chief Technology Officer at AfriNuts Export. Former investor turned CTO. Writes about agritech, building Farm OS, IoT in farming, and why technology is the missing layer in African agriculture.',

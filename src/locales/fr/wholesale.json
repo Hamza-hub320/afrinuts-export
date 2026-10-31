@@ -79,7 +79,7 @@
   "logistics": {
     "title": "Logistique d'Exportation",
     "description": "Nous expédions depuis le Port d'Abidjan — l'un des ports en eau profonde les plus efficaces et modernes d'Afrique de l'Ouest. Des lignes maritimes directes vers l'Europe, le Moyen-Orient et l'Amérique du Nord signifient que votre cargaison circule rapidement, avec moins de transbordements et un risque réduit de retard.",
-    "documentation": "Documentation : Certificat d'Origine, Inspection SGS, Certificat Phytosanitaire. Certifications Biologique (objectif 2027) et Halal (objectif 2029) en cours — installation construite selon les normes de conformité dès le premier jour.",
+    "documentation": "Documentation : certificat d'origine, inspection SGS, certificat phytosanitaire. Certifications biologique (objectif 2029) et halal (objectif 2030) en cours — installation conçue selon les normes de conformité dès le premier jour.",
     "items": [
       { "icon": "FaTruck", "label": "Port", "value": "Abidjan, Côte d'Ivoire" },
       { "icon": "FaGlobeAfrica", "label": "Transit UE", "value": "4-6 semaines" },

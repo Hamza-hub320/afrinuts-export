@@ -29,7 +29,7 @@
       { "stat": "35 ha", "label": "Farm Operational", "desc": "3,500 cashew trees planted" },
       { "stat": "200+", "label": "Farmers in Cooperative", "desc": "Exclusive sourcing agreement signed" },
       { "stat": "Farm OS", "label": "Technology Deployed", "desc": "Custom Android app with cloud sync" },
-      { "stat": "$1.25M", "label": "Processing Center", "desc": "Investment round open" }
+      { "stat": "$350k", "label": "Phase One Raise", "desc": "Investment round open" }
     ]
   },
   "sustainability": {
@@ -116,8 +116,8 @@
         "icon": "FaSeedling"
       },
       {
-        "title": "International Certification (2026-2029)",
-        "content": "Organic (2027 target), Halal (2028 target), and ISO 22000 (2029 target) for global market access.",
+        "title": "International Certification (2026-2030)",
+        "content": "Organic (2029 target), Halal (2030 target), and ISO 22000 (2030 target) for global market access.",
         "icon": "FaLeaf"
       },
       {

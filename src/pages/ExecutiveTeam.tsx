@@ -55,7 +55,7 @@ const ExecutiveTeam: React.FC = () => {
     const executives: Executive[] = [
         {
             id: 1,
-            name: "Hamza Sangare SR.",
+            name: "Hamza S. Ralsan Sangare",
             title: t('executives.ceo.title'),
             role: t('executives.ceo.role'),
             image: ceoImage,

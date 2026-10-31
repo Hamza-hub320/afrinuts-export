@@ -228,7 +228,7 @@
       },
       "mudarabah": {
         "title": "Mudarabah",
-        "description": "Pour les investisseurs qui préfèrent des rendements basés sur des transactions issus uniquement du négoce de la Phase Un. Pourcentage convenu du profit de négoce réellement réalisé par cycle. Aucune participation permanente."
+        "description": "Pour les investisseurs qui préfèrent des rendements basés sur des transactions issus uniquement du négoce de la Phase Un. 20 % du profit de négoce réellement réalisé par cycle. Aucune participation permanente au capital."
       }
     },
     "bottomLine": "Un investissement en actions de 350 K$ en Phase Un à 3,5 M$ post-money ne représente qu'une fraction de ce que cette arithmétique soutient à l'échelle.",
@@ -363,9 +363,9 @@
     "cardTitle": "Structure 100 % sans riba",
     "body": "Nos structures d'investissement sont entièrement alignées sur les principes de la finance islamique. Pas d'intérêt (riba), pas de spéculation (gharar) et pas d'activités interdites. Nous offrons deux voies : la propriété en capital dans AfriNuts, ou un partenariat de négoce Mudarabah pour les investisseurs qui préfèrent des rendements définis basés sur des transactions.",
     "items": [
-      "Option capital — 10 % de propriété à une valorisation post-money de 3,5 M$",
-      "Option Mudarabah — % convenu du profit de négoce réellement réalisé, sans participation permanente",
-      "Conseil consultatif de la charia engagé pour la vérification de conformité",
+      "Option actions — 10 % de propriété à une valorisation post-money de 3,5 M$",
+      "Option Mudarabah — 20 % du profit de négoce réellement réalisé, sans participation permanente au capital",
+      "Structures conçues selon les normes de charia AAOIFI ; un audit indépendant de conformité à la charia sera réalisé et publié avant l'acceptation des premiers fonds Mudarabah",
       "Certification Halal pour l'usine de transformation (objectif 2030)"
     ]
   },
@@ -417,7 +417,7 @@
     "viewAll": "Rencontrer toute l'équipe dirigeante",
     "members": [
       {
-        "name": "Hamza Sangare",
+        "name": "Hamza S. Ralsan Sangare",
         "position": "Fondateur et PDG",
         "bio": "Ingénieur logiciel devenu fondateur d'agro-industrie. A développé AfriNuts Farm OS — une plateforme Android offline-first avec synchronisation cloud pour le suivi au niveau des blocs. Agriculteur de noix de cajou de 3e génération. Dirige la stratégie, l'architecture technologique et les relations investisseurs.",
         "imageKey": "ceo"
@@ -579,7 +579,7 @@
   "farmOs": {
     "title": "Farm OS : la technologie derrière l'investissement",
     "linkText": "Voir les capacités complètes de Farm OS",
-    "body": "La plupart des investissements agro-industriels reposent sur la confiance et des PDF trimestriels. Le nôtre fonctionne sur un système d'exploitation sur mesure qui donne aux investisseurs une visibilité en temps réel sur la performance de la ferme — arbres vivants, dépenses par bloc, volumes de récolte et projections de profit. Le même tableau de bord que notre équipe utilise quotidiennement est disponible pour les investisseurs vérifiés. Plus important encore, ce même système est la raison pour laquelle les acheteurs internationaux paient des prix premium : chaque lot que nous expédions peut être tracé depuis le bloc de ferme exact jusqu'au conteneur d'exportation — le niveau de preuve que les marchés de l'UE et du Moyen-Orient exigent de plus en plus.",
+    "body": "La plupart des investissements agro-industriels reposent sur la confiance et des PDF trimestriels. Le nôtre fonctionne sur un système d'exploitation sur mesure qui offre aux investisseurs une visibilité en temps réel sur la performance de la ferme — arbres vivants, dépenses par bloc, volumes de récolte et projections de profit. Le même tableau de bord que notre équipe utilise quotidiennement est disponible pour les investisseurs vérifiés. Plus important encore, c'est ce même système qui permet à nos acheteurs internationaux de payer des prix premium : chaque lot sera traçable depuis le bloc exact de la ferme jusqu'au conteneur d'exportation — le niveau de preuve que les marchés de l'UE et du Moyen-Orient exigent de plus en plus.",
     "capabilities": [
       "Suivi financier au niveau des blocs — revenus et dépenses par hectare",
       "Tableau de bord en temps réel avec KPI, graphiques et documentation photo",
@@ -605,8 +605,8 @@
     "subtitle": "Alassana Bah a d'abord investi dans AfriNuts en tant qu'investisseur externe. Après avoir visité la ferme et examiné le code, il a rejoint l'équipe à plein temps en tant que Directeur Technique. Voici l'e-mail non modifié qu'il a envoyé à notre fondateur.",
     "emailLabel": "E-mail original · 17h02",
     "emailFrom": "Alassana Bah",
-    "emailTo": "Hamza Sangare",
-    "emailPreviewAlt": "E-mail d'investisseur d'Alassana Bah à Hamza Sangare",
+    "emailTo": "Hamza S. Ralsan Sangare",
+    "emailPreviewAlt": "E-mail d'investisseur d'Alassana Bah à Hamza S. Ralsan Sangare",
     "viewFullEmail": "Voir l'e-mail complet",
     "pullQuotes": {
       "one": "C'est à ce moment-là que j'ai cessé de considérer cela comme une ferme. C'est un système d'exploitation pour l'agriculture africaine. La ferme est le cas pilote.",

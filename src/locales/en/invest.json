@@ -220,13 +220,13 @@
       },
       "mudarabah": {
         "title": "Mudarabah",
-        "description": "For investors who prefer transaction-based returns from Phase One trading alone. Agreed percentage of actual realized trading profit per cycle. No permanent equity."
+        "description": "For investors who prefer transaction-based returns from Phase One trading alone. 20% of actual realized trading profit per cycle. No permanent equity."
       }
     },
     "bottomLine": "A $350K Phase One equity investment at $3.5M post-money is a fraction of what this arithmetic supports at scale.",
     "ndaNote": "Full financial model, including dividend projections and Phase Two financing options, is available after signing the NDA.",
     "disclaimer": "Illustrative unit economics based on current market prices and industry-standard processing ratios. Actual results depend on execution, market conditions, and operational performance. This is not an offer to sell securities."
-    },
+  },
   "verify": {
     "title": "How to Verify AfriNuts",
     "subtitle": "We believe investors should be able to independently confirm who we are before any conversation. Here is how to verify our corporate identity.",
@@ -356,8 +356,8 @@
     "body": "Our investment structures are fully aligned with Islamic finance principles. No interest (riba), no speculation (gharar), and no prohibited activities. We offer two paths: equity ownership in AfriNuts, or a Mudarabah trading partnership for investors who prefer defined transaction-based returns.",
     "items": [
       "Equity option — 10% ownership at a $3.5M post-money valuation",
-      "Mudarabah option — agreed % of actual realized trading profit, no permanent equity",
-      "Shariah advisory board engaged for compliance verification",
+      "Mudarabah option — 20% of actual realized trading profit, no permanent equity",
+      "Structures designed to AAOIFI Shariah standards; an independent Shariah review will be completed and published before the first Mudarabah funds are accepted",
       "Halal certification for processing facility (target 2030)"
     ]
   },
@@ -409,7 +409,7 @@
     "viewAll": "Meet the full leadership team",
     "members": [
       {
-        "name": "Hamza Sangare",
+        "name": "Hamza S. Ralsan Sangare",
         "position": "Founder & CEO",
         "bio": "Software engineer turned agribusiness founder. Built AfriNuts Farm OS — an offline-first Android platform with cloud sync for block-level tracking. 3rd generation cashew farmer. Leads strategy, technology architecture, and investor relations.",
         "imageKey": "ceo"
@@ -571,7 +571,7 @@
   "farmOs": {
     "title": "Farm OS: The Technology Behind the Investment",
     "linkText": "See full Farm OS capabilities",
-    "body": "Most agribusiness investments rely on trust and quarterly PDFs. Ours runs on a custom-built operating system that gives investors real-time visibility into farm performance — trees alive, expenses per block, harvest volumes, and profit projections. The same dashboard our team uses daily is available to verified investors. More importantly, this same system is why international buyers pay premium prices: every batch we ship can be traced from the exact farm block to the export container — the level of proof the EU and Middle East markets increasingly require.",
+    "body": "Most agribusiness investments rely on trust and quarterly PDFs. Ours runs on a custom-built operating system that gives investors real-time visibility into farm performance — trees alive, expenses per block, harvest volumes, and profit projections. The same dashboard our team uses daily is available to verified investors. More importantly, this same system is why international buyers pay premium prices: every batch will be traceable from the exact farm block to the export container — the level of proof the EU and Middle East markets increasingly require.",
     "capabilities": [
       "Block-level financial tracking — revenue and expenses per hectare",
       "Real-time dashboard with KPIs, charts, and photo documentation",
@@ -597,8 +597,8 @@
     "subtitle": "Alassana Bah first invested in AfriNuts as an external investor. After visiting the farm and reviewing the code, he joined full-time as Chief Technology Officer. This is the unedited email he sent to our founder.",
     "emailLabel": "Original email · 5:02 PM",
     "emailFrom": "Alassana Bah",
-    "emailTo": "Hamza Sangare",
-    "emailPreviewAlt": "Alassana Bah's investor email to Hamza Sangare",
+    "emailTo": "Hamza S. Ralsan Sangare",
+    "emailPreviewAlt": "Alassana Bah's investor email to Hamza S. Ralsan Sangare",
     "viewFullEmail": "View full email",
     "pullQuotes": {
       "one": "That's when I stopped thinking of this as a farm. It's an operating system for African agriculture. The farm is the pilot case.",
