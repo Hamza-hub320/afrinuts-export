@@ -86,7 +86,7 @@ const Products: React.FC = () => {
     const { t } = useTranslation(['products', 'common']);
     const navigate = useNavigate();
     const scrollRef = useRef<HTMLDivElement>(null);
-    const [productionType, setProductionType] = useState<'all' | 'organic' | 'conventional'>('organic');
+    const [productionType, setProductionType] = useState<'all' | 'organic' | 'conventional'>('all');
 
     const [filters, setFilters] = useState<Filters>({
         availability: 'all',
@@ -401,7 +401,7 @@ const Products: React.FC = () => {
                 <div id="products-grid" className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                     {filteredProducts.length > 0 ? (
                         <StaggerList className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-                            {filteredProducts.map((product) => (
+                            {filteredProducts.map((product, index) => (
                                 <StaggerItem key={product.name} className="h-full">
                                     <ProductCard
                                         product={product}
@@ -776,27 +776,20 @@ const Products: React.FC = () => {
 
             {/* CERTIFICATIONS */}
             <Section className="py-10">
-                <div className="max-w-6xl mx-auto px-4 sm:px-6">
-                    <Reveal className="text-center mb-10">
-                        <Typography variant="h2" className="mb-4">{t('certifications.title')}</Typography>
-                        <Typography variant="body" className="text-gray-600 max-w-3xl mx-auto">{t('certifications.body')}</Typography>
-                    </Reveal>
-                    <Reveal>
-                        <CertificationsCard
-                            certifications={(t('certifications.items', { returnObjects: true }) as any[]).map((item: any) => ({
-                                ...item,
-                                icon: item.id === 'organic' ? FaLeaf :
-                                    item.id === 'fairtrade' ? FaRibbon :
-                                        item.id === 'iso' ? FaShieldAlt :
-                                            item.id === 'halal' ? FaAward :
-                                                FaCertificate
-                            }))}
-                            title={t('certifications.cardTitle')}
-                            subtitle={t('certifications.cardSubtitle')}
-                            variant="primary"
-                            columns={5}
-                        />
-                    </Reveal>
+                <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
+                    <CertificationsCard
+                        certifications={[
+                            { id: 'organic', title: t('certifications.organic.title'), status: 'in-progress', targetDate: t('certifications.organic.targetDate'), icon: FaLeaf },
+                            { id: 'fairtrade', title: t('certifications.fairtrade.title'), status: 'planned', targetDate: t('certifications.fairtrade.targetDate'), icon: FaRibbon },
+                            { id: 'iso', title: t('certifications.iso.title'), status: 'planned', targetDate: t('certifications.iso.targetDate'), icon: FaShieldAlt },
+                            { id: 'halal', title: t('certifications.halal.title'), status: 'planned', targetDate: t('certifications.halal.targetDate'), icon: FaAward },
+                            { id: 'rainforest', title: t('certifications.rainforest.title'), status: 'planned', targetDate: t('certifications.rainforest.targetDate'), icon: FaCertificate },
+                        ]}
+                        title={t('certifications.title')}
+                        subtitle={t('certifications.subtitle')}
+                        variant="primary"
+                        columns={5}
+                    />
                 </div>
             </Section>
 

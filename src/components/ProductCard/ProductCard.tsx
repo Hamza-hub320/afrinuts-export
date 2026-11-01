@@ -96,22 +96,13 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
     return (
         <motion.div
-            className={`group relative bg-gradient-to-br ${currentVariant.bg} border-2 ${currentVariant.border} rounded-2xl shadow-xl overflow-hidden flex flex-col transform-gpu transition-all duration-500 ${className}`} style={{
-            transformStyle: 'preserve-3d',
-            perspective: '1000px',
-        }}
-            whileHover={{
-                y: -8,
-                scale: 1.02,
-                rotateY: 3,
-                transition: { duration: 0.3 },
-                boxShadow: '0 20px 35px -10px rgba(0, 0, 0, 0.2)',
-            }}
+            className={`group relative bg-gradient-to-br ${currentVariant.bg} border-2 ${currentVariant.border} rounded-2xl shadow-xl overflow-hidden flex flex-col transform-gpu transition-all duration-500 ${className}`}
+            whileHover={{ y: -8, scale: 1.02, transition: { duration: 0.3 }, boxShadow: '0 20px 35px -10px rgba(0, 0, 0, 0.2)' }}
             whileTap={{ scale: 0.97 }}
             role="region"
         >
             {/* 3D edge effect */}
-            <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
+            <div className="absolute inset-0 rounded-2xl border-2 border-white/20 group-hover:border-white/30 transition-all duration-500" />
             <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
             <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)]" />
             <div className="absolute inset-0 rounded-2xl bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgdmlld0JveD0iMCAwIDYwIDYwIj48ZyBmaWxsPSJub25lIiBzdHJva2U9InJnYmEoMjU1LCAyNTUsIDI1NSwgMC4wMykiIHN0cm9rZS13aWR0aD0iMSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMjUiLz48L2c+PC9zdmc+')] opacity-20" />
@@ -135,7 +126,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
                 {/* Organic Badge — top left */}
                 {showOrganic && product.productionType !== 'conventional' && (
-                    <div className="absolute top-4 left-4 z-20 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/85 backdrop-blur-md border border-white/40 shadow-lg">
+                    <div className="absolute top-4 left-4 z-20 flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white border border-white/40 shadow-lg">
                         <FaLeaf className="text-green-600 text-xs" />
                         <span className="text-green-700 text-sm font-semibold">{t('productCard.organicLabel', 'Organic')}</span>
                     </div>
@@ -143,8 +134,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({
 
                 {/* Status Badge — top right */}
                 {status !== 'available' && (
-                    <div className={`absolute top-4 right-4 z-20 flex items-center gap-1.5 px-3 py-1.5 rounded-full backdrop-blur-md border border-white/40 shadow-lg text-sm font-semibold ${
-                        status === 'preorder' ? 'bg-accent/85 text-white' : status === 'waitlist' ? 'bg-primary/85 text-white' : 'bg-white/85 text-gray-700'
+                    <div className={`absolute top-4 right-4 z-20 flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/40 shadow-lg text-sm font-semibold ${
+                        status === 'preorder' ? 'bg-accent text-white'
+                            : status === 'waitlist' ? 'bg-primary text-white'
+                                : 'bg-white text-gray-700'
                     }`}>
                         {status === 'preorder' && <FaShoppingCart className="text-[10px]" />}
                         {status === 'waitlist' && <FaBell className="text-[10px]" />}

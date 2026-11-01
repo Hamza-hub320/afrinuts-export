@@ -11,8 +11,8 @@ interface CertModalProps {
     title: string;
     description: string;
     issuer: string;
-    status: 'achieved' | 'upcoming' | "in-progress";
-    benefits: string[] | string; // Accept string or array
+    status: 'achieved' | 'in-progress' | 'planned';
+    benefits: string[] | string;
     validity?: string;
     color: string;
     borderColor: string;
@@ -41,6 +41,15 @@ const CertModal: React.FC<CertModalProps> = ({
         : typeof benefits === 'string'
             ? [benefits]
             : [];
+
+    // Three-way status badge config
+    const badge =
+        status === 'achieved'
+            ? { bg: 'bg-green-100', text: 'text-green-800', ring: 'ring-green-200', icon: FaCheckCircle, label: 'Certified' }
+            : status === 'in-progress'
+                ? { bg: 'bg-blue-100', text: 'text-blue-800', ring: 'ring-blue-200', icon: FaClock, label: 'In Progress' }
+                : { bg: 'bg-gray-100', text: 'text-gray-600', ring: 'ring-gray-200', icon: FaClock, label: 'Planned' };
+    const BadgeIcon = badge.icon;
 
     return (
         <motion.div
@@ -88,20 +97,15 @@ const CertModal: React.FC<CertModalProps> = ({
                         </button>
                     </div>
 
+                    {/* Status Badge — three-way */}
                     <div
-                        className={`px-4 py-2 rounded-full inline-flex items-center text-sm font-medium ${
-                            status === 'achieved'
-                                ? 'bg-green-100 text-green-800'
-                                : 'bg-blue-100 text-blue-800'
-                        }`}
+                        className={`px-4 py-2 rounded-full inline-flex items-center gap-2 text-sm font-medium ring-1 ${badge.bg} ${badge.text} ${badge.ring}`}
                     >
-                        {status === 'achieved' ? (
-                            <FaCheckCircle className="mr-2" />
-                        ) : (
-                            <FaClock className="mr-2" />
+                        <BadgeIcon className="text-xs" />
+                        <span>{badge.label}</span>
+                        {status === 'achieved' && validity && (
+                            <span className="opacity-70">• {validity}</span>
                         )}
-                        {status === 'achieved' ? 'Certified' : 'In Progress'}
-                        {status === 'achieved' && validity && ` • ${validity}`}
                     </div>
                 </div>
 
@@ -125,6 +129,7 @@ const CertModal: React.FC<CertModalProps> = ({
                         ))}
                     </ul>
 
+                    {/* Certificate downloads only for achieved certs */}
                     {status === 'achieved' && (
                         <div className="bg-gray-50 rounded-2xl p-6">
                             <Typography variant="h5" className="mb-4">
@@ -134,6 +139,15 @@ const CertModal: React.FC<CertModalProps> = ({
                                 <FaDownload className="mr-2" />
                                 Download Certificate PDF
                             </button>
+                        </div>
+                    )}
+
+                    {/* Optional: reassurance note for planned certs */}
+                    {status === 'planned' && (
+                        <div className="bg-gray-50 rounded-2xl p-6">
+                            <Typography variant="body" className="text-text-dark/70">
+                                This certification is planned. Documentation and audit timeline will be published here once the certification process begins.
+                            </Typography>
                         </div>
                     )}
                 </div>

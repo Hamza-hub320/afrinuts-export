@@ -9,7 +9,7 @@ interface CertCardProps {
     title: string;
     description: string;
     issuer: string;
-    status: 'achieved' | 'upcoming'| 'in-progress';
+    status: 'achieved' | 'in-progress' | 'planned';
     benefits: string[] | string;
     validity?: string;
     color: string;
@@ -54,11 +54,20 @@ const CertCard: React.FC<CertCardProps> = ({
 
             <div className="relative z-10 p-6 h-full flex flex-col">
                 {/* Status Badge */}
-                <div className={`absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-medium ${
-                    status === 'achieved' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'
-                }`}>
-                    {status === 'achieved' ? 'Certified' : 'In Progress'}
-                </div>
+                {(() => {
+                    const badge =
+                        status === 'achieved'
+                            ? { bg: 'bg-green-100', text: 'text-green-800', ring: 'ring-green-200', icon: FaCheckCircle, label: 'Certified' }
+                            : status === 'in-progress'
+                                ? { bg: 'bg-blue-100', text: 'text-blue-800', ring: 'ring-blue-200', icon: FaClock, label: 'In Progress' }
+                                : { bg: 'bg-gray-100', text: 'text-gray-600', ring: 'ring-gray-200', icon: FaClock, label: 'Planned' };
+                    return (
+                        <div className={`absolute top-4 right-4 inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium ring-1 ${badge.bg} ${badge.text} ${badge.ring}`}>
+                            <badge.icon className="text-[10px]" />
+                            <span>{badge.label}</span>
+                        </div>
+                    );
+                })()}
 
                 {/* Icon and Title */}
                 <div className="text-center mb-4">

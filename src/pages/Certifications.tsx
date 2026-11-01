@@ -34,7 +34,7 @@ import { IconType } from "react-icons";
 import { trackCtaClick, trackDownload } from '@/utils/analytics';
 import { Helmet } from 'react-helmet-async';
 import JsonLd from "@/components/Seo/JsonLd";
-type CertStatus = "achieved" | "upcoming" | "in-progress";
+type CertStatus = "achieved" | "in-progress" | "planned";
 
 const getIcon = (iconName: string) => {
     const icons: Record<string, React.ElementType> = {
@@ -49,7 +49,7 @@ const Certifications: React.FC = () => {
     const { t } = useTranslation('certifications');
     const navigate = useNavigate();
     const [activeCert, setActiveCert] = useState<string | null>(null);
-    const [filter, setFilter] = useState<'all' | 'achieved' | 'upcoming'| 'planned'>('all');
+    const [filter, setFilter] = useState<'all' | 'achieved' | 'in-progress' | 'planned'>('all');
 
     interface Certification {
         id: string;
@@ -70,7 +70,7 @@ const Certifications: React.FC = () => {
             id: "organic",
             title: t('certifications.organic.title'),
             icon: FaLeaf,
-            status: "upcoming",
+            status: "in-progress",
             description: t('certifications.organic.description'),
             benefits: t('certifications.organic.benefits', { returnObjects: true }) as string[],
             validity: t('certifications.organic.validity'),
@@ -267,7 +267,8 @@ const Certifications: React.FC = () => {
                         {/* Progress / Roadmap */}
                         {(() => {
                             const achievedCount = certifications.filter(c => c.status === 'achieved').length;
-                            const upcomingCount = certifications.filter(c => c.status === 'upcoming').length;
+                            const inProgressCount = certifications.filter(c => c.status === 'in-progress').length;
+                            const plannedCount = certifications.filter(c => c.status === 'planned').length;
                             const totalCount = certifications.length;
                             const percent = totalCount > 0 ? (achievedCount / totalCount) * 100 : 0;
                             return (
@@ -275,7 +276,7 @@ const Certifications: React.FC = () => {
                                     <div className="w-full max-w-xs sm:max-w-sm md:max-w-md">
                                         <div className="flex items-center justify-between mb-1 text-xs font-medium text-gray-700">
                                             <span className="text-primary">{achievedCount}/{totalCount} achieved</span>
-                                            <span className="text-gray-500">{upcomingCount} upcoming</span>
+                                            <span className="text-gray-500">{inProgressCount} in progress · {plannedCount} planned</span>
                                         </div>
                                         <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
                                             <div
@@ -300,11 +301,12 @@ const Certifications: React.FC = () => {
                             {[
                                 { key: 'all', label: t('filters.all'), icon: FaCertificate },
                                 { key: 'achieved', label: t('filters.achieved'), icon: FaCheckCircle },
-                                { key: 'upcoming', label: t('filters.upcoming'), icon: FaClock }
+                                { key: 'in-progress', label: t('filters.inProgress', 'In Progress'), icon: FaClock },
+                                { key: 'planned', label: t('filters.planned', 'Planned'), icon: FaClock },
                             ].map((filterItem) => (
                                 <StaggerItem key={filterItem.key}>
                                     <motion.button
-                                        onClick={() => setFilter(filterItem.key as 'all' | 'achieved' | 'upcoming')}
+                                        onClick={() => setFilter(filterItem.key as 'all' | 'achieved' | 'in-progress' | 'planned')}
                                         className={`px-6 py-3 rounded-full font-medium transition-all duration-300 flex items-center space-x-2 ${
                                             filter === filterItem.key
                                                 ? 'bg-primary text-white shadow-lg'

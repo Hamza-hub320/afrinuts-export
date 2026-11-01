@@ -15,7 +15,8 @@
     "all": "All Certifications",
     "achieved": "Achieved",
     "upcoming": "In Progress",
-    "inProgress": "In Progress"
+    "inProgress": "In Progress",
+    "planned": "Planned"
     },
   "noCertifications": "No certifications found",
   "tryDifferentFilter": "Please try a different filter to see more certifications.",

@@ -13,9 +13,10 @@
   },
   "filters": {
     "all": "جميع الشهادات",
-    "achieved": "تم تحقيقها",
-    "upcoming": "قيد التقدم",
-    "inProgress": "قيد التقدم"
+    "achieved": "محققة",
+    "upcoming": "قيد الإنجاز",
+    "inProgress": "قيد الإنجاز",
+    "planned": "مخطط لها"
   },
   "noCertifications": "لم يتم العثور على شهادات",
   "tryDifferentFilter": "يرجى تجربة فلتر مختلف لعرض المزيد من الشهادات.",

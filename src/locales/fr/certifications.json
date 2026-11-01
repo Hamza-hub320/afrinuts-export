@@ -12,10 +12,11 @@
     "ctaWholesale": "Pour les Acheteurs"
   },
   "filters": {
-    "all": "Toutes les Certifications",
-    "achieved": "Obtenues",
-    "upcoming": "En Cours",
-    "inProgress": "En Cours"
+    "all": "Toutes les certifications",
+    "achieved": "Obtenue",
+    "upcoming": "En cours",
+    "inProgress": "En cours",
+    "planned": "Planifiée"
   },
   "noCertifications": "Aucune certification trouvée",
   "tryDifferentFilter": "Veuillez essayer un filtre différent pour voir plus de certifications.",

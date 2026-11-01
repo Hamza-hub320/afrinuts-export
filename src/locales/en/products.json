@@ -164,16 +164,16 @@
       }
     ],
     "organic": {
-      "title": "Organic Certification"
+      "title": "Organic"
     },
     "fairtrade": {
       "title": "Fair Trade"
     },
     "iso": {
-      "title": "ISO 22000 Certified"
+      "title": "ISO 22000"
     },
     "halal": {
-      "title": "Halal Certified"
+      "title": "Halal"
     },
     "rainforest": {
       "title": "Rainforest Alliance"

@@ -13,8 +13,8 @@ const APPLE_EASE = [0.22, 1, 0.36, 1] as const;
  * ------------------------------------------- */
 const TIMING = {
     /* Slower, more cinematic — Apple product page feel */
-    revealDuration: 1.1,       // 0.8–1.2s is Apple's range
-    staggerChildren: 0.15,     // 120–200ms between children
+    revealDuration: 1.1,
+    staggerChildren: 0.15,
     delayChildren: 0.12,
 
     /* Hover / micro-interactions */
@@ -68,7 +68,7 @@ const containerVariants: Variants = {
 };
 
 const itemVariants: Variants = {
-    hidden: { opacity: 0, y: 32 },
+    hidden: { y: 32 },
     show: {
         opacity: 1,
         y: 0,
@@ -85,7 +85,7 @@ interface StaggerListProps {
 export function StaggerList({
                                 children,
                                 className,
-                                once = true,
+                                once = false,
                             }: StaggerListProps) {
     return (
         <motion.div
