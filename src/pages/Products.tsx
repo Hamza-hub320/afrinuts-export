@@ -775,18 +775,33 @@ const Products: React.FC = () => {
             </Section>
 
             {/* CERTIFICATIONS */}
+            {/* CERTIFICATIONS */}
             <Section className="py-10">
                 <div className="w-full max-w-7xl mx-auto px-4 sm:px-6">
                     <CertificationsCard
-                        certifications={[
-                            { id: 'organic', title: t('certifications.organic.title'), status: 'in-progress', targetDate: t('certifications.organic.targetDate'), icon: FaLeaf },
-                            { id: 'fairtrade', title: t('certifications.fairtrade.title'), status: 'planned', targetDate: t('certifications.fairtrade.targetDate'), icon: FaRibbon },
-                            { id: 'iso', title: t('certifications.iso.title'), status: 'planned', targetDate: t('certifications.iso.targetDate'), icon: FaShieldAlt },
-                            { id: 'halal', title: t('certifications.halal.title'), status: 'planned', targetDate: t('certifications.halal.targetDate'), icon: FaAward },
-                            { id: 'rainforest', title: t('certifications.rainforest.title'), status: 'planned', targetDate: t('certifications.rainforest.targetDate'), icon: FaCertificate },
-                        ]}
-                        title={t('certifications.title')}
-                        subtitle={t('certifications.subtitle')}
+                        certifications={(t('certifications.items', { returnObjects: true }) as Array<{
+                            id: string;
+                            title: string;
+                            description: string;
+                            status: 'achieved' | 'in-progress' | 'planned';
+                            targetDate?: string;
+                            issuer?: string;
+                        }>).map((item) => ({
+                            id: item.id,
+                            title: item.title,
+                            description: item.description,
+                            status: item.status,
+                            targetDate: item.targetDate,
+                            issuer: item.issuer,
+                            icon:
+                                item.id === 'organic' ? FaLeaf :
+                                    item.id === 'fairtrade' ? FaRibbon :
+                                        item.id === 'iso' ? FaShieldAlt :
+                                            item.id === 'halal' ? FaAward :
+                                                FaCertificate,
+                        }))}
+                        title={t('certifications.cardTitle')}
+                        subtitle={t('certifications.cardSubtitle')}
                         variant="primary"
                         columns={5}
                     />
