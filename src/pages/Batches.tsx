@@ -849,15 +849,29 @@ const Batches: React.FC = () => {
                                                             const val = t.value ?? 0;
                                                             const passing = val < t.limit;
                                                             return (
-                                                                <div key={i} className={`rounded-lg p-3 border ${passing ? 'bg-green-50/60 border-green-200' : 'bg-red-50/60 border-red-200'}`}>
-                                                                    <div className={`text-lg font-bold ${passing ? 'text-green-700' : 'text-red-600'}`}>
-                                                                        {val} {t.unit}
+                                                                <div key={i} className={`rounded-lg p-3 border ${
+                                                                    t.value === 0 || t.value == null
+                                                                        ? 'bg-gray-50/60 border-gray-200'
+                                                                        : passing
+                                                                            ? 'bg-green-50/60 border-green-200'
+                                                                            : 'bg-red-50/60 border-red-200'
+                                                                }`}>
+                                                                    <div className={`text-lg font-bold ${
+                                                                        t.value === 0 || t.value == null
+                                                                            ? 'text-gray-400'
+                                                                            : passing
+                                                                                ? 'text-green-700'
+                                                                                : 'text-red-600'
+                                                                    }`}>
+                                                                        {t.value === 0 || t.value == null ? 'Not Tested' : `${t.value} ${t.unit}`}
                                                                     </div>
                                                                     <div className="text-xs text-gray-600 font-medium mt-0.5">{t.label}</div>
                                                                     <div className="text-[10px] text-gray-400">{t.limitLabel}</div>
-                                                                    <div className={`text-[10px] mt-1 font-medium ${passing ? 'text-green-600' : 'text-red-600'}`}>
-                                                                        {passing ? '✓ Pass' : '✗ Fail'}
-                                                                    </div>
+                                                                    {t.value !== 0 && t.value != null && (
+                                                                        <div className={`text-[10px] mt-1 font-medium ${passing ? 'text-green-600' : 'text-red-600'}`}>
+                                                                            {passing ? '✓ Pass' : '✗ Fail'}
+                                                                        </div>
+                                                                    )}
                                                                 </div>
                                                             );
                                                         })}

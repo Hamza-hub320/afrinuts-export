@@ -19,6 +19,8 @@ import { getMockData } from '../services/mockData';
 import { callApi } from '../services/api';
 import PhotoGallery from '@/components/PhotoGallery/PhotoGallery';
 import { GiFarmer } from 'react-icons/gi';
+import { getSupplierData } from '../services/api';
+
 
 import {
     BarChart, Bar, XAxis, YAxis, CartesianGrid,
@@ -119,40 +121,51 @@ const Financials: React.FC = () => {
     const [selectedExpense, setSelectedExpense] = useState<any>(null);
     const [supplierCapacity, setSupplierCapacity] = useState<number>(0);
     const [supplierCount, setSupplierCount] = useState<number>(0);
-
+    const [batchesBySupplier, setBatchesBySupplier] = useState<Record<string, any[]>>({});
 
 
     useEffect(() => {
         const fetchFinancials = async () => {
             try {
-                let revenueData, expenseData, blocksData, suppliersData;
+                let revenueData, expenseData, blocksData;
+                let suppliersData;
+                let batchesData: Record<string, any[]> = {};
+
                 if (isDevelopment) {
                     revenueData = await getMockData('getRevenueSummary');
                     expenseData = await getMockData('getExpenseSummary');
                     blocksData = await getMockData('getBlocks');
-                    suppliersData = await getMockData('getSuppliers');
+                    // Use getSupplierData to fetch suppliers + batches in dev mode
+                    suppliersData = await getSupplierData('getSuppliersWithTrust');
+                    batchesData = (suppliersData as any).batchesBySupplier || {};
                 } else {
                     [revenueData, expenseData, blocksData, suppliersData] = await Promise.all([
                         callApi('farmData', { action: 'getRevenueSummary', farmId: '1' }),
                         callApi('farmData', { action: 'getExpenseSummary', farmId: '1' }),
                         callApi('farmData', { action: 'getBlocks', farmId: '1' }),
-                        callApi('supplierData', { action: 'getSuppliers', farmId: '1' }),
+                        callApi('supplierData', { action: 'getSuppliersWithTrust', farmId: '1' }),
                     ]);
+                    batchesData = suppliersData.batchesBySupplier || {};
                 }
 
                 const revenuesList = revenueData.revenues || [];
                 const expensesList = expenseData.expenses || [];
                 const blocksList = blocksData.blocks || [];
                 const suppliersList = suppliersData.suppliers || [];
+
                 setSupplierCount(suppliersList.length);
+                setBatchesBySupplier(batchesData);
 
                 setRevenues(revenuesList);
                 setExpenses(expensesList);
 
+                const totalCapacity = Object.values(batchesData)
+                    .flat()
+                    .reduce((sum: number, b: any) => sum + (b.weightKg || 0), 0);
+                setSupplierCapacity(totalCapacity);
+
                 const blockCount = Object.keys(BLOCK_NAMES).length;
                 const blockMap = new Map<number, any>();
-                const totalCapacity = suppliersList.reduce((sum: number, s: any) => sum + (s.annualVolumeKg || 0), 0);
-                setSupplierCapacity(totalCapacity);
 
                 // Initialize all 35 blocks
                 Object.keys(BLOCK_NAMES).forEach(key => {
