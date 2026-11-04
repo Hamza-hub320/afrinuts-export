@@ -21,8 +21,16 @@ export interface TrustInput {
     batches: Array<{
         weightKg?: number;
         qualityScore?: number;
+        rcnQualityScore?: number;         // ADD
+        kernelQualityScore?: number;      // ADD (Phase 2, stays 0)
         defectiveRate?: number;
         moistureContent?: number;
+        korGPerKg?: number;               // ADD
+        nutCountPerKg?: number;           // ADD
+        foreignMatter?: number;           // ADD
+        aflatoxinPpb?: number;            // ADD
+        heavyMetalsPpb?: number;          // ADD
+        pesticideResiduePpb?: number;     // ADD
         farmOsMonitored?: boolean;
         verifiedAt?: number;
         testResults?: string;
@@ -77,15 +85,44 @@ function parseAflatoxin(testResults?: string): number | null {
  *  - penalty for batches with defectiveRate > 5 (30% of dimension)
  */
 function computeQuality(batches: TrustInput['batches']): number | null {
-    const scored = batches.filter(b => typeof b.qualityScore === 'number');
+    const scored = batches.filter(b =>
+        typeof b.rcnQualityScore === 'number' || typeof b.qualityScore === 'number'
+    );
     if (scored.length === 0) return null;
 
-    const avgScore = scored.reduce((s, b) => s + (b.qualityScore || 0), 0) / scored.length;
-    const total = scored.length;
-    const highDefect = scored.filter(b => (b.defectiveRate || 0) > 5).length;
-    const defectPenalty = (highDefect / total) * 100; // % of batches failing defect threshold
+    // RCN score average (fall back to qualityScore for older batches)
+    const scores = scored.map(b => b.rcnQualityScore ?? b.qualityScore ?? 0);
+    const avgScore = scores.reduce((s, v) => s + v, 0) / scores.length;
 
-    return clamp(avgScore * 0.7 + (100 - defectPenalty) * 0.3);
+    // Moisture compliance (< 7% is passing per your SOP)
+    const withMoisture = batches.filter(b => typeof b.moistureContent === 'number');
+    const moistureCompliant = withMoisture.filter(b => (b.moistureContent ?? 0) <= 7).length;
+    const moistureScore = withMoisture.length > 0
+        ? (moistureCompliant / withMoisture.length) * 100
+        : null;
+
+    // KOR consistency — reward suppliers whose KOR is stable
+    const withKor = batches.filter(b => typeof b.korGPerKg === 'number' && b.korGPerKg > 0);
+    let korScore: number | null = null;
+    if (withKor.length >= 2) {
+        const kors = withKor.map(b => b.korGPerKg!);
+        const mean = kors.reduce((s, v) => s + v, 0) / kors.length;
+        const variance = kors.reduce((s, v) => s + Math.pow(v - mean, 2), 0) / kors.length;
+        const stdDev = Math.sqrt(variance);
+        // Lower std dev = higher consistency. Cap penalty at 30 points.
+        korScore = Math.max(70, 100 - stdDev * 2);
+    }
+
+    // Weighted combination
+    const parts: Array<{ value: number; weight: number }> = [
+        { value: avgScore, weight: 0.5 },
+    ];
+    if (moistureScore !== null) parts.push({ value: moistureScore, weight: 0.3 });
+    if (korScore !== null) parts.push({ value: korScore, weight: 0.2 });
+
+    const totalWeight = parts.reduce((s, p) => s + p.weight, 0);
+    const weighted = parts.reduce((s, p) => s + p.value * p.weight, 0) / totalWeight;
+    return clamp(weighted);
 }
 
 /**

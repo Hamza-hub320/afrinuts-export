@@ -42,20 +42,53 @@ interface Batch {
     id: string;
     batchNumber: string;
     supplierId: number;
+    productType?: 'RCN' | 'KERNEL';        // Phase 1 = RCN
+
+    // Raw material
     weightKg: number;
+    processingDate: number;
+    dryingMethod?: string;
+    harvestCycleId?: string | null;
+
+    // RCN quality metrics (Phase 1)
+    moistureContent: number;
+    nutCountPerKg: number;
+    defectiveRate: number;
+    foreignMatter?: number;
+    immatureRate?: number;
+    insectDamagedRate?: number;
+    mouldyRate?: number;
+    shrivelledRate?: number;
+
+    // KOR — kernel out-turn ratio (Phase 1, measured on a sample)
+    korSampleGrams?: number;
+    korKernelGrams?: number;
+    korGPerKg?: number;
+    kernelRatio?: number;                  // korKernelGrams / korSampleGrams
+
+    // Compliance
+    aflatoxinPpb?: number;
+    heavyMetalsPpb?: number;
+    pesticideResiduePpb?: number;
+
+    // Scoring
     qualityGrade: string;
     qualityScore: number;
-    moistureContent: number;
-    defectiveRate: number;
-    kernelRatio: number;
-    nutCountPerKg: number;
-    processingDate: number;
-    testResults?: string;
+    rcnQualityScore?: number;
+    kernelQualityScore?: number;           // Phase 2 — stays 0
+
+    // Evidence
+    inspectedBy?: string;
+    inspectionDate?: number;
+    verifiedAt?: number;
+    verificationCode?: string | null;
+
+    // Sustainability
     sustainableHarvesting?: boolean;
     firebreakProtection?: boolean;
     noChildLabor?: boolean;
     farmOsMonitored?: boolean;
-    verifiedAt?: number;
+
     notes?: string;
     sourceType?: string;
 }
@@ -691,7 +724,7 @@ const Batches: React.FC = () => {
                                             <div className="flex justify-center py-12"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div></div>
                                         ) : batchDetail && batchDetail.batch ? (
                                             <div className="space-y-6">
-                                                {/* Quality Metrics — show "Pending" when not yet inspected */}
+                                                {/* Quality Metrics — Phase 1 RCN */}
                                                 {(() => {
                                                     const isInspected = (selectedBatch?.qualityScore ?? 0) > 0
                                                         || (selectedBatch?.moistureContent ?? 0) > 0
@@ -715,24 +748,32 @@ const Batches: React.FC = () => {
                                                         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                                                             {[
                                                                 {
-                                                                    label: 'Quality Score',
-                                                                    value: (selectedBatch?.qualityScore ?? 0) > 0 ? `${selectedBatch!.qualityScore.toFixed(1)}%` : '—',
+                                                                    label: 'RCN Score',
+                                                                    value: (selectedBatch?.rcnQualityScore ?? selectedBatch?.qualityScore ?? 0) > 0
+                                                                        ? `${(selectedBatch!.rcnQualityScore ?? selectedBatch!.qualityScore).toFixed(1)}%`
+                                                                        : '—',
                                                                     color: 'text-primary'
                                                                 },
                                                                 {
                                                                     label: 'Moisture',
-                                                                    value: (selectedBatch?.moistureContent ?? 0) > 0 ? `${selectedBatch!.moistureContent}%` : '—',
-                                                                    color: 'text-blue-600'
+                                                                    value: (selectedBatch?.moistureContent ?? 0) > 0
+                                                                        ? `${selectedBatch!.moistureContent}%`
+                                                                        : '—',
+                                                                    color: (selectedBatch?.moistureContent ?? 0) > 7 ? 'text-red-600' : 'text-blue-600'
                                                                 },
                                                                 {
-                                                                    label: 'Defect Rate',
-                                                                    value: (selectedBatch?.defectiveRate ?? 0) > 0 ? `${selectedBatch!.defectiveRate}%` : '—',
-                                                                    color: 'text-red-600'
-                                                                },
-                                                                {
-                                                                    label: 'Kernel Ratio',
-                                                                    value: (selectedBatch?.kernelRatio ?? 0) > 0 ? `${selectedBatch!.kernelRatio}%` : '—',
+                                                                    label: 'KOR (g/kg)',
+                                                                    value: (selectedBatch?.korGPerKg ?? 0) > 0
+                                                                        ? `${selectedBatch!.korGPerKg!.toFixed(0)} g`
+                                                                        : '—',
                                                                     color: 'text-green-600'
+                                                                },
+                                                                {
+                                                                    label: 'Nut Count /kg',
+                                                                    value: (selectedBatch?.nutCountPerKg ?? 0) > 0
+                                                                        ? String(selectedBatch!.nutCountPerKg)
+                                                                        : '—',
+                                                                    color: 'text-amber-600'
                                                                 },
                                                             ].map((m, i) => (
                                                                 <div key={i} className="bg-white/50 rounded-xl p-3 text-center border border-white/30">
@@ -744,33 +785,115 @@ const Batches: React.FC = () => {
                                                     );
                                                 })()}
 
-                                                {/* Test Results */}
-                                                {selectedBatch?.testResults && Object.keys(parseTestResults(selectedBatch.testResults)).length > 0 ? (
+                                                {/* RCN Defect Breakdown */}
+                                                {(selectedBatch?.foreignMatter || selectedBatch?.immatureRate ||
+                                                    selectedBatch?.insectDamagedRate || selectedBatch?.mouldyRate ||
+                                                    selectedBatch?.shrivelledRate) && (
                                                     <div className="bg-white/50 rounded-xl p-4 border border-white/30">
-                                                        <h4 className="font-medium text-primary mb-2 flex items-center gap-2">
-                                                            <FaFlask /> Test Results
+                                                        <h4 className="font-medium text-primary mb-3 flex items-center gap-2">
+                                                            <FaLeaf /> RCN Defect Breakdown
                                                         </h4>
-                                                        <div className="grid grid-cols-3 gap-3 text-sm">
-                                                            {Object.entries(parseTestResults(selectedBatch.testResults)).map(([key, value]) => (
-                                                                <div key={key} className="text-center">
-                                                                    <div className="text-gray-500 capitalize">
-                                                                        {key.replace(/([A-Z])/g, ' $1')}
+                                                        <div className="grid grid-cols-2 md:grid-cols-5 gap-2 text-center">
+                                                            {[
+                                                                { label: 'Foreign Matter', value: selectedBatch?.foreignMatter, target: 0.5 },
+                                                                { label: 'Immature', value: selectedBatch?.immatureRate, target: 2 },
+                                                                { label: 'Insect Damaged', value: selectedBatch?.insectDamagedRate, target: 2 },
+                                                                { label: 'Mouldy', value: selectedBatch?.mouldyRate, target: 1 },
+                                                                { label: 'Shrivelled', value: selectedBatch?.shrivelledRate, target: 2 },
+                                                            ].map((d, i) => {
+                                                                const val = d.value ?? 0;
+                                                                const failing = val > d.target;
+                                                                return (
+                                                                    <div key={i} className={`rounded-lg p-2 border ${failing ? 'bg-red-50/60 border-red-200' : 'bg-white/40 border-white/30'}`}>
+                                                                        <div className={`text-sm font-bold ${failing ? 'text-red-600' : 'text-gray-700'}`}>
+                                                                            {val.toFixed(2)}%
+                                                                        </div>
+                                                                        <div className="text-[10px] text-gray-500 leading-tight mt-0.5">{d.label}</div>
+                                                                        <div className="text-[9px] text-gray-400">max {d.target}%</div>
                                                                     </div>
-                                                                    <div className="font-semibold">
-                                                                        {value != null && value !== 0 ? String(value) : 'Pending'}
-                                                                    </div>
-                                                                </div>
-                                                            ))}
+                                                                );
+                                                            })}
                                                         </div>
                                                     </div>
-                                                ) : (
-                                                    <div className="bg-amber-50/60 border border-amber-200 rounded-xl p-4 text-center">
-                                                        <FaFlask className="text-amber-500 text-xl mx-auto mb-2" />
-                                                        <Typography variant="small" className="text-amber-700 text-xs">
-                                                            Lab tests pending — results will appear after quality inspection
-                                                        </Typography>
-                                                    </div>
                                                 )}
+
+                                                {/* Lab Compliance Results (Phase 1 fields) */}
+                                                <div className="bg-white/50 rounded-xl p-4 border border-white/30">
+                                                    <h4 className="font-medium text-primary mb-3 flex items-center gap-2">
+                                                        <FaFlask /> Lab Compliance
+                                                    </h4>
+                                                    <div className="grid grid-cols-3 gap-3 text-center">
+                                                        {[
+                                                            {
+                                                                label: 'Aflatoxin',
+                                                                value: selectedBatch?.aflatoxinPpb,
+                                                                limit: 4,
+                                                                unit: 'ppb',
+                                                                limitLabel: '< 4 ppb (EU)',
+                                                            },
+                                                            {
+                                                                label: 'Heavy Metals',
+                                                                value: selectedBatch?.heavyMetalsPpb,
+                                                                limit: 1,
+                                                                unit: 'ppb',
+                                                                limitLabel: '< 1 ppb',
+                                                            },
+                                                            {
+                                                                label: 'Pesticide Residue',
+                                                                value: selectedBatch?.pesticideResiduePpb,
+                                                                limit: 10,
+                                                                unit: 'ppb',
+                                                                limitLabel: '< 10 ppb',
+                                                            },
+                                                        ].map((t, i) => {
+                                                            const val = t.value ?? 0;
+                                                            const passing = val < t.limit;
+                                                            return (
+                                                                <div key={i} className={`rounded-lg p-3 border ${passing ? 'bg-green-50/60 border-green-200' : 'bg-red-50/60 border-red-200'}`}>
+                                                                    <div className={`text-lg font-bold ${passing ? 'text-green-700' : 'text-red-600'}`}>
+                                                                        {val} {t.unit}
+                                                                    </div>
+                                                                    <div className="text-xs text-gray-600 font-medium mt-0.5">{t.label}</div>
+                                                                    <div className="text-[10px] text-gray-400">{t.limitLabel}</div>
+                                                                    <div className={`text-[10px] mt-1 font-medium ${passing ? 'text-green-600' : 'text-red-600'}`}>
+                                                                        {passing ? '✓ Pass' : '✗ Fail'}
+                                                                    </div>
+                                                                </div>
+                                                            );
+                                                        })}
+                                                    </div>
+                                                </div>
+
+                                                {/* Inspection Trail */}
+                                                <div className="bg-white/50 rounded-xl p-4 border border-white/30">
+                                                    <h4 className="font-medium text-primary mb-3 flex items-center gap-2">
+                                                        <FaCheckCircle /> Inspection Trail
+                                                    </h4>
+                                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
+                                                        <div>
+                                                            <div className="text-xs text-gray-500">Inspected By</div>
+                                                            <div className="font-medium">{selectedBatch?.inspectedBy || '—'}</div>
+                                                        </div>
+                                                        <div>
+                                                            <div className="text-xs text-gray-500">Inspection Date</div>
+                                                            <div className="font-medium">
+                                                                {selectedBatch?.inspectionDate
+                                                                    ? new Date(selectedBatch.inspectionDate).toLocaleString()
+                                                                    : '—'}
+                                                            </div>
+                                                        </div>
+                                                        <div>
+                                                            <div className="text-xs text-gray-500">Drying Method</div>
+                                                            <div className="font-medium">{selectedBatch?.dryingMethod || '—'}</div>
+                                                        </div>
+                                                    </div>
+                                                    {selectedBatch?.verificationCode && (
+                                                        <div className="mt-3 pt-3 border-t border-gray-200">
+                                                            <div className="text-xs text-gray-500">Verification Code</div>
+                                                            <div className="font-mono text-primary font-bold">{selectedBatch.verificationCode}</div>
+                                                        </div>
+                                                    )}
+                                                </div>
 
                                                 {/* Compliance */}
                                                 <div className="bg-white/50 rounded-xl p-4 border border-white/30">
@@ -822,26 +945,20 @@ const Batches: React.FC = () => {
                                                                 <div className="flex justify-between text-sm">
                                                                     <span className="text-gray-500">Raw Input</span>
                                                                     <span className="font-medium">
-        {batchDetail?.batch?.weightKg
-            ? `${(batchDetail.batch.weightKg / 1000).toFixed(1)}T`
-            : '—'}
-    </span>
+                                                                        {batchDetail?.batch?.weightKg ? `${(batchDetail.batch.weightKg / 1000).toFixed(1)}T` : '—'}
+                                                                </span>
                                                                 </div>
                                                                 <div className="flex justify-between text-sm">
                                                                     <span className="text-gray-500">Kernel Output</span>
                                                                     <span className="font-medium text-green-700">
-        {batchDetail?.revenues?.[0]?.quantityKg
-            ? `${(batchDetail.revenues[0].quantityKg / 1000).toFixed(1)}T`
-            : '—'}
-    </span>
+                                                                        {batchDetail?.revenues?.[0]?.quantityKg ? `${(batchDetail.revenues[0].quantityKg / 1000).toFixed(1)}T` : '—'}
+                                                                    </span>
                                                                 </div>
                                                                 <div className="flex justify-between text-sm">
                                                                     <span className="text-gray-500">Yield</span>
                                                                     <span className="font-medium">
-        {batchDetail?.batch?.weightKg && batchDetail?.revenues?.[0]?.quantityKg
-            ? `${((batchDetail.revenues[0].quantityKg / batchDetail.batch.weightKg) * 100).toFixed(1)}%`
-            : '—'}
-    </span>
+                                                                        {batchDetail?.batch?.weightKg && batchDetail?.revenues?.[0]?.quantityKg ? `${((batchDetail.revenues[0].quantityKg / batchDetail.batch.weightKg) * 100).toFixed(1)}%` : '—'}
+                                                                    </span>
                                                                 </div>
                                                                 <div className="flex justify-between text-sm">
                                                                     <span className="text-gray-500">Price/kg</span>
@@ -991,7 +1108,7 @@ const Batches: React.FC = () => {
                             return [
                                 {
                                     label: 'EU Compliant',
-                                    value: inspected.filter(b => (parseTestResults(b.testResults || '{}').aflatoxin || 99) < 4).length,
+                                    value: inspected.filter(b => (b.aflatoxinPpb ?? 99) < 4).length,
                                     total: inspected.length,
                                     icon: FaGlobeEurope,
                                     color: 'text-blue-500',
@@ -1010,7 +1127,7 @@ const Batches: React.FC = () => {
                                     value: inspected.filter(b =>
                                         b.qualityScore >= 95 &&
                                         b.defectiveRate < 5 &&
-                                        (parseTestResults(b.testResults || '{}').aflatoxin || 99) < 4
+                                        (b.aflatoxinPpb ?? 99) < 4
                                     ).length,
                                     total: inspected.length,
                                     icon: FaShip,
@@ -1022,7 +1139,7 @@ const Batches: React.FC = () => {
                                     value: inspected.filter(b =>
                                         b.defectiveRate > 5 ||
                                         b.moistureContent > 7 ||
-                                        (parseTestResults(b.testResults || '{}').aflatoxin || 99) >= 4
+                                        (b.aflatoxinPpb ?? 99) >= 4
                                     ).length,
                                     total: inspected.length,
                                     icon: FaSearch,

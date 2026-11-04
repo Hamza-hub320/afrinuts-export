@@ -1,9 +1,7 @@
 import React, {useEffect, useState, Fragment, useMemo} from 'react';
 import { motion } from 'framer-motion';
-import {
-    BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
-    AreaChart, Area, Cell, PieChart, Pie
-} from 'recharts';
+import { computeSupplierMetrics } from '@/utils/supplierMetrics';
+import { detectDevelopmentOpportunities } from '@/utils/supplierDevelopment';
 import {
     FaUsers, FaStar, FaBox, FaCheckCircle, FaTimesCircle,
     FaPhone, FaEnvelope, FaMapMarkerAlt, FaSeedling,
@@ -31,41 +29,50 @@ interface Supplier {
     name: string;
     type: string;
     status: string;
-    location: string;
-    region?: string;
-    isActive: boolean;
-    country?: string;
+
+    // Identity & contact (captured)
     contactPerson: string;
     phone: string;
     email: string;
-    averageQualityScore: number;
-    annualVolumeKg: number;
-    rating: number;
+    location: string;
+    region?: string;
+    country?: string;
+    latitude?: number;
+    longitude?: number;
+    hasLocation?: boolean;
+
+    // Business identity (captured)
+    registrationNumber?: string;
+    taxId?: string;
+    farmerIdNumber?: string;
     farmSize?: number;
     yearsFarming?: number;
     isCertified: boolean;
     certificationType?: string;
     certificationNumber?: string;
     certificationExpiryDate?: number;
-    registrationNumber?: string;
-    taxId?: string;
-    notes?: string;
-    hasLocation?: boolean;
+
+    // Sustainability declarations (captured at onboarding)
     firebreakProtection?: boolean;
     noChildLabor?: boolean;
     sustainableHarvesting?: boolean;
-    photoUrl?: string;
-    bio?: string;
-    quote?: string;
-    latitude?: number;
-    longitude?: number;
+
+    // Data consent (captured)
     dataConsentGiven?: boolean;
     dataConsentScope?: string[];
     dataConsentSignedBy?: string;
     dataConsentVersion?: string;
     dataConsentWithdrawnDate?: number | null;
     dataConsentWithdrawnReason?: string | null;
-    farmerIdNumber?: string;
+
+    // Profile
+    photoUrl?: string;
+    bio?: string;
+    quote?: string;
+    rating?: number;
+    notes?: string;
+
+    isActive: boolean;
 }
 
 interface QualityBatch {
@@ -133,6 +140,10 @@ const SupplierManagement: React.FC = () => {
         return map;
     }, [suppliers, batchesBySupplier]);
 
+    const developmentOpportunities = useMemo(() => {
+        return detectDevelopmentOpportunities(suppliers, batchesBySupplier, trustBySupplier);
+    }, [suppliers, batchesBySupplier, trustBySupplier]);
+
     const openSupplierDetail = async (supplier: Supplier) => {
         setSelectedSupplier(supplier);
         setModalLoading(true);
@@ -148,7 +159,10 @@ const SupplierManagement: React.FC = () => {
 
             // Compute trend from batches
             const last5Batches = batches.slice(0, 5);
-            const trendScores = last5Batches.map((b: QualityBatch) => b.qualityScore).reverse();
+            const trendScores = last5Batches
+                .map((b: any) => b.rcnQualityScore ?? b.qualityScore)
+                .filter((v: number | undefined): v is number => typeof v === 'number' && v > 0)
+                .reverse();
             setSupplierTrend(trendScores);
         } catch (error) {
             console.error('Error fetching supplier details:', error);
@@ -156,6 +170,18 @@ const SupplierManagement: React.FC = () => {
             setModalLoading(false);
         }
     };
+
+    const metricsBySupplier = useMemo(() => {
+        const map: Record<string, ReturnType<typeof computeSupplierMetrics>> = {};
+        suppliers.forEach(s => {
+            map[s.id] = computeSupplierMetrics(
+                s,
+                batchesBySupplier[s.id] || [],
+                trustBySupplier[s.id]
+            );
+        });
+        return map;
+    }, [suppliers, batchesBySupplier, trustBySupplier]);
 
     const filteredSuppliers = suppliers.filter(s => {
         const matchSearch = s.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -169,10 +195,17 @@ const SupplierManagement: React.FC = () => {
 
     const totalSuppliers = suppliers.length;
     const activeSuppliers = suppliers.filter(s => s.status === 'ACTIVE').length;
-    const avgQualityScore = suppliers.length > 0
-        ? (suppliers.reduce((sum, s) => sum + (s.averageQualityScore || 0), 0) / suppliers.length).toFixed(1)
-        : '0';
-    const totalVolume = suppliers.reduce((sum, s) => sum + (s.annualVolumeKg || 0), 0);
+    const avgQualityScore = (() => {
+        const values = Object.values(metricsBySupplier)
+            .map(m => m.averageRcnQualityScore)
+            .filter((v): v is number => v !== null);
+        return values.length > 0
+            ? (values.reduce((a, b) => a + b, 0) / values.length).toFixed(1)
+            : '—';
+    })();
+
+    const totalVolume = Object.values(metricsBySupplier)
+        .reduce((sum, m) => sum + m.annualVolumeKg, 0);
 
     if (loading) {
         return (
@@ -204,6 +237,12 @@ const SupplierManagement: React.FC = () => {
         'INACTIVE',
         'BUYER_READY'
     ];
+
+    const gradeStyle = (grade: string): string => {
+        if (grade === 'PREMIUM')  return 'bg-amber-100 text-amber-700';
+        if (grade === 'REJECT')   return 'bg-red-100 text-red-700';
+        return 'bg-blue-100 text-blue-700';   // STANDARD
+    };
 
     return (
         <div className="min-h-screen relative overflow-hidden pt-[72px]">
@@ -267,21 +306,20 @@ const SupplierManagement: React.FC = () => {
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-3">
                                 <div className="bg-white/40 rounded-xl p-4 border border-white/30 text-center">
                                     <div className="text-2xl font-bold text-primary">
-                                        {suppliers.reduce((sum, s) => sum + (s.annualVolumeKg || 0), 0) > 0
-                                            ? `${(suppliers.reduce((sum, s) => sum + (s.annualVolumeKg || 0), 0) / 1000).toFixed(0)}T`
-                                            : '—'}
+                                        {totalVolume > 0 ? `${(totalVolume / 1000).toFixed(0)}T` : '—'}
                                     </div>
                                     <div className="text-xs text-gray-500 mt-1">Estimated Network Capacity</div>
                                     <div className="text-[10px] text-gray-400 mt-1">
-                                        {suppliers.filter(s => s.annualVolumeKg > 0).length} supplier{suppliers.filter(s => s.annualVolumeKg > 0).length !== 1 ? 's' : ''} with volume data
+                                        {Object.values(metricsBySupplier).filter(m => m.annualVolumeKg > 0).length} supplier{
+                                        Object.values(metricsBySupplier).filter(m => m.annualVolumeKg > 0).length !== 1 ? 's' : ''
+                                    } with volume data
                                     </div>
                                 </div>
-                                <div className="bg-white/40 rounded-xl p-4 border border-white/30 text-center">
-                                    <div className="text-2xl font-bold text-green-600">
-                                        {suppliers.length > 0
-                                            ? `${suppliers.filter(s => s.yearsFarming && s.yearsFarming >= 10).length}/${suppliers.length}`
-                                            : '—'}
-                                    </div>
+                                <div className="bg-white/40 rounded-xl p-4 border border-white/30 text-center"><div className="text-2xl font-bold text-amber-600">
+                                    {suppliers.length > 0
+                                        ? `${Object.values(metricsBySupplier).filter(m => (m.averageRcnQualityScore ?? 0) >= 95).length}/${suppliers.length}`
+                                        : '—'}
+                                </div>
                                     <div className="text-xs text-gray-500 mt-1">Experienced Farmers (10+ yrs)</div>
                                     <div className="text-[10px] text-gray-400 mt-1">
                                         Institutional knowledge in the network
@@ -289,15 +327,25 @@ const SupplierManagement: React.FC = () => {
                                 </div>
                                 <div className="bg-white/40 rounded-xl p-4 border border-white/30 text-center">
                                     <div className="text-2xl font-bold text-amber-600">
-                                        {suppliers.length > 0
-                                            ? `${suppliers.filter(s => s.averageQualityScore >= 95).length}/${suppliers.length}`
-                                            : '—'}
+                                        {(() => {
+                                            const values = Object.values(metricsBySupplier)
+                                                .map(m => m.averageRcnQualityScore)
+                                                .filter((v): v is number => v !== null);
+                                            const premium = values.filter(v => v >= 95).length;
+                                            return values.length > 0 ? `${premium}/${suppliers.length}` : '—';
+                                        })()}
                                     </div>
                                     <div className="text-xs text-gray-500 mt-1">Premium-Grade Suppliers</div>
                                     <div className="text-[10px] text-gray-400 mt-1">
-                                        {suppliers.length > 0 && suppliers.filter(s => s.averageQualityScore >= 95).length === suppliers.length
-                                            ? 'All suppliers at premium level'
-                                            : 'Tracking toward full premium network'}
+                                        {(() => {
+                                            const values = Object.values(metricsBySupplier)
+                                                .map(m => m.averageRcnQualityScore)
+                                                .filter((v): v is number => v !== null);
+                                            const premium = values.filter(v => v >= 95).length;
+                                            if (values.length === 0) return 'No quality data yet';
+                                            if (premium === values.length && values.length === suppliers.length) return 'All suppliers at premium level';
+                                            return 'Tracking toward full premium network';
+                                        })()}
                                     </div>
                                 </div>
                             </div>
@@ -414,13 +462,27 @@ const SupplierManagement: React.FC = () => {
                                     </div>
 
                                     <div className="flex items-center gap-2 mt-3">
-                                        <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">
-                                            Quality: {supplier.averageQualityScore?.toFixed(1)}%
-                                        </span>
-                                        <span className="text-xs bg-accent/10 text-accent px-2 py-1 rounded-full">
-                                            {supplier.annualVolumeKg > 0 ? `${(supplier.annualVolumeKg / 1000).toFixed(0)}T/yr` : 'N/A'}
-                                        </span>
+                                        <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">RCN Quality: {metricsBySupplier[supplier.id]?.averageRcnQualityScore != null
+                                            ? `${metricsBySupplier[supplier.id].averageRcnQualityScore!.toFixed(1)}%`
+                                            : '—'}
+                                    </span>
+                                        <span className="text-xs bg-accent/10 text-accent px-2 py-1 rounded-full">{metricsBySupplier[supplier.id]?.annualVolumeKg > 0 ? `${(metricsBySupplier[supplier.id].annualVolumeKg / 1000).toFixed(1)}T` : 'No batches'}
+                                    </span>
                                     </div>
+                                    {/* Rejection Rate — only shown when supplier has rejected batches */}
+                                    {metricsBySupplier[supplier.id]?.rejectionRate != null
+                                        && metricsBySupplier[supplier.id].rejectionRate! > 0 && (
+                                            <div className="flex items-center gap-2 mt-1">
+                                            <span className={`text-xs px-2 py-0.5 rounded-full ${metricsBySupplier[supplier.id].rejectionRate! > 10 ? 'bg-red-100 text-red-700' : 'bg-amber-50 text-amber-700'}`}>Rejection: {metricsBySupplier[supplier.id].rejectionRate!.toFixed(0)}%</span>
+                                            </div>
+                                        )}
+                                    {metricsBySupplier[supplier.id]?.rejectBatches > 0 && (
+                                        <span className="text-xs bg-red-100 text-red-700 px-2 py-0.5 rounded-full">
+                                            {metricsBySupplier[supplier.id].rejectBatches} rejected batch{
+                                            metricsBySupplier[supplier.id].rejectBatches !== 1 ? 'es' : ''
+                                            }
+                                        </span>
+                                    )}
                                     <div className="flex gap-2 mt-2">
                                         {supplier.sustainableHarvesting && (
                                             <span className="text-green-600 text-xs flex items-center gap-1"><FaLeaf /> Sustainable</span>
@@ -776,6 +838,115 @@ const SupplierManagement: React.FC = () => {
                 </InfoCard>
             </div>
 
+            {/* ============================================
+                Supplier Development Opportunities
+                ============================================ */}
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 mb-8">
+                <InfoCard
+                    icon={FaHandshake}
+                    title="Supplier Development Opportunities"
+                    subtitle="Where targeted support strengthens the supply network"
+                    iconColor="text-primary"
+                    showInfoBadge={false}
+                >
+                    {developmentOpportunities.length === 0 ? (
+                        <div className="text-center py-6 text-sm text-gray-400">
+                            <FaCheckCircle className="text-2xl text-green-500 mx-auto mb-2" />
+                            No development opportunities detected — every supplier is meeting current thresholds.
+                        </div>
+                    ) : (
+                        <>
+                            {/* Summary strip */}
+                            {(() => {
+                                const high = developmentOpportunities.filter(o => o.severity === 'high').length;
+                                const medium = developmentOpportunities.filter(o => o.severity === 'medium').length;
+                                const low = developmentOpportunities.filter(o => o.severity === 'low').length;
+                                return (
+                                    <div className="grid grid-cols-3 gap-3 mb-4 mt-3">
+                                        <div className="bg-red-50/60 rounded-xl p-3 border border-red-200 text-center">
+                                            <div className="text-2xl font-bold text-red-600">{high}</div>
+                                            <div className="text-[10px] text-gray-500">High priority</div>
+                                        </div>
+                                        <div className="bg-amber-50/60 rounded-xl p-3 border border-amber-200 text-center">
+                                            <div className="text-2xl font-bold text-amber-600">{medium}</div>
+                                            <div className="text-[10px] text-gray-500">Medium priority</div>
+                                        </div>
+                                        <div className="bg-blue-50/60 rounded-xl p-3 border border-blue-200 text-center">
+                                            <div className="text-2xl font-bold text-blue-600">{low}</div>
+                                            <div className="text-[10px] text-gray-500">Capacity building</div>
+                                        </div>
+                                    </div>
+                                );
+                            })()}
+
+                            {/* Opportunities list */}
+                            <div className="space-y-2">
+                                {developmentOpportunities.slice(0, 8).map((opp, i) => {
+                                    const supplier = suppliers.find(s => s.id === opp.supplierId);
+                                    const borderColor =
+                                        opp.severity === 'high' ? 'border-l-red-400' :
+                                            opp.severity === 'medium' ? 'border-l-amber-400' :
+                                                'border-l-blue-400';
+                                    const badgeColor =
+                                        opp.severity === 'high' ? 'bg-red-100 text-red-700' :
+                                            opp.severity === 'medium' ? 'bg-amber-100 text-amber-700' :
+                                                'bg-blue-100 text-blue-700';
+
+                                    return (
+                                        <div
+                                            key={`${opp.supplierId}-${opp.weakness}-${i}`}
+                                            onClick={() => supplier && openSupplierDetail(supplier)}
+                                            className={`bg-white/40 rounded-xl p-3 border border-white/30 border-l-4 ${borderColor} cursor-pointer hover:bg-white/60 transition-all`}
+                                        >
+                                            <div className="flex items-start justify-between gap-3">
+                                                <div className="flex-1 min-w-0">
+                                                    <div className="flex items-center gap-2 flex-wrap">
+                                                        <p className="text-sm font-semibold text-gray-900 truncate">
+                                                            {opp.supplierName}
+                                                        </p>
+                                                        <span className={`px-1.5 py-0.5 rounded-full text-[10px] font-medium ${badgeColor}`}>
+                                                {opp.severity}
+                                            </span>
+                                                        <span className="text-[10px] text-gray-400">
+                                                {opp.confidence}
+                                            </span>
+                                                    </div>
+                                                    <p className="text-xs text-gray-700 font-medium mt-1">
+                                                        {opp.weakness}
+                                                    </p>
+                                                    <p className="text-[11px] text-gray-500 mt-0.5">
+                                                        {opp.metric}
+                                                    </p>
+                                                    <p className="text-[11px] text-primary mt-1.5 flex items-center gap-1">
+                                                        <FaHandshake className="text-[10px]" />
+                                                        <span className="font-medium">Suggested support:</span>
+                                                        <span className="text-gray-600">{opp.suggestedSupport}</span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+
+                            {/* Footer insight */}
+                            {developmentOpportunities.length > 0 && (
+                                <div className="mt-4 p-3 bg-primary/5 rounded-lg text-[11px] text-gray-600">
+                                    <FaChartLine className="inline mr-1 text-primary" />
+                                    <strong>The continuous improvement cycle:</strong> measure performance → identify weaknesses →
+                                    provide targeted support → measure improvements in later cycles.
+                                    {developmentOpportunities.length > 8 && (
+                                        <span className="ml-1 text-gray-500">
+                                +{developmentOpportunities.length - 8} more opportunit{developmentOpportunities.length - 8 === 1 ? 'y' : 'ies'} below.
+                            </span>
+                                    )}
+                                </div>
+                            )}
+                        </>
+                    )}
+                </InfoCard>
+            </div>
+
 
 
             {/* Financial Efficiency */}
@@ -801,8 +972,10 @@ const SupplierManagement: React.FC = () => {
                                 </thead>
                                 <tbody>
                                 {suppliers.slice(0, 5).map(supplier => {
-                                    const procurement = supplier.annualVolumeKg * 500;
-                                    const revenue = supplier.annualVolumeKg * 1500;
+                                    const metrics = metricsBySupplier[supplier.id];
+                                    const volumeKg = metrics?.annualVolumeKg ?? 0;
+                                    const procurement = volumeKg * 500;
+                                    const revenue = volumeKg * 1500;
                                     const efficiency = (revenue / (procurement || 1)).toFixed(1);
                                     return (
                                         <tr key={supplier.id} className="border-b border-gray-100 last:border-0 hover:bg-white/20">
@@ -810,9 +983,7 @@ const SupplierManagement: React.FC = () => {
                                             <td className="py-2">{new Intl.NumberFormat('fr-FR').format(procurement)} FCFA</td>
                                             <td className="py-2">{new Intl.NumberFormat('fr-FR').format(revenue)} FCFA</td>
                                             <td className="py-2">
-                                    <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${Number(efficiency) > 2 ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}`}>
-                                        {efficiency}x
-                                    </span>
+                                            <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${Number(efficiency) > 2 ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}`}>{efficiency}x</span>
                                             </td>
                                         </tr>
                                     );
@@ -824,8 +995,10 @@ const SupplierManagement: React.FC = () => {
                         {/* Mobile Cards */}
                         <div className="md:hidden space-y-3 mt-3">
                             {suppliers.slice(0, 5).map(supplier => {
-                                const procurement = supplier.annualVolumeKg * 500;
-                                const revenue = supplier.annualVolumeKg * 1500;
+                                const metrics = metricsBySupplier[supplier.id];
+                                const volumeKg = metrics?.annualVolumeKg ?? 0;
+                                const procurement = volumeKg * 500;
+                                const revenue = volumeKg * 1500;
                                 const efficiency = (revenue / (procurement || 1)).toFixed(1);
                                 return (
                                     <motion.div
@@ -961,7 +1134,7 @@ const SupplierManagement: React.FC = () => {
                                                                 )}
                                                                 <div className="flex items-center gap-2 mt-1">
                                                                     {[...Array(5)].map((_, i) => (
-                                                                        <FaStar key={i} className={i < selectedSupplier.rating ? 'text-yellow-500' : 'text-gray-300'} />
+                                                                        <FaStar key={i} className={i < (selectedSupplier.rating ?? 0) ? 'text-yellow-500' : 'text-gray-300'} />
                                                                     ))}
                                                                 </div>
                                                             </div>
@@ -1020,7 +1193,18 @@ const SupplierManagement: React.FC = () => {
                                                                 <p className="text-sm"><strong>Tax ID:</strong> {selectedSupplier.taxId || 'N/A'}</p>
                                                                 {selectedSupplier.farmSize ? <p className="text-sm"><strong>Farm Size:</strong> {selectedSupplier.farmSize} ha</p> : null}
                                                                 {selectedSupplier.yearsFarming ? <p className="text-sm"><strong>Years Farming:</strong> {selectedSupplier.yearsFarming}</p> : null}
-                                                                <p className="text-sm"><strong>Annual Volume:</strong> {selectedSupplier.annualVolumeKg ? `${(selectedSupplier.annualVolumeKg / 1000).toFixed(1)}T` : 'N/A'}</p>
+                                                                <p className="text-sm">
+    <strong>Annual Volume:</strong>{' '}
+    {metricsBySupplier[selectedSupplier.id]?.annualVolumeKg > 0
+        ? `${(metricsBySupplier[selectedSupplier.id].annualVolumeKg / 1000).toFixed(1)}T`
+        : 'N/A'}
+</p>
+<p className="text-sm">
+    <strong>RCN Quality:</strong>{' '}
+    {metricsBySupplier[selectedSupplier.id]?.averageRcnQualityScore != null
+        ? `${metricsBySupplier[selectedSupplier.id].averageRcnQualityScore!.toFixed(1)}%`
+        : 'Pending'}
+</p>
                                                             </div>
                                                         </div>
 
@@ -1149,6 +1333,17 @@ const SupplierManagement: React.FC = () => {
                                                                         </div>
                                                                         <div className="text-xs text-gray-500">Avg Quality</div>
                                                                     </div>
+                                                                    <div className="text-2xl font-bold text-primary">
+                                                                        {(() => {
+                                                                            const valid = supplierBatches
+                                                                                .map(b => (b as any).rcnQualityScore ?? b.qualityScore)
+                                                                                .filter((v): v is number => typeof v === 'number' && v > 0);
+                                                                            return valid.length > 0
+                                                                                ? `${(valid.reduce((s, v) => s + v, 0) / valid.length).toFixed(1)}%`
+                                                                                : '—';
+                                                                        })()}
+                                                                    </div>
+                                                                    <div className="text-xs text-gray-500">Avg RCN Quality</div>
                                                                 </div>
 
                                                                 {/* Batch Table */}
@@ -1160,7 +1355,7 @@ const SupplierManagement: React.FC = () => {
                                                                             <th className="pb-2 font-medium text-gray-600">Date</th>
                                                                             <th className="pb-2 font-medium text-gray-600">Weight</th>
                                                                             <th className="pb-2 font-medium text-gray-600">Grade</th>
-                                                                            <th className="pb-2 font-medium text-gray-600">Score</th>
+                                                                            <th className="pb-2 font-medium text-gray-600">RCN Score</th>
                                                                             <th className="pb-2 font-medium text-gray-600">Moisture</th>
                                                                             <th className="pb-2 font-medium text-gray-600">Defects</th>
                                                                             <th className="pb-2 font-medium text-gray-600">Kernel</th>
@@ -1174,11 +1369,13 @@ const SupplierManagement: React.FC = () => {
                                                                                 <td className="py-2 text-xs">{new Date(batch.processingDate).toLocaleDateString()}</td>
                                                                                 <td className="py-2">{batch.weightKg?.toLocaleString()} kg</td>
                                                                                 <td className="py-2">
-                                                                                    <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${
-                                                                                     batch.qualityGrade === 'PREMIUM' ? 'bg-amber-100 text-amber-700' : 'bg-blue-100 text-blue-700'
-                                                                                     }`}>{batch.qualityGrade}</span>
+                                                                            <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${gradeStyle(batch.qualityGrade)}`}>{batch.qualityGrade}</span>
                                                                                 </td>
-                                                                                <td className="py-2">{batch.qualityScore?.toFixed(1)}%</td>
+                                                                                <td className="py-2">
+                                                                                    {(batch as any).rcnQualityScore != null
+                                                                                        ? `${(batch as any).rcnQualityScore.toFixed(1)}%`
+                                                                                        : '—'}
+                                                                                </td>
                                                                                 <td className="py-2">{batch.moistureContent}%</td>
                                                                                 <td className="py-2">{batch.defectiveRate}%</td>
                                                                                 <td className="py-2">{batch.kernelRatio}%</td>
