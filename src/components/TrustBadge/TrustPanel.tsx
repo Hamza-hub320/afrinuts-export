@@ -41,10 +41,17 @@ export const TrustPanel: React.FC<{ trust: TrustResult }> = ({ trust }) => {
             <div className="space-y-2">
                 {Object.entries(trust.dimensions).map(([key, value]) => {
                     if (key === 'delivery') {
-                        return (
+                        return value !== null ? (
+                            <div key={key} className="flex justify-between text-xs mb-0.5">
+                <span className="text-gray-600">
+                    Delivery reliability <span className="text-gray-400">(20%)</span>
+                </span>
+                                <span className="font-medium">{Math.round(value)}</span>
+                            </div>
+                        ) : (
                             <div key={key} className="flex justify-between text-xs opacity-50">
                                 <span>Delivery reliability</span>
-                                <span className="italic">Not yet measurable (v2 — needs commitments)</span>
+                                <span className="italic">Awaiting validated commitments</span>
                             </div>
                         );
                     }

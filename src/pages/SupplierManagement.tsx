@@ -98,6 +98,8 @@ interface QualityBatch {
 const SupplierManagement: React.FC = () => {
     const [suppliers, setSuppliers] = useState<Supplier[]>([]);
     const [batchesBySupplier, setBatchesBySupplier] = useState<Record<string, any[]>>({});
+    const [commitmentsBySupplier, setCommitmentsBySupplier] = useState<Record<string, any[]>>({});
+    const [inspectionsBySupplier, setInspectionsBySupplier] = useState<Record<string, any[]>>({});
     const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
     const [filterType, setFilterType] = useState('All');
@@ -108,6 +110,8 @@ const SupplierManagement: React.FC = () => {
     const [modalLoading, setModalLoading] = useState(false);
     const [gradeDistribution, setGradeDistribution] = useState<{ grade: string; count: number }[]>([]);
     const [supplierTrend, setSupplierTrend] = useState<number[]>([]);
+    const [unvalidated, setUnvalidated] = useState({ commitments: [], inspections: [] });
+    const [isRecalculating, setIsRecalculating] = useState(false);
 
     const isDevelopment = import.meta.env.DEV;
 
@@ -117,6 +121,8 @@ const SupplierManagement: React.FC = () => {
                 const data = await getSupplierData('getSuppliersWithTrust');
                 setSuppliers(data.suppliers || []);
                 setBatchesBySupplier(data.batchesBySupplier || {});
+                setCommitmentsBySupplier(data.commitmentsBySupplier || {});
+                setInspectionsBySupplier(data.inspectionsBySupplier || {});
             } catch (error) {
                 console.error('Error fetching suppliers:', error);
             } finally {
@@ -135,10 +141,12 @@ const SupplierManagement: React.FC = () => {
                     isActive: s.isActive ?? s.status === 'ACTIVE',
                 },
                 batches: batchesBySupplier[s.id] || [],
+                commitments: commitmentsBySupplier[s.id] || [],
+                inspections: inspectionsBySupplier[s.id] || [],
             });
         });
         return map;
-    }, [suppliers, batchesBySupplier]);
+    }, [suppliers, batchesBySupplier, commitmentsBySupplier, inspectionsBySupplier]);
 
     const developmentOpportunities = useMemo(() => {
         return detectDevelopmentOpportunities(suppliers, batchesBySupplier, trustBySupplier);
@@ -206,6 +214,45 @@ const SupplierManagement: React.FC = () => {
 
     const totalVolume = Object.values(metricsBySupplier)
         .reduce((sum, m) => sum + m.annualVolumeKg, 0);
+
+    const handleRecalculateAll = async () => {
+        if (isRecalculating) return;
+        setIsRecalculating(true);
+
+        let successCount = 0;
+
+        try {
+            for (const s of suppliers) {
+                const trust = trustBySupplier[s.id];
+
+                // Skip suppliers who don't have enough evidence to generate an overall score yet
+                if (!trust || trust.overall === null) continue;
+
+                await getSupplierData('saveScoreSnapshot', {
+                    supplierId: s.id,
+                    snapshotData: {
+                        overall: trust.overall,
+                        confidence: trust.confidence,
+                        verifiedTransactions: trust.verifiedTransactions,
+                        dimensions: trust.dimensions,
+                        weightsUsed: trust.weights,
+                        scoringVersion: trust.scoringVersion,
+                        evidenceRefs: {
+                            batchIds: (batchesBySupplier[s.id] || []).map((b: any) => b.id),
+                        },
+                    },
+                });
+                successCount++;
+            }
+
+            alert(`Successfully snapshotted ${successCount} supplier scores.`);
+        } catch (error) {
+            console.error('Failed to save snapshots:', error);
+            alert('An error occurred while snapshotting scores.');
+        } finally {
+            setIsRecalculating(false);
+        }
+    };
 
     if (loading) {
         return (
@@ -282,6 +329,18 @@ const SupplierManagement: React.FC = () => {
                             <Typography variant="small" className="text-gray-500 max-w-2xl mx-auto mt-3">
                                 Capacity is shown separately from trust. Missing evidence lowers confidence, not the score.
                             </Typography>
+
+                            {/* ADD THE BUTTON HERE */}
+                            <motion.button
+                                onClick={handleRecalculateAll}
+                                disabled={isRecalculating}
+                                className="mt-6 inline-flex items-center gap-2 px-6 py-2.5 bg-white/60 border border-primary/30 text-primary hover:bg-primary hover:text-white rounded-full text-sm font-medium transition-all duration-300 shadow-sm backdrop-blur-sm disabled:opacity-50"
+                                whileHover={{ y: -2, scale: 1.02 }}
+                                whileTap={{ scale: 0.98 }}
+                            >
+                                <FaHistory className={isRecalculating ? "animate-spin" : ""} />
+                                {isRecalculating ? 'Recalculating...' : 'Recalculate & Snapshot Scores'}
+                            </motion.button>
                         </motion.div>
                     </motion.div>
                 </motion.div>

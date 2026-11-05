@@ -19,21 +19,39 @@ export interface TrustInput {
         certificationType?: string;
     };
     batches: Array<{
+        id?: string | number;
         weightKg?: number;
         qualityScore?: number;
-        rcnQualityScore?: number;         // ADD
-        kernelQualityScore?: number;      // ADD (Phase 2, stays 0)
+        rcnQualityScore?: number;
+        kernelQualityScore?: number;
         defectiveRate?: number;
         moistureContent?: number;
-        korGPerKg?: number;               // ADD
-        nutCountPerKg?: number;           // ADD
-        foreignMatter?: number;           // ADD
-        aflatoxinPpb?: number;            // ADD
-        heavyMetalsPpb?: number;          // ADD
-        pesticideResiduePpb?: number;     // ADD
+        korGPerKg?: number;
+        nutCountPerKg?: number;
+        foreignMatter?: number;
+        aflatoxinPpb?: number;
+        heavyMetalsPpb?: number;
+        pesticideResiduePpb?: number;
         farmOsMonitored?: boolean;
         verifiedAt?: number;
         testResults?: string;
+    }>;
+    // NEW — only pass records where validatedAt is set
+    commitments?: Array<{
+        id: string;
+        committedKg: number;
+        committedDate: number;
+        status: string;
+        linkedBatchIds?: number[];
+        delayReason?: string;
+        buyerRequestedChange?: boolean;
+    }>;
+    inspections?: Array<{
+        id: string;
+        inspectionType: string;
+        outcome: 'PASS' | 'FAIL' | 'CONDITIONAL';
+        severity?: 'MINOR' | 'MAJOR' | 'CRITICAL';
+        status: string;
     }>;
 }
 
@@ -46,30 +64,34 @@ export interface TrustResult {
         traceability: number | null;
         sustainability: number | null;
         compliance: number | null;
-        delivery: null;      // v2 — commitments not yet recorded
+        delivery: number | null;   // now calculable
         cooperation: number | null;
     };
     weights: Record<string, number>;
     capacityKg: number;
     scoringVersion: string;
     flags: string[];
+    hasCriticalViolation: boolean;
 }
 
-// Weights normalized to 100% over the dimensions we can actually measure in v1.
-// delivery (20%) is deliberately excluded — no commitment records exist yet.
-const V1_WEIGHTS = {
-    quality: 40,
-    traceability: 30,
-    sustainability: 15,
-    compliance: 10,
-    cooperation: 5,
+// Full framework weights once all six dimensions can be measured.
+// If a dimension is null, its weight is redistributed proportionally.
+const V2_WEIGHTS = {
+    quality: 25,
+    delivery: 20,
+    traceability: 20,
+    compliance: 15,
+    sustainability: 10,
+    cooperation: 10,
 };
 
 function clamp(n: number): number {
     return Math.max(0, Math.min(100, n));
 }
 
-function parseAflatoxin(testResults?: string): number | null {
+function parseAflatoxin(testResults?: string, aflatoxinPpb?: number): number | null {
+    // Prefer flat field (Phase 1 schema)
+    if (typeof aflatoxinPpb === 'number') return aflatoxinPpb;
     if (!testResults) return null;
     try {
         const parsed = typeof testResults === 'string' ? JSON.parse(testResults) : testResults;
@@ -79,29 +101,22 @@ function parseAflatoxin(testResults?: string): number | null {
     }
 }
 
-/**
- * Quality (0-100):
- *  - average qualityScore across batches (70% of dimension)
- *  - penalty for batches with defectiveRate > 5 (30% of dimension)
- */
 function computeQuality(batches: TrustInput['batches']): number | null {
     const scored = batches.filter(b =>
-        typeof b.rcnQualityScore === 'number' || typeof b.qualityScore === 'number'
+        (typeof b.rcnQualityScore === 'number' && b.rcnQualityScore > 0) ||
+        (typeof b.qualityScore === 'number' && b.qualityScore > 0)
     );
     if (scored.length === 0) return null;
 
-    // RCN score average (fall back to qualityScore for older batches)
     const scores = scored.map(b => b.rcnQualityScore ?? b.qualityScore ?? 0);
     const avgScore = scores.reduce((s, v) => s + v, 0) / scores.length;
 
-    // Moisture compliance (< 7% is passing per your SOP)
-    const withMoisture = batches.filter(b => typeof b.moistureContent === 'number');
+    const withMoisture = batches.filter(b => typeof b.moistureContent === 'number' && b.moistureContent > 0);
     const moistureCompliant = withMoisture.filter(b => (b.moistureContent ?? 0) <= 7).length;
     const moistureScore = withMoisture.length > 0
         ? (moistureCompliant / withMoisture.length) * 100
         : null;
 
-    // KOR consistency — reward suppliers whose KOR is stable
     const withKor = batches.filter(b => typeof b.korGPerKg === 'number' && b.korGPerKg > 0);
     let korScore: number | null = null;
     if (withKor.length >= 2) {
@@ -109,14 +124,10 @@ function computeQuality(batches: TrustInput['batches']): number | null {
         const mean = kors.reduce((s, v) => s + v, 0) / kors.length;
         const variance = kors.reduce((s, v) => s + Math.pow(v - mean, 2), 0) / kors.length;
         const stdDev = Math.sqrt(variance);
-        // Lower std dev = higher consistency. Cap penalty at 30 points.
         korScore = Math.max(70, 100 - stdDev * 2);
     }
 
-    // Weighted combination
-    const parts: Array<{ value: number; weight: number }> = [
-        { value: avgScore, weight: 0.5 },
-    ];
+    const parts = [{ value: avgScore, weight: 0.5 }];
     if (moistureScore !== null) parts.push({ value: moistureScore, weight: 0.3 });
     if (korScore !== null) parts.push({ value: korScore, weight: 0.2 });
 
@@ -125,13 +136,6 @@ function computeQuality(batches: TrustInput['batches']): number | null {
     return clamp(weighted);
 }
 
-/**
- * Traceability (0-100) — summed from evidence checks:
- *  - GPS present (30)
- *  - registration or farmer ID (20)
- *  - consent given, not withdrawn, with at least identity scope (30)
- *  - at least one verified batch (20)
- */
 function computeTraceability(input: TrustInput): number {
     let score = 0;
     const s = input.supplier;
@@ -150,10 +154,6 @@ function computeTraceability(input: TrustInput): number {
     return clamp(score);
 }
 
-/**
- * Sustainability (0-100) — 4 flags × 25.
- * Deliberately honest: no flags verified = 0, but confidence label protects new suppliers.
- */
 function computeSustainability(input: TrustInput): number {
     const s = input.supplier;
     const flags = [
@@ -165,37 +165,76 @@ function computeSustainability(input: TrustInput): number {
     return clamp(flags * 25);
 }
 
-/**
- * Compliance (0-100):
- *  - certified (40)
- *  - every verified batch has aflatoxin < 4 ppb (60)
- */
 function computeCompliance(input: TrustInput): number {
     let score = 0;
-    if (input.supplier.isCertified) score += 40;
+    if (input.supplier.isCertified) score += 20;
 
+    // Batch-level lab tests (aflatoxin)
     const withTests = input.batches
-        .map(b => parseAflatoxin(b.testResults))
+        .map(b => parseAflatoxin(b.testResults, b.aflatoxinPpb))
         .filter((v): v is number => v !== null);
 
     if (withTests.length > 0) {
         const passing = withTests.filter(v => v < 4).length;
-        score += (passing / withTests.length) * 60;
+        score += (passing / withTests.length) * 40;
+    }
+
+    // Structured inspections
+    const inspections = input.inspections || [];
+    if (inspections.length > 0) {
+        let inspectionSum = 0;
+        inspections.forEach(i => {
+            if (i.outcome === 'PASS') inspectionSum += 1.0;
+            else if (i.outcome === 'CONDITIONAL') inspectionSum += 0.5;
+        });
+        const inspectionScore = inspectionSum / inspections.length;
+        score += inspectionScore * 40;
     }
 
     return clamp(score);
 }
 
-/**
- * Cooperation (0-100) — v1 proxy using only what we have:
- *  - active status (50)
- *  - consent on record (50)
- * This is a weak signal in v1 and is labeled as such in the UI.
- */
+function computeDelivery(input: TrustInput): number | null {
+    const commitments = input.commitments || [];
+    const valid = commitments.filter(c => c.status !== 'CANCELLED');
+    if (valid.length === 0) return null;
+
+    let totalCommitted = 0;
+    let totalDelivered = 0;
+
+    valid.forEach(c => {
+        // Buyer-requested changes are excused
+        if (c.buyerRequestedChange) return;
+
+        totalCommitted += c.committedKg || 0;
+
+        const linkedIds = c.linkedBatchIds || [];
+        const delivered = input.batches
+            .filter(b => linkedIds.includes(Number(b.id)))
+            .reduce((sum, b) => sum + (b.weightKg || 0), 0);
+
+        totalDelivered += delivered;
+    });
+
+    if (totalCommitted === 0) return null;
+
+    const fulfillmentRate = (totalDelivered / totalCommitted) * 100;
+
+    // Weather delays deserve partial credit — framework rule
+    const weatherMisses = valid.filter(c => c.delayReason === 'WEATHER' && c.status !== 'FULFILLED').length;
+    const excusedBoost = weatherMisses > 0 ? Math.min(15, weatherMisses * 5) : 0;
+
+    return clamp(fulfillmentRate + excusedBoost);
+}
+
 function computeCooperation(input: TrustInput): number {
     let score = 0;
-    if (input.supplier.isActive && input.supplier.status === 'ACTIVE') score += 50;
-    if (input.supplier.dataConsentGiven && !input.supplier.dataConsentWithdrawnDate) score += 50;
+    if (input.supplier.isActive && input.supplier.status === 'ACTIVE') score += 40;
+    if (input.supplier.dataConsentGiven && !input.supplier.dataConsentWithdrawnDate) score += 40;
+
+    // Bonus: has submitted at least one validated inspection (proactive transparency)
+    if ((input.inspections?.length ?? 0) > 0) score += 20;
+
     return clamp(score);
 }
 
@@ -211,40 +250,54 @@ export function computeTrustScore(input: TrustInput): TrustResult {
 
     const dimensions = {
         quality: computeQuality(input.batches),
+        delivery: computeDelivery(input),
         traceability: computeTraceability(input),
-        sustainability: computeSustainability(input),
         compliance: computeCompliance(input),
-        delivery: null,
+        sustainability: computeSustainability(input),
         cooperation: computeCooperation(input),
     };
 
-    // Weighted average over dimensions that actually produced a value.
-    let weightedSum = 0;
-    let weightTotal = 0;
-    (Object.keys(V1_WEIGHTS) as Array<keyof typeof V1_WEIGHTS>).forEach(k => {
-        const dim = dimensions[k];
-        if (dim !== null) {
-            weightedSum += dim * V1_WEIGHTS[k];
-            weightTotal += V1_WEIGHTS[k];
-        }
-    });
+    // Critical risk control — framework rule: critical fail is a separate warning, never averaged.
+    const hasCriticalViolation = (input.inspections || []).some(
+        i => i.severity === 'CRITICAL' && i.outcome === 'FAIL'
+    );
 
-    const overall = weightTotal > 0 ? clamp(weightedSum / weightTotal) : null;
+    // Framework rule: overall stays null until quality, delivery, and traceability all have evidence.
+    const canScore = dimensions.quality !== null
+        && dimensions.delivery !== null
+        && dimensions.traceability !== null;
+
+    let overall: number | null = null;
+    if (canScore) {
+        let weightedSum = 0;
+        let weightTotal = 0;
+        (Object.keys(V2_WEIGHTS) as Array<keyof typeof V2_WEIGHTS>).forEach(k => {
+            const dim = dimensions[k];
+            if (dim !== null) {
+                weightedSum += dim * V2_WEIGHTS[k];
+                weightTotal += V2_WEIGHTS[k];
+            }
+        });
+        overall = weightTotal > 0 ? clamp(weightedSum / weightTotal) : null;
+    }
 
     const flags: string[] = [];
     if (verifiedTransactions < 3) flags.push('limited evidence');
-    if (dimensions.quality !== null && dimensions.quality < 50) flags.push('low recorded quality — check evidence count');
+    if (dimensions.quality !== null && dimensions.quality < 50) flags.push('low recorded quality');
     if (!input.supplier.dataConsentGiven) flags.push('no data consent on record');
     if (dimensions.compliance !== null && dimensions.compliance < 40) flags.push('compliance gaps');
+    if (dimensions.delivery === null) flags.push('no validated commitments');
+    if (hasCriticalViolation) flags.push('CRITICAL: verified critical violation');
 
     return {
         overall: overall !== null ? Math.round(overall * 10) / 10 : null,
         confidence: classifyConfidence(verifiedTransactions),
         verifiedTransactions,
         dimensions,
-        weights: V1_WEIGHTS,
+        weights: V2_WEIGHTS,
         capacityKg,
-        scoringVersion: 'v1.0',
+        scoringVersion: 'v2.0',
         flags,
+        hasCriticalViolation,
     };
 }

@@ -55,20 +55,24 @@ export const handler: Handler = async (event: HandlerEvent) => {
         }
 
         if (action === 'getSuppliersWithTrust') {
-            const suppliersSnap = await db
-                .collection('farms').doc(fid)
-                .collection('suppliers')
-                .get();
+            const suppliersSnap = await db.collection('farms').doc(fid).collection('suppliers').get();
+            const batchesSnap = await db.collection('farms').doc(fid).collection('quality_batches').get();
 
-            const batchesSnap = await db
-                .collection('farms').doc(fid)
-                .collection('quality_batches')
+            // NEW: fetch validated commitments and inspections
+            const commitmentsSnap = await db.collection('farms').doc(fid)
+                .collection('supplier_commitments')
+                .where('validatedAt', '!=', null)
+                .get();
+            const inspectionsSnap = await db.collection('farms').doc(fid)
+                .collection('supplier_inspections')
+                .where('validatedAt', '!=', null)
                 .get();
 
             const suppliers = suppliersSnap.docs.map(d => ({ id: d.id, ...d.data() }));
             const batches = batchesSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+            const commitments = commitmentsSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+            const inspections = inspectionsSnap.docs.map(d => ({ id: d.id, ...d.data() }));
 
-            // Group batches by supplierId for the client to compute trust
             const batchesBySupplier: Record<string, any[]> = {};
             batches.forEach((b: any) => {
                 if (b.supplierId != null) {
@@ -77,10 +81,31 @@ export const handler: Handler = async (event: HandlerEvent) => {
                 }
             });
 
+            const commitmentsBySupplier: Record<string, any[]> = {};
+            commitments.forEach((c: any) => {
+                if (c.supplierId != null) {
+                    const key = String(c.supplierId);
+                    (commitmentsBySupplier[key] = commitmentsBySupplier[key] || []).push(c);
+                }
+            });
+
+            const inspectionsBySupplier: Record<string, any[]> = {};
+            inspections.forEach((i: any) => {
+                if (i.supplierId != null) {
+                    const key = String(i.supplierId);
+                    (inspectionsBySupplier[key] = inspectionsBySupplier[key] || []).push(i);
+                }
+            });
+
             return {
                 statusCode: 200,
                 headers,
-                body: JSON.stringify({ suppliers, batchesBySupplier }),
+                body: JSON.stringify({
+                    suppliers,
+                    batchesBySupplier,
+                    commitmentsBySupplier,
+                    inspectionsBySupplier,
+                }),
             };
         }
 
@@ -303,6 +328,54 @@ export const handler: Handler = async (event: HandlerEvent) => {
                 headers,
                 body: JSON.stringify({ batch, supplier, expenses, revenues, traceability }),
             };
+        }
+
+        if (action === 'validateEvidence') {
+            const { collection, docId, userId } = params;
+
+            // Only allow valid collections
+            if (!['supplier_commitments', 'supplier_inspections'].includes(collection)) {
+                return { statusCode: 400, body: JSON.stringify({ error: 'Invalid collection' }) };
+            }
+
+            await db.collection('farms').doc(fid)
+                .collection(collection).doc(docId)
+                .update({
+                    validatedAt: Date.now(),
+                    validatedBy: userId,
+                    updatedAt: Date.now()
+                });
+
+            return { statusCode: 200, body: JSON.stringify({ success: true }) };
+        }
+
+        if (action === 'saveScoreSnapshot') {
+            const { supplierId, snapshotData } = params;
+
+            if (!supplierId || !snapshotData) {
+                return { statusCode: 400, headers, body: JSON.stringify({ error: 'Missing params' }) };
+            }
+
+            const historyRef = db
+                .collection('farms').doc(fid)
+                .collection('suppliers').doc(String(supplierId))
+                .collection('supplier_score_history');
+
+            await historyRef.add({
+                ...snapshotData,
+                calculatedAt: Date.now(),
+            });
+
+            await db
+                .collection('farms').doc(fid)
+                .collection('suppliers').doc(String(supplierId))
+                .update({
+                    latestTrustScore: snapshotData.overall,
+                    latestConfidence: snapshotData.confidence,
+                    lastScoredAt: Date.now(),
+                });
+
+            return { statusCode: 200, headers, body: JSON.stringify({ success: true }) };
         }
 
         return {
