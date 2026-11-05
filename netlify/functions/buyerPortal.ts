@@ -1343,26 +1343,34 @@ export const handler: Handler = async (event: HandlerEvent) => {
                     .collection('farms').doc(fid)
                     .collection('quality_batches')
                     .orderBy('processingDate', 'desc')
-                    .limit(100)
+                    // Over-fetch a little so the post-filter still returns a useful page
+                    // when some batches are rejected.
+                    .limit(150)
                     .get();
 
-                const batches = snapshot.docs.map(doc => {
-                    const data = doc.data();
-                    return {
-                        id: doc.id,
-                        batchId: data.batchNumber,
-                        processingDate: data.processingDate,
-                        qualityGrade: data.qualityGrade,
-                        sourceType: data.sourceType,
-                        weightKg: data.weightKg,
-                    };
-                });
+                const batches = snapshot.docs
+                    .map(doc => {
+                        const data = doc.data();
+                        return {
+                            id: doc.id,
+                            batchId: data.batchNumber,
+                            processingDate: data.processingDate,
+                            qualityGrade: data.qualityGrade,
+                            sourceType: data.sourceType,
+                            weightKg: data.weightKg,
+                            productType: data.productType,
+                            // Kept internal — not sent to the UI, but used to decide
+                            // which phase the batch belongs to when Phase 2 lands.
+                            _phase: data.productType === 'RCN' ? 1 : 2,
+                        };
+                    })
+                    // ── Hide rejected batches from the assign dropdown ──
+                    .filter(b => b.qualityGrade !== 'REJECT')
+                    // ── Show the 100 most recent non-rejected ──
+                    .slice(0, 100)
+                    .map(({ _phase, ...rest }) => rest); // strip internal field
 
-                return {
-                    statusCode: 200,
-                    headers,
-                    body: JSON.stringify({ batches }),
-                };
+                return { statusCode: 200, headers, body: JSON.stringify({ batches }) };
             }
 
             // ── Action: list master batches / bulk shipments (admin only) ──

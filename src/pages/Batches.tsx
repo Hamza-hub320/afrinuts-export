@@ -702,6 +702,12 @@ const Batches: React.FC = () => {
                     </div>
 
                     {/* Search & Filter */}
+                    <div className="flex flex-col sm:flex-row gap-4 mb-6">
+                        <div className="relative w-full sm:min-w-[280px] sm:max-w-sm">
+                            <FaSearch className="absolute left-4 top-3.5 text-gray-400" />
+                            <input type="text" placeholder="Search batches..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)}
+                                   className="w-full pl-11 pr-4 py-3 rounded-full border border-gray-300 bg-white/60 backdrop-blur-md text-sm focus:outline-none focus:ring-2 focus:ring-primary" />
+                        </div>
                     <div className="flex flex-wrap gap-2">
                         {gradeFilters.map(grade => {
                             const isActive = filterGrade === grade;
@@ -728,6 +734,7 @@ const Batches: React.FC = () => {
                                 </motion.button>
                             );
                         })}
+                    </div>
                     </div>
 
                     {/* Batch Cards Grid */}
