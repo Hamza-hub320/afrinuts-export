@@ -42,7 +42,8 @@ interface Batch {
     id: string;
     batchNumber: string;
     supplierId: number;
-    productType?: 'RCN' | 'KERNEL';        // Phase 1 = RCN
+    productType?: 'RCN' | 'KERNEL';
+
 
     // Raw material
     weightKg: number;
@@ -92,6 +93,62 @@ interface Batch {
     notes?: string;
     sourceType?: string;
 }
+
+// Define the readiness rules per product type
+const READINESS_RULES = {
+    RCN: {
+        title: "RCN Export Readiness",
+        metrics: [
+            {
+                label: 'Premium Grade',
+                filter: (b: any) => b.qualityGrade === 'PREMIUM',
+                icon: FaStar,
+                color: 'text-amber-500',
+                hint: 'Meets premium RCN criteria'
+            },
+            {
+                label: 'Standard Grade',
+                filter: (b: any) => b.qualityGrade === 'STANDARD',
+                icon: FaCheckCircle,
+                color: 'text-blue-500',
+                hint: 'Meets standard RCN criteria'
+            },
+            {
+                label: 'Rejected',
+                filter: (b: any) => b.qualityGrade === 'REJECT',
+                icon: FaTimesCircle,
+                color: 'text-red-500',
+                hint: 'Failed RCN grading'
+            }
+        ]
+    },
+    KERNEL: {
+        title: "Kernel Lab & Export Readiness",
+        metrics: [
+            {
+                label: 'EU Compliant',
+                filter: (b: any) => (b.aflatoxinPpb ?? 99) < 4,
+                icon: FaGlobeEurope,
+                color: 'text-blue-500',
+                hint: 'Aflatoxin < 4ppb'
+            },
+            {
+                label: 'Export Ready',
+                filter: (b: any) => b.kernelQualityScore >= 95 && b.defectiveRate < 5 && (b.aflatoxinPpb ?? 99) < 4,
+                icon: FaShip,
+                color: 'text-primary',
+                hint: 'Kernel grade ≥95%, compliant'
+            },
+            {
+                label: 'Needs Review',
+                filter: (b: any) => b.defectiveRate > 5 || (b.aflatoxinPpb ?? 99) >= 4,
+                icon: FaSearch,
+                color: 'text-amber-500',
+                hint: 'High defects or aflatoxin'
+            }
+        ]
+    }
+};
 
 const Batches: React.FC = () => {
     const [batches, setBatches] = useState<Batch[]>([]);
@@ -209,7 +266,7 @@ const Batches: React.FC = () => {
         );
     }
 
-    const gradeFilters = ['All', 'PREMIUM', 'STANDARD'];
+    const gradeFilters = ['All', 'PREMIUM', 'STANDARD', 'REJECT'];
 
     return (
         <div className="min-h-screen relative overflow-hidden pt-[72px]">
@@ -532,7 +589,7 @@ const Batches: React.FC = () => {
                             <InfoCard
                                 icon={FaChartBar}
                                 title="Supplier Quality Comparison"
-                                subtitle="Average quality score by supplier"
+                                subtitle="Average RCN score by supplier (inspected batches only)"
                                 iconColor="text-primary"
                                 showInfoBadge={false}
                             >
@@ -540,15 +597,23 @@ const Batches: React.FC = () => {
                                     <BarChart
                                         data={(() => {
                                             const supplierMap = new Map<number, { name: string; scores: number[] }>();
+
                                             batches.forEach(b => {
-                                                if (!supplierMap.has(b.supplierId)) {
-                                                    supplierMap.set(b.supplierId, {
-                                                        name: supplierNames.get(b.supplierId) || `Supplier #${b.supplierId}`,
-                                                        scores: []
-                                                    });
+                                                // Use the Phase 1 RCN score, fallback to qualityScore for backward compatibility
+                                                const score = (b as any).rcnQualityScore ?? b.qualityScore;
+
+                                                // Only include batches that have actually been inspected (score > 0)
+                                                if (typeof score === 'number' && score > 0) {
+                                                    if (!supplierMap.has(b.supplierId)) {
+                                                        supplierMap.set(b.supplierId, {
+                                                            name: supplierNames.get(b.supplierId) || `Supplier #${b.supplierId}`,
+                                                            scores: []
+                                                        });
+                                                    }
+                                                    supplierMap.get(b.supplierId)!.scores.push(score);
                                                 }
-                                                supplierMap.get(b.supplierId)!.scores.push(b.qualityScore);
                                             });
+
                                             return Array.from(supplierMap.entries())
                                                 .map(([id, data]) => ({
                                                     name: supplierNames.get(id) || `Supplier #${id}`,
@@ -564,15 +629,27 @@ const Batches: React.FC = () => {
                                         <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" />
                                         <XAxis type="number" domain={[0, 100]} tickFormatter={(v) => `${v}%`} />
                                         <YAxis type="category" dataKey="name" stroke="#6b7280" fontSize={12} width={80} />
-                                        <Tooltip formatter={(value) => `${value}%`} />
+
+                                        {/* Tooltip now shows both the score and the number of batches */}
+                                        <Tooltip
+                                            formatter={(value: any, name: any, props: any) => [
+                                                `${value}% (${props.payload.batches} batch${props.payload.batches !== 1 ? 'es' : ''})`,
+                                                'Avg RCN Score'
+                                            ]}
+                                        />
+
                                         <Bar dataKey="score" radius={[0, 6, 6, 0]}>
                                             {(() => {
+                                                // Re-calculate the exact same sort order to apply the correct colors
                                                 const supplierMap = new Map<number, { name: string; scores: number[] }>();
                                                 batches.forEach(b => {
-                                                    if (!supplierMap.has(b.supplierId)) {
-                                                        supplierMap.set(b.supplierId, { name: `Supplier #${b.supplierId}`, scores: [] });
+                                                    const score = (b as any).rcnQualityScore ?? b.qualityScore;
+                                                    if (typeof score === 'number' && score > 0) {
+                                                        if (!supplierMap.has(b.supplierId)) {
+                                                            supplierMap.set(b.supplierId, { name: `Supplier #${b.supplierId}`, scores: [] });
+                                                        }
+                                                        supplierMap.get(b.supplierId)!.scores.push(score);
                                                     }
-                                                    supplierMap.get(b.supplierId)!.scores.push(b.qualityScore);
                                                 });
                                                 return Array.from(supplierMap.entries())
                                                     .sort((a, b) => {
@@ -625,21 +702,32 @@ const Batches: React.FC = () => {
                     </div>
 
                     {/* Search & Filter */}
-                    <div className="flex flex-col sm:flex-row gap-4 mb-6">
-                        <div className="relative w-full sm:min-w-[280px] sm:max-w-sm">
-                            <FaSearch className="absolute left-4 top-3.5 text-gray-400" />
-                            <input type="text" placeholder="Search batches..." value={searchQuery} onChange={e => setSearchQuery(e.target.value)}
-                                   className="w-full pl-11 pr-4 py-3 rounded-full border border-gray-300 bg-white/60 backdrop-blur-md text-sm focus:outline-none focus:ring-2 focus:ring-primary" />
-                        </div>
-                        <div className="flex flex-wrap gap-2">
-                            {gradeFilters.map(grade => (
-                                <motion.button key={grade} onClick={() => setFilterGrade(grade)}
-                                               className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${filterGrade === grade ? 'bg-primary text-white shadow-md' : 'bg-white/60 text-gray-600 hover:bg-white/80 border border-gray-200'}`}
-                                               whileHover={{ y: -2 }} whileTap={{ scale: 0.95 }}>
+                    <div className="flex flex-wrap gap-2">
+                        {gradeFilters.map(grade => {
+                            const isActive = filterGrade === grade;
+                            const baseClasses = "px-4 py-2 rounded-full text-sm font-medium transition-all border";
+                            let colorClasses = "bg-white/60 text-gray-600 hover:bg-white/80 border-gray-200";
+
+                            if (isActive) {
+                                colorClasses = grade === 'REJECT'
+                                    ? 'bg-red-600 text-white border-red-600 shadow-md'
+                                    : 'bg-primary text-white border-primary shadow-md';
+                            } else if (grade === 'REJECT') {
+                                colorClasses = "bg-red-50/60 text-red-700 hover:bg-red-100/60 border-red-200";
+                            }
+
+                            return (
+                                <motion.button
+                                    key={grade}
+                                    onClick={() => setFilterGrade(grade)}
+                                    className={`${baseClasses} ${colorClasses}`}
+                                    whileHover={{ y: -2 }}
+                                    whileTap={{ scale: 0.95 }}
+                                >
                                     {grade === 'All' ? 'All Grades' : grade}
                                 </motion.button>
-                            ))}
-                        </div>
+                            );
+                        })}
                     </div>
 
                     {/* Batch Cards Grid */}
@@ -795,21 +883,23 @@ const Batches: React.FC = () => {
                                                         </h4>
                                                         <div className="grid grid-cols-2 md:grid-cols-5 gap-2 text-center">
                                                             {[
-                                                                { label: 'Foreign Matter', value: selectedBatch?.foreignMatter, target: 0.5 },
-                                                                { label: 'Immature', value: selectedBatch?.immatureRate, target: 2 },
-                                                                { label: 'Insect Damaged', value: selectedBatch?.insectDamagedRate, target: 2 },
-                                                                { label: 'Mouldy', value: selectedBatch?.mouldyRate, target: 1 },
-                                                                { label: 'Shrivelled', value: selectedBatch?.shrivelledRate, target: 2 },
+                                                                { label: 'Foreign Matter', value: selectedBatch?.foreignMatter, cap: 0.5, graded: true },
+                                                                { label: 'Immature', value: selectedBatch?.immatureRate, graded: false },
+                                                                { label: 'Insect Damaged', value: selectedBatch?.insectDamagedRate, graded: false },
+                                                                { label: 'Mouldy', value: selectedBatch?.mouldyRate, cap: 1, graded: true },
+                                                                { label: 'Shrivelled', value: selectedBatch?.shrivelledRate, graded: false },
                                                             ].map((d, i) => {
                                                                 const val = d.value ?? 0;
-                                                                const failing = val > d.target;
+                                                                const failing = d.graded && d.cap !== undefined && val > d.cap;
                                                                 return (
                                                                     <div key={i} className={`rounded-lg p-2 border ${failing ? 'bg-red-50/60 border-red-200' : 'bg-white/40 border-white/30'}`}>
                                                                         <div className={`text-sm font-bold ${failing ? 'text-red-600' : 'text-gray-700'}`}>
                                                                             {val.toFixed(2)}%
                                                                         </div>
                                                                         <div className="text-[10px] text-gray-500 leading-tight mt-0.5">{d.label}</div>
-                                                                        <div className="text-[9px] text-gray-400">max {d.target}%</div>
+                                                                        {d.graded && d.cap !== undefined && (
+                                                                            <div className="text-[9px] text-gray-400">max {d.cap}%</div>
+                                                                        )}
                                                                     </div>
                                                                 );
                                                             })}
@@ -817,66 +907,70 @@ const Batches: React.FC = () => {
                                                     </div>
                                                 )}
 
-                                                {/* Lab Compliance Results (Phase 1 fields) */}
-                                                <div className="bg-white/50 rounded-xl p-4 border border-white/30">
-                                                    <h4 className="font-medium text-primary mb-3 flex items-center gap-2">
-                                                        <FaFlask /> Lab Compliance
-                                                    </h4>
-                                                    <div className="grid grid-cols-3 gap-3 text-center">
-                                                        {[
-                                                            {
-                                                                label: 'Aflatoxin',
-                                                                value: selectedBatch?.aflatoxinPpb,
-                                                                limit: 4,
-                                                                unit: 'ppb',
-                                                                limitLabel: '< 4 ppb (EU)',
-                                                            },
-                                                            {
-                                                                label: 'Heavy Metals',
-                                                                value: selectedBatch?.heavyMetalsPpb,
-                                                                limit: 1,
-                                                                unit: 'ppb',
-                                                                limitLabel: '< 1 ppb',
-                                                            },
-                                                            {
-                                                                label: 'Pesticide Residue',
-                                                                value: selectedBatch?.pesticideResiduePpb,
-                                                                limit: 10,
-                                                                unit: 'ppb',
-                                                                limitLabel: '< 10 ppb',
-                                                            },
-                                                        ].map((t, i) => {
-                                                            const val = t.value ?? 0;
-                                                            const passing = val < t.limit;
-                                                            return (
-                                                                <div key={i} className={`rounded-lg p-3 border ${
-                                                                    t.value === 0 || t.value == null
-                                                                        ? 'bg-gray-50/60 border-gray-200'
-                                                                        : passing
-                                                                            ? 'bg-green-50/60 border-green-200'
-                                                                            : 'bg-red-50/60 border-red-200'
-                                                                }`}>
-                                                                    <div className={`text-lg font-bold ${
-                                                                        t.value === 0 || t.value == null
-                                                                            ? 'text-gray-400'
-                                                                            : passing
-                                                                                ? 'text-green-700'
-                                                                                : 'text-red-600'
-                                                                    }`}>
-                                                                        {t.value === 0 || t.value == null ? 'Not Tested' : `${t.value} ${t.unit}`}
-                                                                    </div>
-                                                                    <div className="text-xs text-gray-600 font-medium mt-0.5">{t.label}</div>
-                                                                    <div className="text-[10px] text-gray-400">{t.limitLabel}</div>
-                                                                    {t.value !== 0 && t.value != null && (
-                                                                        <div className={`text-[10px] mt-1 font-medium ${passing ? 'text-green-600' : 'text-red-600'}`}>
-                                                                            {passing ? '✓ Pass' : '✗ Fail'}
+                                                {/* Lab Compliance — Phase 2 (KERNEL) only, or if real values exist */}
+                                                {((selectedBatch as any)?.productType === 'KERNEL' ||
+                                                    (selectedBatch?.aflatoxinPpb ?? 0) > 0 ||
+                                                    (selectedBatch?.heavyMetalsPpb ?? 0) > 0 ||
+                                                    (selectedBatch?.pesticideResiduePpb ?? 0) > 0) && (
+                                                    <div className="bg-white/50 rounded-xl p-4 border border-white/30">
+                                                        <h4 className="font-medium text-primary mb-3 flex items-center gap-2">
+                                                            <FaFlask /> Lab Compliance
+                                                        </h4>
+                                                        <div className="grid grid-cols-3 gap-3 text-center">
+                                                            {[
+                                                                {
+                                                                    label: 'Aflatoxin',
+                                                                    value: selectedBatch?.aflatoxinPpb,
+                                                                    limit: 4,
+                                                                    unit: 'ppb',
+                                                                    limitLabel: '< 4 ppb (EU)',
+                                                                },
+                                                                {
+                                                                    label: 'Cadmium',
+                                                                    value: selectedBatch?.heavyMetalsPpb,
+                                                                    limit: 200,             // updated to realistic EU cadmium limit
+                                                                    unit: 'ppb',
+                                                                    limitLabel: '< 200 ppb (EU)',
+                                                                },
+                                                                {
+                                                                    label: 'Pesticide Residue',
+                                                                    value: selectedBatch?.pesticideResiduePpb,
+                                                                    limit: 10,
+                                                                    unit: 'ppb',
+                                                                    limitLabel: '< 10 ppb',
+                                                                },
+                                                            ].map((t, i) => {
+                                                                const val = t.value ?? 0;
+                                                                const tested = val > 0;
+                                                                const passing = tested && val < t.limit;
+                                                                const colorClass = !tested
+                                                                    ? 'bg-gray-50/60 border-gray-200'
+                                                                    : passing
+                                                                        ? 'bg-green-50/60 border-green-200'
+                                                                        : 'bg-red-50/60 border-red-200';
+                                                                const textClass = !tested
+                                                                    ? 'text-gray-400'
+                                                                    : passing
+                                                                        ? 'text-green-700'
+                                                                        : 'text-red-600';
+                                                                return (
+                                                                    <div key={i} className={`rounded-lg p-3 border ${colorClass}`}>
+                                                                        <div className={`text-lg font-bold ${textClass}`}>
+                                                                            {tested ? `${val} ${t.unit}` : 'Not Tested'}
                                                                         </div>
-                                                                    )}
-                                                                </div>
-                                                            );
-                                                        })}
+                                                                        <div className="text-xs text-gray-600 font-medium mt-0.5">{t.label}</div>
+                                                                        <div className="text-[10px] text-gray-400">{t.limitLabel}</div>
+                                                                        {tested && (
+                                                                            <div className={`text-[10px] mt-1 font-medium ${passing ? 'text-green-600' : 'text-red-600'}`}>
+                                                                                {passing ? '✓ Pass' : '✗ Fail'}
+                                                                            </div>
+                                                                        )}
+                                                                    </div>
+                                                                );
+                                                            })}
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                )}
 
                                                 {/* Inspection Trail */}
                                                 <div className="bg-white/50 rounded-xl p-4 border border-white/30">
@@ -1106,7 +1200,8 @@ const Batches: React.FC = () => {
                     </div>
                 </Dialog>
             </Transition.Root>
-            {/* Export Readiness */}
+
+            {/* Export Readiness - Dynamic by Product Type */}
             <div className="max-w-6xl mx-auto px-4 sm:px-6 mb-8">
                 <InfoCard
                     icon={FaIndustry}
@@ -1116,59 +1211,46 @@ const Batches: React.FC = () => {
                 >
                     <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mt-3 text-center">
                         {(() => {
-                            const inspected = batches.filter(b => (b.qualityScore ?? 0) > 0);
-                            const uninspected = batches.length - inspected.length;
+                            // 1. Determine which rules apply based on the batches present
+                            const hasKernels = batches.some(b => (b as any).productType === 'KERNEL');
+                            const hasRCN = batches.some(b => (b as any).productType === 'RCN');
 
-                            return [
-                                {
-                                    label: 'EU Compliant',
-                                    value: inspected.filter(b => (b.aflatoxinPpb ?? 99) < 4).length,
-                                    total: inspected.length,
-                                    icon: FaGlobeEurope,
-                                    color: 'text-blue-500',
-                                    hint: 'Aflatoxin < 4ppb'
-                                },
-                                {
-                                    label: 'Organic Certified',
-                                    value: batches.filter(b => b.batchNumber?.includes('-ORG-')).length,
-                                    total: batches.length,
-                                    icon: FaLeaf,
-                                    color: 'text-green-500',
-                                    hint: 'ORG in batch code'
-                                },
-                                {
-                                    label: 'Export Ready',
-                                    value: inspected.filter(b =>
-                                        b.qualityScore >= 95 &&
-                                        b.defectiveRate < 5 &&
-                                        (b.aflatoxinPpb ?? 99) < 4
-                                    ).length,
-                                    total: inspected.length,
-                                    icon: FaShip,
-                                    color: 'text-primary',
-                                    hint: 'Score ≥95%, defects <5%, EU compliant'
-                                },
-                                {
-                                    label: 'Needs Review',
-                                    value: inspected.filter(b =>
-                                        b.defectiveRate > 5 ||
-                                        b.moistureContent > 7 ||
-                                        (b.aflatoxinPpb ?? 99) >= 4
-                                    ).length,
-                                    total: inspected.length,
-                                    icon: FaSearch,
-                                    color: 'text-amber-500',
-                                    hint: 'High defects, moisture, or aflatoxin'
-                                },
+                            // If we have kernels, we show kernel rules. If only RCN, we show RCN rules.
+                            // If mixed (transition period), we prioritize KERNEL for export, but this is easy to adjust.
+                            const activeRules = hasKernels ? READINESS_RULES.KERNEL : READINESS_RULES.RCN;
+
+                            // 2. Filter down to the relevant product type and inspected batches
+                            const targetProductType = hasKernels ? 'KERNEL' : 'RCN';
+                            const inspected = batches.filter(b =>
+                                ((b as any).productType === targetProductType || (!('productType' in b) && targetProductType === 'RCN')) &&
+                                (b.qualityScore ?? 0) > 0
+                            );
+
+                            const uninspected = batches.filter(b =>
+                                ((b as any).productType === targetProductType || (!('productType' in b) && targetProductType === 'RCN')) &&
+                                (b.qualityScore ?? 0) <= 0
+                            ).length;
+
+                            const totalBatches = inspected.length + uninspected;
+
+                            // 3. Combine the dynamic rules with the always-present "Pending Inspection"
+                            const displayMetrics = [
+                                ...activeRules.metrics.map(rule => ({
+                                    ...rule,
+                                    value: inspected.filter(rule.filter).length,
+                                    total: inspected.length
+                                })),
                                 {
                                     label: 'Pending Inspection',
                                     value: uninspected,
-                                    total: batches.length,
+                                    total: totalBatches,
                                     icon: FaClock,
                                     color: 'text-gray-500',
-                                    hint: 'Awaiting quality check'
-                                },
-                            ].map((item, i) => (
+                                    hint: `Awaiting ${targetProductType} quality check`
+                                }
+                            ];
+
+                            return displayMetrics.map((item, i) => (
                                 <div key={i} className="bg-white/40 rounded-xl p-3 border border-white/30">
                                     <item.icon className={`text-2xl mx-auto ${item.color}`} />
                                     <div className="text-lg font-bold mt-1">{item.value}/{item.total}</div>

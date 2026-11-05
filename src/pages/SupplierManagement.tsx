@@ -1358,7 +1358,7 @@ const SupplierManagement: React.FC = () => {
                                                                             <th className="pb-2 font-medium text-gray-600">RCN Score</th>
                                                                             <th className="pb-2 font-medium text-gray-600">Moisture</th>
                                                                             <th className="pb-2 font-medium text-gray-600">Defects</th>
-                                                                            <th className="pb-2 font-medium text-gray-600">Kernel</th>
+                                                                            <th className="pb-2 font-medium text-gray-600">KOR (g/kg)</th>
                                                                             <th className="pb-2 font-medium text-gray-600">Compliance</th>
                                                                         </tr>
                                                                         </thead>
@@ -1369,16 +1369,20 @@ const SupplierManagement: React.FC = () => {
                                                                                 <td className="py-2 text-xs">{new Date(batch.processingDate).toLocaleDateString()}</td>
                                                                                 <td className="py-2">{batch.weightKg?.toLocaleString()} kg</td>
                                                                                 <td className="py-2">
-                                                                            <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${gradeStyle(batch.qualityGrade)}`}>{batch.qualityGrade}</span>
+                                                                                    <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${gradeStyle(batch.qualityGrade)}`}>{batch.qualityGrade}</span>
                                                                                 </td>
                                                                                 <td className="py-2">
                                                                                     {(batch as any).rcnQualityScore != null
-                                                                                        ? `${(batch as any).rcnQualityScore.toFixed(1)}%`
+                                                                                        ? `${Number((batch as any).rcnQualityScore).toFixed(1)}%`
                                                                                         : '—'}
                                                                                 </td>
-                                                                                <td className="py-2">{batch.moistureContent}%</td>
-                                                                                <td className="py-2">{batch.defectiveRate}%</td>
-                                                                                <td className="py-2">{batch.kernelRatio}%</td>
+                                                                                <td className="py-2">{Number(batch.moistureContent ?? 0).toFixed(1)}%</td>
+                                                                                <td className="py-2">{Number(batch.defectiveRate ?? 0).toFixed(1)}%</td>
+                                                                                <td className="py-2">
+                                                                                    {(batch as any).korGPerKg != null
+                                                                                        ? `${Number((batch as any).korGPerKg).toFixed(0)} g`
+                                                                                        : '—'}
+                                                                                </td>
                                                                                 <td className="py-2">
                                                                                     <div className="flex gap-1">
                                                                                         {batch.sustainableHarvesting && <FaLeaf className="text-green-500 text-xs" title="Sustainable" />}
