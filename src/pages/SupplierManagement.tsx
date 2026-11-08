@@ -141,23 +141,6 @@ const SupplierManagement: React.FC = () => {
         fetchSuppliers();
     }, []);
 
-    const disputesRes = await getSupplierData('getOpenDisputes');
-    setOpenDisputes(disputesRes.disputes || []);
-
-    const handleResolveDispute = async (disputeId: string, resolution: 'UPHELD' | 'REJECTED') => {
-        try {
-            await getSupplierData('resolveDispute', {
-                disputeId,
-                resolution,
-                reviewedBy: 'current-user',   // swap with auth user
-                correctionApplied: resolution === 'UPHELD',
-            });
-            setOpenDisputes(prev => prev.filter(d => d.id !== disputeId));
-        } catch (error) {
-            console.error('Failed to resolve dispute:', error);
-        }
-    };
-
     const handleValidate = async (
         collection: 'supplier_commitments' | 'supplier_inspections',
         docId: string
