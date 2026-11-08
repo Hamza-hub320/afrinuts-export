@@ -767,7 +767,7 @@ const Batches: React.FC = () => {
                                              {batch.qualityGrade}
                                         </span>
                                         <span className="text-xs text-gray-500">
-                                            Score: {batch.qualityScore > 0 ? `${batch.qualityScore.toFixed(1)}%` : 'Pending'}
+                                            Score: {batch.qualityScore > 0 ? batch.qualityScore.toFixed(1) : 'Pending'}
                                         </span>
                                         {/* Only show risk indicators when quality has actually been measured */}
                                         {batch.defectiveRate > 5 && <FaExclamationTriangle className="text-red-500 text-xs" title="High defect rate" />}
@@ -845,7 +845,7 @@ const Batches: React.FC = () => {
                                                                 {
                                                                     label: 'RCN Score',
                                                                     value: (selectedBatch?.rcnQualityScore ?? selectedBatch?.qualityScore ?? 0) > 0
-                                                                        ? `${(selectedBatch!.rcnQualityScore ?? selectedBatch!.qualityScore).toFixed(1)}%`
+                                                                        ? `${(selectedBatch!.rcnQualityScore ?? selectedBatch!.qualityScore).toFixed(1)}`
                                                                         : '—',
                                                                     color: 'text-primary'
                                                                 },

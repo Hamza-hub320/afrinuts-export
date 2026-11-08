@@ -54,61 +54,6 @@ export const handler: Handler = async (event: HandlerEvent) => {
             };
         }
 
-        if (action === 'getSuppliersWithTrust') {
-            const suppliersSnap = await db.collection('farms').doc(fid).collection('suppliers').get();
-            const batchesSnap = await db.collection('farms').doc(fid).collection('quality_batches').get();
-
-            // NEW: fetch validated commitments and inspections
-            const commitmentsSnap = await db.collection('farms').doc(fid)
-                .collection('supplier_commitments')
-                .where('validatedAt', '!=', null)
-                .get();
-            const inspectionsSnap = await db.collection('farms').doc(fid)
-                .collection('supplier_inspections')
-                .where('validatedAt', '!=', null)
-                .get();
-
-            const suppliers = suppliersSnap.docs.map(d => ({ id: d.id, ...d.data() }));
-            const batches = batchesSnap.docs.map(d => ({ id: d.id, ...d.data() }));
-            const commitments = commitmentsSnap.docs.map(d => ({ id: d.id, ...d.data() }));
-            const inspections = inspectionsSnap.docs.map(d => ({ id: d.id, ...d.data() }));
-
-            const batchesBySupplier: Record<string, any[]> = {};
-            batches.forEach((b: any) => {
-                if (b.supplierId != null) {
-                    const key = String(b.supplierId);
-                    (batchesBySupplier[key] = batchesBySupplier[key] || []).push(b);
-                }
-            });
-
-            const commitmentsBySupplier: Record<string, any[]> = {};
-            commitments.forEach((c: any) => {
-                if (c.supplierId != null) {
-                    const key = String(c.supplierId);
-                    (commitmentsBySupplier[key] = commitmentsBySupplier[key] || []).push(c);
-                }
-            });
-
-            const inspectionsBySupplier: Record<string, any[]> = {};
-            inspections.forEach((i: any) => {
-                if (i.supplierId != null) {
-                    const key = String(i.supplierId);
-                    (inspectionsBySupplier[key] = inspectionsBySupplier[key] || []).push(i);
-                }
-            });
-
-            return {
-                statusCode: 200,
-                headers,
-                body: JSON.stringify({
-                    suppliers,
-                    batchesBySupplier,
-                    commitmentsBySupplier,
-                    inspectionsBySupplier,
-                }),
-            };
-        }
-
         if (action === 'getAllTraceability') {
             const snapshot = await db
                 .collection('farms').doc(fid)
@@ -349,6 +294,41 @@ export const handler: Handler = async (event: HandlerEvent) => {
             return { statusCode: 200, body: JSON.stringify({ success: true }) };
         }
 
+        if (action === 'resolveDispute') {
+            const { disputeId, resolution, reviewedBy, originalValue, correctedValue } = params;
+
+            if (!disputeId || !['UPHELD', 'REJECTED'].includes(resolution)) {
+                return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid params' }) };
+            }
+
+            await db.collection('farms').doc(fid)
+                .collection('supplier_disputes').doc(disputeId)
+                .update({
+                    reviewStatus: 'RESOLVED',
+                    decision: resolution,
+                    reviewedBy: reviewedBy || 'portal-user',
+                    resolvedDate: Date.now(),
+                    correctionApplied: resolution === 'UPHELD',
+                    originalValue: originalValue ?? null,
+                    correctedValue: correctedValue ?? null,
+                    updatedAt: Date.now(),
+                });
+
+            return { statusCode: 200, headers, body: JSON.stringify({ success: true }) };
+        }
+
+        if (action === 'getOpenDisputes') {
+            const snap = await db.collection('farms').doc(fid)
+                .collection('supplier_disputes')
+                .where('reviewStatus', 'in', ['OPEN', 'UNDER_REVIEW'])
+                .get();
+            return {
+                statusCode: 200,
+                headers,
+                body: JSON.stringify({ disputes: snap.docs.map(d => ({ id: d.id, ...d.data() })) }),
+            };
+        }
+
         if (action === 'saveScoreSnapshot') {
             const { supplierId, snapshotData } = params;
 
@@ -376,6 +356,56 @@ export const handler: Handler = async (event: HandlerEvent) => {
                 });
 
             return { statusCode: 200, headers, body: JSON.stringify({ success: true }) };
+        }
+
+        if (action === 'getSuppliersWithTrust') {
+            const suppliersSnap = await db.collection('farms').doc(fid).collection('suppliers').get();
+            const batchesSnap = await db.collection('farms').doc(fid).collection('quality_batches').get();
+
+            // Validated evidence → feeds the Trust Engine
+            const commitmentsSnap = await db.collection('farms').doc(fid)
+                .collection('supplier_commitments')
+                .where('validatedAt', '!=', null)
+                .get();
+            const inspectionsSnap = await db.collection('farms').doc(fid)
+                .collection('supplier_inspections')
+                .where('validatedAt', '!=', null)
+                .get();
+
+            // Unvalidated evidence → portal queue
+            const pendingCommitmentsSnap = await db.collection('farms').doc(fid)
+                .collection('supplier_commitments')
+                .where('validatedAt', '==', null)
+                .get();
+            const pendingInspectionsSnap = await db.collection('farms').doc(fid)
+                .collection('supplier_inspections')
+                .where('validatedAt', '==', null)
+                .get();
+
+            const suppliers = suppliersSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+            const batches = batchesSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+            const groupBy = (arr: any[], key = 'supplierId') => {
+                const out: Record<string, any[]> = {};
+                arr.forEach(item => {
+                    const k = String(item[key]);
+                    (out[k] = out[k] || []).push(item);
+                });
+                return out;
+            };
+
+            return {
+                statusCode: 200,
+                headers,
+                body: JSON.stringify({
+                    suppliers,
+                    batchesBySupplier: groupBy(batches),
+                    commitmentsBySupplier: groupBy(commitmentsSnap.docs.map(d => ({ id: d.id, ...d.data() }))),
+                    inspectionsBySupplier: groupBy(inspectionsSnap.docs.map(d => ({ id: d.id, ...d.data() }))),
+                    pendingCommitments: pendingCommitmentsSnap.docs.map(d => ({ id: d.id, ...d.data() })),
+                    pendingInspections: pendingInspectionsSnap.docs.map(d => ({ id: d.id, ...d.data() })),
+                }),
+            };
         }
 
         return {

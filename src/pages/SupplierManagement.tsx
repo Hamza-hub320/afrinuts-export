@@ -112,17 +112,26 @@ const SupplierManagement: React.FC = () => {
     const [supplierTrend, setSupplierTrend] = useState<number[]>([]);
     const [unvalidated, setUnvalidated] = useState({ commitments: [], inspections: [] });
     const [isRecalculating, setIsRecalculating] = useState(false);
+    const [pendingCommitments, setPendingCommitments] = useState<any[]>([]);
+    const [pendingInspections, setPendingInspections] = useState<any[]>([]);
+    const [openDisputes, setOpenDisputes] = useState<any[]>([]);
 
     const isDevelopment = import.meta.env.DEV;
 
     useEffect(() => {
         const fetchSuppliers = async () => {
             try {
-                const data = await getSupplierData('getSuppliersWithTrust');
+                const [data, disputesRes] = await Promise.all([
+                    getSupplierData('getSuppliersWithTrust'),
+                    getSupplierData('getOpenDisputes'),
+                ]);
                 setSuppliers(data.suppliers || []);
                 setBatchesBySupplier(data.batchesBySupplier || {});
                 setCommitmentsBySupplier(data.commitmentsBySupplier || {});
                 setInspectionsBySupplier(data.inspectionsBySupplier || {});
+                setPendingCommitments(data.pendingCommitments || []);
+                setPendingInspections(data.pendingInspections || []);
+                setOpenDisputes(disputesRes.disputes || []);
             } catch (error) {
                 console.error('Error fetching suppliers:', error);
             } finally {
@@ -131,6 +140,64 @@ const SupplierManagement: React.FC = () => {
         };
         fetchSuppliers();
     }, []);
+
+    const disputesRes = await getSupplierData('getOpenDisputes');
+    setOpenDisputes(disputesRes.disputes || []);
+
+    const handleResolveDispute = async (disputeId: string, resolution: 'UPHELD' | 'REJECTED') => {
+        try {
+            await getSupplierData('resolveDispute', {
+                disputeId,
+                resolution,
+                reviewedBy: 'current-user',   // swap with auth user
+                correctionApplied: resolution === 'UPHELD',
+            });
+            setOpenDisputes(prev => prev.filter(d => d.id !== disputeId));
+        } catch (error) {
+            console.error('Failed to resolve dispute:', error);
+        }
+    };
+
+    const handleValidate = async (
+        collection: 'supplier_commitments' | 'supplier_inspections',
+        docId: string
+    ) => {
+        try {
+            await getSupplierData('validateEvidence', {
+                collection,
+                docId,
+                userId: 'portal-manager',
+                farmId: '1',
+            });
+
+            // Optimistic remove from queue
+            if (collection === 'supplier_commitments') {
+                setPendingCommitments(prev => prev.filter(c => c.id !== docId));
+            } else {
+                setPendingInspections(prev => prev.filter(i => i.id !== docId));
+            }
+
+            // Refetch to refresh engine inputs
+            const data = await getSupplierData('getSuppliersWithTrust');
+            setCommitmentsBySupplier(data.commitmentsBySupplier || {});
+            setInspectionsBySupplier(data.inspectionsBySupplier || {});
+        } catch (error) {
+            console.error('Validation failed:', error);
+        }
+    };
+
+    const handleResolveDispute = async (disputeId: string, resolution: 'UPHELD' | 'REJECTED') => {
+        try {
+            await getSupplierData('resolveDispute', {
+                disputeId,
+                resolution,
+                reviewedBy: 'portal-manager',
+            });
+            setOpenDisputes(prev => prev.filter(d => d.id !== disputeId));
+        } catch (error) {
+            console.error('Failed to resolve dispute:', error);
+        }
+    };
 
     const trustBySupplier = useMemo(() => {
         const map: Record<string, TrustResult> = {};
@@ -522,7 +589,7 @@ const SupplierManagement: React.FC = () => {
 
                                     <div className="flex items-center gap-2 mt-3">
                                         <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">RCN Quality: {metricsBySupplier[supplier.id]?.averageRcnQualityScore != null
-                                            ? `${metricsBySupplier[supplier.id].averageRcnQualityScore!.toFixed(1)}%`
+                                            ? `${metricsBySupplier[supplier.id].averageRcnQualityScore!.toFixed(1)}`
                                             : '—'}
                                     </span>
                                         <span className="text-xs bg-accent/10 text-accent px-2 py-1 rounded-full">{metricsBySupplier[supplier.id]?.annualVolumeKg > 0 ? `${(metricsBySupplier[supplier.id].annualVolumeKg / 1000).toFixed(1)}T` : 'No batches'}
@@ -605,6 +672,168 @@ const SupplierManagement: React.FC = () => {
                                     ));
                                 })()}
                             </div>
+
+                            {/* ============================================
+                                Evidence Validation Queue (P1)
+                             ============================================ */}
+                            {(pendingCommitments.length > 0 || pendingInspections.length > 0) && (
+                                <Section className="py-6">
+                                    <div className="max-w-6xl mx-auto px-4 sm:px-6">
+                                        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
+                                            <InfoCard
+                                                icon={FaShieldAlt}
+                                                title="Evidence Validation Queue"
+                                                subtitle={`${pendingCommitments.length + pendingInspections.length} record${pendingCommitments.length + pendingInspections.length !== 1 ? 's' : ''} awaiting review`}
+                                                iconColor="text-amber-600"
+                                                showInfoBadge={false}
+                                            >
+                                                {pendingCommitments.length > 0 && (
+                                                    <div className="mt-3">
+                                                        <h4 className="text-sm font-medium text-primary mb-2 flex items-center gap-2">
+                                                            <FaHandshake /> Commitments ({pendingCommitments.length})
+                                                        </h4>
+                                                        <div className="space-y-2">
+                                                            {pendingCommitments.map(c => {
+                                                                const supplier = suppliers.find(s => s.id === String(c.supplierId));
+                                                                return (
+                                                                    <div key={c.id} className="bg-white/40 rounded-xl p-3 border border-white/30 flex items-center gap-3">
+                                                                        <div className="flex-1 min-w-0">
+                                                                            <div className="flex items-center gap-2">
+                                                    <span className="text-sm font-semibold text-gray-900 truncate">
+                                                        {supplier?.name || `Supplier #${c.supplierId}`}
+                                                    </span>
+                                                                                <span className="text-[10px] text-gray-500">
+                                                        {c.contractId} · {c.season}
+                                                    </span>
+                                                                            </div>
+                                                                            <p className="text-xs text-gray-600 mt-0.5">
+                                                                                {c.committedKg} kg committed · {c.status}
+                                                                                {c.delayReason && ` · Delay: ${c.delayReason}`}
+                                                                                {c.buyerRequestedChange && ` · Buyer-requested`}
+                                                                            </p>
+                                                                        </div>
+                                                                        <button
+                                                                            onClick={() => handleValidate('supplier_commitments', c.id)}
+                                                                            className="px-3 py-1.5 bg-primary text-white text-xs font-medium rounded-full hover:bg-dark-orange transition-colors flex-shrink-0"
+                                                                        >
+                                                                            Validate
+                                                                        </button>
+                                                                    </div>
+                                                                );
+                                                            })}
+                                                        </div>
+                                                    </div>
+                                                )}
+
+                                                {pendingInspections.length > 0 && (
+                                                    <div className="mt-4 pt-4 border-t border-gray-200">
+                                                        <h4 className="text-sm font-medium text-primary mb-2 flex items-center gap-2">
+                                                            <FaCheckCircle /> Inspections ({pendingInspections.length})
+                                                        </h4>
+                                                        <div className="space-y-2">
+                                                            {pendingInspections.map(i => {
+                                                                const supplier = suppliers.find(s => s.id === String(i.supplierId));
+                                                                return (
+                                                                    <div key={i.id} className="bg-white/40 rounded-xl p-3 border border-white/30 flex items-center gap-3">
+                                                                        <div className="flex-1 min-w-0">
+                                                                            <div className="flex items-center gap-2">
+                                                    <span className="text-sm font-semibold text-gray-900 truncate">
+                                                        {supplier?.name || `Supplier #${i.supplierId}`}
+                                                    </span>
+                                                                                <span className={`px-1.5 py-0.5 rounded-full text-[10px] font-medium ${
+                                                                                    i.outcome === 'PASS' ? 'bg-green-100 text-green-700' :
+                                                                                        i.outcome === 'FAIL' ? 'bg-red-100 text-red-700' :
+                                                                                            'bg-amber-100 text-amber-700'
+                                                                                }`}>
+                                                        {i.outcome}
+                                                    </span>
+                                                                            </div>
+                                                                            <p className="text-xs text-gray-600 mt-0.5">
+                                                                                {i.inspectionType} · {i.findings}
+                                                                            </p>
+                                                                        </div>
+                                                                        <button
+                                                                            onClick={() => handleValidate('supplier_inspections', i.id)}
+                                                                            className="px-3 py-1.5 bg-primary text-white text-xs font-medium rounded-full hover:bg-dark-orange transition-colors flex-shrink-0"
+                                                                        >
+                                                                            Validate
+                                                                        </button>
+                                                                    </div>
+                                                                );
+                                                            })}
+                                                        </div>
+                                                    </div>
+                                                )}
+
+                                                <p className="text-[10px] text-gray-400 mt-4 text-center">
+                                                    Validated records feed the Trust Engine. Delivery shows "Awaiting validated commitments" until a commitment is validated.
+                                                </p>
+                                            </InfoCard>
+                                        </motion.div>
+                                    </div>
+                                </Section>
+                            )}
+
+                            {/* ============================================
+                                Dispute Review Queue (Step 6c)
+                                ============================================ */}
+                            {openDisputes.length > 0 && (
+                                <Section className="py-6">
+                                    <div className="max-w-6xl mx-auto px-4 sm:px-6">
+                                        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
+                                            <InfoCard
+                                                icon={FaExclamationTriangle}
+                                                title="Dispute Review Queue"
+                                                subtitle={`${openDisputes.length} open dispute${openDisputes.length !== 1 ? 's' : ''}`}
+                                                iconColor="text-red-600"
+                                                showInfoBadge={false}
+                                            >
+                                                <div className="space-y-2 mt-3">
+                                                    {openDisputes.map(d => {
+                                                        const supplier = suppliers.find(s => s.id === String(d.supplierId));
+                                                        return (
+                                                            <div key={d.id} className="bg-white/40 rounded-xl p-3 border border-white/30">
+                                                                <div className="flex items-start justify-between gap-3">
+                                                                    <div className="flex-1 min-w-0">
+                                                                        <div className="flex items-center gap-2">
+                                                                            <span className="text-sm font-semibold text-gray-900">{supplier?.name || `Supplier #${d.supplierId}`}</span>
+                                                                            <span className="px-1.5 py-0.5 bg-amber-100 text-amber-700 text-[10px] rounded-full font-medium">{d.reviewStatus}</span>
+                                                                            <span className="text-[10px] text-gray-500">Target: {d.targetEntity} #{d.targetId}</span>
+                                                                        </div>
+                                                                        <p className="text-xs text-gray-700 mt-1">{d.reason}</p>
+                                                                        <p className="text-[10px] text-gray-400 mt-1">
+                                                                            Submitted by {d.submittedBy} · {new Date(d.submittedDate).toLocaleDateString()}
+                                                                        </p>
+                                                                    </div>
+                                                                    <div className="flex gap-2 flex-shrink-0">
+                                                                        <button
+                                                                            onClick={() => handleResolveDispute(d.id, 'UPHELD')}
+                                                                            className="px-3 py-1.5 bg-green-600 text-white text-xs font-medium rounded-full hover:bg-green-700 transition-colors"
+                                                                        >
+                                                                            Upheld
+                                                                        </button>
+                                                                        <button
+                                                                            onClick={() => handleResolveDispute(d.id, 'REJECTED')}
+                                                                            className="px-3 py-1.5 bg-gray-500 text-white text-xs font-medium rounded-full hover:bg-gray-600 transition-colors"
+                                                                        >
+                                                                            Rejected
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        );
+                                                    })}
+                                                </div>
+                                                <p className="text-[10px] text-gray-400 mt-4 text-center">
+                                                    Upheld disputes require the correction to be applied in Farm OS, then Recalculate re-grades the batch.
+                                                </p>
+                                            </InfoCard>
+                                        </motion.div>
+                                    </div>
+                                </Section>
+                            )}
+
+
                             {/* Consent coverage bar */}
                             <div className="mt-4">
                                 <div className="flex justify-between text-xs text-gray-500 mb-1">
@@ -1261,7 +1490,7 @@ const SupplierManagement: React.FC = () => {
 <p className="text-sm">
     <strong>RCN Quality:</strong>{' '}
     {metricsBySupplier[selectedSupplier.id]?.averageRcnQualityScore != null
-        ? `${metricsBySupplier[selectedSupplier.id].averageRcnQualityScore!.toFixed(1)}%`
+        ? `${metricsBySupplier[selectedSupplier.id].averageRcnQualityScore!.toFixed(1)}`
         : 'Pending'}
 </p>
                                                             </div>
@@ -1388,7 +1617,7 @@ const SupplierManagement: React.FC = () => {
                                                                     </div>
                                                                     <div className="bg-white/50 rounded-xl p-3 text-center border border-white/30">
                                                                         <div className="text-2xl font-bold text-primary">
-                                                                            {(supplierBatches.reduce((sum, b) => sum + (b.qualityScore || 0), 0) / supplierBatches.length).toFixed(1)}%
+                                                                            {(supplierBatches.reduce((sum, b) => sum + (b.qualityScore || 0), 0) / supplierBatches.length).toFixed(1)}
                                                                         </div>
                                                                         <div className="text-xs text-gray-500">Avg Quality</div>
                                                                     </div>
@@ -1398,7 +1627,7 @@ const SupplierManagement: React.FC = () => {
                                                                                 .map(b => (b as any).rcnQualityScore ?? b.qualityScore)
                                                                                 .filter((v): v is number => typeof v === 'number' && v > 0);
                                                                             return valid.length > 0
-                                                                                ? `${(valid.reduce((s, v) => s + v, 0) / valid.length).toFixed(1)}%`
+                                                                                ? `${(valid.reduce((s, v) => s + v, 0) / valid.length).toFixed(1)}`
                                                                                 : '—';
                                                                         })()}
                                                                     </div>
@@ -1432,7 +1661,7 @@ const SupplierManagement: React.FC = () => {
                                                                                 </td>
                                                                                 <td className="py-2">
                                                                                     {(batch as any).rcnQualityScore != null
-                                                                                        ? `${Number((batch as any).rcnQualityScore).toFixed(1)}%`
+                                                                                        ? `${Number((batch as any).rcnQualityScore).toFixed(1)}`
                                                                                         : '—'}
                                                                                 </td>
                                                                                 <td className="py-2">{Number(batch.moistureContent ?? 0).toFixed(1)}%</td>
@@ -1465,7 +1694,7 @@ const SupplierManagement: React.FC = () => {
                                                                             <div className="text-sm text-gray-600">
                                                                                 {supplierTrend.length >= 2 ? (
                                                                                     <>
-                                                                                        {supplierTrend[0].toFixed(1)}% → {supplierTrend[supplierTrend.length-1].toFixed(1)}%
+                                                                                        {supplierTrend[0].toFixed(1)} → {supplierTrend[supplierTrend.length-1].toFixed(1)}
                                                                                         <span className="ml-2 text-xs">
                                                                                             {supplierTrend[supplierTrend.length-1] > supplierTrend[0] ? (
                                                                                         <span className="text-green-600">↑ Improving</span>
