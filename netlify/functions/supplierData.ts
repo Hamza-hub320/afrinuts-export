@@ -365,12 +365,29 @@ export const handler: Handler = async (event: HandlerEvent) => {
             const allInspectionsSnap = await db.collection('farms').doc(fid).collection('supplier_inspections').get();
 
             const suppliers = suppliersSnap.docs.map(d => ({ id: d.id, ...d.data() }));
-            const batches = batchesSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+            // Only ship what the Trust Engine reads — not the full document
+            const batches = batchesSnap.docs.map(d => {
+                const data = d.data();
+                return {
+                    id: d.id,
+                    supplierId: data.supplierId,
+                    weightKg: data.weightKg,
+                    qualityGrade: data.qualityGrade,
+                    rcnQualityScore: data.rcnQualityScore,
+                    qualityScore: data.qualityScore,
+                    moistureContent: data.moistureContent,
+                    defectiveRate: data.defectiveRate,
+                    korGPerKg: data.korGPerKg,
+                    aflatoxinPpb: data.aflatoxinPpb,
+                    verifiedAt: data.verifiedAt,
+                    farmOsMonitored: data.farmOsMonitored,
+                };
+            });
 
             const allCommitments = allCommitmentsSnap.docs.map(d => ({ id: d.id, ...d.data() } as any));
             const allInspections = allInspectionsSnap.docs.map(d => ({ id: d.id, ...d.data() } as any));
 
-// Split into validated (has a timestamp) and pending (null or missing)
             const commitments = allCommitments.filter((c: any) => c.validatedAt);
             const pendingCommitments = allCommitments.filter((c: any) => !c.validatedAt);
 

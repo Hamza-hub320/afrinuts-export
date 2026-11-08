@@ -121,19 +121,33 @@ const SupplierManagement: React.FC = () => {
     useEffect(() => {
         const fetchSuppliers = async () => {
             try {
-                const [data, disputesRes] = await Promise.all([
+                const [suppliersRes, disputesRes] = await Promise.allSettled([
                     getSupplierData('getSuppliersWithTrust'),
                     getSupplierData('getOpenDisputes'),
                 ]);
-                setSuppliers(data.suppliers || []);
-                setBatchesBySupplier(data.batchesBySupplier || {});
-                setCommitmentsBySupplier(data.commitmentsBySupplier || {});
-                setInspectionsBySupplier(data.inspectionsBySupplier || {});
-                setPendingCommitments(data.pendingCommitments || []);
-                setPendingInspections(data.pendingInspections || []);
-                setOpenDisputes(disputesRes.disputes || []);
+
+                if (suppliersRes.status === 'fulfilled' && suppliersRes.value) {
+                    const data = suppliersRes.value;
+                    setSuppliers(data.suppliers || []);
+                    setBatchesBySupplier(data.batchesBySupplier || {});
+                    setCommitmentsBySupplier(data.commitmentsBySupplier || {});
+                    setInspectionsBySupplier(data.inspectionsBySupplier || {});
+                    setPendingCommitments(data.pendingCommitments || []);
+                    setPendingInspections(data.pendingInspections || []);
+                } else {
+                    console.error('Suppliers fetch failed:',
+                        suppliersRes.status === 'rejected' ? suppliersRes.reason : 'no data');
+                }
+
+                if (disputesRes.status === 'fulfilled' && disputesRes.value) {
+                    setOpenDisputes(disputesRes.value.disputes || []);
+                } else {
+                    console.warn('Disputes fetch failed — continuing without disputes:',
+                        disputesRes.status === 'rejected' ? disputesRes.reason : 'no data');
+                    setOpenDisputes([]);
+                }
             } catch (error) {
-                console.error('Error fetching suppliers:', error);
+                console.error('Unexpected error in fetchSuppliers:', error);
             } finally {
                 setLoading(false);
             }
