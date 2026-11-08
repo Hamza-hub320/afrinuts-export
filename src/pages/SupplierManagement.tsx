@@ -1095,8 +1095,7 @@ const SupplierManagement: React.FC = () => {
                     {(() => {
                         const flagged = suppliers
                             .map(s => ({ supplier: s, trust: trustBySupplier[s.id] }))
-                            .filter(x => x.trust && x.trust.flags.length > 0)
-                            .sort((a, b) => (a.trust.overall ?? 100) - (b.trust.overall ?? 100));
+                            .filter(x => x.trust && (x.trust.flags.length > 0 || x.trust.hasCriticalViolation));
 
                         if (flagged.length === 0) {
                             return (
@@ -1108,6 +1107,7 @@ const SupplierManagement: React.FC = () => {
                         }
 
                         const criticalCount = flagged.filter(x => x.trust.hasCriticalViolation).length;
+                        const below60 = flagged.filter(x => !x.trust.hasCriticalViolation && (x.trust.overall ?? 100) < 60).length;
 
                         return (
                             <div className="mt-3">
@@ -1117,9 +1117,7 @@ const SupplierManagement: React.FC = () => {
                                         <div className="text-[10px] text-gray-500">Critical</div>
                                     </div>
                                     <div className="bg-amber-50/60 rounded-lg p-2 text-center border border-amber-200">
-                                        <div className="text-xl font-bold text-amber-600">
-                                            {flagged.filter(x => !x.trust.hasCriticalViolation && (x.trust.overall ?? 100) < 60).length}
-                                        </div>
+                                        <div className="text-xl font-bold text-amber-600">{below60}</div>
                                         <div className="text-[10px] text-gray-500">Below 60</div>
                                     </div>
                                     <div className="bg-gray-50/60 rounded-lg p-2 text-center border border-gray-200">
@@ -1131,7 +1129,7 @@ const SupplierManagement: React.FC = () => {
                                     onClick={() => navigate('/dashboard/suppliers/risk')}
                                     className="w-full py-2 bg-amber-500 text-white text-sm font-medium rounded-full hover:bg-amber-600 transition-colors"
                                 >
-                                    Review all {flagged.length} flagged suppliers →
+                                    Open Risk Workbench ({flagged.length} flagged) →
                                 </button>
                             </div>
                         );
@@ -1179,7 +1177,7 @@ const SupplierManagement: React.FC = () => {
                                 onClick={() => navigate('/dashboard/suppliers/development')}
                                 className="w-full py-2 bg-primary text-white text-sm font-medium rounded-full hover:bg-dark-orange transition-colors"
                             >
-                                View {developmentOpportunities.length} opportunit{developmentOpportunities.length === 1 ? 'y' : 'ies'} across {new Set(developmentOpportunities.map(o => o.supplierId)).size} supplier{new Set(developmentOpportunities.map(o => o.supplierId)).size === 1 ? '' : 's'} →
+                                Open Development Workbench →
                             </button>
                         </div>
                     )}
