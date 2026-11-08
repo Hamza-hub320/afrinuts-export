@@ -424,11 +424,12 @@ const SupplierManagement: React.FC = () => {
                                     } with volume data
                                     </div>
                                 </div>
-                                <div className="bg-white/40 rounded-xl p-4 border border-white/30 text-center"><div className="text-2xl font-bold text-amber-600">
-                                    {suppliers.length > 0
-                                        ? `${Object.values(metricsBySupplier).filter(m => (m.averageRcnQualityScore ?? 0) >= 95).length}/${suppliers.length}`
-                                        : '—'}
-                                </div>
+                                <div className="bg-white/40 rounded-xl p-4 border border-white/30 text-center">
+                                    <div className="text-2xl font-bold text-green-600">
+                                        {suppliers.length > 0
+                                            ? `${suppliers.filter(s => (s.yearsFarming ?? 0) >= 10).length}/${suppliers.length}`
+                                            : '—'}
+                                    </div>
                                     <div className="text-xs text-gray-500 mt-1">Experienced Farmers (10+ yrs)</div>
                                     <div className="text-[10px] text-gray-400 mt-1">
                                         Institutional knowledge in the network
@@ -437,22 +438,38 @@ const SupplierManagement: React.FC = () => {
                                 <div className="bg-white/40 rounded-xl p-4 border border-white/30 text-center">
                                     <div className="text-2xl font-bold text-amber-600">
                                         {(() => {
-                                            const values = Object.values(metricsBySupplier)
-                                                .map(m => m.averageRcnQualityScore)
-                                                .filter((v): v is number => v !== null);
-                                            const premium = values.filter(v => v >= 95).length;
-                                            return values.length > 0 ? `${premium}/${suppliers.length}` : '—';
+                                            // A supplier is "Premium-Grade" if ≥50% of their inspected batches carry the PREMIUM grade
+                                            const premiumSuppliers = suppliers.filter(s => {
+                                                const supplierBatches = (batchesBySupplier[s.id] || [])
+                                                    .filter(b => b.qualityGrade);   // only graded batches
+                                                if (supplierBatches.length === 0) return false;
+                                                const premiumCount = supplierBatches.filter(b => b.qualityGrade === 'PREMIUM').length;
+                                                return premiumCount / supplierBatches.length >= 0.5;
+                                            });
+                                            return suppliers.length > 0
+                                                ? `${premiumSuppliers.length}/${suppliers.length}`
+                                                : '—';
                                         })()}
                                     </div>
                                     <div className="text-xs text-gray-500 mt-1">Premium-Grade Suppliers</div>
                                     <div className="text-[10px] text-gray-400 mt-1">
                                         {(() => {
-                                            const values = Object.values(metricsBySupplier)
-                                                .map(m => m.averageRcnQualityScore)
-                                                .filter((v): v is number => v !== null);
-                                            const premium = values.filter(v => v >= 95).length;
-                                            if (values.length === 0) return 'No quality data yet';
-                                            if (premium === values.length && values.length === suppliers.length) return 'All suppliers at premium level';
+                                            const premiumSuppliers = suppliers.filter(s => {
+                                                const supplierBatches = (batchesBySupplier[s.id] || [])
+                                                    .filter(b => b.qualityGrade);
+                                                if (supplierBatches.length === 0) return false;
+                                                const premiumCount = supplierBatches.filter(b => b.qualityGrade === 'PREMIUM').length;
+                                                return premiumCount / supplierBatches.length >= 0.5;
+                                            });
+                                            const suppliersWithGradedBatches = suppliers.filter(s =>
+                                                (batchesBySupplier[s.id] || []).some(b => b.qualityGrade)
+                                            ).length;
+
+                                            if (suppliersWithGradedBatches === 0) return 'No graded batches yet';
+                                            if (premiumSuppliers.length === suppliersWithGradedBatches &&
+                                                suppliersWithGradedBatches === suppliers.length) {
+                                                return 'All suppliers majority-premium';
+                                            }
                                             return 'Tracking toward full premium network';
                                         })()}
                                     </div>
@@ -928,8 +945,8 @@ const SupplierManagement: React.FC = () => {
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
                     {/* ============================================
-            OPTION A — Highest Trust Scores
-            ============================================ */}
+                        OPTION A — Highest Trust Scores
+                    ============================================ */}
                     <InfoCard
                         icon={FaShieldAlt}
                         title="Highest Trust Scores"
@@ -947,9 +964,12 @@ const SupplierManagement: React.FC = () => {
 
                                 if (ranked.length === 0) {
                                     return (
-                                        <div className="text-center py-6 text-sm text-gray-400">
+                                        <div className="text-center py-6 text-sm text-gray-500">
                                             <FaShieldAlt className="text-2xl mx-auto mb-2 text-gray-300" />
-                                            No suppliers with sufficient evidence yet.
+                                            <p className="font-medium text-gray-600">No complete scores yet</p>
+                                            <p className="text-[11px] text-gray-400 mt-1 max-w-md mx-auto">
+                                                A supplier needs validated commitments (delivery), inspected batches (quality), and registered location/consent (traceability) before receiving an overall trust score.
+                                            </p>
                                         </div>
                                     );
                                 }
