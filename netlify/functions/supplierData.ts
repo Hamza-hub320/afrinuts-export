@@ -361,29 +361,21 @@ export const handler: Handler = async (event: HandlerEvent) => {
         if (action === 'getSuppliersWithTrust') {
             const suppliersSnap = await db.collection('farms').doc(fid).collection('suppliers').get();
             const batchesSnap = await db.collection('farms').doc(fid).collection('quality_batches').get();
-
-            // Validated evidence → feeds the Trust Engine
-            const commitmentsSnap = await db.collection('farms').doc(fid)
-                .collection('supplier_commitments')
-                .where('validatedAt', '!=', null)
-                .get();
-            const inspectionsSnap = await db.collection('farms').doc(fid)
-                .collection('supplier_inspections')
-                .where('validatedAt', '!=', null)
-                .get();
-
-            // Unvalidated evidence → portal queue
-            const pendingCommitmentsSnap = await db.collection('farms').doc(fid)
-                .collection('supplier_commitments')
-                .where('validatedAt', '==', null)
-                .get();
-            const pendingInspectionsSnap = await db.collection('farms').doc(fid)
-                .collection('supplier_inspections')
-                .where('validatedAt', '==', null)
-                .get();
+            const allCommitmentsSnap = await db.collection('farms').doc(fid).collection('supplier_commitments').get();
+            const allInspectionsSnap = await db.collection('farms').doc(fid).collection('supplier_inspections').get();
 
             const suppliers = suppliersSnap.docs.map(d => ({ id: d.id, ...d.data() }));
             const batches = batchesSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+
+            const allCommitments = allCommitmentsSnap.docs.map(d => ({ id: d.id, ...d.data() } as any));
+            const allInspections = allInspectionsSnap.docs.map(d => ({ id: d.id, ...d.data() } as any));
+
+// Split into validated (has a timestamp) and pending (null or missing)
+            const commitments = allCommitments.filter((c: any) => c.validatedAt);
+            const pendingCommitments = allCommitments.filter((c: any) => !c.validatedAt);
+
+            const inspections = allInspections.filter((i: any) => i.validatedAt);
+            const pendingInspections = allInspections.filter((i: any) => !i.validatedAt);
 
             const groupBy = (arr: any[], key = 'supplierId') => {
                 const out: Record<string, any[]> = {};
@@ -400,10 +392,10 @@ export const handler: Handler = async (event: HandlerEvent) => {
                 body: JSON.stringify({
                     suppliers,
                     batchesBySupplier: groupBy(batches),
-                    commitmentsBySupplier: groupBy(commitmentsSnap.docs.map(d => ({ id: d.id, ...d.data() }))),
-                    inspectionsBySupplier: groupBy(inspectionsSnap.docs.map(d => ({ id: d.id, ...d.data() }))),
-                    pendingCommitments: pendingCommitmentsSnap.docs.map(d => ({ id: d.id, ...d.data() })),
-                    pendingInspections: pendingInspectionsSnap.docs.map(d => ({ id: d.id, ...d.data() })),
+                    commitmentsBySupplier: groupBy(commitments),
+                    inspectionsBySupplier: groupBy(inspections),
+                    pendingCommitments,
+                    pendingInspections,
                 }),
             };
         }

@@ -153,19 +153,26 @@ const SupplierManagement: React.FC = () => {
                 farmId: '1',
             });
 
-            // Optimistic remove from queue
+            // Remove from queue optimistically so the UI feels instant
             if (collection === 'supplier_commitments') {
                 setPendingCommitments(prev => prev.filter(c => c.id !== docId));
             } else {
                 setPendingInspections(prev => prev.filter(i => i.id !== docId));
             }
 
-            // Refetch to refresh engine inputs
+            // Force a full refresh to update the Trust Engine inputs
+            // This ensures the item actually moved from "pending" to "validated"
             const data = await getSupplierData('getSuppliersWithTrust');
+            setSuppliers(data.suppliers || []);
+            setBatchesBySupplier(data.batchesBySupplier || {});
             setCommitmentsBySupplier(data.commitmentsBySupplier || {});
             setInspectionsBySupplier(data.inspectionsBySupplier || {});
+            setPendingCommitments(data.pendingCommitments || []);
+            setPendingInspections(data.pendingInspections || []);
+
         } catch (error) {
             console.error('Validation failed:', error);
+            alert('Failed to validate. Check the console for details.');
         }
     };
 
