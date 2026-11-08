@@ -169,9 +169,9 @@ const SupplierManagement: React.FC = () => {
 
             // Remove from queue optimistically so the UI feels instant
             if (collection === 'supplier_commitments') {
-                setPendingCommitments(prev => prev.filter(c => c.id !== docId));
+                setPendingCommitments(prev => prev.filter(c => c.firestoreId !== docId));
             } else {
-                setPendingInspections(prev => prev.filter(i => i.id !== docId));
+                setPendingInspections(prev => prev.filter(i => i.firestoreId !== docId));
             }
 
             // Force a full refresh to update the Trust Engine inputs
@@ -734,7 +734,7 @@ const SupplierManagement: React.FC = () => {
                                                                             </p>
                                                                         </div>
                                                                         <button
-                                                                            onClick={() => handleValidate('supplier_commitments', c.id)}
+                                                                            onClick={() => handleValidate('supplier_commitments', c.firestoreId)}
                                                                             className="px-3 py-1.5 bg-primary text-white text-xs font-medium rounded-full hover:bg-dark-orange transition-colors flex-shrink-0"
                                                                         >
                                                                             Validate
@@ -774,7 +774,7 @@ const SupplierManagement: React.FC = () => {
                                                                             </p>
                                                                         </div>
                                                                         <button
-                                                                            onClick={() => handleValidate('supplier_inspections', i.id)}
+                                                                            onClick={() => handleValidate('supplier_inspections', i.firestoreId)}
                                                                             className="px-3 py-1.5 bg-primary text-white text-xs font-medium rounded-full hover:bg-dark-orange transition-colors flex-shrink-0"
                                                                         >
                                                                             Validate

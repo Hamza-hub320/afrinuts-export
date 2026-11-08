@@ -385,8 +385,15 @@ export const handler: Handler = async (event: HandlerEvent) => {
                 };
             });
 
-            const allCommitments = allCommitmentsSnap.docs.map(d => ({ id: d.id, ...d.data() } as any));
-            const allInspections = allInspectionsSnap.docs.map(d => ({ id: d.id, ...d.data() } as any));
+            const allCommitments = allCommitmentsSnap.docs.map(d => ({
+                firestoreId: d.id,           // ← the real path
+                ...d.data(),                 // ← numeric id lives here, doesn't clobber firestoreId
+            } as any));
+
+            const allInspections = allInspectionsSnap.docs.map(d => ({
+                firestoreId: d.id,
+                ...d.data(),
+            } as any));
 
             const commitments = allCommitments.filter((c: any) => c.validatedAt);
             const pendingCommitments = allCommitments.filter((c: any) => !c.validatedAt);
