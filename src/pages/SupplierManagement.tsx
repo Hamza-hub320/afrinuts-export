@@ -23,6 +23,8 @@ import { computeTrustScore, TrustResult } from '@/utils/trustScore';
 import {GiFarmer} from "react-icons/gi";
 import {TrustPanel} from "@/components/TrustBadge/TrustPanel";
 import {TrustBadge} from "@/components/TrustBadge/TrustBadge";
+import { useNavigate } from 'react-router-dom';
+
 
 interface Supplier {
     id: string;
@@ -115,6 +117,7 @@ const SupplierManagement: React.FC = () => {
     const [pendingCommitments, setPendingCommitments] = useState<any[]>([]);
     const [pendingInspections, setPendingInspections] = useState<any[]>([]);
     const [openDisputes, setOpenDisputes] = useState<any[]>([]);
+    const navigate = useNavigate();
 
     const isDevelopment = import.meta.env.DEV;
 
@@ -1080,14 +1083,12 @@ const SupplierManagement: React.FC = () => {
                 </div>
             </div>
 
-            {/* ============================================
-                OPTION C — Risk & Attention Radar
-                ============================================ */}
+            {/* Risk Preview */}
             <div className="max-w-6xl mx-auto px-4 sm:px-6 mb-8">
                 <InfoCard
                     icon={FaExclamationTriangle}
                     title="Risk & Attention Radar"
-                    subtitle="Suppliers requiring review — sorted by trust severity"
+                    subtitle="Suppliers requiring review"
                     iconColor="text-amber-600"
                     showInfoBadge={false}
                 >
@@ -1099,167 +1100,91 @@ const SupplierManagement: React.FC = () => {
 
                         if (flagged.length === 0) {
                             return (
-                                <div className="text-center py-6 text-sm text-gray-400">
-                                    <FaCheckCircle className="text-2xl text-green-500 mx-auto mb-2" />
-                                    No suppliers currently require attention.
+                                <div className="text-center py-4 text-sm text-gray-400">
+                                    <FaCheckCircle className="text-xl text-green-500 mx-auto mb-1" />
+                                    No suppliers require attention.
                                 </div>
                             );
                         }
 
+                        const criticalCount = flagged.filter(x => x.trust.hasCriticalViolation).length;
+
                         return (
-                            <div className="space-y-2 mt-3">
-                                {flagged.slice(0, 6).map(({ supplier, trust }) => (
-                                    <div
-                                        key={supplier.id}
-                                        onClick={() => openSupplierDetail(supplier)}
-                                        className="bg-white/40 rounded-xl p-3 border border-white/30 cursor-pointer hover:bg-white/60 transition-all flex items-center gap-3"
-                                    >
-                                        <div className="flex-1 min-w-0">
-                                            <div className="flex items-center gap-2">
-                                                <p className="text-sm font-medium truncate">{supplier.name}</p>
-                                                <span className="text-[10px] text-gray-400 flex-shrink-0">
-                                        {supplier.type?.replace(/_/g, ' ')}
-                                    </span>
-                                            </div>
-                                            <div className="flex flex-wrap gap-1 mt-1">
-                                                {trust.flags.map(f => (
-                                                    <span key={f} className="px-1.5 py-0.5 bg-amber-100 text-amber-700 text-[10px] rounded-full">
-                                            {f}
-                                        </span>
-                                                ))}
-                                            </div>
-                                        </div>
-                                        <div className="text-right flex-shrink-0">
-                                            <div className={`text-sm font-bold ${
-                                                (trust.overall ?? 0) < 50 ? 'text-red-600' : 'text-amber-600'
-                                            }`}>
-                                                {trust.overall ?? '—'}
-                                            </div>
-                                            <div className="text-[10px] text-gray-400">{trust.confidence}</div>
-                                        </div>
+                            <div className="mt-3">
+                                <div className="grid grid-cols-3 gap-2 mb-3">
+                                    <div className="bg-red-50/60 rounded-lg p-2 text-center border border-red-200">
+                                        <div className="text-xl font-bold text-red-600">{criticalCount}</div>
+                                        <div className="text-[10px] text-gray-500">Critical</div>
                                     </div>
-                                ))}
-                                {flagged.length > 6 && (
-                                    <p className="text-[10px] text-gray-400 text-center pt-1">
-                                        +{flagged.length - 6} more supplier{flagged.length - 6 !== 1 ? 's' : ''} with flags
-                                    </p>
-                                )}
+                                    <div className="bg-amber-50/60 rounded-lg p-2 text-center border border-amber-200">
+                                        <div className="text-xl font-bold text-amber-600">
+                                            {flagged.filter(x => !x.trust.hasCriticalViolation && (x.trust.overall ?? 100) < 60).length}
+                                        </div>
+                                        <div className="text-[10px] text-gray-500">Below 60</div>
+                                    </div>
+                                    <div className="bg-gray-50/60 rounded-lg p-2 text-center border border-gray-200">
+                                        <div className="text-xl font-bold text-gray-700">{flagged.length}</div>
+                                        <div className="text-[10px] text-gray-500">Total flagged</div>
+                                    </div>
+                                </div>
+                                <button
+                                    onClick={() => navigate('/dashboard/suppliers/risk')}
+                                    className="w-full py-2 bg-amber-500 text-white text-sm font-medium rounded-full hover:bg-amber-600 transition-colors"
+                                >
+                                    Review all {flagged.length} flagged suppliers →
+                                </button>
                             </div>
                         );
                     })()}
                 </InfoCard>
             </div>
 
-            {/* ============================================
-                Supplier Development Opportunities
-                ============================================ */}
+            {/* Development Preview */}
             <div className="max-w-6xl mx-auto px-4 sm:px-6 mb-8">
                 <InfoCard
                     icon={FaHandshake}
                     title="Supplier Development Opportunities"
-                    subtitle="Where targeted support strengthens the supply network"
+                    subtitle="Where targeted support strengthens the network"
                     iconColor="text-primary"
                     showInfoBadge={false}
                 >
                     {developmentOpportunities.length === 0 ? (
-                        <div className="text-center py-6 text-sm text-gray-400">
-                            <FaCheckCircle className="text-2xl text-green-500 mx-auto mb-2" />
-                            No development opportunities detected — every supplier is meeting current thresholds.
+                        <div className="text-center py-4 text-sm text-gray-400">
+                            <FaCheckCircle className="text-xl text-green-500 mx-auto mb-1" />
+                            No development opportunities detected.
                         </div>
                     ) : (
-                        <>
-                            {/* Summary strip */}
-                            {(() => {
-                                const high = developmentOpportunities.filter(o => o.severity === 'high').length;
-                                const medium = developmentOpportunities.filter(o => o.severity === 'medium').length;
-                                const low = developmentOpportunities.filter(o => o.severity === 'low').length;
-                                return (
-                                    <div className="grid grid-cols-3 gap-3 mb-4 mt-3">
-                                        <div className="bg-red-50/60 rounded-xl p-3 border border-red-200 text-center">
-                                            <div className="text-2xl font-bold text-red-600">{high}</div>
-                                            <div className="text-[10px] text-gray-500">High priority</div>
-                                        </div>
-                                        <div className="bg-amber-50/60 rounded-xl p-3 border border-amber-200 text-center">
-                                            <div className="text-2xl font-bold text-amber-600">{medium}</div>
-                                            <div className="text-[10px] text-gray-500">Medium priority</div>
-                                        </div>
-                                        <div className="bg-blue-50/60 rounded-xl p-3 border border-blue-200 text-center">
-                                            <div className="text-2xl font-bold text-blue-600">{low}</div>
-                                            <div className="text-[10px] text-gray-500">Capacity building</div>
-                                        </div>
+                        <div className="mt-3">
+                            <div className="grid grid-cols-3 gap-2 mb-3">
+                                <div className="bg-red-50/60 rounded-lg p-2 text-center border border-red-200">
+                                    <div className="text-xl font-bold text-red-600">
+                                        {new Set(developmentOpportunities.filter(o => o.severity === 'high').map(o => o.supplierId)).size}
                                     </div>
-                                );
-                            })()}
-
-                            {/* Opportunities list */}
-                            <div className="space-y-2">
-                                {developmentOpportunities.slice(0, 8).map((opp, i) => {
-                                    const supplier = suppliers.find(s => s.id === opp.supplierId);
-                                    const borderColor =
-                                        opp.severity === 'high' ? 'border-l-red-400' :
-                                            opp.severity === 'medium' ? 'border-l-amber-400' :
-                                                'border-l-blue-400';
-                                    const badgeColor =
-                                        opp.severity === 'high' ? 'bg-red-100 text-red-700' :
-                                            opp.severity === 'medium' ? 'bg-amber-100 text-amber-700' :
-                                                'bg-blue-100 text-blue-700';
-
-                                    return (
-                                        <div
-                                            key={`${opp.supplierId}-${opp.weakness}-${i}`}
-                                            onClick={() => supplier && openSupplierDetail(supplier)}
-                                            className={`bg-white/40 rounded-xl p-3 border border-white/30 border-l-4 ${borderColor} cursor-pointer hover:bg-white/60 transition-all`}
-                                        >
-                                            <div className="flex items-start justify-between gap-3">
-                                                <div className="flex-1 min-w-0">
-                                                    <div className="flex items-center gap-2 flex-wrap">
-                                                        <p className="text-sm font-semibold text-gray-900 truncate">
-                                                            {opp.supplierName}
-                                                        </p>
-                                                        <span className={`px-1.5 py-0.5 rounded-full text-[10px] font-medium ${badgeColor}`}>
-                                                {opp.severity}
-                                            </span>
-                                                        <span className="text-[10px] text-gray-400">
-                                                {opp.confidence}
-                                            </span>
-                                                    </div>
-                                                    <p className="text-xs text-gray-700 font-medium mt-1">
-                                                        {opp.weakness}
-                                                    </p>
-                                                    <p className="text-[11px] text-gray-500 mt-0.5">
-                                                        {opp.metric}
-                                                    </p>
-                                                    <p className="text-[11px] text-primary mt-1.5 flex items-center gap-1">
-                                                        <FaHandshake className="text-[10px]" />
-                                                        <span className="font-medium">Suggested support:</span>
-                                                        <span className="text-gray-600">{opp.suggestedSupport}</span>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    );
-                                })}
-                            </div>
-
-                            {/* Footer insight */}
-                            {developmentOpportunities.length > 0 && (
-                                <div className="mt-4 p-3 bg-primary/5 rounded-lg text-[11px] text-gray-600">
-                                    <FaChartLine className="inline mr-1 text-primary" />
-                                    <strong>The continuous improvement cycle:</strong> measure performance → identify weaknesses →
-                                    provide targeted support → measure improvements in later cycles.
-                                    {developmentOpportunities.length > 8 && (
-                                        <span className="ml-1 text-gray-500">
-                                +{developmentOpportunities.length - 8} more opportunit{developmentOpportunities.length - 8 === 1 ? 'y' : 'ies'} below.
-                            </span>
-                                    )}
+                                    <div className="text-[10px] text-gray-500">High priority</div>
                                 </div>
-                            )}
-                        </>
+                                <div className="bg-amber-50/60 rounded-lg p-2 text-center border border-amber-200">
+                                    <div className="text-xl font-bold text-amber-600">
+                                        {new Set(developmentOpportunities.filter(o => o.severity === 'medium').map(o => o.supplierId)).size}
+                                    </div>
+                                    <div className="text-[10px] text-gray-500">Medium</div>
+                                </div>
+                                <div className="bg-blue-50/60 rounded-lg p-2 text-center border border-blue-200">
+                                    <div className="text-xl font-bold text-blue-600">
+                                        {new Set(developmentOpportunities.filter(o => o.severity === 'low').map(o => o.supplierId)).size}
+                                    </div>
+                                    <div className="text-[10px] text-gray-500">Capacity</div>
+                                </div>
+                            </div>
+                            <button
+                                onClick={() => navigate('/dashboard/suppliers/development')}
+                                className="w-full py-2 bg-primary text-white text-sm font-medium rounded-full hover:bg-dark-orange transition-colors"
+                            >
+                                View {developmentOpportunities.length} opportunit{developmentOpportunities.length === 1 ? 'y' : 'ies'} across {new Set(developmentOpportunities.map(o => o.supplierId)).size} supplier{new Set(developmentOpportunities.map(o => o.supplierId)).size === 1 ? '' : 's'} →
+                            </button>
+                        </div>
                     )}
                 </InfoCard>
             </div>
-
-
 
             {/* Financial Efficiency */}
             <Section className="py-6">

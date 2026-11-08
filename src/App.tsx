@@ -56,6 +56,9 @@ const Financials = React.lazy(() => import('./pages/Financials'));
 const InvestorPortal = React.lazy(() => import('./pages/InvestorPortal'));
 const SupplierManagement = React.lazy(() => import('./pages/SupplierManagement'));
 const Batches = React.lazy(() => import('./pages/Batches'));
+const SupplierRisk = React.lazy(() => import('@/pages/SupplierRisk'));
+const SupplierDevelopmentPage = React.lazy(() => import('@/pages/SupplierDevelopmentPage'));
+
 
 function ScrollToTop() {
     const { pathname } = useLocation();
@@ -183,6 +186,16 @@ function App(): ReactElement {
                                 <Route path="dashboard/buyers" element={
                                     <ProtectedRoute allowedRoles={['OWNER', 'MANAGER']}>
                                         <AdminBuyers />
+                                    </ProtectedRoute>
+                                } />
+                                <Route path="dashboard/suppliers/risk" element={
+                                    <ProtectedRoute allowedRoles={['OWNER', 'MANAGER']}>
+                                        <SupplierRisk />
+                                    </ProtectedRoute>
+                                } />
+                                <Route path="dashboard/suppliers/development" element={
+                                    <ProtectedRoute allowedRoles={['OWNER', 'MANAGER']}>
+                                        <SupplierDevelopmentPage />
                                     </ProtectedRoute>
                                 } />
                                 <Route path="*" element={<Home />} />

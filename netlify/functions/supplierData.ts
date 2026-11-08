@@ -278,20 +278,28 @@ export const handler: Handler = async (event: HandlerEvent) => {
         if (action === 'validateEvidence') {
             const { collection, docId, userId } = params;
 
-            // Only allow valid collections
             if (!['supplier_commitments', 'supplier_inspections'].includes(collection)) {
-                return { statusCode: 400, body: JSON.stringify({ error: 'Invalid collection' }) };
+                return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid collection' }) };
             }
 
-            await db.collection('farms').doc(fid)
-                .collection(collection).doc(docId)
-                .update({
-                    validatedAt: Date.now(),
-                    validatedBy: userId,
-                    updatedAt: Date.now()
-                });
+            const docRef = db.collection('farms').doc(fid).collection(collection).doc(docId);
+            const docSnap = await docRef.get();
 
-            return { statusCode: 200, body: JSON.stringify({ success: true }) };
+            if (!docSnap.exists) {
+                return {
+                    statusCode: 404,
+                    headers,
+                    body: JSON.stringify({ error: `No ${collection} document at ${docId}` }),
+                };
+            }
+
+            await docRef.update({
+                validatedAt: Date.now(),
+                validatedBy: userId,
+                updatedAt: Date.now(),
+            });
+
+            return { statusCode: 200, headers, body: JSON.stringify({ success: true }) };
         }
 
         if (action === 'resolveDispute') {
