@@ -30,7 +30,7 @@ interface Supplier {
 type SeverityFilter = 'all' | 'critical' | 'high' | 'medium' | 'low';
 type SortMode = 'severity' | 'trust_asc' | 'trust_desc' | 'name_asc' | 'flags_desc';
 
-const PAGE_SIZE = 20;
+const PAGE_SIZE = 4;
 
 const severityOf = (trust: TrustResult): 'critical' | 'high' | 'medium' | 'low' => {
     if (trust.hasCriticalViolation) return 'critical';
@@ -55,6 +55,7 @@ const SupplierRisk: React.FC = () => {
     const [pendingInspections, setPendingInspections] = useState<any[]>([]);
     const [openDisputes, setOpenDisputes] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
+    const [correctedValues, setCorrectedValues] = useState<Record<string, string>>({});
 
 
     const [searchQuery, setSearchQuery] = useState('');
@@ -104,6 +105,18 @@ const SupplierRisk: React.FC = () => {
         });
         return map;
     }, [suppliers, batchesBySupplier, commitmentsBySupplier, inspectionsBySupplier]);
+
+    const counts = useMemo(() => {
+        const c = { critical: 0, high: 0, medium: 0, low: 0 };
+        suppliers.forEach(s => {
+            const t = trustBySupplier[s.id];
+            if (t && (t.flags.length > 0 || t.hasCriticalViolation)) {
+                const sev = severityOf(t);
+                c[sev]++;
+            }
+        });
+        return c;
+    }, [suppliers, trustBySupplier]);
 
     const filtered = useMemo(() => {
         const q = searchQuery.toLowerCase();
@@ -187,11 +200,25 @@ const SupplierRisk: React.FC = () => {
     const handleResolveDispute = async (disputeId: string, resolution: 'UPHELD' | 'REJECTED') => {
         setActionLoading(true);
         try {
-            await getSupplierData('resolveDispute', {
+            const dispute = openDisputes.find((d: any) => (d.firestoreId || d.id) === disputeId);
+            const payload: any = {
                 disputeId,
                 resolution,
-                reviewedBy: 'portal-manager',
-            });
+                reviewedBy: user?.email || 'portal-manager',
+            };
+
+            // R4 — if batch dispute is upheld and a corrected value was entered, send it
+            if (
+                resolution === 'UPHELD' &&
+                dispute?.targetEntity === 'batch' &&
+                correctedValues[disputeId]
+            ) {
+                payload.originalValue = dispute.originalValue ?? null;
+                payload.correctedValue = parseFloat(correctedValues[disputeId]);
+                payload.correctionApplied = true;
+            }
+
+            await getSupplierData('resolveDispute', payload);
             await fetchAll();
         } catch (error) {
             console.error('Dispute resolution failed:', error);
@@ -275,6 +302,22 @@ const SupplierRisk: React.FC = () => {
 
             <Section className="py-6">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6">
+                    {/* Summary Strip */}
+                    <div className="grid grid-cols-2 md:grid-cols-6 gap-2 mb-6">
+                        {[
+                            { label: 'Critical', count: counts.critical, color: 'text-red-600', border: 'border-red-200', bg: 'bg-red-50/60' },
+                            { label: 'High', count: counts.high, color: 'text-orange-600', border: 'border-orange-200', bg: 'bg-orange-50/60' },
+                            { label: 'Medium', count: counts.medium, color: 'text-amber-600', border: 'border-amber-200', bg: 'bg-amber-50/60' },
+                            { label: 'Low', count: counts.low, color: 'text-blue-600', border: 'border-blue-200', bg: 'bg-blue-50/60' },
+                            { label: 'Pending Validation', count: pendingCommitments.length + pendingInspections.length, color: 'text-gray-700', border: 'border-gray-200', bg: 'bg-gray-50/60' },
+                            { label: 'Open Disputes', count: openDisputes.length, color: 'text-gray-700', border: 'border-gray-200', bg: 'bg-gray-50/60' },
+                        ].map((item, i) => (
+                            <div key={i} className={`${item.bg} rounded-xl p-3 border ${item.border} text-center`}>
+                                <div className={`text-2xl font-bold ${item.color}`}>{item.count}</div>
+                                <div className="text-[10px] text-gray-500 uppercase tracking-wide">{item.label}</div>
+                            </div>
+                        ))}
+                    </div>
                     {/* Filters */}
                     <div className="flex flex-col gap-3 mb-6">
                         <div className="flex flex-col sm:flex-row gap-3">
@@ -333,7 +376,7 @@ const SupplierRisk: React.FC = () => {
                     {/* Split layout: list + detail panel */}
                     <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
                         {/* Left: supplier list */}
-                        <div className={`${selected ? 'lg:col-span-2' : 'lg:col-span-5'} transition-all`}>
+                        <div className={`${selected ? 'lg:col-span-2' : 'lg:col-span-5'} transition-all flex flex-col`}>
                             {filtered.length === 0 ? (
                                 <InfoCard icon={FaCheckCircle} title="No suppliers require attention" iconColor="text-green-600" showInfoBadge={false}>
                                     <p className="text-sm text-gray-500 text-center py-4">
@@ -408,22 +451,21 @@ const SupplierRisk: React.FC = () => {
                                             );
                                         })}
                                     </div>
+                                    {/* Pagination Controls */}
                                     {totalPages > 1 && (
-                                        <div className="flex items-center justify-center gap-2 mt-4">
+                                        <div className="flex items-center justify-between bg-white/40 rounded-xl p-2 border border-white/30">
                                             <button
                                                 disabled={page === 1}
                                                 onClick={() => setPage(p => Math.max(1, p - 1))}
-                                                className="px-3 py-1.5 bg-white/60 border border-gray-200 rounded-full text-sm disabled:opacity-40"
+                                                className="px-3 py-1.5 text-xs font-medium text-primary bg-white/60 border border-gray-200 rounded-full hover:bg-white disabled:opacity-40 transition-colors"
                                             >
                                                 Prev
                                             </button>
-                                            <span className="text-xs text-gray-500">
-                                                {page}/{totalPages}
-                                            </span>
+                                            <span className="text-xs text-gray-500 font-medium">Page {page} of {totalPages}</span>
                                             <button
                                                 disabled={page === totalPages}
                                                 onClick={() => setPage(p => Math.min(totalPages, p + 1))}
-                                                className="px-3 py-1.5 bg-white/60 border border-gray-200 rounded-full text-sm disabled:opacity-40"
+                                                className="px-3 py-1.5 text-xs font-medium text-primary bg-white/60 border border-gray-200 rounded-full hover:bg-white disabled:opacity-40 transition-colors"
                                             >
                                                 Next
                                             </button>
@@ -649,36 +691,65 @@ const SupplierRisk: React.FC = () => {
                                         )}
 
                                         {/* Disputes — same as before */}
+                                        {/* Disputes */}
                                         {selectedDisputes.length > 0 && (
                                             <div className="mb-4">
                                                 <h4 className="text-xs font-medium text-gray-600 mb-2 flex items-center gap-1">
                                                     <FaBalanceScale /> Open Disputes ({selectedDisputes.length})
                                                 </h4>
                                                 <div className="space-y-1.5">
-                                                    {selectedDisputes.map((d: any) => (
-                                                        <div key={d.firestoreId || d.id} className="bg-red-50/50 rounded-lg p-2 border border-red-200">
-                                                            <div className="text-xs font-medium text-gray-800 truncate">{d.reason}</div>
-                                                            <div className="text-[10px] text-gray-500 mb-1.5">
-                                                                Target: {d.targetEntity} #{d.targetId}
+                                                    {selectedDisputes.map((d: any) => {
+                                                        const key = d.firestoreId || d.id;
+                                                        const isBatchTarget = d.targetEntity === 'batch';
+
+                                                        return (
+                                                            <div key={key} className="bg-red-50/50 rounded-lg p-2 border border-red-200">
+                                                                <div className="text-xs font-medium text-gray-800 truncate mb-1">
+                                                                    {d.reason}
+                                                                </div>
+                                                                <div className="text-[10px] text-gray-500 mb-1.5">
+                                                                    Target: {d.targetEntity} #{d.targetId}
+                                                                </div>
+
+                                                                {/* R4 — original / corrected value pair (batch disputes only) */}
+                                                                {isBatchTarget && (
+                                                                    <div className="flex items-center gap-2 mb-2">
+                                <span className="text-[10px] text-gray-600">
+                                    Original: <strong>{d.originalValue ?? '—'}</strong>
+                                </span>
+                                                                        <span className="text-[10px] text-gray-400">→</span>
+                                                                        <span className="text-[10px] text-gray-600">Corrected:</span>
+                                                                        <input
+                                                                            type="number"
+                                                                            placeholder={String(d.correctedValue ?? '')}
+                                                                            value={correctedValues[key] || ''}
+                                                                            onChange={(e) =>
+                                                                                setCorrectedValues(prev => ({ ...prev, [key]: e.target.value }))
+                                                                            }
+                                                                            className="w-16 px-1 py-0.5 text-[10px] border border-gray-300 rounded focus:outline-none focus:border-primary"
+                                                                        />
+                                                                    </div>
+                                                                )}
+
+                                                                <div className="flex gap-1.5">
+                                                                    <button
+                                                                        disabled={actionLoading}
+                                                                        onClick={() => handleResolveDispute(key, 'UPHELD')}
+                                                                        className="flex-1 px-2 py-1 bg-green-600 text-white text-[10px] rounded-full hover:bg-green-700 disabled:opacity-50"
+                                                                    >
+                                                                        Upheld
+                                                                    </button>
+                                                                    <button
+                                                                        disabled={actionLoading}
+                                                                        onClick={() => handleResolveDispute(key, 'REJECTED')}
+                                                                        className="flex-1 px-2 py-1 bg-gray-500 text-white text-[10px] rounded-full hover:bg-gray-600 disabled:opacity-50"
+                                                                    >
+                                                                        Rejected
+                                                                    </button>
+                                                                </div>
                                                             </div>
-                                                            <div className="flex gap-1.5">
-                                                                <button
-                                                                    disabled={actionLoading}
-                                                                    onClick={() => handleResolveDispute(d.firestoreId || d.id, 'UPHELD')}
-                                                                    className="flex-1 px-2 py-1 bg-green-600 text-white text-[10px] rounded-full hover:bg-green-700 disabled:opacity-50"
-                                                                >
-                                                                    Upheld
-                                                                </button>
-                                                                <button
-                                                                    disabled={actionLoading}
-                                                                    onClick={() => handleResolveDispute(d.firestoreId || d.id, 'REJECTED')}
-                                                                    className="flex-1 px-2 py-1 bg-gray-500 text-white text-[10px] rounded-full hover:bg-gray-600 disabled:opacity-50"
-                                                                >
-                                                                    Rejected
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    ))}
+                                                        );
+                                                    })}
                                                 </div>
                                             </div>
                                         )}
@@ -708,19 +779,26 @@ const SupplierRisk: React.FC = () => {
                                         )}
 
                                         {/* Actions footer — same as before */}
-                                        <div className="pt-3 border-t border-gray-200 flex gap-2">
+                                        {/* Actions footer */}
+                                        <div className="pt-4 border-t border-gray-200 flex flex-wrap gap-2">
                                             <button
                                                 disabled={actionLoading}
                                                 onClick={handleRecalculate}
-                                                className="flex-1 py-2 bg-primary text-white text-xs font-medium rounded-full hover:bg-dark-orange disabled:opacity-50 flex items-center justify-center gap-1"
+                                                className="flex-1 min-w-[140px] py-2 bg-primary text-white text-xs font-medium rounded-full hover:bg-dark-orange disabled:opacity-50 flex items-center justify-center gap-1"
                                             >
-                                                <FaHistory /> Recalculate & Snapshot
+                                                <FaHistory /> Recalculate
                                             </button>
                                             <button
                                                 onClick={() => navigate(`/dashboard/suppliers?open=${selected.firestoreId || selected.id}`)}
-                                                className="px-3 py-2 bg-white/60 border border-gray-200 text-xs rounded-full hover:bg-white/80"
+                                                className="flex-1 min-w-[120px] py-2 bg-white/60 border border-gray-200 text-xs font-medium rounded-full hover:bg-white/80"
                                             >
                                                 Full Profile →
+                                            </button>
+                                            <button
+                                                onClick={() => navigate(`/dashboard/suppliers/development?supplier=${selected.firestoreId || selected.id}`)}
+                                                className="flex-1 min-w-[140px] py-2 bg-white/60 border border-gray-200 text-xs font-medium rounded-full hover:bg-white/80"
+                                            >
+                                                View in Development →
                                             </button>
                                         </div>
                                     </InfoCard>
