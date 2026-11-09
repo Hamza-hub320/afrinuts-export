@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useMemo, Fragment } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import {
     FaExclamationTriangle, FaSearch, FaCheckCircle, FaTimes,
-    FaChevronLeft, FaShieldAlt, FaHandshake, FaFileAlt,
-    FaUser, FaClipboardCheck, FaBalanceScale, FaHistory
+    FaShieldAlt, FaClipboardCheck, FaBalanceScale, FaHistory,
+    FaArrowDown, FaArrowUp, FaChevronLeft, FaFileAlt
 } from 'react-icons/fa';
 import { Typography } from '@/components/Typography/Typography';
 import { InfoCard } from '@/components/InfoCard/InfoCard';
@@ -14,6 +14,7 @@ import { fadeIn, staggerContainer } from '@/utils/animations';
 import { getSupplierData } from '../services/api';
 import { computeTrustScore, TrustResult } from '@/utils/trustScore';
 import { GiFarmer } from 'react-icons/gi';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface Supplier {
     id: string;
@@ -27,11 +28,11 @@ interface Supplier {
 }
 
 type SeverityFilter = 'all' | 'critical' | 'high' | 'medium' | 'low';
-type SortMode = 'trust_asc' | 'trust_desc' | 'name_asc' | 'flags_desc';
+type SortMode = 'severity' | 'trust_asc' | 'trust_desc' | 'name_asc' | 'flags_desc';
 
 const PAGE_SIZE = 20;
 
-const severityOf = (trust: TrustResult): SeverityFilter => {
+const severityOf = (trust: TrustResult): 'critical' | 'high' | 'medium' | 'low' => {
     if (trust.hasCriticalViolation) return 'critical';
     if ((trust.overall ?? 100) < 40) return 'high';
     if ((trust.overall ?? 100) < 60) return 'medium';
@@ -45,7 +46,8 @@ const severityColor = (sev: SeverityFilter): string =>
 
 const SupplierRisk: React.FC = () => {
     const navigate = useNavigate();
-    const [suppliers, setSuppliers] = useState<Supplier[]>([]);
+    const { user } = useAuth();
+    const [suppliers, setSuppliers] = useState<any[]>([]);
     const [batchesBySupplier, setBatchesBySupplier] = useState<Record<string, any[]>>({});
     const [commitmentsBySupplier, setCommitmentsBySupplier] = useState<Record<string, any[]>>({});
     const [inspectionsBySupplier, setInspectionsBySupplier] = useState<Record<string, any[]>>({});
@@ -53,6 +55,7 @@ const SupplierRisk: React.FC = () => {
     const [pendingInspections, setPendingInspections] = useState<any[]>([]);
     const [openDisputes, setOpenDisputes] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
+
 
     const [searchQuery, setSearchQuery] = useState('');
     const [severityFilter, setSeverityFilter] = useState<SeverityFilter>('all');
@@ -113,9 +116,16 @@ const SupplierRisk: React.FC = () => {
                 return true;
             })
             .sort((a, b) => {
+                const sevOrder = { critical: 0, high: 1, medium: 2, low: 3 };
+                if (sortMode === 'severity') {
+                    const sevA = sevOrder[severityOf(a.trust)];
+                    const sevB = sevOrder[severityOf(b.trust)];
+                    if (sevA !== sevB) return sevA - sevB;
+                    return (a.trust.overall ?? 100) - (b.trust.overall ?? 100);
+                }
                 if (sortMode === 'trust_asc') return (a.trust.overall ?? 100) - (b.trust.overall ?? 100);
                 if (sortMode === 'trust_desc') return (b.trust.overall ?? 0) - (a.trust.overall ?? 0);
-                if (sortMode === 'flags_desc') return b.trust.flags.length - a.trust.flags.length;
+                if (sortMode === 'flags_desc') return b.trust.flagDetails.length - a.trust.flagDetails.length;
                 return a.supplier.name.localeCompare(b.supplier.name);
             });
     }, [suppliers, trustBySupplier, severityFilter, searchQuery, sortMode]);
@@ -158,6 +168,20 @@ const SupplierRisk: React.FC = () => {
         } finally {
             setActionLoading(false);
         }
+    };
+
+    const findCriticalSource = (
+        inspections: any[],
+        batches: any[]
+    ): { inspection: any; batch: any } | null => {
+        const criticalFail = inspections.find(
+            i => i.severity === 'CRITICAL' && i.outcome === 'FAIL' && i.validatedAt
+        );
+        if (!criticalFail) return null;
+        const linkedBatch = criticalFail.linkedBatchIds
+            ? batches.find(b => criticalFail.linkedBatchIds.includes(Number(b.id)))
+            : null;
+        return { inspection: criticalFail, batch: linkedBatch };
     };
 
     const handleResolveDispute = async (disputeId: string, resolution: 'UPHELD' | 'REJECTED') => {
@@ -269,6 +293,7 @@ const SupplierRisk: React.FC = () => {
                                 onChange={(e) => setSortMode(e.target.value as SortMode)}
                                 className="px-4 py-3 rounded-full border border-gray-300 bg-white/60 backdrop-blur-md text-sm focus:outline-none focus:ring-2 focus:ring-primary"
                             >
+                                <option value="severity">Sort: Severity</option>
                                 <option value="trust_asc">Trust: Low → High</option>
                                 <option value="trust_desc">Trust: High → Low</option>
                                 <option value="flags_desc">Most flags</option>
@@ -321,6 +346,13 @@ const SupplierRisk: React.FC = () => {
                                         {paginated.map(({ supplier, trust }) => {
                                             const sev = severityOf(trust);
                                             const isActive = selectedSupplierId === supplier.id;
+
+                                            // R1: list rows carry conduct flags only — evidence/documentation
+                                            // live in the detail panel where they have room to breathe.
+                                            const conductFlags = trust.flagDetails
+                                                .filter(f => f.kind === 'conduct')
+                                                .map(f => f.label);
+
                                             return (
                                                 <motion.div
                                                     key={supplier.id}
@@ -333,30 +365,45 @@ const SupplierRisk: React.FC = () => {
                                                 >
                                                     <div className="flex items-start justify-between gap-2 mb-1.5">
                                                         <div className="flex items-center gap-2 min-w-0 flex-1">
-                                                            <span className={`px-1.5 py-0.5 ${severityColor(sev)} text-white text-[9px] uppercase rounded-full font-bold flex-shrink-0`}>
-                                                                {sev}
-                                                            </span>
+                                    <span className={`px-1.5 py-0.5 ${severityColor(sev)} text-white text-[9px] uppercase rounded-full font-bold flex-shrink-0`}>
+                                        {sev === 'critical' ? 'CRIT' : sev === 'high' ? 'HIGH' : sev === 'medium' ? 'MED' : 'LOW'}
+                                    </span>
                                                             <p className="text-sm font-medium truncate">{supplier.name}</p>
                                                         </div>
                                                         <span className={`text-sm font-bold flex-shrink-0 ${
                                                             (trust.overall ?? 0) < 40 ? 'text-red-600' :
                                                                 (trust.overall ?? 0) < 60 ? 'text-amber-600' : 'text-gray-700'
                                                         }`}>
-                                                            {trust.overall ?? '—'}
-                                                        </span>
+                                    {trust.overall ?? '—'}
+                                </span>
                                                     </div>
-                                                    <div className="flex flex-wrap gap-1">
-                                                        {trust.flags.slice(0, 2).map(f => (
-                                                            <span key={f} className="px-1.5 py-0.5 bg-amber-100 text-amber-700 text-[10px] rounded-full">
-                                                                {f}
-                                                            </span>
-                                                        ))}
-                                                        {trust.flags.length > 2 && (
-                                                            <span className="px-1.5 py-0.5 bg-gray-100 text-gray-600 text-[10px] rounded-full">
-                                                                +{trust.flags.length - 2}
-                                                            </span>
-                                                        )}
-                                                    </div>
+
+                                                    {/* R1: conduct flags only */}
+                                                    {conductFlags.length > 0 && (
+                                                        <div className="flex flex-wrap gap-1">
+                                                            {conductFlags.slice(0, 2).map(f => (
+                                                                <span
+                                                                    key={f}
+                                                                    className={`px-1.5 py-0.5 text-[10px] rounded-full ${
+                                                                        f.startsWith('CRITICAL')
+                                                                            ? 'bg-red-100 text-red-700 font-medium'
+                                                                            : 'bg-amber-100 text-amber-700'
+                                                                    }`}
+                                                                > {f}
+                                                                </span>
+                                                            ))}
+                                                            {conductFlags.length > 2 && (
+                                                                <span className="px-1.5 py-0.5 bg-gray-100 text-gray-600 text-[10px] rounded-full">+{conductFlags.length - 2}</span>
+                                                            )}
+                                                        </div>
+                                                    )}
+
+                                                    {/* R1 placeholder: deterioration marker (R5 wires the data) */}
+                                                    {conductFlags.length === 0 && (
+                                                        <p className="text-[10px] text-gray-400">
+                                                            no conduct flags — evidence backlog only
+                                                        </p>
+                                                    )}
                                                 </motion.div>
                                             );
                                         })}
@@ -410,23 +457,78 @@ const SupplierRisk: React.FC = () => {
                                             <FaTimes />
                                         </button>
 
-                                        {/* Trust snapshot */}
-                                        <div className="flex items-center gap-3 mt-2 mb-4 pb-4 border-b border-gray-200">
+                                        {/* Score snapshot */}
+                                        <div className="flex items-end justify-between gap-3 mt-2 mb-4 pb-4 border-b border-gray-200">
+                                            <div>
+                                                <div className="text-xs text-gray-500">Trust Score</div>
+                                                <div className="text-xs font-medium text-gray-700 mt-0.5">
+                                                    {selectedTrust.confidence} · {selectedTrust.verifiedTransactions} verified batch{selectedTrust.verifiedTransactions !== 1 ? 'es' : ''}
+                                                </div>
+                                            </div>
                                             <div className={`text-4xl font-bold ${
                                                 (selectedTrust.overall ?? 0) < 40 ? 'text-red-600' :
                                                     (selectedTrust.overall ?? 0) < 60 ? 'text-amber-600' : 'text-primary'
                                             }`}>
                                                 {selectedTrust.overall ?? '—'}
                                             </div>
-                                            <div>
-                                                <div className="text-xs text-gray-500">Trust Score</div>
-                                                <div className="text-xs font-medium text-gray-700">
-                                                    {selectedTrust.confidence} · {selectedTrust.verifiedTransactions} verified batch{selectedTrust.verifiedTransactions !== 1 ? 'es' : ''}
-                                                </div>
-                                            </div>
                                         </div>
 
-                                        {/* Dimension scores */}
+                                        {/* ============================== */}
+                                        {/* R2 — CRITICAL VIOLATION BANNER */}
+                                        {/* ============================== */}
+                                        {selectedTrust.hasCriticalViolation && (() => {
+                                            const source = findCriticalSource(
+                                                inspectionsBySupplier[selected.id] || [],
+                                                batchesBySupplier[selected.id] || []
+                                            );
+                                            return (
+                                                <motion.div
+                                                    initial={{ opacity: 0, y: -8 }}
+                                                    animate={{ opacity: 1, y: 0 }}
+                                                    className="bg-red-50 border-2 border-red-300 rounded-xl p-3 mb-4"
+                                                >
+                                                    <div className="flex items-start gap-2 mb-1.5">
+                                                        <FaExclamationTriangle className="text-red-600 mt-0.5 flex-shrink-0" />
+                                                        <div className="flex-1">
+                                                            <p className="text-sm font-bold text-red-700">
+                                                                CRITICAL VIOLATION — procurement restricted pending review
+                                                            </p>
+                                                            {source ? (
+                                                                <>
+                                                                    <p className="text-xs text-red-600 mt-1">
+                                                                        Source: <strong>{source.inspection.inspectionType?.replace(/_/g, ' ')}</strong>
+                                                                        {' '}inspection · {source.inspection.inspectionDate
+                                                                        ? new Date(source.inspection.inspectionDate).toLocaleDateString()
+                                                                        : 'date unknown'}
+                                                                        {source.inspection.inspector && ` · Inspector: ${source.inspection.inspector}`}
+                                                                    </p>
+                                                                    {source.inspection.findings && (
+                                                                        <p className="text-xs text-red-600 mt-1 italic">
+                                                                            Findings: "{source.inspection.findings}"
+                                                                        </p>
+                                                                    )}
+                                                                    {source.batch && (
+                                                                        <p className="text-[10px] text-red-500 mt-1">
+                                                                            Linked batch: {source.batch.batchNumber}
+                                                                        </p>
+                                                                    )}
+                                                                </>
+                                                            ) : (
+                                                                <p className="text-xs text-red-600 mt-1">
+                                                                    Source inspection details unavailable — verify in Firestore.
+                                                                </p>
+                                                            )}
+                                                            <p className="text-[10px] text-red-500 mt-2 pt-2 border-t border-red-200">
+                                                                Clears automatically when a later validated PASS of the same inspection type is recorded.
+                                                                The overall trust score is not affected by this banner.
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </motion.div>
+                                            );
+                                        })()}
+
+                                        {/* Dimension grid — unchanged structure, R5 will add deltas later */}
                                         <div className="grid grid-cols-3 gap-2 mb-4">
                                             {Object.entries(selectedTrust.dimensions).map(([k, v]) => {
                                                 if (k === 'delivery' && v === null) {
@@ -447,21 +549,61 @@ const SupplierRisk: React.FC = () => {
                                             })}
                                         </div>
 
-                                        {/* Flags */}
-                                        {selectedTrust.flags.length > 0 && (
-                                            <div className="mb-4">
-                                                <h4 className="text-xs font-medium text-gray-600 mb-1">Flags</h4>
-                                                <div className="flex flex-wrap gap-1">
-                                                    {selectedTrust.flags.map(f => (
-                                                        <span key={f} className="px-2 py-0.5 bg-amber-100 text-amber-700 text-[10px] rounded-full">
-                                                            {f}
-                                                        </span>
-                                                    ))}
-                                                </div>
-                                            </div>
-                                        )}
+                                        {/* ============================== */}
+                                        {/* R1 — FLAGS GROUPED BY KIND     */}
+                                        {/* ============================== */}
+                                        {selectedTrust.flagDetails.length > 0 && (() => {
+                                            const conduct = selectedTrust.flagDetails.filter(f => f.kind === 'conduct');
+                                            const evidence = selectedTrust.flagDetails.filter(f => f.kind === 'evidence');
+                                            const docs = selectedTrust.flagDetails.filter(f => f.kind === 'documentation');
 
-                                        {/* Pending evidence — inline validate */}
+                                            const renderGroup = (label: string, items: typeof conduct) => {
+                                                if (items.length === 0) {
+                                                    return (
+                                                        <div key={label} className="flex items-baseline gap-2 text-xs py-1">
+                                                            <span className="text-gray-500 font-medium w-28 flex-shrink-0">{label}</span>
+                                                            <span className="text-gray-400 italic">none</span>
+                                                        </div>
+                                                    );
+                                                }
+                                                return (
+                                                    <div key={label} className="flex items-baseline gap-2 text-xs py-1">
+                                                        <span className="text-gray-500 font-medium w-28 flex-shrink-0">{label}</span>
+                                                        <div className="flex flex-wrap gap-1">
+                                                            {items.map(f => (
+                                                                <span
+                                                                    key={f.label}
+                                                                    className={`px-1.5 py-0.5 rounded-full text-[10px] ${
+                                                                        f.label.startsWith('CRITICAL')
+                                                                            ? 'bg-red-100 text-red-700 font-medium'
+                                                                            : f.kind === 'conduct'
+                                                                                ? 'bg-amber-100 text-amber-700'
+                                                                                : f.kind === 'evidence'
+                                                                                    ? 'bg-blue-100 text-blue-700'
+                                                                                    : 'bg-gray-100 text-gray-600'
+                                                                    }`}
+                                                                >
+                                            {f.label}
+                                        </span>
+                                                            ))}
+                                                        </div>
+                                                    </div>
+                                                );
+                                            };
+
+                                            return (
+                                                <div className="mb-4 pb-4 border-b border-gray-200">
+                                                    <h4 className="text-xs font-medium text-gray-600 mb-1.5">Flags</h4>
+                                                    <div className="space-y-0.5">
+                                                        {renderGroup('Conduct', conduct)}
+                                                        {renderGroup('Evidence status', evidence)}
+                                                        {renderGroup('Documentation', docs)}
+                                                    </div>
+                                                </div>
+                                            );
+                                        })()}
+
+                                        {/* Pending evidence — same as before */}
                                         {(selectedPendingCommitments.length > 0 || selectedPendingInspections.length > 0) && (
                                             <div className="mb-4">
                                                 <h4 className="text-xs font-medium text-gray-600 mb-2 flex items-center gap-1">
@@ -506,7 +648,7 @@ const SupplierRisk: React.FC = () => {
                                             </div>
                                         )}
 
-                                        {/* Open disputes — inline resolve */}
+                                        {/* Disputes — same as before */}
                                         {selectedDisputes.length > 0 && (
                                             <div className="mb-4">
                                                 <h4 className="text-xs font-medium text-gray-600 mb-2 flex items-center gap-1">
@@ -541,7 +683,7 @@ const SupplierRisk: React.FC = () => {
                                             </div>
                                         )}
 
-                                        {/* Recent batches */}
+                                        {/* Recent deliveries — same as before */}
                                         {selectedBatches.length > 0 && (
                                             <div className="mb-4">
                                                 <h4 className="text-xs font-medium text-gray-600 mb-1 flex items-center gap-1">
@@ -552,11 +694,11 @@ const SupplierRisk: React.FC = () => {
                                                         <div key={b.firestoreId || b.id} className="flex items-center justify-between text-[10px] bg-white/40 px-2 py-1 rounded">
                                                             <span className="truncate">{b.batchNumber}</span>
                                                             <div className="flex gap-2 flex-shrink-0">
-                                                                <span className={`px-1.5 py-0.5 rounded-full ${
-                                                                    b.qualityGrade === 'PREMIUM' ? 'bg-amber-100 text-amber-700' :
-                                                                        b.qualityGrade === 'REJECT' ? 'bg-red-100 text-red-700' :
-                                                                            'bg-blue-100 text-blue-700'
-                                                                }`}>{b.qualityGrade}</span>
+                                        <span className={`px-1.5 py-0.5 rounded-full ${
+                                            b.qualityGrade === 'PREMIUM' ? 'bg-amber-100 text-amber-700' :
+                                                b.qualityGrade === 'REJECT' ? 'bg-red-100 text-red-700' :
+                                                    'bg-blue-100 text-blue-700'
+                                        }`}>{b.qualityGrade}</span>
                                                                 <span className="text-gray-500">{(b.weightKg / 1000).toFixed(1)}T</span>
                                                             </div>
                                                         </div>
@@ -565,7 +707,7 @@ const SupplierRisk: React.FC = () => {
                                             </div>
                                         )}
 
-                                        {/* Actions footer */}
+                                        {/* Actions footer — same as before */}
                                         <div className="pt-3 border-t border-gray-200 flex gap-2">
                                             <button
                                                 disabled={actionLoading}

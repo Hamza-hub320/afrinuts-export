@@ -64,13 +64,17 @@ export interface TrustResult {
         traceability: number | null;
         sustainability: number | null;
         compliance: number | null;
-        delivery: number | null;   // now calculable
+        delivery: number | null;
         cooperation: number | null;
     };
     weights: Record<string, number>;
     capacityKg: number;
     scoringVersion: string;
-    flags: string[];
+    flags: string[];                       // keep for compatibility
+    flagDetails: Array<{                   // NEW
+        kind: 'conduct' | 'evidence' | 'documentation';
+        label: string;
+    }>;
     hasCriticalViolation: boolean;
 }
 
@@ -281,13 +285,27 @@ export function computeTrustScore(input: TrustInput): TrustResult {
         overall = weightTotal > 0 ? clamp(weightedSum / weightTotal) : null;
     }
 
-    const flags: string[] = [];
-    if (verifiedTransactions < 3) flags.push('limited evidence');
-    if (dimensions.quality !== null && dimensions.quality < 50) flags.push('low recorded quality');
-    if (!input.supplier.dataConsentGiven) flags.push('no data consent on record');
-    if (dimensions.compliance !== null && dimensions.compliance < 40) flags.push('compliance gaps');
-    if (dimensions.delivery === null) flags.push('no validated commitments');
-    if (hasCriticalViolation) flags.push('CRITICAL: verified critical violation');
+    const flagDetails: TrustResult['flagDetails'] = [];
+    if (verifiedTransactions < 3) {
+        flagDetails.push({ kind: 'evidence', label: 'limited evidence' });
+    }
+    if (dimensions.quality !== null && dimensions.quality < 50) {
+        flagDetails.push({ kind: 'conduct', label: 'low recorded quality' });
+    }
+    if (!input.supplier.dataConsentGiven) {
+        flagDetails.push({ kind: 'documentation', label: 'no data consent on record' });
+    }
+    if (dimensions.compliance !== null && dimensions.compliance < 40) {
+        flagDetails.push({ kind: 'conduct', label: 'compliance gaps' });
+    }
+    if (dimensions.delivery === null) {
+        flagDetails.push({ kind: 'evidence', label: 'no validated commitments' });
+    }
+    if (hasCriticalViolation) {
+        flagDetails.push({ kind: 'conduct', label: 'CRITICAL: verified critical violation' });
+    }
+
+    const flags = flagDetails.map(f => f.label);
 
     return {
         overall: overall !== null ? Math.round(overall * 10) / 10 : null,
@@ -298,6 +316,7 @@ export function computeTrustScore(input: TrustInput): TrustResult {
         capacityKg,
         scoringVersion: 'v2.0',
         flags,
+        flagDetails,
         hasCriticalViolation,
     };
 }
