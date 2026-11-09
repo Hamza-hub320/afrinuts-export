@@ -421,43 +421,32 @@ export const handler: Handler = async (event: HandlerEvent) => {
             const allCommitmentsSnap = await db.collection('farms').doc(fid).collection('supplier_commitments').get();
             const allInspectionsSnap = await db.collection('farms').doc(fid).collection('supplier_inspections').get();
 
-            // NEW — support actions
-            let allSupportActions: any[] = [];
-            try {
-                const supportSnap = await db.collection('farms').doc(fid).collection('supplier_support_actions').get();
-                allSupportActions = supportSnap.docs.map(d => ({
-                    firestoreId: d.id,
-                    ...d.data(),
-                } as any));
-            } catch (err: any) {
-                // Collection may not exist yet — treat as empty rather than crash
-                console.warn('supplier_support_actions fetch failed:', err.message);
-            }
+            const suppliers = suppliersSnap.docs.map(d => ({ id: d.id, ...d.data() }));
 
-            const suppliers = suppliersSnap.docs.map(d => ({
-                firestoreId: d.id,
-                ...d.data(),
-            }));
+            // Only ship what the Trust Engine reads — not the full document
             const batches = batchesSnap.docs.map(d => {
                 const data = d.data();
                 return {
-                    firestoreId: d.id,
+                    id: d.id,
                     supplierId: data.supplierId,
-                    batchNumber: data.batchNumber,
                     weightKg: data.weightKg,
                     qualityGrade: data.qualityGrade,
                     rcnQualityScore: data.rcnQualityScore,
+                    qualityScore: data.qualityScore,
                     moistureContent: data.moistureContent,
                     defectiveRate: data.defectiveRate,
                     korGPerKg: data.korGPerKg,
+                    aflatoxinPpb: data.aflatoxinPpb,
                     verifiedAt: data.verifiedAt,
+                    farmOsMonitored: data.farmOsMonitored,
                 };
             });
 
             const allCommitments = allCommitmentsSnap.docs.map(d => ({
-                firestoreId: d.id,
-                ...d.data(),
+                firestoreId: d.id,           // ← the real path
+                ...d.data(),                 // ← numeric id lives here, doesn't clobber firestoreId
             } as any));
+
             const allInspections = allInspectionsSnap.docs.map(d => ({
                 firestoreId: d.id,
                 ...d.data(),
@@ -465,6 +454,7 @@ export const handler: Handler = async (event: HandlerEvent) => {
 
             const commitments = allCommitments.filter((c: any) => c.validatedAt);
             const pendingCommitments = allCommitments.filter((c: any) => !c.validatedAt);
+
             const inspections = allInspections.filter((i: any) => i.validatedAt);
             const pendingInspections = allInspections.filter((i: any) => !i.validatedAt);
 
@@ -487,7 +477,6 @@ export const handler: Handler = async (event: HandlerEvent) => {
                     inspectionsBySupplier: groupBy(inspections),
                     pendingCommitments,
                     pendingInspections,
-                    supportActions: allSupportActions,   // NEW
                 }),
             };
         }
