@@ -421,6 +421,19 @@ export const handler: Handler = async (event: HandlerEvent) => {
             const allCommitmentsSnap = await db.collection('farms').doc(fid).collection('supplier_commitments').get();
             const allInspectionsSnap = await db.collection('farms').doc(fid).collection('supplier_inspections').get();
 
+            // NEW — support actions
+            let allSupportActions: any[] = [];
+            try {
+                const supportSnap = await db.collection('farms').doc(fid).collection('supplier_support_actions').get();
+                allSupportActions = supportSnap.docs.map(d => ({
+                    firestoreId: d.id,
+                    ...d.data(),
+                } as any));
+            } catch (err: any) {
+                // Collection may not exist yet — treat as empty rather than crash
+                console.warn('supplier_support_actions fetch failed:', err.message);
+            }
+
             const suppliers = suppliersSnap.docs.map(d => ({ id: d.id, ...d.data() }));
 
             // Only ship what the Trust Engine reads — not the full document
@@ -439,6 +452,8 @@ export const handler: Handler = async (event: HandlerEvent) => {
                     aflatoxinPpb: data.aflatoxinPpb,
                     verifiedAt: data.verifiedAt,
                     farmOsMonitored: data.farmOsMonitored,
+                    firestoreId: d.id,
+                    batchNumber: data.batchNumber,
                 };
             });
 
@@ -477,6 +492,7 @@ export const handler: Handler = async (event: HandlerEvent) => {
                     inspectionsBySupplier: groupBy(inspections),
                     pendingCommitments,
                     pendingInspections,
+                    supportActions: allSupportActions,
                 }),
             };
         }
