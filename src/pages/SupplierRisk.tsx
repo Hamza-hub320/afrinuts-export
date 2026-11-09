@@ -408,17 +408,14 @@ const SupplierRisk: React.FC = () => {
                                                 >
                                                     <div className="flex items-start justify-between gap-2 mb-1.5">
                                                         <div className="flex items-center gap-2 min-w-0 flex-1">
-                                    <span className={`px-1.5 py-0.5 ${severityColor(sev)} text-white text-[9px] uppercase rounded-full font-bold flex-shrink-0`}>
-                                        {sev === 'critical' ? 'CRIT' : sev === 'high' ? 'HIGH' : sev === 'medium' ? 'MED' : 'LOW'}
-                                    </span>
+                                                        <span className={`px-1.5 py-0.5 ${severityColor(sev)} text-white text-[9px] uppercase rounded-full font-bold flex-shrink-0`}>
+                                                            {sev === 'critical' ? 'CRIT' : sev === 'high' ? 'HIGH' : sev === 'medium' ? 'MED' : 'LOW'}
+                                                        </span>
                                                             <p className="text-sm font-medium truncate">{supplier.name}</p>
                                                         </div>
                                                         <span className={`text-sm font-bold flex-shrink-0 ${
                                                             (trust.overall ?? 0) < 40 ? 'text-red-600' :
-                                                                (trust.overall ?? 0) < 60 ? 'text-amber-600' : 'text-gray-700'
-                                                        }`}>
-                                    {trust.overall ?? '—'}
-                                </span>
+                                                                (trust.overall ?? 0) < 60 ? 'text-amber-600' : 'text-gray-700'}`}>{trust.overall ?? '—'}</span>
                                                     </div>
 
                                                     {/* R1: conduct flags only */}
@@ -453,7 +450,7 @@ const SupplierRisk: React.FC = () => {
                                     </div>
                                     {/* Pagination Controls */}
                                     {totalPages > 1 && (
-                                        <div className="flex items-center justify-between bg-white/40 rounded-xl p-2 border border-white/30">
+                                        <div className="flex items-center justify-between bg-white/40 rounded-xl p-2 border border-white/30 mt-2">
                                             <button
                                                 disabled={page === 1}
                                                 onClick={() => setPage(p => Math.max(1, p - 1))}
@@ -484,324 +481,341 @@ const SupplierRisk: React.FC = () => {
                                     animate={{ opacity: 1, x: 0 }}
                                     exit={{ opacity: 0, x: 20 }}
                                 >
-                                    <InfoCard
-                                        icon={FaShieldAlt}
-                                        title={selected.name}
-                                        subtitle={selected.type?.replace(/_/g, ' ')}
-                                        iconColor="text-primary"
-                                        showInfoBadge={false}
-                                        className="sticky top-20"
+                                    {/* Glass Card Container */}
+                                    <motion.div
+                                        className="relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 transition-all duration-500 rounded-2xl shadow-xl transform-gpu overflow-hidden sticky top-24 p-6"
+                                        style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
+                                        whileHover={{
+                                            y: -2,
+                                            boxShadow: '0 20px 35px -10px rgba(0, 0, 0, 0.15)',
+                                            transition: { duration: 0.3 }
+                                        }}
                                     >
-                                        <button
-                                            onClick={() => setSelectedSupplierId(null)}
-                                            className="absolute top-4 right-4 text-gray-400 hover:text-gray-600"
-                                        >
-                                            <FaTimes />
-                                        </button>
+                                        {/* 3D edge effect */}
+                                        <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
 
-                                        {/* Score snapshot */}
-                                        <div className="flex items-end justify-between gap-3 mt-2 mb-4 pb-4 border-b border-gray-200">
-                                            <div>
-                                                <div className="text-xs text-gray-500">Trust Score</div>
-                                                <div className="text-xs font-medium text-gray-700 mt-0.5">
-                                                    {selectedTrust.confidence} · {selectedTrust.verifiedTransactions} verified batch{selectedTrust.verifiedTransactions !== 1 ? 'es' : ''}
+                                        {/* Glassy overlay */}
+                                        <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+
+                                        {/* Inner shadow effect */}
+                                        <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] transition-shadow duration-500" />
+
+                                        <div className="relative z-10">
+                                            {/* Header & Close Button */}
+                                            <div className="flex justify-between items-start mb-4">
+                                                <div>
+                                                    <h2 className="text-xl font-bold text-primary">{selected.name}</h2>
+                                                    <p className="text-xs text-gray-500 capitalize">{selected.type?.replace(/_/g, ' ')}</p>
+                                                </div>
+                                                <button
+                                                    onClick={() => setSelectedSupplierId(null)}
+                                                    className="w-8 h-8 flex items-center justify-center rounded-full bg-white/50 hover:bg-white text-gray-500 hover:text-gray-800 transition-colors"
+                                                    aria-label="Close panel"
+                                                >
+                                                    <FaTimes />
+                                                </button>
+                                            </div>
+
+                                            {/* Score snapshot */}
+                                            <div className="flex items-end justify-between gap-3 mb-6 pb-4 border-b border-white/30">
+                                                <div>
+                                                    <div className="text-xs text-gray-500 font-medium uppercase tracking-wide">Trust Score</div>
+                                                    <div className="text-xs font-medium text-gray-600 mt-0.5">
+                                                        {selectedTrust.confidence} · {selectedTrust.verifiedTransactions} verified batch{selectedTrust.verifiedTransactions !== 1 ? 'es' : ''}
+                                                    </div>
+                                                </div>
+                                                <div className={`text-5xl font-bold ${
+                                                    (selectedTrust.overall ?? 0) < 40 ? 'text-red-600' :
+                                                        (selectedTrust.overall ?? 0) < 60 ? 'text-amber-600' : 'text-primary'
+                                                }`}>
+                                                    {selectedTrust.overall ?? '—'}
                                                 </div>
                                             </div>
-                                            <div className={`text-4xl font-bold ${
-                                                (selectedTrust.overall ?? 0) < 40 ? 'text-red-600' :
-                                                    (selectedTrust.overall ?? 0) < 60 ? 'text-amber-600' : 'text-primary'
-                                            }`}>
-                                                {selectedTrust.overall ?? '—'}
-                                            </div>
-                                        </div>
 
-                                        {/* ============================== */}
-                                        {/* R2 — CRITICAL VIOLATION BANNER */}
-                                        {/* ============================== */}
-                                        {selectedTrust.hasCriticalViolation && (() => {
-                                            const source = findCriticalSource(
-                                                inspectionsBySupplier[selected.id] || [],
-                                                batchesBySupplier[selected.id] || []
-                                            );
-                                            return (
-                                                <motion.div
-                                                    initial={{ opacity: 0, y: -8 }}
-                                                    animate={{ opacity: 1, y: 0 }}
-                                                    className="bg-red-50 border-2 border-red-300 rounded-xl p-3 mb-4"
-                                                >
-                                                    <div className="flex items-start gap-2 mb-1.5">
-                                                        <FaExclamationTriangle className="text-red-600 mt-0.5 flex-shrink-0" />
-                                                        <div className="flex-1">
-                                                            <p className="text-sm font-bold text-red-700">
-                                                                CRITICAL VIOLATION — procurement restricted pending review
-                                                            </p>
-                                                            {source ? (
-                                                                <>
-                                                                    <p className="text-xs text-red-600 mt-1">
-                                                                        Source: <strong>{source.inspection.inspectionType?.replace(/_/g, ' ')}</strong>
-                                                                        {' '}inspection · {source.inspection.inspectionDate
-                                                                        ? new Date(source.inspection.inspectionDate).toLocaleDateString()
-                                                                        : 'date unknown'}
-                                                                        {source.inspection.inspector && ` · Inspector: ${source.inspection.inspector}`}
-                                                                    </p>
-                                                                    {source.inspection.findings && (
-                                                                        <p className="text-xs text-red-600 mt-1 italic">
-                                                                            Findings: "{source.inspection.findings}"
-                                                                        </p>
-                                                                    )}
-                                                                    {source.batch && (
-                                                                        <p className="text-[10px] text-red-500 mt-1">
-                                                                            Linked batch: {source.batch.batchNumber}
-                                                                        </p>
-                                                                    )}
-                                                                </>
-                                                            ) : (
-                                                                <p className="text-xs text-red-600 mt-1">
-                                                                    Source inspection details unavailable — verify in Firestore.
+                                            {/* ============================== */}
+                                            {/* R2 — CRITICAL VIOLATION BANNER */}
+                                            {/* ============================== */}
+                                            {selectedTrust.hasCriticalViolation && (() => {
+                                                const source = findCriticalSource(
+                                                    inspectionsBySupplier[selected.id] || [],
+                                                    batchesBySupplier[selected.id] || []
+                                                );
+                                                return (
+                                                    <motion.div
+                                                        initial={{ opacity: 0, y: -8 }}
+                                                        animate={{ opacity: 1, y: 0 }}
+                                                        className="bg-red-50/90 border-2 border-red-300 rounded-xl p-3 mb-4"
+                                                    >
+                                                        <div className="flex items-start gap-2 mb-1.5">
+                                                            <FaExclamationTriangle className="text-red-600 mt-0.5 flex-shrink-0" />
+                                                            <div className="flex-1">
+                                                                <p className="text-sm font-bold text-red-700">
+                                                                    CRITICAL VIOLATION — procurement restricted pending review
                                                                 </p>
-                                                            )}
-                                                            <p className="text-[10px] text-red-500 mt-2 pt-2 border-t border-red-200">
-                                                                Clears automatically when a later validated PASS of the same inspection type is recorded.
-                                                                The overall trust score is not affected by this banner.
-                                                            </p>
+                                                                {source ? (
+                                                                    <>
+                                                                        <p className="text-xs text-red-600 mt-1">
+                                                                            Source: <strong>{source.inspection.inspectionType?.replace(/_/g, ' ')}</strong>
+                                                                            {' '}inspection · {source.inspection.inspectionDate
+                                                                            ? new Date(source.inspection.inspectionDate).toLocaleDateString()
+                                                                            : 'date unknown'}
+                                                                            {source.inspection.inspector && ` · Inspector: ${source.inspection.inspector}`}
+                                                                        </p>
+                                                                        {source.inspection.findings && (
+                                                                            <p className="text-xs text-red-600 mt-1 italic">
+                                                                                Findings: "{source.inspection.findings}"
+                                                                            </p>
+                                                                        )}
+                                                                        {source.batch && (
+                                                                            <p className="text-[10px] text-red-500 mt-1">
+                                                                                Linked batch: {source.batch.batchNumber}
+                                                                            </p>
+                                                                        )}
+                                                                    </>
+                                                                ) : (
+                                                                    <p className="text-xs text-red-600 mt-1">
+                                                                        Source inspection details unavailable — verify in Firestore.
+                                                                    </p>
+                                                                )}
+                                                                <p className="text-[10px] text-red-500 mt-2 pt-2 border-t border-red-200">
+                                                                    Clears automatically when a later validated PASS of the same inspection type is recorded.
+                                                                </p>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </motion.div>
-                                            );
-                                        })()}
+                                                    </motion.div>
+                                                );
+                                            })()}
 
-                                        {/* Dimension grid — unchanged structure, R5 will add deltas later */}
-                                        <div className="grid grid-cols-3 gap-2 mb-4">
-                                            {Object.entries(selectedTrust.dimensions).map(([k, v]) => {
-                                                if (k === 'delivery' && v === null) {
+                                            {/* Dimension grid */}
+                                            <div className="grid grid-cols-3 gap-2 mb-6">
+                                                {Object.entries(selectedTrust.dimensions).map(([k, v]) => {
+                                                    if (k === 'delivery' && v === null) {
+                                                        return (
+                                                            <div key={k} className="bg-white/40 rounded-lg p-2 text-center border border-white/40">
+                                                                <div className="text-xs text-gray-400">—</div>
+                                                                <div className="text-[9px] text-gray-500 mt-0.5">Delivery</div>
+                                                            </div>
+                                                        );
+                                                    }
+                                                    if (v === null) return null;
                                                     return (
-                                                        <div key={k} className="bg-gray-50/60 rounded-lg p-2 text-center border border-gray-200">
-                                                            <div className="text-xs text-gray-400">—</div>
-                                                            <div className="text-[9px] text-gray-500 mt-0.5">Delivery</div>
+                                                        <div key={k} className="bg-white/40 rounded-lg p-2 text-center border border-white/40 shadow-sm">
+                                                            <div className="text-sm font-bold text-gray-800">{Math.round(v)}</div>
+                                                            <div className="text-[9px] text-gray-500 mt-0.5 capitalize">{k}</div>
                                                         </div>
                                                     );
-                                                }
-                                                if (v === null) return null;
-                                                return (
-                                                    <div key={k} className="bg-white/60 rounded-lg p-2 text-center border border-white/40">
-                                                        <div className="text-sm font-bold text-gray-800">{Math.round(v)}</div>
-                                                        <div className="text-[9px] text-gray-500 mt-0.5 capitalize">{k}</div>
-                                                    </div>
-                                                );
-                                            })}
-                                        </div>
+                                                })}
+                                            </div>
 
-                                        {/* ============================== */}
-                                        {/* R1 — FLAGS GROUPED BY KIND     */}
-                                        {/* ============================== */}
-                                        {selectedTrust.flagDetails.length > 0 && (() => {
-                                            const conduct = selectedTrust.flagDetails.filter(f => f.kind === 'conduct');
-                                            const evidence = selectedTrust.flagDetails.filter(f => f.kind === 'evidence');
-                                            const docs = selectedTrust.flagDetails.filter(f => f.kind === 'documentation');
+                                            {/* ============================== */}
+                                            {/* R1 — FLAGS GROUPED BY KIND     */}
+                                            {/* ============================== */}
+                                            {selectedTrust.flagDetails.length > 0 && (() => {
+                                                const conduct = selectedTrust.flagDetails.filter(f => f.kind === 'conduct');
+                                                const evidence = selectedTrust.flagDetails.filter(f => f.kind === 'evidence');
+                                                const docs = selectedTrust.flagDetails.filter(f => f.kind === 'documentation');
 
-                                            const renderGroup = (label: string, items: typeof conduct) => {
-                                                if (items.length === 0) {
+                                                const renderGroup = (label: string, items: typeof conduct) => {
+                                                    if (items.length === 0) {
+                                                        return (
+                                                            <div key={label} className="flex items-baseline gap-2 text-xs py-1">
+                                                                <span className="text-gray-500 font-medium w-28 flex-shrink-0">{label}</span>
+                                                                <span className="text-gray-400 italic">none</span>
+                                                            </div>
+                                                        );
+                                                    }
                                                     return (
                                                         <div key={label} className="flex items-baseline gap-2 text-xs py-1">
                                                             <span className="text-gray-500 font-medium w-28 flex-shrink-0">{label}</span>
-                                                            <span className="text-gray-400 italic">none</span>
+                                                            <div className="flex flex-wrap gap-1">
+                                                                {items.map(f => (
+                                                                    <span
+                                                                        key={f.label}
+                                                                        className={`px-1.5 py-0.5 rounded-full text-[10px] ${
+                                                                            f.label.startsWith('CRITICAL')
+                                                                                ? 'bg-red-100 text-red-700 font-medium'
+                                                                                : f.kind === 'conduct'
+                                                                                    ? 'bg-amber-100 text-amber-700'
+                                                                                    : f.kind === 'evidence'
+                                                                                        ? 'bg-blue-100 text-blue-700'
+                                                                                        : 'bg-gray-100 text-gray-600'
+                                                                        }`}
+                                                                    >
+                                                {f.label}
+                                            </span>
+                                                                ))}
+                                                            </div>
                                                         </div>
                                                     );
-                                                }
+                                                };
+
                                                 return (
-                                                    <div key={label} className="flex items-baseline gap-2 text-xs py-1">
-                                                        <span className="text-gray-500 font-medium w-28 flex-shrink-0">{label}</span>
-                                                        <div className="flex flex-wrap gap-1">
-                                                            {items.map(f => (
-                                                                <span
-                                                                    key={f.label}
-                                                                    className={`px-1.5 py-0.5 rounded-full text-[10px] ${
-                                                                        f.label.startsWith('CRITICAL')
-                                                                            ? 'bg-red-100 text-red-700 font-medium'
-                                                                            : f.kind === 'conduct'
-                                                                                ? 'bg-amber-100 text-amber-700'
-                                                                                : f.kind === 'evidence'
-                                                                                    ? 'bg-blue-100 text-blue-700'
-                                                                                    : 'bg-gray-100 text-gray-600'
-                                                                    }`}
-                                                                >
-                                            {f.label}
-                                        </span>
-                                                            ))}
+                                                    <div className="mb-4 pb-4 border-b border-white/30">
+                                                        <h4 className="text-xs font-medium text-gray-600 mb-1.5 uppercase tracking-wide">Flags</h4>
+                                                        <div className="space-y-0.5">
+                                                            {renderGroup('Conduct', conduct)}
+                                                            {renderGroup('Evidence status', evidence)}
+                                                            {renderGroup('Documentation', docs)}
                                                         </div>
                                                     </div>
                                                 );
-                                            };
+                                            })()}
 
-                                            return (
-                                                <div className="mb-4 pb-4 border-b border-gray-200">
-                                                    <h4 className="text-xs font-medium text-gray-600 mb-1.5">Flags</h4>
-                                                    <div className="space-y-0.5">
-                                                        {renderGroup('Conduct', conduct)}
-                                                        {renderGroup('Evidence status', evidence)}
-                                                        {renderGroup('Documentation', docs)}
+                                            {/* Pending evidence */}
+                                            {(selectedPendingCommitments.length > 0 || selectedPendingInspections.length > 0) && (
+                                                <div className="mb-4">
+                                                    <h4 className="text-xs font-medium text-gray-600 mb-2 flex items-center gap-1 uppercase tracking-wide">
+                                                        <FaClipboardCheck /> Pending Validation ({selectedPendingCommitments.length + selectedPendingInspections.length})
+                                                    </h4>
+                                                    <div className="space-y-1.5">
+                                                        {selectedPendingCommitments.map((c: any) => (
+                                                            <div key={c.firestoreId || c.id} className="bg-white/60 rounded-lg p-2 border border-white/40 flex items-center gap-2">
+                                                                <div className="flex-1 min-w-0">
+                                                                    <div className="text-xs font-medium truncate text-gray-800">
+                                                                        Commitment {c.contractId} · {c.committedKg}kg
+                                                                    </div>
+                                                                    <div className="text-[10px] text-gray-500">{c.status}</div>
+                                                                </div>
+                                                                <button
+                                                                    disabled={actionLoading}
+                                                                    onClick={() => handleValidate('supplier_commitments', c.firestoreId || c.id)}
+                                                                    className="px-2 py-1 bg-primary text-white text-[10px] rounded-full hover:bg-dark-orange disabled:opacity-50 transition-colors"
+                                                                >
+                                                                    Validate
+                                                                </button>
+                                                            </div>
+                                                        ))}
+                                                        {selectedPendingInspections.map((i: any) => (
+                                                            <div key={i.firestoreId || i.id} className="bg-white/60 rounded-lg p-2 border border-white/40 flex items-center gap-2">
+                                                                <div className="flex-1 min-w-0">
+                                                                    <div className="text-xs font-medium truncate text-gray-800">
+                                                                        {i.inspectionType} · {i.outcome}
+                                                                    </div>
+                                                                    <div className="text-[10px] text-gray-500 truncate">{i.findings}</div>
+                                                                </div>
+                                                                <button
+                                                                    disabled={actionLoading}
+                                                                    onClick={() => handleValidate('supplier_inspections', i.firestoreId || i.id)}
+                                                                    className="px-2 py-1 bg-primary text-white text-[10px] rounded-full hover:bg-dark-orange disabled:opacity-50 transition-colors"
+                                                                >
+                                                                    Validate
+                                                                </button>
+                                                            </div>
+                                                        ))}
                                                     </div>
                                                 </div>
-                                            );
-                                        })()}
+                                            )}
 
-                                        {/* Pending evidence — same as before */}
-                                        {(selectedPendingCommitments.length > 0 || selectedPendingInspections.length > 0) && (
-                                            <div className="mb-4">
-                                                <h4 className="text-xs font-medium text-gray-600 mb-2 flex items-center gap-1">
-                                                    <FaClipboardCheck /> Pending Validation ({selectedPendingCommitments.length + selectedPendingInspections.length})
-                                                </h4>
-                                                <div className="space-y-1.5">
-                                                    {selectedPendingCommitments.map((c: any) => (
-                                                        <div key={c.firestoreId || c.id} className="bg-white/50 rounded-lg p-2 border border-white/30 flex items-center gap-2">
-                                                            <div className="flex-1 min-w-0">
-                                                                <div className="text-xs font-medium truncate">
-                                                                    Commitment {c.contractId} · {c.committedKg}kg
-                                                                </div>
-                                                                <div className="text-[10px] text-gray-500">{c.status}</div>
-                                                            </div>
-                                                            <button
-                                                                disabled={actionLoading}
-                                                                onClick={() => handleValidate('supplier_commitments', c.firestoreId || c.id)}
-                                                                className="px-2 py-1 bg-primary text-white text-[10px] rounded-full hover:bg-dark-orange disabled:opacity-50"
-                                                            >
-                                                                Validate
-                                                            </button>
-                                                        </div>
-                                                    ))}
-                                                    {selectedPendingInspections.map((i: any) => (
-                                                        <div key={i.firestoreId || i.id} className="bg-white/50 rounded-lg p-2 border border-white/30 flex items-center gap-2">
-                                                            <div className="flex-1 min-w-0">
-                                                                <div className="text-xs font-medium truncate">
-                                                                    {i.inspectionType} · {i.outcome}
-                                                                </div>
-                                                                <div className="text-[10px] text-gray-500 truncate">{i.findings}</div>
-                                                            </div>
-                                                            <button
-                                                                disabled={actionLoading}
-                                                                onClick={() => handleValidate('supplier_inspections', i.firestoreId || i.id)}
-                                                                className="px-2 py-1 bg-primary text-white text-[10px] rounded-full hover:bg-dark-orange disabled:opacity-50"
-                                                            >
-                                                                Validate
-                                                            </button>
-                                                        </div>
-                                                    ))}
-                                                </div>
-                                            </div>
-                                        )}
+                                            {/* Disputes */}
+                                            {selectedDisputes.length > 0 && (
+                                                <div className="mb-4">
+                                                    <h4 className="text-xs font-medium text-gray-600 mb-2 flex items-center gap-1 uppercase tracking-wide">
+                                                        <FaBalanceScale /> Open Disputes ({selectedDisputes.length})
+                                                    </h4>
+                                                    <div className="space-y-1.5">
+                                                        {selectedDisputes.map((d: any) => {
+                                                            const key = d.firestoreId || d.id;
+                                                            const isBatchTarget = d.targetEntity === 'batch';
 
-                                        {/* Disputes — same as before */}
-                                        {/* Disputes */}
-                                        {selectedDisputes.length > 0 && (
-                                            <div className="mb-4">
-                                                <h4 className="text-xs font-medium text-gray-600 mb-2 flex items-center gap-1">
-                                                    <FaBalanceScale /> Open Disputes ({selectedDisputes.length})
-                                                </h4>
-                                                <div className="space-y-1.5">
-                                                    {selectedDisputes.map((d: any) => {
-                                                        const key = d.firestoreId || d.id;
-                                                        const isBatchTarget = d.targetEntity === 'batch';
-
-                                                        return (
-                                                            <div key={key} className="bg-red-50/50 rounded-lg p-2 border border-red-200">
-                                                                <div className="text-xs font-medium text-gray-800 truncate mb-1">
-                                                                    {d.reason}
-                                                                </div>
-                                                                <div className="text-[10px] text-gray-500 mb-1.5">
-                                                                    Target: {d.targetEntity} #{d.targetId}
-                                                                </div>
-
-                                                                {/* R4 — original / corrected value pair (batch disputes only) */}
-                                                                {isBatchTarget && (
-                                                                    <div className="flex items-center gap-2 mb-2">
-                                <span className="text-[10px] text-gray-600">
-                                    Original: <strong>{d.originalValue ?? '—'}</strong>
-                                </span>
-                                                                        <span className="text-[10px] text-gray-400">→</span>
-                                                                        <span className="text-[10px] text-gray-600">Corrected:</span>
-                                                                        <input
-                                                                            type="number"
-                                                                            placeholder={String(d.correctedValue ?? '')}
-                                                                            value={correctedValues[key] || ''}
-                                                                            onChange={(e) =>
-                                                                                setCorrectedValues(prev => ({ ...prev, [key]: e.target.value }))
-                                                                            }
-                                                                            className="w-16 px-1 py-0.5 text-[10px] border border-gray-300 rounded focus:outline-none focus:border-primary"
-                                                                        />
+                                                            return (
+                                                                <div key={key} className="bg-red-50/80 rounded-lg p-2 border border-red-200">
+                                                                    <div className="text-xs font-medium text-gray-800 truncate mb-1">
+                                                                        {d.reason}
                                                                     </div>
-                                                                )}
+                                                                    <div className="text-[10px] text-gray-500 mb-1.5">
+                                                                        Target: {d.targetEntity} #{d.targetId}
+                                                                    </div>
 
-                                                                <div className="flex gap-1.5">
-                                                                    <button
-                                                                        disabled={actionLoading}
-                                                                        onClick={() => handleResolveDispute(key, 'UPHELD')}
-                                                                        className="flex-1 px-2 py-1 bg-green-600 text-white text-[10px] rounded-full hover:bg-green-700 disabled:opacity-50"
-                                                                    >
-                                                                        Upheld
-                                                                    </button>
-                                                                    <button
-                                                                        disabled={actionLoading}
-                                                                        onClick={() => handleResolveDispute(key, 'REJECTED')}
-                                                                        className="flex-1 px-2 py-1 bg-gray-500 text-white text-[10px] rounded-full hover:bg-gray-600 disabled:opacity-50"
-                                                                    >
-                                                                        Rejected
-                                                                    </button>
+                                                                    {isBatchTarget && (
+                                                                        <div className="flex items-center gap-2 mb-2">
+                                                    <span className="text-[10px] text-gray-600">
+                                                        Original: <strong>{d.originalValue ?? '—'}</strong>
+                                                    </span>
+                                                                            <span className="text-[10px] text-gray-400">→</span>
+                                                                            <span className="text-[10px] text-gray-600">Corrected:</span>
+                                                                            <input
+                                                                                type="number"
+                                                                                placeholder={String(d.correctedValue ?? '')}
+                                                                                value={correctedValues[key] || ''}
+                                                                                onChange={(e) =>
+                                                                                    setCorrectedValues(prev => ({ ...prev, [key]: e.target.value }))
+                                                                                }
+                                                                                className="w-16 px-1 py-0.5 text-[10px] border border-gray-300 rounded focus:outline-none focus:border-primary"
+                                                                            />
+                                                                        </div>
+                                                                    )}
+
+                                                                    <div className="flex gap-1.5">
+                                                                        <button
+                                                                            disabled={actionLoading}
+                                                                            onClick={() => handleResolveDispute(key, 'UPHELD')}
+                                                                            className="flex-1 px-2 py-1 bg-green-600 text-white text-[10px] rounded-full hover:bg-green-700 disabled:opacity-50 transition-colors"
+                                                                        >
+                                                                            Upheld
+                                                                        </button>
+                                                                        <button
+                                                                            disabled={actionLoading}
+                                                                            onClick={() => handleResolveDispute(key, 'REJECTED')}
+                                                                            className="flex-1 px-2 py-1 bg-gray-500 text-white text-[10px] rounded-full hover:bg-gray-600 disabled:opacity-50 transition-colors"
+                                                                        >
+                                                                            Rejected
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            );
+                                                        })}
+                                                    </div>
+                                                </div>
+                                            )}
+
+                                            {/* Recent deliveries */}
+                                            {selectedBatches.length > 0 && (
+                                                <div className="mb-4">
+                                                    <h4 className="text-xs font-medium text-gray-600 mb-1 flex items-center gap-1 uppercase tracking-wide">
+                                                        <FaFileAlt /> Recent Deliveries ({selectedBatches.length})
+                                                    </h4>
+                                                    <div className="space-y-1">
+                                                        {selectedBatches.slice(0, 3).map((b: any) => (
+                                                            <div key={b.firestoreId || b.id} className="flex items-center justify-between text-[10px] bg-white/40 px-2 py-1.5 rounded-lg border border-white/30">
+                                                                <span className="truncate font-medium text-gray-700">{b.batchNumber}</span>
+                                                                <div className="flex gap-2 flex-shrink-0">
+                                            <span className={`px-1.5 py-0.5 rounded-full ${
+                                                b.qualityGrade === 'PREMIUM' ? 'bg-amber-100 text-amber-700' :
+                                                    b.qualityGrade === 'REJECT' ? 'bg-red-100 text-red-700' :
+                                                        'bg-blue-100 text-blue-700'
+                                            }`}>{b.qualityGrade}</span>
+                                                                    <span className="text-gray-500">{(b.weightKg / 1000).toFixed(1)}T</span>
                                                                 </div>
                                                             </div>
-                                                        );
-                                                    })}
+                                                        ))}
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        )}
+                                            )}
 
-                                        {/* Recent deliveries — same as before */}
-                                        {selectedBatches.length > 0 && (
-                                            <div className="mb-4">
-                                                <h4 className="text-xs font-medium text-gray-600 mb-1 flex items-center gap-1">
-                                                    <FaFileAlt /> Recent Deliveries ({selectedBatches.length})
-                                                </h4>
-                                                <div className="space-y-1">
-                                                    {selectedBatches.slice(0, 3).map((b: any) => (
-                                                        <div key={b.firestoreId || b.id} className="flex items-center justify-between text-[10px] bg-white/40 px-2 py-1 rounded">
-                                                            <span className="truncate">{b.batchNumber}</span>
-                                                            <div className="flex gap-2 flex-shrink-0">
-                                        <span className={`px-1.5 py-0.5 rounded-full ${
-                                            b.qualityGrade === 'PREMIUM' ? 'bg-amber-100 text-amber-700' :
-                                                b.qualityGrade === 'REJECT' ? 'bg-red-100 text-red-700' :
-                                                    'bg-blue-100 text-blue-700'
-                                        }`}>{b.qualityGrade}</span>
-                                                                <span className="text-gray-500">{(b.weightKg / 1000).toFixed(1)}T</span>
-                                                            </div>
-                                                        </div>
-                                                    ))}
-                                                </div>
+                                            {/* Actions footer */}
+                                            <div className="pt-4 border-t border-white/30 flex flex-wrap gap-2">
+                                                <button
+                                                    disabled={actionLoading}
+                                                    onClick={handleRecalculate}
+                                                    className="flex-1 min-w-[140px] py-2 bg-primary text-white text-xs font-medium rounded-full hover:bg-dark-orange disabled:opacity-50 flex items-center justify-center gap-1 transition-colors"
+                                                >
+                                                    <FaHistory /> Recalculate & Snapshot
+                                                </button>
+                                                <button
+                                                    onClick={() => navigate(`/dashboard/suppliers?open=${selected.firestoreId || selected.id}`)}
+                                                    className="flex-1 min-w-[120px] py-2 bg-white/60 border border-gray-200 text-xs font-medium rounded-full hover:bg-white/80 text-gray-700 transition-colors"
+                                                >
+                                                    Full Profile →
+                                                </button>
+                                                <button
+                                                    onClick={() => navigate(`/dashboard/suppliers/development?supplier=${selected.firestoreId || selected.id}`)}
+                                                    className="flex-1 min-w-[140px] py-2 bg-white/60 border border-gray-200 text-xs font-medium rounded-full hover:bg-white/80 text-gray-700 transition-colors"
+                                                >
+                                                    View in Development →
+                                                </button>
                                             </div>
-                                        )}
-
-                                        {/* Actions footer — same as before */}
-                                        {/* Actions footer */}
-                                        <div className="pt-4 border-t border-gray-200 flex flex-wrap gap-2">
-                                            <button
-                                                disabled={actionLoading}
-                                                onClick={handleRecalculate}
-                                                className="flex-1 min-w-[140px] py-2 bg-primary text-white text-xs font-medium rounded-full hover:bg-dark-orange disabled:opacity-50 flex items-center justify-center gap-1"
-                                            >
-                                                <FaHistory /> Recalculate
-                                            </button>
-                                            <button
-                                                onClick={() => navigate(`/dashboard/suppliers?open=${selected.firestoreId || selected.id}`)}
-                                                className="flex-1 min-w-[120px] py-2 bg-white/60 border border-gray-200 text-xs font-medium rounded-full hover:bg-white/80"
-                                            >
-                                                Full Profile →
-                                            </button>
-                                            <button
-                                                onClick={() => navigate(`/dashboard/suppliers/development?supplier=${selected.firestoreId || selected.id}`)}
-                                                className="flex-1 min-w-[140px] py-2 bg-white/60 border border-gray-200 text-xs font-medium rounded-full hover:bg-white/80"
-                                            >
-                                                View in Development →
-                                            </button>
                                         </div>
-                                    </InfoCard>
+                                    </motion.div>
                                 </motion.div>
                             )}
                         </AnimatePresence>
