@@ -1,147 +1,269 @@
 {
   "seo": {
-    "title": "Approvisionnement en Noix de Cajou en Gros | Traçable de l'Arbre au Conteneur | AfriNuts Export",
-    "description": "Noix de cajou en gros directement de notre ferme de 35 hectares à Odienné, Côte d'Ivoire. Traçabilité au niveau du bloc, documentation prête à l'exportation, qualité Grade A."
+    "title": "Approvisionnement de noix de cajou en gros | Traçable de l'arbre au conteneur | AfriNuts Export",
+    "description": "Noix de cajou en gros directement de notre ferme de 35 hectares à Odienné, Côte d'Ivoire. Traçabilité au niveau du bloc, documentation prête à l'export, qualité Grade A."
   },
   "hero": {
-    "subtitle": "Approvisionnement en Gros",
-    "title": "Approvisionnez-vous en Toute Confiance. Expédiez Avec des Preuves.",
-    "lead": "La plupart des fournisseurs vous envoient une liste de prix. Nous vous envoyons les données de la ferme — suivi par bloc, dates de récolte, relevés d'humidité et documentation prête pour le conteneur.",
-    "subtext": "Directement de notre ferme de 35 hectares à Odienné, Côte d'Ivoire. Origine unique. Entièrement traçable. Prêt à l'exportation.",
-    "moq": "Quantité minimum : 1 tonne (20 sacs)",
-    "available": "Disponible Maintenant",
-    "imageLabel": "Amandes de Cajou Premium",
-    "introTitle": "Ce Qui Rend Notre Vente en Gros Différente",
-    "introBody": "Origine unique de notre ferme de 35 hectares. Traçabilité Farm OS sur chaque expédition. Documentation prête à l'exportation. Pas d'intermédiaires — juste un approvisionnement direct et transparent, d'Odienné à votre conteneur.",
-    "samples": "Échantillons Disponibles",
-    "requestPricing": "Obtenir un Devis",
-    "downloadCatalogue": "Télécharger le Catalogue Produits",
+    "subtitle": "Approvisionnement en gros",
+    "title": "Sourcez en toute confiance. Expédiez avec preuve.",
+    "lead": "La plupart des fournisseurs vous envoient une liste de prix. Nous vous envoyons les données de la ferme — suivi au niveau du bloc, dates de récolte, relevés d'humidité et documentation prête pour le conteneur.",
+    "subtext": "Directement de notre ferme de 35 hectares à Odienné, Côte d'Ivoire. Origine unique. Entièrement traçable. Prête à l'export.",
+    "moq": "Commande minimum : 1 tonne (20 sacs)",
+    "available": "Inscription des acheteurs pour les volumes de la première saison",
+    "samples": "Échantillons disponibles",
+    "imageLabel": "Amandes de cajou premium",
+    "introTitle": "Ce qui rend notre gros différent",
+    "introBody": "Origine unique de notre ferme de 35 hectares. Traçabilité Farm OS sur chaque expédition. Documentation prête à l'export. Pas d'intermédiaires — juste un approvisionnement direct et transparent d'Odienné à votre conteneur.",
+    "requestPricing": "Demander un devis",
+    "downloadCatalogue": "Télécharger le catalogue produits",
     "whatsapp": "WhatsApp"
   },
   "whyDifferent": {
-    "title": "Pourquoi Nos Noix de Cajou Sont Différentes",
-    "body": "La plupart des fournisseurs de noix de cajou sont des négociants — ils achètent à ceux qui ont des noix et revendent à ceux qui en ont besoin. Nous cultivons ce que nous vendons sur notre propre ferme, suivons chaque lot avec notre propre logiciel et fournissons une documentation que la plupart des fournisseurs ne peuvent pas fournir.",
+    "title": "Pourquoi nos noix de cajou sont différentes",
+    "body": "La plupart des fournisseurs de noix de cajou sont des négociants — ils achètent à ceux qui ont des noix et revendent à ceux qui en ont besoin. Nous cultivons notre propre terre et achetons auprès d'agriculteurs partenaires que nous connaissons par leur nom, suivons chaque lot avec notre propre logiciel et fournissons une documentation que la plupart des fournisseurs ne peuvent pas fournir.",
     "cards": {
-      "traceability": { "title": "Traçabilité Complète", "desc": "Chaque lot est tracé jusqu'au bloc exact et à la date de récolte. Notre Farm OS vous donne des données que la plupart des fournisseurs ne peuvent pas fournir — pas seulement une trace papier, mais un enregistrement numérique.", "stat": "Niveau Bloc" },
-      "consistency": { "title": "Cohérence d'Origine Unique", "desc": "Pas de lots mélangés. Pas d'intermédiaires. Chaque expédition provient de notre ferme de 35 hectares à Odienné — même sol, mêmes arbres, mêmes normes de qualité.", "stat": "Une Ferme" },
-      "documentation": { "title": "Documentation Prête à l'Exportation", "desc": "Dossier d'exportation complet : COO, SGS, Phyto, certificats Biologique et Halal (selon obtention). Votre courtier en douane aura tout ce dont il a besoin.", "stat": "Complet" }
+      "traceability": { "title": "Traçabilité complète", "desc": "Chaque lot est tracé jusqu'au bloc exact et à la date de récolte. Notre Farm OS vous donne des données que la plupart des fournisseurs ne peuvent pas fournir — pas seulement une trace papier, mais un dossier numérique.", "stat": "Au niveau du bloc" },
+      "consistency": { "title": "Cohérence d'origine unique", "desc": "Pas d'origines mélangées. Pas d'intermédiaires. Chaque lot provient d'Odienné — notre ferme familiale et nos agriculteurs partenaires, classés selon une norme unique. Même sol, même climat, même qualité, à chaque fois.", "stat": "Une origine" },
+      "documentation": { "title": "Documentation prête à l'export", "desc": "Pack export complet : COO, SGS, Phyto, certificats biologiques et halal (au fur et à mesure). Votre courtier en douane aura tout ce dont il a besoin.", "stat": "Complet" }
     }
   },
   "blockTracking": {
-    "title": "Suivi par Bloc : Voyez Ce Que les Autres Ne Peuvent Pas Montrer",
     "description": "Notre Farm OS cartographie chaque bloc par rangée, colonne, taux de survie et coordonnées GPS. Chaque bloc a sa propre date de plantation, son nombre d'arbres et son historique de récolte. Lorsque vous demandez la traçabilité, nous vous montrons les données réelles — pas une promesse.",
-    "gridLabel": "Grille de 5×7 blocs — 35 hectares",
-    "tags": ["Rangée A-E", "Colonne 1-7", "Taux de Survie", "Cartographié GPS", "Date de Plantation", "Journal de Récolte"],
-    "viewLiveExample": "En savoir plus sur Farm OS",
+    "gridLabel": "Grille de blocs 5×7 — 35 hectares",
     "legend": {
-      "planted": "Planté",
       "harvested": "Récolté",
-      "infrastructure": "Infrastructure"
-    }
+      "infrastructure": "Infrastructure",
+      "planted": "Planté"
+    },
+    "tags": [
+      "Rangée A-E",
+      "Colonne 1-7",
+      "Taux de survie",
+      "Cartographié GPS",
+      "Date de plantation",
+      "Journal de récolte"
+    ],
+    "title": "Suivi au niveau du bloc : voyez ce que les autres ne peuvent pas montrer",
+    "viewLiveExample": "En savoir plus sur Farm OS"
   },
-  "products": {
-    "title": "Gamme de Produits",
-    "body": "Noix brutes disponibles aujourd'hui. Produits transformés disponibles en précommande. Tous proviennent de notre ferme d'origine unique à Odienné.",
-    "cardTitle": "Produits Actuels et à Venir",
-    "product": "Produit",
-    "grade": "Qualité",
-    "moq": "Quantité Min.",
-    "leadTime": "Délai",
-    "status": "Statut",
-    "available": "Disponible",
-    "downloadCatalogue": "Télécharger le Catalogue Produits Complet (PDF)",
-    "requestSample": "Demander un Lot d'Échantillon",
-    "table": [
-      { "product": "Noix de Cajou Brutes", "grade": "Grade A, 95 % entières", "moq": "1 tonne (20 sacs)", "leadTime": "14 jours", "status": "Disponible", "icon": "FaBox" },
-      { "product": "Amandes de Cajou", "grade": "W320, W240, W180", "moq": "Sur demande", "leadTime": "T1 2030", "status": "Précommande", "icon": "FaIndustry" },
-      { "product": "CNSL", "grade": "Qualité Technique", "moq": "Vrac", "leadTime": "T1 2030", "status": "Précommande", "icon": "FaFlask" }
-    ]
+  "cta": {
+    "body": "Enregistrez votre volume pour notre première saison, téléchargez notre catalogue produits ou consultez notre documentation de conformité. Nous répondons aux demandes de gros dans les 24 heures. Une fois votre demande soumise, nous planifierons un appel pour discuter de votre volume et de vos exigences de qualité.",
+    "requestPricing": "S'inscrire pour les volumes de la première saison",
+    "title": "Prêt à sourcez en toute confiance ?",
+    "viewCertifications": "Voir la feuille de route des certifications"
+  },
+  "faq": {
+    "body": "Réponses rapides pour les acheteurs en gros. Vous ne trouvez pas ce que vous cherchez ? Contactez-nous directement.",
+    "items": [
+      {
+        "a": "Nous inscrivons les acheteurs pour notre première saison, pour expédition depuis le port d'Abidjan vers l'Union européenne, le Moyen-Orient et l'Amérique du Nord. Délais de transit : 4-6 semaines vers l'UE, 6-8 semaines vers l'Amérique du Nord.",
+        "q": "Expédiez-vous dans mon pays ?"
+      },
+      {
+        "a": "Absolument. Nous encourageons les acheteurs qualifiés à visiter notre ferme de 35 hectares à Odienné, Côte d'Ivoire. Voir l'opération de ses propres yeux établit la confiance que la documentation seule ne peut pas créer. Les visites sont organisées sur demande.",
+        "q": "Puis-je visiter la ferme ?"
+      },
+      {
+        "a": "Nous poursuivons activement les certifications Biologique (objectif 2029), Rainforest Alliance (objectif 2029), Commerce équitable, ISO 22000 et Halal (objectif 2030). Notre ferme est sans produits chimiques depuis sa création.",
+        "cta": {
+          "link": "/certifications",
+          "text": "Voir la feuille de route des certifications"
+        },
+        "q": "Quelles certifications avez-vous ?"
+      },
+      {
+        "a": "Notre MOQ standard est de 1 tonne métrique (environ 20 sacs de jute) pour les noix de cajou brutes. Pour les amandes transformées et les produits spéciaux, les MOQ varient — contactez-nous pour plus de détails.",
+        "q": "Quelle est votre quantité minimale de commande ?"
+      },
+      {
+        "a": "Chaque lot provient d'une seule origine — Odienné. Notre ferme familiale et nos agriculteurs partenaires sont classés selon une norme unique, et nous ne mélangeons pas les origines. Notre Farm OS suit les paramètres de qualité par lot, et nous fournissons une documentation avec chaque expédition.",
+        "q": "Comment garantissez-vous une qualité constante ?"
+      }
+    ],
+    "title": "Questions fréquentes",
+    "viewAll": "Voir toutes les FAQ"
   },
   "farmOs": {
-    "title": "Demandez à Votre Fournisseur Actuel Ses Données de Traçabilité par Bloc. Nous Attendons.",
-    "body": "Notre Farm OS sur mesure suit chaque arbre, chaque dépense et chaque récolte. Lorsque vous passez commande, nous n'expédions pas seulement des noix de cajou — nous expédions un enregistrement numérique de leur provenance exacte, de leur date de récolte et de leur traitement.",
     "batchNote": "Testez notre traçabilité : demandez le lot <strong>AFN-FARM-ORG-260710-34D1</strong> lors de votre demande",
-    "cta": "Voir Comment Fonctionne la Traçabilité"
+    "body": "Notre Farm OS sur mesure suit chaque bloc, chaque dépense et chaque récolte. Lorsque votre volume est expédié, nous n'expédions pas seulement des noix de cajou — nous expédions un dossier numérique indiquant exactement d'où elles viennent, quand elles ont été récoltées et comment elles ont été manipulées.",
+    "cta": "Voir comment fonctionne la traçabilité",
+    "title": "Demandez à votre fournisseur actuel des données de traçabilité au niveau du bloc. Nous attendrons."
   },
-  "quality": {
-    "title": "Une Qualité Que Vous Pouvez Vérifier",
-    "body": "Chaque expédition répond aux spécifications de qualité export, appuyées par la documentation. De la teneur en humidité au chargement du conteneur, la qualité est mesurée — pas supposée.",
-    "specsTitle": "Spécifications de Qualité",
-    "specs": [
-      { "label": "Teneur en Humidité", "value": "≤ 8 %" },
-      { "label": "Noix Défectueuses", "value": "≤ 5 %" },
-      { "label": "Aflatoxine", "value": "< 4 ppb (UE)" },
-      { "label": "Emballage", "value": "Sacs de jute 50-80 kg" },
-      { "label": "Conteneur", "value": "20 pieds (~22 TM)" },
-      { "label": "Nombre de Noix", "value": "170-190 noix/kg" }
-    ]
+  "farmOsQuote": {
+    "body": "Lorsque vous commandez chez AfriNuts, le rapport de traçabilité est extrait directement de Farm OS — pas créé après coup par quelqu'un dans un bureau. Le même système que nos gestionnaires de ferme utilisent. Les mêmes données que nos investisseurs voient.",
+    "cta": "Essayez la traçabilité avec le lot AFN-FARM-ORG-260710-34D1",
+    "title": "La plupart des fournisseurs envoient un certificat. Nous envoyons les données qui l'ont généré."
   },
   "logistics": {
-    "title": "Logistique d'Exportation",
-    "description": "Nous expédions depuis le Port d'Abidjan — l'un des ports en eau profonde les plus efficaces et modernes d'Afrique de l'Ouest. Des lignes maritimes directes vers l'Europe, le Moyen-Orient et l'Amérique du Nord signifient que votre cargaison circule rapidement, avec moins de transbordements et un risque réduit de retard.",
-    "documentation": "Documentation : certificat d'origine, inspection SGS, certificat phytosanitaire. Certifications biologique (objectif 2029) et halal (objectif 2030) en cours — installation conçue selon les normes de conformité dès le premier jour.",
+    "description": "Les volumes de la première saison passent par le port d'Abidjan — l'un des ports en eau profonde les plus efficaces et modernes d'Afrique de l'Ouest. Des lignes maritimes directes vers l'Europe, le Moyen-Orient et l'Amérique du Nord signifient que votre cargaison se déplace rapidement, avec moins de transbordements et un risque de retard réduit.",
+    "documentation": "Documentation : certificat d'origine, inspection SGS, certificat phytosanitaire. Biologique et Rainforest Alliance (objectif 2029) ; Commerce équitable, ISO 22000 et Halal (objectif 2030) — consultez la feuille de route des certifications pour les dates et le statut.",
     "items": [
-      { "icon": "FaTruck", "label": "Port", "value": "Abidjan, Côte d'Ivoire" },
-      { "icon": "FaGlobeAfrica", "label": "Transit UE", "value": "4-6 semaines" },
-      { "icon": "FaGlobeAfrica", "label": "Amérique du Nord", "value": "6-8 semaines" },
-      { "icon": "FaFileContract", "label": "Conditions", "value": "FOB Abidjan, CIF disponible" }
-    ]
+      {
+        "icon": "FaTruck",
+        "label": "Port",
+        "value": "Abidjan, Côte d'Ivoire"
+      },
+      {
+        "icon": "FaGlobeAfrica",
+        "label": "Transit UE",
+        "value": "4-6 semaines"
+      },
+      {
+        "icon": "FaGlobeAfrica",
+        "label": "Amérique du Nord",
+        "value": "6-8 semaines"
+      },
+      {
+        "icon": "FaFileContract",
+        "label": "Conditions",
+        "value": "FOB Abidjan, CIF disponible"
+      }
+    ],
+    "title": "Logistique d'export"
   },
   "payment": {
-    "title": "Conditions de Paiement",
     "terms": [
-      { "label": "Standard", "value": "30 % d'acompte, 70 % contre copie du Connaissement" },
-      { "label": "Lettre de Crédit", "value": "Disponible pour les acheteurs qualifiés" },
-      { "label": "Devise", "value": "USD ou EUR" }
-    ]
+      {
+        "label": "Standard",
+        "value": "30 % d'acompte, 70 % contre copie du connaissement — confirmé lors de l'attribution de votre volume"
+      },
+      {
+        "label": "Lettre de crédit",
+        "value": "Disponible pour les acheteurs qualifiés"
+      },
+      {
+        "label": "Devise",
+        "value": "USD ou EUR"
+      }
+    ],
+    "title": "Conditions de paiement"
   },
   "process": {
-    "title": "Comment Commencer",
     "body": "De la demande à la livraison — un processus simple conçu pour les acheteurs en gros.",
     "stepLabel": "Étape",
     "steps": [
-      { "step": "1", "title": "Demander les Prix", "desc": "Indiquez-nous vos exigences de volume et de qualité" },
-      { "step": "2", "title": "Recevoir les Spécifications", "desc": "Nous envoyons les fiches produits + disponibilité des échantillons" },
-      { "step": "3", "title": "Passer une Commande d'Essai", "desc": "Commencez avec 1 tonne pour vérifier la qualité par vous-même" },
-      { "step": "4", "title": "Monter en Échelle", "desc": "Passez aux chargements par conteneur en toute confiance" }
-    ]
+      {
+        "desc": "Indiquez-nous votre volume et vos exigences de qualité",
+        "step": "1",
+        "title": "Enregistrez votre volume"
+      },
+      {
+        "desc": "Nous envoyons les fiches produits + les détails des échantillons de la première saison",
+        "step": "2",
+        "title": "Recevez les spécifications"
+      },
+      {
+        "desc": "Réservez 1 tonne de notre première saison pour vérifier la qualité par vous-même",
+        "step": "3",
+        "title": "Enregistrez un volume d'essai"
+      },
+      {
+        "desc": "Passez aux charges de conteneurs en toute confiance",
+        "step": "4",
+        "title": "Passez à l'échelle"
+      }
+    ],
+    "title": "Comment démarrer"
+  },
+  "products": {
+    "available": "Disponible",
+    "body": "Noix brutes d'abord — enregistrez votre volume pour notre première saison. Produits transformés disponibles en précommande. Tous issus d'une seule origine à Odienné : notre ferme familiale et nos agriculteurs partenaires, classés selon une norme unique.",
+    "cardTitle": "Produits actuels et à venir",
+    "downloadCatalogue": "Télécharger le catalogue produits complet (PDF)",
+    "grade": "Qualité",
+    "leadTime": "Délai",
+    "moq": "MOQ",
+    "product": "Produit",
+    "requestSample": "Demander un lot échantillon",
+    "status": "Statut",
+    "table": [
+      {
+        "grade": "Classé lot par lot (test de coupe KOR)",
+        "icon": "FaBox",
+        "leadTime": "Première saison",
+        "moq": "1 tonne (20 sacs)",
+        "product": "Noix de cajou brutes",
+        "status": "Inscription"
+      },
+      {
+        "grade": "W320, W240, W180",
+        "icon": "FaIndustry",
+        "leadTime": "T1 2030",
+        "moq": "Sur demande",
+        "product": "Amandes de cajou",
+        "status": "Précommande"
+      },
+      {
+        "grade": "Qualité technique",
+        "icon": "FaFlask",
+        "leadTime": "T1 2030",
+        "moq": "Vrac",
+        "product": "CNSL",
+        "status": "Précommande"
+      }
+    ],
+    "title": "Gamme de produits"
+  },
+  "quality": {
+    "body": "Chaque lot est classé lot par lot selon nos bandes publiées — Premium, Standard ou Rejet — et seuls les lots Premium et Standard sont commercialisables. De la teneur en humidité au chargement du conteneur, la qualité est mesurée — pas supposée.",
+    "specs": [
+      {
+        "label": "Teneur en humidité",
+        "value": "≤ 8 %"
+      },
+      {
+        "label": "Noix défectueuses",
+        "value": "≤ 5 %"
+      },
+      {
+        "label": "Aflatoxine",
+        "value": "< 4 ppb (UE)"
+      },
+      {
+        "label": "Emballage",
+        "value": "Sacs de jute de 50-80 kg"
+      },
+      {
+        "label": "Conteneur",
+        "value": "20 pieds (~22 MT)"
+      },
+      {
+        "label": "Nombre de noix",
+        "value": "≤ 180 noix/kg"
+      }
+    ],
+    "specsTitle": "Spécifications de qualité — Qualité Premium",
+    "title": "Une qualité que vous pouvez vérifier"
   },
   "trust": {
-    "title": "Approuvé par les Agriculteurs, Soutenu par les Investisseurs",
-    "body": "Nous ne sommes pas un bureau de négoce. Nous possédons la ferme, gérons la coopérative et opérons en toute transparence.",
+    "body": "Nous ne sommes pas un bureau de négociation. Nous cultivons une terre familiale, achetons auprès d'agriculteurs partenaires que nous connaissons par leur nom et traçons chaque lot avec notre propre logiciel — transparence totale.",
     "community": "Quand vous achetez chez nous, vous financez un puits",
     "items": [
-      { "icon": "FaUsers", "value": "200+", "label": "Agriculteurs dans la Coopérative", "desc": "Partenariat direct avec les producteurs locaux" },
-      { "icon": "FaLeaf", "value": "35 ha", "label": "Ferme Possédée", "desc": "Pas un bureau de négoce — nous cultivons ce que nous vendons" },
-      { "icon": "FaChartLine", "value": "Soutenu", "label": "Financé par des Investisseurs", "desc": "Pas dépendant des courtiers. Des actifs réels." },
-      { "icon": "FaGlobeAfrica", "value": "100 %", "label": "Origine Unique", "desc": "Odienné, Côte d'Ivoire. Une ferme, une qualité." }
-    ]
-  },
-  "faq": {
-    "title": "Foire Aux Questions",
-    "body": "Réponses rapides pour les acheteurs en gros. Vous ne trouvez pas ce que vous cherchez ? Contactez-nous directement.",
-    "viewAll": "Voir toutes les FAQ",
-    "items": [
-      { "q": "Expédiez-vous vers mon pays ?", "a": "Oui. Nous exportons vers l'Union Européenne, le Moyen-Orient et l'Amérique du Nord. Notre port de départ est Abidjan — l'un des ports à conteneurs les plus efficaces d'Afrique de l'Ouest. Délais de transit : 4-6 semaines vers l'UE, 6-8 semaines vers l'Amérique du Nord." },
-      { "q": "Puis-je visiter la ferme ?", "a": "Absolument. Nous encourageons les acheteurs qualifiés à visiter notre ferme de 35 hectares à Odienné, Côte d'Ivoire. Voir l'opération de ses propres yeux construit la confiance que la documentation seule ne peut pas établir. Les visites sont organisées sur demande." },
       {
-        "q": "Quelles certifications avez-vous ?",
-        "a": "Nous poursuivons activement les certifications Biologique (ECOCERT), Halal, ISO 22000 et Commerce Équitable. Notre ferme est sans produits chimiques depuis sa création.",
-        "cta": { "text": "Voir la Feuille de Route des Certifications", "link": "/certifications" }
+        "desc": "Partenariat direct avec les producteurs locaux",
+        "icon": "FaUsers",
+        "label": "Agriculteurs en coopérative",
+        "value": "200+"
       },
-      { "q": "Quelle est votre quantité minimum de commande ?", "a": "Notre quantité minimum standard est de 1 tonne métrique (environ 20 sacs de jute) pour les noix de cajou brutes. Pour les amandes transformées et les produits spécialisés, les quantités minimums varient — contactez-nous pour plus de détails." },
-      { "q": "Comment assurez-vous une qualité constante ?", "a": "Chaque expédition provient de notre ferme d'origine unique — même sol, mêmes arbres, mêmes normes de transformation. Nous ne mélangeons pas les lots de différentes sources. Notre Farm OS suit les indicateurs de qualité par lot, et nous fournissons la documentation avec chaque expédition." }
-    ]
-  },
-  "cta": {
-    "title": "Prêt à Vous Approvisionner en Toute Confiance ?",
-    "body": "Demandez les prix, téléchargez notre catalogue produits ou consultez notre documentation de conformité. Nous répondons aux demandes de gros dans les 24 heures. Une fois votre demande soumise, nous planifierons un appel pour discuter de vos exigences de volume et de qualité.",
-    "requestPricing": "Demander les Prix de Gros",
-    "viewCertifications": "Voir la Feuille de Route des Certifications"
-  },
-  "farmOsQuote": {
-    "title": "La Plupart des Fournisseurs Envoient un Certificat. Nous Envoyons les Données Qui l'Ont Généré.",
-    "body": "Lorsque vous commandez chez AfriNuts, le rapport de traçabilité est extrait directement de Farm OS — pas créé après coup par quelqu'un dans un bureau. Le même système que nos gestionnaires agricoles utilisent. Les mêmes données que nos investisseurs voient.",
-    "cta": "Essayez la traçabilité avec le lot AFN-FARM-ORG-260710-34D1"
+      {
+        "desc": "Pas un bureau de négociation — une terre que notre famille cultive depuis trois générations",
+        "icon": "FaLeaf",
+        "label": "Ferme familiale",
+        "value": "35 ha"
+      },
+      {
+        "desc": "Pas de dépendance aux courtiers. Construit et financé par les fondateurs.",
+        "icon": "FaChartLine",
+        "label": "Financé par les fondateurs",
+        "value": "Soutenu"
+      },
+      {
+        "desc": "Odienné, Côte d'Ivoire. Une origine, une norme.",
+        "icon": "FaGlobeAfrica",
+        "label": "Origine unique",
+        "value": "100 %"
+      }
+    ],
+    "title": "Approuvé par les agriculteurs, soutenu par les investisseurs"
   }
 }

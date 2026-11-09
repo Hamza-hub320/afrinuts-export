@@ -9,7 +9,7 @@
     "lead": "Most suppliers send you a price list. We send you the farm data — block-level tracking, harvest dates, moisture readings, and container-ready documentation.",
     "subtext": "Direct from our 35-hectare farm in Odienné, Côte d'Ivoire. Single-origin. Fully traceable. Export-ready.",
     "moq": "MOQ: 1 ton (20 bags)",
-    "available": "Available Now",
+    "available": "Registering Buyers for First-Season Volumes",
     "samples": "Samples Available",
     "imageLabel": "Premium Cashew Kernels",
     "introTitle": "What Makes Our Wholesale Different",
@@ -20,128 +20,290 @@
   },
   "whyDifferent": {
     "title": "Why Our Cashews Are Different",
-    "body": "Most cashew suppliers are traders — they buy from whoever has nuts and resell to whoever needs them. We grow what we sell on our own farm, track every batch with our own software, and provide documentation most suppliers cannot.",
+    "body": "Most cashew suppliers are traders — they buy from whoever has nuts and resell to whoever needs them. We farm our own land and buy from partner farmers we know by name, track every batch with our own software, and provide documentation most suppliers cannot.",
     "cards": {
       "traceability": { "title": "Full Traceability", "desc": "Every batch traced to the exact block and harvest date. Our Farm OS gives you data most suppliers cannot provide — not just a paper trail, but a digital record.", "stat": "Block-Level" },
-      "consistency": { "title": "Single-Origin Consistency", "desc": "No mixed lots. No middlemen. Every shipment comes from our 35-hectare farm in Odienné — same soil, same trees, same quality standards.", "stat": "One Farm" },
+      "consistency": { "title": "Single-Origin Consistency", "desc": "No mixed origins. No middlemen. Every batch comes from Odienné — our family farm and partner farmers graded to one standard. Same soil, same climate, same quality, every time.", "stat": "One Origin" },
       "documentation": { "title": "Export-Ready Documentation", "desc": "Full export package: COO, SGS, Phyto, Organic and Halal certs (as achieved). Your customs broker will have everything they need.", "stat": "Complete" }
     }
   },
   "blockTracking": {
-    "title": "Block-Level Tracking: See What Others Can't Show",
     "description": "Our Farm OS maps every block by row, column, survival rate, and GPS coordinates. Each block has its own planting date, tree count, and harvest history. When you ask for traceability, we show you the actual data — not a promise.",
     "gridLabel": "5×7 block grid — 35 hectares",
-    "tags": ["Row A-E", "Column 1-7", "Survival Rate", "GPS Mapped", "Planting Date", "Harvest Log"],
-    "viewLiveExample": "Learn more about Farm OS",
     "legend": {
-      "planted": "Planted",
       "harvested": "Harvested",
-      "infrastructure": "Infrastructure"
-    }
+      "infrastructure": "Infrastructure",
+      "planted": "Planted"
+    },
+    "tags": [
+      "Row A-E",
+      "Column 1-7",
+      "Survival Rate",
+      "GPS Mapped",
+      "Planting Date",
+      "Harvest Log"
+    ],
+    "title": "Block-Level Tracking: See What Others Can't Show",
+    "viewLiveExample": "Learn more about Farm OS"
   },
-  "products": {
-    "title": "Product Range",
-    "body": "Raw nuts available today. Processed products available for pre-order. All sourced from our single-origin farm in Odienné.",
-    "cardTitle": "Current & Upcoming Products",
-    "product": "Product",
-    "grade": "Grade",
-    "moq": "MOQ",
-    "leadTime": "Lead Time",
-    "status": "Status",
-    "available": "Available",
-    "downloadCatalogue": "Download Full Product Catalogue (PDF)",
-    "requestSample": "Request a Sample Batch",
-    "table": [
-      { "product": "Raw Cashew Nuts", "grade": "Grade A, 95% whole", "moq": "1 ton (20 bags)", "leadTime": "14 days", "status": "Available", "icon": "FaBox" },
-      { "product": "Cashew Kernels", "grade": "W320, W240, W180", "moq": "By request", "leadTime": "Q1 2030", "status": "Pre-Order", "icon": "FaIndustry" },
-      { "product": "CNSL", "grade": "Technical Grade", "moq": "Bulk", "leadTime": "Q1 2030", "status": "Pre-Order", "icon": "FaFlask" }
-    ]
+  "cta": {
+    "body": "Register your volume for our first season, download our product catalogue, or review our compliance documentation. We respond to wholesale inquiries within 24 hours. Once you submit, we will schedule a call to discuss your volume and quality requirements.",
+    "requestPricing": "Register for First-Season Volumes",
+    "title": "Ready to Source With Confidence?",
+    "viewCertifications": "View Certification Roadmap"
+  },
+  "faq": {
+    "body": "Quick answers for wholesale buyers. Can't find what you're looking for? Contact us directly.",
+    "items": [
+      {
+        "a": "We are registering buyers for our first season, for shipment from the Port of Abidjan to the European Union, the Middle East, and North America. Transit times: 4-6 weeks to EU, 6-8 weeks to North America.",
+        "q": "Do you ship to my country?"
+      },
+      {
+        "a": "Absolutely. We encourage qualified buyers to visit our 35-hectare farm in Odienné, Côte d'Ivoire. Seeing the operation firsthand builds the trust that documentation alone cannot. Visits are arranged on request.",
+        "q": "Can I visit the farm?"
+      },
+      {
+        "a": "We are actively pursuing Organic (target 2029), Rainforest Alliance (target 2029), Fair Trade, ISO 22000 and Halal (target 2030). Our farm has been chemical-free since inception.",
+        "cta": {
+          "link": "/certifications",
+          "text": "View Certification Roadmap"
+        },
+        "q": "What certifications do you have?"
+      },
+      {
+        "a": "Our standard MOQ is 1 metric ton (approximately 20 jute bags) for raw cashew nuts. For processed kernels and specialty products, MOQs vary — contact us for details.",
+        "q": "What is your minimum order quantity?"
+      },
+      {
+        "a": "Every batch comes from one origin — Odienné. Our family farm and partner farmers are graded to one standard, and we don't mix origins. Our Farm OS tracks quality metrics per batch, and we provide documentation with every shipment.",
+        "q": "How do you ensure consistent quality?"
+      }
+    ],
+    "title": "Frequently Asked Questions",
+    "viewAll": "View all FAQs"
   },
   "farmOs": {
-    "title": "Ask Your Current Supplier for Block-Level Traceability Data. We'll Wait.",
-    "body": "Our custom-built Farm OS tracks every tree, every expense, and every harvest. When you place an order, we don't just ship cashews — we ship a digital record of exactly where they came from, when they were harvested, and how they were handled.",
     "batchNote": "Test our traceability: ask for batch <strong>AFN-FARM-ORG-260710-34D1</strong> when you inquire",
-    "cta": "See How Traceability Works"
+    "body": "Our custom-built Farm OS tracks every block, every expense, and every harvest. When your volume ships, we don't just ship cashews — we ship a digital record of exactly where they came from, when they were harvested, and how they were handled.",
+    "cta": "See How Traceability Works",
+    "title": "Ask Your Current Supplier for Block-Level Traceability Data. We'll Wait."
   },
-  "quality": {
-    "title": "Quality You Can Verify",
-    "body": "Every shipment meets export-grade specifications backed by documentation. From moisture content to container loading, quality is measured — not assumed.",
-    "specsTitle": "Quality Specifications",
-    "specs": [
-      { "label": "Moisture Content", "value": "≤ 8%" },
-      { "label": "Defective Nuts", "value": "≤ 5%" },
-      { "label": "Aflatoxin", "value": "< 4 ppb (EU)" },
-      { "label": "Packaging", "value": "50-80 kg jute bags" },
-      { "label": "Container", "value": "20 ft (~22 MT)" },
-      { "label": "Nut Count", "value": "170-190 nuts/kg" }
-    ]
+  "farmOsQuote": {
+    "body": "When you order from AfriNuts, the traceability report is pulled directly from Farm OS — not created after the fact by someone in an office. Same system our farm managers use. Same data our investors see.",
+    "cta": "Try traceability with batch AFN-FARM-ORG-260710-34D1",
+    "title": "Most Suppliers Send a Certificate. We Send the Data That Generated It."
+  },
+  "hero": {
+    "available": "Registering Buyers for First-Season Volumes",
+    "downloadCatalogue": "Download Product Catalogue",
+    "imageLabel": "Premium Cashew Kernels",
+    "introBody": "Single origin from Odienné — our family farm and the partner farmers we know by name. Farm OS traceability on every batch. Export-ready documentation. No middlemen — just direct, transparent sourcing, documented lot by lot.",
+    "introTitle": "What Makes Our Wholesale Different",
+    "lead": "Most suppliers send you a price list. We send you the farm data — block-level tracking, harvest dates, moisture readings, and container-ready documentation.",
+    "moq": "MOQ: 1 ton (20 bags)",
+    "requestPricing": "Register Your Volume",
+    "samples": "Samples From First Season",
+    "subtext": "From our family farm and partner farmers in Odienné, Côte d'Ivoire. Single origin. Fully traceable. First-season volumes now registering.",
+    "subtitle": "Wholesale Supply",
+    "title": "Source With Confidence. Ship With Proof.",
+    "whatsapp": "WhatsApp"
   },
   "logistics": {
-    "title": "Export Logistics",
-    "description": "We ship from the Port of Abidjan — one of West Africa's most efficient and modern deep-water ports. Direct shipping lines to Europe, the Middle East, and North America mean your cargo moves fast, with fewer transshipments and lower risk of delay.",
-    "documentation": "Documentation: Certificate of Origin, SGS Inspection, Phytosanitary Certificate. Organic (target 2029) and Halal (target 2030) certifications in progress — facility built to compliance standards from day one.",
+    "description": "First-season volumes move through the Port of Abidjan — one of West Africa's most efficient and modern deep-water ports. Direct shipping lines to Europe, the Middle East, and North America mean your cargo moves fast, with fewer transshipments and lower risk of delay.",
+    "documentation": "Documentation: Certificate of Origin, SGS Inspection, Phytosanitary Certificate. Organic and Rainforest Alliance (target 2029); Fair Trade, ISO 22000 and Halal (target 2030) — see the certification roadmap for dates and status.",
     "items": [
-      { "icon": "FaTruck", "label": "Port", "value": "Abidjan, Côte d'Ivoire" },
-      { "icon": "FaGlobeAfrica", "label": "EU Transit", "value": "4-6 weeks" },
-      { "icon": "FaGlobeAfrica", "label": "North America", "value": "6-8 weeks" },
-      { "icon": "FaFileContract", "label": "Terms", "value": "FOB Abidjan, CIF available" }
-    ]
+      {
+        "icon": "FaTruck",
+        "label": "Port",
+        "value": "Abidjan, Côte d'Ivoire"
+      },
+      {
+        "icon": "FaGlobeAfrica",
+        "label": "EU Transit",
+        "value": "4-6 weeks"
+      },
+      {
+        "icon": "FaGlobeAfrica",
+        "label": "North America",
+        "value": "6-8 weeks"
+      },
+      {
+        "icon": "FaFileContract",
+        "label": "Terms",
+        "value": "FOB Abidjan, CIF available"
+      }
+    ],
+    "title": "Export Logistics"
   },
   "payment": {
-    "title": "Payment Terms",
     "terms": [
-      { "label": "Standard", "value": "30% deposit, 70% against copy of Bill of Lading" },
-      { "label": "Letter of Credit", "value": "Available for qualified buyers" },
-      { "label": "Currency", "value": "USD or EUR" }
-    ]
+      {
+        "label": "Standard",
+        "value": "30% deposit, 70% against copy of Bill of Lading — confirmed when your volume is allocated"
+      },
+      {
+        "label": "Letter of Credit",
+        "value": "Available for qualified buyers"
+      },
+      {
+        "label": "Currency",
+        "value": "USD or EUR"
+      }
+    ],
+    "title": "Payment Terms"
   },
   "process": {
-    "title": "How to Start",
     "body": "From inquiry to delivery — a simple process designed for wholesale buyers.",
     "stepLabel": "Step",
     "steps": [
-      { "step": "1", "title": "Request Pricing", "desc": "Tell us your volume and grade requirements" },
-      { "step": "2", "title": "Receive Specs", "desc": "We send product sheets + sample availability" },
-      { "step": "3", "title": "Place Trial Order", "desc": "Start with 1 ton to verify quality firsthand" },
-      { "step": "4", "title": "Scale Up", "desc": "Move to container loads with confidence" }
-    ]
+      {
+        "desc": "Tell us your volume and grade requirements",
+        "step": "1",
+        "title": "Register Your Volume"
+      },
+      {
+        "desc": "We send product sheets + first-season sample details",
+        "step": "2",
+        "title": "Receive Specs"
+      },
+      {
+        "desc": "Reserve 1 ton from our first season to verify quality firsthand",
+        "step": "3",
+        "title": "Register a Trial Volume"
+      },
+      {
+        "desc": "Move to container loads with confidence",
+        "step": "4",
+        "title": "Scale Up"
+      }
+    ],
+    "title": "How to Start"
+  },
+  "products": {
+    "available": "Available",
+    "body": "Raw nuts first — register your volume for our first season. Processed products available for pre-order. All sourced from one origin in Odienné: our family farm and partner farmers, graded to one standard.",
+    "cardTitle": "Current & Upcoming Products",
+    "downloadCatalogue": "Download Full Product Catalogue (PDF)",
+    "grade": "Grade",
+    "leadTime": "Lead Time",
+    "moq": "MOQ",
+    "product": "Product",
+    "requestSample": "Request a Sample Batch",
+    "status": "Status",
+    "table": [
+      {
+        "grade": "Graded lot by lot (KOR cut test)",
+        "icon": "FaBox",
+        "leadTime": "First season",
+        "moq": "1 ton (20 bags)",
+        "product": "Raw Cashew Nuts",
+        "status": "Registering"
+      },
+      {
+        "grade": "W320, W240, W180",
+        "icon": "FaIndustry",
+        "leadTime": "Q1 2030",
+        "moq": "By request",
+        "product": "Cashew Kernels",
+        "status": "Pre-Order"
+      },
+      {
+        "grade": "Technical Grade",
+        "icon": "FaFlask",
+        "leadTime": "Q1 2030",
+        "moq": "Bulk",
+        "product": "CNSL",
+        "status": "Pre-Order"
+      }
+    ],
+    "title": "Product Range"
+  },
+  "quality": {
+    "body": "Every lot is graded lot by lot against our published bands — Premium, Standard or Reject — and only Premium and Standard lots are saleable. From moisture content to container loading, quality is measured — not assumed.",
+    "specs": [
+      {
+        "label": "Moisture Content",
+        "value": "≤ 8%"
+      },
+      {
+        "label": "Defective Nuts",
+        "value": "≤ 5%"
+      },
+      {
+        "label": "Aflatoxin",
+        "value": "< 4 ppb (EU)"
+      },
+      {
+        "label": "Packaging",
+        "value": "50-80 kg jute bags"
+      },
+      {
+        "label": "Container",
+        "value": "20 ft (~22 MT)"
+      },
+      {
+        "label": "Nut Count",
+        "value": "≤ 180 nuts/kg"
+      }
+    ],
+    "specsTitle": "Quality Specifications — Premium Grade",
+    "title": "Quality You Can Verify"
+  },
+  "seo": {
+    "description": "Wholesale cashew nuts from one origin in Odienné, Côte d'Ivoire — our family farm and partner farmers. Block-level traceability, export-ready documentation, every lot graded.",
+    "title": "Wholesale Cashew Supply | Traceable from Tree to Container | AfriNuts Export"
   },
   "trust": {
-    "title": "Trusted by Farmers, Backed by Investors",
-    "body": "We're not a trading desk. We own the farm, manage the cooperative, and operate with full transparency.",
+    "body": "We're not a trading desk. We farm family land, buy from partner farmers we know by name, and trace every batch with our own software — full transparency.",
     "community": "When you buy from us, you fund a well",
     "items": [
-      { "icon": "FaUsers", "value": "200+", "label": "Farmers in Cooperative", "desc": "Direct partnership with local growers" },
-      { "icon": "FaLeaf", "value": "35 ha", "label": "Owned Farm", "desc": "Not a trading desk — we grow what we sell" },
-      { "icon": "FaChartLine", "value": "Backed", "label": "Investor-Funded", "desc": "Not broker-dependent. Real assets." },
-      { "icon": "FaGlobeAfrica", "value": "100%", "label": "Single Origin", "desc": "Odienné, Côte d'Ivoire. One farm, one quality." }
-    ]
-  },
-  "faq": {
-    "title": "Frequently Asked Questions",
-    "body": "Quick answers for wholesale buyers. Can't find what you're looking for? Contact us directly.",
-    "viewAll": "View all FAQs",
-    "items": [
-      { "q": "Do you ship to my country?", "a": "Yes. We export to the European Union, the Middle East, and North America. Our port of departure is Abidjan — one of West Africa's most efficient container ports. Transit times: 4-6 weeks to EU, 6-8 weeks to North America." },
-      { "q": "Can I visit the farm?", "a": "Absolutely. We encourage qualified buyers to visit our 35-hectare farm in Odienné, Côte d'Ivoire. Seeing the operation firsthand builds the trust that documentation alone cannot. Visits are arranged on request." },
       {
-        "q": "What certifications do you have?",
-        "a": "We are actively pursuing Organic (ECOCERT), Halal, ISO 22000, and Fair Trade certifications. Our farm has been chemical-free since inception.",
-        "cta": { "text": "View Certification Roadmap", "link": "/certifications" }
+        "desc": "Direct partnership with local growers",
+        "icon": "FaUsers",
+        "label": "Farmers in Cooperative",
+        "value": "200+"
       },
-      { "q": "What is your minimum order quantity?", "a": "Our standard MOQ is 1 metric ton (approximately 20 jute bags) for raw cashew nuts. For processed kernels and specialty products, MOQs vary — contact us for details." },
-      { "q": "How do you ensure consistent quality?", "a": "Every shipment comes from our single-origin farm — same soil, same trees, same processing standards. We don't mix lots from different sources. Our Farm OS tracks quality metrics per batch, and we provide documentation with every shipment." }
-    ]
+      {
+        "desc": "Not a trading desk — land our family has farmed for three generations",
+        "icon": "FaLeaf",
+        "label": "Family Farm",
+        "value": "35 ha"
+      },
+      {
+        "desc": "Not broker-dependent. Built and funded by the founders.",
+        "icon": "FaChartLine",
+        "label": "Founder-Funded",
+        "value": "Backed"
+      },
+      {
+        "desc": "Odienné, Côte d'Ivoire. One origin, one standard.",
+        "icon": "FaGlobeAfrica",
+        "label": "Single Origin",
+        "value": "100%"
+      }
+    ],
+    "title": "Trusted by Farmers, Backed by Investors"
   },
-  "cta": {
-    "title": "Ready to Source With Confidence?",
-    "body": "Request pricing, download our product catalogue, or review our compliance documentation. We respond to wholesale inquiries within 24 hours. Once you submit, we will schedule a call to discuss your volume and quality requirements.",
-    "requestPricing": "Request Wholesale Pricing",
-    "viewCertifications": "View Certification Roadmap"
-  },
-  "farmOsQuote": {
-    "title": "Most Suppliers Send a Certificate. We Send the Data That Generated It.",
-    "body": "When you order from AfriNuts, the traceability report is pulled directly from Farm OS — not created after the fact by someone in an office. Same system our farm managers use. Same data our investors see.",
-    "cta": "Try traceability with batch AFN-FARM-ORG-260710-34D1"
+  "whyDifferent": {
+    "body": "Most cashew suppliers are traders — they buy from whoever has nuts and resell to whoever needs them. We farm our own land and buy from partner farmers we know by name, track every batch with our own software, and provide documentation most suppliers cannot.",
+    "cards": {
+      "consistency": {
+        "desc": "No mixed origins. No middlemen. Every batch comes from Odienné — our family farm and partner farmers graded to one standard. Same soil, same climate, same quality, every time.",
+        "stat": "One Origin",
+        "title": "Single-Origin Consistency"
+      },
+      "documentation": {
+        "desc": "Full documentation package: certificate of origin, SGS inspection and phytosanitary certificate with every shipment. Organic and Halal certificates to follow as each programme is certified.",
+        "stat": "Per Batch",
+        "title": "Export-Ready Documentation"
+      },
+      "traceability": {
+        "desc": "Every batch traced to the exact block and harvest date. Our Farm OS gives you data most suppliers cannot provide — not just a paper trail, but a digital record.",
+        "stat": "Block-Level",
+        "title": "Full Traceability"
+      }
+    },
+    "title": "Why Our Cashews Are Different"
   }
 }
