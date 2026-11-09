@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import {
     FaHandshake, FaSearch, FaCheckCircle, FaChevronLeft,
-    FaChartLine, FaUser, FaCheck, FaTimes, FaHistory
+    FaChartLine, FaUser, FaCheck, FaTimes, FaHistory, FaClipboardCheck
 } from 'react-icons/fa';
 import { Typography } from '@/components/Typography/Typography';
 import { InfoCard } from '@/components/InfoCard/InfoCard';
@@ -35,6 +35,9 @@ const SupplierDevelopmentPage: React.FC = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [severityFilter, setSeverityFilter] = useState<SeverityFilter>('all');
     const [hasOpenSupportFilter, setHasOpenSupportFilter] = useState(false);
+
+    const [page, setPage] = useState(1);
+    const PAGE_SIZE = 10;
 
     // Log Support Modal State
     const [logSupportTarget, setLogSupportTarget] = useState<DevelopmentOpportunity | null>(null);
@@ -120,6 +123,12 @@ const SupplierDevelopmentPage: React.FC = () => {
         });
     }, [allOpportunities, suppliers, searchQuery, severityFilter, hasOpenSupportFilter, supportActions]);
 
+    const totalPages = Math.ceil(grouped.length / PAGE_SIZE);
+    const paginatedGroups = grouped.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+
+// Reset to page 1 whenever filters change
+    useEffect(() => { setPage(1); }, [severityFilter, searchQuery, hasOpenSupportFilter]);
+
     // KPI Calculations (Wireframe top strip)
     const totalHigh = allOpportunities.filter(o => o.severity === 'high').length;
     const totalMedium = allOpportunities.filter(o => o.severity === 'medium').length;
@@ -181,24 +190,107 @@ const SupplierDevelopmentPage: React.FC = () => {
         <div className="min-h-screen relative overflow-hidden pt-[72px]">
             <DashboardNavbar />
 
-            <Section className="flex items-center justify-center text-center min-h-[20vh] relative">
-                <motion.div className="max-w-4xl px-6 sm:px-8 py-8" initial="hidden" animate="visible" variants={staggerContainer}>
-                    <motion.div variants={fadeIn}>
-                        <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-3">
-                            <FaHandshake className="inline mr-3 text-accent" />
-                            Supplier Development
-                        </Typography>
+            {/* HERO */}
+            <Section className="flex items-center justify-center min-h-[40vh]" animate={false}>
+                <div className="max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
+                    <motion.div
+                        className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center"
+                        initial="hidden"
+                        animate="visible"
+                        variants={staggerContainer}
+                    >
+                        {/* LEFT COLUMN: Title & Context */}
+                        <motion.div className="text-center lg:text-left" variants={fadeIn}>
+                            <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-3">
+                                <FaHandshake className="inline mr-2 text-accent" />
+                                Supplier Development
+                            </Typography>
+
+                            <motion.h1
+                                className="font-display text-3xl md:text-4xl lg:text-5xl text-text-dark mb-4 leading-tight"
+                                variants={fadeIn}
+                                style={{ letterSpacing: '-0.03em' }}
+                            >
+                                Building a Stronger Supply Network
+                            </motion.h1>
+
+                            <Typography variant="lead" className="text-text-dark mb-6 text-base lg:text-lg max-w-lg mx-auto lg:mx-0">
+                                Trust scores do more than decide who receives orders. They identify where AfriNuts can strengthen the supply network over time.
+                            </Typography>
+
+                            <div className="flex flex-wrap justify-center lg:justify-start gap-2 mb-6">
+                                <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-primary/10 text-primary text-xs rounded-full font-medium">
+                                    <FaChartLine className="text-[10px]" /> Performance Driven
+                                </span>
+                                <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-accent/10 text-accent text-xs rounded-full font-medium">
+                                    <FaCheckCircle className="text-[10px]" /> Action Oriented
+                                </span>
+                            </div>
+
+                            <button
+                                onClick={() => navigate('/dashboard/suppliers')}
+                                className="text-sm text-primary hover:text-accent inline-flex items-center gap-1 font-medium transition-colors"
+                            >
+                                <FaChevronLeft className="text-xs" /> Back to Supplier Management
+                            </button>
+                        </motion.div>
+
+                        {/* RIGHT COLUMN: Option A Cycle Card */}
+                        <motion.div className="w-full max-w-md mx-auto lg:ml-auto" variants={fadeIn} transition={{ delay: 0.2 }}>
+                            {/* We wrap it in the same glassy style as the Trace page */}
+                            <div className="group relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 transition-all duration-500 rounded-2xl shadow-xl p-6 transform-gpu overflow-hidden">
+                                <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px]" />
+                                <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40" />
+                                <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)]" />
+
+                                <div className="relative z-10">
+                                    <div className="flex justify-between items-center mb-6">
+                                        <Typography variant="h4" className="text-primary font-bold">
+                                            The Improvement Cycle
+                                        </Typography>
+                                        <FaHistory className="text-accent/50 text-xl" />
+                                    </div>
+
+                                    {/* The Cycle Steps */}
+                                    <div className="space-y-4">
+                                        {[
+                                            { icon: FaChartLine, title: 'Measure performance', desc: 'Score quality, delivery, and compliance' },
+                                            { icon: FaSearch, title: 'Identify weaknesses', desc: 'Surface actionable development opportunities' },
+                                            { icon: FaHandshake, title: 'Provide support', desc: 'Log actions and assign targeted training' },
+                                            { icon: FaClipboardCheck, title: 'Re-measure', desc: 'Compare new batches against baseline' },
+                                        ].map((step, i, arr) => (
+                                            <div key={step.title} className="flex gap-4 relative">
+                                                {/* Connecting line */}
+                                                {i < arr.length - 1 && (
+                                                    <div className="absolute left-[15px] top-[32px] bottom-[-16px] w-0.5 bg-primary/20" />
+                                                )}
+
+                                                {/* Icon */}
+                                                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center relative z-10 border border-primary/20">
+                                                    <step.icon className="text-primary text-xs" />
+                                                </div>
+
+                                                {/* Text */}
+                                                <div className="pb-1">
+                                                    <div className="text-sm font-semibold text-gray-800">{step.title}</div>
+                                                    <div className="text-xs text-gray-500 mt-0.5">{step.desc}</div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+
+                                    <div className="mt-6 pt-4 border-t border-gray-200/50 text-center">
+                                        <p className="text-[10px] text-gray-500 uppercase tracking-wider">
+                                            Continuous improvement, not just compliance
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </motion.div>
                     </motion.div>
-                    <motion.h1 className="font-display text-3xl md:text-4xl text-text-dark mb-3" variants={fadeIn}>
-                        Development Opportunities
-                    </motion.h1>
-                    <motion.div variants={fadeIn}>
-                        <button onClick={() => navigate('/dashboard/suppliers')} className="mt-3 text-sm text-primary hover:text-accent inline-flex items-center gap-1">
-                            <FaChevronLeft className="text-xs" /> Back to Supplier Management
-                        </button>
-                    </motion.div>
-                </motion.div>
+                </div>
             </Section>
+
 
             <Section className="py-6">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6">
@@ -255,7 +347,7 @@ const SupplierDevelopmentPage: React.FC = () => {
                         </InfoCard>
                     ) : (
                         <div className="space-y-4">
-                            {grouped.map(({ supplier, opportunities, actions }) => (
+                            {paginatedGroups.map(({ supplier, opportunities, actions }) => (
                                 <motion.div key={supplier.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-white/40 rounded-2xl border border-white/30 overflow-hidden">
 
                                     {/* Supplier Header */}
@@ -333,6 +425,28 @@ const SupplierDevelopmentPage: React.FC = () => {
                                     </div>
                                 </motion.div>
                             ))}
+
+                            {totalPages > 1 && (
+                                <div className="flex items-center justify-center gap-2 mt-6">
+                                    <button
+                                        disabled={page === 1}
+                                        onClick={() => setPage(p => Math.max(1, p - 1))}
+                                        className="px-3 py-1.5 bg-white/60 border border-gray-200 rounded-full text-sm disabled:opacity-40"
+                                    >
+                                        Prev
+                                    </button>
+                                    <span className="text-xs text-gray-500">
+                                        Page {page} of {totalPages} · {grouped.length} suppliers
+                                    </span>
+                                    <button
+                                        disabled={page === totalPages}
+                                        onClick={() => setPage(p => Math.min(totalPages, p + 1))}
+                                        className="px-3 py-1.5 bg-white/60 border border-gray-200 rounded-full text-sm disabled:opacity-40"
+                                    >
+                                        Next
+                                    </button>
+                                </div>
+                            )}
                         </div>
                     )}
                 </div>
