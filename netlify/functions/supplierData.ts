@@ -302,6 +302,55 @@ export const handler: Handler = async (event: HandlerEvent) => {
             return { statusCode: 200, headers, body: JSON.stringify({ success: true }) };
         }
 
+        if (action === 'logSupportAction') {
+            const { supportActionData } = params;
+
+            if (!supportActionData) {
+                return {
+                    statusCode: 400,
+                    headers,
+                    body: JSON.stringify({ error: 'Missing supportActionData' })
+                };
+            }
+
+            const {
+                supplierId: supId,
+                weakness,
+                supportType,
+                notes,
+                assignedTo,
+                givenBy,
+                baselineMetricLabel,
+                baselineValue,
+                scoringVersion,
+            } = supportActionData;
+
+            const ref = await db
+                .collection('farms').doc(fid)
+                .collection('supplier_support_actions')
+                .add({
+                    supplierId: supId,
+                    weakness,
+                    supportType,
+                    notes: notes || '',
+                    assignedTo: assignedTo || '',
+                    givenBy: givenBy || 'unknown',
+                    givenAt: Date.now(),
+                    status: 'OPEN',
+                    baselineMetricLabel,
+                    baselineValue,
+                    scoringVersion,
+                    createdAt: Date.now(),
+                    updatedAt: Date.now(),
+                });
+
+            return {
+                statusCode: 200,
+                headers,
+                body: JSON.stringify({ success: true, id: ref.id }),
+            };
+        }
+
         if (action === 'resolveDispute') {
             const { disputeId, resolution, reviewedBy, originalValue, correctedValue } = params;
 
@@ -372,32 +421,43 @@ export const handler: Handler = async (event: HandlerEvent) => {
             const allCommitmentsSnap = await db.collection('farms').doc(fid).collection('supplier_commitments').get();
             const allInspectionsSnap = await db.collection('farms').doc(fid).collection('supplier_inspections').get();
 
-            const suppliers = suppliersSnap.docs.map(d => ({ id: d.id, ...d.data() }));
+            // NEW — support actions
+            let allSupportActions: any[] = [];
+            try {
+                const supportSnap = await db.collection('farms').doc(fid).collection('supplier_support_actions').get();
+                allSupportActions = supportSnap.docs.map(d => ({
+                    firestoreId: d.id,
+                    ...d.data(),
+                } as any));
+            } catch (err: any) {
+                // Collection may not exist yet — treat as empty rather than crash
+                console.warn('supplier_support_actions fetch failed:', err.message);
+            }
 
-            // Only ship what the Trust Engine reads — not the full document
+            const suppliers = suppliersSnap.docs.map(d => ({
+                firestoreId: d.id,
+                ...d.data(),
+            }));
             const batches = batchesSnap.docs.map(d => {
                 const data = d.data();
                 return {
-                    id: d.id,
+                    firestoreId: d.id,
                     supplierId: data.supplierId,
+                    batchNumber: data.batchNumber,
                     weightKg: data.weightKg,
                     qualityGrade: data.qualityGrade,
                     rcnQualityScore: data.rcnQualityScore,
-                    qualityScore: data.qualityScore,
                     moistureContent: data.moistureContent,
                     defectiveRate: data.defectiveRate,
                     korGPerKg: data.korGPerKg,
-                    aflatoxinPpb: data.aflatoxinPpb,
                     verifiedAt: data.verifiedAt,
-                    farmOsMonitored: data.farmOsMonitored,
                 };
             });
 
             const allCommitments = allCommitmentsSnap.docs.map(d => ({
-                firestoreId: d.id,           // ← the real path
-                ...d.data(),                 // ← numeric id lives here, doesn't clobber firestoreId
+                firestoreId: d.id,
+                ...d.data(),
             } as any));
-
             const allInspections = allInspectionsSnap.docs.map(d => ({
                 firestoreId: d.id,
                 ...d.data(),
@@ -405,7 +465,6 @@ export const handler: Handler = async (event: HandlerEvent) => {
 
             const commitments = allCommitments.filter((c: any) => c.validatedAt);
             const pendingCommitments = allCommitments.filter((c: any) => !c.validatedAt);
-
             const inspections = allInspections.filter((i: any) => i.validatedAt);
             const pendingInspections = allInspections.filter((i: any) => !i.validatedAt);
 
@@ -428,8 +487,66 @@ export const handler: Handler = async (event: HandlerEvent) => {
                     inspectionsBySupplier: groupBy(inspections),
                     pendingCommitments,
                     pendingInspections,
+                    supportActions: allSupportActions,   // NEW
                 }),
             };
+        }
+
+        // Add to params destructuring: action, farmId, supplierId, supportActionData, supportActionId, newStatus
+
+        if (action === 'logSupportAction') {
+            const { supplierId, weakness, supportType, notes, assignedTo, givenBy, baselineMetricLabel, baselineValue, scoringVersion } = supportActionData;
+            await db.collection('farms').doc(fid).collection('supplier_support_actions').add({
+                supplierId,
+                weakness,
+                supportType,
+                notes,
+                assignedTo,
+                givenBy,
+                givenAt: Date.now(),
+                status: 'OPEN',
+                baselineMetricLabel,
+                baselineValue,
+                scoringVersion,
+                createdAt: Date.now(),
+                updatedAt: Date.now(),
+            });
+            return { statusCode: 200, headers, body: JSON.stringify({ success: true }) };
+        }
+
+        if (action === 'updateSupportActionStatus') {
+            const { supportActionId, newStatus } = params;
+
+            if (!supportActionId || !['OPEN', 'DONE'].includes(newStatus)) {
+                return {
+                    statusCode: 400,
+                    headers,
+                    body: JSON.stringify({ error: 'Missing supportActionId or invalid newStatus' })
+                };
+            }
+
+            await db
+                .collection('farms').doc(fid)
+                .collection('supplier_support_actions')
+                .doc(supportActionId)
+                .update({
+                    status: newStatus,
+                    updatedAt: Date.now(),
+                });
+
+            return {
+                statusCode: 200,
+                headers,
+                body: JSON.stringify({ success: true }),
+            };
+        }
+
+        if (action === 'updateSupportActionStatus') {
+            await db.collection('farms').doc(fid).collection('supplier_support_actions').doc(supportActionId).update({
+                status: newStatus,
+                updatedAt: Date.now(),
+            });
+            return { statusCode: 200, headers, body: JSON.stringify({ success: true }) };
         }
 
         return {
