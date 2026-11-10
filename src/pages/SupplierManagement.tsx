@@ -104,6 +104,24 @@ interface QualityBatch {
     verifiedAt?: number;
 }
 
+const GlassCard: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className = '' }) => (
+    <motion.div
+        className={`group relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 transition-all duration-500 rounded-2xl shadow-xl transform-gpu overflow-hidden ${className}`}
+        style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
+        whileHover={{
+            y: -5,
+            scale: 1.01,
+            boxShadow: '0 20px 35px -10px rgba(0, 0, 0, 0.2)',
+            transition: { duration: 0.3 }
+        }}
+    >
+        <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
+        <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+        <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] group-hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
+        <div className="relative z-10 p-6">{children}</div>
+    </motion.div>
+);
+
 const SupplierManagement: React.FC = () => {
     const navigate = useNavigate();
 
@@ -592,13 +610,18 @@ const SupplierManagement: React.FC = () => {
             <Section className="py-6">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6">
                     <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
-                        <InfoCard
-                            icon={FaUsers}
-                            title="All suppliers"
-                            subtitle="Search the network and open a profile for batches, trust and financials."
-                            iconColor="text-accent"
-                            showInfoBadge={false}
-                        >
+                        <GlassCard>
+                            {/* Header — GlassCard has no built-in title/icon */}
+                            <div className="flex items-start gap-3 mb-4">
+                                <FaUsers className="text-accent text-xl mt-1" />
+                                <div>
+                                    <h2 className="text-lg font-semibold text-text-dark">All suppliers</h2>
+                                    <p className="text-xs text-gray-500">
+                                        Search the network and open a profile for batches, trust and financials.
+                                    </p>
+                                </div>
+                            </div>
+
                             <div className="flex flex-col md:flex-row md:items-center gap-3 mt-3">
                                 <div className="relative flex-1 min-w-[240px]">
                                     <FaSearch className="absolute left-4 top-3.5 text-gray-400" />
@@ -733,7 +756,7 @@ const SupplierManagement: React.FC = () => {
                                     >Next</button>
                                 </div>
                             </div>
-                        </InfoCard>
+                        </GlassCard>
                     </motion.div>
                 </div>
             </Section>
@@ -808,76 +831,73 @@ const SupplierManagement: React.FC = () => {
                 </div>
             </Section>
 
-            {/* 8. Risk preview — fix 5 */}
+            {/* 8 + 9. Risk & Development — minimalist, two-up */}
             <Section className="py-6">
-                <div className="max-w-6xl mx-auto px-4 sm:px-6">
-                    <InfoCard
-                        icon={FaExclamationTriangle}
-                        title="Risk & Attention"
-                        subtitle="Suppliers flagged for review"
-                        iconColor="text-amber-600"
-                        showInfoBadge={false}
-                    >
-                        <div className="grid grid-cols-4 gap-2 mt-3">
-                            {(['critical', 'high', 'medium', 'low'] as const).map(k => (
-                                <div key={k} className="bg-white/40 rounded-lg p-2 text-center border border-white/30">
-                                    <div className="text-xl font-bold">{summary?.riskCounts?.[k] ?? 0}</div>
-                                    <div className="text-[10px] text-gray-500 capitalize">{k}</div>
-                                </div>
-                            ))}
+                <div className="max-w-6xl mx-auto px-4 sm:px-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {/* Risk & Attention */}
+                    <div className="bg-white/40 backdrop-blur-md border border-white/30 rounded-2xl p-4">
+                        <div className="flex items-center justify-between mb-2">
+                            <div className="flex items-center gap-2">
+                                <FaExclamationTriangle className="text-amber-600 text-sm" />
+                                <h3 className="text-sm font-semibold text-text-dark">Risk & Attention</h3>
+                            </div>
+                            {(summary?.riskCounts?.critical ?? 0) > 0 && (
+                                <span className="px-2 py-0.5 rounded-full bg-red-100 text-red-700 text-[10px] font-medium">
+                                    {summary.riskCounts.critical} critical
+                                </span>
+                            )}
+                        </div>
+                        <div className="flex items-baseline gap-3 text-[11px] text-gray-600">
+                            <span><span className="font-bold text-red-600">{summary?.riskCounts?.critical ?? 0}</span> critical</span>
+                            <span><span className="font-bold text-amber-600">{summary?.riskCounts?.high ?? 0}</span> high</span>
+                            <span><span className="font-bold text-yellow-600">{summary?.riskCounts?.medium ?? 0}</span> medium</span>
+                            <span><span className="font-bold text-gray-700">{summary?.riskCounts?.low ?? 0}</span> low</span>
                         </div>
                         {summary?.topRisk && (
-                            <div className="mt-3 flex items-center justify-between text-xs">
-                                <span className="text-gray-700">
-                                    Top: <span className="font-medium">{summary.topRisk.name}</span>
-                                    <span className="ml-2 text-gray-500">overall {summary.topRisk.overall ?? '—'}</span>
+                            <div className="mt-2 flex items-center gap-2 text-[11px] text-gray-600 truncate">
+                                <span className="truncate">
+                                    Top: <span className="font-medium text-text-dark">{summary.topRisk.name}</span>
+                                    {summary.topRisk.overall != null && <span className="ml-1 text-gray-500">· {summary.topRisk.overall}</span>}
                                 </span>
                                 {summary.topRisk.hasCriticalViolation && (
-                                    <span className="px-2 py-0.5 rounded-full bg-red-100 text-red-700 text-[10px] font-medium">critical violation</span>
+                                    <span className="px-1.5 py-0.5 rounded-full bg-red-100 text-red-700 text-[10px] font-medium shrink-0">critical</span>
                                 )}
                             </div>
                         )}
                         <button
                             onClick={() => navigate('/dashboard/suppliers/risk')}
-                            className="w-full mt-3 py-2 bg-amber-500 text-white text-sm font-medium rounded-full hover:bg-amber-600 transition-colors"
+                            className="mt-3 text-[11px] font-medium text-amber-700 hover:text-amber-800"
                         >Open Risk Workbench →</button>
-                    </InfoCard>
-                </div>
-            </Section>
+                    </div>
 
-            {/* 9. Development preview */}
-            <Section className="py-6">
-                <div className="max-w-6xl mx-auto px-4 sm:px-6">
-                    <InfoCard
-                        icon={FaHandshake}
-                        title="Supplier Development"
-                        subtitle="Where targeted support strengthens the network"
-                        iconColor="text-primary"
-                        showInfoBadge={false}
-                    >
-                        <div className="grid grid-cols-3 gap-2 mt-3">
-                            <div className="bg-red-50/60 rounded-lg p-2 text-center border border-red-200">
-                                <div className="text-xl font-bold text-red-600">{summary?.developmentCounts?.openActions ?? 0}</div>
-                                <div className="text-[10px] text-gray-500">Open actions</div>
+                    {/* Supplier Development */}
+                    <div className="bg-white/40 backdrop-blur-md border border-white/30 rounded-2xl p-4">
+                        <div className="flex items-center justify-between mb-2">
+                            <div className="flex items-center gap-2">
+                                <FaHandshake className="text-primary text-sm" />
+                                <h3 className="text-sm font-semibold text-text-dark">Supplier Development</h3>
                             </div>
-                            <div className="bg-amber-50/60 rounded-lg p-2 text-center border border-amber-200">
-                                <div className="text-xl font-bold text-amber-600">{summary?.developmentCounts?.visibleOpportunities ?? 0}</div>
-                                <div className="text-[10px] text-gray-500">Visible opportunities</div>
-                            </div>
-                            <div className="bg-blue-50/60 rounded-lg p-2 text-center border border-blue-200">
-                                <div className="text-xs font-semibold text-blue-700 truncate">
-                                    {summary?.developmentCounts?.topOpportunity?.name || '—'}
-                                </div>
-                                <div className="text-[10px] text-gray-500">
-                                    {summary?.developmentCounts?.topOpportunity?.weakness || 'Top opportunity'}
-                                </div>
-                            </div>
+                            <span className="text-[10px] text-gray-500">
+                                {summary?.developmentCounts?.visibleOpportunities ?? 0} opportunities
+                            </span>
                         </div>
+                        <div className="flex items-baseline gap-3 text-[11px] text-gray-600">
+                            <span><span className="font-bold text-primary">{summary?.developmentCounts?.openActions ?? 0}</span> open actions</span>
+                            <span><span className="font-bold text-accent">{summary?.developmentCounts?.visibleOpportunities ?? 0}</span> opportunities</span>
+                        </div>
+                        {summary?.developmentCounts?.topOpportunity && (
+                            <div className="mt-2 text-[11px] text-gray-600 truncate">
+                                Top: <span className="font-medium text-text-dark">{summary.developmentCounts.topOpportunity.name}</span>
+                                {summary.developmentCounts.topOpportunity.weakness && (
+                                    <span className="text-gray-500"> · {summary.developmentCounts.topOpportunity.weakness}</span>
+                                )}
+                            </div>
+                        )}
                         <button
                             onClick={() => navigate('/dashboard/suppliers/development')}
-                            className="w-full mt-3 py-2 bg-primary text-white text-sm font-medium rounded-full hover:bg-dark-orange transition-colors"
+                            className="mt-3 text-[11px] font-medium text-primary hover:text-dark-orange"
                         >Open Development Workbench →</button>
-                    </InfoCard>
+                    </div>
                 </div>
             </Section>
 
