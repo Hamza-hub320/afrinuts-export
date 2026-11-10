@@ -3,9 +3,9 @@ import type { TrustResult } from './trustScore';
 export interface DevelopmentOpportunity {
     supplierId: string;
     supplierName: string;
-    weakness: string;             // human-readable
-    detectedBy: string;           // which rule fired
-    suggestedSupport: string;     // from the framework table
+    weakness: string;
+    detectedBy: string;
+    suggestedSupport: string;
     severity: 'high' | 'medium' | 'low';
     metric: string;
     baselineValue: number;
@@ -14,24 +14,19 @@ export interface DevelopmentOpportunity {
 }
 
 interface BatchStats {
-    avgMoisture: number | null;
-    avgDefectRate: number | null;
-    batchCount: number;
-    verifiedCount: number;
-}
-
-function computeBatchStats(batches: any[]): {
     verifiedBatches: any[];
     verifiedCount: number;
     avgMoisture: number | null;
     avgDefectRate: number | null;
-    highMoistureShare: number;   // % of verified batches with moisture > 10%
-    mediumMoistureShare: number; // % with moisture > 8%
-    highDefectShare: number;     // % with defect > 10%
-    mediumDefectShare: number;   // % with defect > 5%
+    highMoistureShare: number;
+    mediumMoistureShare: number;
+    highDefectShare: number;
+    mediumDefectShare: number;
     highMoistureCount: number;
     highDefectCount: number;
-} {
+}
+
+function computeBatchStats(batches: any[]): BatchStats {
     const verified = (batches || []).filter(b => b.verifiedAt && b.verifiedAt > 0);
     const n = verified.length;
 
@@ -61,10 +56,6 @@ function computeBatchStats(batches: any[]): {
     };
 }
 
-/**
- * Framework Section 9 — Supplier development rules.
- * Each rule is a detector over existing evidence. No new collections.
- */
 export function detectDevelopmentOpportunities(
     suppliers: Array<{ id: string; name: string; registrationNumber?: string; farmerIdNumber?: string; dataConsentGiven?: boolean }>,
     batchesBySupplier: Record<string, any[]>,
@@ -79,7 +70,7 @@ export function detectDevelopmentOpportunities(
         const batches = batchesBySupplier[s.id] || [];
         const stats = computeBatchStats(batches);
 
-        // Rule 1 — Moisture management (framework: "Drying, storage and moisture-control training")if (stats.verifiedCount > 0) {
+        // Rule 1 — Moisture management
         if (stats.verifiedCount > 0) {
             let severity: 'high' | 'medium' | 'low' | null = null;
             let metric = '';
@@ -112,14 +103,7 @@ export function detectDevelopmentOpportunities(
                     confidence: trust.confidence,
                 });
             }
-            const severityOrder = { high: 0, medium: 1, low: 2 };
-            return out.sort((a, b) => {
-                const sev = severityOrder[a.severity] - severityOrder[b.severity];
-                if (sev !== 0) return sev;
-                return a.supplierName.localeCompare(b.supplierName);
-            });
         }
-
 
         // Rule 2 — Inconsistent documentation
         const docsMissing = !s.registrationNumber && !s.farmerIdNumber;
@@ -136,7 +120,7 @@ export function detectDevelopmentOpportunities(
                 suggestedSupport: 'Field-agent or cooperative documentation assistance',
                 severity: 'high',
                 metric: parts.join('; '),
-                baselineValue: 0,                       // Not a share — N/A
+                baselineValue: 0,
                 baselineMetricLabel: 'Documentation completeness',
                 confidence: trust.confidence,
             });
@@ -150,9 +134,9 @@ export function detectDevelopmentOpportunities(
                 weakness: 'Insufficient supplier history',
                 detectedBy: 'Fewer than 3 verified batches',
                 suggestedSupport: 'Smaller initial procurement, proportionate checks and reassessment',
-                severity: 'low',  // not a fault — a stage
+                severity: 'low',
                 metric: `${trust.verifiedTransactions} verified batch${trust.verifiedTransactions !== 1 ? 'es' : ''}`,
-                baselineValue: trust.verifiedTransactions,  // Store the raw count
+                baselineValue: trust.verifiedTransactions,
                 baselineMetricLabel: 'Verified batch count',
                 confidence: trust.confidence,
             });
@@ -192,13 +176,13 @@ export function detectDevelopmentOpportunities(
                 });
             }
         }
+    });
 
-        // Sort: high severity first, then alphabetical within severity
-        const severityOrder = {high: 0, medium: 1, low: 2};
-        return out.sort((a, b) => {
-            const sev = severityOrder[a.severity] - severityOrder[b.severity];
-            if (sev !== 0) return sev;
-            return a.supplierName.localeCompare(b.supplierName);
-        });
-    })
+    // Move the sort OUTSIDE the forEach loop
+    const severityOrder = { high: 0, medium: 1, low: 2 };
+    return out.sort((a, b) => {
+        const sev = severityOrder[a.severity] - severityOrder[b.severity];
+        if (sev !== 0) return sev;
+        return a.supplierName.localeCompare(b.supplierName);
+    });
 }
