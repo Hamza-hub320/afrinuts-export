@@ -81,6 +81,13 @@ export const getNetworkMapPoints = async (farmId: string = '1') => {
     });
 };
 
+export const getEvidenceQueues = async (farmId: string = '1') => {
+    return callApi('supplierNetwork', {
+        action: 'getEvidenceQueues',
+        farmId,
+    });
+};
+
 export const getBuyerPortalData = async (action: string, params?: any) => {
     if (isDevelopment) {
         // Mock data for dev
