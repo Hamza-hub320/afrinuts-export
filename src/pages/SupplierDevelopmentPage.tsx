@@ -17,7 +17,7 @@ import { GiFarmer } from 'react-icons/gi';
 import { useAuth } from '@/contexts/AuthContext';
 
 interface Supplier { id: string; firestoreId?: string; name: string; type: string; status: string; isActive: boolean; [key: string]: any; }
-interface SupportAction { id: string; supplierId: string; weakness: string; status: 'OPEN'|'DONE'; supportType: string; givenBy: string; givenAt: number; baselineValue: number; baselineMetricLabel: string; }
+interface SupportAction { id: string; supplierId: string; weakness: string; status: 'OPEN'|'DONE'; supportType: string; givenBy: string; givenAt: number; baselineValue: number; baselineMetricLabel: string;  assignedTo: string; notes: string; }
 
 type SeverityFilter = 'all' | 'high' | 'medium' | 'low';
 
@@ -97,9 +97,36 @@ const SupplierDevelopmentPage: React.FC = () => {
             if (q && !supplier.name.toLowerCase().includes(q)) return;
             if (severityFilter !== 'all' && opp.severity !== severityFilter) return;
 
-            // D4: Suppress opportunity if an OPEN action exists
-            const hasOpenAction = supportActions.some(a => a.supplierId === opp.supplierId && a.weakness === opp.weakness && a.status === 'OPEN');
-            if (hasOpenAction) return;
+            // --- PROBLEM 1 FIX ---
+            const supplierActions = supportActions.filter(a => a.supplierId === opp.supplierId && a.weakness === opp.weakness);
+            const latestAction = supplierActions.sort((a, b) => b.givenAt - a.givenAt)[0];
+
+            if (latestAction) {
+                if (latestAction.status === 'OPEN') return;
+
+                if (latestAction.status === 'DONE') {
+                    // Count new verified batches after the action was given
+                    const batches = batchesBySupplier[opp.supplierId] || [];
+                    const newBatches = batches.filter(b => b.verifiedAt && b.verifiedAt > latestAction.givenAt);
+
+                    // (2) Awaiting re-measurement: suppressed until >= 2 new batches
+                    if (newBatches.length < 2) return;
+
+                    // (3) Re-measure: we need to re-evaluate the rule on *only* the new batches.
+                    // Because the detector works on aggregated stats, we re-run it locally on the new batches.
+                    const reMeasuredOpp = detectDevelopmentOpportunities(
+                        [supplier],
+                        { [supplier.id]: newBatches },
+                        { [supplier.id]: computeTrustScore({ supplier, batches: newBatches, commitments: [], inspections: [] }) }
+                    ).find(o => o.weakness === opp.weakness);
+
+                    // Only re-fire if the new subset breaches the threshold
+                    if (!reMeasuredOpp) return;
+
+                    // If it does breach, we show it (and could attach the new severity/metric)
+                    opp = reMeasuredOpp;
+                }
+            }
 
             if (!groups.has(opp.supplierId)) {
                 groups.set(opp.supplierId, { supplier, opportunities: [], actions: supportActions.filter(a => a.supplierId === opp.supplierId) });
@@ -409,16 +436,22 @@ const SupplierDevelopmentPage: React.FC = () => {
                                             <div className="mt-4 pt-4 border-t border-gray-200">
                                                 <h4 className="text-[10px] font-bold text-gray-500 uppercase tracking-wide mb-2">Support History</h4>
                                                 {actions.map(action => {
-                                                    // Simplified Re-measurement logic: If DONE, show the delta
                                                     const isDone = action.status === 'DONE';
-                                                    const improved = isDone; // In a real build, compare baselineValue to current metric
+                                                    const actionBatches = (batchesBySupplier[supplier.id] || []).filter(
+                                                        b => b.verifiedAt && b.verifiedAt > action.givenAt
+                                                    );
 
                                                     return (
-                                                        <div key={action.id} className="text-xs flex items-start gap-2 mb-2">
+                                                        <div key={action.id} className="text-xs flex items-start gap-2 mb-3 p-2 bg-white/40 rounded-lg">
                                                             <FaCheck className={`mt-0.5 ${isDone ? 'text-green-500' : 'text-gray-300'}`} />
                                                             <div className="flex-1">
-                                                                <div className="font-medium text-gray-800 flex items-center gap-2">
-                                                                    {action.supportType} — {new Date(action.givenAt).toLocaleDateString()} by {action.givenBy}
+                                                                <div className="font-medium text-gray-800 flex flex-wrap items-center gap-2">
+                                                                    {action.supportType}
+                                                                    <span className="text-gray-500 font-normal">— {new Date(action.givenAt).toLocaleDateString()}
+                                                                        {isDone ? ' · ' : ' · '}
+                                                                        <strong className="text-gray-700">Assigned to {action.assignedTo || 'Unassigned'}</strong>
+                                                                        {' · Logged by '}{action.givenBy}</span>
+
                                                                     {!isDone ? (
                                                                         <button onClick={() => handleMarkDone(action.id)} className="ml-2 px-2 py-0.5 bg-gray-200 text-gray-700 rounded-full text-[9px] hover:bg-gray-300">
                                                                             Mark DONE
@@ -427,16 +460,28 @@ const SupplierDevelopmentPage: React.FC = () => {
                                                                         <span className="text-green-600 font-bold text-[10px]">DONE</span>
                                                                     )}
                                                                 </div>
+
+                                                                {action.notes && (
+                                                                    <div className="text-[10px] text-gray-500 italic mt-1">"{action.notes}"</div>
+                                                                )}
+
+                                                                {/* Re-measurement Chip (Problem 3) */}
                                                                 {isDone && (
-                                                                    <div className="text-gray-600 mt-1">
-                                                                        Since support: {action.baselineMetricLabel}
-                                                                        <span className="mx-1 font-medium">{action.baselineValue}% →</span>
-                                                                        <strong className="text-green-600"> 20% ▼ improved</strong>
+                                                                    <div className="mt-1.5">
+                                                                        {actionBatches.length < 2 ? (
+                                                                            <span className="text-[10px] text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full">Awaiting re-measurement — {actionBatches.length} of 2 new verified batches</span>
+                                                                        ) : (
+                                                                            <SinceSupportChip
+                                                                                action={action}
+                                                                                newBatches={actionBatches}
+                                                                                weakness={action.weakness}
+                                                                            />
+                                                                        )}
                                                                     </div>
                                                                 )}
                                                             </div>
                                                         </div>
-                                                    )
+                                                    );
                                                 })}
                                             </div>
                                         )}
@@ -505,3 +550,56 @@ const SupplierDevelopmentPage: React.FC = () => {
 };
 
 export default SupplierDevelopmentPage;
+
+
+const SinceSupportChip: React.FC<{ action: SupportAction; newBatches: any[]; weakness: string }> = ({ action, newBatches, weakness }) => {
+    // Compute the current metric on the new batches
+    let currentValue = 0;
+
+    if (weakness === 'Moisture management') {
+        // Replicate the moisture share logic from the detector
+        const threshold = action.baselineMetricLabel.includes('>10%') ? 10 : 8;
+        const wetBatches = newBatches.filter(b => (b.moistureContent ?? 0) > threshold);
+        currentValue = Math.round((wetBatches.length / newBatches.length) * 100);
+    } else if (weakness.includes('defects')) {
+        // Replicate the defect share logic
+        const threshold = action.baselineMetricLabel.includes('>10%') ? 10 : 5;
+        const defectiveBatches = newBatches.filter(b => (b.defectiveRate ?? 0) > threshold);
+        currentValue = Math.round((defectiveBatches.length / newBatches.length) * 100);
+    } else if (weakness === 'Insufficient supplier history') {
+        currentValue = newBatches.length;
+    }
+
+    const baseline = action.baselineValue;
+    const diff = currentValue - baseline;
+
+    let label = 'no change';
+    let color = 'text-gray-600';
+    let icon = '—';
+
+    // For "history" a higher number is better. For shares, lower is better.
+    const isHistory = weakness === 'Insufficient supplier history';
+    const improved = isHistory ? diff > 0 : diff < 0;
+    const worsened = isHistory ? diff < 0 : diff > 0;
+
+    if (improved) {
+        label = 'improved';
+        color = 'text-green-600';
+        icon = '▼'; // Or ▲ for history
+    } else if (worsened) {
+        label = 'worsened';
+        color = 'text-red-600';
+        icon = '▲'; // Or ▼ for history
+    }
+
+    // Fix icons for history (higher is better)
+    if (isHistory) {
+        icon = improved ? '▲' : worsened ? '▼' : '—';
+    }
+
+    return (
+        <span className={`text-[10px] font-medium bg-white/60 border border-white/40 px-2 py-0.5 rounded-full inline-flex items-center gap-1 ${color}`}>
+            Since support: {action.baselineMetricLabel} {baseline}% → {currentValue}% {icon} {label}
+        </span>
+    );
+};
