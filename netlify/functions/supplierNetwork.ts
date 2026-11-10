@@ -98,10 +98,8 @@ export const handler: Handler = async (event: HandlerEvent) => {
 
             const t0 = Date.now();
             const { suppliers, trustBySupplier, batchesBySupplier } = await loadTrustMap(fid);
-            const tLoadMap = Date.now() - t0;
 
             // Computed per-supplier fields the table renders
-            const t1 = Date.now();
             const enriched = suppliers.map(s => {
                 const trust = trustBySupplier[s.id];
                 const supplierBatches = batchesBySupplier[s.id] || [];
@@ -208,18 +206,13 @@ export const handler: Handler = async (event: HandlerEvent) => {
             const total = sorted.length;
             const start = (pageNum - 1) * sizeNum;
             const rows = sorted.slice(start, start + sizeNum);
-            const tCompute = Date.now() - t1;
+
 
             return {
                 statusCode: 200,
                 headers: corsHeaders,
                 body: JSON.stringify({
                     total, page: pageNum, pageSize: sizeNum, rows,
-                    _timing: {
-                        loadTrustMapMs: tLoadMap,
-                        enrichSortSliceMs: tCompute,
-                        totalMs: Date.now() - t0,
-                    },
                 }),
             };
         }
@@ -303,18 +296,15 @@ async function loadTrustMap(fid: string): Promise<{
     suppliers: any[];
     trustBySupplier: Record<string, TrustResult>;
     batchesBySupplier: Record<string, any[]>;
-    _timing?: { fetchMs: number; computeMs: number };
 }> {
-    const tFetch = Date.now();
     const [suppliersSnap, batchesSnap, commitmentsSnap, inspectionsSnap] = await Promise.all([
         db.collection('farms').doc(fid).collection('suppliers').get(),
         db.collection('farms').doc(fid).collection('quality_batches').get(),
         db.collection('farms').doc(fid).collection('supplier_commitments').get(),
         db.collection('farms').doc(fid).collection('supplier_inspections').get(),
     ]);
-    const tAfterFetch = Date.now() - tFetch;
 
-    const tCompute = Date.now();
+
     const batches = batchesSnap.docs.map(d => {
         const data = d.data();
         return {
@@ -388,13 +378,11 @@ async function loadTrustMap(fid: string): Promise<{
         };
         trustBySupplier[s.id] = computeTrustScoreServer(input);
     });
-    const tAfterCompute = Date.now() - tCompute;
 
     return {
         suppliers,
         trustBySupplier,
         batchesBySupplier,
-        _timing: { fetchMs: tAfterFetch, computeMs: tAfterCompute },
     };
 }
 
@@ -420,12 +408,12 @@ async function buildNetworkSummary(fid: string) {
         db.collection('farms').doc(fid).collection('supplier_support_actions').get(),
     ]);
     const tFetch = Date.now() - t0;
+    const t1 = Date.now();
 
     // Slim batch payload — same fields the client engine reads
-    const t1 = Date.now();
+
     const batches = batchesSnap.docs.map(d => {
         const data = d.data();
-        const tCompute = Date.now() - t1;
         return {
             id: d.id,
             supplierId: data.supplierId,
@@ -443,11 +431,6 @@ async function buildNetworkSummary(fid: string) {
             farmOsMonitored: data.farmOsMonitored,
             verifiedAt: data.verifiedAt,
             testResults: data.testResults,
-            _timing: {
-                fetchMs: tFetch,
-                computeMs: tCompute,
-                totalMs: Date.now() - t0,
-            },
         };
     });
 
@@ -737,6 +720,8 @@ async function buildNetworkSummary(fid: string) {
         topOpportunity,
     };
 
+    const tCompute = Date.now() - t1;
+
     return {
         generatedAt: Date.now(),
         scoringVersion: 'v2.0',
@@ -761,5 +746,10 @@ async function buildNetworkSummary(fid: string) {
         financialEfficiency,
 
         developmentCounts,
+        _timing: {
+            fetchMs: tFetch,
+            computeMs: tCompute,
+            totalMs: Date.now() - t0,
+        },
     };
 }
