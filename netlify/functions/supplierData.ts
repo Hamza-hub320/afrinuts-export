@@ -500,23 +500,60 @@ export const handler: Handler = async (event: HandlerEvent) => {
         // Add to params destructuring: action, farmId, supplierId, supportActionData, supportActionId, newStatus
 
         if (action === 'logSupportAction') {
-            const { supplierId, weakness, supportType, notes, assignedTo, givenBy, baselineMetricLabel, baselineValue, scoringVersion } = supportActionData;
-            await db.collection('farms').doc(fid).collection('supplier_support_actions').add({
-                supplierId,
+            const { supportActionData } = params;
+
+            if (!supportActionData) {
+                return { statusCode: 400, headers, body: JSON.stringify({ error: 'Missing supportActionData' }) };
+            }
+
+            const {
+                supplierId: supId,
                 weakness,
                 supportType,
                 notes,
                 assignedTo,
                 givenBy,
-                givenAt: Date.now(),
-                status: 'OPEN',
                 baselineMetricLabel,
                 baselineValue,
                 scoringVersion,
-                createdAt: Date.now(),
-                updatedAt: Date.now(),
-            });
-            return { statusCode: 200, headers, body: JSON.stringify({ success: true }) };
+            } = supportActionData;
+
+            // NEW: Guard against out-of-bounds shares
+            if (
+                baselineMetricLabel?.endsWith('share') &&
+                (baselineValue < 0 || baselineValue > 100)
+            ) {
+                return {
+                    statusCode: 400,
+                    headers,
+                    body: JSON.stringify({ error: `Invalid baselineValue for share metric: ${baselineValue}` })
+                };
+            }
+
+            const ref = await db
+                .collection('farms').doc(fid)
+                .collection('supplier_support_actions')
+                .add({
+                    supplierId: supId,
+                    weakness,
+                    supportType,
+                    notes: notes || '',
+                    assignedTo: assignedTo || '',
+                    givenBy: givenBy || 'unknown',
+                    givenAt: Date.now(),
+                    status: 'OPEN',
+                    baselineMetricLabel,
+                    baselineValue,
+                    scoringVersion,
+                    createdAt: Date.now(),
+                    updatedAt: Date.now(),
+                });
+
+            return {
+                statusCode: 200,
+                headers,
+                body: JSON.stringify({ success: true, id: ref.id }),
+            };
         }
 
         if (action === 'updateSupportActionStatus') {

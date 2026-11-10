@@ -149,8 +149,8 @@ const SupplierDevelopmentPage: React.FC = () => {
                     notes: supportNotes,
                     assignedTo: supportAssignee,
                     givenBy: user.email || 'Portal Manager',
-                    baselineMetricLabel: logSupportTarget.weakness === 'Moisture management' ? 'Moisture >8% share' : 'Metric',
-                    baselineValue: parseFloat(logSupportTarget.metric.replace(/[^0-9.]/g, '')) || 0,
+                    baselineMetricLabel: logSupportTarget.baselineMetricLabel, // Direct from detector
+                    baselineValue: logSupportTarget.baselineValue,             // Direct from detector
                     scoringVersion: trustBySupplier[logSupportTarget.supplierId]?.scoringVersion || 'v2.0'
                 }
             });
