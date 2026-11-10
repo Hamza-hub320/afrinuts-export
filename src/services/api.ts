@@ -31,6 +31,33 @@ export const getSupplierData = async (action: string, params?: any) => {
     return callApi('supplierData', { action, ...params }, false);
 };
 
+export const getSupplierNetworkSummary = async (farmId: string = '1') => {
+    if (isDevelopment) {
+        // No mock yet — return a shape identical to the S1 response
+        return {
+            generatedAt: Date.now(),
+            scoringVersion: 'v2.0',
+            totalSuppliers: 0,
+            activeSuppliers: 0,
+            buyerReadyCount: 0,
+            avgTrustOverall: null,
+            scoredCount: 0,
+            verifiedVolumeKg: 0,
+            consentCounts: { full: 0, partial: 0, none: 0, withdrawn: 0 },
+            queueCounts: { pendingCommitments: 0, pendingInspections: 0, openDisputes: 0 },
+            maturityCounts: { preliminary: 0, developing: 0, established: 0 },
+            topTrust: [],
+            topRisk: null,
+            riskCounts: { critical: 0, high: 0, medium: 0 },
+            financialEfficiency: [],
+        };
+    }
+    return callApi('supplierNetwork', {
+        action: 'getSupplierNetworkSummary',
+        farmId,
+    });
+};
+
 export const getBuyerPortalData = async (action: string, params?: any) => {
     if (isDevelopment) {
         // Mock data for dev
