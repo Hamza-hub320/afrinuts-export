@@ -7,7 +7,9 @@ export interface DevelopmentOpportunity {
     detectedBy: string;           // which rule fired
     suggestedSupport: string;     // from the framework table
     severity: 'high' | 'medium' | 'low';
-    metric: string;               // the number that triggered it, e.g. "8.4% avg moisture"
+    metric: string;
+    baselineValue: number;
+    baselineMetricLabel: string;
     confidence: TrustResult['confidence'];
 }
 
@@ -81,13 +83,19 @@ export function detectDevelopmentOpportunities(
         if (stats.verifiedCount > 0) {
             let severity: 'high' | 'medium' | 'low' | null = null;
             let metric = '';
+            let baselineValue = 0;
+            let baselineMetricLabel = '';
 
             if (stats.highMoistureShare >= 0.25 || stats.highMoistureCount >= 2) {
                 severity = stats.verifiedCount >= 3 ? 'high' : 'low';
-                metric = `${Math.round(stats.highMoistureShare * 100)}% of verified batches above 10% moisture (${stats.verifiedCount} verified)${stats.verifiedCount < 3 ? ' — early signal' : ''}`;
+                baselineValue = Math.round(stats.highMoistureShare * 100);
+                baselineMetricLabel = 'Moisture >10% share';
+                metric = `${baselineValue}% of verified batches above 10% moisture (${stats.verifiedCount} verified)${stats.verifiedCount < 3 ? ' — early signal' : ''}`;
             } else if (stats.mediumMoistureShare >= 0.33) {
                 severity = stats.verifiedCount >= 3 ? 'medium' : 'low';
-                metric = `${Math.round(stats.mediumMoistureShare * 100)}% of verified batches above 8% moisture (${stats.verifiedCount} verified)${stats.verifiedCount < 3 ? ' — early signal' : ''}`;
+                baselineValue = Math.round(stats.mediumMoistureShare * 100);
+                baselineMetricLabel = 'Moisture >8% share';
+                metric = `${baselineValue}% of verified batches above 8% moisture (${stats.verifiedCount} verified)${stats.verifiedCount < 3 ? ' — early signal' : ''}`;
             }
 
             if (severity) {
@@ -99,9 +107,17 @@ export function detectDevelopmentOpportunities(
                     suggestedSupport: 'Drying, storage and moisture-control training',
                     severity,
                     metric,
+                    baselineValue,
+                    baselineMetricLabel,
                     confidence: trust.confidence,
                 });
             }
+            const severityOrder = { high: 0, medium: 1, low: 2 };
+            return out.sort((a, b) => {
+                const sev = severityOrder[a.severity] - severityOrder[b.severity];
+                if (sev !== 0) return sev;
+                return a.supplierName.localeCompare(b.supplierName);
+            });
         }
 
 
@@ -120,6 +136,8 @@ export function detectDevelopmentOpportunities(
                 suggestedSupport: 'Field-agent or cooperative documentation assistance',
                 severity: 'high',
                 metric: parts.join('; '),
+                baselineValue: 0,                       // Not a share — N/A
+                baselineMetricLabel: 'Documentation completeness',
                 confidence: trust.confidence,
             });
         }
@@ -134,6 +152,8 @@ export function detectDevelopmentOpportunities(
                 suggestedSupport: 'Smaller initial procurement, proportionate checks and reassessment',
                 severity: 'low',  // not a fault — a stage
                 metric: `${trust.verifiedTransactions} verified batch${trust.verifiedTransactions !== 1 ? 'es' : ''}`,
+                baselineValue: trust.verifiedTransactions,  // Store the raw count
+                baselineMetricLabel: 'Verified batch count',
                 confidence: trust.confidence,
             });
         }
@@ -142,13 +162,19 @@ export function detectDevelopmentOpportunities(
         if (stats.verifiedCount > 0) {
             let severity: 'high' | 'medium' | 'low' | null = null;
             let metric = '';
+            let baselineValue = 0;
+            let baselineMetricLabel = '';
 
             if (stats.highDefectShare >= 0.66 || stats.highDefectCount >= 1) {
                 severity = stats.verifiedCount >= 3 ? 'high' : 'low';
-                metric = `${Math.round(stats.highDefectShare * 100)}% of verified batches above 10% defects (${stats.verifiedCount} verified)${stats.verifiedCount < 3 ? ' — early signal' : ''}`;
+                baselineValue = Math.round(stats.highDefectShare * 100);
+                baselineMetricLabel = 'Defect >10% share';
+                metric = `${baselineValue}% of verified batches above 10% defects (${stats.verifiedCount} verified)${stats.verifiedCount < 3 ? ' — early signal' : ''}`;
             } else if (stats.mediumDefectShare >= 0.33) {
                 severity = stats.verifiedCount >= 3 ? 'medium' : 'low';
-                metric = `${Math.round(stats.mediumDefectShare * 100)}% of verified batches above 5% defects (${stats.verifiedCount} verified)${stats.verifiedCount < 3 ? ' — early signal' : ''}`;
+                baselineValue = Math.round(stats.mediumDefectShare * 100);
+                baselineMetricLabel = 'Defect >5% share';
+                metric = `${baselineValue}% of verified batches above 5% defects (${stats.verifiedCount} verified)${stats.verifiedCount < 3 ? ' — early signal' : ''}`;
             }
 
             if (severity) {
@@ -160,17 +186,19 @@ export function detectDevelopmentOpportunities(
                     suggestedSupport: 'Sorting, cleaning and handling training',
                     severity,
                     metric,
+                    baselineValue,
+                    baselineMetricLabel,
                     confidence: trust.confidence,
                 });
             }
         }
-    });
 
-    // Sort: high severity first, then alphabetical within severity
-    const severityOrder = { high: 0, medium: 1, low: 2 };
-    return out.sort((a, b) => {
-        const sev = severityOrder[a.severity] - severityOrder[b.severity];
-        if (sev !== 0) return sev;
-        return a.supplierName.localeCompare(b.supplierName);
-    });
+        // Sort: high severity first, then alphabetical within severity
+        const severityOrder = {high: 0, medium: 1, low: 2};
+        return out.sort((a, b) => {
+            const sev = severityOrder[a.severity] - severityOrder[b.severity];
+            if (sev !== 0) return sev;
+            return a.supplierName.localeCompare(b.supplierName);
+        });
+    })
 }
