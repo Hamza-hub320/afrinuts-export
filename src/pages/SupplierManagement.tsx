@@ -1,30 +1,32 @@
-import React, {useEffect, useState, Fragment, useMemo} from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
 import { motion } from 'framer-motion';
-import { computeSupplierMetrics } from '@/utils/supplierMetrics';
-import { detectDevelopmentOpportunities } from '@/utils/supplierDevelopment';
 import {
     FaUsers, FaStar, FaBox, FaCheckCircle, FaTimesCircle,
-    FaPhone, FaEnvelope, FaMapMarkerAlt, FaSeedling,
-    FaSearch, FaChevronDown, FaTimes, FaFileAlt, FaChartBar,
+    FaPhone, FaEnvelope, FaMapMarkerAlt,
+    FaSearch, FaTimes,
     FaLeaf, FaFireExtinguisher, FaChild, FaHandshake,
-    FaTractor, FaCalendarAlt, FaDollarSign, FaIndustry,
-    FaAward, FaUser, FaTrophy, FaChartLine, FaHome, FaShieldAlt, FaCamera, FaExclamationTriangle, FaHistory
+    FaDollarSign,
+    FaUser, FaChartLine, FaHome, FaShieldAlt, FaCamera,
+    FaExclamationTriangle, FaHistory,
 } from 'react-icons/fa';
 import { Typography } from '@/components/Typography/Typography';
 import { InfoCard } from '@/components/InfoCard/InfoCard';
 import DashboardNavbar from '@/components/DashboardNavbar/DashboardNavbar';
 import Section from '@/components/Section/Section';
 import { fadeIn, staggerContainer } from '@/utils/animations';
-import { getSupplierData } from '../services/api';
+import {
+    getSupplierData,
+    getSupplierNetworkSummary,
+    listSuppliers,
+    getNetworkMapPoints,
+    getEvidenceQueues,
+} from '../services/api';
 import { Dialog, Transition } from '@headlessui/react';
 import SupplierMap from '@/components/SupplierMap/SupplierMap';
 import Sparkline from '@/components/Sparkline/Sparkline';
-import { computeTrustScore, TrustResult } from '@/utils/trustScore';
-import {GiFarmer} from "react-icons/gi";
-import {TrustPanel} from "@/components/TrustBadge/TrustPanel";
-import {TrustBadge} from "@/components/TrustBadge/TrustBadge";
+import { GiFarmer } from 'react-icons/gi';
+import { TrustPanel } from '@/components/TrustBadge/TrustPanel';
 import { useNavigate } from 'react-router-dom';
-
 
 interface Supplier {
     id: string;
@@ -32,7 +34,6 @@ interface Supplier {
     type: string;
     status: string;
 
-    // Identity & contact (captured)
     contactPerson: string;
     phone: string;
     email: string;
@@ -43,7 +44,6 @@ interface Supplier {
     longitude?: number;
     hasLocation?: boolean;
 
-    // Business identity (captured)
     registrationNumber?: string;
     taxId?: string;
     farmerIdNumber?: string;
@@ -54,12 +54,10 @@ interface Supplier {
     certificationNumber?: string;
     certificationExpiryDate?: number;
 
-    // Sustainability declarations (captured at onboarding)
     firebreakProtection?: boolean;
     noChildLabor?: boolean;
     sustainableHarvesting?: boolean;
 
-    // Data consent (captured)
     dataConsentGiven?: boolean;
     dataConsentScope?: string[];
     dataConsentSignedBy?: string;
@@ -67,7 +65,6 @@ interface Supplier {
     dataConsentWithdrawnDate?: number | null;
     dataConsentWithdrawnReason?: string | null;
 
-    // Profile
     photoUrl?: string;
     bio?: string;
     quote?: string;
@@ -75,6 +72,16 @@ interface Supplier {
     notes?: string;
 
     isActive: boolean;
+
+    // Server-computed row fields (fix 1)
+    trust: any;                          // full TrustResult from the loader
+    overall?: number | null;
+    confidence?: string;
+    hasCriticalViolation?: boolean;
+    verifiedVolumeKg?: number;
+    annualVolumeKg?: number;
+    averageRcnQualityScore?: number | null;
+    avgKorGPerKg?: number | null;
 }
 
 interface QualityBatch {
@@ -93,70 +100,129 @@ interface QualityBatch {
     sustainableHarvesting?: boolean;
     firebreakProtection?: boolean;
     noChildLabor?: boolean;
-    farmOsMonitored?: boolean;  // ADD
-    verifiedAt?: number;        // ADD
+    farmOsMonitored?: boolean;
+    verifiedAt?: number;
 }
 
 const SupplierManagement: React.FC = () => {
-    const [suppliers, setSuppliers] = useState<Supplier[]>([]);
-    const [batchesBySupplier, setBatchesBySupplier] = useState<Record<string, any[]>>({});
-    const [commitmentsBySupplier, setCommitmentsBySupplier] = useState<Record<string, any[]>>({});
-    const [inspectionsBySupplier, setInspectionsBySupplier] = useState<Record<string, any[]>>({});
-    const [loading, setLoading] = useState(true);
-    const [searchQuery, setSearchQuery] = useState('');
-    const [filterType, setFilterType] = useState('All');
+    const navigate = useNavigate();
+
+    const [summary, setSummary] = useState<any>(null);
+    const [summaryLoading, setSummaryLoading] = useState(true);
+    const [refreshKey, setRefreshKey] = useState(0);
+
+    const [tableRows, setTableRows] = useState<any[]>([]);
+    const [tableTotal, setTableTotal] = useState(0);
+    const [tablePage, setTablePage] = useState(1);
+    const [tablePageSize] = useState(25);
+    const [tableSearch, setTableSearch] = useState('');
+    const [debouncedSearch, setDebouncedSearch] = useState('');
+    const [tableType, setTableType] = useState('All');
+    const [tableSort, setTableSort] = useState<
+        'name' | 'trust_desc' | 'trust_asc' | 'volume_desc' | 'quality_desc'
+    >('name');
+    const [tableLoading, setTableLoading] = useState(true);
+    const [tableError, setTableError] = useState<string | null>(null);
+
+    const [mapData, setMapData] = useState<
+        { points: any[]; totalSuppliers: number; shownCount: number } | null
+    >(null);
+
     const [selectedSupplier, setSelectedSupplier] = useState<Supplier | null>(null);
     const [supplierBatches, setSupplierBatches] = useState<QualityBatch[]>([]);
     const [supplierFinancials, setSupplierFinancials] = useState<any>(null);
     const [activeTab, setActiveTab] = useState<'profile' | 'quality' | 'financials'>('profile');
     const [modalLoading, setModalLoading] = useState(false);
-    const [gradeDistribution, setGradeDistribution] = useState<{ grade: string; count: number }[]>([]);
     const [supplierTrend, setSupplierTrend] = useState<number[]>([]);
-    const [unvalidated, setUnvalidated] = useState({ commitments: [], inspections: [] });
-    const [isRecalculating, setIsRecalculating] = useState(false);
+
     const [pendingCommitments, setPendingCommitments] = useState<any[]>([]);
     const [pendingInspections, setPendingInspections] = useState<any[]>([]);
     const [openDisputes, setOpenDisputes] = useState<any[]>([]);
-    const navigate = useNavigate();
 
-    const isDevelopment = import.meta.env.DEV;
+    const [isRecalculating, setIsRecalculating] = useState(false);
 
+    // (1) Summary
     useEffect(() => {
-        const fetchSuppliers = async () => {
+        let cancelled = false;
+        (async () => {
             try {
-                const [suppliersRes, disputesRes] = await Promise.allSettled([
-                    getSupplierData('getSuppliersWithTrust'),
-                    getSupplierData('getOpenDisputes'),
-                ]);
-
-                if (suppliersRes.status === 'fulfilled' && suppliersRes.value) {
-                    const data = suppliersRes.value;
-                    setSuppliers(data.suppliers || []);
-                    setBatchesBySupplier(data.batchesBySupplier || {});
-                    setCommitmentsBySupplier(data.commitmentsBySupplier || {});
-                    setInspectionsBySupplier(data.inspectionsBySupplier || {});
-                    setPendingCommitments(data.pendingCommitments || []);
-                    setPendingInspections(data.pendingInspections || []);
-                } else {
-                    console.error('Suppliers fetch failed:',
-                        suppliersRes.status === 'rejected' ? suppliersRes.reason : 'no data');
-                }
-
-                if (disputesRes.status === 'fulfilled' && disputesRes.value) {
-                    setOpenDisputes(disputesRes.value.disputes || []);
-                } else {
-                    console.warn('Disputes fetch failed — continuing without disputes:',
-                        disputesRes.status === 'rejected' ? disputesRes.reason : 'no data');
-                    setOpenDisputes([]);
-                }
-            } catch (error) {
-                console.error('Unexpected error in fetchSuppliers:', error);
+                const data = await getSupplierNetworkSummary('1');
+                if (!cancelled) setSummary(data);
+            } catch (err) {
+                console.error('Summary fetch failed:', err);
             } finally {
-                setLoading(false);
+                if (!cancelled) setSummaryLoading(false);
             }
-        };
-        fetchSuppliers();
+        })();
+        return () => { cancelled = true; };
+    }, [isRecalculating, refreshKey]);
+
+    // (2) Table
+    useEffect(() => {
+        let cancelled = false;
+        (async () => {
+            setTableLoading(true);
+            setTableError(null);
+            try {
+                const data = await listSuppliers({
+                    farmId: '1',
+                    search: debouncedSearch,
+                    type: tableType === 'All' ? '' : tableType,
+                    sort: tableSort,
+                    page: tablePage,
+                    pageSize: tablePageSize,
+                });
+                if (cancelled) return;
+                setTableRows(data?.rows || []);
+                setTableTotal(data?.total ?? 0);
+            } catch (err: any) {
+                if (!cancelled) setTableError(err?.message || 'Failed to load suppliers');
+            } finally {
+                if (!cancelled) setTableLoading(false);
+            }
+        })();
+        return () => { cancelled = true; };
+    }, [debouncedSearch, tableType, tableSort, tablePage, tablePageSize, refreshKey]);
+
+    // (3) Debounce
+    useEffect(() => {
+        const t = setTimeout(() => setDebouncedSearch(tableSearch), 300);
+        return () => clearTimeout(t);
+    }, [tableSearch]);
+
+    // (4) Reset page on filter change
+    useEffect(() => { setTablePage(1); }, [debouncedSearch, tableType, tableSort]);
+
+    // (5) Map
+    useEffect(() => {
+        let cancelled = false;
+        (async () => {
+            try {
+                const data = await getNetworkMapPoints('1');
+                if (!cancelled) setMapData(data);
+            } catch (err) {
+                console.error('Map fetch failed:', err);
+            }
+        })();
+        return () => { cancelled = true; };
     }, []);
+
+    // (6) Queues
+    useEffect(() => {
+        let cancelled = false;
+        (async () => {
+            try {
+                const data = await getEvidenceQueues('1');
+                if (cancelled) return;
+                setPendingCommitments(data?.pendingCommitments || []);
+                setPendingInspections(data?.pendingInspections || []);
+                setOpenDisputes(data?.openDisputes || []);
+            } catch (err) {
+                console.error('Queues fetch failed:', err);
+            }
+        })();
+        return () => { cancelled = true; };
+    }, [refreshKey]);
 
     const handleValidate = async (
         collection: 'supplier_commitments' | 'supplier_inspections',
@@ -164,29 +230,14 @@ const SupplierManagement: React.FC = () => {
     ) => {
         try {
             await getSupplierData('validateEvidence', {
-                collection,
-                docId,
-                userId: 'portal-manager',
-                farmId: '1',
+                collection, docId, userId: 'portal-manager', farmId: '1',
             });
-
-            // Remove from queue optimistically so the UI feels instant
             if (collection === 'supplier_commitments') {
-                setPendingCommitments(prev => prev.filter(c => c.firestoreId !== docId));
+                setPendingCommitments(prev => prev.filter((c: any) => c.firestoreId !== docId));
             } else {
-                setPendingInspections(prev => prev.filter(i => i.firestoreId !== docId));
+                setPendingInspections(prev => prev.filter((i: any) => i.firestoreId !== docId));
             }
-
-            // Force a full refresh to update the Trust Engine inputs
-            // This ensures the item actually moved from "pending" to "validated"
-            const data = await getSupplierData('getSuppliersWithTrust');
-            setSuppliers(data.suppliers || []);
-            setBatchesBySupplier(data.batchesBySupplier || {});
-            setCommitmentsBySupplier(data.commitmentsBySupplier || {});
-            setInspectionsBySupplier(data.inspectionsBySupplier || {});
-            setPendingCommitments(data.pendingCommitments || []);
-            setPendingInspections(data.pendingInspections || []);
-
+            setRefreshKey(k => k + 1);
         } catch (error) {
             console.error('Validation failed:', error);
             alert('Failed to validate. Check the console for details.');
@@ -196,36 +247,16 @@ const SupplierManagement: React.FC = () => {
     const handleResolveDispute = async (disputeId: string, resolution: 'UPHELD' | 'REJECTED') => {
         try {
             await getSupplierData('resolveDispute', {
-                disputeId,
-                resolution,
-                reviewedBy: 'portal-manager',
+                disputeId, resolution, reviewedBy: 'portal-manager',
             });
-            setOpenDisputes(prev => prev.filter(d => d.id !== disputeId));
+            setOpenDisputes(prev => prev.filter((d: any) => d.id !== disputeId));
+            setRefreshKey(k => k + 1);
         } catch (error) {
             console.error('Failed to resolve dispute:', error);
         }
     };
 
-    const trustBySupplier = useMemo(() => {
-        const map: Record<string, TrustResult> = {};
-        suppliers.forEach(s => {
-            map[s.id] = computeTrustScore({
-                supplier: {
-                    ...s,
-                    isActive: s.isActive ?? s.status === 'ACTIVE',
-                },
-                batches: batchesBySupplier[s.id] || [],
-                commitments: commitmentsBySupplier[s.id] || [],
-                inspections: inspectionsBySupplier[s.id] || [],
-            });
-        });
-        return map;
-    }, [suppliers, batchesBySupplier, commitmentsBySupplier, inspectionsBySupplier]);
-
-    const developmentOpportunities = useMemo(() => {
-        return detectDevelopmentOpportunities(suppliers, batchesBySupplier, trustBySupplier);
-    }, [suppliers, batchesBySupplier, trustBySupplier]);
-
+    // ---- Block 1: openSupplierDetail (verbatim) ----
     const openSupplierDetail = async (supplier: Supplier) => {
         setSelectedSupplier(supplier);
         setModalLoading(true);
@@ -239,7 +270,6 @@ const SupplierManagement: React.FC = () => {
             setSupplierBatches(batches);
             setSupplierFinancials(financialsData);
 
-            // Compute trend from batches
             const last5Batches = batches.slice(0, 5);
             const trendScores = last5Batches
                 .map((b: any) => b.rcnQualityScore ?? b.qualityScore)
@@ -253,82 +283,14 @@ const SupplierManagement: React.FC = () => {
         }
     };
 
-    const metricsBySupplier = useMemo(() => {
-        const map: Record<string, ReturnType<typeof computeSupplierMetrics>> = {};
-        suppliers.forEach(s => {
-            map[s.id] = computeSupplierMetrics(
-                s,
-                batchesBySupplier[s.id] || [],
-                trustBySupplier[s.id]
-            );
-        });
-        return map;
-    }, [suppliers, batchesBySupplier, trustBySupplier]);
-
-    const filteredSuppliers = suppliers.filter(s => {
-        const matchSearch = s.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            s.contactPerson?.toLowerCase().includes(searchQuery.toLowerCase());
-        let matchType = false;
-        if (filterType === 'All') matchType = true;
-        else if (filterType === 'BUYER_READY') matchType = !!(s.dataConsentGiven && s.status === 'ACTIVE');
-        else matchType = s.type === filterType || s.status === filterType;
-        return matchSearch && matchType;
-    });
-
-    const totalSuppliers = suppliers.length;
-    const activeSuppliers = suppliers.filter(s => s.status === 'ACTIVE').length;
-    const avgQualityScore = (() => {
-        const values = Object.values(metricsBySupplier)
-            .map(m => m.averageRcnQualityScore)
-            .filter((v): v is number => v !== null);
-        return values.length > 0
-            ? (values.reduce((a, b) => a + b, 0) / values.length).toFixed(1)
-            : '—';
-    })();
-
-    const totalVolume = Object.values(metricsBySupplier)
-        .reduce((sum, m) => sum + m.annualVolumeKg, 0);
-
-    const handleRecalculateAll = async () => {
+    // ---- Stub: no writes ----
+    const handleRecalculateAll = () => {
         if (isRecalculating) return;
         setIsRecalculating(true);
-
-        let successCount = 0;
-
-        try {
-            for (const s of suppliers) {
-                const trust = trustBySupplier[s.id];
-
-                // Skip suppliers who don't have enough evidence to generate an overall score yet
-                if (!trust || trust.overall === null) continue;
-
-                await getSupplierData('saveScoreSnapshot', {
-                    supplierId: s.id,
-                    snapshotData: {
-                        overall: trust.overall,
-                        confidence: trust.confidence,
-                        verifiedTransactions: trust.verifiedTransactions,
-                        dimensions: trust.dimensions,
-                        weightsUsed: trust.weights,
-                        scoringVersion: trust.scoringVersion,
-                        evidenceRefs: {
-                            batchIds: (batchesBySupplier[s.id] || []).map((b: any) => b.id),
-                        },
-                    },
-                });
-                successCount++;
-            }
-
-            alert(`Successfully snapshotted ${successCount} supplier scores.`);
-        } catch (error) {
-            console.error('Failed to save snapshots:', error);
-            alert('An error occurred while snapshotting scores.');
-        } finally {
-            setIsRecalculating(false);
-        }
+        setTimeout(() => setIsRecalculating(false), 600);
     };
 
-    if (loading) {
+    if (summaryLoading && !summary) {
         return (
             <main>
                 <Section className="flex items-center justify-center min-h-[60vh]">
@@ -346,6 +308,7 @@ const SupplierManagement: React.FC = () => {
         );
     }
 
+    // ---- Block 3: typeFilters (BUYER_READY removed per fix 3) + gradeStyle ----
     const typeFilters = [
         'All',
         'OWN_FARM',
@@ -356,20 +319,24 @@ const SupplierManagement: React.FC = () => {
         'PROCESSOR',
         'ACTIVE',
         'INACTIVE',
-        'BUYER_READY'
     ];
 
     const gradeStyle = (grade: string): string => {
         if (grade === 'PREMIUM')  return 'bg-amber-100 text-amber-700';
         if (grade === 'REJECT')   return 'bg-red-100 text-red-700';
-        return 'bg-blue-100 text-blue-700';   // STANDARD
+        return 'bg-blue-100 text-blue-700';
     };
+
+    const totalPages = Math.max(1, Math.ceil(tableTotal / tablePageSize));
+    const showingFrom = tableTotal === 0 ? 0 : (tablePage - 1) * tablePageSize + 1;
+    const showingTo = Math.min(tablePage * tablePageSize, tableTotal);
+    const avgVolumeTonnes = summary ? (summary.verifiedVolumeKg / 1000).toFixed(1) : '—';
 
     return (
         <div className="min-h-screen relative overflow-hidden pt-[72px]">
             <DashboardNavbar />
 
-            {/* Hero Header */}
+            {/* 1. Hero Header */}
             <Section
                 fullHeight={false}
                 className="flex items-center justify-center text-center min-h-[40vh] relative"
@@ -403,8 +370,6 @@ const SupplierManagement: React.FC = () => {
                             <Typography variant="small" className="text-gray-500 max-w-2xl mx-auto mt-3">
                                 Capacity is shown separately from trust. Missing evidence lowers confidence, not the score.
                             </Typography>
-
-                            {/* ADD THE BUTTON HERE */}
                             <motion.button
                                 onClick={handleRecalculateAll}
                                 disabled={isRecalculating}
@@ -412,7 +377,7 @@ const SupplierManagement: React.FC = () => {
                                 whileHover={{ y: -2, scale: 1.02 }}
                                 whileTap={{ scale: 0.98 }}
                             >
-                                <FaHistory className={isRecalculating ? "animate-spin" : ""} />
+                                <FaHistory className={isRecalculating ? 'animate-spin' : ''} />
                                 {isRecalculating ? 'Recalculating...' : 'Recalculate & Snapshot Scores'}
                             </motion.button>
                         </motion.div>
@@ -420,248 +385,180 @@ const SupplierManagement: React.FC = () => {
                 </motion.div>
             </Section>
 
-            {/* Supply Intelligence Banner */}
-            <Section className="py-6">
-                <div className="max-w-6xl mx-auto px-4 sm:px-6">
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={fadeIn}
-                    >
-                        <InfoCard
-                            icon={FaChartLine}
-                            title="Supply Intelligence"
-                            subtitle="Transforming supplier data into procurement foresight"
-                            iconColor="text-accent"
-                            showInfoBadge={false}
-                        >
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-3">
-                                <div className="bg-white/40 rounded-xl p-4 border border-white/30 text-center">
-                                    <div className="text-2xl font-bold text-primary">
-                                        {totalVolume > 0 ? `${(totalVolume / 1000).toFixed(0)}T` : '—'}
-                                    </div>
-                                    <div className="text-xs text-gray-500 mt-1">Estimated Network Capacity</div>
-                                    <div className="text-[10px] text-gray-400 mt-1">
-                                        {Object.values(metricsBySupplier).filter(m => m.annualVolumeKg > 0).length} supplier{
-                                        Object.values(metricsBySupplier).filter(m => m.annualVolumeKg > 0).length !== 1 ? 's' : ''
-                                    } with volume data
-                                    </div>
-                                </div>
-                                <div className="bg-white/40 rounded-xl p-4 border border-white/30 text-center">
-                                    <div className="text-2xl font-bold text-green-600">
-                                        {suppliers.length > 0
-                                            ? `${suppliers.filter(s => (s.yearsFarming ?? 0) >= 10).length}/${suppliers.length}`
-                                            : '—'}
-                                    </div>
-                                    <div className="text-xs text-gray-500 mt-1">Experienced Farmers (10+ yrs)</div>
-                                    <div className="text-[10px] text-gray-400 mt-1">
-                                        Institutional knowledge in the network
-                                    </div>
-                                </div>
-                                <div className="bg-white/40 rounded-xl p-4 border border-white/30 text-center">
-                                    <div className="text-2xl font-bold text-amber-600">
-                                        {(() => {
-                                            // A supplier is "Premium-Grade" if ≥50% of their inspected batches carry the PREMIUM grade
-                                            const premiumSuppliers = suppliers.filter(s => {
-                                                const supplierBatches = (batchesBySupplier[s.id] || [])
-                                                    .filter(b => b.qualityGrade);   // only graded batches
-                                                if (supplierBatches.length === 0) return false;
-                                                const premiumCount = supplierBatches.filter(b => b.qualityGrade === 'PREMIUM').length;
-                                                return premiumCount / supplierBatches.length >= 0.5;
-                                            });
-                                            return suppliers.length > 0
-                                                ? `${premiumSuppliers.length}/${suppliers.length}`
-                                                : '—';
-                                        })()}
-                                    </div>
-                                    <div className="text-xs text-gray-500 mt-1">Premium-Grade Suppliers</div>
-                                    <div className="text-[10px] text-gray-400 mt-1">
-                                        {(() => {
-                                            const premiumSuppliers = suppliers.filter(s => {
-                                                const supplierBatches = (batchesBySupplier[s.id] || [])
-                                                    .filter(b => b.qualityGrade);
-                                                if (supplierBatches.length === 0) return false;
-                                                const premiumCount = supplierBatches.filter(b => b.qualityGrade === 'PREMIUM').length;
-                                                return premiumCount / supplierBatches.length >= 0.5;
-                                            });
-                                            const suppliersWithGradedBatches = suppliers.filter(s =>
-                                                (batchesBySupplier[s.id] || []).some(b => b.qualityGrade)
-                                            ).length;
-
-                                            if (suppliersWithGradedBatches === 0) return 'No graded batches yet';
-                                            if (premiumSuppliers.length === suppliersWithGradedBatches &&
-                                                suppliersWithGradedBatches === suppliers.length) {
-                                                return 'All suppliers majority-premium';
-                                            }
-                                            return 'Tracking toward full premium network';
-                                        })()}
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="mt-4 p-3 bg-primary/5 rounded-lg text-xs text-gray-600 text-center">
-                                <FaChartLine className="inline mr-1 text-primary" />
-                                Every delivery, every quality check, every supplier relationship builds this intelligence.
-                                The more data that flows in, the more accurately we can forecast procurement before harvest begins.
-                            </div>
-                        </InfoCard>
-                    </motion.div>
-                </div>
-            </Section>
-
-            {/* KPI Cards */}
+            {/* 2. KPI strip */}
             <Section className="py-8">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6">
                     <motion.div
-                        className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8"
+                        className="grid grid-cols-2 md:grid-cols-5 gap-4"
                         initial="hidden"
                         whileInView="visible"
                         viewport={{ once: true }}
                         variants={staggerContainer}
                     >
                         <motion.div variants={fadeIn}>
-                            <InfoCard icon={FaUsers} title={String(totalSuppliers)} subtitle="Total Suppliers" iconColor="text-accent" showInfoBadge={false} />
+                            <InfoCard icon={FaUsers} title={String(summary?.totalSuppliers ?? '—')} subtitle="Total Suppliers" iconColor="text-accent" showInfoBadge={false} />
+                        </motion.div>
+                        <motion.div variants={fadeIn} transition={{ delay: 0.05 }}>
+                            <InfoCard icon={FaCheckCircle} title={String(summary?.activeSuppliers ?? '—')} subtitle="Active Suppliers" iconColor="text-green-600" showInfoBadge={false} />
                         </motion.div>
                         <motion.div variants={fadeIn} transition={{ delay: 0.1 }}>
-                            <InfoCard icon={FaCheckCircle} title={String(activeSuppliers)} subtitle="Active Suppliers" iconColor="text-green-600" showInfoBadge={false} />
+                            <InfoCard icon={FaHandshake} title={String(summary?.buyerReadyCount ?? '—')} subtitle="Buyer ready (internal)" iconColor="text-primary" showInfoBadge={false} />
                         </motion.div>
-                        <motion.div variants={fadeIn} transition={{ delay: 0.2 }}>
+                        <motion.div variants={fadeIn} transition={{ delay: 0.15 }}>
                             <InfoCard
                                 icon={FaStar}
-                                title={(() => {
-                                    const scores = Object.values(trustBySupplier)
-                                        .map(t => t.overall)
-                                        .filter((v): v is number => v !== null);
-                                    return scores.length > 0
-                                        ? `${(scores.reduce((a, b) => a + b, 0) / scores.length).toFixed(1)}`
-                                        : '—';
-                                })()}
-                                subtitle="Avg. Trust Score"
+                                title={summary?.avgTrustOverall != null ? summary.avgTrustOverall.toFixed(1) : '—'}
+                                subtitle={`Avg Trust · across ${summary?.scoredCount ?? 0} scored`}
                                 iconColor="text-yellow-500"
                                 showInfoBadge={false}
                             />
                         </motion.div>
-                        <motion.div variants={fadeIn} transition={{ delay: 0.3 }}>
-                            <InfoCard icon={FaBox} title={`${(totalVolume / 1000).toFixed(0)}T`} subtitle="Annual Volume" iconColor="text-primary" showInfoBadge={false} />
+                        <motion.div variants={fadeIn} transition={{ delay: 0.2 }}>
+                            <InfoCard icon={FaBox} title={`${avgVolumeTonnes} T`} subtitle="Annual volume (verified)" iconColor="text-primary" showInfoBadge={false} />
                         </motion.div>
                     </motion.div>
-
-                    {/* Search & Filter */}
-                    <div className="flex flex-col sm:flex-row gap-4 mb-6">
-                        <div className="relative w-full sm:min-w-[280px] sm:max-w-sm">
-                            <FaSearch className="absolute left-4 top-3.5 text-gray-400" />
-                            <input
-                                type="text"
-                                placeholder="Search suppliers..."
-                                value={searchQuery}
-                                onChange={(e) => setSearchQuery(e.target.value)}
-                                className="w-full pl-11 pr-4 py-3 rounded-full border border-gray-300 bg-white/60 backdrop-blur-md text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-                            />
-                        </div>
-                        <div className="flex flex-wrap gap-2">
-                            {typeFilters.map(type => (
-                                <motion.button
-                                    key={type}
-                                    onClick={() => setFilterType(type)}
-                                    className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                                        filterType === type
-                                            ? 'bg-primary text-white shadow-md'
-                                            : 'bg-white/60 text-gray-600 hover:bg-white/80 border border-gray-200'
-                                    }`}
-                                    whileHover={{ y: -2 }}
-                                    whileTap={{ scale: 0.95 }}
-                                >
-                                    {type === 'All' ? 'All Types' : type.replace(/_/g, ' ')}
-                                </motion.button>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Supplier Grid */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {filteredSuppliers.map((supplier, idx) => (
-                            <motion.div
-                                key={supplier.id}
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: idx * 0.1 }}
-                                onClick={() => openSupplierDetail(supplier)}
-                                className="cursor-pointer"
-                            >
-                                <InfoCard
-                                    title={supplier.name}
-                                    subtitle={`${supplier.type?.replace(/_/g, ' ')} · ${supplier.location}`}
-                                    icon={supplier.type === 'OWN_FARM' ? FaHome : FaUsers}
-                                    iconColor={supplier.type === 'OWN_FARM' ? 'text-green-600' : 'text-accent'}
-                                    showInfoBadge={false}
-                                    className={`h-full hover:shadow-lg transition-all ${supplier.type === 'OWN_FARM' ? 'border-green-400/30 ring-1 ring-green-400/20' : ''}`}
-                                >
-                                    {/* OWN FARM Badge */}
-                                    {supplier.type === 'OWN_FARM' && (
-                                        <div className="mb-2">
-                                        <span className="px-2 py-0.5 bg-green-100 text-green-700 text-xs rounded-full font-medium flex items-center gap-1 w-fit">
-                                             <FaStar className="text-[10px]" />
-                                                     Own Farm
-                                        </span>
-                                        </div>
-                                    )}
-
-                                    {/* Trust Badge */}
-                                    <div className="mt-3 mb-2">
-                                        <TrustBadge trust={trustBySupplier[supplier.id]} compact />
-                                    </div>
-
-                                    <div className="flex items-center gap-2 mt-3">
-                                        <span className="text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">RCN Quality: {metricsBySupplier[supplier.id]?.averageRcnQualityScore != null
-                                            ? `${metricsBySupplier[supplier.id].averageRcnQualityScore!.toFixed(1)}`
-                                            : '—'}
-                                    </span>
-                                        <span className="text-xs bg-accent/10 text-accent px-2 py-1 rounded-full">{metricsBySupplier[supplier.id]?.annualVolumeKg > 0 ? `${(metricsBySupplier[supplier.id].annualVolumeKg / 1000).toFixed(1)}T` : 'No batches'}
-                                    </span>
-                                    </div>
-                                    {/* Rejection Rate — only shown when supplier has rejected batches */}
-                                    {metricsBySupplier[supplier.id]?.rejectionRate != null
-                                        && metricsBySupplier[supplier.id].rejectionRate! > 0 && (
-                                            <div className="flex items-center gap-2 mt-1">
-                                                <span className={`text-xs px-2 py-0.5 rounded-full ${metricsBySupplier[supplier.id].rejectionRate! > 10 ? 'bg-red-100 text-red-700' : 'bg-amber-50 text-amber-700'}`}>Rejection: {metricsBySupplier[supplier.id].rejectionRate!.toFixed(0)}%</span>
-                                            </div>
-                                        )}
-                                    {metricsBySupplier[supplier.id]?.rejectBatches > 0 && (
-                                        <span className="text-xs bg-red-100 text-red-700 px-2 py-0.5 rounded-full">
-                                            {metricsBySupplier[supplier.id].rejectBatches} rejected batch{
-                                            metricsBySupplier[supplier.id].rejectBatches !== 1 ? 'es' : ''
-                                        }
-                                        </span>
-                                    )}
-                                    <div className="flex gap-2 mt-2">
-                                        {supplier.sustainableHarvesting && (
-                                            <span className="text-green-600 text-xs flex items-center gap-1"><FaLeaf /> Sustainable</span>
-                                        )}
-                                        {supplier.firebreakProtection && (
-                                            <span className="text-orange-500 text-xs flex items-center gap-1"><FaFireExtinguisher /> Firebreak</span>
-                                        )}
-                                        {supplier.noChildLabor && (
-                                            <span className="text-blue-500 text-xs flex items-center gap-1"><FaChild /> No Child Labor</span>
-                                        )}
-                                        {supplier.dataConsentGiven ? (
-                                            <span className="text-primary text-xs flex items-center gap-1" title={`Scopes: ${supplier.dataConsentScope?.join(', ')}`}><FaShieldAlt /> Consent</span>
-                                        ) : (
-                                            <span className="text-amber-500 text-xs flex items-center gap-1" title="No data consent on record">
-                                            <FaShieldAlt /> No Consent
-                                             </span>
-                                        )}
-                                    </div>
-                                    <div className="flex items-center gap-1 mt-2 text-xs text-gray-500">
-                                        <FaPhone className="text-[10px]" /> {supplier.phone}
-                                    </div>
-                                </InfoCard>
-                            </motion.div>
-                        ))}
-                    </div>
                 </div>
             </Section>
 
-            {/* Consent & Data Trust */}
+            {/* 3 + 4. Evidence & Disputes — verbatim queue JSX, names from item.supplierName */}
+            <Section className="py-6">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <InfoCard
+                        icon={FaShieldAlt}
+                        title="Evidence to review"
+                        subtitle={`${(summary?.queueCounts?.pendingCommitments ?? 0) + (summary?.queueCounts?.pendingInspections ?? 0)} record${(summary?.queueCounts?.pendingCommitments ?? 0) + (summary?.queueCounts?.pendingInspections ?? 0) !== 1 ? 's' : ''} awaiting review`}
+                        iconColor="text-amber-600"
+                        showInfoBadge={false}
+                    >
+                        <div className="space-y-2 mt-3">
+                            <div className="flex justify-between text-sm">
+                                <span>Commitments awaiting validation</span>
+                                <span className="font-semibold">{summary?.queueCounts?.pendingCommitments ?? 0}</span>
+                            </div>
+                            <div className="flex justify-between text-sm">
+                                <span>Inspections awaiting validation</span>
+                                <span className="font-semibold">{summary?.queueCounts?.pendingInspections ?? 0}</span>
+                            </div>
+                        </div>
+                        <details className="mt-3" open>
+                            <summary className="text-xs text-primary cursor-pointer select-none">Review queue</summary>
+                            <div className="mt-3">
+                                {pendingCommitments.length > 0 && (
+                                    <div>
+                                        <h4 className="text-sm font-medium text-primary mb-2 flex items-center gap-2">
+                                            <FaHandshake /> Commitments ({pendingCommitments.length})
+                                        </h4>
+                                        <div className="space-y-2">
+                                            {pendingCommitments.map(c => (
+                                                <div key={c.id} className="bg-white/40 rounded-xl p-3 border border-white/30 flex items-center gap-3">
+                                                    <div className="flex-1 min-w-0">
+                                                        <div className="flex items-center gap-2">
+                                                            <span className="text-sm font-semibold text-gray-900 truncate">
+                                                                {c.supplierName || `Supplier #${c.supplierId}`}
+                                                            </span>
+                                                            <span className="text-[10px] text-gray-500">
+                                                                {c.contractId} · {c.season}
+                                                            </span>
+                                                        </div>
+                                                        <p className="text-xs text-gray-600 mt-0.5">
+                                                            {c.committedKg} kg committed · {c.status}
+                                                            {c.delayReason && ` · Delay: ${c.delayReason}`}
+                                                            {c.buyerRequestedChange && ` · Buyer-requested`}
+                                                        </p>
+                                                    </div>
+                                                    <button
+                                                        onClick={() => handleValidate('supplier_commitments', c.firestoreId)}
+                                                        className="px-3 py-1.5 bg-primary text-white text-xs font-medium rounded-full hover:bg-dark-orange transition-colors flex-shrink-0"
+                                                    >Validate</button>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {pendingInspections.length > 0 && (
+                                    <div className="mt-4 pt-4 border-t border-gray-200">
+                                        <h4 className="text-sm font-medium text-primary mb-2 flex items-center gap-2">
+                                            <FaCheckCircle /> Inspections ({pendingInspections.length})
+                                        </h4>
+                                        <div className="space-y-2">
+                                            {pendingInspections.map(i => (
+                                                <div key={i.id} className="bg-white/40 rounded-xl p-3 border border-white/30 flex items-center gap-3">
+                                                    <div className="flex-1 min-w-0">
+                                                        <div className="flex items-center gap-2">
+                                                            <span className="text-sm font-semibold text-gray-900 truncate">
+                                                                {i.supplierName || `Supplier #${i.supplierId}`}
+                                                            </span>
+                                                            <span className={`px-1.5 py-0.5 rounded-full text-[10px] font-medium ${
+                                                                i.outcome === 'PASS' ? 'bg-green-100 text-green-700' :
+                                                                    i.outcome === 'FAIL' ? 'bg-red-100 text-red-700' :
+                                                                        'bg-amber-100 text-amber-700'
+                                                            }`}>{i.outcome}</span>
+                                                        </div>
+                                                        <p className="text-xs text-gray-600 mt-0.5">
+                                                            {i.inspectionType} · {i.findings}
+                                                        </p>
+                                                    </div>
+                                                    <button
+                                                        onClick={() => handleValidate('supplier_inspections', i.firestoreId)}
+                                                        className="px-3 py-1.5 bg-primary text-white text-xs font-medium rounded-full hover:bg-dark-orange transition-colors flex-shrink-0"
+                                                    >Validate</button>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+
+                                {pendingCommitments.length === 0 && pendingInspections.length === 0 && (
+                                    <p className="text-xs text-gray-400">Queue is clear.</p>
+                                )}
+                            </div>
+                        </details>
+                    </InfoCard>
+
+                    <InfoCard
+                        icon={FaExclamationTriangle}
+                        title="Open disputes"
+                        subtitle={`${summary?.queueCounts?.openDisputes ?? 0} open dispute${(summary?.queueCounts?.openDisputes ?? 0) !== 1 ? 's' : ''}`}
+                        iconColor="text-red-600"
+                        showInfoBadge={false}
+                    >
+                        <div className="space-y-2 mt-3">
+                            {openDisputes.map(d => (
+                                <div key={d.id} className="bg-white/40 rounded-xl p-3 border border-white/30">
+                                    <div className="flex items-start justify-between gap-3">
+                                        <div className="flex-1 min-w-0">
+                                            <div className="flex items-center gap-2">
+                                                <span className="text-sm font-semibold text-gray-900">
+                                                    {d.supplierName || `Supplier #${d.supplierId}`}
+                                                </span>
+                                                <span className="px-1.5 py-0.5 bg-amber-100 text-amber-700 text-[10px] rounded-full font-medium">{d.reviewStatus}</span>
+                                                <span className="text-[10px] text-gray-500">Target: {d.targetEntity} #{d.targetId}</span>
+                                            </div>
+                                            <p className="text-xs text-gray-700 mt-1">{d.reason}</p>
+                                        </div>
+                                        <div className="flex gap-2 flex-shrink-0">
+                                            <button
+                                                onClick={() => handleResolveDispute(d.id, 'UPHELD')}
+                                                className="px-3 py-1.5 bg-green-600 text-white text-xs font-medium rounded-full hover:bg-green-700"
+                                            >Upheld</button>
+                                            <button
+                                                onClick={() => handleResolveDispute(d.id, 'REJECTED')}
+                                                className="px-3 py-1.5 bg-gray-500 text-white text-xs font-medium rounded-full hover:bg-gray-600"
+                                            >Rejected</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                            {openDisputes.length === 0 && (
+                                <p className="text-xs text-gray-400">No open disputes.</p>
+                            )}
+                        </div>
+                    </InfoCard>
+                </div>
+            </Section>
+
+            {/* 5. Consent band */}
             <Section className="py-6">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6">
                     <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
@@ -673,304 +570,177 @@ const SupplierManagement: React.FC = () => {
                             showInfoBadge={false}
                         >
                             <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-3">
-                                {(() => {
-                                    const withConsent = suppliers.filter(s => s.dataConsentGiven).length;
-                                    const total = suppliers.length;
-                                    const pct = total > 0 ? (withConsent / total) * 100 : 0;
-                                    const locationConsent = suppliers.filter(s => s.dataConsentScope?.includes('location')).length;
-                                    const identityConsent = suppliers.filter(s => s.dataConsentScope?.includes('identity')).length;
-                                    const photoConsent = suppliers.filter(s => s.dataConsentScope?.includes('photo')).length;
-
-                                    return [
-                                        { label: 'Consent Coverage', value: `${withConsent}/${total}`, pct, icon: FaShieldAlt, color: 'text-primary', hint: `${pct.toFixed(0)}% of network` },
-                                        { label: 'Identity Shared', value: `${identityConsent}/${total}`, icon: FaUser, color: 'text-accent', hint: 'Name visible to buyers' },
-                                        { label: 'Location Shared', value: `${locationConsent}/${total}`, icon: FaMapMarkerAlt, color: 'text-green-600', hint: 'GPS visible to buyers' },
-                                        { label: 'Photo Shared', value: `${photoConsent}/${total}`, icon: FaCamera, color: 'text-blue-500', hint: 'Photo visible to buyers' },
-                                    ].map((item, i) => (
-                                        <div key={i} className="bg-white/40 rounded-xl p-3 border border-white/30 text-center">
-                                            <item.icon className={`text-xl mx-auto ${item.color}`} />
-                                            <div className="text-lg font-bold mt-1">{item.value}</div>
-                                            <div className="text-xs text-gray-500">{item.label}</div>
-                                            <div className="text-[10px] text-gray-400 mt-0.5">{item.hint}</div>
-                                        </div>
-                                    ));
-                                })()}
-                            </div>
-
-                            {/* ============================================
-                                Evidence Validation Queue (P1)
-                             ============================================ */}
-                            {(pendingCommitments.length > 0 || pendingInspections.length > 0) && (
-                                <Section className="py-6">
-                                    <div className="max-w-6xl mx-auto px-4 sm:px-6">
-                                        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
-                                            <InfoCard
-                                                icon={FaShieldAlt}
-                                                title="Evidence Validation Queue"
-                                                subtitle={`${pendingCommitments.length + pendingInspections.length} record${pendingCommitments.length + pendingInspections.length !== 1 ? 's' : ''} awaiting review`}
-                                                iconColor="text-amber-600"
-                                                showInfoBadge={false}
-                                            >
-                                                {pendingCommitments.length > 0 && (
-                                                    <div className="mt-3">
-                                                        <h4 className="text-sm font-medium text-primary mb-2 flex items-center gap-2">
-                                                            <FaHandshake /> Commitments ({pendingCommitments.length})
-                                                        </h4>
-                                                        <div className="space-y-2">
-                                                            {pendingCommitments.map(c => {
-                                                                const supplier = suppliers.find(s => s.id === String(c.supplierId));
-                                                                return (
-                                                                    <div key={c.id} className="bg-white/40 rounded-xl p-3 border border-white/30 flex items-center gap-3">
-                                                                        <div className="flex-1 min-w-0">
-                                                                            <div className="flex items-center gap-2">
-                                                    <span className="text-sm font-semibold text-gray-900 truncate">
-                                                        {supplier?.name || `Supplier #${c.supplierId}`}
-                                                    </span>
-                                                                                <span className="text-[10px] text-gray-500">
-                                                        {c.contractId} · {c.season}
-                                                    </span>
-                                                                            </div>
-                                                                            <p className="text-xs text-gray-600 mt-0.5">
-                                                                                {c.committedKg} kg committed · {c.status}
-                                                                                {c.delayReason && ` · Delay: ${c.delayReason}`}
-                                                                                {c.buyerRequestedChange && ` · Buyer-requested`}
-                                                                            </p>
-                                                                        </div>
-                                                                        <button
-                                                                            onClick={() => handleValidate('supplier_commitments', c.firestoreId)}
-                                                                            className="px-3 py-1.5 bg-primary text-white text-xs font-medium rounded-full hover:bg-dark-orange transition-colors flex-shrink-0"
-                                                                        >
-                                                                            Validate
-                                                                        </button>
-                                                                    </div>
-                                                                );
-                                                            })}
-                                                        </div>
-                                                    </div>
-                                                )}
-
-                                                {pendingInspections.length > 0 && (
-                                                    <div className="mt-4 pt-4 border-t border-gray-200">
-                                                        <h4 className="text-sm font-medium text-primary mb-2 flex items-center gap-2">
-                                                            <FaCheckCircle /> Inspections ({pendingInspections.length})
-                                                        </h4>
-                                                        <div className="space-y-2">
-                                                            {pendingInspections.map(i => {
-                                                                const supplier = suppliers.find(s => s.id === String(i.supplierId));
-                                                                return (
-                                                                    <div key={i.id} className="bg-white/40 rounded-xl p-3 border border-white/30 flex items-center gap-3">
-                                                                        <div className="flex-1 min-w-0">
-                                                                            <div className="flex items-center gap-2">
-                                                    <span className="text-sm font-semibold text-gray-900 truncate">
-                                                        {supplier?.name || `Supplier #${i.supplierId}`}
-                                                    </span>
-                                                                                <span className={`px-1.5 py-0.5 rounded-full text-[10px] font-medium ${
-                                                                                    i.outcome === 'PASS' ? 'bg-green-100 text-green-700' :
-                                                                                        i.outcome === 'FAIL' ? 'bg-red-100 text-red-700' :
-                                                                                            'bg-amber-100 text-amber-700'
-                                                                                }`}>
-                                                        {i.outcome}
-                                                    </span>
-                                                                            </div>
-                                                                            <p className="text-xs text-gray-600 mt-0.5">
-                                                                                {i.inspectionType} · {i.findings}
-                                                                            </p>
-                                                                        </div>
-                                                                        <button
-                                                                            onClick={() => handleValidate('supplier_inspections', i.firestoreId)}
-                                                                            className="px-3 py-1.5 bg-primary text-white text-xs font-medium rounded-full hover:bg-dark-orange transition-colors flex-shrink-0"
-                                                                        >
-                                                                            Validate
-                                                                        </button>
-                                                                    </div>
-                                                                );
-                                                            })}
-                                                        </div>
-                                                    </div>
-                                                )}
-
-                                                <p className="text-[10px] text-gray-400 mt-4 text-center">
-                                                    Validated records feed the Trust Engine. Delivery shows "Awaiting validated commitments" until a commitment is validated.
-                                                </p>
-                                            </InfoCard>
-                                        </motion.div>
+                                {[
+                                    { label: 'Full consent', value: summary?.consentCounts?.full ?? 0, icon: FaShieldAlt, color: 'text-primary' },
+                                    { label: 'Partial consent', value: summary?.consentCounts?.partial ?? 0, icon: FaUser, color: 'text-accent' },
+                                    { label: 'No consent', value: summary?.consentCounts?.none ?? 0, icon: FaMapMarkerAlt, color: 'text-amber-600' },
+                                    { label: 'Withdrawn', value: summary?.consentCounts?.withdrawn ?? 0, icon: FaCamera, color: 'text-red-500' },
+                                ].map((item, i) => (
+                                    <div key={i} className="bg-white/40 rounded-xl p-3 border border-white/30 text-center">
+                                        <item.icon className={`text-xl mx-auto ${item.color}`} />
+                                        <div className="text-lg font-bold mt-1">{item.value}</div>
+                                        <div className="text-xs text-gray-500">{item.label}</div>
                                     </div>
-                                </Section>
-                            )}
-
-                            {/* ============================================
-                                Dispute Review Queue (Step 6c)
-                                ============================================ */}
-                            {openDisputes.length > 0 && (
-                                <Section className="py-6">
-                                    <div className="max-w-6xl mx-auto px-4 sm:px-6">
-                                        <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
-                                            <InfoCard
-                                                icon={FaExclamationTriangle}
-                                                title="Dispute Review Queue"
-                                                subtitle={`${openDisputes.length} open dispute${openDisputes.length !== 1 ? 's' : ''}`}
-                                                iconColor="text-red-600"
-                                                showInfoBadge={false}
-                                            >
-                                                <div className="space-y-2 mt-3">
-                                                    {openDisputes.map(d => {
-                                                        const supplier = suppliers.find(s => s.id === String(d.supplierId));
-                                                        return (
-                                                            <div key={d.id} className="bg-white/40 rounded-xl p-3 border border-white/30">
-                                                                <div className="flex items-start justify-between gap-3">
-                                                                    <div className="flex-1 min-w-0">
-                                                                        <div className="flex items-center gap-2">
-                                                                            <span className="text-sm font-semibold text-gray-900">{supplier?.name || `Supplier #${d.supplierId}`}</span>
-                                                                            <span className="px-1.5 py-0.5 bg-amber-100 text-amber-700 text-[10px] rounded-full font-medium">{d.reviewStatus}</span>
-                                                                            <span className="text-[10px] text-gray-500">Target: {d.targetEntity} #{d.targetId}</span>
-                                                                        </div>
-                                                                        <p className="text-xs text-gray-700 mt-1">{d.reason}</p>
-                                                                        <p className="text-[10px] text-gray-400 mt-1">
-                                                                            Submitted by {d.submittedBy} · {new Date(d.submittedDate).toLocaleDateString()}
-                                                                        </p>
-                                                                    </div>
-                                                                    <div className="flex gap-2 flex-shrink-0">
-                                                                        <button
-                                                                            onClick={() => handleResolveDispute(d.id, 'UPHELD')}
-                                                                            className="px-3 py-1.5 bg-green-600 text-white text-xs font-medium rounded-full hover:bg-green-700 transition-colors"
-                                                                        >
-                                                                            Upheld
-                                                                        </button>
-                                                                        <button
-                                                                            onClick={() => handleResolveDispute(d.id, 'REJECTED')}
-                                                                            className="px-3 py-1.5 bg-gray-500 text-white text-xs font-medium rounded-full hover:bg-gray-600 transition-colors"
-                                                                        >
-                                                                            Rejected
-                                                                        </button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        );
-                                                    })}
-                                                </div>
-                                                <p className="text-[10px] text-gray-400 mt-4 text-center">
-                                                    Upheld disputes require the correction to be applied in Farm OS, then Recalculate re-grades the batch.
-                                                </p>
-                                            </InfoCard>
-                                        </motion.div>
-                                    </div>
-                                </Section>
-                            )}
-
-
-                            {/* Consent coverage bar */}
-                            <div className="mt-4">
-                                <div className="flex justify-between text-xs text-gray-500 mb-1">
-                                    <span>Network consent coverage</span>
-                                    <span>
-                            {suppliers.filter(s => s.dataConsentGiven).length}/{suppliers.length}
-                        </span>
-                                </div>
-                                <div className="w-full bg-gray-200 rounded-full h-2.5">
-                                    <motion.div
-                                        className="bg-primary h-2.5 rounded-full"
-                                        initial={{ width: 0 }}
-                                        animate={{ width: `${suppliers.length > 0 ? (suppliers.filter(s => s.dataConsentGiven).length / suppliers.length) * 100 : 0}%` }}
-                                        transition={{ duration: 1 }}
-                                    />
-                                </div>
-                            </div>
-                            <div className="mt-4 p-3 bg-primary/5 rounded-lg text-xs text-gray-600 text-center">
-                                <FaShieldAlt className="inline mr-1 text-primary" />
-                                Farmer data remains theirs. AfriNuts holds it in trust and shares only consented scopes with verified buyers. Withdrawn consent is respected immediately.
+                                ))}
                             </div>
                         </InfoCard>
                     </motion.div>
                 </div>
             </Section>
 
-            {/* Supplier Leaderboard */}
+            {/* 6. All suppliers table */}
             <Section className="py-6">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6">
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={staggerContainer}
-                        className="mb-8"
-                    >
-                        <Typography variant="h3" className="mb-4 text-primary flex items-center gap-2">
-                            <FaTrophy className="text-yellow-500" />
-                            Supplier Leaderboard
-                        </Typography>
-                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            {suppliers
-                                .filter(s => trustBySupplier[s.id]?.overall !== null)
-                                .sort((a, b) => (trustBySupplier[b.id].overall ?? 0) - (trustBySupplier[a.id].overall ?? 0))
-                                .slice(0, 6)
-                                .map((supplier, idx) => {
-                                    const trust = trustBySupplier[supplier.id];
-                                    return (
-                                        <motion.div
-                                            key={supplier.id}
-                                            variants={fadeIn}
-                                            transition={{ delay: idx * 0.1 }}
-                                            className="flex items-center gap-3 p-3 rounded-xl bg-white/40 backdrop-blur-sm border border-white/30"
-                                            whileHover={{ y: -2 }}
+                    <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
+                        <InfoCard
+                            icon={FaUsers}
+                            title="All suppliers"
+                            subtitle="Search the network and open a profile for batches, trust and financials."
+                            iconColor="text-accent"
+                            showInfoBadge={false}
+                        >
+                            <div className="flex flex-col md:flex-row md:items-center gap-3 mt-3">
+                                <div className="relative flex-1 min-w-[240px]">
+                                    <FaSearch className="absolute left-4 top-3.5 text-gray-400" />
+                                    <input
+                                        type="text"
+                                        placeholder="Search name or contact..."
+                                        value={tableSearch}
+                                        onChange={(e) => setTableSearch(e.target.value)}
+                                        className="w-full pl-11 pr-4 py-3 rounded-full border border-gray-300 bg-white/60 backdrop-blur-md text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                                    />
+                                </div>
+                                <div className="flex flex-wrap gap-2">
+                                    {typeFilters.map((type) => (
+                                        <button
+                                            key={type}
+                                            onClick={() => setTableType(type)}
+                                            className={`px-3 py-1.5 rounded-full text-xs font-medium transition-all ${
+                                                tableType === type
+                                                    ? 'bg-primary text-white shadow'
+                                                    : 'bg-white/60 text-gray-600 hover:bg-white/80 border border-gray-200'
+                                            }`}
                                         >
-                                        <span className="text-lg font-bold text-primary w-8">
-                                            {idx === 0 ? '🥇' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : `#${idx + 1}`}
-                                        </span>
-                                            <div className="flex-1">
-                                                <p className="font-medium text-gray-900 text-sm">{supplier.name}</p>
-                                                <p className="text-xs text-gray-500">
-                                                    Trust: {trust.overall} · {trust.confidence} · {trust.verifiedTransactions} batches
-                                                </p>
-                                            </div>
-                                            <div className="flex gap-1">
-                                                {supplier.sustainableHarvesting && <FaLeaf className="text-green-500 text-xs" title="Sustainable" />}
-                                                {supplier.firebreakProtection && <FaFireExtinguisher className="text-orange-500 text-xs" title="Firebreak" />}
-                                                {supplier.noChildLabor && <FaChild className="text-blue-500 text-xs" title="No Child Labor" />}
-                                            </div>
-                                        </motion.div>
-                                    );
-                                })}
-                        </div>
+                                            {type === 'All' ? 'All Types' : type.replace(/_/g, ' ')}
+                                        </button>
+                                    ))}
+                                </div>
+                                <select
+                                    value={tableSort}
+                                    onChange={(e) => setTableSort(e.target.value as any)}
+                                    className="px-3 py-2 rounded-full border border-gray-300 bg-white/60 text-sm"
+                                >
+                                    <option value="name">Name</option>
+                                    <option value="trust_desc">Trust (high → low)</option>
+                                    <option value="trust_asc">Trust (low → high)</option>
+                                    <option value="volume_desc">Volume (high → low)</option>
+                                    <option value="quality_desc">Quality (high → low)</option>
+                                </select>
+                                <button
+                                    onClick={() => console.log('Export stub — later stage')}
+                                    className="px-4 py-2 rounded-full bg-white/60 border border-gray-300 text-sm font-medium text-gray-700 hover:bg-white"
+                                >Export</button>
+                            </div>
+
+                            {tableError && (
+                                <div className="mt-3 p-2 rounded-lg bg-red-50 border border-red-200 text-xs text-red-700">
+                                    {tableError}
+                                </div>
+                            )}
+
+                            <div className="relative mt-4">
+                                {tableLoading && (
+                                    <div className="absolute inset-0 bg-white/40 backdrop-blur-sm flex items-center justify-center z-10 rounded-xl">
+                                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+                                    </div>
+                                )}
+                                <div className="overflow-x-auto">
+                                    <table className="w-full text-sm">
+                                        <thead>
+                                        <tr className="border-b border-gray-200 text-left">
+                                            <th className="pb-2 font-medium text-gray-600">Supplier</th>
+                                            <th className="pb-2 font-medium text-gray-600">Type</th>
+                                            <th className="pb-2 font-medium text-gray-600">Trust</th>
+                                            <th className="pb-2 font-medium text-gray-600">Quality — Avg KOR</th>
+                                            <th className="pb-2 font-medium text-gray-600">Volume (Verified)</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {tableRows.map((row: any) => (
+                                            <tr
+                                                key={row.id}
+                                                onClick={() => openSupplierDetail(row as Supplier)}
+                                                className="border-b border-gray-100 last:border-0 hover:bg-white/40 cursor-pointer"
+                                            >
+                                                <td className="py-3">
+                                                    <div className="flex items-center gap-3">
+                                                        <div className="w-9 h-9 rounded-full bg-primary/10 text-primary flex items-center justify-center font-semibold">
+                                                            {(row.name || '?').slice(0, 1).toUpperCase()}
+                                                        </div>
+                                                        <div className="min-w-0">
+                                                            <div className="font-medium truncate">{row.name}</div>
+                                                            <div className="text-[11px] text-gray-500 truncate">
+                                                                {row.location} · {row.contactPerson || '—'}
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td className="py-3 text-xs">{String(row.type || '').replace(/_/g, ' ')}</td>
+                                                <td className="py-3">
+                                                    {row.overall == null ? (
+                                                        <span className="px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 text-xs">Evidence pending</span>
+                                                    ) : (
+                                                        <div className="flex items-center gap-2">
+                                                            <span className="font-bold">{row.overall}</span>
+                                                            <span className={`px-1.5 py-0.5 rounded-full text-[10px] ${
+                                                                row.confidence === 'established' ? 'bg-green-100 text-green-700' :
+                                                                    row.confidence === 'developing' ? 'bg-blue-100 text-blue-700' :
+                                                                        'bg-amber-100 text-amber-700'
+                                                            }`}>{row.confidence}</span>
+                                                        </div>
+                                                    )}
+                                                </td>
+                                                <td className="py-3 text-sm">
+                                                    {row.avgKorGPerKg != null ? `${Number(row.avgKorGPerKg).toFixed(0)} g/kg` : '—'}
+                                                </td>
+                                                <td className="py-3 text-sm">
+                                                    {row.verifiedVolumeKg != null ? `${(Number(row.verifiedVolumeKg) / 1000).toFixed(1)} T` : '—'}
+                                                </td>
+                                            </tr>
+                                        ))}
+                                        {!tableLoading && tableRows.length === 0 && (
+                                            <tr>
+                                                <td colSpan={5} className="py-8 text-center text-sm text-gray-500">No suppliers match these filters.</td>
+                                            </tr>
+                                        )}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div className="flex items-center justify-between mt-4 text-xs text-gray-600">
+                                <span>Showing {showingFrom}–{showingTo} of {tableTotal}</span>
+                                <div className="flex gap-2">
+                                    <button
+                                        disabled={tablePage <= 1}
+                                        onClick={() => setTablePage(p => Math.max(1, p - 1))}
+                                        className="px-3 py-1.5 rounded-full border border-gray-300 disabled:opacity-40"
+                                    >Prev</button>
+                                    <button
+                                        disabled={tablePage >= totalPages}
+                                        onClick={() => setTablePage(p => Math.min(totalPages, p + 1))}
+                                        className="px-3 py-1.5 rounded-full border border-gray-300 disabled:opacity-40"
+                                    >Next</button>
+                                </div>
+                            </div>
+                        </InfoCard>
                     </motion.div>
                 </div>
             </Section>
 
-            {/* Supplier Map */}
+            {/* 7. Highest Trust + Maturity — fix 4 */}
             <Section className="py-6">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6">
-                    <motion.div
-                        initial="hidden"
-                        whileInView="visible"
-                        viewport={{ once: true }}
-                        variants={staggerContainer}
-                    >
-                        <Typography variant="h3" className="mb-4 text-primary flex items-center gap-2">
-                            <FaMapMarkerAlt className="text-accent" />
-                            Supplier Locations
-                        </Typography>
-                        <SupplierMap
-                            suppliers={suppliers.map(s => ({
-                                id: s.id,
-                                name: s.name,
-                                latitude: s.latitude || 0,
-                                longitude: s.longitude || 0,
-                                isActive: s.status === 'ACTIVE',
-                                type: s.type,
-                                location: s.location,
-                            }))}
-                            className="mb-6"
-                        />
-                    </motion.div>
-                </div>
-            </Section>
-
-            {/* Trust Intelligence Row — A & B */}
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 mb-8">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-
-                    {/* ============================================
-                        OPTION A — Highest Trust Scores
-                    ============================================ */}
+                <div className="max-w-6xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
                     <InfoCard
                         icon={FaShieldAlt}
                         title="Highest Trust Scores"
@@ -979,63 +749,28 @@ const SupplierManagement: React.FC = () => {
                         showInfoBadge={false}
                     >
                         <div className="space-y-2 mt-3">
-                            {(() => {
-                                const ranked = suppliers
-                                    .map(s => ({ supplier: s, trust: trustBySupplier[s.id] }))
-                                    .filter(x => x.trust?.overall !== null)
-                                    .sort((a, b) => (b.trust.overall ?? 0) - (a.trust.overall ?? 0))
-                                    .slice(0, 5);
-
-                                if (ranked.length === 0) {
-                                    return (
-                                        <div className="text-center py-6 text-sm text-gray-500">
-                                            <FaShieldAlt className="text-2xl mx-auto mb-2 text-gray-300" />
-                                            <p className="font-medium text-gray-600">No complete scores yet</p>
-                                            <p className="text-[11px] text-gray-400 mt-1 max-w-md mx-auto">
-                                                A supplier needs validated commitments (delivery), inspected batches (quality), and registered location/consent (traceability) before receiving an overall trust score.
-                                            </p>
-                                        </div>
-                                    );
-                                }
-
-                                return ranked.map(({ supplier, trust }, i) => (
-                                    <div
-                                        key={supplier.id}
-                                        onClick={() => openSupplierDetail(supplier)}
-                                        className="flex items-center gap-3 bg-white/40 rounded-xl p-2.5 border border-white/30 cursor-pointer hover:bg-white/60 transition-all"
-                                    >
-                                        <span className="w-6 text-sm font-bold text-gray-400 text-center">#{i + 1}</span>
-                                        <div className="flex-1 min-w-0">
-                                            <p className="text-sm font-medium truncate">{supplier.name}</p>
-                                            <p className="text-[10px] text-gray-500">
-                                                {trust.verifiedTransactions} verified batch{trust.verifiedTransactions !== 1 ? 'es' : ''}
-                                            </p>
-                                        </div>
-                                        <div className="text-right flex-shrink-0">
-                                            <div className={`text-sm font-bold ${
-                                                (trust.overall ?? 0) >= 85 ? 'text-green-600' :
-                                                    (trust.overall ?? 0) >= 70 ? 'text-primary' :
-                                                        (trust.overall ?? 0) >= 50 ? 'text-amber-600' : 'text-red-600'
-                                            }`}>
-                                                {trust.overall}
-                                            </div>
-                                            <div className={`text-[10px] px-1.5 py-0.5 rounded-full inline-block ${
-                                                trust.confidence === 'established' ? 'bg-green-100 text-green-700' :
-                                                    trust.confidence === 'developing' ? 'bg-blue-100 text-blue-700' :
-                                                        'bg-amber-100 text-amber-700'
-                                            }`}>
-                                                {trust.confidence}
-                                            </div>
-                                        </div>
+                            {(summary?.topTrust || []).slice(0, 5).map((row: any, i: number) => (
+                                <div key={row.supplierId ?? row.id ?? i} className="flex items-center gap-3 bg-white/40 rounded-xl p-2.5 border border-white/30">
+                                    <span className="w-6 text-sm font-bold text-gray-400 text-center">#{i + 1}</span>
+                                    <div className="flex-1 min-w-0">
+                                        <p className="text-sm font-medium truncate">{row.name}</p>
+                                        <p className="text-[10px] text-gray-500">
+                                            {row.verifiedTransactions} verified batch{row.verifiedTransactions !== 1 ? 'es' : ''}
+                                        </p>
                                     </div>
-                                ));
-                            })()}
+                                    <span className={`text-sm font-bold ${
+                                        (row.overall ?? 0) >= 85 ? 'text-green-600' :
+                                            (row.overall ?? 0) >= 70 ? 'text-primary' :
+                                                (row.overall ?? 0) >= 50 ? 'text-amber-600' : 'text-red-600'
+                                    }`}>{row.overall}</span>
+                                </div>
+                            ))}
+                            {(!summary?.topTrust || summary.topTrust.length === 0) && (
+                                <p className="text-sm text-gray-500 text-center py-4">No scored suppliers yet.</p>
+                            )}
                         </div>
                     </InfoCard>
 
-                    {/* ============================================
-            OPTION B — Evidence Maturity
-            ============================================ */}
                     <InfoCard
                         icon={FaHistory}
                         title="Evidence Maturity"
@@ -1045,32 +780,23 @@ const SupplierManagement: React.FC = () => {
                     >
                         <div className="space-y-3 mt-3">
                             {(() => {
-                                const counts = { preliminary: 0, developing: 0, established: 0 };
-                                Object.values(trustBySupplier).forEach(t => { counts[t.confidence]++; });
-                                const total = Object.values(counts).reduce((a, b) => a + b, 0);
-
+                                const c = summary?.maturityCounts || { preliminary: 0, developing: 0, established: 0 };
+                                const total = c.preliminary + c.developing + c.established;
                                 const tiers = [
-                                    { key: 'preliminary' as const, label: 'Preliminary', range: '0–2 batches', color: 'bg-amber-500', textColor: 'text-amber-700', desc: 'Limited history — not unreliable, just new' },
-                                    { key: 'developing' as const, label: 'Developing', range: '3–9 batches', color: 'bg-blue-500', textColor: 'text-blue-700', desc: 'Early performance pattern emerging' },
-                                    { key: 'established' as const, label: 'Established', range: '10+ batches', color: 'bg-green-500', textColor: 'text-green-700', desc: 'Substantial verified history across cycles' },
+                                    { key: 'preliminary', label: 'Preliminary', range: '0–2 batches', color: 'bg-amber-500', text: 'text-amber-700' },
+                                    { key: 'developing', label: 'Developing', range: '3–9 batches', color: 'bg-blue-500', text: 'text-blue-700' },
+                                    { key: 'established', label: 'Established', range: '10+ batches', color: 'bg-green-500', text: 'text-green-700' },
                                 ];
-
-                                return tiers.map(tier => (
-                                    <div key={tier.key} className="bg-white/40 rounded-xl p-3 border border-white/30">
+                                return tiers.map(t => (
+                                    <div key={t.key} className="bg-white/40 rounded-xl p-3 border border-white/30">
                                         <div className="flex justify-between items-baseline mb-1">
-                                            <span className={`text-sm font-semibold ${tier.textColor}`}>{tier.label}</span>
-                                            <span className="text-xl font-bold">{counts[tier.key]}</span>
+                                            <span className={`text-sm font-semibold ${t.text}`}>{t.label}</span>
+                                            <span className="text-xl font-bold">{c[t.key] ?? 0}</span>
                                         </div>
-                                        <div className="text-[10px] text-gray-500 mb-1.5">{tier.range}</div>
+                                        <div className="text-[10px] text-gray-500 mb-1.5">{t.range}</div>
                                         <div className="w-full bg-gray-200 rounded-full h-2">
-                                            <motion.div
-                                                className={`${tier.color} h-2 rounded-full`}
-                                                initial={{ width: 0 }}
-                                                animate={{ width: `${total > 0 ? (counts[tier.key] / total) * 100 : 0}%` }}
-                                                transition={{ duration: 0.8 }}
-                                            />
+                                            <div className={`${t.color} h-2 rounded-full`} style={{ width: `${total > 0 ? ((c[t.key] ?? 0) / total) * 100 : 0}%` }} />
                                         </div>
-                                        <p className="text-[10px] text-gray-500 mt-1.5">{tier.desc}</p>
                                     </div>
                                 ));
                             })()}
@@ -1079,112 +805,83 @@ const SupplierManagement: React.FC = () => {
                             Missing evidence lowers confidence — never the trust score itself.
                         </p>
                     </InfoCard>
-
                 </div>
-            </div>
+            </Section>
 
-            {/* Risk Preview */}
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 mb-8">
-                <InfoCard
-                    icon={FaExclamationTriangle}
-                    title="Risk & Attention Radar"
-                    subtitle="Suppliers requiring review"
-                    iconColor="text-amber-600"
-                    showInfoBadge={false}
-                >
-                    {(() => {
-                        const flagged = suppliers
-                            .map(s => ({ supplier: s, trust: trustBySupplier[s.id] }))
-                            .filter(x => x.trust && (x.trust.flags.length > 0 || x.trust.hasCriticalViolation));
-
-                        if (flagged.length === 0) {
-                            return (
-                                <div className="text-center py-4 text-sm text-gray-400">
-                                    <FaCheckCircle className="text-xl text-green-500 mx-auto mb-1" />
-                                    No suppliers require attention.
+            {/* 8. Risk preview — fix 5 */}
+            <Section className="py-6">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6">
+                    <InfoCard
+                        icon={FaExclamationTriangle}
+                        title="Risk & Attention"
+                        subtitle="Suppliers flagged for review"
+                        iconColor="text-amber-600"
+                        showInfoBadge={false}
+                    >
+                        <div className="grid grid-cols-4 gap-2 mt-3">
+                            {(['critical', 'high', 'medium', 'low'] as const).map(k => (
+                                <div key={k} className="bg-white/40 rounded-lg p-2 text-center border border-white/30">
+                                    <div className="text-xl font-bold">{summary?.riskCounts?.[k] ?? 0}</div>
+                                    <div className="text-[10px] text-gray-500 capitalize">{k}</div>
                                 </div>
-                            );
-                        }
-
-                        const criticalCount = flagged.filter(x => x.trust.hasCriticalViolation).length;
-                        const below60 = flagged.filter(x => !x.trust.hasCriticalViolation && (x.trust.overall ?? 100) < 60).length;
-
-                        return (
-                            <div className="mt-3">
-                                <div className="grid grid-cols-3 gap-2 mb-3">
-                                    <div className="bg-red-50/60 rounded-lg p-2 text-center border border-red-200">
-                                        <div className="text-xl font-bold text-red-600">{criticalCount}</div>
-                                        <div className="text-[10px] text-gray-500">Critical</div>
-                                    </div>
-                                    <div className="bg-amber-50/60 rounded-lg p-2 text-center border border-amber-200">
-                                        <div className="text-xl font-bold text-amber-600">{below60}</div>
-                                        <div className="text-[10px] text-gray-500">Below 60</div>
-                                    </div>
-                                    <div className="bg-gray-50/60 rounded-lg p-2 text-center border border-gray-200">
-                                        <div className="text-xl font-bold text-gray-700">{flagged.length}</div>
-                                        <div className="text-[10px] text-gray-500">Total flagged</div>
-                                    </div>
-                                </div>
-                                <button
-                                    onClick={() => navigate('/dashboard/suppliers/risk')}
-                                    className="w-full py-2 bg-amber-500 text-white text-sm font-medium rounded-full hover:bg-amber-600 transition-colors"
-                                >
-                                    Open Risk Workbench ({flagged.length} flagged) →
-                                </button>
-                            </div>
-                        );
-                    })()}
-                </InfoCard>
-            </div>
-
-            {/* Development Preview */}
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 mb-8">
-                <InfoCard
-                    icon={FaHandshake}
-                    title="Supplier Development Opportunities"
-                    subtitle="Where targeted support strengthens the network"
-                    iconColor="text-primary"
-                    showInfoBadge={false}
-                >
-                    {developmentOpportunities.length === 0 ? (
-                        <div className="text-center py-4 text-sm text-gray-400">
-                            <FaCheckCircle className="text-xl text-green-500 mx-auto mb-1" />
-                            No development opportunities detected.
+                            ))}
                         </div>
-                    ) : (
-                        <div className="mt-3">
-                            <div className="grid grid-cols-3 gap-2 mb-3">
-                                <div className="bg-red-50/60 rounded-lg p-2 text-center border border-red-200">
-                                    <div className="text-xl font-bold text-red-600">
-                                        {new Set(developmentOpportunities.filter(o => o.severity === 'high').map(o => o.supplierId)).size}
-                                    </div>
-                                    <div className="text-[10px] text-gray-500">High priority</div>
+                        {summary?.topRisk && (
+                            <div className="mt-3 flex items-center justify-between text-xs">
+                                <span className="text-gray-700">
+                                    Top: <span className="font-medium">{summary.topRisk.name}</span>
+                                    <span className="ml-2 text-gray-500">overall {summary.topRisk.overall ?? '—'}</span>
+                                </span>
+                                {summary.topRisk.hasCriticalViolation && (
+                                    <span className="px-2 py-0.5 rounded-full bg-red-100 text-red-700 text-[10px] font-medium">critical violation</span>
+                                )}
+                            </div>
+                        )}
+                        <button
+                            onClick={() => navigate('/dashboard/suppliers/risk')}
+                            className="w-full mt-3 py-2 bg-amber-500 text-white text-sm font-medium rounded-full hover:bg-amber-600 transition-colors"
+                        >Open Risk Workbench →</button>
+                    </InfoCard>
+                </div>
+            </Section>
+
+            {/* 9. Development preview */}
+            <Section className="py-6">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6">
+                    <InfoCard
+                        icon={FaHandshake}
+                        title="Supplier Development"
+                        subtitle="Where targeted support strengthens the network"
+                        iconColor="text-primary"
+                        showInfoBadge={false}
+                    >
+                        <div className="grid grid-cols-3 gap-2 mt-3">
+                            <div className="bg-red-50/60 rounded-lg p-2 text-center border border-red-200">
+                                <div className="text-xl font-bold text-red-600">{summary?.developmentCounts?.openActions ?? 0}</div>
+                                <div className="text-[10px] text-gray-500">Open actions</div>
+                            </div>
+                            <div className="bg-amber-50/60 rounded-lg p-2 text-center border border-amber-200">
+                                <div className="text-xl font-bold text-amber-600">{summary?.developmentCounts?.visibleOpportunities ?? 0}</div>
+                                <div className="text-[10px] text-gray-500">Visible opportunities</div>
+                            </div>
+                            <div className="bg-blue-50/60 rounded-lg p-2 text-center border border-blue-200">
+                                <div className="text-xs font-semibold text-blue-700 truncate">
+                                    {summary?.developmentCounts?.topOpportunity?.name || '—'}
                                 </div>
-                                <div className="bg-amber-50/60 rounded-lg p-2 text-center border border-amber-200">
-                                    <div className="text-xl font-bold text-amber-600">
-                                        {new Set(developmentOpportunities.filter(o => o.severity === 'medium').map(o => o.supplierId)).size}
-                                    </div>
-                                    <div className="text-[10px] text-gray-500">Medium</div>
-                                </div>
-                                <div className="bg-blue-50/60 rounded-lg p-2 text-center border border-blue-200">
-                                    <div className="text-xl font-bold text-blue-600">
-                                        {new Set(developmentOpportunities.filter(o => o.severity === 'low').map(o => o.supplierId)).size}
-                                    </div>
-                                    <div className="text-[10px] text-gray-500">Capacity</div>
+                                <div className="text-[10px] text-gray-500">
+                                    {summary?.developmentCounts?.topOpportunity?.weakness || 'Top opportunity'}
                                 </div>
                             </div>
-                            <button
-                                onClick={() => navigate('/dashboard/suppliers/development')}
-                                className="w-full py-2 bg-primary text-white text-sm font-medium rounded-full hover:bg-dark-orange transition-colors"
-                            >
-                                Open Development Workbench →
-                            </button>
                         </div>
-                    )}
-                </InfoCard>
-            </div>
+                        <button
+                            onClick={() => navigate('/dashboard/suppliers/development')}
+                            className="w-full mt-3 py-2 bg-primary text-white text-sm font-medium rounded-full hover:bg-dark-orange transition-colors"
+                        >Open Development Workbench →</button>
+                    </InfoCard>
+                </div>
+            </Section>
 
-            {/* Financial Efficiency */}
+            {/* 10. Financial efficiency */}
             <Section className="py-6">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6">
                     <InfoCard
@@ -1194,8 +891,7 @@ const SupplierManagement: React.FC = () => {
                         iconColor="text-primary"
                         showInfoBadge={false}
                     >
-                        {/* Desktop Table */}
-                        <div className="hidden md:block overflow-x-auto mt-3">
+                        <div className="overflow-x-auto mt-3">
                             <table className="w-full text-sm">
                                 <thead>
                                 <tr className="border-b border-gray-200 text-left">
@@ -1206,66 +902,48 @@ const SupplierManagement: React.FC = () => {
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {suppliers.slice(0, 5).map(supplier => {
-                                    const metrics = metricsBySupplier[supplier.id];
-                                    const volumeKg = metrics?.annualVolumeKg ?? 0;
-                                    const procurement = volumeKg * 500;
-                                    const revenue = volumeKg * 1500;
-                                    const efficiency = (revenue / (procurement || 1)).toFixed(1);
-                                    return (
-                                        <tr key={supplier.id} className="border-b border-gray-100 last:border-0 hover:bg-white/20">
-                                            <td className="py-2 font-medium">{supplier.name}</td>
-                                            <td className="py-2">{new Intl.NumberFormat('fr-FR').format(procurement)} FCFA</td>
-                                            <td className="py-2">{new Intl.NumberFormat('fr-FR').format(revenue)} FCFA</td>
-                                            <td className="py-2">
-                                                <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${Number(efficiency) > 2 ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}`}>{efficiency}x</span>
-                                            </td>
-                                        </tr>
-                                    );
-                                })}
+                                {(summary?.financialEfficiency || []).slice(0, 5).map((row: any, i: number) => (
+                                    <tr key={row.id ?? i} className="border-b border-gray-100 last:border-0">
+                                        <td className="py-2 font-medium">{row.name || row.supplier}</td>
+                                        <td className="py-2">{new Intl.NumberFormat('fr-FR').format(row.procurement || 0)} FCFA</td>
+                                        <td className="py-2">{new Intl.NumberFormat('fr-FR').format(row.revenue || 0)} FCFA</td>
+                                        <td className="py-2">
+                                                <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${
+                                                    Number(row.efficiency) > 2 ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'
+                                                }`}>{Number(row.efficiency || 0).toFixed(1)}x</span>
+                                        </td>
+                                    </tr>
+                                ))}
+                                {(!summary?.financialEfficiency || summary.financialEfficiency.length === 0) && (
+                                    <tr><td colSpan={4} className="py-4 text-center text-sm text-gray-500">No linked financials yet.</td></tr>
+                                )}
                                 </tbody>
                             </table>
-                        </div>
-
-                        {/* Mobile Cards */}
-                        <div className="md:hidden space-y-3 mt-3">
-                            {suppliers.slice(0, 5).map(supplier => {
-                                const metrics = metricsBySupplier[supplier.id];
-                                const volumeKg = metrics?.annualVolumeKg ?? 0;
-                                const procurement = volumeKg * 500;
-                                const revenue = volumeKg * 1500;
-                                const efficiency = (revenue / (procurement || 1)).toFixed(1);
-                                return (
-                                    <motion.div
-                                        key={supplier.id}
-                                        className="bg-white/40 backdrop-blur-sm rounded-xl p-4 border border-white/30"
-                                        whileHover={{ y: -2 }}
-                                    >
-                                        <div className="flex items-center justify-between mb-2">
-                                            <span className="font-medium text-primary text-sm">{supplier.name}</span>
-                                            <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${Number(efficiency) > 2 ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}`}>
-                                    {efficiency}x
-                                </span>
-                                        </div>
-                                        <div className="grid grid-cols-2 gap-2 text-xs">
-                                            <div>
-                                                <span className="text-gray-500">Procurement</span>
-                                                <p className="font-medium text-gray-700">{new Intl.NumberFormat('fr-FR').format(procurement)} FCFA</p>
-                                            </div>
-                                            <div>
-                                                <span className="text-gray-500">Revenue</span>
-                                                <p className="font-medium text-gray-700">{new Intl.NumberFormat('fr-FR').format(revenue)} FCFA</p>
-                                            </div>
-                                        </div>
-                                    </motion.div>
-                                );
-                            })}
                         </div>
                     </InfoCard>
                 </div>
             </Section>
 
-            {/* Supplier Detail Modal */}
+            {/* 11. Map LAST */}
+            <Section className="py-6">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6">
+                    <InfoCard
+                        icon={FaMapMarkerAlt}
+                        title="Network locations"
+                        subtitle={mapData
+                            ? `${mapData.shownCount} of ${mapData.totalSuppliers} shown (suppliers without location consent excluded)`
+                            : 'Loading map points...'}
+                        iconColor="text-accent"
+                        showInfoBadge={false}
+                    >
+                        <div className="mt-3">
+                            {mapData && <SupplierMap suppliers={mapData.points} className="mb-2" />}
+                        </div>
+                    </InfoCard>
+                </div>
+            </Section>
+
+            {/* Detail modal — fix 1: TrustPanel gets selectedSupplier.trust; Annual Volume / Avg RCN restored */}
             <Transition.Root show={!!selectedSupplier} as={Fragment}>
                 <Dialog as="div" className="relative z-50" onClose={() => setSelectedSupplier(null)}>
                     <Transition.Child
@@ -1292,14 +970,12 @@ const SupplierManagement: React.FC = () => {
                                                   boxShadow: '0 8px 32px rgba(165, 105, 66, 0.2), inset 0 1px 0 rgba(255,255,255,0.6)',
                                               }}
                                 >
-                                    {/* Animated blobs */}
                                     <div className="absolute -top-20 -right-20 w-40 h-40 rounded-full opacity-10 blur-3xl animate-pulse"
                                          style={{ background: 'radial-gradient(circle, rgba(165,105,66,0.4) 0%, transparent 70%)' }} />
                                     <div className="absolute -bottom-16 -left-16 w-36 h-36 rounded-full opacity-8 blur-3xl"
                                          style={{ background: 'radial-gradient(circle, rgba(210,125,45,0.4) 0%, transparent 70%)' }} />
 
                                     <div className="relative z-10 p-6">
-                                        {/* Header */}
                                         <div className="flex justify-between items-start mb-6">
                                             <div>
                                                 <Dialog.Title as="h2" className="text-2xl font-bold text-primary">
@@ -1312,7 +988,6 @@ const SupplierManagement: React.FC = () => {
                                             </button>
                                         </div>
 
-                                        {/* Tabs */}
                                         <div className="flex border-b border-gray-200 mb-6">
                                             {['profile', 'quality', 'financials'].map(tab => (
                                                 <button
@@ -1329,7 +1004,6 @@ const SupplierManagement: React.FC = () => {
                                             ))}
                                         </div>
 
-                                        {/* Tab Content */}
                                         {modalLoading ? (
                                             <div className="flex justify-center py-12">
                                                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
@@ -1338,7 +1012,6 @@ const SupplierManagement: React.FC = () => {
                                             <>
                                                 {activeTab === 'profile' && selectedSupplier && (
                                                     <div className="space-y-4">
-                                                        {/* Photo + Name Header */}
                                                         <div className="flex items-center gap-4">
                                                             {selectedSupplier.photoUrl ? (
                                                                 <img src={selectedSupplier.photoUrl} alt={selectedSupplier.name}
@@ -1347,26 +1020,19 @@ const SupplierManagement: React.FC = () => {
                                                                 <div className={`w-20 h-20 rounded-full flex items-center justify-center ${
                                                                     selectedSupplier.type === 'OWN_FARM' ? 'bg-green-100' : 'bg-primary/10'
                                                                 }`}>
-                                                                    {selectedSupplier.type === 'OWN_FARM' ? (
-                                                                        <FaHome className="text-green-600 text-2xl" />
-                                                                    ) : (
-                                                                        <FaUsers className="text-primary text-2xl" />
-                                                                    )}
+                                                                    {selectedSupplier.type === 'OWN_FARM'
+                                                                        ? <FaHome className="text-green-600 text-2xl" />
+                                                                        : <FaUsers className="text-primary text-2xl" />}
                                                                 </div>
                                                             )}
                                                             <div>
                                                                 <div className="flex items-center gap-2">
                                                                     <h3 className="text-xl font-bold text-primary">{selectedSupplier.name}</h3>
                                                                     {selectedSupplier.type === 'OWN_FARM' && (
-                                                                        <span className="px-2 py-0.5 bg-green-100 text-green-700 text-xs rounded-full font-medium">
-                                                                            Own Farm
-                                                                        </span>
+                                                                        <span className="px-2 py-0.5 bg-green-100 text-green-700 text-xs rounded-full font-medium">Own Farm</span>
                                                                     )}
                                                                 </div>
                                                                 <p className="text-sm text-gray-500">{selectedSupplier.type?.replace(/_/g, ' ')} · {selectedSupplier.status}</p>
-                                                                {selectedSupplier.type === 'OWN_FARM' && selectedSupplier.quote && (
-                                                                    <p className="text-xs text-green-700 italic mt-1 max-w-md">"{selectedSupplier.quote}"</p>
-                                                                )}
                                                                 <div className="flex items-center gap-2 mt-1">
                                                                     {[...Array(5)].map((_, i) => (
                                                                         <FaStar key={i} className={i < (selectedSupplier.rating ?? 0) ? 'text-yellow-500' : 'text-gray-300'} />
@@ -1375,43 +1041,8 @@ const SupplierManagement: React.FC = () => {
                                                             </div>
                                                         </div>
 
-                                                        {/* Own Farm Banner */}
-                                                        {selectedSupplier.type === 'OWN_FARM' && (
-                                                            <div className="bg-green-50/80 border border-green-200 rounded-xl p-4 mb-4">
-                                                                <div className="flex items-start gap-3">
-                                                                    <FaHome className="text-green-600 text-xl mt-0.5" />
-                                                                    <div>
-                                                                        <h4 className="font-medium text-green-800">AfriNuts Own Farm Production</h4>
-                                                                        <p className="text-sm text-green-700 mt-1">
-                                                                            This represents cashews grown on our 35-hectare farm in Odienné. Managed by {selectedSupplier.contactPerson},
-                                                                            our farm serves as the quality benchmark for all supplier-sourced cashews.
-                                                                        </p>
-                                                                        <div className="flex gap-4 mt-2 text-xs text-green-600">
-                                                                            <span>{selectedSupplier.farmSize} hectares</span>
-                                                                            <span>{selectedSupplier.yearsFarming} years farming</span>
-                                                                            <span>100% Farm OS monitored</span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        )}
+                                                        <TrustPanel trust={selectedSupplier.trust} />
 
-                                                        <TrustPanel trust={trustBySupplier[selectedSupplier.id]} />
-
-                                                        {/* Bio / Quote */}
-                                                        {selectedSupplier.bio && (
-                                                            <div className="bg-white/50 rounded-xl p-4 border border-white/30">
-                                                                <h4 className="font-medium text-primary mb-1">About</h4>
-                                                                <p className="text-sm text-gray-700">{selectedSupplier.bio}</p>
-                                                            </div>
-                                                        )}
-                                                        {selectedSupplier.quote && (
-                                                            <div className="bg-accent/10 rounded-xl p-4 italic text-accent-dark text-sm">
-                                                                "{selectedSupplier.quote}"
-                                                            </div>
-                                                        )}
-
-                                                        {/* Contact + Business Details Grid */}
                                                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                                             <div className="bg-white/50 rounded-xl p-4 border border-white/30">
                                                                 <h4 className="font-medium text-primary mb-2">Contact Information</h4>
@@ -1430,20 +1061,19 @@ const SupplierManagement: React.FC = () => {
                                                                 {selectedSupplier.yearsFarming ? <p className="text-sm"><strong>Years Farming:</strong> {selectedSupplier.yearsFarming}</p> : null}
                                                                 <p className="text-sm">
                                                                     <strong>Annual Volume:</strong>{' '}
-                                                                    {metricsBySupplier[selectedSupplier.id]?.annualVolumeKg > 0
-                                                                        ? `${(metricsBySupplier[selectedSupplier.id].annualVolumeKg / 1000).toFixed(1)}T`
+                                                                    {selectedSupplier.annualVolumeKg && selectedSupplier.annualVolumeKg > 0
+                                                                        ? `${(selectedSupplier.annualVolumeKg / 1000).toFixed(1)}T`
                                                                         : 'N/A'}
                                                                 </p>
                                                                 <p className="text-sm">
                                                                     <strong>RCN Quality:</strong>{' '}
-                                                                    {metricsBySupplier[selectedSupplier.id]?.averageRcnQualityScore != null
-                                                                        ? `${metricsBySupplier[selectedSupplier.id].averageRcnQualityScore!.toFixed(1)}`
+                                                                    {selectedSupplier.averageRcnQualityScore != null
+                                                                        ? `${selectedSupplier.averageRcnQualityScore.toFixed(1)}`
                                                                         : 'Pending'}
                                                                 </p>
                                                             </div>
                                                         </div>
 
-                                                        {/* Certifications */}
                                                         <div className="bg-white/50 rounded-xl p-4 border border-white/30">
                                                             <h4 className="font-medium text-primary mb-2">Certifications</h4>
                                                             {selectedSupplier.isCertified ? (
@@ -1459,7 +1089,6 @@ const SupplierManagement: React.FC = () => {
                                                             )}
                                                         </div>
 
-                                                        {/* Sustainability Compliance */}
                                                         <div className="bg-white/50 rounded-xl p-4 border border-white/30">
                                                             <h4 className="font-medium text-primary mb-2">Sustainability Compliance</h4>
                                                             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -1480,7 +1109,7 @@ const SupplierManagement: React.FC = () => {
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        {/* Data Consent & Trust */}
+
                                                         <div className="bg-white/50 rounded-xl p-4 border border-white/30">
                                                             <h4 className="font-medium text-primary mb-2 flex items-center gap-2">
                                                                 <FaShieldAlt /> Data Consent & Trust
@@ -1504,21 +1133,13 @@ const SupplierManagement: React.FC = () => {
                                                                             return (
                                                                                 <span key={scope} className={`px-2 py-1 rounded-full text-xs font-medium flex items-center gap-1 ${
                                                                                     has ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-400 line-through'
-                                                                                }`}>{has ? <FaCheckCircle className="text-[10px]" /> : <FaTimesCircle className="text-[10px]" />}
-                                                                                    {scope.charAt(0).toUpperCase() + scope.slice(1)} shared</span>
+                                                                                }`}>
+                                                                                    {has ? <FaCheckCircle className="text-[10px]" /> : <FaTimesCircle className="text-[10px]" />}
+                                                                                    {scope.charAt(0).toUpperCase() + scope.slice(1)} shared
+                                                                                </span>
                                                                             );
                                                                         })}
                                                                     </div>
-                                                                    {selectedSupplier.dataConsentWithdrawnDate ? (
-                                                                        <div className="mt-2 p-2 bg-red-50 border border-red-200 rounded-lg text-xs text-red-700">
-                                                                            <strong>Withdrawn</strong> on {new Date(selectedSupplier.dataConsentWithdrawnDate).toLocaleDateString()}
-                                                                            {selectedSupplier.dataConsentWithdrawnReason && <> — {selectedSupplier.dataConsentWithdrawnReason}</>}
-                                                                        </div>
-                                                                    ) : (
-                                                                        <p className="text-xs text-gray-400 mt-2">
-                                                                            Buyer Portal will show only the consented scopes. Consent can be withdrawn at any time.
-                                                                        </p>
-                                                                    )}
                                                                 </div>
                                                             ) : (
                                                                 <div className="flex items-center gap-2">
@@ -1528,7 +1149,6 @@ const SupplierManagement: React.FC = () => {
                                                             )}
                                                         </div>
 
-                                                        {/* Internal Notes (for management) */}
                                                         {selectedSupplier.notes && (
                                                             <div className="bg-amber-50/50 rounded-xl p-4 border border-amber-200">
                                                                 <h4 className="font-medium text-amber-700 mb-2">Internal Notes</h4>
@@ -1544,120 +1164,53 @@ const SupplierManagement: React.FC = () => {
                                                             <div className="text-center py-8 text-gray-400">
                                                                 <FaBox className="text-3xl mx-auto mb-2" />
                                                                 <Typography variant="small">No quality batches recorded for this supplier yet.</Typography>
-                                                                <Typography variant="small" className="text-xs mt-1">
-                                                                    Batch data will appear here as deliveries are processed through quality control.
-                                                                </Typography>
                                                             </div>
                                                         ) : (
-                                                            <>
-                                                                {/* Batch Summary */}
-                                                                <div className="grid grid-cols-3 gap-3 mb-4">
-                                                                    <div className="bg-white/50 rounded-xl p-3 text-center border border-white/30">
-                                                                        <div className="text-2xl font-bold text-primary">{supplierBatches.length}</div>
-                                                                        <div className="text-xs text-gray-500">Total Batches</div>
-                                                                    </div>
-                                                                    <div className="bg-white/50 rounded-xl p-3 text-center border border-white/30">
-                                                                        <div className="text-2xl font-bold text-primary">
-                                                                            {supplierBatches.reduce((sum, b) => sum + (b.weightKg || 0), 0).toLocaleString()} kg
-                                                                        </div>
-                                                                        <div className="text-xs text-gray-500">Total Delivered</div>
-                                                                    </div>
-                                                                    <div className="bg-white/50 rounded-xl p-3 text-center border border-white/30">
-                                                                        <div className="text-2xl font-bold text-primary">
-                                                                            {(supplierBatches.reduce((sum, b) => sum + (b.qualityScore || 0), 0) / supplierBatches.length).toFixed(1)}
-                                                                        </div>
-                                                                        <div className="text-xs text-gray-500">Avg Quality</div>
-                                                                    </div>
-                                                                    <div className="text-2xl font-bold text-primary">
-                                                                        {(() => {
-                                                                            const valid = supplierBatches
-                                                                                .map(b => (b as any).rcnQualityScore ?? b.qualityScore)
-                                                                                .filter((v): v is number => typeof v === 'number' && v > 0);
-                                                                            return valid.length > 0
-                                                                                ? `${(valid.reduce((s, v) => s + v, 0) / valid.length).toFixed(1)}`
-                                                                                : '—';
-                                                                        })()}
-                                                                    </div>
-                                                                    <div className="text-xs text-gray-500">Avg RCN Quality</div>
-                                                                </div>
-
-                                                                {/* Batch Table */}
-                                                                <div className="overflow-x-auto">
-                                                                    <table className="w-full text-sm">
-                                                                        <thead>
-                                                                        <tr className="border-b border-gray-200 text-left">
-                                                                            <th className="pb-2 font-medium text-gray-600">Batch #</th>
-                                                                            <th className="pb-2 font-medium text-gray-600">Date</th>
-                                                                            <th className="pb-2 font-medium text-gray-600">Weight</th>
-                                                                            <th className="pb-2 font-medium text-gray-600">Grade</th>
-                                                                            <th className="pb-2 font-medium text-gray-600">RCN Score</th>
-                                                                            <th className="pb-2 font-medium text-gray-600">Moisture</th>
-                                                                            <th className="pb-2 font-medium text-gray-600">Defects</th>
-                                                                            <th className="pb-2 font-medium text-gray-600">KOR (g/kg)</th>
-                                                                            <th className="pb-2 font-medium text-gray-600">Compliance</th>
+                                                            <div className="overflow-x-auto">
+                                                                <table className="w-full text-sm">
+                                                                    <thead>
+                                                                    <tr className="border-b border-gray-200 text-left">
+                                                                        <th className="pb-2 font-medium text-gray-600">Batch #</th>
+                                                                        <th className="pb-2 font-medium text-gray-600">Date</th>
+                                                                        <th className="pb-2 font-medium text-gray-600">Weight</th>
+                                                                        <th className="pb-2 font-medium text-gray-600">Grade</th>
+                                                                        <th className="pb-2 font-medium text-gray-600">RCN Score</th>
+                                                                        <th className="pb-2 font-medium text-gray-600">Moisture</th>
+                                                                        <th className="pb-2 font-medium text-gray-600">Defects</th>
+                                                                        <th className="pb-2 font-medium text-gray-600">KOR (g/kg)</th>
+                                                                    </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                    {supplierBatches.map(batch => (
+                                                                        <tr key={batch.id} className="border-b border-gray-100 last:border-0 hover:bg-white/20">
+                                                                            <td className="py-2 font-medium">{batch.batchNumber}</td>
+                                                                            <td className="py-2 text-xs">{new Date(batch.processingDate).toLocaleDateString()}</td>
+                                                                            <td className="py-2">{batch.weightKg?.toLocaleString()} kg</td>
+                                                                            <td className="py-2">
+                                                                                <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${gradeStyle(batch.qualityGrade)}`}>{batch.qualityGrade}</span>
+                                                                            </td>
+                                                                            <td className="py-2">{(batch as any).rcnQualityScore != null ? Number((batch as any).rcnQualityScore).toFixed(1) : '—'}</td>
+                                                                            <td className="py-2">{Number(batch.moistureContent ?? 0).toFixed(1)}%</td>
+                                                                            <td className="py-2">{Number(batch.defectiveRate ?? 0).toFixed(1)}%</td>
+                                                                            <td className="py-2">{(batch as any).korGPerKg != null ? `${Number((batch as any).korGPerKg).toFixed(0)} g` : '—'}</td>
                                                                         </tr>
-                                                                        </thead>
-                                                                        <tbody>
-                                                                        {supplierBatches.map(batch => (
-                                                                            <tr key={batch.id} className="border-b border-gray-100 last:border-0 hover:bg-white/20">
-                                                                                <td className="py-2 font-medium">{batch.batchNumber}</td>
-                                                                                <td className="py-2 text-xs">{new Date(batch.processingDate).toLocaleDateString()}</td>
-                                                                                <td className="py-2">{batch.weightKg?.toLocaleString()} kg</td>
-                                                                                <td className="py-2">
-                                                                                    <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${gradeStyle(batch.qualityGrade)}`}>{batch.qualityGrade}</span>
-                                                                                </td>
-                                                                                <td className="py-2">
-                                                                                    {(batch as any).rcnQualityScore != null
-                                                                                        ? `${Number((batch as any).rcnQualityScore).toFixed(1)}`
-                                                                                        : '—'}
-                                                                                </td>
-                                                                                <td className="py-2">{Number(batch.moistureContent ?? 0).toFixed(1)}%</td>
-                                                                                <td className="py-2">{Number(batch.defectiveRate ?? 0).toFixed(1)}%</td>
-                                                                                <td className="py-2">
-                                                                                    {(batch as any).korGPerKg != null
-                                                                                        ? `${Number((batch as any).korGPerKg).toFixed(0)} g`
-                                                                                        : '—'}
-                                                                                </td>
-                                                                                <td className="py-2">
-                                                                                    <div className="flex gap-1">
-                                                                                        {batch.sustainableHarvesting && <FaLeaf className="text-green-500 text-xs" title="Sustainable" />}
-                                                                                        {batch.firebreakProtection && <FaFireExtinguisher className="text-orange-500 text-xs" title="Firebreak" />}
-                                                                                        {batch.noChildLabor && <FaChild className="text-blue-500 text-xs" title="No Child Labor" />}
-                                                                                        {batch.farmOsMonitored && <FaChartBar className="text-purple-500 text-xs" title="FarmOS" />}
-                                                                                    </div>
-                                                                                </td>
-                                                                            </tr>
-                                                                        ))}
-                                                                        </tbody>
-                                                                    </table>
-                                                                </div>
-
-                                                                {/* Quality Trend Sparkline */}
-                                                                {supplierTrend.length > 0 && (
-                                                                    <div className="bg-white/50 rounded-xl p-4 border border-white/30 mt-4">
-                                                                        <h4 className="font-medium text-primary mb-2">Quality Trend (Last {supplierTrend.length} Batches)</h4>
-                                                                        <div className="flex items-center gap-3">
-                                                                            <Sparkline data={supplierTrend} width={120} height={36} color="#5A7411" />
-                                                                            <div className="text-sm text-gray-600">
-                                                                                {supplierTrend.length >= 2 ? (
-                                                                                    <>
-                                                                                        {supplierTrend[0].toFixed(1)} → {supplierTrend[supplierTrend.length-1].toFixed(1)}
-                                                                                        <span className="ml-2 text-xs">
-                                                                                            {supplierTrend[supplierTrend.length-1] > supplierTrend[0] ? (
-                                                                                                <span className="text-green-600">↑ Improving</span>
-                                                                                            ) : supplierTrend[supplierTrend.length-1] < supplierTrend[0] ? (
-                                                                                                <span className="text-red-600">↓ Declining</span>
-                                                                                            ) : (
-                                                                                                <span className="text-gray-500">→ Stable</span>
-                                                                                            )}
-                                                                                          </span>
-                                                                                    </>
-                                                                                ) : 'Not enough data'}
-                                                                            </div>
-                                                                        </div>
+                                                                    ))}
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        )}
+                                                        {supplierTrend.length > 0 && (
+                                                            <div className="bg-white/50 rounded-xl p-4 border border-white/30 mt-4">
+                                                                <h4 className="font-medium text-primary mb-2">Quality Trend</h4>
+                                                                <div className="flex items-center gap-3">
+                                                                    <Sparkline data={supplierTrend} width={120} height={36} color="#5A7411" />
+                                                                    <div className="text-sm text-gray-600">
+                                                                        {supplierTrend.length >= 2
+                                                                            ? `${supplierTrend[0].toFixed(1)} → ${supplierTrend[supplierTrend.length - 1].toFixed(1)}`
+                                                                            : 'Not enough data'}
                                                                     </div>
-                                                                )}
-                                                            </>
+                                                                </div>
+                                                            </div>
                                                         )}
                                                     </div>
                                                 )}
@@ -1668,63 +1221,22 @@ const SupplierManagement: React.FC = () => {
                                                             <div className="text-center py-8 text-gray-400">
                                                                 <FaDollarSign className="text-3xl mx-auto mb-2" />
                                                                 <Typography variant="small">No financial data recorded for this supplier yet.</Typography>
-                                                                <Typography variant="small" className="text-xs mt-1">
-                                                                    Financial records will appear as procurement expenses and sales revenues are linked to this supplier's batches.
-                                                                </Typography>
                                                             </div>
                                                         ) : (
-                                                            <>
-                                                                {/* Summary Cards */}
-                                                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                                                                    <div className="bg-green-50/50 rounded-xl p-4 border border-green-200 text-center">
-                                                                        <p className="text-sm text-gray-500">Total Procured</p>
-                                                                        <p className="text-2xl font-bold text-green-700">
-                                                                            {new Intl.NumberFormat('fr-FR').format(supplierFinancials.totalProcurement)} FCFA
-                                                                        </p>
-                                                                        <p className="text-xs text-gray-500 mt-1">
-                                                                            {supplierFinancials.expenses?.length || 0} expense record{(supplierFinancials.expenses?.length || 0) !== 1 ? 's' : ''}
-                                                                        </p>
-                                                                    </div>
-                                                                    <div className="bg-blue-50/50 rounded-xl p-4 border border-blue-200 text-center">
-                                                                        <p className="text-sm text-gray-500">Revenue from Batches</p>
-                                                                        <p className="text-2xl font-bold text-blue-700">
-                                                                            {new Intl.NumberFormat('fr-FR').format(supplierFinancials.totalRevenue)} FCFA
-                                                                        </p>
-                                                                        <p className="text-xs text-gray-500 mt-1">
-                                                                            {supplierFinancials.revenues?.length || 0} sale record{(supplierFinancials.revenues?.length || 0) !== 1 ? 's' : ''}
-                                                                        </p>
-                                                                    </div>
+                                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                                <div className="bg-green-50/50 rounded-xl p-4 border border-green-200 text-center">
+                                                                    <p className="text-sm text-gray-500">Total Procured</p>
+                                                                    <p className="text-2xl font-bold text-green-700">
+                                                                        {new Intl.NumberFormat('fr-FR').format(supplierFinancials.totalProcurement)} FCFA
+                                                                    </p>
                                                                 </div>
-
-                                                                {/* Expenses Table */}
-                                                                {supplierFinancials.expenses?.length > 0 && (
-                                                                    <div className="mb-4">
-                                                                        <h4 className="font-medium text-primary mb-2">Procurement Expenses</h4>
-                                                                        <div className="overflow-x-auto">
-                                                                            <table className="w-full text-sm">
-                                                                                <thead>
-                                                                                <tr className="border-b border-gray-200 text-left">
-                                                                                    <th className="pb-2">Date</th>
-                                                                                    <th className="pb-2">Amount</th>
-                                                                                    <th className="pb-2">Batch</th>
-                                                                                    <th className="pb-2">Description</th>
-                                                                                </tr>
-                                                                                </thead>
-                                                                                <tbody>
-                                                                                {supplierFinancials.expenses.map((exp: any) => (
-                                                                                    <tr key={exp.id} className="border-b border-gray-100">
-                                                                                        <td className="py-1">{new Date(exp.date).toLocaleDateString()}</td>
-                                                                                        <td className="py-1 font-medium">{new Intl.NumberFormat('fr-FR').format(exp.amount)} FCFA</td>
-                                                                                        <td className="py-1">{exp.batchNumber || '—'}</td>
-                                                                                        <td className="py-1 text-xs text-gray-500">{exp.description || '—'}</td>
-                                                                                    </tr>
-                                                                                ))}
-                                                                                </tbody>
-                                                                            </table>
-                                                                        </div>
-                                                                    </div>
-                                                                )}
-                                                            </>
+                                                                <div className="bg-blue-50/50 rounded-xl p-4 border border-blue-200 text-center">
+                                                                    <p className="text-sm text-gray-500">Revenue from Batches</p>
+                                                                    <p className="text-2xl font-bold text-blue-700">
+                                                                        {new Intl.NumberFormat('fr-FR').format(supplierFinancials.totalRevenue)} FCFA
+                                                                    </p>
+                                                                </div>
+                                                            </div>
                                                         )}
                                                     </div>
                                                 )}
