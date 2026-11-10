@@ -229,8 +229,8 @@ export const handler: Handler = async (event: HandlerEvent) => {
                 id: string;
                 name: string;
                 type: string;
-                lat: number;
-                lng: number;
+                latitude: number;
+                longitude: number;
                 isActive: boolean;
                 location: string;
             }> = [];
@@ -257,11 +257,11 @@ export const handler: Handler = async (event: HandlerEvent) => {
                     id: d.id,
                     name: s.name,
                     type: s.type,
-                    lat: s.latitude,
-                    lng: s.longitude,
+                    latitude: s.latitude,
+                    longitude: s.longitude,
                     isActive: (s.isActive ?? s.status === 'ACTIVE') && s.status === 'ACTIVE',
                     location: s.location || '',
-                });
+                });;
             });
 
             return {
