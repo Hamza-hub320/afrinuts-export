@@ -1,5 +1,6 @@
 import type { Handler, HandlerEvent } from '@netlify/functions';
 import { db } from './_lib/firebase';
+import { detectVisibleOpportunities, SupportAction } from './_lib/developmentRules';
 import {
     computeTrustScoreServer,
     TrustInput,
@@ -60,6 +61,7 @@ async function buildNetworkSummary(fid: string) {
         disputesSnap,
         expensesSnap,
         revenuesSnap,
+        supportActionsSnap,
     ] = await Promise.all([
         db.collection('farms').doc(fid).collection('suppliers').get(),
         db.collection('farms').doc(fid).collection('quality_batches').get(),
@@ -68,6 +70,7 @@ async function buildNetworkSummary(fid: string) {
         db.collection('farms').doc(fid).collection('supplier_disputes').get(),
         db.collection('farms').doc(fid).collection('expenses').get(),
         db.collection('farms').doc(fid).collection('revenues').get(),
+        db.collection('farms').doc(fid).collection('supplier_support_actions').get(),
     ]);
 
     // Slim batch payload — same fields the client engine reads
@@ -243,14 +246,31 @@ async function buildNetworkSummary(fid: string) {
     const flagged = Object.entries(trustBySupplier).filter(
         ([, t]) => t.hasCriticalViolation || t.flags.length > 0
     );
+    // Mirrors severityOf() in src/pages/SupplierRisk.tsx so the dashboard
+// preview and the Risk Workbench classify identically.
+//   critical  → hasCriticalViolation
+//   high      → not critical, overall < 40
+//   medium    → not critical, overall 40–59
+//   low       → flagged, but none of the above
+//              (includes overall ≥ 60 AND overall null)
     const riskCounts = {
         critical: flagged.filter(([, t]) => t.hasCriticalViolation).length,
         high: flagged.filter(([, t]) =>
-            !t.hasCriticalViolation && (t.overall ?? 100) < 40
+            !t.hasCriticalViolation && t.overall !== null && t.overall < 40
         ).length,
         medium: flagged.filter(([, t]) =>
-            !t.hasCriticalViolation && (t.overall ?? 100) >= 40
+            !t.hasCriticalViolation &&
+            t.overall !== null &&
+            t.overall >= 40 &&
+            t.overall < 60
         ).length,
+        low: flagged.filter(([, t]) => {
+            if (t.hasCriticalViolation) return false;
+            if (t.overall === null) return true;         // unscored flagged = low
+            if (t.overall < 40) return false;             // caught by high
+            if (t.overall < 60) return false;             // caught by medium
+            return true;                                   // ≥ 60 = low
+        }).length,
     };
     const topRiskEntry = flagged
         .sort((a, b) => {
@@ -310,6 +330,58 @@ async function buildNetworkSummary(fid: string) {
         .sort((a, b) => b.efficiency - a.efficiency)
         .slice(0, 5);
 
+    // Support actions (all statuses)
+    const allSupportActions: SupportAction[] = supportActionsSnap.docs.map(d => {
+        const data: any = d.data();
+        return {
+            supplierId: data.supplierId,
+            weakness: data.weakness,
+            status: data.status,
+            givenAt: data.givenAt,
+        };
+    });
+
+    const openActions = allSupportActions.filter(a => a.status === 'OPEN').length;
+
+// Visible opportunities — ported detectors + suppression
+    const suppliersForDev = suppliersSnap.docs.map(d => ({
+        id: d.id,
+        ...d.data(),
+    } as any));
+
+    const trustConfidenceMap: Record<string, {
+        confidence: 'preliminary' | 'developing' | 'established';
+        verifiedTransactions: number;
+    }> = {};
+    Object.entries(trustBySupplier).forEach(([id, t]) => {
+        trustConfidenceMap[id] = {
+            confidence: t.confidence,
+            verifiedTransactions: t.verifiedTransactions,
+        };
+    });
+
+    const visibleOpportunities = detectVisibleOpportunities(
+        suppliersForDev,
+        batchesBySupplier,
+        trustConfidenceMap,
+        allSupportActions
+    );
+
+    const topOpportunity = visibleOpportunities.length > 0
+        ? {
+            supplierId: visibleOpportunities[0].supplierId,
+            name: visibleOpportunities[0].supplierName,
+            weakness: visibleOpportunities[0].weakness,
+            severity: visibleOpportunities[0].severity,
+        }
+        : null;
+
+    const developmentCounts = {
+        openActions,
+        visibleOpportunities: visibleOpportunities.length,
+        topOpportunity,
+    };
+
     return {
         generatedAt: Date.now(),
         scoringVersion: 'v2.0',
@@ -332,5 +404,7 @@ async function buildNetworkSummary(fid: string) {
         riskCounts,
 
         financialEfficiency,
+
+        developmentCounts,
     };
 }
