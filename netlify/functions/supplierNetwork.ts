@@ -38,47 +38,6 @@ export const handler: Handler = async (event: HandlerEvent) => {
             };
         }
 
-        if (action === 'getNetworkMapPoints') {
-            const snap = await db.collection('farms').doc(fid).collection('suppliers').get();
-
-            const points: Array<{ id: string; name: string; type: string; lat: number; lng: number }> = [];
-            snap.docs.forEach(d => {
-                const s: any = d.data();
-                const scopes = s.dataConsentScope || [];
-                // Consent enforced server-side — the pin never leaves the DB without it
-                const locationConsented =
-                    s.dataConsentGiven &&
-                    !s.dataConsentWithdrawnDate &&
-                    scopes.includes('location');
-                const hasCoords =
-                    s.hasLocation &&
-                    typeof s.latitude === 'number' &&
-                    typeof s.longitude === 'number' &&
-                    s.latitude !== 0 &&
-                    s.longitude !== 0;
-
-                if (!locationConsented || !hasCoords) return;
-
-                points.push({
-                    id: d.id,
-                    name: s.name,
-                    type: s.type,
-                    lat: s.latitude,
-                    lng: s.longitude,
-                });
-            });
-
-            return {
-                statusCode: 200,
-                headers: corsHeaders,
-                body: JSON.stringify({
-                    points,
-                    totalSuppliers: snap.size,
-                    shownCount: points.length,
-                }),
-            };
-        }
-
         // ============================================================
 // S2 — listSuppliers
 // Computes trust for ALL suppliers, then filters, sorts, slices.
