@@ -249,7 +249,7 @@ async function buildNetworkSummary(fid: string) {
             !t.hasCriticalViolation && (t.overall ?? 100) < 40
         ).length,
         medium: flagged.filter(([, t]) =>
-            !t.hasCriticalViolation && (t.overall ?? 100) >= 40 && (t.overall ?? 100) < 60
+            !t.hasCriticalViolation && (t.overall ?? 100) >= 40
         ).length,
     };
     const topRiskEntry = flagged
