@@ -217,6 +217,46 @@ export const handler: Handler = async (event: HandlerEvent) => {
             };
         }
 
+        // ============================================================
+// S4-prep — getEvidenceQueues
+// Returns the pending evidence lists the queue cards render,
+// without shipping the full supplier/batch payload.
+// Same shapes as getSuppliersWithTrust's pendingCommitments /
+// pendingInspections / openDisputes, at ~2KB instead of ~100KB
+// at scale.
+// ============================================================
+        if (action === 'getEvidenceQueues') {
+            const [commitmentsSnap, inspectionsSnap, disputesSnap] = await Promise.all([
+                db.collection('farms').doc(fid).collection('supplier_commitments').get(),
+                db.collection('farms').doc(fid).collection('supplier_inspections').get(),
+                db.collection('farms').doc(fid).collection('supplier_disputes').get(),
+            ]);
+
+            const pendingCommitments = commitmentsSnap.docs
+                .map(d => ({ firestoreId: d.id, ...d.data() } as any))
+                .filter((c: any) => !c.validatedAt);
+
+            const pendingInspections = inspectionsSnap.docs
+                .map(d => ({ firestoreId: d.id, ...d.data() } as any))
+                .filter((i: any) => !i.validatedAt);
+
+            const openDisputes = disputesSnap.docs
+                .map(d => ({ firestoreId: d.id, ...d.data() } as any))
+                .filter((d: any) =>
+                    d.reviewStatus === 'OPEN' || d.reviewStatus === 'UNDER_REVIEW'
+                );
+
+            return {
+                statusCode: 200,
+                headers: corsHeaders,
+                body: JSON.stringify({
+                    pendingCommitments,
+                    pendingInspections,
+                    openDisputes,
+                }),
+            };
+        }
+
 // ============================================================
 // S2 — getNetworkMapPoints (pulled forward from S6)
 // Consent enforced server-side: pins never leave the DB without
