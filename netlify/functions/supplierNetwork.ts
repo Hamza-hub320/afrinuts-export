@@ -39,10 +39,11 @@ export const handler: Handler = async (event: HandlerEvent) => {
         }
 
         // ============================================================
-// S2 — listSuppliers
-// Computes trust for ALL suppliers, then filters, sorts, slices.
-// Sorting before pagination is required for correct page rows.
-// ============================================================
+        // S2 — listSuppliers
+        // Full enrich → search → type → sort pipeline runs in
+        // buildFilteredRows; this handler only slices for the page.
+        // Sorting happens inside the helper, i.e. before pagination.
+        // ============================================================
         if (action === 'listSuppliers') {
             const {
                 search = '',
@@ -55,163 +56,91 @@ export const handler: Handler = async (event: HandlerEvent) => {
             const pageNum = Math.max(1, parseInt(String(page), 10) || 1);
             const sizeNum = Math.min(200, Math.max(1, parseInt(String(pageSize), 10) || 25));
 
-            const t0 = Date.now();
-            const { suppliers, trustBySupplier, batchesBySupplier } = await loadTrustMap(fid);
+            const { rows: sorted, total } = await buildFilteredRows(fid, { search, type, sort });
 
-            // Computed per-supplier fields the table renders
-            // Computed per-supplier fields the table renders
-            const enriched = suppliers.map(s => {
-                const trust = trustBySupplier[s.id];
-                const supplierBatches = batchesBySupplier[s.id] || [];
-
-                // --- verified-only aggregates (unchanged) ---
-                const verifiedBatches = supplierBatches.filter(
-                    (b: any) => b.verifiedAt && b.verifiedAt > 0
-                );
-
-                const verifiedVolumeKg = verifiedBatches.reduce(
-                    (sum: number, b: any) => sum + (b.weightKg || 0),
-                    0
-                );
-
-                const korValues = verifiedBatches
-                    .map((b: any) => b.korGPerKg)
-                    .filter((v: any): v is number => typeof v === 'number' && v > 0);
-                const avgKorGPerKg = korValues.length > 0
-                    ? Number(
-                        (korValues.reduce((a: number, b: number) => a + b, 0) / korValues.length)
-                            .toFixed(0)
-                    )
-                    : null;
-
-                // --- Commit 2 additions ---
-                // annualVolumeKg: sum over ALL batches (not just verified) —
-                // intentional definition change; the old page summed all.
-                const annualVolumeKg = supplierBatches.reduce(
-                    (sum: number, b: any) => sum + (b.weightKg || 0),
-                    0
-                );
-
-                // averageRcnQualityScore: mean over batches that carry a
-                // positive rcnQualityScore; null if none.
-                const rcnValues = supplierBatches
-                    .map((b: any) => b.rcnQualityScore)
-                    .filter((v: any): v is number => typeof v === 'number' && v > 0);
-                const averageRcnQualityScore = rcnValues.length > 0
-                    ? Number(
-                        (rcnValues.reduce((a: number, b: number) => a + b, 0) / rcnValues.length)
-                            .toFixed(1)
-                    )
-                    : null;
-
-                return {
-                    // Full supplier profile — modal Profile tab needs no extra fetch
-                    id: s.id,
-                    name: s.name,
-                    type: s.type,
-                    status: s.status,
-                    contactPerson: s.contactPerson,
-                    phone: s.phone,
-                    email: s.email,
-                    location: s.location,
-                    region: s.region,
-                    country: s.country,
-                    latitude: s.latitude,
-                    longitude: s.longitude,
-                    hasLocation: s.hasLocation,
-                    registrationNumber: s.registrationNumber,
-                    taxId: s.taxId,
-                    farmerIdNumber: s.farmerIdNumber,
-                    farmSize: s.farmSize,
-                    yearsFarming: s.yearsFarming,
-                    isCertified: s.isCertified,
-                    certificationType: s.certificationType,
-                    certificationNumber: s.certificationNumber,
-                    certificationExpiryDate: s.certificationExpiryDate,
-                    firebreakProtection: s.firebreakProtection,
-                    noChildLabor: s.noChildLabor,
-                    sustainableHarvesting: s.sustainableHarvesting,
-                    dataConsentGiven: s.dataConsentGiven,
-                    dataConsentScope: s.dataConsentScope,
-                    dataConsentSignedBy: s.dataConsentSignedBy,
-                    dataConsentVersion: s.dataConsentVersion,
-                    dataConsentWithdrawnDate: s.dataConsentWithdrawnDate,
-                    dataConsentWithdrawnReason: s.dataConsentWithdrawnReason,
-                    photoUrl: s.photoUrl,
-                    bio: s.bio,
-                    quote: s.quote,
-                    rating: s.rating,
-                    notes: s.notes,
-                    isActive: s.isActive ?? s.status === 'ACTIVE',
-
-                    // Computed trust + metrics
-                    firestoreId: s.id,
-                    overall: trust?.overall ?? null,
-                    confidence: trust?.confidence ?? 'preliminary',
-                    hasCriticalViolation: trust?.hasCriticalViolation ?? false,
-                    verifiedVolumeKg,
-                    avgKorGPerKg,
-
-                    // Commit 2 — full TrustResult for the modal's TrustPanel,
-                    // plus the two aggregates the modal previously invented.
-                    trust: trust ?? null,
-                    annualVolumeKg,
-                    averageRcnQualityScore,
-                };
-            });
-
-            // Search: name + contactName + location (per approved decision)
-            const q = String(search).trim().toLowerCase();
-            const searched = q
-                ? enriched.filter(r => {
-                    const hay = `${r.name || ''} ${r.contactPerson || ''} ${r.location || ''}`.toLowerCase();
-                    return hay.includes(q);
-                })
-                : enriched;
-
-            // Type filter
-            const typeFiltered = type
-                ? searched.filter(r => r.type === type || r.status === type)
-                : searched;
-
-            // Sort BEFORE pagination
-            const sorters: Record<string, (a: any, b: any) => number> = {
-                name: (a, b) => (a.name || '').localeCompare(b.name || ''),
-                trust_desc: (a, b) => (b.overall ?? -1) - (a.overall ?? -1),
-                trust_asc: (a, b) => {
-                    // null-overall sinks to the bottom even in ascending
-                    const av = a.overall ?? 999;
-                    const bv = b.overall ?? 999;
-                    return av - bv;
-                },
-                volume_desc: (a, b) => b.verifiedVolumeKg - a.verifiedVolumeKg,
-                quality_desc: (a, b) => (b.avgKorGPerKg ?? -1) - (a.avgKorGPerKg ?? -1),
-            };
-            const sorter = sorters[String(sort)] || sorters.name;
-            const sorted = [...typeFiltered].sort(sorter);
-
-            const total = sorted.length;
             const start = (pageNum - 1) * sizeNum;
             const rows = sorted.slice(start, start + sizeNum);
-
 
             return {
                 statusCode: 200,
                 headers: corsHeaders,
+                body: JSON.stringify({ total, page: pageNum, pageSize: sizeNum, rows }),
+            };
+        }
+
+        // ============================================================
+        // Commit A — exportSuppliers
+        // Full filtered set (no pagination) → CSV, with a mandatory
+        // audit-log write to portal_export_log. No unlogged export.
+        // ============================================================
+        if (action === 'exportSuppliers') {
+            const {
+                search = '',
+                type = '',
+                sort = 'name',
+                exportedBy = '',
+            } = params;
+
+            const { rows } = await buildFilteredRows(fid, { search, type, sort });
+
+            const esc = (v: any): string => {
+                if (v === null || v === undefined) return '';
+                const s = String(v);
+                return /[",\n\r]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s;
+            };
+
+            const header = [
+                'Name', 'Type', 'Status', 'Contact Person', 'Phone', 'Email', 'Location',
+                'Registration Number', 'Trust Overall', 'Confidence',
+                'Avg KOR (g/kg)', 'Verified Volume (kg)', 'Annual Volume (kg)', 'Avg RCN Score',
+            ];
+
+            const lines: string[] = [header.join(',')];
+            for (const r of rows) {
+                lines.push([
+                    esc(r.name),
+                    esc(r.type),
+                    esc(r.status),
+                    esc(r.contactPerson),
+                    esc(r.phone),
+                    esc(r.email),
+                    esc(r.location),
+                    esc(r.registrationNumber),
+                    esc(r.overall),
+                    esc(r.confidence),
+                    esc(r.avgKorGPerKg),
+                    esc(r.verifiedVolumeKg),
+                    esc(r.annualVolumeKg),
+                    esc(r.averageRcnQualityScore),
+                ].join(','));
+            }
+            const csv = '\uFEFF' + lines.join('\r\n') + '\r\n';
+
+            // Mandatory audit log — if this throws, the outer catch
+            // returns 500 and the client sees no CSV. No unlogged export.
+            await db.collection('portal_export_log').add({
+                farmId: fid,
+                exportedBy: String(exportedBy || ''),
+                exportedAt: Date.now(),
+                filters: { search: String(search), type: String(type), sort: String(sort) },
+                rowCount: rows.length,
+            });
+
+            const stamp = new Date().toISOString().slice(0, 10);
+            return {
+                statusCode: 200,
+                headers: corsHeaders,
                 body: JSON.stringify({
-                    total, page: pageNum, pageSize: sizeNum, rows,
+                    filename: `suppliers-export-${stamp}.csv`,
+                    csv,
+                    rowCount: rows.length,
                 }),
             };
         }
 
         // ============================================================
-// S4-prep — getEvidenceQueues
-// Returns the pending evidence lists the queue cards render,
-// without shipping the full supplier/batch payload.
-// Same shapes as getSuppliersWithTrust's pendingCommitments /
-// pendingInspections / openDisputes, at ~2KB instead of ~100KB
-// at scale.
-// ============================================================
+        // S4-prep — getEvidenceQueues
+        // ============================================================
         if (action === 'getEvidenceQueues') {
             const [commitmentsSnap, inspectionsSnap, disputesSnap, suppliersSnap] = await Promise.all([
                 db.collection('farms').doc(fid).collection('supplier_commitments').get(),
@@ -220,8 +149,6 @@ export const handler: Handler = async (event: HandlerEvent) => {
                 db.collection('farms').doc(fid).collection('suppliers').get(),
             ]);
 
-            // supplierId → name, keyed by String(id) because queue items
-            // carry numeric supplierId while Firestore doc ids are strings.
             const supplierNameById = new Map<string, string>();
             suppliersSnap.docs.forEach(d => {
                 const s: any = d.data();
@@ -259,11 +186,9 @@ export const handler: Handler = async (event: HandlerEvent) => {
             };
         }
 
-// ============================================================
-// S2 — getNetworkMapPoints (pulled forward from S6)
-// Consent enforced server-side: pins never leave the DB without
-// explicit location consent + coordinates.
-// ============================================================
+        // ============================================================
+        // S2 — getNetworkMapPoints (unchanged)
+        // ============================================================
         if (action === 'getNetworkMapPoints') {
             const snap = await db.collection('farms').doc(fid).collection('suppliers').get();
 
@@ -303,7 +228,7 @@ export const handler: Handler = async (event: HandlerEvent) => {
                     longitude: s.longitude,
                     isActive: (s.isActive ?? s.status === 'ACTIVE') && s.status === 'ACTIVE',
                     location: s.location || '',
-                });;
+                });
             });
 
             return {
@@ -330,10 +255,11 @@ export const handler: Handler = async (event: HandlerEvent) => {
         };
     }
 };
+// ↑ handler ends here — this is the `}` that was missing.
 
-// Loads every collection the trust engine reads and returns a map
-// of supplierId → TrustResult. Shared by listSuppliers and any
-// future action that needs per-supplier trust without a summary.
+// ============================================================
+// loadTrustMap — unchanged
+// ============================================================
 async function loadTrustMap(fid: string): Promise<{
     suppliers: any[];
     trustBySupplier: Record<string, TrustResult>;
@@ -345,7 +271,6 @@ async function loadTrustMap(fid: string): Promise<{
         db.collection('farms').doc(fid).collection('supplier_commitments').get(),
         db.collection('farms').doc(fid).collection('supplier_inspections').get(),
     ]);
-
 
     const batches = batchesSnap.docs.map(d => {
         const data = d.data();
@@ -428,6 +353,144 @@ async function loadTrustMap(fid: string): Promise<{
     };
 }
 
+// ============================================================
+// buildFilteredRows — shared pipeline for listSuppliers and
+// exportSuppliers. One implementation of:
+//   enrich → search → type/status filter → sort.
+// No pagination; callers slice as needed.
+// ============================================================
+async function buildFilteredRows(
+    fid: string,
+    opts: { search?: string; type?: string; sort?: string }
+): Promise<{ rows: any[]; total: number }> {
+    const { search = '', type = '', sort = 'name' } = opts;
+    const { suppliers, trustBySupplier, batchesBySupplier } = await loadTrustMap(fid);
+
+    // ---- enrich ----
+    const enriched = suppliers.map(s => {
+        const trust = trustBySupplier[s.id];
+        const supplierBatches = batchesBySupplier[s.id] || [];
+
+        const verifiedBatches = supplierBatches.filter(
+            (b: any) => b.verifiedAt && b.verifiedAt > 0
+        );
+
+        const verifiedVolumeKg = verifiedBatches.reduce(
+            (sum: number, b: any) => sum + (b.weightKg || 0),
+            0
+        );
+
+        const korValues = verifiedBatches
+            .map((b: any) => b.korGPerKg)
+            .filter((v: any): v is number => typeof v === 'number' && v > 0);
+        const avgKorGPerKg = korValues.length > 0
+            ? Number(
+                (korValues.reduce((a: number, b: number) => a + b, 0) / korValues.length)
+                    .toFixed(0)
+            )
+            : null;
+
+        const annualVolumeKg = supplierBatches.reduce(
+            (sum: number, b: any) => sum + (b.weightKg || 0),
+            0
+        );
+
+        const rcnValues = supplierBatches
+            .map((b: any) => b.rcnQualityScore)
+            .filter((v: any): v is number => typeof v === 'number' && v > 0);
+        const averageRcnQualityScore = rcnValues.length > 0
+            ? Number(
+                (rcnValues.reduce((a: number, b: number) => a + b, 0) / rcnValues.length)
+                    .toFixed(1)
+            )
+            : null;
+
+        return {
+            id: s.id,
+            name: s.name,
+            type: s.type,
+            status: s.status,
+            contactPerson: s.contactPerson,
+            phone: s.phone,
+            email: s.email,
+            location: s.location,
+            region: s.region,
+            country: s.country,
+            latitude: s.latitude,
+            longitude: s.longitude,
+            hasLocation: s.hasLocation,
+            registrationNumber: s.registrationNumber,
+            taxId: s.taxId,
+            farmerIdNumber: s.farmerIdNumber,
+            farmSize: s.farmSize,
+            yearsFarming: s.yearsFarming,
+            isCertified: s.isCertified,
+            certificationType: s.certificationType,
+            certificationNumber: s.certificationNumber,
+            certificationExpiryDate: s.certificationExpiryDate,
+            firebreakProtection: s.firebreakProtection,
+            noChildLabor: s.noChildLabor,
+            sustainableHarvesting: s.sustainableHarvesting,
+            dataConsentGiven: s.dataConsentGiven,
+            dataConsentScope: s.dataConsentScope,
+            dataConsentSignedBy: s.dataConsentSignedBy,
+            dataConsentVersion: s.dataConsentVersion,
+            dataConsentWithdrawnDate: s.dataConsentWithdrawnDate,
+            dataConsentWithdrawnReason: s.dataConsentWithdrawnReason,
+            photoUrl: s.photoUrl,
+            bio: s.bio,
+            quote: s.quote,
+            rating: s.rating,
+            notes: s.notes,
+            isActive: s.isActive ?? s.status === 'ACTIVE',
+
+            firestoreId: s.id,
+            overall: trust?.overall ?? null,
+            confidence: trust?.confidence ?? 'preliminary',
+            hasCriticalViolation: trust?.hasCriticalViolation ?? false,
+            verifiedVolumeKg,
+            avgKorGPerKg,
+            trust: trust ?? null,
+            annualVolumeKg,
+            averageRcnQualityScore,
+        };
+    });
+
+    // ---- search ----
+    const q = String(search).trim().toLowerCase();
+    const searched = q
+        ? enriched.filter(r => {
+            const hay = `${r.name || ''} ${r.contactPerson || ''} ${r.location || ''}`.toLowerCase();
+            return hay.includes(q);
+        })
+        : enriched;
+
+    // ---- type/status filter ----
+    const typeFiltered = type
+        ? searched.filter(r => r.type === type || r.status === type)
+        : searched;
+
+    // ---- sort (before pagination anywhere) ----
+    const sorters: Record<string, (a: any, b: any) => number> = {
+        name: (a, b) => (a.name || '').localeCompare(b.name || ''),
+        trust_desc: (a, b) => (b.overall ?? -1) - (a.overall ?? -1),
+        trust_asc: (a, b) => {
+            const av = a.overall ?? 999;
+            const bv = b.overall ?? 999;
+            return av - bv;
+        },
+        volume_desc: (a, b) => b.verifiedVolumeKg - a.verifiedVolumeKg,
+        quality_desc: (a, b) => (b.avgKorGPerKg ?? -1) - (a.avgKorGPerKg ?? -1),
+    };
+    const sorter = sorters[String(sort)] || sorters.name;
+    const sorted = [...typeFiltered].sort(sorter);
+
+    return { rows: sorted, total: sorted.length };
+}
+
+// ============================================================
+// buildNetworkSummary — unchanged
+// ============================================================
 async function buildNetworkSummary(fid: string) {
     const t0 = Date.now();
     const [
@@ -451,8 +514,6 @@ async function buildNetworkSummary(fid: string) {
     ]);
     const tFetch = Date.now() - t0;
     const t1 = Date.now();
-
-    // Slim batch payload — same fields the client engine reads
 
     const batches = batchesSnap.docs.map(d => {
         const data = d.data();
@@ -496,14 +557,12 @@ async function buildNetworkSummary(fid: string) {
         ...d.data(),
     } as any));
 
-    // Only validated evidence feeds trust
     const validatedCommitments = allCommitments.filter((c: any) => c.validatedAt);
     const validatedInspections = allInspections.filter((i: any) => i.validatedAt);
 
     const commitmentsBySupplier = groupBy(validatedCommitments);
     const inspectionsBySupplier = groupBy(validatedInspections);
 
-    // Compute trust per supplier
     const trustBySupplier: Record<string, TrustResult> = {};
     suppliersSnap.docs.forEach(d => {
         const s: any = { id: d.id, ...d.data() };
@@ -534,7 +593,6 @@ async function buildNetworkSummary(fid: string) {
         trustBySupplier[s.id] = computeTrustScoreServer(input);
     });
 
-    // KPIs
     const totalSuppliers = suppliersSnap.size;
     const activeSuppliers = suppliersSnap.docs.filter(d => {
         const s: any = d.data();
@@ -570,7 +628,6 @@ async function buildNetworkSummary(fid: string) {
         .filter(b => b.verifiedAt && b.verifiedAt > 0)
         .reduce((sum, b) => sum + (b.weightKg || 0), 0);
 
-    // Consent counts
     const consentCounts = { full: 0, partial: 0, none: 0, withdrawn: 0 };
     suppliersSnap.docs.forEach(d => {
         const s: any = d.data();
@@ -592,7 +649,6 @@ async function buildNetworkSummary(fid: string) {
         }
     });
 
-    // Queue counts
     const queueCounts = {
         pendingCommitments: allCommitments.filter((c: any) => !c.validatedAt).length,
         pendingInspections: allInspections.filter((i: any) => !i.validatedAt).length,
@@ -602,11 +658,9 @@ async function buildNetworkSummary(fid: string) {
         }).length,
     };
 
-    // Maturity counts
     const maturityCounts = { preliminary: 0, developing: 0, established: 0 };
     Object.values(trustBySupplier).forEach(t => { maturityCounts[t.confidence]++; });
 
-    // Top 5 trust
     const topTrust = Object.entries(trustBySupplier)
         .map(([supplierId, trust]) => {
             const s: any = { id: supplierId, ...(suppliersSnap.docs.find(d => d.id === supplierId)?.data() || {}) };
@@ -622,17 +676,9 @@ async function buildNetworkSummary(fid: string) {
         .sort((a, b) => (b.overall ?? 0) - (a.overall ?? 0))
         .slice(0, 5);
 
-    // Risk summary
     const flagged = Object.entries(trustBySupplier).filter(
         ([, t]) => t.hasCriticalViolation || t.flags.length > 0
     );
-    // Mirrors severityOf() in src/pages/SupplierRisk.tsx so the dashboard
-// preview and the Risk Workbench classify identically.
-//   critical  → hasCriticalViolation
-//   high      → not critical, overall < 40
-//   medium    → not critical, overall 40–59
-//   low       → flagged, but none of the above
-//              (includes overall ≥ 60 AND overall null)
     const riskCounts = {
         critical: flagged.filter(([, t]) => t.hasCriticalViolation).length,
         high: flagged.filter(([, t]) =>
@@ -646,10 +692,10 @@ async function buildNetworkSummary(fid: string) {
         ).length,
         low: flagged.filter(([, t]) => {
             if (t.hasCriticalViolation) return false;
-            if (t.overall === null) return true;         // unscored flagged = low
-            if (t.overall < 40) return false;             // caught by high
-            if (t.overall < 60) return false;             // caught by medium
-            return true;                                   // ≥ 60 = low
+            if (t.overall === null) return true;
+            if (t.overall < 40) return false;
+            if (t.overall < 60) return false;
+            return true;
         }).length,
     };
     const topRiskEntry = flagged
@@ -668,7 +714,6 @@ async function buildNetworkSummary(fid: string) {
         }
         : null;
 
-    // Financial efficiency — real records
     const expensesBySupplier = new Map<number, number>();
     expensesSnap.docs.forEach(d => {
         const e: any = d.data();
@@ -710,7 +755,6 @@ async function buildNetworkSummary(fid: string) {
         .sort((a, b) => b.efficiency - a.efficiency)
         .slice(0, 5);
 
-    // Support actions (all statuses)
     const allSupportActions: SupportAction[] = supportActionsSnap.docs.map(d => {
         const data: any = d.data();
         return {
@@ -723,7 +767,6 @@ async function buildNetworkSummary(fid: string) {
 
     const openActions = allSupportActions.filter(a => a.status === 'OPEN').length;
 
-// Visible opportunities — ported detectors + suppression
     const suppliersForDev = suppliersSnap.docs.map(d => ({
         id: d.id,
         ...d.data(),
