@@ -241,10 +241,8 @@ export const handler: Handler = async (event: HandlerEvent) => {
                 .filter((i: any) => !i.validatedAt);
 
             const openDisputes = disputesSnap.docs
-                .map(d => ({ firestoreId: d.id, ...d.data() } as any))
-                .filter((d: any) =>
-                    d.reviewStatus === 'OPEN' || d.reviewStatus === 'UNDER_REVIEW'
-                );
+                .map(d => ({ ...d.data(), id: d.id } as any))
+                .filter((d: any) => d.reviewStatus === 'OPEN' || d.reviewStatus === 'UNDER_REVIEW');
 
             return {
                 statusCode: 200,
