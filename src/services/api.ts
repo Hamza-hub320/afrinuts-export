@@ -88,6 +88,34 @@ export const getEvidenceQueues = async (farmId: string = '1') => {
     });
 };
 
+export interface ExportSuppliersParams {
+    farmId: string;
+    search?: string;
+    type?: string;
+    sort?: string;
+    exportedBy: string;
+}
+
+export async function exportSuppliers(params: ExportSuppliersParams): Promise<{
+    filename: string;
+    csv: string;
+    rowCount: number;
+}> {
+    const baseUrl = getApiBaseUrl();
+    const response = await fetch(`${baseUrl}/supplierNetwork`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'exportSuppliers', ...params }),
+    });
+
+    if (!response.ok) {
+        const text = await response.text().catch(() => '');
+        throw new Error(`Export failed: ${response.status}${text ? ` — ${text}` : ''}`);
+    }
+
+    return response.json();
+}
+
 export const getBuyerPortalData = async (action: string, params?: any) => {
     if (isDevelopment) {
         // Mock data for dev

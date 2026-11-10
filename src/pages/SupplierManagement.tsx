@@ -20,6 +20,7 @@ import {
     listSuppliers,
     getNetworkMapPoints,
     getEvidenceQueues,
+    exportSuppliers,
 } from '../services/api';
 import { Dialog, Transition } from '@headlessui/react';
 import SupplierMap from '@/components/SupplierMap/SupplierMap';
@@ -141,6 +142,7 @@ const SupplierManagement: React.FC = () => {
     >('name');
     const [tableLoading, setTableLoading] = useState(true);
     const [tableError, setTableError] = useState<string | null>(null);
+    const [exporting, setExporting] = useState(false);
 
     const [mapData, setMapData] = useState<
         { points: any[]; totalSuppliers: number; shownCount: number } | null
@@ -308,6 +310,38 @@ const SupplierManagement: React.FC = () => {
         setTimeout(() => setIsRecalculating(false), 600);
     };
 
+    const handleExport = async () => {
+        if (exporting) return;
+        setExporting(true);
+        setTableError(null);
+        try {
+            const { filename, csv } = await exportSuppliers({
+                farmId: '1',
+                search: debouncedSearch,
+                type: tableType === 'All' ? '' : tableType,
+                sort: tableSort,
+                // Reusing this page's existing "portal-manager" identity —
+                // validateEvidence/resolveDispute already send the same value.
+                // If/when this page gains a user context (like
+                // SupplierDevelopmentPage's givenBy source), swap it here.
+                exportedBy: 'portal-manager',
+            });
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            URL.revokeObjectURL(url);
+        } catch (err: any) {
+            setTableError(err?.message || 'Export failed');
+        } finally {
+            setExporting(false);
+        }
+    };
+
     if (summaryLoading && !summary) {
         return (
             <main>
@@ -332,7 +366,7 @@ const SupplierManagement: React.FC = () => {
         'OWN_FARM',
         'COOPERATIVE',
         'REGIONAL_SUPPLIER',
-        'INDEPENDENT',
+        'INDEPENDENT_FARMER',
         'COMMERCIAL_AGGREGATOR',
         'PROCESSOR',
         'ACTIVE',
@@ -660,9 +694,10 @@ const SupplierManagement: React.FC = () => {
                                     <option value="quality_desc">Quality (high → low)</option>
                                 </select>
                                 <button
-                                    onClick={() => console.log('Export stub — later stage')}
-                                    className="px-4 py-2 rounded-full bg-white/60 border border-gray-300 text-sm font-medium text-gray-700 hover:bg-white"
-                                >Export</button>
+                                    onClick={handleExport}
+                                    disabled={exporting}
+                                    className="px-4 py-2 rounded-full bg-white/60 border border-gray-300 text-sm font-medium text-gray-700 hover:bg-white disabled:opacity-50"
+                                >{exporting ? 'Exporting…' : 'Export'}</button>
                             </div>
 
                             {tableError && (
@@ -831,11 +866,11 @@ const SupplierManagement: React.FC = () => {
                 </div>
             </Section>
 
-            {/* 8 + 9. Risk & Development — minimalist, two-up */}
+            {/* 8 + 9. Risk & Development — GlassCard, two-up */}
             <Section className="py-6">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 grid grid-cols-1 md:grid-cols-2 gap-4">
                     {/* Risk & Attention */}
-                    <div className="bg-white/40 backdrop-blur-md border border-white/30 rounded-2xl p-4">
+                    <GlassCard>
                         <div className="flex items-center justify-between mb-2">
                             <div className="flex items-center gap-2">
                                 <FaExclamationTriangle className="text-amber-600 text-sm" />
@@ -843,8 +878,8 @@ const SupplierManagement: React.FC = () => {
                             </div>
                             {(summary?.riskCounts?.critical ?? 0) > 0 && (
                                 <span className="px-2 py-0.5 rounded-full bg-red-100 text-red-700 text-[10px] font-medium">
-                                    {summary.riskCounts.critical} critical
-                                </span>
+                        {summary.riskCounts.critical} critical
+                    </span>
                             )}
                         </div>
                         <div className="flex items-baseline gap-3 text-[11px] text-gray-600">
@@ -855,10 +890,10 @@ const SupplierManagement: React.FC = () => {
                         </div>
                         {summary?.topRisk && (
                             <div className="mt-2 flex items-center gap-2 text-[11px] text-gray-600 truncate">
-                                <span className="truncate">
-                                    Top: <span className="font-medium text-text-dark">{summary.topRisk.name}</span>
-                                    {summary.topRisk.overall != null && <span className="ml-1 text-gray-500">· {summary.topRisk.overall}</span>}
-                                </span>
+                    <span className="truncate">
+                        Top: <span className="font-medium text-text-dark">{summary.topRisk.name}</span>
+                        {summary.topRisk.overall != null && <span className="ml-1 text-gray-500">· {summary.topRisk.overall}</span>}
+                    </span>
                                 {summary.topRisk.hasCriticalViolation && (
                                     <span className="px-1.5 py-0.5 rounded-full bg-red-100 text-red-700 text-[10px] font-medium shrink-0">critical</span>
                                 )}
@@ -868,18 +903,18 @@ const SupplierManagement: React.FC = () => {
                             onClick={() => navigate('/dashboard/suppliers/risk')}
                             className="mt-3 text-[11px] font-medium text-amber-700 hover:text-amber-800"
                         >Open Risk Workbench →</button>
-                    </div>
+                    </GlassCard>
 
                     {/* Supplier Development */}
-                    <div className="bg-white/40 backdrop-blur-md border border-white/30 rounded-2xl p-4">
+                    <GlassCard>
                         <div className="flex items-center justify-between mb-2">
                             <div className="flex items-center gap-2">
                                 <FaHandshake className="text-primary text-sm" />
                                 <h3 className="text-sm font-semibold text-text-dark">Supplier Development</h3>
                             </div>
                             <span className="text-[10px] text-gray-500">
-                                {summary?.developmentCounts?.visibleOpportunities ?? 0} opportunities
-                            </span>
+                    {summary?.developmentCounts?.visibleOpportunities ?? 0} opportunities
+                </span>
                         </div>
                         <div className="flex items-baseline gap-3 text-[11px] text-gray-600">
                             <span><span className="font-bold text-primary">{summary?.developmentCounts?.openActions ?? 0}</span> open actions</span>
@@ -897,7 +932,7 @@ const SupplierManagement: React.FC = () => {
                             onClick={() => navigate('/dashboard/suppliers/development')}
                             className="mt-3 text-[11px] font-medium text-primary hover:text-dark-orange"
                         >Open Development Workbench →</button>
-                    </div>
+                    </GlassCard>
                 </div>
             </Section>
 
@@ -947,19 +982,25 @@ const SupplierManagement: React.FC = () => {
             {/* 11. Map LAST */}
             <Section className="py-6">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6">
-                    <InfoCard
-                        icon={FaMapMarkerAlt}
-                        title="Network locations"
-                        subtitle={mapData
-                            ? `${mapData.shownCount} of ${mapData.totalSuppliers} shown (suppliers without location consent excluded)`
-                            : 'Loading map points...'}
-                        iconColor="text-accent"
-                        showInfoBadge={false}
-                    >
-                        <div className="mt-3">
-                            {mapData && <SupplierMap suppliers={mapData.points} className="mb-2" />}
+                    <div className="bg-white/40 backdrop-blur-md border border-white/30 rounded-2xl p-4">
+                        <div className="flex items-center justify-between mb-3">
+                            <div className="flex items-center gap-2">
+                                <FaMapMarkerAlt className="text-accent text-sm" />
+                                <h3 className="text-sm font-semibold text-text-dark">Network locations</h3>
+                            </div>
+                            <span className="text-[11px] text-gray-500">
+                                {mapData
+                                    ? `${mapData.shownCount} of ${mapData.totalSuppliers} shown`
+                                    : 'Loading map points...'}
+                            </span>
                         </div>
-                    </InfoCard>
+                        {mapData && <SupplierMap suppliers={mapData.points} className="mb-2" />}
+                        {mapData && (
+                            <p className="mt-2 text-[10px] text-gray-400 text-center">
+                                Suppliers without location consent are excluded.
+                            </p>
+                        )}
+                    </div>
                 </div>
             </Section>
 
