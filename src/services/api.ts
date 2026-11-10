@@ -58,6 +58,29 @@ export const getSupplierNetworkSummary = async (farmId: string = '1') => {
     });
 };
 
+export const listSuppliers = async (params: {
+    search?: string;
+    type?: string;
+    sort?: 'name' | 'trust_desc' | 'trust_asc' | 'volume_desc' | 'quality_desc';
+    page?: number;
+    pageSize?: number;
+    farmId?: string;
+}) => {
+    const { farmId = '1', ...rest } = params;
+    return callApi('supplierNetwork', {
+        action: 'listSuppliers',
+        farmId,
+        ...rest,
+    });
+};
+
+export const getNetworkMapPoints = async (farmId: string = '1') => {
+    return callApi('supplierNetwork', {
+        action: 'getNetworkMapPoints',
+        farmId,
+    });
+};
+
 export const getBuyerPortalData = async (action: string, params?: any) => {
     if (isDevelopment) {
         // Mock data for dev

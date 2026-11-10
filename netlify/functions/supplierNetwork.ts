@@ -38,6 +38,244 @@ export const handler: Handler = async (event: HandlerEvent) => {
             };
         }
 
+        if (action === 'getNetworkMapPoints') {
+            const snap = await db.collection('farms').doc(fid).collection('suppliers').get();
+
+            const points: Array<{ id: string; name: string; type: string; lat: number; lng: number }> = [];
+            snap.docs.forEach(d => {
+                const s: any = d.data();
+                const scopes = s.dataConsentScope || [];
+                // Consent enforced server-side — the pin never leaves the DB without it
+                const locationConsented =
+                    s.dataConsentGiven &&
+                    !s.dataConsentWithdrawnDate &&
+                    scopes.includes('location');
+                const hasCoords =
+                    s.hasLocation &&
+                    typeof s.latitude === 'number' &&
+                    typeof s.longitude === 'number' &&
+                    s.latitude !== 0 &&
+                    s.longitude !== 0;
+
+                if (!locationConsented || !hasCoords) return;
+
+                points.push({
+                    id: d.id,
+                    name: s.name,
+                    type: s.type,
+                    lat: s.latitude,
+                    lng: s.longitude,
+                });
+            });
+
+            return {
+                statusCode: 200,
+                headers: corsHeaders,
+                body: JSON.stringify({
+                    points,
+                    totalSuppliers: snap.size,
+                    shownCount: points.length,
+                }),
+            };
+        }
+
+        // ============================================================
+// S2 — listSuppliers
+// Computes trust for ALL suppliers, then filters, sorts, slices.
+// Sorting before pagination is required for correct page rows.
+// ============================================================
+        if (action === 'listSuppliers') {
+            const {
+                search = '',
+                type = '',
+                sort = 'name',
+                page = 1,
+                pageSize = 25,
+            } = params;
+
+            const pageNum = Math.max(1, parseInt(String(page), 10) || 1);
+            const sizeNum = Math.min(200, Math.max(1, parseInt(String(pageSize), 10) || 25));
+
+            const { suppliers, trustBySupplier, batchesBySupplier } = await loadTrustMap(fid);
+
+            // Computed per-supplier fields the table renders
+            const enriched = suppliers.map(s => {
+                const trust = trustBySupplier[s.id];
+                const supplierBatches = batchesBySupplier[s.id] || [];
+
+                const verifiedBatches = supplierBatches.filter(
+                    (b: any) => b.verifiedAt && b.verifiedAt > 0
+                );
+
+                const verifiedVolumeKg = verifiedBatches.reduce(
+                    (sum: number, b: any) => sum + (b.weightKg || 0),
+                    0
+                );
+
+                const korValues = verifiedBatches
+                    .map((b: any) => b.korGPerKg)
+                    .filter((v: any): v is number => typeof v === 'number' && v > 0);
+                const avgKorGPerKg = korValues.length > 0
+                    ? Number(
+                        (korValues.reduce((a: number, b: number) => a + b, 0) / korValues.length)
+                            .toFixed(0)
+                    )
+                    : null;
+
+                return {
+                    // Full supplier profile — modal Profile tab needs no extra fetch
+                    id: s.id,
+                    name: s.name,
+                    type: s.type,
+                    status: s.status,
+                    contactPerson: s.contactPerson,
+                    phone: s.phone,
+                    email: s.email,
+                    location: s.location,
+                    region: s.region,
+                    country: s.country,
+                    latitude: s.latitude,
+                    longitude: s.longitude,
+                    hasLocation: s.hasLocation,
+                    registrationNumber: s.registrationNumber,
+                    taxId: s.taxId,
+                    farmerIdNumber: s.farmerIdNumber,
+                    farmSize: s.farmSize,
+                    yearsFarming: s.yearsFarming,
+                    isCertified: s.isCertified,
+                    certificationType: s.certificationType,
+                    certificationNumber: s.certificationNumber,
+                    certificationExpiryDate: s.certificationExpiryDate,
+                    firebreakProtection: s.firebreakProtection,
+                    noChildLabor: s.noChildLabor,
+                    sustainableHarvesting: s.sustainableHarvesting,
+                    dataConsentGiven: s.dataConsentGiven,
+                    dataConsentScope: s.dataConsentScope,
+                    dataConsentSignedBy: s.dataConsentSignedBy,
+                    dataConsentVersion: s.dataConsentVersion,
+                    dataConsentWithdrawnDate: s.dataConsentWithdrawnDate,
+                    dataConsentWithdrawnReason: s.dataConsentWithdrawnReason,
+                    photoUrl: s.photoUrl,
+                    bio: s.bio,
+                    quote: s.quote,
+                    rating: s.rating,
+                    notes: s.notes,
+                    isActive: s.isActive ?? s.status === 'ACTIVE',
+
+                    // Computed trust + metrics
+                    firestoreId: s.id,
+                    overall: trust?.overall ?? null,
+                    confidence: trust?.confidence ?? 'preliminary',
+                    hasCriticalViolation: trust?.hasCriticalViolation ?? false,
+                    verifiedVolumeKg,
+                    avgKorGPerKg,
+                };
+            });
+
+            // Search: name + contactName + location (per approved decision)
+            const q = String(search).trim().toLowerCase();
+            const searched = q
+                ? enriched.filter(r => {
+                    const hay = `${r.name || ''} ${r.contactPerson || ''} ${r.location || ''}`.toLowerCase();
+                    return hay.includes(q);
+                })
+                : enriched;
+
+            // Type filter
+            const typeFiltered = type
+                ? searched.filter(r => r.type === type || r.status === type)
+                : searched;
+
+            // Sort BEFORE pagination
+            const sorters: Record<string, (a: any, b: any) => number> = {
+                name: (a, b) => (a.name || '').localeCompare(b.name || ''),
+                trust_desc: (a, b) => (b.overall ?? -1) - (a.overall ?? -1),
+                trust_asc: (a, b) => {
+                    // null-overall sinks to the bottom even in ascending
+                    const av = a.overall ?? 999;
+                    const bv = b.overall ?? 999;
+                    return av - bv;
+                },
+                volume_desc: (a, b) => b.verifiedVolumeKg - a.verifiedVolumeKg,
+                quality_desc: (a, b) => (b.avgKorGPerKg ?? -1) - (a.avgKorGPerKg ?? -1),
+            };
+            const sorter = sorters[String(sort)] || sorters.name;
+            const sorted = [...typeFiltered].sort(sorter);
+
+            const total = sorted.length;
+            const start = (pageNum - 1) * sizeNum;
+            const rows = sorted.slice(start, start + sizeNum);
+
+            return {
+                statusCode: 200,
+                headers: corsHeaders,
+                body: JSON.stringify({
+                    total,
+                    page: pageNum,
+                    pageSize: sizeNum,
+                    rows,
+                }),
+            };
+        }
+
+// ============================================================
+// S2 — getNetworkMapPoints (pulled forward from S6)
+// Consent enforced server-side: pins never leave the DB without
+// explicit location consent + coordinates.
+// ============================================================
+        if (action === 'getNetworkMapPoints') {
+            const snap = await db.collection('farms').doc(fid).collection('suppliers').get();
+
+            const points: Array<{
+                id: string;
+                name: string;
+                type: string;
+                lat: number;
+                lng: number;
+                isActive: boolean;
+                location: string;
+            }> = [];
+
+            snap.docs.forEach(d => {
+                const s: any = d.data();
+                const scopes = s.dataConsentScope || [];
+
+                const locationConsented =
+                    s.dataConsentGiven &&
+                    !s.dataConsentWithdrawnDate &&
+                    scopes.includes('location');
+
+                const hasCoords =
+                    s.hasLocation &&
+                    typeof s.latitude === 'number' &&
+                    typeof s.longitude === 'number' &&
+                    s.latitude !== 0 &&
+                    s.longitude !== 0;
+
+                if (!locationConsented || !hasCoords) return;
+
+                points.push({
+                    id: d.id,
+                    name: s.name,
+                    type: s.type,
+                    lat: s.latitude,
+                    lng: s.longitude,
+                    isActive: (s.isActive ?? s.status === 'ACTIVE') && s.status === 'ACTIVE',
+                    location: s.location || '',
+                });
+            });
+
+            return {
+                statusCode: 200,
+                headers: corsHeaders,
+                body: JSON.stringify({
+                    points,
+                    totalSuppliers: snap.size,
+                    shownCount: points.length,
+                }),
+            };
+        }
+
         return {
             statusCode: 400,
             headers: corsHeaders,
@@ -51,6 +289,98 @@ export const handler: Handler = async (event: HandlerEvent) => {
         };
     }
 };
+
+// Loads every collection the trust engine reads and returns a map
+// of supplierId → TrustResult. Shared by listSuppliers and any
+// future action that needs per-supplier trust without a summary.
+async function loadTrustMap(fid: string): Promise<{
+    suppliers: any[];
+    trustBySupplier: Record<string, TrustResult>;
+    batchesBySupplier: Record<string, any[]>;
+}> {
+    const [suppliersSnap, batchesSnap, commitmentsSnap, inspectionsSnap] = await Promise.all([
+        db.collection('farms').doc(fid).collection('suppliers').get(),
+        db.collection('farms').doc(fid).collection('quality_batches').get(),
+        db.collection('farms').doc(fid).collection('supplier_commitments').get(),
+        db.collection('farms').doc(fid).collection('supplier_inspections').get(),
+    ]);
+
+    const batches = batchesSnap.docs.map(d => {
+        const data = d.data();
+        return {
+            id: d.id,
+            supplierId: data.supplierId,
+            weightKg: data.weightKg,
+            qualityScore: data.qualityScore,
+            rcnQualityScore: data.rcnQualityScore,
+            defectiveRate: data.defectiveRate,
+            moistureContent: data.moistureContent,
+            korGPerKg: data.korGPerKg,
+            nutCountPerKg: data.nutCountPerKg,
+            foreignMatter: data.foreignMatter,
+            aflatoxinPpb: data.aflatoxinPpb,
+            heavyMetalsPpb: data.heavyMetalsPpb,
+            pesticideResiduePpb: data.pesticideResiduePpb,
+            farmOsMonitored: data.farmOsMonitored,
+            verifiedAt: data.verifiedAt,
+            testResults: data.testResults,
+        };
+    });
+
+    const groupBy = (arr: any[], key = 'supplierId') => {
+        const out: Record<string, any[]> = {};
+        arr.forEach(item => {
+            const k = String(item[key]);
+            (out[k] = out[k] || []).push(item);
+        });
+        return out;
+    };
+
+    const batchesBySupplier = groupBy(batches);
+
+    const validatedCommitments = commitmentsSnap.docs
+        .map(d => ({ firestoreId: d.id, ...d.data() } as any))
+        .filter((c: any) => c.validatedAt);
+    const validatedInspections = inspectionsSnap.docs
+        .map(d => ({ firestoreId: d.id, ...d.data() } as any))
+        .filter((i: any) => i.validatedAt);
+
+    const commitmentsBySupplier = groupBy(validatedCommitments);
+    const inspectionsBySupplier = groupBy(validatedInspections);
+
+    const suppliers = suppliersSnap.docs.map(d => ({ id: d.id, ...d.data() } as any));
+
+    const trustBySupplier: Record<string, TrustResult> = {};
+    suppliers.forEach(s => {
+        const input: TrustInput = {
+            supplier: {
+                id: s.id,
+                name: s.name,
+                status: s.status,
+                isActive: s.isActive ?? s.status === 'ACTIVE',
+                latitude: s.latitude,
+                longitude: s.longitude,
+                hasLocation: s.hasLocation,
+                registrationNumber: s.registrationNumber,
+                farmerIdNumber: s.farmerIdNumber,
+                dataConsentGiven: s.dataConsentGiven,
+                dataConsentScope: s.dataConsentScope,
+                dataConsentWithdrawnDate: s.dataConsentWithdrawnDate,
+                firebreakProtection: s.firebreakProtection,
+                noChildLabor: s.noChildLabor,
+                sustainableHarvesting: s.sustainableHarvesting,
+                isCertified: s.isCertified,
+                certificationType: s.certificationType,
+            },
+            batches: batchesBySupplier[s.id] || [],
+            commitments: commitmentsBySupplier[s.id] || [],
+            inspections: inspectionsBySupplier[s.id] || [],
+        };
+        trustBySupplier[s.id] = computeTrustScoreServer(input);
+    });
+
+    return { suppliers, trustBySupplier, batchesBySupplier };
+}
 
 async function buildNetworkSummary(fid: string) {
     const [
