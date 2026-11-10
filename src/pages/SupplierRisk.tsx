@@ -303,19 +303,30 @@ const SupplierRisk: React.FC = () => {
             <Section className="py-6">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6">
                     {/* Summary Strip */}
-                    <div className="grid grid-cols-2 md:grid-cols-6 gap-2 mb-6">
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-6">
                         {[
-                            { label: 'Critical', count: counts.critical, color: 'text-red-600', border: 'border-red-200', bg: 'bg-red-50/60' },
-                            { label: 'High', count: counts.high, color: 'text-orange-600', border: 'border-orange-200', bg: 'bg-orange-50/60' },
-                            { label: 'Medium', count: counts.medium, color: 'text-amber-600', border: 'border-amber-200', bg: 'bg-amber-50/60' },
-                            { label: 'Low', count: counts.low, color: 'text-blue-600', border: 'border-blue-200', bg: 'bg-blue-50/60' },
-                            { label: 'Pending Validation', count: pendingCommitments.length + pendingInspections.length, color: 'text-gray-700', border: 'border-gray-200', bg: 'bg-gray-50/60' },
-                            { label: 'Open Disputes', count: openDisputes.length, color: 'text-gray-700', border: 'border-gray-200', bg: 'bg-gray-50/60' },
+                            { label: 'Critical', count: counts.critical, icon: FaExclamationTriangle, iconColor: 'text-red-600' },
+                            { label: 'High', count: counts.high, icon: FaExclamationTriangle, iconColor: 'text-orange-500' },
+                            { label: 'Medium', count: counts.medium, icon: FaExclamationTriangle, iconColor: 'text-amber-500' },
+                            { label: 'Low', count: counts.low, icon: FaShieldAlt, iconColor: 'text-blue-500' },
+                            { label: 'Pending Validation', count: pendingCommitments.length + pendingInspections.length, icon: FaClipboardCheck, iconColor: 'text-primary' },
+                            { label: 'Open Disputes', count: openDisputes.length, icon: FaBalanceScale, iconColor: 'text-gray-600' },
                         ].map((item, i) => (
-                            <div key={i} className={`${item.bg} rounded-xl p-3 border ${item.border} text-center`}>
-                                <div className={`text-2xl font-bold ${item.color}`}>{item.count}</div>
-                                <div className="text-[10px] text-gray-500 uppercase tracking-wide">{item.label}</div>
-                            </div>
+                            <motion.div
+                                key={i}
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: i * 0.05 }}
+                            >
+                                <InfoCard
+                                    icon={item.icon}
+                                    title={String(item.count)}
+                                    subtitle={item.label}
+                                    iconColor={item.iconColor}
+                                    showInfoBadge={false}
+                                    className="h-full"
+                                />
+                            </motion.div>
                         ))}
                     </div>
                     {/* Filters */}

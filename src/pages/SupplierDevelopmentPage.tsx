@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import {
     FaHandshake, FaSearch, FaCheckCircle, FaChevronLeft,
-    FaChartLine, FaUser, FaCheck, FaTimes, FaHistory, FaClipboardCheck
+    FaChartLine, FaUser, FaCheck, FaTimes, FaHistory, FaClipboardCheck, FaExclamationTriangle
 } from 'react-icons/fa';
 import { Typography } from '@/components/Typography/Typography';
 import { InfoCard } from '@/components/InfoCard/InfoCard';
@@ -91,13 +91,13 @@ const SupplierDevelopmentPage: React.FC = () => {
         const q = searchQuery.toLowerCase();
         const groups = new Map<string, { supplier: Supplier; opportunities: DevelopmentOpportunity[]; actions: SupportAction[] }>();
 
+        // 1. Process opportunities (existing logic)
         allOpportunities.forEach(opp => {
             const supplier = suppliers.find(s => s.id === opp.supplierId);
             if (!supplier) return;
             if (q && !supplier.name.toLowerCase().includes(q)) return;
             if (severityFilter !== 'all' && opp.severity !== severityFilter) return;
 
-            // --- PROBLEM 1 FIX ---
             const supplierActions = supportActions.filter(a => a.supplierId === opp.supplierId && a.weakness === opp.weakness);
             const latestAction = supplierActions.sort((a, b) => b.givenAt - a.givenAt)[0];
 
@@ -105,37 +105,48 @@ const SupplierDevelopmentPage: React.FC = () => {
                 if (latestAction.status === 'OPEN') return;
 
                 if (latestAction.status === 'DONE') {
-                    // Count new verified batches after the action was given
                     const batches = batchesBySupplier[opp.supplierId] || [];
                     const newBatches = batches.filter(b => b.verifiedAt && b.verifiedAt > latestAction.givenAt);
-
-                    // (2) Awaiting re-measurement: suppressed until >= 2 new batches
                     if (newBatches.length < 2) return;
 
-                    // (3) Re-measure: we need to re-evaluate the rule on *only* the new batches.
-                    // Because the detector works on aggregated stats, we re-run it locally on the new batches.
                     const reMeasuredOpp = detectDevelopmentOpportunities(
                         [supplier],
                         { [supplier.id]: newBatches },
                         { [supplier.id]: computeTrustScore({ supplier, batches: newBatches, commitments: [], inspections: [] }) }
                     ).find(o => o.weakness === opp.weakness);
 
-                    // Only re-fire if the new subset breaches the threshold
                     if (!reMeasuredOpp) return;
-
-                    // If it does breach, we show it (and could attach the new severity/metric)
                     opp = reMeasuredOpp;
                 }
             }
 
             if (!groups.has(opp.supplierId)) {
-                groups.set(opp.supplierId, { supplier, opportunities: [], actions: supportActions.filter(a => a.supplierId === opp.supplierId) });
+                groups.set(opp.supplierId, { supplier, opportunities: [], actions: [] });
             }
             groups.get(opp.supplierId)!.opportunities.push(opp);
         });
 
-        // If filter is Has Open Support, only show suppliers in groups
+        // 2. Process support actions (NEW FIX)
+        // Any supplier with a support action who doesn't have a group yet needs one created.
+        supportActions.forEach(action => {
+            const supplier = suppliers.find(s => s.id === action.supplierId);
+            if (!supplier) return;
+            if (q && !supplier.name.toLowerCase().includes(q)) return;
+
+            if (!groups.has(action.supplierId)) {
+                groups.set(action.supplierId, { supplier, opportunities: [], actions: [] });
+            }
+            // Only push if it's not already in the list (though we initialized with empty)
+            const group = groups.get(action.supplierId)!;
+            if (!group.actions.find(a => a.id === action.id)) {
+                group.actions.push(action);
+            }
+        });
+
+        // 3. Apply filters and sort
         let result = Array.from(groups.values());
+
+        // Has open support filter
         if (hasOpenSupportFilter) {
             result = result.filter(g => g.actions.some(a => a.status === 'OPEN'));
         }
@@ -143,12 +154,18 @@ const SupplierDevelopmentPage: React.FC = () => {
         // Sort groups: highest severity first, then name
         const sevOrder: Record<string, number> = { high: 0, medium: 1, low: 2 };
         return result.sort((a, b) => {
-            const aSev = Math.min(...a.opportunities.map(o => sevOrder[o.severity] ?? 3));
-            const bSev = Math.min(...b.opportunities.map(o => sevOrder[o.severity] ?? 3));
+            // Guard against empty opportunity arrays (Math.min of empty array is Infinity)
+            const aSev = a.opportunities.length > 0
+                ? Math.min(...a.opportunities.map(o => sevOrder[o.severity] ?? 3))
+                : 3; // Default to lowest priority if no opportunities
+            const bSev = b.opportunities.length > 0
+                ? Math.min(...b.opportunities.map(o => sevOrder[o.severity] ?? 3))
+                : 3;
+
             if (aSev !== bSev) return aSev - bSev;
             return a.supplier.name.localeCompare(b.supplier.name);
         });
-    }, [allOpportunities, suppliers, searchQuery, severityFilter, hasOpenSupportFilter, supportActions]);
+    }, [allOpportunities, suppliers, searchQuery, severityFilter, hasOpenSupportFilter, supportActions, batchesBySupplier]);
 
     const totalPages = Math.ceil(grouped.length / PAGE_SIZE);
     const paginatedGroups = grouped.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
@@ -341,27 +358,30 @@ const SupplierDevelopmentPage: React.FC = () => {
                 <div className="max-w-6xl mx-auto px-4 sm:px-6">
 
                     {/* WIREFRAME KPI STRIP */}
-                    <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-6">
-                        <div className="bg-red-50/60 rounded-xl p-4 border border-red-200">
-                            <div className="text-2xl font-bold text-red-600">{totalHigh}</div>
-                            <div className="text-[10px] text-gray-500 uppercase tracking-wide">High priority</div>
-                        </div>
-                        <div className="bg-amber-50/60 rounded-xl p-4 border border-amber-200">
-                            <div className="text-2xl font-bold text-amber-600">{totalMedium}</div>
-                            <div className="text-[10px] text-gray-500 uppercase tracking-wide">Medium priority</div>
-                        </div>
-                        <div className="bg-blue-50/60 rounded-xl p-4 border border-blue-200">
-                            <div className="text-2xl font-bold text-blue-600">{totalLow}</div>
-                            <div className="text-[10px] text-gray-500 uppercase tracking-wide">Capacity building</div>
-                        </div>
-                        <div className="bg-gray-50/60 rounded-xl p-4 border border-gray-200">
-                            <div className="text-2xl font-bold text-gray-700">{openActions}</div>
-                            <div className="text-[10px] text-gray-500 uppercase tracking-wide">Open support actions</div>
-                        </div>
-                        <div className="bg-gray-50/60 rounded-xl p-4 border border-gray-200">
-                            <div className="text-2xl font-bold text-gray-700">{awaitingReMeasure}</div>
-                            <div className="text-[10px] text-gray-500 uppercase tracking-wide">Awaiting re-measurement</div>
-                        </div>
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 mb-6">
+                        {[
+                            { label: 'High Priority', count: totalHigh, icon: FaExclamationTriangle, iconColor: 'text-red-600' },
+                            { label: 'Medium Priority', count: totalMedium, icon: FaExclamationTriangle, iconColor: 'text-amber-500' },
+                            { label: 'Capacity Building', count: totalLow, icon: FaCheckCircle, iconColor: 'text-blue-500' },
+                            { label: 'Open Support Actions', count: openActions, icon: FaHandshake, iconColor: 'text-primary' },
+                            { label: 'Awaiting Re-measurement', count: awaitingReMeasure, icon: FaHistory, iconColor: 'text-gray-600' },
+                        ].map((item, i) => (
+                            <motion.div
+                                key={i}
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: i * 0.05 }}
+                            >
+                                <InfoCard
+                                    icon={item.icon}
+                                    title={String(item.count)}
+                                    subtitle={item.label}
+                                    iconColor={item.iconColor}
+                                    showInfoBadge={false}
+                                    className="h-full"
+                                />
+                            </motion.div>
+                        ))}
                     </div>
 
                     {/* FILTERS */}
@@ -402,7 +422,9 @@ const SupplierDevelopmentPage: React.FC = () => {
                                             <span className="text-xs text-gray-500">· {supplier.type.replace(/_/g, ' ')}</span>
                                         </div>
                                         <div className="text-xs text-gray-500">
-                                            {opportunities.length} opportunities · {actions.filter(a => a.status === 'OPEN').length} action open
+                                            {opportunities.length > 0 ? `${opportunities.length} opportunities` : '0 opportunities'}
+                                            {' · '}
+                                            {actions.filter(a => a.status === 'OPEN').length} action open
                                         </div>
                                     </div>
 
