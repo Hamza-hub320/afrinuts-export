@@ -426,7 +426,7 @@ export const handler: Handler = async (event: HandlerEvent) => {
             try {
                 const supportSnap = await db.collection('farms').doc(fid).collection('supplier_support_actions').get();
                 allSupportActions = supportSnap.docs.map(d => ({
-                    firestoreId: d.id,
+                    id: d.id,
                     ...d.data(),
                 } as any));
             } catch (err: any) {

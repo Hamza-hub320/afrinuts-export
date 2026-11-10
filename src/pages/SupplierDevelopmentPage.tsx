@@ -134,40 +134,58 @@ const SupplierDevelopmentPage: React.FC = () => {
     const totalMedium = allOpportunities.filter(o => o.severity === 'medium').length;
     const totalLow = allOpportunities.filter(o => o.severity === 'low').length;
     const openActions = supportActions.filter(a => a.status === 'OPEN').length;
-    // Awaiting re-measurement: DONE actions where we have < 2 new batches. (Simplified for UI: just show DONE actions)
     const awaitingReMeasure = supportActions.filter(a => a.status === 'DONE').length;
 
     const handleLogSupport = async () => {
         if (!logSupportTarget || !user) return;
 
-        await getSupplierData('logSupportAction', {
-            farmId: '1',
-            supportActionData: {
-                supplierId: logSupportTarget.supplierId,
-                weakness: logSupportTarget.weakness,
-                supportType: logSupportTarget.suggestedSupport,
-                notes: supportNotes,
-                assignedTo: supportAssignee,
-                givenBy: user.email || 'Portal Manager',
-                baselineMetricLabel: logSupportTarget.weakness === 'Moisture management' ? 'Moisture >8% share' : 'Metric',
-                baselineValue: parseFloat(logSupportTarget.metric.replace(/[^0-9.]/g, '')) || 0, // Rough parse for MVP
-                scoringVersion: trustBySupplier[logSupportTarget.supplierId]?.scoringVersion || 'v2.0'
-            }
-        });
+        try {
+            const res = await getSupplierData('logSupportAction', {
+                farmId: '1',
+                supportActionData: {
+                    supplierId: logSupportTarget.supplierId,
+                    weakness: logSupportTarget.weakness,
+                    supportType: logSupportTarget.suggestedSupport,
+                    notes: supportNotes,
+                    assignedTo: supportAssignee,
+                    givenBy: user.email || 'Portal Manager',
+                    baselineMetricLabel: logSupportTarget.weakness === 'Moisture management' ? 'Moisture >8% share' : 'Metric',
+                    baselineValue: parseFloat(logSupportTarget.metric.replace(/[^0-9.]/g, '')) || 0,
+                    scoringVersion: trustBySupplier[logSupportTarget.supplierId]?.scoringVersion || 'v2.0'
+                }
+            });
 
-        setLogSupportTarget(null);
-        setSupportNotes('');
-        setSupportAssignee('');
-        fetchAll();
+            if (!res || !res.success) {
+                throw new Error(res?.error || 'Failed to log support action');
+            }
+
+            setLogSupportTarget(null);
+            setSupportNotes('');
+            setSupportAssignee('');
+            fetchAll();
+        } catch (error: any) {
+            console.error('Log Support failed:', error);
+            alert(`Error: ${error.message}`);
+        }
     };
 
     const handleMarkDone = async (actionId: string) => {
-        await getSupplierData('updateSupportActionStatus', {
-            farmId: '1',
-            supportActionId: actionId,
-            newStatus: 'DONE'
-        });
-        fetchAll();
+        try {
+            const res = await getSupplierData('updateSupportActionStatus', {
+                farmId: '1',
+                supportActionId: actionId,
+                newStatus: 'DONE'
+            });
+
+            if (!res || !res.success) {
+                throw new Error(res?.error || 'Failed to mark action as done');
+            }
+
+            fetchAll();
+        } catch (error: any) {
+            console.error('Mark DONE failed:', error);
+            alert(`Error: ${error.message}`);
+        }
     };
 
     if (loading) {
