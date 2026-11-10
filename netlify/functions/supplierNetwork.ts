@@ -59,10 +59,12 @@ export const handler: Handler = async (event: HandlerEvent) => {
             const { suppliers, trustBySupplier, batchesBySupplier } = await loadTrustMap(fid);
 
             // Computed per-supplier fields the table renders
+            // Computed per-supplier fields the table renders
             const enriched = suppliers.map(s => {
                 const trust = trustBySupplier[s.id];
                 const supplierBatches = batchesBySupplier[s.id] || [];
 
+                // --- verified-only aggregates (unchanged) ---
                 const verifiedBatches = supplierBatches.filter(
                     (b: any) => b.verifiedAt && b.verifiedAt > 0
                 );
@@ -79,6 +81,26 @@ export const handler: Handler = async (event: HandlerEvent) => {
                     ? Number(
                         (korValues.reduce((a: number, b: number) => a + b, 0) / korValues.length)
                             .toFixed(0)
+                    )
+                    : null;
+
+                // --- Commit 2 additions ---
+                // annualVolumeKg: sum over ALL batches (not just verified) —
+                // intentional definition change; the old page summed all.
+                const annualVolumeKg = supplierBatches.reduce(
+                    (sum: number, b: any) => sum + (b.weightKg || 0),
+                    0
+                );
+
+                // averageRcnQualityScore: mean over batches that carry a
+                // positive rcnQualityScore; null if none.
+                const rcnValues = supplierBatches
+                    .map((b: any) => b.rcnQualityScore)
+                    .filter((v: any): v is number => typeof v === 'number' && v > 0);
+                const averageRcnQualityScore = rcnValues.length > 0
+                    ? Number(
+                        (rcnValues.reduce((a: number, b: number) => a + b, 0) / rcnValues.length)
+                            .toFixed(1)
                     )
                     : null;
 
@@ -129,6 +151,12 @@ export const handler: Handler = async (event: HandlerEvent) => {
                     hasCriticalViolation: trust?.hasCriticalViolation ?? false,
                     verifiedVolumeKg,
                     avgKorGPerKg,
+
+                    // Commit 2 — full TrustResult for the modal's TrustPanel,
+                    // plus the two aggregates the modal previously invented.
+                    trust: trust ?? null,
+                    annualVolumeKg,
+                    averageRcnQualityScore,
                 };
             });
 
@@ -185,23 +213,40 @@ export const handler: Handler = async (event: HandlerEvent) => {
 // at scale.
 // ============================================================
         if (action === 'getEvidenceQueues') {
-            const [commitmentsSnap, inspectionsSnap, disputesSnap] = await Promise.all([
+            const [commitmentsSnap, inspectionsSnap, disputesSnap, suppliersSnap] = await Promise.all([
                 db.collection('farms').doc(fid).collection('supplier_commitments').get(),
                 db.collection('farms').doc(fid).collection('supplier_inspections').get(),
                 db.collection('farms').doc(fid).collection('supplier_disputes').get(),
+                db.collection('farms').doc(fid).collection('suppliers').get(),
             ]);
+
+            // supplierId → name, keyed by String(id) because queue items
+            // carry numeric supplierId while Firestore doc ids are strings.
+            const supplierNameById = new Map<string, string>();
+            suppliersSnap.docs.forEach(d => {
+                const s: any = d.data();
+                if (s?.name) supplierNameById.set(String(d.id), s.name);
+            });
+
+            const withName = (item: any) => {
+                const name = supplierNameById.get(String(item.supplierId));
+                return name ? { ...item, supplierName: name } : item;
+            };
 
             const pendingCommitments = commitmentsSnap.docs
                 .map(d => ({ firestoreId: d.id, ...d.data() } as any))
-                .filter((c: any) => !c.validatedAt);
+                .filter((c: any) => !c.validatedAt)
+                .map(withName);
 
             const pendingInspections = inspectionsSnap.docs
                 .map(d => ({ firestoreId: d.id, ...d.data() } as any))
-                .filter((i: any) => !i.validatedAt);
+                .filter((i: any) => !i.validatedAt)
+                .map(withName);
 
             const openDisputes = disputesSnap.docs
                 .map(d => ({ ...d.data(), id: d.id } as any))
-                .filter((d: any) => d.reviewStatus === 'OPEN' || d.reviewStatus === 'UNDER_REVIEW');
+                .filter((d: any) => d.reviewStatus === 'OPEN' || d.reviewStatus === 'UNDER_REVIEW')
+                .map(withName);
 
             return {
                 statusCode: 200,
