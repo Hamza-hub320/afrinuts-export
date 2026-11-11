@@ -499,6 +499,48 @@ export const handler: Handler = async (event: HandlerEvent) => {
         }
 
         // ============================================================
+        // S7 — purgeScaleTest (TEMPORARY; removed in S7 cleanup)
+        // Guarded: farmId must start with "scale-test".
+        // Deletes in ≤500/commit per collection. Returns per-collection
+        // counts so the cleanup can be verified.
+        // ============================================================
+        if (action === 'purgeScaleTest') {
+            if (!String(fid).startsWith('scale-test')) {
+                return {
+                    statusCode: 400,
+                    headers: corsHeaders,
+                    body: JSON.stringify({ error: 'purgeScaleTest refused — farmId must start with "scale-test"' }),
+                };
+            }
+            const farmRef = db.collection('farms').doc(fid);
+            const collectionsToPurge = [
+                'suppliers', 'quality_batches', 'supplier_commitments',
+                'supplier_inspections', 'supplier_disputes', 'expenses',
+                'revenues', 'supplier_support_actions', 'supplier_score_history',
+            ];
+            const deleted: Record<string, number> = {};
+            for (const coll of collectionsToPurge) {
+                let count = 0;
+                // Loop until empty — each pass deletes ≤500
+                // eslint-disable-next-line no-constant-condition
+                while (true) {
+                    const snap = await farmRef.collection(coll).limit(500).get();
+                    if (snap.empty) break;
+                    const batch = db.batch();
+                    snap.docs.forEach(d => batch.delete(d.ref));
+                    await batch.commit();
+                    count += snap.size;
+                }
+                deleted[coll] = count;
+            }
+            return {
+                statusCode: 200,
+                headers: corsHeaders,
+                body: JSON.stringify({ farmId: fid, deleted }),
+            };
+        }
+
+        // ============================================================
         // S4-prep — getEvidenceQueues
         // ============================================================
         if (action === 'getEvidenceQueues') {
