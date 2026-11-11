@@ -139,6 +139,88 @@ export const handler: Handler = async (event: HandlerEvent) => {
         }
 
         // ============================================================
+        // S4 — recalculateTrustBatch
+        // Recomputes trust for the next `limit` suppliers after
+        // `cursor` (alphabetical by Firestore doc id), writes one
+        // supplier_score_history snapshot per processed supplier,
+        // and returns { done, processed, nextCursor }.
+        //
+        // Hard rules:
+        //  - Never write an aggregate `__all__` doc. Every write is
+        //    one real supplier's snapshot with its real supplierId.
+        //  - Idempotent per supplier for the same pass: the snapshot
+        //    doc id is the supplier id, so re-running the same cursor
+        //    range overwrites, never appends.
+        //  - Same v2.0 formulas as loadTrustMap (shared code path).
+        // ============================================================
+        if (action === 'recalculateTrustBatch') {
+            const { cursor = '', limit = 100 } = params;
+            const limitNum = Math.min(200, Math.max(1, parseInt(String(limit), 10) || 100));
+
+            let suppliersQuery = db
+                .collection('farms').doc(fid)
+                .collection('suppliers')
+                .orderBy('__name__');
+            if (cursor) {
+                suppliersQuery = suppliersQuery.startAfter(String(cursor));
+            }
+            const pageSnap = await suppliersQuery.limit(limitNum).get();
+
+            const pageSupplierIds = pageSnap.docs.map(d => d.id);
+            const isLastPage = pageSnap.size < limitNum;
+            const nextCursor = isLastPage
+                ? null
+                : pageSupplierIds[pageSupplierIds.length - 1];
+
+            if (pageSupplierIds.length === 0) {
+                return {
+                    statusCode: 200,
+                    headers: corsHeaders,
+                    body: JSON.stringify({ done: true, processed: 0, nextCursor: null }),
+                };
+            }
+
+            // Reuse the shared loader so trust math cannot drift.
+            const { trustBySupplier } = await loadTrustMap(fid);
+
+            const calculatedAt = Date.now();
+            const batch = db.batch();
+
+            for (const supplierId of pageSupplierIds) {
+                const trust = trustBySupplier[supplierId];
+                batch.set(
+                    db.collection('farms').doc(fid)
+                        .collection('supplier_score_history')
+                        .doc(supplierId),
+                    {
+                        supplierId,                              // real id, never '__all__'
+                        farmId: fid,
+                        overall: trust?.overall ?? null,
+                        confidence: trust?.confidence ?? 'preliminary',
+                        verifiedTransactions: trust?.verifiedTransactions ?? 0,
+                        dimensions: trust?.dimensions ?? null,
+                        weightsUsed: trust?.weights ?? null,
+                        scoringVersion: 'v2.0',
+                        calculatedAt,
+                    },
+                    { merge: true }
+                );
+            }
+
+            await batch.commit();
+
+            return {
+                statusCode: 200,
+                headers: corsHeaders,
+                body: JSON.stringify({
+                    done: isLastPage,
+                    processed: pageSupplierIds.length,
+                    nextCursor,
+                }),
+            };
+        }
+
+        // ============================================================
         // S4-prep — getEvidenceQueues
         // ============================================================
         if (action === 'getEvidenceQueues') {
@@ -255,10 +337,16 @@ export const handler: Handler = async (event: HandlerEvent) => {
         };
     }
 };
-// ↑ handler ends here — this is the `}` that was missing.
 
 // ============================================================
-// loadTrustMap — unchanged
+// loadTrustMap — single source of truth for the trust-input
+// shape and for batch slimming. Summary / list / export all read
+// from this loader; no second copy of the math or the slimming.
+//
+// Firestore field projections are applied on the three hot
+// collections (batches, commitments, inspections). The suppliers
+// read is full because every consent scope and every identity
+// field feeds either the trust engine or the row payload.
 // ============================================================
 async function loadTrustMap(fid: string): Promise<{
     suppliers: any[];
@@ -267,9 +355,27 @@ async function loadTrustMap(fid: string): Promise<{
 }> {
     const [suppliersSnap, batchesSnap, commitmentsSnap, inspectionsSnap] = await Promise.all([
         db.collection('farms').doc(fid).collection('suppliers').get(),
-        db.collection('farms').doc(fid).collection('quality_batches').get(),
-        db.collection('farms').doc(fid).collection('supplier_commitments').get(),
-        db.collection('farms').doc(fid).collection('supplier_inspections').get(),
+        db.collection('farms').doc(fid).collection('quality_batches')
+            .select(
+                'supplierId', 'weightKg', 'qualityScore', 'rcnQualityScore',
+                'defectiveRate', 'moistureContent', 'korGPerKg', 'nutCountPerKg',
+                'foreignMatter', 'aflatoxinPpb', 'heavyMetalsPpb',
+                'pesticideResiduePpb', 'farmOsMonitored', 'verifiedAt', 'testResults'
+            )
+            .get(),
+        db.collection('farms').doc(fid).collection('supplier_commitments')
+            .select(
+                'supplierId', 'validatedAt',
+                'committedKg', 'deliveredKg', 'status',
+                'contractId', 'season', 'delayReason', 'buyerRequestedChange'
+            )
+            .get(),
+        db.collection('farms').doc(fid).collection('supplier_inspections')
+            .select(
+                'supplierId', 'validatedAt',
+                'inspectionType', 'outcome', 'findings'
+            )
+            .get(),
     ]);
 
     const batches = batchesSnap.docs.map(d => {
@@ -366,7 +472,6 @@ async function buildFilteredRows(
     const { search = '', type = '', sort = 'name' } = opts;
     const { suppliers, trustBySupplier, batchesBySupplier } = await loadTrustMap(fid);
 
-    // ---- enrich ----
     const enriched = suppliers.map(s => {
         const trust = trustBySupplier[s.id];
         const supplierBatches = batchesBySupplier[s.id] || [];
@@ -456,7 +561,6 @@ async function buildFilteredRows(
         };
     });
 
-    // ---- search ----
     const q = String(search).trim().toLowerCase();
     const searched = q
         ? enriched.filter(r => {
@@ -465,12 +569,10 @@ async function buildFilteredRows(
         })
         : enriched;
 
-    // ---- type/status filter ----
     const typeFiltered = type
         ? searched.filter(r => r.type === type || r.status === type)
         : searched;
 
-    // ---- sort (before pagination anywhere) ----
     const sorters: Record<string, (a: any, b: any) => number> = {
         name: (a, b) => (a.name || '').localeCompare(b.name || ''),
         trust_desc: (a, b) => (b.overall ?? -1) - (a.overall ?? -1),
@@ -489,111 +591,48 @@ async function buildFilteredRows(
 }
 
 // ============================================================
-// buildNetworkSummary — unchanged
+// buildNetworkSummary — S4 restructure.
+// Suppliers + trust + slim batches come from loadTrustMap
+// (single trust-input shape). Only the four extra collections
+// the summary needs are fetched here, plus two cheap
+// count-only reads on commitments/inspections for queueCounts.
+//
+// _timing block removed; if phase timings are needed at S7,
+// log via console.time here, never in the payload.
 // ============================================================
 async function buildNetworkSummary(fid: string) {
-    const t0 = Date.now();
+    const { trustBySupplier, batchesBySupplier } = await loadTrustMap(fid);
+
     const [
         suppliersSnap,
-        batchesSnap,
-        commitmentsSnap,
-        inspectionsSnap,
         disputesSnap,
         expensesSnap,
         revenuesSnap,
         supportActionsSnap,
+        allCommitmentsSnap,
+        allInspectionsSnap,
     ] = await Promise.all([
+        // Full supplier docs — name / consent scopes / financial id
         db.collection('farms').doc(fid).collection('suppliers').get(),
-        db.collection('farms').doc(fid).collection('quality_batches').get(),
-        db.collection('farms').doc(fid).collection('supplier_commitments').get(),
-        db.collection('farms').doc(fid).collection('supplier_inspections').get(),
-        db.collection('farms').doc(fid).collection('supplier_disputes').get(),
-        db.collection('farms').doc(fid).collection('expenses').get(),
-        db.collection('farms').doc(fid).collection('revenues').get(),
-        db.collection('farms').doc(fid).collection('supplier_support_actions').get(),
+        db.collection('farms').doc(fid).collection('supplier_disputes')
+            .select('reviewStatus').get(),
+        db.collection('farms').doc(fid).collection('expenses')
+            .select('category', 'supplierId', 'amount').get(),
+        db.collection('farms').doc(fid).collection('revenues')
+            .select('supplierId', 'totalAmount').get(),
+        db.collection('farms').doc(fid).collection('supplier_support_actions')
+            .select('supplierId', 'weakness', 'status', 'givenAt').get(),
+        // Queue counts only — the loader ships *validated* items only,
+        // so we read the two collections again, projected to one field.
+        db.collection('farms').doc(fid).collection('supplier_commitments')
+            .select('validatedAt').get(),
+        db.collection('farms').doc(fid).collection('supplier_inspections')
+            .select('validatedAt').get(),
     ]);
-    const tFetch = Date.now() - t0;
-    const t1 = Date.now();
 
-    const batches = batchesSnap.docs.map(d => {
-        const data = d.data();
-        return {
-            id: d.id,
-            supplierId: data.supplierId,
-            weightKg: data.weightKg,
-            qualityScore: data.qualityScore,
-            rcnQualityScore: data.rcnQualityScore,
-            defectiveRate: data.defectiveRate,
-            moistureContent: data.moistureContent,
-            korGPerKg: data.korGPerKg,
-            nutCountPerKg: data.nutCountPerKg,
-            foreignMatter: data.foreignMatter,
-            aflatoxinPpb: data.aflatoxinPpb,
-            heavyMetalsPpb: data.heavyMetalsPpb,
-            pesticideResiduePpb: data.pesticideResiduePpb,
-            farmOsMonitored: data.farmOsMonitored,
-            verifiedAt: data.verifiedAt,
-            testResults: data.testResults,
-        };
-    });
-
-    const groupBy = (arr: any[], key = 'supplierId') => {
-        const out: Record<string, any[]> = {};
-        arr.forEach(item => {
-            const k = String(item[key]);
-            (out[k] = out[k] || []).push(item);
-        });
-        return out;
-    };
-
-    const batchesBySupplier = groupBy(batches);
-
-    const allCommitments = commitmentsSnap.docs.map(d => ({
-        firestoreId: d.id,
-        ...d.data(),
-    } as any));
-    const allInspections = inspectionsSnap.docs.map(d => ({
-        firestoreId: d.id,
-        ...d.data(),
-    } as any));
-
-    const validatedCommitments = allCommitments.filter((c: any) => c.validatedAt);
-    const validatedInspections = allInspections.filter((i: any) => i.validatedAt);
-
-    const commitmentsBySupplier = groupBy(validatedCommitments);
-    const inspectionsBySupplier = groupBy(validatedInspections);
-
-    const trustBySupplier: Record<string, TrustResult> = {};
-    suppliersSnap.docs.forEach(d => {
-        const s: any = { id: d.id, ...d.data() };
-        const input: TrustInput = {
-            supplier: {
-                id: s.id,
-                name: s.name,
-                status: s.status,
-                isActive: s.isActive ?? s.status === 'ACTIVE',
-                latitude: s.latitude,
-                longitude: s.longitude,
-                hasLocation: s.hasLocation,
-                registrationNumber: s.registrationNumber,
-                farmerIdNumber: s.farmerIdNumber,
-                dataConsentGiven: s.dataConsentGiven,
-                dataConsentScope: s.dataConsentScope,
-                dataConsentWithdrawnDate: s.dataConsentWithdrawnDate,
-                firebreakProtection: s.firebreakProtection,
-                noChildLabor: s.noChildLabor,
-                sustainableHarvesting: s.sustainableHarvesting,
-                isCertified: s.isCertified,
-                certificationType: s.certificationType,
-            },
-            batches: batchesBySupplier[s.id] || [],
-            commitments: commitmentsBySupplier[s.id] || [],
-            inspections: inspectionsBySupplier[s.id] || [],
-        };
-        trustBySupplier[s.id] = computeTrustScoreServer(input);
-    });
-
+    // ---- KPIs ----
     const totalSuppliers = suppliersSnap.size;
+
     const activeSuppliers = suppliersSnap.docs.filter(d => {
         const s: any = d.data();
         return (s.isActive ?? s.status === 'ACTIVE') && s.status === 'ACTIVE';
@@ -624,10 +663,14 @@ async function buildNetworkSummary(fid: string) {
         : null;
     const scoredCount = scoredOveralls.length;
 
-    const verifiedVolumeKg = batches
-        .filter(b => b.verifiedAt && b.verifiedAt > 0)
-        .reduce((sum, b) => sum + (b.weightKg || 0), 0);
+    // Verified volume summed across all suppliers via the grouped
+    // batches the loader already produced.
+    const verifiedVolumeKg = Object.values(batchesBySupplier)
+        .flat()
+        .filter((b: any) => b.verifiedAt && b.verifiedAt > 0)
+        .reduce((sum: number, b: any) => sum + (b.weightKg || 0), 0);
 
+    // ---- Consent counts ----
     const consentCounts = { full: 0, partial: 0, none: 0, withdrawn: 0 };
     suppliersSnap.docs.forEach(d => {
         const s: any = d.data();
@@ -649,21 +692,29 @@ async function buildNetworkSummary(fid: string) {
         }
     });
 
+    // ---- Queue counts ----
     const queueCounts = {
-        pendingCommitments: allCommitments.filter((c: any) => !c.validatedAt).length,
-        pendingInspections: allInspections.filter((i: any) => !i.validatedAt).length,
+        pendingCommitments: allCommitmentsSnap.docs
+            .filter(d => !(d.data() as any).validatedAt).length,
+        pendingInspections: allInspectionsSnap.docs
+            .filter(d => !(d.data() as any).validatedAt).length,
         openDisputes: disputesSnap.docs.filter(d => {
             const data: any = d.data();
             return data.reviewStatus === 'OPEN' || data.reviewStatus === 'UNDER_REVIEW';
         }).length,
     };
 
+    // ---- Maturity counts ----
     const maturityCounts = { preliminary: 0, developing: 0, established: 0 };
     Object.values(trustBySupplier).forEach(t => { maturityCounts[t.confidence]++; });
 
+    // ---- Top trust ----
     const topTrust = Object.entries(trustBySupplier)
         .map(([supplierId, trust]) => {
-            const s: any = { id: supplierId, ...(suppliersSnap.docs.find(d => d.id === supplierId)?.data() || {}) };
+            const s: any = {
+                id: supplierId,
+                ...(suppliersSnap.docs.find(d => d.id === supplierId)?.data() || {}),
+            };
             return {
                 supplierId,
                 name: s.name,
@@ -676,6 +727,7 @@ async function buildNetworkSummary(fid: string) {
         .sort((a, b) => (b.overall ?? 0) - (a.overall ?? 0))
         .slice(0, 5);
 
+    // ---- Risk preview ----
     const flagged = Object.entries(trustBySupplier).filter(
         ([, t]) => t.hasCriticalViolation || t.flags.length > 0
     );
@@ -714,6 +766,7 @@ async function buildNetworkSummary(fid: string) {
         }
         : null;
 
+    // ---- Financial efficiency ----
     const expensesBySupplier = new Map<number, number>();
     expensesSnap.docs.forEach(d => {
         const e: any = d.data();
@@ -755,6 +808,7 @@ async function buildNetworkSummary(fid: string) {
         .sort((a, b) => b.efficiency - a.efficiency)
         .slice(0, 5);
 
+    // ---- Development counts ----
     const allSupportActions: SupportAction[] = supportActionsSnap.docs.map(d => {
         const data: any = d.data();
         return {
@@ -805,8 +859,6 @@ async function buildNetworkSummary(fid: string) {
         topOpportunity,
     };
 
-    const tCompute = Date.now() - t1;
-
     return {
         generatedAt: Date.now(),
         scoringVersion: 'v2.0',
@@ -831,10 +883,5 @@ async function buildNetworkSummary(fid: string) {
         financialEfficiency,
 
         developmentCounts,
-        _timing: {
-            fetchMs: tFetch,
-            computeMs: tCompute,
-            totalMs: Date.now() - t0,
-        },
     };
 }
