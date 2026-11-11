@@ -133,7 +133,7 @@ const SupplierManagement: React.FC = () => {
     const [tableRows, setTableRows] = useState<any[]>([]);
     const [tableTotal, setTableTotal] = useState(0);
     const [tablePage, setTablePage] = useState(1);
-    const [tablePageSize] = useState(25);
+    const [tablePageSize] = useState(10);
     const [tableSearch, setTableSearch] = useState('');
     const [debouncedSearch, setDebouncedSearch] = useState('');
     const [tableType, setTableType] = useState('All');
