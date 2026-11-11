@@ -221,6 +221,291 @@ export const handler: Handler = async (event: HandlerEvent) => {
         }
 
         // ============================================================
+        // S7 — seedScaleTest (TEMPORARY; removed in S7 cleanup)
+        // Guarded: farmId must start with "scale-test".
+        // Refuses if the test farm already has suppliers.
+        // ============================================================
+        if (action === 'seedScaleTest') {
+            if (!String(fid).startsWith('scale-test')) {
+                return {
+                    statusCode: 400,
+                    headers: corsHeaders,
+                    body: JSON.stringify({ error: 'seedScaleTest refused — farmId must start with "scale-test"' }),
+                };
+            }
+            const farmRef = db.collection('farms').doc(fid);
+            const existing = await farmRef.collection('suppliers').limit(1).get();
+            if (!existing.empty) {
+                return {
+                    statusCode: 409,
+                    headers: corsHeaders,
+                    body: JSON.stringify({ error: 'Test farm already seeded — purgeScaleTest first' }),
+                };
+            }
+
+            // ---- deterministic PRNG so reruns are identical ----
+            let seed = 42;
+            const rnd = () => {
+                seed = (seed * 1664525 + 1013904223) >>> 0;
+                return seed / 0xFFFFFFFF;
+            };
+            const pick = <T,>(arr: T[]): T => arr[Math.floor(rnd() * arr.length)];
+            const between = (a: number, b: number) => a + rnd() * (b - a);
+            const round1 = (n: number) => Number(n.toFixed(1));
+            const round0 = (n: number) => Math.round(n);
+
+            // ---- type distribution ----
+            const types: string[] = [];
+            for (let i = 0; i < 1000; i++) {
+                const r = rnd();
+                if (i === 0) types.push('OWN_FARM');
+                else if (r < 0.55) types.push('INDEPENDENT_FARMER');
+                else if (r < 0.80) types.push('COOPERATIVE');
+                else if (r < 0.90) types.push('REGIONAL_SUPPLIER');
+                else if (r < 0.95) types.push('COMMERCIAL_AGGREGATOR');
+                else types.push('PROCESSOR');
+            }
+
+            // ---- Odienné-area GPS jitter ----
+            const baseLat = 9.5, baseLng = -7.56;
+            const jitter = () => (rnd() - 0.5) * 0.6;
+
+            // Deterministic supplier ids 1..1000 used as numeric supplierId
+            // on batches/commitments/inspections so linkedBatchIds matches.
+            const supplierDocs: Array<{ id: string; data: any }> = [];
+            for (let i = 1; i <= 1000; i++) {
+                const consentRoll = rnd();
+                const consentMode =
+                    consentRoll < 0.85 ? 'full' :
+                        consentRoll < 0.95 ? 'identity_only' : 'none';
+                const scopes =
+                    consentMode === 'full' ? ['identity', 'location', 'photo'] :
+                        consentMode === 'identity_only' ? ['identity'] : [];
+                const hasGps = consentMode === 'full';
+                const active = rnd() < 0.95;
+                const name = `Scale Test Supplier ${String(i).padStart(4, '0')}`;
+
+                supplierDocs.push({
+                    id: String(i),
+                    data: {
+                        scaleTest: true,
+                        name,
+                        type: types[i - 1],
+                        status: active ? 'ACTIVE' : 'INACTIVE',
+                        isActive: active,
+                        contactPerson: `Contact ${i}`,
+                        phone: `+225 07 ${String(100000 + i).slice(-6)}`,
+                        email: `supplier${i}@scale.test`,
+                        location: pick(['Odienné', 'Boundiali', 'Korhogo', 'Séguéla']),
+                        region: 'Kabadougou',
+                        country: 'Côte d\'Ivoire',
+                        latitude: hasGps ? baseLat + jitter() : undefined,
+                        longitude: hasGps ? baseLng + jitter() : undefined,
+                        hasLocation: hasGps,
+                        registrationNumber: `RCCM-${i}`,
+                        taxId: `TAX-${i}`,
+                        farmerIdNumber: `FID-${i}`,
+                        farmSize: round0(between(1, 25)),
+                        yearsFarming: round0(between(1, 40)),
+                        isCertified: rnd() < 0.2,
+                        certificationType: 'ORGANIC',
+                        firebreakProtection: rnd() < 0.7,
+                        noChildLabor: rnd() < 0.9,
+                        sustainableHarvesting: rnd() < 0.75,
+                        dataConsentGiven: consentMode !== 'none',
+                        dataConsentScope: scopes,
+                        dataConsentSignedBy: `Farmer ${i}`,
+                        dataConsentVersion: '1.0',
+                        dataConsentWithdrawnDate: null,
+                        dataConsentWithdrawnReason: null,
+                        rating: round1(between(3, 5)),
+                        notes: 'S7 scale-test seed',
+                    },
+                });
+            }
+
+            // ---- batches: 3–7 per supplier ----
+            const batchDocs: Array<{ id: string; data: any }> = [];
+            const batchesPerSupplier: Record<string, string[]> = {};
+            for (let i = 1; i <= 1000; i++) {
+                const n = 3 + Math.floor(rnd() * 5);
+                const ids: string[] = [];
+                for (let b = 0; b < n; b++) {
+                    const id = `B-${i}-${b}`;
+                    ids.push(id);
+                    const kor = round0(between(230, 290));
+                    const moisture = round1(between(5, 12));
+                    const defective = round1(between(0, 8));
+                    const qualityScore = round1(between(40, 95));
+                    // grade: reject if moisture>10 or defects>5, premium if kor>=270 && moisture<=7 && defects<=2, else standard
+                    const grade =
+                        (moisture > 10 || defective > 5) ? 'REJECT' :
+                            (kor >= 270 && moisture <= 7 && defective <= 2) ? 'PREMIUM' :
+                                'STANDARD';
+                    const verified = rnd() < 0.90;
+                    batchDocs.push({
+                        id,
+                        data: {
+                            scaleTest: true,
+                            supplierId: i,
+                            batchNumber: id,
+                            weightKg: round0(between(200, 2000)),
+                            qualityScore,
+                            rcnQualityScore: qualityScore,
+                            qualityGrade: grade,
+                            moistureContent: moisture,
+                            defectiveRate: defective,
+                            korGPerKg: kor,
+                            nutCountPerKg: round0(between(150, 250)),
+                            kernelRatio: round1(between(20, 30)),
+                            foreignMatter: round1(between(0, 3)),
+                            aflatoxinPpb: round1(between(0, 15)),
+                            heavyMetalsPpb: round1(between(0, 1)),
+                            pesticideResiduePpb: round1(between(0, 0.5)),
+                            farmOsMonitored: rnd() < 0.7,
+                            verifiedAt: verified ? Date.now() - Math.floor(rnd() * 86400000 * 30) : undefined,
+                            processingDate: Date.now() - Math.floor(rnd() * 86400000 * 60),
+                            sustainableHarvesting: rnd() < 0.75,
+                            firebreakProtection: rnd() < 0.7,
+                            noChildLabor: rnd() < 0.9,
+                        },
+                    });
+                }
+                batchesPerSupplier[String(i)] = ids;
+            }
+
+            // ---- commitments: 1 per supplier, 80% validated ----
+            const commitmentDocs: Array<{ id: string; data: any }> = [];
+            for (let i = 1; i <= 1000; i++) {
+                const linked = batchesPerSupplier[String(i)] || [];
+                const validated = rnd() < 0.80;
+                const linkedWeight = batchDocs
+                    .filter(b => b.data.supplierId === i)
+                    .reduce((s, b) => s + b.data.weightKg, 0);
+                const committedKg = round0(linkedWeight * between(0.8, 1.2));
+                const statusRoll = rnd();
+                commitmentDocs.push({
+                    id: `C-${i}`,
+                    data: {
+                        scaleTest: true,
+                        supplierId: i,
+                        contractId: `CNT-2026-${String(i).padStart(3, '0')}`,
+                        season: '2026',
+                        committedKg,
+                        deliveredKg: validated ? committedKg : 0,
+                        status: statusRoll < 0.80 ? 'FULFILLED' : statusRoll < 0.95 ? 'PARTIAL' : 'MISSED',
+                        delayReason: rnd() < 0.05 ? 'WEATHER' : undefined,
+                        buyerRequestedChange: rnd() < 0.03,
+                        validatedAt: validated ? Date.now() - Math.floor(rnd() * 86400000 * 15) : undefined,
+                        linkedBatchIds: linked,
+                    },
+                });
+            }
+
+            // ---- inspections on 30% of suppliers, ~5 CRITICAL+FAIL validated ----
+            const inspectionDocs: Array<{ id: string; data: any }> = [];
+            let criticalTargets = 5;
+            for (let i = 1; i <= 1000; i++) {
+                if (rnd() >= 0.30) continue;
+                const validate = rnd() < 0.85;
+                const forceCritical = criticalTargets > 0 && validate && rnd() < 0.02;
+                if (forceCritical) criticalTargets--;
+                const outcome = forceCritical ? 'FAIL' :
+                    pick(['PASS', 'CONDITIONAL', 'FAIL']);
+                const severity = forceCritical ? 'CRITICAL' :
+                    (outcome === 'FAIL' ? 'HIGH' : 'MINOR');
+                inspectionDocs.push({
+                    id: `I-${i}`,
+                    data: {
+                        scaleTest: true,
+                        supplierId: i,
+                        inspectionType: pick(['FIELD_VISIT', 'DOCUMENT_REVIEW', 'SENSORY_AUDIT']),
+                        outcome,
+                        severity,
+                        findings: 'S7 scale-test seed',
+                        validatedAt: validate ? Date.now() - Math.floor(rnd() * 86400000 * 20) : undefined,
+                    },
+                });
+            }
+
+            // ---- batch writes ≤500/commit ----
+            const farmRef2 = db.collection('farms').doc(fid);
+            let totalWritten = 0;
+            const collectionsToSeed: Array<[string, Array<{ id: string; data: any }>]> = [
+                ['suppliers', supplierDocs],
+                ['quality_batches', batchDocs],
+                ['supplier_commitments', commitmentDocs],
+                ['supplier_inspections', inspectionDocs],
+            ];
+            const perCollection: Record<string, number> = {};
+            for (const [coll, docs] of collectionsToSeed) {
+                perCollection[coll] = docs.length;
+                for (let start = 0; start < docs.length; start += 500) {
+                    const batch = db.batch();
+                    const slice = docs.slice(start, start + 500);
+                    for (const d of slice) {
+                        batch.set(farmRef2.collection(coll).doc(d.id), d.data);
+                    }
+                    await batch.commit();
+                    totalWritten += slice.length;
+                }
+            }
+
+            return {
+                statusCode: 200,
+                headers: corsHeaders,
+                body: JSON.stringify({
+                    farmId: fid,
+                    totalWritten,
+                    perCollection,
+                    note: 'S7 scale-test seed complete',
+                }),
+            };
+        }
+
+        // ============================================================
+        // S7 — purgeScaleTest (TEMPORARY; removed in S7 cleanup)
+        // Guarded: farmId must start with "scale-test".
+        // Deletes in ≤500/commit per collection. Returns per-collection
+        // counts so the cleanup can be verified.
+        // ============================================================
+        if (action === 'purgeScaleTest') {
+            if (!String(fid).startsWith('scale-test')) {
+                return {
+                    statusCode: 400,
+                    headers: corsHeaders,
+                    body: JSON.stringify({ error: 'purgeScaleTest refused — farmId must start with "scale-test"' }),
+                };
+            }
+            const farmRef = db.collection('farms').doc(fid);
+            const collectionsToPurge = [
+                'suppliers', 'quality_batches', 'supplier_commitments',
+                'supplier_inspections', 'supplier_disputes', 'expenses',
+                'revenues', 'supplier_support_actions', 'supplier_score_history',
+            ];
+            const deleted: Record<string, number> = {};
+            for (const coll of collectionsToPurge) {
+                let count = 0;
+                // Loop until empty — each pass deletes ≤500
+                // eslint-disable-next-line no-constant-condition
+                while (true) {
+                    const snap = await farmRef.collection(coll).limit(500).get();
+                    if (snap.empty) break;
+                    const batch = db.batch();
+                    snap.docs.forEach(d => batch.delete(d.ref));
+                    await batch.commit();
+                    count += snap.size;
+                }
+                deleted[coll] = count;
+            }
+            return {
+                statusCode: 200,
+                headers: corsHeaders,
+                body: JSON.stringify({ farmId: fid, deleted }),
+            };
+        }
+
+        // ============================================================
         // S4-prep — getEvidenceQueues
         // ============================================================
         if (action === 'getEvidenceQueues') {
