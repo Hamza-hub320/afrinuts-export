@@ -20,7 +20,7 @@ import {
     listSuppliers,
     getNetworkMapPoints,
     getEvidenceQueues,
-    exportSuppliers,
+    exportSuppliers, recalculateTrustBatch,
 } from '../services/api';
 import { Dialog, Transition } from '@headlessui/react';
 import SupplierMap from '@/components/SupplierMap/SupplierMap';
@@ -160,6 +160,9 @@ const SupplierManagement: React.FC = () => {
     const [openDisputes, setOpenDisputes] = useState<any[]>([]);
 
     const [isRecalculating, setIsRecalculating] = useState(false);
+    const [commitmentsShown, setCommitmentsShown] = useState(10);
+    const [inspectionsShown, setInspectionsShown] = useState(10);
+    const [disputesShown, setDisputesShown] = useState(10);
 
     // (1) Summary
     useEffect(() => {
@@ -304,10 +307,42 @@ const SupplierManagement: React.FC = () => {
     };
 
     // ---- Stub: no writes ----
-    const handleRecalculateAll = () => {
+    const [recalcProgress, setRecalcProgress] = useState<{ done: number; total: number | null } | null>(null);
+
+    const handleRecalculateAll = async () => {
         if (isRecalculating) return;
         setIsRecalculating(true);
-        setTimeout(() => setIsRecalculating(false), 600);
+        setRecalcProgress({ done: 0, total: summary?.totalSuppliers ?? null });
+
+        try {
+            let cursor: string | undefined = undefined;
+            let totalProcessed = 0;
+            // Cap iterations to avoid an infinite loop on a server bug.
+            // 1,000 suppliers / limit 100 = 10 calls; cap at 50.
+            for (let i = 0; i < 50; i++) {
+                const res = await recalculateTrustBatch({
+                    farmId: '1',
+                    cursor,
+                    limit: 100,
+                });
+                totalProcessed += res.processed;
+                setRecalcProgress({
+                    done: totalProcessed,
+                    total: summary?.totalSuppliers ?? totalProcessed,
+                });
+                if (res.done || !res.nextCursor) break;
+                cursor = res.nextCursor;
+            }
+            // Summary is the source of truth for KPI + topTrust + risk.
+            // One refetch on completion — not per-batch.
+            setRefreshKey(k => k + 1);
+        } catch (err: any) {
+            console.error('Recalculate failed:', err);
+            alert(err?.message || 'Recalculate failed — see console for details.');
+        } finally {
+            setIsRecalculating(false);
+            setRecalcProgress(null);
+        }
     };
 
     const handleExport = async () => {
@@ -426,11 +461,13 @@ const SupplierManagement: React.FC = () => {
                                 onClick={handleRecalculateAll}
                                 disabled={isRecalculating}
                                 className="mt-6 inline-flex items-center gap-2 px-6 py-2.5 bg-white/60 border border-primary/30 text-primary hover:bg-primary hover:text-white rounded-full text-sm font-medium transition-all duration-300 shadow-sm backdrop-blur-sm disabled:opacity-50"
-                                whileHover={{ y: -2, scale: 1.02 }}
-                                whileTap={{ scale: 0.98 }}
+                                whileHover={isRecalculating ? undefined : { y: -2, scale: 1.02 }}
+                                whileTap={isRecalculating ? undefined : { scale: 0.98 }}
                             >
                                 <FaHistory className={isRecalculating ? 'animate-spin' : ''} />
-                                {isRecalculating ? 'Recalculating...' : 'Recalculate & Snapshot Scores'}
+                                {isRecalculating && recalcProgress
+                                    ? `Recalculating… ${recalcProgress.done}${recalcProgress.total != null ? ` / ${recalcProgress.total}` : ''}`
+                                    : 'Recalculate & Snapshot Scores'}
                             </motion.button>
                         </motion.div>
                     </motion.div>
@@ -501,7 +538,7 @@ const SupplierManagement: React.FC = () => {
                                             <FaHandshake /> Commitments ({pendingCommitments.length})
                                         </h4>
                                         <div className="space-y-2">
-                                            {pendingCommitments.map(c => (
+                                            {pendingCommitments.slice(0, commitmentsShown).map(c => (
                                                 <div key={c.id} className="bg-white/40 rounded-xl p-3 border border-white/30 flex items-center gap-3">
                                                     <div className="flex-1 min-w-0">
                                                         <div className="flex items-center gap-2">

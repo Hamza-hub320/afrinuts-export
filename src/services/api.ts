@@ -116,6 +116,34 @@ export async function exportSuppliers(params: ExportSuppliersParams): Promise<{
     return response.json();
 }
 
+export interface RecalculateTrustBatchParams {
+    farmId: string;
+    cursor?: string;
+    limit?: number;
+}
+
+export interface RecalculateTrustBatchResult {
+    done: boolean;
+    processed: number;
+    nextCursor: string | null;
+}
+
+export async function recalculateTrustBatch(
+    params: RecalculateTrustBatchParams
+): Promise<RecalculateTrustBatchResult> {
+    const baseUrl = getApiBaseUrl();
+    const response = await fetch(`${baseUrl}/supplierNetwork`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'recalculateTrustBatch', ...params }),
+    });
+    if (!response.ok) {
+        const text = await response.text().catch(() => '');
+        throw new Error(`Recalculate failed: ${response.status}${text ? ` — ${text}` : ''}`);
+    }
+    return response.json();
+}
+
 export const getBuyerPortalData = async (action: string, params?: any) => {
     if (isDevelopment) {
         // Mock data for dev
