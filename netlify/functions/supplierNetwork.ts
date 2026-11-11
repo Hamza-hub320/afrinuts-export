@@ -367,13 +367,13 @@ async function loadTrustMap(fid: string): Promise<{
             .select(
                 'supplierId', 'validatedAt',
                 'committedKg', 'deliveredKg', 'status',
-                'contractId', 'season', 'delayReason', 'buyerRequestedChange'
+                'contractId', 'season', 'delayReason', 'buyerRequestedChange', 'linkedBatchIds'
             )
             .get(),
         db.collection('farms').doc(fid).collection('supplier_inspections')
             .select(
                 'supplierId', 'validatedAt',
-                'inspectionType', 'outcome', 'findings'
+                'inspectionType', 'outcome', 'findings', 'severity'
             )
             .get(),
     ]);
