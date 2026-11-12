@@ -158,6 +158,7 @@ const SupplierManagement: React.FC = () => {
     const [pendingCommitments, setPendingCommitments] = useState<any[]>([]);
     const [pendingInspections, setPendingInspections] = useState<any[]>([]);
     const [openDisputes, setOpenDisputes] = useState<any[]>([]);
+    const [correctedValues, setCorrectedValues] = useState<Record<string, string>>({});
 
     const [isRecalculating, setIsRecalculating] = useState(false);
     const [commitmentsShown, setCommitmentsShown] = useState(10);
@@ -269,10 +270,31 @@ const SupplierManagement: React.FC = () => {
 
     const handleResolveDispute = async (disputeId: string, resolution: 'UPHELD' | 'REJECTED') => {
         try {
-            await getSupplierData('resolveDispute', {
-                disputeId, resolution, reviewedBy: 'portal-manager',
-            });
-            setOpenDisputes(prev => prev.filter((d: any) => d.id !== disputeId));
+            const dispute = openDisputes.find((d: any) => (d.firestoreId || d.id) === disputeId);
+            const isBatchTarget =
+                String(dispute?.targetEntity ?? '').toUpperCase() === 'BATCH';
+            const typedCorrected = correctedValues[disputeId];
+
+            const payload: any = {
+                disputeId,
+                resolution,
+                reviewedBy: 'portal-manager',
+                // P8 — always pass stored values so the card can never wipe them.
+                originalValue: dispute?.originalValue ?? null,
+                correctedValue: dispute?.correctedValue ?? null,
+            };
+
+            // Batch target + UPHELD + typed value → use the typed value.
+            if (isBatchTarget && resolution === 'UPHELD' && typedCorrected) {
+                const parsed = parseFloat(typedCorrected);
+                if (!Number.isNaN(parsed)) {
+                    payload.correctedValue = parsed;
+                    payload.correctionApplied = true;
+                }
+            }
+
+            await getSupplierData('resolveDispute', payload);
+            setOpenDisputes(prev => prev.filter((d: any) => (d.firestoreId || d.id) !== disputeId));
             setRefreshKey(k => k + 1);
         } catch (error) {
             console.error('Failed to resolve dispute:', error);
@@ -625,6 +647,24 @@ const SupplierManagement: React.FC = () => {
                                                 <span className="text-[10px] text-gray-500">Target: {d.targetEntity} #{d.targetId}</span>
                                             </div>
                                             <p className="text-xs text-gray-700 mt-1">{d.reason}</p>
+
+                                            {/* P8 — corrected-value input for BATCH-targeted disputes */}
+                                            {String(d.targetEntity ?? '').toUpperCase() === 'BATCH' && (
+                                                <div className="flex items-center gap-2 mt-1.5 text-[10px] text-gray-600">
+                                                    <span>Original: <strong>{d.originalValue ?? '—'}</strong></span>
+                                                    <span className="text-gray-400">→</span>
+                                                    <span>Corrected:</span>
+                                                    <input
+                                                        type="number"
+                                                        placeholder={String(d.correctedValue ?? '')}
+                                                        value={correctedValues[d.id] || ''}
+                                                        onChange={(e) =>
+                                                            setCorrectedValues(prev => ({ ...prev, [d.id]: e.target.value }))
+                                                        }
+                                                        className="w-16 px-1 py-0.5 text-[10px] border border-gray-300 rounded focus:outline-none focus:border-primary"
+                                                    />
+                                                </div>
+                                            )}
                                         </div>
                                         <div className="flex gap-2 flex-shrink-0">
                                             <button
