@@ -382,7 +382,7 @@ export const handler: Handler = async (event: HandlerEvent) => {
             return {
                 statusCode: 200,
                 headers,
-                body: JSON.stringify({ disputes: snap.docs.map(d => ({ id: d.id, ...d.data() })) }),
+                body: JSON.stringify({ disputes: snap.docs.map(d => ({ ...d.data(), id: d.id })) }),
             };
         }
 

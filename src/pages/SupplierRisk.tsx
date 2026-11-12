@@ -149,7 +149,7 @@ const SupplierRisk: React.FC = () => {
 
     // Selected supplier workspace
     const selected = selectedSupplierId
-        ? suppliers.find(s => s.id === selectedSupplierId) || null
+        ? suppliers.find(s => String(s.id) === selectedSupplierId) || null
         : null;
     const selectedTrust = selectedSupplierId ? trustBySupplier[selectedSupplierId] : null;
     const selectedBatches = selectedSupplierId ? batchesBySupplier[selectedSupplierId] || [] : [];
@@ -210,7 +210,7 @@ const SupplierRisk: React.FC = () => {
             // R4 — if batch dispute is upheld and a corrected value was entered, send it
             if (
                 resolution === 'UPHELD' &&
-                dispute?.targetEntity === 'batch' &&
+                String(dispute?.targetEntity ?? '').toUpperCase() === 'BATCH' &&
                 correctedValues[disputeId]
             ) {
                 payload.originalValue = dispute.originalValue ?? null;
@@ -399,7 +399,7 @@ const SupplierRisk: React.FC = () => {
                                     <div className="space-y-2">
                                         {paginated.map(({ supplier, trust }) => {
                                             const sev = severityOf(trust);
-                                            const isActive = selectedSupplierId === supplier.id;
+                                            const isActive = selectedSupplierId === String(supplier.id);
 
                                             // R1: list rows carry conduct flags only — evidence/documentation
                                             // live in the detail panel where they have room to breathe.
@@ -410,7 +410,7 @@ const SupplierRisk: React.FC = () => {
                                             return (
                                                 <motion.div
                                                     key={supplier.id}
-                                                    onClick={() => setSelectedSupplierId(supplier.id)}
+                                                    onClick={() => setSelectedSupplierId(String(supplier.id))}
                                                     className={`rounded-xl p-3 border cursor-pointer transition-all ${
                                                         isActive
                                                             ? 'bg-primary/10 border-primary/40 ring-1 ring-primary/20'
@@ -726,7 +726,7 @@ const SupplierRisk: React.FC = () => {
                                                     <div className="space-y-1.5">
                                                         {selectedDisputes.map((d: any) => {
                                                             const key = d.firestoreId || d.id;
-                                                            const isBatchTarget = d.targetEntity === 'batch';
+                                                            const isBatchTarget = String(d.targetEntity ?? '').toUpperCase() === 'BATCH';
 
                                                             return (
                                                                 <div key={key} className="bg-red-50/80 rounded-lg p-2 border border-red-200">
