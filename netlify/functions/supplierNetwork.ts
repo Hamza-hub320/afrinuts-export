@@ -701,7 +701,7 @@ async function buildFilteredRows(
     // 4. Enrich each supplier with trust (from current-trust doc or
     //    null when unscored) + row-level batch aggregates.
     const enriched = allSuppliers.map(s => {
-        const trustDoc = trustById.get(s.id);
+        const trustDoc = trustById.get(String(s.id));
         const trust = trustDoc
             ? {
                 overall: trustDoc.overall ?? null,
@@ -988,9 +988,13 @@ async function buildNetworkSummary(fid: string) {
     };
 
     // ---- Maturity counts ----
+    // Count every supplier, not just scored ones: unscored suppliers have no
+// current-trust doc, so they count as preliminary (0 verified
+// transactions) — same as loadTrustMap did before S8-B.
     const maturityCounts = { preliminary: 0, developing: 0, established: 0 };
-    Object.values(trustBySupplier).forEach(t => {
-        const k = t.confidence as 'preliminary' | 'developing' | 'established';
+    suppliersSnap.docs.forEach(d => {
+        const t = trustBySupplier[d.id];
+        const k = (t?.confidence ?? 'preliminary') as 'preliminary' | 'developing' | 'established';
         if (k in maturityCounts) maturityCounts[k]++;
     });
 
