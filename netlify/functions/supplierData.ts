@@ -15,6 +15,87 @@ if (!getApps().length) {
 
 const db = getFirestore();
 
+// ============================================================
+// D5 — shared spawn helper for inspection follow-up tasks.
+// Called from validateEvidence (after stamp + S8 recompute) and
+// from backfillInspectionTasks. Dedupe by inspectionId, so
+// re-validation and re-backfill are both no-ops.
+//
+// Rules:
+//  - Only CONDITIONAL or FAIL spawns.
+//  - PASS spawns nothing (the PASS is a closure signal, not a task).
+//  - CRITICAL FAIL is not special-cased: the task fires AND the
+//    critical violation flag fires independently via trustFormulas.
+//  - Spawn failure never fails the caller's main write.
+// ============================================================
+async function spawnInspectionTaskIfNeeded(
+    fid: string,
+    inspectionDoc: { id: string; data: any },
+    givenBy: string
+): Promise<{ created: boolean; actionId?: string; skippedReason?: string }> {
+    const insp: any = inspectionDoc.data;
+    const inspectionId = inspectionDoc.id;
+
+    if (!insp) return { created: false, skippedReason: 'no inspection data' };
+    if (insp.outcome !== 'CONDITIONAL' && insp.outcome !== 'FAIL') {
+        return { created: false, skippedReason: `outcome ${insp.outcome} does not spawn` };
+    }
+
+    const farmRef = db.collection('farms').doc(fid);
+    const existing = await farmRef.collection('supplier_inspection_actions')
+        .where('inspectionId', '==', inspectionId)
+        .limit(1)
+        .get();
+    if (!existing.empty) {
+        return { created: false, skippedReason: 'task already exists for this inspection' };
+    }
+
+    // Due trigger: parse the corrective-action text.
+    // "before the next delivery" ⇒ next_batch; explicit date ⇒ date;
+    // otherwise default to next_batch with the default-applied flag recorded.
+    const correctiveAction: string = insp.correctiveAction || '';
+    let dueTrigger: { type: 'date'; date: number } | { type: 'next_batch' } = { type: 'next_batch' };
+    let dueTriggerDefaulted = true;
+    if (/before the next delivery|next delivery|next batch/i.test(correctiveAction)) {
+        dueTrigger = { type: 'next_batch' };
+        dueTriggerDefaulted = false;
+    } else {
+        const dateMatch = correctiveAction.match(/(\d{4}-\d{2}-\d{2})/);
+        if (dateMatch) {
+            const ts = Date.parse(dateMatch[1]);
+            if (!Number.isNaN(ts)) {
+                dueTrigger = { type: 'date', date: ts };
+                dueTriggerDefaulted = false;
+            }
+        }
+    }
+
+    const now = Date.now();
+    const ref = await farmRef.collection('supplier_inspection_actions').add({
+        supplierId: insp.supplierId,
+        inspectionId,
+        inspectionNumericId: typeof insp.id === 'number' ? insp.id : null,
+        inspectionType: insp.inspectionType || null,
+        outcome: insp.outcome,
+        severity: insp.severity || null,
+        finding: insp.findings || '',
+        correctiveAction: correctiveAction,
+        owner: insp.inspector || '',
+        assignedTo: insp.inspector || '',
+        dueTrigger,
+        dueTriggerDefaulted,
+        status: 'OPEN',
+        givenAt: now,
+        givenBy,
+        scoringVersion: 'v2.0',
+        closedAt: null,
+        closedBy: null,
+        reInspectionId: null,
+        reInspectionNumericId: null,
+    });
+    return { created: true, actionId: ref.id };
+}
+
 export const handler: Handler = async (event: HandlerEvent) => {
     const headers = {
         'Access-Control-Allow-Origin': '*',
@@ -277,10 +358,10 @@ export const handler: Handler = async (event: HandlerEvent) => {
         }
 
         if (action === 'validateEvidence') {
-            const { collection, docId, userId } = params;
+            const {collection, docId, userId} = params;
 
             if (!['supplier_commitments', 'supplier_inspections'].includes(collection)) {
-                return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid collection' }) };
+                return {statusCode: 400, headers, body: JSON.stringify({error: 'Invalid collection'})};
             }
 
             const docRef = db.collection('farms').doc(fid).collection(collection).doc(docId);
@@ -290,7 +371,7 @@ export const handler: Handler = async (event: HandlerEvent) => {
                 return {
                     statusCode: 404,
                     headers,
-                    body: JSON.stringify({ error: `No ${collection} document at ${docId}` }),
+                    body: JSON.stringify({error: `No ${collection} document at ${docId}`}),
                 };
             }
 
@@ -325,8 +406,23 @@ export const handler: Handler = async (event: HandlerEvent) => {
                     recomputeErr?.message || recomputeErr
                 );
             }
+            if (collection === 'supplier_inspections') {
+                try {
+                    const inspData: any = docSnap.data();
+                    await spawnInspectionTaskIfNeeded(
+                        fid,
+                        {id: docId, data: inspData},
+                        userId || 'portal-manager'
+                    );
+                } catch (spawnErr: any) {
+                    console.error(
+                        'D5 spawnInspectionTaskIfNeeded failed after validateEvidence:',
+                        spawnErr?.message || spawnErr
+                    );
+                }
+            }
 
-            return { statusCode: 200, headers, body: JSON.stringify({ success: true }) };
+            return {statusCode: 200, headers, body: JSON.stringify({success: true})};
         }
 
         if (action === 'logSupportAction') {
@@ -436,6 +532,187 @@ export const handler: Handler = async (event: HandlerEvent) => {
                 statusCode: 200,
                 headers,
                 body: JSON.stringify({ disputes: snap.docs.map(d => ({ ...d.data(), id: d.id })) }),
+            };
+        }
+
+        // ============================================================
+        // D5 — getInspectionActions
+        // Returns the farm's supplier_inspection_actions, optionally
+        // filtered to a single supplier. Full row per task — the
+        // Development and Risk pages both consume this.
+        // ============================================================
+        if (action === 'getInspectionActions') {
+            const { supplierId: taskSupplierId } = params;
+            let q: any = db.collection('farms').doc(fid).collection('supplier_inspection_actions');
+            if (taskSupplierId !== undefined && taskSupplierId !== null && taskSupplierId !== '') {
+                const numeric = Number(taskSupplierId);
+                if (Number.isFinite(numeric)) {
+                    q = q.where('supplierId', '==', numeric);
+                }
+            }
+            const snap = await q.get();
+            const actions = snap.docs.map((d: any) => ({ id: d.id, ...d.data() }));
+            return {
+                statusCode: 200,
+                headers,
+                body: JSON.stringify({ actions }),
+            };
+        }
+
+        // ============================================================
+        // D5 — updateInspectionActionDone
+        // Gated DONE: the caller passes the re-inspection's Firestore
+        // doc id. Verification before write:
+        //   - re-inspection exists, same supplier, validated;
+        //   - inspectionDate > task.givenAt (must be a NEW inspection);
+        //   - outcome is PASS.
+        // Any check fails ⇒ 400, task stays OPEN.
+        // ============================================================
+        if (action === 'updateInspectionActionDone') {
+            const { actionId, reInspectionId, closedBy } = params;
+
+            if (!actionId || !reInspectionId) {
+                return {
+                    statusCode: 400,
+                    headers,
+                    body: JSON.stringify({ error: 'Missing actionId or reInspectionId' }),
+                };
+            }
+
+            const farmRef = db.collection('farms').doc(fid);
+            const actionRef = farmRef.collection('supplier_inspection_actions').doc(actionId);
+            const actionSnap = await actionRef.get();
+            if (!actionSnap.exists) {
+                return {
+                    statusCode: 404,
+                    headers,
+                    body: JSON.stringify({ error: `No inspection action at ${actionId}` }),
+                };
+            }
+            const task: any = actionSnap.data();
+            if (task.status === 'DONE') {
+                return {
+                    statusCode: 400,
+                    headers,
+                    body: JSON.stringify({ error: 'Task is already DONE' }),
+                };
+            }
+
+            const reInspRef = farmRef.collection('supplier_inspections').doc(reInspectionId);
+            const reInspSnap = await reInspRef.get();
+            if (!reInspSnap.exists) {
+                return {
+                    statusCode: 400,
+                    headers,
+                    body: JSON.stringify({ error: `No re-inspection at ${reInspectionId}` }),
+                };
+            }
+            const reInsp: any = reInspSnap.data();
+
+            const sameSupplier =
+                String(reInsp.supplierId) === String(task.supplierId);
+            if (!sameSupplier) {
+                return {
+                    statusCode: 400,
+                    headers,
+                    body: JSON.stringify({ error: 'Re-inspection belongs to a different supplier' }),
+                };
+            }
+            if (!reInsp.validatedAt) {
+                return {
+                    statusCode: 400,
+                    headers,
+                    body: JSON.stringify({ error: 'Re-inspection is not validated' }),
+                };
+            }
+            const reInspDate =
+                typeof reInsp.inspectionDate === 'number' ? reInsp.inspectionDate : null;
+            if (reInspDate === null || reInspDate <= (task.givenAt || 0)) {
+                return {
+                    statusCode: 400,
+                    headers,
+                    body: JSON.stringify({ error: 'Re-inspection date must be after the task was created' }),
+                };
+            }
+            if (reInsp.outcome !== 'PASS') {
+                return {
+                    statusCode: 400,
+                    headers,
+                    body: JSON.stringify({ error: `Re-inspection outcome is ${reInsp.outcome}; DONE requires PASS` }),
+                };
+            }
+
+            await actionRef.update({
+                status: 'DONE',
+                closedAt: Date.now(),
+                closedBy: closedBy || 'portal-user',
+                reInspectionId,
+                reInspectionNumericId: typeof reInsp.id === 'number' ? reInsp.id : null,
+            });
+
+            return {
+                statusCode: 200,
+                headers,
+                body: JSON.stringify({ success: true }),
+            };
+        }
+
+        // ============================================================
+        // D5 — backfillInspectionTasks (TEMPORARY; removed in the D5
+        // cleanup commit after the deploy run).
+        // One-off: scans validated CONDITIONAL/FAIL inspections with
+        // no existing task, creates one per. Dedupe by inspectionId
+        // (same rule as the spawn). Idempotent — re-running after
+        // the backfill creates zero tasks.
+        // ============================================================
+        if (action === 'backfillInspectionTasks') {
+            const farmRef = db.collection('farms').doc(fid);
+            const inspSnap = await farmRef.collection('supplier_inspections').get();
+            const existingSnap = await farmRef.collection('supplier_inspection_actions').get();
+            const existingIds = new Set<string>();
+            existingSnap.docs.forEach(d => {
+                const data: any = d.data();
+                if (data?.inspectionId) existingIds.add(String(data.inspectionId));
+            });
+
+            const created: Array<{ actionId: string; inspectionId: string; supplierId: any; outcome: string; severity: any }> = [];
+            const skipped: Array<{ inspectionId: string; reason: string }> = [];
+
+            for (const doc of inspSnap.docs) {
+                const data: any = doc.data();
+                if (!data.validatedAt) {
+                    continue;
+                }
+                if (data.outcome !== 'CONDITIONAL' && data.outcome !== 'FAIL') {
+                    continue;
+                }
+                if (existingIds.has(doc.id)) {
+                    skipped.push({ inspectionId: doc.id, reason: 'task already exists' });
+                    continue;
+                }
+                const result = await spawnInspectionTaskIfNeeded(
+                    fid,
+                    { id: doc.id, data },
+                    'portal-manager (backfill)'
+                );
+                if (result.created && result.actionId) {
+                    created.push({
+                        actionId: result.actionId,
+                        inspectionId: doc.id,
+                        supplierId: data.supplierId,
+                        outcome: data.outcome,
+                        severity: data.severity ?? null,
+                    });
+                    existingIds.add(doc.id);
+                } else {
+                    skipped.push({ inspectionId: doc.id, reason: result.skippedReason || 'unknown' });
+                }
+            }
+
+            return {
+                statusCode: 200,
+                headers,
+                body: JSON.stringify({ farmId: fid, created, skipped }),
             };
         }
 

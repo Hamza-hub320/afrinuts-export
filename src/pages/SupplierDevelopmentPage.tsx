@@ -18,6 +18,28 @@ import { useAuth } from '@/contexts/AuthContext';
 
 interface Supplier { id: string; firestoreId?: string; name: string; type: string; status: string; isActive: boolean; [key: string]: any; }
 interface SupportAction { id: string; supplierId: string; weakness: string; status: 'OPEN'|'DONE'; supportType: string; givenBy: string; givenAt: number; baselineValue: number; baselineMetricLabel: string;  assignedTo: string; notes: string; }
+interface InspectionTask {
+    id: string;
+    supplierId: number | string;
+    inspectionId: string;
+    inspectionType: string | null;
+    outcome: 'CONDITIONAL' | 'FAIL';
+    severity: 'MINOR' | 'MAJOR' | 'CRITICAL' | null;
+    finding: string;
+    correctiveAction: string;
+    owner: string;
+    assignedTo: string;
+    dueTrigger: { type: 'date'; date: number } | { type: 'next_batch' };
+    dueTriggerDefaulted?: boolean;
+    status: 'OPEN' | 'DONE';
+    givenAt: number;
+    givenBy: string;
+    scoringVersion: string;
+    closedAt: number | null;
+    closedBy: string | null;
+    reInspectionId: string | null;
+    reInspectionNumericId: number | null;
+}
 
 type SeverityFilter = 'all' | 'high' | 'medium' | 'low';
 
@@ -44,12 +66,16 @@ const SupplierDevelopmentPage: React.FC = () => {
     const [supportNotes, setSupportNotes] = useState('');
     const [supportAssignee, setSupportAssignee] = useState('');
 
+    const [inspectionTasks, setInspectionTasks] = useState<InspectionTask[]>([]);
+    const [doneModalTarget, setDoneModalTarget] = useState<InspectionTask | null>(null);
+    const [doneSelectedReInspectionId, setDoneSelectedReInspectionId] = useState('');
+
     const fetchAll = async () => {
         try {
-            const [data, disputesRes] = await Promise.allSettled([
+            const [data, disputesRes, inspectionActionsRes] = await Promise.allSettled([
                 getSupplierData('getSuppliersWithTrust'),
-                getSupplierData('getOpenDisputes'), // Even if not used here, keeps context
-                // Add 'getSupportActions' to your backend fetch if not folded into getSuppliersWithTrust
+                getSupplierData('getOpenDisputes'),
+                getSupplierData('getInspectionActions', { farmId: '1' }),
             ]);
 
             if (data.status === 'fulfilled' && data.value) {
@@ -58,6 +84,9 @@ const SupplierDevelopmentPage: React.FC = () => {
                 setCommitmentsBySupplier(data.value.commitmentsBySupplier || {});
                 setInspectionsBySupplier(data.value.inspectionsBySupplier || {});
                 setSupportActions(data.value.supportActions || []);
+            }
+            if (inspectionActionsRes.status === 'fulfilled' && inspectionActionsRes.value) {
+                setInspectionTasks(inspectionActionsRes.value.actions || []);
             }
         } catch (error) {
             console.error('Error fetching development data:', error);
@@ -89,7 +118,12 @@ const SupplierDevelopmentPage: React.FC = () => {
     // Group by supplier + apply filters
     const grouped = useMemo(() => {
         const q = searchQuery.toLowerCase();
-        const groups = new Map<string, { supplier: Supplier; opportunities: DevelopmentOpportunity[]; actions: SupportAction[] }>();
+        const groups = new Map<string, {
+            supplier: Supplier;
+            opportunities: DevelopmentOpportunity[];
+            actions: SupportAction[];
+            inspectionTasks: InspectionTask[];
+        }>();
 
         // 1. Process opportunities (existing logic)
         allOpportunities.forEach(opp => {
@@ -121,7 +155,7 @@ const SupplierDevelopmentPage: React.FC = () => {
             }
 
             if (!groups.has(opp.supplierId)) {
-                groups.set(opp.supplierId, { supplier, opportunities: [], actions: [] });
+                groups.set(opp.supplierId, { supplier, opportunities: [], actions: [], inspectionTasks: [] });
             }
             groups.get(opp.supplierId)!.opportunities.push(opp);
         });
@@ -134,7 +168,7 @@ const SupplierDevelopmentPage: React.FC = () => {
             if (q && !supplier.name.toLowerCase().includes(q)) return;
 
             if (!groups.has(action.supplierId)) {
-                groups.set(action.supplierId, { supplier, opportunities: [], actions: [] });
+                groups.set(action.supplierId, { supplier, opportunities: [], actions: [], inspectionTasks: [] });
             }
             // Only push if it's not already in the list (though we initialized with empty)
             const group = groups.get(action.supplierId)!;
@@ -143,12 +177,29 @@ const SupplierDevelopmentPage: React.FC = () => {
             }
         });
 
+        // supplier with only an inspection task is visible.
+        inspectionTasks.forEach(task => {
+            const supplier = suppliers.find(s => String(s.id) === String(task.supplierId));
+            if (!supplier) return;
+            if (q && !supplier.name.toLowerCase().includes(q)) return;
+            if (!groups.has(String(supplier.id))) {
+                groups.set(String(supplier.id), { supplier, opportunities: [], actions: [], inspectionTasks: [] });
+            }
+            const group = groups.get(String(supplier.id))!;
+            if (!group.inspectionTasks.find(t => t.id === task.id)) {
+                group.inspectionTasks.push(task);
+            }
+        });
+
         // 3. Apply filters and sort
         let result = Array.from(groups.values());
 
         // Has open support filter
         if (hasOpenSupportFilter) {
-            result = result.filter(g => g.actions.some(a => a.status === 'OPEN'));
+            result = result.filter(g =>
+                g.actions.some(a => a.status === 'OPEN') ||
+                g.inspectionTasks.some(t => t.status === 'OPEN')
+            );
         }
 
         // Sort groups: highest severity first, then name
@@ -165,7 +216,7 @@ const SupplierDevelopmentPage: React.FC = () => {
             if (aSev !== bSev) return aSev - bSev;
             return a.supplier.name.localeCompare(b.supplier.name);
         });
-    }, [allOpportunities, suppliers, searchQuery, severityFilter, hasOpenSupportFilter, supportActions, batchesBySupplier]);
+    }, [allOpportunities, suppliers, searchQuery, severityFilter, hasOpenSupportFilter, supportActions, inspectionTasks, batchesBySupplier]);
 
     const totalPages = Math.ceil(grouped.length / PAGE_SIZE);
     const paginatedGroups = grouped.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
@@ -228,6 +279,26 @@ const SupplierDevelopmentPage: React.FC = () => {
             fetchAll();
         } catch (error: any) {
             console.error('Mark DONE failed:', error);
+            alert(`Error: ${error.message}`);
+        }
+    };
+
+    const handleInspectionTaskDone = async () => {
+        if (!doneModalTarget || !doneSelectedReInspectionId) return;
+        try {
+            const res = await getSupplierData('updateInspectionActionDone', {
+                farmId: '1',
+                actionId: doneModalTarget.id,
+                reInspectionId: doneSelectedReInspectionId,
+                closedBy: user?.email || 'portal-manager',
+            });
+            if (!res || !res.success) {
+                throw new Error(res?.error || 'Failed to close inspection task');
+            }
+            setDoneModalTarget(null);
+            setDoneSelectedReInspectionId('');
+            fetchAll();
+        } catch (error: any) {
             alert(`Error: ${error.message}`);
         }
     };
@@ -412,7 +483,7 @@ const SupplierDevelopmentPage: React.FC = () => {
                         </InfoCard>
                     ) : (
                         <div className="space-y-4">
-                            {paginatedGroups.map(({ supplier, opportunities, actions }) => (
+                            {paginatedGroups.map(({ supplier, opportunities, actions, inspectionTasks: group_inspectionTasks }) => (
                                 <motion.div key={supplier.id} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="bg-white/40 rounded-2xl border border-white/30 overflow-hidden">
 
                                     {/* Supplier Header */}
@@ -424,7 +495,8 @@ const SupplierDevelopmentPage: React.FC = () => {
                                         <div className="text-xs text-gray-500">
                                             {opportunities.length > 0 ? `${opportunities.length} opportunities` : '0 opportunities'}
                                             {' · '}
-                                            {actions.filter(a => a.status === 'OPEN').length} action open
+                                            {(actions.filter(a => a.status === 'OPEN').length +
+                                              group_inspectionTasks.filter(t => t.status === 'OPEN').length)} action open
                                         </div>
                                     </div>
 
@@ -452,6 +524,99 @@ const SupplierDevelopmentPage: React.FC = () => {
                                                 </button>
                                             </div>
                                         ))}
+
+                                        {/* D5 — Inspection corrective actions (second stream) */}
+                                        {group_inspectionTasks.length > 0 && (
+                                            <div className="space-y-2">
+                                                <div className="text-[10px] font-bold text-gray-500 uppercase tracking-wide">
+                                                    Inspection corrective action
+                                                </div>
+                                                {group_inspectionTasks.map(task => {
+                                                    const isOpen = task.status === 'OPEN';
+                                                    const taskSupplierBatches =
+                                                        batchesBySupplier[String(task.supplierId)] || [];
+                                                    const overdueNextBatch =
+                                                        task.dueTrigger?.type === 'next_batch' &&
+                                                        isOpen &&
+                                                        taskSupplierBatches.some(b =>
+                                                            b.verifiedAt && b.verifiedAt > task.givenAt
+                                                        );
+                                                    const overdueDate =
+                                                        task.dueTrigger?.type === 'date' &&
+                                                        isOpen &&
+                                                        Date.now() > task.dueTrigger.date;
+                                                    const overdue = overdueNextBatch || overdueDate;
+
+                                                    const provingInspections = (inspectionsBySupplier[String(task.supplierId)] || [])
+                                                        .filter(i =>
+                                                            i.validatedAt &&
+                                                            typeof i.inspectionDate === 'number' &&
+                                                            i.inspectionDate > task.givenAt &&
+                                                            i.outcome === 'PASS'
+                                                        );
+
+                                                    return (
+                                                        <div key={task.id} className={`flex gap-3 bg-white/50 p-3 rounded-xl border-l-4 ${
+                                                            isOpen ? 'border-l-amber-400' : 'border-l-green-400'
+                                                        }`}>
+                                                            <div className="flex-1">
+                                                                <div className="flex items-center gap-2 mb-1">
+                                                                    <span className="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase bg-amber-100 text-amber-700">
+                                                                        {task.inspectionType || 'Inspection'}
+                                                                    </span>
+                                                                    <span className="text-[10px] text-gray-500 uppercase">
+                                                                        {task.outcome}{task.severity ? ` · ${task.severity}` : ''}
+                                                                    </span>
+                                                                    {overdue && isOpen && (
+                                                                        <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-100 text-red-700">
+                                                                            OVERDUE
+                                                                        </span>
+                                                                    )}
+                                                                    {task.status === 'DONE' && (
+                                                                        <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-green-100 text-green-700">DONE</span>
+                                                                    )}
+                                                                </div>
+                                                                <div className="text-xs text-gray-800 mb-1">
+                                                                    <strong>{task.finding}</strong>
+                                                                </div>
+                                                                <div className="text-xs text-primary mb-1">
+                                                                    Action: <span className="text-gray-700">{task.correctiveAction}</span>
+                                                                </div>
+                                                                <div className="text-[10px] text-gray-500">
+                                                                    Owner: {task.owner || task.assignedTo || '—'}
+                                                                    {' · '}
+                                                                    Due: {task.dueTrigger?.type === 'date'
+                                                                    ? new Date(task.dueTrigger.date).toLocaleDateString()
+                                                                    : 'next delivery'}
+                                                                    {task.dueTrigger?.type === 'date' && task.dueTriggerDefaulted && (
+                                                                        <span className="ml-1 text-gray-400">(default)</span>
+                                                                    )}
+                                                                </div>
+                                                                {isOpen && (
+                                                                    <div className="mt-2 flex items-center gap-2">
+                                                                        {provingInspections.length === 0 ? (
+                                                                            <span className="text-[10px] text-gray-500">
+                                                                                No validated PASS re-inspection yet
+                                                                            </span>
+                                                                        ) : (
+                                                                            <button
+                                                                                onClick={() => {
+                                                                                    setDoneModalTarget(task);
+                                                                                    setDoneSelectedReInspectionId(provingInspections[0].firestoreId || provingInspections[0].id);
+                                                                                }}
+                                                                                className="px-2 py-0.5 bg-green-600 text-white text-[10px] rounded-full hover:bg-green-700"
+                                                                            >
+                                                                                Mark DONE
+                                                                            </button>
+                                                                        )}
+                                                                    </div>
+                                                                )}
+                                                            </div>
+                                                        </div>
+                                                    );
+                                                })}
+                                            </div>
+                                        )}
 
                                         {/* Support History */}
                                         {actions.length > 0 && (
@@ -563,6 +728,50 @@ const SupplierDevelopmentPage: React.FC = () => {
                                     Save Action
                                 </button>
                             </div>
+                        </motion.div>
+                    </div>
+                )}
+            </AnimatePresence>
+            {/* D5 — Close inspection task modal */}
+            <AnimatePresence>
+                {doneModalTarget && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
+                        <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="bg-white rounded-2xl p-6 w-full max-w-md shadow-xl">
+                            <div className="flex justify-between items-center mb-4">
+                                <h3 className="font-bold text-lg text-gray-900">Close Inspection Task</h3>
+                                <button onClick={() => { setDoneModalTarget(null); setDoneSelectedReInspectionId(''); }} className="text-gray-400 hover:text-gray-600"><FaTimes /></button>
+                            </div>
+                            <p className="text-xs text-gray-600 mb-3">
+                                Select the validated PASS re-inspection that proves this corrective action was addressed.
+                                The task closes only when the re-inspection is new (after task creation) and validated.
+                            </p>
+                            <label className="block text-xs font-medium text-gray-700 mb-1">Proving re-inspection</label>
+                            <select
+                                value={doneSelectedReInspectionId}
+                                onChange={e => setDoneSelectedReInspectionId(e.target.value)}
+                                className="w-full p-2 rounded-lg text-sm border mb-3"
+                            >
+                                <option value="">— select —</option>
+                                {((inspectionsBySupplier[String(doneModalTarget.supplierId)] || [])
+                                        .filter(i =>
+                                            i.validatedAt &&
+                                            typeof i.inspectionDate === 'number' &&
+                                            i.inspectionDate > doneModalTarget.givenAt &&
+                                            i.outcome === 'PASS'
+                                        )
+                                ).map(i => (
+                                    <option key={i.firestoreId || i.id} value={i.firestoreId || i.id}>
+                                        {i.inspectionType} · {new Date(i.inspectionDate).toLocaleDateString()} · PASS
+                                    </option>
+                                ))}
+                            </select>
+                            <button
+                                onClick={handleInspectionTaskDone}
+                                disabled={!doneSelectedReInspectionId}
+                                className="w-full py-2.5 bg-green-600 text-white font-medium rounded-xl hover:bg-green-700 disabled:opacity-50"
+                            >
+                                Mark DONE
+                            </button>
                         </motion.div>
                     </div>
                 )}

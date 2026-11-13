@@ -56,6 +56,7 @@ const SupplierRisk: React.FC = () => {
     const [openDisputes, setOpenDisputes] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [correctedValues, setCorrectedValues] = useState<Record<string, string>>({});
+    const [inspectionTasks, setInspectionTasks] = useState<any[]>([]);
 
 
     const [searchQuery, setSearchQuery] = useState('');
@@ -68,9 +69,10 @@ const SupplierRisk: React.FC = () => {
 
     const fetchAll = async () => {
         try {
-            const [data, disputesRes] = await Promise.allSettled([
+            const [data, disputesRes, inspectionTasksRes] = await Promise.allSettled([
                 getSupplierData('getSuppliersWithTrust'),
                 getSupplierData('getOpenDisputes'),
+                getSupplierData('getInspectionActions', { farmId: '1' }),
             ]);
 
             if (data.status === 'fulfilled' && data.value) {
@@ -83,6 +85,9 @@ const SupplierRisk: React.FC = () => {
             }
             if (disputesRes.status === 'fulfilled' && disputesRes.value) {
                 setOpenDisputes(disputesRes.value.disputes || []);
+            }
+            if (inspectionTasksRes.status === 'fulfilled' && inspectionTasksRes.value) {
+                setInspectionTasks(inspectionTasksRes.value.actions || []);
             }
         } catch (error) {
             console.error('Error fetching risk data:', error);
@@ -161,6 +166,11 @@ const SupplierRisk: React.FC = () => {
         : [];
     const selectedDisputes = selectedSupplierId
         ? openDisputes.filter((d: any) => String(d.supplierId) === selectedSupplierId)
+        : [];
+    const selectedInspectionTasks = selectedSupplierId
+        ? inspectionTasks.filter((t: any) =>
+            String(t.supplierId) === String(selectedSupplierId) && t.status === 'OPEN'
+        )
         : [];
 
     const handleValidate = async (
@@ -713,6 +723,55 @@ const SupplierRisk: React.FC = () => {
                                                                 </button>
                                                             </div>
                                                         ))}
+                                                    </div>
+                                                </div>
+                                            )}
+
+                                            {/* D5 — Open Inspection Tasks */}
+                                            {selectedInspectionTasks.length > 0 && (
+                                                <div className="mb-4">
+                                                    <h4 className="text-xs font-medium text-gray-600 mb-2 flex items-center gap-1 uppercase tracking-wide">
+                                                        <FaClipboardCheck /> Open Inspection Actions ({selectedInspectionTasks.length})
+                                                    </h4>
+                                                    <div className="space-y-1.5">
+                                                        {selectedInspectionTasks.map((task: any) => {
+                                                            const isOverdueDate =
+                                                                task.dueTrigger?.type === 'date' &&
+                                                                Date.now() > task.dueTrigger.date;
+                                                            const isOverdueNextBatch =
+                                                                task.dueTrigger?.type === 'next_batch' &&
+                                                                (batchesBySupplier[String(task.supplierId)] || [])
+                                                                    .some((b: any) => b.verifiedAt && b.verifiedAt > task.givenAt);
+                                                            const overdue = isOverdueDate || isOverdueNextBatch;
+
+                                                            return (
+                                                                <div key={task.id} className="bg-white/60 rounded-lg p-2 border border-white/40">
+                                                                    <div className="flex items-center gap-2 mb-1">
+                                                                        <span className="text-[10px] px-1.5 py-0.5 bg-amber-100 text-amber-700 rounded-full font-bold">
+                                                                            {task.inspectionType || 'INSPECTION'}
+                                                                        </span>
+                                                                        {overdue && (
+                                                                            <span className="text-[10px] px-1.5 py-0.5 bg-red-100 text-red-700 rounded-full font-bold">
+                                                                                OVERDUE
+                                                                            </span>
+                                                                        )}
+                                                                    </div>
+                                                                    <div className="text-xs text-gray-800">
+                                                                        <strong>{task.finding}</strong>
+                                                                    </div>
+                                                                    <div className="text-[11px] text-gray-600 mt-0.5">
+                                                                        Action: {task.correctiveAction}
+                                                                    </div>
+                                                                    <div className="text-[10px] text-gray-500 mt-1">
+                                                                        Owner: {task.owner || '—'}
+                                                                        {' · '}
+                                                                        Due: {task.dueTrigger?.type === 'date'
+                                                                        ? new Date(task.dueTrigger.date).toLocaleDateString()
+                                                                        : 'next delivery'}
+                                                                    </div>
+                                                                </div>
+                                                            );
+                                                        })}
                                                     </div>
                                                 </div>
                                             )}
