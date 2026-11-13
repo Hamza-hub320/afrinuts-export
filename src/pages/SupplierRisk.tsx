@@ -283,31 +283,99 @@ const SupplierRisk: React.FC = () => {
         <div className="min-h-screen relative overflow-hidden pt-[72px]">
             <DashboardNavbar />
 
-            <Section className="flex items-center justify-center text-center min-h-[25vh] relative">
-                <motion.div className="max-w-4xl px-6 sm:px-8 py-8" initial="hidden" animate="visible" variants={staggerContainer}>
-                    <motion.div variants={fadeIn}>
-                        <Typography variant="subhead" className="uppercase tracking-widest text-amber-600 mb-3">
-                            <FaExclamationTriangle className="inline mr-3" />
-                            Risk Workbench
-                        </Typography>
+            {/* HERO */}
+            <Section className="flex items-center justify-center min-h-[40vh]" animate={false}>
+                <div className="max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
+                    <motion.div
+                        className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center"
+                        initial="hidden"
+                        animate="visible"
+                        variants={staggerContainer}
+                    >
+                        {/* LEFT COLUMN: Title & Context */}
+                        <motion.div className="text-center lg:text-left" variants={fadeIn}>
+                            <Typography variant="subhead" className="uppercase tracking-widest text-amber-600 mb-3">
+                                <FaExclamationTriangle className="inline mr-2" />
+                                Risk Workbench
+                            </Typography>
+
+                            <motion.h1
+                                className="font-display text-3xl md:text-4xl lg:text-5xl text-text-dark mb-4 leading-tight"
+                                variants={fadeIn}
+                                style={{ letterSpacing: '-0.03em' }}
+                            >
+                                Supplier Risk & Attention
+                            </motion.h1>
+
+                            <Typography variant="lead" className="text-text-dark mb-6 text-base lg:text-lg max-w-lg mx-auto lg:mx-0">
+                                Review flags, validate evidence, and resolve disputes — all in one workspace.
+                            </Typography>
+
+                            <div className="flex flex-wrap justify-center lg:justify-start gap-2 mb-6">
+                                <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-red-100 text-red-700 text-xs rounded-full font-medium">
+                                    <FaExclamationTriangle className="text-[10px]" /> Critical Flags
+                                </span>
+                                <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-amber-100 text-amber-700 text-xs rounded-full font-medium">
+                                    <FaBalanceScale className="text-[10px]" /> Dispute Review
+                                </span>
+                            </div>
+
+                            <button
+                                onClick={() => navigate('/dashboard/suppliers')}
+                                className="text-sm text-primary hover:text-accent inline-flex items-center gap-1 font-medium transition-colors"
+                            >
+                                <FaChevronLeft className="text-xs" /> Back to Supplier Management
+                            </button>
+                        </motion.div>
+
+                        {/* RIGHT COLUMN: Critical Risk Controls card */}
+                        <motion.div className="w-full max-w-md mx-auto lg:ml-auto" variants={fadeIn} transition={{ delay: 0.2 }}>
+                            <div className="group relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 transition-all duration-500 rounded-2xl shadow-xl p-6 transform-gpu overflow-hidden">
+                                <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px]" />
+                                <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40" />
+                                <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)]" />
+
+                                <div className="relative z-10">
+                                    <div className="flex justify-between items-center mb-6">
+                                        <Typography variant="h4" className="text-amber-700 font-bold">
+                                            Critical Risk Controls
+                                        </Typography>
+                                        <FaShieldAlt className="text-accent/50 text-xl" />
+                                    </div>
+
+                                    <div className="space-y-4">
+                                        {[
+                                            { icon: FaShieldAlt, title: 'Food-safety violations', desc: 'Validated CRITICAL + FAIL inspections' },
+                                            { icon: FaBalanceScale, title: 'Legal issues', desc: 'Contracts, disputes, and upheld corrections' },
+                                            { icon: FaExclamationTriangle, title: 'Integrity issues', desc: 'Documentation, consent, and evidence' },
+                                            { icon: FaFileAlt, title: 'Applicable policy', desc: 'Reason, evidence, and review status on record' },
+                                        ].map((step, i, arr) => (
+                                            <div key={step.title} className="flex gap-4 relative">
+                                                {i < arr.length - 1 && (
+                                                    <div className="absolute left-[15px] top-[32px] bottom-[-16px] w-0.5 bg-amber-500/20" />
+                                                )}
+                                                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-amber-100 flex items-center justify-center relative z-10 border border-amber-200">
+                                                    <step.icon className="text-amber-700 text-xs" />
+                                                </div>
+                                                <div className="pb-1">
+                                                    <div className="text-sm font-semibold text-gray-800">{step.title}</div>
+                                                    <div className="text-xs text-gray-500 mt-0.5">{step.desc}</div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+
+                                    <div className="mt-6 pt-4 border-t border-gray-200/50 text-center">
+                                        <p className="text-[10px] text-gray-500 uppercase tracking-wider leading-relaxed">
+                                            A high average score never hides a critical violation.
+                                            Buyer warnings and eligibility restrictions may follow.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </motion.div>
                     </motion.div>
-                    <motion.h1 className="font-display text-3xl md:text-4xl text-text-dark mb-3" variants={fadeIn}>
-                        Supplier Risk & Attention
-                    </motion.h1>
-                    <motion.div variants={fadeIn}>
-                        <Typography variant="lead" className="text-text-dark max-w-3xl mx-auto text-sm">
-                            Review flags, validate evidence, and resolve disputes — all in one workspace.
-                        </Typography>
-                    </motion.div>
-                    <motion.div variants={fadeIn}>
-                        <button
-                            onClick={() => navigate('/dashboard/suppliers')}
-                            className="mt-3 text-sm text-primary hover:text-accent inline-flex items-center gap-1"
-                        >
-                            <FaChevronLeft className="text-xs" /> Back to Supplier Management
-                        </button>
-                    </motion.div>
-                </motion.div>
+                </div>
             </Section>
 
             <Section className="py-6">
