@@ -1,0 +1,26 @@
+﻿Name,Type,Status,Contact Person,Phone,Email,Location,Registration Number,Trust Overall,Confidence,Avg KOR (g/kg),Verified Volume (kg),Annual Volume (kg),Avg RCN Score
+Adama Sanogo,INDEPENDENT_FARMER,ACTIVE,Adama Sanogo,+2250708304050,adama.sanogo@example.com,"Kabadougou, Kobala",FARM-2026-00004,87.4,preliminary,275,800,800,89.5
+AfriNuts Own Farm,OWN_FARM,ACTIVE,Souleymane Sangare,22500000023,souleymane@afrinutsexport.com,Odienne,SUPP-2026-00002,,preliminary,,31360,31360,
+AgroCoop Odienné,COOPERATIVE,ACTIVE,Kouadio Jean,+225 07 12 34 567,contact@agrocoop.ci,"Odienné, Côte d'Ivoire",COOP-2026-00001,,preliminary,,40000,40000,
+Amani Kouadio,INDEPENDENT_FARMER,ACTIVE,Amani Kouadio,+225 0708112131,amani.kouadio@example.com,Gbélégban,FARM-2026-00004,95.7,preliminary,282,2400,2400,89.6
+Aminata Bamba,INDEPENDENT_FARMER,ACTIVE,Aminata Bamba,+2250708213141,aminata.bamba@example.com,"Kabadougou, Minignan Road",FARM-2026-00008,82.2,preliminary,266,2200,2200,65.9
+Awa Coulibaly,INDEPENDENT_FARMER,ACTIVE,Awa Coulibaly,+2250708182838,awa.coulibaly@example.com,"Kabadougou, Kobala",FARM-2026-00002,76.7,preliminary,246,2600,2600,43.8
+Bakary Touré,INDEPENDENT_FARMER,ACTIVE,Bakary Touré,+22507082030,bakary.toure@example.com,"Kabadougou, Touba Road",FARM-2026-00006,52.2,preliminary,236,600,600,1
+Coopérative Agricole de Gbélégban,COOPERATIVE,ACTIVE,Coopérative Agricole de Gbélégban,+2250708132333,coop.gbelegban@example.com,"Kabadougou, Gbélégban",COOP-2026-00002,93.6,developing,274,9000,9000,76.6
+Coopérative Agricole de Kobala,COOPERATIVE,ACTIVE,Coopérative Agricole de Kobala,+2250708192939,coop.kobala@example.com,"Kabadougou, Kobala",COOP-2026-00004,82.6,developing,263,7500,7500,47.5
+Coopérative Agricole de Tienko,COOPERATIVE,ACTIVE,Coopérative Agricole de Tienko,+2250708263646,coop.tienko@example.com,,COOP-2026-00017,90.8,developing,273,11000,11000,76.4
+Coopérative des Femmes Rurales de Minignan,COOPERATIVE,ACTIVE,Coopérative des Femmes Rurales de Minignan,+2250708233343,coop.minignanroad@example.com,"Kabadougou, Minignan",COOP-2026-00002,68.7,preliminary,262,5200,5200,40
+Coopérative des Producteurs de Bako,COOPERATIVE,ACTIVE,Coopérative des Producteurs de Bako,+2250708293949,coop.bako@example.com,"Kabadougou, Bako",COOP-2026-00002,74.9,preliminary,249,6800,6800,32.6
+Coopérative des Producteurs de Sirana,COOPERATIVE,ACTIVE,Coopérative des Producteurs de Sirana,+2250708162636,coop.sirana@example.com,"Kabadougou, Sirana",COOP-2026-00004,,preliminary,256,1200,1200,37.1
+Drissa Fofana,INDEPENDENT_FARMER,ACTIVE,Drissa Fofana,+2250708243444,drissa.fofana@example.com,"Kabadougou, Bako",FARM-2026-00013,,preliminary,278,2000,2000,91.6
+Fatou Traoré,INDEPENDENT_FARMER,ACTIVE,Fatou Traoré,+2250708122232,fatou.traore@example.com,Kabadougou,FARM-2026-00006,82,developing,262,3600,3600,43.6
+Ibrahim Sangaré,INDEPENDENT_FARMER,ACTIVE,Ibrahim Sangaré,+2250708142434,ibrahim.sangare@example.com,"Kabadougou, Kaniasso",FARM-2026-00004,67.9,preliminary,262,1700,1700,45.5
+Korotoumou Diallo,INDEPENDENT_FARMER,ACTIVE,Korotoumou Diallo,+2250708283848,korotoumou.diallo@example.com,"Kabadougou, Sirana",FARM-2026-00022,81.7,preliminary,269,2100,2100,65.9
+Lassina Ouattara,INDEPENDENT_FARMER,ACTIVE,Lassina Ouattara,+2250708223242,lassina.ouattara@example.com,"Kabadougou, Seydougou",FARM-2026-00002,81.1,preliminary,257,3400,3400,34.2
+Mariam Koné,INDEPENDENT_FARMER,ACTIVE,Mariam Koné,+2250708152535,mariam.kone@example.com,"Kabadougou, Madina",FARM-2026-00002,68.1,preliminary,264,2200,2200,53.9
+Moussa Cissé,INDEPENDENT_FARMER,ACTIVE,Moussa Cissé,+2250708273747,moussa.cisse@example.com,"Kabadougou, Madina",FARM-2026-00020,,preliminary,,1800,1800,
+Salimata Keïta,INDEPENDENT_FARMER,ACTIVE,Salimata Keïta,+2250708253545,salimata.keita@example.com,"Kabadougou, Kaniasso",FARM-2026-00015,74.8,preliminary,259,2900,2900,48.7
+Seydou Diabaté,INDEPENDENT_FARMER,ACTIVE,Seydou Diabaté,+2250708172737,seydou.diabate@example.com,"Kabadougou, Borotou",FARM-2026-00006,86.2,preliminary,263,2800,2800,53.8
+Test Supplier Coop,COOPERATIVE,ACTIVE,John Farmer,+225 07 12 34 567,john@testcoop.ci,Odienné,COOP-2026-00001,,preliminary,,15000,15000,
+WeSupOrg,REGIONAL_SUPPLIER,ACTIVE,Uthman Dialo,0000000000,hamza@afrinutsexport.com,"Odienné, Côte d'Ivoire",SUPP-2026-00002,,preliminary,,10000,10000,
+
