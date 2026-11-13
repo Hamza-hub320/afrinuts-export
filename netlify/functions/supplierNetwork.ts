@@ -581,20 +581,141 @@ async function loadTrustMap(fid: string): Promise<{
 }
 
 // ============================================================
-// buildFilteredRows — shared pipeline for listSuppliers and
-// exportSuppliers. One implementation of:
-//   enrich → search → type/status filter → sort.
-// No pagination; callers slice as needed.
+// S8-B — loadCurrentTrustRows
+// Reads the materialized `supplier_current_trust` docs (one per
+// scored supplier) and joins them with the supplier profile docs
+// the table/summary/export need.
+//
+// This is the S8 read path. loadTrustMap is now only called by
+// recalculateTrustBatch and verifyCurrentTrust — the recompute
+// engine, not the read engine.
+//
+// Firestore query shapes:
+//   - Current-trust docs: `orderBy('overallSortable', dir)` — scored
+//     suppliers sort by their overall; unscored suppliers have no doc
+//     (absence = unscored), so they only appear via the profile-side
+//     join, which is where the caller must inject `overall: null` rows.
+//   - Profile join: `.where('__name__', 'in', chunk)` batched at 10
+//     (Firestore's `in` limit). At farm-1 scale this is one chunk; at
+//     S7 scale it's ~100 chunks for the 1,000-supplier page, all in
+//     parallel.
+// ============================================================
+async function loadCurrentTrustRows(fid: string): Promise<{
+    trustById: Map<string, any>;
+    supplierById: Map<string, any>;
+}> {
+    const farmRef = db.collection('farms').doc(fid);
+
+    // 1. Current-trust docs — bounded (one per scored supplier).
+    const currentSnap = await farmRef.collection('supplier_current_trust').get();
+    const trustById = new Map<string, any>();
+    currentSnap.docs.forEach(d => trustById.set(d.id, { id: d.id, ...d.data() }));
+
+    // 2. Profile docs — batched by __name__ `in` (max 10 per query).
+    const supplierById = new Map<string, any>();
+    const allIds = Array.from(trustById.keys());
+    if (allIds.length > 0) {
+        const chunks: string[][] = [];
+        for (let i = 0; i < allIds.length; i += 10) {
+            chunks.push(allIds.slice(i, i + 10));
+        }
+        const snaps = await Promise.all(
+            chunks.map(chunk =>
+                farmRef.collection('suppliers')
+                    .where('__name__', 'in', chunk)
+                    .get()
+            )
+        );
+        snaps.forEach(snap => {
+            snap.docs.forEach(d => supplierById.set(d.id, { id: d.id, ...d.data() }));
+        });
+    }
+
+    return { trustById, supplierById };
+}
+
+// ============================================================
+// S8-B — buildFilteredRows
+// Shared pipeline for listSuppliers and exportSuppliers.
+//
+// Same contract as before S8:
+//   enrich → search → type/status filter → sort → (caller paginates)
+//
+// What changed: trust comes from `supplier_current_trust` (via
+// loadCurrentTrustRows) instead of loadTrustMap. Batches still come
+// from a targeted read — needed for volume/KOR/RCN aggregates on
+// the row.
+//
+// Query-side vs page-side (brief §3 requirement):
+//   - Query-side: `supplier_current_trust` is read in full (bounded:
+//     one small doc per scored supplier). The supplier profile docs
+//     are joined by doc id.
+//   - Page-side (in memory): search, type/status filter, all sorting
+//     including trust_desc / trust_asc (because search/type must run
+//     before pagination and the client page-number contract is
+//     preserved).
+//
+// If literal cursor pagination is wanted later, the search and type
+// fields must move into Firestore (indexed search key on the supplier
+// doc; type/status as range filters). That's a separate decision.
 // ============================================================
 async function buildFilteredRows(
     fid: string,
     opts: { search?: string; type?: string; sort?: string }
 ): Promise<{ rows: any[]; total: number }> {
     const { search = '', type = '', sort = 'name' } = opts;
-    const { suppliers, trustBySupplier, batchesBySupplier } = await loadTrustMap(fid);
 
-    const enriched = suppliers.map(s => {
-        const trust = trustBySupplier[s.id];
+    // 1. Current-trust + profile join (scored suppliers only).
+    const { trustById, supplierById } = await loadCurrentTrustRows(fid);
+
+    // 2. Full profile read for unscored suppliers too — they appear as
+    //    `overall: null` rows in the table, exactly as before S8.
+    //    For farm-1 scale this is 24 docs; at S7 scale 1,000 docs.
+    const profilesSnap = await db.collection('farms').doc(fid)
+        .collection('suppliers').get();
+    const allSuppliers = profilesSnap.docs.map(d => ({ id: d.id, ...d.data() } as any));
+
+    // 3. Batches for the row-level aggregates (volume / KOR / RCN).
+    //    Same projection loadTrustMap uses today. Not the point of S8
+    //    to slim this further — that's a follow-up.
+    const batchesSnap = await db.collection('farms').doc(fid)
+        .collection('quality_batches')
+        .select(
+            'supplierId', 'weightKg', 'qualityScore', 'rcnQualityScore',
+            'defectiveRate', 'moistureContent', 'korGPerKg', 'nutCountPerKg',
+            'foreignMatter', 'aflatoxinPpb', 'heavyMetalsPpb',
+            'pesticideResiduePpb', 'farmOsMonitored', 'verifiedAt', 'testResults'
+        )
+        .get();
+
+    const batchesBySupplier: Record<string, any[]> = {};
+    batchesSnap.docs.forEach(d => {
+        const data: any = d.data();
+        const k = String(data.supplierId);
+        (batchesBySupplier[k] = batchesBySupplier[k] || []).push({
+            id: d.id,
+            ...data,
+        });
+    });
+
+    // 4. Enrich each supplier with trust (from current-trust doc or
+    //    null when unscored) + row-level batch aggregates.
+    const enriched = allSuppliers.map(s => {
+        const trustDoc = trustById.get(s.id);
+        const trust = trustDoc
+            ? {
+                overall: trustDoc.overall ?? null,
+                confidence: trustDoc.confidence ?? 'preliminary',
+                verifiedTransactions: trustDoc.verifiedTransactions ?? 0,
+                dimensions: trustDoc.dimensions ?? {},
+                weights: trustDoc.weights ?? {},
+                flags: trustDoc.flags ?? [],
+                flagDetails: trustDoc.flagDetails ?? [],
+                hasCriticalViolation: !!trustDoc.hasCriticalViolation,
+                scoringVersion: trustDoc.scoringVersion,
+            }
+            : null;
+
         const supplierBatches = batchesBySupplier[s.id] || [];
 
         const verifiedBatches = supplierBatches.filter(
@@ -722,7 +843,48 @@ async function buildFilteredRows(
 // log via console.time here, never in the payload.
 // ============================================================
 async function buildNetworkSummary(fid: string) {
-    const { trustBySupplier, batchesBySupplier } = await loadTrustMap(fid);
+    // S8-B — read trust from `supplier_current_trust` instead of
+    // recomputing via loadTrustMap. The current docs are kept up to date
+    // by S8-A write paths (validateEvidence, resolveDispute,
+    // recalculateTrustBatch); reads never recompute.
+    //
+    // batchesBySupplier is still needed for verifiedVolumeKg and
+    // financialEfficiency's per-supplier volume lookups. That's the one
+    // remaining per-request scan of `quality_batches`. Full move of
+    // volume to current-trust is S8-C scope (or later) — not this commit.
+    const { trustById } = await loadCurrentTrustRows(fid);
+    // Reconstruct the shape buildNetworkSummary expects (`trustBySupplier`
+    // keyed by supplier id, TrustResult-shaped) from the current docs.
+    const trustBySupplier: Record<string, any> = {};
+    trustById.forEach((doc, supplierId) => {
+        trustBySupplier[supplierId] = {
+            overall: doc.overall ?? null,
+            confidence: (doc.confidence ?? 'preliminary') as
+                'preliminary' | 'developing' | 'established',
+            verifiedTransactions: doc.verifiedTransactions ?? 0,
+            dimensions: doc.dimensions ?? {},
+            weights: doc.weights ?? {},
+            flags: doc.flags ?? [],
+            flagDetails: doc.flagDetails ?? [],
+            hasCriticalViolation: !!doc.hasCriticalViolation,
+            scoringVersion: doc.scoringVersion,
+        };
+    });
+    // Batches are needed for verifiedVolumeKg. One targeted read on the
+    // same collections the loader used — same shape, same projection.
+    const batchesSnap = await db.collection('farms').doc(fid)
+        .collection('quality_batches')
+        .select('supplierId', 'weightKg', 'verifiedAt')
+        .get();
+    const batchesBySupplier: Record<string, any[]> = {};
+    batchesSnap.docs.forEach(d => {
+        const data: any = d.data();
+        const k = String(data.supplierId);
+        (batchesBySupplier[k] = batchesBySupplier[k] || []).push({
+            weightKg: data.weightKg,
+            verifiedAt: data.verifiedAt,
+        });
+    });
 
     const [
         suppliersSnap,
@@ -827,7 +989,10 @@ async function buildNetworkSummary(fid: string) {
 
     // ---- Maturity counts ----
     const maturityCounts = { preliminary: 0, developing: 0, established: 0 };
-    Object.values(trustBySupplier).forEach(t => { maturityCounts[t.confidence]++; });
+    Object.values(trustBySupplier).forEach(t => {
+        const k = t.confidence as 'preliminary' | 'developing' | 'established';
+        if (k in maturityCounts) maturityCounts[k]++;
+    });
 
     // ---- Top trust ----
     const topTrust = Object.entries(trustBySupplier)
