@@ -267,6 +267,8 @@ export const handler: Handler = async (event: HandlerEvent) => {
         // S7 — seedScaleTest (TEMPORARY; removed in S7 cleanup)
         // Guarded: farmId must start with "scale-test".
         // Refuses if the test farm already has suppliers.
+        //
+        // If a run errors midway: purge first, then re-seed.
         // ============================================================
         if (action === 'seedScaleTest') {
             if (!String(fid).startsWith('scale-test')) {
@@ -313,8 +315,7 @@ export const handler: Handler = async (event: HandlerEvent) => {
             const baseLat = 9.5, baseLng = -7.56;
             const jitter = () => (rnd() - 0.5) * 0.6;
 
-            // Deterministic supplier ids 1..1000 used as numeric supplierId
-            // on batches/commitments/inspections so linkedBatchIds matches.
+            // ---- 1,000 suppliers ----
             const supplierDocs: Array<{ id: string; data: any }> = [];
             for (let i = 1; i <= 1000; i++) {
                 const consentRoll = rnd();
@@ -327,6 +328,11 @@ export const handler: Handler = async (event: HandlerEvent) => {
                 const hasGps = consentMode === 'full';
                 const active = rnd() < 0.95;
                 const name = `Scale Test Supplier ${String(i).padStart(4, '0')}`;
+
+                // Conditional spread: absent means absent (Admin SDK rejects undefined)
+                const geo = hasGps
+                    ? { latitude: baseLat + jitter(), longitude: baseLng + jitter() }
+                    : {};
 
                 supplierDocs.push({
                     id: String(i),
@@ -342,8 +348,7 @@ export const handler: Handler = async (event: HandlerEvent) => {
                         location: pick(['Odienné', 'Boundiali', 'Korhogo', 'Séguéla']),
                         region: 'Kabadougou',
                         country: 'Côte d\'Ivoire',
-                        latitude: hasGps ? baseLat + jitter() : undefined,
-                        longitude: hasGps ? baseLng + jitter() : undefined,
+                        ...geo,
                         hasLocation: hasGps,
                         registrationNumber: `RCCM-${i}`,
                         taxId: `TAX-${i}`,
@@ -368,30 +373,40 @@ export const handler: Handler = async (event: HandlerEvent) => {
             }
 
             // ---- batches: 3–7 per supplier ----
+            // Global numeric counter for batch ids; commitments store
+            // linkedBatchIds as numbers (Delivery strict-matches
+            // Number(batch.id) === id in linkedBatchIds).
+            let batchCounter = 0;
             const batchDocs: Array<{ id: string; data: any }> = [];
-            const batchesPerSupplier: Record<string, string[]> = {};
+            const batchIdsPerSupplier: Record<string, number[]> = {};
             for (let i = 1; i <= 1000; i++) {
                 const n = 3 + Math.floor(rnd() * 5);
-                const ids: string[] = [];
+                const numericIds: number[] = [];
                 for (let b = 0; b < n; b++) {
-                    const id = `B-${i}-${b}`;
-                    ids.push(id);
+                    batchCounter++;
+                    const id = String(batchCounter);
+                    numericIds.push(batchCounter);
                     const kor = round0(between(230, 290));
                     const moisture = round1(between(5, 12));
                     const defective = round1(between(0, 8));
                     const qualityScore = round1(between(40, 95));
-                    // grade: reject if moisture>10 or defects>5, premium if kor>=270 && moisture<=7 && defects<=2, else standard
                     const grade =
                         (moisture > 10 || defective > 5) ? 'REJECT' :
                             (kor >= 270 && moisture <= 7 && defective <= 2) ? 'PREMIUM' :
                                 'STANDARD';
                     const verified = rnd() < 0.90;
+
+                    // Conditional spread: verifiedAt absent when not verified
+                    const verifiedFields = verified
+                        ? { verifiedAt: Date.now() - Math.floor(rnd() * 86400000 * 30) }
+                        : {};
+
                     batchDocs.push({
                         id,
                         data: {
                             scaleTest: true,
                             supplierId: i,
-                            batchNumber: id,
+                            batchNumber: `B-${id}`,
                             weightKg: round0(between(200, 2000)),
                             qualityScore,
                             rcnQualityScore: qualityScore,
@@ -406,7 +421,7 @@ export const handler: Handler = async (event: HandlerEvent) => {
                             heavyMetalsPpb: round1(between(0, 1)),
                             pesticideResiduePpb: round1(between(0, 0.5)),
                             farmOsMonitored: rnd() < 0.7,
-                            verifiedAt: verified ? Date.now() - Math.floor(rnd() * 86400000 * 30) : undefined,
+                            ...verifiedFields,
                             processingDate: Date.now() - Math.floor(rnd() * 86400000 * 60),
                             sustainableHarvesting: rnd() < 0.75,
                             firebreakProtection: rnd() < 0.7,
@@ -414,19 +429,28 @@ export const handler: Handler = async (event: HandlerEvent) => {
                         },
                     });
                 }
-                batchesPerSupplier[String(i)] = ids;
+                batchIdsPerSupplier[String(i)] = numericIds;
             }
 
             // ---- commitments: 1 per supplier, 80% validated ----
+            // linkedBatchIds are NUMBERS, not strings.
             const commitmentDocs: Array<{ id: string; data: any }> = [];
             for (let i = 1; i <= 1000; i++) {
-                const linked = batchesPerSupplier[String(i)] || [];
+                const linked = batchIdsPerSupplier[String(i)] || [];
                 const validated = rnd() < 0.80;
                 const linkedWeight = batchDocs
                     .filter(b => b.data.supplierId === i)
                     .reduce((s, b) => s + b.data.weightKg, 0);
                 const committedKg = round0(linkedWeight * between(0.8, 1.2));
                 const statusRoll = rnd();
+
+                const validatedFields = validated
+                    ? { validatedAt: Date.now() - Math.floor(rnd() * 86400000 * 15) }
+                    : {};
+                const delayFields = rnd() < 0.05
+                    ? { delayReason: 'WEATHER' }
+                    : {};
+
                 commitmentDocs.push({
                     id: `C-${i}`,
                     data: {
@@ -437,26 +461,37 @@ export const handler: Handler = async (event: HandlerEvent) => {
                         committedKg,
                         deliveredKg: validated ? committedKg : 0,
                         status: statusRoll < 0.80 ? 'FULFILLED' : statusRoll < 0.95 ? 'PARTIAL' : 'MISSED',
-                        delayReason: rnd() < 0.05 ? 'WEATHER' : undefined,
+                        ...delayFields,
                         buyerRequestedChange: rnd() < 0.03,
-                        validatedAt: validated ? Date.now() - Math.floor(rnd() * 86400000 * 15) : undefined,
-                        linkedBatchIds: linked,
+                        ...validatedFields,
+                        linkedBatchIds: linked, // number[]
                     },
                 });
             }
 
-            // ---- inspections on 30% of suppliers, ~5 CRITICAL+FAIL validated ----
+            // ---- inspections on 30% of suppliers ----
+            // First 5 VALIDATED inspections are deterministically
+            // CRITICAL + FAIL (critical-violation path must fire at scale).
+            // Everything else: PASS / CONDITIONAL / FAIL with MAJOR / MINOR.
             const inspectionDocs: Array<{ id: string; data: any }> = [];
-            let criticalTargets = 5;
+            let criticalForced = 0;
+            const CRITICAL_TARGET = 5;
             for (let i = 1; i <= 1000; i++) {
                 if (rnd() >= 0.30) continue;
-                const validate = rnd() < 0.85;
-                const forceCritical = criticalTargets > 0 && validate && rnd() < 0.02;
-                if (forceCritical) criticalTargets--;
-                const outcome = forceCritical ? 'FAIL' :
-                    pick(['PASS', 'CONDITIONAL', 'FAIL']);
-                const severity = forceCritical ? 'CRITICAL' :
-                    (outcome === 'FAIL' ? 'HIGH' : 'MINOR');
+                const validated = rnd() < 0.85;
+
+                const forceCritical = validated && criticalForced < CRITICAL_TARGET;
+                if (forceCritical) criticalForced++;
+
+                const outcome = forceCritical ? 'FAIL' : pick(['PASS', 'CONDITIONAL', 'FAIL']);
+                const severity = forceCritical
+                    ? 'CRITICAL'
+                    : (outcome === 'FAIL' ? 'MAJOR' : 'MINOR');
+
+                const validatedFields = validated
+                    ? { validatedAt: Date.now() - Math.floor(rnd() * 86400000 * 20) }
+                    : {};
+
                 inspectionDocs.push({
                     id: `I-${i}`,
                     data: {
@@ -466,7 +501,7 @@ export const handler: Handler = async (event: HandlerEvent) => {
                         outcome,
                         severity,
                         findings: 'S7 scale-test seed',
-                        validatedAt: validate ? Date.now() - Math.floor(rnd() * 86400000 * 20) : undefined,
+                        ...validatedFields,
                     },
                 });
             }
