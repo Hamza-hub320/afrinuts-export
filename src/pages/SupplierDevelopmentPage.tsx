@@ -553,7 +553,11 @@ const SupplierDevelopmentPage: React.FC = () => {
                                                             typeof i.inspectionDate === 'number' &&
                                                             i.inspectionDate > task.givenAt &&
                                                             i.outcome === 'PASS'
-                                                        );
+                                                        )
+                                                        // D5 follow-up §3.3 — latest first, so [0]
+                                                        // is both the card's proof line and the
+                                                        // modal's pre-selected default.
+                                                        .sort((a, b) => (b.inspectionDate as number) - (a.inspectionDate as number));
 
                                                     return (
                                                         <div key={task.id} className={`flex gap-3 bg-white/50 p-3 rounded-xl border-l-4 ${
@@ -592,23 +596,69 @@ const SupplierDevelopmentPage: React.FC = () => {
                                                                         <span className="ml-1 text-gray-400">(default)</span>
                                                                     )}
                                                                 </div>
+                                                                {!isOpen && task.reInspectionId && (() => {
+                                                                    // D5 follow-up §4 — closed-by line on DONE cards.
+                                                                    // Looks up the re-inspection by firestoreId in the
+                                                                    // validated-inspections map. Missing lookup ⇒ no line.
+                                                                    const closed = (inspectionsBySupplier[String(task.supplierId)] || [])
+                                                                        .find(i => (i.firestoreId || i.id) === task.reInspectionId);
+                                                                    if (!closed) return null;
+                                                                    const cFinding = (closed as any).findings;
+                                                                    const cType = (closed as any).inspectionType || 'Inspection';
+                                                                    const cDate = closed.inspectionDate
+                                                                        ? new Date(closed.inspectionDate).toLocaleDateString()
+                                                                        : null;
+                                                                    return (
+                                                                        <div className="mt-1 text-[10px] text-green-700">
+                                                                            Closed by: <strong>{cType} PASS</strong>
+                                                                            {cFinding ? <> — "{cFinding}"</> : null}
+                                                                            {cDate ? <> · {cDate}</> : null}
+                                                                        </div>
+                                                                    );
+                                                                })()}
                                                                 {isOpen && (
-                                                                    <div className="mt-2 flex items-center gap-2">
+                                                                    <div className="mt-2">
                                                                         {provingInspections.length === 0 ? (
                                                                             <span className="text-[10px] text-gray-500">
                                                                                 No validated PASS re-inspection yet
                                                                             </span>
-                                                                        ) : (
-                                                                            <button
-                                                                                onClick={() => {
-                                                                                    setDoneModalTarget(task);
-                                                                                    setDoneSelectedReInspectionId(provingInspections[0].firestoreId || provingInspections[0].id);
-                                                                                }}
-                                                                                className="px-2 py-0.5 bg-green-600 text-white text-[10px] rounded-full hover:bg-green-700"
-                                                                            >
-                                                                                Mark DONE
-                                                                            </button>
-                                                                        )}
+                                                                        ) : (() => {
+                                                                            // D5 follow-up §3.1 — proof line above
+                                                                            // the button. Original finding stays above
+                                                                            // it (audit trail); we ADD the proof, we
+                                                                            // do not replace.
+                                                                            const proof = provingInspections[0];
+                                                                            const moreCount = provingInspections.length - 1;
+                                                                            const proofFinding = (proof as any).findings;
+                                                                            const proofType = (proof as any).inspectionType || 'Inspection';
+                                                                            const proofInspector = (proof as any).inspector || null;
+                                                                            const proofValidatedAt = (proof as any).validatedAt;
+                                                                            const proofDateLabel = proofValidatedAt
+                                                                                ? new Date(proofValidatedAt).toLocaleDateString()
+                                                                                : 'date unknown';
+                                                                            return (
+                                                                                <>
+                                                                                    <div className="text-[10px] text-green-700 bg-green-50 border border-green-200 rounded px-2 py-1 mb-1">
+                                                                                        Re-inspection: <strong>{proofType} PASS</strong>
+                                                                                        {proofFinding ? <> — "{proofFinding}"</> : null}
+                                                                                        {' · '}validated {proofDateLabel}
+                                                                                        {proofInspector ? <> · {proofInspector}</> : null}
+                                                                                        {moreCount > 0 ? <> · (+{moreCount} more)</> : null}
+                                                                                    </div>
+                                                                                    <div className="flex items-center gap-2">
+                                                                                        <button
+                                                                                            onClick={() => {
+                                                                                                setDoneModalTarget(task);
+                                                                                                setDoneSelectedReInspectionId(proof.firestoreId || proof.id);
+                                                                                            }}
+                                                                                            className="px-2 py-0.5 bg-green-600 text-white text-[10px] rounded-full hover:bg-green-700"
+                                                                                        >
+                                                                                            Mark DONE
+                                                                                        </button>
+                                                                                    </div>
+                                                                                </>
+                                                                            );
+                                                                        })()}
                                                                     </div>
                                                                 )}
                                                             </div>
@@ -759,11 +809,20 @@ const SupplierDevelopmentPage: React.FC = () => {
                                             i.inspectionDate > doneModalTarget.givenAt &&
                                             i.outcome === 'PASS'
                                         )
-                                ).map(i => (
-                                    <option key={i.firestoreId || i.id} value={i.firestoreId || i.id}>
-                                        {i.inspectionType} · {new Date(i.inspectionDate).toLocaleDateString()} · PASS
-                                    </option>
-                                ))}
+                                        // D5 follow-up §3.3 — same latest-first sort
+                                        // as the card, so the pre-selected option is
+                                        // the same proof the card showed.
+                                        .sort((a, b) => (b.inspectionDate as number) - (a.inspectionDate as number))
+                                ).map(i => {
+                                    const findingText = (i as any).findings;
+                                    const dateLabel = new Date(i.inspectionDate).toLocaleDateString();
+                                    return (
+                                        <option key={i.firestoreId || i.id} value={i.firestoreId || i.id}>
+                                            {i.inspectionType} · {dateLabel} · PASS
+                                            {findingText ? ` — "${findingText}"` : ''}
+                                        </option>
+                                    );
+                                })}
                             </select>
                             <button
                                 onClick={handleInspectionTaskDone}
