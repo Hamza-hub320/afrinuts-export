@@ -658,6 +658,74 @@ export const handler: Handler = async (event: HandlerEvent) => {
         }
 
         // ============================================================
+        // D5 follow-up 2 — updateInspectionActionOwner
+        // Reassigns the owner of an OPEN inspection task. Free text
+        // (Decision 1: owner is not required to be a portal user).
+        // Writes owner AND assignedTo, kept in sync — the spawn writes
+        // both from the inspector's name, and the card renders
+        // `owner || assignedTo`.
+        // Rules: task must exist, must be OPEN, owner non-empty after
+        // trim. Otherwise 404 / 400, nothing written.
+        // ============================================================
+        if (action === 'updateInspectionActionOwner') {
+            const { actionId, owner, userId } = params;
+
+            if (!actionId) {
+                return {
+                    statusCode: 400,
+                    headers,
+                    body: JSON.stringify({ error: 'Missing actionId' }),
+                };
+            }
+            const trimmed = String(owner ?? '').trim();
+            if (!trimmed) {
+                return {
+                    statusCode: 400,
+                    headers,
+                    body: JSON.stringify({ error: 'Owner must not be empty' }),
+                };
+            }
+
+            const farmRef = db.collection('farms').doc(fid);
+            const ref = farmRef.collection('supplier_inspection_actions').doc(actionId);
+            const snap = await ref.get();
+            if (!snap.exists) {
+                return {
+                    statusCode: 404,
+                    headers,
+                    body: JSON.stringify({ error: `No inspection action at ${actionId}` }),
+                };
+            }
+            const task: any = snap.data();
+            if (task.status === 'DONE') {
+                return {
+                    statusCode: 400,
+                    headers,
+                    body: JSON.stringify({ error: 'Task is DONE; owner cannot be reassigned' }),
+                };
+            }
+
+            const now = Date.now();
+            await ref.update({
+                owner: trimmed,
+                assignedTo: trimmed,
+                updatedAt: now,
+                updatedBy: userId || 'portal-manager',
+            });
+
+            return {
+                statusCode: 200,
+                headers,
+                body: JSON.stringify({
+                    success: true,
+                    id: actionId,
+                    owner: trimmed,
+                    assignedTo: trimmed,
+                }),
+            };
+        }
+
+        // ============================================================
         // D5 — backfillInspectionTasks (TEMPORARY; removed in the D5
         // cleanup commit after the deploy run).
         // One-off: scans validated CONDITIONAL/FAIL inspections with

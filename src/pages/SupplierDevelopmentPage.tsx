@@ -70,6 +70,9 @@ const SupplierDevelopmentPage: React.FC = () => {
     const [doneModalTarget, setDoneModalTarget] = useState<InspectionTask | null>(null);
     const [doneSelectedReInspectionId, setDoneSelectedReInspectionId] = useState('');
 
+    const [reassigningTaskId, setReassigningTaskId] = useState<string | null>(null);
+    const [reassignValue, setReassignValue] = useState('');
+
     const fetchAll = async () => {
         try {
             const [data, disputesRes, inspectionActionsRes] = await Promise.allSettled([
@@ -154,10 +157,10 @@ const SupplierDevelopmentPage: React.FC = () => {
                 }
             }
 
-            if (!groups.has(opp.supplierId)) {
-                groups.set(opp.supplierId, { supplier, opportunities: [], actions: [], inspectionTasks: [] });
+            if (!groups.has(String(opp.supplierId))) {
+                groups.set(String(opp.supplierId), { supplier, opportunities: [], actions: [], inspectionTasks: [] });
             }
-            groups.get(opp.supplierId)!.opportunities.push(opp);
+            groups.get(String(opp.supplierId))!.opportunities.push(opp);
         });
 
         // 2. Process support actions (NEW FIX)
@@ -167,11 +170,10 @@ const SupplierDevelopmentPage: React.FC = () => {
             if (!supplier) return;
             if (q && !supplier.name.toLowerCase().includes(q)) return;
 
-            if (!groups.has(action.supplierId)) {
-                groups.set(action.supplierId, { supplier, opportunities: [], actions: [], inspectionTasks: [] });
+            if (!groups.has(String(action.supplierId))) {
+                groups.set(String(action.supplierId), { supplier, opportunities: [], actions: [], inspectionTasks: [] });
             }
-            // Only push if it's not already in the list (though we initialized with empty)
-            const group = groups.get(action.supplierId)!;
+            const group = groups.get(String(action.supplierId))!;
             if (!group.actions.find(a => a.id === action.id)) {
                 group.actions.push(action);
             }
@@ -297,6 +299,35 @@ const SupplierDevelopmentPage: React.FC = () => {
             }
             setDoneModalTarget(null);
             setDoneSelectedReInspectionId('');
+            fetchAll();
+        } catch (error: any) {
+            alert(`Error: ${error.message}`);
+        }
+    };
+
+    const startReassign = (task: any) => {
+        setReassigningTaskId(task.id);
+        setReassignValue((task.owner || task.assignedTo || '').trim());
+    };
+    const cancelReassign = () => {
+        setReassigningTaskId(null);
+        setReassignValue('');
+    };
+    const saveReassign = async () => {
+        if (!reassigningTaskId) return;
+        const trimmed = reassignValue.trim();
+        if (!trimmed) return;
+        try {
+            const res = await getSupplierData('updateInspectionActionOwner', {
+                farmId: '1',
+                actionId: reassigningTaskId,
+                owner: trimmed,
+                userId: user?.email || 'portal-manager',
+            });
+            if (!res || !res.success) {
+                throw new Error(res?.error || 'Failed to reassign owner');
+            }
+            cancelReassign();
             fetchAll();
         } catch (error: any) {
             alert(`Error: ${error.message}`);
@@ -587,7 +618,43 @@ const SupplierDevelopmentPage: React.FC = () => {
                                                                     Action: <span className="text-gray-700">{task.correctiveAction}</span>
                                                                 </div>
                                                                 <div className="text-[10px] text-gray-500">
-                                                                    Owner: {task.owner || task.assignedTo || '—'}
+                                                                    {isOpen && reassigningTaskId === task.id ? (
+                                                                        <span className="inline-flex items-center gap-1">
+                                                                            Owner:
+                                                                            <input
+                                                                                type="text"
+                                                                                value={reassignValue}
+                                                                                onChange={e => setReassignValue(e.target.value)}
+                                                                                className="px-1 py-0.5 border border-gray-300 rounded text-[10px] w-32"
+                                                                                placeholder="Owner name"
+                                                                            />
+                                                                            <button
+                                                                                onClick={saveReassign}
+                                                                                disabled={!reassignValue.trim()}
+                                                                                className="px-1.5 py-0.5 bg-green-600 text-white rounded text-[10px] disabled:opacity-40"
+                                                                            >
+                                                                                Save
+                                                                            </button>
+                                                                            <button
+                                                                                onClick={cancelReassign}
+                                                                                className="px-1.5 py-0.5 bg-gray-200 text-gray-700 rounded text-[10px]"
+                                                                            >
+                                                                                Cancel
+                                                                            </button>
+                                                                        </span>
+                                                                    ) : (
+                                                                        <span>
+                                                                            Owner: {task.owner || task.assignedTo || '—'}
+                                                                            {isOpen && (
+                                                                                <button
+                                                                                    onClick={() => startReassign(task)}
+                                                                                    className="ml-1 text-primary hover:text-accent font-medium"
+                                                                                >
+                                                                                    Reassign
+                                                                                </button>
+                                                                            )}
+                                                                        </span>
+                                                                    )}
                                                                     {' · '}
                                                                     Due: {task.dueTrigger?.type === 'date'
                                                                     ? new Date(task.dueTrigger.date).toLocaleDateString()
