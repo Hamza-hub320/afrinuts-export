@@ -37,8 +37,7 @@ export interface SupportAction {
     givenAt: number;
 }
 
-interface BatchStats {
-    verifiedBatches: any[];
+export interface BatchStats {
     verifiedCount: number;
     avgMoisture: number | null;
     avgDefectRate: number | null;
@@ -48,9 +47,11 @@ interface BatchStats {
     mediumDefectShare: number;
     highMoistureCount: number;
     highDefectCount: number;
+    verifiedBatches: any[];
 }
 
-function computeBatchStats(batches: any[]): BatchStats {
+
+export function computeBatchStats(batches: any[]): BatchStats {
     const verified = (batches || []).filter(b => b.verifiedAt && b.verifiedAt > 0);
     const n = verified.length;
 

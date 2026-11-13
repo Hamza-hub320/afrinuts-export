@@ -23,6 +23,7 @@ import {
     TrustResult,
     SCORING_VERSION,
 } from './trustFormulas';
+import { computeBatchStats } from './developmentRules';
 
 /**
  * Pure writer: persists a TrustResult into `supplier_current_trust`.
@@ -39,6 +40,24 @@ export async function writeCurrentDoc(
         validatedBatches: number;
         validatedCommitments: number;
         validatedInspections: number;
+    },
+    batchStats: {
+        verifiedVolumeKg: number;
+        verifiedCount: number;
+        avgMoisture: number | null;
+        avgDefectRate: number | null;
+        highMoistureShare: number;
+        mediumMoistureShare: number;
+        highDefectShare: number;
+        mediumDefectShare: number;
+        highMoistureCount: number;
+        highDefectCount: number;
+        verifiedBatches: Array<{
+            verifiedAt: number;
+            processingDate?: number | null;
+            moistureContent?: number | null;
+            defectiveRate?: number | null;
+        }>;
     }
 ): Promise<void> {
     const ref = db
@@ -47,7 +66,6 @@ export async function writeCurrentDoc(
         .doc(supplierId);
 
     if (trust.overall === null) {
-        // Stale scored doc must not survive a downgrade-to-unscored.
         await ref.delete().catch(() => { /* not-found is fine */ });
         return;
     }
@@ -67,6 +85,10 @@ export async function writeCurrentDoc(
             computedAt: Date.now(),
             overallSortable: trust.overall ?? -1,
             evidenceCounts,
+            // S8-C1 — materialized batch stats for the summary's
+            // development pipeline. Same write, same doc. See
+            // s8c1-batch-stats-brief-2026-11-13.md.
+            batchStats,
         },
         { merge: false }
     );
@@ -125,6 +147,7 @@ export async function recomputeAndWriteCurrent(
             pesticideResiduePpb: data.pesticideResiduePpb,
             farmOsMonitored: data.farmOsMonitored,
             verifiedAt: data.verifiedAt,
+            processingDate: data.processingDate,
             testResults: data.testResults,
         };
     });
@@ -164,9 +187,43 @@ export async function recomputeAndWriteCurrent(
 
     const trust = computeTrustScoreServer(input);
 
-    await writeCurrentDoc(fid, supplierId, trust, {
-        validatedBatches: batches.filter((b: any) => b.verifiedAt && b.verifiedAt > 0).length,
-        validatedCommitments: commitments.length,
-        validatedInspections: inspections.length,
-    });
+    // S8-C1 — compute per-supplier batch stats from the SAME batches
+    // the trust engine just scored, using the shared developmentRules
+    // helper (single source of truth for the share/average formulas).
+    // Verified batches only — unverified batches never feed any rule.
+    const stats = computeBatchStats(batches);
+    const verifiedVolumeKg = stats.verifiedBatches.reduce(
+        (sum: number, b: any) => sum + (b.weightKg || 0),
+        0
+    );
+    const batchStats = {
+        verifiedVolumeKg,
+        verifiedCount: stats.verifiedCount,
+        avgMoisture: stats.avgMoisture,
+        avgDefectRate: stats.avgDefectRate,
+        highMoistureShare: stats.highMoistureShare,
+        mediumMoistureShare: stats.mediumMoistureShare,
+        highDefectShare: stats.highDefectShare,
+        mediumDefectShare: stats.mediumDefectShare,
+        highMoistureCount: stats.highMoistureCount,
+        highDefectCount: stats.highDefectCount,
+        verifiedBatches: (stats.verifiedBatches || []).map((b: any) => ({
+            verifiedAt: b.verifiedAt,
+            processingDate: b.processingDate ?? null,
+            moistureContent: b.moistureContent ?? null,
+            defectiveRate: b.defectiveRate ?? null,
+        })),
+    };
+
+    await writeCurrentDoc(
+        fid,
+        supplierId,
+        trust,
+        {
+            validatedBatches: batches.filter((b: any) => b.verifiedAt && b.verifiedAt > 0).length,
+            validatedCommitments: commitments.length,
+            validatedInspections: inspections.length,
+        },
+        batchStats
+    );
 }
