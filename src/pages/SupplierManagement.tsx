@@ -691,16 +691,16 @@ const SupplierManagement: React.FC = () => {
             <Section className="py-6">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 grid grid-cols-1 md:grid-cols-2 gap-4">
                     {/* Risk & Attention */}
-                    <GlassCard>
+                    <GlassCard className="flex flex-col">
                         <div className="flex items-center justify-between mb-2">
                             <div className="flex items-center gap-2">
-                                <FaExclamationTriangle className="text-amber-600 text-sm" />
-                                <h3 className="text-sm font-semibold text-text-dark">Risk & Attention</h3>
+                                <FaExclamationTriangle className="text-amber-600 text-sm flex-shrink-0" />
+                                <h3 className="text-sm font-semibold text-text-dark leading-none">Risk & Attention</h3>
                             </div>
                             {(summary?.riskCounts?.critical ?? 0) > 0 && (
                                 <span className="px-2 py-0.5 rounded-full bg-red-100 text-red-700 text-[10px] font-medium">
-                        {summary.riskCounts.critical} critical
-                    </span>
+                                    {summary.riskCounts.critical} critical
+                                </span>
                             )}
                         </div>
                         <div className="flex items-baseline gap-3 text-[11px] text-gray-600">
@@ -711,10 +711,10 @@ const SupplierManagement: React.FC = () => {
                         </div>
                         {summary?.topRisk && (
                             <div className="mt-2 flex items-center gap-2 text-[11px] text-gray-600 truncate">
-                    <span className="truncate">
-                        Top: <span className="font-medium text-text-dark">{summary.topRisk.name}</span>
-                        {summary.topRisk.overall != null && <span className="ml-1 text-gray-500">· {summary.topRisk.overall}</span>}
-                    </span>
+                                <span className="truncate">
+                                    Top: <span className="font-medium text-text-dark">{summary.topRisk.name}</span>
+                                    {summary.topRisk.overall != null && <span className="ml-1 text-gray-500">· {summary.topRisk.overall}</span>}
+                                </span>
                                 {summary.topRisk.hasCriticalViolation && (
                                     <span className="px-1.5 py-0.5 rounded-full bg-red-100 text-red-700 text-[10px] font-medium shrink-0">critical</span>
                                 )}
@@ -722,20 +722,22 @@ const SupplierManagement: React.FC = () => {
                         )}
                         <button
                             onClick={() => navigate('/dashboard/suppliers/risk')}
-                            className="mt-3 text-[11px] font-medium text-amber-700 hover:text-amber-800"
-                        >Open Risk Workbench →</button>
+                            className="mt-auto pt-4 w-full py-2 bg-amber-500 text-white text-xs font-medium rounded-full hover:bg-amber-600 transition-colors shadow-sm"
+                        >
+                            Open Risk Workbench →
+                        </button>
                     </GlassCard>
 
                     {/* Supplier Development */}
-                    <GlassCard>
+                    <GlassCard className="flex flex-col">
                         <div className="flex items-center justify-between mb-2">
                             <div className="flex items-center gap-2">
-                                <FaHandshake className="text-primary text-sm" />
-                                <h3 className="text-sm font-semibold text-text-dark">Supplier Development</h3>
+                                <FaHandshake className="text-primary text-sm flex-shrink-0" />
+                                <h3 className="text-sm font-semibold text-text-dark leading-none">Supplier Development</h3>
                             </div>
                             <span className="text-[10px] text-gray-500">
-                    {summary?.developmentCounts?.visibleOpportunities ?? 0} opportunities
-                </span>
+                                {summary?.developmentCounts?.visibleOpportunities ?? 0} opportunities
+                            </span>
                         </div>
                         <div className="flex items-baseline gap-3 text-[11px] text-gray-600">
                             <span><span className="font-bold text-primary">{summary?.developmentCounts?.openActions ?? 0}</span> open actions</span>
@@ -751,12 +753,13 @@ const SupplierManagement: React.FC = () => {
                         )}
                         <button
                             onClick={() => navigate('/dashboard/suppliers/development')}
-                            className="mt-3 text-[11px] font-medium text-primary hover:text-dark-orange"
-                        >Open Development Workbench →</button>
+                            className="mt-auto pt-4 w-full py-2 bg-primary text-white text-xs font-medium rounded-full hover:bg-dark-orange transition-colors shadow-sm"
+                        >
+                            Open Development Workbench →
+                        </button>
                     </GlassCard>
                 </div>
             </Section>
-
 
             {/* 6. All suppliers table */}
             <Section className="py-6">
