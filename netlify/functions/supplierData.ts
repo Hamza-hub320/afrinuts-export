@@ -725,65 +725,6 @@ export const handler: Handler = async (event: HandlerEvent) => {
             };
         }
 
-        // ============================================================
-        // D5 — backfillInspectionTasks (TEMPORARY; removed in the D5
-        // cleanup commit after the deploy run).
-        // One-off: scans validated CONDITIONAL/FAIL inspections with
-        // no existing task, creates one per. Dedupe by inspectionId
-        // (same rule as the spawn). Idempotent — re-running after
-        // the backfill creates zero tasks.
-        // ============================================================
-        if (action === 'backfillInspectionTasks') {
-            const farmRef = db.collection('farms').doc(fid);
-            const inspSnap = await farmRef.collection('supplier_inspections').get();
-            const existingSnap = await farmRef.collection('supplier_inspection_actions').get();
-            const existingIds = new Set<string>();
-            existingSnap.docs.forEach(d => {
-                const data: any = d.data();
-                if (data?.inspectionId) existingIds.add(String(data.inspectionId));
-            });
-
-            const created: Array<{ actionId: string; inspectionId: string; supplierId: any; outcome: string; severity: any }> = [];
-            const skipped: Array<{ inspectionId: string; reason: string }> = [];
-
-            for (const doc of inspSnap.docs) {
-                const data: any = doc.data();
-                if (!data.validatedAt) {
-                    continue;
-                }
-                if (data.outcome !== 'CONDITIONAL' && data.outcome !== 'FAIL') {
-                    continue;
-                }
-                if (existingIds.has(doc.id)) {
-                    skipped.push({ inspectionId: doc.id, reason: 'task already exists' });
-                    continue;
-                }
-                const result = await spawnInspectionTaskIfNeeded(
-                    fid,
-                    { id: doc.id, data },
-                    'portal-manager (backfill)'
-                );
-                if (result.created && result.actionId) {
-                    created.push({
-                        actionId: result.actionId,
-                        inspectionId: doc.id,
-                        supplierId: data.supplierId,
-                        outcome: data.outcome,
-                        severity: data.severity ?? null,
-                    });
-                    existingIds.add(doc.id);
-                } else {
-                    skipped.push({ inspectionId: doc.id, reason: result.skippedReason || 'unknown' });
-                }
-            }
-
-            return {
-                statusCode: 200,
-                headers,
-                body: JSON.stringify({ farmId: fid, created, skipped }),
-            };
-        }
-
         if (action === 'saveScoreSnapshot') {
             const { supplierId, snapshotData } = params;
 
