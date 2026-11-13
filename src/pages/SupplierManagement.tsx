@@ -687,35 +687,76 @@ const SupplierManagement: React.FC = () => {
                 </div>
             </Section>
 
-            {/* 5. Consent band */}
+            {/* 8 + 9. Risk & Development — GlassCard, two-up */}
             <Section className="py-6">
-                <div className="max-w-6xl mx-auto px-4 sm:px-6">
-                    <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
-                        <InfoCard
-                            icon={FaShieldAlt}
-                            title="Consent & Data Trust"
-                            subtitle="Farmer data is held in trust — shared with buyers only where consent is recorded"
-                            iconColor="text-primary"
-                            showInfoBadge={false}
-                        >
-                            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-3">
-                                {[
-                                    { label: 'Full consent', value: summary?.consentCounts?.full ?? 0, icon: FaShieldAlt, color: 'text-primary' },
-                                    { label: 'Partial consent', value: summary?.consentCounts?.partial ?? 0, icon: FaUser, color: 'text-accent' },
-                                    { label: 'No consent', value: summary?.consentCounts?.none ?? 0, icon: FaMapMarkerAlt, color: 'text-amber-600' },
-                                    { label: 'Withdrawn', value: summary?.consentCounts?.withdrawn ?? 0, icon: FaCamera, color: 'text-red-500' },
-                                ].map((item, i) => (
-                                    <div key={i} className="bg-white/40 rounded-xl p-3 border border-white/30 text-center">
-                                        <item.icon className={`text-xl mx-auto ${item.color}`} />
-                                        <div className="text-lg font-bold mt-1">{item.value}</div>
-                                        <div className="text-xs text-gray-500">{item.label}</div>
-                                    </div>
-                                ))}
+                <div className="max-w-6xl mx-auto px-4 sm:px-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {/* Risk & Attention */}
+                    <GlassCard>
+                        <div className="flex items-center justify-between mb-2">
+                            <div className="flex items-center gap-2">
+                                <FaExclamationTriangle className="text-amber-600 text-sm" />
+                                <h3 className="text-sm font-semibold text-text-dark">Risk & Attention</h3>
                             </div>
-                        </InfoCard>
-                    </motion.div>
+                            {(summary?.riskCounts?.critical ?? 0) > 0 && (
+                                <span className="px-2 py-0.5 rounded-full bg-red-100 text-red-700 text-[10px] font-medium">
+                        {summary.riskCounts.critical} critical
+                    </span>
+                            )}
+                        </div>
+                        <div className="flex items-baseline gap-3 text-[11px] text-gray-600">
+                            <span><span className="font-bold text-red-600">{summary?.riskCounts?.critical ?? 0}</span> critical</span>
+                            <span><span className="font-bold text-amber-600">{summary?.riskCounts?.high ?? 0}</span> high</span>
+                            <span><span className="font-bold text-yellow-600">{summary?.riskCounts?.medium ?? 0}</span> medium</span>
+                            <span><span className="font-bold text-gray-700">{summary?.riskCounts?.low ?? 0}</span> low</span>
+                        </div>
+                        {summary?.topRisk && (
+                            <div className="mt-2 flex items-center gap-2 text-[11px] text-gray-600 truncate">
+                    <span className="truncate">
+                        Top: <span className="font-medium text-text-dark">{summary.topRisk.name}</span>
+                        {summary.topRisk.overall != null && <span className="ml-1 text-gray-500">· {summary.topRisk.overall}</span>}
+                    </span>
+                                {summary.topRisk.hasCriticalViolation && (
+                                    <span className="px-1.5 py-0.5 rounded-full bg-red-100 text-red-700 text-[10px] font-medium shrink-0">critical</span>
+                                )}
+                            </div>
+                        )}
+                        <button
+                            onClick={() => navigate('/dashboard/suppliers/risk')}
+                            className="mt-3 text-[11px] font-medium text-amber-700 hover:text-amber-800"
+                        >Open Risk Workbench →</button>
+                    </GlassCard>
+
+                    {/* Supplier Development */}
+                    <GlassCard>
+                        <div className="flex items-center justify-between mb-2">
+                            <div className="flex items-center gap-2">
+                                <FaHandshake className="text-primary text-sm" />
+                                <h3 className="text-sm font-semibold text-text-dark">Supplier Development</h3>
+                            </div>
+                            <span className="text-[10px] text-gray-500">
+                    {summary?.developmentCounts?.visibleOpportunities ?? 0} opportunities
+                </span>
+                        </div>
+                        <div className="flex items-baseline gap-3 text-[11px] text-gray-600">
+                            <span><span className="font-bold text-primary">{summary?.developmentCounts?.openActions ?? 0}</span> open actions</span>
+                            <span><span className="font-bold text-accent">{summary?.developmentCounts?.visibleOpportunities ?? 0}</span> opportunities</span>
+                        </div>
+                        {summary?.developmentCounts?.topOpportunity && (
+                            <div className="mt-2 text-[11px] text-gray-600 truncate">
+                                Top: <span className="font-medium text-text-dark">{summary.developmentCounts.topOpportunity.name}</span>
+                                {summary.developmentCounts.topOpportunity.weakness && (
+                                    <span className="text-gray-500"> · {summary.developmentCounts.topOpportunity.weakness}</span>
+                                )}
+                            </div>
+                        )}
+                        <button
+                            onClick={() => navigate('/dashboard/suppliers/development')}
+                            className="mt-3 text-[11px] font-medium text-primary hover:text-dark-orange"
+                        >Open Development Workbench →</button>
+                    </GlassCard>
                 </div>
             </Section>
+
 
             {/* 6. All suppliers table */}
             <Section className="py-6">
@@ -943,76 +984,6 @@ const SupplierManagement: React.FC = () => {
                 </div>
             </Section>
 
-            {/* 8 + 9. Risk & Development — GlassCard, two-up */}
-            <Section className="py-6">
-                <div className="max-w-6xl mx-auto px-4 sm:px-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {/* Risk & Attention */}
-                    <GlassCard>
-                        <div className="flex items-center justify-between mb-2">
-                            <div className="flex items-center gap-2">
-                                <FaExclamationTriangle className="text-amber-600 text-sm" />
-                                <h3 className="text-sm font-semibold text-text-dark">Risk & Attention</h3>
-                            </div>
-                            {(summary?.riskCounts?.critical ?? 0) > 0 && (
-                                <span className="px-2 py-0.5 rounded-full bg-red-100 text-red-700 text-[10px] font-medium">
-                        {summary.riskCounts.critical} critical
-                    </span>
-                            )}
-                        </div>
-                        <div className="flex items-baseline gap-3 text-[11px] text-gray-600">
-                            <span><span className="font-bold text-red-600">{summary?.riskCounts?.critical ?? 0}</span> critical</span>
-                            <span><span className="font-bold text-amber-600">{summary?.riskCounts?.high ?? 0}</span> high</span>
-                            <span><span className="font-bold text-yellow-600">{summary?.riskCounts?.medium ?? 0}</span> medium</span>
-                            <span><span className="font-bold text-gray-700">{summary?.riskCounts?.low ?? 0}</span> low</span>
-                        </div>
-                        {summary?.topRisk && (
-                            <div className="mt-2 flex items-center gap-2 text-[11px] text-gray-600 truncate">
-                    <span className="truncate">
-                        Top: <span className="font-medium text-text-dark">{summary.topRisk.name}</span>
-                        {summary.topRisk.overall != null && <span className="ml-1 text-gray-500">· {summary.topRisk.overall}</span>}
-                    </span>
-                                {summary.topRisk.hasCriticalViolation && (
-                                    <span className="px-1.5 py-0.5 rounded-full bg-red-100 text-red-700 text-[10px] font-medium shrink-0">critical</span>
-                                )}
-                            </div>
-                        )}
-                        <button
-                            onClick={() => navigate('/dashboard/suppliers/risk')}
-                            className="mt-3 text-[11px] font-medium text-amber-700 hover:text-amber-800"
-                        >Open Risk Workbench →</button>
-                    </GlassCard>
-
-                    {/* Supplier Development */}
-                    <GlassCard>
-                        <div className="flex items-center justify-between mb-2">
-                            <div className="flex items-center gap-2">
-                                <FaHandshake className="text-primary text-sm" />
-                                <h3 className="text-sm font-semibold text-text-dark">Supplier Development</h3>
-                            </div>
-                            <span className="text-[10px] text-gray-500">
-                    {summary?.developmentCounts?.visibleOpportunities ?? 0} opportunities
-                </span>
-                        </div>
-                        <div className="flex items-baseline gap-3 text-[11px] text-gray-600">
-                            <span><span className="font-bold text-primary">{summary?.developmentCounts?.openActions ?? 0}</span> open actions</span>
-                            <span><span className="font-bold text-accent">{summary?.developmentCounts?.visibleOpportunities ?? 0}</span> opportunities</span>
-                        </div>
-                        {summary?.developmentCounts?.topOpportunity && (
-                            <div className="mt-2 text-[11px] text-gray-600 truncate">
-                                Top: <span className="font-medium text-text-dark">{summary.developmentCounts.topOpportunity.name}</span>
-                                {summary.developmentCounts.topOpportunity.weakness && (
-                                    <span className="text-gray-500"> · {summary.developmentCounts.topOpportunity.weakness}</span>
-                                )}
-                            </div>
-                        )}
-                        <button
-                            onClick={() => navigate('/dashboard/suppliers/development')}
-                            className="mt-3 text-[11px] font-medium text-primary hover:text-dark-orange"
-                        >Open Development Workbench →</button>
-                    </GlassCard>
-                </div>
-            </Section>
-
             {/* 10. Financial efficiency */}
             <Section className="py-6">
                 <div className="max-w-4xl mx-auto px-4 sm:px-6">
@@ -1078,6 +1049,36 @@ const SupplierManagement: React.FC = () => {
                             </p>
                         )}
                     </div>
+                </div>
+            </Section>
+
+            {/* 5. Consent band */}
+            <Section className="py-6">
+                <div className="max-w-6xl mx-auto px-4 sm:px-6">
+                    <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
+                        <InfoCard
+                            icon={FaShieldAlt}
+                            title="Consent & Data Trust"
+                            subtitle="Farmer data is held in trust — shared with buyers only where consent is recorded"
+                            iconColor="text-primary"
+                            showInfoBadge={false}
+                        >
+                            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-3">
+                                {[
+                                    { label: 'Full consent', value: summary?.consentCounts?.full ?? 0, icon: FaShieldAlt, color: 'text-primary' },
+                                    { label: 'Partial consent', value: summary?.consentCounts?.partial ?? 0, icon: FaUser, color: 'text-accent' },
+                                    { label: 'No consent', value: summary?.consentCounts?.none ?? 0, icon: FaMapMarkerAlt, color: 'text-amber-600' },
+                                    { label: 'Withdrawn', value: summary?.consentCounts?.withdrawn ?? 0, icon: FaCamera, color: 'text-red-500' },
+                                ].map((item, i) => (
+                                    <div key={i} className="bg-white/40 rounded-xl p-3 border border-white/30 text-center">
+                                        <item.icon className={`text-xl mx-auto ${item.color}`} />
+                                        <div className="text-lg font-bold mt-1">{item.value}</div>
+                                        <div className="text-xs text-gray-500">{item.label}</div>
+                                    </div>
+                                ))}
+                            </div>
+                        </InfoCard>
+                    </motion.div>
                 </div>
             </Section>
 
