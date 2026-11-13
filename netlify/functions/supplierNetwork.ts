@@ -6,6 +6,8 @@ import {
     TrustInput,
     TrustResult,
 } from './_lib/trustFormulas';
+import { writeCurrentDoc } from './_lib/currentTrust';
+import { SCORING_VERSION } from './_lib/trustFormulas';
 
 const corsHeaders = {
     'Access-Control-Allow-Origin': '*',
@@ -188,6 +190,9 @@ export const handler: Handler = async (event: HandlerEvent) => {
 
             for (const supplierId of pageSupplierIds) {
                 const trust = trustBySupplier[supplierId];
+                const overall = trust?.overall ?? null;
+
+                // History — append-only snapshot (unchanged from S4).
                 batch.set(
                     db.collection('farms').doc(fid)
                         .collection('supplier_score_history')
@@ -195,7 +200,7 @@ export const handler: Handler = async (event: HandlerEvent) => {
                     {
                         supplierId,                              // real id, never '__all__'
                         farmId: fid,
-                        overall: trust?.overall ?? null,
+                        overall,
                         confidence: trust?.confidence ?? 'preliminary',
                         verifiedTransactions: trust?.verifiedTransactions ?? 0,
                         dimensions: trust?.dimensions ?? null,
@@ -205,6 +210,45 @@ export const handler: Handler = async (event: HandlerEvent) => {
                     },
                     { merge: true }
                 );
+
+                // S8 — current-trust doc (overwrite, or delete when unscored).
+                const currentRef = db.collection('farms').doc(fid)
+                    .collection('supplier_current_trust')
+                    .doc(supplierId);
+
+                if (trust && overall !== null) {
+                    batch.set(currentRef, {
+                        supplierId,
+                        overall,
+                        confidence: trust.confidence,
+                        verifiedTransactions: trust.verifiedTransactions,
+                        dimensions: trust.dimensions ?? null,
+                        weights: (trust as any).weights ?? null,
+                        flags: (trust as any).flags ?? [],
+                        flagDetails: (trust as any).flagDetails ?? [],
+                        hasCriticalViolation: trust.hasCriticalViolation ?? false,
+                        scoringVersion: 'v2.0',
+                        computedAt: calculatedAt,
+                        overallSortable: overall ?? -1,
+                        // loadTrustMap carries the trust object but not the
+                        // per-supplier evidence counts. The batch path is the
+                        // backfill/repair path; the *authoritative* evidence
+                        // counts come from recomputeAndWriteCurrent when a
+                        // per-supplier validation or dispute fires. Store
+                        // verifiedTransactions as the batch count; leave
+                        // commitments/inspections at 0 here — the next
+                        // validation of that supplier will correct them.
+                        evidenceCounts: {
+                            validatedBatches: trust.verifiedTransactions ?? 0,
+                            validatedCommitments: 0,
+                            validatedInspections: 0,
+                        },
+                    }, { merge: false });
+                } else {
+                    // Scored-before-now-unscored (or never-scored): the
+                    // current doc must not survive a downgrade.
+                    batch.delete(currentRef);
+                }
             }
 
             await batch.commit();
@@ -323,6 +367,83 @@ export const handler: Handler = async (event: HandlerEvent) => {
                 }),
             };
         }
+
+        // ============================================================
+        // S8 — verifyCurrentTrust { farmId, sample? }
+        // Read-only drift guard (decision B).
+        // Recomputes via loadTrustMap and diffs against
+        // supplier_current_trust for a sample (or all) suppliers.
+        // Returns { farmId, checked, mismatchCount, mismatches }.
+        //
+        // sample: number (bounded, sorted by computedAt desc) | 'all'.
+        // Use 'all' at farm-1 scale. Use a number at scale-test to bound
+        // the compute.
+        // ============================================================
+        if (action === 'verifyCurrentTrust') {
+            const { sample = 'all' } = params;
+
+            const { trustBySupplier } = await loadTrustMap(fid);
+
+            const currentSnap = await db.collection('farms').doc(fid)
+                .collection('supplier_current_trust')
+                .get();
+            const currentById = new Map<string, any>();
+            currentSnap.docs.forEach(d => currentById.set(d.id, d.data()));
+
+            const allIds = Object.keys(trustBySupplier);
+            const idsToCheck = sample === 'all'
+                ? allIds
+                : allIds
+                    .sort((a, b) =>
+                        (currentById.get(b)?.computedAt ?? 0) - (currentById.get(a)?.computedAt ?? 0)
+                    )
+                    .slice(0, Math.max(1, parseInt(String(sample), 10) || allIds.length));
+
+            const mismatches: Array<{
+                supplierId: string;
+                fields: Record<string, { expected: any; current: any }>;
+            }> = [];
+
+            for (const supplierId of idsToCheck) {
+                const expected = trustBySupplier[supplierId];
+                const current = currentById.get(supplierId);
+
+                const fields: Record<string, { expected: any; current: any }> = {};
+                const cmp = (k: string) => {
+                    const exp = (expected as any)?.[k];
+                    const cur = current?.[k];
+                    if (JSON.stringify(exp) !== JSON.stringify(cur)) {
+                        fields[k] = { expected: exp ?? null, current: cur ?? null };
+                    }
+                };
+
+                cmp('overall');
+                cmp('confidence');
+                cmp('hasCriticalViolation');
+                cmp('dimensions');
+                cmp('scoringVersion');
+
+                if (expected?.overall === null && !current) {
+                    // Unscored supplier, no doc — matches the intended semantics.
+                    continue;
+                }
+                if (Object.keys(fields).length > 0) {
+                    mismatches.push({ supplierId, fields });
+                }
+            }
+
+            return {
+                statusCode: 200,
+                headers: corsHeaders,
+                body: JSON.stringify({
+                    farmId: fid,
+                    checked: idsToCheck.length,
+                    mismatchCount: mismatches.length,
+                    mismatches,
+                }),
+            };
+        }
+
 
         return {
             statusCode: 400,

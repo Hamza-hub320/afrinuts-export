@@ -1,6 +1,7 @@
 import type { Handler, HandlerEvent } from '@netlify/functions';
 import { initializeApp, cert, getApps } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
+import { recomputeAndWriteCurrent } from './_lib/currentTrust';
 
 if (!getApps().length) {
     initializeApp({
@@ -299,6 +300,32 @@ export const handler: Handler = async (event: HandlerEvent) => {
                 updatedAt: Date.now(),
             });
 
+            // S8 — synchronous single-supplier current-trust recompute.
+            // Validation is the moment a score can appear or a critical
+            // violation can fire; must not wait for a recalculate click.
+            //
+            // D5 merge-order note (brief correction 8): if the D5 spawn
+            // hook lands in this branch after this call, it must not
+            // early-return before this runs. Order: stamp → spawn (D5)
+            // → recompute (S8), or stamp → recompute (S8) → spawn (D5).
+            // Never an early return between them.
+            //
+            // Failure here must NOT fail the validation. The validatedAt
+            // stamp is the durable truth; if the recompute throws, log and
+            // continue — the next recalculateTrustBatch heals this doc.
+            try {
+                const evidenceData: any = docSnap.data();
+                const evidenceSupplierId = evidenceData?.supplierId;
+                if (evidenceSupplierId !== undefined && evidenceSupplierId !== null) {
+                    await recomputeAndWriteCurrent(fid, String(evidenceSupplierId));
+                }
+            } catch (recomputeErr: any) {
+                console.error(
+                    'S8 current-trust recompute failed after validateEvidence:',
+                    recomputeErr?.message || recomputeErr
+                );
+            }
+
             return { statusCode: 200, headers, body: JSON.stringify({ success: true }) };
         }
 
@@ -358,22 +385,48 @@ export const handler: Handler = async (event: HandlerEvent) => {
                 return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid params' }) };
             }
 
-            await db.collection('farms').doc(fid)
-                .collection('supplier_disputes').doc(disputeId)
-                .update({
-                    reviewStatus: 'RESOLVED',
-                    decision: resolution,
-                    reviewedBy: reviewedBy || 'portal-user',
-                    resolvedDate: Date.now(),
-                    correctionApplied: resolution === 'UPHELD',
-                    originalValue: originalValue ?? null,
-                    correctedValue: correctedValue ?? null,
-                    updatedAt: Date.now(),
-                });
+            const disputeRef = db.collection('farms').doc(fid)
+                .collection('supplier_disputes').doc(disputeId);
+            const disputeSnap = await disputeRef.get();
+            const disputeData: any = disputeSnap.exists ? disputeSnap.data() : null;
+
+            await disputeRef.update({
+                reviewStatus: 'RESOLVED',
+                decision: resolution,
+                reviewedBy: reviewedBy || 'portal-user',
+                resolvedDate: Date.now(),
+                correctionApplied: resolution === 'UPHELD',
+                originalValue: originalValue ?? null,
+                correctedValue: correctedValue ?? null,
+                updatedAt: Date.now(),
+            });
+
+            // S8 — synchronous single-supplier current-trust recompute.
+            // Same reasoning as validateEvidence. Dispute resolution can
+            // change what counts as validated evidence (an UPHELD dispute
+            // may flip a batch or commitment outcome) and must not wait
+            // for a recalculate click.
+            //
+            // KNOWN DRIFT EDGE (brief correction 5): resolveDispute itself
+            // only stamps the dispute document. A batch correction applied
+            // later via Farm OS sync (not through this branch) does NOT
+            // refresh supplier_current_trust until the next validation or
+            // recalculate. Do not "fix" this by adding a new trigger —
+            // the drift guard (verifyCurrentTrust) covers it.
+            try {
+                const disputeSupplierId = disputeData?.supplierId;
+                if (disputeSupplierId !== undefined && disputeSupplierId !== null) {
+                    await recomputeAndWriteCurrent(fid, String(disputeSupplierId));
+                }
+            } catch (recomputeErr: any) {
+                console.error(
+                    'S8 current-trust recompute failed after resolveDispute:',
+                    recomputeErr?.message || recomputeErr
+                );
+            }
 
             return { statusCode: 200, headers, body: JSON.stringify({ success: true }) };
         }
-
         if (action === 'getOpenDisputes') {
             const snap = await db.collection('farms').doc(fid)
                 .collection('supplier_disputes')
