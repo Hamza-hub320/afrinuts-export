@@ -268,7 +268,34 @@ export const handler: Handler = async (event: HandlerEvent) => {
                 }
             }
 
-                await batch.commit();
+            // S8-C1 — farm meta doc: total verified volume over ALL
+            // batches, including unscored suppliers' (summing from
+            // current docs would miss 60% of farm 1's verified
+            // volume). Idempotent overwrite on every recalculate
+            // call; joins the same batch.commit().
+            //
+            // The freshFarmVolume computation in verifyCurrentTrust
+            // uses the identical sum — mirror it, do not invent a
+            // second formula. Written on EVERY call (each paginated
+            // page recomputes the same total from the full loader).
+            // NOT written by recomputeAndWriteCurrent — meta refreshes
+            // only on recalculate, per the staleness contract.
+            const farmVerifiedVolumeKg = Object.values(batchesBySupplier)
+                .flat()
+                .filter((b: any) => b.verifiedAt && b.verifiedAt > 0)
+                .reduce((sum: number, b: any) => sum + (b.weightKg || 0), 0);
+            batch.set(
+                db.collection('farms').doc(fid)
+                    .collection('supplier_network_meta').doc('summary'),
+                {
+                    verifiedVolumeKg: farmVerifiedVolumeKg,
+                    computedAt: calculatedAt,
+                    computedBy: 'recalculateTrustBatch',
+                },
+                { merge: false }
+            );
+
+            await batch.commit();
 
                 return {
                     statusCode: 200,
