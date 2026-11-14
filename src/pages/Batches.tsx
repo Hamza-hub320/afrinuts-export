@@ -861,10 +861,10 @@ const Batches: React.FC = () => {
                                                         {score > 0 ? score.toFixed(1) : '—'}
                                                     </td>
                                                     <td className={`py-3 text-sm ${batch.moistureContent > 7 ? 'text-red-600 font-medium' : 'text-gray-700'}`}>
-                                                        {batch.moistureContent > 0 ? `${batch.moistureContent}%` : 'Pending'}
+                                                        {batch.moistureContent > 0 ? `${batch.moistureContent.toFixed(1)}%` : 'Pending'}
                                                     </td>
                                                     <td className={`py-3 text-sm ${batch.defectiveRate > 5 ? 'text-red-600 font-medium' : 'text-gray-700'}`}>
-                                                        {batch.defectiveRate > 0 ? `${batch.defectiveRate}%` : 'Pending'}
+                                                        {batch.defectiveRate > 0 ? `${batch.defectiveRate.toFixed(1)}%` : 'Pending'}
                                                     </td>
                                                     <td className="py-3 text-xs">
                                                         <div className="flex gap-1.5">
