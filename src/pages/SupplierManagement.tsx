@@ -687,30 +687,27 @@ const SupplierManagement: React.FC = () => {
                 </div>
             </Section>
 
-            {/* 8 + 9. Risk & Development — GlassCard, two-up */}
+            {/* 8 + 9. Risk & Development — InfoCard, two-up */}
             <Section className="py-6">
                 <div className="max-w-6xl mx-auto px-4 sm:px-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+
                     {/* Risk & Attention */}
-                    <GlassCard className="flex flex-col">
-                        <div className="flex items-center justify-between mb-2">
-                            <div className="flex items-center gap-2">
-                                <FaExclamationTriangle className="text-amber-600 text-sm flex-shrink-0" />
-                                <h3 className="text-sm font-semibold text-text-dark leading-none">Risk & Attention</h3>
-                            </div>
-                            {(summary?.riskCounts?.critical ?? 0) > 0 && (
-                                <span className="px-2 py-0.5 rounded-full bg-red-100 text-red-700 text-[10px] font-medium">
-                                    {summary.riskCounts.critical} critical
-                                </span>
-                            )}
-                        </div>
-                        <div className="flex items-baseline gap-3 text-[11px] text-gray-600">
+                    <InfoCard
+                        icon={FaExclamationTriangle}
+                        title="Risk & Attention"
+                        subtitle="Suppliers flagged for review"
+                        iconColor="text-amber-600"
+                        showInfoBadge={false}
+                        className="h-full flex flex-col"
+                    >
+                        <div className="flex items-baseline gap-3 text-[11px] text-gray-600 mb-2">
                             <span><span className="font-bold text-red-600">{summary?.riskCounts?.critical ?? 0}</span> critical</span>
                             <span><span className="font-bold text-amber-600">{summary?.riskCounts?.high ?? 0}</span> high</span>
                             <span><span className="font-bold text-yellow-600">{summary?.riskCounts?.medium ?? 0}</span> medium</span>
                             <span><span className="font-bold text-gray-700">{summary?.riskCounts?.low ?? 0}</span> low</span>
                         </div>
                         {summary?.topRisk && (
-                            <div className="mt-2 flex items-center gap-2 text-[11px] text-gray-600 truncate">
+                            <div className="flex items-center gap-2 text-[11px] text-gray-600 truncate mb-3">
                                 <span className="truncate">
                                     Top: <span className="font-medium text-text-dark">{summary.topRisk.name}</span>
                                     {summary.topRisk.overall != null && <span className="ml-1 text-gray-500">· {summary.topRisk.overall}</span>}
@@ -722,29 +719,27 @@ const SupplierManagement: React.FC = () => {
                         )}
                         <button
                             onClick={() => navigate('/dashboard/suppliers/risk')}
-                            className="mt-auto pt-4 w-full py-2 bg-amber-500 text-white text-xs font-medium rounded-full hover:bg-amber-600 transition-colors shadow-sm"
+                            className="w-full mt-auto py-2 bg-amber-500 text-white text-sm font-medium rounded-full hover:bg-amber-600 transition-colors flex items-center justify-center gap-1"
                         >
                             Open Risk Workbench →
                         </button>
-                    </GlassCard>
+                    </InfoCard>
 
                     {/* Supplier Development */}
-                    <GlassCard className="flex flex-col">
-                        <div className="flex items-center justify-between mb-2">
-                            <div className="flex items-center gap-2">
-                                <FaHandshake className="text-primary text-sm flex-shrink-0" />
-                                <h3 className="text-sm font-semibold text-text-dark leading-none">Supplier Development</h3>
-                            </div>
-                            <span className="text-[10px] text-gray-500">
-                                {summary?.developmentCounts?.visibleOpportunities ?? 0} opportunities
-                            </span>
-                        </div>
-                        <div className="flex items-baseline gap-3 text-[11px] text-gray-600">
+                    <InfoCard
+                        icon={FaHandshake}
+                        title="Supplier Development"
+                        subtitle="Where targeted support strengthens the network"
+                        iconColor="text-primary"
+                        showInfoBadge={false}
+                        className="h-full flex flex-col"
+                    >
+                        <div className="flex items-baseline gap-3 text-[11px] text-gray-600 mb-2">
                             <span><span className="font-bold text-primary">{summary?.developmentCounts?.openActions ?? 0}</span> open actions</span>
                             <span><span className="font-bold text-accent">{summary?.developmentCounts?.visibleOpportunities ?? 0}</span> opportunities</span>
                         </div>
                         {summary?.developmentCounts?.topOpportunity && (
-                            <div className="mt-2 text-[11px] text-gray-600 truncate">
+                            <div className="text-[11px] text-gray-600 truncate mb-3">
                                 Top: <span className="font-medium text-text-dark">{summary.developmentCounts.topOpportunity.name}</span>
                                 {summary.developmentCounts.topOpportunity.weakness && (
                                     <span className="text-gray-500"> · {summary.developmentCounts.topOpportunity.weakness}</span>
@@ -753,11 +748,12 @@ const SupplierManagement: React.FC = () => {
                         )}
                         <button
                             onClick={() => navigate('/dashboard/suppliers/development')}
-                            className="mt-auto pt-4 w-full py-2 bg-primary text-white text-xs font-medium rounded-full hover:bg-dark-orange transition-colors shadow-sm"
+                            className="w-full mt-auto py-2 bg-primary text-white text-sm font-medium rounded-full hover:bg-dark-orange transition-colors flex items-center justify-center gap-1"
                         >
                             Open Development Workbench →
                         </button>
-                    </GlassCard>
+                    </InfoCard>
+
                 </div>
             </Section>
 
