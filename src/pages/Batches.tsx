@@ -169,7 +169,7 @@ const Batches: React.FC = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [filterGrade, setFilterGrade] = useState('All');
     const [tablePage, setTablePage] = useState(1);
-    const TABLE_PAGE_SIZE = 20;
+    const TABLE_PAGE_SIZE = 10;
     const [selectedBatch, setSelectedBatch] = useState<Batch | null>(null);
     const [batchDetail, setBatchDetail] = useState<any>(null);
     const [modalLoading, setModalLoading] = useState(false);
