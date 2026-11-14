@@ -32,6 +32,7 @@ interface Task {
     type: string;
     dueDate: number;
     completedDate?: number;
+    startDate?: number;            // NEW — populated by the app fix; absent on pre-fix tasks
     blockId: number;
 }
 
@@ -48,8 +49,8 @@ interface WorkerPerformance {
     totalTasks: number;
     completedTasks: number;
     inProgressTasks: number;
-    totalTimeMs: number;
-    averageTimePerTaskMs: number;
+    totalDays: number;            // was totalTimeMs
+    averageDaysPerTask: number;   // was averageTimePerTaskMs
     completionRate: number;
     taskTypes: string[];
     assignments: TaskAssignment[];
@@ -59,7 +60,7 @@ interface TaskTypeStats {
     type: string;
     count: number;
     completedCount: number;
-    avgTimeMs: number;
+    avgDays: number;              // was avgTimeMs
 }
 
 interface TaskWithAssignments extends Task {
@@ -86,6 +87,68 @@ const Tasks: React.FC = () => {
     const [taskPhotos, setTaskPhotos] = useState<Photo[]>([]);
     const [selectedTask, setSelectedTask] = useState<TaskWithAssignments | null>(null);
     const navigate = useNavigate();
+    const [refreshing, setRefreshing] = useState(false);
+
+    // ============================================================
+    // fetchData — hoisted from the mount effect so the Refresh button
+    // can call it. Deliberately does NOT setLoading(true): the initial
+    // state is already true, so the first mount still shows the spinner
+    // until the finally block runs setLoading(false). A Refresh keeps
+    // the current data visible while the new fetch runs.
+    // ============================================================
+    const fetchData = async () => {
+        setRefreshing(true);
+        try {
+            let tasksData, assignmentsData;
+
+            if (isDevelopment) {
+                tasksData = await getMockData('getTasks');
+                assignmentsData = await getMockData('getAssignments');
+            } else {
+                tasksData = await callApi('farmData', { action: 'getTasks', farmId: '1' });
+                assignmentsData = await callApi('farmData', { action: 'getAssignments', farmId: '1' });
+            }
+
+            const tasksList = tasksData.tasks || [];
+            const assignmentsList = assignmentsData?.assignments || [];
+            setAssignments(assignmentsList);
+
+            const tasksWithAssignments = tasksList.map((task: Task) => {
+                const taskAssignments = assignmentsList.filter((a: TaskAssignment) => a.taskId === task.id);
+                const activeAssignment = taskAssignments.find((a: TaskAssignment) => !a.unassignedAt);
+                const lastAssignment = taskAssignments.length > 0
+                    ? taskAssignments.reduce((latest: TaskAssignment, a: TaskAssignment) =>
+                        (a.assignedAt > latest.assignedAt) ? a : latest
+                    )
+                    : null;
+
+                return {
+                    ...task,
+                    assignments: taskAssignments,
+                    currentWorker: activeAssignment?.assignedTo || lastAssignment?.assignedTo || undefined,
+                };
+            });
+
+            setTasks(tasksWithAssignments);
+
+            if (!isDevelopment) {
+                const photosData = await callApi('photos', { action: 'getPhotos', farmId: '1' });
+                setTaskPhotos(photosData.photos || []);
+            }
+
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        } finally {
+            setLoading(false);
+            setRefreshing(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
 
     const [selectedWorker, setSelectedWorker] = useState<{
         name: string;
@@ -95,14 +158,46 @@ const Tasks: React.FC = () => {
         role?: string;
     } | null>(null);
 
+    // ============================================================
+    // Day-counting rule (mirrors the Android app, commit 51cf5a5):
+    //   duration = calendar days spanned from assignedAt → unassignedAt
+    //   truncate both timestamps to local midnight before subtracting
+    //   minimum 1 day (same-day completion = 1, never 0)
+    //   formatting: whole days when integer ("14 days" / "1 day");
+    //   one decimal with trailing .0 trimmed when non-integer ("7.5 days")
+    // ============================================================
+    const truncateToDate = (ms: number): number => {
+        const d = new Date(ms);
+        d.setHours(0, 0, 0, 0);
+        return d.getTime();
+    };
+
+    const daysBetween = (startMs: number, endMs: number): number => {
+        const a = truncateToDate(startMs);
+        const b = truncateToDate(endMs);
+        const raw = Math.round((b - a) / 86400000);
+        return Math.max(1, raw);
+    };
+
+    const formatDays = (days: number): string => {
+        // Whole days: "14 days" / "1 day"
+        if (Math.abs(days - Math.round(days)) < 1e-9) {
+            const n = Math.round(days);
+            return `${n} day${n === 1 ? '' : 's'}`;
+        }
+        // Fractional (only averages): "7.5 days"
+        const s = days.toFixed(1).replace(/\.0$/, '');
+        return `${s} days`;
+    };
+
     const getAssignmentDuration = (assignedAt: number, completedAt?: number): string => {
         if (!completedAt) return 'In progress';
-        const days = Math.ceil((completedAt - assignedAt) / (1000 * 60 * 60 * 24));
-        return `${days} day${days !== 1 ? 's' : ''}`;
+        return formatDays(daysBetween(assignedAt, completedAt));
     };
 
     useEffect(() => {
         const fetchData = async () => {
+            setLoading(true);
             try {
                 let tasksData, assignmentsData;
 
@@ -110,8 +205,8 @@ const Tasks: React.FC = () => {
                     tasksData = await getMockData('getTasks');
                     assignmentsData = await getMockData('getAssignments');
                 } else {
-                    tasksData = await callApi('farmData', { action: 'getTasks', farmId: '1' });
-                    assignmentsData = await callApi('farmData', { action: 'getAssignments', farmId: '1' });
+                    tasksData = await callApi('farmData', {action: 'getTasks', farmId: '1'});
+                    assignmentsData = await callApi('farmData', {action: 'getAssignments', farmId: '1'});
                 }
 
                 const tasksList = tasksData.tasks || [];
@@ -136,9 +231,8 @@ const Tasks: React.FC = () => {
 
                 setTasks(tasksWithAssignments);
 
-                // Fetch photos
                 if (!isDevelopment) {
-                    const photosData = await callApi('photos', { action: 'getPhotos', farmId: '1' });
+                    const photosData = await callApi('photos', {action: 'getPhotos', farmId: '1'});
                     setTaskPhotos(photosData.photos || []);
                 }
 
@@ -148,8 +242,8 @@ const Tasks: React.FC = () => {
                 setLoading(false);
             }
         };
-        fetchData();
-    }, []);
+
+        }, []);
 
     const [workerStats, setWorkerStats] = useState<{
         totalWorkers: number;
@@ -179,8 +273,8 @@ const Tasks: React.FC = () => {
                     totalTasks: 0,
                     completedTasks: 0,
                     inProgressTasks: 0,
-                    totalTimeMs: 0,
-                    averageTimePerTaskMs: 0,
+                    totalDays: 0,
+                    averageDaysPerTask: 0,
                     completionRate: 0,
                     taskTypes: [],
                     assignments: [],
@@ -192,7 +286,7 @@ const Tasks: React.FC = () => {
 
             if (assignment.unassignedAt) {
                 worker.completedTasks++;
-                worker.totalTimeMs += (assignment.unassignedAt - assignment.assignedAt);
+                worker.totalDays += daysBetween(assignment.assignedAt, assignment.unassignedAt);
             }
         });
 
@@ -208,7 +302,9 @@ const Tasks: React.FC = () => {
 
             worker.inProgressTasks = worker.totalTasks - worker.completedTasks;
             worker.completionRate = worker.totalTasks > 0 ? (worker.completedTasks / worker.totalTasks) * 100 : 0;
-            worker.averageTimePerTaskMs = worker.completedTasks > 0 ? worker.totalTimeMs / worker.completedTasks : 0;
+            worker.averageDaysPerTask = worker.completedTasks > 0
+                ? worker.totalDays / worker.completedTasks
+                : 0;
         });
 
         // Sort by completed tasks (matching your app's logic)
@@ -219,13 +315,18 @@ const Tasks: React.FC = () => {
         const totalWorkers = workerMap.size;
         const allCompleted = topPerformers.reduce((sum, w) => sum + w.completedTasks, 0);
         const allTotal = topPerformers.reduce((sum, w) => sum + w.totalTasks, 0);
-        const allTime = topPerformers.reduce((sum, w) => sum + w.totalTimeMs, 0);
+        const allDays = topPerformers.reduce((sum, w) => sum + w.totalDays, 0);
         const overallCompletionRate = allTotal > 0 ? (allCompleted / allTotal) * 100 : 0;
-        const avgMs = allCompleted > 0 ? allTime / allCompleted : 0;
-
-        const avgHours = Math.floor(avgMs / (1000 * 60 * 60));
-        const avgMinutes = Math.floor((avgMs % (1000 * 60 * 60)) / (1000 * 60));
-        const avgTaskTimeFormatted = avgHours > 0 ? `${avgHours}h ${avgMinutes}m` : `${avgMinutes}m`;
+        // Days: aggregate the total as fractional days based on
+        // daysBetween per assignment. `allTime` still holds the raw
+        // ms-sum, but the display reflects days — the correct source
+        // is the per-assignment day counts (see §1e aggregation).
+        // `avgMs` here is a per-completed-task ms figure; convert to
+        // days and format with one decimal.
+        const avgDaysPerTask = allCompleted > 0 ? allDays / allCompleted : 0;
+        const avgTaskTimeFormatted = allCompleted > 0
+            ? formatDays(Number(avgDaysPerTask.toFixed(1)))
+            : '—';
 
         // Task type breakdown
         const typeMap = new Map<string, { count: number; completed: number; totalTime: number }>();
@@ -239,7 +340,7 @@ const Tasks: React.FC = () => {
                 stats.completed++;
                 const taskAssignments = assignments.filter(a => a.taskId === task.id && a.unassignedAt);
                 taskAssignments.forEach(a => {
-                    stats.totalTime += (a.unassignedAt! - a.assignedAt);
+                    stats.totalTime += daysBetween(a.assignedAt, a.unassignedAt!);
                 });
             }
         });
@@ -249,7 +350,7 @@ const Tasks: React.FC = () => {
                 type,
                 count: stats.count,
                 completedCount: stats.completed,
-                avgTimeMs: stats.completed > 0 ? stats.totalTime / stats.completed : 0,
+                avgDays: stats.completed > 0 ? stats.totalTime / stats.completed : 0,
             }))
             .sort((a, b) => b.count - a.count);
 
@@ -261,13 +362,6 @@ const Tasks: React.FC = () => {
             taskTypeBreakdown,
         });
     }, [tasks, assignments]);
-
-    const formatTime = (ms: number): string => {
-        const hours = Math.floor(ms / (1000 * 60 * 60));
-        const minutes = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
-        if (hours > 0) return `${hours}h ${minutes}m`;
-        return `${minutes}m`;
-    };
 
     const filteredTasks = tasks.filter(task => filter === 'ALL' ? true : task.status === filter);
     const pendingCount = tasks.filter(t => t.status === 'PENDING').length;
@@ -508,7 +602,7 @@ const Tasks: React.FC = () => {
                                         />
                                     </div>
                                     <div className="text-xs text-gray-400 mt-1">
-                                        Avg: {formatTime(typeStat.avgTimeMs)} per task
+                                        Avg: {typeStat.avgDays > 0 ? formatDays(Number(typeStat.avgDays.toFixed(1))) : '—'} per task
                                     </div>
                                 </motion.div>
                             ))}
@@ -541,6 +635,14 @@ const Tasks: React.FC = () => {
                             {tab === 'ALL' ? 'All Tasks' : tab.charAt(0) + tab.slice(1).toLowerCase().replace('_', ' ')}
                         </motion.button>
                     ))}
+                    <motion.button
+                        onClick={() => fetchData()}
+                        className="ml-auto px-4 py-2.5 rounded-full text-sm font-medium bg-white/60 text-gray-600 hover:bg-white/80 border border-gray-200 transition-all"
+                        whileHover={{ y: -2, scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                    >
+                        ↻ Refresh
+                    </motion.button>
                 </motion.div>
 
                 {/* Tasks List - Using InfoCard */}
@@ -569,6 +671,11 @@ const Tasks: React.FC = () => {
                                     {task.blockId != null && (
                                         <span className="inline-flex items-center gap-1.5 bg-gray-100/60 backdrop-blur-sm px-2.5 py-1 rounded-full">
                                             <FaUser className="text-primary" /> Block {task.blockId}
+                                        </span>
+                                    )}
+                                    {task.startDate != null && (
+                                        <span className="inline-flex items-center gap-1.5 bg-gray-100/60 backdrop-blur-sm px-2.5 py-1 rounded-full">
+                                            <FaPlay className="text-primary" /> Started: {new Date(task.startDate).toLocaleDateString()}
                                         </span>
                                     )}
                                     <span className="inline-flex items-center gap-1.5 bg-gray-100/60 backdrop-blur-sm px-2.5 py-1 rounded-full">
