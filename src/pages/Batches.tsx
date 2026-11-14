@@ -94,6 +94,24 @@ interface Batch {
     sourceType?: string;
 }
 
+const GlassCard: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className = '' }) => (
+    <motion.div
+        className={`group relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 transition-all duration-500 rounded-2xl shadow-xl transform-gpu overflow-hidden ${className}`}
+        style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
+        whileHover={{
+            y: -5,
+            scale: 1.01,
+            boxShadow: '0 20px 35px -10px rgba(0, 0, 0, 0.2)',
+            transition: { duration: 0.3 }
+        }}
+    >
+        <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
+        <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+        <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] group-hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
+        <div className="relative z-10 p-6">{children}</div>
+    </motion.div>
+);
+
 // Define the readiness rules per product type
 const READINESS_RULES = {
     RCN: {
@@ -155,6 +173,8 @@ const Batches: React.FC = () => {
     const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
     const [filterGrade, setFilterGrade] = useState('All');
+    const [tablePage, setTablePage] = useState(1);
+    const TABLE_PAGE_SIZE = 20;
     const [selectedBatch, setSelectedBatch] = useState<Batch | null>(null);
     const [batchDetail, setBatchDetail] = useState<any>(null);
     const [modalLoading, setModalLoading] = useState(false);
@@ -240,6 +260,10 @@ const Batches: React.FC = () => {
         return matchSearch && matchGrade;
     });
 
+    useEffect(() => {
+        setTablePage(1);
+    }, [searchQuery, filterGrade]);
+
     const totalBatches = batches.length;
     const premiumBatches = batches.filter(b => b.qualityGrade === 'PREMIUM').length;
     // Only average batches that have been inspected
@@ -248,6 +272,14 @@ const Batches: React.FC = () => {
         ? (inspectedBatches.reduce((s, b) => s + b.qualityScore, 0) / inspectedBatches.length).toFixed(1)
         : null;
     const totalWeight = batches.reduce((s, b) => s + (b.weightKg || 0), 0);
+
+    const totalTablePages = Math.max(1, Math.ceil(filteredBatches.length / TABLE_PAGE_SIZE));
+    const paginatedBatches = filteredBatches.slice(
+        (tablePage - 1) * TABLE_PAGE_SIZE,
+        tablePage * TABLE_PAGE_SIZE
+    );
+    const showingFrom = filteredBatches.length === 0 ? 0 : (tablePage - 1) * TABLE_PAGE_SIZE + 1;
+    const showingTo = Math.min(tablePage * TABLE_PAGE_SIZE, filteredBatches.length);
 
     if (loading) {
         return (
@@ -737,59 +769,137 @@ const Batches: React.FC = () => {
                     </div>
                     </div>
 
-                    {/* Batch Cards Grid */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                        {filteredBatches.map((batch, idx) => (
-                            <motion.div key={batch.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.05 }}
-                                        onClick={() => openBatchDetail(batch)} className="cursor-pointer">
-                                <InfoCard
-                                    title={batch.batchNumber}
-                                    subtitle={`${new Date(batch.processingDate).toLocaleDateString()} · ${(batch.weightKg / 1000).toFixed(1)}T`}
-                                    icon={batch.sourceType === 'OWN_FARM' ? FaHome : FaBox}
-                                    iconColor={batch.sourceType === 'OWN_FARM' ? 'text-green-600' : 'text-accent'}
-                                    showInfoBadge={false}
-                                    className={`h-full hover:shadow-lg transition-all ${batch.sourceType === 'OWN_FARM' ? 'border-green-400/30 ring-1 ring-green-400/20' : ''}`}
-                                >
-                                    {/* Own Farm Badge */}
-                                    {batch.sourceType === 'OWN_FARM' && (
-                                        <div className="mb-2">
-                                            <span className="px-2 py-0.5 bg-green-100 text-green-700 text-xs rounded-full font-medium flex items-center gap-1 w-fit">
-                                                <FaHome className="text-[10px]" />
-                                                    AfriNuts Farm
-                                            </span>
-                                        </div>
-                                    )}
-                                    {/* Quality grade + score + risk indicators */}
-                                    <div className="flex items-center gap-2 mt-3">
-                                        <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${
-                                            batch.qualityGrade === 'PREMIUM' ? 'bg-amber-100 text-amber-700' : 'bg-blue-100 text-blue-700'
-                                                 }`}>
-                                             {batch.qualityGrade}
-                                        </span>
-                                        <span className="text-xs text-gray-500">
-                                            Score: {batch.qualityScore > 0 ? batch.qualityScore.toFixed(1) : 'Pending'}
-                                        </span>
-                                        {/* Only show risk indicators when quality has actually been measured */}
-                                        {batch.defectiveRate > 5 && <FaExclamationTriangle className="text-red-500 text-xs" title="High defect rate" />}
-                                        {batch.moistureContent > 7 && <FaTint className="text-blue-500 text-xs" title="High moisture" />}
-                                    </div>
-                                    <div className="flex gap-2 mt-2">
-                                         <span className="text-xs text-gray-500">
-                                            Moisture: {batch.moistureContent > 0 ? `${batch.moistureContent}%` : 'Pending'}
-                                        </span>
-                                        <span className="text-xs text-gray-500">
-                                            Defects: {batch.defectiveRate > 0 ? `${batch.defectiveRate}%` : 'Pending'}
-                                        </span>
-                                    </div>
-                                    <div className="flex gap-1 mt-2">
-                                        {batch.sustainableHarvesting && <FaLeaf className="text-green-500 text-xs" />}
-                                        {batch.firebreakProtection && <FaFireExtinguisher className="text-orange-500 text-xs" />}
-                                        {batch.noChildLabor && <FaChild className="text-blue-500 text-xs" />}
-                                    </div>
-                                </InfoCard>
-                            </motion.div>
-                        ))}
-                    </div>
+                    {/* Batch Table — GlassCard container (S7 table precedent) */}
+                    <motion.div initial="hidden" whileInView="visible" viewport={{ once: true }} variants={fadeIn}>
+                        <GlassCard>
+                            {/* Header — GlassCard has no built-in title/icon */}
+                            <div className="flex items-start gap-3 mb-4">
+                                <FaBox className="text-accent text-xl mt-1" />
+                                <div>
+                                    <h2 className="text-lg font-semibold text-text-dark">All batches</h2>
+                                    <p className="text-xs text-gray-500">
+                                        Click a row to open the batch detail — quality metrics, traceability and financials.
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div className="overflow-x-auto">
+                                <table className="w-full text-sm">
+                                    <thead>
+                                        <tr className="border-b border-gray-200 text-left">
+                                            <th className="pb-2 font-medium text-gray-600">Batch</th>
+                                            <th className="pb-2 font-medium text-gray-600">Supplier</th>
+                                            <th className="pb-2 font-medium text-gray-600">Weight</th>
+                                            <th className="pb-2 font-medium text-gray-600">Grade</th>
+                                            <th className="pb-2 font-medium text-gray-600">KOR g/kg</th>
+                                            <th className="pb-2 font-medium text-gray-600">RCN Score</th>
+                                            <th className="pb-2 font-medium text-gray-600">Moisture</th>
+                                            <th className="pb-2 font-medium text-gray-600">Defects</th>
+                                            <th className="pb-2 font-medium text-gray-600">Risk</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {paginatedBatches.length === 0 && (
+                                            <tr>
+                                                <td colSpan={9} className="py-8 text-center text-sm text-gray-500">
+                                                    No batches match this search / filter.
+                                                </td>
+                                            </tr>
+                                        )}
+                                        {paginatedBatches.map((batch) => {
+                                            // Grade pill — REJECT is red, PREMIUM amber,
+                                            // everything else blue (the pre-change grid
+                                            // rendered REJECT as blue, matching STANDARD;
+                                            // this is the fix called out in §1).
+                                            const gradeClass =
+                                                batch.qualityGrade === 'PREMIUM'
+                                                    ? 'bg-amber-100 text-amber-700'
+                                                    : batch.qualityGrade === 'REJECT'
+                                                        ? 'bg-red-100 text-red-700'
+                                                        : 'bg-blue-100 text-blue-700';
+
+                                            const score =
+                                                (batch.rcnQualityScore ?? batch.qualityScore) || 0;
+                                            const kor = batch.korGPerKg || 0;
+
+                                            return (
+                                                <tr
+                                                    key={batch.id}
+                                                    onClick={() => openBatchDetail(batch)}
+                                                    className="border-b border-gray-100 last:border-0 hover:bg-white/40 cursor-pointer"
+                                                >
+                                                    <td className="py-3">
+                                                        <div className="flex items-center gap-2">
+                                                            <div>
+                                                                <div className="font-medium text-gray-900">{batch.batchNumber}</div>
+                                                                <div className="text-[11px] text-gray-500">
+                                                                    {new Date(batch.processingDate).toLocaleDateString()}
+                                                                </div>
+                                                            </div>
+                                                            {batch.sourceType === 'OWN_FARM' && (
+                                                                <span className="px-1.5 py-0.5 bg-green-100 text-green-700 text-[10px] rounded-full font-medium">
+                                                                    AfriNuts Farm
+                                                                </span>
+                                                            )}
+                                                        </div>
+                                                    </td>
+                                                    <td className="py-3 text-xs text-gray-700">
+                                                        {supplierNames.get(batch.supplierId) || `Supplier #${batch.supplierId}`}
+                                                    </td>
+                                                    <td className="py-3 text-sm text-gray-700">
+                                                        {(batch.weightKg / 1000).toFixed(1)}T
+                                                    </td>
+                                                    <td className="py-3">
+                                                        <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${gradeClass}`}>
+                                                            {batch.qualityGrade}
+                                                        </span>
+                                                    </td>
+                                                    <td className="py-3 text-sm text-gray-700">
+                                                        {kor > 0 ? `${kor.toFixed(0)}` : '—'}
+                                                    </td>
+                                                    <td className="py-3 text-sm text-gray-700">
+                                                        {score > 0 ? score.toFixed(1) : '—'}
+                                                    </td>
+                                                    <td className={`py-3 text-sm ${batch.moistureContent > 7 ? 'text-red-600 font-medium' : 'text-gray-700'}`}>
+                                                        {batch.moistureContent > 0 ? `${batch.moistureContent}%` : 'Pending'}
+                                                    </td>
+                                                    <td className={`py-3 text-sm ${batch.defectiveRate > 5 ? 'text-red-600 font-medium' : 'text-gray-700'}`}>
+                                                        {batch.defectiveRate > 0 ? `${batch.defectiveRate}%` : 'Pending'}
+                                                    </td>
+                                                    <td className="py-3 text-xs">
+                                                        <div className="flex gap-1.5">
+                                                            {batch.defectiveRate > 5 && (
+                                                                <span className="px-1.5 py-0.5 rounded-full bg-red-100 text-red-700 text-[10px] font-medium">▲ defects</span>
+                                                            )}
+                                                            {batch.moistureContent > 7 && (
+                                                                <span className="px-1.5 py-0.5 rounded-full bg-blue-100 text-blue-700 text-[10px] font-medium">▲ moisture</span>
+                                                            )}
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            );
+                                        })}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div className="flex items-center justify-between mt-4 text-xs text-gray-600">
+                                <span>Showing {showingFrom}–{showingTo} of {filteredBatches.length} batches</span>
+                                <div className="flex gap-2">
+                                    <button
+                                        disabled={tablePage <= 1}
+                                        onClick={() => setTablePage(p => Math.max(1, p - 1))}
+                                        className="px-3 py-1.5 rounded-full border border-gray-300 disabled:opacity-40"
+                                    >Prev</button>
+                                    <button
+                                        disabled={tablePage >= totalTablePages}
+                                        onClick={() => setTablePage(p => Math.min(totalTablePages, p + 1))}
+                                        className="px-3 py-1.5 rounded-full border border-gray-300 disabled:opacity-40"
+                                    >Next</button>
+                                </div>
+                            </div>
+                        </GlassCard>
+                    </motion.div>
                 </div>
             </Section>
 
