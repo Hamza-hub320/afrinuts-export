@@ -11,8 +11,6 @@ import {
     FaCheckCircle,
     FaTimesCircle,
     FaLeaf,
-    FaFireExtinguisher,
-    FaChild,
     FaChartBar,
     FaStar,
     FaCalendarAlt,
@@ -20,14 +18,11 @@ import {
     FaUser,
     FaFlask,
     FaIndustry,
-    FaExclamationTriangle,
-    FaTint,
     FaGlobeEurope,
     FaShip,
     FaChartLine,
-    FaHome,
     FaExternalLinkAlt,
-    FaFileAlt, FaGlobeAfrica, FaCertificate, FaHandshake, FaShieldAlt, FaPercentage, FaClock
+    FaFileAlt, FaGlobeAfrica, FaHandshake, FaShieldAlt, FaPercentage, FaClock
 } from 'react-icons/fa';
 import { Typography } from '@/components/Typography/Typography';
 import { InfoCard } from '@/components/InfoCard/InfoCard';
@@ -214,29 +209,6 @@ const Batches: React.FC = () => {
         fetchData();
     }, []);
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const [batchesData, suppliersData] = await Promise.all([
-                    getSupplierData('getAllBatches'),
-                    getSupplierData('getSuppliers'),
-                ]);
-                setBatches(batchesData.batches || []);
-
-                const names = new Map<number, string>();
-                (suppliersData.suppliers || []).forEach((s: any) => {
-                    names.set(parseInt(s.id), s.name);
-                });
-                setSupplierNames(names);
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchData();
-    }, []);
-
     const openBatchDetail = async (batch: Batch) => {
         setSelectedBatch(batch);
         setModalLoading(true);
@@ -284,6 +256,8 @@ const Batches: React.FC = () => {
     );
     const showingFrom = filteredBatches.length === 0 ? 0 : (tablePage - 1) * TABLE_PAGE_SIZE + 1;
     const showingTo = Math.min(tablePage * TABLE_PAGE_SIZE, filteredBatches.length);
+
+    const standardBatches = batches.filter(b => b.qualityGrade === 'STANDARD').length;
 
     if (loading) {
         return (
@@ -565,9 +539,9 @@ const Batches: React.FC = () => {
                                         <div className="text-xs text-gray-400">{batches.length > 0 ? ((premiumBatches / batches.length) * 100).toFixed(0) : 0}%</div>
                                     </div>
                                     <div className="flex-1 text-center">
-                                        <div className="text-3xl font-bold text-blue-600">{totalBatches - premiumBatches}</div>
+                                        <div className="text-3xl font-bold text-blue-600">{standardBatches}</div>
                                         <div className="text-xs text-gray-500">Standard</div>
-                                        <div className="text-xs text-gray-400">{batches.length > 0 ? (((totalBatches - premiumBatches) / batches.length) * 100).toFixed(0) : 0}%</div>
+                                        <div className="text-xs text-gray-400">{batches.length > 0 ? ((standardBatches / batches.length) * 100).toFixed(0) : 0}%</div>
                                     </div>
                                 </div>
                                 <div className="w-full bg-gray-200 rounded-full h-3 mt-3 overflow-hidden">
@@ -848,7 +822,12 @@ const Batches: React.FC = () => {
                                                         </div>
                                                     </td>
                                                     <td className="py-3 text-xs text-gray-700">
-                                                        {supplierNames.get(batch.supplierId) || `Supplier #${batch.supplierId}`}
+                                                        <span
+                                                            className="block max-w-[220px] truncate"
+                                                            title={supplierNames.get(batch.supplierId) || `Supplier #${batch.supplierId}`}
+                                                        >
+                                                            {supplierNames.get(batch.supplierId) || `Supplier #${batch.supplierId}`}
+                                                        </span>
                                                     </td>
                                                     <td className="py-3 text-sm text-gray-700">
                                                         {(batch.weightKg / 1000).toFixed(1)}T
@@ -966,7 +945,7 @@ const Batches: React.FC = () => {
                                                                 {
                                                                     label: 'Moisture',
                                                                     value: (selectedBatch?.moistureContent ?? 0) > 0
-                                                                        ? `${selectedBatch!.moistureContent}%`
+                                                                        ? `${selectedBatch!.moistureContent.toFixed(1)}%`
                                                                         : '—',
                                                                     color: (selectedBatch?.moistureContent ?? 0) > 7 ? 'text-red-600' : 'text-blue-600'
                                                                 },
