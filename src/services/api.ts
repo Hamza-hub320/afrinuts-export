@@ -28,7 +28,7 @@ export const getSupplierData = async (action: string, params?: any) => {
     if (isDevelopment) {
         return getMockData(action, params);
     }
-    return callApi('supplierData', { action, ...params }, false);
+    return callApi('supplierData', { action, ...params }, true);
 };
 
 export const getSupplierNetworkSummary = async (farmId: string = '1') => {

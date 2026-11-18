@@ -11,8 +11,10 @@ import Section from '@/components/Section/Section';
 import { fadeIn, staggerContainer } from '@/utils/animations';
 import { useAuth } from '../contexts/AuthContext';
 import { auth } from '../services/firebase';
-import { updatePassword, reauthenticateWithCredential, EmailAuthProvider } from 'firebase/auth';
-import {GiFarmer} from "react-icons/gi";
+import { updatePassword, reauthenticateWithCredential, EmailAuthProvider, signOut } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
+import {navigate} from "next/dist/client/components/segment-cache";
+
 
 const Settings: React.FC = () => {
     const { user } = useAuth();
@@ -23,6 +25,7 @@ const Settings: React.FC = () => {
     const [showNew, setShowNew] = useState(false);
     const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
     const [message, setMessage] = useState('');
+    const navigate = useNavigate();
 
     // 👇 REMOVED: const [loading, setLoading] = useState(true);
 
@@ -39,8 +42,15 @@ const Settings: React.FC = () => {
             const credential = EmailAuthProvider.credential(currentUser.email, currentPassword);
             await reauthenticateWithCredential(currentUser, credential);
             await updatePassword(currentUser, newPassword);
-            setStatus('success'); setMessage('Password updated successfully.');
-            setCurrentPassword(''); setNewPassword(''); setConfirmPassword('');
+
+            // Part D (c) — decision (iii): sign out and land on login, NO
+            // message. The login page does not read location.state, so a
+            // message would be lost — do not add one. Acceptance: after a
+            // password change the portal shows the login screen and the
+            // old session is gone.
+            await signOut(auth);
+            navigate('/login');
+            return;
         } catch (error: any) {
             setStatus('error');
             setMessage(error.code === 'auth/wrong-password' ? 'Current password is incorrect.' : error.message || 'Failed to update password.');

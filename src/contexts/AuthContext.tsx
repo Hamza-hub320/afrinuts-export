@@ -11,7 +11,7 @@ interface User {
     uid: string;
     email: string;
     name: string;
-    role: 'OWNER' | 'MANAGER' | 'WORKER' | 'INVESTOR';
+    role: 'OWNER' | 'CEO' | 'COMPLIANCE_OFFICER' | 'MANAGER' | 'FIELD_OFFICER' | 'WORKER' | 'INVESTOR';
     displayName?: string | null;
     lastSignIn?: string | null;
     emailVerified?: boolean;
@@ -35,6 +35,9 @@ interface AuthContextType {
     isOwner: boolean;
     isManager: boolean;
     isInvestor: boolean;
+    isCEO: boolean;
+    isComplianceOfficer: boolean;
+    isFieldOfficer: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -98,9 +101,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const isOwner = user?.role === 'OWNER';
     const isManager = user?.role === 'MANAGER' || isOwner;
     const isInvestor = user?.role === 'INVESTOR';
+    const isCEO = user?.role === 'CEO' || isOwner;
+    const isComplianceOfficer = user?.role === 'COMPLIANCE_OFFICER' || isOwner;
+    const isFieldOfficer = user?.role === 'FIELD_OFFICER';
 
     return (
-        <AuthContext.Provider value={{ user, loading, login, logout, isOwner, isManager, isInvestor }}>
+        <AuthContext.Provider value={{
+            user, loading, login, logout,
+            isOwner, isManager, isInvestor,
+            isCEO, isComplianceOfficer, isFieldOfficer,
+        }}>
             {children}
         </AuthContext.Provider>
     );

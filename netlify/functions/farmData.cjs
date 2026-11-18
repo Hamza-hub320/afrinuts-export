@@ -124,8 +124,15 @@ exports.handler = async (event, context) => {
             };
         }
 
-        // Get Tasks - accessible by Owner, Manager, and Investor (read-only)
-        if (action === 'getTasks' && (userRole === 'OWNER' || userRole === 'MANAGER')) {
+        // Get Tasks - accessible by Owner, CEO, Compliance Officer, Manager, and Field Officer.
+// (Comment corrected 2026-11-18: previously said "and Investor (read-only)" — Investor is NOT allowed here; the code never allowed it.)
+        if (action === 'getTasks' && (
+            userRole === 'OWNER'
+            || userRole === 'CEO'
+            || userRole === 'COMPLIANCE_OFFICER'
+            || userRole === 'MANAGER'
+            || userRole === 'FIELD_OFFICER'
+        )) {
             const tasksSnapshot = await db.collection('farms').doc(farmId || '1').collection('tasks').get();
             const tasks = [];
             tasksSnapshot.forEach(doc => tasks.push({ id: doc.id, ...doc.data() }));
@@ -166,7 +173,14 @@ exports.handler = async (event, context) => {
         }
 
         // Get Blocks - accessible by Owner and Manager only
-        if (action === 'getBlocks' && (userRole === 'OWNER' || userRole === 'MANAGER')) {
+        // Get Blocks - accessible by Owner, CEO, Compliance Officer, Manager, and Field Officer.
+        if (action === 'getBlocks' && (
+            userRole === 'OWNER'
+            || userRole === 'CEO'
+            || userRole === 'COMPLIANCE_OFFICER'
+            || userRole === 'MANAGER'
+            || userRole === 'FIELD_OFFICER'
+        )) {
             const blocksSnapshot = await db.collection('farms').doc(farmId || '1').collection('blocks').get();
             const blocks = [];
             blocksSnapshot.forEach(doc => blocks.push({ id: doc.id, ...doc.data() }));
@@ -193,7 +207,7 @@ exports.handler = async (event, context) => {
             };
         }
 
-        // Expense Summary - accessible by Owner and Manager only
+        // Expense Summary - accessible by Owner, Manager, and Investor.
         if (action === 'getExpenseSummary' && (userRole === 'OWNER' || userRole === 'MANAGER' || userRole === 'INVESTOR')) {
             const expensesSnapshot = await db.collection('farms').doc(farmId || '1').collection('expenses').get();
             const expenses = [];

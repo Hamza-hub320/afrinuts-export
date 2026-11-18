@@ -2,6 +2,7 @@ import type { Handler, HandlerEvent } from '@netlify/functions';
 import { initializeApp, cert, getApps } from 'firebase-admin/app';
 import { getFirestore } from 'firebase-admin/firestore';
 import { recomputeAndWriteCurrent } from './_lib/currentTrust';
+import { getAuth } from 'firebase-admin/auth';
 
 if (!getApps().length) {
     initializeApp({
@@ -14,6 +15,7 @@ if (!getApps().length) {
 }
 
 const db = getFirestore();
+const auth = getAuth();
 
 // ============================================================
 // D5 — shared spawn helper for inspection follow-up tasks.
@@ -117,6 +119,56 @@ export const handler: Handler = async (event: HandlerEvent) => {
 
         const { action, farmId, supplierId } = params;
         const fid = farmId || '1';
+
+        // ============================================================
+        // Part D (b1) — Manager+ token gate for supplier writes.
+        // Returns { ok: false, response } on refusal, or
+        // { ok: true, actorUid, actorRole } on success.
+        // Owner passes (framework: Owner passes every internal check).
+        // ============================================================
+        const requireManagerPlus = async (): Promise<
+            | { ok: false; response: any }
+            | { ok: true; actorUid: string; actorRole: string }
+        > => {
+            const authHeader = event.headers.authorization || event.headers.Authorization || '';
+            const token = authHeader.replace('Bearer ', '').trim();
+            if (!token) {
+                return {
+                    ok: false,
+                    response: {
+                        statusCode: 401,
+                        headers,
+                        body: JSON.stringify({ error: 'Unauthorized — no token' }),
+                    },
+                };
+            }
+            let decoded: any;
+            try {
+                decoded = await auth.verifyIdToken(token);
+            } catch (verifyErr: any) {
+                return {
+                    ok: false,
+                    response: {
+                        statusCode: 401,
+                        headers,
+                        body: JSON.stringify({ error: `Unauthorized — invalid token: ${verifyErr.message}` }),
+                    },
+                };
+            }
+            const actorDoc = await db.collection('users').doc(decoded.uid).get();
+            const actorRole = actorDoc.exists ? (actorDoc.data()?.role as string) : null;
+            if (!actorRole || (actorRole !== 'OWNER' && actorRole !== 'MANAGER')) {
+                return {
+                    ok: false,
+                    response: {
+                        statusCode: 403,
+                        headers,
+                        body: JSON.stringify({ error: 'Manager or Owner required' }),
+                    },
+                };
+            }
+            return { ok: true, actorUid: decoded.uid, actorRole };
+        };
 
         if (action === 'getSuppliers') {
             const snapshot = await db
@@ -358,7 +410,14 @@ export const handler: Handler = async (event: HandlerEvent) => {
         }
 
         if (action === 'validateEvidence') {
-            const {collection, docId, userId} = params;
+            // Part D (b1) — token verification + Manager+ gate.
+            const gate = await requireManagerPlus();
+            if (!gate.ok) return gate.response;
+
+            const {collection, docId} = params;
+            // `userId` from params is no longer trusted — actor is the
+            // verified uid.
+            const userId = gate.actorUid;
 
             if (!['supplier_commitments', 'supplier_inspections'].includes(collection)) {
                 return {statusCode: 400, headers, body: JSON.stringify({error: 'Invalid collection'})};
@@ -475,7 +534,14 @@ export const handler: Handler = async (event: HandlerEvent) => {
         }
 
         if (action === 'resolveDispute') {
-            const { disputeId, resolution, reviewedBy, originalValue, correctedValue } = params;
+            // Part D (b1) — token verification + Manager+ gate.
+            const gate = await requireManagerPlus();
+            if (!gate.ok) return gate.response;
+
+            const { disputeId, resolution, originalValue, correctedValue } = params;
+            // `reviewedBy` from params is no longer trusted — actor is the
+            // verified uid.
+            const reviewedBy = gate.actorUid;
 
             if (!disputeId || !['UPHELD', 'REJECTED'].includes(resolution)) {
                 return { statusCode: 400, headers, body: JSON.stringify({ error: 'Invalid params' }) };

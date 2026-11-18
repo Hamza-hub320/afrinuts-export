@@ -93,21 +93,39 @@ exports.handler = async (event, context) => {
             const userDoc = await db.collection('users').doc(decodedToken.uid).get();
             const userData = userDoc.data() || {};
 
+            // DECISION (a1) — verify is the session-restore check.
+            // Return from userData (Firestore doc) + userRecord (Auth user).
+            // Do NOT return idToken / refreshToken — verify has no refresh token,
+            // and AuthContext only reads result.user.
+            if (userData.isActive === false) {
+                return {
+                    statusCode: 401,
+                    headers,
+                    body: JSON.stringify({ success: false, error: 'Your account is disabled' }),
+                };
+            }
+
             return {
                 statusCode: 200,
                 headers,
                 body: JSON.stringify({
                     success: true,
-                    idToken: data.idToken,
-                    refreshToken: data.refreshToken,
                     user: {
-                        uid: data.localId,
-                        email: data.email,
-                        role: updatedData.role || 'INVESTOR',
-                        name: updatedData.name || '',
-                        lastLoginAt: updatedData.lastLoginAt || null,
-                        lastLoginIp: updatedData.lastLoginIp || null,
-                        lastLoginDevice: updatedData.lastLoginDevice || null,
+                        uid: userRecord.uid,
+                        email: userRecord.email || '',
+                        role: userData.role || 'INVESTOR',
+                        name: userData.name || '',
+                        lastLoginAt: userData.lastLoginAt || null,
+                        lastLoginIp: userData.lastLoginIp || null,
+                        lastLoginDevice: userData.lastLoginDevice || null,
+                        phone: userData.phone || null,
+                        bio: userData.bio || null,
+                        title: userData.title || null,
+                        company: userData.company || null,
+                        failedLoginAttempts: userData.failedLoginAttempts || 0,
+                        twoFactorEnabled: userData.twoFactorEnabled || false,
+                        emailVerified: userData.emailVerified || false,
+                        createdAt: userData.createdAt || null,
                     },
                 }),
             };
@@ -145,6 +163,17 @@ exports.handler = async (event, context) => {
             const userRef = db.collection('users').doc(data.localId);
             const userDoc = await userRef.get();
             const userData = userDoc.data() || {};
+
+            // DECISION (a1) — refuse signin for disabled accounts BEFORE
+            // the login-tracking write. Do not stamp lastLoginAt on a
+            // refused signin.
+            if (userData.isActive === false) {
+                return {
+                    statusCode: 401,
+                    headers,
+                    body: JSON.stringify({ success: false, error: 'Your account is disabled' }),
+                };
+            }
 
             // ✅ UPDATE FIRESTORE WITH LOGIN TRACKING INFO
             const now = getTimestamp();
