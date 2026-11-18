@@ -144,8 +144,14 @@ exports.handler = async (event, context) => {
             };
         }
 
-        // Get Assignments - accessible by Owner, Manager,(read-only)
-        if (action === 'getAssignments' && (userRole === 'OWNER' || userRole === 'MANAGER')) {
+        // Get Assignments - accessible by Owner, CEO, Compliance Officer, Manager, and Field Officer.
+        if (action === 'getAssignments' && (
+            userRole === 'OWNER'
+            || userRole === 'CEO'
+            || userRole === 'COMPLIANCE_OFFICER'
+            || userRole === 'MANAGER'
+            || userRole === 'FIELD_OFFICER'
+        )) {
             try {
                 const assignmentsSnapshot = await db.collection('farms')
                     .doc(farmId || '1')
