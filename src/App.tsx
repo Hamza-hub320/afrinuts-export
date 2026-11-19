@@ -152,7 +152,7 @@ function App(): ReactElement {
                                 } />
                                 <Route path="investor" element={
                                     <ProtectedRoute
-                                        allowedRoles={['INVESTOR', 'OWNER', 'MANAGER']}
+                                        allowedRoles={['INVESTOR', 'OWNER', 'CEO', 'MANAGER']}
                                         allowedInvestorTiers={['INVESTED']}
                                         investorTierRedirects={{ NDA_SIGNED: '/dashboard', PROSPECT: '/login', NONE: '/login' }}
                                     >

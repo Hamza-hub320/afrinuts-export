@@ -202,7 +202,7 @@ async function findBuyerOwner(
 }
 
 // ── Helper: check if the viewer is an admin (reuses users/{uid}.role) ──
-const ADMIN_ROLES = new Set(['OWNER', 'MANAGER']);
+const ADMIN_ROLES = new Set(['OWNER', 'CEO', 'MANAGER']);
 
 async function isAdmin(uid: string): Promise<boolean> {
     const userDoc = await db.collection('users').doc(uid).get();
@@ -212,7 +212,7 @@ async function isAdmin(uid: string): Promise<boolean> {
 }
 
 // ── Role hierarchy ──────────────────────────────────────────
-const ROLE_RANK: Record<string, number> = { OWNER: 2, MANAGER: 1 };
+const ROLE_RANK: Record<string, number> = { OWNER: 2, CEO: 2, MANAGER: 1 };
 
 async function getUserProfile(uid: string): Promise<{ role: string; name: string; email?: string } | null> {
     const doc = await db.collection('users').doc(uid).get();
@@ -245,7 +245,7 @@ async function canApprove(
     if (approverRank > requesterRank) return { ok: true };
 
     // Same-rank admins may cross-approve; self-approval is blocked above.
-    if (approverRank === requesterRank && (approver.role === 'OWNER' || approver.role === 'MANAGER')) return { ok: true };
+    if (approverRank === requesterRank && (approver.role === 'OWNER' || approver.role === 'CEO' || approver.role === 'MANAGER')) return { ok: true };
 
     return {
         ok: false,

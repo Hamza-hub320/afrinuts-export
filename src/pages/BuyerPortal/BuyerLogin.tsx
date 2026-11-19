@@ -211,7 +211,7 @@ const BuyerLogin: React.FC = () => {
                                     <p className="text-xs text-gray-500 -mt-2">
                                         {mode === 'buyer'
                                             ? 'Buyers receive access to their assigned shipments.'
-                                            : 'Farm OS staff (OWNER / MANAGER) sign in to manage buyers.'}
+                                            : 'Farm OS staff (OWNER / MANAGER / CEO) sign in to manage buyers.'}
                                     </p>
 
                                     {/* Email field */}
