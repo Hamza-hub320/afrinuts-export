@@ -31,6 +31,10 @@ export const getSupplierData = async (action: string, params?: any) => {
     return callApi('supplierData', { action, ...params }, true);
 };
 
+export const getComplianceData = async (action: string, params?: any) => {
+    return callApi('complianceData', { action, ...params }, true);
+};
+
 export const getSupplierNetworkSummary = async (farmId: string = '1') => {
     if (isDevelopment) {
         // No mock yet — return a shape identical to the S1 response

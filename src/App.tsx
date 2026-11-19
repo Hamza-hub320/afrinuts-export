@@ -58,6 +58,7 @@ const SupplierManagement = React.lazy(() => import('./pages/SupplierManagement')
 const Batches = React.lazy(() => import('./pages/Batches'));
 const SupplierRisk = React.lazy(() => import('@/pages/SupplierRisk'));
 const SupplierDevelopmentPage = React.lazy(() => import('@/pages/SupplierDevelopmentPage'));
+const Compliance = React.lazy(() => import('@/pages/Compliance'));
 
 
 function ScrollToTop() {
@@ -176,6 +177,16 @@ function App(): ReactElement {
                                         </ProtectedRoute>
                                     }
                                 />
+                                <Route path="dashboard/compliance" element={
+                                    <ProtectedRoute allowedRoles={['OWNER', 'CEO', 'COMPLIANCE_OFFICER', 'MANAGER']}>
+                                        <Compliance />
+                                    </ProtectedRoute>
+                                } />
+                                <Route path="dashboard/compliance/:certificationId" element={
+                                    <ProtectedRoute allowedRoles={['OWNER', 'CEO', 'COMPLIANCE_OFFICER', 'MANAGER']}>
+                                        <Compliance />
+                                    </ProtectedRoute>
+                                } />
                                 <Route path="dashboard/batches" element={
                                     <ProtectedRoute allowedRoles={['OWNER', 'CEO', 'COMPLIANCE_OFFICER', 'MANAGER']}>
                                         <Batches />
