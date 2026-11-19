@@ -195,56 +195,6 @@ const Tasks: React.FC = () => {
         return formatDays(daysBetween(assignedAt, completedAt));
     };
 
-    useEffect(() => {
-        const fetchData = async () => {
-            setLoading(true);
-            try {
-                let tasksData, assignmentsData;
-
-                if (isDevelopment) {
-                    tasksData = await getMockData('getTasks');
-                    assignmentsData = await getMockData('getAssignments');
-                } else {
-                    tasksData = await callApi('farmData', {action: 'getTasks', farmId: '1'});
-                    assignmentsData = await callApi('farmData', {action: 'getAssignments', farmId: '1'});
-                }
-
-                const tasksList = tasksData.tasks || [];
-                const assignmentsList = assignmentsData?.assignments || [];
-                setAssignments(assignmentsList);
-
-                const tasksWithAssignments = tasksList.map((task: Task) => {
-                    const taskAssignments = assignmentsList.filter((a: TaskAssignment) => a.taskId === task.id);
-                    const activeAssignment = taskAssignments.find((a: TaskAssignment) => !a.unassignedAt);
-                    const lastAssignment = taskAssignments.length > 0
-                        ? taskAssignments.reduce((latest: TaskAssignment, a: TaskAssignment) =>
-                            (a.assignedAt > latest.assignedAt) ? a : latest
-                        )
-                        : null;
-
-                    return {
-                        ...task,
-                        assignments: taskAssignments,
-                        currentWorker: activeAssignment?.assignedTo || lastAssignment?.assignedTo || undefined,
-                    };
-                });
-
-                setTasks(tasksWithAssignments);
-
-                if (!isDevelopment) {
-                    const photosData = await callApi('photos', {action: 'getPhotos', farmId: '1'});
-                    setTaskPhotos(photosData.photos || []);
-                }
-
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        }, []);
-
     const [workerStats, setWorkerStats] = useState<{
         totalWorkers: number;
         overallCompletionRate: number;
@@ -317,12 +267,6 @@ const Tasks: React.FC = () => {
         const allTotal = topPerformers.reduce((sum, w) => sum + w.totalTasks, 0);
         const allDays = topPerformers.reduce((sum, w) => sum + w.totalDays, 0);
         const overallCompletionRate = allTotal > 0 ? (allCompleted / allTotal) * 100 : 0;
-        // Days: aggregate the total as fractional days based on
-        // daysBetween per assignment. `allTime` still holds the raw
-        // ms-sum, but the display reflects days — the correct source
-        // is the per-assignment day counts (see §1e aggregation).
-        // `avgMs` here is a per-completed-task ms figure; convert to
-        // days and format with one decimal.
         const avgDaysPerTask = allCompleted > 0 ? allDays / allCompleted : 0;
         const avgTaskTimeFormatted = allCompleted > 0
             ? formatDays(Number(avgDaysPerTask.toFixed(1)))

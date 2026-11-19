@@ -13,8 +13,6 @@ import { useAuth } from '../contexts/AuthContext';
 import { auth } from '../services/firebase';
 import { updatePassword, reauthenticateWithCredential, EmailAuthProvider, signOut } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
-import {navigate} from "next/dist/client/components/segment-cache";
-
 
 const Settings: React.FC = () => {
     const { user } = useAuth();

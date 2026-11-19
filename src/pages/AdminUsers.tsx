@@ -31,7 +31,7 @@ interface UserRecord {
     company?: string;
 }
 
-const ROLES = ['OWNER', 'MANAGER', 'INVESTOR'];
+const ROLES = ['OWNER', 'CEO', 'COMPLIANCE_OFFICER', 'FIELD_OFFICER', 'MANAGER', 'INVESTOR'];
 
 const AdminUsers: React.FC = () => {
     const [users, setUsers] = useState<UserRecord[]>([]);
