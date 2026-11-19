@@ -50,6 +50,7 @@ export const handler: Handler = async (event: HandlerEvent) => {
                     email: data.email || '',
                     displayName: data.name || data.displayName || '',
                     role: data.role || 'INVESTOR',
+                    investorTier: data.investorTier ?? null,
                     disabled: data.isActive === false,
                     lastSignIn: data.lastLoginAt || null,
                     lastLoginDevice: data.lastLoginDevice || null,

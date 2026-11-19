@@ -23,6 +23,7 @@ interface UserRecord {
     email: string;
     displayName: string;
     role: string;
+    investorTier?: string | null;
     disabled: boolean;
     lastSignIn: string;
     createdAt: string;
@@ -32,6 +33,7 @@ interface UserRecord {
 }
 
 const ROLES = ['OWNER', 'CEO', 'COMPLIANCE_OFFICER', 'FIELD_OFFICER', 'MANAGER', 'INVESTOR'];
+const INVESTOR_TIERS = ['PROSPECT', 'NDA_SIGNED', 'INVESTED'];
 
 const AdminUsers: React.FC = () => {
     const [users, setUsers] = useState<UserRecord[]>([]);
@@ -67,6 +69,20 @@ const AdminUsers: React.FC = () => {
         const data = await response.json();
         if (data.success) {
             setMessage(`Role updated to ${role}`);
+            fetchUsers();
+        }
+    };
+
+    const handleTierChange = async (uid: string, tier: string) => {
+        const token = await auth.currentUser?.getIdToken();
+        const response = await fetch('/.netlify/functions/manageUsers', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+            body: JSON.stringify({ action: 'setInvestorTier', uid, investorTier: tier }),
+        });
+        const data = await response.json();
+        if (data.success) {
+            setMessage(`Investor tier updated to ${tier}`);
             fetchUsers();
         }
     };
@@ -196,6 +212,7 @@ const AdminUsers: React.FC = () => {
                                     <tr className="border-b border-gray-200 text-left">
                                         <th className="pb-2 font-medium text-gray-600">User</th>
                                         <th className="pb-2 font-medium text-gray-600">Role</th>
+                                        <th className="pb-2 font-medium text-gray-600">Tier</th>
                                         <th className="pb-2 font-medium text-gray-600">Status</th>
                                         <th className="pb-2 font-medium text-gray-600">Last Sign In</th>
                                         <th className="pb-2 font-medium text-gray-600">Actions</th>
@@ -235,6 +252,15 @@ const AdminUsers: React.FC = () => {
                                                         }`}>
                                                     {ROLES.map(role => <option key={role} value={role}>{role}</option>)}
                                                 </select>
+                                            </td>
+                                            <td className="py-3">
+                                                {user.role === 'INVESTOR' ? (
+                                                    <select value={user.investorTier ?? ''} onChange={e => handleTierChange(user.uid, e.target.value)}
+                                                            className="px-3 py-1.5 rounded-lg border text-xs font-medium focus:outline-none focus:ring-2 focus:ring-primary transition-colors bg-gray-50 border-gray-200 text-gray-600">
+                                                        <option value="" disabled>— not set —</option>
+                                                        {INVESTOR_TIERS.map(tier => <option key={tier} value={tier}>{tier}</option>)}
+                                                    </select>
+                                                ) : '—'}
                                             </td>
                                             <td className="py-3">
                                                 <div className="flex items-center gap-2">
@@ -322,6 +348,16 @@ const AdminUsers: React.FC = () => {
                                                         className="mt-1 w-full px-2 py-1.5 rounded-lg border border-gray-200 bg-white/60 text-xs focus:outline-none focus:ring-1 focus:ring-primary">
                                                     {ROLES.map(role => <option key={role} value={role}>{role}</option>)}
                                                 </select>
+                                            </div>
+                                            <div>
+                                                <span className="text-gray-500">Tier</span>
+                                                {user.role === 'INVESTOR' ? (
+                                                    <select value={user.investorTier ?? ''} onChange={e => handleTierChange(user.uid, e.target.value)}
+                                                            className="mt-1 w-full px-2 py-1.5 rounded-lg border border-gray-200 bg-white/60 text-xs focus:outline-none focus:ring-1 focus:ring-primary">
+                                                        <option value="" disabled>— not set —</option>
+                                                        {INVESTOR_TIERS.map(tier => <option key={tier} value={tier}>{tier}</option>)}
+                                                    </select>
+                                                ) : <div className="mt-1 text-gray-500">—</div>}
                                             </div>
                                             <div>
                                                 <span className="text-gray-500">Last Sign In</span>
