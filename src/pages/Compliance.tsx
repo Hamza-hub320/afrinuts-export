@@ -208,7 +208,7 @@ const Compliance: React.FC = () => {
     const pageTitle = certificationId ? detail?.programme.certificationName || 'Programme' : 'Compliance';
 
     return (
-        <div className="min-h-screen relative overflow-hidden pt-[72px]">
+        <div className="min-h-screen relative overflow-hidden pt-[40px]">
             <DashboardNavbar />
             <Section className="relative py-8 sm:py-10">
                 <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -221,27 +221,77 @@ const Compliance: React.FC = () => {
                         </button>
                     )}
 
-                    <Section fullHeight={false} className="flex items-center justify-center text-center min-h-[40vh] relative">
-                        <motion.div className="max-w-4xl px-6 sm:px-8 py-12" initial="hidden" animate="visible" variants={staggerContainer}>
-                            <motion.div variants={fadeIn}>
-                                <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-4">
-                                    <FaCertificate className="inline mr-3 text-accent" />
-                                    {certificationId
-                                        ? `${detail?.programme.certificationBody || 'Certification programme'}${detail?.programme.scope ? ` · ${detail.programme.scope}` : ''}`
-                                        : 'Certification Programmes'}
-                                </Typography>
+                    <Section className="flex items-center justify-center min-h-[40vh]" animate={false}>
+                        {certificationId && detail ? (
+                            <div className="max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
+                                <motion.div
+                                    className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center"
+                                    initial="hidden"
+                                    animate="visible"
+                                    variants={staggerContainer}
+                                >
+                                    <motion.div className="text-center lg:text-left" variants={fadeIn}>
+                                        <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-3">
+                                            <FaCertificate className="inline mr-2 text-accent" />
+                                            {detail.programme.certificationBody || 'Certification programme'}
+                                            {detail.programme.scope ? ` · ${detail.programme.scope}` : ''}
+                                        </Typography>
+                                        <motion.h1
+                                            className="font-display text-3xl md:text-4xl lg:text-5xl text-text-dark mb-4 leading-tight"
+                                            variants={fadeIn}
+                                            style={{ letterSpacing: '-0.03em' }}
+                                        >
+                                            {pageTitle}
+                                        </motion.h1>
+                                        <Typography variant="lead" className="text-text-dark mb-6 text-base lg:text-lg max-w-lg mx-auto lg:mx-0">
+                                            {detail.programme.certificationBody || 'Certification programme'}
+                                            {detail.programme.scope ? ` · ${detail.programme.scope}` : ''}
+                                        </Typography>
+                                        <div className="flex flex-wrap justify-center lg:justify-start gap-2 mb-2">
+                                            <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-primary/10 text-primary text-xs rounded-full font-medium">
+                                                <FaCheckCircle /> {formatStatus(detail.programme.effectiveStatus)}
+                                            </span>
+                                            <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-accent/10 text-accent text-xs rounded-full font-medium">
+                                                <FaCertificate /> Certification programme
+                                            </span>
+                                        </div>
+                                    </motion.div>
+
+                                    <motion.div className="w-full max-w-md mx-auto lg:ml-auto" variants={fadeIn} transition={{ delay: 0.2 }}>
+                                        <GlassCard className="p-6">
+                                            <div className="relative z-10">
+                                                <div className="flex justify-between items-center mb-6">
+                                                    <Typography variant="h4" className="text-primary font-bold">Programme at a glance</Typography>
+                                                    <FaCertificate className="text-accent/50 text-xl" />
+                                                </div>
+                                                <dl className="space-y-4 text-sm">
+                                                    <div className="flex justify-between gap-4"><dt className="text-gray-500">Effective status</dt><dd><StatusPill status={detail.programme.effectiveStatus} /></dd></div>
+                                                    <div className="flex justify-between gap-4"><dt className="text-gray-500">Certification body</dt><dd className="text-right font-medium text-gray-800">{detail.programme.certificationBody || '—'}</dd></div>
+                                                    <div className="flex justify-between gap-4"><dt className="text-gray-500">Scope</dt><dd className="text-right font-medium text-gray-800">{detail.programme.scope || '—'}</dd></div>
+                                                    <div className="flex justify-between gap-4"><dt className="text-gray-500">Expiry date</dt><dd className="text-right font-medium text-gray-800">{formatDate(detail.programme.expiryDate)}</dd></div>
+                                                </dl>
+                                            </div>
+                                        </GlassCard>
+                                    </motion.div>
+                                </motion.div>
+                            </div>
+                        ) : (
+                            <motion.div className="max-w-4xl px-6 sm:px-8 py-12 text-center" initial="hidden" animate="visible" variants={staggerContainer}>
+                                <motion.div variants={fadeIn}>
+                                    <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-4">
+                                        <FaCertificate className="inline mr-3 text-accent" />Certification Programmes
+                                    </Typography>
+                                </motion.div>
+                                <motion.h1 className="font-display text-4xl md:text-5xl lg:text-6xl text-text-dark mb-6 leading-tight" variants={fadeIn} style={{ letterSpacing: '-0.03em' }}>
+                                    {pageTitle}
+                                </motion.h1>
+                                <motion.div variants={fadeIn}>
+                                    <Typography variant="lead" className="text-text-dark max-w-3xl mx-auto">
+                                        Certification programmes, the validation queue, and expiring certificates.
+                                    </Typography>
+                                </motion.div>
                             </motion.div>
-                            <motion.h1 className="font-display text-4xl md:text-5xl lg:text-6xl text-text-dark mb-6 leading-tight" variants={fadeIn} style={{ letterSpacing: '-0.03em' }}>
-                                {pageTitle}
-                            </motion.h1>
-                            <motion.div variants={fadeIn}>
-                                <Typography variant="lead" className="text-text-dark max-w-3xl mx-auto">
-                                    {certificationId
-                                        ? `${detail?.programme.certificationBody || 'Certification programme'}${detail?.programme.scope ? ` · ${detail.programme.scope}` : ''}`
-                                        : 'Certification programmes, the validation queue, and expiring certificates.'}
-                                </Typography>
-                            </motion.div>
-                        </motion.div>
+                        )}
                     </Section>
 
                     {notice && <div role="status" className="mb-4 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-800">{notice}</div>}
