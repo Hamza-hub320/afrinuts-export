@@ -130,8 +130,10 @@ const AdminBuyers: React.FC = () => {
         if (user.role === 'OWNER') {
             return { allowed: true }; // OWNER can approve anyone except self
         }
-        // MANAGER can never approve (server also blocks this)
-        return { allowed: false, reason: 'Requires OWNER role' };
+        if (user.role === 'MANAGER' && pending.requestedByRole === 'MANAGER') {
+            return { allowed: true }; // MANAGER can approve peer requests, but not Owner requests
+        }
+        return { allowed: false, reason: 'Requires OWNER role or a peer MANAGER request' };
     };
 
     const loadData = async () => {
@@ -264,7 +266,7 @@ const AdminBuyers: React.FC = () => {
 
             if (result.pending) {
                 setLastNotified({
-                    email: 'Queued for approval — an OWNER must approve before the buyer is notified.',
+                    email: 'Queued for approval — a Manager or Owner must approve before the buyer is notified.',
                     ok: true,
                 });
                 setTimeout(() => setLastNotified(null), 6000);

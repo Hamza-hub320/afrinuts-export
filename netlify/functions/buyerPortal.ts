@@ -244,8 +244,8 @@ async function canApprove(
     // Strictly higher rank can approve
     if (approverRank > requesterRank) return { ok: true };
 
-    // Same rank: only OWNERs may cross-approve (peer check for C-suite)
-    if (approverRank === requesterRank && approver.role === 'OWNER') return { ok: true };
+    // Same-rank admins may cross-approve; self-approval is blocked above.
+    if (approverRank === requesterRank && (approver.role === 'OWNER' || approver.role === 'MANAGER')) return { ok: true };
 
     return {
         ok: false,
