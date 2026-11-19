@@ -7,11 +7,14 @@ import {
     callFunction
 } from '../services/firebase';
 
+export type InvestorTier = 'PROSPECT' | 'NDA_SIGNED' | 'INVESTED';
+
 interface User {
     uid: string;
     email: string;
     name: string;
     role: 'OWNER' | 'CEO' | 'COMPLIANCE_OFFICER' | 'MANAGER' | 'FIELD_OFFICER' | 'WORKER' | 'INVESTOR';
+    investorTier?: InvestorTier | null;
     displayName?: string | null;
     lastSignIn?: string | null;
     emailVerified?: boolean;
@@ -79,6 +82,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             name: result.user.name,
             displayName: result.user.name,
             role: result.user.role,
+            investorTier: result.user.investorTier ?? null,
             lastLoginAt: result.user.lastLoginAt || null,
             lastLoginDevice: result.user.lastLoginDevice || null,
             lastLoginIp: result.user.lastLoginIp || null,

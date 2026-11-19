@@ -17,6 +17,9 @@ if (!getApps().length) {
 const auth = getAuth();
 const db = getFirestore();
 
+const INVESTOR_TIERS = ['PROSPECT', 'NDA_SIGNED', 'INVESTED'] as const;
+type InvestorTier = typeof INVESTOR_TIERS[number];
+
 export const handler: Handler = async (event: HandlerEvent) => {
     const headers = {
         'Access-Control-Allow-Origin': '*',
@@ -78,12 +81,14 @@ export const handler: Handler = async (event: HandlerEvent) => {
         // admin_events/{eventId}; farmId is a field on each doc.
         // ============================================================
         const recordAdminEvent = async (evt: {
-            type: 'ROLE_CHANGED' | 'ACCOUNT_CREATED' | 'ACCOUNT_DISABLED' | 'ACCOUNT_ENABLED';
+            type: 'ROLE_CHANGED' | 'ACCOUNT_CREATED' | 'ACCOUNT_DISABLED' | 'ACCOUNT_ENABLED' | 'INVESTOR_TIER_CHANGED';
             targetUid: string;
             targetEmail: string;
             fromRole?: string | null;
             toRole?: string | null;
             reason?: string;
+            fromTier?: InvestorTier | null;
+            toTier?: InvestorTier | null;
         }) => {
             await db.collection('admin_events').add({
                 type: evt.type,
@@ -92,13 +97,47 @@ export const handler: Handler = async (event: HandlerEvent) => {
                 actorRole: userRole,
                 targetUid: evt.targetUid,
                 targetEmail: evt.targetEmail,
-                fromRole: evt.fromRole ?? null,
-                toRole: evt.toRole ?? null,
+                ...(evt.type !== 'INVESTOR_TIER_CHANGED' && {
+                    fromRole: evt.fromRole ?? null,
+                    toRole: evt.toRole ?? null,
+                }),
                 ...(evt.reason !== undefined && {reason: evt.reason}),
+                ...(evt.type === 'INVESTOR_TIER_CHANGED' && {
+                    fromTier: evt.fromTier ?? null,
+                    toTier: evt.toTier ?? null,
+                }),
                 at: Date.now(),
                 farmId: '1',
             });
         };
+
+        if (action === 'setInvestorTier' && uid) {
+            const {investorTier: newTier} = JSON.parse(event.body || '{}');
+            if (!INVESTOR_TIERS.includes(newTier)) {
+                return {statusCode: 400, headers, body: JSON.stringify({error: 'Invalid investor tier'})};
+            }
+
+            const targetDoc = await db.collection('users').doc(uid).get();
+            const targetData = targetDoc.data() || {};
+            if (!targetDoc.exists || targetData.role !== 'INVESTOR') {
+                return {statusCode: 400, headers, body: JSON.stringify({error: 'Target user must have INVESTOR role'})};
+            }
+
+            const fromTier = (targetData.investorTier ?? null) as InvestorTier | null;
+            if (fromTier === newTier) {
+                return {statusCode: 200, headers, body: JSON.stringify({success: true, unchanged: true})};
+            }
+
+            await db.collection('users').doc(uid).update({investorTier: newTier});
+            await recordAdminEvent({
+                type: 'INVESTOR_TIER_CHANGED',
+                targetUid: uid,
+                targetEmail: targetData.email || '',
+                fromTier,
+                toTier: newTier,
+            });
+            return {statusCode: 200, headers, body: JSON.stringify({success: true})};
+        }
 
         if (action === 'setRole' && uid && role) {
             const targetDoc = await db.collection('users').doc(uid).get();
@@ -145,10 +184,16 @@ export const handler: Handler = async (event: HandlerEvent) => {
         }
 
         if (action === 'createUser') {
-            const {email: newEmail, role: newRole} = JSON.parse(event.body || '{}');
+            const {email: newEmail, role: newRole, investorTier: requestedInvestorTier} = JSON.parse(event.body || '{}');
             if (!newEmail || !newRole) {
                 return {statusCode: 400, headers, body: JSON.stringify({error: 'email and role required'})};
             }
+            if (requestedInvestorTier != null && !INVESTOR_TIERS.includes(requestedInvestorTier)) {
+                return {statusCode: 400, headers, body: JSON.stringify({error: 'Invalid investor tier'})};
+            }
+            const tierToStore: InvestorTier | null = newRole === 'INVESTOR'
+                ? (requestedInvestorTier || 'NDA_SIGNED')
+                : null;
             const ALLOWED_ROLES = ['OWNER', 'CEO', 'COMPLIANCE_OFFICER', 'MANAGER', 'FIELD_OFFICER', 'WORKER', 'INVESTOR'];
             if (!ALLOWED_ROLES.includes(newRole)) {
                 return {statusCode: 400, headers, body: JSON.stringify({error: `Invalid role: ${newRole}`})};
@@ -188,6 +233,7 @@ export const handler: Handler = async (event: HandlerEvent) => {
                         isActive: true,
                         email: newEmail,
                         farmId: '1',
+                        investorTier: tierToStore,
                         ...(targetDoc.exists ? {} : {createdAt: Date.now()}),
                     },
                     {merge: true}
@@ -213,6 +259,7 @@ export const handler: Handler = async (event: HandlerEvent) => {
                 createdAt: Date.now(),
                 farmId: '1',
                 email: newEmail,
+                investorTier: tierToStore,
             });
             await recordAdminEvent({
                 type: 'ACCOUNT_CREATED',

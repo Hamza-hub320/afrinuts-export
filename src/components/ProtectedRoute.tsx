@@ -1,13 +1,16 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import type { InvestorTier } from '../contexts/AuthContext';
 
 interface ProtectedRouteProps {
     children: React.ReactNode;
-    allowedRoles?: Array<'OWNER' | 'MANAGER' | 'WORKER' | 'INVESTOR'>;
+    allowedRoles?: Array<'OWNER' | 'CEO' | 'COMPLIANCE_OFFICER' | 'MANAGER' | 'FIELD_OFFICER' | 'WORKER' | 'INVESTOR'>;
+    allowedInvestorTiers?: InvestorTier[];
+    investorTierRedirects?: Partial<Record<InvestorTier | 'NONE', string>>;
 }
 
-export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, allowedRoles }) => {
+export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, allowedRoles, allowedInvestorTiers, investorTierRedirects }) => {
     const { user, loading } = useAuth();
 
     if (loading) {
@@ -24,6 +27,11 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children, allowe
 
     if (allowedRoles && !allowedRoles.includes(user.role)) {
         return <Navigate to="/dashboard" replace />;
+    }
+
+    if (user.role === 'INVESTOR' && allowedInvestorTiers && (!user.investorTier || !allowedInvestorTiers.includes(user.investorTier))) {
+        const tierKey: InvestorTier | 'NONE' = user.investorTier ?? 'NONE';
+        return <Navigate to={investorTierRedirects?.[tierKey] ?? '/login'} replace />;
     }
 
     return <>{children}</>;

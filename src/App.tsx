@@ -123,7 +123,11 @@ function App(): ReactElement {
                                 </Route>
 
                                 <Route path="dashboard" element={
-                                    <ProtectedRoute allowedRoles={['OWNER', 'MANAGER', 'INVESTOR']}>
+                                    <ProtectedRoute
+                                        allowedRoles={['OWNER', 'MANAGER', 'INVESTOR']}
+                                        allowedInvestorTiers={['NDA_SIGNED']}
+                                        investorTierRedirects={{ INVESTED: '/investor', PROSPECT: '/login', NONE: '/login' }}
+                                    >
                                         <Dashboard />
                                     </ProtectedRoute>
                                 } />
@@ -138,17 +142,29 @@ function App(): ReactElement {
                                     </ProtectedRoute>
                                 } />
                                 <Route path="dashboard/financials" element={
-                                    <ProtectedRoute allowedRoles={['OWNER', 'MANAGER', 'INVESTOR']}>
+                                    <ProtectedRoute
+                                        allowedRoles={['OWNER', 'MANAGER', 'INVESTOR']}
+                                        allowedInvestorTiers={['NDA_SIGNED']}
+                                        investorTierRedirects={{ INVESTED: '/investor', PROSPECT: '/login', NONE: '/login' }}
+                                    >
                                         <Financials />
                                     </ProtectedRoute>
                                 } />
                                 <Route path="investor" element={
-                                    <ProtectedRoute allowedRoles={['INVESTOR', 'OWNER', 'MANAGER']}>
+                                    <ProtectedRoute
+                                        allowedRoles={['INVESTOR', 'OWNER', 'MANAGER']}
+                                        allowedInvestorTiers={['INVESTED']}
+                                        investorTierRedirects={{ NDA_SIGNED: '/dashboard', PROSPECT: '/login', NONE: '/login' }}
+                                    >
                                         <InvestorPortal />
                                     </ProtectedRoute>
                                 } />
                                 <Route path="farm-os" element={
-                                    <ProtectedRoute allowedRoles={['INVESTOR', 'OWNER', 'MANAGER']}>
+                                    <ProtectedRoute
+                                        allowedRoles={['OWNER', 'MANAGER', 'INVESTOR']}
+                                        allowedInvestorTiers={['NDA_SIGNED']}
+                                        investorTierRedirects={{ INVESTED: '/investor', PROSPECT: '/login', NONE: '/login' }}
+                                    >
                                         <FarmOS />
                                     </ProtectedRoute>
                                 } />
@@ -166,7 +182,11 @@ function App(): ReactElement {
                                     </ProtectedRoute>
                                 } />
                                 <Route path="dashboard/settings" element={
-                                    <ProtectedRoute allowedRoles={['OWNER', 'MANAGER', 'INVESTOR']}>
+                                    <ProtectedRoute
+                                        allowedRoles={['OWNER', 'MANAGER', 'INVESTOR']}
+                                        allowedInvestorTiers={['NDA_SIGNED']}
+                                        investorTierRedirects={{ INVESTED: '/investor', PROSPECT: '/login', NONE: '/login' }}
+                                    >
                                         <Settings />
                                     </ProtectedRoute>
                                 } />

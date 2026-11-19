@@ -94,10 +94,16 @@ exports.handler = async (event, context) => {
     try {
         const decodedToken = await admin.auth().verifyIdToken(idToken);
         const userDoc = await db.collection('users').doc(decodedToken.uid).get();
-        const userRole = userDoc.data()?.role || 'INVESTOR';
+        const userData = userDoc.data() || {};
+        const userRole = userData.role || 'INVESTOR';
+        const investorTier = userData.investorTier || null;
+        const isInternalRole = ['OWNER', 'CEO', 'COMPLIANCE_OFFICER', 'MANAGER', 'FIELD_OFFICER'].includes(userRole);
+        const canReadInvestorMonitoring = userRole === 'INVESTOR' && investorTier === 'NDA_SIGNED';
+        const canReadInvestorPortalData = isInternalRole || (userRole === 'INVESTOR' && (investorTier === 'NDA_SIGNED' || investorTier === 'INVESTED'));
+        const canReadFinancialSummaries = userRole === 'OWNER' || userRole === 'MANAGER' || (userRole === 'INVESTOR' && (investorTier === 'NDA_SIGNED' || investorTier === 'INVESTED'));
 
-        // Public data accessible by all authenticated users
-        if (action === 'getFarmSummary') {
+        // Farm summary is available to internal roles and NDA-signed or invested investors.
+        if (action === 'getFarmSummary' && canReadInvestorPortalData) {
             const farmDoc = await db.collection('farms').doc(farmId || '1').get();
             const blocksSnapshot = await db.collection('farms').doc(farmId || '1').collection('blocks').get();
 
@@ -124,15 +130,8 @@ exports.handler = async (event, context) => {
             };
         }
 
-        // Get Tasks - accessible by Owner, CEO, Compliance Officer, Manager, and Field Officer.
-// (Comment corrected 2026-11-18: previously said "and Investor (read-only)" — Investor is NOT allowed here; the code never allowed it.)
-        if (action === 'getTasks' && (
-            userRole === 'OWNER'
-            || userRole === 'CEO'
-            || userRole === 'COMPLIANCE_OFFICER'
-            || userRole === 'MANAGER'
-            || userRole === 'FIELD_OFFICER'
-        )) {
+        // Get Tasks - accessible by internal roles and NDA-signed investors only.
+        if (action === 'getTasks' && (isInternalRole || canReadInvestorMonitoring)) {
             const tasksSnapshot = await db.collection('farms').doc(farmId || '1').collection('tasks').get();
             const tasks = [];
             tasksSnapshot.forEach(doc => tasks.push({ id: doc.id, ...doc.data() }));
@@ -144,14 +143,8 @@ exports.handler = async (event, context) => {
             };
         }
 
-        // Get Assignments - accessible by Owner, CEO, Compliance Officer, Manager, and Field Officer.
-        if (action === 'getAssignments' && (
-            userRole === 'OWNER'
-            || userRole === 'CEO'
-            || userRole === 'COMPLIANCE_OFFICER'
-            || userRole === 'MANAGER'
-            || userRole === 'FIELD_OFFICER'
-        )) {
+        // Get Assignments - accessible by internal roles and NDA-signed investors only.
+        if (action === 'getAssignments' && (isInternalRole || canReadInvestorMonitoring)) {
             try {
                 const assignmentsSnapshot = await db.collection('farms')
                     .doc(farmId || '1')
@@ -178,15 +171,8 @@ exports.handler = async (event, context) => {
             }
         }
 
-        // Get Blocks - accessible by Owner and Manager only
-        // Get Blocks - accessible by Owner, CEO, Compliance Officer, Manager, and Field Officer.
-        if (action === 'getBlocks' && (
-            userRole === 'OWNER'
-            || userRole === 'CEO'
-            || userRole === 'COMPLIANCE_OFFICER'
-            || userRole === 'MANAGER'
-            || userRole === 'FIELD_OFFICER'
-        )) {
+        // Get Blocks - accessible by internal roles and NDA-signed or invested investors.
+        if (action === 'getBlocks' && canReadInvestorPortalData) {
             const blocksSnapshot = await db.collection('farms').doc(farmId || '1').collection('blocks').get();
             const blocks = [];
             blocksSnapshot.forEach(doc => blocks.push({ id: doc.id, ...doc.data() }));
@@ -198,8 +184,8 @@ exports.handler = async (event, context) => {
             };
         }
 
-        // Revenue Summary - accessible by all authenticated users (read-only)
-        if (action === 'getRevenueSummary' && (userRole === 'OWNER' || userRole === 'MANAGER' || userRole === 'INVESTOR')) {
+        // Revenue Summary - accessible by internal roles and NDA-signed or invested investors.
+        if (action === 'getRevenueSummary' && canReadFinancialSummaries) {
             const revenuesSnapshot = await db.collection('farms').doc(farmId || '1').collection('revenues').get();
             const revenues = [];
             revenuesSnapshot.forEach(doc => revenues.push({ id: doc.id, ...doc.data() }));
@@ -213,8 +199,8 @@ exports.handler = async (event, context) => {
             };
         }
 
-        // Expense Summary - accessible by Owner, Manager, and Investor.
-        if (action === 'getExpenseSummary' && (userRole === 'OWNER' || userRole === 'MANAGER' || userRole === 'INVESTOR')) {
+        // Expense Summary - accessible by internal roles and NDA-signed or invested investors.
+        if (action === 'getExpenseSummary' && canReadFinancialSummaries) {
             const expensesSnapshot = await db.collection('farms').doc(farmId || '1').collection('expenses').get();
             const expenses = [];
             expensesSnapshot.forEach(doc => expenses.push({ id: doc.id, ...doc.data() }));
