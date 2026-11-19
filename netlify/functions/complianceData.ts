@@ -97,6 +97,7 @@ function mapAudit(doc: QueryDocumentSnapshot<DocumentData>) {
         reportUrl: data.reportUrl ?? '',
         validatedAt: optionalValue(data, 'validatedAt'),
         validatedBy: optionalValue(data, 'validatedBy'),
+        validatedByName: null,
         supersedesId: optionalValue(data, 'supersedesId'),
         createdAt: optionalValue(data, 'createdAt'),
         updatedAt: optionalValue(data, 'updatedAt'),
@@ -119,6 +120,7 @@ function mapInspection(doc: QueryDocumentSnapshot<DocumentData>) {
         reportUrl: data.reportUrl ?? '',
         validatedAt: optionalValue(data, 'validatedAt'),
         validatedBy: optionalValue(data, 'validatedBy'),
+        validatedByName: null,
         supersedesId: optionalValue(data, 'supersedesId'),
         createdAt: optionalValue(data, 'createdAt'),
         updatedAt: optionalValue(data, 'updatedAt'),
@@ -139,6 +141,7 @@ function mapVerification(doc: QueryDocumentSnapshot<DocumentData>) {
         comment: data.comment ?? '',
         validatedAt: optionalValue(data, 'validatedAt'),
         validatedBy: optionalValue(data, 'validatedBy'),
+        validatedByName: null,
         supersedesId: optionalValue(data, 'supersedesId'),
         createdAt: optionalValue(data, 'createdAt'),
         updatedAt: optionalValue(data, 'updatedAt'),
@@ -160,6 +163,27 @@ function mapDocument(doc: QueryDocumentSnapshot<DocumentData>) {
         createdAt: optionalValue(data, 'createdAt'),
         updatedAt: optionalValue(data, 'updatedAt'),
     };
+}
+
+async function addValidatorNames<T extends { validatedBy: unknown }>(records: T[]): Promise<Array<T & { validatedByName: string | null }>> {
+    const validatorUids = [...new Set(
+        records
+            .map(record => record.validatedBy)
+            .filter((uid): uid is string => typeof uid === 'string' && uid.length > 0),
+    )];
+    const nameEntries = await Promise.all(validatorUids.map(async uid => {
+        const userDoc = await db.collection('users').doc(uid).get();
+        const name = userDoc.exists ? userDoc.data()?.name : null;
+        return [uid, typeof name === 'string' && name.trim() ? name : null] as const;
+    }));
+    const namesByUid = new Map(nameEntries);
+
+    return records.map(record => ({
+        ...record,
+        validatedByName: typeof record.validatedBy === 'string'
+            ? namesByUid.get(record.validatedBy) ?? null
+            : null,
+    }));
 }
 
 async function authorize(event: HandlerEvent): Promise<AuthResult> {
@@ -264,14 +288,26 @@ export const handler: Handler = async (event: HandlerEvent) => {
             ]);
 
             const byDate = (field: string) => (a: any, b: any) => Number(b[field] ?? 0) - Number(a[field] ?? 0);
+            const mappedAudits = audits.docs.map(mapAudit).sort(byDate('auditDate'));
+            const mappedInspections = inspections.docs.map(mapInspection).sort(byDate('inspectionDate'));
+            const mappedVerifications = verifications.docs.map(mapVerification).sort(byDate('verificationDate'));
+            const recordsWithValidatorNames = await addValidatorNames([
+                ...mappedAudits,
+                ...mappedInspections,
+                ...mappedVerifications,
+            ]);
+            const namedAudits = recordsWithValidatorNames.slice(0, mappedAudits.length);
+            const namedInspections = recordsWithValidatorNames.slice(mappedAudits.length, mappedAudits.length + mappedInspections.length);
+            const namedVerifications = recordsWithValidatorNames.slice(mappedAudits.length + mappedInspections.length);
+
             return {
                 statusCode: 200,
                 headers,
                 body: JSON.stringify({
                     programme: mapProgramme(certificationDoc, Date.now()),
-                    audits: audits.docs.map(mapAudit).sort(byDate('auditDate')),
-                    inspections: inspections.docs.map(mapInspection).sort(byDate('inspectionDate')),
-                    verifications: verifications.docs.map(mapVerification).sort(byDate('verificationDate')),
+                    audits: namedAudits,
+                    inspections: namedInspections,
+                    verifications: namedVerifications,
                     documents: documents.docs.map(mapDocument).sort(byDate('issueDate')),
                 }),
             };

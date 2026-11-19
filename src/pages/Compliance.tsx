@@ -30,7 +30,7 @@ type Programme = {
     updatedAt: number | null;
 };
 
-type ComplianceRecord = Record<string, any>;
+type ComplianceRecord = Record<string, any> & { validatedByName?: string | null };
 
 type QueueItem = {
     collection: 'audits' | 'inspections' | 'verifications';
@@ -437,7 +437,7 @@ function ProgrammePage({
                 {detail.audits.length === 0 ? <EmptyState>No audits recorded.</EmptyState> : <div className="space-y-4">{detail.audits.map(audit => (
                     <div key={audit.auditId} className="rounded-xl border border-primary/10 bg-white/30 p-4">
                         <div className="flex flex-wrap items-center justify-between gap-3"><div><h3 className="font-semibold text-primary">{recordTitle(audit, 'auditId')}</h3><p className="text-sm text-gray-600">{audit.auditType || '—'} · {audit.auditorName || '—'}{audit.auditorBody ? ` · ${audit.auditorBody}` : ''}</p></div><StatusPill status={audit.status || '—'} /></div>
-                        <div className="mt-2 flex flex-wrap gap-x-5 gap-y-1 text-xs text-gray-500"><span>Date: {formatDate(audit.auditDate)}</span><span>Scope: {audit.scope || '—'}</span><span>Validated: {isValidatedAt(audit.validatedAt) ? formatDate(audit.validatedAt) : '—'}</span>{audit.validatedBy && <span>By: {audit.validatedBy}</span>}</div>
+                        <div className="mt-2 flex flex-wrap gap-x-5 gap-y-1 text-xs text-gray-500"><span>Date: {formatDate(audit.auditDate)}</span><span>Scope: {audit.scope || '—'}</span><span>Validated: {isValidatedAt(audit.validatedAt) ? formatDate(audit.validatedAt) : '—'}</span>{audit.validatedBy && <span>By: {audit.validatedByName || audit.validatedBy}</span>}</div>
                         {safeFileUrl(audit.reportUrl) && <a className="mt-2 inline-flex items-center gap-1 text-sm text-primary hover:underline" href={safeFileUrl(audit.reportUrl) || undefined} target="_blank" rel="noreferrer">Open audit report <FaExternalLinkAlt size={11} /></a>}
                         {audit.findings?.length > 0 && <div className="mt-3 space-y-2">{audit.findings.map((finding: any, index: number) => <Finding key={`${audit.auditId}-finding-${index}`} title={finding.finding} action={finding.correctiveAction} status={finding.status} assignedTo={finding.assignedTo} dueDate={finding.dueDate} />)}</div>}
                     </div>
@@ -450,7 +450,7 @@ function ProgrammePage({
                     <div key={inspection.inspectionId} className="rounded-xl border border-primary/10 bg-white/30 p-4">
                         <div className="flex flex-wrap items-center justify-between gap-3"><div><h3 className="font-semibold text-primary">{recordTitle(inspection, 'inspectionId')}</h3><p className="text-sm text-gray-600">{inspection.inspectorName || '—'}{inspection.inspectorBody ? ` · ${inspection.inspectorBody}` : ''}</p></div><span className="text-sm text-gray-600">{formatDate(inspection.inspectionDate)}</span></div>
                         {inspection.remarks && <p className="mt-2 whitespace-pre-wrap text-sm text-gray-700">{inspection.remarks}</p>}
-                        <div className="mt-2 text-xs text-gray-500">Validated: {isValidatedAt(inspection.validatedAt) ? formatDate(inspection.validatedAt) : '—'}{inspection.validatedBy ? ` · by ${inspection.validatedBy}` : ''}</div>
+                        <div className="mt-2 text-xs text-gray-500">Validated: {isValidatedAt(inspection.validatedAt) ? formatDate(inspection.validatedAt) : '—'}{inspection.validatedBy ? ` · by ${inspection.validatedByName || inspection.validatedBy}` : ''}</div>
                         {inspection.correctiveActions?.length > 0 && <div className="mt-3 space-y-2">{inspection.correctiveActions.map((action: any, index: number) => <Finding key={`${inspection.inspectionId}-action-${index}`} title={action.description} action={action.description} status={action.status} assignedTo={action.assignedTo} dueDate={action.dueDate} />)}</div>}
                         {safeFileUrl(inspection.reportUrl) && <a className="mt-2 inline-flex items-center gap-1 text-sm text-primary hover:underline" href={safeFileUrl(inspection.reportUrl) || undefined} target="_blank" rel="noreferrer">Open inspection report <FaExternalLinkAlt size={11} /></a>}
                         {inspection.photos?.length > 0 && <div className="mt-3 flex flex-wrap gap-2">{inspection.photos.map((photo: any, index: number) => { const url = safeFileUrl(typeof photo === 'string' ? photo : photo?.url); return url ? <a key={`${inspection.inspectionId}-photo-${index}`} href={url} target="_blank" rel="noreferrer" className="text-xs text-primary underline">Evidence photo {index + 1}</a> : null; })}</div>}
