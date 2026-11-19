@@ -100,7 +100,7 @@ exports.handler = async (event, context) => {
         const isInternalRole = ['OWNER', 'CEO', 'COMPLIANCE_OFFICER', 'MANAGER', 'FIELD_OFFICER'].includes(userRole);
         const canReadInvestorMonitoring = userRole === 'INVESTOR' && investorTier === 'NDA_SIGNED';
         const canReadInvestorPortalData = isInternalRole || (userRole === 'INVESTOR' && (investorTier === 'NDA_SIGNED' || investorTier === 'INVESTED'));
-        const canReadFinancialSummaries = userRole === 'OWNER' || userRole === 'MANAGER' || (userRole === 'INVESTOR' && (investorTier === 'NDA_SIGNED' || investorTier === 'INVESTED'));
+        const canReadFinancialSummaries = userRole === 'OWNER' || userRole === 'CEO' || userRole === 'COMPLIANCE_OFFICER' || userRole === 'MANAGER' || (userRole === 'INVESTOR' && (investorTier === 'NDA_SIGNED' || investorTier === 'INVESTED'));
 
         // Farm summary is available to internal roles and NDA-signed or invested investors.
         if (action === 'getFarmSummary' && canReadInvestorPortalData) {
