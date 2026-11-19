@@ -2,14 +2,16 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import {
-    FaArrowLeft, FaClipboardCheck,
-    FaExclamationTriangle, FaExternalLinkAlt,
+    FaArrowLeft, FaCertificate, FaClipboardCheck, FaClipboardList,
+    FaExclamationTriangle, FaExternalLinkAlt, FaFileAlt, FaHistory, FaCheckCircle,
 } from 'react-icons/fa';
 import { InfoCard } from '@/components/InfoCard/InfoCard';
 import DashboardNavbar from '@/components/DashboardNavbar/DashboardNavbar';
 import Section from '@/components/Section/Section';
+import { Typography } from '@/components/Typography/Typography';
 import { useAuth } from '@/contexts/AuthContext';
 import { getComplianceData } from '@/services/api';
+import { fadeIn, staggerContainer } from '@/utils/animations';
 
 type Programme = {
     certificationId: string;
@@ -56,11 +58,17 @@ const GlassCard: React.FC<{ children: React.ReactNode; className?: string }> = (
     <motion.div
         className={`group relative bg-gradient-to-br from-primary/5 to-accent/5 border-2 border-primary/20 transition-all duration-500 rounded-2xl shadow-xl transform-gpu overflow-hidden ${className}`}
         style={{ transformStyle: 'preserve-3d', perspective: '1000px' }}
-        whileHover={{ y: -3, transition: { duration: 0.25 } }}
+        whileHover={{
+            y: -5,
+            scale: 1.01,
+            boxShadow: '0 20px 35px -10px rgba(0, 0, 0, 0.2)',
+            transition: { duration: 0.3 },
+        }}
     >
-        <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px]" />
-        <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40" />
-        <div className="relative z-10 p-5 sm:p-6">{children}</div>
+        <div className="absolute inset-0 rounded-2xl border-2 border-white/20 transform-gpu translate-z-[-6px] group-hover:translate-z-[-10px] transition-all duration-500" />
+        <div className="absolute inset-0 rounded-2xl bg-gradient-to-b from-white/15 to-transparent opacity-40 group-hover:opacity-60 transition-opacity duration-500" />
+        <div className="absolute inset-0 rounded-2xl shadow-[inset_0_2px_12px_rgba(0,0,0,0.08)] group-hover:shadow-[inset_0_4px_16px_rgba(0,0,0,0.12)] transition-shadow duration-500" />
+        <div className="relative z-10 p-5">{children}</div>
     </motion.div>
 );
 
@@ -213,14 +221,28 @@ const Compliance: React.FC = () => {
                         </button>
                     )}
 
-                    <div className="mb-6">
-                        <h1 className="text-3xl sm:text-4xl font-bold text-primary">{pageTitle}</h1>
-                        <p className="mt-2 text-sm sm:text-base text-gray-600">
-                            {certificationId
-                                ? detail?.programme.certificationBody || 'Certification programme details and records.'
-                                : 'Certification programmes, the validation queue, and expiring certificates.'}
-                        </p>
-                    </div>
+                    <Section fullHeight={false} className="flex items-center justify-center text-center min-h-[40vh] relative">
+                        <motion.div className="max-w-4xl px-6 sm:px-8 py-12" initial="hidden" animate="visible" variants={staggerContainer}>
+                            <motion.div variants={fadeIn}>
+                                <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-4">
+                                    <FaCertificate className="inline mr-3 text-accent" />
+                                    {certificationId
+                                        ? `${detail?.programme.certificationBody || 'Certification programme'}${detail?.programme.scope ? ` · ${detail.programme.scope}` : ''}`
+                                        : 'Certification Programmes'}
+                                </Typography>
+                            </motion.div>
+                            <motion.h1 className="font-display text-4xl md:text-5xl lg:text-6xl text-text-dark mb-6 leading-tight" variants={fadeIn} style={{ letterSpacing: '-0.03em' }}>
+                                {pageTitle}
+                            </motion.h1>
+                            <motion.div variants={fadeIn}>
+                                <Typography variant="lead" className="text-text-dark max-w-3xl mx-auto">
+                                    {certificationId
+                                        ? `${detail?.programme.certificationBody || 'Certification programme'}${detail?.programme.scope ? ` · ${detail.programme.scope}` : ''}`
+                                        : 'Certification programmes, the validation queue, and expiring certificates.'}
+                                </Typography>
+                            </motion.div>
+                        </motion.div>
+                    </Section>
 
                     {notice && <div role="status" className="mb-4 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-800">{notice}</div>}
                     {error && <div role="alert" className="mb-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">{error}</div>}
@@ -235,16 +257,15 @@ const Compliance: React.FC = () => {
                         ) : <EmptyState>Programme details are unavailable.</EmptyState>
                     ) : (
                         <>
-                            <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
-                                <InfoCard hideIconContainer title={programmes.length} subtitle="Programmes" className="min-h-0" />
-                                <InfoCard hideIconContainer title={queue.length} subtitle="Awaiting validation" className="min-h-0" />
-                                <InfoCard hideIconContainer title={dueAndExpiring.length} subtitle="Expiring soon" className="min-h-0" />
-                            </div>
+                            <motion.div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-3" initial="hidden" whileInView="visible" viewport={{ once: true }} variants={staggerContainer}>
+                                <motion.div variants={fadeIn} transition={{ delay: 0 }}><InfoCard icon={FaCertificate} iconColor="text-primary" showInfoBadge={false} title={programmes.length} subtitle="Programmes" className="min-h-0" /></motion.div>
+                                <motion.div variants={fadeIn} transition={{ delay: 0.05 }}><InfoCard icon={FaClipboardCheck} iconColor="text-accent" showInfoBadge={false} title={queue.length} subtitle="Awaiting validation" className="min-h-0" /></motion.div>
+                                <motion.div variants={fadeIn} transition={{ delay: 0.1 }}><InfoCard icon={FaExclamationTriangle} iconColor="text-amber-600" showInfoBadge={false} title={dueAndExpiring.length} subtitle="Expiring soon" className="min-h-0" /></motion.div>
+                            </motion.div>
 
                             <div className="space-y-5">
                                 <GlassCard>
-                                    <h2 className="text-xl font-bold text-primary">Programmes</h2>
-                                    <p className="mb-4 mt-1 text-sm text-gray-600">Open a programme to review its status, records, and history.</p>
+                                    <div className="flex items-start gap-3 mb-4"><FaCertificate className="text-accent text-xl mt-1" /><div><h2 className="text-lg font-semibold text-text-dark">Programmes</h2><p className="text-xs text-gray-500">Open a programme to review its status, records, and history.</p></div></div>
                                     {programmes.length === 0 ? <EmptyState>No certification programmes found.</EmptyState> : (
                                         <div className="overflow-x-auto">
                                             <table className="w-full min-w-[720px] text-left text-sm">
@@ -278,8 +299,7 @@ const Compliance: React.FC = () => {
                                 </GlassCard>
 
                                 <GlassCard>
-                                    <div className="mb-1 flex items-center gap-2"><FaClipboardCheck className="text-primary" /><h2 className="text-xl font-bold text-primary">Validation queue</h2></div>
-                                    <p className="mb-4 text-sm text-gray-600">Internal audits, inspections and verifications waiting for validation.</p>
+                                    <div className="flex items-start gap-3 mb-4"><FaClipboardCheck className="text-accent text-xl mt-1" /><div><h2 className="text-lg font-semibold text-text-dark">Validation queue</h2><p className="text-xs text-gray-500">Internal audits, inspections and verifications waiting for validation.</p></div></div>
                                     {queue.length === 0 ? <EmptyState>Queue clear — nothing awaiting validation.</EmptyState> : (
                                         <div className="overflow-x-auto">
                                             <table className="w-full min-w-[650px] text-left text-sm">
@@ -301,8 +321,7 @@ const Compliance: React.FC = () => {
                                 </GlassCard>
 
                                 <GlassCard>
-                                    <div className="mb-1 flex items-center gap-2"><FaExclamationTriangle className="text-amber-600" /><h2 className="text-xl font-bold text-primary">Due &amp; expiring</h2></div>
-                                    <p className="mb-4 text-sm text-gray-600">Certified programmes expiring within {EXPIRING_WINDOW_DAYS} days, plus expired programmes.</p>
+                                    <div className="flex items-start gap-3 mb-4"><FaExclamationTriangle className="text-accent text-xl mt-1" /><div><h2 className="text-lg font-semibold text-text-dark">Due &amp; expiring</h2><p className="text-xs text-gray-500">Certified programmes expiring within {EXPIRING_WINDOW_DAYS} days, plus expired programmes.</p></div></div>
                                     {dueAndExpiring.length === 0 ? <EmptyState>No programmes expiring in the next {EXPIRING_WINDOW_DAYS} days.</EmptyState> : (
                                         <div className="space-y-2">{dueAndExpiring.map(programme => (
                                             <Link key={programme.certificationId} to={`/dashboard/compliance/${encodeURIComponent(programme.certificationId)}`} className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-primary/10 bg-white/40 px-4 py-3 hover:bg-white/70">
@@ -332,11 +351,11 @@ function ProgrammePage({
 }) {
     const programme = detail.programme;
     const tabs = [
-        ['audits', 'Audits'],
-        ['inspections', 'Compliance inspections'],
-        ['verifications', 'Verifications'],
-        ['documents', 'Documents'],
-        ['history', 'Status history'],
+        ['audits', 'Audits', FaClipboardCheck],
+        ['inspections', 'Compliance inspections', FaClipboardList],
+        ['verifications', 'Verifications', FaCheckCircle],
+        ['documents', 'Documents', FaFileAlt],
+        ['history', 'Status history', FaHistory],
     ] as const;
     const history = [...(programme.statusHistory || [])].sort((a, b) => Number(b.date ?? 0) - Number(a.date ?? 0));
 
@@ -356,15 +375,15 @@ function ProgrammePage({
             </GlassCard>
 
             <div className="flex flex-wrap gap-2" role="tablist" aria-label="Programme records">
-                {tabs.map(([key, label]) => (
+                {tabs.map(([key, label, Icon]) => (
                     <button key={key} role="tab" aria-selected={activeTab === key} onClick={() => setActiveTab(key)} className={`rounded-full border px-4 py-2 text-sm font-medium transition-colors ${activeTab === key ? 'border-primary bg-primary text-white' : 'border-gray-300 bg-white/50 text-gray-700 hover:border-primary'}`}>
-                        {label}
+                        <Icon className="mr-2 inline" />{label}
                     </button>
                 ))}
             </div>
 
             {activeTab === 'audits' && <GlassCard>
-                <h2 className="mb-4 text-xl font-bold text-primary">Audits</h2>
+                <div className="flex items-start gap-3 mb-4"><FaClipboardCheck className="text-accent text-xl mt-1" /><div><h2 className="text-lg font-semibold text-text-dark">Audits</h2></div></div>
                 {detail.audits.length === 0 ? <EmptyState>No audits recorded.</EmptyState> : <div className="space-y-4">{detail.audits.map(audit => (
                     <div key={audit.auditId} className="rounded-xl border border-primary/10 bg-white/30 p-4">
                         <div className="flex flex-wrap items-center justify-between gap-3"><div><h3 className="font-semibold text-primary">{recordTitle(audit, 'auditId')}</h3><p className="text-sm text-gray-600">{audit.auditType || '—'} · {audit.auditorName || '—'}{audit.auditorBody ? ` · ${audit.auditorBody}` : ''}</p></div><StatusPill status={audit.status || '—'} /></div>
@@ -376,7 +395,7 @@ function ProgrammePage({
             </GlassCard>}
 
             {activeTab === 'inspections' && <GlassCard>
-                <h2 className="mb-4 text-xl font-bold text-primary">Compliance inspections</h2>
+                <div className="flex items-start gap-3 mb-4"><FaClipboardList className="text-accent text-xl mt-1" /><div><h2 className="text-lg font-semibold text-text-dark">Compliance inspections</h2></div></div>
                 {detail.inspections.length === 0 ? <EmptyState>No compliance inspections recorded.</EmptyState> : <div className="space-y-4">{detail.inspections.map(inspection => (
                     <div key={inspection.inspectionId} className="rounded-xl border border-primary/10 bg-white/30 p-4">
                         <div className="flex flex-wrap items-center justify-between gap-3"><div><h3 className="font-semibold text-primary">{recordTitle(inspection, 'inspectionId')}</h3><p className="text-sm text-gray-600">{inspection.inspectorName || '—'}{inspection.inspectorBody ? ` · ${inspection.inspectorBody}` : ''}</p></div><span className="text-sm text-gray-600">{formatDate(inspection.inspectionDate)}</span></div>
@@ -390,17 +409,17 @@ function ProgrammePage({
             </GlassCard>}
 
             {activeTab === 'verifications' && <GlassCard>
-                <h2 className="mb-4 text-xl font-bold text-primary">Verifications</h2>
+                <div className="flex items-start gap-3 mb-4"><FaCheckCircle className="text-accent text-xl mt-1" /><div><h2 className="text-lg font-semibold text-text-dark">Verifications</h2></div></div>
                 {detail.verifications.length === 0 ? <EmptyState>No verifications recorded.</EmptyState> : <div className="overflow-x-auto"><table className="w-full min-w-[600px] text-left text-sm"><thead><tr className="border-b border-gray-200 text-xs uppercase text-gray-500"><th className="py-3 pr-4">Type</th><th className="py-3 pr-4">Date</th><th className="py-3 pr-4">Result</th><th className="py-3 pr-4">Verified by</th><th className="py-3">Validated</th></tr></thead><tbody>{detail.verifications.map(record => <tr key={record.verificationId} className="border-b border-gray-100 last:border-0"><td className="py-3 pr-4">{record.verificationType || '—'}<div className="text-xs text-gray-500">{record.verificationId}</div></td><td className="py-3 pr-4">{formatDate(record.verificationDate)}</td><td className="py-3 pr-4"><StatusPill status={record.status || '—'} /></td><td className="py-3 pr-4">{record.verifiedBy || '—'}</td><td className="py-3">{isValidatedAt(record.validatedAt) ? formatDate(record.validatedAt) : '—'}</td></tr>)}</tbody></table>{detail.verifications.some(record => record.comment || record.evidence?.length) && <div className="mt-4 space-y-3">{detail.verifications.filter(record => record.comment || record.evidence?.length).map(record => <div key={`${record.verificationId}-evidence`} className="rounded-lg bg-white/30 p-3 text-sm"><strong>{record.verificationId}</strong>{record.comment && <p className="mt-1 whitespace-pre-wrap">{record.comment}</p>}{record.evidence?.map((evidence: any, index: number) => <p key={index} className="mt-1 text-xs text-gray-600">{typeof evidence === 'string' ? evidence : evidence?.name || JSON.stringify(evidence)}</p>)}</div>)}</div>}</div>}
             </GlassCard>}
 
             {activeTab === 'documents' && <GlassCard>
-                <h2 className="mb-4 text-xl font-bold text-primary">Documents</h2>
+                <div className="flex items-start gap-3 mb-4"><FaFileAlt className="text-accent text-xl mt-1" /><div><h2 className="text-lg font-semibold text-text-dark">Documents</h2></div></div>
                 {detail.documents.length === 0 ? <EmptyState>No documents recorded.</EmptyState> : <div className="overflow-x-auto"><table className="w-full min-w-[600px] text-left text-sm"><thead><tr className="border-b border-gray-200 text-xs uppercase text-gray-500"><th className="py-3 pr-4">Document</th><th className="py-3 pr-4">Type</th><th className="py-3 pr-4">Issue date</th><th className="py-3 pr-4">Expiry date</th><th className="py-3">Status</th></tr></thead><tbody>{detail.documents.map(document => { const url = safeFileUrl(document.fileUrl); return <tr key={document.documentId} className="border-b border-gray-100 last:border-0"><td className="py-3 pr-4">{url ? <a href={url} target="_blank" rel="noreferrer" className="font-semibold text-primary hover:underline">{document.documentName || document.documentId} <FaExternalLinkAlt className="inline" size={10} /></a> : document.documentName || document.documentId}</td><td className="py-3 pr-4">{formatStatus(document.documentType || '—')}</td><td className="py-3 pr-4">{formatDate(document.issueDate)}</td><td className="py-3 pr-4">{formatDate(document.expiryDate)}</td><td className="py-3">{document.status ? <StatusPill status={document.status} /> : '—'}</td></tr>; })}</tbody></table></div>}
             </GlassCard>}
 
             {activeTab === 'history' && <GlassCard>
-                <h2 className="mb-4 text-xl font-bold text-primary">Status history</h2>
+                <div className="flex items-start gap-3 mb-4"><FaHistory className="text-accent text-xl mt-1" /><div><h2 className="text-lg font-semibold text-text-dark">Status history</h2></div></div>
                 {history.length === 0 ? <EmptyState>No status changes recorded.</EmptyState> : <div className="space-y-3">{history.map((event: any, index: number) => <div key={`${event.date || 'event'}-${index}`} className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-primary/10 bg-white/30 px-4 py-3"><div className="flex flex-wrap items-center gap-2"><StatusPill status={event.fromStatus || '—'} /><span className="text-gray-400">→</span><StatusPill status={event.toStatus || '—'} /></div><div className="text-right text-xs text-gray-600"><div>{formatDate(event.date)}</div><div>{event.actor || '—'}{event.documentId ? ` · ${event.documentId}` : ''}</div></div></div>)}</div>}
             </GlassCard>}
         </div>
