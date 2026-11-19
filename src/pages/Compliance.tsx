@@ -212,15 +212,6 @@ const Compliance: React.FC = () => {
             <DashboardNavbar />
             <Section className="relative py-8 sm:py-10">
                 <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
-                    {certificationId && (
-                        <button
-                            onClick={() => navigate('/dashboard/compliance')}
-                            className="mb-4 inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-accent"
-                        >
-                            <FaArrowLeft /> Back to Compliance
-                        </button>
-                    )}
-
                     <Section className="flex items-center justify-center min-h-[40vh]" animate={false}>
                         {certificationId && detail ? (
                             <div className="max-w-6xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
@@ -293,6 +284,15 @@ const Compliance: React.FC = () => {
                             </motion.div>
                         )}
                     </Section>
+
+                    {certificationId && (
+                        <button
+                            onClick={() => navigate('/dashboard/compliance')}
+                            className="mb-4 inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-accent"
+                        >
+                            <FaArrowLeft /> Back to Compliance
+                        </button>
+                    )}
 
                     {notice && <div role="status" className="mb-4 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-800">{notice}</div>}
                     {error && <div role="alert" className="mb-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">{error}</div>}
