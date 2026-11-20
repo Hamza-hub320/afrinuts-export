@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Typography } from '@/components/Typography/Typography';
 
 export type JourneyRouteState = 'complete' | 'active' | 'upcoming';
 
@@ -30,12 +31,26 @@ export interface JourneyRouteStep {
 
 interface JourneyRouteProps {
     steps: JourneyRouteStep[];
+    title?: string;
+    subtitle?: string;
     arrivalAction?: React.ReactNode;
     receiptAction?: React.ReactNode;
 }
 
-export const JourneyRoute: React.FC<JourneyRouteProps> = ({ steps, arrivalAction, receiptAction }) => (
+export const JourneyRoute: React.FC<JourneyRouteProps> = ({ steps, title, subtitle, arrivalAction, receiptAction }) => (
     <GlassCard>
+        {title && (
+            <div className="mb-2">
+                <Typography variant="subhead" className="uppercase tracking-widest text-primary mb-2 text-xs font-bold text-center">
+                    {title}
+                </Typography>
+                {subtitle && (
+                    <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 text-xs text-gray-600">
+                        {subtitle}
+                    </div>
+                )}
+            </div>
+        )}
         <div className="overflow-x-auto pb-2" aria-label="Shipment route summary">
             <div className="min-w-[760px]">
                 <svg viewBox="0 0 800 56" role="img" aria-label="Harvest and collection to arrival route" className="h-14 w-full overflow-visible">

@@ -104,6 +104,20 @@ export const BatchDossier: React.FC<BatchDossierProps> = ({ batch, master, bulkS
         summary: [step.detail, step.sub].filter(Boolean).join(' · '),
     }));
 
+    const bulkSubtitle = master
+        ? [
+            master.shipmentName,
+            `${master.totalBatches} batches`,
+            `${((master.totalWeightKg || 0) / 1000).toFixed(1)}T`,
+            master.destination,
+        ].filter(Boolean).join(' · ')
+        : undefined;
+    const batchSubtitle = [
+        'This batch',
+        batch.rawWeightKg ? `${(batch.rawWeightKg / 1000).toFixed(1)}T` : '',
+        batch.qualityGrade || '',
+    ].filter(Boolean).join(' · ');
+
     const effectiveBulkSteps = bulkSteps?.map(step => step.title === 'Arrival' && bulkReceivedAt
         ? { ...step, state: 'complete' as const, summary: 'Received ' + formatJourneyDate(bulkReceivedAt) }
         : step);
@@ -267,6 +281,8 @@ export const BatchDossier: React.FC<BatchDossierProps> = ({ batch, master, bulkS
             {master && effectiveBulkSteps && (
                 <JourneyRoute
                     steps={effectiveBulkSteps}
+                    title="Bulk Journey"
+                    subtitle={bulkSubtitle}
                     receiptAction={bulkDeparted && (
                         <div className="mt-2">
                             <button type="button" onClick={confirmBulkReceipt} disabled={savingBulkReceipt} className="inline-flex items-center gap-2 rounded-lg bg-primary px-3 py-2 text-xs font-semibold text-white hover:bg-primary/90 disabled:opacity-60">
@@ -280,6 +296,8 @@ export const BatchDossier: React.FC<BatchDossierProps> = ({ batch, master, bulkS
 
             <JourneyRoute
                 steps={routeSteps}
+                title="Batch Journey"
+                subtitle={batchSubtitle}
                 receiptAction={!master && batch.shippedAt && !received && (
                     <div className="mt-2">
                         <button type="button" onClick={confirmBatchReceipt} disabled={savingReceipt} className="inline-flex items-center gap-2 rounded-lg bg-primary px-3 py-2 text-xs font-semibold text-white hover:bg-primary/90 disabled:opacity-60">

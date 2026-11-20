@@ -37,6 +37,12 @@ export const ShipmentJourney: React.FC<ShipmentJourneyProps> = ({ master, batche
     const receiptTime = eventTime(receivedAt);
     const received = receiptTime > 0;
     const steps = buildBulkRouteSteps({ ...master, receivedAt: receivedAt || master.receivedAt }, batches);
+    const bulkSubtitle = [
+        master.shipmentName,
+        `${master.totalBatches} batches`,
+        `${((master.totalWeightKg || 0) / 1000).toFixed(1)}T`,
+        master.destination,
+    ].filter(Boolean).join(' · ');
 
     const confirmReceipt = async () => {
         setSavingReceipt(true);
@@ -65,6 +71,8 @@ export const ShipmentJourney: React.FC<ShipmentJourneyProps> = ({ master, batche
 
             <JourneyRoute
                 steps={steps}
+                title="Bulk Journey"
+                subtitle={bulkSubtitle}
                 arrivalAction={departed && !received && (
                     <div className="mt-2">
                         <button type="button" onClick={confirmReceipt} disabled={savingReceipt} className="inline-flex items-center gap-2 rounded-lg bg-primary px-3 py-2 text-xs font-semibold text-white hover:bg-primary/90 disabled:opacity-60">
