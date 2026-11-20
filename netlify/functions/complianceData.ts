@@ -18,6 +18,18 @@ const auth = getAuth();
 const FARM_ID = '1';
 const INTERNAL_ROLES = new Set(['OWNER', 'CEO', 'COMPLIANCE_OFFICER', 'MANAGER']);
 const VALIDATABLE_COLLECTIONS = new Set(['audits', 'inspections', 'verifications']);
+const PUBLIC_REGISTRY_URLS: Record<string, string> = {
+    'ecocert': 'https://certificat.ecocert.com',
+    "halal côte d'ivoire": 'https://halalci.org/',
+    'sgs': 'https://www.sgs.com/en-ci/certified-clients-and-products/certified-client-directory',
+    'fair trade international': 'https://www.flocert.net/fairtrade-customer-search/',
+    'rainforest alliance': 'https://knowledge.rainforest-alliance.org/docs/list-of-certificate-holders',
+};
+
+function publicRegistryUrl(body: unknown): string | null {
+    if (typeof body !== 'string') return null;
+    return PUBLIC_REGISTRY_URLS[body.trim().toLocaleLowerCase()] ?? null;
+}
 
 const headers = {
     'Access-Control-Allow-Origin': '*',
@@ -79,6 +91,9 @@ function mapProgramme(doc: DocumentSnapshot<DocumentData>, now: number) {
         buyerPublishedAt: optionalValue(data, 'buyerPublishedAt'),
         buyerPublishedBy: optionalValue(data, 'buyerPublishedBy'),
         buyerPublishedCertificateId: optionalValue(data, 'buyerPublishedCertificateId'),
+        publicPublishedAt: optionalValue(data, 'publicPublishedAt'),
+        publicPublishedBy: optionalValue(data, 'publicPublishedBy'),
+        publicPublishedCertificateId: optionalValue(data, 'publicPublishedCertificateId'),
         createdAt: optionalValue(data, 'createdAt'),
         updatedAt: optionalValue(data, 'updatedAt'),
     };
@@ -263,6 +278,28 @@ export const handler: Handler = async (event: HandlerEvent) => {
 
         const action = params?.action;
         const farmRef = db.collection('farms').doc(FARM_ID);
+
+        if (action === 'publishProgrammeToPublic') {
+            if (gate.actorRole !== 'CEO' && gate.actorRole !== 'COMPLIANCE_OFFICER') {
+                return { statusCode: 403, headers, body: JSON.stringify({ error: 'publish_not_authorized' }) };
+            }
+            const certificationId = typeof params.certificationId === 'string' ? params.certificationId.trim() : '';
+            if (!certificationId) return { statusCode: 400, headers, body: JSON.stringify({ error: 'invalid_certification_id' }) };
+            const certificationRef = farmRef.collection('certifications').doc(certificationId);
+            const certificationDoc = await certificationRef.get();
+            if (!certificationDoc.exists) return { statusCode: 404, headers, body: JSON.stringify({ error: 'programme_not_found' }) };
+            const programme = mapProgramme(certificationDoc, Date.now());
+            if (programme.effectiveStatus !== 'CERTIFIED') return { statusCode: 400, headers, body: JSON.stringify({ error: 'programme_not_certified' }) };
+            const registryUrl = publicRegistryUrl(programme.certificationBody);
+            if (!registryUrl) return { statusCode: 400, headers, body: JSON.stringify({ error: 'registry_url_required' }) };
+            const certificateSnapshot = await farmRef.collection('documents').where('certificationId', '==', certificationId).get();
+            const currentCertificate = certificateSnapshot.docs
+                .filter(doc => String(doc.data().documentType ?? '').toUpperCase() === 'CERTIFICATE' && Number(doc.data().issueDate ?? 0) > 0)
+                .sort((a, b) => Number(b.data().issueDate ?? 0) - Number(a.data().issueDate ?? 0))[0];
+            if (!currentCertificate) return { statusCode: 400, headers, body: JSON.stringify({ error: 'certificate_required' }) };
+            await certificationRef.update({ publicPublishedAt: Date.now(), publicPublishedBy: gate.actorUid, publicPublishedCertificateId: currentCertificate.id });
+            return { statusCode: 200, headers, body: JSON.stringify({ success: true }) };
+        }
 
         if (action === 'publishProgrammeToBuyers') {
             if (gate.actorRole !== 'CEO' && gate.actorRole !== 'COMPLIANCE_OFFICER') {
