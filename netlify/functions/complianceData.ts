@@ -76,6 +76,9 @@ function mapProgramme(doc: DocumentSnapshot<DocumentData>, now: number) {
         targetDate: Number(data.targetDate ?? 0),
         approvalDate: Number(data.approvalDate ?? 0),
         expiryDate,
+        buyerPublishedAt: optionalValue(data, 'buyerPublishedAt'),
+        buyerPublishedBy: optionalValue(data, 'buyerPublishedBy'),
+        buyerPublishedCertificateId: optionalValue(data, 'buyerPublishedCertificateId'),
         createdAt: optionalValue(data, 'createdAt'),
         updatedAt: optionalValue(data, 'updatedAt'),
     };
@@ -260,6 +263,47 @@ export const handler: Handler = async (event: HandlerEvent) => {
 
         const action = params?.action;
         const farmRef = db.collection('farms').doc(FARM_ID);
+
+        if (action === 'publishProgrammeToBuyers') {
+            if (gate.actorRole !== 'CEO' && gate.actorRole !== 'COMPLIANCE_OFFICER') {
+                return { statusCode: 403, headers, body: JSON.stringify({ error: 'publish_not_authorized' }) };
+            }
+
+            const certificationId = typeof params.certificationId === 'string' ? params.certificationId.trim() : '';
+            if (!certificationId) {
+                return { statusCode: 400, headers, body: JSON.stringify({ error: 'invalid_certification_id' }) };
+            }
+
+            const certificationRef = farmRef.collection('certifications').doc(certificationId);
+            const certificationDoc = await certificationRef.get();
+            if (!certificationDoc.exists) {
+                return { statusCode: 404, headers, body: JSON.stringify({ error: 'programme_not_found' }) };
+            }
+            if (mapProgramme(certificationDoc, Date.now()).effectiveStatus !== 'CERTIFIED') {
+                return { statusCode: 400, headers, body: JSON.stringify({ error: 'programme_not_certified' }) };
+            }
+
+            const certificateSnapshot = await farmRef.collection('documents')
+                .where('certificationId', '==', certificationId)
+                .get();
+            const currentCertificate = certificateSnapshot.docs
+                .filter(doc => {
+                    const data = doc.data();
+                    return String(data.documentType ?? '').toUpperCase() === 'CERTIFICATE'
+                        && Number(data.issueDate ?? 0) > 0;
+                })
+                .sort((a, b) => Number(b.data().issueDate ?? 0) - Number(a.data().issueDate ?? 0))[0];
+            if (!currentCertificate) {
+                return { statusCode: 400, headers, body: JSON.stringify({ error: 'certificate_required' }) };
+            }
+
+            await certificationRef.update({
+                buyerPublishedAt: Date.now(),
+                buyerPublishedBy: gate.actorUid,
+                buyerPublishedCertificateId: currentCertificate.id,
+            });
+            return { statusCode: 200, headers, body: JSON.stringify({ success: true }) };
+        }
 
         if (action === 'listProgrammes') {
             const snapshot = await farmRef.collection('certifications').get();

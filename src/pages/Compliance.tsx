@@ -26,6 +26,9 @@ type Programme = {
     targetDate: number;
     approvalDate: number;
     expiryDate: number;
+    buyerPublishedAt?: number | null;
+    buyerPublishedBy?: string | null;
+    buyerPublishedCertificateId?: string | null;
     createdAt: number | null;
     updatedAt: number | null;
 };
@@ -120,6 +123,7 @@ const Compliance: React.FC = () => {
     const { user, isOwner, isCEO, isComplianceOfficer, isManager } = useAuth();
     const navigate = useNavigate();
     const canValidate = isOwner || isCEO || isComplianceOfficer || isManager;
+    const canPublish = user?.role === 'CEO' || user?.role === 'COMPLIANCE_OFFICER';
 
     const [programmes, setProgrammes] = useState<Programme[]>([]);
     const [queue, setQueue] = useState<QueueItem[]>([]);
@@ -129,6 +133,7 @@ const Compliance: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
     const [notice, setNotice] = useState<string | null>(null);
     const [validatingId, setValidatingId] = useState<string | null>(null);
+    const [publishing, setPublishing] = useState(false);
 
     const loadListData = useCallback(async () => {
         setLoading(true);
@@ -202,6 +207,29 @@ const Compliance: React.FC = () => {
             setError(validateError?.message || 'Validation failed.');
         } finally {
             setValidatingId(null);
+        }
+    };
+
+    const handlePublish = async () => {
+        if (!certificationId) return;
+        setPublishing(true);
+        setNotice(null);
+        setError(null);
+        try {
+            const response = await getComplianceData('publishProgrammeToBuyers', { certificationId });
+            if (!response?.success) throw new Error(response?.error || 'Could not publish this programme.');
+            setNotice('Programme published to buyers.');
+            try {
+                const refreshed = await getComplianceData('getProgramme', { certificationId });
+                if (!refreshed?.programme) throw new Error('Could not refresh programme details.');
+                setDetail(refreshed);
+            } catch (refreshError: any) {
+                setError(refreshError?.message || 'Programme was published, but its details could not be refreshed.');
+            }
+        } catch (publishError: any) {
+            setError(publishError?.message || 'Could not publish this programme.');
+        } finally {
+            setPublishing(false);
         }
     };
 
@@ -303,7 +331,7 @@ const Compliance: React.FC = () => {
                         </div>
                     ) : certificationId ? (
                         detail ? (
-                            <ProgrammePage detail={detail} activeTab={activeTab} setActiveTab={setActiveTab} />
+                            <ProgrammePage detail={detail} activeTab={activeTab} setActiveTab={setActiveTab} canPublish={canPublish} onPublish={() => void handlePublish()} publishing={publishing} />
                         ) : <EmptyState>Programme details are unavailable.</EmptyState>
                     ) : (
                         <>
@@ -394,12 +422,25 @@ function ProgrammePage({
     detail,
     activeTab,
     setActiveTab,
+    canPublish,
+    onPublish,
+    publishing,
 }: {
     detail: ProgrammeDetail;
     activeTab: 'audits' | 'inspections' | 'verifications' | 'documents' | 'history';
     setActiveTab: (tab: 'audits' | 'inspections' | 'verifications' | 'documents' | 'history') => void;
+    canPublish: boolean;
+    onPublish: () => void;
+    publishing: boolean;
 }) {
     const programme = detail.programme;
+    const currentCertificate = detail.documents
+        .filter(document => String(document.documentType || '').toUpperCase() === 'CERTIFICATE' && Number(document.issueDate) > 0)
+        .sort((a, b) => Number(b.issueDate) - Number(a.issueDate))[0];
+    const showPublishButton = canPublish
+        && programme.effectiveStatus === 'CERTIFIED'
+        && currentCertificate
+        && programme.buyerPublishedCertificateId !== currentCertificate.documentId;
     const tabs = [
         ['audits', 'Audits', FaClipboardCheck],
         ['inspections', 'Compliance inspections', FaClipboardList],
@@ -421,6 +462,15 @@ function ProgrammePage({
                     <dt className="text-gray-500">Approval date</dt><dd>{formatDate(programme.approvalDate)}</dd>
                     <dt className="text-gray-500">Expiry date</dt><dd>{formatDate(programme.expiryDate)}</dd>
                 </dl>
+                {showPublishButton && (
+                    <button
+                        onClick={onPublish}
+                        disabled={publishing}
+                        className="mt-5 inline-flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-white hover:bg-accent disabled:cursor-wait disabled:opacity-60"
+                    >
+                        <FaCertificate />{publishing ? 'Publishing…' : 'Publish to buyers'}
+                    </button>
+                )}
                 <p className="mt-4 rounded-xl bg-white/40 p-3 text-xs text-gray-600">Effective expiry is derived at read time: a certified programme past its expiry date displays as expired without changing its stored status.</p>
             </GlassCard>
 
