@@ -678,6 +678,26 @@ async function enrichBatches(fid: string, batchNumbers: string[]): Promise<any[]
         rSnap.docs.forEach(doc => rawRevenues.push({ id: doc.id, ...doc.data() }));
     }
 
+    const ownFarmBlockIds = [...new Set(
+        rawBatches
+            .filter(batch => batch.sourceType === 'OWN_FARM' && batch.blockId != null && batch.blockId !== '')
+            .map(batch => String(batch.blockId))
+    )];
+    const blockHarvestDateById = new Map<string, string | null>();
+    if (ownFarmBlockIds.length > 0) {
+        const blockRefs = ownFarmBlockIds.map(blockId => db.collection('farms').doc(fid).collection('blocks').doc(blockId));
+        const blockSnapshots = await db.getAll(...blockRefs);
+        blockSnapshots.forEach((blockSnapshot, index) => {
+            const blockData = blockSnapshot.exists ? blockSnapshot.data() || {} : {};
+            let history = blockData.harvestHistory;
+            if (typeof history === 'string') {
+                try { history = JSON.parse(history); } catch { history = []; }
+            }
+            const latestHarvest = Array.isArray(history) && history.length > 0 ? history[history.length - 1] : null;
+            blockHarvestDateById.set(ownFarmBlockIds[index], toIsoDateOrNull(latestHarvest?.harvestDate));
+        });
+    }
+
     const supplierIds = [...new Set(rawBatches.map(b => b.supplierId).filter(Boolean))];
     const supplierMap = new Map<number, any>();
     if (supplierIds.length > 0) {
@@ -718,7 +738,9 @@ async function enrichBatches(fid: string, batchNumbers: string[]): Promise<any[]
             id: b.id,
             batchId: b.batchNumber,
             processingDate: toIsoDateOrNull(b.processingDate),
-            harvestDate: toIsoDateOrNull(b.harvestDate),
+            harvestDate: b.sourceType === 'OWN_FARM'
+                ? (blockHarvestDateById.get(String(b.blockId)) || null)
+                : toIsoDateOrNull(b.createdAt),
             qualityGrade: b.qualityGrade,
             sourceType: b.sourceType,
             isInspected: inspected,
