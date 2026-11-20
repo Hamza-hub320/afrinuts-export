@@ -305,6 +305,18 @@ function parseMasterBatchNumbers(raw: any): string[] {
     try { return JSON.parse(String(raw)); } catch { return []; }
 }
 
+function toIsoDateOrNull(value: unknown): string | null {
+    if (value == null || value === '') return null;
+    try {
+        const date = typeof value === 'object' && value !== null && 'toDate' in value
+            ? (value as { toDate: () => Date }).toDate()
+            : new Date(value as string | number);
+        return Number.isFinite(date.getTime()) ? date.toISOString() : null;
+    } catch {
+        return null;
+    }
+}
+
 function parseBuyerArray(value: unknown): any[] {
     if (Array.isArray(value)) return value;
     if (typeof value !== 'string' || !value.trim()) return [];
@@ -705,8 +717,8 @@ async function enrichBatches(fid: string, batchNumbers: string[]): Promise<any[]
         return {
             id: b.id,
             batchId: b.batchNumber,
-            processingDate: new Date(b.processingDate).toISOString(),
-            harvestDate: new Date(b.processingDate).toISOString(),
+            processingDate: toIsoDateOrNull(b.processingDate),
+            harvestDate: toIsoDateOrNull(b.harvestDate),
             qualityGrade: b.qualityGrade,
             sourceType: b.sourceType,
             isInspected: inspected,
@@ -1607,6 +1619,55 @@ export const handler: Handler = async (event: HandlerEvent) => {
         const buyer = await getBuyerRecord(fid, viewerUid);
         if (!buyer) return { statusCode: 403, headers, body: JSON.stringify({ error: 'not_a_buyer' }) };
 
+        if (action === 'confirmReceipt') {
+            const roleDoc = await db.collection('users').doc(viewerUid).get();
+            const viewerRole = roleDoc.exists ? roleDoc.data()?.role : null;
+            if (['OWNER', 'CEO', 'COMPLIANCE_OFFICER', 'MANAGER', 'FIELD_OFFICER', 'WORKER'].includes(viewerRole)) {
+                return { statusCode: 403, headers, body: JSON.stringify({ error: 'not_a_buyer' }) };
+            }
+
+            const masterBatchNumber = typeof query.masterBatchNumber === 'string' ? query.masterBatchNumber.trim() : '';
+            if (!masterBatchNumber) {
+                return { statusCode: 400, headers, body: JSON.stringify({ error: 'master_batch_number_required' }) };
+            }
+            const masterSnapshot = await db.collection('farms').doc(fid).collection('master_traceability')
+                .where('masterBatchNumber', '==', masterBatchNumber)
+                .limit(1)
+                .get();
+            if (masterSnapshot.empty) {
+                return { statusCode: 403, headers, body: JSON.stringify({ error: 'not_authorized' }) };
+            }
+
+            const masterRef = masterSnapshot.docs[0].ref;
+            const receipt = await db.runTransaction(async transaction => {
+                const masterDoc = await transaction.get(masterRef);
+                if (!masterDoc.exists) return { notAuthorized: true as const };
+                const masterData = masterDoc.data() || {};
+                const masterChildren = parseMasterBatchNumbers(masterData.batchNumbers);
+                const assignedToBuyer = (buyer.allowedMasterBatchIds || []).includes(masterBatchNumber)
+                    || masterChildren.some((batchNumber: string) => (buyer.allowedBatchIds || []).includes(batchNumber));
+                if (!assignedToBuyer) return { notAuthorized: true as const };
+
+                const receivedAt = Number(masterData.receivedAt ?? 0);
+                if (receivedAt > 0) return { unchanged: true as const };
+
+                const stampedAt = Date.now();
+                transaction.update(masterRef, { receivedAt: stampedAt, receivedBy: buyer.id });
+                return { unchanged: false as const, receivedAt: stampedAt };
+            });
+
+            if ('notAuthorized' in receipt) {
+                return { statusCode: 403, headers, body: JSON.stringify({ error: 'not_authorized' }) };
+            }
+            return {
+                statusCode: 200,
+                headers,
+                body: JSON.stringify(receipt.unchanged
+                    ? { success: true, unchanged: true }
+                    : { success: true, receivedAt: receipt.receivedAt }),
+            };
+        }
+
         if (action === 'complianceProgrammes') {
             const programmesSnapshot = await db.collection('farms').doc(fid).collection('certifications').get();
             const now = Date.now();
@@ -1669,6 +1730,8 @@ export const handler: Handler = async (event: HandlerEvent) => {
                     totalWeightKg: m.totalWeightKg || 0,
                     grades: m.grades || null,
                     exportDate: m.exportDate || null,
+                    receivedAt: m.receivedAt || null,
+                    receivedBy: m.receivedBy || null,
                 });
             }
 

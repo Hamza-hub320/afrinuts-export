@@ -16,6 +16,7 @@ import type { User } from 'firebase/auth';
 
 import { BatchDossier } from '@/components/buyer/BatchDossier';
 import { BatchListItem } from '@/components/buyer/BatchListItem';
+import { ShipmentJourney } from '@/components/buyer/ShipmentJourney';
 
 // ── Shared Types ──
 export interface GatedFarmer {
@@ -38,8 +39,8 @@ export interface GatedFarmer {
 export interface MyBatch {
     id: string;
     batchId: string;
-    harvestDate: string;
-    processingDate?: string;
+    harvestDate: string | null;
+    processingDate?: string | null;
     farmLocation: string;
     block?: string;
     processingFacility?: string;
@@ -57,6 +58,7 @@ export interface MyBatch {
     moistureContent?: number;
     nutCount?: number;
     kernelRatio?: number;
+    korGPerKg?: number;
     defectiveRate?: number;
     overallScore?: number;
     rawWeightKg?: number;
@@ -79,11 +81,19 @@ export interface MasterBatch {
     totalWeightKg: number;
     grades: string | null;
     exportDate: number | null;
+    receivedAt?: number | null;
+    receivedBy?: string | null;
 }
 
 export interface MasterGroup {
     master: MasterBatch;
     batches: MyBatch[];
+}
+
+function formatShipmentDate(value: number | string | null | undefined): string {
+    if (value == null || value === '') return '—';
+    const date = new Date(value);
+    return Number.isNaN(date.getTime()) ? '—' : date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 }
 
 export interface BuyerInfo {
@@ -225,6 +235,7 @@ const BuyerDashboard: React.FC = () => {
 
     // Selection & Layout State
     const [selectedBatchId, setSelectedBatchId] = useState<string | null>(null);
+    const [selectedMasterBatchNumber, setSelectedMasterBatchNumber] = useState<string | null>(null);
     const [openBulkIds, setOpenBulkIds] = useState<Set<string>>(new Set());
     const [searchQuery, setSearchQuery] = useState('');
 
@@ -336,7 +347,20 @@ const BuyerDashboard: React.FC = () => {
     );
 
     const selectedBatch = allBatchesForKpis.find(b => b.id === selectedBatchId) || null;
+    const selectedMasterGroup = masterGroups.find(group => group.master.masterBatchNumber === selectedMasterBatchNumber) || null;
+    const selectedBatchMasterGroup = selectedBatch
+        ? masterGroups.find(group => group.batches.some(batch => batch.id === selectedBatch.id)) || null
+        : null;
     const selectedComplianceProgramme = complianceProgrammes.find(programme => programme.certificationId === selectedComplianceId) || null;
+
+    const selectBatch = (batchId: string) => {
+        setSelectedMasterBatchNumber(null);
+        setSelectedBatchId(batchId);
+    };
+    const viewShipmentJourney = (masterBatchNumber: string) => {
+        setSelectedBatchId(null);
+        setSelectedMasterBatchNumber(masterBatchNumber);
+    };
 
     // Derived KPIs
     const totalWeight = allBatchesForKpis.reduce((s, b) => s + (b.rawWeightKg || 0), 0);
@@ -439,7 +463,7 @@ const BuyerDashboard: React.FC = () => {
                     </motion.div>
 
                     {/* ── SPLIT LAYOUT: Sidebar + Detail ── */}
-                    {allBatchesForKpis.length === 0 ? (
+                    {allBatchesForKpis.length === 0 && masterGroups.length === 0 ? (
                         <GlassCard>
                             <div className="text-center py-16">
                                 <FaBox className="text-4xl text-primary/40 mx-auto mb-4" />
@@ -450,6 +474,44 @@ const BuyerDashboard: React.FC = () => {
                             </div>
                         </GlassCard>
                     ) : (
+                        <>
+                        {masterGroups.length > 0 && (
+                            <section className="mb-6" aria-label="Buyer shipments">
+                                <div className="mb-3 flex items-center gap-2">
+                                    <FaShip className="text-primary" />
+                                    <Typography variant="h4" className="font-bold text-gray-900">Shipment journeys</Typography>
+                                </div>
+                                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
+                                    {masterGroups.map(group => (
+                                        <GlassCard key={group.master.masterBatchNumber} className="!p-0">
+                                            <button
+                                                type="button"
+                                                onClick={() => viewShipmentJourney(group.master.masterBatchNumber)}
+                                                aria-current={selectedMasterBatchNumber === group.master.masterBatchNumber ? 'true' : undefined}
+                                                className={`w-full rounded-2xl p-5 text-left transition-colors ${selectedMasterBatchNumber === group.master.masterBatchNumber ? 'bg-white/50' : 'hover:bg-white/35'}`}
+                                            >
+                                                <div className="flex items-start justify-between gap-3">
+                                                    <div>
+                                                        <div className="font-semibold text-gray-900">{group.master.shipmentName || group.master.masterBatchNumber}</div>
+                                                        <div className="mt-1 font-mono text-xs text-gray-500">{group.master.masterBatchNumber}</div>
+                                                    </div>
+                                                    <FaChevronRight className="mt-1 text-xs text-primary" />
+                                                </div>
+                                                <div className="mt-3 space-y-1 border-t border-gray-200/70 pt-3 text-xs text-gray-600">
+                                                    <div>Destination: {group.master.destination || '—'}</div>
+                                                    <div>Export date: {formatShipmentDate(group.master.exportDate)}</div>
+                                                    <div>{group.batches.length} {group.batches.length === 1 ? 'batch' : 'batches'}</div>
+                                                </div>
+                                            </button>
+                                        </GlassCard>
+                                    ))}
+                                </div>
+                            </section>
+                        )}
+
+                        {allBatchesForKpis.length === 0 ? (
+                            <GlassCard><div className="py-10 text-center text-sm text-gray-500">No batch details are available for these shipments yet.</div></GlassCard>
+                        ) : (
                         <div className="grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-6 items-start">
 
                             {/* ── LEFT SIDEBAR ── */}
@@ -518,7 +580,7 @@ const BuyerDashboard: React.FC = () => {
                                                                     key={b.id}
                                                                     batch={b}
                                                                     isSelected={selectedBatchId === b.id}
-                                                                    onClick={() => setSelectedBatchId(b.id)}
+                                                                    onClick={() => selectBatch(b.id)}
                                                                 />
                                                             ))}
                                                         </div>
@@ -542,7 +604,7 @@ const BuyerDashboard: React.FC = () => {
                                                             key={b.id}
                                                             batch={b}
                                                             isSelected={selectedBatchId === b.id}
-                                                            onClick={() => setSelectedBatchId(b.id)}
+                                                            onClick={() => selectBatch(b.id)}
                                                         />
                                                     ))}
                                                 </div>
@@ -570,8 +632,15 @@ const BuyerDashboard: React.FC = () => {
 
                             {/* ── RIGHT DOSSIER ── */}
                             <main className="min-w-0">
-                                {selectedBatch ? (
-                                    <BatchDossier batch={selectedBatch} />
+                                {selectedMasterGroup ? (
+                                    <ShipmentJourney master={selectedMasterGroup.master} batches={selectedMasterGroup.batches} />
+                                ) : selectedBatch ? (
+                                    <BatchDossier
+                                        batch={selectedBatch}
+                                        onViewShipmentJourney={selectedBatchMasterGroup
+                                            ? () => viewShipmentJourney(selectedBatchMasterGroup.master.masterBatchNumber)
+                                            : undefined}
+                                    />
                                 ) : (
                                     <GlassCard>
                                         <div className="flex flex-col items-center justify-center p-12 text-center">
@@ -587,6 +656,8 @@ const BuyerDashboard: React.FC = () => {
                                 )}
                             </main>
                         </div>
+                        )}
+                        </>
                     )}
 
                     {/* ── CERTIFICATION COMPLIANCE ── */}
