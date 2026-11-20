@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
@@ -27,14 +27,26 @@ import { fadeIn, staggerContainer } from '@/utils/animations';
 import { Reveal, StaggerList, StaggerItem } from '@/components/Reveal';
 import { Typography } from "@/components/Typography/Typography";
 import { InfoCard } from "@/components/InfoCard/InfoCard";
-import CertModal from "../components/CertModal/CertModal";
 import CertCard from "../components/CertCard/CertCard";
 import certificationHeroImage from '../assets/images/certification-hero.webp';
 import { IconType } from "react-icons";
 import { trackCtaClick, trackDownload } from '@/utils/analytics';
+import { getCertificationClaims, type CertificationClaim } from '@/services/api';
 import { Helmet } from 'react-helmet-async';
 import JsonLd from "@/components/Seo/JsonLd";
-type CertStatus = "achieved" | "in-progress" | "planned";
+type CertStatus = 'achieved' | 'in-progress' | 'planned';
+type PublicStatus = CertificationClaim['statusLabel'];
+
+function formatClaimDate(value: number | null | undefined): string {
+    if (!value) return '—';
+    return new Date(value).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+function cardStatus(status: PublicStatus | undefined): CertStatus {
+    if (status === 'Certified') return 'achieved';
+    if (status === 'In Progress') return 'in-progress';
+    return 'planned';
+}
 
 const getIcon = (iconName: string) => {
     const icons: Record<string, React.ElementType> = {
@@ -49,7 +61,25 @@ const Certifications: React.FC = () => {
     const { t } = useTranslation('certifications');
     const navigate = useNavigate();
     const [activeCert, setActiveCert] = useState<string | null>(null);
-    const [filter, setFilter] = useState<'all' | 'achieved' | 'in-progress' | 'planned'>('all');
+    const [filter, setFilter] = useState<'all' | 'achieved' | 'in-progress' | 'planned' | 'suspended' | 'expired'>('all');
+    const [claims, setClaims] = useState<CertificationClaim[] | null>(null);
+    const [claimsLoading, setClaimsLoading] = useState(true);
+    const [claimsAsOf, setClaimsAsOf] = useState<number | null>(null);
+
+    useEffect(() => {
+        let cancelled = false;
+        getCertificationClaims().then(response => {
+            if (!cancelled) {
+                setClaims(response?.programmes ?? null);
+                setClaimsAsOf(response?.asOf ?? null);
+            }
+        }).finally(() => {
+            if (!cancelled) setClaimsLoading(false);
+        });
+        return () => { cancelled = true; };
+    }, []);
+
+    const claimsByCode = useMemo(() => new Map((claims ?? []).map(claim => [claim.programmeCode, claim])), [claims]);
 
     interface Certification {
         id: string;
@@ -63,6 +93,8 @@ const Certifications: React.FC = () => {
         color: string;
         borderColor: string;
         iconColor: string;
+        claim: CertificationClaim | null;
+        claimStatus: PublicStatus;
     }
 
     const certifications: Certification[] = [
@@ -70,11 +102,13 @@ const Certifications: React.FC = () => {
             id: "organic",
             title: t('certifications.organic.title'),
             icon: FaLeaf,
-            status: "in-progress",
+            status: cardStatus(claimsByCode.get('organic')?.statusLabel),
+            claim: claimsByCode.get('organic') ?? null,
+            claimStatus: claimsByCode.get('organic')?.statusLabel ?? 'Planned',
             description: t('certifications.organic.description'),
             benefits: t('certifications.organic.benefits', { returnObjects: true }) as string[],
-            validity: t('certifications.organic.validity'),
-            issuer: 'ECOCERT',
+            validity: formatClaimDate(claimsByCode.get('organic')?.expiryDate),
+            issuer: claimsByCode.get('organic')?.body ?? '',
             color: 'from-teal-500/20 to-green-400/20',
             borderColor: 'border-teal-400/30',
             iconColor: 'text-green-600'
@@ -83,11 +117,13 @@ const Certifications: React.FC = () => {
             id: "fairtrade",
             title: t('certifications.fairtrade.title'),
             icon: FaHandshake,
-            status: "planned",
+            status: cardStatus(claimsByCode.get('fairtrade')?.statusLabel),
+            claim: claimsByCode.get('fairtrade') ?? null,
+            claimStatus: claimsByCode.get('fairtrade')?.statusLabel ?? 'Planned',
             description: t('certifications.fairtrade.description'),
             benefits: t('certifications.fairtrade.benefits', { returnObjects: true }) as string[],
-            validity: t('certifications.fairtrade.validity'),
-            issuer: 'Fair Trade International',
+            validity: formatClaimDate(claimsByCode.get('fairtrade')?.expiryDate),
+            issuer: claimsByCode.get('fairtrade')?.body ?? '',
             color: 'from-teal-500/20 to-green-400/20',
             borderColor: 'border-teal-400/30',
             iconColor: 'text-blue-600'
@@ -96,11 +132,13 @@ const Certifications: React.FC = () => {
             id: "iso22000",
             title: t('certifications.iso22000.title'),
             icon: FaShieldAlt,
-            status: "planned",
+            status: cardStatus(claimsByCode.get('iso22000')?.statusLabel),
+            claim: claimsByCode.get('iso22000') ?? null,
+            claimStatus: claimsByCode.get('iso22000')?.statusLabel ?? 'Planned',
             description: t('certifications.iso22000.description'),
             benefits: t('certifications.iso22000.benefits', { returnObjects: true }) as string[],
-            validity: t('certifications.iso22000.validity'),
-            issuer: 'International Organization for Standardization',
+            validity: formatClaimDate(claimsByCode.get('iso22000')?.expiryDate),
+            issuer: claimsByCode.get('iso22000')?.body ?? '',
             color: 'from-teal-500/20 to-green-400/20',
             borderColor: 'border-teal-400/30',
             iconColor: 'text-purple-600'
@@ -109,11 +147,13 @@ const Certifications: React.FC = () => {
             id: "halal",
             title: t('certifications.halal.title'),
             icon: FaKaaba,
-            status: "planned",
+            status: cardStatus(claimsByCode.get('halal')?.statusLabel),
+            claim: claimsByCode.get('halal') ?? null,
+            claimStatus: claimsByCode.get('halal')?.statusLabel ?? 'Planned',
             description: t('certifications.halal.description'),
             benefits: t('certifications.halal.benefits', { returnObjects: true }) as string[],
-            validity: t('certifications.halal.validity'),
-            issuer: 'Halal Certification Authority',
+            validity: formatClaimDate(claimsByCode.get('halal')?.expiryDate),
+            issuer: claimsByCode.get('halal')?.body ?? '',
             color: 'from-teal-500/20 to-green-400/20',
             borderColor: 'border-teal-400/30',
             iconColor: 'text-amber-600'
@@ -122,20 +162,26 @@ const Certifications: React.FC = () => {
             id: "rainforest",
             title: t('certifications.rainforest.title'),
             icon: FaGlobe,
-            status: "planned",
+            status: cardStatus(claimsByCode.get('rainforest')?.statusLabel),
+            claim: claimsByCode.get('rainforest') ?? null,
+            claimStatus: claimsByCode.get('rainforest')?.statusLabel ?? 'Planned',
             description: t('certifications.rainforest.description'),
             benefits: t('certifications.rainforest.benefits', { returnObjects: true }) as string[],
-            validity: t('certifications.rainforest.validity'),
-            issuer: 'Rainforest Alliance',
+            validity: formatClaimDate(claimsByCode.get('rainforest')?.expiryDate),
+            issuer: claimsByCode.get('rainforest')?.body ?? '',
             color: 'from-teal-500/20 to-green-400/20',
             borderColor: 'border-teal-400/30',
             iconColor: 'text-teal-600'
         }
     ];
 
-    const filteredCerts = certifications.filter(cert =>
-        filter === 'all' || cert.status === filter
-    );
+    const liveCertifications = claims ? certifications.filter(cert => cert.claim) : [];
+    const filteredCerts = liveCertifications.filter(cert => {
+        if (filter === 'all') return true;
+        if (filter === 'suspended') return cert.claimStatus === 'Suspended';
+        if (filter === 'expired') return cert.claimStatus === 'Expired';
+        return cert.status === filter;
+    });
 
     const currentCert = activeCert ? certifications.find(c => c.id === activeCert) : null;
 
@@ -143,7 +189,7 @@ const Certifications: React.FC = () => {
         <main className="text-text-dark font-sans">
             <Helmet>
                 <title>Certifications & Quality | Organic, Halal, ISO 22000 | AfriNuts Export</title>
-                <meta name="description" content="Five international certifications in progress: Organic (ECOCERT), Halal, ISO 22000, Fair Trade, and Rainforest Alliance. Each certification unlocks a specific premium market for AfriNuts Export cashews." />
+                <meta name="description" content="View AfriNuts Export certification programme information, current status, scope, and public verification details." />
                 <link rel="canonical" href="https://www.afrinutsexport.com/certifications" />
             </Helmet>
 
@@ -151,11 +197,11 @@ const Certifications: React.FC = () => {
                 "@context": "https://schema.org",
                 "@type": "WebPage",
                 "name": "Certifications & Quality Standards | AfriNuts Export",
-                "description": "AfriNuts Export is pursuing Organic (ECOCERT), Halal, ISO 22000, Fair Trade, and Rainforest Alliance certifications for our cashew farm and future processing center in Odienné, Côte d'Ivoire.",
+                "description": "Certification programme information and public verification details for AfriNuts Export.",
                 "about": {
                     "@type": "Organization",
                     "name": "AfriNuts Export",
-                    "description": "Premium organic cashew exporter pursuing international certifications for farm-to-export traceability."
+                    "description": "Cashew exporter sharing certification programme information and public verification details."
                 }
             }} />
 
@@ -188,17 +234,11 @@ const Certifications: React.FC = () => {
                             </InfoCard>
                         </motion.div>
 
-                        <div className="flex flex-wrap justify-center lg:justify-start gap-2 mb-5">
-                            <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-primary/10 text-primary text-xs rounded-full font-medium">
-                                <FaCheckCircle className="text-[10px]" /> {t('hero.badgeOrganic', 'Organic (2027)')}
-                            </span>
-                            <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-green-50 text-green-700 text-xs rounded-full font-medium">
-                                <FaCheckCircle className="text-[10px]" /> {t('hero.badgeHalal', 'Halal (2029)')}
-                            </span>
-                            <span className="inline-flex items-center gap-1 px-2.5 py-1 bg-amber-50 text-amber-700 text-xs rounded-full font-medium">
-                                <FaCheckCircle className="text-[10px]" /> {t('hero.badgeISO', 'ISO 22000 (2029)')}
-                            </span>
-                        </div>
+                        {claims && <div className="flex flex-wrap justify-center lg:justify-start gap-2 mb-5">
+                            {claims.map(claim => <span key={claim.programmeCode} className="inline-flex items-center gap-1 px-2.5 py-1 bg-primary/10 text-primary text-xs rounded-full font-medium">
+                                <FaCheckCircle className="text-[10px]" /> {claim.name}: {claim.statusLabel}
+                            </span>)}
+                        </div>}
 
                         <motion.div variants={fadeIn} className="flex flex-wrap gap-2.5 justify-center lg:justify-start">
                             <button
@@ -220,7 +260,7 @@ const Certifications: React.FC = () => {
                             <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-b from-white/15 to-transparent opacity-40" />
                             <img src={certificationHeroImage} alt="Certifications & Compliance" className="w-full h-full object-cover" />
                             <div className="absolute bottom-3 left-3 right-3 bg-white/80 backdrop-blur-sm rounded-full px-3 py-1 text-center">
-                                <span className="text-primary text-[11px] font-semibold">Certified & Compliant</span>
+                                <span className="text-primary text-[11px] font-semibold">Certification programme</span>
                             </div>
                         </motion.div>
                     </motion.div>
@@ -264,19 +304,22 @@ const Certifications: React.FC = () => {
             <Section className="py-12" id="certifications-grid">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6">
                     <Reveal className="text-center mb-12">
+                        {claims && <>
                         {/* Progress / Roadmap */}
                         {(() => {
-                            const achievedCount = certifications.filter(c => c.status === 'achieved').length;
-                            const inProgressCount = certifications.filter(c => c.status === 'in-progress').length;
-                            const plannedCount = certifications.filter(c => c.status === 'planned').length;
-                            const totalCount = certifications.length;
+                            const achievedCount = liveCertifications.filter(c => c.claimStatus === 'Certified').length;
+                            const inProgressCount = liveCertifications.filter(c => c.claimStatus === 'In Progress').length;
+                            const plannedCount = liveCertifications.filter(c => c.claimStatus === 'Planned').length;
+                            const suspendedCount = liveCertifications.filter(c => c.claimStatus === 'Suspended').length;
+                            const expiredCount = liveCertifications.filter(c => c.claimStatus === 'Expired').length;
+                            const totalCount = liveCertifications.length;
                             const percent = totalCount > 0 ? (achievedCount / totalCount) * 100 : 0;
                             return (
                                 <div className="mb-8 flex flex-col items-center">
                                     <div className="w-full max-w-xs sm:max-w-sm md:max-w-md">
                                         <div className="flex items-center justify-between mb-1 text-xs font-medium text-gray-700">
                                             <span className="text-primary">{achievedCount}/{totalCount} achieved</span>
-                                            <span className="text-gray-500">{inProgressCount} in progress · {plannedCount} planned</span>
+                                            <span className="text-gray-500">{inProgressCount} in progress · {plannedCount} planned · {suspendedCount} suspended · {expiredCount} expired</span>
                                         </div>
                                         <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
                                             <div
@@ -292,9 +335,10 @@ const Certifications: React.FC = () => {
                         <Typography variant="h2" className="mb-4">
                             {t('certifications.title')}
                         </Typography>
-                        <Typography variant="body" className="max-w-3xl mx-auto text-base md:text-lg leading-relaxed mb-8">
+                        <Typography variant="body" className="max-w-3xl mx-auto text-base md:text-lg leading-relaxed mb-2">
                             {t('certifications.description')}
                         </Typography>
+                        {claimsAsOf && <p className="mb-8 text-xs text-gray-500">Status as of {formatClaimDate(claimsAsOf)}</p>}
 
                         {/* Filter buttons */}
                         <StaggerList className="flex flex-wrap justify-center gap-2 sm:gap-4 text-sm sm:text-base">
@@ -303,10 +347,12 @@ const Certifications: React.FC = () => {
                                 { key: 'achieved', label: t('filters.achieved'), icon: FaCheckCircle },
                                 { key: 'in-progress', label: t('filters.inProgress', 'In Progress'), icon: FaClock },
                                 { key: 'planned', label: t('filters.planned', 'Planned'), icon: FaClock },
+                                { key: 'suspended', label: 'Suspended', icon: FaInfoCircle },
+                                { key: 'expired', label: 'Expired', icon: FaClock },
                             ].map((filterItem) => (
                                 <StaggerItem key={filterItem.key}>
                                     <motion.button
-                                        onClick={() => setFilter(filterItem.key as 'all' | 'achieved' | 'in-progress' | 'planned')}
+                                        onClick={() => setFilter(filterItem.key as typeof filter)}
                                         className={`px-6 py-3 rounded-full font-medium transition-all duration-300 flex items-center space-x-2 ${
                                             filter === filterItem.key
                                                 ? 'bg-primary text-white shadow-lg'
@@ -321,6 +367,7 @@ const Certifications: React.FC = () => {
                                 </StaggerItem>
                             ))}
                         </StaggerList>
+                        </>}
                     </Reveal>
                 </div>
             </Section>
@@ -328,23 +375,36 @@ const Certifications: React.FC = () => {
             {/* CERTIFICATIONS GRID */}
             <Section className="py-16">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6">
-                    {filteredCerts.length > 0 ? (
+                    {claimsLoading ? (
+                        <Reveal className="py-12 text-center text-gray-500">Loading current certification status…</Reveal>
+                    ) : !claims ? (
+                        <Reveal className="py-12 text-center"><Typography variant="body" className="text-gray-600">Our current certification status is unavailable — please check back soon.</Typography></Reveal>
+                    ) : filteredCerts.length > 0 ? (
                         <StaggerList className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                             {filteredCerts.map((cert) => (
                                 <StaggerItem key={cert.id} className="h-full">
-                                    <CertCard
-                                        icon={cert.icon}
-                                        title={cert.title}
-                                        description={cert.description}
-                                        issuer={cert.issuer}
-                                        status={cert.status}
-                                        benefits={Array.isArray(cert.benefits) ? cert.benefits : []}
-                                        validity={cert.validity}
-                                        color={cert.color}
-                                        borderColor={cert.borderColor}
-                                        iconColor={cert.iconColor}
-                                        onClick={() => setActiveCert(cert.id)}
-                                    />
+                                    <div className="relative h-full">
+                                        <CertCard
+                                            icon={cert.icon}
+                                            title={cert.title}
+                                            description={cert.description}
+                                            issuer={cert.issuer}
+                                            status={cert.status}
+                                            benefits={Array.isArray(cert.benefits) ? cert.benefits : []}
+                                            validity={cert.validity}
+                                            color={cert.color}
+                                            borderColor={cert.borderColor}
+                                            iconColor={cert.iconColor}
+                                            onClick={() => setActiveCert(cert.id)}
+                                        />
+                                        {(cert.claimStatus === 'Suspended' || cert.claimStatus === 'Expired') && <div className={`absolute top-4 right-4 z-20 rounded-full px-2.5 py-1 text-xs font-semibold shadow ${cert.claimStatus === 'Suspended' ? 'bg-red-100 text-red-800' : 'bg-amber-100 text-amber-900'}`}>{cert.claimStatus}</div>}
+                                        {cert.claim && <div className="mt-3 rounded-xl border border-primary/15 bg-white/70 p-4 text-sm text-gray-700">
+                                            {cert.claim.scope && <p><strong>Scope:</strong> {cert.claim.scope}</p>}
+                                            <p><strong>Target:</strong> {formatClaimDate(cert.claim.targetDate)} · <strong>Approved:</strong> {formatClaimDate(cert.claim.approvalDate)} · <strong>Expiry:</strong> {formatClaimDate(cert.claim.expiryDate)}</p>
+                                            {cert.claim.certificateNumber && <p className="mt-1"><strong>Certificate:</strong> {cert.claim.certificateNumber}</p>}
+                                            {cert.claim.registryUrl && <a className="mt-2 inline-flex items-center gap-1 font-semibold text-primary hover:underline" href={cert.claim.registryUrl} target="_blank" rel="noreferrer">Verify with registry <FaArrowRight /></a>}
+                                        </div>}
+                                    </div>
                                 </StaggerItem>
                             ))}
                         </StaggerList>
@@ -361,23 +421,22 @@ const Certifications: React.FC = () => {
                 </div>
             </Section>
 
-            {/* MODAL */}
-            {currentCert && (
-                <CertModal
-                    isOpen={!!currentCert}
-                    onClose={() => setActiveCert(null)}
-                    icon={currentCert.icon}
-                    title={currentCert.title}
-                    description={currentCert.description}
-                    issuer={currentCert.issuer}
-                    status={currentCert.status}
-                    benefits={currentCert.benefits}
-                    validity={currentCert.validity}
-                    color={currentCert.color}
-                    borderColor={currentCert.borderColor}
-                    iconColor={currentCert.iconColor}
-                />
-            )}
+            {/* Public claim details — certificate links are shown only when supplied by the published claim feed. */}
+            {currentCert && <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4" onClick={() => setActiveCert(null)}>
+                <div role="dialog" aria-modal="true" aria-label={currentCert.title} className="w-full max-w-3xl rounded-2xl bg-white p-6 shadow-2xl" onClick={event => event.stopPropagation()}>
+                    <div className="mb-4 flex items-start justify-between gap-4">
+                        <div className="flex items-center gap-4"><currentCert.icon className={`text-3xl ${currentCert.iconColor}`} /><div><h2 className="text-2xl font-bold text-text-dark">{currentCert.title}</h2><p className="text-sm text-gray-600">{currentCert.issuer}</p></div></div>
+                        <button onClick={() => setActiveCert(null)} aria-label="Close" className="text-2xl text-gray-500">×</button>
+                    </div>
+                    <p className={`mb-4 inline-flex rounded-full px-3 py-1 text-sm font-semibold ${currentCert.claimStatus === 'Certified' ? 'bg-green-100 text-green-800' : currentCert.claimStatus === 'Suspended' ? 'bg-red-100 text-red-800' : currentCert.claimStatus === 'Expired' ? 'bg-amber-100 text-amber-900' : currentCert.claimStatus === 'In Progress' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-700'}`}>{currentCert.claimStatus}</p>
+                    <p className="mb-5 text-gray-700">{currentCert.description}</p>
+                    {currentCert.claim?.scope && <p className="mb-2 text-sm"><strong>Scope:</strong> {currentCert.claim.scope}</p>}
+                    {currentCert.claim && <p className="mb-4 text-sm"><strong>Target:</strong> {formatClaimDate(currentCert.claim.targetDate)} · <strong>Approved:</strong> {formatClaimDate(currentCert.claim.approvalDate)} · <strong>Expiry:</strong> {formatClaimDate(currentCert.claim.expiryDate)}</p>}
+                    {currentCert.claim?.certificateNumber && <p className="mb-2 text-sm"><strong>Certificate:</strong> {currentCert.claim.certificateNumber}</p>}
+                    {currentCert.claim?.registryUrl && <a className="mb-5 inline-flex items-center gap-2 font-semibold text-primary hover:underline" href={currentCert.claim.registryUrl} target="_blank" rel="noreferrer">Verify with registry <FaArrowRight /></a>}
+                    {currentCert.benefits.length > 0 && <><h3 className="mb-2 mt-4 font-semibold">Key benefits</h3><ul className="list-inside list-disc space-y-1 text-sm text-gray-700">{currentCert.benefits.map((benefit, index) => <li key={index}>{benefit}</li>)}</ul></>}
+                </div>
+            </div>}
 
             {/* COMPLIANCE FRAMEWORK */}
             <Section className="py-16">
@@ -451,7 +510,7 @@ const Certifications: React.FC = () => {
                         </StaggerItem>
                         <StaggerItem>
                             <InfoCard icon={FaMedal} title={t('competitiveLandscape.quality.title', "Premium Quality")} variant="accent" className="text-center">
-                                {t('competitiveLandscape.quality.description', "Certified organic and fair trade practices")}
+                                Quality controls and responsible farm practices across our supply chain.
                             </InfoCard>
                         </StaggerItem>
                         <StaggerItem>
@@ -555,7 +614,7 @@ const Certifications: React.FC = () => {
                             <Reveal className="mt-8 text-center p-4 bg-amber-50/80 rounded-xl border border-amber-200">
                                 <Typography variant="small" className="text-amber-700">
                                     <FaInfoCircle className="inline mr-2" />
-                                    {t('whyCertifications.note')}
+                                    Farm OS maintains audit trails so that certification records can be reviewed and verified.
                                 </Typography>
                             </Reveal>
                         </div>
@@ -713,7 +772,7 @@ const Certifications: React.FC = () => {
                                 </Typography>
                                 <motion.div whileHover={{ y: -2 }} transition={{ duration: 0.2 }}>
                                     <Typography variant="lead" className="!text-white/90 max-w-4xl mx-auto">
-                                        {t('competitiveLandscape.uniqueValue.description', "Our vertical integration combined with local expertise and certification strategy allows us to offer what no other player can: premium, certified, traceable cashews from a transparent, socially responsible source in the heart of the world's largest producing region.")}
+                                        Our vertical integration and local expertise support high-quality, traceable cashews from a transparent, socially responsible source in Côte d'Ivoire.
                                     </Typography>
                                 </motion.div>
                             </div>

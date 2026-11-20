@@ -35,6 +35,30 @@ export const getComplianceData = async (action: string, params?: any) => {
     return callApi('complianceData', { action, ...params }, true);
 };
 
+export type CertificationClaim = {
+    programmeCode: 'organic' | 'halal' | 'iso22000' | 'fairtrade' | 'rainforest';
+    name: string;
+    body: string;
+    scope: string;
+    statusLabel: 'Certified' | 'In Progress' | 'Planned' | 'Suspended' | 'Expired';
+    targetDate: number | null;
+    approvalDate: number | null;
+    expiryDate: number | null;
+    certificateNumber?: string;
+    registryUrl?: string;
+};
+
+export type CertificationClaimsResponse = {
+    asOf: number;
+    programmes: CertificationClaim[];
+};
+
+export const getCertificationClaims = async (): Promise<CertificationClaimsResponse | null> => {
+    const response = await callApi('certificationClaims', {}, false, 'GET');
+    if (!response || typeof response.asOf !== 'number' || !Array.isArray(response.programmes)) return null;
+    return response as CertificationClaimsResponse;
+};
+
 export const getSupplierNetworkSummary = async (farmId: string = '1') => {
     if (isDevelopment) {
         // No mock yet — return a shape identical to the S1 response
