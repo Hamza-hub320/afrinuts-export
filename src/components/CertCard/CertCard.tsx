@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { IconType } from 'react-icons';
 import { FaCheckCircle, FaClock, FaArrowRight } from 'react-icons/fa';
 import { Typography } from '@/components/Typography/Typography';
+import type { CertificationClaim } from '@/services/api';
 
 interface CertCardProps {
     icon: IconType;
@@ -12,6 +13,8 @@ interface CertCardProps {
     status: 'achieved' | 'in-progress' | 'planned';
     benefits: string[] | string;
     validity?: string;
+    claim?: CertificationClaim | null;
+    claimDates?: { target: string; approved: string; expiry: string };
     color: string;
     borderColor: string;
     iconColor: string;
@@ -27,6 +30,8 @@ const CertCard: React.FC<CertCardProps> = ({
                                                status,
                                                benefits,
                                                validity,
+                                               claim,
+                                               claimDates,
                                                color,
                                                borderColor,
                                                iconColor,
@@ -110,6 +115,15 @@ const CertCard: React.FC<CertCardProps> = ({
                         <Typography variant="small" className="text-green-600 font-medium">
                             Valid until: {validity}
                         </Typography>
+                    </div>
+                )}
+
+                {claim && claimDates && (
+                    <div className="mt-3 space-y-1 text-sm text-gray-700">
+                        {claim.scope && <p><strong>Scope:</strong> {claim.scope}</p>}
+                        <p><strong>Target:</strong> {claimDates.target} · <strong>Approved:</strong> {claimDates.approved} · <strong>Expiry:</strong> {claimDates.expiry}</p>
+                        {claim.certificateNumber && <p><strong>Certificate:</strong> {claim.certificateNumber}</p>}
+                        {claim.registryUrl && <a className="inline-flex items-center gap-1 font-semibold text-primary hover:underline" href={claim.registryUrl} target="_blank" rel="noreferrer" onClick={event => event.stopPropagation()}>Verify with registry</a>}
                     </div>
                 )}
 

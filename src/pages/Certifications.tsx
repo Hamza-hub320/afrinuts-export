@@ -392,18 +392,14 @@ const Certifications: React.FC = () => {
                                             status={cert.status}
                                             benefits={Array.isArray(cert.benefits) ? cert.benefits : []}
                                             validity={cert.validity}
+                                            claim={cert.claim}
+                                            claimDates={{ target: formatClaimDate(cert.claim?.targetDate), approved: formatClaimDate(cert.claim?.approvalDate), expiry: formatClaimDate(cert.claim?.expiryDate) }}
                                             color={cert.color}
                                             borderColor={cert.borderColor}
                                             iconColor={cert.iconColor}
                                             onClick={() => setActiveCert(cert.id)}
                                         />
                                         {(cert.claimStatus === 'Suspended' || cert.claimStatus === 'Expired') && <div className={`absolute top-4 right-4 z-20 rounded-full px-2.5 py-1 text-xs font-semibold shadow ${cert.claimStatus === 'Suspended' ? 'bg-red-100 text-red-800' : 'bg-amber-100 text-amber-900'}`}>{cert.claimStatus}</div>}
-                                        {cert.claim && <div className="mt-3 rounded-xl border border-primary/15 bg-white/70 p-4 text-sm text-gray-700">
-                                            {cert.claim.scope && <p><strong>Scope:</strong> {cert.claim.scope}</p>}
-                                            <p><strong>Target:</strong> {formatClaimDate(cert.claim.targetDate)} · <strong>Approved:</strong> {formatClaimDate(cert.claim.approvalDate)} · <strong>Expiry:</strong> {formatClaimDate(cert.claim.expiryDate)}</p>
-                                            {cert.claim.certificateNumber && <p className="mt-1"><strong>Certificate:</strong> {cert.claim.certificateNumber}</p>}
-                                            {cert.claim.registryUrl && <a className="mt-2 inline-flex items-center gap-1 font-semibold text-primary hover:underline" href={cert.claim.registryUrl} target="_blank" rel="noreferrer">Verify with registry <FaArrowRight /></a>}
-                                        </div>}
                                     </div>
                                 </StaggerItem>
                             ))}
