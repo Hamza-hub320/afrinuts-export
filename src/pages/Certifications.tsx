@@ -269,7 +269,7 @@ const Certifications: React.FC = () => {
             </Section>
 
             {/* INTRODUCTION */}
-            <Section className="py-12">
+            <Section className="py-10">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6">
                     <Reveal className="text-center mb-12">
                         <Typography variant="h2" className="mb-6">
@@ -301,7 +301,7 @@ const Certifications: React.FC = () => {
             </Section>
 
             {/* CERTIFICATION FILTER */}
-            <Section className="py-12" id="certifications-grid">
+            <Section className="py-10" id="certifications-grid">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6">
                     <Reveal className="text-center mb-12">
                         {claims && <>
@@ -369,12 +369,8 @@ const Certifications: React.FC = () => {
                         </StaggerList>
                         </>}
                     </Reveal>
-                </div>
-            </Section>
 
-            {/* CERTIFICATIONS GRID */}
-            <Section className="py-16">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6">
+                    {/* CERTIFICATIONS GRID */}
                     {claimsLoading ? (
                         <Reveal className="py-12 text-center text-gray-500">Loading current certification status…</Reveal>
                     ) : !claims ? (
@@ -435,7 +431,7 @@ const Certifications: React.FC = () => {
             </div>}
 
             {/* COMPLIANCE FRAMEWORK */}
-            <Section className="py-16">
+            <Section className="py-10">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6">
                     <Reveal className="text-center mb-12">
                         <Typography variant="h2" className="mb-4">
@@ -487,7 +483,7 @@ const Certifications: React.FC = () => {
             </Section>
 
             {/* COMPETITIVE ADVANTAGE */}
-            <Section className="py-16">
+            <Section className="py-10">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6">
                     <Reveal className="text-center mb-12">
                         <Typography variant="h2" className="mb-4">
@@ -778,7 +774,7 @@ const Certifications: React.FC = () => {
             </Section>
 
             {/* CALL TO ACTION */}
-            <Section className="py-16 text-center">
+            <Section className="py-10 text-center">
                 <div className="max-w-4xl mx-auto px-6">
                     <Reveal>
                         <InfoCard icon={FaCertificate} title={t('cta.title')} variant="primary" className="text-center">
