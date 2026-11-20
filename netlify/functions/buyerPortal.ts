@@ -305,6 +305,167 @@ function parseMasterBatchNumbers(raw: any): string[] {
     try { return JSON.parse(String(raw)); } catch { return []; }
 }
 
+function parseBuyerArray(value: unknown): any[] {
+    if (Array.isArray(value)) return value;
+    if (typeof value !== 'string' || !value.trim()) return [];
+    try {
+        const parsed = JSON.parse(value);
+        return Array.isArray(parsed) ? parsed : [];
+    } catch {
+        return [];
+    }
+}
+
+function effectiveCertificationStatus(data: any, now: number): string {
+    const status = data.status || 'NOT_STARTED';
+    const expiryDate = Number(data.expiryDate ?? 0);
+    return status === 'CERTIFIED' && expiryDate > 0 && expiryDate < now ? 'EXPIRED' : status;
+}
+
+function buyerMilestones(statusHistoryJson: unknown, targetDateValue: unknown) {
+    const labels: Record<string, string> = {
+        IN_PROGRESS: 'Preparation started',
+        AUDIT_READY: 'Audit ready',
+        CERTIFIED: 'Certified',
+        SUSPENDED: 'Suspended',
+        EXPIRED: 'Expired',
+    };
+    const milestones = parseBuyerArray(statusHistoryJson).flatMap(event => {
+        const date = Number(event?.date ?? 0);
+        if (!(date > 0)) return [];
+        const label = event?.fromStatus == null ? 'Programme created' : labels[String(event?.toStatus || '').toUpperCase()];
+        return label ? [{ label, date }] : [];
+    });
+    const targetDate = Number(targetDateValue ?? 0);
+    if (targetDate > 0) milestones.push({ label: 'Target certification', date: targetDate });
+    return milestones.sort((a, b) => a.date - b.date);
+}
+
+function buyerProgrammeShape(doc: FirebaseFirestore.DocumentSnapshot, now: number) {
+    const data = doc.data() || {};
+    return {
+        certificationId: doc.id,
+        certificationName: data.certificationName ?? '',
+        effectiveStatus: effectiveCertificationStatus(data, now),
+        certificationBody: data.certificationBody ?? '',
+        scope: data.scope ?? '',
+        targetDate: Number(data.targetDate ?? 0),
+        approvalDate: Number(data.approvalDate ?? 0),
+        expiryDate: Number(data.expiryDate ?? 0),
+        milestones: buyerMilestones(data.statusHistoryJson, data.targetDate),
+    };
+}
+
+function buyerEvidenceSummary(items: any[]) {
+    const total = items.length;
+    const closed = items.filter(item => String(item?.status || '').toUpperCase() === 'CLOSED').length;
+    return { total, closed, open: total - closed, closurePct: total ? Math.round(closed / total * 100) : null };
+}
+
+function buyerSafeUrl(value: unknown): string | null {
+    if (typeof value !== 'string' || !value) return null;
+    try {
+        const url = new URL(value);
+        return url.protocol === 'https:' || url.protocol === 'http:' ? url.toString() : null;
+    } catch {
+        return null;
+    }
+}
+
+async function buyerComplianceProgramme(fid: string, certificationDoc: FirebaseFirestore.DocumentSnapshot) {
+    const farmRef = db.collection('farms').doc(fid);
+    const data = certificationDoc.data() || {};
+    const programme = buyerProgrammeShape(certificationDoc, Date.now());
+    if (programme.effectiveStatus !== 'CERTIFIED') return { programme };
+
+    const documentsSnapshot = await farmRef.collection('documents')
+        .where('certificationId', '==', certificationDoc.id)
+        .get();
+    const currentCertificate = documentsSnapshot.docs
+        .filter(doc => {
+            const document = doc.data();
+            return String(document.documentType ?? '').toUpperCase() === 'CERTIFICATE'
+                && Number(document.issueDate ?? 0) > 0;
+        })
+        .sort((a, b) => Number(b.data().issueDate ?? 0) - Number(a.data().issueDate ?? 0))[0];
+
+    if (!currentCertificate || data.buyerPublishedCertificateId !== currentCertificate.id) return { programme };
+
+    const [audits, inspections, verifications] = await Promise.all([
+        farmRef.collection('audits').where('certificationId', '==', certificationDoc.id).get(),
+        farmRef.collection('inspections').where('certificationId', '==', certificationDoc.id).get(),
+        farmRef.collection('verifications').where('certificationId', '==', certificationDoc.id).get(),
+    ]);
+    const validated = (snapshot: FirebaseFirestore.QuerySnapshot) => snapshot.docs
+        .filter(doc => Number(doc.data().validatedAt ?? 0) > 0);
+    const supersededIds = (snapshot: FirebaseFirestore.QuerySnapshot) => new Set(
+        snapshot.docs
+            .map(doc => doc.data().supersedesId)
+            .filter((id): id is string => typeof id === 'string' && id.length > 0),
+    );
+    const auditSupersededIds = supersededIds(audits);
+    const inspectionSupersededIds = supersededIds(inspections);
+    const verificationSupersededIds = supersededIds(verifications);
+
+    return {
+        programme,
+        certificate: {
+            documentId: currentCertificate.id,
+            documentName: currentCertificate.data().documentName ?? '',
+            issueDate: Number(currentCertificate.data().issueDate ?? 0),
+            expiryDate: Number(currentCertificate.data().expiryDate ?? 0),
+            fileUrl: buyerSafeUrl(currentCertificate.data().fileUrl),
+        },
+        audits: validated(audits)
+            .filter(doc => !auditSupersededIds.has(doc.id))
+            .map(doc => {
+                const record = doc.data();
+                const findings = parseBuyerArray(record.findingsJson);
+                return {
+                    auditId: doc.id,
+                    auditType: record.auditType ?? '',
+                    auditDate: Number(record.auditDate ?? 0),
+                    auditorName: record.auditorName ?? '',
+                    auditorBody: record.auditorBody ?? '',
+                    scope: record.scope ?? '',
+                    status: record.status ?? '',
+                    reportUrl: buyerSafeUrl(record.reportUrl),
+                    findingsSummary: buyerEvidenceSummary(findings),
+                };
+            })
+            .sort((a, b) => b.auditDate - a.auditDate),
+        inspections: validated(inspections)
+            .filter(doc => !inspectionSupersededIds.has(doc.id))
+            .map(doc => {
+                const record = doc.data();
+                const actions = parseBuyerArray(record.correctiveActionsJson);
+                return {
+                    inspectionId: doc.id,
+                    inspectionDate: Number(record.inspectionDate ?? 0),
+                    inspectorName: record.inspectorName ?? '',
+                    inspectorBody: record.inspectorBody ?? '',
+                    status: record.status ?? '',
+                    correctiveActionsSummary: buyerEvidenceSummary(actions),
+                };
+            })
+            .sort((a, b) => b.inspectionDate - a.inspectionDate),
+        verifications: validated(verifications)
+            .filter(doc => !verificationSupersededIds.has(doc.id))
+            .map(doc => {
+                const record = doc.data();
+                return {
+                    verificationId: doc.id,
+                    verificationType: record.verificationType ?? '',
+                    verificationDate: Number(record.verificationDate ?? 0),
+                    verifiedBy: record.verifiedBy ?? '',
+                    status: record.status ?? '',
+                    evidenceCount: parseBuyerArray(record.evidenceJson).length,
+                };
+            })
+            .sort((a, b) => b.verificationDate - a.verificationDate),
+    };
+}
+
 // ── Email helper (Resend) ─────────────────────────────────
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
 const FROM_EMAIL = process.env.FROM_EMAIL || 'AfriNuts Export <noreply@afrinutsexport.com>';
@@ -1445,6 +1606,28 @@ export const handler: Handler = async (event: HandlerEvent) => {
         // ── BUYER ACTIONS: require a buyer record ──────────────────
         const buyer = await getBuyerRecord(fid, viewerUid);
         if (!buyer) return { statusCode: 403, headers, body: JSON.stringify({ error: 'not_a_buyer' }) };
+
+        if (action === 'complianceProgrammes') {
+            const programmesSnapshot = await db.collection('farms').doc(fid).collection('certifications').get();
+            const now = Date.now();
+            const programmes = programmesSnapshot.docs
+                .map(doc => buyerProgrammeShape(doc, now))
+                .sort((a, b) => a.certificationName.localeCompare(b.certificationName));
+            return { statusCode: 200, headers, body: JSON.stringify({ programmes }) };
+        }
+
+        if (action === 'complianceProgramme') {
+            const certificationId = typeof query.certificationId === 'string' ? query.certificationId.trim() : '';
+            if (!certificationId) {
+                return { statusCode: 400, headers, body: JSON.stringify({ error: 'invalid_certification_id' }) };
+            }
+            const certificationDoc = await db.collection('farms').doc(fid).collection('certifications').doc(certificationId).get();
+            if (!certificationDoc.exists) {
+                return { statusCode: 404, headers, body: JSON.stringify({ error: 'programme_not_found' }) };
+            }
+            const details = await buyerComplianceProgramme(fid, certificationDoc);
+            return { statusCode: 200, headers, body: JSON.stringify(details) };
+        }
 
         if (!action || action === 'me') {
             return {

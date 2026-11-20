@@ -4,7 +4,8 @@ import { motion } from 'framer-motion';
 import {
     FaBox, FaShip, FaSearch, FaLeaf, FaSignOutAlt,
     FaChevronDown, FaChevronRight,
-    FaCheckCircle, FaWeightHanging, FaCertificate
+    FaCheckCircle, FaWeightHanging, FaCertificate, FaArrowLeft,
+    FaExternalLinkAlt, FaCalendarAlt, FaClipboardCheck,
 } from 'react-icons/fa';
 import { Typography } from '@/components/Typography/Typography';
 import Section from '@/components/Section/Section';
@@ -98,6 +99,97 @@ export interface MyBatchesResponse {
     masterBatch?: MasterBatch | null;
 }
 
+interface BuyerComplianceMilestone {
+    label: string;
+    date: number;
+}
+
+interface BuyerComplianceProgramme {
+    certificationId: string;
+    certificationName: string;
+    effectiveStatus: string;
+    certificationBody: string;
+    scope: string;
+    targetDate: number;
+    approvalDate: number;
+    expiryDate: number;
+    milestones: BuyerComplianceMilestone[];
+}
+
+interface BuyerComplianceSummary {
+    total: number;
+    closed: number;
+    open: number;
+    closurePct: number | null;
+}
+
+interface BuyerComplianceDetail {
+    programme: BuyerComplianceProgramme;
+    certificate?: {
+        documentId: string;
+        documentName: string;
+        issueDate: number;
+        expiryDate: number;
+        fileUrl: string | null;
+    };
+    audits?: Array<{
+        auditId: string;
+        auditType: string;
+        auditDate: number;
+        auditorName: string;
+        auditorBody: string;
+        scope: string;
+        status: string;
+        reportUrl: string | null;
+        findingsSummary: BuyerComplianceSummary;
+    }>;
+    inspections?: Array<{
+        inspectionId: string;
+        inspectionDate: number;
+        inspectorName: string;
+        inspectorBody: string;
+        status: string;
+        correctiveActionsSummary: BuyerComplianceSummary;
+    }>;
+    verifications?: Array<{
+        verificationId: string;
+        verificationType: string;
+        verificationDate: number;
+        verifiedBy: string;
+        status: string;
+        evidenceCount: number;
+    }>;
+}
+
+function complianceDate(value: number): string {
+    if (!Number.isFinite(value) || value <= 0) return '—';
+    return new Date(value).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+function BuyerComplianceStatus({ status }: { status: string }) {
+    const normalized = (status || 'UNKNOWN').toUpperCase();
+    const color = normalized === 'CERTIFIED'
+        ? 'bg-green-100 text-green-800'
+        : normalized === 'EXPIRED' || normalized === 'SUSPENDED'
+            ? 'bg-red-100 text-red-800'
+            : 'bg-amber-100 text-amber-800';
+    return <span className={`inline-flex rounded-full px-2.5 py-1 text-xs font-semibold ${color}`}>{normalized.replace(/_/g, ' ')}</span>;
+}
+
+function BuyerComplianceSummaryView({ summary, label }: { summary: BuyerComplianceSummary; label: string }) {
+    return (
+        <div className="mt-3 rounded-xl bg-white/50 p-3">
+            <div className="text-xs font-semibold text-gray-700">{label}</div>
+            <div className="mt-2 flex flex-wrap gap-x-5 gap-y-1 text-xs text-gray-600">
+                <span>{summary.total} total</span>
+                <span>{summary.closed} closed</span>
+                <span>{summary.open} open</span>
+                <span>Closure: {summary.closurePct == null ? '—' : `${summary.closurePct}%`}</span>
+            </div>
+        </div>
+    );
+}
+
 // ── GlassCard (matches AdminBuyers) ──
 const GlassCard: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className = '' }) => (
     <motion.div
@@ -122,6 +214,12 @@ const BuyerDashboard: React.FC = () => {
     const [user, setUser] = useState<User | null>(null);
     const [buyerInfo, setBuyerInfo] = useState<BuyerInfo | null>(null);
     const [response, setResponse] = useState<MyBatchesResponse | null>(null);
+    const [complianceProgrammes, setComplianceProgrammes] = useState<BuyerComplianceProgramme[]>([]);
+    const [selectedComplianceId, setSelectedComplianceId] = useState<string | null>(null);
+    const [selectedComplianceDetail, setSelectedComplianceDetail] = useState<BuyerComplianceDetail | null>(null);
+    const [complianceListLoading, setComplianceListLoading] = useState(true);
+    const [complianceDetailLoading, setComplianceDetailLoading] = useState(false);
+    const [complianceError, setComplianceError] = useState<string | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
 
@@ -158,6 +256,47 @@ const BuyerDashboard: React.FC = () => {
         };
         if (user) fetchData();
     }, [user, navigate]);
+
+    useEffect(() => {
+        if (!user) return;
+        let cancelled = false;
+        setComplianceListLoading(true);
+        getBuyerPortalData('complianceProgrammes')
+            .then((data: { programmes?: BuyerComplianceProgramme[]; error?: string }) => {
+                if (!Array.isArray(data.programmes)) throw new Error(data.error || 'Could not load compliance programmes.');
+                if (!cancelled) setComplianceProgrammes(data.programmes);
+            })
+            .catch((err: any) => {
+                if (!cancelled) setComplianceError(err.message || 'Could not load compliance programmes.');
+            })
+            .finally(() => {
+                if (!cancelled) setComplianceListLoading(false);
+            });
+        return () => { cancelled = true; };
+    }, [user]);
+
+    useEffect(() => {
+        if (!selectedComplianceId) {
+            setSelectedComplianceDetail(null);
+            setComplianceDetailLoading(false);
+            return;
+        }
+        let cancelled = false;
+        setComplianceDetailLoading(true);
+        setComplianceError(null);
+        getBuyerPortalData('complianceProgramme', { certificationId: selectedComplianceId })
+            .then((data: BuyerComplianceDetail) => {
+                if (!data?.programme) throw new Error('Could not load this compliance programme.');
+                if (!cancelled) setSelectedComplianceDetail(data);
+            })
+            .catch((err: any) => {
+                if (!cancelled) setComplianceError(err.message || 'Could not load this compliance programme.');
+            })
+            .finally(() => {
+                if (!cancelled) setComplianceDetailLoading(false);
+            });
+        return () => { cancelled = true; };
+    }, [selectedComplianceId]);
 
     // ── Data Normalization ──
     const { individualBatches, masterGroups, allBatchesForKpis } = useMemo(() => {
@@ -197,6 +336,7 @@ const BuyerDashboard: React.FC = () => {
     );
 
     const selectedBatch = allBatchesForKpis.find(b => b.id === selectedBatchId) || null;
+    const selectedComplianceProgramme = complianceProgrammes.find(programme => programme.certificationId === selectedComplianceId) || null;
 
     // Derived KPIs
     const totalWeight = allBatchesForKpis.reduce((s, b) => s + (b.rawWeightKg || 0), 0);
@@ -448,6 +588,159 @@ const BuyerDashboard: React.FC = () => {
                             </main>
                         </div>
                     )}
+
+                    {/* ── CERTIFICATION COMPLIANCE ── */}
+                    <section className="mt-8" aria-labelledby="buyer-compliance-title">
+                        <div className="mb-4">
+                            <Typography variant="h4" className="font-bold text-gray-900" id="buyer-compliance-title">
+                                Certification compliance
+                            </Typography>
+                            <Typography variant="body" className="mt-1 text-sm text-gray-600">
+                                View programme progress and published certification evidence.
+                            </Typography>
+                        </div>
+
+                        {complianceError && <div role="alert" className="mb-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">{complianceError}</div>}
+
+                        <div className="grid grid-cols-1 gap-5 lg:grid-cols-[360px_1fr] items-start">
+                            <div className="space-y-3">
+                                {complianceListLoading ? (
+                                    <GlassCard><div className="py-8 text-center text-sm text-gray-500">Loading programmes…</div></GlassCard>
+                                ) : complianceProgrammes.length === 0 ? (
+                                    <GlassCard><div className="py-8 text-center text-sm text-gray-500">No certification programmes are available.</div></GlassCard>
+                                ) : complianceProgrammes.map(programme => (
+                                    <GlassCard key={programme.certificationId} className="!p-0">
+                                        <button
+                                            type="button"
+                                            onClick={() => setSelectedComplianceId(programme.certificationId)}
+                                            aria-current={selectedComplianceId === programme.certificationId ? 'true' : undefined}
+                                            className={`w-full rounded-2xl p-5 text-left transition-colors ${selectedComplianceId === programme.certificationId ? 'bg-white/50' : 'hover:bg-white/35'}`}
+                                        >
+                                            <div className="flex items-start justify-between gap-3">
+                                                <div>
+                                                    <div className="font-semibold text-gray-900">{programme.certificationName || programme.certificationId}</div>
+                                                    <div className="mt-1 text-xs text-gray-500">{programme.certificationBody || 'Certification programme'}</div>
+                                                </div>
+                                                <BuyerComplianceStatus status={programme.effectiveStatus} />
+                                            </div>
+                                            {programme.milestones.length > 0 && (
+                                                <div className="mt-3 space-y-1 border-t border-gray-200/70 pt-3">
+                                                    {programme.milestones.slice(-3).map((milestone, index) => (
+                                                        <div key={`${programme.certificationId}-${milestone.label}-${index}`} className="flex justify-between gap-3 text-xs text-gray-600">
+                                                            <span>{milestone.label}</span><span>{complianceDate(milestone.date)}</span>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            )}
+                                        </button>
+                                    </GlassCard>
+                                ))}
+                            </div>
+
+                            <div className="min-w-0">
+                                {complianceDetailLoading ? (
+                                    <GlassCard><div className="py-12 text-center text-sm text-gray-500">Loading programme details…</div></GlassCard>
+                                ) : selectedComplianceDetail ? (
+                                    <GlassCard>
+                                        <div className="flex flex-wrap items-start justify-between gap-3">
+                                            <div>
+                                                <h3 className="text-xl font-semibold text-gray-900">{selectedComplianceDetail.programme.certificationName || selectedComplianceDetail.programme.certificationId}</h3>
+                                                <p className="mt-1 text-sm text-gray-600">
+                                                    {selectedComplianceDetail.programme.certificationBody || 'Certification programme'}
+                                                    {selectedComplianceDetail.programme.scope ? ` · ${selectedComplianceDetail.programme.scope}` : ''}
+                                                </p>
+                                            </div>
+                                            <BuyerComplianceStatus status={selectedComplianceDetail.programme.effectiveStatus} />
+                                        </div>
+
+                                        <div className="mt-4 grid grid-cols-1 gap-2 rounded-xl bg-white/35 p-3 text-xs sm:grid-cols-3">
+                                            <div><span className="text-gray-500">Target</span><div className="mt-1 font-medium text-gray-800">{complianceDate(selectedComplianceDetail.programme.targetDate)}</div></div>
+                                            <div><span className="text-gray-500">Approved</span><div className="mt-1 font-medium text-gray-800">{complianceDate(selectedComplianceDetail.programme.approvalDate)}</div></div>
+                                            <div><span className="text-gray-500">Expiry</span><div className="mt-1 font-medium text-gray-800">{complianceDate(selectedComplianceDetail.programme.expiryDate)}</div></div>
+                                        </div>
+
+                                        <div className="mt-5">
+                                            <div className="mb-2 flex items-center gap-2 text-sm font-semibold text-gray-800"><FaCalendarAlt className="text-accent" />Programme milestones</div>
+                                            {selectedComplianceDetail.programme.milestones.length === 0 ? (
+                                                <p className="text-sm text-gray-500">No milestones recorded.</p>
+                                            ) : (
+                                                <div className="space-y-2">
+                                                    {selectedComplianceDetail.programme.milestones.map((milestone, index) => (
+                                                        <div key={`${milestone.label}-${index}`} className="flex flex-wrap items-center justify-between gap-2 rounded-lg bg-white/45 px-3 py-2 text-sm">
+                                                            <span className="text-gray-700">{milestone.label}</span><span className="text-xs text-gray-500">{complianceDate(milestone.date)}</span>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        {selectedComplianceDetail.certificate ? (
+                                            <div className="mt-5 space-y-4">
+                                                <div className="rounded-xl border border-primary/10 bg-white/45 p-4">
+                                                    <div className="flex items-center gap-2 font-semibold text-gray-900"><FaCertificate className="text-primary" />Certificate</div>
+                                                    <div className="mt-2 text-sm text-gray-700">{selectedComplianceDetail.certificate.documentName || 'Current certificate'}</div>
+                                                    <div className="mt-1 text-xs text-gray-500">Issued {complianceDate(selectedComplianceDetail.certificate.issueDate)} · Expires {complianceDate(selectedComplianceDetail.certificate.expiryDate)}</div>
+                                                    {selectedComplianceDetail.certificate.fileUrl && <a className="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline" href={selectedComplianceDetail.certificate.fileUrl} target="_blank" rel="noreferrer">Open certificate <FaExternalLinkAlt size={11} /></a>}
+                                                </div>
+
+                                                <div>
+                                                    <div className="mb-2 flex items-center gap-2 text-sm font-semibold text-gray-800"><FaClipboardCheck className="text-accent" />Audit reports</div>
+                                                    {!selectedComplianceDetail.audits?.length ? <p className="text-sm text-gray-500">No validated audit reports are available.</p> : (
+                                                        <div className="space-y-3">{selectedComplianceDetail.audits.map(audit => (
+                                                            <div key={audit.auditId} className="rounded-xl border border-primary/10 bg-white/35 p-4">
+                                                                <div className="flex flex-wrap items-start justify-between gap-2"><div className="font-semibold text-gray-900">{audit.auditType || 'Audit'}</div><BuyerComplianceStatus status={audit.status} /></div>
+                                                                <div className="mt-1 text-xs text-gray-600">{audit.auditorName || 'Auditor not listed'}{audit.auditorBody ? ` · ${audit.auditorBody}` : ''} · {complianceDate(audit.auditDate)}</div>
+                                                                {audit.scope && <div className="mt-1 text-xs text-gray-600">Scope: {audit.scope}</div>}
+                                                                <BuyerComplianceSummaryView summary={audit.findingsSummary} label="Findings summary" />
+                                                                {audit.reportUrl && <a className="mt-3 inline-flex items-center gap-2 text-sm font-semibold text-primary hover:underline" href={audit.reportUrl} target="_blank" rel="noreferrer">Open audit report <FaExternalLinkAlt size={11} /></a>}
+                                                            </div>
+                                                        ))}</div>
+                                                    )}
+                                                </div>
+
+                                                <div>
+                                                    <div className="mb-2 flex items-center gap-2 text-sm font-semibold text-gray-800"><FaClipboardCheck className="text-accent" />Inspections</div>
+                                                    {!selectedComplianceDetail.inspections?.length ? <p className="text-sm text-gray-500">No validated inspections are available.</p> : (
+                                                        <div className="space-y-3">{selectedComplianceDetail.inspections.map(inspection => (
+                                                            <div key={inspection.inspectionId} className="rounded-xl border border-primary/10 bg-white/35 p-4">
+                                                                <div className="flex flex-wrap items-start justify-between gap-2"><div className="font-semibold text-gray-900">Inspection · {complianceDate(inspection.inspectionDate)}</div><BuyerComplianceStatus status={inspection.status} /></div>
+                                                                <div className="mt-1 text-xs text-gray-600">{inspection.inspectorName || 'Inspector not listed'}{inspection.inspectorBody ? ` · ${inspection.inspectorBody}` : ''}</div>
+                                                                <BuyerComplianceSummaryView summary={inspection.correctiveActionsSummary} label="Corrective actions summary" />
+                                                            </div>
+                                                        ))}</div>
+                                                    )}
+                                                </div>
+
+                                                <div>
+                                                    <div className="mb-2 flex items-center gap-2 text-sm font-semibold text-gray-800"><FaCheckCircle className="text-accent" />Verifications</div>
+                                                    {!selectedComplianceDetail.verifications?.length ? <p className="text-sm text-gray-500">No validated verifications are available.</p> : (
+                                                        <div className="space-y-3">{selectedComplianceDetail.verifications.map(verification => (
+                                                            <div key={verification.verificationId} className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-primary/10 bg-white/35 p-4">
+                                                                <div><div className="font-semibold text-gray-900">{verification.verificationType || 'Verification'}</div><div className="mt-1 text-xs text-gray-600">{verification.verifiedBy || 'Verifier not listed'} · {complianceDate(verification.verificationDate)} · {verification.evidenceCount} evidence items</div></div>
+                                                                <BuyerComplianceStatus status={verification.status} />
+                                                            </div>
+                                                        ))}</div>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            <div className="mt-5 rounded-xl bg-white/45 p-4 text-sm text-gray-600">
+                                                Buyer evidence is not available for this programme’s current status or publication state.
+                                            </div>
+                                        )}
+                                    </GlassCard>
+                                ) : (
+                                    <GlassCard>
+                                        <div className="flex flex-col items-center justify-center p-12 text-center">
+                                            <FaSearch className="mb-4 text-3xl text-primary/30" />
+                                            <Typography variant="h4" className="mb-1 text-gray-900">Select a programme</Typography>
+                                            <Typography variant="body" className="text-gray-500">Choose a certification programme to view its status, milestones, and buyer evidence.</Typography>
+                                        </div>
+                                    </GlassCard>
+                                )}
+                            </div>
+                        </div>
+                    </section>
                 </div>
             </Section>
         </div>
