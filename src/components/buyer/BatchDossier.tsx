@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import {
-    FaBox, FaCheckCircle, FaCalendarAlt, FaMapMarkerAlt,
-    FaTruck, FaFlask, FaFileAlt, FaLeaf,
+    FaBox, FaBuilding, FaCheckCircle, FaCalendarAlt, FaMapMarkerAlt,
+    FaShip, FaTruck, FaFlask, FaFileAlt, FaLeaf,
     FaShieldAlt, FaDownload, FaPrint, FaShare, FaCopy,
     FaWhatsapp, FaTwitter, FaLinkedin, FaEnvelope, FaChartBar,
     FaUser, FaMobile, FaCertificate, FaArrowRight,
@@ -14,14 +14,15 @@ import { BatchFarmerCard } from '@/components/batch/BatchFarmerCard';
 import { BatchSustainabilityCard } from '@/components/batch/BatchSustainabilityCard';
 import { BatchSignatureCard } from '@/components/batch/BatchSignatureCard';
 import BatchLocationMap from '@/components/BatchLocationMap/BatchLocationMap';
-import type { MyBatch } from '@/pages/BuyerPortal/BuyerDashboard';
+import type { MasterBatch, MyBatch } from '@/pages/BuyerPortal/BuyerDashboard';
 
 interface BatchDossierProps {
     batch: MyBatch;
+    master?: MasterBatch | null;
     onViewShipmentJourney?: () => void;
 }
 
-type Tab = 'quality' | 'documents' | 'farmer' | 'map' | 'signature';
+type Tab = 'overview' | 'quality' | 'documents' | 'farmer' | 'map' | 'signature';
 
 // ── GlassCard — matches AdminBuyers / Financials ──
 const GlassCard: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className = '' }) => (
@@ -42,17 +43,41 @@ const GlassCard: React.FC<{ children: React.ReactNode; className?: string }> = (
     </motion.div>
 );
 
-export const BatchDossier: React.FC<BatchDossierProps> = ({ batch, onViewShipmentJourney }) => {
-    const [activeTab, setActiveTab] = useState<Tab>('quality');
+export const BatchDossier: React.FC<BatchDossierProps> = ({ batch, master, onViewShipmentJourney }) => {
+    const [activeTab, setActiveTab] = useState<Tab>('overview');
     const [showShareMenu, setShowShareMenu] = useState(false);
     const [copied, setCopied] = useState(false);
 
     const status = batch.status || 'PENDING';
     const locationWithheld = batch.farmer?.locationWithheld === true;
-    const displayLocation = locationWithheld
+    const displayLocation = locationWithheld || batch.farmer?.consentShared?.location !== true
         ? "Côte d'Ivoire · Odienné region"
-        : `${batch.farmLocation}${batch.block ? ` · Block ${batch.block}` : ''}`;
-
+        : `${batch.farmLocation}${batch.block ? ` · ${batch.block.startsWith('Block ') ? batch.block : `Block ${batch.block}`}` : ''}`;
+    const formatJourneyDate = (value: number | string | null | undefined) => {
+        if (value == null || value === '') return '';
+        const numeric = typeof value === 'number' ? value : Number(value);
+        const time = Number.isFinite(numeric) && numeric > 0 ? numeric : new Date(value).getTime();
+        return Number.isFinite(time) && time > 0
+            ? new Date(time).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+            : '';
+    };
+    const harvestedAt = formatJourneyDate(batch.harvestDate);
+    const departedAt = formatJourneyDate(master?.exportDate);
+    const receivedAt = formatJourneyDate(master?.receivedAt);
+    const departed = Boolean(departedAt);
+    const received = Boolean(receivedAt);
+    const qualityMeasures = [
+        batch.moistureContent != null ? `Moisture ${batch.moistureContent}%` : '',
+        batch.defectiveRate != null ? `Defects ${batch.defectiveRate}%` : '',
+        batch.nutCount != null ? `Nut count ${batch.nutCount}/kg` : '',
+    ].filter(Boolean).join(' · ');
+    const journeySteps = [
+        { icon: GiFruitTree, title: 'Harvest & Collection', detail: harvestedAt || '—', sub: harvestedAt ? displayLocation : '', status: harvestedAt ? 'complete' : 'active' },
+        { icon: FaFlask, title: 'Processing & Quality', detail: batch.qualityGrade || '—', sub: qualityMeasures, status: batch.qualityGrade ? 'complete' : 'active' },
+        { icon: FaBox, title: 'Packing', detail: 'Packaging is recorded when the processing build lands.', sub: '', status: 'upcoming' },
+        { icon: FaShip, title: 'Port Departure', detail: departed ? departedAt : 'Not departed', sub: departed ? (master?.destination || '') : '', status: departed ? 'complete' : 'upcoming' },
+        { icon: FaBuilding, title: 'Arrival', detail: received ? `Received ${receivedAt}` : departed ? 'In transit' : 'Awaiting departure', sub: '', status: received ? 'complete' : departed ? 'active' : 'upcoming' },
+    ];
 
 
     const handleShare = async (platform?: string) => {
@@ -184,6 +209,7 @@ export const BatchDossier: React.FC<BatchDossierProps> = ({ batch, onViewShipmen
             <GlassCard className="!p-1.5">
                 <div className="flex overflow-x-auto scrollbar-hide">
                     {[
+                        { key: 'overview' as Tab, icon: FaMapMarkerAlt, label: 'Overview' },
                         { key: 'quality' as Tab, icon: FaChartBar, label: 'Quality' },
                         { key: 'documents' as Tab, icon: FaFileAlt, label: 'Documents' },
                         { key: 'farmer' as Tab, icon: FaUser, label: 'Farmer' },
@@ -217,6 +243,336 @@ export const BatchDossier: React.FC<BatchDossierProps> = ({ batch, onViewShipmen
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.2 }}
             >
+                {/* OVERVIEW TAB */}
+                {activeTab === 'overview' && (
+                    <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
+                        {/* ── LEFT COLUMN ── */}
+                        <div className="space-y-4">
+                            {/* Shipment Journey */}
+                            <GlassCard>
+                                <Typography variant="h4" className="font-bold text-gray-900 mb-4">
+                                    Shipment Journey
+                                </Typography>
+                                <div className="space-y-0">
+                                    {journeySteps.map((step, i) => {
+                                        const Icon = step.icon;
+                                        const isLast = i === journeySteps.length - 1;
+                                        return (
+                                            <div key={i} className="flex gap-3 relative">
+                                                {!isLast && (
+                                                    <div
+                                                        className={`absolute left-[15px] top-8 bottom-0 w-0.5 ${
+                                                            step.status === 'complete' ? 'bg-green-300' : 'bg-gray-200'
+                                                        }`}
+                                                    />
+                                                )}
+                                                <div
+                                                    className={`relative z-10 w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
+                                                        step.status === 'complete'
+                                                            ? 'bg-green-100 text-green-600'
+                                                            : step.status === 'active'
+                                                                ? 'bg-blue-100 text-blue-600'
+                                                                : 'bg-gray-100 text-gray-400'
+                                                    }`}
+                                                >
+                                                    {step.status === 'complete' ? (
+                                                        <FaCheckCircle className="text-sm" />
+                                                    ) : (
+                                                        <Icon className="text-sm" />
+                                                    )}
+                                                </div>
+                                                <div className="flex-1 pb-5">
+                                                    <div className="flex items-start justify-between gap-2">
+                                                        <div>
+                                                            <div className="font-semibold text-sm text-gray-900">
+                                                                {step.title}
+                                                            </div>
+                                                            <div className="text-xs text-gray-500 mt-0.5">
+                                                                {step.detail}
+                                                                {step.sub && ` · ${step.sub}`}
+                                                            </div>
+                                                        </div>
+                                                        <span
+                                                            className={`text-[10px] font-semibold px-2 py-0.5 rounded-full flex-shrink-0 ${
+                                                                step.status === 'complete'
+                                                                    ? 'bg-green-100 text-green-700'
+                                                                    : step.status === 'active'
+                                                                        ? 'bg-blue-100 text-blue-700'
+                                                                        : 'bg-gray-100 text-gray-500'
+                                                            }`}
+                                                        >
+                                            {step.status === 'complete'
+                                                ? 'Completed'
+                                                : step.status === 'active'
+                                                    ? (step.title === 'Arrival' ? 'In Transit' : 'In Progress')
+                                                    : 'Upcoming'}
+                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        );
+                                    })}
+                                </div>
+                            </GlassCard>
+
+                            {/* Compact Farmer Card */}
+                            {batch.farmer && (
+                                <GlassCard>
+                                    <div className="flex items-center justify-between mb-4">
+                                        <Typography variant="h4" className="font-bold text-gray-900">
+                                            Farmer Information
+                                        </Typography>
+                                    </div>
+
+                                    <div className="flex items-start gap-4">
+                                        <div className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-primary/20 flex items-center justify-center bg-white/60 flex-shrink-0">
+                                            {batch.farmer.photo && !batch.farmer.photoWithheld ? (
+                                                <img
+                                                    src={batch.farmer.photo}
+                                                    alt={batch.farmer.name || 'Verified farmer'}
+                                                    className="w-full h-full object-cover"
+                                                />
+                                            ) : (
+                                                <GiFarmer className="text-2xl text-primary/40" />
+                                            )}
+                                        </div>
+
+                                        <div className="flex-1 min-w-0">
+                                            <Typography variant="h4" className="text-gray-900 font-bold truncate">
+                                                {batch.farmer.name || 'Verified Farmer'}
+                                            </Typography>
+                                            <div className="flex items-center gap-2 mt-1 flex-wrap">
+                                <span className="text-xs text-accent font-medium">
+                                    {batch.farmer.role}
+                                </span>
+                                                {!batch.farmer.identityWithheld && batch.farmer.yearsFarming && (
+                                                    <span className="px-2 py-0.5 bg-primary/10 text-primary text-[10px] font-semibold rounded-full">
+                                        {batch.farmer.yearsFarming}
+                                    </span>
+                                                )}
+                                            </div>
+                                            <div className="flex items-center gap-1 mt-1.5">
+                                                <FaMapMarkerAlt className="text-gray-400 text-[10px]" />
+                                                <span className="text-xs text-gray-500 truncate">
+                                    {batch.farmer.location || "Côte d'Ivoire"}
+                                                    {batch.farmer.locationWithheld && (
+                                                        <span className="text-gray-400 italic"> (region only)</span>
+                                                    )}
+                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="mt-4 pt-4 border-t border-white/40">
+                                        <button
+                                            onClick={() => setActiveTab('farmer')}
+                                            className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary hover:text-accent transition"
+                                        >
+                                            View Farmer Profile
+                                            <FaArrowRight className="text-[10px]" />
+                                        </button>
+                                    </div>
+                                </GlassCard>
+                            )}
+
+                            {/* Compact Location & Route — 160px map */}
+                            {/* <GlassCard>
+                                <div className="flex items-center justify-between mb-3">
+                                    <Typography variant="h4" className="font-bold text-gray-900">
+                                        Location & Route
+                                    </Typography>
+                                    <button
+                                        onClick={() => setActiveTab('map')}
+                                        className="text-xs font-semibold text-primary hover:text-accent transition"
+                                    >
+                                        Expand
+                                    </button>
+                                </div>
+                                <div className="rounded-xl overflow-hidden">
+                                    <BatchLocationMap
+                                        latitude={batch.latitude ?? 9.51}
+                                        longitude={batch.longitude ?? -7.5692}
+                                        farmName={batch.farmLocation || 'AfriNuts Farm'}
+                                        block={batch.block}
+                                        locationWithheld={locationWithheld}
+                                        height={160}
+                                    />
+                                </div>
+                                <div className="flex items-center gap-1.5 mt-3">
+                                    <FaMapMarkerAlt className="text-accent text-[10px]" />
+                                    <span className="text-xs text-gray-600 truncate">
+                                        {displayLocation}
+                                    </span>
+                                </div>
+                            </GlassCard> */}
+
+                        </div>
+
+                        {/* ── RIGHT COLUMN ── */}
+                        <div className="space-y-4">
+                            {/* Quality Metrics */}
+                            <GlassCard>
+                                <Typography variant="h4" className="font-bold text-gray-900 mb-4">
+                                    Quality Metrics
+                                </Typography>
+
+                                <div className="flex flex-col sm:flex-row items-center gap-6">
+                                    <div className="relative w-32 h-32 flex-shrink-0">
+                                        <svg className="w-full h-full -rotate-90" viewBox="0 0 100 100">
+                                            <circle cx="50" cy="50" r="42" fill="none" stroke="#e5e7eb" strokeWidth="8" />
+                                            <circle
+                                                cx="50"
+                                                cy="50"
+                                                r="42"
+                                                fill="none"
+                                                stroke="#16a34a"
+                                                strokeWidth="8"
+                                                strokeLinecap="round"
+                                                strokeDasharray={`${(batch.qualityScore || 0) * 2.64} 264`}
+                                            />
+                                        </svg>
+                                        <div className="absolute inset-0 flex flex-col items-center justify-center">
+                                            <div className="text-2xl font-bold text-gray-900">
+                                                {batch.qualityScore ? Math.round(batch.qualityScore) : '—'}%
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex-1 w-full space-y-2.5">
+                                        {qualityMetrics.map((m, i) => (
+                                            <div key={i} className="flex items-center justify-between text-sm">
+                                                <span className="text-gray-600">{m.label}</span>
+                                                <div className="flex items-center gap-2">
+                                    <span className="font-semibold text-gray-900">
+                                        {m.value != null ? `${m.value}${m.unit}` : '—'}
+                                    </span>
+                                                    {m.value != null && (
+                                                        <FaCheckCircle className="text-green-500 text-xs" />
+                                                    )}
+                                                </div>
+                                            </div>
+                                        ))}
+                                        <div className="flex items-center justify-between text-sm pt-2 border-t border-white/40">
+                                            <span className="text-gray-600">Grade</span>
+                                            <span
+                                                className={`px-2 py-0.5 text-xs font-bold rounded-full ${
+                                                    batch.qualityGrade === 'PREMIUM'
+                                                        ? 'bg-amber-100 text-amber-800'
+                                                        : 'bg-blue-100 text-blue-800'
+                                                }`}
+                                            >
+                                {batch.qualityGrade || '—'}
+                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </GlassCard>
+
+                            {/* Lab Test Results */}
+                            {batch.testResults && (
+                                <GlassCard>
+                                    <Typography variant="h4" className="font-bold text-gray-900 mb-4 flex items-center gap-2">
+                                        <FaFlask className="text-accent" /> Lab Test Results
+                                    </Typography>
+                                    <div className="space-y-2">
+                                        {[
+                                            { label: 'Aflatoxin', value: batch.testResults.aflatoxin, unit: 'ppb', limit: 4 },
+                                            { label: 'Heavy Metals', value: batch.testResults.heavyMetals, unit: 'ppb', limit: 0.5 },
+                                            { label: 'Pesticide Residue', value: batch.testResults.pesticideResidue, unit: 'ppb', limit: 0.5 },
+                                        ].map((t, i) => {
+                                            const passed = t.value != null && t.value < t.limit;
+                                            return (
+                                                <div
+                                                    key={i}
+                                                    className="flex items-center justify-between p-3 bg-white/50 rounded-lg border border-white/40"
+                                                >
+                                                    <div>
+                                                        <div className="text-sm font-medium text-gray-900">
+                                                            {t.label}
+                                                        </div>
+                                                        <div className="text-[10px] text-gray-500">
+                                                            Limit: &lt; {t.limit} {t.unit}
+                                                        </div>
+                                                    </div>
+                                                    <div className="flex items-center gap-2">
+                                        <span
+                                            className={`text-sm font-semibold ${
+                                                passed ? 'text-green-600' : 'text-red-600'
+                                            }`}
+                                        >
+                                            {t.value != null ? `${t.value} ${t.unit}` : 'Pending'}
+                                        </span>
+                                                        {passed && <FaCheckCircle className="text-green-500 text-xs" />}
+                                                    </div>
+                                                </div>
+                                            );
+                                        })}
+                                    </div>
+                                </GlassCard>
+                            )}
+
+                            {/* Compact Documents (available only) */}
+                            <GlassCard>
+                                <div className="flex items-center justify-between mb-3">
+                                    <Typography variant="h4" className="font-bold text-gray-900">
+                                        Documents
+                                    </Typography>
+                                    <button
+                                        onClick={() => setActiveTab('documents')}
+                                        className="text-xs font-semibold text-primary hover:text-accent transition"
+                                    >
+                                        View all
+                                    </button>
+                                </div>
+                                <div className="space-y-2">
+                                    {(() => {
+                                        const availableDocs = [
+                                            { title: 'Certificate of Origin', key: 'coo', icon: FaFileAlt },
+                                            { title: 'Phytosanitary Certificate', key: 'phyto', icon: FaLeaf },
+                                            { title: 'Bill of Lading', key: 'billOfLading', icon: FaTruck },
+                                            { title: 'Packing List', key: 'packingList', icon: FaBox },
+                                            { title: 'Commercial Invoice', key: 'invoice', icon: FaFileAlt },
+                                            { title: 'Insurance Certificate', key: 'insurance', icon: FaShieldAlt },
+                                        ].filter(doc => batch.documents?.[doc.key]);
+
+                                        if (availableDocs.length === 0) {
+                                            return (
+                                                <p className="text-xs text-gray-400 italic">
+                                                    Documents will be available once the batch is shipped.
+                                                </p>
+                                            );
+                                        }
+
+                                        return availableDocs.map((doc, i) => {
+                                            const url = batch.documents?.[doc.key]!;
+                                            const Icon = doc.icon;
+                                            return (
+                                                <a
+                                                    key={i}
+                                                    href={url}
+                                                    target="_blank"
+                                                    rel="noopener noreferrer"
+                                                    className="flex items-center justify-between p-2.5 bg-white/50 rounded-lg border border-white/40 hover:bg-white/80 transition group"
+                                                >
+                                                    <div className="flex items-center gap-2.5 min-w-0">
+                                                        <div className="w-7 h-7 rounded-md bg-green-100 text-green-600 flex items-center justify-center flex-shrink-0">
+                                                            <Icon className="text-[10px]" />
+                                                        </div>
+                                                        <span className="text-xs font-medium text-gray-800 truncate">
+                                            {doc.title}
+                                        </span>
+                                                    </div>
+                                                    <FaDownload className="text-primary text-xs flex-shrink-0 opacity-60 group-hover:opacity-100 transition" />
+                                                </a>
+                                            );
+                                        });
+                                    })()}
+                                </div>
+                            </GlassCard>
+                        </div>
+                    </div>
+                )}
+
                 {activeTab === 'quality' && (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <GlassCard>

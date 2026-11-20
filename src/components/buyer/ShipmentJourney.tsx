@@ -44,6 +44,19 @@ export const ShipmentJourney: React.FC<ShipmentJourneyProps> = ({ master, batche
     const departed = departureTime > 0;
     const receiptTime = eventTime(receivedAt);
     const received = receiptTime > 0;
+    const harvestDates = batches.map(batch => eventTime(batch.harvestDate)).filter(time => time > 0).sort((a, b) => a - b);
+    const firstHarvestDate = harvestDates.length > 0 ? formatDate(harvestDates[0]) : '';
+    const lastHarvestDate = harvestDates.length > 0 ? formatDate(harvestDates[harvestDates.length - 1]) : '';
+    const harvestRange = !firstHarvestDate
+        ? '—'
+        : firstHarvestDate === lastHarvestDate
+            ? firstHarvestDate
+            : `${firstHarvestDate}–${lastHarvestDate}`;
+    const gradeCounts = batches.reduce<Record<string, number>>((counts, batch) => {
+        if (batch.qualityGrade) counts[batch.qualityGrade] = (counts[batch.qualityGrade] || 0) + 1;
+        return counts;
+    }, {});
+    const gradeSummary = Object.entries(gradeCounts).map(([grade, count]) => `${grade} ×${count}`).join(', ');
 
     const confirmReceipt = async () => {
         setSavingReceipt(true);
@@ -59,12 +72,12 @@ export const ShipmentJourney: React.FC<ShipmentJourneyProps> = ({ master, batche
         }
     };
 
-    const steps: Array<{ title: string; icon: IconType; state: JourneyState }> = [
-        { title: 'Harvest & Collection', icon: FaLeaf, state: harvestComplete ? 'complete' : 'active' },
-        { title: 'Processing & Quality', icon: FaClipboardCheck, state: qualityComplete ? 'complete' : 'active' },
-        { title: 'Packing', icon: FaBox, state: 'upcoming' },
-        { title: 'Port Departure', icon: FaShip, state: departed ? 'complete' : 'upcoming' },
-        { title: 'Arrival', icon: FaBuilding, state: received ? 'complete' : departed ? 'active' : 'upcoming' },
+    const steps: Array<{ title: string; icon: IconType; state: JourneyState; summary: string }> = [
+        { title: 'Harvest & Collection', icon: FaLeaf, state: harvestComplete ? 'complete' : 'active', summary: `${harvestRecorded} batches · ${harvestRange}` },
+        { title: 'Processing & Quality', icon: FaClipboardCheck, state: qualityComplete ? 'complete' : 'active', summary: `${qualityRecorded} graded${gradeSummary ? ` · ${gradeSummary}` : ''}` },
+        { title: 'Packing', icon: FaBox, state: 'upcoming', summary: 'Upcoming' },
+        { title: 'Port Departure', icon: FaShip, state: departed ? 'complete' : 'upcoming', summary: departed ? `${formatDate(departureTime)}${master.destination ? ` · ${master.destination}` : ''}` : 'Not departed' },
+        { title: 'Arrival', icon: FaBuilding, state: received ? 'complete' : departed ? 'active' : 'upcoming', summary: received ? `Received ${formatDate(receiptTime)}` : departed ? 'In transit' : 'Awaiting departure' },
     ];
 
     return (
@@ -73,6 +86,32 @@ export const ShipmentJourney: React.FC<ShipmentJourneyProps> = ({ master, batche
                 <div className="flex flex-wrap gap-x-5 gap-y-2 text-sm text-gray-600">
                     <span>Destination: {master.destination || '—'}</span>
                     <span>Export date: {departed ? formatDate(departureTime) : 'Not departed'}</span>
+                </div>
+            </GlassCard>
+
+            <GlassCard minimal>
+                <div className="overflow-x-auto pb-2" aria-label="Shipment route summary">
+                    <div className="min-w-[760px]">
+                        <svg viewBox="0 0 800 56" role="img" aria-label="Harvest and collection to arrival route" className="h-14 w-full overflow-visible">
+                            <line x1="80" y1="28" x2="720" y2="28" stroke="#d1d5db" strokeWidth="4" />
+                            {steps.map((step, index) => {
+                                const x = 80 + index * 160;
+                                const color = step.state === 'complete' ? '#16a34a' : step.state === 'active' ? '#2563eb' : '#9ca3af';
+                                return <g key={step.title}>
+                                    <circle cx={x} cy="28" r="12" fill="white" stroke={color} strokeWidth="4" />
+                                    {step.state === 'complete' && <circle cx={x} cy="28" r="5" fill={color} />}
+                                </g>;
+                            })}
+                        </svg>
+                        <div className="grid grid-cols-5 gap-2 -mt-1">
+                            {steps.map(({ title, summary, state }) => (
+                                <div key={title} className="min-w-0 text-center">
+                                    <div className={`truncate text-[11px] font-semibold ${state === 'complete' ? 'text-green-700' : state === 'active' ? 'text-blue-700' : 'text-gray-500'}`} title={title}>{title}</div>
+                                    <div className="truncate text-[10px] text-gray-500" title={summary}>{summary}</div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
                 </div>
             </GlassCard>
 

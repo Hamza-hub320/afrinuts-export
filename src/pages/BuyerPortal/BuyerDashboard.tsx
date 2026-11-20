@@ -637,6 +637,7 @@ const BuyerDashboard: React.FC = () => {
                                 ) : selectedBatch ? (
                                     <BatchDossier
                                         batch={selectedBatch}
+                                        master={selectedBatchMasterGroup?.master}
                                         onViewShipmentJourney={selectedBatchMasterGroup
                                             ? () => viewShipmentJourney(selectedBatchMasterGroup.master.masterBatchNumber)
                                             : undefined}
