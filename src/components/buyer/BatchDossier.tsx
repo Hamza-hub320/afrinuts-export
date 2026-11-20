@@ -15,6 +15,7 @@ import { BatchSustainabilityCard } from '@/components/batch/BatchSustainabilityC
 import { BatchSignatureCard } from '@/components/batch/BatchSignatureCard';
 import BatchLocationMap from '@/components/BatchLocationMap/BatchLocationMap';
 import type { MasterBatch, MyBatch } from '@/pages/BuyerPortal/BuyerDashboard';
+import { JourneyRoute, type JourneyRouteState, type JourneyRouteStep } from '@/components/buyer/JourneyRoute';
 
 interface BatchDossierProps {
     batch: MyBatch;
@@ -79,6 +80,12 @@ export const BatchDossier: React.FC<BatchDossierProps> = ({ batch, master, onVie
         { icon: FaBuilding, title: 'Arrival', detail: received ? `Received ${receivedAt}` : departed ? 'In transit' : 'Awaiting departure', sub: '', status: received ? 'complete' : departed ? 'active' : 'upcoming' },
     ];
 
+
+    const routeSteps: JourneyRouteStep[] = journeySteps.map(step => ({
+        title: step.title,
+        state: step.status as JourneyRouteState,
+        summary: [step.detail, step.sub].filter(Boolean).join(' · '),
+    }));
 
     const handleShare = async (platform?: string) => {
         const url = `${window.location.origin}/trace?batchId=${encodeURIComponent(batch.batchId)}`;
@@ -204,6 +211,8 @@ export const BatchDossier: React.FC<BatchDossierProps> = ({ batch, master, onVie
                     </div>
                 </div>
             </GlassCard>
+
+            <JourneyRoute steps={routeSteps} />
 
             {/* ── TAB BAR ── */}
             <GlassCard className="!p-1.5">

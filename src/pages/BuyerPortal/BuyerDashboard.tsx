@@ -331,6 +331,9 @@ const BuyerDashboard: React.FC = () => {
         if (allBatchesForKpis.length > 0 && !selectedBatchId) {
             setSelectedBatchId(allBatchesForKpis[0].id);
         }
+        if (masterGroups.length > 0 && !selectedMasterBatchNumber) {
+            setSelectedMasterBatchNumber(masterGroups[0].master.masterBatchNumber);
+        }
         if (masterGroups.length > 0 && openBulkIds.size === 0) {
             setOpenBulkIds(new Set([masterGroups[0].master.masterBatchNumber]));
         }
