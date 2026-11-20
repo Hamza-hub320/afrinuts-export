@@ -17,6 +17,7 @@ import type { User } from 'firebase/auth';
 import { BatchDossier } from '@/components/buyer/BatchDossier';
 import { BatchListItem } from '@/components/buyer/BatchListItem';
 import { ShipmentJourney } from '@/components/buyer/ShipmentJourney';
+import { buildBulkRouteSteps } from '@/components/buyer/buildBulkRouteSteps';
 
 // ── Shared Types ──
 export interface GatedFarmer {
@@ -309,6 +310,17 @@ const BuyerDashboard: React.FC = () => {
         return () => { cancelled = true; };
     }, [selectedComplianceId]);
 
+    const refreshBuyerBatches = async () => {
+        try {
+            const data = await getBuyerPortalData('myBatches');
+            if (data.error) throw new Error(data.error);
+            setBuyerInfo(data.buyer || null);
+            setResponse(data as MyBatchesResponse);
+        } catch (refreshError: any) {
+            setError(refreshError.message || 'Could not refresh shipment data.');
+        }
+    };
+
     // ── Data Normalization ──
     const { individualBatches, masterGroups, allBatchesForKpis } = useMemo(() => {
         if (!response) return { individualBatches: [], masterGroups: [], allBatchesForKpis: [] };
@@ -331,7 +343,7 @@ const BuyerDashboard: React.FC = () => {
         if (allBatchesForKpis.length > 0 && !selectedBatchId) {
             setSelectedBatchId(allBatchesForKpis[0].id);
         }
-        if (masterGroups.length > 0 && !selectedMasterBatchNumber) {
+        if (masterGroups.length > 0 && !selectedMasterBatchNumber && !selectedBatchId) {
             setSelectedMasterBatchNumber(masterGroups[0].master.masterBatchNumber);
         }
         if (masterGroups.length > 0 && openBulkIds.size === 0) {
@@ -354,6 +366,9 @@ const BuyerDashboard: React.FC = () => {
     const selectedBatchMasterGroup = selectedBatch
         ? masterGroups.find(group => group.batches.some(batch => batch.id === selectedBatch.id)) || null
         : null;
+    const selectedBatchBulkSteps = selectedBatchMasterGroup
+        ? buildBulkRouteSteps(selectedBatchMasterGroup.master, selectedBatchMasterGroup.batches)
+        : undefined;
     const selectedComplianceProgramme = complianceProgrammes.find(programme => programme.certificationId === selectedComplianceId) || null;
 
     const selectBatch = (batchId: string) => {
@@ -478,40 +493,6 @@ const BuyerDashboard: React.FC = () => {
                         </GlassCard>
                     ) : (
                         <>
-                        {masterGroups.length > 0 && (
-                            <section className="mb-6" aria-label="Buyer shipments">
-                                <div className="mb-3 flex items-center gap-2">
-                                    <FaShip className="text-primary" />
-                                    <Typography variant="h4" className="font-bold text-gray-900">Shipment journeys</Typography>
-                                </div>
-                                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3">
-                                    {masterGroups.map(group => (
-                                        <GlassCard key={group.master.masterBatchNumber} className="!p-0">
-                                            <button
-                                                type="button"
-                                                onClick={() => viewShipmentJourney(group.master.masterBatchNumber)}
-                                                aria-current={selectedMasterBatchNumber === group.master.masterBatchNumber ? 'true' : undefined}
-                                                className={`w-full rounded-2xl p-5 text-left transition-colors ${selectedMasterBatchNumber === group.master.masterBatchNumber ? 'bg-white/50' : 'hover:bg-white/35'}`}
-                                            >
-                                                <div className="flex items-start justify-between gap-3">
-                                                    <div>
-                                                        <div className="font-semibold text-gray-900">{group.master.shipmentName || group.master.masterBatchNumber}</div>
-                                                        <div className="mt-1 font-mono text-xs text-gray-500">{group.master.masterBatchNumber}</div>
-                                                    </div>
-                                                    <FaChevronRight className="mt-1 text-xs text-primary" />
-                                                </div>
-                                                <div className="mt-3 space-y-1 border-t border-gray-200/70 pt-3 text-xs text-gray-600">
-                                                    <div>Destination: {group.master.destination || '—'}</div>
-                                                    <div>Export date: {formatShipmentDate(group.master.exportDate)}</div>
-                                                    <div>{group.batches.length} {group.batches.length === 1 ? 'batch' : 'batches'}</div>
-                                                </div>
-                                            </button>
-                                        </GlassCard>
-                                    ))}
-                                </div>
-                            </section>
-                        )}
-
                         {allBatchesForKpis.length === 0 ? (
                             <GlassCard><div className="py-10 text-center text-sm text-gray-500">No batch details are available for these shipments yet.</div></GlassCard>
                         ) : (
@@ -641,6 +622,8 @@ const BuyerDashboard: React.FC = () => {
                                     <BatchDossier
                                         batch={selectedBatch}
                                         master={selectedBatchMasterGroup?.master}
+                                        bulkSteps={selectedBatchBulkSteps}
+                                        onBulkReceiptConfirmed={refreshBuyerBatches}
                                         onViewShipmentJourney={selectedBatchMasterGroup
                                             ? () => viewShipmentJourney(selectedBatchMasterGroup.master.masterBatchNumber)
                                             : undefined}

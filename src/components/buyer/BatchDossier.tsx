@@ -26,6 +26,8 @@ type BuyerJourneyBatch = MyBatch & {
 interface BatchDossierProps {
     batch: BuyerJourneyBatch;
     master?: MasterBatch | null;
+    bulkSteps?: JourneyRouteStep[];
+    onBulkReceiptConfirmed?: () => Promise<void>;
     onViewShipmentJourney?: () => void;
 }
 
@@ -50,15 +52,19 @@ const GlassCard: React.FC<{ children: React.ReactNode; className?: string }> = (
     </motion.div>
 );
 
-export const BatchDossier: React.FC<BatchDossierProps> = ({ batch, master, onViewShipmentJourney }) => {
+export const BatchDossier: React.FC<BatchDossierProps> = ({ batch, master, bulkSteps, onBulkReceiptConfirmed, onViewShipmentJourney }) => {
     const [activeTab, setActiveTab] = useState<Tab>('overview');
     const [showShareMenu, setShowShareMenu] = useState(false);
     const [copied, setCopied] = useState(false);
     const [batchReceivedAt, setBatchReceivedAt] = useState<string | null>(batch.receivedAt || null);
     const [savingReceipt, setSavingReceipt] = useState(false);
     const [receiptMessage, setReceiptMessage] = useState('');
+    const [bulkReceivedAt, setBulkReceivedAt] = useState<number | null>(master?.receivedAt || null);
+    const [savingBulkReceipt, setSavingBulkReceipt] = useState(false);
+    const [bulkReceiptMessage, setBulkReceiptMessage] = useState('');
 
     useEffect(() => setBatchReceivedAt(batch.receivedAt || null), [batch.id, batch.receivedAt]);
+    useEffect(() => setBulkReceivedAt(master?.receivedAt || null), [master?.masterBatchNumber, master?.receivedAt]);
 
     const status = batch.status || 'PENDING';
     const locationWithheld = batch.farmer?.locationWithheld === true;
@@ -75,7 +81,7 @@ export const BatchDossier: React.FC<BatchDossierProps> = ({ batch, master, onVie
     };
     const harvestedAt = formatJourneyDate(batch.harvestDate);
     const departedAt = formatJourneyDate(master?.exportDate || batch.shippedAt);
-    const receivedAt = formatJourneyDate(master?.receivedAt || batchReceivedAt);
+    const receivedAt = formatJourneyDate(master?.receivedAt || bulkReceivedAt || batchReceivedAt);
     const departed = Boolean(departedAt);
     const received = Boolean(receivedAt);
     const qualityMeasures = [
@@ -97,6 +103,27 @@ export const BatchDossier: React.FC<BatchDossierProps> = ({ batch, master, onVie
         state: step.status as JourneyRouteState,
         summary: [step.detail, step.sub].filter(Boolean).join(' · '),
     }));
+
+    const effectiveBulkSteps = bulkSteps?.map(step => step.title === 'Arrival' && bulkReceivedAt
+        ? { ...step, state: 'complete' as const, summary: 'Received ' + formatJourneyDate(bulkReceivedAt) }
+        : step);
+    const bulkDeparted = Boolean(master && Number(master.exportDate) > 0 && !master.receivedAt && !bulkReceivedAt);
+
+    const confirmBulkReceipt = async () => {
+        if (!master) return;
+        setSavingBulkReceipt(true);
+        setBulkReceiptMessage('');
+        try {
+            const result = await getBuyerPortalData('confirmReceipt', { masterBatchNumber: master.masterBatchNumber });
+            setBulkReceivedAt(Number(result.receivedAt) || Date.now());
+            setBulkReceiptMessage('Receipt confirmed.');
+            await onBulkReceiptConfirmed?.();
+        } catch (error) {
+            setBulkReceiptMessage(error instanceof Error ? error.message : 'Could not confirm receipt.');
+        } finally {
+            setSavingBulkReceipt(false);
+        }
+    };
 
     const confirmBatchReceipt = async () => {
         setSavingReceipt(true);
@@ -236,6 +263,20 @@ export const BatchDossier: React.FC<BatchDossierProps> = ({ batch, master, onVie
                     </div>
                 </div>
             </GlassCard>
+
+            {master && effectiveBulkSteps && (
+                <JourneyRoute
+                    steps={effectiveBulkSteps}
+                    receiptAction={bulkDeparted && (
+                        <div className="mt-2">
+                            <button type="button" onClick={confirmBulkReceipt} disabled={savingBulkReceipt} className="inline-flex items-center gap-2 rounded-lg bg-primary px-3 py-2 text-xs font-semibold text-white hover:bg-primary/90 disabled:opacity-60">
+                                {savingBulkReceipt ? 'Confirming…' : 'Confirm receipt'} <FaArrowRight />
+                            </button>
+                            {bulkReceiptMessage && <p role="status" className="mt-1 text-[10px] text-gray-600">{bulkReceiptMessage}</p>}
+                        </div>
+                    )}
+                />
+            )}
 
             <JourneyRoute
                 steps={routeSteps}

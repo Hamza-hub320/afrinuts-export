@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { FaArrowRight, FaShip } from 'react-icons/fa';
 import { GlassCard } from '@/components/buyer/GlassCard';
-import { JourneyRoute, type JourneyRouteStep } from '@/components/buyer/JourneyRoute';
+import { JourneyRoute } from '@/components/buyer/JourneyRoute';
+import { buildBulkRouteSteps } from '@/components/buyer/buildBulkRouteSteps';
 import { getBuyerPortalData } from '@/services/api';
 import type { MasterBatch, MyBatch } from '@/pages/BuyerPortal/BuyerDashboard';
 
@@ -31,27 +32,11 @@ export const ShipmentJourney: React.FC<ShipmentJourneyProps> = ({ master, batche
 
     useEffect(() => setReceivedAt(master.receivedAt || null), [master.masterBatchNumber, master.receivedAt]);
 
-    const harvestRecorded = batches.filter(batch => eventTime(batch.harvestDate) > 0).length;
-    const harvestComplete = batches.length > 0 && harvestRecorded === batches.length;
-    const qualityRecorded = batches.filter(batch => Boolean(batch.qualityGrade)).length;
-    const qualityComplete = batches.length > 0 && qualityRecorded === batches.length;
     const departureTime = eventTime(master.exportDate);
     const departed = departureTime > 0;
     const receiptTime = eventTime(receivedAt);
     const received = receiptTime > 0;
-    const harvestDates = batches.map(batch => eventTime(batch.harvestDate)).filter(time => time > 0).sort((a, b) => a - b);
-    const firstHarvestDate = harvestDates.length > 0 ? formatDate(harvestDates[0]) : '';
-    const lastHarvestDate = harvestDates.length > 0 ? formatDate(harvestDates[harvestDates.length - 1]) : '';
-    const harvestRange = !firstHarvestDate
-        ? '—'
-        : firstHarvestDate === lastHarvestDate
-            ? firstHarvestDate
-            : `${firstHarvestDate}–${lastHarvestDate}`;
-    const gradeCounts = batches.reduce<Record<string, number>>((counts, batch) => {
-        if (batch.qualityGrade) counts[batch.qualityGrade] = (counts[batch.qualityGrade] || 0) + 1;
-        return counts;
-    }, {});
-    const gradeSummary = Object.entries(gradeCounts).map(([grade, count]) => `${grade} ×${count}`).join(', ');
+    const steps = buildBulkRouteSteps({ ...master, receivedAt: receivedAt || master.receivedAt }, batches);
 
     const confirmReceipt = async () => {
         setSavingReceipt(true);
@@ -67,13 +52,7 @@ export const ShipmentJourney: React.FC<ShipmentJourneyProps> = ({ master, batche
         }
     };
 
-    const steps: JourneyRouteStep[] = [
-        { title: 'Harvest & Collection', state: harvestComplete ? 'complete' : 'active', summary: `${harvestRecorded} batches · ${harvestRange}` },
-        { title: 'Processing & Quality', state: qualityComplete ? 'complete' : 'active', summary: `${qualityRecorded} graded${gradeSummary ? ` · ${gradeSummary}` : ''}` },
-        { title: 'Packing', state: 'upcoming', summary: 'Upcoming' },
-        { title: 'Port Departure', state: departed ? 'complete' : 'upcoming', summary: departed ? `${formatDate(departureTime)}${master.destination ? ` · ${master.destination}` : ''}` : 'Not departed' },
-        { title: 'Arrival', state: received ? 'complete' : departed ? 'active' : 'upcoming', summary: received ? `Received ${formatDate(receiptTime)}` : departed ? 'In transit' : 'Awaiting departure' },
-    ];
+
 
     return (
         <div className="space-y-4">
