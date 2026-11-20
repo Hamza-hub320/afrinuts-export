@@ -741,6 +741,8 @@ async function enrichBatches(fid: string, batchNumbers: string[]): Promise<any[]
             harvestDate: b.sourceType === 'OWN_FARM'
                 ? (blockHarvestDateById.get(String(b.blockId)) || null)
                 : toIsoDateOrNull(b.createdAt),
+            shippedAt: toIsoDateOrNull(trace?.createdAt),
+            receivedAt: toIsoDateOrNull(trace?.receivedAt),
             qualityGrade: b.qualityGrade,
             sourceType: b.sourceType,
             isInspected: inspected,
@@ -1649,9 +1651,48 @@ export const handler: Handler = async (event: HandlerEvent) => {
             }
 
             const masterBatchNumber = typeof query.masterBatchNumber === 'string' ? query.masterBatchNumber.trim() : '';
-            if (!masterBatchNumber) {
-                return { statusCode: 400, headers, body: JSON.stringify({ error: 'master_batch_number_required' }) };
+            const batchNumber = typeof query.batchNumber === 'string' ? query.batchNumber.trim() : '';
+            if (Boolean(masterBatchNumber) === Boolean(batchNumber)) {
+                return { statusCode: 400, headers, body: JSON.stringify({ error: 'exactly_one_shipment_identifier_required' }) };
             }
+
+            if (batchNumber) {
+                if (!(buyer.allowedBatchIds || []).includes(batchNumber)) {
+                    return { statusCode: 403, headers, body: JSON.stringify({ error: 'not_authorized' }) };
+                }
+
+                const traceSnapshot = await db.collection('farms').doc(fid).collection('batch_traceability')
+                    .where('batchNumber', '==', batchNumber)
+                    .limit(1)
+                    .get();
+                if (traceSnapshot.empty) {
+                    return { statusCode: 404, headers, body: JSON.stringify({ error: 'batch_not_shipped' }) };
+                }
+
+                const traceRef = traceSnapshot.docs[0].ref;
+                const receipt = await db.runTransaction(async transaction => {
+                    const traceDoc = await transaction.get(traceRef);
+                    if (!traceDoc.exists) return { notFound: true as const };
+                    const traceData = traceDoc.data() || {};
+                    if (Number(traceData.receivedAt ?? 0) > 0) return { unchanged: true as const };
+
+                    const stampedAt = Date.now();
+                    transaction.update(traceRef, { receivedAt: stampedAt, receivedBy: buyer.id });
+                    return { unchanged: false as const, receivedAt: stampedAt };
+                });
+
+                if ('notFound' in receipt) {
+                    return { statusCode: 404, headers, body: JSON.stringify({ error: 'batch_not_shipped' }) };
+                }
+                return {
+                    statusCode: 200,
+                    headers,
+                    body: JSON.stringify(receipt.unchanged
+                        ? { success: true, unchanged: true }
+                        : { success: true, receivedAt: receipt.receivedAt }),
+                };
+            }
+
             const masterSnapshot = await db.collection('farms').doc(fid).collection('master_traceability')
                 .where('masterBatchNumber', '==', masterBatchNumber)
                 .limit(1)
@@ -1667,7 +1708,7 @@ export const handler: Handler = async (event: HandlerEvent) => {
                 const masterData = masterDoc.data() || {};
                 const masterChildren = parseMasterBatchNumbers(masterData.batchNumbers);
                 const assignedToBuyer = (buyer.allowedMasterBatchIds || []).includes(masterBatchNumber)
-                    || masterChildren.some((batchNumber: string) => (buyer.allowedBatchIds || []).includes(batchNumber));
+                    || masterChildren.some((childNumber: string) => (buyer.allowedBatchIds || []).includes(childNumber));
                 if (!assignedToBuyer) return { notAuthorized: true as const };
 
                 const receivedAt = Number(masterData.receivedAt ?? 0);

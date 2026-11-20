@@ -12,9 +12,10 @@ export interface JourneyRouteStep {
 interface JourneyRouteProps {
     steps: JourneyRouteStep[];
     arrivalAction?: React.ReactNode;
+    receiptAction?: React.ReactNode;
 }
 
-export const JourneyRoute: React.FC<JourneyRouteProps> = ({ steps, arrivalAction }) => (
+export const JourneyRoute: React.FC<JourneyRouteProps> = ({ steps, arrivalAction, receiptAction }) => (
     <GlassCard minimal>
         <div className="overflow-x-auto pb-2" aria-label="Shipment route summary">
             <div className="min-w-[760px]">
@@ -34,7 +35,7 @@ export const JourneyRoute: React.FC<JourneyRouteProps> = ({ steps, arrivalAction
                         <div key={title} className="min-w-0 text-center">
                             <div className={`truncate text-[11px] font-semibold ${state === 'complete' ? 'text-green-700' : state === 'active' ? 'text-blue-700' : 'text-gray-500'}`} title={title}>{title}</div>
                             <div className="truncate text-[10px] text-gray-500" title={summary}>{summary}</div>
-                            {index === steps.length - 1 && arrivalAction}
+                            {index === steps.length - 1 && (receiptAction ?? arrivalAction)}
                         </div>
                     ))}
                 </div>

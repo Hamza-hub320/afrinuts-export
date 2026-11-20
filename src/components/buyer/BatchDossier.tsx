@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import {
     FaBox, FaBuilding, FaCheckCircle, FaCalendarAlt, FaMapMarkerAlt,
@@ -9,6 +9,7 @@ import {
 } from 'react-icons/fa';
 import { GiFarmer, GiFruitTree } from 'react-icons/gi';
 import { Typography } from '@/components/Typography/Typography';
+import { getBuyerPortalData } from '@/services/api';
 import { InfoCard } from '@/components/InfoCard/InfoCard';
 import { BatchFarmerCard } from '@/components/batch/BatchFarmerCard';
 import { BatchSustainabilityCard } from '@/components/batch/BatchSustainabilityCard';
@@ -17,8 +18,13 @@ import BatchLocationMap from '@/components/BatchLocationMap/BatchLocationMap';
 import type { MasterBatch, MyBatch } from '@/pages/BuyerPortal/BuyerDashboard';
 import { JourneyRoute, type JourneyRouteState, type JourneyRouteStep } from '@/components/buyer/JourneyRoute';
 
+type BuyerJourneyBatch = MyBatch & {
+    shippedAt?: string | null;
+    receivedAt?: string | null;
+};
+
 interface BatchDossierProps {
-    batch: MyBatch;
+    batch: BuyerJourneyBatch;
     master?: MasterBatch | null;
     onViewShipmentJourney?: () => void;
 }
@@ -48,6 +54,11 @@ export const BatchDossier: React.FC<BatchDossierProps> = ({ batch, master, onVie
     const [activeTab, setActiveTab] = useState<Tab>('overview');
     const [showShareMenu, setShowShareMenu] = useState(false);
     const [copied, setCopied] = useState(false);
+    const [batchReceivedAt, setBatchReceivedAt] = useState<string | null>(batch.receivedAt || null);
+    const [savingReceipt, setSavingReceipt] = useState(false);
+    const [receiptMessage, setReceiptMessage] = useState('');
+
+    useEffect(() => setBatchReceivedAt(batch.receivedAt || null), [batch.id, batch.receivedAt]);
 
     const status = batch.status || 'PENDING';
     const locationWithheld = batch.farmer?.locationWithheld === true;
@@ -63,8 +74,8 @@ export const BatchDossier: React.FC<BatchDossierProps> = ({ batch, master, onVie
             : '';
     };
     const harvestedAt = formatJourneyDate(batch.harvestDate);
-    const departedAt = formatJourneyDate(master?.exportDate);
-    const receivedAt = formatJourneyDate(master?.receivedAt);
+    const departedAt = formatJourneyDate(master?.exportDate || batch.shippedAt);
+    const receivedAt = formatJourneyDate(master?.receivedAt || batchReceivedAt);
     const departed = Boolean(departedAt);
     const received = Boolean(receivedAt);
     const qualityMeasures = [
@@ -76,7 +87,7 @@ export const BatchDossier: React.FC<BatchDossierProps> = ({ batch, master, onVie
         { icon: GiFruitTree, title: 'Harvest & Collection', detail: harvestedAt || '—', sub: harvestedAt ? displayLocation : '', status: harvestedAt ? 'complete' : 'active' },
         { icon: FaFlask, title: 'Processing & Quality', detail: batch.qualityGrade || '—', sub: qualityMeasures, status: batch.qualityGrade ? 'complete' : 'active' },
         { icon: FaBox, title: 'Packing', detail: 'Packaging is recorded when the processing build lands.', sub: '', status: 'upcoming' },
-        { icon: FaShip, title: 'Port Departure', detail: departed ? departedAt : 'Not departed', sub: departed ? (master?.destination || '') : '', status: departed ? 'complete' : 'upcoming' },
+        { icon: FaShip, title: 'Port Departure', detail: departed ? 'Shipped ' + departedAt : 'Not departed', sub: departed ? (master?.destination || batch.destination || '') : '', status: departed ? 'complete' : 'upcoming' },
         { icon: FaBuilding, title: 'Arrival', detail: received ? `Received ${receivedAt}` : departed ? 'In transit' : 'Awaiting departure', sub: '', status: received ? 'complete' : departed ? 'active' : 'upcoming' },
     ];
 
@@ -86,6 +97,20 @@ export const BatchDossier: React.FC<BatchDossierProps> = ({ batch, master, onVie
         state: step.status as JourneyRouteState,
         summary: [step.detail, step.sub].filter(Boolean).join(' · '),
     }));
+
+    const confirmBatchReceipt = async () => {
+        setSavingReceipt(true);
+        setReceiptMessage('');
+        try {
+            const result = await getBuyerPortalData('confirmReceipt', { batchNumber: batch.batchId });
+            setBatchReceivedAt(result.receivedAt ? new Date(result.receivedAt).toISOString() : new Date().toISOString());
+            setReceiptMessage('Receipt confirmed.');
+        } catch (error) {
+            setReceiptMessage(error instanceof Error ? error.message : 'Could not confirm receipt.');
+        } finally {
+            setSavingReceipt(false);
+        }
+    };
 
     const handleShare = async (platform?: string) => {
         const url = `${window.location.origin}/trace?batchId=${encodeURIComponent(batch.batchId)}`;
@@ -212,7 +237,17 @@ export const BatchDossier: React.FC<BatchDossierProps> = ({ batch, master, onVie
                 </div>
             </GlassCard>
 
-            <JourneyRoute steps={routeSteps} />
+            <JourneyRoute
+                steps={routeSteps}
+                receiptAction={!master && batch.shippedAt && !received && (
+                    <div className="mt-2">
+                        <button type="button" onClick={confirmBatchReceipt} disabled={savingReceipt} className="inline-flex items-center gap-2 rounded-lg bg-primary px-3 py-2 text-xs font-semibold text-white hover:bg-primary/90 disabled:opacity-60">
+                            {savingReceipt ? 'Confirming…' : 'Confirm receipt'} <FaArrowRight />
+                        </button>
+                        {receiptMessage && <p role="status" className="mt-1 text-[10px] text-gray-600">{receiptMessage}</p>}
+                    </div>
+                )}
+            />
 
             {/* ── TAB BAR ── */}
             <GlassCard className="!p-1.5">
